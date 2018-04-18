@@ -1,8 +1,8 @@
 const commandLineArgs = require('command-line-args');
-const Timeouts = require('../../src/platform/testing/e2e/timeouts');
-const { createE2eTest } = require('../../src/platform/testing/e2e/helpers');
-const LoginHelpers = require('../e2e/login-helpers');
-const { sitemapURLs } = require('../e2e/sitemap-helpers');
+const Timeouts = require('../e2e/timeouts');
+const { createE2eTest } = require('../e2e/helpers');
+const LoginHelpers = require('../../../../test/e2e/login-helpers');
+const { sitemapURLs } = require('../../site-wide/tests/sitemap/sitemap-helpers');
 const createBaselineImage = require('./util/create-baseline-image');
 const calculateDiff = require('./util/calculate-diff');
 

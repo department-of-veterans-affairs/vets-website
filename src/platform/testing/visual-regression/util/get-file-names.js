@@ -1,8 +1,8 @@
 const path = require('path');
 const mkdirp = require('mkdirp');
-const { baseUrl } = require('../../../src/platform/testing/e2e/helpers');
+const { baseUrl } = require('../../e2e/helpers');
 
-const screenshotDirectory = path.join(__dirname, '../../../logs/visual-regression');
+const screenshotDirectory = path.join(__dirname, '../../../../../logs/visual-regression');
 const baselineDir = path.join(screenshotDirectory, '/baseline');
 const diffDir = path.join(screenshotDirectory, '/diffs');
 

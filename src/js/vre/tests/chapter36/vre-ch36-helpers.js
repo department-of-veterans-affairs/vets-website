@@ -1,4 +1,4 @@
-const mock = require('./mock-helpers');
+const mock = require('../../../../../test/e2e/mock-helpers');
 
 function completeApplicantInformation(client, data) {
   client

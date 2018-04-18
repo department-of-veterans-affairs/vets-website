@@ -1,4 +1,4 @@
-const mock = require('./mock-helpers');
+const mock = require('../../../../../test/e2e/mock-helpers');
 
 // Create API routes
 function initApplicationSubmitMock(form) {

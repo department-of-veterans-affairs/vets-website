@@ -1,6 +1,6 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
-const PageHelpers = require('../../../../test/e2e/burial-helpers');
+const PageHelpers = require('./burial-helpers');
 const testData = require('./schema/maximal-test.json');
 
 const runTest = E2eHelpers.createE2eTest(

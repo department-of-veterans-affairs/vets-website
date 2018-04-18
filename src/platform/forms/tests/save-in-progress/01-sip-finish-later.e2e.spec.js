@@ -1,7 +1,7 @@
 const moment = require('moment');
-const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
-const Timeouts = require('../../src/platform/testing/e2e/timeouts.js');
-const HcaHelpers = require('../e2e/hca-helpers.js');
+const E2eHelpers = require('../../../testing/e2e/helpers');
+const Timeouts = require('../../../testing/e2e/timeouts.js');
+const HcaHelpers = require('../../../../js/hca/tests/hca-helpers.js');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -17,12 +17,13 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.axeCheck('.main');
 
+    E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
+
     // load an in progress form
     client
       .click('.usa-button-primary');
 
-    E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
     client.assert.urlContains('/veteran-information/birth-information');
 
@@ -30,12 +31,17 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
       .expect.element('#root_veteranSocialSecurityNumber').to.have.value.that.equals('123445544');
 
-    // auto save a form
+    // save and finish a form later
     client
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Northampton, MA')
-      .waitForElementVisible('.saved-success-container', Timeouts.normal);
+      .click('.schemaform-sip-save-link');
 
-    // fail to save a form because of 500
+    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/birth-information');
+    client.assert.urlContains('form-saved');
+
+    client.axeCheck('.main');
+
+    // fail to save a form
     client
       .click('.usa-button-primary')
       .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
@@ -45,14 +51,15 @@ module.exports = E2eHelpers.createE2eTest(
         value: {},
         status: 500
       }, token)
-      .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA')
-      .waitForElementVisible('.usa-alert-error', Timeouts.normal);
+      .click('.schemaform-sip-save-link');
+
+    client.waitForElementVisible('.usa-alert-error', Timeouts.slow);
 
     client.assert.urlContains('birth-information');
-    client
-      .expect.element('.usa-alert-error').text.to.contain('We’re sorry, but we’re having some issues and are working to fix them');
 
-    // Recover and save after errors
+    client
+      .expect.element('.usa-alert-error').text.to.contain('Something went wrong when saving your form');
+
     /* eslint-disable camelcase */
     client
       .mockData({
@@ -72,28 +79,36 @@ module.exports = E2eHelpers.createE2eTest(
           }
         }
       }, token)
-      .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Florence, MA')
-      .waitForElementVisible('.saved-success-container', Timeouts.normal);
+      .click('.schemaform-sip-save-link');
     /* eslint-enable camelcase */
 
+    client.waitForElementVisible('.saved-form-metadata-container', Timeouts.slow);
+    client.assert.urlContains('form-saved');
+
+    // test start over, but all it really does is fetch the form again
+    client
+      .click('.usa-button-secondary')
+      .waitForElementVisible('.va-modal', Timeouts.normal)
+      .click('.va-modal .usa-button-primary')
+      .waitForElementVisible('.schemaform-chapter-progress', Timeouts.normal);
+
+    E2eHelpers.expectNavigateAwayFrom(client, 'form-saved');
     client.assert.urlContains('/veteran-information/birth-information');
 
-    // fail to save a form because signed out
-    // Can't recover from this because it logs you out and we'd have to log in again
+    // test 401 error when saving
     client
-      .click('.usa-button-primary')
-      .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
       .mockData({
         path: '/v0/in_progress_forms/1010ez',
         verb: 'put',
         value: {},
         status: 401
       }, token)
-      .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA')
-      .waitForElementVisible('.usa-alert-error', Timeouts.normal);
+      .click('.schemaform-sip-save-link');
 
-    client.assert.urlContains('birth-information');
-    client.expect.element('.usa-alert-error').text.to.contain('Sorry, you’re no longer signed in');
+    client
+      .expect.element('.usa-alert-error').text.to.contain('Sorry, you’re signed out.');
 
     client.end();
   });
+
+module.exports['@disabled'] = true;

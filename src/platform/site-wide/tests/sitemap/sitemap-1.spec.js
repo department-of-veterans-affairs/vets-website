@@ -3,7 +3,7 @@
 // over the first 1/4 of urls in the sitemap, while `sitemap-2-4.spec.js`
 // runs over the others. Crude, but this enables nightwatch to parallelize these.
 
-const SitemapHelpers = require('../e2e/sitemap-helpers');
+const SitemapHelpers = require('./sitemap-helpers');
 
 module.exports = {
   'sitemap 1/4': (client) => {

@@ -1,4 +1,4 @@
-const SitemapHelpers = require('../e2e/sitemap-helpers');
+const SitemapHelpers = require('./sitemap-helpers');
 
 module.exports = {
   'sitemap 2/4': (client) => {

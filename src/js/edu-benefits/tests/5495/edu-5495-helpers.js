@@ -1,4 +1,4 @@
-const EduHelpers = require('./edu-helpers');
+const EduHelpers = require('../1990/edu-helpers');
 
 function completeOldSchool(client, data) {
   client
