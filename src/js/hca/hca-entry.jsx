@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/hca.scss';
+import './sass/hca.scss';
 
 import startApp from '../../platform/startup';
 
