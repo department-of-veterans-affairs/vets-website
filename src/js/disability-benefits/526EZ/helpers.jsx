@@ -45,10 +45,23 @@ export function transform(formConfig, form) {
   });
 }
 
+const prefillDataIsComplete = (formData) => {
+  const { fullName: { first, last }, socialSecurityNumber, vaFileNumber, gender, dateOfBirth,
+    veteran: { mailingAddress, emailAddress, primaryPhone },
+    directDeposit: { accountType, routingNumber, bankName, noBank }, servicePeriods } = formData;
+  const hasVeteranDetails = first && last && gender && dateOfBirth && (socialSecurityNumber || vaFileNumber);
+  const hasPrimaryAddressInfo = mailingAddress.country && mailingAddress.addressLine1 && emailAddress && primaryPhone;
+  const hasPaymentInfo = noBank || (accountType && routingNumber && bankName);
+  const hasMilitaryHistoryInfo = servicePeriods.length > 0;
+  return hasVeteranDetails && hasPrimaryAddressInfo && hasPaymentInfo && hasMilitaryHistoryInfo;
+};
+
 export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
+  const isPrefilled = state.prefilStatus === PREFILL_STATUSES.success;
+  const hasRequiredInformation = prefillDataIsComplete(formData);
 
-  if (state.prefilStatus === PREFILL_STATUSES.success) {
+  if (isPrefilled && hasRequiredInformation) {
     newData = set('prefilled', true, newData);
   }
 

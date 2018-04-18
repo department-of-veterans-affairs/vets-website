@@ -9,6 +9,26 @@ export default {
   vaFileNumber: '345345345',
   gender: 'F',
   dateOfBirth: '1990-04-02',
+  veteran: {
+    mailingAddress: {
+      country: 'USA',
+      addressLine1: '234 Apple Grove'
+    },
+    emailAddress: 'sample@email.com',
+    primaryPhone: '2342342342'
+  },
+  directDeposit: {
+    noBank: true,
+  },
+  servicePeriods: [
+    {
+      serviceBranch: 'Army',
+      dateRange: {
+        from: '1990-02-02',
+        to: '2010-03-04'
+      }
+    }
+  ],
   disabilities: [
     {
       disability: { // Is this extra nesting necessary?
