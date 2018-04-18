@@ -332,3 +332,9 @@ export const GetFormHelp = () => {
 export const ITFDescription = (
   <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
 );
+
+export const specialCircumstancesDescription = (
+  <p>To help us better understand your situation, please tell us if
+      any of the below situations apply to you. <strong>Are you:</strong></p>
+);
+
