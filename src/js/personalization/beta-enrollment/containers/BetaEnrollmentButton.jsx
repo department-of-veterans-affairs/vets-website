@@ -42,11 +42,11 @@ class BetaEnrollmentButton extends React.Component {
         <button className="usa-button-primary"
           disabled={this.state.isLoading}
           onClick={this.onClick}>
-          {this.state.isLoading && <i className="fa fa-spin fa-spinner"/>} Register for beta access
+          {this.state.isLoading && <i className="fa fa-spin fa-spinner"/>} Turn On Beta Tools
         </button>
         <AlertBox status="error"
           isVisible={this.state.hasError}
-          content={<p>An unknown error occurred while trying to enroll you into the beta.</p>}/>
+          content={<div><h3>We can't turn on the beta tools</h3><p>We're sorry. Something went wrong on our end, and we can't turn on the beta tools for you. Please try again later.</p></div>}/>
       </RequiredLoginView>
     );
   }
