@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import createCommonStore from '../../../../platform/startup/store';
 import { LandingPage } from '../../containers/LandingPage';
-import reducer from '../../../reducers';
+import reducer from '../../reducers';
 
 const defaultProps = createCommonStore(reducer).getState();
 
