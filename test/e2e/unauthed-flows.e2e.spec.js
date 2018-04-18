@@ -1,6 +1,6 @@
 const AccountCreationHelpers = require('./account-creation-helpers');
 const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
-const GibsHelpers = require('./post-911-gib-status-helpers');
+const GibsHelpers = require('../../src/js/post-911-gib-status/tests/post-911-gib-status-helpers');
 const LettersHelpers = require('./letters-helpers');
 const LoginHelpers = require('./login-helpers');
 const MessagingHelpers = require('../../src/js/messaging/tests/messaging-helpers');

@@ -12,7 +12,7 @@ const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/healt
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
 
 // No-react styles.
-import '../../sass/static-pages.scss';
+import './sass/static-pages.scss';
 
 // New sidebar menu
 import './sidebar-navigation.js';

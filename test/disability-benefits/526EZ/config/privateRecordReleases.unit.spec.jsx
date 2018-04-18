@@ -20,8 +20,12 @@ describe('Disability benefits 526EZ VA facility', () => {
       uiSchema={uiSchema}/>
     );
 
-    expect(form.find('select').length).to.equal(4);
-    expect(form.find('input').length).to.equal(10);
+    /**
+     * Selects: start / end months, start / end days, country, state
+     * Inputs: treatmentCenterName, consent, start / end years, street 1, street 2, city, zip
+     */
+    expect(form.find('select').length).to.equal(6);
+    expect(form.find('input').length).to.equal(8);
   });
 
   it('should add a private release', () => {
@@ -38,23 +42,27 @@ describe('Disability benefits 526EZ VA facility', () => {
         uiSchema={uiSchema}/>
     );
 
-    fillData(form, 'select#root_privateRecordReleases_0_privateRecordRelease_startTreatmentMonth', '1');
-    fillData(form, 'select#root_privateRecordReleases_0_privateRecordRelease_startTreatmentDay', '3');
-    fillData(form, 'input#root_privateRecordReleases_0_privateRecordRelease_startTreatmentYear', '1950');
-    fillData(form, 'select#root_privateRecordReleases_0_privateRecordRelease_endTreatmentMonth', '1');
-    fillData(form, 'select#root_privateRecordReleases_0_privateRecordRelease_endTreatmentDay', '3');
-    fillData(form, 'input#root_privateRecordReleases_0_privateRecordRelease_endTreatmentYear', '1955');
-    fillData(form, 'input#root_privateRecordReleases_0_privateRecordRelease_treatmentCenterName', 'Local facility');
+    fillData(form, 'select#root_privateRecordReleases_0_treatmentDateRange_fromMonth', '1');
+    fillData(form, 'select#root_privateRecordReleases_0_treatmentDateRange_fromDay', '3');
+    fillData(form, 'input#root_privateRecordReleases_0_treatmentDateRange_fromYear', '1950');
+    fillData(form, 'select#root_privateRecordReleases_0_treatmentDateRange_toMonth', '1');
+    fillData(form, 'select#root_privateRecordReleases_0_treatmentDateRange_toDay', '3');
+    fillData(form, 'input#root_privateRecordReleases_0_treatmentDateRange_toYear', '1955');
+    fillData(form, 'input#root_privateRecordReleases_0_treatmentCenterName', 'Local facility');
+    fillData(form, 'select#root_privateRecordReleases_0_treatmentCenterAddress_country', 'USA');
+    fillData(form, 'input#root_privateRecordReleases_0_treatmentCenterAddress_addressLine1', '123 Some Street');
 
     form.find('.va-growable-add-btn').simulate('click');
 
-    fillData(form, 'select#root_privateRecordReleases_1_privateRecordRelease_startTreatmentMonth', '1');
-    fillData(form, 'select#root_privateRecordReleases_1_privateRecordRelease_startTreatmentDay', '3');
-    fillData(form, 'input#root_privateRecordReleases_1_privateRecordRelease_startTreatmentYear', '1951');
-    fillData(form, 'select#root_privateRecordReleases_1_privateRecordRelease_endTreatmentMonth', '1');
-    fillData(form, 'select#root_privateRecordReleases_1_privateRecordRelease_endTreatmentDay', '3');
-    fillData(form, 'input#root_privateRecordReleases_1_privateRecordRelease_endTreatmentYear', '1955');
-    fillData(form, 'input#root_privateRecordReleases_1_privateRecordRelease_treatmentCenterName', 'Local facility');
+    fillData(form, 'select#root_privateRecordReleases_1_treatmentDateRange_fromMonth', '1');
+    fillData(form, 'select#root_privateRecordReleases_1_treatmentDateRange_fromDay', '3');
+    fillData(form, 'input#root_privateRecordReleases_1_treatmentDateRange_fromYear', '1951');
+    fillData(form, 'select#root_privateRecordReleases_1_treatmentDateRange_toMonth', '1');
+    fillData(form, 'select#root_privateRecordReleases_1_treatmentDateRange_toDay', '3');
+    fillData(form, 'input#root_privateRecordReleases_1_treatmentDateRange_toYear', '1955');
+    fillData(form, 'input#root_privateRecordReleases_1_treatmentCenterName', 'Local facility');
+    fillData(form, 'select#root_privateRecordReleases_1_treatmentCenterAddress_country', 'USA');
+    fillData(form, 'input#root_privateRecordReleases_1_treatmentCenterAddress_addressLine1', '123 Some Street');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
