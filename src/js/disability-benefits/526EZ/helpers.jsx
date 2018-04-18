@@ -6,6 +6,7 @@ import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/addre
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../common/utils/data-utils/cloneDeep';
+import get from '../../common/utils/data-utils/get';
 import set from '../../common/utils/data-utils/set';
 import { genderLabels } from '../../common/utils/labels';
 
@@ -45,21 +46,30 @@ export function transform(formConfig, form) {
   });
 }
 
-const prefillDataIsComplete = (formData) => {
-  const { fullName: { first, last }, socialSecurityNumber, vaFileNumber, gender, dateOfBirth,
-    veteran: { mailingAddress, emailAddress, primaryPhone },
-    directDeposit: { accountType, routingNumber, bankName, noBank }, servicePeriods } = formData;
+export const isPrefillDataComplete = (formData) => {
+  const { socialSecurityNumber, vaFileNumber, gender,
+    dateOfBirth, servicePeriods } = formData;
+  const first = get('fullName.first', formData);
+  const last = get('fullName.last', formData);
+  const country = get('veteran.mailingAddress.country', formData);
+  const addressLine1 = get('veteran.mailingAddress.addressLine1', formData);
+  const emailAddress = get('veteran.emailAddress', formData);
+  const primaryPhone = get('veteran.primaryPhone', formData);
+  const accountType = get('directDeposit.accountType', formData);
+  const routingNumber = get('directDeposit.routingNumber', formData);
+  const bankName = get('directDeposit.bankName', formData);
+  const noBank = get('directDeposit.noBank', formData);
   const hasVeteranDetails = first && last && gender && dateOfBirth && (socialSecurityNumber || vaFileNumber);
-  const hasPrimaryAddressInfo = mailingAddress.country && mailingAddress.addressLine1 && emailAddress && primaryPhone;
+  const hasPrimaryAddressInfo = country && addressLine1 && emailAddress && primaryPhone;
   const hasPaymentInfo = noBank || (accountType && routingNumber && bankName);
-  const hasMilitaryHistoryInfo = servicePeriods.length > 0;
-  return hasVeteranDetails && hasPrimaryAddressInfo && hasPaymentInfo && hasMilitaryHistoryInfo;
+  const hasMilitaryHistoryInfo = servicePeriods && servicePeriods.length > 0;
+  return !!(hasVeteranDetails && hasPrimaryAddressInfo && hasPaymentInfo && hasMilitaryHistoryInfo);
 };
 
 export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
   const isPrefilled = state.prefilStatus === PREFILL_STATUSES.success;
-  const hasRequiredInformation = prefillDataIsComplete(formData);
+  const hasRequiredInformation = isPrefillDataComplete(formData);
 
   if (isPrefilled && hasRequiredInformation) {
     newData = set('prefilled', true, newData);
