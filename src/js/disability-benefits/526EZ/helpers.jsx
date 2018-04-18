@@ -97,25 +97,6 @@ export const treatmentView = ({ formData }) => {
 };
 
 
-export const releaseView = ({ formData }) => {
-  const { from, to } = formData.treatmentDateRange;
-
-  let treatmentPeriod = '';
-  if (from && to) {
-    treatmentPeriod = `${from} — ${to}`;
-  } else if (from || to) {
-    treatmentPeriod = `${(from || to)}`;
-  }
-
-  return (
-    <div>
-      <strong>{formData.treatmentCenterName}</strong><br/>
-      {treatmentPeriod}
-    </div>
-  );
-};
-
-
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
     <p>Ok, first we’ll ask about your VA medical records related to your {formData.name}.</p>
