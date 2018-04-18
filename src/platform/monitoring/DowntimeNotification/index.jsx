@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { getScheduledDowntime } from './actions';
 
 import moment from '../../../platform/startup/moment-setup';
-import Modal from '../../../js/common/components/Modal';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 /**
