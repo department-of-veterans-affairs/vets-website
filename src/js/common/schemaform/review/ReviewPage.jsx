@@ -7,10 +7,8 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import { getActivePages } from '../../../../platform/forms/helpers';
 import {
   createPageListByChapter,
-  expandArrayPages,
 } from '../helpers';
 import { getReviewPageOpenChapters } from '../state/selectors';
 import {
@@ -62,6 +60,7 @@ export default class ReviewPage extends React.Component {
 
   render() {
     const {
+      chapters,
       chapterNames,
       chapterFormConfigs,
       form,
@@ -77,6 +76,7 @@ export default class ReviewPage extends React.Component {
       uploadFile,
       viewedPages
     } = this.props;
+    console.log(chapters);
 
     return (
       <div>

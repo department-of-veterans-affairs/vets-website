@@ -8,16 +8,18 @@ import { timeFromNow } from '../../../platform/utilities/date';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
+export const SET_VIEWED_PAGES = 'SET_VIEWED_PAGES';
 export const SET_PRIVACY_AGREEMENT = 'SET_PRIVACY_AGREEMENT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
 
-export function closeReviewChapter(closedChapter) {
+export function closeReviewChapter(closedChapter, pageKeys = []) {
   return {
     type: CLOSE_REVIEW_CHAPTER,
-    closedChapter
+    closedChapter,
+    pageKeys
   };
 }
 
@@ -67,6 +69,13 @@ export function setSubmitted(response) {
     type: SET_SUBMITTED,
     response: typeof response.data !== 'undefined' ? response.data : response
   };
+}
+
+export function setViewedPages(pageKeys) {
+  return {
+    type: SET_VIEWED_PAGES,
+    pageKeys
+  }
 }
 
 function submitToUrl(body, submitUrl, trackingPrefix) {

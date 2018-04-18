@@ -5,17 +5,25 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import Scroll from 'react-scroll';
 import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
 import { isValidForm } from '../validation';
+import { getActivePages } from '../../../../platform/forms/helpers';
+import ReviewCollapsibleChapter from '../review/ReviewCollapsibleChapter';
+import { focusElement } from '../../../../platform/utilities/ui';
 
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
-import { getReviewPageOpenChapters } from '../state/selectors';
+import {
+  getReviewPageOpenChapters,
+  getViewedPages
+} from '../state/selectors';
 import { toggleLoginModal } from '../../../login/actions';
 import SubmitButtons from '../review/SubmitButtons';
 import {
   createPageListByChapter,
+  expandArrayPages,
   getActiveChapters,
   getPageKeys
 } from '../helpers';
@@ -28,15 +36,36 @@ import {
   setPrivacyAgreement,
   setEditMode,
   setSubmission,
+  setViewedPages,
   submitForm,
   uploadFile
 } from '../actions';
 import { getFormContext } from './selectors';
 
+const scroller = Scroll.scroller;
+
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+  }
+
+  componentDidMount() {
+    const pageList = this.props.pageList;
+    const form = this.props.form;
+
+    this.props.setViewedPages(new Set(getPageKeys(pageList, form)));
+
+    scrollToTop();
+    focusElement('h4');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,7 +78,9 @@ class RoutedSavableReviewPage extends React.Component {
 
   setData = (...args) => {
     this.props.setData(...args);
-    this.debouncedAutoSave();
+    if (!this.props.disabledSave) {
+      this.debouncedAutoSave();
+    }
   }
 
   autoSave = () => {
@@ -60,29 +91,6 @@ class RoutedSavableReviewPage extends React.Component {
       const returnUrl = this.props.location.pathname;
 
       this.props.autoSaveForm(formId, data, version, returnUrl);
-    }
-  }
-
-  setPagesViewed = (keys) => {
-    const viewedPages = keys.reduce((pages, key) => {
-      if (!pages.has(key)) {
-        // if we hit a page that we need to add, check to see if
-        // we haven’t cloned the set yet; we should only do that once
-        if (pages === this.props.viewedPages) {
-          const newPages = new Set(this.props.viewedPages);
-          newPages.add(key);
-
-          return newPages;
-        }
-
-        pages.add(key);
-      }
-
-      return pages;
-    }, this.props.viewedPages);
-
-    if (viewedPages !== this.props.viewedPages) {
-      this.setState({ viewedPages });
     }
   }
 
@@ -101,6 +109,14 @@ class RoutedSavableReviewPage extends React.Component {
     const eligiblePageList = getActivePages(pageList, form.data);
     const pageIndex = _.findIndex(item => item.pageKey === path, eligiblePageList);
     return { eligiblePageList, pageIndex };
+  }
+
+  handleEdit = (pageKey, editing, index = null) => {
+    const fullPageKey = `${pageKey}${index === null ? '' : index}`;
+    if (editing) {
+      this.props.setViewedPages([fullPageKey]);
+    }
+    this.props.setEditMode(pageKey, editing, index);
   }
 
   handleSubmit = () => {
@@ -124,6 +140,14 @@ class RoutedSavableReviewPage extends React.Component {
         this.props.setSubmission('status', 'validationError');
       }
       this.props.setSubmission('hasAttemptedSubmit', true);
+    }
+  }
+
+  handleToggleChapter({ name, open, pageKeys }) {
+    if (open) {
+      this.props.closeReviewChapter(name, pageKeys);
+    } else {
+      this.props.openReviewChapter(name);
     }
   }
 
@@ -168,52 +192,48 @@ class RoutedSavableReviewPage extends React.Component {
 
   render() {
     const {
-      chapterNames,
-      chapterFormConfigs,
-      closeReviewChapter,
+      chapters,
       disableSave,
       form,
       formConfig,
       formContext,
       location,
-      openChapters,
-      openReviewChapter,
-      pagesByChapter,
       setEditMode,
       setPrivacyAgreement,
       setSubmission,
+      setValid,
       submitForm,
       route,
       uploadFile,
       user,
       viewedPages
     } = this.props;
-    // flatten these props out more
-    // put the viewed pages on the state
-    // change the layout of the review page
-    // rename the files
 
     return (
       <div>
-        <ReviewPage
-          chapterNames={chapterNames}
-          chapterFormConfigs={chapterFormConfigs}
-          closeReviewChapter={closeReviewChapter}
-          form={form}
-          formConfig={formConfig}
-          formContext={formContext}
-          openChapters={openChapters}
-          pagesByChapter={pagesByChapter}
-          openReviewChapter={openReviewChapter}
-          setData={this.setData}
-          setEditMode={setEditMode}
-          setPagesViewed={this.setPagesViewed}
-          setPrivacyAgreement={setPrivacyAgreement}
-          setSubmission={setSubmission}
-          submitForm={submitForm}
-          uploadFile={uploadFile}
-          viewedPages={viewedPages}
-        />
+        <div className="input-section">
+          <div>
+            {chapters.map(chapter => (
+              <ReviewCollapsibleChapter
+                activePages={chapter.activePages}
+                expandedPages={chapter.expandedPages}
+                chapterFormConfig={chapter.formConfig}
+                chapterKey={chapter.name}
+                form={form}
+                formContext={formContext}
+                key={chapter.name}
+                onEdit={this.handleEdit}
+                open={chapter.open}
+                pageKeys={chapter.pageKeys}
+                setData={this.setData}
+                setValid={setValid}
+                showUnviewedPageWarning={chapter.showUnviewedPageWarning}
+                toggleButtonClicked={() => this.handleToggleChapter(chapter)}
+                uploadFile={uploadFile}
+                viewedPages={viewedPages}/>
+            ))}
+          </div>
+        </div>
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
         <PrivacyAgreement
           required
@@ -255,24 +275,43 @@ function mapStateToProps(state, ownProps) {
   const formData = state.form.data;
   const openChapters = getReviewPageOpenChapters(state);
   const user = state.user;
+  const viewedPages = getViewedPages(state);
 
   const chapterNames = getActiveChapters(formConfig, formData);
   const chapterFormConfigs = formConfig.chapters;
   const disableSave = formConfig.disableSave;
   const formContext = getFormContext({ form, user });
   const pagesByChapter = createPageListByChapter(formConfig);
-  const viewedPages = new Set(
-    getPageKeys(pageList, form)
-  );
+  const chapters = chapterNames.reduce((chaptersAcc, chapterName) => {
+    const pages = pagesByChapter[chapterName];
+
+    const activePages = getActivePages(pages, formData);
+    const expandedPages = expandArrayPages(activePages, formData);
+    const chapterFormConfig = formConfig.chapters[chapterName];
+    const open = openChapters.includes(chapterName);
+    const pageKeys = getPageKeys(pages, formData);
+    const showUnviewedPageWarning = pageKeys.some(key => !viewedPages.has(key));
+
+    chaptersAcc.push({
+      activePages,
+      expandedPages,
+      formConfig: chapterFormConfig,
+      name: chapterName,
+      open,
+      pageKeys,
+      showUnviewedPageWarning
+    });
+
+    return chaptersAcc;
+  }, []);
 
   return {
-    chapterNames,
-    chapterFormConfigs,
+    chapters,
     disableSave,
     form,
     formConfig,
     formContext,
-    openChapters,
+    pageList,
     pagesByChapter,
     user,
     viewedPages
@@ -280,17 +319,18 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
+  autoSaveForm,
   closeReviewChapter,
   openReviewChapter,
-  setEditMode,
-  setSubmission,
-  submitForm,
-  setPrivacyAgreement,
-  setData,
-  uploadFile,
   saveAndRedirectToReturnUrl,
-  autoSaveForm,
-  toggleLoginModal
+  setData,
+  setEditMode,
+  setPrivacyAgreement,
+  setSubmission,
+  setViewedPages,
+  submitForm,
+  toggleLoginModal,
+  uploadFile
 };
 
 RoutedSavableReviewPage.propTypes = {
