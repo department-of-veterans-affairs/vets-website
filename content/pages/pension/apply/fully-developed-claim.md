@@ -157,21 +157,19 @@ You’ll need to turn in the information and evidence as soon as you can.
 </div>
 </div>
 </li>
+
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="where-to-send">How do I turn in my information and evidence?</button>
 <div id="where-to-send" class="usa-accordion-content">
 
-[Fill out an Application for Pension (VA Form 21P-527EZ)](/pension/application/527EZ/). 
+[Fill out an Application for Pension (VA Form 21P-527EZ)](/pension/application/527EZ/). <br>
+When you file your claim, you'll be able to upload all supporting documents and evidence, like your income information and any medical records related to your claim. 
 
-When you file your claim, turn in:
-    - All necessary income and net-worth information, **and**
-    - All private medical records you have that are related to your claim, **and**
-    - Information about any health records that are available at a federal facility, like a VA medical center or clinic
    
 </div>
 </li>
-</ul>
-</div>
+<li>
+
 
 <div class="feature" markdown=“1”>
 
