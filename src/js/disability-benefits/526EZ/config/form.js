@@ -112,7 +112,8 @@ const formConfig = {
         // paymentInformation:
         specialCircumstances: {
           title: 'Special Circumstances',
-          path: 'special-circumstances',
+          path: 'review-veteran-details/special-circumstances',
+          depends: formData => formData.prefilled,
           uiSchema: {
             'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
@@ -149,6 +150,7 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
+          depends: formData => formData.prefilled,
           'ui:description': 'things',
           initialData,
           uiSchema: {
