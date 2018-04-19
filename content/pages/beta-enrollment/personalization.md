@@ -22,7 +22,7 @@ We invite you to try out our new beta tools—designed to make it easier for you
 
 ### What are beta tools?
 
-These are new tools we're testing out to make sure they're working the way they should before we make them available to all Vets.gov users. When you try out these tools in their beta (or test) version, you'll get to use them right away. And you'll be helping us make the site better for others in the Veteran community. 
+These are new tools we're testing out to make sure they're working the way they should before we make them available to all Vets.gov users. We'll preview these tools together, and your feedback will help us make them better for others in the Veteran community.
 
 ### What will happen when I try out the beta tools?
 
@@ -34,15 +34,8 @@ You'll still have access to all the tools and information you've always had on V
 
 <br>
 
-[PLACEHOLDER FOR BUTTON: Turn On Beta Tools]
-
 <div id="react-root"></div>
 
-### Can I turn off the beta tools off if I don't want to use them anymore?
-
-Yes. You can turn off the beta tools at any time. Just look for the opt-in information at the bottom of the account page.
-
-<br>
 <br>
 
 </div>
