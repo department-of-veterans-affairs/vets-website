@@ -324,7 +324,7 @@ export const specialCircumstancesDescription = (
       any of the below situations apply to you. <strong>Are you:</strong></p>
 );
 
-export cont FDCDescription = (
+export const FDCDescription = (
   <div>
     <h5>Fully developed claim program</h5>
     <p>
