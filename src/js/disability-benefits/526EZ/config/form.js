@@ -53,10 +53,8 @@ const {
 const {
   date,
   fullName,
-  // files
   dateRange,
   servicePeriods,
-  // files
   privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
@@ -106,10 +104,8 @@ const formConfig = {
   defaultDefinitions: {
     date,
     fullName,
-    // files
     dateRange,
     servicePeriods,
-    // files
     privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',
@@ -126,8 +122,6 @@ const formConfig = {
       },
       pages: {
         veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
-        // primaryAddress
-        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
         specialCircumstances: { // TODO: create page file and reuse 
           title: 'Special Circumstances',
           path: 'special-circumstances',
@@ -211,14 +205,14 @@ const formConfig = {
               servicePeriods
             }
           }
-        }
+        },
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     veteranDetails: {
       title: 'Veteran Details',
       pages: {
         veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
-        paymentInformation: createUnverifiedPaymentInfoPage(fullSchema526EZ),
         specialCircumstances: {
           title: 'Special Circumstances',
           path: 'special-circumstances',
@@ -301,7 +295,8 @@ const formConfig = {
               servicePeriods
             }
           }
-        }
+        },
+        paymentInformation: createUnverifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     chapterThree: {
