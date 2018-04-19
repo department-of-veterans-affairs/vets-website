@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import Raven from 'raven-js';
 import { apiRequest } from '../../../../platform/utilities/api';
 import { fetchInProgressForm } from '../../../common/schemaform/save-in-progress/actions';
 
@@ -12,9 +11,6 @@ export const ITFStatuses = Object.freeze({
   incomplete: 'incomplete'
 });
 
-const delay = (ms) => new Promise(resolve =>
-  setTimeout(resolve, ms)
-);
 
 // TODO: replace mock once ITF endpoint setup
 export function submitIntentToFile(formConfig, onChange) {
@@ -24,23 +20,24 @@ export function submitIntentToFile(formConfig, onChange) {
 
     onChange(ITFStatus);
 
-    return delay(2000).then(() => {
+    const delay = (ms) => new Promise((resolve, reject) => {
       ITFStatus = ITFStatuses.active;
       onChange({ ITFStatus });
 
       // TODO: if the backend handles resubmission, this check can be removed
-      return ITFStatus === ITFStatuses.active;
-    })
-      .catch(() => {
+      if (ITFStatus === ITFStatuses.active) {
+        setTimeout(resolve, ms);
+      } else {
         const errorMessage = 'Network request failed';
         onChange({
           ITFStatus,
           errorMessage
         });
-        Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
-      });
+        reject(errorMessage);
+      }
+    });
 
-    return delay(2000); // eslint-disable-line no-unreachable
+    return delay(2000);
   };
 }
 
