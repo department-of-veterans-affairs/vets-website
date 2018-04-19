@@ -228,8 +228,8 @@ const formConfig = {
         veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
         specialCircumstances: {
           title: 'Special Circumstances',
-          path: 'review-veteran-details/special-circumstances',
-          depends: formData => formData.prefilled,
+          path: 'veteran-details/special-circumstances',
+          depends: formData => !formData.prefilled,
           uiSchema: {
             'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
@@ -266,8 +266,8 @@ const formConfig = {
         primaryAddress: createUnverifiedPrimaryAddressPage(fullSchema526EZ),
         militaryHistory: {
           title: 'Military service history',
-          path: 'review-veteran-details/military-service-history',
-          depends: formData => formData.prefilled,
+          path: 'veteran-details/military-service-history',
+          depends: formData => !formData.prefilled,
           'ui:description': 'things',
           initialData,
           uiSchema: {
