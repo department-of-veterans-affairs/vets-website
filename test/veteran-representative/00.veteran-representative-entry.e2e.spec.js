@@ -71,6 +71,9 @@ const runTest = E2eHelpers.createE2eTest(
     // Review and submit page
     client.waitForElementVisible('.usa-button-primary', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(6)', 'progress-segment-complete');
+    client.click('input[name="privacyAgreement"]')
+    client.click('.usa-button-primary')
+    E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
 
     // Confirmation Page
     client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
