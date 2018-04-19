@@ -1,5 +1,5 @@
 import '../../../platform/polyfills';
-import '../../../sass/686-dependent-status.scss';
+import './sass/686-dependent-status.scss';
 
 import startApp from '../../../platform/startup';
 

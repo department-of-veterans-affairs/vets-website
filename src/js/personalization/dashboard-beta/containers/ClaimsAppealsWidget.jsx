@@ -1,4 +1,4 @@
-import '../../../../sass/claims-status.scss';
+import '../../../claims-status/sass/claims-status.scss';
 
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
