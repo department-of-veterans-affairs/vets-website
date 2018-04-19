@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import constantsReducer from '../../../src/js/gi/reducers/constants.js';
+import constantsReducer from '../../reducers/constants';
 
 const initialState = {
   inProgress: false,

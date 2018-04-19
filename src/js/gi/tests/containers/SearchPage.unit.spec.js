@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import createCommonStore from '../../../src/platform/startup/store';
-import { SearchPage } from '../../../src/js/gi/containers/SearchPage';
-import reducer from '../../../src/js/gi/reducers';
+import createCommonStore from '../../../../platform/startup/store';
+import { SearchPage } from '../../containers/SearchPage';
+import reducer from '../../reducers';
 
 const defaultProps = createCommonStore(reducer).getState();
 

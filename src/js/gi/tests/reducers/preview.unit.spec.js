@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import previewReducer from '../../../src/js/gi/reducers/preview.js';
+import previewReducer from '../../reducers/preview';
 
 const initialState = {
   display: false,
