@@ -1,27 +1,19 @@
 import _ from 'lodash';
-import React from 'react';
-import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
 import dateUI from '../../../common/schemaform/definitions/date';
-import * as address from '../../../common/schemaform/definitions/address';
 import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
-import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
-import ssnUI from '../../../common/schemaform/definitions/ssn';
-import { genderLabels } from '../../../common/utils/labels';
 
 import VerifiedReviewContainer from '../components/VerifiedReviewContainer';
 import {
   PrimaryAddressViewField,
-  getPage,
-  VAFileNumberDescription
+  getPage
 } from '../helpers';
 
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 function isValidZIP(value) {
   if (value !== null) {
-    return /^\d{9}$/.test(value) || /^\d{5}-\d{4}$/.test(value);
+    return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
   }
   return true;
 }
@@ -575,24 +567,20 @@ function createPrimaryAddressPage(formSchema, isReview) {
           },
           addressLine1: {
             'ui:required': formData => formData['view:hasForwardingAddress']
-          }
+          },
+          effectiveDate: dateUI('Effective date')
         }
-      ),
-      effectiveDate: _.merge(dateUI('Effective date'), {
-        'ui:options': {
-          expandUnder: 'view:hasForwardingAddress'
-        }
-      })
+      )
     }
   };
-
+  const addressConfig = addressSchema(true);
   const schema = {
     type: 'object',
     properties: {
       veteran: {
         type: 'object',
         properties: {
-          mailingAddress: addressSchema(true),
+          mailingAddress: addressConfig,
           primaryPhone: {
             type: 'string'
           },
@@ -606,12 +594,14 @@ function createPrimaryAddressPage(formSchema, isReview) {
           'view:hasForwardingAddress': {
             type: 'boolean'
           },
-          forwardingAddress: addressSchema(),
-          effectiveDate: date
+          forwardingAddress: addressConfig
         }
       }
     }
   };
+
+  schema.properties.veteran.properties.forwardingAddress.properties.effectiveDate = date;
+
   const pageConfig = {
     pageTitle: 'Address information',
     isReview,

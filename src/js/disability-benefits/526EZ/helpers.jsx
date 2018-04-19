@@ -586,7 +586,6 @@ export const PrimaryAddressViewField = ({ formData }) => {
     primaryPhone,
     secondaryPhone,
     emailAddress,
-    effectiveDate,
     forwardingAddress
   } = formData.veteran;
   return (
@@ -605,7 +604,7 @@ export const PrimaryAddressViewField = ({ formData }) => {
         <AddressViewField formData={forwardingAddress}/>
       )}
       {formData.effectiveDate && (
-        <EffectiveDateViewField formData={effectiveDate}/>
+        <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
       )}
     </div>
   );
