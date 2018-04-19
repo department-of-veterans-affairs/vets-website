@@ -31,6 +31,7 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
+  GetFormHelp,
   specialCircumstancesDescription
 } from '../helpers';
 
@@ -72,6 +73,7 @@ const vaTreatments = ((treatmentsCommonDef) => {
 
 const formConfig = {
   urlPrefix: '/',
+  intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   // submitUrl: '/v0/21-526EZ',
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
@@ -79,6 +81,8 @@ const formConfig = {
   version: 1,
   migrations: [],
   prefillTransformer,
+  prefillEnabled: true,
+  verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for disability claims increase.',
     noAuth: 'Please sign in again to resume your application for disability claims increase.'
@@ -86,6 +90,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     fullName,
