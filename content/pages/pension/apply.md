@@ -10,7 +10,7 @@ children: pensionApplication
 
 <div class="va-introtext">
 
-You can apply in person or by mail for a Veterans pension. Follow these steps to apply for this tax-free benefit.
+You can apply online, in person, or by mail for a Veterans pension. Follow these steps to apply for this tax-free benefit.
 
 </div>
 
@@ -34,19 +34,21 @@ You can apply in person or by mail for a Veterans pension. Follow these steps to
 
 ### Ready to apply? 
 
-Fill out an Application for Pension (VA Form 21P-527EZ). <br>
-Download [VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+<div id="react-applicationStatus" class="static-page-widget">
+  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for Veterans Pension Benefits</a>
+</div>
 
-**Note:** Attach all the supporting documents (evidence) to the end of the form.
 
-You can turn in your application and evidence in 1 of 3 ways:
-
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">Other ways to apply</h4>
+<div itemprop="itemListElement">
+  
 **By mail** <br>
-Mail the application to the Pension Management Center (PMC) for your state. <br> 
-[Find your PMC](/pension/pension-management-center/).
+Apply by mail using an Application for Pension (VA Form 21P-527EZ). <br>
+[Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
 **In person** <br>
-Bring your application to a regional benefit office near you. <br> 
+Bring your application to a regional benefit office near you. <br>
 [Find a regional benefit office](/facilities/).
 
 
@@ -61,3 +63,28 @@ You can work with a trained professional called an accredited representative to 
 ### How long does it take VA to make a decision?
 
 It depends. We process claims in the order we receive them, unless a claim requires priority processing.
+
+
+-------------
+
+### If I start my pension application, does VA consider this "intent to file"?
+
+No. Simply starting your pension application doesn’t show your intent to file. You'll need to submit an intent to file form, which sets the effective date (the day you can start getting your benefits). Then you can focus on gathering supporting documents to turn in with your pension application. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you'll get starting from your effective date). 
+
+### How do I submit an intent to file form?
+
+Download, fill out, and submit an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966). <br>
+[Download VA Form 21-0966](https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf).
+
+Turn in your form in any of these ways:
+
+- Mail it to the Pension Management Center (PMC) for your state. <br>
+[Find your PMC](/pension/pension-management-center/).
+
+- Turn it in at a regional benefit office near you. <br>
+[Find a regional benefit office](/facilities/).
+
+- Work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br>
+[Find an accredited representative](/disability-benefits/apply/help/).
+
+</br>

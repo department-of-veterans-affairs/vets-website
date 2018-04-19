@@ -11,7 +11,7 @@ majorlinks:
       description: Find out if you can get monthly payments through our Veterans Pension program.
     - url: /pension/apply/
       title: Application Process
-      description: You can apply by mail or in person.
+      description: You can apply online, by mail, or in person.
     - url: /pension/aid-attendance-housebound/
       title: Aid and Attendance or Housebound Allowance
       description: Find out if you can get added pension benefits as a Veteran or survivor.
