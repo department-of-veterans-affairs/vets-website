@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -27,7 +26,7 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form; 
+    const form = this.props.form;
     // const response = this.props.form.submission.response
     // ? this.props.form.submission.response.attributes
     // : {};
