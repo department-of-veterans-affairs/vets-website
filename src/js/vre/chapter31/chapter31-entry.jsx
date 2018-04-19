@@ -1,5 +1,5 @@
 import '../../../platform/polyfills';
-import '../../../sass/vre.scss';
+import '../sass/vre.scss';
 
 import startApp from '../../../platform/startup';
 

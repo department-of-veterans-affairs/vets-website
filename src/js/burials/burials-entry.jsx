@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/burials.scss';
+import './sass/burials.scss';
 
 import startApp from '../../platform/startup';
 
