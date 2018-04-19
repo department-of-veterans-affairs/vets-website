@@ -1,4 +1,4 @@
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest } from '../../../platform/utilities/api';
 
 export const FETCHING_MHV_ACCOUNT = 'FETCHING_MHV_ACCOUNT';
 export const FETCH_MHV_ACCOUNT_FAILURE = 'FETCH_MHV_ACCOUNT_FAILURE';

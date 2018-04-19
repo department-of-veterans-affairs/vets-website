@@ -14,7 +14,7 @@ import {
   SET_UPLOADER
 } from '../actions/index.jsx';
 
-import { makeField, dirtyAllFields } from '../../common/model/fields';
+import { makeField, dirtyAllFields } from '../../../platform/forms/fields';
 
 const initialState = {
   files: [],

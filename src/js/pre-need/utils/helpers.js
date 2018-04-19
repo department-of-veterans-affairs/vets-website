@@ -9,7 +9,7 @@ import TextWidget from '../../common/schemaform/widgets/TextWidget';
 import ServicePeriodView from '../components/ServicePeriodView';
 import { serviceLabels } from './labels';
 import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
-import environment from '../../common/helpers/environment.js';
+import environment from '../../../platform/utilities/environment';
 import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);

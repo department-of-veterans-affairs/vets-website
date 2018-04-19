@@ -2,9 +2,9 @@
 import React from 'react';
 import Raven from 'raven-js';
 
-import { apiRequest as commonApiClient } from '../../common/helpers/api';
-import environment from '../../common/helpers/environment';
-import { formatDateShort } from '../../common/utils/helpers';
+import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
+import { formatDateShort } from '../../../platform/utilities/date';
 import {
   AVAILABILITY_STATUSES,
   BENEFIT_OPTIONS,

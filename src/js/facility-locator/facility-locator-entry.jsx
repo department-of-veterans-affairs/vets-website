@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/facility-locator.scss';
+import './sass/facility-locator.scss';
 
 import startApp from '../../platform/startup';
 
