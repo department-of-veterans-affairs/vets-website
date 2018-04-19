@@ -8,9 +8,11 @@ import set from '../../../../platform/utilities/data/set';
 
 export default class SelectArrayItemsWidget extends React.Component {
   onChange = (index, checked) => {
-    const items = set(`[${index}].${this.props.options.selectedPropName}`, checked, this.props.value);
+    const items = set(`[${index}].${this.props.options.selectedPropName || this.defaultSelectedPropName}`, checked, this.props.value);
     this.props.onChange(items);
   }
+
+  defaultSelectedPropName = 'view:selected'
 
   render() {
     const {
@@ -25,7 +27,7 @@ export default class SelectArrayItemsWidget extends React.Component {
     return (
       <div>
         {items.map((item, index) => {
-          const itemIsSelected = !!get(selectedPropName || 'view:selected', item);
+          const itemIsSelected = !!get(selectedPropName || this.defaultSelectedPropName, item);
           const itemIsDisabled = typeof disabled === 'function' ? disabled(item) : false;
           const labelWithData = <Label {...item}/>;
           const elementId = `${id}_${index}`;
