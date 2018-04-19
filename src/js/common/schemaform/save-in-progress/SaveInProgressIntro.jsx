@@ -11,9 +11,9 @@ import { getIntroState } from './selectors';
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
     let alert;
+    const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill, verifiedPrefillAlert, unverifiedPrefillAlert } = this.props;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
-    const { renderSignInMessage, prefillEnabled } = this.props;
     if (this.props.messageOnly) {
       return (
         <div>
@@ -48,7 +48,7 @@ export default class SaveInProgressIntro extends React.Component {
             <br/>
           </div>
         );
-      } else if (prefillAvailable) {
+      } else if (prefillAvailable && !verifiedPrefillAlert) {
         alert = (
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -59,6 +59,8 @@ export default class SaveInProgressIntro extends React.Component {
             <br/>
           </div>
         );
+      } else if (prefillAvailable && verifiedPrefillAlert) {
+        alert = verifiedPrefillAlert;
       } else {
         alert = (
           <div>
@@ -73,7 +75,7 @@ export default class SaveInProgressIntro extends React.Component {
       }
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
-    } else if (prefillEnabled) {
+    } else if (prefillEnabled && !verifyRequiredPrefill) {
       alert = (
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -89,6 +91,8 @@ export default class SaveInProgressIntro extends React.Component {
           <br/>
         </div>
       );
+    } else if (prefillEnabled && unverifiedPrefillAlert) {
+      alert = unverifiedPrefillAlert;
     } else {
       alert = (
         <div>
@@ -110,7 +114,7 @@ export default class SaveInProgressIntro extends React.Component {
     const savedForm = profile && profile.savedForms
       .filter(f => moment.unix(f.metadata.expires_at).isAfter())
       .find(f => f.form === this.props.formId);
-    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    const prefillAvailable = this.props.prefillAvailable || !!(profile && profile.prefillsAvailable.includes(this.props.formId)); // TODO: remove 1st clause once 526 added to list
 
     if (profile.loading && !this.props.resumeOnly) {
       return (
@@ -153,6 +157,7 @@ export default class SaveInProgressIntro extends React.Component {
 SaveInProgressIntro.propTypes = {
   messageOnly: PropTypes.bool,
   buttonOnly: PropTypes.bool,
+  afterButtonContent: PropTypes.element,
   prefillEnabled: PropTypes.bool,
   formId: PropTypes.string.isRequired,
   messages: PropTypes.object,
@@ -166,7 +171,10 @@ SaveInProgressIntro.propTypes = {
   removeInProgressForm: PropTypes.func.isRequired,
   startText: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
-  renderSignInMessage: PropTypes.func
+  renderSignInMessage: PropTypes.func,
+  verifyRequiredPrefill: PropTypes.bool,
+  verifiedPrefillAlert: PropTypes.element,
+  unverifiedPrefillAlert: PropTypes.element
 };
 
 export const introSelector = getIntroState;

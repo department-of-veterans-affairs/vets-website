@@ -15,7 +15,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   const fetchInProgressForm = () => {};
   const removeInProgressForm = () => {};
   const toggleLoginModal = () => {};
-  it.only('should render props.alertMessage without button', () => {
+  it('should render props.alertMessage without button', () => {
     const user = {
       profile: {
         savedForms: [

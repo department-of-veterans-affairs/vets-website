@@ -45,7 +45,7 @@ module.exports = {
       }
     },
     accessibility: {
-      filter: './test/accessibility/*.spec.js'
+      filter: './src/platform/site-wide/tests/sitemap/*.spec.js'
     },
     wcag2a: {
       globals: {

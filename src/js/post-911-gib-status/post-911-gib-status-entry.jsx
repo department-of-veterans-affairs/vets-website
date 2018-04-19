@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/post-911-gib-status.scss';
+import './sass/post-911-gib-status.scss';
 
 import startApp from '../../platform/startup';
 

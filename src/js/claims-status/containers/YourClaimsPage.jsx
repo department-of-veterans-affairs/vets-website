@@ -17,7 +17,7 @@ import MainTabNav from '../components/MainTabNav';
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealListItem';
 import NoClaims from '../components/NoClaims';
-import Pagination from '../../common/components/Pagination';
+import Pagination from '@department-of-veterans-affairs/jean-pants/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
