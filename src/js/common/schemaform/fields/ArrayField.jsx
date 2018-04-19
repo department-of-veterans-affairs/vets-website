@@ -138,7 +138,7 @@ export default class ArrayField extends React.Component {
       });
       const editingState = this.props.uiSchema['ui:options'].reviewMode;
       const newState = _.assign(this.state, {
-        editing: newEditing.concat(editingState)
+        editing: newEditing.concat(!!editingState)
       });
       this.setState(newState, () => {
         const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
