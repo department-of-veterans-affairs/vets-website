@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
+import recordEvent from '../../../platform/monitoring/record-event';
 import SelectComponent from './Select';
 
 class SearchControls extends Component {
@@ -25,7 +26,7 @@ class SearchControls extends Component {
 
     const { facilityType } = this.props.currentQuery;
     // Report event here to only send analytics event when a user clicks on the button
-    window.dataLayer.push({
+    recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': facilityType
     });

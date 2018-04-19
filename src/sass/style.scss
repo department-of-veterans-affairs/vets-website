@@ -1,98 +1,35 @@
-@charset "UTF-8";
-// Note: if you add variable files in here, make sure you updated shared-variables.scss
-
-//============ VENDOR PARTIALS ==============//
-@import "~uswds/src/stylesheets/lib/bourbon";
-@import "~uswds/src/stylesheets/lib/neat";
-@import "~uswds/src/stylesheets/lib/normalize"; // Currently 3.0.3
-
-@import "~foundation-sites/scss/foundation/components/grid";
-@import "~foundation-sites/scss/foundation/components/block-grid";
-@import "~foundation-sites/scss/foundation/components/visibility";
-
-// Font Awesome WOFF/WOFF2 fonts only
-@import "~font-awesome/scss/variables";
-@import "~font-awesome/scss/core";
-@import "~font-awesome/scss/icons";
-@font-face {
-  font-family: "FontAwesome";
-  src: url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),
-       url("~font-awesome/fonts/fontawesome-webfont.woff") format("woff"),
-       url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot");
-  font-weight: normal;
-  font-style: normal;
-}
-
-// ============ SETTINGS ============//
-// Order matters here! Please don't change it.
-
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
-@import "~uswds/src/stylesheets/core/variables";
+@import "~@department-of-veterans-affairs/jean-pants/sass/core";
 
-// A VA partial. Here so that we can override the
-// USWDS breakpoint and grid variables from above before
-// the grid, alerts, etc are loaded.
-@import "base/b-variables";
-@import "base/b-breakpoints";
-
-@import "~uswds/src/stylesheets/core/fonts";
-@import "~uswds/src/stylesheets/core/grid";
-@import "~uswds/src/stylesheets/core/utilities";
-@import "~uswds/src/stylesheets/core/base";
-
-// ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
-@import "~uswds/src/stylesheets/elements/buttons";
-@import "~uswds/src/stylesheets/elements/inputs";
-@import "~uswds/src/stylesheets/elements/labels";
-@import "~uswds/src/stylesheets/elements/list";
-@import "~uswds/src/stylesheets/elements/table";
-@import "~uswds/src/stylesheets/elements/typography";
-@import "~uswds/src/stylesheets/components/accordions";
-@import "~uswds/src/stylesheets/components/alerts";
-@import "~uswds/src/stylesheets/components/forms";
-@import "~uswds/src/stylesheets/components/sidenav";
-@import "~uswds/src/stylesheets/components/media-block";
-@import "~uswds/src/stylesheets/components/banner";
-
-// ----- VA BASE (VARIABLES/HELPERS) ---- //
-@import "base/b-element-overrides";
-@import "base/b-mixins";
-@import "base/b-functions";
-@import "base/b-utils";
-@import "base/b-font-faces";
-
-// ----- VA GENERAL (MAIN FILE/OTHER) ---- //
-@import "base/va";
 @import "modules/m-footer";
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 // TODO: Remove m-card once templates are shifted from L2-section to
 // level2-index See vets.gov-team#2122
 @import "modules/m-card";
-@import "modules/m-alert";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-alert";
 @import "modules/m-crisis-line";
-@import "modules/m-growable";
 @import "modules/m-piano-key";
-@import "modules/m-table";
-@import "modules/m-button";
-@import "modules/m-form-elements";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-table";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-button";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-form-elements";
 @import "modules/m-search";
-@import "modules/m-loading-indicator";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-loading-indicator";
 @import "modules/m-vet-nav";
-@import "modules/m-print";
-@import "modules/m-dropdown";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-print";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-dropdown";
 @import "modules/m-nav-sidebar";
 @import "modules/m-overlay";
 @import "modules/m-education-wizard";
 @import "modules/m-applications";
-@import "modules/m-additional-info";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-additional-info";
 @import "modules/m-downtime-notification";
 
 // ----- mobile typography -- see #6214 on vets.gov-team ---- //
 
-@import "mobile_typography";
+@import "~@department-of-veterans-affairs/jean-pants/sass/mobile-typography";
 
 // ----- VA SHAME ---- //
 
-@import "shame";
+@import "~@department-of-veterans-affairs/jean-pants/sass/shame";

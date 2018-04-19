@@ -14,7 +14,7 @@ import {
 } from '../actions';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Hero from '../components/Hero';
 import PhoneSection from '../components/PhoneSection';
 import AddressSection from '../components/AddressSection';

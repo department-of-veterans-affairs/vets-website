@@ -9,10 +9,11 @@ import {
   SET_MESSAGE_FIELD,
 } from '../utils/constants';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../utils/helpers';
 
 export function deleteComposeMessage() {
-  window.dataLayer.push({
+  recordEvent({
     event: 'sm-delete-compose',
   });
   return { type: DELETE_COMPOSE_MESSAGE };
@@ -27,7 +28,7 @@ export function setMessageField(path, field) {
 }
 
 export function addComposeAttachments(files) {
-  window.dataLayer.push({
+  recordEvent({
     event: 'sm-add-attachment',
   });
   return {

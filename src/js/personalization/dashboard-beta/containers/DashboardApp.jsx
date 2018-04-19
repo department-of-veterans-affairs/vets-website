@@ -11,7 +11,7 @@ import PrescriptionsWidget from './PrescriptionsWidget';
 
 import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../common/containers/DowntimeNotification';
+import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 
 moment.updateLocale('en', {
   meridiem: (hour) => {

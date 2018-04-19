@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import moment from 'moment';
 
-import { focusElement } from '../../../common/utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {

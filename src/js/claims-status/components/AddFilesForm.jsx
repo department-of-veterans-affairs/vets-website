@@ -3,15 +3,17 @@ import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
-import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
-import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
+import recordEvent from '../../../platform/monitoring/record-event';
 
-import Modal from '../../common/components/Modal';
+import ErrorableFileInput from '@department-of-veterans-affairs/jean-pants/ErrorableFileInput';
+import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
+
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
-import { getScrollOptions } from '../../common/utils/helpers';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 import { validateIfDirty, isNotBlank, isValidFile, isValidDocument, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
 import { setFocus } from '../utils/page';
 
@@ -80,7 +82,7 @@ class AddFilesForm extends React.Component {
         <div>
           <p><a href onClick={(evt) => {
             evt.preventDefault();
-            window.dataLayer.push({
+            recordEvent({
               event: 'claims-mailfax-modal',
             });
             this.props.onShowMailOrFax(true);

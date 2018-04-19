@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import Modal from '../../common/components/Modal';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import { mfa } from '../../login/utils/helpers';
 import { fetchLatestTerms, acceptTerms } from '../actions';
+import PersonalizationBetaInvite from './PersonalizationBetaInvite';
 
 class UserDataSection extends React.Component {
   constructor(props) {
@@ -17,7 +19,7 @@ class UserDataSection extends React.Component {
   }
 
   openModal = () => {
-    window.dataLayer.push({ event: 'terms-shown-profile' });
+    recordEvent({ event: 'terms-shown-profile' });
     this.setState({ modalOpen: true });
   }
 
@@ -129,6 +131,7 @@ class UserDataSection extends React.Component {
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>
           {this.renderTermsLink()}
+          <PersonalizationBetaInvite profile={this.props.profile}/>
         </div>
         <Modal
           cssClass="va-modal-large"

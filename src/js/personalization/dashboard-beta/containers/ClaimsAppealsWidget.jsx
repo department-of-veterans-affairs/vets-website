@@ -1,11 +1,11 @@
-import '../../../../sass/claims-status.scss';
+import '../../../claims-status/sass/claims-status.scss';
 
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
 import React from 'react';
 
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import { APPEAL_V2_TYPE } from '../../../claims-status/utils/appeals-v2-helpers';
 import {
   getAppealsV2,
