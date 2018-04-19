@@ -64,7 +64,7 @@ describe('VRE chapter 36 applicant additional information', () => {
   });
 
 
-  it('submits without info', () => {
+  xit('submits without info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
