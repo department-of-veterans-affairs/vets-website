@@ -65,7 +65,7 @@ class ConfirmationPage extends React.Component {
             <br/>
             <ul className="disability-list">
               {selectedDisabilities.map(({ disability }, i) => {
-                return <li key={i}>{disability.diagnosticText}</li>;
+                return <li key={i}>{disability.name}</li>;
               })}
             </ul>
             <li>
