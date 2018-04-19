@@ -113,7 +113,7 @@ const formConfig = {
       },
       pages: {
         veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
-        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ)
+        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
         specialCircumstances: { // TODO: create page file and reuse 
           title: 'Special Circumstances',
           path: 'special-circumstances',
@@ -156,7 +156,7 @@ const formConfig = {
       title: 'Veteran Details',
       pages: {
         veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
-        primaryAddress: createUnverifiedPrimaryAddressPage(fullSchema526EZ)
+        primaryAddress: createUnverifiedPrimaryAddressPage(fullSchema526EZ),
         specialCircumstances: {
           title: 'Special Circumstances',
           path: 'special-circumstances',
@@ -193,7 +193,6 @@ const formConfig = {
             }
           }
         }
->>>>>>> disability-increase-view-field
       }
     },
     chapterThree: {

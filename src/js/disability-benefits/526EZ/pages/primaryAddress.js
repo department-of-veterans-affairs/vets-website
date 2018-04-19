@@ -530,79 +530,86 @@ function createPrimaryAddressPage(formSchema, isReview) {
   const { date } = formSchema.definitions;
 
   const uiSchema = {
-    mailingAddress: addressUISchema('mailingAddress'),
-    primaryPhone: {
-      'ui:title': 'Primary telephone number',
-      'ui:widget': SSNWidget, // TODO: determine whether to rename widget
-      'ui:validations': [validatePhone],
-      'ui:errorMessages': {
-        pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
+    veteran: {
+      mailingAddress: addressUISchema('mailingAddress'),
+      primaryPhone: {
+        'ui:title': 'Primary telephone number',
+        'ui:widget': SSNWidget, // TODO: determine whether to rename widget
+        'ui:validations': [validatePhone],
+        'ui:errorMessages': {
+          pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
+        },
+        'ui:options': {
+          widgetClassNames: 'va-input-medium-large'
+        }
       },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large'
-      }
-    },
-    secondaryPhone: {
-      'ui:title': 'Secondary telephone number',
-      'ui:widget': SSNWidget,
-      'ui:validations': [validatePhone],
-      'ui:errorMessages': {
-        pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
+      secondaryPhone: {
+        'ui:title': 'Secondary telephone number',
+        'ui:widget': SSNWidget,
+        'ui:validations': [validatePhone],
+        'ui:errorMessages': {
+          pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
+        },
+        'ui:options': {
+          widgetClassNames: 'va-input-medium-large'
+        }
       },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large'
-      }
-    },
-    emailAddress: {
-      'ui:title': 'Email address',
-      'ui:errorMessages': {
-        pattern: 'Please put your email in this format x@x.xxx'
-      }
-    },
-    'view:hasForwardingAddress': {
-      'ui:title':
+      emailAddress: {
+        'ui:title': 'Email address',
+        'ui:errorMessages': {
+          pattern: 'Please put your email in this format x@x.xxx'
+        }
+      },
+      'view:hasForwardingAddress': {
+        'ui:title':
         'I want to provide a forwarding address since my address will be changing soon.'
-    },
-    forwardingAddress: _.merge(
-      addressUISchema('forwardingAddress', 'Forwarding address'),
-      {
+      },
+      forwardingAddress: _.merge(
+        addressUISchema('forwardingAddress', 'Forwarding address'),
+        {
+          'ui:options': {
+            expandUnder: 'view:hasForwardingAddress'
+          },
+          country: {
+            'ui:required': formData => formData['view:hasForwardingAddress']
+          },
+          addressLine1: {
+            'ui:required': formData => formData['view:hasForwardingAddress']
+          }
+        }
+      ),
+      effectiveDate: _.merge(dateUI('Effective date'), {
         'ui:options': {
           expandUnder: 'view:hasForwardingAddress'
-        },
-        country: {
-          'ui:required': formData => formData['view:hasForwardingAddress']
-        },
-        addressLine1: {
-          'ui:required': formData => formData['view:hasForwardingAddress']
         }
-      }
-    ),
-    effectiveDate: _.merge(dateUI('Effective date'), {
-      'ui:options': {
-        expandUnder: 'view:hasForwardingAddress'
-      }
-    })
+      })
+    }
   };
 
   const schema = {
     type: 'object',
     properties: {
-      mailingAddress: addressSchema(true),
-      primaryPhone: {
-        type: 'string'
-      },
-      secondaryPhone: {
-        type: 'string'
-      },
-      emailAddress: {
-        type: 'string',
-        format: 'email'
-      },
-      'view:hasForwardingAddress': {
-        type: 'boolean'
-      },
-      forwardingAddress: addressSchema(),
-      effectiveDate: date
+      veteran: {
+        type: 'object',
+        properties: {
+          mailingAddress: addressSchema(true),
+          primaryPhone: {
+            type: 'string'
+          },
+          secondaryPhone: {
+            type: 'string'
+          },
+          emailAddress: {
+            type: 'string',
+            format: 'email'
+          },
+          'view:hasForwardingAddress': {
+            type: 'boolean'
+          },
+          forwardingAddress: addressSchema(),
+          effectiveDate: date
+        }
+      }
     }
   };
   const pageConfig = {

@@ -9,26 +9,18 @@ export default {
   vaFileNumber: '345345345',
   gender: 'F',
   dateOfBirth: '1990-04-02',
-<<<<<<< HEAD
-  primaryPhone: '2342342342',
-  secondaryPhone: '3242342342',
-  emailAddress: 'test@test.com',
-  mailingAddress: {
-    type: 'DOMESTIC',
-    country: 'USA',
-    city: 'Detroit',
-    state: 'MI',
-    zipCode: '234563453',
-    addressLine1: '234 Maple St.'
-  },
-=======
   veteran: {
+    primaryPhone: '2342342342',
+    secondaryPhone: '3242342342',
+    emailAddress: 'test@test.com',
     mailingAddress: {
+      type: 'DOMESTIC',
       country: 'USA',
-      addressLine1: '234 Apple Grove'
-    },
-    emailAddress: 'sample@email.com',
-    primaryPhone: '2342342342'
+      city: 'Detroit',
+      state: 'MI',
+      zipCode: '234563453',
+      addressLine1: '234 Maple St.'
+    }
   },
   directDeposit: {
     noBank: true,
@@ -42,7 +34,6 @@ export default {
       }
     }
   ],
->>>>>>> disability-increase-view-field
   disabilities: [
     {
       name: 'PTSD',

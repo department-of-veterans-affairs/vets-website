@@ -588,7 +588,7 @@ export const PrimaryAddressViewField = ({ formData }) => {
     emailAddress,
     effectiveDate,
     forwardingAddress
-  } = formData;
+  } = formData.veteran;
   return (
     <div>
       <AddressViewField formData={mailingAddress}/>
