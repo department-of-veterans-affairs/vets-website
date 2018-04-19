@@ -10,7 +10,8 @@ entryname: beta-enrollment
     </ul>
   </nav>
 
-<div class="row-padded">
+<div class="row">
+<div class="usa-width-two-thirds medium-8">
   
 # Try Our New Beta Tools
 
@@ -38,5 +39,6 @@ You'll still have access to all the tools and information you've always had on V
 
 <br>
 
+</div>
 </div>
 </div>
