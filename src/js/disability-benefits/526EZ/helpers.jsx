@@ -9,11 +9,14 @@ import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
 import { genderLabels } from '../../../platform/static-data/labels';
 
-const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+const siblings = [
+  'treatments',
+  'privateRecordReleases',
+  'privateRecords',
+  'additionalDocuments'
+];
 
-import {
-  PREFILL_STATUSES
-} from '../../common/schemaform/save-in-progress/actions';
+import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
 /*
@@ -82,9 +85,16 @@ export function prefillTransformer(pages, formData, metadata, state) {
 }
 
 export const supportingEvidenceOrientation = (
-  <p>We’ll now ask you where we can find medical records or evidence about your worsened conditions after they were rated. You don’t need to turn in any medical records that you’ve already submitted with your original claim. <strong>We only need new medical records or other evidence about your condition after you got your disability rating.</strong></p>
+  <p>
+    We’ll now ask you where we can find medical records or evidence about your
+    worsened conditions after they were rated. You don’t need to turn in any
+    medical records that you’ve already submitted with your original claim.{' '}
+    <strong>
+      We only need new medical records or other evidence about your condition
+      after you got your disability rating.
+    </strong>
+  </p>
 );
-
 
 export const evidenceTypesDescription = ({ formData }) => {
   return (
@@ -106,20 +116,17 @@ export const evidenceTypeHelp = (
   </AdditionalInfo>
 );
 
-
 export const disabilityNameTitle = ({ formData }) => {
   return (
     <legend className="schemaform-block-title schemaform-title-underline">{formData.name}</legend>
   );
 };
 
-
 export const facilityDescription = ({ formData }) => {
   return (
     <p>Tell us about facilities where VA treated you for {formData.name}, <strong>after you got your disability rating</strong>.</p>
   );
 };
-
 
 export const treatmentView = ({ formData }) => {
   const { from, to } = formData.treatmentDateRange;
@@ -156,7 +163,6 @@ export const privateRecordsChoice = ({ formData }) => {
   );
 };
 
-
 export const privateRecordsChoiceHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
     <h4>You upload your medical records</h4>
@@ -167,7 +173,6 @@ export const privateRecordsChoiceHelp = (
     <p>If you tell us which VA medical center treated you for your condition, we can get your medical records for you. Getting your records may take us some time. This could take us longer to make a decision on your claim.</p>
   </AdditionalInfo>
 );
-
 
 export const privateMedicalRecordsIntro = ({ formData }) => {
   const firstOrNext = formData['view:vaMedicalRecords'] ? 'next' : 'first';
@@ -180,36 +185,46 @@ export function validatePostalCodes(errors, formData) {
   let isValidPostalCode = true;
   // Checks if postal code is valid
   if (formData.treatmentCenterCountry === 'USA') {
-    isValidPostalCode = isValidPostalCode && isValidUSZipCode(formData.treatmentCenterPostalCode);
+    isValidPostalCode =
+      isValidPostalCode && isValidUSZipCode(formData.treatmentCenterPostalCode);
   }
   if (formData.treatmentCenterCountry === 'CAN') {
-    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(formData.treatmentCenterPostalCode);
+    isValidPostalCode =
+      isValidPostalCode &&
+      isValidCanPostalCode(formData.treatmentCenterPostalCode);
   }
 
   // Add error message for postal code if it exists and is invalid
   if (formData.treatmentCenterPostalCode && !isValidPostalCode) {
-    errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
+    errors.treatmentCenterPostalCode.addError(
+      'Please provide a valid postal code'
+    );
   }
 }
 
 export function validateAddress(errors, formData) {
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada, or Mexico
-  if (stateRequiredCountries.has(formData.treatmentCenterCountry)
-    && formData.treatmentCenterState === undefined) {
-    // TODO: enable once validation determined 
+  if (
+    stateRequiredCountries.has(formData.treatmentCenterCountry) &&
+    formData.treatmentCenterState === undefined
+  ) {
+    // TODO: enable once validation determined
     // && currentSchema.required.length) {
     errors.treatmentCenterState.addError('Please select a state or province');
   }
-  const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
-    // TODO: enable once validation determined 
+  const hasAddressInfo =
+    stateRequiredCountries.has(formData.treatmentCenterCountry) &&
+    // TODO: enable once validation determined
     // && !currentSchema.required.length
-    && typeof formData.treatmentCenterCity !== 'undefined'
-    && typeof formData.treatmentCenterStreet !== 'undefined'
-    && typeof formData.treatmentCenterPostalCode !== 'undefined';
+    typeof formData.treatmentCenterCity !== 'undefined' &&
+    typeof formData.treatmentCenterStreet !== 'undefined' &&
+    typeof formData.treatmentCenterPostalCode !== 'undefined';
 
   if (hasAddressInfo && typeof formData.treatmentCenterState === 'undefined') {
-    errors.treatmentCenterState.addError('Please enter a state or province, or remove other address information.');
+    errors.treatmentCenterState.addError(
+      'Please enter a state or province, or remove other address information.'
+    );
   }
 
   validatePostalCodes(errors, formData);
@@ -217,7 +232,11 @@ export function validateAddress(errors, formData) {
 
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
+    <span>
+      Limiting consent means that your doctor can only share records that are
+      directly related to your condition. This could add to the time it takes to
+      get your private medical records.
+    </span>
   </div>
 );
 
@@ -229,7 +248,12 @@ export const documentDescription = () => {
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
         <li>Maximum file size: 50 MB</li>
       </ul>
-      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+      <p>
+        <em>
+          Large files can be more difficult to upload with a slow Internet
+          connection
+        </em>
+      </p>
     </div>
   );
 };
@@ -237,13 +261,21 @@ export const documentDescription = () => {
 export const additionalDocumentDescription = () => {
   return (
     <div>
-      <p>If you have other evidence, like lay or buddy statements, that you would like to submit, you can upload them here.</p>
+      <p>
+        If you have other evidence, like lay or buddy statements, that you would
+        like to submit, you can upload them here.
+      </p>
       <p>File upload guidelines:</p>
       <ul>
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
         <li>Maximum file size: 50 MB</li>
       </ul>
-      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+      <p>
+        <em>
+          Large files can be more difficult to upload with a slow Internet
+          connection
+        </em>
+      </p>
     </div>
   );
 };
@@ -307,26 +339,47 @@ export const evidenceSummaryView = ({ formData }) => {
 
 const FullNameViewField = ({ formData }) => {
   const { first, middle, last, suffix } = formData;
-  return <strong>{first} {middle} {last} {suffix}</strong>;
+  return (
+    <strong>
+      {first} {middle} {last} {suffix}
+    </strong>
+  );
 };
 
 const SsnViewField = ({ formData }) => {
   const ssn = formData.slice(5);
   const mask = <span>•••-••-</span>;
-  return <p>Social Security number: {mask}{ssn}</p>;
+  return (
+    <p>
+      Social Security number: {mask}
+      {ssn}
+    </p>
+  );
 };
 
 const VAFileNumberViewField = ({ formData }) => {
   const vaFileNumber = formData.slice(5);
   const mask = <span>•••-••-</span>;
-  return <p>VA file number: {mask}{vaFileNumber}</p>;
+  return (
+    <p>
+      VA file number: {mask}
+      {vaFileNumber}
+    </p>
+  );
 };
 
 const DateOfBirthViewField = ({ formData }) => {
-  return <p>Date of birth: <DateWidget value={formData} options={{ monthYear: false }}/></p>;
+  return (
+    <p>
+      Date of birth:{' '}
+      <DateWidget value={formData} options={{ monthYear: false }}/>
+    </p>
+  );
 };
 
-const GenderViewField = ({ formData }) => <p>Gender: {genderLabels[formData]}</p>;
+const GenderViewField = ({ formData }) => (
+  <p>Gender: {genderLabels[formData]}</p>
+);
 
 export const veteranInformationViewField = ({ formData }) => {
   return (
@@ -451,10 +504,111 @@ export const ITFDescription = (
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="What does this mean?">
-      <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security Number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
+      <p>
+        The VA file number is the number used to track your disability claim and
+        evidence through the VA system. For most Veterans, your VA file number
+        is the same as your Social Security Number. However, if you filed your
+        first disability claim a long time ago, your VA file number may be a
+        different number.
+      </p>
     </AdditionalInfo>
   </div>
 );
+
+const PhoneViewField = ({ formData: phoneNumber, name }) => {
+  const isDomestic = phoneNumber.length <= 10;
+  const midBreakpoint = isDomestic ? -7 : -8;
+  const lastPhoneString = `${phoneNumber.slice(-4)}`;
+  const middlePhoneString = `${phoneNumber.slice(midBreakpoint, -4)}-`;
+  const firstPhoneString = `${phoneNumber.slice(0, midBreakpoint)}-`;
+
+  const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
+  return (
+    <p>
+      <strong>{name}</strong>: {phoneString}
+    </p>
+  );
+};
+
+const EmailViewField = ({ formData, name }) => {
+  return (
+    <p>
+      <strong>{name}</strong>: {formData}
+    </p>
+  );
+};
+
+const EffectiveDateViewField = ({ formData }) => {
+  return (
+    <p>
+      Effective Date:{' '}
+      <DateWidget value={formData} options={{ monthYear: false }}/>
+    </p>
+  );
+};
+
+const AddressViewField = ({ formData }) => {
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    state,
+    zipCode,
+    militaryStateCode,
+    militaryPostOfficeTypeCode
+  } = formData;
+  let zipString;
+  let stateString;
+  let cityString;
+  if (zipCode) zipString = `${zipCode.slice(0, 5)}-${zipCode.slice(5)}`;
+  if (city || militaryPostOfficeTypeCode) {
+    cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
+  }
+  if (state || militaryStateCode) {
+    stateString = `${state}` || `${militaryStateCode}`;
+  }
+  return (
+    <div>
+      {addressLine1 && <p>{addressLine1}</p>}
+      {addressLine2 && <p>{addressLine2}</p>}
+      {addressLine3 && <p>{addressLine3}</p>}
+      <p>
+        {cityString} {stateString} {zipString}
+      </p>
+    </div>
+  );
+};
+
+export const PrimaryAddressViewField = ({ formData }) => {
+  const {
+    mailingAddress,
+    primaryPhone,
+    secondaryPhone,
+    emailAddress,
+    forwardingAddress
+  } = formData.veteran;
+  return (
+    <div>
+      <AddressViewField formData={mailingAddress}/>
+      {primaryPhone && (
+        <PhoneViewField formData={primaryPhone} name="Primary phone"/>
+      )}
+      {secondaryPhone && (
+        <PhoneViewField formData={secondaryPhone} name="Secondary phone"/>
+      )}
+      {emailAddress && (
+        <EmailViewField formData={emailAddress} name="Email address"/>
+      )}
+      {formData['view:hasForwardingAddress'] && (
+        <AddressViewField formData={forwardingAddress}/>
+      )}
+      {formData.effectiveDate && (
+        <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
+      )}
+    </div>
+  );
+};
 
 export const specialCircumstancesDescription = (
   <p>To help us better understand your situation, please tell us if
