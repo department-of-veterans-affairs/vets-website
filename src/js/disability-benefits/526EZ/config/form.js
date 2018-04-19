@@ -668,9 +668,6 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
-                    attachmentSchema: {
-                      'ui:title': 'Document type'
-                    },
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -758,9 +755,6 @@ const formConfig = {
                         name: file.name,
                         confirmationCode: response.data.attributes.guid
                       };
-                    },
-                    attachmentSchema: {
-                      'ui:title': 'Document type'
                     },
                     attachmentName: {
                       'ui:title': 'Document name'
