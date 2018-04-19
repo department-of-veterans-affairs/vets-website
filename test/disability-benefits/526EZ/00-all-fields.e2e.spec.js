@@ -28,8 +28,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/review-veteran-information');
 
-    // Chapter 3 page 1
-    client.axeCheck('.main').click('.form-panel .usa-button-primary');
+    // Rated disability selection
+    client.axeCheck('.main');
+    PageHelpers.selectDisabilities(client); // Just selects the first one in the list
+    client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/chapter-three/page-three');
 
     // Supporting evidence
@@ -154,12 +156,12 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // Accept privacy agreement
     client.click('input[type="checkbox"]');
     client.click('.form-progress-buttons .usa-button-primary');
-    // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
-    // client.expect.element('.js-test-location').attribute('data-location')
-    //   .to.not.contain('/review-and-submit').before(Timeouts.slow);
+    E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+    client.expect.element('.js-test-location').attribute('data-location')
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
-    // // Submit message
-    // client.waitForElementVisible('.schemaform-confirmation-section-header', Timeouts.normal);
+    // Submit message
+    client.waitForElementVisible('.schemaform-confirmation-section-header', Timeouts.normal);
 
     client.axeCheck('.main');
     client.end();
