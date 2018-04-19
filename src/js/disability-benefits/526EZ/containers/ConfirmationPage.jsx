@@ -27,7 +27,7 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = /* this.props.form */ initialData;
+    const form = this.props.form; 
     // const response = this.props.form.submission.response
     // ? this.props.form.submission.response.attributes
     // : {};
@@ -56,10 +56,7 @@ class ConfirmationPage extends React.Component {
           Learn more about what happens after you file a disability claim.
         </a>
         <div className="inset">
-          <h4>
-            Disability Compensation Claim for Increase{' '}
-            <span className="additional">(Form 21-526EZ)</span>
-          </h4>
+          <h4>Disability Compensation Claim for Increase <span className="additional">(Form 21-526EZ)</span></h4>
           <span>
             For {name.first} {name.middle} {name.last} {name.suffix}
           </span>
@@ -88,9 +85,7 @@ class ConfirmationPage extends React.Component {
         </div>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">
-            If you have questions, call{' '}
-            <a href="tel:+18772228387">1-877-222-8387</a>, Monday &#8211;
+          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+18772228387">1-877-222-8387</a>, Monday &#8211;
             Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
           </p>
         </div>
