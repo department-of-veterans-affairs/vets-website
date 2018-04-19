@@ -14,12 +14,7 @@ import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../../../../platform/utilities/ui';
 
 function focusForm() {
-  const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');
-  if (legend && legend.getBoundingClientRect().height > 0) {
-    focusElement(legend);
-  } else {
-    focusElement('.nav-header');
-  }
+  focusElement('.nav-header');
 }
 
 const scroller = Scroll.scroller;

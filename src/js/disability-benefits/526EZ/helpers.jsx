@@ -285,8 +285,112 @@ export const disabilityOption = ({ diagnosticCode, diagnosticText, ratingPercent
 };
 
 
+export const ITFErrorAlert = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h3>We’re sorry. Your intent to file request didn’t go through. Please try again.</h3>
+    </div>
+  </div>
+);
+
+
+export const UnauthenticatedAlert = (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        To apply for a disability increase, you’ll need to sign in and verify your account.
+      </div>
+    </div>
+    <br/>
+  </div>
+);
+
+
+export const UnverifiedAlert = (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        To apply for a disability increase, you’ll need to verify your account.
+      </div>
+    </div>
+    <br/>
+  </div>
+);
+
+
+export const VerifiedAlert =  (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        <strong>Note:</strong> Since you’re signed in to your account and your account is verified, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out. You have 1 year from the date you start or update your application to submit the form.
+      </div>
+    </div>
+    <br/>
+  </div>
+);
+
+
+export const GetFormHelp = () => {
+  return (
+    <div>
+      <p className="help-talk">For help filling out this form, please call:</p>
+      <p className="help-phone-number">
+        <a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-VETS</a> (<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>)<br/>
+        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+      </p>
+    </div>
+  );
+};
+
+
+export const ITFDescription = (
+  <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
+);
+
+
 export const specialCircumstancesDescription = (
   <p>To help us better understand your situation, please tell us if
       any of the below situations apply to you. <strong>Are you:</strong></p>
 );
 
+
+export const FDCDescription = (
+  <div>
+    <h5>Fully developed claim program</h5>
+    <p>
+      You can apply using the Fully Developed Claim (FDC) program if
+      you’ve uploaded all the supporting documents or supplemental
+      forms needed to support your claim.
+    </p>
+    <a href="/pension/apply/fully-developed-claim/" target="_blank">
+      Learn more about the FDC program
+    </a>.
+  </div>
+);
+
+
+export const FDCWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        Since you’ve uploaded all your supporting documents, your
+        claim will be submitted as a fully developed claim.
+      </div>
+    </div>
+  </div>
+);
+
+
+export const noFDCWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        Since you’ll be sending in additional documents later,
+        your application doesn’t qualify for the Fully Developed
+        Claim program. We’ll review your claim through the
+        standard claim process. Please turn in any information to
+        support your claim as soon as you can.
+      </div>
+    </div>
+  </div>
+);

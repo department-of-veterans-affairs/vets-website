@@ -33,7 +33,7 @@ class FormStartControls extends React.Component {
   handleLoadForm = () => {
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
+    return this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
   }
 
   toggleModal = () => {
@@ -92,6 +92,7 @@ class FormStartControls extends React.Component {
 
 FormStartControls.propTypes = {
   formId: PropTypes.string.isRequired,
+  handleLoadPrefill: PropTypes.func,
   migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,

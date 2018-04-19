@@ -4,15 +4,17 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 // import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
+import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+
+import IntroductionPage from '../components/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
-import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import IntroductionPage from '../components/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   transform,
@@ -33,7 +35,11 @@ import {
   additionalDocumentDescription,
   // releaseView, // Where was this used before?
   disabilityOption,
-  specialCircumstancesDescription
+  GetFormHelp,
+  specialCircumstancesDescription,
+  FDCDescription,
+  FDCWarning,
+  noFDCWarning,
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -47,9 +53,10 @@ const {
 const {
   date,
   dateRange,
-  privateTreatmentCenterAddress,
   disabilities: disabiltiesDefinition,
-  specialIssues
+  specialIssues,
+  servicePeriods,
+  privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -77,12 +84,15 @@ const vaTreatments = ((treatmentsCommonDef) => {
 
 const formConfig = {
   urlPrefix: '/',
+  intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   // submitUrl: '/v0/21-526EZ',
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
   migrations: [],
+  prefillEnabled: true,
+  verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for disability claims increase.',
     noAuth: 'Please sign in again to resume your application for disability claims increase.'
@@ -90,34 +100,25 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     dateRange,
     disabilities: disabiltiesDefinition,
-    privateTreatmentCenterAddress,
-    specialIssues
+    specialIssues,
+    servicePeriods,
+    privateTreatmentCenterAddress
   },
-  title: 'Disability Claims for Increase',
+  title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
-    chapterOne: {
-      title: 'Chapter One',
-      pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-one/page-one',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {}
-          },
-        }
-      }
-    },
     reviewVeteranDetails: {
       title: 'Review Veteran Details',
       pages: {
+        // veteranInformation:
+        // primaryAddress:
+        // paymentInformation:
         specialCircumstances: {
           title: 'Special Circumstances',
           path: 'special-circumstances',
@@ -151,6 +152,53 @@ const formConfig = {
               'view:blindOrSightImpaired': {
                 type: 'boolean'
               }
+            }
+          }
+        },
+        militaryHistory: {
+          title: 'Military service history',
+          path: 'review-veteran-details/military-service-history',
+          'ui:description': 'things',
+          initialData,
+          uiSchema: {
+            servicePeriods: {
+              'ui:title': 'Military service history',
+              'ui:description':
+                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:options': {
+                itemName: 'Service Period',
+                viewField: ServicePeriodView,
+                reviewMode: true
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                dateRange: dateRangeUI(
+                  'Service start date',
+                  'Service end date',
+                  'End of service must be after start of service'
+                ),
+                dischargeType: {
+                  'ui:title': 'Character of discharge',
+                  'ui:options': {
+                    labels: {
+                      honorable: 'Honorable',
+                      general: 'General',
+                      other: 'Other Than Honorable',
+                      'bad-conduct': 'Bad Conduct',
+                      dishonorable: 'Dishonorable',
+                      undesirable: 'Undesirable'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              servicePeriods
             }
           }
         }
@@ -750,9 +798,63 @@ const formConfig = {
           }
         }
       }
+    },
+    additionalInformation: {
+      title: 'Additional Information',
+      pages: {
+        expedited: {
+          title: 'Fully developed claim program',
+          path: 'additional-information/fdc',
+          uiSchema: {
+            'ui:description': FDCDescription,
+            noRapidProcessing: {
+              'ui:title':
+                'Do you want to apply using the Fully Developed Claim program?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                yesNoReverse: true,
+                labels: {
+                  Y: 'Yes, I have uploaded all my supporting documents.',
+                  N:
+                    'No, I have some extra information that I will submit to VA later.'
+                }
+              }
+            },
+            fdcWarning: {
+              'ui:description': FDCWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: false
+              }
+            },
+            noFDCWarning: {
+              'ui:description': noFDCWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: true
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              noRapidProcessing: {
+                type: 'boolean'
+              },
+              fdcWarning: {
+                type: 'object',
+                properties: {}
+              },
+              noFDCWarning: {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        }
+      }
     }
   }
 };
-
 
 export default formConfig;
