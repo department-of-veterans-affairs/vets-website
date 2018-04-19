@@ -175,6 +175,8 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(SaveInProgressIntro);
 
+export { SaveInProgressIntro };
+
 export const introActions = {
   fetchInProgressForm,
   removeInProgressForm,
