@@ -587,7 +587,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: ['name', 'attachmentId'],
+                        required: ['name'],
                         properties: {
                           name: {
                             type: 'string'
@@ -656,7 +656,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: ['name', 'attachmentId'],
+                        required: ['name'],
                         properties: {
                           name: {
                             type: 'string'
