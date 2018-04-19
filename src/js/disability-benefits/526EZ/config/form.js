@@ -87,8 +87,7 @@ const formConfig = {
   verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for disability claims increase.',
-    noAuth:
-      'Please sign in again to resume your application for disability claims increase.'
+    noAuth: 'Please sign in again to resume your application for disability claims increase.'
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
@@ -101,7 +100,7 @@ const formConfig = {
     // files
     privateTreatmentCenterAddress
   },
-  title: 'Disability Claims for Increase',
+  title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
