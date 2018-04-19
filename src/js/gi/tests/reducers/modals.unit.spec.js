@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import modalsReducer from '../../../src/js/gi/reducers/modals.js';
+import modalsReducer from '../../reducers/modals';
 
 const initialState = {
   displaying: null
