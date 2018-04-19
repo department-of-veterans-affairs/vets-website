@@ -3,7 +3,7 @@ const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts');
 
 const createMockEndpoint = require('../../../../../test/e2e/mock-helpers');
-const FacilityHelpers = require('../../../../../test/e2e/facility-helpers');
+const FacilityHelpers = require('../../../../js/facility-locator/tests/facility-helpers');
 
 const token = null;
 const beforeNow = moment().subtract(1, 'minute').toISOString();
