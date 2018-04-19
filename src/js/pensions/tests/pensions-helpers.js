@@ -248,7 +248,7 @@ function completeContactInfo(client, data) {
 function completeExpeditedInfo(client, data) {
   client
     .selectYesNo('root_noRapidProcessing', data.noRapidProcessing)
-    .waitForElementPresent('.usa-alert-info', Timeouts.normal);
+    .waitForElementVisible('.usa-alert-info', Timeouts.normal);
 }
 
 function initApplicationSubmitMock() {
