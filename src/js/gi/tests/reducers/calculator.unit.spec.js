@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import calculatorReducer from '../../../src/js/gi/reducers/calculator.js';
+import calculatorReducer from '../../reducers/calculator';
 
 describe('calculator reducer', () => {
   it('should correctly change non-dollar input', () => {

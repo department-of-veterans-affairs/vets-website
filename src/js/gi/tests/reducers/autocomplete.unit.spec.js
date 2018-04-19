@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import autocompleteReducer from '../../../src/js/gi/reducers/autocomplete.js';
+import autocompleteReducer from '../../reducers/autocomplete';
 
 const initialState = {
   inProgress: false,

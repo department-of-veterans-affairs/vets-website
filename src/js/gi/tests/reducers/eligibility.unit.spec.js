@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import eligibilityReducer from '../../../src/js/gi/reducers/eligibility.js';
+import eligibilityReducer from '../../reducers/eligibility';
 
 const initialState = {
   militaryStatus: 'veteran',
