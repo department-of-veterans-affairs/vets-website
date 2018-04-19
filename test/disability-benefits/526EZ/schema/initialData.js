@@ -16,12 +16,17 @@ export default {
     bankName: 'Local bank'
   },
   veteran: {
+    primaryPhone: '2342342342',
+    secondaryPhone: '3242342342',
+    emailAddress: 'test@test.com',
     mailingAddress: {
+      type: 'DOMESTIC',
       country: 'USA',
-      addressLine1: '234 Apple Grove'
-    },
-    emailAddress: 'sample@email.com',
-    primaryPhone: '2342342342'
+      city: 'Detroit',
+      state: 'MI',
+      zipCode: '234563453',
+      addressLine1: '234 Maple St.'
+    }
   },
   directDeposit: {
     noBank: true,
@@ -36,6 +41,56 @@ export default {
     }
   ],
   disabilities: [
+    {
+      name: 'PTSD',
+      // Is this supposed to be an array?
+      specialIssues: {
+        specialIssueCode: 'Filler text',
+        specialIssueName: 'Filler text'
+      },
+      ratedDisabilityId: '12345',
+      disabilityActionType: 'Filler text',
+      ratingDecisionId: '67890',
+      diagnosticCode: 'Filler text',
+      classificationCode: 'Filler Code',
+      // Presumably, this should be an array...
+      secondaryDisabilities: [
+        {
+          name: 'First secondary disability',
+          disabilityActionType: 'Filler text'
+        },
+        {
+          name: 'Second secondary disability',
+          disabilityActionType: 'Filler text'
+        }
+      ]
+    },
+    {
+      name: 'Second Disability',
+      // Is this supposed to be an array?
+      specialIssues: {
+        specialIssueCode: 'Filler text',
+        specialIssueName: 'Filler text'
+      },
+      ratedDisabilityId: '54321',
+      disabilityActionType: 'Filler text',
+      ratingDecisionId: '09876',
+      diagnosticCode: 'Filler text',
+      classificationCode: 'Filler Code',
+      // Presumably, this should be an array...
+      secondaryDisabilities: [
+        {
+          name: 'First secondary disability',
+          disabilityActionType: 'Filler text'
+        },
+        {
+          name: 'Second secondary disability',
+          disabilityActionType: 'Filler text'
+        }
+      ]
+    }
+  ],
+  selectedDisabilities: [
     {
       name: 'PTSD',
       // Is this supposed to be an array?
