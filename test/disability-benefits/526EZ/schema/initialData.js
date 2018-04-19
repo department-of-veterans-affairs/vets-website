@@ -1,5 +1,14 @@
 export default {
   // For testing purposes only
+  servicePeriods: [
+    {
+      serviceBranch: 'Army',
+      dateRange: {
+        from: '1990-02-02',
+        to: '2010-03-04'
+      }
+    }
+  ],
   disabilities: [
     {
       name: 'PTSD',

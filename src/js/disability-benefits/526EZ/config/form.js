@@ -4,7 +4,9 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 // import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
+import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -41,7 +43,9 @@ const {
 const {
   date,
   dateRange,
-  privateTreatmentCenterAddress
+  servicePeriods,
+  // files
+  privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -80,7 +84,8 @@ const formConfig = {
   verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for disability claims increase.',
-    noAuth: 'Please sign in again to resume your application for disability claims increase.'
+    noAuth:
+      'Please sign in again to resume your application for disability claims increase.'
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
@@ -89,29 +94,20 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
+    servicePeriods,
+    // files
     privateTreatmentCenterAddress
   },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
-    chapterOne: {
-      title: 'Chapter One',
-      pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-one/page-one',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {}
-          },
-        }
-      }
-    },
     reviewVeteranDetails: {
       title: 'Review Veteran Details',
       pages: {
+        // veteranInformation:
+        // primaryAddress:
+        // paymentInformation:
         specialCircumstances: {
           title: 'Special Circumstances',
           path: 'special-circumstances',
@@ -145,6 +141,53 @@ const formConfig = {
               'view:blindOrSightImpaired': {
                 type: 'boolean'
               }
+            }
+          }
+        },
+        militaryHistory: {
+          title: 'Military service history',
+          path: 'review-veteran-details/military-service-history',
+          'ui:description': 'things',
+          initialData,
+          uiSchema: {
+            servicePeriods: {
+              'ui:title': 'Military service history',
+              'ui:description':
+                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:options': {
+                itemName: 'Service Period',
+                viewField: ServicePeriodView,
+                reviewMode: true
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                dateRange: dateRangeUI(
+                  'Service start date',
+                  'Service end date',
+                  'End of service must be after start of service'
+                ),
+                dischargeType: {
+                  'ui:title': 'Character of discharge',
+                  'ui:options': {
+                    labels: {
+                      honorable: 'Honorable',
+                      general: 'General',
+                      other: 'Other Than Honorable',
+                      'bad-conduct': 'Bad Conduct',
+                      dishonorable: 'Dishonorable',
+                      undesirable: 'Undesirable'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              servicePeriods
             }
           }
         }
@@ -717,6 +760,5 @@ const formConfig = {
     }
   }
 };
-
 
 export default formConfig;
