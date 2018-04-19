@@ -14,7 +14,20 @@ export default class SaveInProgressIntro extends React.Component {
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
     const { renderSignInMessage, prefillEnabled } = this.props;
-
+    if (this.props.messageOnly) {
+      return (
+        <div>
+          <div className="usa-alert usa-alert-info schemaform-sip-alert">
+            <div className="usa-alert-body">
+              <strong>{this.props.alertMessage.title}</strong>
+              <br/>
+              {this.props.alertMessage.message}
+            </div>
+          </div>
+          <br/>
+        </div>
+      );
+    }
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
@@ -65,7 +78,7 @@ export default class SaveInProgressIntro extends React.Component {
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              If you’re signed in to your account, your application process can go more smoothly. Here’s why:<br/>
+              <strong>If you’re signed in to your account, your application process can go more smoothly. Here’s why:</strong><br/>
               <ul>
                 <li>We can prefill part of your application based on your account details.</li>
                 <li>You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.</li>
@@ -89,7 +102,6 @@ export default class SaveInProgressIntro extends React.Component {
         </div>
       );
     }
-
     return alert;
   }
 
@@ -116,26 +128,30 @@ export default class SaveInProgressIntro extends React.Component {
     return (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
-        <FormStartControls
-          resumeOnly={this.props.resumeOnly}
-          messages={this.props.messages}
-          startText={this.props.startText}
-          startPage={this.props.pageList[1].path}
-          formId={this.props.formId}
-          returnUrl={this.props.returnUrl}
-          migrations={this.props.migrations}
-          prefillTransformer={this.props.prefillTransformer}
-          fetchInProgressForm={this.props.fetchInProgressForm}
-          removeInProgressForm={this.props.removeInProgressForm}
-          prefillAvailable={prefillAvailable}
-          formSaved={!!savedForm}/>
-        <br/>
+        {!this.props.messageOnly && <div>
+          <FormStartControls
+            resumeOnly={this.props.resumeOnly}
+            messages={this.props.messages}
+            startText={this.props.startText}
+            startPage={this.props.pageList[1].path}
+            formId={this.props.formId}
+            returnUrl={this.props.returnUrl}
+            migrations={this.props.migrations}
+            prefillTransformer={this.props.prefillTransformer}
+            fetchInProgressForm={this.props.fetchInProgressForm}
+            removeInProgressForm={this.props.removeInProgressForm}
+            prefillAvailable={prefillAvailable}
+            formSaved={!!savedForm}/>
+          <br/>
+        </div>
+        }
       </div>
     );
   }
 }
 
 SaveInProgressIntro.propTypes = {
+  messageOnly: PropTypes.bool,
   buttonOnly: PropTypes.bool,
   prefillEnabled: PropTypes.bool,
   formId: PropTypes.string.isRequired,
@@ -144,6 +160,7 @@ SaveInProgressIntro.propTypes = {
   returnUrl: PropTypes.string,
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
+  alertMessage: PropTypes.object,
   pageList: PropTypes.array.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,

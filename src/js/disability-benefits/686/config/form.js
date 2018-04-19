@@ -18,7 +18,7 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for declaration of status of dependents.',
-    noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
+    noAuth: 'Please sign in again to continue your application for declaration of status of dependents.',
   },
   title: 'Declaration of status of dependents',
   defaultDefinitions: {
