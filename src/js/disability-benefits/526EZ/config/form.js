@@ -597,25 +597,6 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
-                          },
-                          attachmentId: {
-                            type: 'string',
-                            'enum': [
-                              '1',
-                              '2',
-                              '3',
-                              // '4', // TODO: Confirm this should be taken out
-                              '5',
-                              '6'
-                            ],
-                            enumNames: [
-                              'Discharge',
-                              'Marriage related',
-                              'Dependent related',
-                              // 'VA preneed form',
-                              'Letter',
-                              'Other'
-                            ]
                           }
                         }
                       }
@@ -685,25 +666,6 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
-                          },
-                          attachmentId: {
-                            type: 'string',
-                            'enum': [
-                              '1',
-                              '2',
-                              '3',
-                              // '4',
-                              '5',
-                              '6'
-                            ],
-                            enumNames: [
-                              'Discharge',
-                              'Marriage related',
-                              'Dependent related',
-                              // 'VA preneed form',
-                              'Letter',
-                              'Other'
-                            ]
                           }
                         }
                       }
