@@ -1,8 +1,29 @@
 export default {
   // For testing purposes only
-  veteranFullName: {
+  prefilled: true,
+  fullName: {
     first: 'Sally',
     last: 'Alphonse'
+  },
+  socialSecurityNumber: '234234234',
+  vaFileNumber: '345345345',
+  gender: 'F',
+  dateOfBirth: '1990-04-02',
+  veteran: {
+    primaryPhone: '2342342342',
+    secondaryPhone: '3242342342',
+    emailAddress: 'test@test.com',
+    mailingAddress: {
+      type: 'DOMESTIC',
+      country: 'USA',
+      city: 'Detroit',
+      state: 'MI',
+      zipCode: '234563453',
+      addressLine1: '234 Maple St.'
+    }
+  },
+  directDeposit: {
+    noBank: true,
   },
   servicePeriods: [
     {
