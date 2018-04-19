@@ -136,8 +136,9 @@ export default class ArrayField extends React.Component {
           ? false
           : val;
       });
+      const editingState = this.props.uiSchema['ui:options'].reviewMode;
       const newState = _.assign(this.state, {
-        editing: newEditing.concat(false)
+        editing: newEditing.concat(!!editingState)
       });
       this.setState(newState, () => {
         const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
@@ -191,6 +192,7 @@ export default class ArrayField extends React.Component {
     const DescriptionField = typeof description === 'function'
       ? uiSchema['ui:description']
       : null;
+    const isReviewMode = uiSchema['ui:options'].reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object
@@ -226,7 +228,7 @@ export default class ArrayField extends React.Component {
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
 
-            if (isLast || isEditing) {
+            if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
                 <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
                   <Element name={`table_${itemIdPrefix}`}/>
