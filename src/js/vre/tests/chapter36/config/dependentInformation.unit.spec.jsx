@@ -20,7 +20,7 @@ describe('VRE chapter 36 dependent information', () => {
     expect(form.find('input').length).to.equal(9);
   });
 
-  xit('should submit without information', () => {
+  it('should submit without information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
