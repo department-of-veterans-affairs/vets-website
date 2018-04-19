@@ -1,6 +1,6 @@
 import '../../platform/polyfills';
 
-import '../../sass/claims-status.scss';
+import './sass/claims-status.scss';
 
 import React from 'react';
 import { createHistory } from 'history';

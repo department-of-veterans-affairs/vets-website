@@ -2,6 +2,10 @@ import React from 'react';
 
 import { logout } from '../utils/helpers';
 
+function NewBadge() {
+  return <span className="usa-label va-label-primary">New</span>;
+}
+
 class BetaDropdown extends React.Component {
   componentDidMount() {
     // If when this component is mounted the user is on the index page without the "next" parameter in the URL...
@@ -31,9 +35,8 @@ class BetaDropdown extends React.Component {
   render() {
     return (
       <ul>
-        <li><a href="/dashboard-beta">Dashboard</a></li>
-        <li><a href="/profile-beta">Profile</a></li>
-        <li><a href="/account-beta">Account</a></li>
+        <li><a href="/profile-beta">Profile</a> <NewBadge/></li>
+        <li><a href="/account-beta">Account</a> <NewBadge/></li>
         <li><a href="#" onClick={logout}>Sign Out</a></li>
       </ul>
     );

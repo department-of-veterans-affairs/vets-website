@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 
-import { months, days } from '../../utils/options-for-select.js';
+import { months, days } from '../../../../platform/static-data/options-for-select.js';
 import { formatISOPartialDate, parseISODate } from '../helpers';
 
 function getEmptyState(value) {

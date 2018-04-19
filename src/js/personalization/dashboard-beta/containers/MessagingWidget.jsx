@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-import '../../../../sass/messaging/messaging.scss';
+import '../../../messaging/sass/messaging.scss';
 
 import SortableTable from '../../../common/components/SortableTable';
 import { formattedDate } from '../../../messaging/utils/helpers';

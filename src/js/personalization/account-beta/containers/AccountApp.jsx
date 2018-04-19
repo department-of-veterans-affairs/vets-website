@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import '../../../common/utils/moment-setup';
+import '../../../../platform/startup/moment-setup';
 
 import { fetchLatestTerms, acceptTerms } from '../actions';
 
 import AccountMain from '../components/AccountMain';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../common/containers/DowntimeNotification';
+import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
 
 class UserProfileApp extends React.Component {

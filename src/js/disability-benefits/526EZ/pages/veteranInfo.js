@@ -3,7 +3,7 @@ import _ from 'lodash';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
-import { genderLabels } from '../../../common/utils/labels';
+import { genderLabels } from '../../../../platform/static-data/labels';
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import VerifiedReviewContainer from '../components/VerifiedReviewContainer';
@@ -63,6 +63,7 @@ function createVeteranInfoPage(formSchema, isReview) {
     pageTitle: 'Veteran Information',
     isReview,
     component: VerifiedReviewContainer,
+    description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
     verifiedReviewComponent: veteranInformationViewField,
     uiSchema,
     schema,

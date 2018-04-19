@@ -15,58 +15,74 @@ export default {
     routingNumber: '234234234234',
     bankName: 'Local bank'
   },
+  veteran: {
+    mailingAddress: {
+      country: 'USA',
+      addressLine1: '234 Apple Grove'
+    },
+    emailAddress: 'sample@email.com',
+    primaryPhone: '2342342342'
+  },
+  directDeposit: {
+    noBank: true,
+  },
+  servicePeriods: [
+    {
+      serviceBranch: 'Army',
+      dateRange: {
+        from: '1990-02-02',
+        to: '2010-03-04'
+      }
+    }
+  ],
   disabilities: [
     {
-      disability: { // Is this extra nesting necessary?
-        diagnosticText: 'PTSD',
-        decisionCode: 'Filler text', // Should this be a string?
-        // Is this supposed to be an array?
-        specialIssues: {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
+      name: 'PTSD',
+      // Is this supposed to be an array?
+      specialIssues: {
+        specialIssueCode: 'Filler text',
+        specialIssueName: 'Filler text'
+      },
+      ratedDisabilityId: '12345',
+      disabilityActionType: 'Filler text',
+      ratingDecisionId: '67890',
+      diagnosticCode: 'Filler text',
+      classificationCode: 'Filler Code',
+      // Presumably, this should be an array...
+      secondaryDisabilities: [
+        {
+          name: 'First secondary disability',
+          disabilityActionType: 'Filler text'
         },
-        ratedDisabilityId: '12345',
-        disabilityActionType: 'Filler text',
-        ratingDecisionId: '67890',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
-        secondaryDisabilities: [
-          {
-            diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
-          },
-          {
-            diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
+        {
+          name: 'Second secondary disability',
+          disabilityActionType: 'Filler text'
+        }
+      ]
     },
     {
-      disability: { // Is this extra nesting necessary?
-        diagnosticText: 'Second Disability',
-        decisionCode: 'Filler text', // Should this be a string?
-        // Is this supposed to be an array?
-        specialIssues: {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
+      name: 'Second Disability',
+      // Is this supposed to be an array?
+      specialIssues: {
+        specialIssueCode: 'Filler text',
+        specialIssueName: 'Filler text'
+      },
+      ratedDisabilityId: '54321',
+      disabilityActionType: 'Filler text',
+      ratingDecisionId: '09876',
+      diagnosticCode: 'Filler text',
+      classificationCode: 'Filler Code',
+      // Presumably, this should be an array...
+      secondaryDisabilities: [
+        {
+          name: 'First secondary disability',
+          disabilityActionType: 'Filler text'
         },
-        ratedDisabilityId: '54321',
-        disabilityActionType: 'Filler text',
-        ratingDecisionId: '09876',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
-        secondaryDisabilities: [
-          {
-            diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
-          },
-          {
-            diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
+        {
+          name: 'Second secondary disability',
+          disabilityActionType: 'Filler text'
+        }
+      ]
     }
   ]
 };

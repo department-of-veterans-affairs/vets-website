@@ -1,6 +1,6 @@
 import set from 'lodash/fp/set';
 
-import { makeField } from '../../common/model/fields.js';
+import { makeField } from '../../../platform/forms/fields.js';
 import { composeMessage } from '../config';
 
 import {

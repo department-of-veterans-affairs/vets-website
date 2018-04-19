@@ -4,7 +4,7 @@ import shallowEqual from 'recompose/shallowEqual';
 
 import SegmentedProgressBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgressBar';
 
-import { getActivePages } from '../../utils/helpers';
+import { getActivePages } from '../../../../platform/forms/helpers';
 import { createFormPageList, createPageList, expandArrayPages } from '../helpers';
 
 export default class FormNav extends React.Component {
@@ -41,11 +41,16 @@ export default class FormNav extends React.Component {
     let current;
     let chapterName;
     if (page) {
+      const chapterTitle = formConfig.chapters[page.chapterKey].title;
       current = chapters.indexOf(page.chapterKey) + 1;
       // The review page is always part of our forms, but isn’t listed in chapter list
-      chapterName = page.chapterKey === 'review'
-        ? 'Review Application'
-        : formConfig.chapters[page.chapterKey].title;
+      if (page.chapterKey === 'review') {
+        chapterName = 'Review Application';
+      } else if (typeof chapterTitle === 'function') {
+        chapterName = chapterTitle();
+      } else {
+        chapterName = chapterTitle;
+      }
     }
 
     return (

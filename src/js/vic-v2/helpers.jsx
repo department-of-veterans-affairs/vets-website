@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
-import environment from '../common/helpers/environment.js';
+import recordEvent from '../../platform/monitoring/record-event';
+import environment from '../../platform/utilities/environment';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 export function prefillTransformer(pages, formData, metadata, state) {
@@ -188,7 +189,7 @@ export function submit(form, formConfig) {
     }).then(resp => {
       const guid = resp.data.attributes.guid;
       pollStatus(guid, response => {
-        window.dataLayer.push({
+        recordEvent({
           event: `${formConfig.trackingPrefix}-submission-successful`,
         });
         resolve(_.set('photo', photo, response));

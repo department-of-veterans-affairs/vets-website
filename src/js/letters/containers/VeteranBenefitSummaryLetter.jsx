@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { updateBenefitSummaryRequestOption } from '../actions/letters';
 import {
   benefitOptionsMap,
@@ -9,7 +10,7 @@ import {
   optionsToAlwaysDisplay,
   getBenefitOptionText
 } from '../utils/helpers.jsx';
-import { formatDateShort } from '../../common/utils/helpers';
+import { formatDateShort } from '../../../platform/utilities/date';
 
 export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
@@ -18,7 +19,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   handleChange(domEvent) {
-    window.dataLayer.push({
+    recordEvent({
       // For Google Analytics
       event: 'letter-benefit-option-clicked',
       'letter-benefit-option': domEvent.target.id,

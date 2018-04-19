@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 
@@ -12,7 +13,7 @@ export class DownloadLetterLink extends React.Component {
   // vets.gov-supported platforms, particularly iOS/Safari
   downloadLetter = (e) => {
     e.preventDefault();
-    window.dataLayer.push({
+    recordEvent({
       event: 'letter-download',
       'letter-type': this.props.letterType
     });

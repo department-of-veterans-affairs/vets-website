@@ -5,7 +5,7 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { focusElement } from '../../../common/utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 import RoutedSavablePage from '../../../common/schemaform/save-in-progress/RoutedSavablePage';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import {
@@ -29,7 +29,6 @@ import {
   getPreviousPagePath
 } from '../../../common/schemaform/routing';
 
-import formConfig from '../config/form';
 import VerifiedReviewPage from './VerifiedReviewPage';
 
 const scroller = Scroll.scroller;
@@ -104,11 +103,8 @@ class VerifiedReviewContainer extends React.Component {
 
   render() {
     const { form, user, formContext, route } = this.props;
-    const { chapterKey, pageKey } = route.pageConfig;
-    const { 
-      title, description, verifiedReviewComponent,
-      hideHeaderRow, contentBeforeButtons
-    } = formConfig.chapters[chapterKey].pages[pageKey];
+    const { title, description, verifiedReviewComponent,
+      hideHeaderRow, contentBeforeButtons, pageKey } = route.pageConfig;
     const isNotPrefilled = !form.data.prefilled;
 
     if (isNotPrefilled) return <RoutedSavablePage {...this.props}/>;
