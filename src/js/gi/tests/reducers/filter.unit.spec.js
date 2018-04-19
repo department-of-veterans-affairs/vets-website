@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import filterReducer from '../../../src/js/gi/reducers/filter.js';
+import filterReducer from '../../reducers/filter';
 
 const initialState = {
   category: 'ALL',
