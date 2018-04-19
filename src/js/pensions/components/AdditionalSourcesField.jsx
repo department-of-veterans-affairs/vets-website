@@ -56,7 +56,7 @@ export default class AdditionalSourcesField extends React.Component {
     const oldDataLength = (oldProps.formData || []).length;
     const newDataLength = (this.props.formData || []).length;
     if (newDataLength > oldDataLength) {
-      this.scrollToRow(newDataLength);
+      this.scrollToRow(oldDataLength);
     }
   }
 
