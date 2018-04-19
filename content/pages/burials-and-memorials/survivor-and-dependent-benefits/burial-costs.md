@@ -65,9 +65,13 @@ You may need a copy of:
 
 ### Ready to apply?
 
-You can apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br> [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
+<div id="react-applicationStatus" class="static-page-widget">
+  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530">Apply for Burial Benefits</a>
+</div>
 
-Mail the application and other paperwork to your local regional benefit office. <br> [Find your local regional benefit office](/facilities).
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">Other ways to apply</h4>
+<div itemprop="itemListElement">
 
 
 Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br>
@@ -75,7 +79,7 @@ Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br>
 
 Mail the application and other paperwork to your local regional benefit office. <br> 
 [Find your local regional benefit office](/facilities).
-=======
+
 If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TDD number for the hearing-impaired is 711. Or call your regional benefit office.
 
 
