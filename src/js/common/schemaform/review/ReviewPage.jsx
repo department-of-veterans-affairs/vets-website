@@ -151,10 +151,8 @@ class ReviewPage extends React.Component {
   render() {
     const { route, form, contentAfterButtons, renderErrorMessage, formContext } = this.props;
     const formConfig = route.formConfig;
-    let chapters = getActiveChapters(formConfig, form.data);
-    chapters = chapters.filter(chapter => {
-      return !chapter.includes('review');
-    });
+    const chapters = getActiveChapters(formConfig, form.data);
+    chapters.filter(chapter => !chapter.hideOnReview)
 
     return (
       <div>
