@@ -33,13 +33,18 @@ describe('Disability benefits 526EZ primary address', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{}}
-        formData={{}}
+        data={{ veteran: {
+          'view:hasForwardingAddress': true
+          }
+        }}
+        formData={{ veteran: {
+          'view:hasForwardingAddress': true
+          }
+        }}
         uiSchema={uiSchema}/>
     );
-    selectCheckbox(form, 'root_veteran_view:hasForwardingAddress');
-    expect(form.find('select').length).to.equal(2);
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('select').length).to.equal(12);
+    expect(form.find('input').length).to.equal(15);
   });
   it('does not submit without required info', () => {
     const onSubmit = sinon.spy();
