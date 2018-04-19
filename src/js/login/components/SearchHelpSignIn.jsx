@@ -15,9 +15,9 @@ class SearchHelpSignIn extends React.Component {
     this.props.toggleLoginModal(true);
   }
 
-  handleMenuClick = (menu) => (() => {
-    this.props.toggleMenu(menu, !this.props.isMenuOpen[menu]);
-  });
+  handleMenuClick = (menu) => {
+    return () => { this.props.toggleMenu(menu, !this.props.isMenuOpen[menu]); };
+  }
 
   handleSearchMenuClick = this.handleMenuClick('search');
   handleHelpMenuClick = this.handleMenuClick('help');
@@ -54,13 +54,17 @@ class SearchHelpSignIn extends React.Component {
       );
     }
 
-    const classes = classNames({ disabled: isLoading });
+    const buttonClasses = classNames({
+      'va-button-link': true,
+      'sign-in-link': true,
+      disabled: isLoading
+    });
 
     return (
       <div>
-        <a href="#" className={classes} onClick={this.handleSignInSignUp}>
-          <span>Sign In</span><span className="signin-spacer">|</span><span>Sign Up</span>
-        </a>
+        <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign In</button>
+        <span className="signin-spacer">|</span>
+        <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign Up</button>
       </div>
     );
   }
@@ -74,7 +78,7 @@ class SearchHelpSignIn extends React.Component {
         <HelpMenu
           isOpen={this.props.isMenuOpen.help}
           clickHandler={this.handleHelpMenuClick}/>
-        <div className="sign-in-link">
+        <div className="sign-in-nav">
           {this.renderSignInContent()}
         </div>
       </div>
