@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/user-profile.scss';
+import './sass/user-profile.scss';
 import React from 'react';
 
 import startApp from '../../platform/startup';
