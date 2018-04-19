@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Autosuggest from 'react-autosuggest-ie11-compatible';
 import { debounce } from 'lodash';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ export class KeywordSearch extends React.Component {
   }
 
   handleSuggestionSelected(event, data) {
-    window.dataLayer.push({
+    recordEvent({
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': data.suggestionValue,
     });

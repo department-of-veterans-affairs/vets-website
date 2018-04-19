@@ -8,13 +8,13 @@ import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
 import { setData, uploadFile } from '../actions';
 import {
-  PREFILL_STATUSES,
   saveErrors,
   autoSaveForm,
   saveAndRedirectToReturnUrl
 } from './actions';
+import { getFormContext } from './selectors';
 import { toggleLoginModal } from '../../../login/actions';
-import { FormPage } from '../FormPage';
+import { FormPage } from '../containers/FormPage';
 
 class RoutedSavablePage extends React.Component {
   constructor(props) {
@@ -62,11 +62,10 @@ class RoutedSavablePage extends React.Component {
         {...this.props}
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}
-        prefilled={form.prefillStatus === PREFILL_STATUSES.success}
+        formContext={getFormContext({ user, form })}
         contentAfterButtons={contentAfterButtons}/>
     );
   }
-
 }
 
 function mapStateToProps(state) {

@@ -6,25 +6,30 @@ import sinon from 'sinon';
 import DropDown from '../../../src/js/common/components/DropDown.jsx';
 
 describe('<DropDown>', () => {
+  let clickHandler;
+  let container;
+  let props;
 
-  const clickHandler = sinon.stub();
-  const container = window.document.createElement('div');
+  beforeEach(() => {
+    clickHandler = sinon.stub();
+    container = window.document.createElement('div');
 
-  container.addEventListener = sinon.spy(container.addEventListener.bind(container));
-  container.removeEventListener = sinon.spy(container.removeEventListener.bind(container));
+    container.addEventListener = sinon.spy(container.addEventListener.bind(container));
+    container.removeEventListener = sinon.spy(container.removeEventListener.bind(container));
 
-  const props = {
-    buttonText: 'Button text',
-    clickHandler,
-    container,
-    contents: (<h1>Hi</h1>),
-    cssClass: 'testClass',
-    isOpen: true,
-    icon: (<svg><rect x="50" y="50" width="50" height="50"/></svg>),
-    id: 'testId'
-  };
+    props = {
+      buttonText: 'Button text',
+      clickHandler,
+      container,
+      contents: (<h1>Hi</h1>),
+      cssClass: 'testClass',
+      isOpen: true,
+      icon: (<svg><rect x="50" y="50" width="50" height="50"/></svg>),
+      id: 'testId'
+    };
 
-  ReactDOM.render(<DropDown {...props}/>, container);
+    ReactDOM.render(<DropDown {...props}/>, container);
+  });
 
   it('should render', () => {
     const dropdownDOM = ReactDOM.findDOMNode(container);

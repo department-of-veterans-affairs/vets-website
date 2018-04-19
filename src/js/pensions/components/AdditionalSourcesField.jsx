@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
-import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
+import { scrollToFirstError, focusElement } from '../../../platform/utilities/ui';
 import { setArrayRecordTouched } from '../../common/schemaform/helpers';
 import currencyUI from '../../common/schemaform/definitions/currency';
 
 import {
   toIdSchema,
   deepEquals
-} from 'react-jsonschema-form/lib/utils';
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { errorSchemaIsValid } from '../../common/schemaform/validation';
 

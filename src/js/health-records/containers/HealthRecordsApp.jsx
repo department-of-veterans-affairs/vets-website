@@ -2,47 +2,37 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Modal from '../../common/components/Modal';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import MHVApp from '../../common/containers/MHVApp';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
-import { mhvAccessError } from '../../common/utils/error-messages';
 import { closeModal } from '../actions/modal';
 import Breadcrumbs from '../components/Breadcrumbs';
 
-// This needs to be a React component for RequiredLoginView to pass down
-// the isDataAvailable prop, which is only passed on failure.
-function AppContent({ children, isDataAvailable }) {
-  const unregistered = isDataAvailable === false;
-  let view;
+const SERVICE_REQUIRED = 'health-records';
 
-  if (unregistered) {
-    view = mhvAccessError;
-  } else {
-    view = children;
-  }
-
-  return <div className="bb-app">{view}</div>;
-}
+const AppContent = ({ children }) => (
+  <div className="bb-app">
+    <div className="row">
+      <div className="columns small-12">
+        {children}
+      </div>
+    </div>
+  </div>
+);
 
 export class HealthRecordsApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={3}
-        serviceRequired="health-records"
-        userProfile={this.props.profile}>
-        <RequiredTermsAcceptanceView
-          termsName="mhvac"
-          cancelPath="/health-care/"
-          termsNeeded={!this.props.profile.healthTermsCurrent}>
+        verify
+        serviceRequired={SERVICE_REQUIRED}
+        user={this.props.user}>
+        <DowntimeNotification appTitle="health records tool" dependencies={[services.mhv]}>
           <AppContent>
-            <div>
-              <div className="row">
-                <div className="columns small-12">
-                  <Breadcrumbs location={this.props.location}/>
-                  {this.props.children}
-                </div>
-              </div>
+            <Breadcrumbs location={this.props.location}/>
+            <MHVApp serviceRequired={SERVICE_REQUIRED}>
+              {this.props.children}
               <Modal
                 cssClass="bb-modal"
                 contents={this.props.modal.content}
@@ -50,9 +40,9 @@ export class HealthRecordsApp extends React.Component {
                 onClose={this.props.closeModal}
                 title={this.props.modal.title}
                 visible={this.props.modal.visible}/>
-            </div>
+            </MHVApp>
           </AppContent>
-        </RequiredTermsAcceptanceView>
+        </DowntimeNotification>
       </RequiredLoginView>
     );
   }
@@ -64,11 +54,10 @@ HealthRecordsApp.propTypes = {
 
 const mapStateToProps = (state) => {
   const hrState = state.health.hr;
-  const userState = state.user;
 
   return {
     modal: hrState.modal,
-    profile: userState.profile
+    user: state.user
   };
 };
 const mapDispatchToProps = {

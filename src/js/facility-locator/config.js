@@ -1,4 +1,4 @@
-import environment from '../common/helpers/environment';
+import environment from '../../platform/utilities/environment';
 
 // Base URL to be used in API requests.
 export const api = {
@@ -35,7 +35,7 @@ export const benefitsServices = {
   VAHomeLoanAssistance: 'VA Home Loan help',
   InsuranceClaimAssistanceAndFinancialCounseling: 'Insurance claim help and financial counseling',
   IntegratedDisabilityEvaluationSystemAssistance: 'Integrated Disability Evaluation System Assistance (IDES)',
-  PreDischargeClaimAssistance: 'Predischarge claim help',
+  PreDischargeClaimAssistance: 'Pre-discharge claim help',
   TransitionAssistance: 'Transition help',
   UpdatingDirectDepositInformation: 'Updating direct deposit information',
   VocationalRehabilitationAndEmploymentAssistance: 'Vocational Rehabilitation and Employment (VR&E) help',

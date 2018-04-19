@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../../src/js/common/schemaform/definitions/ssn';
 import { ssn as schema } from 'vets-json-schema/dist/definitions.json';
 
@@ -28,7 +28,7 @@ describe('Schemaform definition ssn', () => {
     ReactTestUtils.Simulate.blur(node);
 
     expect(formDOM.querySelector('.usa-input-error-message').textContent)
-      .to.equal(uiSchema['ui:errorMessages'].pattern);
+      .to.equal(`Error ${uiSchema['ui:errorMessages'].pattern}`);
   });
   it('should render formatted ssn for review', () => {
     const form = ReactTestUtils.renderIntoDocument(

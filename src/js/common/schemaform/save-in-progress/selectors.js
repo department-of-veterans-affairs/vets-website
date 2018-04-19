@@ -1,5 +1,6 @@
 import { createStructuredSelector } from 'reselect';
 import { getFormData } from '../state/selectors';
+import { PREFILL_STATUSES } from './actions';
 
 export const getSaveInProgressState = createStructuredSelector({
   loadedStatus: state => state.form.loadedStatus,
@@ -17,8 +18,14 @@ export const getSaveInProgressState = createStructuredSelector({
 export const getIntroState = createStructuredSelector({
   formId: state =>  state.form.formId,
   migrations: state => state.form.migrations,
+  prefillTransformer: state => state.form.prefillTransformer,
   returnUrl: state => state.form.loadedData.metadata.returnUrl,
   user: state => state.user,
   lastSavedDate: state => state.form.lastSavedDate
+});
+
+export const getFormContext = createStructuredSelector({
+  isLoggedIn: state => state.user.login.currentlyLoggedIn,
+  prefilled: state => state.form.prefillStatus === PREFILL_STATUSES.success
 });
 

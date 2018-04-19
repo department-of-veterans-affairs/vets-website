@@ -1,6 +1,9 @@
 import _ from 'lodash/fp';
 
-import { SET_DATA,
+import {
+  CLOSE_REVIEW_CHAPTER,
+  OPEN_REVIEW_CHAPTER,
+  SET_DATA,
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
@@ -9,9 +12,25 @@ import { SET_DATA,
 
 import {
   recalculateSchemaAndData
-} from '../formState';
+} from '../state/helpers';
 
 export default {
+  [OPEN_REVIEW_CHAPTER]: (state, action) => {
+    const openChapters = [
+      ...state.reviewPageView.openChapters,
+      action.openedChapter
+    ];
+
+    return _.set('reviewPageView.openChapters', openChapters, state);
+  },
+  [CLOSE_REVIEW_CHAPTER]: (state, action) => {
+    const openChapters = state
+      .reviewPageView
+      .openChapters
+      .filter(value => value !== action.closedChapter);
+
+    return _.set('reviewPageView.openChapters', openChapters, state);
+  },
   [SET_DATA]: (state, action) => {
     const newState = _.set('data', action.data, state);
 
@@ -27,7 +46,12 @@ export default {
     return _.set('data.privacyAgreementAccepted', action.privacyAgreementAccepted, state);
   },
   [SET_SUBMISSION]: (state, action) => {
-    return _.set(['submission', action.field], action.value, state);
+    const newState = _.set(['submission', action.field], action.value, state);
+    if (action.extra) {
+      newState.submission.extra = action.extra;
+    }
+
+    return newState;
   },
   [SET_SUBMITTED]: (state, action) => {
     const submission = _.assign(state.submission, {

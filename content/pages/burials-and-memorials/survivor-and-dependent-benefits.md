@@ -6,11 +6,6 @@ display_title: Burial Allowances and Survivor Compensation
 collection: burials
 children: burialsSurvivors
 order: 5
-widgets:
-  - root: react-applicationStatus
-    timeout: 20
-    loadingMessage: Checking your application status.
-    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading:
     links:
@@ -34,9 +29,4 @@ relatedlinks:
 We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the deceased's funeral service.
 
 </div>
-
-<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530/">Apply for Burial Benefits</a>
-</div>
-
 

@@ -4,11 +4,12 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 
-import { focusElement, getActivePages } from '../../utils/helpers';
-import SchemaForm from '../SchemaForm';
+import { focusElement } from '../../../../platform/utilities/ui';
+import { getActivePages } from '../../../../platform/forms/helpers';
+import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, expandArrayPages, getPageKeys } from '../helpers';
 import ArrayField from './ArrayField';
-import ProgressButton from '../../components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -21,17 +22,18 @@ export default class ReviewCollapsibleChapter extends React.Component {
     super();
     this.handleEdit = this.handleEdit.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
-    this.toggleChapter = this.toggleChapter.bind(this);
-    this.state = { open: false };
   }
 
   componentWillMount() {
     this.id = _.uniqueId();
   }
 
-  componentDidUpdate(oldProps, oldState) {
-    if (!oldState.open && this.state.open) {
+  componentDidUpdate(oldProps) {
+    if (!oldProps.open && this.props.open) {
       this.scrollToTop();
+    }
+    if (oldProps.open && !this.props.open) {
+      this.props.setPagesViewed(this.pageKeys);
     }
   }
 
@@ -66,7 +68,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo(`chapter${this.props.chapterKey}ScrollElement`, {
+    scroller.scrollTo(`chapter${this.props.chapterKey}ScrollElement`, window.VetsGov.scroll || {
       duration: 500,
       delay: 2,
       smooth: true,
@@ -74,26 +76,17 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 
   scrollToPage(key) {
-    scroller.scrollTo(`${key}ScrollElement`, {
+    scroller.scrollTo(`${key}ScrollElement`, window.VetsGov.scroll || {
       duration: 500,
       delay: 2,
       smooth: true,
     });
   }
 
-  toggleChapter() {
-    const opening = !this.state.open;
-    this.setState({ open: opening });
-
-    if (!opening) {
-      this.props.setPagesViewed(this.pageKeys);
-    }
-  }
-
   render() {
     let pageContent = null;
 
-    const { form, pages, viewedPages, chapter } = this.props;
+    const { form, pages, viewedPages, chapter, formContext } = this.props;
     const activePages = getActivePages(pages, form.data);
     const expandedPages = expandArrayPages(activePages, form.data);
 
@@ -101,8 +94,15 @@ export default class ReviewCollapsibleChapter extends React.Component {
     const hasUnViewedPages = this.pageKeys.some(key => !viewedPages.has(key));
 
     const ChapterDescription = chapter.reviewDescription;
+    let chapterTitle = chapter.title;
+    if (typeof chapter.title === 'function') {
+      chapterTitle = chapter.title(true);
+    }
+    if (chapter.reviewTitle) {
+      chapterTitle = chapter.reviewTitle;
+    }
 
-    if (this.state.open) {
+    if (this.props.open) {
       pageContent = (
         <div className="usa-accordion-content schemaform-chapter-accordion-content" aria-hidden="false">
           {ChapterDescription &&
@@ -151,7 +151,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {pageSchema &&
                   <SchemaForm
                     name={page.pageKey}
-                    title={page.title}
+                    title={page.reviewTitle || page.title}
                     data={pageData}
                     schema={pageSchema}
                     uiSchema={pageUiSchema}
@@ -164,6 +164,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
                     uploadFile={this.props.uploadFile}
                     reviewMode={!editing}
+                    formContext={formContext}
                     editModeOnReviewPage={page.editModeOnReviewPage}>
                     {!editing ? <div/> : <ProgressButton
                       submitButton
@@ -177,6 +178,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       pageTitle={page.title}
                       arrayData={_.get(arrayField.path, form.data)}
                       formData={form.data}
+                      formContext={formContext}
                       pageConfig={page}
                       onBlur={this.props.onBlur}
                       schema={arrayField.schema}
@@ -204,10 +206,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
             <div className="accordion-header clearfix schemaform-chapter-accordion-header">
               <button
                 className="usa-button-unstyled"
-                aria-expanded={this.state.open ? 'true' : 'false'}
+                aria-expanded={this.props.open ? 'true' : 'false'}
                 aria-controls={`collapsible-${this.id}`}
-                onClick={this.toggleChapter}>
-                {this.props.chapter.title}
+                onClick={this.props.toggleButtonClicked}>
+                {chapterTitle}
               </button>
               {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>

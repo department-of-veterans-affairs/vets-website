@@ -1,25 +1,13 @@
-import 'core-js';
-import '../common';
-import '../../sass/user-profile.scss';
-
+import '../../platform/polyfills';
+import './sass/user-profile.scss';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-import { Router, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
+import startApp from '../../platform/startup';
 
-import initReact from '../common/init-react';
-import routes from './routes';
-import initCommon from '../common/init-common';
+import UserProfileApp from './containers/UserProfileApp';
+import manifest from './manifest.json';
 
-const commonStore = initCommon();
-
-function init() {
-  ReactDOM.render((
-    <Provider store={commonStore}>
-      <Router history={browserHistory} routes={routes}/>
-    </Provider>
-  ), document.getElementById('react-root'));
-}
-
-initReact(init);
+startApp({
+  url: manifest.rootUrl,
+  component: <UserProfileApp/>
+});

@@ -3,14 +3,13 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { isFullDate } from '../../common/utils/validations';
+import { isFullDate } from '../../../platform/forms/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
-import applicantDescription from '../../common/schemaform/ApplicantDescription';
+import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
 import {
-  transform,
   employmentDescription,
   getSpouseMarriageTitle,
   getMarriageTitleWithCurrent,
@@ -32,6 +31,7 @@ import {
   dependentWarning,
   expectedIncomeDescription,
   spouseExpectedIncomeDescription,
+  submit,
   dependentExpectedIncomeDescription
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -39,7 +39,7 @@ import DisabilityField from '../components/DisabilityField';
 import MedicalCenterField from '../components/MedicalCenterField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FullNameField from '../../common/schemaform/FullNameField';
+import FullNameField from '../../common/schemaform/fields/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -59,7 +59,7 @@ import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from '../../common/schemaform/definitions/currency';
-import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
+import GetFormHelp from '../../common/schemaform/components/GetPensionOrBurialFormHelp';
 
 import { validateServiceBirthDates, validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -176,9 +176,8 @@ function createSpouseLabelSelector(nameTemplate) {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/pension_claims',
+  submit,
   trackingPrefix: 'pensions-527EZ-',
-  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',
@@ -189,7 +188,7 @@ const formConfig = {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
   },
-  title: 'Apply for pension',
+  title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
   getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -229,10 +228,7 @@ const formConfig = {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-            'ui:options': {
-              showPrefillMessage: true
-            }
+            veteranDateOfBirth: currentOrPastDateUI('Date of birth')
           },
           schema: {
             type: 'object',

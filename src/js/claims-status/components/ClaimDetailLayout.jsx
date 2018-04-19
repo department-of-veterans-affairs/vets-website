@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -71,7 +71,7 @@ export default class ClaimDetailLayout extends React.Component {
                 ))}
               </div>
             </div>
-            <div className="small-12 usa-width-one-third medium-4 columns">
+            <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
               <AskVAQuestions/>
             </div>
           </div>

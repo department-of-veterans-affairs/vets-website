@@ -1,4 +1,4 @@
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest } from '../../../platform/utilities/api';
 
 export function initialAppRefresh() {
   return (dispatch) => {
@@ -7,29 +7,19 @@ export function initialAppRefresh() {
     return apiRequest(
       '/health_records/refresh',
       null,
-      () => dispatch({
-        type: 'INITIAL_REFRESH_SUCCESS'
-      }),
-      (response) => {
-        dispatch({ type: 'INITIAL_REFRESH_FAILURE', errors: response.errors });
-      }
+      () => dispatch({ type: 'INITIAL_REFRESH_SUCCESS' }),
+      ({ errors }) => dispatch({ type: 'INITIAL_REFRESH_FAILURE', errors })
     );
   };
 }
 
 export function checkRefreshStatus() {
   return (dispatch) => {
-    return apiRequest('/health_records/refresh',
+    return apiRequest(
+      '/health_records/refresh',
       null,
-      (response) => {
-        return dispatch({
-          type: 'REFRESH_POLL_SUCCESS',
-          data: response.data,
-        });
-      },
-      () => dispatch({
-        type: 'REFRESH_POLL_FAILURE'
-      })
+      ({ data }) => dispatch({ type: 'REFRESH_POLL_SUCCESS', data }),
+      () => dispatch({ type: 'REFRESH_POLL_FAILURE' })
     );
   };
 }

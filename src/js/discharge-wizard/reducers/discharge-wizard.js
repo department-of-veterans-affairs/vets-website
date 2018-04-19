@@ -4,8 +4,8 @@ import moment from 'moment';
 
 const initialState = {
   '1_branchOfService': null, // 4
-  '2_dischargeYear': undefined, // 2
-  '3_dischargeMonth': undefined, // 2a
+  '2_dischargeYear': '', // 2
+  '3_dischargeMonth': '', // 2a
   '4_reason': null, // 1
   '5_dischargeType': null, // 1a
   '6_intention': null, // 1b
@@ -13,18 +13,20 @@ const initialState = {
   '8_prevApplication': null, // 5
   '9_prevApplicationYear': null, // 5a
   '10_prevApplicationType': null, // 5b
-  '11_failureToExhaust': null, // 5b
+  '11_failureToExhaust': null, // 5c
   '12_priorService': null, // 6
   questions: ['1_branchOfService'], // represents valid question progression
 };
 
 function nextQuestion(currentQuestion, answer, state) {
   let next;
-  const noGeneralCourtMartial = state['7_courtMartial'] === '2';
+  const noGeneralCourtMartial = ['2', '3'].includes(state['7_courtMartial']);
   const dischargeYear = state['2_dischargeYear'];
   const dischargeMonth = state['3_dischargeMonth'] || 1;
   const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
   const commonChanges = state['6_intention'] === '2';
+  const transgender = state['4_reason'] === '5';
+  const honorableDischarge = state['5_dischargeType'] === '1';
 
   switch (currentQuestion) {
     case '1_branchOfService':
@@ -45,6 +47,8 @@ function nextQuestion(currentQuestion, answer, state) {
         next = '5_dischargeType';
       } else if (answer === '8') {
         next = '10_prevApplicationType';
+      } else if (answer === '5') {
+        next = '7_courtMartial';
       } else {
         next = '6_intention';
       }
@@ -89,7 +93,14 @@ function nextQuestion(currentQuestion, answer, state) {
         next = 'END';
       } else if (answer === '3' && noGeneralCourtMartial && !oldDischarge && commonChanges) {
         next = '11_failureToExhaust';
-      } else if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
+      } else if (!transgender && !honorableDischarge) {
+        next = '12_priorService';
+      } else {
+        next = 'END';
+      }
+      break;
+    case '11_failureToExhaust':
+      if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
         next = '12_priorService';
       } else {
         next = 'END';
@@ -110,6 +121,11 @@ function form(state = initialState, action) {
 
   switch (action.type) {
     case DW_UPDATE_FIELD:
+      // no-op if clicking on the same value
+      if (action.value === state[action.key]) {
+        return state;
+      }
+
       if (nextQuestion(action.key, action.value, state) === 'END') {
         return {
           ...state,

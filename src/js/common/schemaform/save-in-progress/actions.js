@@ -1,10 +1,11 @@
 import Raven from 'raven-js';
-import environment from '../../helpers/environment.js';
+import recordEvent from '../../../../platform/monitoring/record-event';
+import environment from '../../../../platform/utilities/environment';
 import 'isomorphic-fetch';
 import { logOut } from '../../../login/actions';
 
 import { removeFormApi, saveFormApi } from './api';
-import { sanitizeForm } from '../helpers';
+import { sanitizeForm } from '../../../../platform/forms/helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_AUTO_SAVE_FORM_STATUS = 'SET_AUTO_SAVE_FORM_STATUS';
@@ -75,10 +76,11 @@ export function setFetchFormPending(prefill) {
   };
 }
 
-export function setInProgressForm(data) {
+export function setInProgressForm(data, pages) {
   return {
     type: SET_IN_PROGRESS_FORM,
-    data
+    data,
+    pages
   };
 }
 
@@ -194,7 +196,7 @@ export function saveAndRedirectToReturnUrl(...args) {
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
-export function fetchInProgressForm(formId, migrations, prefill = false) {
+export function fetchInProgressForm(formId, migrations, prefill = false, prefillTransformer = null) {
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
@@ -255,9 +257,14 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
 
         ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
-        dispatch(setInProgressForm({ formData, metadata }, prefill));
+        let pages = getState().form.pages;
+        if (metadata.prefill && prefillTransformer) {
+          ({ formData, pages, metadata } = prefillTransformer(pages, formData, metadata, getState()));
+        }
 
-        window.dataLayer.push({
+        dispatch(setInProgressForm({ formData, metadata }, pages));
+
+        recordEvent({
           event: `${trackingPrefix}sip-form-loaded`
         });
 
@@ -291,7 +298,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       // they didn’t have info to use and we can continue on as usual
       if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
         dispatch(setPrefillComplete());
-        window.dataLayer.push({
+        recordEvent({
           event: `${trackingPrefix}sip-form-prefill-failed`
         });
       } else {
@@ -299,12 +306,12 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         // where they can sign in again. This isn't an error, it's expected
         // when a session expires
         if (loadedStatus === LOAD_STATUSES.noAuth) {
-          window.dataLayer.push({
+          recordEvent({
             event: `${trackingPrefix}sip-form-load-signed-out`
           });
         } else {
           Raven.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
-          window.dataLayer.push({
+          recordEvent({
             event: `${trackingPrefix}sip-form-load-failed`
           });
         }
@@ -314,7 +321,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
   };
 }
 
-export function removeInProgressForm(formId, migrations) {
+export function removeInProgressForm(formId, migrations, prefillTransformer) {
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
 
@@ -332,11 +339,11 @@ export function removeInProgressForm(formId, migrations) {
         return Promise.reject(res);
       })
       .then(() => {
-        window.dataLayer.push({
+        recordEvent({
           event: `${trackingPrefix}sip-form-start-over`
         });
         // after deleting, go fetch prefill info if they’ve got it
-        return dispatch(fetchInProgressForm(formId, migrations, true));
+        return dispatch(fetchInProgressForm(formId, migrations, true, prefillTransformer));
       })
       .catch(() => {
         dispatch(logOut());

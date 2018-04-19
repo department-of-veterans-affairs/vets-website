@@ -1,14 +1,15 @@
 import _ from 'lodash/fp';
-import ReviewPage from './review/ReviewPage';
-import FormPage from './FormPage';
-import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
 import shouldUpdate from 'recompose/shouldUpdate';
+import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { deepEquals } from 'react-jsonschema-form/lib/utils';
+import FormPage from './containers/FormPage';
+import ReviewPage from './review/ReviewPage';
+import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
+import RoutedSavableReviewPage from './save-in-progress/RoutedSavableReviewPage';
+import FormSaved from './save-in-progress/FormSaved';
+import SaveInProgressErrorPage from './save-in-progress/SaveInProgressErrorPage';
 
-import { getInactivePages, getActivePages } from '../utils/helpers';
-import FormSaved from './FormSaved';
-import SaveInProgressErrorPage from './SaveInProgressErrorPage';
+import { getInactivePages, getActivePages } from '../../../platform/forms/helpers';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
@@ -125,7 +126,7 @@ export function createRoutes(formConfig) {
     {
       path: 'review-and-submit',
       formConfig,
-      component: ReviewPage,
+      component: formConfig.disableSave ? ReviewPage : RoutedSavableReviewPage,
       pageList
     },
     {
@@ -250,6 +251,11 @@ export function stringifyFormReplacer(key, value) {
     // autosuggest widgets save value and label info, but we should just return the value
     if (value.widget === 'autosuggest') {
       return value.id;
+    }
+
+    // Exclude file data
+    if (value.confirmationCode && value.file) {
+      return _.omit('file', value);
     }
   }
 
@@ -536,17 +542,3 @@ export function getActiveChapters(formConfig, formData) {
   return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
 }
 
-export function sanitizeForm(formData) {
-  try {
-    const suffixes = ['vaFileNumber', 'first', 'last', 'accountNumber', 'socialSecurityNumber', 'dateOfBirth'];
-    return JSON.stringify(formData, (key, value) => {
-      if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
-        return 'removed';
-      }
-
-      return value;
-    });
-  } catch (e) {
-    return null;
-  }
-}

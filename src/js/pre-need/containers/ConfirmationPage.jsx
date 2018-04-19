@@ -3,7 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../platform/utilities/ui';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -32,7 +32,6 @@ class ConfirmationPage extends React.Component {
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We usually process claims within 90 days.</p>
         <p>
           We’ll let you know by mail or phone if we need more information.<br/>
           <i>Please print this page for your records.</i>

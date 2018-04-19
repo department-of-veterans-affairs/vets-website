@@ -6,7 +6,7 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../platform/utilities/ui';
 import { letterContent, bslHelpInstructions } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
@@ -60,7 +60,7 @@ export class LetterList extends React.Component {
       eligibilityMessage = (
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
-            <h2 className="usa-alert-heading">Some letters may not be available</h2>
+            <h4 className="usa-alert-heading">Some letters may not be available</h4>
             <p className="usa-alert-text">
               One of our systems appears to be down. If you believe you’re missing a
               letter or document from the list above, please try again later.

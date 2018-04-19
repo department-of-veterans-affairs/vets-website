@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getEventContent, formatDate } from '../../utils/appeals-v2-helpers';
-import CurrentStatus from './CurrentStatus';
 import Expander from './Expander';
 import PastEvent from './PastEvent';
 
 /**
- * Timeline is in charge of the past events and current status.
+ * Timeline is in charge of the past events.
  */
 class Timeline extends React.Component {
   constructor(props) {
@@ -24,55 +23,51 @@ class Timeline extends React.Component {
     return `${first} - ${last}`;
   };
 
-  toggleExpanded = () => this.setState((prevState) => ({ expanded: !prevState.expanded }));
+  toggleExpanded = (e) => {
+    e.stopPropagation();
+    this.setState((prevState) => ({ expanded: !prevState.expanded }));
+  }
 
   render() {
-    const { events } = this.props;
+    const { events, missingEvents } = this.props;
     let pastEventsList = [];
     if (events.length) {
       pastEventsList = events.map((event, index) => {
-        const { title, description, liClass } = getEventContent(event);
+        const content = getEventContent(event);
+        if (!content) {
+          return null;
+        }
+
+        const { title, description, liClass } = content;
         const date = formatDate(event.date);
+        const hideSeparator = (index === events.length - 1);
         return (
           <PastEvent
             key={`past-event-${index}`}
             title={title}
             date={date}
             description={description}
-            liClass={liClass}/>
+            liClass={liClass}
+            hideSeparator={hideSeparator}/>
         );
-      });
+      }).filter(e => !!e); // Filter out the nulls
     }
 
-    let expanderTitle = '';
-    let expanderCssClass = '';
-    let displayedEvents = [];
-    if (this.state.expanded) {
-      expanderTitle = 'Hide past events';
-      expanderCssClass = 'section-expanded';
-      displayedEvents = pastEventsList;
-    } else {
-      expanderTitle = 'See past events';
-      expanderCssClass = 'section-unexpanded';
-      displayedEvents = [];
-    }
+    const downArrow = this.state.expanded ? <div className="down-arrow"/> : null;
+    const displayedEvents = this.state.expanded ? pastEventsList : [];
 
     return (
       <div>
         <ol className="form-process appeal-timeline">
           <Expander
-            key={'expander'}
-            title={expanderTitle}
+            expanded={this.state.expanded}
+            key="expander"
             dateRange={this.formatDateRange()}
             onToggle={this.toggleExpanded}
-            cssClass={expanderCssClass}/>
+            missingEvents={missingEvents}/>
           {displayedEvents}
-          <CurrentStatus
-            key={'current-event'}
-            title={this.props.currentStatus.title}
-            description={this.props.currentStatus.description}/>
         </ol>
-        <div className="down-arrow"/>
+        {downArrow}
       </div>
     );
   }
@@ -84,13 +79,7 @@ Timeline.propTypes = {
     date: PropTypes.string.isRequired,
     details: PropTypes.object
   })).isRequired,
-  currentStatus: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element
-    ]).isRequired,
-  }).isRequired
+  missingEvents: PropTypes.bool.isRequired
 };
 
 export default Timeline;

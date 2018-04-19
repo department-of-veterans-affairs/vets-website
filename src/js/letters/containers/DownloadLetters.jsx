@@ -2,11 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import findIndex from 'lodash/fp/findIndex';
 
-import FormTitle from '../../common/schemaform/FormTitle';
-import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
+import FormTitle from '../../common/schemaform/components/FormTitle';
+import SegmentedProgressBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgressBar';
 
 import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';
+
+import { isAddressEmpty } from '../utils/helpers';
 
 export class DownloadLetters extends React.Component {
   constructor() {
@@ -22,12 +24,18 @@ export class DownloadLetters extends React.Component {
     const { children, location } = this.props;
     const currentPageIndex = findIndex(['path', location.pathname], chapters);
     const currentStep = currentPageIndex + 1;
+    const emptyAddress = isAddressEmpty(this.props.address);
 
     let viewLettersButton;
     if (location.pathname === '/confirm-address') {
       viewLettersButton = (
         <div className="step-content">
-          <button onClick={this.navigateToLetterList} className="usa-button-primary view-letters-button">View Letters</button>
+          <button
+            onClick={this.navigateToLetterList}
+            className="usa-button-primary view-letters-button"
+            disabled={this.props.isEditingAddress || emptyAddress}>
+            View Letters
+          </button>
         </div>
       );
     }
@@ -35,15 +43,10 @@ export class DownloadLetters extends React.Component {
     return (
       <div className="usa-width-three-fourths letters">
         <FormTitle title="VA Letters and Documents"/>
-        <div className="va-introtext">
-          <p>
-            To receive some benefits, Veterans need a letter proving their status. You can download some of these benefit letters and documents online.
-          </p>
-        </div>
-
-        <div className="letters-progress-bar">
-          <SegmentedProgressBar total={chapters.length} current={currentStep}/>
-        </div>
+        <p className="va-introtext">
+          To receive some benefits, Veterans need a letter proving their status. You can download some of these benefit letters and documents online.
+        </p>
+        <SegmentedProgressBar total={chapters.length} current={currentStep}/>
         <StepHeader name={chapters[currentPageIndex].name} current={currentStep} steps="2">
           {children}
           {viewLettersButton}
@@ -61,6 +64,7 @@ function mapStateToProps(state) {
     letters: letterState.letters,
     fullName: letterState.fullName,
     address: letterState.address,
+    isEditingAddress: letterState.isEditingAddress,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     benefitSummaryOptions: {

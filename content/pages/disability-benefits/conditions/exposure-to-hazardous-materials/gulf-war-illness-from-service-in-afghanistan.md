@@ -20,13 +20,15 @@ If you served in Afghanistan, you may suffer from illnesses or other conditions 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get benefits if you served in Afghanistan and your chronic illness or other condition must have:
+You may be able to get benefits if you served in Afghanistan, you were discharged under conditions other than dishonorable, and your chronic illness or other condition meets the requirements listed below.
+
+**All of these must be true. Your chronic illness or other condition:**
 - Started while you were on active duty or after September 19, 2001, **and**
 - Caused you to be ill for at least 6 months, **and**
 - Qualified you for a disability rating of 10% or more, **and**
-- Not been caused by anything except your service in Afghanistan, **and**
+- Was caused only by your service in Afghanistan
 
-You must have been discharged under conditions other than dishonorable and have a diagnosis of 1 or more of these conditions:
+**And you must also have a diagnosis of one or more of these conditions:**
 
 -	Brucellosis
 -	Campylobacter jejuni
@@ -39,6 +41,8 @@ You must have been discharged under conditions other than dishonorable and have 
 - West Nile Virus 
 
 *Indicates that there are exceptions to how we decide if these illnesses qualify you for benefits and these conditions may be covered even after a year has passed.
+
+[Find out what other health risks may be connected to your service in Afghanistan](/health-care/health-conditions/conditions-related-to-service-era/operation-enduring-freedom/).
 
 <br>
 
@@ -57,8 +61,10 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. <br>
+[Apply for benefits](/disability-benefits/apply/).
 
 ### What if I need help filing my disability claim?
 
-You can get help from a trained professional trusted to help with VA-related claims. [Find an accredited representative](/disability-benefits/apply/help/).
+You can get help from a trained professional trusted to help with VA-related claims. <br>
+[Get help filing your claim](/disability-benefits/apply/help/).

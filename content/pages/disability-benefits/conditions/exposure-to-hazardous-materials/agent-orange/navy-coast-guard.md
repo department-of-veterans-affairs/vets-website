@@ -17,8 +17,10 @@ If you served on a Navy or Coast Guard ship in or around Vietnam during the Viet
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and:
-- You served on ships or boats that were part of the Mobile Riverine Force or Inshore Fire Support Division 93, or
+You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and you meet the requirements listed below.
+
+**One of these must be true:**
+- You served on ships or boats that were part of the Mobile Riverine Force or Inshore Fire Support Division 93, **or**
 - You had 1 of the following designations:
 
   - AGP (Assault Group Patrol/Patrol Craft Tender)
@@ -38,7 +40,8 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 [See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
-**Note:** Even if your ship or boat is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in our alphabetized list of ships that had contact with Agent Orange. [Check the list of ships that had contact with Agent Orange](https://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
+**Note:** Even if your ship or boat is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in our alphabetized list of ships that had contact with Agent Orange.<br>
+[Check the list of ships that had contact with Agent Orange](https://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
 
 <br>
 
@@ -59,7 +62,8 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits.<br>
+[Apply for disability benefits](/disability-benefits/apply/).
 
 If you served on 1 of the ships or boats listed above—and you have 1 or more illnesses believed to be caused by Agent Orange—we’ll conclude that your illness is likely caused by contact with Agent Orange.
 
@@ -72,7 +76,9 @@ Get help from us in 1 of 2 ways:
 
 Get more information about ships that may have been exposed to Agent Orange.
 
-Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
+Want to connect with a trained professional who can help you with VA-related claims? <br>
+[Get help filing your claim](/disability-benefits/apply/help/).
 
 ### Get more information
-Want to find out if the ship you were on had contact with Agent Orange? [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf).
+Want to find out if the ship you were on had contact with Agent Orange?<br>
+[See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf).

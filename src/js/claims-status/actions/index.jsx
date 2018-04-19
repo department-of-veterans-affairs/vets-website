@@ -1,13 +1,31 @@
 import React from 'react';
-import environment from '../../common/helpers/environment';
-import { makeAuthRequest, mockData } from '../utils/helpers';
+import Raven from 'raven-js';
+import recordEvent from '../../../platform/monitoring/record-event';
+import environment from '../../../platform/utilities/environment';
+import { apiRequest } from '../../../platform/utilities/api';
+import { makeAuthRequest } from '../utils/helpers';
+import {
+  getStatus,
+  USER_FORBIDDEN_ERROR,
+  RECORD_NOT_FOUND_ERROR,
+  VALIDATION_ERROR,
+  BACKEND_SERVICE_ERROR,
+  FETCH_APPEALS_ERROR,
+  FETCH_APPEALS_PENDING,
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
+  FETCH_CLAIMS_ERROR,
+  ROWS_PER_PAGE,
+  CHANGE_INDEX_PAGE
+} from '../utils/appeals-v2-helpers';
 
+// -------------------- v2 and v1 -------------
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
+// -------------------- v1 --------------------
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
 export const FETCH_APPEALS = 'FETCH_APPEALS';
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
-export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -77,23 +95,67 @@ export function getAppeals(filter) {
 }
 
 export function fetchAppealsSuccess(response) {
+  const appeals = response.data;
   return {
     type: FETCH_APPEALS_SUCCESS,
-    // filter: filter, // No idea why this would be needed, but it's in the old version
-    appeals: response.data
+    appeals
   };
 }
 
-// To test this functionality, go to http://localhost:3001/track-claims/appeals-v2/7387389/status
 export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
+    return apiRequest(
+      '/appeals',
+      null,
+      (appeals) => dispatch(fetchAppealsSuccess(appeals)),
+      (response) => {
+        const status = getStatus(response);
+        const action = { type: '' };
+        switch (status) {
+          case '403':
+            action.type = USER_FORBIDDEN_ERROR;
+            break;
+          case '404':
+            action.type = RECORD_NOT_FOUND_ERROR;
+            break;
+          case '422':
+            action.type = VALIDATION_ERROR;
+            break;
+          case '502':
+            action.type = BACKEND_SERVICE_ERROR;
+            break;
+          default:
+            action.type = FETCH_APPEALS_ERROR;
+            break;
+        }
+        Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
+        return dispatch(action);
+      }
+    );
+  };
+}
 
-    // Fake the fetch by just returning a resolved promice with the object shape we expect
-    //  to get from the api.
-    return setTimeout(() => Promise.resolve(mockData)
-      .then((response) => dispatch(fetchAppealsSuccess(response)))
-      .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE })), 4000);
+export function fetchClaimsSuccess(response) {
+  const claims = response.data;
+  const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
+  return {
+    type: FETCH_CLAIMS_SUCCESS,
+    claims,
+    pages
+  };
+}
+
+export function getClaimsV2() {
+  return (dispatch) => {
+    dispatch({ type: FETCH_CLAIMS_PENDING });
+    return apiRequest(
+      '/evss_claims',
+      null,
+      (response) => dispatch(fetchClaimsSuccess(response)),
+      // TO-DO: parse out errors, log in Sentry
+      () => dispatch({ type: FETCH_CLAIMS_ERROR })
+    );
   };
 }
 
@@ -113,6 +175,13 @@ export function sortClaims(sortProperty) {
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
+    page
+  };
+}
+
+export function changePageV2(page) {
+  return {
+    type: CHANGE_INDEX_PAGE,
     page
   };
 }
@@ -204,7 +273,7 @@ export function submitFiles(claimId, trackedItem, files) {
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
-  window.dataLayer.push({
+  recordEvent({
     event: 'claims-upload-start',
   });
 
@@ -237,7 +306,7 @@ export function submitFiles(claimId, trackedItem, files) {
         callbacks: {
           onAllComplete: () => {
             if (!hasError) {
-              window.dataLayer.push({
+              recordEvent({
                 event: 'claims-upload-success',
               });
               dispatch({
@@ -248,7 +317,7 @@ export function submitFiles(claimId, trackedItem, files) {
                 body: <span>Thank you for sending us {trackedItem ? trackedItem.displayName : 'additional evidence'}. We’ll let you know when we’ve reviewed it.<br/>Note: It may take a few minutes for your uploaded file to show here. If you don’t see your file, please try refreshing the page.</span>
               }));
             } else {
-              window.dataLayer.push({
+              recordEvent({
                 event: 'claims-upload-failure',
               });
               dispatch({
@@ -328,7 +397,7 @@ export function showMailOrFaxModal(visible) {
 export function cancelUpload() {
   return (dispatch, getState) => {
     const uploader = getState().disability.status.uploads.uploader;
-    window.dataLayer.push({
+    recordEvent({
       event: 'claims-upload-cancel',
     });
 

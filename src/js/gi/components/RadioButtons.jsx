@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ToolTip from '../../common/components/form-elements/ToolTip';
-import ExpandingGroup from '../../common/components/form-elements/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/jean-pants/ExpandingGroup';
 
 /**
  * A radio button group with a label.
@@ -38,7 +38,11 @@ class RadioButtons extends React.Component {
     let errorSpanId = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
     }
 
     // Addes ToolTip if text is provided.

@@ -4,6 +4,7 @@ template: detail-page
 title: Post-9/11 GI Bill
 plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act now
 concurrence: complete
+gibsAlert: false
 order: 3
 ---
 
@@ -21,7 +22,9 @@ If you need help paying for school or job training and you’ve served on active
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get education benefits if: 
+You can get education benefits if you meet both of the requirements listed below.
+
+**Both of these must be true:**
 - You qualify for any GI Bill program, **and** 
 - You’ve served on active duty for at least 90 days—with or without a break in service—after September 10, 2001.
 
@@ -40,6 +43,19 @@ If you qualify for more than one VA education benefit, you’ll have to pick whi
 - Veterans
 - Qualified dependents
 
+</div>
+</div>
+</div>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Does this benefit expire?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Post-9/11 GI Bill benefits expire 15 years after your last separation date from active service. You must use all of your benefit by that time or you’ll lose whatever’s left.
+
+**If your service ended on or after January 1, 2013:** There’s no time limit (known as a “delimiting date”) to use your education benefits. A recently enacted law gets rid of the expiration date for you. This change may not be reflected in some of the letters you receive from us. We're working to update our systems to support this change. We appreciate your patience as we make the updates to our systems. [Learn more about this and other new provisions from Forever GI Bill - Harry W. Colmery Veterans Educational Assistance Act.](https://www.benefits.va.gov/GIBILL/ForeverGIBill.asp)
 </div>
 </div>
 </div>
@@ -66,7 +82,8 @@ If you qualify for more than one VA education benefit, you’ll have to pick whi
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can check to see if you have Post-9/11 GI Bill benefits. [View and print your statement of benefits](/education/gi-bill/post-9-11/ch-33-benefit).
+You can check to see if you have Post-9/11 GI Bill benefits. <br>
+[View and print your statement of benefits](/education/gi-bill/post-9-11/ch-33-benefit).
 
 </div>
 </div>
@@ -80,7 +97,8 @@ You can check to see if you have Post-9/11 GI Bill benefits. [View and print you
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’ll need to apply. [Apply for education benefits](/education/apply-for-education-benefits/). 
+You’ll need to apply. <br>
+[Apply for education benefits](/education/apply-for-education-benefits/). 
 
 The benefit amount depends on which school you go to, how much active-duty service you’ve had since September 10, 2001, and how many credits or training hours you’re taking.
 
@@ -112,9 +130,12 @@ The benefit amount depends on which school you go to, how much active-duty servi
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-- You may be able to get money through the Yellow Ribbon Program to cover higher private-school and out-of-state tuition and fees. [Learn about the Yellow Ribbon Program](/education/gi-bill/yellow-ribbon/).
-- If you’re a qualified Servicemember, you can transfer all 36 months or a portion of your Post-9/11 GI Bill benefits to a spouse or child. The Department of Defense approves a transfer of benefits. [Learn about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
-- The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) offers Post-9/11 GI Bill benefits to children and surviving spouses of Servicemembers who died in the line of duty after September 10, 2001. [Learn more about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
+- You may be able to get money through the Yellow Ribbon Program to cover higher private-school and out-of-state tuition and fees. <br>
+[Learn about the Yellow Ribbon Program](/education/gi-bill/yellow-ribbon/).
+- If you’re a qualified Servicemember, you can transfer all 36 months or a portion of your Post-9/11 GI Bill benefits to a spouse or child. The Department of Defense approves a transfer of benefits. <br>
+[Learn about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
+- The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) offers Post-9/11 GI Bill benefits to children and surviving spouses of Servicemembers who died in the line of duty after September 10, 2001. <br>
+[Learn more about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 
 </div>
 </div>
@@ -152,7 +173,8 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-- Compare benefits by school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/). 
+- Compare benefits by school. <br>
+[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/). 
 - [See the current payment rates for the Post-9/11 GI Bill](/education/rates/).
 - [Read the Post-9/11 GI Bill pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
 - [See Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/list).

@@ -1,0 +1,10 @@
+@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
+
+.profile-hero {
+  background-color: $color-gray-light-alt;
+  padding: 25px;
+  margin: 35px 0;
+  h2 {
+    margin: 0;
+  }
+}

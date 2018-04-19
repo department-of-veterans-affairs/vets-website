@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
 
 import { RequiredTermsAcceptanceView } from '../../../src/js/common/components/RequiredTermsAcceptanceView';
-import createCommonStore from '../../../src/js/common/store';
+import createCommonStore from '../../../src/platform/startup/store';
 
 const defaultProps = {
   store: createCommonStore(),
@@ -18,6 +18,11 @@ const defaultProps = {
 };
 
 describe('<RequiredTermsAcceptanceView>', () => {
+
+  before(() => {
+    window.dataLayer = [];
+  });
+
   it('should call initial actions properly', () => {
     window.scrollTo = () => {};
     const tree = SkinDeep.shallowRender(

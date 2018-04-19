@@ -2,9 +2,9 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import Form from 'react-jsonschema-form';
+import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../../src/js/common/schemaform/definitions/bankAccount';
 import { bankAccount } from 'vets-json-schema/dist/definitions.json';
 
@@ -45,6 +45,6 @@ describe('Schemaform definition bankAccount', () => {
     ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
       preventDefault: f => f
     });
-    expect(find('.usa-input-error-message').textContent).to.equal(uiSchema.routingNumber['ui:errorMessages'].pattern);
+    expect(find('.usa-input-error-message').textContent).to.equal(`Error ${uiSchema.routingNumber['ui:errorMessages'].pattern}`);
   });
 });

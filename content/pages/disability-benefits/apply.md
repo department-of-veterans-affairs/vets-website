@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Disability Benefits Application Process
 display_title: Application Process
+description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today. 
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
@@ -80,7 +81,7 @@ For all disability claims, please provide:
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html).
+You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
@@ -100,7 +101,7 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-[Go to a regional benefit office](https://www.benefits.va.gov/benefits/offices.asp).
+Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
@@ -113,11 +114,12 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 
 <a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
 
+<span id="days-to-complete-claim"></span>
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">97.1 days</span>
-<span class="description">Average number of days to complete disability-related claims in November 2017</span>
+<span class="number">102.3 days</span>
+<span class="description">Average number of days to complete disability-related claims in March 2018</span>
 </div>
 </div>
 </div>

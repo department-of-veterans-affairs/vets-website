@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { get, some, pull, startCase } from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 export default class AppointmentInfo extends Component {
   constructor() {
@@ -73,7 +74,7 @@ export default class AppointmentInfo extends Component {
       }
 
       const onClick = () => {
-        window.dataLayer.push({ event: 'fl-show-waittimes' });
+        recordEvent({ event: 'fl-show-waittimes' });
         this.setState({
           [showHideKey]: !this.state[showHideKey],
         });
@@ -87,7 +88,7 @@ export default class AppointmentInfo extends Component {
       const renderMoreTimes = () => {
         return this.state[showHideKey] &&
           lastToEnd.map(k => {
-            return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new']);
+            return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new'], true);
           });
       };
 

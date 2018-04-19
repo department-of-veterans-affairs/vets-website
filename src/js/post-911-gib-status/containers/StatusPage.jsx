@@ -1,12 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { focusElement } from '../../../platform/utilities/ui';
 
-import FormTitle from '../../common/schemaform/FormTitle';
+import FormTitle from '../../common/schemaform/components/FormTitle';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
+  componentDidMount() {
+    focusElement('.va-nav-breadcrumbs-list');
+  }
+
   navigateToPrint = () => {
     this.props.router.push('/print');
   }
@@ -16,7 +22,7 @@ class StatusPage extends React.Component {
     let introText;
     let printButton;
     if (enrollmentData.veteranIsEligible) {
-      window.dataLayer.push({ event: 'post911-status-info-shown' });
+      recordEvent({ event: 'post911-status-info-shown' });
       introText = (
         <div className="va-introtext">
           <p>
@@ -31,7 +37,7 @@ class StatusPage extends React.Component {
       printButton = (
         <div className="section">
           <button onClick={this.navigateToPrint} className="usa-button-primary" id="print-button">
-            Print Statement of Benefits
+            Get Printable Statement of Benefits
           </button>
         </div>
       );

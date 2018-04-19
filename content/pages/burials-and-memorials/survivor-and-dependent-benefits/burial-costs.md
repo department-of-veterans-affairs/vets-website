@@ -4,11 +4,6 @@ template: detail-page
 title: Burial Allowance Application Process
 display_title: Burial Allowance Application Process
 order: 1
-widgets:
-  - root: react-applicationStatus
-    timeout: 20
-    loadingMessage: Checking your application status.
-    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -46,7 +41,6 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 
 **Note:** VA will also provide an allowance for the cost of transporting a Veteran’s remains for burial in a national cemetery.
 
-
 </div>
 
 You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to “under conditions other than dishonorable,” you must file for an allowance claim within 2 years after the discharge update. There's no time limit to file for a service-connected burial, plot, or interment allowance.
@@ -69,23 +63,23 @@ You may need a copy of:
 
 </div>
 
-<div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530/">Apply for Burial Benefits</a>
-</div>
+### Ready to apply?
 
-<div markdown="0"><br></div>
+You can apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br> [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
-#### Other ways to apply
+Mail the application and other paperwork to your local regional benefit office. <br> [Find your local regional benefit office](/facilities).
 
-##### By mail
 
 Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br>
 [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
 Mail the application and other paperwork to your local regional benefit office. <br> 
 [Find your local regional benefit office](/facilities).
+=======
+If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TDD number for the hearing-impaired is 711. Or call your regional benefit office.
 
-If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TDD number for the hearing-impaired is 711. Or call your regional benefits office.
+
+
 
 #### What are the burial allowance amounts for a service-connected death?
 

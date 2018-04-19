@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import { getAppeals } from '../actions/index.jsx';
 import AppealEventItem from '../components/AppealEventItem';
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -144,7 +144,7 @@ class AppealStatusPage extends React.Component {
               </div>
             </div>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 columns">
+          <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
             <AskVAQuestions/>
           </div>
         </div>

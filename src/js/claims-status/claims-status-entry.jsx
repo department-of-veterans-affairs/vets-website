@@ -1,43 +1,42 @@
-import 'core-js';
-import '../common';
-import '../../sass/claims-status.scss';
+import '../../platform/polyfills';
+
+import './sass/claims-status.scss';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
 import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import ClaimsStatusApp from './containers/ClaimsStatusApp.jsx';
-import initReact from '../common/init-react';
-import initCommon from '../common/init-common';
-import routes from './routes.jsx';
-import { setLastPage } from './actions/index.jsx';
-import { basename } from './utils/page';
-import reducer from './reducers';
+import startReactApp from '../../platform/startup/react';
+import createCommonStore from '../../platform/startup/store';
+import startSitewideComponents from '../../platform/site-wide';
 
-const store = initCommon(reducer);
+import ClaimsStatusApp from './containers/ClaimsStatusApp.jsx';
+import routes from './routes.jsx';
+import reducer from './reducers';
+import manifest from './manifest.json';
+
+import { setLastPage } from './actions/index.jsx';
+
+const store = createCommonStore(reducer);
 
 const history = useRouterHistory(createHistory)({
-  basename
+  basename: manifest.rootUrl
 });
 
 history.listen((location) => {
   store.dispatch(setLastPage(location.pathname));
 });
 
-function init() {
-  ReactDOM.render((
-    <Provider store={store}>
-      <Router history={history}>
-        <Route path="/" component={ClaimsStatusApp}>
-          <IndexRedirect to="/your-claims"/>
-          {routes}
-        </Route>
-      </Router>
-    </Provider>
-  ), document.getElementById('react-root'));
-}
+startSitewideComponents(store);
 
-// Start react.
-initReact(init);
+startReactApp(
+  <Provider store={store}>
+    <Router history={history}>
+      <Route path="/" component={ClaimsStatusApp}>
+        <IndexRedirect to="/your-claims"/>
+        {routes}
+      </Route>
+    </Router>
+  </Provider>
+);

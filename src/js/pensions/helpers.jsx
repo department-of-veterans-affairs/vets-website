@@ -1,6 +1,7 @@
 import React from 'react';
+import Raven from 'raven-js';
 import moment from 'moment';
-
+import environment from '../../platform/utilities/environment';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 function replacer(key, value) {
@@ -22,7 +23,62 @@ function replacer(key, value) {
   return value;
 }
 
-export function transform(formConfig, form) {
+function checkStatus(guid) {
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Key-Inflection': 'camel',
+  };
+
+  if (userToken) {
+    headers.Authorization = `Token token=${userToken}`;
+  }
+  return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
+    headers,
+    mode: 'cors'
+  })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(res);
+    }).catch(res => {
+      if (res instanceof Error) {
+        Raven.captureException(res);
+        Raven.captureMessage('vets_pension_poll_client_error');
+
+        // keep polling because we know they submitted earlier
+        // and this is likely a network error
+        return Promise.resolve();
+      }
+
+      // if we get here, it's likely that we hit a server error
+      return Promise.reject(res);
+    });
+}
+
+const POLLING_INTERVAL = 1000;
+
+function pollStatus({ guid, confirmationNumber, regionalOffice }, onDone, onError) {
+  setTimeout(() => {
+    checkStatus(guid)
+      .then(res => {
+        if (!res || res.data.attributes.state === 'pending') {
+          pollStatus({ guid, confirmationNumber, regionalOffice }, onDone, onError);
+        } else if (res.data.attributes.state === 'success') {
+          const response = res.data.attributes.response || { confirmationNumber, regionalOffice };
+          onDone(response);
+        } else {
+          // needs to start with this string to get the right message on the form
+          throw new Error(`vets_server_error_pensions: status ${res.data.attributes.state}`);
+        }
+      })
+      .catch(onError);
+  }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
+}
+
+function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
     pensionClaim: {
@@ -30,6 +86,52 @@ export function transform(formConfig, form) {
     },
     // can’t use toISOString because we need the offset
     localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ')
+  });
+}
+
+export function submit(form, formConfig) {
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Key-Inflection': 'camel',
+  };
+
+  if (userToken) {
+    headers.Authorization = `Token token=${userToken}`;
+  }
+
+  const body = transform(formConfig, form);
+
+  return fetch(`${environment.API_URL}/v0/pension_claims`, {
+    body,
+    headers,
+    method: 'POST',
+    mode: 'cors'
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(res);
+  }).then(resp => {
+    const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
+    return new Promise((resolve, reject) => {
+      pollStatus({ guid, confirmationNumber, regionalOffice }, response => {
+        window.dataLayer.push({
+          event: `${formConfig.trackingPrefix}-submission-successful`,
+        });
+        return resolve(response);
+      }, error => reject(error));
+    });
+  }).catch(respOrError => {
+    if (respOrError instanceof Response) {
+      if (respOrError.status === 429) {
+        const error = new Error('vets_throttled_error_pensions');
+        error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+        return Promise.reject(error);
+      }
+    }
+    return Promise.reject(respOrError);
   });
 }
 
@@ -106,7 +208,9 @@ export const directDepositWarning = (
 
 export const wartimeWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <span><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp" target="_blank"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility/" target="_blank">Check your eligibility.</a></span>
+    <div className="usa-alert-text">
+      <p><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp" target="_blank"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility/" target="_blank">Check your eligibility.</a></p>
+    </div>
   </div>
 );
 
@@ -133,36 +237,51 @@ export function servedDuringWartime(period) {
 
 export const uploadMessage = (
   <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">If you have many documents to upload you can mail them to us.<br/><br/><em>We’ll provide an address after you finish the application.</em></div>
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        <p>If you have many documents to upload you can mail them to us.</p>
+        <p><em>We’ll provide an address after you finish the application.</em></p>
+      </div>
+    </div>
   </div>
 );
 
 export const aidAttendanceEvidence = (
   <div>
     <div className="usa-alert usa-alert-info no-background-image">
-      <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance benefits</strong>, your supporting documents must show that you:
-      <ul>
-        <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
-        <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
-        <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
-        <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
-        <li>Are bedridden and have to spend most of the day in bed because of your disability</li>
-      </ul>
+      <div className="usa-alert-body">
+        <div className="usa-alert-text">
+          <p><strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance benefits</strong>, your supporting documents must show that you:</p>
+          <ul>
+            <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
+            <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
+            <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
+            <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
+            <li>Are bedridden and have to spend most of the day in bed because of your disability</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
     <div className="usa-alert usa-alert-info no-background-image">
-      <strong>If you’re claiming for increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:
-      <ul>
-        <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
-        <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
-      </ul>
+      <div className="usa-alert-body">
+        <div className="usa-alert-text">
+          <p><strong>If you’re claiming for increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:</p>
+          <ul>
+            <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
+            <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
   </div>
 );
 
 export const disabilityDocs = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      You’ll need to provide all private medical records for your child’s disability.
+      <div className="usa-alert-text">You’ll need to provide all private medical records for your child’s disability.</div>
     </div>
   </div>
 );
@@ -170,7 +289,7 @@ export const disabilityDocs = (
 export const schoolAttendanceWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
+      <div className="usa-alert-text">Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong></div>
     </div>
   </div>
 );
@@ -178,22 +297,28 @@ export const schoolAttendanceWarning = (
 export const marriageWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <h5 className="usa-alert-heading">Recognition of marriages</h5>
-      If you’re certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).<br/>
-      <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
+      <h4 className="usa-alert-heading">Recognition of marriages</h4>
+      <div className="usa-alert-text">
+        <p>If you’re certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).</p>
+        <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
+      </div>
     </div>
   </div>
 );
 
 export const fdcWarning = (
   <div className="usa-alert usa-alert-info no-background-image">
-    Your application will be submitted as a fully developed claim.
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">Your application will be submitted as a fully developed claim.</div>
+    </div>
   </div>
 );
 
 export const noFDCWarning = (
   <div className="usa-alert usa-alert-info no-background-image">
-    Your application doesn’t qualify for the Fully Developed Claim (FDC) program. We’ll review your claim through the standard claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">Your application doesn’t qualify for the Fully Developed Claim (FDC) program. We’ll review your claim through the standard claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.</div>
+    </div>
   </div>
 );
 
@@ -208,7 +333,7 @@ export const expeditedProcessDescription = (
 export const dependentWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Your child won’t qualify as a dependent unless they’re in school or disabled.
+      <div className="usa-alert-text">Your child won’t qualify as a dependent unless they’re in school or disabled.</div>
     </div>
   </div>
 );

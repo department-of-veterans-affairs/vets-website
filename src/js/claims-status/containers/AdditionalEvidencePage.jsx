@@ -4,13 +4,13 @@ import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
-import { getScrollOptions } from '../../common/utils/helpers';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 
 import {
   addFile,
@@ -114,7 +114,7 @@ class AdditionalEvidencePage extends React.Component {
                   onDirtyFields={this.props.setFieldsDirty}/>
               </div>
             </div>
-            <div className="small-12 usa-width-one-third medium-4 columns">
+            <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
               <AskVAQuestions/>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import React from 'react';
 import Raven from 'raven-js';
 
 export const formBenefits = {
@@ -10,12 +11,13 @@ export const formBenefits = {
   '22-1995': 'education benefits',
   '22-5490': 'education benefits',
   '22-5495': 'education benefits',
-  '40-10007': 'pre-need determination of eligibility in a VA national cemetery'
+  '40-10007': 'pre-need determination of eligibility in a VA national cemetery',
+  VIC: 'Veteran ID Card'
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
   let formNumber;
-  if (key === '40-10007') {
+  if (key === '40-10007' || key === 'VIC') {
     formNumber = '';
   } else if (key === '1010ez') {
     formNumber = ' (10-10EZ)';
@@ -37,7 +39,8 @@ export const formLinks = {
   '22-1995': '/education/apply-for-education-benefits/application/1995/',
   '22-5490': '/education/apply-for-education-benefits/application/5490/',
   '22-5495': '/education/apply-for-education-benefits/application/5495/',
-  '40-10007': '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/'
+  '40-10007': '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/',
+  VIC: '/veteran-id-card/apply/'
 };
 
 export const trackingPrefixes = {
@@ -50,7 +53,8 @@ export const trackingPrefixes = {
   '22-1995': 'edu-1995-',
   '22-5490': 'edu-5490-',
   '22-5495': 'edu-5495-',
-  '40-10007': 'preneed-'
+  '40-10007': 'preneed-',
+  VIC: 'veteran-id-card-'
 };
 
 export const sipEnabledForms = new Set([
@@ -62,7 +66,9 @@ export const sipEnabledForms = new Set([
   '22-1990N',
   '22-1995',
   '22-5490',
-  '22-5495'
+  '22-5495',
+  '40-10007',
+  'VIC'
 ]);
 
 export function isSIPEnabledForm(savedForm) {
@@ -76,3 +82,9 @@ export function isSIPEnabledForm(savedForm) {
   }
   return true;
 }
+
+export const disabledForms = {
+  '21P-527EZ': <div><span className="error">We’re sorry. We can’t give you access to your saved form right now. We’re working on ways to make it easier for you to apply for benefits online. Please check back later or apply by mail.</span><a href="/pension/apply/">Find out how to apply by mail</a>.</div>,
+  '21P-530': <div><span className="error">We’re sorry. We can’t give you access to your saved form right now. We’re working on ways to make it easier for you to apply for benefits online. Please check back later or apply by mail.</span><a href="/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/">Find out how to apply by mail</a>.</div>
+};
+

@@ -2,14 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Pension Benefits Eligibility
+display_title: Eligibility
 concurrence:
 order: 1
 children: pensionEligibility
-widgets:
-  - root: react-applicationStatus
-    timeout: 20
-    loadingMessage: Checking your application status.
-    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -50,12 +46,45 @@ You may be able to get pension benefits if you meet the requirements listed belo
 
 Veterans.
 
-If you’re a surviving spouse or a child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pension/survivors-pension/).
+If you’re a surviving spouse or a child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. <br>
+[Learn more about the Survivors Pension program](/pension/survivors-pension/).
+
+<br>
+
+### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
+
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
+
+<br>
+
+**There are 2 ways you can try to qualify:**
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
 </div>
 
-<div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
-</div>
+### Ready to apply?
 
-<div markdown="0"><br></div>
+Fill out an Application for Pension (VA Form 21P-527EZ). <br>
+[Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+
+**Note:** Attach all the supporting documents (evidence) to the end of the form.
+
+You can turn in your application and evidence in 1 of 3 ways:
+
+**By mail** <br>
+Mail the application to the Pension Management Center (PMC) for your state. <br>
+[Find your PMC](/pension/pension-management-center/).
+
+**In person** <br>
+Bring your application to a regional benefit office near you. <br>
+[Find a regional benefit office](/facilities/).
+
+**With the help of a trained professional** <br>
+You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br>
+[Get help filing a claim](/disability-benefits/apply/help/).
+
+[Learn more about the application process](/pension/apply/). <br>
+
+[Find out how to apply for the Survivors Pension program](/pension/survivors-pension/). <br>

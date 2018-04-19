@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import { mount } from 'enzyme';
 import sinon from 'sinon';
 
 import { ReviewPage } from '../../../../src/js/common/schemaform/review/ReviewPage';
@@ -61,6 +62,7 @@ describe('Schemaform review: ReviewPage', () => {
       <ReviewPage
         form={form}
         user={user}
+        openChapters={[]}
         route={{ formConfig, pageList }}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -136,6 +138,7 @@ describe('Schemaform review: ReviewPage', () => {
         router={router}
         setData={setData}
         form={form}
+        openChapters={[]}
         user={user}
         onSubmit={onSubmit}
         setEditMode={f => f}
@@ -147,242 +150,6 @@ describe('Schemaform review: ReviewPage', () => {
     tree.getMountedInstance().goBack();
 
     expect(router.push.calledWith('previous-page'));
-  });
-  it('should display SaveLink and SaveStatus for SiP enabled forms if user is logged in', () => {
-    const setData = sinon.spy();
-    const onSubmit = sinon.spy();
-    const router = {
-      push: sinon.spy()
-    };
-    const route = {
-      path: 'testPage',
-      pageList: [
-        {
-          path: 'previous-page'
-        },
-        {
-          path: 'testing',
-          pageKey: 'testPage'
-        },
-        {
-          path: 'next-page'
-        }
-      ],
-      formConfig: {
-        chapters: {
-          chapter1: {
-            pages: {
-              page1: {
-                schema: {}
-              }
-            }
-          },
-          chapter2: {
-            pages: {
-              page2: {
-              }
-            }
-          }
-        }
-      }
-    };
-    const form = {
-      disableSave: false,
-      submission: {
-        hasAttemptedSubmit: false
-      },
-      page1: {
-        schema: {},
-      },
-      page2: {
-        schema: {},
-      },
-      data: {
-        privacyAgreementAccepted: true
-      }
-    };
-
-    const user = {
-      profile: {
-        savedForms: []
-      },
-      login: {
-        currentlyLoggedIn: true
-      }
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <ReviewPage
-        router={router}
-        setData={setData}
-        form={form}
-        user={user}
-        onSubmit={onSubmit}
-        setEditMode={f => f}
-        setPrivacyAgreement={f => f}
-        route={route}
-        location={location}/>
-    );
-
-    expect(tree.everySubTree('SaveStatus')).not.to.be.empty;
-    expect(tree.everySubTree('SaveFormLink')).not.to.be.empty;
-  });
-  it('should not display SaveLink or SaveStatus for non-SiP enabled forms', () => {
-    const setData = sinon.spy();
-    const onSubmit = sinon.spy();
-    const router = {
-      push: sinon.spy()
-    };
-    const route = {
-      path: 'testPage',
-      pageList: [
-        {
-          path: 'previous-page'
-        },
-        {
-          path: 'testing',
-          pageKey: 'testPage'
-        },
-        {
-          path: 'next-page'
-        }
-      ],
-      formConfig: {
-        chapters: {
-          chapter1: {
-            pages: {
-              page1: {
-                schema: {}
-              }
-            }
-          },
-          chapter2: {
-            pages: {
-              page2: {
-              }
-            }
-          }
-        }
-      }
-    };
-    const form = {
-      disableSave: true,
-      submission: {
-        hasAttemptedSubmit: false
-      },
-      page1: {
-        schema: {},
-      },
-      page2: {
-        schema: {},
-      },
-      data: {
-        privacyAgreementAccepted: true
-      }
-    };
-
-    const user = {
-      profile: {
-        savedForms: []
-      },
-      login: {
-        currentlyLoggedIn: true
-      }
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <ReviewPage
-        router={router}
-        setData={setData}
-        form={form}
-        user={user}
-        onSubmit={onSubmit}
-        setEditMode={f => f}
-        setPrivacyAgreement={f => f}
-        route={route}
-        location={location}/>
-    );
-
-    expect(tree.everySubTree('SaveStatus')).to.be.empty;
-    expect(tree.everySubTree('SaveFormLink')).to.be.empty;
-  });
-  it('should not display SaveStatus if user is not logged in', () => {
-    const setData = sinon.spy();
-    const onSubmit = sinon.spy();
-    const router = {
-      push: sinon.spy()
-    };
-    const route = {
-      path: 'testPage',
-      pageList: [
-        {
-          path: 'previous-page'
-        },
-        {
-          path: 'testing',
-          pageKey: 'testPage'
-        },
-        {
-          path: 'next-page'
-        }
-      ],
-      formConfig: {
-        chapters: {
-          chapter1: {
-            pages: {
-              page1: {
-                schema: {}
-              }
-            }
-          },
-          chapter2: {
-            pages: {
-              page2: {
-              }
-            }
-          }
-        }
-      }
-    };
-    const form = {
-      disableSave: true,
-      submission: {
-        hasAttemptedSubmit: false
-      },
-      page1: {
-        schema: {},
-      },
-      page2: {
-        schema: {},
-      },
-      data: {
-        privacyAgreementAccepted: true
-      }
-    };
-
-    const user = {
-      profile: {
-        savedForms: []
-      },
-      login: {
-        currentlyLoggedIn: false
-      }
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <ReviewPage
-        router={router}
-        setData={setData}
-        form={form}
-        user={user}
-        onSubmit={onSubmit}
-        setEditMode={f => f}
-        setPrivacyAgreement={f => f}
-        route={route}
-        location={location}/>
-    );
-
-    expect(tree.everySubTree('SaveStatus')).to.be.empty;
   });
   it('should submit when valid', () => {
     const formConfig = {
@@ -449,6 +216,7 @@ describe('Schemaform review: ReviewPage', () => {
         submitForm={submitForm}
         form={form}
         user={user}
+        openChapters={[]}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -522,6 +290,7 @@ describe('Schemaform review: ReviewPage', () => {
         setSubmission={setSubmission}
         submitForm={submitForm}
         form={form}
+        openChapters={[]}
         user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -593,6 +362,7 @@ describe('Schemaform review: ReviewPage', () => {
         setSubmission={setSubmission}
         submitForm={submitForm}
         form={form}
+        openChapters={[]}
         user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -661,6 +431,7 @@ describe('Schemaform review: ReviewPage', () => {
         router={router}
         form={form}
         user={user}
+        openChapters={[]}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -732,6 +503,7 @@ describe('Schemaform review: ReviewPage', () => {
       <ReviewPage
         form={form}
         user={user}
+        openChapters={[]}
         route={{ formConfig, pageList }}
         setEditMode={setEditMode}
         setPrivacyAgreement={f => f}
@@ -743,7 +515,8 @@ describe('Schemaform review: ReviewPage', () => {
     expect(tree.getMountedInstance().state.viewedPages.has('testPage')).to.be.true;
     expect(setEditMode.calledWith('testPage', true, null));
   });
-  it('should auto save after change', () => {
+
+  it('handles toggling', () => {
     const formConfig = {
       chapters: {
         chapter1: {
@@ -786,24 +559,25 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
-    const setData = sinon.spy();
-    const autoSave = sinon.spy();
+    const openReviewChapter = sinon.spy();
+    const closeReviewChapter = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
+
+    const instance = mount(
       <ReviewPage
+        closeReviewChapter={closeReviewChapter}
         form={form}
         user={user}
-        setData={setData}
+        openReviewChapter={openReviewChapter}
+        openChapters={['chapter3']}
         route={{ formConfig, pageList }}
         setPrivacyAgreement={f => f}
         location={location}/>
-    );
+    ).instance();
 
-    const instance = tree.getMountedInstance();
-    instance.debouncedAutoSave = autoSave;
-    instance.setData({});
-
-    expect(setData.called).to.be.true;
-    expect(autoSave.called).to.be.true;
+    instance.handleToggleChapter('chapter1');
+    expect(openReviewChapter.calledWith('chapter1')).to.be.true;
+    instance.handleToggleChapter('chapter3');
+    expect(closeReviewChapter.calledWith('chapter3')).to.be.true;
   });
 });

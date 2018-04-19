@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { isEmpty, some, includes, intersection, concat } from 'lodash';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import { errorCodes } from '../config';
 
 class ErrorView extends React.Component {
@@ -26,18 +26,13 @@ class ErrorView extends React.Component {
       );
     }
 
-    const content = (
-      <div>
-        <h4 className="usa-alert-heading">{title}</h4>
-        <div>
-          {detail}
-        </div>
-      </div>
-    );
+    const headline = (<h4>{title}</h4>);
+    const content = { detail };
 
     if (alert) {
       return (
         <AlertBox
+          headline={headline}
           content={content}
           isVisible
           status="warning"/>

@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import Raven from 'raven-js';
 
-import { scrollToFirstError } from '../../common/utils/helpers';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import Modal from '../../common/components/Modal';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { scrollToFirstError, focusElement } from '../../../platform/utilities/ui';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 
 import {
   addressModalContent,
@@ -15,9 +17,14 @@ import {
   isDomesticAddress,
   isInternationalAddress,
   isMilitaryAddress,
-  resetDisallowedAddressFields
+  resetDisallowedAddressFields,
+  isAddressEmpty
 } from '../utils/helpers';
-import { saveAddress } from '../actions/letters';
+import {
+  saveAddress,
+  editAddress,
+  cancelEditingAddress
+} from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
 
@@ -39,17 +46,20 @@ const scrollToTop = () => {
   });
 };
 
-// The address is empty if every field except type is falsey.
-// NOTE: It "shouldn't" ever happen, but it did in testing, so...paranoid programming!
-function isAddressEmpty(address) {
-  return Object.keys(address).reduce((emptySoFar, nextField) => emptySoFar && (nextField === 'type' || !address[nextField]), true);
-}
+const noAddressBanner = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h3 className="usa-alert-heading">VA does not have a valid address on file for you</h3>
+      <div className="usa-alert-text">You will need to update your address before we can provide you any letters.</div>
+    </div>
+  </div>
+);
+
 
 export class AddressSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditingAddress: false,
       hasLoadedAddress: false,
       errorMessages: {},
       fieldsToValidate: {},
@@ -61,10 +71,19 @@ export class AddressSection extends React.Component {
     // we tell React that editableAddress has already been initialized with the
     // savedAddress values
     if (Object.keys(this.state.editableAddress).length > 0) {
-      this.state.hasLoadedAddress = true;
       // If we start with an empty address, go straight to editing
-      this.state.isEditingAddress = (isAddressEmpty(this.state.editableAddress) && this.props.canUpdate);
+      const emptyAddress = isAddressEmpty(this.state.editableAddress);
+      this.state.hasLoadedAddress = true;
+      if (emptyAddress && this.props.canUpdate) {
+        this.props.editAddress();
+      } else if (emptyAddress && !this.props.canUpdate) {
+        Raven.captureMessage('letters_empty_address_update_not_allowed');
+      }
     }
+  }
+
+  componentDidMount() {
+    focusElement('#content');
   }
 
   /* editableAddress is initialized from redux store in the constructor
@@ -77,9 +96,11 @@ export class AddressSection extends React.Component {
       this.setState({
         hasLoadedAddress: true,
         editableAddress: nextProps.savedAddress,
-        // If we recieve an empty address, start editing
-        isEditingAddress: isAddressEmpty(nextProps.savedAddress)
       });
+      // If we recieve an empty address, start editing
+      if (isAddressEmpty(nextProps.savedAddress)) {
+        this.props.editAddress();
+      }
     }
   }
 
@@ -160,7 +181,6 @@ export class AddressSection extends React.Component {
     }
 
     this.setState({
-      isEditingAddress: false,
       // Reset all the error messages in case they go to edit again; should be pointless
       errorMessages: {}
     });
@@ -169,9 +189,9 @@ export class AddressSection extends React.Component {
   }
 
   handleCancel = () => {
-    window.dataLayer.push({ event: 'letter-update-address-cancel' });
+    recordEvent({ event: 'letter-update-address-cancel' });
+    this.props.cancelEditingAddress();
     this.setState({
-      isEditingAddress: false,
       errorMessages: {},
       fieldsToValidate: {},
       editableAddress: this.props.savedAddress
@@ -180,8 +200,8 @@ export class AddressSection extends React.Component {
   }
 
   startEditing = () => {
-    window.dataLayer.push({ event: 'letter-update-address-started' });
-    this.setState({ isEditingAddress: true });
+    recordEvent({ event: 'letter-update-address-started' });
+    this.props.editAddress();
     scrollToTop();
   }
 
@@ -245,6 +265,7 @@ export class AddressSection extends React.Component {
 
   render() {
     const address = this.props.savedAddress || {};
+    const emptyAddress = isAddressEmpty(this.props.savedAddress);
     // Street address: first line of address
     const streetAddressLines = [
       address.addressOne,
@@ -272,7 +293,7 @@ export class AddressSection extends React.Component {
     const addressContentLines = { streetAddress, cityStatePostal, country };
 
     let addressFields;
-    if (this.state.isEditingAddress) {
+    if (this.props.isEditingAddress) {
       addressFields = (
         <div>
           <h5>Edit Address</h5>
@@ -295,15 +316,22 @@ export class AddressSection extends React.Component {
         </div>
       );
     } else {
-      addressFields = (
+      const displayAddress = (
         <div>
-          <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
           <div className="letters-address street">{streetAddress}</div>
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
+        </div>
+      );
+
+      addressFields = (
+        <div>
+          <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
+          {emptyAddress && noAddressBanner}
+          {!emptyAddress && displayAddress}
           <button className="address-help-btn" onClick={this.openAddressHelp}>What is this?</button>
           {this.props.canUpdate &&
-            <button className="usa-button-secondary edit-address" onClick={this.startEditing}>Edit</button>
+            <button className="usa-button-secondary edit-address" onClick={this.startEditing}>Edit address</button>
           }
           <Modal
             title="Address usage"
@@ -318,7 +346,7 @@ export class AddressSection extends React.Component {
     let addressContent;
     // If countries and states are not available when they try to update their address,
     // they will see this warning message instead of the address fields.
-    if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
+    if (this.props.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
       addressContent = (
         <div className="step-content">
           {addressUpdateUnavailable}
@@ -338,6 +366,8 @@ export class AddressSection extends React.Component {
       <div>
         <Element name="addressScrollElement"/>
         <div aria-live="polite" aria-relevant="additions">
+          {/* Warning message goes here while editing with no address on record */}
+          {emptyAddress && this.props.isEditingAddress && noAddressBanner}
           {addressContent}
         </div>
       </div>
@@ -362,6 +392,7 @@ function mapStateToProps(state) {
     canUpdate,
     countries,
     countriesAvailable,
+    isEditingAddress,
     states,
     statesAvailable,
     saveAddressError,
@@ -378,12 +409,15 @@ function mapStateToProps(state) {
     countries,
     countriesAvailable,
     states,
-    statesAvailable
+    statesAvailable,
+    isEditingAddress
   };
 }
 
 const mapDispatchToProps = {
-  saveAddress
+  saveAddress,
+  editAddress,
+  cancelEditingAddress
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);

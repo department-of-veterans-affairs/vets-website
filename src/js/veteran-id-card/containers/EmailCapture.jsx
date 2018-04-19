@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { submitEmail, setEmail } from '../actions';
-import AlertBox from '../../common/components/AlertBox';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 
 class EmailCapture extends React.Component {
 
@@ -29,7 +29,8 @@ class EmailCapture extends React.Component {
         <div>
           <h1>Printed Veteran ID Card</h1>
           <AlertBox
-            content={<h4 className="usa-alert-heading">Thank you for your email address. We'll let you know when the application is working again.</h4>}
+            headline={<h4>Thank you for your email address. We will follow up with instructions on how to proceed with the application.</h4>}
+            content={''}
             isVisible
             status="success"/>
         </div>

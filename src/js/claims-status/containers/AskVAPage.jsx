@@ -6,7 +6,7 @@ import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
 import Breadcrumbs from '../components/Breadcrumbs';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 
 class AskVAPage extends React.Component {
   constructor() {
@@ -82,7 +82,7 @@ class AskVAPage extends React.Component {
                 : null}
             </div>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 columns">
+          <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
             <AskVAQuestions/>
           </div>
         </div>

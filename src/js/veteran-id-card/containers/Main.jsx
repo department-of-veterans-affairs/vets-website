@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { has, head } from 'lodash';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import { messages } from '../config';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class Main extends React.Component {
 
@@ -56,16 +56,12 @@ class Main extends React.Component {
   }
 
   renderVicError() {
-    const content = (
-      <div>
-        <h4>We're sorry. Something went wrong when loading the page.</h4>
-        <div>
-          <p>Please refresh the page or try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>
-        </div>
-      </div>
-    );
+    const headline = (<h4>We're sorry. Something went wrong when loading the page.</h4>);
+    const content = (<p>Please refresh the page or try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>);
+
     return (
       <AlertBox
+        headline={headline}
         content={content}
         isVisible
         status="error"/>

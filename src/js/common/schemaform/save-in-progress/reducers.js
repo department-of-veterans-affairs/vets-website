@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import {
   recalculateSchemaAndData
-} from '../formState';
+} from '../state/helpers';
 
 import {
   SET_SAVE_FORM_STATUS,
@@ -74,7 +74,7 @@ export const saveInProgressReducers = {
 
       // We get an empty object back when we attempt to prefill and there's
       // no information
-      if (Object.keys(action.data.formData).length > 0) {
+      if (_.keys(action.data.formData).length > 0) {
         newState.prefillStatus = PREFILL_STATUSES.success;
       } else {
         newState.prefillStatus = PREFILL_STATUSES.unfilled;
@@ -86,6 +86,7 @@ export const saveInProgressReducers = {
 
     newState.loadedStatus = LOAD_STATUSES.success;
     newState.data = newState.loadedData.formData;
+    newState.pages = action.pages;
 
     return recalculateSchemaAndData(newState);
   },
@@ -123,6 +124,7 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     prefillStatus: PREFILL_STATUSES.notAttempted,
     isStartingOver: false,
     migrations: formConfig.migrations,
+    prefillTransformer: formConfig.prefillTransformer,
     trackingPrefix: formConfig.trackingPrefix
   });
 }

@@ -2,9 +2,9 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import Form from 'react-jsonschema-form';
+import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../../src/js/common/schemaform/definitions/dateRange';
 import { dateRange as schema, date } from 'vets-json-schema/dist/definitions.json';
 
@@ -59,7 +59,7 @@ describe('Schemaform definition dateRange', () => {
       preventDefault: f => f
     });
 
-    expect(find('.usa-input-error-message').textContent).to.equal(dateRangeUISchema['ui:errorMessages'].pattern);
+    expect(find('.usa-input-error-message').textContent).to.equal(`Error ${dateRangeUISchema['ui:errorMessages'].pattern}`);
   });
   it('should render dateRange title and messages', () => {
     const form = ReactTestUtils.renderIntoDocument(

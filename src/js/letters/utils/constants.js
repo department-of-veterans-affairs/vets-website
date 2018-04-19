@@ -36,6 +36,9 @@ export const GET_LETTER_PDF_SUCCESS = 'GET_LETTER_PDF_SUCCESS';
 // updateBenefitSummaryRequestOption() actions
 export const UPDATE_BENFIT_SUMMARY_REQUEST_OPTION = 'UPDATE_BENFIT_SUMMARY_REQUEST_OPTION';
 
+export const START_EDITING_ADDRESS = 'START_EDITING_ADDRESS';
+export const CANCEL_EDITING_ADDRESS = 'CANCEL_EDITING_ADDRESS';
+
 export const AVAILABILITY_STATUSES = Object.freeze({
   awaitingResponse: 'awaitingResponse',
   available: 'available',

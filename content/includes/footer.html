@@ -1,6 +1,9 @@
 <footer class="footer" role="contentinfo">
+  <!--
+    Uncomment this when the feedback tool is ready to go
+    <div id="feedback-root"></div>
+  -->
   <div class="footer-inner">
-    <a class="sr-only" href="#feedback-tool" name="feedback-tool">Give feedback on this page</a>
     <div class="row va-flex">
     <ul class="va-footer-linkgroup" id="footer-services">
       <li><h4 class="va-footer-linkgroup-title">Services and Benefits</h4></li>
@@ -15,12 +18,17 @@
     </ul>
     <ul class="va-footer-linkgroup" id="footer-popular">
       <li><h4 class="va-footer-linkgroup-title">Popular on Vets.gov</h4></li>
-      <li><a href="/veteran-id-card/" onClick="footerNavClick(this);">Apply for Printed Veteran ID Card</a></li>
+      {% if buildtype != 'production' %}
+      <li><a href="/veteran-id-card/how-to-get" onClick="footerNavClick(this);">Apply for a printed Veteran ID Card</a></li>
+      {% else %}
+      <li><a href="/veteran-id-card/" onClick="footerNavClick(this);">Apply for a printed Veteran ID Card</a></li>
+      {% endif %}
       <li><a href="/health-care/apply/" onClick="footerNavClick(this);">Apply for health care</a></li>
       <li><a href="/education/apply-for-education-benefits/" onClick="footerNavClick(this);">Apply for education benefits</a></li>
-      <li><a href="/track-claims/" onClick="footerNavClick(this);">Check your claim and appeal status</a></li>
-      <li><a href="/gi-bill-comparison-tool/" onClick="footerNavClick(this);">Education benefits by school</a></li>
+      <li><a href="/track-claims/" onClick="footerNavClick(this);">Track your claims and appeals</a></li>
+      <li><a href="/gi-bill-comparison-tool/" onClick="footerNavClick(this);">Check education benefits by school</a></li>
       <li><a href="/health-care/prescriptions/" onClick="footerNavClick(this);">Refill prescriptions</a></li>
+      <li><a href="/download-va-letters/" onClick="footerNavClick(this);">Download Your VA Letters</a></li>
     </ul>
     <ul class="va-footer-linkgroup va-list--plain" id="footer-contact">
       <li><h4 class="va-footer-linkgroup-title">Contact</h4></li>
@@ -30,6 +38,9 @@
       TTY:&nbsp;<a href="tel:+18008778339" onClick="footerNavClick(this);">1-800-877-8339</a><br>
 Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>)</li>
       <li><p><button class="va-overlay-trigger usa-button-unstyled va-footer-vcl-trigger" data-show="#modal-crisisline">Get help from the Veterans Crisis Line</button></p></li>
+      <li><br></li>
+      <li><h4 class="va-footer-linkgroup-title">New to VA?</h4></li>
+      <li><a href="/welcome-to-va">Print out your VA Welcome Kit</a></li>
     </ul>
   </div>
     <div class="row" id="va-footer-supplementallinks">
@@ -44,7 +55,7 @@ Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">E
     </div>
     <div>
       <div class="footer-seal">
-        <abbr>VA</abbr> | U.S. Department of Veterans Affairs
+        <abbr title="Department of Veterans Affairs">VA</abbr> | U.S. Department of Veterans Affairs
       </div>
     </div>
   </div>
@@ -56,15 +67,6 @@ Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">E
     {% endif %}
   </div>
 
-
-  <div class="va-notice--banner va-notice--banner--alt">
-    <div class="usa-grid">
-      <a id="feedback-tool" class="feedback-widget" tabindex="0" href="http://veterans.uservoice.com" data-uv-trigger="smartvote">
-        <span class="icon"></span>
-        <span class="text">Provide feedback on Vets.gov</span>
-      </a>
-    </div>
-  </div>
 </footer>
 
 <!-- End mobile crisis line overlay. See desktop overlay at end of footer -->
@@ -97,22 +99,20 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
   {% include "content/includes/modal.html" %}
 {% endif %}
 
-<script async src="/js/user-voice.js"></script>
-
 <!-- htmllint attr-bans="[]" -->
 {% if buildtype === 'development' %}
   <script>
-    window.dataLayer = [];
+    recordEvent({ environment: '{{ buildtype }}' });
   </script>
+  <script async src="/js/google-analytics-dev.js"></script>
 {% else %}
   <!-- Google Tag Manager -->
   <script>
     // Always use push with GTM: https://www.simoahava.com/gtm-tips/datalayer-declaration-vs-push/
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ environment: '{{ buildtype }}' });
+    recordEvent({ environment: '{{ buildtype }}' });
     // We want to know if we are being iframed
     if ( self !== top ) {
-      window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
+      recordEvent({ event: 'iframed', embeddedIn: document.referrer});
     }
   </script>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
@@ -129,7 +129,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 <script type="text/javascript">
   function footerNavClick(elem) {
     const eventLabel = 'nav-' + elem.parentElement.parentElement.id
-    window.dataLayer.push({
+    recordEvent({
       event: eventLabel,
       navlabel: elem.innerText
     });
@@ -140,7 +140,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 (function() {
   var widgets = {{ widgets | json }};
   var module = {};
-  {% include "src/js/common/utils/static-page-widgets.js" %}
+  {% include "src/js/static-pages/static-page-widgets.js" %}
   mountWidgets(widgets);
 })();
 </script>

@@ -1,82 +1,111 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { getAppealsV2 } from '../actions/index.jsx';
-import { getStatusContents, getNextEvents } from '../utils/appeals-v2-helpers';
+import {
+  getAlertContent,
+  getStatusContents,
+  getNextEvents,
+  ALERT_TYPES,
+  APPEAL_TYPES,
+  EVENT_TYPES,
+  STATUS_TYPES
+} from '../utils/appeals-v2-helpers';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Timeline from '../components/appeals-v2/Timeline';
-import Alerts from '../components/appeals-v2/Alerts';
+import CurrentStatus from '../components/appeals-v2/CurrentStatus';
+import AlertsList from '../components/appeals-v2/AlertsList';
 import WhatsNext from '../components/appeals-v2/WhatsNext';
 import Docket from '../components/appeals-v2/Docket';
 
 /**
- * AppealsV2StatusPage is in charge of the layout of the status page and is the source of truth
- * for the redux state. All child components shouldn't need to be connected to the store.
+ * AppealsV2StatusPage is in charge of the layout of the status page
  */
-class AppealsV2StatusPage extends React.Component {
-  componentDidMount() {
-    // Make sure we grab the appeals if we don't have them already
-    // Useful if the user goes directly to the appeal status without going to the list first
-    if (this.props.appeal === AppealsV2StatusPage.defaultProps.appeal) {
-      this.props.getAppealsV2();
-    }
-  }
+const AppealsV2StatusPage = ({ appeal, fullName }) => {
+  const {
+    events, alerts, status, docket, incompleteHistory, aod,
+    active: appealIsActive,
+    type: appealType
+  } = appeal.attributes;
+  const currentStatus = getStatusContents(status.type, status.details, fullName);
+  const nextEvents = getNextEvents(status.type, status.details);
 
-  render() {
-    if (this.props.appealsLoading) {
-      return <LoadingIndicator message="Please wait while we load your appeal..."/>;
-    }
-    const { events, alerts, status } = this.props.appeal.attributes;
-    const { type, details } = status;
-    const currentStatus = getStatusContents(type, details);
-    const nextEvents = getNextEvents(type);
-    return (
-      <div>
-        <Timeline events={events} currentStatus={currentStatus}/>
-        <Alerts alerts={alerts}/>
-        <WhatsNext nextEvents={nextEvents}/>
-        <Docket/>
-      </div>
-    );
-  }
-}
+  // TODO: This will change. We'll be getting the date from the docket object in the api.
+  const form9Event = events.find(e => e.type === EVENT_TYPES.form9, null);
 
-AppealsV2StatusPage.defaultProps = {
-  appeal: {
-    id: '',
-    type: '',
-    attributes: {
-      events: [],
-      alerts: [],
-      status: {
-        type: '',
-        details: {}
+  // Presumably we just won't even show the docket without this event, but that needs to be
+  //  verified first. For now, we'll just make sure form9 event exists first.
+  const form9Date = form9Event && form9Event.date;
+
+  // Gates the What's Next and Docket chunks
+  const hideDocketStatusTypes = [
+    STATUS_TYPES.pendingSoc,
+    STATUS_TYPES.pendingForm9,
+    STATUS_TYPES.decisionInProgress,
+    STATUS_TYPES.bvaDevelopment
+  ];
+  const hideDocketAppealTypes = [
+    APPEAL_TYPES.reconsideration,
+    APPEAL_TYPES.cue
+  ];
+  const shouldShowDocket = appealIsActive &&
+    !hideDocketStatusTypes.includes(status.type) &&
+    !hideDocketAppealTypes.includes(appealType);
+
+  const filteredAlerts = alerts.filter(a => a.type !== ALERT_TYPES.cavcOption);
+  const afterNextAlerts = (
+    <div>
+      {alerts
+        .filter(a => a.type === ALERT_TYPES.cavcOption)
+        .map((a, i) => {
+          const alert = getAlertContent(a, appealIsActive);
+          return (
+            <div key={`after-next-alert-${i}`}>
+              <h2>{alert.title}</h2>
+              <div>{alert.description}</div>
+            </div>
+          );
+        })
       }
-    }
-  }
+    </div>
+  );
+
+  return (
+    <div>
+      <Timeline events={events} missingEvents={incompleteHistory}/>
+      <CurrentStatus
+        title={currentStatus.title}
+        description={currentStatus.description}
+        isClosed={!appealIsActive}/>
+      <AlertsList alerts={filteredAlerts} appealIsActive/>
+      {appealIsActive && <WhatsNext nextEvents={nextEvents}/>}
+      {shouldShowDocket && <Docket {...docket} aod={aod} form9Date={form9Date} appealType={appealType}/>}
+      {!appealIsActive && <div className="closed-appeal-notice">This appeal is now closed</div>}
+      {afterNextAlerts}
+    </div>
+  );
 };
 
 AppealsV2StatusPage.propTypes = {
-  params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
   appeal: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    attributes: PropTypes.object.isRequired, // Can flesh this out later
+    attributes: PropTypes.shape({
+      events: PropTypes.array,
+      alerts: PropTypes.array,
+      status: PropTypes.shape({
+        type: PropTypes.string,
+        details: PropTypes.object,
+      }).isRequired,
+      docket: PropTypes.shape({
+        total: PropTypes.number.isRequired,
+        ahead: PropTypes.number.isRequired,
+        eta: PropTypes.string.isRequired
+      })
+    }).isRequired,
+  }),
+  fullName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
   })
 };
 
-
-function mapStateToProps(state) {
-  return {
-    appealsLoading: state.disability.status.appeals.appealsLoading,
-  };
-}
-
-const mapDispatchToProps = {
-  getAppealsV2
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppealsV2StatusPage);
-
+export default AppealsV2StatusPage;

@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
 
-import environment from '../../common/helpers/environment';
+import environment from '../../../platform/utilities/environment';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
@@ -244,16 +244,19 @@ export function getClaimType(claim) {
   return claim.attributes.claimType || 'Disability Compensation';
 }
 
-// NOTE: This shape may change once we know what the api will be returning for sure. This
-//  is just an example of what evss(?) is returning to the api.
 export const mockData = {
   data: [
     { // Status: Review your statement of the case - pending_form9
       id: '7387389',
       type: 'appealSeries',
       attributes: {
+        appealIds: [
+          '7387389',
+          '123'
+        ],
+        updated: '2018-01-03T09:30:15-05:00',
         active: true,
-        incompleteHistory: false,
+        incompleteHistory: true,
         aoj: 'vba',
         programArea: 'compensation',
         description: 'Service connection for tinnitus, hearing loss, and two more',
@@ -261,9 +264,11 @@ export const mockData = {
         aod: false,
         location: 'aoj',
         status: {
-          type: 'pending_form9',
+          type: 'pending_soc',
           details: {
-            regionalOffice: 'Chicago Regional Office'
+            lastSocDate: '2015-09-12',
+            certificationTimeliness: [1, 4],
+            socTimeliness: [2, 16],
           }
         },
         docket: {
@@ -277,17 +282,27 @@ export const mockData = {
           {
             active: true,
             description: 'Service connection for tinnitus',
-            lastAction: 'field_grant',
+            lastAction: 'null',
             date: '2016-05-30'
           }
         ],
         alerts: [
           {
-            type: 'form9_due',
+            type: 'form9_needed',
             details: {
               date: '2018-01-28'
             }
-          }
+          },
+          {
+            type: 'ramp_eligible',
+            details: {
+              date: '2016-05-30'
+            },
+          },
+          {
+            type: 'decision_soon',
+            details: {},
+          },
         ],
         events: [
           {
@@ -301,8 +316,13 @@ export const mockData = {
             details: {}
           },
           {
-            type: 'soc',
+            type: 'form9',
             date: '2016-09-12',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2016-12-15',
             details: {}
           }
         ],
@@ -318,6 +338,11 @@ export const mockData = {
       id: '7387390',
       type: 'appealSeries',
       attributes: {
+        appealIds: [
+          '7387390',
+          '456'
+        ],
+        updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
         aoj: 'vba',
@@ -343,7 +368,7 @@ export const mockData = {
           {
             active: true,
             description: 'Service connection for tinnitus',
-            lastAction: 'field_grant',
+            lastAction: null,
             date: '2016-05-30'
           }
         ],
@@ -394,6 +419,11 @@ export const mockData = {
       id: '7387391',
       type: 'appealSeries',
       attributes: {
+        appealIds: [
+          '7387391',
+          '789'
+        ],
+        updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
         aoj: 'vba',
@@ -403,24 +433,37 @@ export const mockData = {
         aod: false,
         location: 'aoj',
         status: {
-          type: 'remand',
+          type: 'bva_decision',
           details: {
             regionalOffice: 'Chicago Regional Office',
-            decisionIssues: [
+            issues: [
               {
                 description: 'Heel, increased rating',
                 disposition: 'allowed',
                 date: '2016-05-30'
-              }, {
+              },
+              {
                 description: 'Knee, increased rating',
                 disposition: 'allowed',
                 date: '2016-05-30'
-              }, {
+              },
+              {
+                description: 'Tinnitus, increased rating',
+                disposition: 'denied',
+                date: '2016-05-30'
+              },
+              {
                 description: 'Leg, service connection',
                 disposition: 'denied',
                 date: '2016-05-30'
-              }, {
+              },
+              {
                 description: 'Diabetes, service connection',
+                disposition: 'remand',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Shoulder, service connection',
                 disposition: 'remand',
                 date: '2016-05-30'
               },
@@ -438,7 +481,55 @@ export const mockData = {
           {
             active: true,
             description: 'Tinnitus, service connection',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Head, increased rating',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Shoulder, increased rating',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Knee, service connection',
             lastAction: 'field_grant',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Toe, service connection',
+            lastAction: 'withdrawn',
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: 'allowed',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Tinnitus, service connection',
+            lastAction: 'denied',
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: 'remand',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Tinnitus, service connection',
+            lastAction: 'cavc_remand',
             date: '2016-05-30'
           }
         ],

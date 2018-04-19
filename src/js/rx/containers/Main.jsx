@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import { closeDisclaimer } from '../actions/disclaimer';
 import { closeAlert } from '../actions/alert.js';
 import Disclaimer from '../components/Disclaimer';

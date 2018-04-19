@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { states } from '../../common/utils/options-for-select';
+import { states } from '../../../platform/forms/address';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 export const chapterNames = {

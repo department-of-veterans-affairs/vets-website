@@ -1,5 +1,28 @@
 // Style for schemaform
 
+.va-growable-background {
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: $color-gray-lightest;
+}
+
+.progress-box .va-growable button {
+  width: auto;
+  margin-right: 0;
+  @media screen and (max-width: 340px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
 legend {
   color: $color-primary-darkest;
   font-size: 1.35em;
@@ -7,6 +30,16 @@ legend {
   line-height: 1.5;
   margin: 0;
   padding: 0 0 .5em 0;
+}
+
+// IE
+fieldset {
+  display: inline-block;
+  width: 100%;
+  max-width: 750px;
+  .form-review-panel & {
+    width: 100%;
+  }
 }
 
 @media (max-width: 40.063em) {
@@ -187,6 +220,14 @@ label {
   > .schemaform-block-title + p {
     margin-top: 0.5em;
   }
+}
+.schemaform-block-title {
+  font-family: $font-serif;
+  font-size: 1.8rem;
+}
+.schemaform-block-subtitle {
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .schemaform-first-field {
@@ -508,34 +549,49 @@ legend.schemaform-label.schemaform-file-label {
   margin-top: 0;
 }
 
-ul.react-autosuggest__suggestions-list {
+.autosuggest-container {
+  position: relative;
+}
+
+.autosuggest-list {
   background: $color-white;
   border: 1px solid $color-gray;
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 0px 3px 3px -3px $color-focus,
-              3px 0 3px -3px $color-focus,
-              -3px 0 3px -3px $color-focus,
-              0 7px 7px -7px $color-focus,
-              7px 0 7px -7px $color-focus,
-              -7px 0 7px -7px $color-focus;
+  box-shadow: 3px 3px 3px -3px $color-focus,
+              -3px 3px 3px -3px $color-focus,
+              7px 7px 7px -7px $color-focus,
+              -7px 7px 7px -7px $color-focus;
   list-style: none;
   margin-top: -.5rem;
   max-width: 46rem;
+  max-height: 46rem;
+  overflow: auto;
   padding: 0;
-  position: relative;
+  position: absolute;
+  width: 100%;
+  top: 46px;
+  left: 0;
+  z-index: 1;
 
   @include media-maxwidth($small-screen) {
     font-size: 1.3rem;
   }
 }
 
-li.react-autosuggest__suggestion {
+.usa-input-error > .schemaform-widget-wrapper > .autosuggest-container > .autosuggest-list {
+  width: calc(100% + 1.9rem);
+}
+
+.autosuggest-item {
   padding: .5rem 1rem;
   list-style-type: none;
 
-  &--focused {
+  &-highlighted {
     background-color: $color-primary-alt-light;
     cursor: pointer;
+  }
+  &-selected {
+    font-weight: bold;
   }
 }
 
@@ -544,4 +600,25 @@ li.react-autosuggest__suggestion {
   background-image: inherit !important;
   background-repeat: inherit !important;
   background-size: inherit !important;
+}
+
+.schemaform-confirmation-section-header {
+  font-size: $h3-font-size;
+}
+
+.schemaform-confirmation-claim-header {
+  font-size: $h4-font-size;
+  margin-top: 1em;
+}
+
+.usa-accordion, .usa-accordion-bordered {
+  > ul {
+    button {
+      border-radius: $button-border-radius;
+    }
+  }
+}
+
+.schemaform-title-underline {
+  border-bottom: 3px solid $color-primary;
 }
