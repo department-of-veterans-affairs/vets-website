@@ -1,14 +1,21 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
-import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
+import get from '../../../platform/utilities/data/get';
+import set from '../../../platform/utilities/data/set';
+import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
+import {
+  PREFILL_STATUSES
+} from '../../common/schemaform/save-in-progress/actions';
+import { DateWidget } from '../../common/schemaform/review/widgets';
 
 /*
  * Flatten nested array form data into sibling properties
@@ -31,13 +38,49 @@ export function flatten(data) {
 
 export function transform(formConfig, form) {
   const formData = flatten(transformForSubmit(formConfig, form));
+  delete formData.prefilled;
   return JSON.stringify({
-    educationBenefitsClaim: {
+    disabilityBenefitsClaim: {
       form: formData
     }
   });
 }
 
+export const isPrefillDataComplete = (formData) => {
+  const { socialSecurityNumber, vaFileNumber, gender,
+    dateOfBirth, servicePeriods } = formData;
+  const first = get('fullName.first', formData);
+  const last = get('fullName.last', formData);
+  const country = get('veteran.mailingAddress.country', formData);
+  const addressLine1 = get('veteran.mailingAddress.addressLine1', formData);
+  const emailAddress = get('veteran.emailAddress', formData);
+  const primaryPhone = get('veteran.primaryPhone', formData);
+  const accountType = get('directDeposit.accountType', formData);
+  const routingNumber = get('directDeposit.routingNumber', formData);
+  const bankName = get('directDeposit.bankName', formData);
+  const noBank = get('directDeposit.noBank', formData);
+  const hasVeteranDetails = first && last && gender && dateOfBirth && (socialSecurityNumber || vaFileNumber);
+  const hasPrimaryAddressInfo = country && addressLine1 && emailAddress && primaryPhone;
+  const hasPaymentInfo = noBank || (accountType && routingNumber && bankName);
+  const hasMilitaryHistoryInfo = servicePeriods && servicePeriods.length > 0;
+  return !!(hasVeteranDetails && hasPrimaryAddressInfo && hasPaymentInfo && hasMilitaryHistoryInfo);
+};
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  let newData = formData;
+  const isPrefilled = state.prefilStatus === PREFILL_STATUSES.success;
+  const hasRequiredInformation = isPrefillDataComplete(formData);
+
+  if (isPrefilled && hasRequiredInformation) {
+    newData = set('prefilled', true, newData);
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages
+  };
+}
 
 export const supportingEvidenceOrientation = (
   <p>We’ll now ask you where we can find medical records or evidence about your worsened conditions after they were rated. You don’t need to turn in any medical records that you’ve already submitted with your original claim. <strong>We only need new medical records or other evidence about your condition after you got your disability rating.</strong></p>
@@ -216,7 +259,7 @@ const listifyCenters = (center, idx, list) => {
   const atLeastThree = list.length > 2;
   return (
     <span key={idx}>
-      {!notLast && !justOne && <span className="repose"> and </span>}
+      {!notLast && !justOne && <span className="unstyled-word"> and </span>}
       {centerName}
       {atLeastThree && notLast && ', '}
     </span>
@@ -250,6 +293,41 @@ export const evidenceSummaryView = ({ formData }) => {
           </ul>
         </li>}
       </ul>
+    </div>
+  );
+};
+
+const FullNameViewField = ({ formData }) => {
+  const { first, middle, last, suffix } = formData;
+  return <strong>{first} {middle} {last} {suffix}</strong>;
+};
+
+const SsnViewField = ({ formData }) => {
+  const ssn = formData.slice(5);
+  const mask = <span>•••-••-</span>;
+  return <p>Social Security number: {mask}{ssn}</p>;
+};
+
+const VAFileNumberViewField = ({ formData }) => {
+  const vaFileNumber = formData.slice(5);
+  const mask = <span>•••-••-</span>;
+  return <p>VA file number: {mask}{vaFileNumber}</p>;
+};
+
+const DateOfBirthViewField = ({ formData }) => {
+  return <p>Date of birth: <DateWidget value={formData} options={{ monthYear: false }}/></p>;
+};
+
+const GenderViewField = ({ formData }) => <p>Gender: {genderLabels[formData]}</p>;
+
+export const veteranInformationViewField = ({ formData }) => {
+  return (
+    <div>
+      <FullNameViewField formData={formData.fullName}/>
+      <SsnViewField formData={formData.socialSecurityNumber}/>
+      <VAFileNumberViewField formData={formData.vaFileNumber}/>
+      <GenderViewField formData={formData.gender}/>
+      <DateOfBirthViewField formData={formData.dateOfBirth}/>
     </div>
   );
 };
@@ -333,11 +411,68 @@ export const GetFormHelp = () => {
   );
 };
 
+function lowerCaseFirstLetter(word) {
+  return word[0].toLowerCase().concat(word.slice(1));
+}
+
+function lowerCaseAll(words) {
+  return words.map(word => lowerCaseFirstLetter(word));
+}
+
+function kebabize(words) {
+  return lowerCaseAll(words).join('-');
+}
+
+function getVerifiedPagePath(chapterTitleWords, pageTitleWords) {
+  const verifiedChapterPath = chapterTitleWords.slice(0);
+  verifiedChapterPath.unshift('review');
+  const verifiedPagePath = pageTitleWords.slice(0);
+  return `${kebabize(verifiedChapterPath)}/${kebabize(verifiedPagePath)}`;
+}
+
+function getUnverifiedPagePath(chapterTitleWords, pageTitleWords) {
+  const unverifiedChapterPath = chapterTitleWords.slice(0);
+  const unverifiedPagePath = pageTitleWords.slice(0);
+  return `${kebabize(unverifiedChapterPath)}/${kebabize(unverifiedPagePath)}`;
+}
+
+function getPath(chapterTitle, pageTitle, isReview) {
+  const chapterTitleWords = chapterTitle.split(' ');
+  const pageTitleWords = pageTitle.split(' ');
+  const getPagePath = isReview ? getVerifiedPagePath : getUnverifiedPagePath;
+  return getPagePath(chapterTitleWords, pageTitleWords);
+}
+
+const verifiedDepends = ({ prefilled }) => !!prefilled;
+
+const unverifiedDepends = ({ prefilled }) => !prefilled;
+
+export function getPage(pageConfig, chapterTitle) {
+  const { pageTitle, component, isReview, ...rest } = pageConfig;
+  const pagePath = getPath(chapterTitle, pageTitle, isReview);
+  const depends = isReview ? verifiedDepends : unverifiedDepends;
+  const pageComponent = isReview ? component : undefined;
+
+  return {
+    title: pageTitle,
+    path: pagePath,
+    component: pageComponent,
+    depends,
+    ...rest
+  };
+}
 
 export const ITFDescription = (
   <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
 );
 
+export const VAFileNumberDescription = (
+  <div className="additional-info-title-help">
+    <AdditionalInfo triggerText="What does this mean?">
+      <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security Number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
+    </AdditionalInfo>
+  </div>
+);
 
 export const specialCircumstancesDescription = (
   <p>To help us better understand your situation, please tell us if

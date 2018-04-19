@@ -46,6 +46,9 @@ export default class FormNav extends React.Component {
       chapterName = page.chapterKey === 'review'
         ? 'Review Application'
         : formConfig.chapters[page.chapterKey].title;
+      if (typeof chapterName === 'function') {
+        chapterName = chapterName();
+      }
     }
 
     return (

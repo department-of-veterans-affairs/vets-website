@@ -48,6 +48,7 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for increased disability compensation"/>
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
         <FormStartControls
+          pathname={this.props.location.pathname}
           user={user}
           authenticate={this.authenticate}
           ITFStatus={ITFStatus}
@@ -95,6 +96,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <FormStartControls
+          pathname={this.props.location.pathname}
           user={user}
           authenticate={this.authenticate}
           ITFStatus={ITFStatus}
@@ -112,6 +114,7 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    form: state.form,
     saveInProgress: introSelector(state)
   };
 }

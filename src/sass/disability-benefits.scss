@@ -23,8 +23,34 @@
   font-weight: bold;
 }
 
-.repose {
+.unstyled-word {
   font-weight: normal;
+}
+
+.form-review-panel .accordion-header > .accordion-title {
+  background-image: auto;
+  display: flex;
+  padding: 1em;
+}
+
+.viewfield-edit-container .usa-accordion-content {
+  background-color: $color-gray-lightest;
+  padding: 1.5em;
+}
+
+.additional-info-title-help .additional-info-title {
+  font-weight: normal;
+  color: $color-primary;
+}
+
+.accordion-header {
+  > button, > .accordion-title {
+    min-height: 7rem;
+    padding: 2.5rem 6.5rem 2.5rem 3rem;
+    font-size:1.15em;
+    line-height: 1.5;
+    font-weight: bold;
+  }
 }
 
 
