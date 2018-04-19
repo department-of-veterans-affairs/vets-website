@@ -26,3 +26,52 @@
 .repose {
   font-weight: normal;
 }
+
+
+// Bring the text of an element nested in a <label> up to the same line as the check box
+.form-checkbox input[type="checkbox"] + label {
+  div {
+    display: inline-block;
+    // Also give a little more space between the checkbox and the label
+    padding-left: 0.7em;
+
+    *:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+
+// This could go in the schemaform css, but it isn't used anywhere but here for now
+.widget-outline {
+  padding: 1em;
+  border: solid 4px $color-primary-alt-light;
+  border-radius: 7px;
+  margin-top: 0.5em;
+
+  &.selected {
+    border-color: $color-primary;
+  }
+
+  input[type="checkbox"] + label {
+    // The former margin was to separate the checkbox from the elements above it, but now
+    //  that we have the outline, we need to move the whitespace to the outside of the border.
+    margin-top: 0em;
+    margin-bottom: 0em;
+
+    // Eliminate unnecessary margin inside the label component
+    > div *:last-child {
+      margin-bottom: 0em;
+    }
+  }
+}
+
+.diagnostic-text {
+  margin-top: 0;
+}
+
+.disability-list {
+  padding: 0 0 0 0;
+  list-style: disc;
+}
+
