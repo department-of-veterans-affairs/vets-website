@@ -418,7 +418,7 @@ const addressUISchema = (addressName, title) => {
         labels: stateLabels,
         hideIf: formData => {
           return (
-            formData.veteran[addressName] && formData.veteran[addressName].country !== 'USA'
+            _.get(formData, `veteran[${addressName}].country`) !== 'USA'
           );
         }
       }
@@ -439,8 +439,7 @@ const addressUISchema = (addressName, title) => {
       'ui:title': 'Military State Code',
       'ui:options': {
         labels: stateLabels,
-        hideIf: formData =>
-          formData.veteran[addressName] && formData.veteran[addressName].type !== 'MILITARY' // TODO: determine expand under conditions
+        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
       }
     },
     zipCode: {
@@ -452,15 +451,14 @@ const addressUISchema = (addressName, title) => {
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
         hideIf: formData =>
-          formData.veteran[addressName] && formData.veteran[addressName].type !== 'DOMESTIC' // TODO: determine expand under
+          _.get(formData, `veteran[${addressName}].type`) !== 'DOMESTIC'
       }
     },
     militaryPostOfficeTypeCode: {
       'ui:title': 'Military Post Office Type Code',
       'ui:options': {
         labels: militaryPostOfficeTypeLabels,
-        hideIf: formData =>
-          formData.veteran[addressName] && formData.veteran[addressName].type !== 'MILITARY'
+        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
       }
     }
   };
@@ -563,10 +561,10 @@ function createPrimaryAddressPage(formSchema, isReview) {
             expandUnder: 'view:hasForwardingAddress'
           },
           country: {
-            'ui:required': formData => formData.veteran['view:hasForwardingAddress']
+            'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
           },
           addressLine1: {
-            'ui:required': formData => formData.veteran['view:hasForwardingAddress']
+            'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
           },
           effectiveDate: dateUI('Effective date')
         }

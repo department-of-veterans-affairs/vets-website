@@ -24,7 +24,7 @@ describe('Disability benefits 526EZ primary address', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('select').length).to.equal(5);
+    expect(form.find('select').length).to.equal(2);
     expect(form.find('input').length).to.equal(9);
   });
   it('adds a forwarding address', () => {
@@ -42,7 +42,7 @@ describe('Disability benefits 526EZ primary address', () => {
         }}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('select').length).to.equal(12);
+    expect(form.find('select').length).to.equal(6);
     expect(form.find('input').length).to.equal(15);
   });
   it('does not submit without required info', () => {
@@ -57,7 +57,7 @@ describe('Disability benefits 526EZ primary address', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('select').length).to.equal(5);
+    expect(form.find('select').length).to.equal(2);
     expect(form.find('input').length).to.equal(9);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(2);
