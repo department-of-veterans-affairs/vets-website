@@ -121,7 +121,8 @@ const formConfig = {
         // paymentInformation:
         specialCircumstances: {
           title: 'Special Circumstances',
-          path: 'special-circumstances',
+          path: 'review-veteran-details/special-circumstances',
+          depends: formData => formData.prefilled,
           uiSchema: {
             'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
@@ -158,6 +159,7 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
+          depends: formData => formData.prefilled,
           'ui:description': 'things',
           initialData,
           uiSchema: {
@@ -601,9 +603,6 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
-                    attachmentSchema: {
-                      'ui:title': 'Document type'
-                    },
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -625,7 +624,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: ['name', 'attachmentId'],
+                        required: ['name'],
                         properties: {
                           name: {
                             type: 'string'
@@ -635,25 +634,6 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
-                          },
-                          attachmentId: {
-                            type: 'string',
-                            'enum': [
-                              '1',
-                              '2',
-                              '3',
-                              // '4', // TODO: Confirm this should be taken out
-                              '5',
-                              '6'
-                            ],
-                            enumNames: [
-                              'Discharge',
-                              'Marriage related',
-                              'Dependent related',
-                              // 'VA preneed form',
-                              'Letter',
-                              'Other'
-                            ]
                           }
                         }
                       }
@@ -693,9 +673,6 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
-                    attachmentSchema: {
-                      'ui:title': 'Document type'
-                    },
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -717,7 +694,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: ['name', 'attachmentId'],
+                        required: ['name'],
                         properties: {
                           name: {
                             type: 'string'
@@ -727,25 +704,6 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
-                          },
-                          attachmentId: {
-                            type: 'string',
-                            'enum': [
-                              '1',
-                              '2',
-                              '3',
-                              // '4',
-                              '5',
-                              '6'
-                            ],
-                            enumNames: [
-                              'Discharge',
-                              'Marriage related',
-                              'Dependent related',
-                              // 'VA preneed form',
-                              'Letter',
-                              'Other'
-                            ]
                           }
                         }
                       }
@@ -781,20 +739,6 @@ const formConfig = {
                 }
               }
             }
-          }
-        }
-      }
-    },
-    chapterFive: {
-      title: 'Chapter Five',
-      pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-five/page-one',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {}
           }
         }
       }
