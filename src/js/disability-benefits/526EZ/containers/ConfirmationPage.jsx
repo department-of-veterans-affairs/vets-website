@@ -56,7 +56,7 @@ class ConfirmationPage extends React.Component {
         <div className="inset">
           <h4>Disability Compensation Claim for Increase <span className="additional">(Form 21-526EZ)</span></h4>
           <span>
-            For {name.first} {name.middle} {name.last} {name.suffix}
+            For {fullName.first} {fullName.middle} {fullName.last} {fullName.suffix}
           </span>
 
           <ul className="claim-list">
