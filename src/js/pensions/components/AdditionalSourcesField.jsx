@@ -52,6 +52,14 @@ export default class AdditionalSourcesField extends React.Component {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
 
+  componentDidUpdate(oldProps) {
+    const oldDataLength = (oldProps.formData || []).length;
+    const newDataLength = (this.props.formData || []).length;
+    if (newDataLength > oldDataLength) {
+      this.scrollToRow(newDataLength);
+    }
+  }
+
   onItemChange(indexToChange, value, fullItem = false) {
     const path = fullItem ? [indexToChange] : [indexToChange, 'amount'];
     const newItems = _.set(path, value, this.props.formData || []);
@@ -69,15 +77,13 @@ export default class AdditionalSourcesField extends React.Component {
   }
 
   scrollToRow(index) {
-    setTimeout(() => {
-      scroller.scrollTo(`additional_${index}`, window.VetsGov.scroll || {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: 0
-      });
-      focusElement(`.pensions-heading-${index}`);
-    }, 100);
+    scroller.scrollTo(`additional_${index}`, window.VetsGov.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+      offset: 0
+    });
+    focusElement(`.pensions-heading-${index}`);
   }
 
   handleUpdate(index) {
@@ -97,7 +103,6 @@ export default class AdditionalSourcesField extends React.Component {
   handleAdd() {
     const data = this.props.formData || [];
     this.props.onChange(data.concat({}));
-    this.scrollToRow(data.length);
   }
 
   handleRemove(indexToRemove) {

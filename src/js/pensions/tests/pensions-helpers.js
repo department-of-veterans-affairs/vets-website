@@ -185,7 +185,7 @@ function completeNetWorthInfo(client, data) {
     .fill('input[name$="realProperty"]', data.realProperty)
     .click('body')
     .click('.pensions-sources-add-btn')
-    .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
+    .waitForElementPresent('input[name$="additionalSources_0_name"]', Timeouts.normal)
     .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
     .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
     .click('.va-growable-expanded .float-left');
@@ -201,7 +201,7 @@ function completeMonthlyIncomeInfo(client, data) {
     .fill('input[name$="ssi"]', data.ssi)
     .click('body')
     .click('.pensions-sources-add-btn')
-    .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
+    .waitForElementPresent('input[name$="additionalSources_0_name"]', Timeouts.normal)
     .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
     .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
     .click('.va-growable-expanded .float-left');
@@ -213,7 +213,7 @@ function completeExpectedIncomeInfo(client, data) {
     .fill('input[name$="interest"]', data.interest)
     .click('body')
     .click('.pensions-sources-add-btn')
-    .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
+    .waitForElementPresent('input[name$="additionalSources_0_name"]', Timeouts.normal)
     .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
     .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
     .click('.va-growable-expanded .float-left');
@@ -248,7 +248,7 @@ function completeContactInfo(client, data) {
 function completeExpeditedInfo(client, data) {
   client
     .selectYesNo('root_noRapidProcessing', data.noRapidProcessing)
-    .waitForElementVisible('.usa-alert-info', Timeouts.normal);
+    .waitForElementPresent('.usa-alert-info', Timeouts.normal);
 }
 
 function initApplicationSubmitMock() {
