@@ -4,8 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import {
-  DefinitionTester,
-  selectCheckbox
+  DefinitionTester
 } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form.js';
 import initialData from '../../../../test/disability-benefits/526EZ/schema/initialData.js';
@@ -35,11 +34,11 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{ veteran: {
           'view:hasForwardingAddress': true
-          }
+        }
         }}
         formData={{ veteran: {
           'view:hasForwardingAddress': true
-          }
+        }
         }}
         uiSchema={uiSchema}/>
     );
