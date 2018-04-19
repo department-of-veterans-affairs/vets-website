@@ -124,7 +124,8 @@ const formConfig = {
         veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
         specialCircumstances: { // TODO: create page file and reuse 
           title: 'Special Circumstances',
-          path: 'special-circumstances',
+          path: 'review-veteran-details/special-circumstances',
+          depends: formData => formData.prefilled,
           uiSchema: {
             'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
@@ -162,6 +163,7 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
+          depends: formData => formData.prefilled,
           'ui:description': 'things',
           initialData,
           uiSchema: {
@@ -840,20 +842,6 @@ const formConfig = {
                 }
               }
             }
-          }
-        }
-      }
-    },
-    chapterFive: {
-      title: 'Chapter Five',
-      pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-five/page-one',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {}
           }
         }
       }
