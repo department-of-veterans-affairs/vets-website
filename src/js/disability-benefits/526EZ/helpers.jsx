@@ -461,3 +461,40 @@ export const specialCircumstancesDescription = (
       any of the below situations apply to you. <strong>Are you:</strong></p>
 );
 
+export const FDCDescription = (
+  <div>
+    <h5>Fully developed claim program</h5>
+    <p>
+      You can apply using the Fully Developed Claim (FDC) program if
+      you’ve uploaded all the supporting documents or supplemental
+      forms needed to support your claim.
+    </p>
+    <a href="/pension/apply/fully-developed-claim/" target="_blank">
+      Learn more about the FDC program
+    </a>.
+  </div>
+);
+
+export const FDCWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        Since you’ve uploaded all your supporting documents, your
+        claim will be submitted as a fully developed claim.
+      </div>
+    </div>
+  </div>);
+
+export const noFDCWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        Since you’ll be sending in additional documents later,
+        your application doesn’t qualify for the Fully Developed
+        Claim program. We’ll review your claim through the
+        standard claim process. Please turn in any information to
+        support your claim as soon as you can.
+      </div>
+    </div>
+  </div>
+);
