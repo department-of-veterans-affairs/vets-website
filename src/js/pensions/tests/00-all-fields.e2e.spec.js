@@ -353,4 +353,3 @@ const runTest = E2eHelpers.createE2eTest(
 );
 
 module.exports = runTest;
-module.exports['@disabled'] = true;

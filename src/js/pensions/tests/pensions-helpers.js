@@ -258,9 +258,21 @@ function initApplicationSubmitMock() {
     value: {
       data: {
         attributes: {
+          guid: '1234',
           regionalOffice: [],
           confirmationNumber: '123fake-submission-id-567',
           submittedAt: '2016-05-16'
+        }
+      }
+    }
+  });
+  mock(null, {
+    path: '/v0/pension_claims/1234',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          state: 'success'
         }
       }
     }

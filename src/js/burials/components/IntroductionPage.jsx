@@ -15,24 +15,18 @@ class IntroductionPage extends React.Component {
     this.props.router.push(this.props.route.pageList[1].path);
   }
   render() {
-    const isLive = __BUILDTYPE__ !== 'production' || window.location.href.includes('?uat');
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for burial benefits"/>
         <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
-        {isLive && <SaveInProgressIntro
+        <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the Burial Benefits Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
           Please complete the 21P-530 form to apply for burial benefits.
-        </SaveInProgressIntro>}
-        {!isLive && <div className="usa-alert usa-alert-warning">
-          <div className="usa-alert-body">
-            We’re sorry. Our online application isn’t available right now. We’re working to make it easier for you to apply for benefits online, so please check back later to see our new and improved process.
-          </div>
-        </div>}
+        </SaveInProgressIntro>
         <div className="process schemaform-process schemaform-process-sip">
           <h4>Follow the steps below to apply for burial benefits.</h4>
           <ol>
@@ -61,13 +55,10 @@ class IntroductionPage extends React.Component {
               <div><h5>Apply</h5></div>
               <p>Complete an Application for Burial Benefits (VA Form 21P-530).<br/><a href="https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf">Download VA Form 21P-530</a>.</p>
               <p>Mail the application and other paperwork to your local regional benefit office.<br/><a href="/facilities">Find your local regional benefit office</a>.</p>
-              {!isLive ? <div>
-                <p>Complete an Application for Burial Benefits (VA Form 21P-530).<br/><a href="https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf">Download VA Form 21P-530</a>.</p>
-                <p>Mail the application and other paperwork to your local regional benefit office.<br/><a href="/facilities">Find your local regional benefit office</a>.</p>
-              </div> : <div>
+              <div>
                 <p>Complete this burial benefits form.</p>
                 <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
-              </div>}
+              </div>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
@@ -80,12 +71,12 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {isLive && <SaveInProgressIntro
+        <SaveInProgressIntro
           buttonOnly
           pageList={this.props.route.pageList}
           startText="Start the Burial Benefits Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>}
+          {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="04/30/2020"/>
         </div>
