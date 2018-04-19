@@ -14,6 +14,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // TODO: initialData for dev / testing purposes only and should be removed for production
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
+import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+
 import {
   transform,
   supportingEvidenceOrientation,
@@ -31,6 +33,8 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
+  // releaseView, // Where was this used before?
+  disabilityOption,
   GetFormHelp,
   specialCircumstancesDescription,
   FDCDescription,
@@ -38,16 +42,20 @@ import {
   noFDCWarning,
 } from '../helpers';
 
+import { requireOneSelected } from '../validations';
+
 const {
   treatments,
+  disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
 
 const {
   date,
   dateRange,
+  disabilities: disabiltiesDefinition,
+  specialIssues,
   servicePeriods,
-  // files
   privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
@@ -96,8 +104,9 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
+    disabilities: disabiltiesDefinition,
+    specialIssues,
     servicePeriods,
-    // files
     privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',
@@ -195,16 +204,37 @@ const formConfig = {
         }
       }
     },
-    chapterThree: {
-      title: 'Chapter Three',
+    ratedDisabilities: {
+      title: 'Your Rated Disabilities',
       pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-three/page-one',
-          uiSchema: {},
+        ratedDisabilities: {
+          title: 'Your Rated Disabilities',
+          path: 'select-disabilities',
+          uiSchema: {
+            'ui:description': 'Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.',
+            disabilities: {
+              // Using StringField because it doesn't do much and we just need to render the widget.
+              // If this becomes a common(ish) pattern, we should make a BasicField or something.
+              'ui:field': 'StringField',
+              'ui:widget': SelectArrayItemsWidget,
+              'ui:validations': [{
+                options: { selectedPropName: 'view:selected' },
+                validator: requireOneSelected
+              }],
+              // Need a "blank" title to show the validation error message but not the property name (disabilities)
+              'ui:title': ' ',
+              'ui:options': {
+                showFieldLabel: 'label',
+                label: disabilityOption,
+                widgetClassNames: 'widget-outline'
+              }
+            }
+          },
           schema: {
             type: 'object',
-            properties: {}
+            properties: {
+              disabilities: disabilitiesSchema
+            }
           }
         }
       }
@@ -228,6 +258,7 @@ const formConfig = {
           title: (formData, { pagePerItemIndex }) => _.get(`disabilities.${pagePerItemIndex}.name`, formData),
           path: 'supporting-evidence/:index/evidence-type',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -280,6 +311,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
           uiSchema: {
@@ -307,6 +339,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/va-facilities',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
           uiSchema: {
@@ -355,6 +388,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-intro',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
           uiSchema: {
@@ -382,6 +416,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-choice',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
           uiSchema: {
@@ -431,6 +466,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-release',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
             const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
@@ -541,6 +577,7 @@ const formConfig = {
           },
           path: 'supporting-evidence/:index/documents',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -632,6 +669,7 @@ const formConfig = {
           depends: (formData, index) => _.get(`disabilities.${index}.view:otherEvidence`, formData),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -722,6 +760,7 @@ const formConfig = {
           title: 'Summary of evidence',
           path: 'supporting-evidence/:index/evidence-summary',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {

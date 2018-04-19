@@ -31,9 +31,10 @@ const runTest = E2eHelpers.createE2eTest(
         .click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/chapter-two/page-one');
 
-      // Chapter 3 page 1
-      client.axeCheck('.main')
-        .click('.form-panel .usa-button-primary');
+      // Rated disability selection
+      client.axeCheck('.main');
+      PageHelpers.selectDisabilities(client); // Just selects the first one in the list
+      client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/chapter-three/page-three');
 
       // Supporting evidence
@@ -64,6 +65,12 @@ const runTest = E2eHelpers.createE2eTest(
         .click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFromExact(client, '/supporting-evidence/0/private-medical-records');
 
+      // Private medical records choice
+      client.axeCheck('.main')
+        .selectRadio('root_view:uploadPrivateRecords', 'no')
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFromExact(client, '/supporting-evidence/0/private-medical-records-choice');
+
       // Records Release
       E2eHelpers.expectLocation(client, '/supporting-evidence/0/private-medical-records-release');
       client.axeCheck('.main');
@@ -87,19 +94,9 @@ const runTest = E2eHelpers.createE2eTest(
       E2eHelpers.expectLocation(client, '/supporting-evidence/0/evidence-summary');
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
-      E2eHelpers.expectLocation(client, '/supporting-evidence/1/evidence-type');
+      // E2eHelpers.expectLocation(client, '/supporting-evidence/1/evidence-type');
 
-      // Second Disability Evidence Type
-      E2eHelpers.expectLocation(client, '/supporting-evidence/1/evidence-type');
-      client.axeCheck('.main');
-      client.click('.form-panel .usa-button-primary');
-      E2eHelpers.expectLocation(client, '/supporting-evidence/1/evidence-summary');
-
-      // Second Evidence Summary
-      E2eHelpers.expectLocation(client, '/supporting-evidence/1/evidence-summary');
-      client.axeCheck('.main');
-      client.click('.form-panel .usa-button-primary');
-      E2eHelpers.expectLocation(client, '/chapter-five/page-one');
+      // Skips the second disability because it wasn't selected
 
       // chapter 5 page 1
       E2eHelpers.expectLocation(client, '/chapter-five/page-one');
