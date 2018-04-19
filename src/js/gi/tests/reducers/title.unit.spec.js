@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import titleReducer from '../../../src/js/gi/reducers/title.js';
+import titleReducer from '../../reducers/title';
 
 describe('title reducer', () => {
   it('should set the page title', () => {
