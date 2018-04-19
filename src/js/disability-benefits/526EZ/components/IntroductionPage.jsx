@@ -31,7 +31,7 @@ class IntroductionPage extends React.Component {
   }
 
   beforeStartForm = () => {
-    this.props.submitIntentToFile(formConfig, this.updateITFStatus);
+    //this.props.submitIntentToFile(formConfig, this.updateITFStatus);
   }
 
   authenticate = (e) => {
