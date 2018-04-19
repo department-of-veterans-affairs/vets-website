@@ -3,26 +3,26 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, // selectCheckbox 
-} from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form.js';
 import initialData from '../schema/initialData.js';
 
 initialData.prefilled = false;
 
 describe('526EZ veteran information', () => {
-  const page = formConfig.chapters.reviewVeteranDetails.pages.veteranInformation;
+  const page = formConfig.chapters.veteranDetails.pages.veteranInformation;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
+      formData={{}}
       data={{}}
       uiSchema={uiSchema}/>
     );
 
-    expect(form.find('select').length).to.equal(4);
+    expect(form.find('select').length).to.equal(3);
     expect(form.find('input').length).to.equal(6);
   });
 
@@ -31,6 +31,7 @@ describe('526EZ veteran information', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
+      formData={{}}
       data={{}}
       uiSchema={uiSchema}/>
     );
@@ -46,6 +47,7 @@ describe('526EZ veteran information', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
+      formData={initialData}
       data={initialData}
       onSubmit={onSubmit}
       uiSchema={uiSchema}/>

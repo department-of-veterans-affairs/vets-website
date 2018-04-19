@@ -6,7 +6,7 @@ import moment from 'moment';
 import { getNextPagePath } from '../routing';
 import { toggleLoginModal } from '../../../login/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import LoadingIndicator from '../../components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
 
@@ -174,6 +174,8 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(SaveInProgressIntro);
+
+export { SaveInProgressIntro };
 
 export const introActions = {
   fetchInProgressForm,

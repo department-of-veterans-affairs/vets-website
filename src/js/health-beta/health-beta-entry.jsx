@@ -1,6 +1,6 @@
 import '../../platform/polyfills';
-import '../../sass/rx/rx.scss';
-import '../../sass/user-profile.scss';
+import '../rx/sass/rx.scss';
+import '../user-profile/sass/user-profile.scss';
 
 import startApp from '../../platform/startup';
 

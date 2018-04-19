@@ -11,10 +11,10 @@ import {
   isValidRoutingNumber,
   isValidPartialMonthYear,
   isValidPartialMonthYearInPast
-} from '../utils/validations';
+} from '../../../platform/forms/validations';
 
 import { parseISODate } from './helpers';
-import { isActivePage } from '../utils/helpers';
+import { isActivePage } from '../../../platform/forms/helpers';
 
 /*
  * This contains the code for supporting our own custom validations and messages

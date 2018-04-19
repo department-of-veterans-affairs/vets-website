@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { getActivePages } from '../utils/helpers';
+import { getActivePages } from '../../../platform/forms/helpers';
 import { expandArrayPages } from './helpers';
 
 /*

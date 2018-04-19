@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
 
 class MessageCategory extends React.Component {
   render() {

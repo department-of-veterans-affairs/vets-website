@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 
 import Breadcrumbs from '../components/Breadcrumbs';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';

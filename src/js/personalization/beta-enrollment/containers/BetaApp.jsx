@@ -8,8 +8,7 @@ import { features } from '../../beta-enrollment/routes';
 class BetaApp extends React.Component {
 
   static propTypes = {
-    featureName: PropTypes.oneOf(objectValues(features)).isRequired,
-    redirect: PropTypes.string.isRequired
+    featureName: PropTypes.oneOf(objectValues(features)).isRequired
   };
 
   render() {
