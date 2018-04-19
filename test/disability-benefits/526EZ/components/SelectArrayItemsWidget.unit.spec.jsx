@@ -50,7 +50,7 @@ describe('<SelectArrayItemsWidget>', () => {
     });
   });
 
-  it.only('should call onChange with the toggled the selected property when the checkbox is toggled', () => {
+  it('should call onChange with the toggled the selected property when the checkbox is toggled', () => {
     const wrapper = mount(<SelectArrayItemsWidget {...defaultProps}/>);
     wrapper.find('.form-checkbox').forEach((element, index) => {
       onChangeSpy.reset();

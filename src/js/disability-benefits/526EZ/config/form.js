@@ -47,7 +47,9 @@ const {
 const {
   date,
   dateRange,
-  privateTreatmentCenterAddress
+  privateTreatmentCenterAddress,
+  disabilities: disabiltiesDefinition,
+  specialIssues
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -91,7 +93,9 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
-    privateTreatmentCenterAddress
+    disabilities: disabiltiesDefinition,
+    privateTreatmentCenterAddress,
+    specialIssues
   },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
@@ -166,8 +170,7 @@ const formConfig = {
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
               'ui:validations': [{
-                // TODO: Remove the 'disability' bit when we get rid of the nesting
-                options: { selectedPropName: 'disability.view:selected' },
+                options: { selectedPropName: 'view:selected' },
                 validator: requireOneSelected
               }],
               // Need a "blank" title to show the validation error message but not the property name (disabilities)
@@ -175,8 +178,6 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: 'label',
                 label: disabilityOption,
-                // TODO: Remove the selectedPropName when we get rid of the `disability` nesting
-                selectedPropName: 'disability.view:selected',
                 widgetClassNames: 'widget-outline'
               }
             }
@@ -209,8 +210,7 @@ const formConfig = {
           title: (formData, { pagePerItemIndex }) => _.get(`disabilities.${pagePerItemIndex}.name`, formData),
           path: 'supporting-evidence/:index/evidence-type',
           showPagePerItem: true,
-          // TODO: Remove the nested `disability` when we flatten that
-          itemFilter: (item) => _.get('disability.view:selected', item),
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -263,8 +263,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
-          // TODO: Remove the nested `disability` when we flatten that
-          itemFilter: (item) => _.get('disability.view:selected', item),
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
           uiSchema: {
@@ -292,8 +291,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/va-facilities',
           showPagePerItem: true,
-          // TODO: Remove the nested `disability` when we flatten that
-          itemFilter: (item) => _.get('disability.view:selected', item),
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
           uiSchema: {
@@ -342,8 +340,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-intro',
           showPagePerItem: true,
-          // TODO: Remove the nested `disability` when we flatten that
-          itemFilter: (item) => _.get('disability.view:selected', item),
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
           uiSchema: {
@@ -371,8 +368,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-choice',
           showPagePerItem: true,
-          // TODO: Remove the nested `disability` when we flatten that
-          itemFilter: (item) => _.get('disability.view:selected', item),
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
           uiSchema: {
@@ -422,8 +418,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-release',
           showPagePerItem: true,
-          // TODO: Remove the nested `disability` when we flatten that
-          itemFilter: (item) => _.get('disability.view:selected', item),
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
             const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
@@ -534,8 +529,7 @@ const formConfig = {
           },
           path: 'supporting-evidence/:index/documents',
           showPagePerItem: true,
-          // TODO: Remove the nested `disability` when we flatten that
-          itemFilter: (item) => _.get('disability.view:selected', item),
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -627,8 +621,7 @@ const formConfig = {
           depends: (formData, index) => _.get(`disabilities.${index}.view:otherEvidence`, formData),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
-          // TODO: Remove the nested `disability` when we flatten that
-          itemFilter: (item) => _.get('disability.view:selected', item),
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -719,8 +712,7 @@ const formConfig = {
           title: 'Summary of evidence',
           path: 'supporting-evidence/:index/evidence-summary',
           showPagePerItem: true,
-          // TODO: Remove the nested `disability` when we flatten that
-          itemFilter: (item) => _.get('disability.view:selected', item),
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
