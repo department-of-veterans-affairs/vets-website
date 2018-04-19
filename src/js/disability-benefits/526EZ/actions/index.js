@@ -40,7 +40,7 @@ export function submitIntentToFile(formConfig, onChange) {
         Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
       });
 
-    return delay(2000);
+    return delay(2000); // eslint-disable-line no-unreachable
   };
 }
 

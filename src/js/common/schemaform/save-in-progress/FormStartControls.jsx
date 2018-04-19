@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import Raven from 'raven-js';
+// import Raven from 'raven-js';
 
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
@@ -41,7 +41,8 @@ class FormStartControls extends React.Component {
   handleLoadForm = () => {
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    return this.props.fetchInProgressForm(this.props.formId, this.props.migrations); //TODO: remove once pre-prefill bug fixed
+    /* eslint-disable no-unreachable */
+    return this.props.fetchInProgressForm(this.props.formId, this.props.migrations); // TODO: remove once pre-prefill bug fixed
     if (this.props.beforeStartForm) {
       return this.props.beforeStartForm().then((hasValidITF) => {
         if (hasValidITF) {
@@ -51,6 +52,7 @@ class FormStartControls extends React.Component {
       });
     }
     return this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
+    /* eslint-enable no-unreachable */
   }
 
   toggleModal = () => {
