@@ -205,15 +205,6 @@ export const additionalDocumentDescription = () => {
   );
 };
 
-const documentLabels = {
-  1: 'Discharge',
-  2: 'Marriage related',
-  3: 'Dependent related',
-  // 4: 'VA preneed form',
-  5: 'Letter',
-  6: 'Other'
-};
-
 const getVACenterName = (center) => center.treatmentCenterName;
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
 
