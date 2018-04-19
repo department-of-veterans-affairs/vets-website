@@ -33,7 +33,7 @@ import {
   specialCircumstancesDescription,
   FDCDescription,
   FDCWarning,
-  noFDCWarning
+  noFDCWarning,
 } from '../helpers';
 
 const {
