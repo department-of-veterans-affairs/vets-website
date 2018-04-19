@@ -122,7 +122,6 @@ const formConfig = {
       },
       pages: {
         veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
-        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
         specialCircumstances: { // TODO: create page file and reuse 
           title: 'Special Circumstances',
           path: 'special-circumstances',
@@ -158,6 +157,54 @@ const formConfig = {
               }
             }
           }
+        },
+        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
+        militaryHistory: {
+          title: 'Military service history',
+          path: 'review-veteran-details/military-service-history',
+          'ui:description': 'things',
+          initialData,
+          uiSchema: {
+            servicePeriods: {
+              'ui:title': 'Military service history',
+              'ui:description':
+                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:options': {
+                itemName: 'Service Period',
+                viewField: ServicePeriodView,
+                reviewMode: true
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                dateRange: dateRangeUI(
+                  'Service start date',
+                  'Service end date',
+                  'End of service must be after start of service'
+                ),
+                dischargeType: {
+                  'ui:title': 'Character of discharge',
+                  'ui:options': {
+                    labels: {
+                      honorable: 'Honorable',
+                      general: 'General',
+                      other: 'Other Than Honorable',
+                      'bad-conduct': 'Bad Conduct',
+                      dishonorable: 'Dishonorable',
+                      undesirable: 'Undesirable'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              servicePeriods
+            }
+          }
         }
       }
     },
@@ -165,7 +212,6 @@ const formConfig = {
       title: 'Veteran Details',
       pages: {
         veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
-        primaryAddress: createUnverifiedPrimaryAddressPage(fullSchema526EZ),
         specialCircumstances: {
           title: 'Special Circumstances',
           path: 'special-circumstances',
@@ -202,6 +248,7 @@ const formConfig = {
             }
           }
         },
+        primaryAddress: createUnverifiedPrimaryAddressPage(fullSchema526EZ),
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
@@ -215,7 +262,6 @@ const formConfig = {
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
-                reviewMode: true
               },
               items: {
                 serviceBranch: {
