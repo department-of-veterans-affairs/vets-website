@@ -63,7 +63,7 @@ class ConfirmationPage extends React.Component {
             <strong>Conditions claimed</strong>
             <br/>
             <ul className="disability-list">
-              {selectedDisabilities.map(( disability, i) => {
+              {selectedDisabilities.map((disability, i) => {
                 return <li key={i}>{disability.name}</li>;
               })}
             </ul>
