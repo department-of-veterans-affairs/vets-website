@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/health-records/health-records.scss';
+import './sass/health-records.scss';
 
 import startApp from '../../platform/startup';
 

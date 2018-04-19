@@ -1,6 +1,6 @@
 import React from 'react';
 import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
-import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import LoadingButton from './LoadingButton';

@@ -1,10 +1,10 @@
 import React from 'react';
-import classNames from 'classnames';
 
-import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
+import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
-import cloneDeep from '../../common/utils/data-utils/cloneDeep';
+import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
+import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
@@ -45,117 +45,91 @@ export const supportingEvidenceOrientation = (
 
 export const evidenceTypesDescription = ({ formData }) => {
   return (
-    <p>What supporting evidence do you have that shows how your {formData.disability.diagnosticText} <strong>has worsened since VA rated your disability</strong>?</p>
+    <p>What supporting evidence do you have that shows how your {formData.name} <strong>has worsened since VA rated your disability</strong>?</p>
   );
 };
 
 
-// Shows or collapses the "Which should I choose?" link at the bottom of the evidence types page
-// TODO: Investigate whether this should just use `expandUnder`
-export class EvidenceTypeHelp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false
-    };
-  }
-
-  toggleOpen = (e) => {
-    e.preventDefault();
-    this.setState({ open: !this.state.open });
-  }
-
-  expandedContent = (
-    <div>
-      <h3>Types of evidence</h3>
-      <h4>VA medical records</h4>
-      <p>If you were treated at a VA medical center or clinic, you have VA medical records. This includes Tri-Care.</p>
-      <h4>Private medical records</h4>
-      <p>If you were treated by a private doctor, including Veteran’s Choice, we will need to see those records to proceed with your claim. Like DBQs.</p>
-      <h4>Lay statements or other evidence</h4>
-      <p>Also known as "buddy statements," written accounts from family or other people who know you can help support a claim. In most cases your medical records are enough, but claims involving Post Traumatic Stress Disorder or Military Sexual Trauma sometimes benefit from Lay Statements.</p>
-      <button className="va-button-link" onClick={this.toggleOpen}>Close</button>
-    </div>
-  )
-
-  render() {
-    const className = classNames(
-      'form-expanding-group',
-      { 'form-expanding-group-open': this.state.open }
-    );
-
-    return (
-      <div className={className}>
-        <button className="va-button-link dashed-underline" onClick={this.toggleOpen}>Which should I choose?</button>
-        {this.state.open && this.expandedContent}
-      </div>
-    );
-  }
-}
+export const evidenceTypeHelp = (
+  <AdditionalInfo triggerText="Which should I choose?">
+    <h3>Types of evidence</h3>
+    <h4>VA medical records</h4>
+    <p>If you were treated at a VA medical center or clinic, or by a doctor through the TRICARE health care program, you’ll have VA medical records.</p>
+    <h4>Private medical records</h4>
+    <p>If you were treated by a private doctor, including a Veteran’s Choice doctor, you’ll have private medical records.
+      We’ll need to see those records to make a decision on your claim. A Disability Benefit Questionnaire is an example of a private medical record.</p>
+    <h4>Lay statements or other evidence</h4>
+    <p>A lay statement is a written statement from family, friends, or coworkers to help support your claim. Lay statement are also called “buddy statements.” In most cases, you only need your medical records to support your disability claim. Some claims, for example, for Posttraumatic Stress Disorder or for military sexual trauma, could benefit from a lay or buddy statement.</p>
+  </AdditionalInfo>
+);
 
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{formData.disability.diagnosticText}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{formData.name}</legend>
   );
 };
 
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Tell us about facilities where VA treated you for {formData.disability.diagnosticText}, <strong>after you got your disability rating</strong>.</p>
+    <p>Tell us about facilities where VA treated you for {formData.name}, <strong>after you got your disability rating</strong>.</p>
   );
 };
 
 
 export const treatmentView = ({ formData }) => {
-  const { startTreatment, endTreatment, treatmentCenterName } = formData.treatment;
+  const { from, to } = formData.treatmentDateRange;
+
   let treatmentPeriod = '';
-
-  if (startTreatment && endTreatment) {
-    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
-  } else if (startTreatment || endTreatment) {
-    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+  if (from && to) {
+    treatmentPeriod = `${from} — ${to}`;
+  } else if (from || to) {
+    treatmentPeriod = `${(from || to)}`;
   }
-
 
   return (
     <div>
-      <strong>{treatmentCenterName}</strong><br/>
+      <strong>{formData.treatmentCenterName}</strong><br/>
       {treatmentPeriod}
     </div>
   );
 };
 
-export const releaseView = ({ formData }) => {
-  const { startTreatment, endTreatment, treatmentCenterName } = formData.privateRecordRelease;
-  let treatmentPeriod = '';
-
-  if (startTreatment && endTreatment) {
-    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
-  } else if (startTreatment || endTreatment) {
-    treatmentPeriod = `${(startTreatment || endTreatment)}`;
-  }
-
-
-  return (
-    <div>
-      <strong>{treatmentCenterName}</strong><br/>
-      {treatmentPeriod}
-    </div>
-  );
-};
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your VA medical records related to your {formData.disability.diagnosticText}.</p>
+    <p>Ok, first we’ll ask about your VA medical records related to your {formData.name}.</p>
   );
 };
 
 
-export const privateMedicalRecordsIntro = ({ formData }) => {
+export const privateRecordsChoice = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your private medical records related to your {formData.disability.diagnosticText}.</p>
+    <div>
+      <h4>About private medical records</h4>
+      <p>You said you were treated for {formData.name} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
+    </div>
+  );
+};
+
+
+export const privateRecordsChoiceHelp = (
+  <AdditionalInfo triggerText="Which should I choose?">
+    <h4>You upload your medical records</h4>
+    <p>If you upload a digital copy of all your medical records, we can review your claim more quickly. Uploading a digital
+      file works best if you have a computer with a fast Internet connection. The digital file could be uploaded as a .pdf
+      or other photo file format, like a .jpeg or .png.</p>
+    <h4>We get your medical records for you</h4>
+    <p>If you tell us which VA medical center treated you for your condition, we can get your medical records for you. Getting your records may take us some time. This could take us longer to make a decision on your claim.</p>
+  </AdditionalInfo>
+);
+
+
+export const privateMedicalRecordsIntro = ({ formData }) => {
+  const firstOrNext = formData['view:vaMedicalRecords'] ? 'next' : 'first';
+  return (
+    <p>Ok, {firstOrNext} we’ll ask about your private medical records related to your {formData.name}.</p>
   );
 };
 
@@ -240,11 +214,11 @@ const documentLabels = {
   6: 'Other'
 };
 
-const getVACenterName = (center) => center.treatment.treatmentCenterName;
+const getVACenterName = (center) => center.treatmentCenterName;
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
 
 const listifyCenters = (center, idx, list) => {
-  const centerName = center.treatment ? getVACenterName(center) : getPrivateCenterName(center);
+  const centerName = center.treatmentCenterName ? getVACenterName(center) : getPrivateCenterName(center);
   const notLast = idx < (list.length - 1);
   const justOne = list.length === 1;
   const atLeastThree = list.length > 2;
@@ -257,14 +231,18 @@ const listifyCenters = (center, idx, list) => {
   );
 };
 
-
 export const evidenceSummaryView = ({ formData }) => {
-  const { treatments: VATreatments, privateRecordReleases, privateRecords, additionalDocuments } = formData;
+  const {
+    vaTreatments,
+    privateRecordReleases,
+    privateRecords,
+    additionalDocuments
+  } = formData;
   return (
     <div>
       <ul>
-        {VATreatments &&
-        <li>We’ll get your medical records from <span className="treatment-centers">{VATreatments.map(listifyCenters)}</span>.</li>}
+        {vaTreatments &&
+        <li>We’ll get your medical records from <span className="treatment-centers">{vaTreatments.map(listifyCenters)}</span>.</li>}
         {privateRecordReleases &&
         <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
         {privateRecords && <li>We have received the private medical records you uploaded.</li>}
@@ -283,3 +261,103 @@ export const evidenceSummaryView = ({ formData }) => {
     </div>
   );
 };
+
+export const ITFErrorAlert = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h3>We’re sorry. Your intent to file request didn’t go through. Please try again.</h3>
+    </div>
+  </div>
+);
+
+export const UnauthenticatedAlert = (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        To apply for a disability increase, you’ll need to sign in and verify your account.
+      </div>
+    </div>
+    <br/>
+  </div>
+);
+
+export const UnverifiedAlert = (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        To apply for a disability increase, you’ll need to verify your account.
+      </div>
+    </div>
+    <br/>
+  </div>
+);
+
+export const VerifiedAlert =  (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        <strong>Note:</strong> Since you’re signed in to your account and your account is verified, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out. You have 1 year from the date you start or update your application to submit the form.
+      </div>
+    </div>
+    <br/>
+  </div>
+);
+
+export const GetFormHelp = () => {
+  return (
+    <div>
+      <p className="help-talk">For help filling out this form, please call:</p>
+      <p className="help-phone-number">
+        <a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-VETS</a> (<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>)<br/>
+        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+      </p>
+    </div>
+  );
+};
+
+export const ITFDescription = (
+  <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
+);
+
+export const specialCircumstancesDescription = (
+  <p>To help us better understand your situation, please tell us if
+      any of the below situations apply to you. <strong>Are you:</strong></p>
+);
+
+export cont FDCDescription = (
+  <div>
+    <h5>Fully developed claim program</h5>
+    <p>
+      You can apply using the Fully Developed Claim (FDC) program if
+      you’ve uploaded all the supporting documents or supplemental
+      forms needed to support your claim.
+    </p>
+    <a href="/pension/apply/fully-developed-claim/" target="_blank">
+      Learn more about the FDC program
+    </a>.
+  </div>
+);
+
+export const FDCWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        Since you’ve uploaded all your supporting documents, your
+        claim will be submitted as a fully developed claim.
+      </div>
+    </div>
+  </div>);
+
+export const noFDCWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        Since you’ll be sending in additional documents later,
+        your application doesn’t qualify for the Fully Developed
+        Claim program. We’ll review your claim through the
+        standard claim process. Please turn in any information to
+        support your claim as soon as you can.
+      </div>
+    </div>
+  </div>
+);
