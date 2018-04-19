@@ -4,7 +4,7 @@ const PageHelpers = require('../e2e/veteran-representative-helpers');
 const testData = require('./schema/maximal-test.json');
 const Timeouts = require('../e2e/timeouts.js');
 
-module.exports = E2eHelpers.createE2eTest(
+const runTest = E2eHelpers.createE2eTest(
   (client) => {
     PageHelpers.initApplicationSubmitMock();
 
@@ -45,7 +45,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-service-organization');
 
     // Authorization for Representative’s Access to Records
-    // client.waitForElementVisible('input[name="root_authorization"]', Timeouts.normal);
+    client.assert.containsText('h4', 'Authorization for Representative’s Access to Records');
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
     PageHelpers.completeAuthorizationForRepresentativeAccessToRecords(client, testData.data);
     client.axeCheck('.main')
@@ -53,7 +53,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/authorization-for-representative-access-to-records');
 
     // Limitation of Consent
-    // client.waitForElementVisible('input[name="root_disclosureExceptionDrugAbuse"]', Timeouts.normal);
+    client.assert.containsText('h4', 'Limitation of Consent');
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
     PageHelpers.completeAuthorizationForRepresentativeAccessToRecords(client, testData.data);
     client.axeCheck('.main')
@@ -61,7 +61,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/limitation-of-consent');
 
     // Authorization to Change Claimant’s Address
-    // client.waitForElementVisible('input[name="root_authorizationToChangeClaimantAddress"]', Timeouts.normal);
+    client.assert.containsText('h4', 'Authorization to Change Claimant’s Address');
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(5)', 'progress-segment-complete');
     PageHelpers.completeAuthorizationForRepresentativeAccessToRecords(client, testData.data);
     client.axeCheck('.main')
@@ -71,6 +71,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Review and submit page
     client.waitForElementVisible('.usa-button-primary', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(6)', 'progress-segment-complete');
+
+    // Confirmation Page
     client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
 
     client.axeCheck('.main');
@@ -79,4 +81,5 @@ module.exports = E2eHelpers.createE2eTest(
 );
 
 // module.exports['@disabled'] = !manifest.production;
+module.exports = runTest;
 module.exports['@disabled'] = false;
