@@ -267,18 +267,18 @@ export const evidenceSummaryView = ({ formData }) => {
 /**
  * @typedef {Object} Disability
  * @property {String} diagnosticCode
- * @property {String} diagnosticText
+ * @property {String} name
  * @property {String} ratingPercentage
  *
  * @param {Disability} disability
  */
-export const disabilityOption = ({ diagnosticCode, diagnosticText, ratingPercentage }) => {
+export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
 
   return (
     <div>
       {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
-      {diagnosticText && <p className="diagnostic-text">{getDiagnosticText(diagnosticText)}</p>}
+      {name && <p className="diagnostic-text">{getDiagnosticText(name)}</p>}
       {ratingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
