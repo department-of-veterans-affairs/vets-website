@@ -32,7 +32,10 @@ import {
   evidenceSummaryView,
   additionalDocumentDescription,
   GetFormHelp,
-  specialCircumstancesDescription
+  specialCircumstancesDescription,
+  FDCDescription,
+  FDCWarning,
+  noFDCWarning,
 } from '../helpers';
 
 const {
@@ -754,6 +757,61 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {}
+          }
+        }
+      }
+    },
+    additionalInformation: {
+      title: 'Additional Information',
+      pages: {
+        expedited: {
+          title: 'Fully developed claim program',
+          path: 'additional-information/fdc',
+          uiSchema: {
+            'ui:description': FDCDescription,
+            noRapidProcessing: {
+              'ui:title':
+                'Do you want to apply using the Fully Developed Claim program?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                yesNoReverse: true,
+                labels: {
+                  Y: 'Yes, I have uploaded all my supporting documents.',
+                  N:
+                    'No, I have some extra information that I will submit to VA later.'
+                }
+              }
+            },
+            fdcWarning: {
+              'ui:description': FDCWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: false
+              }
+            },
+            noFDCWarning: {
+              'ui:description': noFDCWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: true
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              noRapidProcessing: {
+                type: 'boolean'
+              },
+              fdcWarning: {
+                type: 'object',
+                properties: {}
+              },
+              noFDCWarning: {
+                type: 'object',
+                properties: {}
+              }
+            }
           }
         }
       }
