@@ -80,42 +80,23 @@ export const facilityDescription = ({ formData }) => {
 
 
 export const treatmentView = ({ formData }) => {
-  const { startTreatment, endTreatment, treatmentCenterName } = formData.treatment;
+  const { from, to } = formData.treatmentDateRange;
+
   let treatmentPeriod = '';
-
-  if (startTreatment && endTreatment) {
-    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
-  } else if (startTreatment || endTreatment) {
-    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+  if (from && to) {
+    treatmentPeriod = `${from} — ${to}`;
+  } else if (from || to) {
+    treatmentPeriod = `${(from || to)}`;
   }
-
 
   return (
     <div>
-      <strong>{treatmentCenterName}</strong><br/>
+      <strong>{formData.treatmentCenterName}</strong><br/>
       {treatmentPeriod}
     </div>
   );
 };
 
-export const releaseView = ({ formData }) => {
-  const { startTreatment, endTreatment, treatmentCenterName } = formData.privateRecordRelease;
-  let treatmentPeriod = '';
-
-  if (startTreatment && endTreatment) {
-    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
-  } else if (startTreatment || endTreatment) {
-    treatmentPeriod = `${(startTreatment || endTreatment)}`;
-  }
-
-
-  return (
-    <div>
-      <strong>{treatmentCenterName}</strong><br/>
-      {treatmentPeriod}
-    </div>
-  );
-};
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
@@ -147,8 +128,9 @@ export const privateRecordsChoiceHelp = (
 
 
 export const privateMedicalRecordsIntro = ({ formData }) => {
+  const firstOrNext = formData['view:vaMedicalRecords'] ? 'next' : 'first';
   return (
-    <p>Ok, first we’ll ask about your private medical records related to your {getDiagnosticCodeName(formData.disability.diagnosticCode)}.</p>
+    <p>Ok, {firstOrNext} we’ll ask about your private medical records related to your {getDiagnosticCodeName(formData.disability.diagnosticCode)}.</p>
   );
 };
 
@@ -233,11 +215,11 @@ const documentLabels = {
   6: 'Other'
 };
 
-const getVACenterName = (center) => center.treatment.treatmentCenterName;
+const getVACenterName = (center) => center.treatmentCenterName;
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
 
 const listifyCenters = (center, idx, list) => {
-  const centerName = center.treatment ? getVACenterName(center) : getPrivateCenterName(center);
+  const centerName = center.treatmentCenterName ? getVACenterName(center) : getPrivateCenterName(center);
   const notLast = idx < (list.length - 1);
   const justOne = list.length === 1;
   const atLeastThree = list.length > 2;
@@ -250,14 +232,18 @@ const listifyCenters = (center, idx, list) => {
   );
 };
 
-
 export const evidenceSummaryView = ({ formData }) => {
-  const { treatments: VATreatments, privateRecordReleases, privateRecords, additionalDocuments } = formData;
+  const {
+    vaTreatments,
+    privateRecordReleases,
+    privateRecords,
+    additionalDocuments
+  } = formData;
   return (
     <div>
       <ul>
-        {VATreatments &&
-        <li>We’ll get your medical records from <span className="treatment-centers">{VATreatments.map(listifyCenters)}</span>.</li>}
+        {vaTreatments &&
+        <li>We’ll get your medical records from <span className="treatment-centers">{vaTreatments.map(listifyCenters)}</span>.</li>}
         {privateRecordReleases &&
         <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
         {privateRecords && <li>We have received the private medical records you uploaded.</li>}

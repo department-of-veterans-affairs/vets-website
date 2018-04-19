@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/discharge-wizard.scss';
+import './sass/discharge-wizard.scss';
 
 import startApp from '../../platform/startup';
 
