@@ -10,7 +10,7 @@ children: pensionApplication
 
 <div class="va-introtext">
 
-You can apply in person or by mail for a Veterans pension. Follow these steps to apply for this tax-free benefit.
+You can apply online, in person, or by mail for a Veterans pension. Follow these steps to apply for this tax-free benefit.
 
 </div>
 
@@ -34,15 +34,20 @@ You can apply in person or by mail for a Veterans pension. Follow these steps to
 
 ### Ready to apply? 
 
-Fill out an Application for Pension (VA Form 21P-527EZ). <br>
-Download [VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+<div id="react-applicationStatus" class="static-page-widget">
+  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for Veterans Pension Benefits</a>
+</div>
 
 
-
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">Other ways to apply</h4>
+<div itemprop="itemListElement">
+  
+**By mail** <br>
 Apply by mail using an Application for Pension (VA Form 21P-527EZ). <br>
 [Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
-
+**In person** <br>
 Bring your application to a regional benefit office near you. <br>
 [Find a regional benefit office](/facilities/).
 
