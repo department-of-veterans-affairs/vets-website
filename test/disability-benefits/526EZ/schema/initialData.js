@@ -28,9 +28,6 @@ export default {
       addressLine1: '234 Maple St.'
     }
   },
-  directDeposit: {
-    noBank: true,
-  },
   servicePeriods: [
     {
       serviceBranch: 'Army',
