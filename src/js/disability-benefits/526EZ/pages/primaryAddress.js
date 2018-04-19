@@ -594,13 +594,16 @@ function createPrimaryAddressPage(formSchema, isReview) {
           'view:hasForwardingAddress': {
             type: 'boolean'
           },
-          forwardingAddress: addressConfig
+          forwardingAddress: _.merge({}, addressConfig, {
+            type: 'object',
+            properties: {
+              effectiveDate: date
+            }
+          })
         }
       }
     }
   };
-
-  schema.properties.veteran.properties.forwardingAddress.properties.effectiveDate = date;
 
   const pageConfig = {
     pageTitle: 'Address information',
