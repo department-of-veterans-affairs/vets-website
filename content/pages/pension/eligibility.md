@@ -69,12 +69,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 </div>
 
-### Ready to apply?
-
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ/">Apply for Veterans Pension Benefits</a>
 </div>
-
-[Learn more about the application process](/pension/apply/). <br>
 
 [Find out how to apply for the Survivors Pension program](/pension/survivors-pension/). <br>
