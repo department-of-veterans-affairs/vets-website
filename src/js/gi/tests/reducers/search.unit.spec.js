@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import searchReducer from '../../../src/js/gi/reducers/search.js';
+import searchReducer from '../../reducers/search';
 
 describe('search reducer', () => {
   it('should toggle filters', () => {
