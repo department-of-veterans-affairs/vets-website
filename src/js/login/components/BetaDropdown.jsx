@@ -23,16 +23,10 @@ class BetaDropdown extends React.Component {
   }
 
   checkLink = (event) => {
-    if (event.target.tagName.toLowerCase() === 'a' && event.target.pathname === '/' && event.which === LEFT_CLICK) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.redirectToDashboard();
+    const target = event.target;
+    if (target.tagName.toLowerCase() === 'a' && target.pathname === '/' && event.which === LEFT_CLICK) {
+      target.href = '/dashboard-beta';
     }
-  }
-
-  redirectToDashboard() {
-    window.location.replace('/dashboard-beta');
   }
 
   render() {
