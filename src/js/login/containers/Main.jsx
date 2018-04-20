@@ -138,7 +138,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     isUserRegisteredForBeta: (service) => {
-      dispatch(isUserRegisteredForBeta(service));
+      return dispatch(isUserRegisteredForBeta(service));
     },
     toggleLoginModal: (update) => {
       dispatch(toggleLoginModal(update));
