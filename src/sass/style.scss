@@ -33,3 +33,7 @@ $image-path: "~uswds/src/img";
 // ----- VA SHAME ---- //
 
 @import "~@department-of-veterans-affairs/jean-pants/sass/shame";
+
+.login-container {
+  display: inline-block;
+} 
