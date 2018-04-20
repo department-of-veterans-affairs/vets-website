@@ -248,9 +248,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:suicidal': {
-                type: 'boolean'
-              },
+              // 'view:suicidal': {
+              // type: 'boolean'
+              // },
               'view:homeless': {
                 type: 'boolean'
               },
