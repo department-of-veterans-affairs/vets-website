@@ -61,7 +61,7 @@ You can work with a trained professional called an accredited representative to 
 
 
 
-[Find out how to apply for the Survivors Pension program](/pension/survivors-pension/).
+[Find out how to apply for a survivors pension](/pension/survivors-pension/).
 
 ### How long does it take VA to make a decision?
 
