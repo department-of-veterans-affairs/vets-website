@@ -283,6 +283,39 @@ export const additionalDocumentDescription = () => {
 };
 
 const getVACenterName = (center) => center.treatmentCenterName;
+
+export const disabilityStatusOptions = [
+  {
+    value: 'first',
+    label: 'I’ve never filed a disability claim before.'
+  },
+  {
+    value: 'update',
+    label: 'I have a new condition, or a condition that’s gotten worse, to add to my rated disability claim.'
+  },
+  {
+    value: 'appeal',
+    label: 'I want to appeal the VA decision on my disability claim.'
+  }
+];
+
+export const disabilityUpdateOptions = [
+  {
+    value: 'add',
+    label: 'I have a new condition to add to my rated disability claim.'
+  },
+  {
+    value: 'increase',
+    label: 'One or more of my rated disabilities has gotten worse.'
+  }
+];
+
+export const layouts = {
+  chooseStatus: 'choose_status',
+  chooseUpdate: 'choose_update',
+  applyGuidance: 'apply_guidance'
+};
+
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
 
 const listifyCenters = (center, idx, list) => {
@@ -715,3 +748,34 @@ export const disabilities = _.merge({}, disabilitiesBaseDef, {
     }
   }
 });
+
+export const TitleContent = (props) => {
+  const { atGuidance, checkGuidanceStatus } = props;
+  const { atAppealGuidance, atIncreaseGuidance } = checkGuidanceStatus();
+  let titleContent = 'You’ll need to file a disability claim on eBenefits';
+  if (!atGuidance()) titleContent = 'What type of disability claim should I file?';
+  if (atAppealGuidance) titleContent = 'You’ll need to file an appeal';
+  if (atIncreaseGuidance) titleContent = 'You’ll need to file a claim for increase';
+  return <h3>{titleContent}</h3>;
+};
+
+export const GetStartedMessage = ({ checkDisabilityStatus }) => {
+  const { isFirst, isAppeal, isAddOnly, isAddAndIncrease } = checkDisabilityStatus();
+  const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
+  let getStartedMessage = `Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
+  if (isFirst) {
+    getStartedMessage = 'We’re sorry. We’re not set up to accept original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.';
+  }
+  if (isAppeal) {
+    getStartedMessage = (<span>If you disagree with our decision on your disability claim, you can appeal it. <br/>
+      <a href="/disability-benefits/claims-appeal/">Learn how to file an appeal.</a>
+    </span>);
+  }
+  if (isAddOnly) {
+    getStartedMessage = 'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.';
+  }
+  if (isAddAndIncrease) {
+    getStartedMessage = 'Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.';
+  }
+  return <p>{getStartedMessage}</p>;
+};

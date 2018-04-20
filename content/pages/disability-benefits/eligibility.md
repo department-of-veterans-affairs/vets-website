@@ -29,7 +29,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description"  class="va-introtext">
 
-Find out if you can get disability compensation for an illness or injury that was caused by—or got worse because of—your active military service. Compensation may include financial support and other benefits like health care.
+If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get VA disability benefits and compensation. Find out if you can get financial support and other benefits like health care.
 
 </div>
 
@@ -69,8 +69,7 @@ You may be able to get disability benefits if you have a current illness or inju
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you've received one of these discharge statuses, you may not be eligible for VA benefits. 
-
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
 <br>
 
 **There are 2 ways you can try to qualify:**
@@ -83,20 +82,11 @@ If you've received one of these discharge statuses, you may not be eligible for 
 </div>
 </div>
 
-<div markdown="0"><br></div>
-
+<div id="react-applicationEntry"></div>
 <div itemscope itemtype="http://schema.org/Question">
-
-<h3 itemprop="name">Ready to apply?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
 [Learn about the application process](/disability-benefits/apply/).
 
-</div>
-</div>
 </div>
 
 <div itemscope itemtype="http://schema.org/Question">

@@ -20,7 +20,7 @@ majorlinks:
       title: Disabilities That Appear Within 1 Year After Discharge
       description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
     - url: /disability-benefits/apply/help/
-      title: Get Help Filing a Claim
+      title: Get Help Filing Your Claim
       description: Find out how to work with a trained professional called an accredited representative to file your claim.
 relatedlinks:
   - heading: Other VA benefits you may want to explore
@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-You can apply for disability benefits online. We’ve listed all the steps below so when you’re ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
+You can apply for disability benefits online. Depending on what type of disability claim you’re filing, you’ll apply using either eBenefits or the online application. We’ve listed all the steps below. Find out how to apply for this tax-free monetary benefit. 
 
 </div>
 
@@ -41,6 +41,7 @@ You can apply for disability benefits online. We’ve listed all the steps below
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
+- Check if you need to turn in additional forms with your claim, for example, if you're claiming a dependent or benefits for a seriously disabled child. [See the list of required forms for these special situations](/disability-benefits/apply/evidence/). 
 
 <div markdown="0"><br></div>
 
@@ -62,29 +63,14 @@ For all disability claims, please provide:
 </div>
 </div>
 
-
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h4 itemprop="name">Ready to apply?</h4>
-<div itemprop="itemListElement">
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+<div id="react-applicationEntry"></div>
 
 </div>
-</div>
-<div markdown="0"><br></div>
-
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 <h3 itemprop="name">Other ways to apply</h3>
 <div itemprop="itemListElement">
-
-#### With the help of a trained professional
-
-You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
-
-</div>
-</div>
 
 #### By mail
 
@@ -102,6 +88,14 @@ Janesville, WI 53547-4444<br>
 #### In person
 
 Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
+
+
+#### With the help of a trained professional
+
+You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
+
+</div>
+</div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
