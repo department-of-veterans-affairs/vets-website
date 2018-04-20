@@ -44,8 +44,16 @@ function updateProfileFormField(field, validator) {
 function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, requestFailAction) {
   return fieldValue => {
     return dispatch => {
+      const options = {
+        body: JSON.stringify(fieldValue),
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
       dispatch({ type: requestStartAction });
-      return apiRequest(apiRoute, { method: 'put', body: JSON.stringify(fieldValue) })
+      return apiRequest(apiRoute, options)
         .then(() => dispatch({ type: requestSuccessAction, newValue: fieldValue }))
         .catch(() => dispatch({ type: requestFailAction }));
     };
