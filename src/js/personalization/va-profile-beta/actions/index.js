@@ -45,7 +45,7 @@ function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, re
   return fieldValue => {
     return dispatch => {
       dispatch({ type: requestStartAction });
-      return apiRequest(apiRoute, { method: 'post', body: JSON.stringify(fieldValue) })
+      return apiRequest(apiRoute, { method: 'put', body: JSON.stringify(fieldValue) })
         .then(() => dispatch({ type: requestSuccessAction, newValue: fieldValue }))
         .catch(() => dispatch({ type: requestFailAction }));
     };
