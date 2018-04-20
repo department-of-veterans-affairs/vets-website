@@ -1,7 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
-import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
 
 import recordEvent from '../../../platform/monitoring/record-event';
@@ -9,95 +8,97 @@ import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
-import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
-import { isUserRegisteredForBeta } from '../../personalization/beta-enrollment/actions';
-
-export class SearchHelpSignIn extends React.Component {
-  componentDidUpdate(prevProps) {
-    const { currentlyLoggedIn, showModal } = this.props.login;
-    const isModalStillClosed = !prevProps.login.showModal && !showModal;
-    if (!currentlyLoggedIn && isModalStillClosed) {
-      const nextParams = new URLSearchParams(window.location.search);
-      const nextPath = nextParams.get('next');
-      if (nextPath) {
-        this.props.toggleLoginModal(true);
-      }
-    }
-  }
-
+class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = (e) => {
     e.preventDefault();
     recordEvent({ event: 'login-link-clicked' });
     this.props.toggleLoginModal(true);
   }
 
-  hasSession() {
+  handleMenuClick = (menu) => {
+    return () => { this.props.toggleMenu(menu, !this.props.isMenuOpen[menu]); };
+  }
+
+  handleSearchMenuClick = this.handleMenuClick('search');
+  handleHelpMenuClick = this.handleMenuClick('help');
+  handleAccountMenuClick = this.handleMenuClick('account');
+
+  hasSession = () => {
     // Includes a safety check because sessionStorage is not defined during e2e testing
     return !!(window.sessionStorage && window.sessionStorage.getItem('userFirstName'));
   }
 
-  render() {
-    let content;
-    const login = this.props.login;
-    const isLoading = this.props.profile.loading;
-    const hasSession = this.hasSession();
+  renderSignInContent = () => {
+    const { profile } = this.props;
+    const isLoading = profile.loading;
+    const shouldRenderSignedInContent =
+      (!isLoading && this.props.isLoggedIn) ||
+      (isLoading && this.hasSession());
 
     // If we're done loading, and the user is logged in, or loading is in progress,
     // and we have information is session storage, we can go ahead and render.
-    if ((!isLoading && login.currentlyLoggedIn) || (isLoading && hasSession)) {
+    if (shouldRenderSignedInContent) {
       const firstName = _.startCase(_.toLower(
-        this.props.profile.userFullName.first || sessionStorage.userFirstName
+        profile.userFullName.first || sessionStorage.userFirstName
       ));
-      const greeting = firstName || this.props.profile.email;
 
-      content = (<SignInProfileMenu
-        disabled={isLoading}
-        clickHandler={() => {
-          this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
-        }}
-        isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
-        greeting={greeting}
-        isOpen={login.utilitiesMenuIsOpen.account}/>);
-    } else {
-      const classes = classNames({ disabled: isLoading });
-      content = (<div>
-        <a href="#" className={classes} onClick={this.handleSignInSignUp}><span>Sign In</span><span className="signin-spacer">|</span><span>Sign Up</span></a>
-      </div>
+      const greeting = firstName || profile.email;
+
+      return (
+        <SignInProfileMenu
+          disabled={isLoading}
+          clickHandler={this.handleAccountMenuClick}
+          isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
+          greeting={greeting}
+          isOpen={this.props.isMenuOpen.account}/>
       );
     }
 
+    const buttonClasses = classNames({
+      'va-button-link': true,
+      'sign-in-link': true,
+      disabled: isLoading
+    });
+
+    return (
+      <div>
+        <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign In</button>
+        <span className="signin-spacer">|</span>
+        <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign Up</button>
+      </div>
+    );
+  }
+
+  render() {
     return (
       <div className="profile-nav">
         <SearchMenu
-          isOpen={login.utilitiesMenuIsOpen.search}
-          clickHandler={() => {
-            this.props.toggleSearchHelpUserMenu('search', !login.utilitiesMenuIsOpen.search);
-          }}/>
+          isOpen={this.props.isMenuOpen.search}
+          clickHandler={this.handleSearchMenuClick}/>
         <HelpMenu
-          isOpen={login.utilitiesMenuIsOpen.help}
-          clickHandler={() => {
-            this.props.toggleSearchHelpUserMenu('help', !login.utilitiesMenuIsOpen.help);
-          }}/>
-        <div className="sign-in-link">
-          {content}
+          isOpen={this.props.isMenuOpen.help}
+          clickHandler={this.handleHelpMenuClick}/>
+        <div className="sign-in-nav">
+          {this.renderSignInContent()}
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const userState = state.user;
-  return {
-    login: userState.login,
-    profile: userState.profile
-  };
+SearchHelpSignIn.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
+  isUserRegisteredForBeta: PropTypes.func.isRequired,
+  profile: PropTypes.shape({
+    email: PropTypes.string,
+    loading: PropTypes.bool,
+    userFullName: PropTypes.shape({
+      first: PropTypes.string
+    })
+  }).isRequired,
+  toggleLoginModal: PropTypes.func.isRequired,
+  toggleMenu: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = {
-  toggleLoginModal,
-  toggleSearchHelpUserMenu,
-  isUserRegisteredForBeta
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);
+export default SearchHelpSignIn;
