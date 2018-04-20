@@ -1,1 +1,269 @@
+---
+layout: page-breadcrumbs.html
+title: How to Add a Dependent to Your Disability Compensation Benefits
+display_title: How to Add a Dependent
+description: Find out how to add a dependent family member to your VA disability compensation benefits so you can get a higher payment to help support your family.
+concurrence: Incomplete
+plainlanguage: Certified plain language 4.20.18 
+template: detail-page
+order: 5 	
+relatedlinks:
+  - heading: More VA benefits you may be interested in for you and your dependents
+    links:
+    - url: /pension/
+      title: Pension Benefits
+      description: Apply for monthly pension benefits for wartime Veterans and survivors.
+    - url: /education/gi-bill/survivors-dependent-assistance/
+      title: Transfer Your Post-9/11 GI Bill Benefits to Your Spouse and Dependents
+      description: If you have unused Post-9/11 GI Bill benefits, find out if you can transfer your benefits to your spouse or dependent children.
+---
+
+<div class="va-introtext">
+
+Find out how to add a dependent family member to your VA disability compensation benefits so you can get a higher payment to help support your family.
+
+</div>
+
+<div class="feature" markdown="1">
+
+### Can I add a dependent to my VA disability compensation benefits?
+
+You may be able to add a dependent to your disability compensation benefits if you meet the requirements listed below.
+
+**Both of these must be true. You:**	
+
+-	Are receiving VA disability compensation, **and**
+-	Have a 30% or higher disability rating
+Adding a dependent may make you eligible to receive a higher compensation payment (also called a benefit rate).
+
+<br>
+
+### Who can I add as a dependent?
+
+**You can add your:**
+
+-	Spouse (we recognize same-sex and common-law marriages)
+-	Unmarried child (including biological, adopted, or stepchild) who: 
+ - Is under 18 years old, **or**
+- Is between the ages of 18 and 23 years old and enrolled in school full time, **or**
+- Became seriously disabled before they turned 18 
+-	Parents, if you’re directly caring for them and their income and net worth are below a certain amount
+
+</div>
+
+### When should I add a dependent?
+
+If you didn’t add any current dependents (like your spouse or children) when you filed your disability claim and you receive a 30% or higher disability rating, you’ll want to apply to add your dependents right away.
+
+And if something changes in your family status, you’ll also want to let us know right away. This could affect your dependent’s eligibility for benefits. 
+
+**You can add a dependent if:**
+
+-	You have or adopt a child
+-	You get married 
+-	Your child who is over 18 years old enrolls in school full time
+-	Your child becomes severely disabled before turning 18
+-	You become the caregiver for a parent whose income and net worth is below a certain amount
+
+### How do I add a dependent to my current disability compensation claim?
+
+This depends on who you’re adding.
+
+#### To add a dependent child or spouse
+
+You can apply online to add your child or spouse as a dependent. You may also need to provide more information or forms along with your application.
+
+*PLACEHOLDER: Apply to Add a Dependent*
+
+**If you’re claiming a seriously disabled child,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
+
+**If your child is over 18 and attending school,** you’ll need to submit a Request for Approval of School Attendance (VA Form 21-674) along with your application.  
+
+[Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf). 
+
+#### To add a dependent parent
+
+You’ll need to fill out and submit a Statement of Dependency of Parent(s) (VA Form 21-509). 
+
+[Download VA Form 21-509](https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf).
+
+**Print the form, fill it out, and send it to this address:**
+
+Department of Veterans Affairs
+Claims Intake Center
+P.O. Box 4444
+Janesville, WI 53547-4444
+
+**Or fax it to:** 1-844-531-7817 or 1-248-524-4260 (if you live outside of the U.S.)
+
+### More questions about applying to add a dependent
+
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-mail">Can I apply to add a child or spouse as a dependent by mail or fax?</button>
+<div id="questions-apply-mail" class="usa-accordion-content">
+	
+Yes, but we strongly encourage you to apply online. We can process online claims much faster than paper claims. The online application is simple—and you can upload any supporting documents we need to decide along with your application. 
+
+When you file your claim online, you can also save the day you start your claim as the effective benefit start date. If we determine you’re eligible for a higher compensation rate, we’ll pay you back to this date.
+
+**If you can’t apply online, you can apply by mail or fax using the forms below:**
+
+-	**To add a spouse or a child under 18 years of age**, use the Declaration of Status of Dependents (VA Form 21-686c). <br>
+[Download VA Form 21-686c]( https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf).
+-	**To add a child over the age of 18 who’s attending school full time**, use both VA Form 21-686C and a Request for Approval of School Attendance (VA Form 21-674). <br>
+[Download VA Form 21-686c]( https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf). <br>
+[Download VA Form 21-674]( https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf).
+-	**To add a parent**, use the Statement of Dependency of Parent(s) (VA Form 21-509).<br>
+[Download VA Form 21-509]( https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf).
+**Mail your completed form(s) to:**
+
+Department of Veterans Affairs
+Claims Intake Center
+P.O. Box 4444
+Janesville, WI 53547-4444
+
+**Or fax to:** 1-844-531-7817 or 248-524-4260 (if you live outside of the U.S.)
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paper">What should I do if I already submitted a paper claim to add a child or spouse as a dependent, and I’m still waiting for a decision?</button>
+<div id="questions-apply-paper" class="usa-accordion-content">
+
+Go ahead and apply again online. We can process online applications much faster than paper ones. If we determine that you’re eligible for a higher compensation rate, you can start getting your benefits sooner. 
+
+We’ll still review your paper application. If you’re awarded a higher compensation rate, we’ll pay you back pay from the date you submitted your original paper claim.
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-help">What if I need help with my claim?</button>
+<div id="questions-apply-help" class="usa-accordion-content">
+
+You can work with an accredited Veterans Service Organization (VSO) who can answer questions or submit the claim on your behalf. <br>
+
+[Get help filing your claim](https://www.vets.gov/disability-benefits/apply/help/). 
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-not-applied">What if I haven’t applied for disability compensation yet?</button>
+<div id="questions-apply-not-applied" class="usa-accordion-content">
+
+You can add a dependent at the same time you apply for disability benefits.
+ 
+If you receive a 30% or higher disability rating, we’ll automatically consider your dependent(s) when we determine your disability compensation. <br>
+
+[Find out how to apply for disability benefits](/disability-benefits/apply/). 
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paid-back">What if I didn’t realize I could add dependents until later? Can I get paid back to the date my spouse and I got married, or when my child was born or adopted?</button>
+<div id="questions-apply-paid-back" class="usa-accordion-content">
+
+We may pay you back to the date of your marriage or the birth or adoption of your child if you meet all of the requirements listed below.
+
+**All of these must be true. You:**
+	
+-	Had already received your 30% or higher disability rating at that point, **and**
+-	Applied to add the dependent within a year of the marriage, birth, or adoption, **and**
+-	Responded within a year to our request for any additional information needed to confirm your dependent
+If it’s been more than a year since you got married or had or adopted a child, we may not pay you back to the date of the marriage, birth, or adoption. Instead, we may pay you back only to the date you applied to add the dependent or, in some cases, up to a year before you applied.
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-how-long">How long does it take VA to make a decision, and how will you notify me?</button>
+<div id="questions-apply-how-long" class="usa-accordion-content">
+
+*Need to confirm answer*
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-payment">When will I start receiving payment if VA approves my dependency claim?</button>
+<div id="questions-apply-payment" class="usa-accordion-content">
+
+Once we’ve finalized your claim, we’ll begin paying you within 2 weeks.
+
+</div>
+</li>
+</ul>
+</div>
+
+<br>
+	
+### Questions about adding or removing specific dependents
+
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-already-receiving">How do I know if I’m already receiving compensation for my dependents?</button>
+<div id="questions-specific-already-receiving" class="usa-accordion-content">
+
+*Note: Will need to confirm if this is changing with the form being added to Vets.gov*
+
+You can check this through your eBenefits account.
+
+Sign in to your account and click the “Dependents” link under the “My Profile” section. If you see your dependents listed there, you should be receiving compensation for them. If they’re not listed, you can apply to add them. <br>
+
+[Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
+	
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-Veteran-spouse">What if my spouse is also a Veteran with a 30% or higher disability rating? Can we claim each other and our children? Or should only one of us add them as dependents?</button>
+<div id="questions-specific-Veteran-spouse" class="usa-accordion-content">
+
+If you’re both Veterans with a 30% or higher disability rating, you can both claim each other and your children.
+
+It’ll take us longer to process your application if you’re claiming a dependent spouse who’s also a Veteran. But if you apply online, and we determine that you’re eligible for higher compensation, we’ll pay you back to the date you started your application.
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-divorce-remove">What happens if I get divorced or need to remove a dependent?</button>
+<div id="questions-specific-divorce-remove" class="usa-accordion-content">
+	
+*Note: Will need to confirm if this is changing with the form being added to Vets.gov*
+
+You can remove a dependent online through eBenefits.
+
+If you get divorced and need to remove your spouse, please submit a claim to remove a dependent as soon as possible. You don’t have to submit or upload the supporting paperwork into eBenefits. <br>
+
+[Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-school">How will VA know not to remove my child from my benefits if they turn 18 but are still in school? Do I have to reapply?</button>
+<div id="questions-specific-child-school" class="usa-accordion-content">
+ 
+*Note: Will need to confirm if this is changing with the form being added to Vets.gov*
+
+You’ll need to update your child’s school information in eBenefits. 
+
+Sign in to your eBenefits account. Click “Add or Remove Dependents” under the “Apply” section on the home page. Then select “Update Dependents.” <br>
+
+[Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-old">Do I have to remove my child from my compensation benefits once they’re too old to be claimed as a dependent?</button>
+<div id="questions-specific-child-old" class="usa-accordion-content">
+
+No. We’ll track your child’s age based on the date of birth you give us when you apply to add them as a dependent. When your child turns 18, we’ll remove them from your disability compensation unless you update their information and let us know they’re enrolled in school full time. 
+
+</div>
+</li>
+</ul>
+</div>
+
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
+
+
 
