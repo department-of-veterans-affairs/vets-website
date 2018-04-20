@@ -1,6 +1,6 @@
 import React from 'react';
 import HeadingWithEdit from './HeadingWithEdit';
-import Modal from '../../../common/components/Modal';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';

@@ -41,13 +41,14 @@ display_title: Frequently Asked Questions
                           <li>With your existing <strong>DS Logon</strong> account, <strong>or</strong></li>
                           <li>By creating an account through ID.me (a trusted partner)</li>
                         </ul>
-                        <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all Vets.gov tools. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on Vets.gov, like checking your claims status or sending a secure message to your health care team.</p> 
+                        <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all Vets.gov tools. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on Vets.gov, like checking your claims status or sending a secure message to your health care team.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
                   </li>
                 </ul>
                 <br/>
+                <a name="verifying-your-identity"></a>
                 <h4>Verifying your identity on Vets.gov</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -196,7 +197,7 @@ display_title: Frequently Asked Questions
                         </ul>
                       </div>
                     </div>
-                  </li> 
+                  </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-2" itemprop="name">What should I do if my credit is frozen and I’m trying to verify my identity? </button>
                     <div id="faq-trouble-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">

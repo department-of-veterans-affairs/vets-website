@@ -6,7 +6,7 @@ import FacilityInfoBlock from './search-results/FacilityInfoBlock';
 import FacilityPhoneLink from './search-results/FacilityPhoneLink';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import MobileSearchResult from './MobileSearchResult';
-import Pagination from '../../common/components/Pagination';
+import Pagination from '@department-of-veterans-affairs/jean-pants/Pagination';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 

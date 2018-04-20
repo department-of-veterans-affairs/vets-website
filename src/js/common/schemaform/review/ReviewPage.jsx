@@ -9,7 +9,7 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
-import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
+import PrivacyAgreement from '../../../../platform/forms/components/PrivacyAgreement';
 import { isValidForm } from '../validation';
 
 
