@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
+import URLSearchParams from 'url-search-params';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import { getUserData } from '../../common/helpers/login-helpers';
