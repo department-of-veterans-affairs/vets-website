@@ -2,6 +2,8 @@ import React from 'react';
 
 import { logout } from '../utils/helpers';
 
+const LEFT_CLICK = 1;
+
 function NewBadge() {
   return <span className="usa-label va-label-primary">New</span>;
 }
@@ -21,8 +23,7 @@ class BetaDropdown extends React.Component {
   }
 
   checkLink = (event) => {
-    // debugger
-    if (event.target.tagName.toLowerCase() === 'a' && event.target.pathname === '/') {
+    if (event.target.tagName.toLowerCase() === 'a' && event.target.pathname === '/' && event.which === LEFT_CLICK) {
       event.preventDefault();
       event.stopPropagation();
 
