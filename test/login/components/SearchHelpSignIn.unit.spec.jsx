@@ -1,5 +1,5 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { merge } from 'lodash/fp';
 
@@ -35,27 +35,17 @@ describe('<SearchHelpSignIn>', () => {
     global.window.location.pathname = '/';
   });
 
-  it('should render', () => {
-    const tree =  SkinDeep.shallowRender(
-      <SearchHelpSignIn {...defaultProps}/>
-    );
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
-  });
-
   it('should present login links when not logged in', () => {
-    const tree =  SkinDeep.shallowRender(
+    const wrapper = shallow(
       <SearchHelpSignIn {...defaultProps}/>
     );
-    const link = tree.everySubTree('.sign-in-link');
-    expect(link).to.have.lengthOf(2);
+    expect(wrapper.find('.sign-in-link')).to.have.lengthOf(2);
   });
 
-  it('should render <SignInProfileMenu/> when currentlyLoggedIn is true', () => {
+  it('should render <SignInProfileMenu/> when logged in', () => {
     const signedInProps = merge(defaultProps, { isLoggedIn: true });
-    const tree = SkinDeep.shallowRender(<SearchHelpSignIn {...signedInProps}/>);
-    const profileMenu = tree.everySubTree('SignInProfileMenu');
-    expect(profileMenu).to.have.lengthOf(1);
+    const wrapper = shallow(<SearchHelpSignIn {...signedInProps}/>);
+    expect(wrapper.find('SignInProfileMenu').exists()).to.be.true;
   });
 
   it('should display email for an LOA1 user without a firstname', () => {
@@ -65,10 +55,10 @@ describe('<SearchHelpSignIn>', () => {
         userFullName: { first: null }
       }
     });
-    const tree = SkinDeep.shallowRender(
+    const wrapper = shallow(
       <SearchHelpSignIn {...loa1Props}/>
     );
-    const dropDownElement = tree.dive(['SignInProfileMenu', 'DropDown']);
-    expect(dropDownElement.text()).to.contain(defaultProps.profile.email);
+    const dropdown = wrapper.find('SignInProfileMenu').dive().find('DropDown').dive();
+    expect(dropdown.text()).to.contain(defaultProps.profile.email);
   });
 });
