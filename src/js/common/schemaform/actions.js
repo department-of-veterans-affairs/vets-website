@@ -161,7 +161,7 @@ export function submitForm(formConfig, form) {
       .catch(errorReceived => {
         // overly cautious
         const error = errorReceived instanceof Error ? errorReceived : new Error(errorReceived);
-        const errorMessage = String(_.get('message', error));
+        const errorMessage = String(error.message);
         let errorType = 'clientError';
         if (errorMessage.startsWith('vets_throttled_error')) {
           errorType = 'throttledError';
