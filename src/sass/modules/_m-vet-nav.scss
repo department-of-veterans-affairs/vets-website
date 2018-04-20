@@ -418,18 +418,13 @@ body.va-pos-fixed {
     padding-left: 0;
   }
 
-  .va-dropdown,
-  .sign-in-link {
+  .va-dropdown {
     margin-left: 1rem;
   }
 
   .va-dropdown-trigger {
     font-weight: 600;
   }
-}
-
-.sign-in-link {
-  white-space: nowrap;
 }
 
 [id="search"] {

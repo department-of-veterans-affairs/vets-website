@@ -6,7 +6,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import SortableTable from '../../common/components/SortableTable';
+import SortableTable from '@department-of-veterans-affairs/jean-pants/SortableTable';
 
 import {
   fetchFolder,
