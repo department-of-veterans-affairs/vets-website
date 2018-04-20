@@ -9,6 +9,12 @@ export default {
   vaFileNumber: '345345345',
   gender: 'F',
   dateOfBirth: '1990-04-02',
+  directDeposit: {
+    accountType: 'CHECKING',
+    accountNumber: '234234234234',
+    routingNumber: '234234234',
+    bankName: 'Local bank'
+  },
   veteran: {
     primaryPhone: '2342342342',
     secondaryPhone: '3242342342',
@@ -21,9 +27,6 @@ export default {
       zipCode: '234563453',
       addressLine1: '234 Maple St.'
     }
-  },
-  directDeposit: {
-    noBank: true,
   },
   servicePeriods: [
     {
@@ -42,22 +45,22 @@ export default {
       // Is this supposed to be an array?
       specialIssues: [
         {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
+          specialIssueCode: 'INCREASE',
+          specialIssueName: 'INCREASE'
         }
       ],
       ratedDisabilityId: '12345',
-      disabilityActionType: 'Filler text',
+      disabilityActionType: 'INCREASE',
       ratingDecisionId: '67890',
       classificationCode: 'Filler Code',
       secondaryDisabilities: [
         {
           name: 'First secondary disability',
-          disabilityActionType: 'Filler text'
+          disabilityActionType: 'INCREASE'
         },
         {
           name: 'Second secondary disability',
-          disabilityActionType: 'Filler text'
+          disabilityActionType: 'INCREASE'
         }
       ]
     },
@@ -68,22 +71,22 @@ export default {
       // Is this supposed to be an array?
       specialIssues: [
         {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
+          specialIssueCode: 'INCREASE',
+          specialIssueName: 'INCREASE'
         }
       ],
       ratedDisabilityId: '54321',
-      disabilityActionType: 'Filler text',
+      disabilityActionType: 'INCREASE',
       ratingDecisionId: '09876',
       classificationCode: 'Filler Code',
       secondaryDisabilities: [
         {
           name: 'First secondary disability',
-          disabilityActionType: 'Filler text'
+          disabilityActionType: 'INCREASE'
         },
         {
           name: 'Second secondary disability',
-          disabilityActionType: 'Filler text'
+          disabilityActionType: 'INCREASE'
         }
       ]
     }
@@ -93,23 +96,23 @@ export default {
       name: 'PTSD',
       // Is this supposed to be an array?
       specialIssues: {
-        specialIssueCode: 'Filler text',
-        specialIssueName: 'Filler text'
+        specialIssueCode: 'INCREASE',
+        specialIssueName: 'INCREASE'
       },
       ratedDisabilityId: '12345',
-      disabilityActionType: 'Filler text',
+      disabilityActionType: 'INCREASE',
       ratingDecisionId: '67890',
-      diagnosticCode: 'Filler text',
+      diagnosticCode: 'INCREASE',
       classificationCode: 'Filler Code',
       // Presumably, this should be an array...
       secondaryDisabilities: [
         {
           name: 'First secondary disability',
-          disabilityActionType: 'Filler text'
+          disabilityActionType: 'INCREASE'
         },
         {
           name: 'Second secondary disability',
-          disabilityActionType: 'Filler text'
+          disabilityActionType: 'INCREASE'
         }
       ]
     },
@@ -117,23 +120,23 @@ export default {
       name: 'Second Disability',
       // Is this supposed to be an array?
       specialIssues: {
-        specialIssueCode: 'Filler text',
-        specialIssueName: 'Filler text'
+        specialIssueCode: 'INCREASE',
+        specialIssueName: 'INCREASE'
       },
       ratedDisabilityId: '54321',
-      disabilityActionType: 'Filler text',
+      disabilityActionType: 'INCREASE',
       ratingDecisionId: '09876',
-      diagnosticCode: 'Filler text',
+      diagnosticCode: 'INCREASE',
       classificationCode: 'Filler Code',
       // Presumably, this should be an array...
       secondaryDisabilities: [
         {
           name: 'First secondary disability',
-          disabilityActionType: 'Filler text'
+          disabilityActionType: 'INCREASE'
         },
         {
           name: 'Second secondary disability',
-          disabilityActionType: 'Filler text'
+          disabilityActionType: 'INCREASE'
         }
       ]
     }

@@ -58,7 +58,7 @@ You don’t need to do anything unless we send you a letter asking for more info
 
 #### Claim Received
 
-You’ll see a notice from us in your claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note telling you we have your claim.
+If you applied online with VONAPP, you’ll see a notice from us in your claims list within about 1 hour. If you applied online for a claim for increase, you’ll get a confirmation message from us after submitting the form. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note telling you we have your claim.
 
 </li>
 

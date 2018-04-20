@@ -9,7 +9,12 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import {
+  createVerifiedPaymentInfoPage,
+  createUnverifiedPaymentInfoPage
+} from '../pages/paymentInfo';
 import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
+import { createVerifiedPrimaryAddressPage, createUnverifiedPrimaryAddressPage } from '../pages/primaryAddress';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
@@ -42,20 +47,19 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
+  disabilities
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
 
 const {
   treatments,
-  disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
 
 const {
   date,
   fullName,
-  // files
   dateRange,
   disabilities: disabiltiesDefinition,
   specialIssues,
@@ -109,7 +113,6 @@ const formConfig = {
   defaultDefinitions: {
     date,
     fullName,
-    // files
     dateRange,
     disabilities: disabiltiesDefinition,
     specialIssues,
@@ -152,9 +155,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:suicidal': {
-                type: 'boolean'
-              },
+              // 'view:suicidal': {
+              // type: 'boolean'
+              // },
               'view:homeless': {
                 type: 'boolean'
               },
@@ -167,6 +170,7 @@ const formConfig = {
             }
           }
         },
+        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
@@ -214,7 +218,8 @@ const formConfig = {
               servicePeriods
             }
           }
-        }
+        },
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     veteranDetails: {
@@ -223,7 +228,8 @@ const formConfig = {
         veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
         specialCircumstances: {
           title: 'Special Circumstances',
-          path: 'special-circumstances',
+          path: 'veteran-details/special-circumstances',
+          depends: formData => !formData.prefilled,
           uiSchema: {
             'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
@@ -242,9 +248,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:suicidal': {
-                type: 'boolean'
-              },
+              // 'view:suicidal': {
+              // type: 'boolean'
+              // },
               'view:homeless': {
                 type: 'boolean'
               },
@@ -257,9 +263,11 @@ const formConfig = {
             }
           }
         },
+        primaryAddress: createUnverifiedPrimaryAddressPage(fullSchema526EZ),
         militaryHistory: {
           title: 'Military service history',
-          path: 'review-veteran-details/military-service-history',
+          path: 'veteran-details/military-service-history',
+          depends: formData => !formData.prefilled,
           'ui:description': 'things',
           initialData,
           uiSchema: {
@@ -302,7 +310,8 @@ const formConfig = {
               servicePeriods
             }
           }
-        }
+        },
+        paymentInformation: createUnverifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     ratedDisabilities: {
@@ -334,7 +343,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              disabilities: disabilitiesSchema
+              disabilities
             }
           }
         }
