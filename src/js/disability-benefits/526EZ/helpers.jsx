@@ -1,5 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
+import _ from 'lodash';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
@@ -653,3 +654,64 @@ export const noFDCWarning = (
     </div>
   </div>
 );
+
+
+const specialIssues = {
+  type: 'array',
+  maxItems: 100,
+  items: {
+    type: 'object',
+    properties: {
+      code: {
+        type: 'string'
+      },
+      name: {
+        type: 'string'
+      }
+    }
+  }
+};
+
+const disabilitiesBaseDef = {
+  type: 'array',
+  maxItems: 100,
+  items: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        maxLength: 255,
+        pattern: "([a-zA-Z0-9\-'.,#]([a-zA-Z0-9\-',.# ])?)+$"
+      },
+      disabilityActionType: {
+        type: 'string',
+        enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN']
+      },
+      specialIssues,
+      ratedDisabilityId: {
+        type: 'string'
+      },
+      ratingDecisionId: {
+        type: 'string'
+      },
+      diagnosticCode: {
+        type: 'string'
+      },
+      specialIssueTypeCode: {
+        type: 'string'
+      },
+      classificationCode: {
+        type: 'string'
+      }
+    }
+  }
+};
+
+export const disabilities = _.merge({}, disabilitiesBaseDef, {
+  minItems: 1,
+  items: {
+    properties: {
+      secondaryDisabilities: disabilitiesBaseDef
+    }
+  }
+});

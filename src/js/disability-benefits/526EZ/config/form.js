@@ -47,13 +47,13 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
+  disabilities
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
 
 const {
   treatments,
-  disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
 
@@ -343,7 +343,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              disabilities: disabilitiesSchema
+              disabilities
             }
           }
         }
