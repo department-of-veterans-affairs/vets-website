@@ -54,9 +54,11 @@ class BetaEnrollmentButton extends React.Component {
     else if (this.state.isEnrolling) buttonText = 'Turning On Beta Tools';
     else if (!this.props.user.login.currentlyLoggedIn) buttonText = 'Go To Login To Turn On Beta Tools';
 
+    const disabled = this.state.isEnrolling || this.props.user.profile.loading;
+
     return (
       <button className="usa-button-primary"
-        disabled={this.state.isEnrolling}
+        disabled={disabled}
         onClick={this.onClick}>
         {buttonText}
       </button>

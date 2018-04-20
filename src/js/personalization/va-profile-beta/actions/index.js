@@ -41,11 +41,19 @@ function updateProfileFormField(field, validator) {
   };
 }
 
-function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, requestFailAction) {
+function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, requestFailAction, method = 'POST') {
   return fieldValue => {
     return dispatch => {
+      const options = {
+        body: JSON.stringify(fieldValue),
+        method,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
       dispatch({ type: requestStartAction });
-      return apiRequest(apiRoute, { method: 'put', body: JSON.stringify(fieldValue) })
+      return apiRequest(apiRoute, options)
         .then(() => dispatch({ type: requestSuccessAction, newValue: fieldValue }))
         .catch(() => dispatch({ type: requestFailAction }));
     };
@@ -131,7 +139,8 @@ export const saveField = {
     '/profile/mailing_address',
     SAVE_MAILING_ADDRESS,
     SAVE_MAILING_ADDRESS_SUCCESS,
-    SAVE_MAILING_ADDRESS_FAIL)
+    SAVE_MAILING_ADDRESS_FAIL,
+    'PUT')
 };
 
 export function clearErrors() {
