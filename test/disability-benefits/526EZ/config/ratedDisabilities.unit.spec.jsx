@@ -1,4 +1,5 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
@@ -33,9 +34,11 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   });
 
   it('successfully submits when at least one condition is selected', () => {
+    const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
+      onSubmit={onSubmit}
       data={initialData}
       uiSchema={uiSchema}/>
     );
@@ -44,6 +47,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     form.find('input#root_disabilities_0').props().onChange({ target: { checked: true } });
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
   it('renders the information about each disability', () => {
