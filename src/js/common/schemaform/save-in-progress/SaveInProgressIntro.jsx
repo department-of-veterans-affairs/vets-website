@@ -1,14 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import { getNextPagePath } from '../routing';
 import { toggleLoginModal } from '../../../login/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
 
-export default class SaveInProgressIntro extends React.Component {
+class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
     let alert;
     const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill, verifiedPrefillAlert, unverifiedPrefillAlert } = this.props;
@@ -96,8 +98,17 @@ export default class SaveInProgressIntro extends React.Component {
     return alert;
   }
 
+  getStartPage = () => {
+    const { pageList, pathname, saveInProgress: { formData } } = this.props;
+    const data = formData || {};
+    // pathname is only provided when the first page is conditional
+    if (pathname) return getNextPagePath(pageList, data, pathname);
+    return pageList[1].path;
+  };
+
   render() {
     const { profile } = this.props.user;
+    const startPage = this.getStartPage();
     const savedForm = profile && profile.savedForms
       .filter(f => moment.unix(f.metadata.expires_at).isAfter())
       .find(f => f.form === this.props.formId);
@@ -123,7 +134,7 @@ export default class SaveInProgressIntro extends React.Component {
           resumeOnly={this.props.resumeOnly}
           messages={this.props.messages}
           startText={this.props.startText}
-          startPage={this.props.pageList[1].path}
+          startPage={startPage}
           formId={this.props.formId}
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}
@@ -151,9 +162,11 @@ SaveInProgressIntro.propTypes = {
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
+  saveInProgress: PropTypes.object.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
   startText: PropTypes.string,
+  pathname: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
   renderSignInMessage: PropTypes.func,
   verifyRequiredPrefill: PropTypes.bool,
@@ -163,8 +176,18 @@ SaveInProgressIntro.propTypes = {
 
 export const introSelector = getIntroState;
 
+function mapStateToProps(state) {
+  return {
+    saveInProgress: introSelector(state)
+  };
+}
+
+export default connect(mapStateToProps)(SaveInProgressIntro);
+
+export { SaveInProgressIntro };
+
 export const introActions = {
   fetchInProgressForm,
   removeInProgressForm,
-  toggleLoginModal,
+  toggleLoginModal
 };

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { RateLimiter } from '../../../src/platform/monitoring/RateLimiter';
+import { RateLimiter } from '../RateLimiter';
 
 describe('<RateLimiter>', () => {
   it('should display limited content when under threshold', () => {
