@@ -5,9 +5,8 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import { getActivePages } from '../../../../platform/forms/helpers';
 import SchemaForm from '../components/SchemaForm';
-import { getArrayFields, getNonArraySchema, expandArrayPages, getPageKeys } from '../helpers';
+import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
@@ -31,9 +30,6 @@ export default class ReviewCollapsibleChapter extends React.Component {
   componentDidUpdate(oldProps) {
     if (!oldProps.open && this.props.open) {
       this.scrollToTop();
-    }
-    if (oldProps.open && !this.props.open) {
-      this.props.setPagesViewed(this.pageKeys);
     }
   }
 
@@ -86,20 +82,23 @@ export default class ReviewCollapsibleChapter extends React.Component {
   render() {
     let pageContent = null;
 
-    const { form, pages, viewedPages, chapter, formContext } = this.props;
-    const activePages = getActivePages(pages, form.data);
-    const expandedPages = expandArrayPages(activePages, form.data);
+    const {
+      chapterFormConfig,
+      expandedPages,
+      formContext,
+      form,
+      pageKeys,
+      showUnviewedPageWarning,
+      viewedPages,
+    } = this.props;
 
-    this.pageKeys = getPageKeys(pages, form.data);
-    const hasUnViewedPages = this.pageKeys.some(key => !viewedPages.has(key));
-
-    const ChapterDescription = chapter.reviewDescription;
-    let chapterTitle = chapter.title;
-    if (typeof chapter.title === 'function') {
-      chapterTitle = chapter.title(true);
+    const ChapterDescription = chapterFormConfig.reviewDescription;
+    let chapterTitle = chapterFormConfig.title;
+    if (typeof chapterFormConfig.title === 'function') {
+      chapterTitle = chapterFormConfig.title(true);
     }
-    if (chapter.reviewTitle) {
-      chapterTitle = chapter.reviewTitle;
+    if (chapterFormConfig.reviewTitle) {
+      chapterTitle = chapterFormConfig.reviewTitle;
     }
 
     if (this.props.open) {
@@ -108,7 +107,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
           {ChapterDescription &&
             <ChapterDescription
               viewedPages={viewedPages}
-              pageKeys={this.pageKeys}
+              pageKeys={pageKeys}
               formData={form.data}/>}
           {expandedPages.map(page => {
             const pageState = form.pages[page.pageKey];
@@ -195,7 +194,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-warning': hasUnViewedPages
+      'schemaform-review-chapter-warning': showUnviewedPageWarning
     });
 
     return (
@@ -211,7 +210,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 onClick={this.props.toggleButtonClicked}>
                 {chapterTitle}
               </button>
-              {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
+              {showUnviewedPageWarning && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>
             <div id={`collapsible-${this.id}`}>
               {pageContent}
@@ -224,8 +223,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
 }
 
 ReviewCollapsibleChapter.propTypes = {
-  chapter: PropTypes.object.isRequired,
-  pages: PropTypes.array.isRequired,
+  chapterFormConfig: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired
 };
