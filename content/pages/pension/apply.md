@@ -15,7 +15,7 @@ widgets:
 
 <div class="va-introtext">
 
-You can apply online, in person, or by mail for a Veterans pension. Follow these steps to apply for this tax-free benefit.
+You can apply online, by mail, or in person for a Veterans pension. Follow these steps to apply for this tax-free benefit.
 
 </div>
 
@@ -88,6 +88,6 @@ Turn in your form in any of these ways:
 [Find a regional benefit office](/facilities/).
 
 - Work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br>
-[Find an accredited representative](/disability-benefits/apply/help/).
+[Get help filing a claim](/disability-benefits/apply/help/).
 
 </br>
