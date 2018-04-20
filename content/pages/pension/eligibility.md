@@ -73,4 +73,4 @@ If you've received one of these discharge statuses, you may not be eligible for 
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ/">Apply for Veterans Pension Benefits</a>
 </div>
 
-[Find out how to apply for the Survivors Pension program](/pension/survivors-pension/). <br>
+[Find out how to apply for a survivors pension](/pension/survivors-pension/). <br>
