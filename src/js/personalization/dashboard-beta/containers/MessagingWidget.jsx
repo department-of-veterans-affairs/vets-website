@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 import '../../../messaging/sass/messaging.scss';
 
-import SortableTable from '../../../common/components/SortableTable';
+import SortableTable from '@department-of-veterans-affairs/jean-pants/SortableTable';
 import { formattedDate } from '../../../messaging/utils/helpers';
 
 
