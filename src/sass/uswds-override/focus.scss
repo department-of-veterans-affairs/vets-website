@@ -35,8 +35,11 @@ nav button:focus {
     z-index: 3;
   }
 
-  .sign-in-link a:focus {
+  .sign-in-nav button:focus {
+    position: relative;
+    outline: 2px solid $color-gold-light;
     outline-offset: 3px;
+    z-index: 3;
   }
 
   a:focus {
@@ -58,5 +61,12 @@ nav button:focus {
   a:focus {
     color: $color-gold-light;
     outline: 2px solid $color-gold-light;
+  }
+}
+
+.vetnav-panel {
+  button:focus {
+    outline: none;
+    background: $color-gold-lighter;
   }
 }
