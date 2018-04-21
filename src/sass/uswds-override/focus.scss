@@ -48,6 +48,18 @@ nav button:focus {
     outline-offset: -3px;
     z-index: 3;
   }
+
+  .vetnav-panel {
+    button:focus, a:focus {
+      outline: none;
+      background: $color-gold-lighter;
+    }
+
+    .vetnav-panel--submenu a:focus {
+      outline: none;
+      background: $color-gold-lighter;
+    }
+  }
 }
 
 .va-footer-linkgroup {
@@ -61,12 +73,5 @@ nav button:focus {
   a:focus {
     color: $color-gold-light;
     outline: 2px solid $color-gold-light;
-  }
-}
-
-.vetnav-panel {
-  button:focus {
-    outline: none;
-    background: $color-gold-lighter;
   }
 }
