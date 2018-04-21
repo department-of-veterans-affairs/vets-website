@@ -5,13 +5,13 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import {
   maritalStatuses
-} from '../../common/utils/options-for-select';
+} from '../../../platform/static-data/options-for-select';
 
 import {
   states
-} from '../../common/utils/address';
+} from '../../../platform/forms/address';
 
-import { genderLabels } from '../../common/utils/labels';
+import { genderLabels } from '../../../platform/static-data/labels';
 
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';

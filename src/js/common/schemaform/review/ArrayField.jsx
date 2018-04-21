@@ -9,7 +9,7 @@ import {
 
 import SchemaForm from '../components/SchemaForm';
 
-import { focusElement } from '../../utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

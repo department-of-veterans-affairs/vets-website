@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import { apiRequest } from '../../common/helpers/api';
-import environment from '../../common/helpers/environment';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import { apiRequest } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
 
 export class AuthApp extends React.Component {
   constructor(props) {

@@ -73,8 +73,7 @@ const validDocumentData = {
     {
       privateRecords: [{
         name: 'Form526.pdf',
-        confirmationCode: 'testing',
-        attachmentId: '1'
+        confirmationCode: 'testing'
       }],
       disability: { // Is this extra nesting necessary?
         diagnosticText: 'PTSD',
@@ -179,7 +178,7 @@ describe('526EZ record upload', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(2);
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
