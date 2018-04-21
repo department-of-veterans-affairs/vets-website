@@ -13,7 +13,6 @@ import 'blob-polyfill';
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
 global.__ALL_CLAIMS_ENABLED__ = (global.__BUILDTYPE__ === 'development' || process.env.ALL_CLAIMS_ENABLED === 'true');
-global.__SAMPLE_ENABLED__ = (process.env.SAMPLE_ENABLED === 'true');
 
 chai.use(chaiAsPromised);
 

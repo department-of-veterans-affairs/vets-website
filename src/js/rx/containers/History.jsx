@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/jean-pants/Pagination';
-import SortableTable from '../../common/components/SortableTable';
+import SortableTable from '@department-of-veterans-affairs/jean-pants/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
 

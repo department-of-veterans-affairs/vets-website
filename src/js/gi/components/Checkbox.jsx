@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
-import ToolTip from '../../common/components/form-elements/ToolTip';
+import ToolTip from './ToolTip';
 
 
 /**

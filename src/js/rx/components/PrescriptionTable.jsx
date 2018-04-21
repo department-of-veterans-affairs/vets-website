@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import SortableTable from '../../common/components/SortableTable';
+import SortableTable from '@department-of-veterans-affairs/jean-pants/SortableTable';
 import { formatDate } from '../utils/helpers';
 import PrescriptionCard from './PrescriptionCard';
 

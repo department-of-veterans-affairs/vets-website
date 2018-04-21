@@ -158,9 +158,10 @@ export function submitForm(formConfig, form) {
 
     return promise
       .then(resp => dispatch(setSubmitted(resp)))
-      .catch(error => {
+      .catch(errorReceived => {
         // overly cautious
-        const errorMessage = _.get('message', error);
+        const error = errorReceived instanceof Error ? errorReceived : new Error(errorReceived);
+        const errorMessage = String(error.message);
         let errorType = 'clientError';
         if (errorMessage.startsWith('vets_throttled_error')) {
           errorType = 'throttledError';
