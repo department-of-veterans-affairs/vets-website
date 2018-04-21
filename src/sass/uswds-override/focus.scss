@@ -1,0 +1,62 @@
+button:focus {
+  position: relative;
+  outline: 2px solid $color-gold-light;
+  outline-offset: 3px;
+  z-index: 3;
+}
+
+nav button:focus {
+  outline-offset: -3px;
+}
+
+.popular-container {
+  a.usa-button:focus, button:focus {
+    outline: none;
+    background: $color-gold-lighter;
+  }
+}
+
+.va-nav-linkslist a:focus {
+  outline: none;
+  margin-top: 19px;
+
+  h4 {
+    background: $color-gold-lighter;
+    display: inline;
+    line-height: 2.2;
+  }
+}
+
+#va-header-logo-menu {
+  a.va-header-logo:focus {
+    position: relative;
+    outline: 2px solid $color-gold-light;
+    outline-offset: 3px;
+    z-index: 3;
+  }
+
+  .sign-in-link a:focus {
+    outline-offset: 3px;
+  }
+
+  a:focus {
+    position: relative;
+    outline: 2px solid $color-gold-light;
+    outline-offset: -3px;
+    z-index: 3;
+  }
+}
+
+.va-footer-linkgroup {
+  a:focus, button:focus {
+    color: $color-gold-light;
+    outline: 2px solid $color-gold-light;
+  }
+}
+
+.va-footer-linkgroup--inline {
+  a:focus {
+    color: $color-gold-light;
+    outline: 2px solid $color-gold-light;
+  }
+}

@@ -66,6 +66,9 @@ $image-path: "~uswds/src/img";
 @import "base/va";
 @import "modules/m-footer";
 
+// ----- USWDS OVERRIDE ----- //
+@import "uswds-override/focus";
+
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 // TODO: Remove m-card once templates are shifted from L2-section to
 // level2-index See vets.gov-team#2122
