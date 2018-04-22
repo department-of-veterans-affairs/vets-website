@@ -4,6 +4,12 @@ layout: page-react.html
 entryname: dashboard-beta
 ---
 <div id="main">
+  <nav class="va-nav-breadcrumbs">
+    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
+      <li></li>
+    </ul>
+  </nav>
+
   <div class="section">
     <div id="react-root">
       <div class="loading-message">

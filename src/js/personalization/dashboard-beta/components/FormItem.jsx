@@ -11,7 +11,7 @@ class FormItem extends React.Component {
     const { last_updated: lastSaved, expires_at: expirationTime } = savedFormData.metadata;
     const lastSavedDateTime = moment.unix(lastSaved).format('M/D/YYYY [at] h:mm a');
     const expirationDate = moment.unix(expirationTime).format('MMM DD');
-    const isExpired = moment(expirationDate).isBefore();
+    const isExpired = moment.unix(expirationTime).isBefore();
     const activeView = (
       <div className="card information">
         <div className="saved-form-information">
