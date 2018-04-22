@@ -76,10 +76,10 @@ class ClaimsAppealsWidget extends React.Component {
 
     return (
       <div>
-        <h2>Claims and appeals</h2>
+        <h2>Track Claims</h2>
         <div>
           {content}
-          <p><Link href="/track-claims">View all claims and appeals</Link></p>
+          <p><Link href="/track-claims">View all your claims and appeals</Link></p>
         </div>
       </div>
     );
