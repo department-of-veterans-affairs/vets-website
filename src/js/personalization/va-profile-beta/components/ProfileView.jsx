@@ -76,7 +76,7 @@ class ProfileView extends React.Component {
 
     const contactInformationFailed = !email && !mailingAddress && !primaryTelephone && !alternateTelephone;
     const personalInformationFailed = !personalInformation;
-    const MilitaryInformationFailed = !serviceHistory;
+    const militaryInformationFailed = !serviceHistory;
 
     return (
       <div className="row" style={{ marginBottom: 35 }}>
@@ -149,7 +149,7 @@ class ProfileView extends React.Component {
           )}
 
           <h2>Military Service</h2>
-          {MilitaryInformationFailed ? <LoadFail information="military"/> : (
+          {militaryInformationFailed ? <LoadFail information="military"/> : (
             <MilitaryInformation serviceHistoryResponseData={serviceHistory}/>
           )}
         </div>
