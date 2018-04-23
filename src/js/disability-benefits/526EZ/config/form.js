@@ -16,6 +16,8 @@ import { createVerifiedPrimaryAddressPage, createUnverifiedPrimaryAddressPage } 
 // TODO: initialData for dev / testing purposes only and should be removed for production
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
+import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+
 import {
   transform,
   prefillTransformer,
@@ -34,6 +36,8 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
+  // releaseView, // Where was this used before?
+  disabilityOption,
   GetFormHelp,
   specialCircumstancesDescription,
   FDCDescription,
@@ -41,8 +45,11 @@ import {
   noFDCWarning,
 } from '../helpers';
 
+import { requireOneSelected } from '../validations';
+
 const {
   treatments,
+  disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
 
@@ -51,8 +58,9 @@ const {
   fullName,
   // files
   dateRange,
+  disabilities: disabiltiesDefinition,
+  specialIssues,
   servicePeriods,
-  // files
   privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
@@ -104,8 +112,9 @@ const formConfig = {
     fullName,
     // files
     dateRange,
+    disabilities: disabiltiesDefinition,
+    specialIssues,
     servicePeriods,
-    // files
     privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',
@@ -124,7 +133,8 @@ const formConfig = {
         veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
         specialCircumstances: { // TODO: create page file and reuse 
           title: 'Special Circumstances',
-          path: 'special-circumstances',
+          path: 'review-veteran-details/special-circumstances',
+          depends: formData => formData.prefilled,
           uiSchema: {
             'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
@@ -162,7 +172,7 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          'ui:description': 'things',
+          depends: formData => formData.prefilled,
           initialData,
           uiSchema: {
             servicePeriods: {
@@ -214,7 +224,8 @@ const formConfig = {
         veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
         specialCircumstances: {
           title: 'Special Circumstances',
-          path: 'special-circumstances',
+          path: 'veteran-details/special-circumstances',
+          depends: formData => !formData.prefilled,
           uiSchema: {
             'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
@@ -233,9 +244,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:suicidal': {
-                type: 'boolean'
-              },
+              // 'view:suicidal': { // TODO: reenable after user testing
+              // type: 'boolean'
+              // },
               'view:homeless': {
                 type: 'boolean'
               },
@@ -251,8 +262,8 @@ const formConfig = {
         primaryAddress: createUnverifiedPrimaryAddressPage(fullSchema526EZ),
         militaryHistory: {
           title: 'Military service history',
-          path: 'review-veteran-details/military-service-history',
-          'ui:description': 'things',
+          path: 'veteran-details/military-service-history',
+          depends: formData => !formData.prefilled,
           initialData,
           uiSchema: {
             servicePeriods: {
@@ -297,16 +308,37 @@ const formConfig = {
         }
       }
     },
-    chapterThree: {
-      title: 'Chapter Three',
+    ratedDisabilities: {
+      title: 'Your Rated Disabilities',
       pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-three/page-one',
-          uiSchema: {},
+        ratedDisabilities: {
+          title: 'Your Rated Disabilities',
+          path: 'select-disabilities',
+          uiSchema: {
+            'ui:description': 'Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.',
+            disabilities: {
+              // Using StringField because it doesn't do much and we just need to render the widget.
+              // If this becomes a common(ish) pattern, we should make a BasicField or something.
+              'ui:field': 'StringField',
+              'ui:widget': SelectArrayItemsWidget,
+              'ui:validations': [{
+                options: { selectedPropName: 'view:selected' },
+                validator: requireOneSelected
+              }],
+              // Need a "blank" title to show the validation error message but not the property name (disabilities)
+              'ui:title': ' ',
+              'ui:options': {
+                showFieldLabel: 'label',
+                label: disabilityOption,
+                widgetClassNames: 'widget-outline'
+              }
+            }
+          },
           schema: {
             type: 'object',
-            properties: {}
+            properties: {
+              disabilities: disabilitiesSchema
+            }
           }
         }
       }
@@ -330,6 +362,7 @@ const formConfig = {
           title: (formData, { pagePerItemIndex }) => _.get(`disabilities.${pagePerItemIndex}.name`, formData),
           path: 'supporting-evidence/:index/evidence-type',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -382,6 +415,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
           uiSchema: {
@@ -409,6 +443,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/va-facilities',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
           uiSchema: {
@@ -457,6 +492,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-intro',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
           uiSchema: {
@@ -484,6 +520,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-choice',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
           uiSchema: {
@@ -533,6 +570,7 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-release',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
             const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
@@ -643,6 +681,7 @@ const formConfig = {
           },
           path: 'supporting-evidence/:index/documents',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -666,9 +705,6 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
-                    attachmentSchema: {
-                      'ui:title': 'Document type'
-                    },
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -690,7 +726,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: ['name', 'attachmentId'],
+                        required: ['name'],
                         properties: {
                           name: {
                             type: 'string'
@@ -700,25 +736,6 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
-                          },
-                          attachmentId: {
-                            type: 'string',
-                            'enum': [
-                              '1',
-                              '2',
-                              '3',
-                              // '4', // TODO: Confirm this should be taken out
-                              '5',
-                              '6'
-                            ],
-                            enumNames: [
-                              'Discharge',
-                              'Marriage related',
-                              'Dependent related',
-                              // 'VA preneed form',
-                              'Letter',
-                              'Other'
-                            ]
                           }
                         }
                       }
@@ -734,6 +751,7 @@ const formConfig = {
           depends: (formData, index) => _.get(`disabilities.${index}.view:otherEvidence`, formData),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -757,9 +775,6 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
-                    attachmentSchema: {
-                      'ui:title': 'Document type'
-                    },
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -781,7 +796,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: ['name', 'attachmentId'],
+                        required: ['name'],
                         properties: {
                           name: {
                             type: 'string'
@@ -791,25 +806,6 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
-                          },
-                          attachmentId: {
-                            type: 'string',
-                            'enum': [
-                              '1',
-                              '2',
-                              '3',
-                              // '4',
-                              '5',
-                              '6'
-                            ],
-                            enumNames: [
-                              'Discharge',
-                              'Marriage related',
-                              'Dependent related',
-                              // 'VA preneed form',
-                              'Letter',
-                              'Other'
-                            ]
                           }
                         }
                       }
@@ -824,6 +820,7 @@ const formConfig = {
           title: 'Summary of evidence',
           path: 'supporting-evidence/:index/evidence-summary',
           showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -844,20 +841,6 @@ const formConfig = {
                 }
               }
             }
-          }
-        }
-      }
-    },
-    chapterFive: {
-      title: 'Chapter Five',
-      pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-five/page-one',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {}
           }
         }
       }

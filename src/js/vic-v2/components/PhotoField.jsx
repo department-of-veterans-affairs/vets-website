@@ -2,7 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 
 import ErrorableFileInput from '@department-of-veterans-affairs/jean-pants/ErrorableFileInput';
-import ProgressBar from '../../common/components/ProgressBar';
+import ProgressBar from '@department-of-veterans-affairs/jean-pants/ProgressBar';
 import { scrollAndFocus } from '../../../platform/utilities/ui';
 import PhotoPreview from '../components/PhotoPreview';
 import CropperController from '../components/CropperController';

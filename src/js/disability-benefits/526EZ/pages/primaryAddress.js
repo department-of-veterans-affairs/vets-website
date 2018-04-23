@@ -35,7 +35,7 @@ function validatePhone(errors, phone) {
 
 function validateZIP(errors, zip) {
   if (zip && !isValidZIP(zip)) {
-    errors.addError('Please enter a valid 9 digit ZIP (dashes allowed)');
+    errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
   }
 }
 
@@ -418,7 +418,7 @@ const addressUISchema = (addressName, title) => {
         labels: stateLabels,
         hideIf: formData => {
           return (
-            formData[addressName] && formData[addressName].country !== 'USA'
+            _.get(formData, `veteran[${addressName}].country`) !== 'USA'
           );
         }
       }
@@ -439,28 +439,26 @@ const addressUISchema = (addressName, title) => {
       'ui:title': 'Military State Code',
       'ui:options': {
         labels: stateLabels,
-        hideIf: formData =>
-          formData[addressName] && formData[addressName].type !== 'MILITARY' // TODO: determine expand under conditions
+        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
       }
     },
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 9 digit ZIP code (dashes allowed)'
+        pattern: 'Please enter a valid 5 or 9 digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
         hideIf: formData =>
-          formData[addressName] && formData[addressName].type !== 'DOMESTIC' // TODO: determine expand under
+          _.get(formData, `veteran[${addressName}].type`) !== 'DOMESTIC'
       }
     },
     militaryPostOfficeTypeCode: {
       'ui:title': 'Military Post Office Type Code',
       'ui:options': {
         labels: militaryPostOfficeTypeLabels,
-        hideIf: formData =>
-          formData[addressName] && formData[addressName].type !== 'MILITARY'
+        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
       }
     }
   };
@@ -563,10 +561,10 @@ function createPrimaryAddressPage(formSchema, isReview) {
             expandUnder: 'view:hasForwardingAddress'
           },
           country: {
-            'ui:required': formData => formData['view:hasForwardingAddress']
+            'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
           },
           addressLine1: {
-            'ui:required': formData => formData['view:hasForwardingAddress']
+            'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
           },
           effectiveDate: dateUI('Effective date')
         }

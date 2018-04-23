@@ -298,11 +298,6 @@ all builds regardless of the build type. The important distinction is that your
 feature is still active within the code base, but the UI is either enabled or
 disabled by the feature flag.
 
-To enable or disable the feature in a specific build type, toggle the feature
-in `src/platform/testing/unit/mocha-setup.js` and `config/webpack.config.js`. See
-[`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
-example implementation.
-
 ### Supported Browsers
 | Browser                   | Minimum version | Note                                   |
 | ------------------------- | --------------- | -------------------------------------- |

@@ -4,10 +4,10 @@
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-form-process";
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-progress-bar";
-@import "../../../sass/modules/m-schemaform";
+@import "../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-omb-info";
-@import "../../../sass/modules/m-form-confirmation";
+@import "../../../platform/forms/sass/m-form-confirmation";
 
 .pensions-disclosure-title {
   padding-bottom: 0;
@@ -29,8 +29,11 @@
   margin-top: 3rem !important;
 }
 
-.pensions-heading:focus {
-  outline: none;
+.pensions-heading {
+  margin-top: 0;
+  &:focus {
+    outline: none;
+  }
 }
 
 p.pension-employment-desc, .pension-dd-warning {
