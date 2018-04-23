@@ -2,7 +2,7 @@
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../../components/GetFormHelp';
+import GetFormHelp from '../../components/GetFormHelp.jsx';
 
 // const { } = fullSchema.properties;
 
