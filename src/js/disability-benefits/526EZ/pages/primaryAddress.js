@@ -410,7 +410,12 @@ const addressUISchema = (addressName, title) => {
       }
     },
     country: {
-      'ui:title': 'Country'
+      'ui:title': 'Country',
+      'ui:options': {
+        labels: {
+          USA: 'United States of America'
+        }
+      }
     },
     state: {
       'ui:title': 'State',
