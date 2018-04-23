@@ -40,14 +40,14 @@ majorlinks:
     - url: /education/other-educational-assistance-programs/
       title: Other Educational Assistance Programs
       description: If you don’t qualify for the Post-9/11 GI Bill, you can apply for education benefits through VEAP and Call to Service. REAP ended in 2015, but some benefits stay in place for a couple more years.
-  - heading: Additional Education Benefits and Services
+  - heading: More Education Benefits and Services
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: VR&E Benefits and Services
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
-    - url: /education/tools-programs/education-career-counseling/
-      title: Education and Career Counseling
-      description: VA can help you chart your course. (This is original copy; SoCo should we update?)
+    - url: /education/tools-programs/
+      title: Educational and Career Counseling
+      description: If you’re leaving active service soon, find out how to get free educational and career counseling (also called Chapter 36).
 
 ---
 

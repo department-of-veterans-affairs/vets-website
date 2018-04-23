@@ -23,6 +23,9 @@ majorlinks:
     - url: /employment/vocational-rehab-and-employment/service-disabled/independent-living/
       title: Independent Living Track
       description: Learn about services that can help you live as independently as possible if you can't return to work right away.
+    - url: /education/tools-programs/
+      title: Educational and Career Counseling
+      description: If you’re leaving active service soon, find out how to get free educational and career counseling (also called Chapter 36).
 ---
 
 <div class="va-introtext">
