@@ -171,7 +171,6 @@ const formConfig = {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
           depends: formData => formData.prefilled,
-          'ui:description': 'things',
           initialData,
           uiSchema: {
             servicePeriods: {
@@ -259,8 +258,8 @@ const formConfig = {
         },
         militaryHistory: {
           title: 'Military service history',
-          path: 'review-veteran-details/military-service-history',
-          'ui:description': 'things',
+          path: 'veteran-details/military-service-history',
+          depends: formData => !formData.prefilled,
           initialData,
           uiSchema: {
             servicePeriods: {
