@@ -69,7 +69,7 @@ describe('526 <FormStartControls>', () => {
         }}/>
     );
 
-    expect(tree.find('SaveInProgressIntro').exists()).to.be.true;
+    expect(tree.find('Connect').exists()).to.be.true;
   });
   it('should render loading view', () => {
     const tree = shallow(

@@ -1,5 +1,13 @@
 {
   "data": {
+    "fullName": {
+      "first": "Sally",
+      "last": "Alphonse"
+    },
+    "socialSecurityNumber": "234234234",
+    "vaFileNumber": "234234234",
+    "gender": "F",
+    "dateOfBirth": "1990-12-12",
     "treatments": [
       {
         "treatmentCenterName": "Local facility",

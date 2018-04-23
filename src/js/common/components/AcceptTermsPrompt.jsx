@@ -17,12 +17,16 @@ class AcceptTermsPrompt extends React.Component {
     window.scrollTo(0, 0);
   }
 
-  onCancel(e) {
+  onCancel = (e) => {
     e.preventDefault();
     if (document.referrer !== '' && !this.props.isInModal) {
       browserHistory.goBack();
     } else {
-      browserHistory.push(this.props.cancelPath);
+      if (this.props.onCancel) {
+        this.props.onCancel();
+      } else {
+        browserHistory.push(this.props.cancelPath);
+      }
     }
   }
 
