@@ -4,6 +4,7 @@ import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/Error
 import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import { fieldFailureMessage } from './LoadFail';
 
 class EditEmailModal extends React.Component {
 
@@ -58,11 +59,17 @@ class EditEmailModal extends React.Component {
 
 
 export default function EmailSection({ emailResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
-  let emailDisplay = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
+  let content = null;
   let modal = null;
 
   if (emailResponseData) {
-    emailDisplay = emailResponseData.email;
+    if (emailResponseData.email) {
+      content = emailResponseData.email;
+    } else {
+      content = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
+    }
+  } else {
+    content = fieldFailureMessage;
   }
 
   if (isEditing) {
@@ -84,7 +91,7 @@ export default function EmailSection({ emailResponseData, title, field, error, c
     <div>
       {modal}
       <HeadingWithEdit onEditClick={emailResponseData && onEdit}>{title}</HeadingWithEdit>
-      <div>{emailDisplay}</div>
+      <div>{content}</div>
     </div>
   );
 }
