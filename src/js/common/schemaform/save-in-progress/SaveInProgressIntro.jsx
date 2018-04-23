@@ -14,20 +14,7 @@ export default class SaveInProgressIntro extends React.Component {
     const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill, verifiedPrefillAlert, unverifiedPrefillAlert } = this.props;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
-    if (this.props.messageOnly) {
-      return (
-        <div>
-          <div className="usa-alert usa-alert-info schemaform-sip-alert">
-            <div className="usa-alert-body">
-              <strong>{this.props.alertMessage.title}</strong>
-              <br/>
-              {this.props.alertMessage.message}
-            </div>
-          </div>
-          <br/>
-        </div>
-      );
-    }
+
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
@@ -132,7 +119,7 @@ export default class SaveInProgressIntro extends React.Component {
     return (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
-        {!this.props.messageOnly && <div>
+        <div>
           <FormStartControls
             resumeOnly={this.props.resumeOnly}
             messages={this.props.messages}
@@ -148,14 +135,12 @@ export default class SaveInProgressIntro extends React.Component {
             formSaved={!!savedForm}/>
           <br/>
         </div>
-        }
       </div>
     );
   }
 }
 
 SaveInProgressIntro.propTypes = {
-  messageOnly: PropTypes.bool,
   buttonOnly: PropTypes.bool,
   afterButtonContent: PropTypes.element,
   prefillEnabled: PropTypes.bool,
@@ -165,7 +150,6 @@ SaveInProgressIntro.propTypes = {
   returnUrl: PropTypes.string,
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
-  alertMessage: PropTypes.object,
   pageList: PropTypes.array.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,

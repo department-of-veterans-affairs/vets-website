@@ -15,38 +15,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   const fetchInProgressForm = () => {};
   const removeInProgressForm = () => {};
   const toggleLoginModal = () => {};
-  it('should render props.alertMessage without button', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
-        ],
-        prefillsAvailable: []
-      },
-      login: {
-        currentlyLoggedIn: true,
-        loginUrls: {
-          idme: '/mockLoginUrl'
-        }
-      }
-    };
-    const tree = SkinDeep.shallowRender(
-      <SaveInProgressIntro
-        alertMessage={{
-          title: 'hello',
-          message: 'this is a messsage'
-        }}
-        messageOnly
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}/>
-    );
-    expect(tree.subTree('.usa-alert').text()).to.contain('hello');
-    expect(tree.subTree('.va-button-link')).to.be.false;
-  });
+
   it('should render in progress message', () => {
     const user = {
       profile: {

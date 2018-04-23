@@ -2,6 +2,7 @@
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../../components/GetFormHelp';
 
 // const { } = fullSchema.properties;
 
@@ -21,6 +22,7 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.',
   },
   title: 'Declaration of status of dependents',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
   },
   chapters: {

@@ -6,6 +6,7 @@ import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/jean-pants/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -48,17 +49,7 @@ class IntroductionPage extends React.Component {
               <p>An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim.</p>
               <div><a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a></div>
               <br/>
-              <SaveInProgressIntro
-                messageOnly
-                alertMessage={
-                  {
-                    title: 'Why do I need to declare a dependent?',
-                    message: 'You need to let VA know when something changes in the status of your dependents that could affect their eligibility for benefits. Changes in status could include in the birth or adoption of a child, if you get married or divorced, if your child becomes seriously disabled, or if your child is over 18 years old and not attending school.'
-                  }
-                }
-                pageList={this.props.route.pageList}
-                {...this.props.saveInProgressActions}
-                {...this.props.saveInProgress}/>
+              <AlertBox headline="Why do I need to declare a dependent?" content="You need to let VA know when something changes in the status of your dependents that could affect their eligibility for benefits. Changes in status could include in the birth or adoption of a child, if you get married or divorced, if your child becomes seriously disabled, or if your child is over 18 years old and not attending school." isVisible status="info"/>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
