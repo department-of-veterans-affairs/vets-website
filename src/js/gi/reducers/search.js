@@ -19,6 +19,8 @@ const INITIAL_STATE = {
     yellowRibbonScholarship: {},
     principlesOfExcellence: {},
     eightKeysToVeteranSuccess: {},
+    priorityEnrollment: {},
+    independentStudy: {}
   },
   links: {},
   results: [],

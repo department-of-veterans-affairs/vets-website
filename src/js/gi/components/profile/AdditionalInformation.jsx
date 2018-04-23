@@ -65,6 +65,14 @@ export class AdditionalInformation extends React.Component {
           </strong>
           &nbsp;{it.creditForMilTraining ? 'Yes' : 'No'}
         </div>
+        <div>
+          <strong>
+            <a onClick={this.props.onShowModal.bind(this, 'iStudy')}>
+              Independent study:
+            </a>
+          </strong>
+          &nbsp;{it.iStudy ? 'Yes' : 'No'}
+        </div>
       </div>
     );
   }

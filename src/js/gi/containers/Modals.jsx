@@ -163,6 +163,13 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('priorityEnroll')}>
+          <h3>Priority Enrollment</h3>
+          <p>
+            TODO!!!
+          </p>
+        </Modal>
+
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('eightKeys')}>
           <h3>8 Keys to Veteran Success</h3>
           <p>
@@ -227,6 +234,10 @@ export class Modals extends React.Component {
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('creditTraining')}>
           <h3>Credit for Military Training</h3>
           <p>Does the school offer postsecondary credit for experiences and military training?</p>
+        </Modal>
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('iStudy')}>
+          <h3>Independent Study</h3>
+          <p>TODO!!!</p>
         </Modal>
       </span>
     );

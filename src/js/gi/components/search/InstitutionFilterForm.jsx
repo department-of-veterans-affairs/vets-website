@@ -113,6 +113,16 @@ class InstitutionFilterForm extends React.Component {
           name="eightKeysToVeteranSuccess"
           label="8 Keys to Vet Success"
           onChange={this.handleCheckboxChange}/>
+        <Checkbox
+          checked={filters.priorityEnrollment}
+          name="priorityEnrollment"
+          label="Priority Enrollment"
+          onChange={this.handleCheckboxChange}/>
+        <Checkbox
+          checked={filters.independentStudy}
+          name="independentStudy"
+          label="Independent Study"
+          onChange={this.handleCheckboxChange}/>
       </div>
     );
   }
@@ -163,6 +173,8 @@ InstitutionFilterForm.propTypes = {
     yellowRibbonScholarship: PropTypes.bool,
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
+    priorityEnrollment: PropTypes.bool,
+    independentStudy: PropTypes.bool
   }),
   onFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -173,7 +185,9 @@ InstitutionFilterForm.propTypes = {
     studentVetGroup: PropTypes.object,
     yellowRibbonScholarship: PropTypes.object,
     principlesOfExcellence: PropTypes.object,
-    eightKeysToVeteranSuccess: PropTypes.object
+    eightKeysToVeteranSuccess: PropTypes.object,
+    priorityEnrollment: PropTypes.object,
+    independentStudy: PropTypes.object
   })
 };
 

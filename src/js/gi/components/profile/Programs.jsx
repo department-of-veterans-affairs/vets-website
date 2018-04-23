@@ -53,6 +53,12 @@ export class Programs extends React.Component {
         text: 'Military Tuition Assistance (TA)',
         link: false
       },
+
+      priorityEnroll: {
+        modal: 'priorityEnroll',
+        text: 'Priority Enrollment',
+        link: false
+      },
     };
   }
 
