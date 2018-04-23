@@ -7,6 +7,7 @@ import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
+import { submitIntentToFile } from '../actions';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
@@ -42,6 +43,7 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
+  ITFErrorAlert
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -88,9 +90,10 @@ const vaTreatments = ((treatmentsCommonDef) => {
 
 const formConfig = {
   urlPrefix: '/',
-  intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   // submitUrl: '/v0/21-526EZ',
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  beforeStartForm: submitIntentToFile,
+  prestartMessage: 'Submitting your intent to file...',
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
@@ -99,6 +102,7 @@ const formConfig = {
   prefillEnabled: true,
   verifyRequiredPrefill: true,
   savedFormMessages: {
+    prestartError: ITFErrorAlert,
     notFound: 'Please start over to apply for disability claims increase.',
     noAuth: 'Please sign in again to resume your application for disability claims increase.'
   },

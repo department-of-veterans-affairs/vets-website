@@ -15,6 +15,7 @@ import {
   SAVE_STATUSES,
   LOAD_STATUSES,
   PREFILL_STATUSES,
+  PRESTART_STATUSES,
   saveErrors
 } from '../save-in-progress/actions';
 
@@ -96,6 +97,22 @@ export const saveInProgressReducers = {
       data: state.initialData,
       loadedStatus: LOAD_STATUSES.pending
     });
+  },
+  SET_PRESTART_STATUS: (state, action) => {
+    const newState = _.set('prestartStatus', action.status, state);
+
+    if (action.status) {
+      newState.prestartExpirationDate = action.expirationDate;
+    }
+
+    if (action.errorMessage) {
+      newState.prestartStatus = PRESTART_STATUSES.failure;
+    }
+
+    return newState;
+  },
+  SET_PRESTART_PENDING: (state) => {
+    return _.set('prestartStatus', PRESTART_STATUSES.pending, state);
   },
   [SET_PREFILL_UNFILLED]: (state) => {
     return _.assign(state, {

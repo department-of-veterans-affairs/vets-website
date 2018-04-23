@@ -9,6 +9,7 @@ import FormTitle from '../components/FormTitle';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
+  PRESTART_STATUSES,
   SAVE_STATUSES,
   setFetchFormStatus,
   fetchInProgressForm
@@ -94,6 +95,7 @@ class RoutedSavableApp extends React.Component {
     }
 
     const status = newProps.loadedStatus;
+    const prestartStatus = newProps.prestartStatus;
     if (status === LOAD_STATUSES.success && newProps.currentLocation && newProps.currentLocation.pathname.endsWith('resume')) {
       newProps.router.replace(newProps.returnUrl);
     } else if (status === LOAD_STATUSES.success) {
@@ -107,6 +109,7 @@ class RoutedSavableApp extends React.Component {
       && status !== LOAD_STATUSES.pending
       && status !== this.props.loadedStatus
       && !window.location.pathname.endsWith('/error')
+      || (prestartStatus && (prestartStatus === PRESTART_STATUSES.failure) && (prestartStatus !== this.props.prestartStatus))
     ) {
       let action = 'push';
       if (window.location.pathname.endsWith('resume')) {
@@ -159,8 +162,13 @@ class RoutedSavableApp extends React.Component {
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
       const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
-      const hasPrefillData = props.prefillsAvailable.includes(currentForm);
+      const hasPrefillData = props.prefillsAvailable.includes(currentForm) || currentForm === '21-526EZ'; // TODO: remove once 526 added to prefills list
+      const { beforeStartForm } = this.props.formConfig;
       if (isSaved || hasPrefillData) {
+        if (beforeStartForm) {
+          return this.prestartForm().then(() => props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData));
+        }
+
         props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData);
       } else {
         // No forms to load; go to the beginning
@@ -172,20 +180,31 @@ class RoutedSavableApp extends React.Component {
       // If the first page is not the intro and uses `depends`, this will probably break
       props.router.replace(firstPagePath);
     }
+    return false;
   }
 
   removeOnbeforeunload = () => {
     window.removeEventListener('beforeunload', this.onbeforeunload);
   }
 
+  prestartForm = () => new Promise((resolve, reject) => {
+    const { formConfig } = this.props;
+    const { beforeStartForm } = formConfig;
+    const { prestartForm } = this.props;
+    return prestartForm(beforeStartForm, formConfig, resolve, reject);
+  })
+
   render() {
-    const { currentLocation, formConfig, children, formData, loadedStatus } = this.props;
+    const { currentLocation, formConfig, children, formData, loadedStatus, prestartStatus } = this.props;
+    const { prestartMessage } = formConfig;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     let content;
     const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
     if (!formConfig.disableSave && loadingForm && this.props.prefillStatus === LOAD_STATUSES.pending) {
       content = <LoadingIndicator message="Retrieving your profile information..."/>;
+    } else if (formConfig.beforeStartForm && prestartStatus === PRESTART_STATUSES.pending) {
+      content = <LoadingIndicator message={prestartMessage}/>;
     } else if (!formConfig.disableSave && loadingForm) {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
@@ -220,10 +239,19 @@ class RoutedSavableApp extends React.Component {
   }
 }
 
-const mapDispatchToProps = {
-  setFetchFormStatus,
-  fetchInProgressForm
-};
+function mapDispatchToProps(dispatch) {
+  return {
+    setFetchFormStatus: (...args) => {
+      dispatch(setFetchFormStatus(...args));
+    },
+    fetchInProgressForm: (...args) => {
+      dispatch(fetchInProgressForm(...args));
+    },
+    prestartForm: (beforeStartForm, config, onChange, resolve, reject) => {
+      dispatch(beforeStartForm(config, onChange, resolve, reject));
+    }
+  };
+}
 
 export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(RoutedSavableApp));
 

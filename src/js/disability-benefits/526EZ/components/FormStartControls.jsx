@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import SaveInProgressIntro from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
-import { ITFErrorAlert, VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert, ITFDescription } from '../helpers';
+import { VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert, ITFDescription } from '../helpers';
 
 export default function FormStartControls(props) {
   const { user } = props;
 
-  const somethingWentWrong = props.ITFStatus && props.ITFStatus === 'expired' || // This may not be possible
-                             props.errors && props.errors.length;
   return (
     <div>
       {!user.login.currentlyLoggedIn && <div>
@@ -21,9 +18,7 @@ export default function FormStartControls(props) {
         {UnverifiedAlert}
         <a href={`/verify?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
       </div>}
-      {somethingWentWrong && ITFErrorAlert}
-      {props.ITFStatus === 'pending' && <LoadingIndicator message="Please wait while we check that your intent to file has been submitted."/>}
-      {!props.ITFStatus && user.profile.verified && <SaveInProgressIntro
+      {user.profile.verified && <SaveInProgressIntro
         {...props}
         buttonOnly={props.buttonOnly}
         prefillAvailable

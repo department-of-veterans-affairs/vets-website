@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
@@ -18,21 +18,33 @@ class FormStartControls extends React.Component {
     }
   }
 
+  goToIntroduction = () => {
+    this.props.router.push('/introduction');
+  }
+
   goToBeginning = () => {
     this.props.router.push(this.props.startPage);
   }
 
   handleLoadPrefill = () => {
-    if (this.props.prefillAvailable) {
-      this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
-    } else {
-      this.goToBeginning();
+    const { beforeStartForm } = this.props.form;
+    if (beforeStartForm && this.props.prefillAvailable) {
+      return this.prestartForm().then(() => this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer));
     }
+    if (this.props.prefillAvailable) {
+      return this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
+    }
+    return this.goToBeginning();
   }
 
   handleLoadForm = () => {
+    const { beforeStartForm } = this.props.form;
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
+    if (beforeStartForm) {
+      return this.prestartForm().then(() =>
+        this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer));
+    }
     return this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
   }
 
@@ -42,11 +54,28 @@ class FormStartControls extends React.Component {
 
   startOver = () => {
     this.toggleModal();
-    this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer);
+    const { beforeStartForm } = this.props.form;
+    if (beforeStartForm) {
+      return this.presstartForm().then(() => this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer));
+    }
+    return this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer);
   }
 
-  render() {
 
+  prestartForm = () => new Promise((resolve, reject) => {
+    const { formId, migrations, prefillTransformer } = this.props;
+    const formConfig = { formId, migrations, prefillTransformer };
+    const { form: { beforeStartForm }, prestartForm } = this.props;
+    return prestartForm(beforeStartForm, formConfig, resolve, reject);
+  })
+
+  authenticate = (e) => {
+    e.preventDefault();
+    this.props.toggleLoginModal(true);
+  }
+
+
+  render() {
     if (this.props.formSaved) {
       return (
         <div>
@@ -90,14 +119,16 @@ class FormStartControls extends React.Component {
   }
 }
 
+
 FormStartControls.propTypes = {
+  prestartForm: PropTypes.func,
+  form: PropTypes.object.isRequired,
   formId: PropTypes.string.isRequired,
   handleLoadPrefill: PropTypes.func,
   migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
-  router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired,
   startPage: PropTypes.string.isRequired,
@@ -105,6 +136,20 @@ FormStartControls.propTypes = {
   resumeOnly: PropTypes.bool
 };
 
-export default withRouter(FormStartControls);
+function mapStateToProps(state) {
+  return {
+    form: state.form
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    prestartForm: (beforeStartForm, config, onChange, resolve, reject) => {
+      dispatch(beforeStartForm(config, onChange, resolve, reject));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormStartControls);
 
 export { FormStartControls };

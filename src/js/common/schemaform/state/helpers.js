@@ -463,7 +463,8 @@ export function createInitialState(formConfig) {
     reviewPageView: {
       openChapters: [],
     },
-    trackingPrefix: formConfig.trackingPrefix
+    trackingPrefix: formConfig.trackingPrefix,
+    beforeStartForm: formConfig.beforeStartForm
   };
 
   const pageAndDataState = createFormPageList(formConfig)

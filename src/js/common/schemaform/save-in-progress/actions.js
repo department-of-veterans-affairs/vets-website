@@ -15,6 +15,14 @@ export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
 export const SET_START_OVER = 'SET_START_OVER';
 export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
 
+
+export const PRESTART_STATUSES = Object.freeze({
+  notAttempted: 'not-attempted',
+  pending: 'pending',
+  failure: 'failure',
+  expired: 'expired'
+});
+
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
   pending: 'pending',

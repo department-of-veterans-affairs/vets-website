@@ -10,8 +10,6 @@ import FormTitle from '../../../common/schemaform/components/FormTitle';
 import { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from '../../../login/actions';
 
-import formConfig from '../config/form';
-import { submitIntentToFile } from '../actions';
 import FormStartControls from './FormStartControls';
 
 class IntroductionPage extends React.Component {
@@ -26,14 +24,6 @@ class IntroductionPage extends React.Component {
       .find(f => f.form === this.props.formId);
   }
 
-  updateITFStatus = (ITFStatus) => {
-    this.setState({ ITFStatus });
-  }
-
-  beforeStartForm = () => {
-    this.props.submitIntentToFile(formConfig, this.updateITFStatus);
-  }
-
   authenticate = (e) => {
     e.preventDefault();
     this.props.toggleLoginModal(true);
@@ -41,7 +31,6 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { saveInProgress: { user } } = this.props;
-    const ITFStatus = this.state ? this.state.ITFStatus : undefined;
 
     return (
       <div className="schemaform-intro">
@@ -51,9 +40,7 @@ class IntroductionPage extends React.Component {
           pathname={this.props.location.pathname}
           user={user}
           authenticate={this.authenticate}
-          ITFStatus={ITFStatus}
-          {...this.props}
-          beforeStartForm={this.beforeStartForm}/>
+          {...this.props}/>
         <h4>Follow the steps below to apply for increased disability compensation.</h4>
         <div className="process schemaform-process">
           <ol>
@@ -99,10 +86,8 @@ class IntroductionPage extends React.Component {
           pathname={this.props.location.pathname}
           user={user}
           authenticate={this.authenticate}
-          ITFStatus={ITFStatus}
           {...this.props}
-          buttonOnly
-          beforeStartForm={this.beforeStartForm}/>
+          buttonOnly/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="11/30/2017"/>
@@ -122,9 +107,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     saveInProgressActions: bindActionCreators(introActions, dispatch),
-    submitIntentToFile: (config, onChange) => {
-      dispatch(submitIntentToFile(config, onChange));
-    },
     toggleLoginModal: (update) => {
       dispatch(toggleLoginModal(update));
     }

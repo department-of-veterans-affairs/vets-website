@@ -1,64 +1,65 @@
-/* eslint-disable no-unused-vars */
 import { apiRequest } from '../../../../platform/utilities/api';
-import { fetchInProgressForm } from '../../../common/schemaform/save-in-progress/actions';
+import Raven from 'raven-js';
 
-export const ITFStatuses = Object.freeze({
-  active: 'active',
-  claim_received: 'claim_received', // eslint-disable-line camelcase
-  duplicate: 'duplicate',
-  expired: 'expired',
-  pending: 'pending',
-  incomplete: 'incomplete'
-});
-
-
-// TODO: replace mock once ITF endpoint setup
-export function submitIntentToFile(formConfig, onChange) {
-  const { intentToFileUrl, formId, migrations, prefillTransformer } = formConfig;
-  let ITFStatus = ITFStatuses.pending;
-  return dispatch => {
-
-    onChange(ITFStatus);
-
-    const delay = (ms) => new Promise((resolve, reject) => {
-      ITFStatus = ITFStatuses.active;
-      onChange({ ITFStatus });
-
-      // TODO: if the backend handles resubmission, this check can be removed
-      if (ITFStatus === ITFStatuses.active) {
-        setTimeout(resolve, ms);
-      } else {
-        const errorMessage = 'Network request failed';
-        onChange({
-          ITFStatus,
-          errorMessage
-        });
-        reject(errorMessage);
-      }
-    });
-
-    return delay(2000);
-  };
+function fetchITF(itfUrl, optionalSettings = null) {
+  return apiRequest(
+    `${itfUrl}`,
+    optionalSettings,
+    ({ data }) => {
+      const { status, expirationDate }  = data.attributes.intent_to_file;
+      return { status, expirationDate };
+    },
+    ({ errors }) => {
+      const errorMessage = 'Network request failed';
+      Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
+      return { errorMessage, errors };
+    }
+  );
 }
 
-//   apiRequest(
-//     `${intentToFileUrl}`,
-//     null,
-//     ({ data }) => {
-//       const ITFStatus = data.attributes.ITFStatus
-//       onChange({ ITFStatus });
-//       return ITFStatus === 'active';
-//     },
-//     ({ errors }) => {
-//       const errorMessage = 'Network request failed';
-//       onChange({
-//         ITFStatus,
-//         errorMessage
-//       });
-//       Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
-//     }
-//   );
-// };
-// }
-/* eslint-enable */
+function fakeFetch(x) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(x);
+    }, 2000);
+  });
+}
 
+
+async function processITF(itfUrl, options = null, resolve, dispatch) {
+  const ITF = await fetchITF(itfUrl, options);
+  dispatch({ type: 'SET_PRESTART_STATUS', ...ITF });
+  if (ITF.status && ITF.status === 'active') {
+    resolve();
+  }
+  return ITF;
+}
+
+async function fakeFetchITF(mockITF, resolve, dispatch) {
+
+  const ITF = await fakeFetch(mockITF);
+  if (ITF.status && ITF.status === 'active') {
+    dispatch({ type: 'SET_PRESTART_STATUS', ...ITF });
+    resolve();
+  }
+  return ITF;
+}
+
+export function submitIntentToFile(formConfig, resolve) {
+  return async (dispatch) => {
+    const mockITFfailure = { errorMessage: 'Network request failed', errors: [2, 3] };
+    const mockITFsuccess = { status: 'active', expirationDate: '2018-12-12' };
+    const mockITFexpired = { status: 'expired', expirationDate: '2012-12-12' };
+    dispatch({ type: 'SET_PRESTART_PENDING' });
+    // const existingITF = await processITF('/intent_to_file/compensation/active', null, resolve, dispatch);
+    const existingITF = await fakeFetchITF(mockITFexpired, resolve, dispatch);
+    if (existingITF && existingITF.status === 'active') {
+      return;
+    }
+    // const newITF = await processITF('/intent_to_file/compensation', { method: 'POST' }, resolve, dispatch);
+    const newITF = await fakeFetchITF(mockITFsuccess, resolve, dispatch);
+    if (!newITF.status || newITF.status !== 'active') {
+      dispatch({ type: 'SET_PRESTART_STATUS', ...newITF });
+    }
+  };
+}
