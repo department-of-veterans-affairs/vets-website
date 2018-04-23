@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   yellowRibbonScholarship: false,
   principlesOfExcellence: false,
   eightKeysToVeteranSuccess: false,
+  stem: false,
   typeName: 'ALL',
 };
 
