@@ -4,6 +4,11 @@ template: detail-page
 title: Burial Allowance Application Process
 display_title: Burial Allowance Application Process
 order: 1
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -63,13 +68,23 @@ You may need a copy of:
 
 </div>
 
-### Ready to apply?
+<div id="react-applicationStatus" class="static-page-widget">
+  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530">Apply for Burial Benefits</a>
+</div>
 
-You can apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br> [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">Other ways to apply</h4>
+<div itemprop="itemListElement">
 
-Mail the application and other paperwork to your local regional benefit office. <br> [Find your local regional benefit office](/facilities).
 
-If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TDD number for the hearing-impaired is 711. Or call your regional benefit office.
+Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br>
+[Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
+
+Mail the application and other paperwork to your local regional benefit office. <br> 
+[Find your local regional benefit office](/facilities).
+
+If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TTY number for the hearing-impaired is 711. Or call your regional benefit office.
+
 
 
 
