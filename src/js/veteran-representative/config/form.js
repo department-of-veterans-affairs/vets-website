@@ -14,7 +14,6 @@ const {
   veteranSSN,
   insuranceNumber,
   claimantFullName,
-  claimantAddress,
   claimantEmail,
   claimantDaytimePhone,
   claimantEveningPhone,

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/veteran-representative/config/form.js';
 
 describe('authorization to change claimant address', () => {
