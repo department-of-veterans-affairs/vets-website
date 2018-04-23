@@ -6,6 +6,11 @@
 @import "layouts/l-playbook";
 
 // ----- Modules that only affect non-React pages. ---- //
+@import "modules/m-card";
+@import "modules/m-piano-key";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-nav-sidebar";
+@import "modules/m-education-wizard";
+@import "../../../platform/forms/sass/m-applications";
 @import "modules/m-homepage-hero";
 @import "modules/m-nav-linkslist";
 @import "modules/m-nav-next-previous";

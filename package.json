@@ -13,7 +13,7 @@
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
-    "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep .*\\.js | grep -v json`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
+    "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
     "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --retries 3",
     "nightwatch": "nightwatch -c config/nightwatch.js",

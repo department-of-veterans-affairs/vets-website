@@ -1,8 +1,8 @@
+import appendQuery from 'append-query';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerBeta, isUserRegisteredForBeta } from '../actions';
-import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class BetaEnrollmentButton extends React.Component {
@@ -15,11 +15,11 @@ class BetaEnrollmentButton extends React.Component {
     // Using state instead of props for error handling, because there isn't a place to store errors
     // in the Redux user/profile store, and I chose not to clutter that up with something that is unlikely to be used.
     super(props);
-    this.state = { isLoading: false, hasError: false };
+    this.state = { isEnrolling: false, hasError: false };
   }
 
   onError = () => {
-    this.setState({ isLoading: false, hasError: true });
+    this.setState({ isEnrolling: false, hasError: true });
   }
 
   onRegistered = () => {
@@ -27,27 +27,40 @@ class BetaEnrollmentButton extends React.Component {
   }
 
   onClick = () => {
-    this.setState({ isLoading: true });
-    this.props.registerBeta(this.props.feature).then(this.onRegistered).catch(this.onError);
+    if (this.props.user.login.currentlyLoggedIn) {
+      this.setState({ isEnrolling: true });
+      this.props.registerBeta(this.props.feature).then(this.onRegistered).catch(this.onError);
+    } else {
+      const nextQuery = { next: window.location.pathname };
+      const signInUrl = appendQuery('/', nextQuery);
+      window.location.replace(signInUrl);
+    }
   }
 
   render() {
     if (this.props.isUserRegisteredForBeta(this.props.feature)) this.onRegistered();
 
-    return (
-      <RequiredLoginView
-        authRequired={1}
-        serviceRequired={[]}
-        user={this.props.user}>
-        <button className="usa-button-primary"
-          disabled={this.state.isLoading}
-          onClick={this.onClick}>
-          {this.state.isLoading && <i className="fa fa-spin fa-spinner"/>} Turn On Beta Tools
-        </button>
+    if (this.state.hasError) {
+      return (
         <AlertBox status="error"
           isVisible={this.state.hasError}
           content={<div><h3>We can't turn on the beta tools</h3><p>We're sorry. Something went wrong on our end, and we can't turn on the beta tools for you. Please try again later.</p></div>}/>
-      </RequiredLoginView>
+      );
+    }
+
+    let buttonText = 'Turn On Beta Tools';
+
+    if (this.props.user.profile.loading) buttonText = 'Loading Profile...';
+    else if (this.state.isEnrolling) buttonText = 'Turning On Beta Tools';
+
+    const disabled = this.state.isEnrolling || this.props.user.profile.loading;
+
+    return (
+      <button className="usa-button-primary"
+        disabled={disabled}
+        onClick={this.onClick}>
+        {buttonText}
+      </button>
     );
   }
 }

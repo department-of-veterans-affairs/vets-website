@@ -9,7 +9,7 @@ import LoginSettings from './LoginSettings';
 import MultifactorMessage from './MultifactorMessage';
 import TermsAndConditions from './TermsAndConditions';
 
-class UserDataSection extends React.Component {
+class AccountMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
@@ -32,7 +32,7 @@ class UserDataSection extends React.Component {
   renderModalContents() {
     const { terms } = this.props;
     const termsAccepted = this.props.profile.healthTermsCurrent;
-    if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
+    if (!termsAccepted && !this.state.modalOpen && terms.loading === false && !terms.termsContent) {
       setTimeout(() => {
         this.props.fetchLatestTerms('mhvac');
       }, 100);
@@ -52,7 +52,7 @@ class UserDataSection extends React.Component {
       );
     }
 
-    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} isInModal/>;
+    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} onCancel={this.closeModal} isInModal/>;
   }
 
   render() {
@@ -66,10 +66,15 @@ class UserDataSection extends React.Component {
 
     return (
       <div>
-        <MultifactorMessage multifactor={multifactor}/>
         <AccountVerification loa={loa}/>
+        <MultifactorMessage multifactor={multifactor}/>
         <LoginSettings/>
         <TermsAndConditions healthTermsCurrent={healthTermsCurrent} openModal={this.openModal}/>
+        <h4>Have questions about signing in to Vets.gov?</h4>
+        <p>
+          Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on Vets.gov.<br/>
+          <a href="/faq">Go to Vets.gov FAQs</a>
+        </p>
         <Modal
           cssClass="va-modal-large"
           contents={this.renderModalContents()}
@@ -81,4 +86,4 @@ class UserDataSection extends React.Component {
   }
 }
 
-export default UserDataSection;
+export default AccountMain;

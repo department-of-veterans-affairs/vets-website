@@ -4,18 +4,9 @@ import { convertToDateField, validateCurrentOrPastDate } from '../common/schemaf
 import { isValidDateRange } from '../../platform/forms/validations';
 
 function calculateEndDate() {
-  let endDateLimit;
-  let description;
-  if (__BUILDTYPE__ === 'production') {
-    endDateLimit = 180;
-  } else {
-    endDateLimit = 730;
-  }
-  if (endDateLimit === 730) {
-    description = '2 years';
-  } else {
-    description = '180 days';
-  }
+  const endDateLimit = 730;
+  const description = '2 years';
+
   return {
     endDateLimit,
     description,

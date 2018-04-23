@@ -8,6 +8,7 @@ import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
 import { genderLabels } from '../../../platform/static-data/labels';
+import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
@@ -88,7 +89,7 @@ export const supportingEvidenceOrientation = (
 
 export const evidenceTypesDescription = ({ formData }) => {
   return (
-    <p>What supporting evidence do you have that shows how your {formData.name} <strong>has worsened since VA rated your disability</strong>?</p>
+    <p>What supporting evidence do you have that shows how your {getDiagnosticCodeName(formData.diagnosticCode)} <strong>has worsened since VA rated your disability</strong>?</p>
   );
 };
 
@@ -109,14 +110,14 @@ export const evidenceTypeHelp = (
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{formData.name}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{getDiagnosticCodeName(formData.diagnosticCode)}</legend>
   );
 };
 
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Tell us about facilities where VA treated you for {formData.name}, <strong>after you got your disability rating</strong>.</p>
+    <p>Tell us about facilities where VA treated you for {getDiagnosticCodeName(formData.diagnosticCode)}, <strong>after you got your disability rating</strong>.</p>
   );
 };
 
@@ -142,7 +143,7 @@ export const treatmentView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your VA medical records related to your {formData.name}.</p>
+    <p>Ok, first we’ll ask about your VA medical records related to your {getDiagnosticCodeName(formData.diagnosticCode)}.</p>
   );
 };
 
@@ -151,7 +152,7 @@ export const privateRecordsChoice = ({ formData }) => {
   return (
     <div>
       <h4>About private medical records</h4>
-      <p>You said you were treated for {formData.name} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
+      <p>You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
     </div>
   );
 };
@@ -172,7 +173,7 @@ export const privateRecordsChoiceHelp = (
 export const privateMedicalRecordsIntro = ({ formData }) => {
   const firstOrNext = formData['view:vaMedicalRecords'] ? 'next' : 'first';
   return (
-    <p>Ok, {firstOrNext} we’ll ask about your private medical records related to your {formData.name}.</p>
+    <p>Ok, {firstOrNext} we’ll ask about your private medical records related to your {getDiagnosticCodeName(formData.diagnosticCode)}.</p>
   );
 };
 
@@ -248,15 +249,6 @@ export const additionalDocumentDescription = () => {
   );
 };
 
-const documentLabels = {
-  1: 'Discharge',
-  2: 'Marriage related',
-  3: 'Dependent related',
-  // 4: 'VA preneed form',
-  5: 'Letter',
-  6: 'Other'
-};
-
 const getVACenterName = (center) => center.treatmentCenterName;
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
 
@@ -294,7 +286,7 @@ export const evidenceSummaryView = ({ formData }) => {
           <ul>
             {additionalDocuments.map((document, id) => {
               return (<li className="dashed-bullet" key={id}>
-                <strong>{`${documentLabels[document.attachmentId]} (${document.name})`}</strong>
+                <strong>{document.name}</strong>
               </li>);
             })
             }
@@ -340,6 +332,27 @@ export const veteranInformationViewField = ({ formData }) => {
   );
 };
 
+/**
+ * @typedef {Object} Disability
+ * @property {String} diagnosticCode
+ * @property {String} name
+ * @property {String} ratingPercentage
+ *
+ * @param {Disability} disability
+ */
+export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => {
+  // May need to throw an error to Sentry if any of these doesn't exist
+
+  return (
+    <div>
+      {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
+      {name && <p className="diagnostic-text">{getDiagnosticText(name)}</p>}
+      {ratingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
+    </div>
+  );
+};
+
+
 export const ITFErrorAlert = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
@@ -347,6 +360,7 @@ export const ITFErrorAlert = (
     </div>
   </div>
 );
+
 
 export const UnauthenticatedAlert = (
   <div>
@@ -359,6 +373,7 @@ export const UnauthenticatedAlert = (
   </div>
 );
 
+
 export const UnverifiedAlert = (
   <div>
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -370,6 +385,7 @@ export const UnverifiedAlert = (
   </div>
 );
 
+
 export const VerifiedAlert =  (
   <div>
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -380,6 +396,7 @@ export const VerifiedAlert =  (
     <br/>
   </div>
 );
+
 
 export const GetFormHelp = () => {
   return (
@@ -451,7 +468,7 @@ export const ITFDescription = (
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="What does this mean?">
-      <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security Number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
+      <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
     </AdditionalInfo>
   </div>
 );
@@ -460,6 +477,7 @@ export const specialCircumstancesDescription = (
   <p>To help us better understand your situation, please tell us if
       any of the below situations apply to you. <strong>Are you:</strong></p>
 );
+
 
 export const FDCDescription = (
   <div>
@@ -475,6 +493,7 @@ export const FDCDescription = (
   </div>
 );
 
+
 export const FDCWarning = (
   <div className="usa-alert usa-alert-info no-background-image">
     <div className="usa-alert-body">
@@ -483,7 +502,9 @@ export const FDCWarning = (
         claim will be submitted as a fully developed claim.
       </div>
     </div>
-  </div>);
+  </div>
+);
+
 
 export const noFDCWarning = (
   <div className="usa-alert usa-alert-info no-background-image">

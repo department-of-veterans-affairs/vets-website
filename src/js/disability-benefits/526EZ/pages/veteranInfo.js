@@ -18,7 +18,7 @@ function createVeteranInfoPage(formSchema, isReview) {
 
   const uiSchema = {
     fullName: fullNameUI,
-    socialSecurityNumber: _.assign(ssnUI, {
+    socialSecurityNumber: _.merge({}, ssnUI, {
       'ui:title': 'Social Security number (must have this or a VA file number)',
       'ui:required': form => !form.vaFileNumber
     }),
