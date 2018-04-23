@@ -19,6 +19,7 @@ import Hero from './Hero';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
 import EmailSection from './EmailSection';
+import AccountMessage from './AccountMessage';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
 import LoadFail from './LoadFail';
@@ -139,6 +140,8 @@ class ProfileView extends React.Component {
                 onCancel={this.closeModal}/>
             </div>
           )}
+
+          <AccountMessage/>
 
           <h2>Personal Information</h2>
           {personalInformationFailed ? <LoadFail information="personal"/> : (
