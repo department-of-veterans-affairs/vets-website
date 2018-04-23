@@ -148,7 +148,7 @@ export class ApplicationStatus extends React.Component {
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
             <div className="sip-application-status">
               <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
-              {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process.</a></p>}
+              {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process</a>.</p>}
             </div>
           </div>
         </div>

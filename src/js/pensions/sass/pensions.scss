@@ -29,8 +29,11 @@
   margin-top: 3rem !important;
 }
 
-.pensions-heading:focus {
-  outline: none;
+.pensions-heading {
+  margin-top: 0;
+  &:focus {
+    outline: none;
+  }
 }
 
 p.pension-employment-desc, .pension-dd-warning {
