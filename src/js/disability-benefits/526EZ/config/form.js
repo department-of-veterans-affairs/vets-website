@@ -47,7 +47,7 @@ import {
 import { requireOneSelected } from '../validations';
 
 const {
-  treatments,
+  treatments: treatmentsSchema,
   disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
@@ -66,7 +66,7 @@ const {
 const FIFTY_MB = 52428800;
 
 // TODO: Remove once typeahead supports auto-filling address and treatment center type
-const vaTreatments = ((treatmentsCommonDef) => {
+const treatments = ((treatmentsCommonDef) => {
   const { type, maxItems, items } = treatmentsCommonDef;
 
   return {
@@ -84,7 +84,7 @@ const vaTreatments = ((treatmentsCommonDef) => {
     }
   };
 
-})(treatments);
+})(treatmentsSchema);
 
 const formConfig = {
   urlPrefix: '/',
@@ -448,7 +448,7 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'ui:description': facilityDescription,
-                vaTreatments: {
+                treatments: {
                   'ui:options': {
                     itemName: 'Facility',
                     viewField: treatmentView
@@ -478,7 +478,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    vaTreatments
+                    treatments
                   }
                 }
               }
