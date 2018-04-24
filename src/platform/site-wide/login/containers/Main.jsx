@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import { getUserData } from '../../common/helpers/login-helpers';
-import { isUserRegisteredForBeta } from '../../personalization/beta-enrollment/actions';
+import { getUserData } from '../../../../js/common/helpers/login-helpers';
+import { isUserRegisteredForBeta } from '../../../../js/personalization/beta-enrollment/actions';
+import recordEvent from '../../../monitoring/record-event';
 
 import {
   updateLoggedInStatus,

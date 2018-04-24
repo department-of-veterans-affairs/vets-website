@@ -8,7 +8,7 @@ import './legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './accessible-VCL-modal';
 import addMenuListeners from './accessible-menus';
-import createLoginWidget from '../../js/login/login-entry';
+import createLoginWidget from './login/login-entry';
 import createFeedbackWidget from './feedback/feedback-entry';
 
 /**

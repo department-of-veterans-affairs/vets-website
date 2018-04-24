@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import DropDown from '../../common/components/DropDown';
-import IconUser from '../../common/components/svgicons/IconUser';
-import { features } from '../../personalization/beta-enrollment/containers/BetaApp';
-import BetaDropdown from './BetaDropdown';
-
+import DropDown from '../../../../js/common/components/DropDown';
+import IconUser from '../../../../js/common/components/svgicons/IconUser';
+import { features } from '../../../../js/personalization/beta-enrollment/containers/BetaApp';
 import { logout } from '../utils/helpers';
+import BetaDropdown from './BetaDropdown';
 
 class SignInProfileMenu extends React.Component {
   render() {

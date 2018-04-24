@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../utils/helpers';
 
 const loginHandler = (loginType) => () => {
