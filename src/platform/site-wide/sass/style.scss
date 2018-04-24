@@ -15,9 +15,9 @@ $image-path: "~uswds/src/img";
 @import "modules/m-vet-nav";
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-print";
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-dropdown";
-@import "modules/m-overlay";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-overlay";
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-additional-info";
-@import "../platform/monitoring/DowntimeNotification/sass/m-downtime-notification";
+@import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
 
 // ----- mobile typography -- see #6214 on vets.gov-team ---- //
 
