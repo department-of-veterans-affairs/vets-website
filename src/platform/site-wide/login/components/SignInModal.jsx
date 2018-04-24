@@ -3,7 +3,7 @@ import React from 'react';
 
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import recordEvent from '../../../monitoring/record-event';
-import { login, signup } from '../utils/helpers';
+import { login, signup } from '../../../utilities/authentication';
 
 const loginHandler = (loginType) => () => {
   recordEvent({ event: `login-attempted-${loginType}` });

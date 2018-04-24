@@ -4,7 +4,7 @@ import React from 'react';
 import DropDown from '../../../../js/common/components/DropDown';
 import IconUser from '../../../../js/common/components/svgicons/IconUser';
 import { features } from '../../../../js/personalization/beta-enrollment/containers/BetaApp';
-import { logout } from '../utils/helpers';
+import { logout } from '../../../utilities/authentication';
 import BetaDropdown from './BetaDropdown';
 
 class SignInProfileMenu extends React.Component {
