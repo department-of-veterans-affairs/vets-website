@@ -402,7 +402,6 @@ export const veteranInformationViewField = ({ formData }) => {
   );
 };
 
-
 /**
  * @typedef {Object} Disability
  * @property {String} diagnosticCode
@@ -539,7 +538,7 @@ export const ITFDescription = (
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="What does this mean?">
-      <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security Number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
+      <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
     </AdditionalInfo>
   </div>
 );

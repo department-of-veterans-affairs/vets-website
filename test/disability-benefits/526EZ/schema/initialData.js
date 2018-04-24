@@ -9,6 +9,12 @@ export default {
   vaFileNumber: '345345345',
   gender: 'F',
   dateOfBirth: '1990-04-02',
+  directDeposit: {
+    accountType: 'CHECKING',
+    accountNumber: '234234234',
+    routingNumber: '234234234234',
+    bankName: 'Local bank'
+  },
   veteran: {
     primaryPhone: '2342342342',
     secondaryPhone: '3242342342',
@@ -21,9 +27,6 @@ export default {
       zipCode: '234563453',
       addressLine1: '234 Maple St.'
     }
-  },
-  directDeposit: {
-    noBank: true,
   },
   servicePeriods: [
     {

@@ -9,6 +9,7 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
 import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
 import { createVerifiedPrimaryAddressPage, createUnverifiedPrimaryAddressPage } from '../pages/primaryAddress';
 
@@ -48,7 +49,7 @@ import {
 import { requireOneSelected } from '../validations';
 
 const {
-  treatments,
+  treatments: treatmentsSchema,
   disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
@@ -67,7 +68,7 @@ const {
 const FIFTY_MB = 52428800;
 
 // TODO: Remove once typeahead supports auto-filling address and treatment center type
-const vaTreatments = ((treatmentsCommonDef) => {
+const treatments = ((treatmentsCommonDef) => {
   const { type, maxItems, items } = treatmentsCommonDef;
 
   return {
@@ -85,7 +86,7 @@ const vaTreatments = ((treatmentsCommonDef) => {
     }
   };
 
-})(treatments);
+})(treatmentsSchema);
 
 const formConfig = {
   urlPrefix: '/',
@@ -215,7 +216,8 @@ const formConfig = {
               servicePeriods
             }
           }
-        }
+        },
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     veteranDetails: {
@@ -244,7 +246,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              // 'view:suicidal': { // TODO: reenable after user testing
+              // 'view:suicidal': { // TODO: re-enable after user testing
               // type: 'boolean'
               // },
               'view:homeless': {
@@ -305,7 +307,8 @@ const formConfig = {
               servicePeriods
             }
           }
-        }
+        },
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     ratedDisabilities: {
@@ -451,7 +454,7 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'ui:description': facilityDescription,
-                vaTreatments: {
+                treatments: {
                   'ui:options': {
                     itemName: 'Facility',
                     viewField: treatmentView
@@ -481,7 +484,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    vaTreatments
+                    treatments
                   }
                 }
               }

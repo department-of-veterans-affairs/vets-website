@@ -4,6 +4,7 @@ import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import { fieldFailureMessage } from './LoadFail';
 
 class EditAddressModal extends React.Component {
 
@@ -51,19 +52,25 @@ class EditAddressModal extends React.Component {
 }
 
 export default function AddressSection({ addressResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
-  let addressDisplay = <button type="button" onClick={onEdit} className="usa-button-secondary">Add</button>;
+  let content = null;
   let modal = null;
 
   if (addressResponseData) {
-    const { address } = addressResponseData;
-    addressDisplay = (
-      <div>
-        {address.addressOne}<br/>
-        {address.addressTwo}
-        {address.addresThree}
-        {address.city}, {address.militaryStateCode} {address.zipCode}
-      </div>
-    );
+    if (addressResponseData.address) {
+      const { address } = addressResponseData;
+      content = (
+        <div>
+          {address.addressOne}<br/>
+          {address.addressTwo}
+          {address.addresThree}
+          {address.city}, {address.militaryStateCode} {address.zipCode}
+        </div>
+      );
+    } else {
+      content = <button type="button" onClick={onEdit} className="usa-button-secondary">Add</button>;
+    }
+  } else {
+    content = fieldFailureMessage;
   }
 
   if (isEditing) {
@@ -85,7 +92,7 @@ export default function AddressSection({ addressResponseData, title, field, erro
     <div>
       {modal}
       <HeadingWithEdit onEditClick={addressResponseData && onEdit}>{title}</HeadingWithEdit>
-      {addressDisplay}
+      {content}
     </div>
   );
 }
