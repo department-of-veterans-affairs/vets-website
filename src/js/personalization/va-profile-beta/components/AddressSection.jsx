@@ -51,7 +51,7 @@ class EditAddressModal extends React.Component {
   }
 }
 
-export default function AddressSection({ addressResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+export default function AddressSection({ addressResponseData, addressConstants, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 

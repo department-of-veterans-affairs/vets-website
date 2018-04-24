@@ -46,7 +46,7 @@ const initialState = {
   profileLoading: true,
   loading: true,
   formFields: {},
-  addressData: {
+  addressConstants: {
     states: null,
     countries: null
   }
@@ -69,13 +69,13 @@ function vaProfile(state = initialState, action) {
     }
 
     case FETCH_ADDRESS_COUNTRIES_SUCCESS: {
-      const addressData = { ...state.addressData, countries: action.countries };
-      return { ...state, addressData };
+      const addressConstants = { ...state.addressConstants, countries: action.countries };
+      return { ...state, addressConstants };
     }
 
     case FETCH_ADDRESS_STATES_SUCCESS: {
-      const addressData = { ...state.addressData, states: action.states };
-      return { ...state, addressData };
+      const addressConstants = { ...state.addressConstants, states: action.states };
+      return { ...state, addressConstants };
     }
 
     case VA_PROFILE_READY:
