@@ -5,7 +5,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import * as addressUI from '../definitions/address';
+import * as addressUI from '../../common/schemaform/definitions/address.js';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 
