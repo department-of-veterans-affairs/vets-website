@@ -12,7 +12,7 @@ export default {
   directDeposit: {
     accountType: 'CHECKING',
     accountNumber: '234234234',
-    routingNumber: '234234234234',
+    routingNumber: '234234234',
     bankName: 'Local bank'
   },
   veteran: {
