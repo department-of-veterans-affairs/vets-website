@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import DropDown from './DropDown';
+import DropDownPanel from '@department-of-veterans-affairs/jean-pants/DropDownPanel';
 import IconHelp from '@department-of-veterans-affairs/jean-pants/IconHelp';
 
 class HelpMenu extends React.Component {
@@ -17,14 +17,15 @@ class HelpMenu extends React.Component {
     );
 
     return (
-      <DropDown
+      <DropDownPanel
         buttonText="Help"
         clickHandler={this.props.clickHandler}
         cssClass={this.props.cssClass}
-        contents={dropDownContents}
         id="helpmenu"
         icon={icon}
-        isOpen={this.props.isOpen}/>
+        isOpen={this.props.isOpen}>
+        {dropDownContents}
+      </DropDownPanel>
     );
   }
 }
