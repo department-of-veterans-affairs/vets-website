@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import FormStartControls from '../../../../src/js/disability-benefits/526EZ/components/FormStartControls';
+import FormStartControls from '../../components/FormStartControls';
 
 describe('526 <FormStartControls>', () => {
   it('should render unauthenticated view', () => {

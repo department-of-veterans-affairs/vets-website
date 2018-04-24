@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import VerifiedReviewPage from '../../../../src/js/disability-benefits/526EZ/components/VerifiedReviewPage.jsx';
+import VerifiedReviewPage from '../../components/VerifiedReviewPage.jsx';
 
 const onBlur = sinon.spy();
 const setData = sinon.spy();

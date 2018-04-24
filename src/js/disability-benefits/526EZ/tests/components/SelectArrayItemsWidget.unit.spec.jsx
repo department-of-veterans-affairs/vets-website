@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
-import SelectArrayItemsWidget from '../../../../src/js/disability-benefits/526EZ/components/SelectArrayItemsWidget';
+import SelectArrayItemsWidget from '../../components/SelectArrayItemsWidget';
 
-import get from '../../../../src/platform/utilities/data/get';
+import get from '../../../../../platform/utilities/data/get';
 
 describe('<SelectArrayItemsWidget>', () => {
   let defaultProps = {};

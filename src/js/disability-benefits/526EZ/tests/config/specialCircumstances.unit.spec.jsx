@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form.js';
+import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
 
 describe('Disability benefits 526EZ special circumstances', () => {
   const { schema, uiSchema } = formConfig.chapters.reviewVeteranDetails.pages.specialCircumstances;
