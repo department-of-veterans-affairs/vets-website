@@ -42,7 +42,13 @@ class EditAddressModal extends React.Component {
           onCloseAlert={this.props.clearErrors}/>
         <form onSubmit={this.onSubmit}>
           {this.props.field && (
-            <Address address={this.props.field.value.address} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
+            <Address
+              address={this.props.field.value.address}
+              onInput={this.onInput}
+              onBlur={this.onBlur}
+              errorMessages={{}}
+              states={this.props.addressConstants.states}
+              countries={this.props.addressConstants.countries}/>
           )}
           <LoadingButton isLoading={this.props.isLoading}>Save Address</LoadingButton>
         </form>
@@ -78,6 +84,7 @@ export default function AddressSection({ addressResponseData, addressConstants, 
       <EditAddressModal
         title="Edit mailing address"
         addressResponseData={addressResponseData}
+        addressConstants={addressConstants}
         onChange={onChange}
         field={field}
         error={error}
