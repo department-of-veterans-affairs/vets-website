@@ -8,9 +8,9 @@ import {
   verify,
   logout,
   signup
-} from '../../../src/js/login/utils/helpers';
+} from '../authentication';
 
-import { mockApiRequest, resetFetch } from '../../../src/platform/testing/unit/helpers';
+import { mockApiRequest, resetFetch } from '../../testing/unit/helpers';
 
 let windowOpen;
 let oldWindow;

@@ -1,6 +1,6 @@
-const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
-const Timeouts = require('../../src/platform/testing/e2e/timeouts.js');
-const LoginHelpers = require('../e2e/login-helpers');
+const E2eHelpers = require('../../../testing/e2e/helpers');
+const Timeouts = require('../../../testing/e2e/timeouts.js');
+const LoginHelpers = require('./login-helpers');
 
 const selectors = {
   menu: '#login-root button[aria-controls="accountMenu"]',
