@@ -9,7 +9,7 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
+import { createVerifiedPaymentInfoPage, createUnverifiedPaymentInfoPage } from '../pages/paymentInfo';
 import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
 import { createVerifiedPrimaryAddressPage, createUnverifiedPrimaryAddressPage } from '../pages/primaryAddress';
 
@@ -308,7 +308,7 @@ const formConfig = {
             }
           }
         },
-        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
+        paymentInformation: createUnverifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     ratedDisabilities: {

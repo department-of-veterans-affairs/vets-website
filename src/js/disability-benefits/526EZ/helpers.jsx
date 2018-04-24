@@ -10,15 +10,11 @@ import set from '../../../platform/utilities/data/set';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
 
-const siblings = [
-  'treatments',
-  'privateRecordReleases',
-  'privateRecords',
-  'additionalDocuments'
-];
+const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
+
 
 /*
  * Flatten nested array form data into sibling properties
@@ -39,6 +35,7 @@ export function flatten(data) {
   return formData;
 }
 
+
 export function transform(formConfig, form) {
   const formData = flatten(transformForSubmit(formConfig, form));
   delete formData.prefilled;
@@ -48,6 +45,7 @@ export function transform(formConfig, form) {
     }
   });
 }
+
 
 export const isPrefillDataComplete = (formData) => {
   const { socialSecurityNumber, vaFileNumber, gender,
@@ -69,6 +67,7 @@ export const isPrefillDataComplete = (formData) => {
   return !!(hasVeteranDetails && hasPrimaryAddressInfo && hasPaymentInfo && hasMilitaryHistoryInfo);
 };
 
+
 export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
   const isPrefilled = state.prefilStatus === PREFILL_STATUSES.success;
@@ -85,17 +84,17 @@ export function prefillTransformer(pages, formData, metadata, state) {
   };
 }
 
+
 export const supportingEvidenceOrientation = (
   <p>
     We’ll now ask you where we can find medical records or evidence about your
     worsened conditions after they were rated. You don’t need to turn in any
-    medical records that you’ve already submitted with your original claim.{' '}
-    <strong>
+    medical records that you’ve already submitted with your original claim. <strong>
       We only need new medical records or other evidence about your condition
-      after you got your disability rating.
-    </strong>
+      after you got your disability rating.</strong>
   </p>
 );
+
 
 export const evidenceTypesDescription = ({ formData }) => {
   return (
@@ -117,17 +116,20 @@ export const evidenceTypeHelp = (
   </AdditionalInfo>
 );
 
+
 export const disabilityNameTitle = ({ formData }) => {
   return (
     <legend className="schemaform-block-title schemaform-title-underline">{getDiagnosticCodeName(formData.diagnosticCode)}</legend>
   );
 };
 
+
 export const facilityDescription = ({ formData }) => {
   return (
     <p>Tell us about facilities where VA treated you for {getDiagnosticCodeName(formData.diagnosticCode)}, <strong>after you got your disability rating</strong>.</p>
   );
 };
+
 
 export const treatmentView = ({ formData }) => {
   const { from, to } = formData.treatmentDateRange;
@@ -164,6 +166,7 @@ export const privateRecordsChoice = ({ formData }) => {
   );
 };
 
+
 export const privateRecordsChoiceHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
     <h4>You upload your medical records</h4>
@@ -174,6 +177,7 @@ export const privateRecordsChoiceHelp = (
     <p>If you tell us which VA medical center treated you for your condition, we can get your medical records for you. Getting your records may take us some time. This could take us longer to make a decision on your claim.</p>
   </AdditionalInfo>
 );
+
 
 export const privateMedicalRecordsIntro = ({ formData }) => {
   const firstOrNext = formData['view:vaMedicalRecords'] ? 'next' : 'first';
@@ -186,46 +190,36 @@ export function validatePostalCodes(errors, formData) {
   let isValidPostalCode = true;
   // Checks if postal code is valid
   if (formData.treatmentCenterCountry === 'USA') {
-    isValidPostalCode =
-      isValidPostalCode && isValidUSZipCode(formData.treatmentCenterPostalCode);
+    isValidPostalCode = isValidPostalCode && isValidUSZipCode(formData.treatmentCenterPostalCode);
   }
   if (formData.treatmentCenterCountry === 'CAN') {
-    isValidPostalCode =
-      isValidPostalCode &&
-      isValidCanPostalCode(formData.treatmentCenterPostalCode);
+    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(formData.treatmentCenterPostalCode);
   }
 
   // Add error message for postal code if it exists and is invalid
   if (formData.treatmentCenterPostalCode && !isValidPostalCode) {
-    errors.treatmentCenterPostalCode.addError(
-      'Please provide a valid postal code'
-    );
+    errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
   }
 }
 
 export function validateAddress(errors, formData) {
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada, or Mexico
-  if (
-    stateRequiredCountries.has(formData.treatmentCenterCountry) &&
-    formData.treatmentCenterState === undefined
-  ) {
+  if (stateRequiredCountries.has(formData.treatmentCenterCountry)
+    && formData.treatmentCenterState === undefined) {
     // TODO: enable once validation determined
     // && currentSchema.required.length) {
     errors.treatmentCenterState.addError('Please select a state or province');
   }
-  const hasAddressInfo =
-    stateRequiredCountries.has(formData.treatmentCenterCountry) &&
+  const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
     // TODO: enable once validation determined
     // && !currentSchema.required.length
-    typeof formData.treatmentCenterCity !== 'undefined' &&
-    typeof formData.treatmentCenterStreet !== 'undefined' &&
-    typeof formData.treatmentCenterPostalCode !== 'undefined';
+    && typeof formData.treatmentCenterCity !== 'undefined'
+    && typeof formData.treatmentCenterStreet !== 'undefined'
+    && typeof formData.treatmentCenterPostalCode !== 'undefined';
 
   if (hasAddressInfo && typeof formData.treatmentCenterState === 'undefined') {
-    errors.treatmentCenterState.addError(
-      'Please enter a state or province, or remove other address information.'
-    );
+    errors.treatmentCenterState.addError('Please enter a state or province, or remove other address information.');
   }
 
   validatePostalCodes(errors, formData);
@@ -233,11 +227,9 @@ export function validateAddress(errors, formData) {
 
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <span>
-      Limiting consent means that your doctor can only share records that are
+    <span>Limiting consent means that your doctor can only share records that are
       directly related to your condition. This could add to the time it takes to
-      get your private medical records.
-    </span>
+      get your private medical records.</span>
   </div>
 );
 
@@ -249,12 +241,7 @@ export const documentDescription = () => {
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
         <li>Maximum file size: 50 MB</li>
       </ul>
-      <p>
-        <em>
-          Large files can be more difficult to upload with a slow Internet
-          connection
-        </em>
-      </p>
+      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
     </div>
   );
 };
@@ -262,58 +249,19 @@ export const documentDescription = () => {
 export const additionalDocumentDescription = () => {
   return (
     <div>
-      <p>
-        If you have other evidence, like lay or buddy statements, that you would
-        like to submit, you can upload them here.
-      </p>
+      <p>If you have other evidence, like lay or buddy statements, that you would
+        like to submit, you can upload them here.</p>
       <p>File upload guidelines:</p>
       <ul>
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
         <li>Maximum file size: 50 MB</li>
       </ul>
-      <p>
-        <em>
-          Large files can be more difficult to upload with a slow Internet
-          connection
-        </em>
-      </p>
+      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
     </div>
   );
 };
 
 const getVACenterName = (center) => center.treatmentCenterName;
-
-export const disabilityStatusOptions = [
-  {
-    value: 'first',
-    label: 'I’ve never filed a disability claim before.'
-  },
-  {
-    value: 'update',
-    label: 'I have a new condition, or a condition that’s gotten worse, to add to my rated disability claim.'
-  },
-  {
-    value: 'appeal',
-    label: 'I want to appeal the VA decision on my disability claim.'
-  }
-];
-
-export const disabilityUpdateOptions = [
-  {
-    value: 'add',
-    label: 'I have a new condition to add to my rated disability claim.'
-  },
-  {
-    value: 'increase',
-    label: 'One or more of my rated disabilities has gotten worse.'
-  }
-];
-
-export const layouts = {
-  chooseStatus: 'choose_status',
-  chooseUpdate: 'choose_update',
-  applyGuidance: 'apply_guidance'
-};
 
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
 
@@ -376,12 +324,7 @@ const SsnViewField = ({ formData }) => {
 const VAFileNumberViewField = ({ formData }) => {
   const vaFileNumber = formData.slice(5);
   const mask = <span>•••-••-</span>;
-  return (
-    <p>
-      VA file number: {mask}
-      {vaFileNumber}
-    </p>
-  );
+  return <p>VA file number: {mask}{vaFileNumber}</p>;
 };
 
 const DateOfBirthViewField = ({ formData }) => {
@@ -551,40 +494,25 @@ const PhoneViewField = ({ formData: phoneNumber, name }) => {
   const firstPhoneString = `${phoneNumber.slice(0, midBreakpoint)}-`;
 
   const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
-  return (
-    <p>
-      <strong>{name}</strong>: {phoneString}
-    </p>
-  );
+  return (<p><strong>{name}</strong>: {phoneString}</p>);
 };
 
 const EmailViewField = ({ formData, name }) => {
-  return (
-    <p>
-      <strong>{name}</strong>: {formData}
-    </p>
-  );
+  return (<p><strong>{name}</strong>: {formData}</p>);
 };
 
 const EffectiveDateViewField = ({ formData }) => {
   return (
     <p>
-      Effective Date:{' '}
-      <DateWidget value={formData} options={{ monthYear: false }}/>
+      Effective Date: <DateWidget value={formData} options={{ monthYear: false }}/>
     </p>
   );
 };
 
 const AddressViewField = ({ formData }) => {
   const {
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    city,
-    state,
-    zipCode,
-    militaryStateCode,
-    militaryPostOfficeTypeCode
+    addressLine1, addressLine2, addressLine3, city, state,
+    zipCode, militaryStateCode, militaryPostOfficeTypeCode
   } = formData;
   let zipString;
   let stateString;
@@ -601,20 +529,15 @@ const AddressViewField = ({ formData }) => {
       {addressLine1 && <p>{addressLine1}</p>}
       {addressLine2 && <p>{addressLine2}</p>}
       {addressLine3 && <p>{addressLine3}</p>}
-      <p>
-        {cityString} {stateString} {zipString}
-      </p>
+      <p>{cityString} {stateString} {zipString}</p>
     </div>
   );
 };
 
 export const PrimaryAddressViewField = ({ formData }) => {
   const {
-    mailingAddress,
-    primaryPhone,
-    secondaryPhone,
-    emailAddress,
-    forwardingAddress
+    mailingAddress, primaryPhone, secondaryPhone,
+    emailAddress, forwardingAddress
   } = formData.veteran;
   return (
     <div>
@@ -686,33 +609,3 @@ export const noFDCWarning = (
   </div>
 );
 
-export const TitleContent = (props) => {
-  const { atGuidance, checkGuidanceStatus } = props;
-  const { atAppealGuidance, atIncreaseGuidance } = checkGuidanceStatus();
-  let titleContent = 'You’ll need to file a disability claim on eBenefits';
-  if (!atGuidance()) titleContent = 'What type of disability claim should I file?';
-  if (atAppealGuidance) titleContent = 'You’ll need to file an appeal';
-  if (atIncreaseGuidance) titleContent = 'You’ll need to file a claim for increase';
-  return <h3>{titleContent}</h3>;
-};
-
-export const GetStartedMessage = ({ checkDisabilityStatus }) => {
-  const { isFirst, isAppeal, isAddOnly, isAddAndIncrease } = checkDisabilityStatus();
-  const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
-  let getStartedMessage = `Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
-  if (isFirst) {
-    getStartedMessage = 'We’re sorry. We’re not set up to accept original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.';
-  }
-  if (isAppeal) {
-    getStartedMessage = (<span>If you disagree with our decision on your disability claim, you can appeal it. <br/>
-      <a href="/disability-benefits/claims-appeal/">Learn how to file an appeal.</a>
-    </span>);
-  }
-  if (isAddOnly) {
-    getStartedMessage = 'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.';
-  }
-  if (isAddAndIncrease) {
-    getStartedMessage = 'Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.';
-  }
-  return <p>{getStartedMessage}</p>;
-};
