@@ -14,7 +14,7 @@ import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
-import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
+import initialData from '../tests/schema/initialData';
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 

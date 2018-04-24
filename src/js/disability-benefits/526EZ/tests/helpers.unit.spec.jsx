@@ -3,7 +3,7 @@ import {
   flatten,
   isPrefillDataComplete,
   prefillTransformer
-} from '../../../src/js/disability-benefits/526EZ/helpers.jsx';
+} from '../helpers.jsx';
 import initialData from './schema/initialData.js';
 
 delete initialData.prefilled;

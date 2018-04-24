@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { VerifiedReviewContainer } from '../../../../src/js/disability-benefits/526EZ/components/VerifiedReviewContainer.jsx';
+import { VerifiedReviewContainer } from '../../components/VerifiedReviewContainer.jsx';
 
 describe('526EZ <VerifiedReviewContainer>', () => {
   const location = {

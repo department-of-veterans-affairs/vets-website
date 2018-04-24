@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 
-import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
+import initialData from '../tests/schema/initialData';
 
 import VerifiedReviewContainer from '../components/VerifiedReviewContainer';
 import { getPage } from '../helpers';

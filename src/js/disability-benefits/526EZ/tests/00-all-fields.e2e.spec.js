@@ -1,6 +1,6 @@
-const E2eHelpers = require('../../../src/platform/testing/e2e/helpers');
-const Timeouts = require('../../../src/platform/testing/e2e/timeouts');
-const PageHelpers = require('../../e2e/disability-benefits-helpers');
+const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
+const Timeouts = require('../../../../platform/testing/e2e/timeouts');
+const PageHelpers = require('./disability-benefits-helpers');
 const testData = require('./schema/maximal-test.json');
 
 const runTest = E2eHelpers.createE2eTest(client => {

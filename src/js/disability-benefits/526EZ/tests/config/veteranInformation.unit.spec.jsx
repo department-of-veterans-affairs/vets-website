@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form.js';
+import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
 initialData.prefilled = false;
