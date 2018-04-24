@@ -27,7 +27,7 @@ import LoadFail from './LoadFail';
 class ProfileView extends React.Component {
 
   componentWillMount() {
-    this.props.fetchVaProfile();
+    this.props.startup();
   }
 
   openModalHandler(modalName) {

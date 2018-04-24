@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  fetchVaProfile,
+  startup,
   saveField,
   updateFormField,
   openModal,
@@ -14,7 +14,7 @@ import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import ProfileView from '../components/ProfileView';
 
-class UserProfileApp extends React.Component {
+class VAProfileApp extends React.Component {
   render() {
     return (
       <div>
@@ -30,7 +30,7 @@ class UserProfileApp extends React.Component {
                 profile={this.props.profile}
                 updateActions={this.props.updateActions}
                 updateFormFieldActions={this.props.updateFormFieldActions}
-                fetchVaProfile={this.props.fetchVaProfile}
+                startup={this.props.startup}
                 modal={{
                   open: this.props.openModal,
                   currentlyOpen: this.props.profile.modal,
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
-    fetchVaProfile,
+    startup,
     openModal,
     clearErrors
   }, dispatch);
@@ -66,5 +66,5 @@ const mapDispatchToProps = (dispatch) => {
   return actions;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);
-export { UserProfileApp };
+export default connect(mapStateToProps, mapDispatchToProps)(VAProfileApp);
+export { VAProfileApp };

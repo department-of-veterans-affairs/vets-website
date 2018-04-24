@@ -19,9 +19,13 @@ import {
   FETCH_VA_PROFILE_SUCCESS,
   FETCH_VA_PROFILE_FAIL,
 
+  VA_PROFILE_READY,
   OPEN_MODAL,
 
   UPDATE_PROFILE_FORM_FIELD,
+
+  FETCH_ADDRESS_COUNTRIES_SUCCESS,
+  FETCH_ADDRESS_STATES_SUCCESS,
 
   CLEAR_PROFILE_ERRORS
 } from '../actions';
@@ -39,8 +43,13 @@ const initialState = {
   modal: null,
   pendingSaves: [],
   errors: [],
+  profileLoading: true,
   loading: true,
-  formFields: {}
+  formFields: {},
+  addressData: {
+    states: null,
+    countries: null
+  }
 };
 
 function vaProfile(state = initialState, action) {
@@ -52,12 +61,25 @@ function vaProfile(state = initialState, action) {
 
     case FETCH_VA_PROFILE_FAIL: {
       const errors = state.errors.concat(FETCH_VA_PROFILE_FAIL);
-      return { ...state, errors, loading: false };
+      return { ...state, errors };
     }
 
     case FETCH_VA_PROFILE_SUCCESS: {
-      return { ...state, ...action.newState, loading: false };
+      return { ...state, ...action.newState, profileLoading: false };
     }
+
+    case FETCH_ADDRESS_COUNTRIES_SUCCESS: {
+      const addressData = { ...state.addressData, countries: action.countries };
+      return { ...state, addressData };
+    }
+
+    case FETCH_ADDRESS_STATES_SUCCESS: {
+      const addressData = { ...state.addressData, states: action.states };
+      return { ...state, addressData };
+    }
+
+    case VA_PROFILE_READY:
+      return { ...state, loading: false };
 
     case OPEN_MODAL: {
       const modal = action.modal;
