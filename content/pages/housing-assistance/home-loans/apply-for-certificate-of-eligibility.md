@@ -116,12 +116,12 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 
 - **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send a Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses (VA Form 26-1817). <br>
 [Download VA Form 26-1817](https://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf). **Or**,
-- **If you’re not receiving DIC benefits,** you’ll need to fill out and send an Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child (VA Form 21-534EZ), **and**
+- **If you’re not receiving DIC benefits,** you’ll need to fill out and send an Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child (VA Form 21P-534EZ), **and**
   - A copy of your marriage license, **and**
   - The Veteran’s death certificate
   
   <br>
- [Download VA Form 21-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
+ [Download VA Form 21P-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
  
  <br> 
  
