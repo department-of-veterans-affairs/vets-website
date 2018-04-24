@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../util/schemaform-utils.jsx';
-import formConfig from '../../../src/js/veteran-representative/config/form.js';
+import { DefinitionTester, fillData } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
 
 describe('claimant information', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;

@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/veteran-representative.scss';
+import './sass/veteran-representative.scss';
 
 import startApp from '../../platform/startup';
 

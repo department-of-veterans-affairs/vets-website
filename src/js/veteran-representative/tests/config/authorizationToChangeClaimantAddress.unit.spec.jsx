@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester } from '../../util/schemaform-utils.jsx';
-import formConfig from '../../../src/js/veteran-representative/config/form.js';
+import { DefinitionTester } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
 
-describe('authorization for representative access to records', () => {
-  const { schema, uiSchema } = formConfig.chapters.authorizationForRepresentativeAccessToRecords.pages.authorizationForRepresentativeAccessToRecords;
+describe('authorization to change claimant address', () => {
+  const { schema, uiSchema } = formConfig.chapters.authorizationToChangeClaimantAddress.pages.authorizationToChangeClaimantAddress;
   it('should render', () => {
     const form = mount(
       <DefinitionTester

@@ -135,7 +135,7 @@ const formConfig = {
             relationship: {
               'ui:select': 'Relationship to Veteran',
             },
-            claimantAddress: addressUI.uiSchema(fullSchema, 'Claimant’s Address'),
+            claimantAddress: addressUI.uiSchema('Claimant’s Address'),
             claimantEmail: { 'ui:title': 'Email address' },
             claimantDaytimePhone: phoneUI('Daytime phone number'),
             claimantEveningPhone: phoneUI('Evening phone number'),

@@ -1,8 +1,8 @@
-const E2eHelpers = require('../e2e/e2e-helpers');
-const manifest = require('../../src/js/veteran-representative/manifest.json');
-const PageHelpers = require('../e2e/veteran-representative-helpers');
+const E2eHelpers = require('../../../platform/testing/e2e/helpers');
+const manifest = require('../manifest.json');
+const PageHelpers = require('./veteran-representative-helpers');
 const testData = require('./schema/maximal-test.json');
-const Timeouts = require('../e2e/timeouts.js');
+const Timeouts = require('../../../platform/testing/e2e/timeouts');
 
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
