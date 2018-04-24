@@ -206,7 +206,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/jean-pants": "^0.4.0",
+    "@department-of-veterans-affairs/jean-pants": "^0.6.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
