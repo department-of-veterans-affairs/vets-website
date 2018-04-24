@@ -15,6 +15,7 @@ class CalculatorForm extends React.Component {
     this.renderInState = this.renderInState.bind(this);
     this.renderTuition = this.renderTuition.bind(this);
     this.renderBooks = this.renderBooks.bind(this);
+    this.renderGbBenefit = this.renderGbBenefit.bind(this);
     this.renderYellowRibbon = this.renderYellowRibbon.bind(this);
     this.renderScholarships = this.renderScholarships.bind(this);
     this.renderTuitionAssist = this.renderTuitionAssist.bind(this);
@@ -110,6 +111,25 @@ class CalculatorForm extends React.Component {
           type="text"
           name="books"
           value={formatCurrency(this.props.inputs.books)}
+          onChange={this.handleInputChange}/>
+      </div>
+    );
+  }
+
+  renderGbBenefit() {
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text: 'Did you use your Post-9/11 GI Bill benefit before January 1, 2018?',
+            modal: 'whenUsedGiBill'
+          })}
+          name="giBillBenefit"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ]}
+          value={this.props.inputs.giBillBenefit}
           onChange={this.handleInputChange}/>
       </div>
     );
@@ -421,6 +441,7 @@ class CalculatorForm extends React.Component {
         {this.renderInState()}
         {this.renderTuition()}
         {this.renderBooks()}
+        {this.renderGbBenefit()}
         {this.renderYellowRibbon()}
         {this.renderScholarships()}
         {this.renderTuitionAssist()}

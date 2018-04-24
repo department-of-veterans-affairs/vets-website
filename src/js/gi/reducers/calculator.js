@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   inStateTuitionFees: 0,
   books: 0,
   yellowRibbonRecipient: 'no',
+  giBillBenefit: 'no',
   yellowRibbonAmount: 0,
   scholarships: 0,
   tuitionAssist: 0,
