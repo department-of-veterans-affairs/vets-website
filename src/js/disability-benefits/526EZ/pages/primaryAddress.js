@@ -51,9 +51,6 @@ const states = [
   'AS',
   'AZ',
   'AR',
-  'AA',
-  'AE',
-  'AP',
   'CA',
   'CO',
   'CT',
@@ -112,15 +109,17 @@ const states = [
   'UM'
 ];
 
+
+const militaryStates = ['AA', 'AE', 'AP'];
+
+const allStates = _.merge([], states, militaryStates);
+
 const stateLabels = {
   AL: 'Alabama',
   AK: 'Alaska',
   AS: 'American Samoa',
   AZ: 'Arizona',
   AR: 'Arkansas',
-  AA: 'Armed Forces Americas (AA)',
-  AE: 'Armed Forces Europe (AE)',
-  AP: 'Armed Forces Pacific (AP)',
   CA: 'California',
   CO: 'Colorado',
   CT: 'Connecticut',
@@ -178,6 +177,14 @@ const stateLabels = {
   PI: 'Rizal state',
   UM: 'United States Minor Outlying Islands'
 };
+
+const militaryStateLabels = {
+  AA: 'Armed Forces Americas (AA)',
+  AE: 'Armed Forces Europe (AE)',
+  AP: 'Armed Forces Pacific (AP)'
+};
+
+const allStateLabels = _.merge({}, stateLabels, militaryStateLabels);
 
 const countries = [
   'USA',
@@ -394,11 +401,7 @@ const countries = [
   'Zimbabwe'
 ];
 
-export const militaryPostOfficeTypeLabels = { // TODO: determine whether these are necessary
-  APO: 'Army Post Office',
-  FPO: 'Fleet Post Office',
-  DPO: 'Diplomatic Post Office'
-};
+const militaryCities = ['APO', 'DPO', 'FPO'];
 
 const addressUISchema = (addressName, title) => {
   return {
@@ -406,11 +409,36 @@ const addressUISchema = (addressName, title) => {
     type: {
       'ui:title': 'Type',
       'ui:options': {
-        labels: typeLabels
+        labels: typeLabels,
+        hideIf: () => true,
+        updateSchema: (formData, schema) => {
+          debugger;
+          const newSchema = {};
+          if (formData.veteran[addressName].country === 'USA') {
+            formData.veteran[addressName].type = 'DOMESTIC';
+            //newSchema.default = 'DOMESTIC';
+            //newSchema.enum = ['DOMESTIC'];
+          }
+          if (formData.veteran[addressName].country !== 'USA') {
+            formData.veteran[addressName].type = 'INTERNATIONAL';
+            //newSchema.default = 'INTERNATIONAL';
+            //newSchema.enum = ['INTERNATIONAL'];
+          }
+          if (militaryStates.includes(formData.veteran[addressName].state)) {
+            formData.veteran[addressName].type = 'MILITARY';
+            //newSchema.default = 'MILITARY';
+            //newSchema.enum = ['MILITARY'];
+          }
+          return newSchema;
+        }
       }
     },
     country: {
       'ui:title': 'Country',
+      'ui:errorMessages': {
+        pattern: 'Please select a country'
+      },
+      'ui:required': (formData) => formData.veteran[addressName].type === 'MILITARY',
       'ui:options': {
         labels: {
           USA: 'United States'
@@ -419,12 +447,23 @@ const addressUISchema = (addressName, title) => {
     },
     state: {
       'ui:title': 'State',
+      'ui:errorMessages': {
+        pattern: 'Please select a state'
+      },
+      'ui:required': (formData) => formData.veteran[addressName].country === 'USA',
       'ui:options': {
         labels: stateLabels,
-        hideIf: formData => {
-          return (
-            _.get(formData, `veteran[${addressName}].country`) !== 'USA'
-          );
+        updateSchema: (formData, schema, uiSchema) => {
+          let newSchema = {};
+          if (militaryCities.includes(formData.veteran[addressName].city)) {
+            newSchema['enum'] = allStates;
+            uiSchema['ui:options'].labels = allStateLabels;
+          }
+          if (!militaryCities.includes(formData.veteran[addressName].city)) {
+            newSchema['enum'] = states;
+            uiSchema['ui:options'].labels = stateLabels;
+          }
+          return newSchema;
         }
       }
     },
@@ -438,18 +477,29 @@ const addressUISchema = (addressName, title) => {
       'ui:title': 'Line 3'
     },
     city: {
-      'ui:title': 'City'
-    },
-    militaryStateCode: {
-      'ui:title': 'Military State Code',
+      'ui:title': 'City',
+      'ui:errorMessages': {
+        pattern: 'Please select APO, DPO, or FPO',
+      },
+      'ui:required': (formData) => formData.veteran[addressName].type === 'MILITARY',
       'ui:options': {
-        labels: stateLabels,
-        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
+        updateSchema: (formData, schema, uiSchema) => {
+          let newSchema = {};
+          if (formData.veteran[addressName].type === 'MILITARY') {
+            newSchema = { default: null, enum: militaryCities };
+          }
+          if (formData.veteran[addressName].type !== 'MILITARY') {
+            newSchema = _.merge({}, schema, { default: null });
+            newSchema = _.omit('enum', newSchema);
+          }
+          return newSchema;
+        }
       }
     },
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
+      'ui:required': (formData) => formData.veteran[addressName].country === 'USA',
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5 or 9 digit ZIP code (dashes allowed)'
       },
@@ -457,13 +507,6 @@ const addressUISchema = (addressName, title) => {
         widgetClassNames: 'va-input-medium-large',
         hideIf: formData =>
           _.get(formData, `veteran[${addressName}].type`) !== 'DOMESTIC'
-      }
-    },
-    militaryPostOfficeTypeCode: {
-      'ui:title': 'Military Post Office Type Code',
-      'ui:options': {
-        labels: militaryPostOfficeTypeLabels,
-        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
       }
     }
   };
@@ -476,6 +519,7 @@ const addressSchema = (isRequired = false) => {
     properties: {
       type: {
         type: 'string',
+        default: 'DOMESTIC',
         'enum': ['MILITARY', 'DOMESTIC', 'INTERNATIONAL']
       },
       country: {
@@ -508,14 +552,6 @@ const addressSchema = (isRequired = false) => {
       },
       zipCode: {
         type: 'string'
-      },
-      militaryPostOfficeTypeCode: {
-        type: 'string',
-        'enum': ['APO', 'DPO', 'FPO']
-      },
-      militaryStateCode: {
-        type: 'string',
-        'enum': ['AA', 'AE', 'AP']
       }
     }
   };
