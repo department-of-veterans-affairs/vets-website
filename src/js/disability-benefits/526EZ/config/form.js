@@ -9,6 +9,7 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
 import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
 
 // TODO: Load live user prefill data from network
@@ -171,7 +172,6 @@ const formConfig = {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
           depends: formData => formData.prefilled,
-          'ui:description': 'things',
           initialData,
           uiSchema: {
             servicePeriods: {
@@ -214,7 +214,8 @@ const formConfig = {
               servicePeriods
             }
           }
-        }
+        },
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     veteranDetails: {
@@ -223,7 +224,8 @@ const formConfig = {
         veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
         specialCircumstances: {
           title: 'Special Circumstances',
-          path: 'special-circumstances',
+          path: 'veteran-details/special-circumstances',
+          depends: formData => !formData.prefilled,
           uiSchema: {
             'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
@@ -242,9 +244,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:suicidal': {
-                type: 'boolean'
-              },
+              // 'view:suicidal': { // TODO: re-enable after user testing
+              // type: 'boolean'
+              // },
               'view:homeless': {
                 type: 'boolean'
               },
@@ -259,8 +261,8 @@ const formConfig = {
         },
         militaryHistory: {
           title: 'Military service history',
-          path: 'review-veteran-details/military-service-history',
-          'ui:description': 'things',
+          path: 'veteran-details/military-service-history',
+          depends: formData => !formData.prefilled,
           initialData,
           uiSchema: {
             servicePeriods: {
@@ -302,7 +304,8 @@ const formConfig = {
               servicePeriods
             }
           }
-        }
+        },
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     ratedDisabilities: {
