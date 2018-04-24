@@ -32,7 +32,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client.axeCheck('.main');
     PageHelpers.selectDisabilities(client); // Just selects the first one in the list
     client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/chapter-three/page-three');
 
     // Supporting evidence
     // Orientation
