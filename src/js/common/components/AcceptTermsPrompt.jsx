@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { browserHistory } from 'react-router';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {
@@ -12,16 +13,20 @@ class AcceptTermsPrompt extends React.Component {
   }
 
   componentDidMount() {
-    window.dataLayer.push({ event: 'terms-shown' });
+    recordEvent({ event: 'terms-shown' });
     window.scrollTo(0, 0);
   }
 
-  onCancel(e) {
+  onCancel = (e) => {
     e.preventDefault();
     if (document.referrer !== '' && !this.props.isInModal) {
       browserHistory.goBack();
     } else {
-      browserHistory.push(this.props.cancelPath);
+      if (this.props.onCancel) {
+        this.props.onCancel();
+      } else {
+        browserHistory.push(this.props.cancelPath);
+      }
     }
   }
 

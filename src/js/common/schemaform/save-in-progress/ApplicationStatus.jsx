@@ -4,9 +4,9 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import { formLinks, formTitles } from '../../../user-profile/helpers';
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
-import Modal from '../../../common/components/Modal';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import { removeSavedForm } from '../../../user-profile/actions';
 
 export class ApplicationStatus extends React.Component {
@@ -148,7 +148,7 @@ export class ApplicationStatus extends React.Component {
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
             <div className="sip-application-status">
               <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
-              {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process.</a></p>}
+              {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process</a>.</p>}
             </div>
           </div>
         </div>

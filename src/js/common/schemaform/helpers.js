@@ -9,7 +9,7 @@ import RoutedSavableReviewPage from './save-in-progress/RoutedSavableReviewPage'
 import FormSaved from './save-in-progress/FormSaved';
 import SaveInProgressErrorPage from './save-in-progress/SaveInProgressErrorPage';
 
-import { getInactivePages, getActivePages } from '../utils/helpers';
+import { getInactivePages, getActivePages } from '../../../platform/forms/helpers';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)

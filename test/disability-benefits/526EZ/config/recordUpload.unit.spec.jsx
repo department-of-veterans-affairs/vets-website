@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester, // selectCheckbox 
-} from '../../../util/schemaform-utils.jsx';
+} from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form.js';
 import initialData from '../schema/initialData.js';
 
@@ -73,8 +73,7 @@ const validDocumentData = {
     {
       privateRecords: [{
         name: 'Form526.pdf',
-        confirmationCode: 'testing',
-        attachmentId: '1'
+        confirmationCode: 'testing'
       }],
       disability: { // Is this extra nesting necessary?
         diagnosticText: 'PTSD',
@@ -179,7 +178,7 @@ describe('526EZ record upload', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(2);
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 

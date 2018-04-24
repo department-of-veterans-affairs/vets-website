@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillData, fillDate } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form.js';
 import initialData from '../schema/initialData.js';
 
@@ -38,23 +38,16 @@ describe('Disability benefits 526EZ VA facility', () => {
         uiSchema={uiSchema}/>
     );
 
-    fillData(form, 'select#root_treatments_0_treatment_startTreatmentMonth', '1');
-    fillData(form, 'select#root_treatments_0_treatment_startTreatmentDay', '3');
-    fillData(form, 'input#root_treatments_0_treatment_startTreatmentYear', '1950');
-    fillData(form, 'select#root_treatments_0_treatment_endTreatmentMonth', '1');
-    fillData(form, 'select#root_treatments_0_treatment_endTreatmentDay', '3');
-    fillData(form, 'input#root_treatments_0_treatment_endTreatmentYear', '1955');
-    fillData(form, 'input#root_treatments_0_treatment_treatmentCenterName', 'Local facility');
+    fillDate(form, 'root_treatments_0_treatmentDateRange_from', '1950-1-3');
+    fillDate(form, 'root_treatments_0_treatmentDateRange_to', '1955-1-3');
+    fillData(form, 'input#root_treatments_0_treatmentCenterName', 'Local facility');
 
     form.find('.va-growable-add-btn').simulate('click');
+    expect(form.find('.usa-input-error').length).to.equal(0);
 
-    fillData(form, 'select#root_treatments_1_treatment_startTreatmentMonth', '1');
-    fillData(form, 'select#root_treatments_1_treatment_startTreatmentDay', '3');
-    fillData(form, 'input#root_treatments_1_treatment_startTreatmentYear', '1951');
-    fillData(form, 'select#root_treatments_1_treatment_endTreatmentMonth', '1');
-    fillData(form, 'select#root_treatments_1_treatment_endTreatmentDay', '3');
-    fillData(form, 'input#root_treatments_1_treatment_endTreatmentYear', '1955');
-    fillData(form, 'input#root_treatments_1_treatment_treatmentCenterName', 'Local facility');
+    fillDate(form, 'root_treatments_1_treatmentDateRange_from', '1951-1-3');
+    fillDate(form, 'root_treatments_1_treatmentDateRange_to', '1955-1-3');
+    fillData(form, 'input#root_treatments_1_treatmentCenterName', 'Local facility');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

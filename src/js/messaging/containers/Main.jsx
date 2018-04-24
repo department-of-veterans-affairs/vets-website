@@ -5,7 +5,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import ErrorView from '../components/ErrorView';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import {
   closeAdvancedSearch,

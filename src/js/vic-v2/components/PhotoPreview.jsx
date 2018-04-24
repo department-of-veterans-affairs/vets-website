@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { fetchPreview } from '../helpers';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 export default class PhotoPreview extends React.Component {
   constructor(props) {

@@ -12,7 +12,6 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const globalEntryFiles = {
-  'no-react': './src/js/no-react-entry.js',
   style: './src/sass/style.scss',
   vendor: [
     './src/platform/polyfills',
@@ -161,7 +160,6 @@ const configGenerator = (options, apps) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
-        __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
           API_PORT: (process.env.API_PORT || 3000),
           WEB_PORT: (process.env.WEB_PORT || 3333),

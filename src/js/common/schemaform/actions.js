@@ -1,15 +1,32 @@
 import Raven from 'raven-js';
 import moment from 'moment';
-import _ from '../utils/data-utils';
+import recordEvent from '../../../platform/monitoring/record-event';
+import _ from '../../../platform/utilities/data';
 import { transformForSubmit } from './helpers';
-import environment from '../helpers/environment.js';
-import { timeFromNow } from '../utils/helpers';
+import environment from '../../../platform/utilities/environment';
+import { timeFromNow } from '../../../platform/utilities/date';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
 export const SET_PRIVACY_AGREEMENT = 'SET_PRIVACY_AGREEMENT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
+export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
+export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
+
+export function closeReviewChapter(closedChapter) {
+  return {
+    type: CLOSE_REVIEW_CHAPTER,
+    closedChapter
+  };
+}
+
+export function openReviewChapter(openedChapter) {
+  return {
+    type: OPEN_REVIEW_CHAPTER,
+    openedChapter
+  };
+}
 
 export function setData(data) {
   return {
@@ -58,7 +75,7 @@ function submitToUrl(body, submitUrl, trackingPrefix) {
     req.open('POST', `${environment.API_URL}${submitUrl}`);
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
-        window.dataLayer.push({
+        recordEvent({
           event: `${trackingPrefix}-submission-successful`,
         });
         // got this from the fetch polyfill, keeping it to be safe
@@ -117,14 +134,14 @@ export function submitForm(formConfig, form) {
         statusText: error.statusText
       }
     });
-    window.dataLayer.push({
+    recordEvent({
       event: `${formConfig.trackingPrefix}-submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
     });
   };
 
   return dispatch => {
     dispatch(setSubmission('status', 'submitPending'));
-    window.dataLayer.push({
+    recordEvent({
       event: `${formConfig.trackingPrefix}-submission`,
     });
 
@@ -141,9 +158,10 @@ export function submitForm(formConfig, form) {
 
     return promise
       .then(resp => dispatch(setSubmitted(resp)))
-      .catch(error => {
+      .catch(errorReceived => {
         // overly cautious
-        const errorMessage = _.get('message', error);
+        const error = errorReceived instanceof Error ? errorReceived : new Error(errorReceived);
+        const errorMessage = String(error.message);
         let errorType = 'clientError';
         if (errorMessage.startsWith('vets_throttled_error')) {
           errorType = 'throttledError';

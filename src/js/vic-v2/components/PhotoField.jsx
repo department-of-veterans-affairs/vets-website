@@ -1,9 +1,9 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
-import ProgressBar from '../../common/components/ProgressBar';
-import { scrollAndFocus } from '../../common/utils/helpers';
+import ErrorableFileInput from '@department-of-veterans-affairs/jean-pants/ErrorableFileInput';
+import ProgressBar from '@department-of-veterans-affairs/jean-pants/ProgressBar';
+import { scrollAndFocus } from '../../../platform/utilities/ui';
 import PhotoPreview from '../components/PhotoPreview';
 import CropperController from '../components/CropperController';
 

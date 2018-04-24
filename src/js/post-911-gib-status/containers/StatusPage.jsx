@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { focusElement } from '../../common/utils/helpers';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { focusElement } from '../../../platform/utilities/ui';
 
 import FormTitle from '../../common/schemaform/components/FormTitle';
 
@@ -21,7 +22,7 @@ class StatusPage extends React.Component {
     let introText;
     let printButton;
     if (enrollmentData.veteranIsEligible) {
-      window.dataLayer.push({ event: 'post911-status-info-shown' });
+      recordEvent({ event: 'post911-status-info-shown' });
       introText = (
         <div className="va-introtext">
           <p>

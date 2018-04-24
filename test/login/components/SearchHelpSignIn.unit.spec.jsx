@@ -1,31 +1,28 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import _ from 'lodash';
+import { merge } from 'lodash/fp';
 
-import { SearchHelpSignIn } from '../../../src/js/login/components/SearchHelpSignIn.jsx';
+import SearchHelpSignIn from '../../../src/js/login/components/SearchHelpSignIn.jsx';
 
-const defaultLoginProps = {
-  currentlyLoggedIn: false,
-  loginUrl: '',
-  utilitiesMenuIsOpen: {
+const defaultProps = {
+  isLoggedIn: false,
+  isMenuOpen: {
     account: false,
     help: false,
     search: false
-  }
-};
-
-const defaultProfileProps = {
-  email: 'fake@aol.com',
-  userFullName: {
-    first: 'Sharon'
   },
-  loading: false,
+  isUserRegisteredForBeta: () => {},
+  profile: {
+    email: 'test@vets.gov',
+    loading: false,
+    userFullName: {
+      first: 'Test'
+    }
+  },
+  toggleLoginModal: () => {},
+  toggleMenu: () => {}
 };
-
-function buildProps(defaultProps, props = {}) {
-  return _.merge({}, defaultProps, props);
-}
 
 describe('<SearchHelpSignIn>', () => {
   beforeEach(() => {
@@ -38,36 +35,30 @@ describe('<SearchHelpSignIn>', () => {
     global.window.location.pathname = '/';
   });
 
-  it('should render', () => {
-    const tree =  SkinDeep.shallowRender(
-      <SearchHelpSignIn onUserLogout={() => {}} login={defaultLoginProps} profile={{ loading: false }}/>
+  it('should present login links when not logged in', () => {
+    const wrapper = shallow(
+      <SearchHelpSignIn {...defaultProps}/>
     );
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+    expect(wrapper.find('.sign-in-link')).to.have.lengthOf(2);
   });
 
-  it('should present login link when currentlyLoggedIn is false', () => {
-    const tree =  SkinDeep.shallowRender(
-      <SearchHelpSignIn onUserLogout={() => {}} login={defaultLoginProps} profile={{ loading: false }}/>
-    );
-    const link = tree.everySubTree('a');
-    expect(link).to.have.lengthOf(1);
-  });
-
-  it('should render <SignInProfileMenu/> when currentlyLoggedIn is true', () => {
-    const signedInData = buildProps(defaultLoginProps, { currentlyLoggedIn: true });
-    const tree = SkinDeep.shallowRender(<SearchHelpSignIn onUserLogout={() => {}} login={signedInData} profile={defaultProfileProps}/>);
-    const profileMenu = tree.everySubTree('SignInProfileMenu');
-    expect(profileMenu).to.have.lengthOf(1);
+  it('should render <SignInProfileMenu/> when logged in', () => {
+    const signedInProps = merge(defaultProps, { isLoggedIn: true });
+    const wrapper = shallow(<SearchHelpSignIn {...signedInProps}/>);
+    expect(wrapper.find('SignInProfileMenu').exists()).to.be.true;
   });
 
   it('should display email for an LOA1 user without a firstname', () => {
-    const loginData = buildProps(defaultLoginProps, { currentlyLoggedIn: true });
-    const loa1Profile = buildProps(defaultProfileProps, { userFullName: { first: null, middle: null, last: null } });
-    const tree = SkinDeep.shallowRender(
-      <SearchHelpSignIn onUserLogout={() => {}} login={loginData} profile={loa1Profile}/>
+    const loa1Props = merge(defaultProps, {
+      isLoggedIn: true,
+      profile: {
+        userFullName: { first: null }
+      }
+    });
+    const wrapper = shallow(
+      <SearchHelpSignIn {...loa1Props}/>
     );
-    const dropDownElement = tree.dive(['SignInProfileMenu', 'DropDown']);
-    expect(dropDownElement.text()).to.contain(defaultProfileProps.email);
+    const dropdown = wrapper.find('SignInProfileMenu').dive().find('DropDown').dive();
+    expect(dropdown.text()).to.contain(defaultProps.profile.email);
   });
 });

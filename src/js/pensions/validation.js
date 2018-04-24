@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { isValidDateRange } from '../common/utils/validations';
+import { isValidDateRange } from '../../platform/forms/validations';
 import { convertToDateField } from '../common/schemaform/validation';
 
 export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
