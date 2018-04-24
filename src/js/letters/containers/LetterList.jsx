@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import CollapsiblePanel from '../../common/components/CollapsiblePanel';
+import CollapsiblePanel from '@department-of-veterans-affairs/jean-pants/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 

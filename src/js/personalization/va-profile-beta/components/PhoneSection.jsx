@@ -5,6 +5,7 @@ import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import { fieldFailureMessage } from './LoadFail';
 
 class EditPhoneModal extends React.Component {
 
@@ -76,14 +77,20 @@ class EditPhoneModal extends React.Component {
 
 
 export default function PhoneSection({ phoneResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
-  let phoneDisplay = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
+  let content = null;
   let modal = null;
 
   if (phoneResponseData) {
-    const number = <PhoneNumberWidget value={phoneResponseData.number}/>;
-    const countryCode = phoneResponseData.countryCode && <span>+ {phoneResponseData.countryCode}</span>;
-    const extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
-    phoneDisplay = <div>{countryCode} {number} {extension}</div>;
+    if (phoneResponseData.number) {
+      const number = <PhoneNumberWidget value={phoneResponseData.number}/>;
+      const countryCode = phoneResponseData.countryCode && <span>+ {phoneResponseData.countryCode}</span>;
+      const extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
+      content = <div>{countryCode} {number} {extension}</div>;
+    } else {
+      content = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
+    }
+  } else {
+    content = fieldFailureMessage;
   }
 
   if (isEditing) {
@@ -105,7 +112,7 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
     <div>
       {modal}
       <HeadingWithEdit onEditClick={phoneResponseData && onEdit}>{title}</HeadingWithEdit>
-      {phoneDisplay}
+      {content}
     </div>
   );
 }

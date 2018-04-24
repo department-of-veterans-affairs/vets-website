@@ -1,29 +1,24 @@
 import React from 'react';
 import moment from '../../../../platform/startup/moment-setup';
-// import SSNWidget from '../../../common/schemaform/review/SSNWidget';
+import { fieldFailureMessage } from './LoadFail';
 
-export default function PersonalInformation({ personalInformation: { gender, birthDate }, serviceHistoryResponseData }) {
-  let serviceHistory = serviceHistoryResponseData && serviceHistoryResponseData.serviceHistory;
-  if (!serviceHistory) serviceHistory = [];
+function Gender({ gender }) {
+  if (gender) return <span>{gender === 'M' ? 'Male' : 'Female'}</span>;
+  return fieldFailureMessage;
+}
 
+function BirthDate({ birthDate }) {
+  if (birthDate) return <span>{moment(birthDate).format('MMM D, YYYY')}</span>;
+  return fieldFailureMessage;
+}
+
+export default function PersonalInformation({ personalInformation: { gender, birthDate } }) {
   return (
     <div>
       <h3>Gender</h3>
-      {gender === 'M' ? 'Male' : 'Female'}
+      <Gender gender={gender}/>
       <h3>Birth date</h3>
-      {moment(birthDate).format('MMM D, YYYY')}
-      {/* <h3>Social security number</h3>
-      <SSNWidget value={ssn}/> */}
-      <h2>Military Service</h2>
-      {serviceHistory.map((service, index) => {
-        return (
-          <div key={index}>
-            <h3>{service.branchOfService}</h3>
-            <div>{moment(service.beginDate).format('MMM D, YYYY')} &ndash; {moment(service.endDate).format('MMM D, YYYY')}</div>
-          </div>
-        );
-      })}
-      {serviceHistory.length === 0 && <em>Failed to find service history.</em>}
+      <BirthDate birthDate={birthDate}/>
     </div>
   );
 }
