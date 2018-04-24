@@ -1,4 +1,5 @@
 import _ from '../../../../platform/utilities/data';
+import { merge } from 'lodash/fp';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
@@ -6,16 +7,22 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import ssnUI from '../../../common/schemaform/definitions/ssn';
+import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+
+import { genderLabels } from '../../../../platform/static-data/labels';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
+import { createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+import ReviewCardField from '../components/ReviewCardField';
 
 import {
   transform,
@@ -42,6 +49,8 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
+  VAFileNumberDescription,
+  veteranInformationViewField
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -120,18 +129,71 @@ const formConfig = {
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
-    reviewVeteranDetails: {
-      title: (isReviewPage) => {
-        const baseString = 'Review Veteran Details';
-        if (isReviewPage) {
-          return baseString.replace('Review ', '');
-        }
-        return baseString;
-      },
+    veteranDetails: {
+      title: (isReviewPage) => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
-        veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
-        specialCircumstances: { // TODO: create page file and reuse 
+        // veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
+        veteranInformation: {
+          title: 'Veteran Details', // TODO: Figure out if this is even necessary
+          path: 'veteran-information',
+          uiSchema: {
+            'ui:field': ReviewCardField,
+            'ui:title': 'Veteran information',
+            'ui:options': {
+              viewComponent: veteranInformationViewField
+            },
+            // This 'view:' property is required to render the object field
+            'view:veteranInfoWrapper': {
+              fullName: fullNameUI,
+              socialSecurityNumber: merge({}, ssnUI, {
+                'ui:title': 'Social Security number (must have this or a VA file number)',
+                'ui:required': form => !form.vaFileNumber
+              }),
+              vaFileNumber: {
+                'ui:title': 'VA file number (must have this or a Social Security number)',
+                'ui:required': form => !form.socialSecurityNumber,
+                'ui:help': VAFileNumberDescription,
+                'ui:errorMessages': {
+                  pattern: 'Your VA file number must be between 7 to 9 digits'
+                }
+              },
+              dateOfBirth: currentOrPastDateUI('Date of birth'),
+              gender: {
+                'ui:title': 'Gender',
+                'ui:options': {
+                  labels: genderLabels
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:veteranInfoWrapper': {
+                type: 'object',
+                required: ['fullName', 'gender', 'dateOfBirth'],
+                properties: {
+                  fullName,
+                  socialSecurityNumber: {
+                    type: 'string'
+                  },
+                  vaFileNumber: {
+                    type: 'string',
+                    pattern: '^[cC]{0,1}\\d{7,9}$'
+                  },
+                  gender: {
+                    type: 'string',
+                    'enum': ['F', 'M']
+                  },
+                  dateOfBirth: date
+                }
+              }
+            }
+          }
+        },
+        specialCircumstances: {
           title: 'Special Circumstances',
+          // TODO: Remove 'review-veteran-details' from the path
           path: 'review-veteran-details/special-circumstances',
           depends: formData => formData.prefilled,
           uiSchema: {
@@ -177,7 +239,7 @@ const formConfig = {
             servicePeriods: {
               'ui:title': 'Military service history',
               'ui:description':
-                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
@@ -217,94 +279,94 @@ const formConfig = {
         }
       }
     },
-    veteranDetails: {
-      title: 'Veteran Details',
-      pages: {
-        veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
-        specialCircumstances: {
-          title: 'Special Circumstances',
-          path: 'special-circumstances',
-          uiSchema: {
-            'ui:description': specialCircumstancesDescription,
-            'view:suicidal': {
-              'ui:title': 'In crisis or thinking of suicide?'
-            },
-            'view:homeless': {
-              'ui:title': 'Homeless or at risk of becoming homeless?'
-            },
-            'view:extremeFinancialHardship': {
-              'ui:title': 'Suffering from extreme financial hardship?'
-            },
-            'view:blindOrSightImpaired': {
-              'ui:title': 'Blind or sight-impaired?'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:suicidal': {
-                type: 'boolean'
-              },
-              'view:homeless': {
-                type: 'boolean'
-              },
-              'view:extremeFinancialHardship': {
-                type: 'boolean'
-              },
-              'view:blindOrSightImpaired': {
-                type: 'boolean'
-              }
-            }
-          }
-        },
-        militaryHistory: {
-          title: 'Military service history',
-          path: 'review-veteran-details/military-service-history',
-          'ui:description': 'things',
-          initialData,
-          uiSchema: {
-            servicePeriods: {
-              'ui:title': 'Military service history',
-              'ui:description':
-                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView,
-              },
-              items: {
-                serviceBranch: {
-                  'ui:title': 'Branch of service'
-                },
-                dateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'End of service must be after start of service'
-                ),
-                dischargeType: {
-                  'ui:title': 'Character of discharge',
-                  'ui:options': {
-                    labels: {
-                      honorable: 'Honorable',
-                      general: 'General',
-                      other: 'Other Than Honorable',
-                      'bad-conduct': 'Bad Conduct',
-                      dishonorable: 'Dishonorable',
-                      undesirable: 'Undesirable'
-                    }
-                  }
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              servicePeriods
-            }
-          }
-        }
-      }
-    },
+    // veteranDetails: {
+    //   title: 'Veteran Details',
+    //   pages: {
+    //     veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
+    //     specialCircumstances: {
+    //       title: 'Special Circumstances',
+    //       path: 'special-circumstances',
+    //       uiSchema: {
+    //         'ui:description': specialCircumstancesDescription,
+    //         'view:suicidal': {
+    //           'ui:title': 'In crisis or thinking of suicide?'
+    //         },
+    //         'view:homeless': {
+    //           'ui:title': 'Homeless or at risk of becoming homeless?'
+    //         },
+    //         'view:extremeFinancialHardship': {
+    //           'ui:title': 'Suffering from extreme financial hardship?'
+    //         },
+    //         'view:blindOrSightImpaired': {
+    //           'ui:title': 'Blind or sight-impaired?'
+    //         }
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           'view:suicidal': {
+    //             type: 'boolean'
+    //           },
+    //           'view:homeless': {
+    //             type: 'boolean'
+    //           },
+    //           'view:extremeFinancialHardship': {
+    //             type: 'boolean'
+    //           },
+    //           'view:blindOrSightImpaired': {
+    //             type: 'boolean'
+    //           }
+    //         }
+    //       }
+    //     },
+    //     militaryHistory: {
+    //       title: 'Military service history',
+    //       path: 'review-veteran-details/military-service-history',
+    //       'ui:description': 'things',
+    //       initialData,
+    //       uiSchema: {
+    //         servicePeriods: {
+    //           'ui:title': 'Military service history',
+    //           'ui:description':
+    //           'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+    //           'ui:options': {
+    //             itemName: 'Service Period',
+    //             viewField: ServicePeriodView,
+    //           },
+    //           items: {
+    //             serviceBranch: {
+    //               'ui:title': 'Branch of service'
+    //             },
+    //             dateRange: dateRangeUI(
+    //               'Service start date',
+    //               'Service end date',
+    //               'End of service must be after start of service'
+    //             ),
+    //             dischargeType: {
+    //               'ui:title': 'Character of discharge',
+    //               'ui:options': {
+    //                 labels: {
+    //                   honorable: 'Honorable',
+    //                   general: 'General',
+    //                   other: 'Other Than Honorable',
+    //                   'bad-conduct': 'Bad Conduct',
+    //                   dishonorable: 'Dishonorable',
+    //                   undesirable: 'Undesirable'
+    //                 }
+    //               }
+    //             }
+    //           }
+    //         }
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           servicePeriods
+    //         }
+    //       }
+    //     }
+    //   }
+    // },
     ratedDisabilities: {
       title: 'Your Rated Disabilities',
       pages: {

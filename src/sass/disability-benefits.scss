@@ -101,3 +101,18 @@
   list-style: disc;
 }
 
+
+// ReviewCardField styles
+.review-card {
+  padding: 1em;
+  border: 2px solid $color-gray-lightest;
+
+  .review-card--header {
+    background-color: $color-gray-lightest;
+    padding: 0.75em 0.5em;
+
+    h4 {
+      margin: 0;
+    }
+  }
+}

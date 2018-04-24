@@ -308,7 +308,7 @@ const SsnViewField = ({ formData }) => {
   return <p>Social Security number: {mask}{ssn}</p>;
 };
 
-const VAFileNumberViewField = ({ formData }) => {
+export const VAFileNumberViewField = ({ formData }) => {
   const vaFileNumber = formData.slice(5);
   const mask = <span>•••-••-</span>;
   return <p>VA file number: {mask}{vaFileNumber}</p>;
@@ -349,6 +349,14 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
       {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
       {name && <p className="diagnostic-text">{getDiagnosticText(name)}</p>}
       {ratingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
+    </div>
+  );
+};
+
+
+export const veteranInfoReviewCard = (formData) => {
+  return (
+    <div>
     </div>
   );
 };
