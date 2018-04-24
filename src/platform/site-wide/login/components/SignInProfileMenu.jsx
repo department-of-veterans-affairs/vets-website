@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import DropDown from '../../../../js/common/components/DropDown';
-import IconUser from '../../../../js/common/components/svgicons/IconUser';
+import DropDownPanel from '@department-of-veterans-affairs/jean-pants/DropDownPanel';
+import IconUser from '@department-of-veterans-affairs/jean-pants/IconUser';
 import { features } from '../../../../js/personalization/beta-enrollment/containers/BetaApp';
 import { logout } from '../../../utilities/authentication';
 import BetaDropdown from './BetaDropdown';
@@ -20,14 +20,15 @@ class SignInProfileMenu extends React.Component {
     );
 
     return (
-      <DropDown
+      <DropDownPanel
         buttonText={this.props.greeting}
         clickHandler={this.props.clickHandler}
-        contents={isBeta ? <BetaDropdown/> : dropDownContents}
         id="accountMenu"
         icon={icon}
         isOpen={this.props.isOpen}
-        disabled={this.props.disabled}/>
+        disabled={this.props.disabled}>
+        {isBeta ? <BetaDropdown/> : dropDownContents}
+      </DropDownPanel>
     );
   }
 }

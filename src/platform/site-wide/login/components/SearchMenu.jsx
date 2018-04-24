@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
-import IconSearch from '../../../../js/common/components/svgicons/IconSearch';
-import DropDown from '../../../../js/common/components/DropDown';
+import IconSearch from '@department-of-veterans-affairs/jean-pants/IconSearch';
+import DropDownPanel from '@department-of-veterans-affairs/jean-pants/DropDownPanel';
 
 class SearchMenu extends React.Component {
   constructor(props) {
@@ -53,14 +53,15 @@ class SearchMenu extends React.Component {
     const icon = <IconSearch color="#fff"/>;
 
     return (
-      <DropDown
+      <DropDownPanel
         buttonText="Search"
         clickHandler={this.props.clickHandler}
         cssClass={buttonClasses}
-        contents={this.makeForm()}
         id="searchmenu"
         icon={icon}
-        isOpen={this.props.isOpen}/>
+        isOpen={this.props.isOpen}>
+        {this.makeForm()}
+      </DropDownPanel>
     );
   }
 }
