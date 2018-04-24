@@ -9,7 +9,7 @@ import {
   getPage
 } from '../helpers';
 
-import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
+import initialData from '../tests/schema/initialData';
 
 function isValidZIP(value) {
   if (value !== null) {
