@@ -45,15 +45,14 @@ const typeLabels = {
   INTERNATIONAL: 'International'
 };
 
+const militaryStates = ['AA', 'AE', 'AP'];
+
 const states = [
   'AL',
   'AK',
   'AS',
   'AZ',
   'AR',
-  'AA',
-  'AE',
-  'AP',
   'CA',
   'CO',
   'CT',
@@ -111,6 +110,8 @@ const states = [
   'PI',
   'UM'
 ];
+
+const allStates = _.merge([], states, militaryStates);
 
 const stateLabels = {
   AL: 'Alabama',
@@ -412,15 +413,34 @@ const addressUISchema = (addressName, title) => {
     country: {
       'ui:title': 'Country'
     },
+    'view:state': {
+      'ui:title': 'State',
+      'ui:required': (formData) => {
+        const address = formData.veteran[addressName]; 
+        const isUSA = address.country === 'USA';
+        const isMilitary = !!address.militaryPostOfficeTypeCode;
+        return isUSA || isMilitary;
+      },
+      'ui:options': {
+        labels: stateLabels,
+        updateSchema: (formData, schema) => {
+          const state = formData.veteran[addressName]['view:state'];
+          if (militaryStates.contains(state)) {
+            formData.veteran[addressName].militaryState = state;
+            delete formData.veteran[addressName].state;
+          } else if (state) {
+            formData.veteran[addressName].state = state;
+            delete formData.veteran[addressName].militaryState;
+          }
+          return schema;
+        }
+      }
+    },
     state: {
       'ui:title': 'State',
       'ui:options': {
         labels: stateLabels,
-        hideIf: formData => {
-          return (
-            _.get(formData, `veteran[${addressName}].country`) !== 'USA'
-          );
-        }
+        hideIf: formData => true
       }
     },
     addressLine1: {
@@ -439,7 +459,7 @@ const addressUISchema = (addressName, title) => {
       'ui:title': 'Military State Code',
       'ui:options': {
         labels: stateLabels,
-        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
+        hideIf: formData => true
       }
     },
     zipCode: {
@@ -479,7 +499,7 @@ const addressSchema = (isRequired = false) => {
       },
       state: {
         type: 'string',
-        'enum': states
+        'enum': allStates
       },
       addressLine1: {
         type: 'string',
