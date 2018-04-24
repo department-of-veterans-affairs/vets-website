@@ -9,10 +9,7 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import {
-  createVerifiedPaymentInfoPage,
-  createUnverifiedPaymentInfoPage
-} from '../pages/paymentInfo';
+import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
 import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
 
 // TODO: Load live user prefill data from network
@@ -308,7 +305,7 @@ const formConfig = {
             }
           }
         },
-        paymentInformation: createUnverifiedPaymentInfoPage(fullSchema526EZ),
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     ratedDisabilities: {
