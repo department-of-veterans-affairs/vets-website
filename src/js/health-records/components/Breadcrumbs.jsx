@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import React from 'react';
-import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../utils/breadcrumb-helper';
+import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../../platform/utilities/ui/breadcrumb-helper';
 
 class Breadcrumbs extends React.Component {
   componentDidMount() {

@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { Link, browserHistory, withRouter } from 'react-router';
 
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
-import Breadcrumbs from '../components/heading/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
 
 const Disclaimer = () => {
@@ -59,7 +59,34 @@ export class GiBillApp extends React.Component {
   }
 
   render() {
-    const { constants, preview, search } = this.props;
+    const { constants, preview } = this.props;
+    const { pathname, query: { version } } = this.props.location;
+
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/education/" key="education">Education Benefits</a>,
+      <a href="/education/gi-bill/" key="gi-bill">GI Bill</a>,
+      <a href="/gi-bill-comparison-tool/" key="gi-bill">GI Bill® Comparison Tool</a>,
+    ];
+
+    if (pathname.match(/search|profile/)) {
+      const root = { pathname: '/', query: (version ? { version } : {}) };
+      crumbs.push(
+        <Link
+          to={root}
+          onClick={browserHistory.goBack}
+          key="search-results">
+          Search Results
+        </Link>
+      );
+    }
+
+    // if (pathname.match(/profile/)) {
+    //   if (this.props.includeSearch) {
+    //     crumbs.push(<a onClick={browserHistory.goBack} key="search-results">Search Results</a>);
+    //   }
+    // }
+
     let content;
 
     if (constants.inProgress) {
@@ -78,9 +105,7 @@ export class GiBillApp extends React.Component {
                 version={preview.version}
                 onViewLiveVersion={this.exitPreviewMode}/>)
             }
-            <Breadcrumbs
-              location={this.props.location}
-              includeSearch={search.count !== null}/>
+            <Breadcrumbs crumbs={crumbs}/>
             {content}
             <AboutThisTool/>
             <Disclaimer/>

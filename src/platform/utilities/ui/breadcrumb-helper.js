@@ -1,3 +1,5 @@
+import _debounce from './debounce';
+
 const config = {
   jsHiddenClass: 'js-hide',
   jsVisualClass: 'js-visual',
@@ -5,45 +7,6 @@ const config = {
   triggerDelay: 500,
   triggerWidth: 425,
 };
-
-/**
- * ========================================
- * HELPER METHODS
- * ========================================
- */
-
-// https://davidwalsh.name/javascript-debounce-function
-function _debounce(func, wait, immediate) {
-  // Time to wait in milliseconds
-  let timeout;
-
-  return (...args) => {
-    const later = () => {
-      timeout = null;
-      if (!immediate) func.apply(this, args);
-    };
-    const callNow = immediate && !timeout;
-
-    // Clear any existing timeouts
-    clearTimeout(timeout);
-
-    // Execute after timeout period
-    timeout = setTimeout(later, wait);
-
-    // If callNow evaluates true, execute immediately
-    // Not recommended for resource-intensive events like resize
-    if (callNow) {
-      func.apply(this, args);
-    }
-  };
-}
-
-// Used to check for the existence of a cloned breadcrumb
-// when the cloneList method is invoked. Otherwise we
-// end up with multiple clones.
-function _isElement(el) {
-  return el instanceof Element;
-}
 
 /**
  * ========================================
@@ -65,7 +28,7 @@ function addAriaCurrent(targetList) {
 function cloneList(target, targetId) {
   const removedClone = document.getElementById(`${targetId}-clone`);
 
-  if (_isElement(removedClone)) {
+  if (removedClone) {
     removedClone.parentNode.removeChild(removedClone);
   }
 
@@ -127,9 +90,9 @@ function toggleLinks(targetId) {
  * config object at the top of the scrip
  * ========================================
  */
-export function buildMobileBreadcrumb(parentId, targetId) {
-  const container = document.getElementById(parentId);
+export function buildMobileBreadcrumb(targetId) {
   const target = document.getElementById(targetId);
+  const container = target.parentNode;
 
   const clonedList = cloneList(target, targetId);
   const mobileLink = sliceMobileLink(targetId);
