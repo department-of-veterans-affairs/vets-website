@@ -5,11 +5,15 @@ import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
+import { toGenericAddress, expandGenericAddress } from '../utils';
 
 class EditAddressModal extends React.Component {
 
   componentDidMount() {
-    const defaultFieldValue = this.props.addressResponseData || { address: {} };
+    const defaultFieldValue = { address: {} };
+    if (this.props.addressResponseData) {
+      defaultFieldValue.address = toGenericAddress(this.props.addressResponseData.address);
+    }
     this.props.onChange(defaultFieldValue);
   }
 
@@ -28,7 +32,7 @@ class EditAddressModal extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.props.field.value);
+    this.props.onSubmit(expandGenericAddress(this.props.field.value));
   }
 
   render() {
