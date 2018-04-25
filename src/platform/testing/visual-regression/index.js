@@ -1,7 +1,7 @@
 const commandLineArgs = require('command-line-args');
+const Auth = require('../e2e/auth');
 const Timeouts = require('../e2e/timeouts');
 const { createE2eTest } = require('../e2e/helpers');
-const LoginHelpers = require('../../site-wide/login/tests/login-helpers');
 const { sitemapURLs } = require('../../site-wide/tests/sitemap/sitemap-helpers');
 const createBaselineImage = require('./util/create-baseline-image');
 const calculateDiff = require('./util/calculate-diff');
@@ -33,10 +33,10 @@ function createRouteHandlerChain(browser, routes, routeHandler) {
 
 // A wrapper around the login helper to return a promise
 function login(browser) {
-  const token = LoginHelpers.getUserToken();
+  const token = Auth.getUserToken();
 
   return new Promise(resolve => {
-    LoginHelpers.logIn(token, browser, '/', 1);
+    Auth.logIn(token, browser, '/', 1);
     browser.waitForElementVisible('body', Timeouts.normal, resolve);
   });
 }
