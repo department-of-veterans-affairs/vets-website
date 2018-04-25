@@ -1,6 +1,6 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
-const LoginHelpers = require('../../../../test/e2e/login-helpers');
+const LoginHelpers = require('../../../platform/site-wide/login/tests/login-helpers');
 const GibsHelpers = require('./post-911-gib-status-helpers');
 
 module.exports = E2eHelpers.createE2eTest(

@@ -1,6 +1,6 @@
 const mock = require('../../../../test/e2e/mock-helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
-const LoginHelpers = require('../../../../test/e2e/login-helpers.js');
+const LoginHelpers = require('../../../platform/site-wide/login/tests/login-helpers.js');
 const moment = require('moment');
 
 function completePersonalInformation(client, data) {
