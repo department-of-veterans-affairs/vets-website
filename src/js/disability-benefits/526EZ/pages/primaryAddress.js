@@ -45,6 +45,8 @@ const typeLabels = {
   INTERNATIONAL: 'International'
 };
 
+const militaryPostOfficeTypeCodes = ['APO', 'DPO', 'FPO'];
+
 const militaryStates = ['AA', 'AE', 'AP'];
 
 const states = [
@@ -425,7 +427,7 @@ const addressUISchema = (addressName, title) => {
         labels: stateLabels,
         updateSchema: (formData, schema) => {
           const state = formData.veteran[addressName]['view:state'];
-          if (militaryStates.contains(state)) {
+          if (militaryStates.includes(state)) {
             formData.veteran[addressName].militaryState = state;
             delete formData.veteran[addressName].state;
           } else if (state) {
@@ -437,10 +439,9 @@ const addressUISchema = (addressName, title) => {
       }
     },
     state: {
-      'ui:title': 'State',
       'ui:options': {
         labels: stateLabels,
-        hideIf: formData => true
+        hideIf: () => true
       }
     },
     addressLine1: {
@@ -452,33 +453,69 @@ const addressUISchema = (addressName, title) => {
     addressLine3: {
       'ui:title': 'Line 3'
     },
+    'view:city': {
+      'ui:title': 'City or Military Post Office Type',
+      'ui:validations': [(formData) => {
+        return true;
+      }],
+      'ui:required': (formData) => {
+        const state = formData.veteran[addressName]['view:state']; 
+        const isMilitary = militaryStates.includes(state)
+        return isMilitary;
+      },
+      'ui:options': {
+        updateSchema: (formData, schema) => {
+          const newSchema = {};
+          const city = formData.veteran[addressName]['view:city'];
+          if (militaryPostOfficeTypeCodes.includes(city)) {
+            formData.veteran[addressName].militaryPostOfficeTypeCode = city;
+            delete formData.veteran[addressName].city;
+          } else if (city) {
+            formData.veteran[addressName].city = city;
+            delete formData.veteran[addressName].militaryPostOfficeTypeCode;
+          }
+          return schema;
+        }
+      }
+    },
     city: {
-      'ui:title': 'City'
+      'ui:options': {
+        hideIf: () => true
+      }
     },
     militaryStateCode: {
-      'ui:title': 'Military State Code',
       'ui:options': {
-        labels: stateLabels,
-        hideIf: formData => true
+        hideIf: () => true
       }
     },
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 9 digit ZIP code (dashes allowed)'
+        pattern: 'Please enter a valid 5 or 9 digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: formData =>
-          _.get(formData, `veteran[${addressName}].type`) !== 'DOMESTIC'
       }
     },
     militaryPostOfficeTypeCode: {
       'ui:title': 'Military Post Office Type Code',
       'ui:options': {
         labels: militaryPostOfficeTypeLabels,
-        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
+        hideIf: () => true
+      }
+    },
+    'ui:options': {
+      updateSchema: (formData, schema, uiSchema) => {
+        //if mil state
+        //set city enums
+        //if not mil state
+        //unset city enums
+        //if mil city
+        //set state enums
+        //if not mil city
+        //set all state enums
+        return schema;
       }
     }
   };
@@ -496,6 +533,10 @@ const addressSchema = (isRequired = false) => {
       country: {
         type: 'string',
         'enum': countries
+      },
+      'view:state': {
+        type: 'string',
+        'enum': allStates
       },
       state: {
         type: 'string',
@@ -515,6 +556,11 @@ const addressSchema = (isRequired = false) => {
         type: 'string',
         maxLength: 35,
         pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+      },
+      'view:city': {
+        type: 'string',
+        maxLength: 35,
+        pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
       },
       city: {
         type: 'string',
