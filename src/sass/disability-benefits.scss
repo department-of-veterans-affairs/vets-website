@@ -104,15 +104,28 @@
 
 // ReviewCardField styles
 .review-card {
-  padding: 1em;
-  border: 2px solid $color-gray-lightest;
-
   .review-card--header {
     background-color: $color-gray-lightest;
-    padding: 0.75em 0.5em;
+    padding: 0.1em 0.75em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     h4 {
       margin: 0;
+      display: inline-block;
     }
+
+    button {
+      width: 8rem;
+      margin-right: 0;
+    }
+  }
+
+  .review-card--body {
+    padding: 1em;
+    border: 2px solid $color-gray-lightest;
+    // Remove the top border because it looks like it just extends the header
+    border-top: none;
   }
 }
