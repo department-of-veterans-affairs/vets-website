@@ -365,6 +365,14 @@ export function isValidCanPostalCode(value) {
   return /^[a-zA-Z]\d[a-zA-Z][ -]{0,1}\d[a-zA-Z]\d$/.test(value);
 }
 
+export function isValidSpecialCharacter(value) {
+  if (value !== null) {
+    return /([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$/.test(value);
+  }
+  return true;
+}
+
+
 export function isValidAddressField(field) {
   const initialOk = isNotBlank(field.street.value) &&
     isNotBlank(field.city.value) &&
