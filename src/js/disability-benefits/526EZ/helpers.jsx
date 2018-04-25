@@ -12,10 +12,9 @@ import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
-import {
-  PREFILL_STATUSES
-} from '../../common/schemaform/save-in-progress/actions';
+import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
+
 
 /*
  * Flatten nested array form data into sibling properties
@@ -36,6 +35,7 @@ export function flatten(data) {
   return formData;
 }
 
+
 export function transform(formConfig, form) {
   const formData = flatten(transformForSubmit(formConfig, form));
   delete formData.prefilled;
@@ -45,6 +45,7 @@ export function transform(formConfig, form) {
     }
   });
 }
+
 
 export const isPrefillDataComplete = (formData) => {
   const { socialSecurityNumber, vaFileNumber, gender,
@@ -66,6 +67,7 @@ export const isPrefillDataComplete = (formData) => {
   return !!(hasVeteranDetails && hasPrimaryAddressInfo && hasPaymentInfo && hasMilitaryHistoryInfo);
 };
 
+
 export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
   const isPrefilled = state.prefilStatus === PREFILL_STATUSES.success;
@@ -82,8 +84,15 @@ export function prefillTransformer(pages, formData, metadata, state) {
   };
 }
 
+
 export const supportingEvidenceOrientation = (
-  <p>We’ll now ask you where we can find medical records or evidence about your worsened conditions after they were rated. You don’t need to turn in any medical records that you’ve already submitted with your original claim. <strong>We only need new medical records or other evidence about your condition after you got your disability rating.</strong></p>
+  <p>
+    We’ll now ask you where we can find medical records or evidence about your
+    worsened conditions after they were rated. You don’t need to turn in any
+    medical records that you’ve already submitted with your original claim. <strong>
+      We only need new medical records or other evidence about your condition
+      after you got your disability rating.</strong>
+  </p>
 );
 
 
@@ -198,12 +207,12 @@ export function validateAddress(errors, formData) {
   // USA, Canada, or Mexico
   if (stateRequiredCountries.has(formData.treatmentCenterCountry)
     && formData.treatmentCenterState === undefined) {
-    // TODO: enable once validation determined 
+    // TODO: enable once validation determined
     // && currentSchema.required.length) {
     errors.treatmentCenterState.addError('Please select a state or province');
   }
   const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
-    // TODO: enable once validation determined 
+    // TODO: enable once validation determined
     // && !currentSchema.required.length
     && typeof formData.treatmentCenterCity !== 'undefined'
     && typeof formData.treatmentCenterStreet !== 'undefined'
@@ -218,7 +227,9 @@ export function validateAddress(errors, formData) {
 
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
+    <span>Limiting consent means that your doctor can only share records that are
+      directly related to your condition. This could add to the time it takes to
+      get your private medical records.</span>
   </div>
 );
 
@@ -238,7 +249,8 @@ export const documentDescription = () => {
 export const additionalDocumentDescription = () => {
   return (
     <div>
-      <p>If you have other evidence, like lay or buddy statements, that you would like to submit, you can upload them here.</p>
+      <p>If you have other evidence, like lay or buddy statements, that you would
+        like to submit, you can upload them here.</p>
       <p>File upload guidelines:</p>
       <ul>
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
@@ -250,6 +262,7 @@ export const additionalDocumentDescription = () => {
 };
 
 const getVACenterName = (center) => center.treatmentCenterName;
+
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
 
 const listifyCenters = (center, idx, list) => {
@@ -473,6 +486,82 @@ export const VAFileNumberDescription = (
   </div>
 );
 
+const PhoneViewField = ({ formData: phoneNumber, name }) => {
+  const isDomestic = phoneNumber.length <= 10;
+  const midBreakpoint = isDomestic ? -7 : -8;
+  const lastPhoneString = `${phoneNumber.slice(-4)}`;
+  const middlePhoneString = `${phoneNumber.slice(midBreakpoint, -4)}-`;
+  const firstPhoneString = `${phoneNumber.slice(0, midBreakpoint)}-`;
+
+  const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
+  return (<p><strong>{name}</strong>: {phoneString}</p>);
+};
+
+const EmailViewField = ({ formData, name }) => {
+  return (<p><strong>{name}</strong>: {formData}</p>);
+};
+
+const EffectiveDateViewField = ({ formData }) => {
+  return (
+    <p>
+      Effective Date: <DateWidget value={formData} options={{ monthYear: false }}/>
+    </p>
+  );
+};
+
+const AddressViewField = ({ formData }) => {
+  const {
+    addressLine1, addressLine2, addressLine3, city, state,
+    zipCode, militaryStateCode, militaryPostOfficeTypeCode
+  } = formData;
+  let zipString;
+  let stateString;
+  let cityString;
+  if (zipCode) zipString = `${zipCode.slice(0, 5)}-${zipCode.slice(5)}`;
+  if (city || militaryPostOfficeTypeCode) {
+    cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
+  }
+  if (state || militaryStateCode) {
+    stateString = `${state}` || `${militaryStateCode}`;
+  }
+  return (
+    <div>
+      {addressLine1 && <p>{addressLine1}</p>}
+      {addressLine2 && <p>{addressLine2}</p>}
+      {addressLine3 && <p>{addressLine3}</p>}
+      <p>{cityString} {stateString} {zipString}</p>
+    </div>
+  );
+};
+
+export const PrimaryAddressViewField = ({ formData }) => {
+  const {
+    mailingAddress, primaryPhone, secondaryPhone,
+    emailAddress, forwardingAddress
+  } = formData.veteran;
+  return (
+    <div>
+      <AddressViewField formData={mailingAddress}/>
+      {primaryPhone && (
+        <PhoneViewField formData={primaryPhone} name="Primary phone"/>
+      )}
+      {secondaryPhone && (
+        <PhoneViewField formData={secondaryPhone} name="Secondary phone"/>
+      )}
+      {emailAddress && (
+        <EmailViewField formData={emailAddress} name="Email address"/>
+      )}
+      {formData['view:hasForwardingAddress'] && (
+        <AddressViewField formData={forwardingAddress}/>
+      )}
+      {formData.effectiveDate && (
+        <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
+      )}
+    </div>
+  );
+};
+
+
 export const specialCircumstancesDescription = (
   <p>To help us better understand your situation, please tell us if
       any of the below situations apply to you. <strong>Are you:</strong></p>
@@ -519,3 +608,4 @@ export const noFDCWarning = (
     </div>
   </div>
 );
+
