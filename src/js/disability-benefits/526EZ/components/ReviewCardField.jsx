@@ -8,6 +8,8 @@ import {
   getDefaultRegistry
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
+import { errorSchemaIsValid } from '../../../common/schemaform/validation';
+
 import set from '../../../../platform/utilities/data/set';
 import get from '../../../../platform/utilities/data/get';
 
@@ -42,8 +44,8 @@ export default class ReviewCardField extends React.Component {
     }
 
     this.state = {
-      // TODO: Set initial state based on whether all the data is valid
-      editing: false
+      // Set initial state based on whether all the data is valid
+      editing: !errorSchemaIsValid(props.errorSchema)
     };
   }
 
@@ -166,19 +168,19 @@ export default class ReviewCardField extends React.Component {
 
     // Validate the input
     // If there are validation errors
-    //   Show them (should be automagic)
-    //   Don't allow stop editing
-    // If not
-    //   Update the form data in the redux store
-    //   Set updateRequired to false
-    //   Stop editing
-    this.setState({ editing: false });
+    if (!errorSchemaIsValid(this.props.errorSchema)) {
+      // Show them (should be automagic)
+      // Don't stop editing
+    } else {
+      // Update the form data in the redux store
+      // Set updateRequired to false
+      // Stop editing
+      this.setState({ editing: false });
+    }
   }
 
 
   render() {
-    console.log('ReviewCardField -- render()');
-    console.log('  editing?', this.state.editing);
     if (this.state.editing) {
       return this.getEditView();
     }
