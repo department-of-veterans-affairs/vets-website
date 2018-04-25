@@ -123,6 +123,32 @@ class CalculatorForm extends React.Component {
     if (this.props.inputs.yellowRibbonRecipient === 'yes') {
       amountInput = (
         <div>
+          <Dropdown
+            label="Degree level"
+            name="yrDegreeLevel"
+            alt="Degree level"
+            options={[
+              { value: '3', label: 'Three' },
+              { value: '2', label: 'Two' },
+              { value: '1', label: 'One' }
+            ]}
+            visible
+            value=""
+            onChange={this.handleInputChange}/>
+
+          <Dropdown
+            label="Division or school"
+            name="yellowRibbonSchool"
+            alt="Division or school"
+            options={[
+              { value: '3', label: 'Three' },
+              { value: '2', label: 'Two' },
+              { value: '1', label: 'One' }
+            ]}
+            visible
+            value=""
+            onChange={this.handleInputChange}/>
+
           <label htmlFor="yellowRibbonAmount">
             Yellow Ribbon Amount From School per year
           </label>
