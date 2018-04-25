@@ -58,7 +58,7 @@ describe('<SearchHelpSignIn>', () => {
     const wrapper = shallow(
       <SearchHelpSignIn {...loa1Props}/>
     );
-    const dropdown = wrapper.find('SignInProfileMenu').dive().find('DropDown').dive();
+    const dropdown = wrapper.find('SignInProfileMenu').dive().find('DropDownPanel').dive();
     expect(dropdown.text()).to.contain(defaultProps.profile.email);
   });
 });

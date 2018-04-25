@@ -32,7 +32,7 @@ class FormList extends React.Component {
 
    return !hasVerifiedSavedForms ? null : (
      <div className="profile-section medium-12 columns">
-       <h2 className="section-header">Saved applications</h2>
+       <h2 className="section-header">Continue Applications</h2>
        {forms.map((form) => <FormItem key={form.form} savedFormData={form} toggleModal={this.toggleModal}/>)}
        <Modal
          cssClass="va-modal-large"
