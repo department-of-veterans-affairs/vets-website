@@ -149,7 +149,13 @@ class ReviewPage extends React.Component {
   }
 
   render() {
-    const { route, form, contentAfterButtons, renderErrorMessage, formContext } = this.props;
+    const {
+      route,
+      form,
+      contentAfterButtons,
+      renderErrorMessage,
+      formContext
+    } = this.props;
     const formConfig = route.formConfig;
     const chapters = getActiveChapters(formConfig, form.data);
 

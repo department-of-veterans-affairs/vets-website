@@ -28,15 +28,6 @@ export default class ReviewCollapsibleChapter extends React.Component {
     this.id = _.uniqueId();
   }
 
-  componentDidUpdate(oldProps) {
-    if (!oldProps.open && this.props.open) {
-      this.scrollToTop();
-    }
-    if (oldProps.open && !this.props.open) {
-      this.props.setPagesViewed(this.pageKeys);
-    }
-  }
-
   onChange(formData, path = null, index = null) {
     let newData = formData;
     if (path) {
@@ -86,20 +77,24 @@ export default class ReviewCollapsibleChapter extends React.Component {
   render() {
     let pageContent = null;
 
-    const { form, pages, viewedPages, chapter, formContext } = this.props;
-    const activePages = getActivePages(pages, form.data);
-    const expandedPages = expandArrayPages(activePages, form.data);
+    const {
+      chapterFormConfig,
+      expandedPages,
+      form,
+      formContext ,
+      pages,
+      pageKeys,
+      showUnviewedPageWarning,
+      viewedPages
+    } = this.props;
 
-    this.pageKeys = getPageKeys(pages, form.data);
-    const hasUnViewedPages = this.pageKeys.some(key => !viewedPages.has(key));
-
-    const ChapterDescription = chapter.reviewDescription;
-    let chapterTitle = chapter.title;
-    if (typeof chapter.title === 'function') {
-      chapterTitle = chapter.title(true);
+    const ChapterDescription = chapterFormConfig.reviewDescription;
+    let chapterTitle = chapterFormConfig.title;
+    if (typeof chapterFormConfig.title === 'function') {
+      chapterTitle = chapterFormConfig.title(true);
     }
-    if (chapter.reviewTitle) {
-      chapterTitle = chapter.reviewTitle;
+    if (chapterFormConfig.reviewTitle) {
+      chapterTitle = chapterFormConfig.reviewTitle;
     }
 
     if (this.props.open) {
@@ -195,7 +190,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-warning': hasUnViewedPages
+      'schemaform-review-chapter-warning': showUnviewedPageWarning
     });
 
     return (
@@ -211,7 +206,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 onClick={this.props.toggleButtonClicked}>
                 {chapterTitle}
               </button>
-              {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
+              {showUnviewedPageWarning && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>
             <div id={`collapsible-${this.id}`}>
               {pageContent}

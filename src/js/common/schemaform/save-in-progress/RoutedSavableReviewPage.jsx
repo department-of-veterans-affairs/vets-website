@@ -4,9 +4,11 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import Scroll from 'react-scroll';
 import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
 
+import { focusElement } from '../../../../platform/utilities/ui';
 import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
 import { getReviewPageOpenChapters } from '../state/selectors';
 import { toggleLoginModal } from '../../../login/actions';
@@ -25,10 +27,24 @@ import {
 } from '../actions';
 import { getFormContext } from '../save-in-progress/selectors';
 
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+  }
+
+  componentDidMount() {
+    scrollToTop();
+    focusElement('h4');
   }
 
   setData = (...args) => {

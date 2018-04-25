@@ -15,11 +15,49 @@ import {
 } from '../state/selectors';
 import { getActivePages } from '../../../../platform/forms/helpers';
 import { getFormContext } from '../save-in-progress/selectors';
+import {
+  closeReviewChapter,
+  openReviewChapter,
+  setEditMode,
+  setViewedPages
+} from '../actions';
 
 class ReviewChapters extends React.Component {
+
+  handleToggleChapter({ name, open, pageKeys }) {
+    if (open) {
+      this.props.closeReviewChapter(name, pageKeys);
+    } else {
+      this.props.openReviewChapter(name);
+    }
+  }
+
+
+  componentDidMount() {
+    const pageList = this.props.pageList;
+    const form = this.props.form;
+
+    this.props.setViewedPages(new Set(getPageKeys(pageList, form)));
+  }
+
+  handleEdit = (pageKey, editing, index = null) => {
+    const fullPageKey = `${pageKey}${index === null ? '' : index}`;
+    if (editing) {
+      this.props.setViewedPages([fullPageKey]);
+    }
+    this.props.setEditMode(pageKey, editing, index);
+  }
+
   render() {
     const {
       chapters,
+      disableSave,
+      form,
+      formContext,
+      location,
+      setValid,
+      user,
+      viewedPages
     } = this.props;
 
     return (
@@ -100,6 +138,10 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
+  closeReviewChapter,
+  openReviewChapter,
+  setEditMode,
+  setViewedPages
 };
 
 ReviewChapters.propTypes = {
