@@ -34,31 +34,21 @@ const ADDRESS_TYPES = {
  */
 
 /**
- * Converts an address of type "military" to a standard format
- * @param {Address} address
- */
-function convertMilitaryToStandard(address) {
-  /* eslint-disable no-param-reassign */
-  address.city = address.militaryPostOfficeTypeCode;
-  address.stateCode = address.militaryStateCode;
-  address.countryName = 'USA';
-  delete address.militaryPostOfficeTypeCode;
-  delete address.militaryStateCode;
-}
-
-/**
  * Converts an address into a standardized format so that military address follow the same interface as other address types.
  * @param {Address} address
  * @returns {Address}
  */
-
 function consolidateAddress(address) {
   const consolidated = {
     ...address
   };
 
   if (consolidated.type === ADDRESS_TYPES.military) {
-    convertMilitaryToStandard(consolidated);
+    consolidated.city = consolidated.militaryPostOfficeTypeCode;
+    consolidated.stateCode = consolidated.militaryStateCode;
+    consolidated.countryName = 'USA';
+    delete consolidated.militaryPostOfficeTypeCode;
+    delete consolidated.militaryStateCode;
   }
 
   delete consolidated.addressEffectiveDate;
@@ -76,19 +66,6 @@ function getInferredAddressType(address) {
 }
 
 /**
- * Converts an address containing standard properties into a military address
- * @param {*} address
- */
-function convertStandardToMilitary(address) {
-  /* eslint-disable no-param-reassign */
-  address.militaryPostOfficeTypeCode = address.city;
-  address.militaryStateCode = address.stateCode;
-  delete address.city;
-  delete address.stateCode;
-  delete address.countryName;
-}
-
-/**
  * Converts an address that may have been modified or standardized and needs its type to be inferred
  * @param {Address} address
  * @returns {Address}
@@ -100,18 +77,30 @@ function expandAddress(address) {
   };
 
   if (expanded.type === ADDRESS_TYPES.military) {
-    convertStandardToMilitary(expanded);
+    expanded.militaryPostOfficeTypeCode = expanded.city;
+    expanded.militaryStateCode = expanded.stateCode;
+    delete expanded.city;
+    delete expanded.stateCode;
+    delete expanded.countryName;
   }
 
   return expanded;
 }
 
+/**
+ * Returns whether or not the address is considered empty
+ * @param {Address} address
+ * @returns {boolean}
+ */
 function isEmptyAddress(address) {
-  // @todo
+  const ignore = ['type', 'countryName'];
+  return Object.keys(address)
+    .filter(prop => !ignore.includes(prop))
+    .every(prop => !address[prop]);
 }
 
 function getStateName(abbreviation) {
   return stateNames[abbreviation];
 }
 
-export { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName };
+export { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName, isEmptyAddress };

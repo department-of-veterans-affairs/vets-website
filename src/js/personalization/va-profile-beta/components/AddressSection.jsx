@@ -5,7 +5,7 @@ import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
-import { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName } from '../utils';
+import { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName, isEmptyAddress } from '../utils';
 
 class EditAddressModal extends React.Component {
 
@@ -61,11 +61,14 @@ class EditAddressModal extends React.Component {
   }
 }
 
-function AddressView() {
-  const address = this.props.address;
-  const street = `${address.addressOne} ${address.addressTwo && `, ${address.addressTwo}`} ${address.addressThree}`;
-  const country = address.type === ADDRESS_TYPES.international ? address.countryName : '';
+function AddressView({ address }) {
+  const street = [
+    address.addressOne,
+    address.addressTwo ? `, ${address.addressTwo}` : '',
+    address.addressThree ? ` ${address.addressThree}` : ''
+  ].join('');
 
+  const country = address.type === ADDRESS_TYPES.international ? address.countryName : '';
   let cityStateZip = '';
 
   switch (address.type) {
@@ -94,8 +97,7 @@ export default function AddressSection({ addressResponseData, addressConstants, 
   let modal = null;
 
   if (addressResponseData) {
-    // @todo check for empty address
-    if (addressResponseData.address) {
+    if (addressResponseData.address && !isEmptyAddress(addressResponseData.address)) {
       const { address } = addressResponseData;
       content = <AddressView address={address}/>;
     } else {
