@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import DropDownPanel from '@department-of-veterans-affairs/jean-pants/DropDownPanel';
 import IconHelp from '@department-of-veterans-affairs/jean-pants/IconHelp';
 

@@ -14,7 +14,7 @@ import {
 import SignInLink from '../../components/SignInLink';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
-import { toggleLoginModal } from '../../../login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
 
 
 // For now, this only handles loading errors, but it could feasibly be reworked
