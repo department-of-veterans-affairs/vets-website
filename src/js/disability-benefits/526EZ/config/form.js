@@ -142,51 +142,44 @@ const formConfig = {
             'ui:options': {
               viewComponent: veteranInformationViewField
             },
-            veteran: {
-              fullName: fullNameUI,
-              socialSecurityNumber: merge({}, ssnUI, {
-                'ui:title': 'Social Security number (must have this or a VA file number)',
-                'ui:required': form => !form.vaFileNumber
-              }),
-              vaFileNumber: {
-                'ui:title': 'VA file number (must have this or a Social Security number)',
-                'ui:required': form => !form.socialSecurityNumber,
-                'ui:help': VAFileNumberDescription,
-                'ui:errorMessages': {
-                  pattern: 'Your VA file number must be between 7 to 9 digits'
-                }
-              },
-              dateOfBirth: currentOrPastDateUI('Date of birth'),
-              gender: {
-                'ui:title': 'Gender',
-                'ui:options': {
-                  labels: genderLabels
-                }
+            fullName: fullNameUI,
+            socialSecurityNumber: merge({}, ssnUI, {
+              'ui:title': 'Social Security number (must have this or a VA file number)',
+              'ui:required': form => !form.vaFileNumber
+            }),
+            vaFileNumber: {
+              'ui:title': 'VA file number (must have this or a Social Security number)',
+              'ui:required': form => !form.socialSecurityNumber,
+              'ui:help': VAFileNumberDescription,
+              'ui:errorMessages': {
+                pattern: 'Your VA file number must be between 7 to 9 digits'
+              }
+            },
+            dateOfBirth: currentOrPastDateUI('Date of birth'),
+            gender: {
+              'ui:title': 'Gender',
+              'ui:options': {
+                labels: genderLabels
               }
             }
           },
           schema: {
             type: 'object',
+            required: ['fullName', 'gender', 'dateOfBirth'],
             properties: {
-              veteran: {
-                type: 'object',
-                required: ['fullName', 'gender', 'dateOfBirth'],
-                properties: {
-                  fullName,
-                  socialSecurityNumber: {
-                    type: 'string'
-                  },
-                  vaFileNumber: {
-                    type: 'string',
-                    pattern: '^[cC]{0,1}\\d{7,9}$'
-                  },
-                  gender: {
-                    type: 'string',
-                    'enum': ['F', 'M']
-                  },
-                  dateOfBirth: date
-                }
-              }
+              fullName,
+              socialSecurityNumber: {
+                type: 'string'
+              },
+              vaFileNumber: {
+                type: 'string',
+                pattern: '^[cC]{0,1}\\d{7,9}$'
+              },
+              gender: {
+                type: 'string',
+                'enum': ['F', 'M']
+              },
+              dateOfBirth: date
             }
           }
         },
