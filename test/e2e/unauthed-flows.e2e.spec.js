@@ -2,8 +2,8 @@ const AccountCreationHelpers = require('./account-creation-helpers');
 const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
 const GibsHelpers = require('../../src/js/post-911-gib-status/tests/post-911-gib-status-helpers');
 const LettersHelpers = require('../../src/js/letters/tests/letters-helpers');
-const LoginHelpers = require('./login-helpers');
 const MessagingHelpers = require('../../src/js/messaging/tests/messaging-helpers');
+const LoginHelpers = require('../../src/platform/site-wide/login/tests/login-helpers');
 const RxHelpers = require('../../src/js/rx/tests/rx-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
