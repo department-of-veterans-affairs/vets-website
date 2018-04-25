@@ -32,7 +32,8 @@ class EditAddressModal extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(expandAddress(this.props.field.value));
+    // @todo Refactor this...
+    this.props.onSubmit(expandAddress(this.props.field.value.address));
   }
 
   render() {

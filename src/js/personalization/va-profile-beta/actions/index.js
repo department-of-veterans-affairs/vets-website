@@ -63,7 +63,7 @@ function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, re
 
       dispatch({ type: requestStartAction });
       return apiRequest(apiRoute, options)
-        .then(() => dispatch({ type: requestSuccessAction, newValue: fieldValue }))
+        .then(response => dispatch({ type: requestSuccessAction, newValue: response.data.attributes }))
         .catch(() => dispatch({ type: requestFailAction }));
     };
   };
