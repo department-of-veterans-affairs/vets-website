@@ -1,3 +1,16 @@
+a:focus {
+  outline: 2px solid $color-gold-light;
+  outline-offset: 0;
+}
+
+.va-nav-breadcrumbs-list {
+  a:focus {
+    background: $color-gold-light;
+    outline: 2px solid $color-gold-light;
+    outline-offset: 0;
+  }
+}
+
 button:focus {
   position: relative;
   outline: 2px solid $color-gold-light;
@@ -6,7 +19,7 @@ button:focus {
 }
 
 nav button:focus {
-  outline-offset: -3px;
+  outline-offset: 0;
 }
 
 .popular-container {
@@ -45,7 +58,7 @@ nav button:focus {
   a:focus {
     position: relative;
     outline: 2px solid $color-gold-light;
-    outline-offset: -3px;
+    outline-offset: 0;
     z-index: 3;
   }
 
@@ -73,5 +86,26 @@ nav button:focus {
   a:focus {
     color: $color-gold-light;
     outline: 2px solid $color-gold-light;
+  }
+}
+
+input[type="radio"]:focus {
+  & + label {
+    &::before {
+      position: relative;
+      outline: 2px solid $color-gold-light;
+      outline-offset: 3;
+      z-index: 3;
+    }
+  }
+
+  & ~ div {
+    width: 50%;
+    height: 25px;
+    position: absolute;
+    background: $color-gold-light;
+    top: -2;
+    left: 0;
+    z-index: -1;
   }
 }
