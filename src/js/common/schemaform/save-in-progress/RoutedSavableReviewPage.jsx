@@ -12,6 +12,7 @@ import { getReviewPageOpenChapters } from '../state/selectors';
 import { toggleLoginModal } from '../../../login/actions';
 
 import { ReviewPage } from '../review/ReviewPage';
+import ReviewChapters from '../review/ReviewChapters';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -22,7 +23,7 @@ import {
   submitForm,
   uploadFile
 } from '../actions';
-import { getFormContext } from './selectors';
+import { getFormContext } from '../save-in-progress/selectors';
 
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
@@ -86,7 +87,13 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   render() {
-    const { form, user, location } = this.props;
+    const {
+      form,
+      formConfig,
+      location,
+      pageList,
+      user
+    } = this.props;
 
     const contentAfterButtons = (
       <div>
@@ -106,20 +113,32 @@ class RoutedSavableReviewPage extends React.Component {
     );
 
     return (
+      <ReviewChapters
+        formConfig={formConfig}
+        pageList={pageList}
+      />
+    );
+    /*return (
       <ReviewPage
         {...this.props}
         setData={this.setData}
         formContext={getFormContext({ user, form })}
         contentAfterButtons={form.submission.status === 'error' ? null : contentAfterButtons}
         renderErrorMessage={this.renderErrorMessage}/>
-    );
+    ); */
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  const {
+    formConfig,
+    pageList
+  } = ownProps.route;
   return {
     form: state.form,
+    formConfig,
     openChapters: getReviewPageOpenChapters(state),
+    pageList,
     user: state.user
   };
 }
