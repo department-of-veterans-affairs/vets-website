@@ -142,8 +142,7 @@ const formConfig = {
             'ui:options': {
               viewComponent: veteranInformationViewField
             },
-            // This 'view:' property is required to render the object field
-            'view:veteranInfoWrapper': {
+            veteran: {
               fullName: fullNameUI,
               socialSecurityNumber: merge({}, ssnUI, {
                 'ui:title': 'Social Security number (must have this or a VA file number)',
@@ -169,7 +168,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:veteranInfoWrapper': {
+              veteran: {
                 type: 'object',
                 required: ['fullName', 'gender', 'dateOfBirth'],
                 properties: {

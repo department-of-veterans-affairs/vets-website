@@ -75,6 +75,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = set('prefilled', true, newData);
   }
 
+  newData = set('view:veteranInfoWrapper')
+
   return {
     metadata,
     formData: newData,
@@ -349,14 +351,6 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
       {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
       {name && <p className="diagnostic-text">{getDiagnosticText(name)}</p>}
       {ratingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
-    </div>
-  );
-};
-
-
-export const veteranInfoReviewCard = (formData) => {
-  return (
-    <div>
     </div>
   );
 };

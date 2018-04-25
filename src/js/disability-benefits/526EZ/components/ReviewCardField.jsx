@@ -125,6 +125,7 @@ export default class ReviewCardField extends React.Component {
       : uiSchema['ui:title'];
   }
 
+
   getReviewView = () => {
     const ViewComponent = this.props.uiSchema['ui:options'].viewComponent;
     const title = this.getTitle();
@@ -133,11 +134,16 @@ export default class ReviewCardField extends React.Component {
       <div className="review-card">
         <div className="review-card--header row">
           <h4>{title}</h4>
-          <button className="usa-button-secondary usa-width-two" onClick={this.toggleEditing(true)}>Edit</button>
+          <button className="usa-button-secondary usa-width-two" onClick={this.startEditing}>Edit</button>
         </div>
         <ViewComponent formData={this.props.formData}/>
       </div>
     );
+  }
+
+
+  startEditing = () => {
+    this.setState({ editing: true });
   }
 
 
@@ -154,15 +160,25 @@ export default class ReviewCardField extends React.Component {
   }
 
 
-  toggleEditing = (editing) => {
-    // TODO: Figure out why this keeps toggling when rendering
-    // this.setState({ editing });
+  update = (event) => {
+    // Don't act like the continue button
+    event.preventDefault();
+
+    // Validate the input
+    // If there are validation errors
+    //   Show them (should be automagic)
+    //   Don't allow stop editing
+    // If not
+    //   Update the form data in the redux store
+    //   Set updateRequired to false
+    //   Stop editing
+    this.setState({ editing: false });
   }
 
 
   render() {
     console.log('ReviewCardField -- render()');
-    console.log('editing?', this.state.editing);
+    console.log('  editing?', this.state.editing);
     if (this.state.editing) {
       return this.getEditView();
     }
