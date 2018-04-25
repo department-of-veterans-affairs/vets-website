@@ -13,6 +13,9 @@ import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 
+import profileManifest from '../../va-profile-beta/manifest.json';
+import accountManifest from '../../account-beta/manifest.json';
+
 moment.updateLocale('en', {
   meridiem: (hour) => {
     if (hour < 12) {
@@ -99,12 +102,12 @@ class DashboardApp extends React.Component {
           <div>
             <h2>View Your Profile</h2>
             <p>Review your contact, personal, and military service information—and find out how to make any needed updates or corrections.<br/>
-              <a className="usa-button-primary" href="#">View Your Profile</a>
+              <a className="usa-button-primary" href={profileManifest.rootUrl}>View Your Profile</a>
             </p>
 
             <h2>Manage Your Account</h2>
             <p>View your current account settings—and find out how to update them as needed to access more site tools or add extra security to your account.<br/>
-              <a className="usa-button-primary" href="#">View Your Account Settings</a>
+              <a className="usa-button-primary" href={accountManifest.rootUrl}>View Your Account Settings</a>
             </p>
           </div>
         </div>
