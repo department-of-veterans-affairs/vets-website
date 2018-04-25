@@ -11,34 +11,6 @@ import {
 
 import initialData from '../tests/schema/initialData';
 
-function isValidZIP(value) {
-  if (value !== null) {
-    return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
-  }
-  return true;
-}
-
-function isValidPhone(value) {
-  if (value !== null) {
-    return /^\d{10}$/.test(value) || /^\d{11}$/.test(value);
-  }
-  return true;
-}
-
-function validatePhone(errors, phone) {
-  if (phone && !isValidPhone(phone)) {
-    errors.addError(
-      'Phone numbers must be at least 10 digits (dashes allowed)'
-    );
-  }
-}
-
-function validateZIP(errors, zip) {
-  if (zip && !isValidZIP(zip)) {
-    errors.addError('Please enter a valid 9 digit ZIP (dashes allowed)');
-  }
-}
-
 const typeLabels = {
   DOMESTIC: 'Domestic',
   MILITARY: 'Military',
@@ -403,13 +375,86 @@ export const militaryPostOfficeTypeLabels = { // TODO: determine whether these a
   DPO: 'Diplomatic Post Office'
 };
 
+function isValidSpecialCharacter(value) {
+  if (value !== null) {
+    return /([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$/.test(value);
+  }
+  return true;
+}
+
+function isValidZIP(value) {
+  if (value !== null) {
+    return /^\d{5}([-\s]?\d{4})?$/.test(value);
+  }
+  return true;
+}
+
+function isValidPhone(value) {
+  if (value !== null) {
+    return /^\d{10}$/.test(value);
+  }
+  return true;
+}
+
+function validateSpecialCharacter(errors, string) {
+  if (string && !isValidSpecialCharacter(string)) {
+    errors.addError(
+      "Please only use letters, numbers, and the special characters #%&'()+,./:@"
+    );
+  }
+}
+
+function validatePhone(errors, phone) {
+  if (phone && !isValidPhone(phone)) {
+    errors.addError(
+      'Phone numbers must be 10 digits'
+    );
+  }
+}
+
+function validateZIP(errors, zip) {
+  if (zip && !isValidZIP(zip)) {
+    errors.addError('Please enter a valid 9 digit ZIP (dashes allowed)');
+  }
+}
+
+
 const addressUISchema = (addressName, title) => {
+
+  function validateCity(errors, city, { veteran }) {
+    const state = veteran[addressName]['view:state'];
+    const isMilitaryState = militaryStates.includes(state);
+    const isMilitaryCity = militaryPostOfficeTypeCodes.includes(city);
+    if (city && state && isMilitaryState && !isMilitaryCity) {
+      errors.addError(
+        'Please enter APO, FPO, or DPO'
+      );
+    }
+  }
+
   return {
     'ui:title': title,
     type: {
-      'ui:title': 'Type',
       'ui:options': {
-        labels: typeLabels
+        hideIf: () => true,
+        updateSchema: (formData, schema) => {
+          /* eslint-disable no-param-reassign */
+          const address = formData.veteran[addressName];
+          const country = address.country;
+          const state = address['view:state'];
+          const city = address['view:city'];
+          const isDomestic = country === 'USA';
+          const isMilitary = militaryPostOfficeTypeCodes.includes(city) || militaryStates.includes(state);
+          if (isDomestic) {
+            formData.veteran[addressName].type = 'DOMESTIC';
+          } else if (isMilitary) {
+            formData.veteran[addressName].type = 'MILITARY';
+          } else if (country) {
+            formData.veteran[addressName].type = 'INTERNATIONAL';
+          }
+          return schema;
+          /* eslint-enable no-param-reassign */
+        }
       }
     },
     country: {
@@ -427,15 +472,20 @@ const addressUISchema = (addressName, title) => {
         labels: stateLabels,
         updateSchema: (formData, schema) => {
           /* eslint-disable no-param-reassign */
-          const state = formData.veteran[addressName]['view:state'];
-          if (militaryStates.includes(state)) {
-            formData.veteran[addressName].militaryState = state;
+          const address = formData.veteran[addressName];
+          const viewState = address['view:state'];
+          const state = address.state;
+          const militaryState = address.militaryState;
+          if (militaryStates.includes(viewState)) {
+            formData.veteran[addressName].militaryState = viewState;
             delete formData.veteran[addressName].state;
             delete formData.veteran[addressName].city;
-          } else if (state) {
-            formData.veteran[addressName].state = state;
+          } else if (viewState) {
+            formData.veteran[addressName].state = viewState;
             delete formData.veteran[addressName].militaryState;
             delete formData.veteran[addressName].militaryPostOfficeTypeCode;
+          } else {
+            formData.veteran[addressName]['view:state'] = (state || militaryState);
           }
           return schema;
           /* eslint-enable no-param-reassign */
@@ -449,36 +499,36 @@ const addressUISchema = (addressName, title) => {
       }
     },
     addressLine1: {
-      'ui:title': 'Street'
+      'ui:title': 'Street',
+      'ui:validations': [validateSpecialCharacter],
     },
     addressLine2: {
-      'ui:title': 'Line 2'
+      'ui:title': 'Line 2',
+      'ui:validations': [validateSpecialCharacter],
     },
     addressLine3: {
-      'ui:title': 'Line 3'
+      'ui:title': 'Line 3',
+      'ui:validations': [validateSpecialCharacter],
     },
     'view:city': {
       'ui:title': 'City or Military Post Office Type',
-      'ui:validations': [(formData) => {
-        return true;
-      }],
-      'ui:required': (formData) => {
-        const state = formData.veteran[addressName]['view:state'];
-        const isMilitary = militaryStates.includes(state);
-        return isMilitary;
-      },
+      'ui:validations': [validateSpecialCharacter, validateCity],
       'ui:options': {
         updateSchema: (formData, schema) => {
           /* eslint-disable no-param-reassign */
-          const city = formData.veteran[addressName]['view:city'];
-          if (militaryPostOfficeTypeCodes.includes(city)) {
-            formData.veteran[addressName].militaryPostOfficeTypeCode = city;
+          const address = formData.veteran[addressName];
+          const viewCity = address['view:city'];
+          const city = address.city;
+          const militaryPostOfficeType = address.militaryPostOfficeType;
+          if (militaryPostOfficeTypeCodes.includes(viewCity)) {
+            formData.veteran[addressName].militaryPostOfficeTypeCode = viewCity;
             delete formData.veteran[addressName].city;
-            delete formData.veteran[addressName].state;
-          } else if (city) {
-            formData.veteran[addressName].city = city;
+          } else if (viewCity) {
+            formData.veteran[addressName].city = viewCity;
             delete formData.veteran[addressName].militaryPostOfficeTypeCode;
             delete formData.veteran[addressName].militaryState;
+          } else {
+            formData.veteran[addressName]['view:city'] = (city || militaryPostOfficeType);
           }
           return schema;
           /* eslint-enable no-param-reassign */
@@ -514,32 +564,14 @@ const addressUISchema = (addressName, title) => {
     },
     'ui:options': {
       updateSchema: (formData, schema) => {
-        const newSchema = {
-          type: 'object',
-          properties: {
-            'view:city': {
-              type: 'string'
-            },
-            'view:state': {
-              type: 'string'
-            }
-          }
-        };
-        const address = formData.veteran[addressName];
-        const state = address['view:state'];
-        const city = address['view:city'];
+        const newSchema = _.merge({}, schema);
+        const state = formData.veteran[addressName].state;
         const isMilitaryState = militaryStates.includes(state);
-        const isMilitaryCity = militaryPostOfficeTypeCodes.includes(city);
         /* eslint-disable no-param-reassign */
         if (isMilitaryState) {
           newSchema.properties['view:city'].enum = militaryPostOfficeTypeCodes;
         } else {
           delete schema.properties['view:city'].enum;
-        }
-        if (isMilitaryCity) {
-          newSchema.properties['view:state'].enum = militaryStates;
-        } else {
-          newSchema.properties['view:state'].enum = allStates;
         }
         return newSchema;
         /* eslint-enable no-param-reassign */
@@ -551,7 +583,7 @@ const addressUISchema = (addressName, title) => {
 const addressSchema = (isRequired = false) => {
   return {
     type: 'object',
-    required: isRequired ? ['country', 'addressLine1'] : [],
+    required: isRequired ? ['country', 'addressLine1', 'view:city'] : [],
     properties: {
       type: {
         type: 'string',
@@ -620,10 +652,7 @@ function createPrimaryAddressPage(formSchema, isReview) {
         'ui:widget': SSNWidget, // TODO: determine whether to rename widget
         'ui:validations': [validatePhone],
         'ui:errorMessages': {
-          pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
-        },
-        'ui:options': {
-          widgetClassNames: 'va-input-medium-large'
+          pattern: 'Phone numbers must be 10 digits'
         }
       },
       secondaryPhone: {
@@ -631,10 +660,7 @@ function createPrimaryAddressPage(formSchema, isReview) {
         'ui:widget': SSNWidget,
         'ui:validations': [validatePhone],
         'ui:errorMessages': {
-          pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
-        },
-        'ui:options': {
-          widgetClassNames: 'va-input-medium-large'
+          pattern: 'Phone numbers must be 10 digits'
         }
       },
       emailAddress: {
