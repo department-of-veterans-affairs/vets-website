@@ -32,7 +32,6 @@ class ReviewChapters extends React.Component {
     }
   }
 
-
   componentDidMount() {
     const pageList = this.props.pageList;
     const form = this.props.form;

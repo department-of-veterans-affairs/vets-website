@@ -10,8 +10,6 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../../../platform/forms/components/PrivacyAgreement';
-import { isValidForm } from '../validation';
-
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import { getActivePages } from '../../../../platform/forms/helpers';

@@ -15,6 +15,8 @@ import { toggleLoginModal } from '../../../login/actions';
 
 import { ReviewPage } from '../review/ReviewPage';
 import ReviewChapters from '../review/ReviewChapters';
+import SubmitController from '../review/SubmitController';
+
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -108,11 +110,21 @@ class RoutedSavableReviewPage extends React.Component {
       formConfig,
       location,
       pageList,
+      path,
       user
     } = this.props;
 
-    const contentAfterButtons = (
+    return (
       <div>
+        <ReviewChapters
+          formConfig={formConfig}
+          pageList={pageList}
+        />
+        <SubmitController
+          formConfig={formConfig}
+          pageList={pageList}
+          path={path}
+        />
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={user.login.showModal}
@@ -126,13 +138,6 @@ class RoutedSavableReviewPage extends React.Component {
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}/>
       </div>
-    );
-
-    return (
-      <ReviewChapters
-        formConfig={formConfig}
-        pageList={pageList}
-      />
     );
     /*return (
       <ReviewPage
@@ -148,13 +153,15 @@ class RoutedSavableReviewPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const {
     formConfig,
-    pageList
+    pageList,
+    path
   } = ownProps.route;
   return {
     form: state.form,
     formConfig,
     openChapters: getReviewPageOpenChapters(state),
     pageList,
+    path,
     user: state.user
   };
 }
