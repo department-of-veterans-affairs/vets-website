@@ -1,3 +1,4 @@
+import stateNames from '../constants/states.json';
 import militaryStatesJson from '../constants/military-states.json';
 
 const MILITARY_STATES = new Set(militaryStatesJson);
@@ -10,7 +11,7 @@ const MILITARY_STATES = new Set(militaryStatesJson);
 * @readonly
 * @enum {AddressType}
 */
-export const ADDRESS_TYPES = {
+const ADDRESS_TYPES = {
   domestic: 'DOMESTIC',
   international: 'INTERNATIONAL',
   military: 'MILITARY'
@@ -33,21 +34,31 @@ export const ADDRESS_TYPES = {
  */
 
 /**
+ * Converts an address of type "military" to a standard format
+ * @param {Address} address
+ */
+function convertMilitaryToStandard(address) {
+  /* eslint-disable no-param-reassign */
+  address.city = address.militaryPostOfficeTypeCode;
+  address.stateCode = address.militaryStateCode;
+  address.countryName = 'USA';
+  delete address.militaryPostOfficeTypeCode;
+  delete address.militaryStateCode;
+}
+
+/**
  * Converts an address into a standardized format so that military address follow the same interface as other address types.
  * @param {Address} address
  * @returns {Address}
  */
-export function consolidateAddress(address) {
+
+function consolidateAddress(address) {
   const consolidated = {
     ...address
   };
 
-  if (address.type === ADDRESS_TYPES.military) {
-    consolidated.city = consolidated.militaryPostOfficeTypeCode;
-    consolidated.stateCode = consolidated.militaryStateCode;
-    consolidated.countryName = 'USA';
-    delete consolidated.militaryPostOfficeTypeCode;
-    delete consolidated.militaryStateCode;
+  if (consolidated.type === ADDRESS_TYPES.military) {
+    convertMilitaryToStandard(consolidated);
   }
 
   delete consolidated.addressEffectiveDate;
@@ -58,10 +69,23 @@ export function consolidateAddress(address) {
  * @param {Address} address
  * @returns {AddressType}
  */
-export function inferAddressType(address) {
+function getInferredAddressType(address) {
   if (address.countryName !== 'USA') return ADDRESS_TYPES.international;
   if (MILITARY_STATES.has(address.stateCode)) return ADDRESS_TYPES.military;
   return ADDRESS_TYPES.domestic;
+}
+
+/**
+ * Converts an address containing standard properties into a military address
+ * @param {*} address
+ */
+function convertStandardToMilitary(address) {
+  /* eslint-disable no-param-reassign */
+  address.militaryPostOfficeTypeCode = address.city;
+  address.militaryStateCode = address.stateCode;
+  delete address.city;
+  delete address.stateCode;
+  delete address.countryName;
 }
 
 /**
@@ -69,19 +93,25 @@ export function inferAddressType(address) {
  * @param {Address} address
  * @returns {Address}
  */
-export function expandAddress(address) {
+function expandAddress(address) {
   const expanded = {
     ...address,
-    type: inferAddressType(address)
+    type: getInferredAddressType(address)
   };
 
   if (expanded.type === ADDRESS_TYPES.military) {
-    expanded.militaryPostOfficeTypeCode = expanded.city;
-    expanded.militaryStateCode = expanded.stateCode;
-    delete expanded.city;
-    delete expanded.stateCode;
-    delete expanded.countryName;
+    convertStandardToMilitary(expanded);
   }
 
   return expanded;
 }
+
+function isEmptyAddress(address) {
+  // @todo
+}
+
+function getStateName(abbreviation) {
+  return stateNames[abbreviation];
+}
+
+export { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName };

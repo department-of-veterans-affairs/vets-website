@@ -5,14 +5,14 @@ import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
-import { toGenericAddress, expandGenericAddress } from '../utils';
+import { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName } from '../utils';
 
 class EditAddressModal extends React.Component {
 
   componentDidMount() {
     const defaultFieldValue = { address: {} };
     if (this.props.addressResponseData) {
-      defaultFieldValue.address = toGenericAddress(this.props.addressResponseData.address);
+      defaultFieldValue.address = consolidateAddress(this.props.addressResponseData.address);
     }
     this.props.onChange(defaultFieldValue);
   }
@@ -32,7 +32,7 @@ class EditAddressModal extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(expandGenericAddress(this.props.field.value));
+    this.props.onSubmit(expandAddress(this.props.field.value));
   }
 
   render() {
@@ -61,21 +61,43 @@ class EditAddressModal extends React.Component {
   }
 }
 
+function AddressView() {
+  const address = this.props.address;
+  const street = `${address.addressOne} ${address.addressTwo && `, ${address.addressTwo}`} ${address.addressThree}`;
+  const country = address.type === ADDRESS_TYPES.international ? address.countryName : '';
+
+  let cityStateZip = '';
+
+  switch (address.type) {
+    case ADDRESS_TYPES.domestic:
+      cityStateZip = `${address.city}, ${getStateName(address.state)} ${address.zipCode}`;
+      break;
+    case ADDRESS_TYPES.military:
+      cityStateZip = `${address.militaryPostOfficeTypeCode}, ${address.militaryStateCode} ${address.zipCode}`;
+      break;
+    case ADDRESS_TYPES.international:
+    default:
+      cityStateZip = address.city;
+  }
+
+  return (
+    <div>
+      {street}<br/>
+      {cityStateZip}<br/>
+      {country}
+    </div>
+  );
+}
+
 export default function AddressSection({ addressResponseData, addressConstants, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
   if (addressResponseData) {
+    // @todo check for empty address
     if (addressResponseData.address) {
       const { address } = addressResponseData;
-      content = (
-        <div>
-          {address.addressOne}<br/>
-          {address.addressTwo}
-          {address.addresThree}
-          {address.city}, {address.militaryStateCode} {address.zipCode}
-        </div>
-      );
+      content = <AddressView address={address}/>;
     } else {
       content = <button type="button" onClick={onEdit} className="usa-button-secondary">Add</button>;
     }
@@ -102,7 +124,9 @@ export default function AddressSection({ addressResponseData, addressConstants, 
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={addressResponseData && onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit
+        onEditClick={addressResponseData && addressResponseData.controlInformation.canUpdate && onEdit}>{title}
+      </HeadingWithEdit>
       {content}
     </div>
   );
