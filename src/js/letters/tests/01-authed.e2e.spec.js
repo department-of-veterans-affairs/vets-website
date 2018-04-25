@@ -3,7 +3,7 @@ import startCase from 'lodash/startCase';
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const LettersHelpers = require('./letters-helpers.js');
-const LoginHelpers = require('../../../platform/testing/e2e/auth');
+const Auth = require('../../../platform/testing/e2e/auth');
 
 const newAddress = LettersHelpers.newAddress.data.attributes.address;
 const oldAddress = LettersHelpers.address.data.attributes.address;
@@ -15,12 +15,12 @@ const oldCityStateZIP = `${oldAddress.militaryPostOfficeTypeCode}, ${oldAddress.
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    const token = LoginHelpers.getUserToken();
+    const token = Auth.getUserToken();
 
     LettersHelpers.initApplicationMock(token);
 
     // Ensure main status page renders.
-    LoginHelpers.logIn(token, client, '/download-va-letters/letters', 3)
+    Auth.logIn(token, client, '/download-va-letters/letters', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
       .assert.title('Download VA Letters and Documents: Vets.gov')

@@ -1,18 +1,18 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const RxHelpers = require('./rx-helpers');
-const LoginHelpers = require('../../../platform/testing/e2e/auth');
+const Auth = require('../../../platform/testing/e2e/auth');
 const AccountCreationHelpers = require('../../../../test/e2e/account-creation-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    const token = LoginHelpers.getUserToken();
+    const token = Auth.getUserToken();
 
     RxHelpers.initApplicationSubmitMock(token);
     AccountCreationHelpers.initMHVTermsMocks(token);
 
     // Ensure active page renders
-    LoginHelpers.logIn(token, client, '/health-care/prescriptions', 3)
+    Auth.logIn(token, client, '/health-care/prescriptions', 3)
       .assert.title('Refill Prescriptions: Vets.gov')
       .waitForElementVisible('#rx-active', Timeouts.normal)
       .axeCheck('.main');

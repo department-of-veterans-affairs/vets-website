@@ -1,16 +1,16 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
-const LoginHelpers = require('../../../platform/testing/e2e/auth');
+const Auth = require('../../../platform/testing/e2e/auth');
 const GibsHelpers = require('./post-911-gib-status-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    const token = LoginHelpers.getUserToken();
+    const token = Auth.getUserToken();
 
     GibsHelpers.initApplicationMock(token);
 
     // Ensure main status page renders.
-    LoginHelpers.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit', 3)
+    Auth.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
       .assert.title('Check Benefit: Vets.gov')
@@ -37,7 +37,7 @@ module.exports = E2eHelpers.createE2eTest(
     //     // Ensure print page renders.
     //     // We need to log in again here because Electron loses the session
     //     // when opening a new window.
-    //     LoginHelpers.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit/print', 3)
+    //     Auth.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit/print', 3)
     //       .waitForElementVisible('body', Timeouts.normal)
     //       .axeCheck('.main')
     //       .assert.title('Check Benefit: Vets.gov')
