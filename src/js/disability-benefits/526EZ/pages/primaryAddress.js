@@ -418,7 +418,7 @@ const addressUISchema = (addressName, title) => {
     'view:state': {
       'ui:title': 'State',
       'ui:required': (formData) => {
-        const address = formData.veteran[addressName]; 
+        const address = formData.veteran[addressName];
         const isUSA = address.country === 'USA';
         const isMilitary = !!address.militaryPostOfficeTypeCode;
         return isUSA || isMilitary;
@@ -426,15 +426,19 @@ const addressUISchema = (addressName, title) => {
       'ui:options': {
         labels: stateLabels,
         updateSchema: (formData, schema) => {
+          /* eslint-disable no-param-reassign */
           const state = formData.veteran[addressName]['view:state'];
           if (militaryStates.includes(state)) {
             formData.veteran[addressName].militaryState = state;
             delete formData.veteran[addressName].state;
+            delete formData.veteran[addressName].city;
           } else if (state) {
             formData.veteran[addressName].state = state;
             delete formData.veteran[addressName].militaryState;
+            delete formData.veteran[addressName].militaryPostOfficeTypeCode;
           }
           return schema;
+          /* eslint-enable no-param-reassign */
         }
       }
     },
@@ -459,22 +463,25 @@ const addressUISchema = (addressName, title) => {
         return true;
       }],
       'ui:required': (formData) => {
-        const state = formData.veteran[addressName]['view:state']; 
-        const isMilitary = militaryStates.includes(state)
+        const state = formData.veteran[addressName]['view:state'];
+        const isMilitary = militaryStates.includes(state);
         return isMilitary;
       },
       'ui:options': {
         updateSchema: (formData, schema) => {
-          const newSchema = {};
+          /* eslint-disable no-param-reassign */
           const city = formData.veteran[addressName]['view:city'];
           if (militaryPostOfficeTypeCodes.includes(city)) {
             formData.veteran[addressName].militaryPostOfficeTypeCode = city;
             delete formData.veteran[addressName].city;
+            delete formData.veteran[addressName].state;
           } else if (city) {
             formData.veteran[addressName].city = city;
             delete formData.veteran[addressName].militaryPostOfficeTypeCode;
+            delete formData.veteran[addressName].militaryState;
           }
           return schema;
+          /* eslint-enable no-param-reassign */
         }
       }
     },
@@ -506,16 +513,36 @@ const addressUISchema = (addressName, title) => {
       }
     },
     'ui:options': {
-      updateSchema: (formData, schema, uiSchema) => {
-        //if mil state
-        //set city enums
-        //if not mil state
-        //unset city enums
-        //if mil city
-        //set state enums
-        //if not mil city
-        //set all state enums
-        return schema;
+      updateSchema: (formData, schema) => {
+        const newSchema = {
+          type: 'object',
+          properties: {
+            'view:city': {
+              type: 'string'
+            },
+            'view:state': {
+              type: 'string'
+            }
+          }
+        };
+        const address = formData.veteran[addressName];
+        const state = address['view:state'];
+        const city = address['view:city'];
+        const isMilitaryState = militaryStates.includes(state);
+        const isMilitaryCity = militaryPostOfficeTypeCodes.includes(city);
+        /* eslint-disable no-param-reassign */
+        if (isMilitaryState) {
+          newSchema.properties['view:city'].enum = militaryPostOfficeTypeCodes;
+        } else {
+          delete schema.properties['view:city'].enum;
+        }
+        if (isMilitaryCity) {
+          newSchema.properties['view:state'].enum = militaryStates;
+        } else {
+          newSchema.properties['view:state'].enum = allStates;
+        }
+        return newSchema;
+        /* eslint-enable no-param-reassign */
       }
     }
   };
