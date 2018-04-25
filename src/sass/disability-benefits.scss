@@ -106,7 +106,7 @@
 .review-card {
   .review-card--header {
     background-color: $color-gray-lightest;
-    padding: 0.1em 0.75em;
+    padding: 0 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -123,9 +123,18 @@
   }
 
   .review-card--body {
-    padding: 1em;
+    padding: 1.5rem;
     border: 2px solid $color-gray-lightest;
     // Remove the top border because it looks like it just extends the header
     border-top: none;
+
+    h4 {
+      margin-top: 1.5rem;
+    }
+
+    .update-button {
+      margin-top: 4rem;
+      width: 15rem;
+    }
   }
 }

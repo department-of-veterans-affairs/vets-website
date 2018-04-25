@@ -92,29 +92,29 @@ export default class ReviewCardField extends React.Component {
 
     return (
       <div className="review-card">
-        <div className="review-card--header">
+        <div className="review-card--body input-section va-growable-background">
           <h4>{title}</h4>
+          {properties.map(propName => {
+            return (
+              <div key={propName}>
+                <SchemaField
+                  name={propName}
+                  required={this.isRequired(propName)}
+                  schema={schema.properties[propName]}
+                  uiSchema={uiSchema[propName]}
+                  errorSchema={errorSchema[propName]}
+                  idSchema={idSchema[propName]}
+                  formData={formData[propName]}
+                  onChange={this.onPropertyChange(propName)}
+                  onBlur={onBlur}
+                  registry={registry}
+                  disabled={disabled}
+                  readonly={readonly}/>
+              </div>
+            );
+          })}
+          <button className="usa-button-primary update-button" onClick={this.update}>Update</button>
         </div>
-        {properties.map(propName => {
-          return (
-            <div key={propName}>
-              <SchemaField
-                name={propName}
-                required={this.isRequired(propName)}
-                schema={schema.properties[propName]}
-                uiSchema={uiSchema[propName]}
-                errorSchema={errorSchema[propName]}
-                idSchema={idSchema[propName]}
-                formData={formData[propName]}
-                onChange={this.onPropertyChange(propName)}
-                onBlur={onBlur}
-                registry={registry}
-                disabled={disabled}
-                readonly={readonly}/>
-            </div>
-          );
-        })}
-        <button className="usa-button-primary" onClick={this.update}>Update</button>
       </div>
     );
   }
