@@ -3,10 +3,9 @@ import React from 'react';
 
 import DropDownPanel from '@department-of-veterans-affairs/jean-pants/DropDownPanel';
 import IconUser from '@department-of-veterans-affairs/jean-pants/IconUser';
-import { features } from '../../personalization/beta-enrollment/containers/BetaApp';
+import { features } from '../../../../js/personalization/beta-enrollment/containers/BetaApp';
+import { logout } from '../../../utilities/authentication';
 import BetaDropdown from './BetaDropdown';
-
-import { logout } from '../utils/helpers';
 
 class SignInProfileMenu extends React.Component {
   render() {

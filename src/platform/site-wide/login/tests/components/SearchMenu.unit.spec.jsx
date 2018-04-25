@@ -2,15 +2,15 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import HelpMenu from '../../../src/js/common/components/HelpMenu.jsx';
+import SearchMenu from '../../components/SearchMenu.jsx';
 
-describe('<HelpMenu>', () => {
+describe('<SearchMenu>', () => {
   const props = {
     isOpen: false,
     clickHandler: f => f
   };
 
-  const tree = SkinDeep.shallowRender(<HelpMenu {...props}/>);
+  const tree = SkinDeep.shallowRender(<SearchMenu {...props}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

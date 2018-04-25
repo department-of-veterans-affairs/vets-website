@@ -9,8 +9,9 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
+import { createVerifiedPaymentInfoPage, createUnverifiedPaymentInfoPage } from '../pages/paymentInfo';
 import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
+import { createVerifiedPrimaryAddressPage, createUnverifiedPrimaryAddressPage } from '../pages/primaryAddress';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
@@ -168,6 +169,7 @@ const formConfig = {
             }
           }
         },
+        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
@@ -259,6 +261,7 @@ const formConfig = {
             }
           }
         },
+        primaryAddress: createUnverifiedPrimaryAddressPage(fullSchema526EZ),
         militaryHistory: {
           title: 'Military service history',
           path: 'veteran-details/military-service-history',
@@ -305,7 +308,7 @@ const formConfig = {
             }
           }
         },
-        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
+        paymentInformation: createUnverifiedPaymentInfoPage(fullSchema526EZ),
       }
     },
     ratedDisabilities: {

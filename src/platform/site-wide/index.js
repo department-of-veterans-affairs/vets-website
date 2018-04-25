@@ -8,8 +8,8 @@ import './legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './accessible-VCL-modal';
 import addMenuListeners from './accessible-menus';
-import createLoginWidget from '../../js/login/login-entry';
-import createFeedbackWidget from './feedback/feedback-entry';
+import startLoginWidget from './login';
+import startFeedbackWidget from './feedback';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -35,6 +35,6 @@ export default function startSitewideComponents(commonStore) {
     }
   });
 
-  createLoginWidget(commonStore);
-  createFeedbackWidget(commonStore);
+  startLoginWidget(commonStore);
+  startFeedbackWidget(commonStore);
 }

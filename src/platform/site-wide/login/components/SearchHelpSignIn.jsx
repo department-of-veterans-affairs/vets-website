@@ -3,9 +3,9 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import HelpMenu from '../../common/components/HelpMenu';
-import SearchMenu from '../../common/components/SearchMenu';
+import recordEvent from '../../../monitoring/record-event';
+import HelpMenu from './HelpMenu';
+import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
 class SearchHelpSignIn extends React.Component {
