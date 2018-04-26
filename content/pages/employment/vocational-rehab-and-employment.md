@@ -19,7 +19,7 @@ majorlinks:
     - url: /employment/vocational-rehab-and-employment/ides/
       title: Accessing VR&E through the Integrated Disability Evaluation System (IDES)
       description: If you're wounded, injured, or fall ill while serving and can't perform your duties, find out how you can access VR&E services as soon as possible through IDES.
-    - url: /education/tools-programs/
+    - url: /education/tools-programs/education-career-counseling/
       title: Educational and Career Counseling
       description: If you’re leaving active service soon, find out how to get free educational and career counseling (also called Chapter 36).
   - heading: For Family Members of Servicemembers and Veterans with Service-Connected Disabilities
