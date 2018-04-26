@@ -15,7 +15,7 @@ class BetaTools extends React.Component {
     this.props.unregisterBeta(features.dashboard).then(() => document.location.replace('/'));
   }
   toggleModal = () => {
-    this.setState({ showModal: true });
+    this.setState({ showModal: !this.state.showModal });
   }
   render() {
     if (!this.props.isEnrolled) return null;
