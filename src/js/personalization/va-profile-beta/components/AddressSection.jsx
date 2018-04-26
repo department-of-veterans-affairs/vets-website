@@ -5,11 +5,15 @@ import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
+import { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName, isEmptyAddress } from '../utils';
 
 class EditAddressModal extends React.Component {
 
   componentDidMount() {
-    const defaultFieldValue = this.props.addressResponseData || { address: {} };
+    const defaultFieldValue = { address: {} };
+    if (this.props.addressResponseData) {
+      defaultFieldValue.address = consolidateAddress(this.props.addressResponseData.address);
+    }
     this.props.onChange(defaultFieldValue);
   }
 
@@ -28,7 +32,8 @@ class EditAddressModal extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.props.field.value);
+    // @todo Refactor this...
+    this.props.onSubmit(expandAddress(this.props.field.value.address));
   }
 
   render() {
@@ -42,32 +47,62 @@ class EditAddressModal extends React.Component {
           onCloseAlert={this.props.clearErrors}/>
         <form onSubmit={this.onSubmit}>
           {this.props.field && (
-            <Address address={this.props.field.value.address} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
+            <Address
+              address={this.props.field.value.address}
+              onInput={this.onInput}
+              onBlur={this.onBlur}
+              errorMessages={{}}
+              states={this.props.addressConstants.states}
+              countries={this.props.addressConstants.countries}/>
           )}
-          <LoadingButton isLoading={this.props.isLoading}>Save Address</LoadingButton>
+          <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
         </form>
       </Modal>
     );
   }
 }
 
-export default function AddressSection({ addressResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+function AddressView({ address }) {
+  const street = [
+    address.addressOne,
+    address.addressTwo ? `, ${address.addressTwo}` : '',
+    address.addressThree ? ` ${address.addressThree}` : ''
+  ].join('');
+
+  const country = address.type === ADDRESS_TYPES.international ? address.countryName : '';
+  let cityStateZip = '';
+
+  switch (address.type) {
+    case ADDRESS_TYPES.domestic:
+      cityStateZip = `${address.city}, ${getStateName(address.state)} ${address.zipCode}`;
+      break;
+    case ADDRESS_TYPES.military:
+      cityStateZip = `${address.militaryPostOfficeTypeCode}, ${address.militaryStateCode} ${address.zipCode}`;
+      break;
+    case ADDRESS_TYPES.international:
+    default:
+      cityStateZip = address.city;
+  }
+
+  return (
+    <div>
+      {street}<br/>
+      {cityStateZip}<br/>
+      {country}
+    </div>
+  );
+}
+
+export default function AddressSection({ addressResponseData, addressConstants, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
   if (addressResponseData) {
-    if (addressResponseData.address) {
+    if (addressResponseData.address && !isEmptyAddress(addressResponseData.address)) {
       const { address } = addressResponseData;
-      content = (
-        <div>
-          {address.addressOne}<br/>
-          {address.addressTwo}
-          {address.addresThree}
-          {address.city}, {address.militaryStateCode} {address.zipCode}
-        </div>
-      );
+      content = <AddressView address={address}/>;
     } else {
-      content = <button type="button" onClick={onEdit} className="usa-button-secondary">Add</button>;
+      content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>;
     }
   } else {
     content = fieldFailureMessage;
@@ -78,6 +113,7 @@ export default function AddressSection({ addressResponseData, title, field, erro
       <EditAddressModal
         title="Edit mailing address"
         addressResponseData={addressResponseData}
+        addressConstants={addressConstants}
         onChange={onChange}
         field={field}
         error={error}
@@ -91,7 +127,9 @@ export default function AddressSection({ addressResponseData, title, field, erro
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={addressResponseData && onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit
+        onEditClick={addressResponseData && addressResponseData.controlInformation.canUpdate && onEdit}>{title}
+      </HeadingWithEdit>
       {content}
     </div>
   );

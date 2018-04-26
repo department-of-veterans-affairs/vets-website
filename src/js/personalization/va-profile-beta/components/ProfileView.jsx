@@ -27,7 +27,14 @@ import LoadFail from './LoadFail';
 class ProfileView extends React.Component {
 
   componentWillMount() {
-    this.props.fetchVaProfile();
+    this.props.startup();
+  }
+
+  componentWillUpdate(oldProps) {
+    if (this.props.profile !== oldProps.profile && this.props.profile.userFullName) {
+      const { first, last } = this.props.profile.userFullName;
+      document.title = `Profile: ${first} ${last}`;
+    }
   }
 
   openModalHandler(modalName) {
@@ -68,7 +75,8 @@ class ProfileView extends React.Component {
         primaryTelephone,
         alternateTelephone,
         personalInformation,
-        serviceHistory
+        serviceHistory,
+        addressConstants
       },
       updateFormFieldActions,
       updateActions
@@ -79,12 +87,16 @@ class ProfileView extends React.Component {
     const militaryInformationFailed = !serviceHistory;
 
     return (
-      <div className="row" style={{ marginBottom: 35 }}>
-        <h1>Your Profile</h1>
-        <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
+      <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
         <div className="usa-width-two-thirds medium-8 small-12 columns">
 
-          <h2 style={{ marginBottom: 0 }}>Contact Information</h2>
+          <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
+
+          <h2 className="va-profile-heading">Contact Information</h2>
+          <AlertBox
+            isVisible
+            status="info"
+            content={<p>We’ll use this information to communicate with you about your VA <strong>Compensation &amp; Pension benefits.</strong></p>}/>
           {contactInformationFailed ? <LoadFail information="contact"/> : (
             <div>
               <AddressSection
@@ -98,7 +110,8 @@ class ProfileView extends React.Component {
                 isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
                 onEdit={this.openModalHandler('mailingAddress')}
                 onSubmit={updateActions.updateMailingAddress}
-                onCancel={this.closeModal}/>
+                onCancel={this.closeModal}
+                addressConstants={addressConstants}/>
 
               <PhoneSection
                 title="Primary Phone"
@@ -127,7 +140,6 @@ class ProfileView extends React.Component {
                 onCancel={this.closeModal}/>
 
               <EmailSection
-                title="Email Address"
                 emailResponseData={email}
                 field={formFields.email}
                 error={errors.includes(SAVE_EMAIL_ADDRESS_FAIL)}
@@ -143,12 +155,14 @@ class ProfileView extends React.Component {
 
           <AccountMessage/>
 
-          <h2>Personal Information</h2>
+          <h2 className="va-profile-heading">Personal Information</h2>
+          <p>If you need to make any updates or corrections, call the Vets.gov Help Desk at  <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We're here Monday-Friday, 8 a.m. - 8 p.m. (ET).</p>
           {personalInformationFailed ? <LoadFail information="personal"/> : (
             <PersonalInformation personalInformation={personalInformation}/>
           )}
 
-          <h2>Military Service</h2>
+          <h2 className="va-profile-heading">Military Service</h2>
+          <p>If you need to make any updates or corrections, call the Vets.gov Help Desk at  <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We're here Monday-Friday, 8 a.m. - 8 p.m. (ET).</p>
           {militaryInformationFailed ? <LoadFail information="military"/> : (
             <MilitaryInformation serviceHistoryResponseData={serviceHistory}/>
           )}

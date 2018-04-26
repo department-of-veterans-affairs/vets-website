@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import Scroll from 'react-scroll';
 
 import { removeSavedForm } from '../actions';
 
@@ -12,6 +13,18 @@ import PrescriptionsWidget from './PrescriptionsWidget';
 import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+
+import profileManifest from '../../va-profile-beta/manifest.json';
+import accountManifest from '../../account-beta/manifest.json';
+
+const scroller = Scroll.animateScroll;
+const scrollToTop = () => {
+  scroller.scrollTo(0, {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 moment.updateLocale('en', {
   meridiem: (hour) => {
@@ -37,6 +50,10 @@ moment.updateLocale('en', {
 });
 
 class DashboardApp extends React.Component {
+  componentDidMount() {
+    scrollToTop();
+  }
+
   render() {
     const view = (
       <div className="row user-profile-row">
@@ -99,12 +116,12 @@ class DashboardApp extends React.Component {
           <div>
             <h2>View Your Profile</h2>
             <p>Review your contact, personal, and military service information—and find out how to make any needed updates or corrections.<br/>
-              <a className="usa-button-primary" href="#">View Your Profile</a>
+              <a className="usa-button-primary" href={profileManifest.rootUrl}>View Your Profile</a>
             </p>
 
             <h2>Manage Your Account</h2>
             <p>View your current account settings—and find out how to update them as needed to access more site tools or add extra security to your account.<br/>
-              <a className="usa-button-primary" href="#">View Your Account Settings</a>
+              <a className="usa-button-primary" href={accountManifest.rootUrl}>View Your Account Settings</a>
             </p>
           </div>
         </div>
@@ -112,7 +129,7 @@ class DashboardApp extends React.Component {
     );
 
     return (
-      <div>
+      <div name="topScrollElement">
         <RequiredLoginView
           authRequired={3}
           serviceRequired={['evss-claims', 'appeals-status', 'user-profile']}
