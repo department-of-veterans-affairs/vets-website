@@ -228,8 +228,7 @@ const formConfig = {
           uiSchema: {
             servicePeriods: {
               'ui:title': 'Military service history',
-              'ui:description':
-              'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:description': 'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
@@ -269,94 +268,6 @@ const formConfig = {
         }
       }
     },
-    // veteranDetails: {
-    //   title: 'Veteran Details',
-    //   pages: {
-    //     veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
-    //     specialCircumstances: {
-    //       title: 'Special Circumstances',
-    //       path: 'special-circumstances',
-    //       uiSchema: {
-    //         'ui:description': specialCircumstancesDescription,
-    //         'view:suicidal': {
-    //           'ui:title': 'In crisis or thinking of suicide?'
-    //         },
-    //         'view:homeless': {
-    //           'ui:title': 'Homeless or at risk of becoming homeless?'
-    //         },
-    //         'view:extremeFinancialHardship': {
-    //           'ui:title': 'Suffering from extreme financial hardship?'
-    //         },
-    //         'view:blindOrSightImpaired': {
-    //           'ui:title': 'Blind or sight-impaired?'
-    //         }
-    //       },
-    //       schema: {
-    //         type: 'object',
-    //         properties: {
-    //           'view:suicidal': {
-    //             type: 'boolean'
-    //           },
-    //           'view:homeless': {
-    //             type: 'boolean'
-    //           },
-    //           'view:extremeFinancialHardship': {
-    //             type: 'boolean'
-    //           },
-    //           'view:blindOrSightImpaired': {
-    //             type: 'boolean'
-    //           }
-    //         }
-    //       }
-    //     },
-    //     militaryHistory: {
-    //       title: 'Military service history',
-    //       path: 'review-veteran-details/military-service-history',
-    //       'ui:description': 'things',
-    //       initialData,
-    //       uiSchema: {
-    //         servicePeriods: {
-    //           'ui:title': 'Military service history',
-    //           'ui:description':
-    //           'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
-    //           'ui:options': {
-    //             itemName: 'Service Period',
-    //             viewField: ServicePeriodView,
-    //           },
-    //           items: {
-    //             serviceBranch: {
-    //               'ui:title': 'Branch of service'
-    //             },
-    //             dateRange: dateRangeUI(
-    //               'Service start date',
-    //               'Service end date',
-    //               'End of service must be after start of service'
-    //             ),
-    //             dischargeType: {
-    //               'ui:title': 'Character of discharge',
-    //               'ui:options': {
-    //                 labels: {
-    //                   honorable: 'Honorable',
-    //                   general: 'General',
-    //                   other: 'Other Than Honorable',
-    //                   'bad-conduct': 'Bad Conduct',
-    //                   dishonorable: 'Dishonorable',
-    //                   undesirable: 'Undesirable'
-    //                 }
-    //               }
-    //             }
-    //           }
-    //         }
-    //       },
-    //       schema: {
-    //         type: 'object',
-    //         properties: {
-    //           servicePeriods
-    //         }
-    //       }
-    //     }
-    //   }
-    // },
     ratedDisabilities: {
       title: 'Your Rated Disabilities',
       pages: {
