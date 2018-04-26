@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
-import Modal from '../../../common/components/Modal';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 
 import FormItem from './FormItem';
 import { isSIPEnabledForm } from '../helpers';
@@ -32,7 +32,7 @@ class FormList extends React.Component {
 
    return !hasVerifiedSavedForms ? null : (
      <div className="profile-section medium-12 columns">
-       <h2 className="section-header">Saved applications</h2>
+       <h2 className="section-header">Continue Applications</h2>
        {forms.map((form) => <FormItem key={form.form} savedFormData={form} toggleModal={this.toggleModal}/>)}
        <Modal
          cssClass="va-modal-large"

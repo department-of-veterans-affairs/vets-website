@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import SortableTable from '../../common/components/SortableTable';
+import SortableTable from '@department-of-veterans-affairs/jean-pants/SortableTable';
 import TrackPackageLink from '../components/TrackPackageLink';
 import { formatDate } from '../utils/helpers';
 

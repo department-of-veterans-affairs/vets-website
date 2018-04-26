@@ -8,7 +8,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import ErrorableFileInput from '@department-of-veterans-affairs/jean-pants/ErrorableFileInput';
 import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
 
-import Modal from '../../common/components/Modal';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';

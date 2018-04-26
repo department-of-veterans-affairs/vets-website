@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/rx/rx.scss';
+import './sass/rx.scss';
 
 import startApp from '../../platform/startup';
 

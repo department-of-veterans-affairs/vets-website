@@ -1,5 +1,5 @@
 import React from 'react';
-import ProgressBar from '../../common/components/ProgressBar';
+import ProgressBar from '@department-of-veterans-affairs/jean-pants/ProgressBar';
 
 export default function UploadStatus({ progress, files, onCancel }) {
   return (

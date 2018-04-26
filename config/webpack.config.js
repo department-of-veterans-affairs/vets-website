@@ -12,7 +12,7 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const globalEntryFiles = {
-  style: './src/sass/style.scss',
+  style: './src/platform/site-wide/sass/style.scss',
   vendor: [
     './src/platform/polyfills',
     'history',
@@ -160,7 +160,6 @@ const configGenerator = (options, apps) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
-        __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
           API_PORT: (process.env.API_PORT || 3000),
           WEB_PORT: (process.env.WEB_PORT || 3333),

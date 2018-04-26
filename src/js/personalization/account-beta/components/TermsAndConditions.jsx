@@ -5,11 +5,13 @@ export default function TermsAndConditions({ healthTermsCurrent, openModal }) {
 
   if (healthTermsCurrent) {
     content = (
-      <p>You have accepted the latest health terms and conditions for this site.</p>
+      <p><i className="fa fa-check-circle"/> You've accepted the latest terms and conditions for using this site's health tools.</p>
     );
   } else {
     content = (
-      <p>In order to refill your prescriptions, message your health care team, and get your VA health records, you need to accept the <a onClick={openModal}>Terms and Conditions for Health Tools</a>.</p>
+      <p>Want to use Vets.gov to refill your VA prescriptions, communicate with your health care team, or get your VA health record? You'll need to accept the latest terms and conditions for using this site's health tools.<br/>
+        <a onClick={openModal}>Read the terms and conditions.</a>
+      </p>
     );
   }
 

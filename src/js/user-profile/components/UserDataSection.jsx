@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import Modal from '../../common/components/Modal';
-import { mfa } from '../../login/utils/helpers';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { mfa } from '../../../platform/utilities/authentication';
+import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
 import { fetchLatestTerms, acceptTerms } from '../actions';
 import PersonalizationBetaInvite from './PersonalizationBetaInvite';
 
