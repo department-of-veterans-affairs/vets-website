@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { merge } from 'lodash/fp';
 
-import SearchHelpSignIn from '../../../src/js/login/components/SearchHelpSignIn.jsx';
+import SearchHelpSignIn from '../../components/SearchHelpSignIn.jsx';
 
 const defaultProps = {
   isLoggedIn: false,

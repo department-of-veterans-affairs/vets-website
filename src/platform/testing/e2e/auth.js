@@ -1,7 +1,7 @@
 const process = require('process');
-const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
-const Timeouts = require('../../src/platform/testing/e2e/timeouts');
-const mock = require('./mock-helpers');
+const E2eHelpers = require('./helpers');
+const Timeouts = require('./timeouts');
+const mock = require('../../../../test/e2e/mock-helpers');
 
 function setUserToken(token, client) {
   client.execute((inToken) => {
