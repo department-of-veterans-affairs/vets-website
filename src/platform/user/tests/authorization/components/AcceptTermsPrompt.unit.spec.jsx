@@ -5,7 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
 
-import AcceptTermsPrompt from '../../../src/js/common/components/AcceptTermsPrompt';
+import AcceptTermsPrompt from '../../../authorization/components/AcceptTermsPrompt';
 
 const defaultProps = {
   terms: {

@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
-import RequiredLoginView from '../../../src/js/common/components/RequiredLoginView.jsx';
+import RequiredLoginView from '../../../authorization/components/RequiredLoginView.jsx';
 
 describe('<RequiredLoginView>', () => {
   const redirectFunc = sinon.spy();

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { browserHistory } from 'react-router';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from '../../../monitoring/record-event';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {

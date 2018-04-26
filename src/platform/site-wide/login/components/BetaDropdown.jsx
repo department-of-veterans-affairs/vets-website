@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { logout } from '../../../utilities/authentication';
+import { logout } from '../../../user/login/utilities';
 
 const LEFT_CLICK = 1;
 

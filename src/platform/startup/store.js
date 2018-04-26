@@ -7,8 +7,8 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import feedback from '../site-wide/feedback/reducers';
-import login from '../site-wide/login/reducers';
-import profile from '../../js/user-profile/reducers/profile';
+import login from '../user/login/reducers';
+import profile from '../user/profile/reducers';
 
 /**
  * Reducer object containing all of the site-wide reducers

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import SignInLink from '../../../src/js/common/components/SignInLink';
+import SignInLink from '../../components/SignInLink';
 
 
 let oldWindow;

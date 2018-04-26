@@ -1,5 +1,5 @@
 const request = require('request');
-const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
+const E2eHelpers = require('./helpers');
 
 function mock(token, json) {
   return new Promise((resolve, reject) => {

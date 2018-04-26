@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import { mhvAccessError } from '../../../platform/static-data/error-messages';
+import { mhvAccessError } from '../../../static-data/error-messages';
 import {
   acceptTerms,
   createMHVAccount,
   fetchLatestTerms,
   fetchMHVAccount
-} from '../../user-profile/actions';
+} from '../../../../platform/user/profile/actions';
 
 const TERMS_NAME = 'mhvac';
 

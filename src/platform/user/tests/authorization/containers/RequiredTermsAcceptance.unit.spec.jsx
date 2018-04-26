@@ -3,8 +3,8 @@ import React from 'react';
 import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
 
-import { RequiredTermsAcceptanceView } from '../../../src/js/common/components/RequiredTermsAcceptanceView';
-import createCommonStore from '../../../src/platform/startup/store';
+import { RequiredTermsAcceptanceView } from '../../../authorization/containers/RequiredTermsAcceptanceView';
+import createCommonStore from '../../../../startup/store';
 
 const defaultProps = {
   store: createCommonStore(),

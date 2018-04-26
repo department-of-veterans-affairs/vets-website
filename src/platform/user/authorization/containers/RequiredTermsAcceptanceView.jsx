@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from '../../../monitoring/record-event';
 
 import {
   fetchLatestTerms,
   acceptTerms,
-} from '../../user-profile/actions';
+} from '../../profile/actions';
 
-import AcceptTermsPrompt from './AcceptTermsPrompt';
+import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 export class RequiredTermsAcceptanceView extends React.Component {
