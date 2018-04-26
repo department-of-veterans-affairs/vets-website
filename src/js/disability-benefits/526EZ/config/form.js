@@ -183,8 +183,7 @@ const formConfig = {
         },
         specialCircumstances: {
           title: 'Special Circumstances',
-          // TODO: Remove 'review-veteran-details' from the path
-          path: 'review-veteran-details/special-circumstances',
+          path: 'special-circumstances',
           depends: formData => formData.prefilled,
           uiSchema: {
             'ui:description': specialCircumstancesDescription,

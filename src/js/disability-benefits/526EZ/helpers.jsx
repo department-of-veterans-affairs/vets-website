@@ -308,7 +308,7 @@ const SsnViewField = ({ formData }) => {
   return <p>Social Security number: {mask}{ssn}</p>;
 };
 
-export const VAFileNumberViewField = ({ formData }) => {
+const VAFileNumberViewField = ({ formData }) => {
   const vaFileNumber = formData.slice(5);
   const mask = <span>•••-••-</span>;
   return <p>VA file number: {mask}{vaFileNumber}</p>;
