@@ -45,7 +45,7 @@ majorlinks:
     - url: /employment/vocational-rehab-and-employment/
       title: VR&E Benefits and Services
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
-    - url: /education/tools-programs/
+    - url: /education/tools-programs/education-career-counseling/
       title: Educational and Career Counseling
       description: If you’re leaving active service soon, find out how to get free educational and career counseling (also called Chapter 36).
 
