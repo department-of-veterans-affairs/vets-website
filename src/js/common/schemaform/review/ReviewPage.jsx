@@ -1,20 +1,10 @@
 import PropTypes from 'prop-types';
-import Raven from 'raven-js';
 import React from 'react';
 import Scroll from 'react-scroll';
-import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import recordEvent from '../../../../platform/monitoring/record-event';
-
-import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
-import SubmitButtons from './SubmitButtons';
-import PrivacyAgreement from '../../../../platform/forms/components/PrivacyAgreement';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import { getActivePages } from '../../../../platform/forms/helpers';
-import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
-import { getReviewPageOpenChapters } from '../state/selectors';
 
 import ReviewChapters from '../review/ReviewChapters';
 import SubmitController from '../review/SubmitController';
@@ -37,11 +27,9 @@ class ReviewPage extends React.Component {
 
   render() {
     const {
-      form,
       formConfig,
-      location,
       pageList,
-      path,
+      path
     } = this.props;
 
     return (
@@ -66,10 +54,7 @@ function mapStateToProps(state, ownProps) {
     path,
   } = route;
 
-  const { form } = state;
-
   return {
-    form,
     formConfig,
     pageList,
     path,

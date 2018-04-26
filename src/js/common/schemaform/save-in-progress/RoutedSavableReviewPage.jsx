@@ -9,8 +9,7 @@ import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
-import { getReviewPageOpenChapters } from '../state/selectors';
+import { saveErrors } from './actions';
 import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
 import { getFormContext } from '../save-in-progress/selectors';
 
@@ -158,6 +157,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
+  toggleLoginModal
 };
 
 RoutedSavableReviewPage.propTypes = {
