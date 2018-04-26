@@ -55,7 +55,7 @@ class EditAddressModal extends React.Component {
               states={this.props.addressConstants.states}
               countries={this.props.addressConstants.countries}/>
           )}
-          <LoadingButton isLoading={this.props.isLoading}>Save Address</LoadingButton>
+          <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
         </form>
       </Modal>
     );
@@ -102,7 +102,7 @@ export default function AddressSection({ addressResponseData, addressConstants, 
       const { address } = addressResponseData;
       content = <AddressView address={address}/>;
     } else {
-      content = <button type="button" onClick={onEdit} className="usa-button-secondary">Add</button>;
+      content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>;
     }
   } else {
     content = fieldFailureMessage;
