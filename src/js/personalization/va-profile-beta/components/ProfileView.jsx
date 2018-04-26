@@ -27,7 +27,7 @@ import LoadFail from './LoadFail';
 class ProfileView extends React.Component {
 
   componentWillMount() {
-    this.props.fetchVaProfile();
+    this.props.startup();
   }
 
   openModalHandler(modalName) {
@@ -68,7 +68,8 @@ class ProfileView extends React.Component {
         primaryTelephone,
         alternateTelephone,
         personalInformation,
-        serviceHistory
+        serviceHistory,
+        addressConstants
       },
       updateFormFieldActions,
       updateActions
@@ -98,7 +99,8 @@ class ProfileView extends React.Component {
                 isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
                 onEdit={this.openModalHandler('mailingAddress')}
                 onSubmit={updateActions.updateMailingAddress}
-                onCancel={this.closeModal}/>
+                onCancel={this.closeModal}
+                addressConstants={addressConstants}/>
 
               <PhoneSection
                 title="Primary Phone"
