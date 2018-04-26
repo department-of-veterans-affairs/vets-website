@@ -15,10 +15,12 @@ import { genderLabels } from '../../../../platform/static-data/labels';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
+import { createVerifiedPrimaryAddressPage } from '../pages/primaryAddress';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
-import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
+import initialData from '../tests/schema/initialData';
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 import ReviewCardField from '../components/ReviewCardField';
@@ -55,7 +57,7 @@ import {
 import { requireOneSelected } from '../validations';
 
 const {
-  treatments,
+  treatments: treatmentsSchema,
   disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
@@ -74,7 +76,7 @@ const {
 const FIFTY_MB = 52428800;
 
 // TODO: Remove once typeahead supports auto-filling address and treatment center type
-const vaTreatments = ((treatmentsCommonDef) => {
+const treatments = ((treatmentsCommonDef) => {
   const { type, maxItems, items } = treatmentsCommonDef;
 
   return {
@@ -92,7 +94,7 @@ const vaTreatments = ((treatmentsCommonDef) => {
     }
   };
 
-})(treatments);
+})(treatmentsSchema);
 
 const formConfig = {
   urlPrefix: '/',
@@ -181,53 +183,17 @@ const formConfig = {
             }
           }
         },
-        specialCircumstances: {
-          title: 'Special Circumstances',
-          path: 'special-circumstances',
-          depends: formData => formData.prefilled,
-          uiSchema: {
-            'ui:description': specialCircumstancesDescription,
-            'view:suicidal': {
-              'ui:title': 'In crisis or thinking of suicide?'
-            },
-            'view:homeless': {
-              'ui:title': 'Homeless or at risk of becoming homeless?'
-            },
-            'view:extremeFinancialHardship': {
-              'ui:title': 'Suffering from extreme financial hardship?'
-            },
-            'view:blindOrSightImpaired': {
-              'ui:title': 'Blind or sight-impaired?'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:suicidal': {
-                type: 'boolean'
-              },
-              'view:homeless': {
-                type: 'boolean'
-              },
-              'view:extremeFinancialHardship': {
-                type: 'boolean'
-              },
-              'view:blindOrSightImpaired': {
-                type: 'boolean'
-              }
-            }
-          }
-        },
+        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
           depends: formData => formData.prefilled,
-          'ui:description': 'things',
           initialData,
           uiSchema: {
             servicePeriods: {
               'ui:title': 'Military service history',
-              'ui:description': 'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:description':
+                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
@@ -262,6 +228,43 @@ const formConfig = {
             type: 'object',
             properties: {
               servicePeriods
+            }
+          }
+        },
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
+        specialCircumstances: {
+          title: 'Special Circumstances',
+          path: 'special-circumstances',
+          uiSchema: {
+            'ui:description': specialCircumstancesDescription,
+            'view:suicidal': {
+              'ui:title': 'In crisis or thinking of suicide?'
+            },
+            'view:homeless': {
+              'ui:title': 'Homeless or at risk of becoming homeless?'
+            },
+            'view:extremeFinancialHardship': {
+              'ui:title': 'Suffering from extreme financial hardship?'
+            },
+            'view:blindOrSightImpaired': {
+              'ui:title': 'Blind or sight-impaired?'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              // 'view:suicidal': { // TODO: re-enable after user testing
+              // type: 'boolean'
+              // },
+              'view:homeless': {
+                type: 'boolean'
+              },
+              'view:extremeFinancialHardship': {
+                type: 'boolean'
+              },
+              'view:blindOrSightImpaired': {
+                type: 'boolean'
+              }
             }
           }
         }
@@ -410,7 +413,7 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'ui:description': facilityDescription,
-                vaTreatments: {
+                treatments: {
                   'ui:options': {
                     itemName: 'Facility',
                     viewField: treatmentView
@@ -440,7 +443,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    vaTreatments
+                    treatments
                   }
                 }
               }
