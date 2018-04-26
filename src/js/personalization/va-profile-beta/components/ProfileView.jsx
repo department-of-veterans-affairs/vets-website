@@ -30,6 +30,13 @@ class ProfileView extends React.Component {
     this.props.startup();
   }
 
+  componentWillUpdate(oldProps) {
+    if (this.props.profile !== oldProps.profile && this.props.profile.userFullName) {
+      const { first, last } = this.props.profile.userFullName;
+      document.title = `Profile: ${first} ${last}`;
+    }
+  }
+
   openModalHandler(modalName) {
     return () => this.props.modal.open(modalName);
   }
@@ -81,10 +88,9 @@ class ProfileView extends React.Component {
 
     return (
       <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
-
-        <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
-
         <div className="usa-width-two-thirds medium-8 small-12 columns">
+
+          <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
 
           <h2 className="va-profile-heading">Contact Information</h2>
           <AlertBox
