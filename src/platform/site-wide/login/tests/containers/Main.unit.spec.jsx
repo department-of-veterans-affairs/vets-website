@@ -3,8 +3,8 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import Main from '../../../src/js/login/containers/Main';
-import createCommonStore from '../../../src/platform/startup/store';
+import Main from '../../containers/Main';
+import createCommonStore from '../../../../startup/store';
 
 const store = createCommonStore();
 

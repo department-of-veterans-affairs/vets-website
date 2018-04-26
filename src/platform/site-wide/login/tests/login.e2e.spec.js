@@ -1,6 +1,6 @@
-const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
-const Timeouts = require('../../src/platform/testing/e2e/timeouts.js');
-const LoginHelpers = require('../e2e/login-helpers');
+const E2eHelpers = require('../../../testing/e2e/helpers');
+const Timeouts = require('../../../testing/e2e/timeouts.js');
+const Auth = require('../../../testing/e2e/auth');
 
 const selectors = {
   menu: '#login-root button[aria-controls="accountMenu"]',
@@ -9,11 +9,11 @@ const selectors = {
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    const token = LoginHelpers.getUserToken();
-    const logoutUrl = LoginHelpers.getLogoutUrl();
+    const token = Auth.getUserToken();
+    const logoutUrl = Auth.getLogoutUrl();
 
     // log in & wait for little person icon to appear next to the username
-    LoginHelpers.logIn(token, client, '/', 3)
+    Auth.logIn(token, client, '/', 3)
       .assert.title('Vets.gov')
       .waitForElementVisible(selectors.menu, Timeouts.slow);
 

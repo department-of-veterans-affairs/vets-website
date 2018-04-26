@@ -147,7 +147,7 @@ const mapStateToProps = (state) => {
     });
 
   return {
-    appealsAvailable: claimsV2Root.appealsAvailability,
+    appealsAvailable: claimsV2Root.v2Availability,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,
