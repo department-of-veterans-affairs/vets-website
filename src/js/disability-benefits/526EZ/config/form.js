@@ -15,7 +15,6 @@ import { genderLabels } from '../../../../platform/static-data/labels';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
@@ -132,7 +131,6 @@ const formConfig = {
     veteranDetails: {
       title: (isReviewPage) => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
-        // veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
         veteranInformation: {
           title: 'Veteran Details', // TODO: Figure out if this is even necessary
           path: 'veteran-information',

@@ -1,10 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {
-  // deepEquals,
   getDefaultFormState,
-  // orderProperties,
   getDefaultRegistry
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
@@ -13,11 +10,12 @@ import { errorSchemaIsValid } from '../../../common/schemaform/validation';
 import set from '../../../../platform/utilities/data/set';
 import get from '../../../../platform/utilities/data/get';
 
+
 /**
  * Displays a review card if the information inside is valid.
  *
- * For use on a schema of type 'object'.
- * Intended to wrap objects or arrays only to avoid duplicate functionality here.
+ * For use on a schema of type 'object' or 'array'.
+ * Intended to wrap objects or arrays to avoid duplicate functionality here.
  */
 export default class ReviewCardField extends React.Component {
   static defaultProps = {
@@ -34,7 +32,7 @@ export default class ReviewCardField extends React.Component {
   constructor(props) {
     super(props);
 
-    // Throw an error if there’s no viewField (should be React component)
+    // Throw an error if there’s no viewComponent (should be React component)
     if (typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function') {
       throw new Error(`No viewComponent found in uiSchema for ReviewCardField ${this.props.idSchema.$id}.`);
     }
@@ -69,7 +67,7 @@ export default class ReviewCardField extends React.Component {
       disabled,
       errorSchema,
       formData,
-      idSchema, // I think this exists here
+      idSchema,
       onBlur,
       readonly,
       registry,
@@ -166,18 +164,15 @@ export default class ReviewCardField extends React.Component {
 
   update = (event) => {
     // Don't act like the continue button
-    event.preventDefault();
+    if (event) {
+      // Apparently the unit tests don't send this event to the onClick handler
+      event.preventDefault();
+    }
 
-    // Validate the input
-    // If there are validation errors
     if (!errorSchemaIsValid(this.props.errorSchema)) {
-      // Show them (should be automagic)
+      // Show validation errors
       this.props.formContext.onError();
-      // Don't stop editing
     } else {
-      // Update the form data in the redux store
-      // Set updateRequired to false
-      // Stop editing
       this.setState({ editing: false });
     }
   }
@@ -191,8 +186,4 @@ export default class ReviewCardField extends React.Component {
     return this.getReviewView();
   }
 }
-
-ReviewCardField.propTypes = {
-  formData: PropTypes.object.isRequired
-};
 
