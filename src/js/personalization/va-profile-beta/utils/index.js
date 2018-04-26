@@ -1,7 +1,7 @@
-import stateNames from '../constants/states.json';
-import militaryStatesJson from '../constants/military-states.json';
+import ADDRESS_DATA from '../../../letters/utils/address-data';
 
-const MILITARY_STATES = new Set(militaryStatesJson);
+const STATE_NAMES = ADDRESS_DATA.states;
+const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 
 /**
 * @typedef {string} AddressType
@@ -100,7 +100,7 @@ function isEmptyAddress(address) {
 }
 
 function getStateName(abbreviation) {
-  return stateNames[abbreviation];
+  return STATE_NAMES[abbreviation];
 }
 
 export { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName, isEmptyAddress };
