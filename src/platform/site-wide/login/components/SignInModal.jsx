@@ -44,6 +44,14 @@ class SignInModal extends React.Component {
               <h2>One site. A lifetime of benefits and services at your fingertips.</h2>
             </div>
           </div>
+          <div className="downtime-notification row">
+            <div className="columns usa-width-one-half medium-6">
+              <div className="usa-content">
+                <h3>DS Logon isn't working quite right</h3>
+                <p>If you're having trouble signing in to Vets.gov using your DS Logon ID and password, please try again later.</p>
+              </div>
+            </div>
+          </div>
           <div className="row">
             <div className="columns usa-width-one-half medium-6">
               <div className="signin-actions-container">
