@@ -17,17 +17,6 @@ import { getFormContext } from '../save-in-progress/selectors';
 import ReviewChapters from '../review/ReviewChapters';
 import SubmitController from '../review/SubmitController';
 
-import {
-  closeReviewChapter,
-  openReviewChapter,
-  setData,
-  setPrivacyAgreement,
-  setEditMode,
-  setSubmission,
-  submitForm,
-  uploadFile
-} from '../actions';
-
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
@@ -143,11 +132,12 @@ class RoutedSavableReviewPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  const route = ownProps.route;
   const {
     formConfig,
     pageList,
     path
-  } = ownProps.route;
+  } = route;
 
   const {
     form,
@@ -155,38 +145,30 @@ function mapStateToProps(state, ownProps) {
   } = state;
 
   const formContext = getFormContext({ form, user });
-  const openChapters = getReviewPageOpenChapters(state);
 
   return {
     form,
     formConfig,
     formContext,
-    openChapters,
     pageList,
     path,
+    route,
     user
   };
 }
 
 const mapDispatchToProps = {
-  closeReviewChapter,
-  openReviewChapter,
-  setEditMode,
-  setSubmission,
-  submitForm,
-  setPrivacyAgreement,
-  setData,
-  uploadFile,
-  saveAndRedirectToReturnUrl,
-  autoSaveForm,
-  toggleLoginModal
 };
 
 RoutedSavableReviewPage.propTypes = {
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired
-  }).isRequired
+  }).isRequired,
+  formContext: PropTypes.object.isRequired,
+  pageList: PropTypes.array.isRequired,
+  path: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavableReviewPage));

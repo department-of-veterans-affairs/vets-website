@@ -20,6 +20,14 @@ import {
 
 class SubmitController extends React.Component {
 
+  componentWillReceiveProps(nextProps) {
+    const nextStatus = nextProps.form.submission.status;
+    const previousStatus = this.props.form.submission.status;
+    if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
+      this.props.router.push(`${nextProps.route.formConfig.urlPrefix}confirmation`);
+    }
+  }
+
   goBack = () => {
     const {
       form,
@@ -98,12 +106,11 @@ SubmitController.propTypes = {
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
   pagesByChapter: PropTypes.object.isRequired,
-  pageList: PropTypes.object.isRequired,
-  privacyAgreementAccepted: PropTypes.object.isRequired,
+  pageList: PropTypes.array.isRequired,
+  privacyAgreementAccepted: PropTypes.bool.isRequired,
   renderErrorMessage: PropTypes.func,
   router: PropTypes.object.isRequired,
   submission: PropTypes.object.isRequired,
-  showPrivacyAgreementError: PropTypes.object.isRequired,
   trackingPrefix: PropTypes.string.isRequired
 };
 
@@ -121,12 +128,6 @@ function mapStateToProps(state, ownProps) {
   const submission = form.submission;
   const showPrivacyAgreementError = submission.hasAttemptedSubmit;
   const privacyAgreementAccepted = form.data.privacyAgreementAccepted;
-
-  /*
-
-  - clean up SiP review page
-  - lint and review old PR for other things that need to happen
-  */
 
   return {
     form,

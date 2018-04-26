@@ -17,8 +17,10 @@ import { getActivePages } from '../../../../platform/forms/helpers';
 import {
   closeReviewChapter,
   openReviewChapter,
+  setData,
   setEditMode,
-  setViewedPages
+  setViewedPages,
+  uploadFile
 } from '../actions';
 
 class ReviewChapters extends React.Component {
@@ -69,7 +71,7 @@ class ReviewChapters extends React.Component {
               onEdit={this.handleEdit}
               open={chapter.open}
               pageKeys={chapter.pageKeys}
-              setData={this.setData}
+              setData={this.props.setData}
               setValid={setValid}
               showUnviewedPageWarning={chapter.showUnviewedPageWarning}
               toggleButtonClicked={() => this.handleToggleChapter(chapter)}
@@ -135,27 +137,21 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   closeReviewChapter,
   openReviewChapter,
+  setData,
   setEditMode,
-  setViewedPages
+  setViewedPages,
+  uploadFile
 };
 
 ReviewChapters.propTypes = {
   closeReviewChapter: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  route: PropTypes.shape({
-    formConfig: PropTypes.object.isRequired
-  }).isRequired,
-  openChapters: PropTypes.array.isRequired,
+  formContext: PropTypes.object,
   openReviewChapter: PropTypes.func.isRequired,
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,
-  setSubmission: PropTypes.func.isRequired,
-  setPrivacyAgreement: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
-  submitForm: PropTypes.func.isRequired,
-  contentAfterButtons: PropTypes.element,
-  renderErrorMessage: PropTypes.func,
-  formContext: PropTypes.object
+  renderErrorMessage: PropTypes.func
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewChapters));

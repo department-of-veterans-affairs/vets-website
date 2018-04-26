@@ -220,7 +220,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
 }
 
 ReviewCollapsibleChapter.propTypes = {
-  chapter: PropTypes.object.isRequired,
+  chapterFormConfig: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired
 };

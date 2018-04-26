@@ -125,7 +125,8 @@ export function createRoutes(formConfig) {
     {
       path: 'review-and-submit',
       formConfig,
-      component: formConfig.disableSave ? ReviewPage : RoutedSavableReviewPage,
+      // component: formConfig.disableSave ? ReviewPage : RoutedSavableReviewPage,
+      component: ReviewPage,
       pageList
     },
     {
