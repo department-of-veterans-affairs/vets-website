@@ -48,7 +48,7 @@ class SignInModal extends React.Component {
             <div className="columns usa-width-one-half medium-6">
               <div className="usa-content">
                 <h3>DS Logon isn't working quite right</h3>
-                <p>If you're having trouble signing in to Vets.gov using your DS Logon ID and password, please try again later.</p>
+                <p>If you're having trouble signing in to Vets.gov using your DS Logon ID and password, please try again later. Or, you can try signing in with your MyHealth_e_Vet ID and password or through ID.me.</p>
               </div>
             </div>
           </div>
