@@ -60,6 +60,7 @@ class ProfileView extends React.Component {
     }
 
     const {
+      message,
       modal: {
         currentlyOpen: currentlyOpenModal,
         pendingSaves,
@@ -89,6 +90,8 @@ class ProfileView extends React.Component {
     return (
       <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
         <div className="usa-width-two-thirds medium-8 small-12 columns">
+
+          <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
 
           <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
 
