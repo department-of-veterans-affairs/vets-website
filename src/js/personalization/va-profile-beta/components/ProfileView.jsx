@@ -80,7 +80,7 @@ class ProfileView extends React.Component {
     const militaryInformationFailed = !serviceHistory;
 
     return (
-      <div className="row" style={{ marginBottom: 35 }}>
+      <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
 
         <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
 
