@@ -19,7 +19,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
       uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(3);
   });
 
   it('submit empty form', () => {

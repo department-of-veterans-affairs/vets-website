@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
-import ReviewCardField from '../../../../src/js/disability-benefits/526EZ/components/ReviewCardField';
+import ReviewCardField from '../../components/ReviewCardField';
 
 
 const viewComponent = (formData) => {
