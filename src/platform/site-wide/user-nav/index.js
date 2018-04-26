@@ -17,7 +17,7 @@ import Main from './containers/Main';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default function startLoginWidget(store) {
+export default function startUserNavWidget(store) {
   startReactApp((
     <Provider store={store}>
       <Main/>
