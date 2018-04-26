@@ -66,7 +66,6 @@ const mapDispatchToProps = {
 };
 
 ReviewPage.propTypes = {
-  form: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired,
   route: PropTypes.shape({

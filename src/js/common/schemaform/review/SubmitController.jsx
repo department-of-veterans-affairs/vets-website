@@ -15,7 +15,8 @@ import {
 import recordEvent from '../../../../platform/monitoring/record-event';
 import {
   setPrivacyAgreement,
-  setSubmission
+  setSubmission,
+  submitForm
 } from '../actions';
 
 class SubmitController extends React.Component {
@@ -47,7 +48,6 @@ class SubmitController extends React.Component {
       formConfig,
       pagesByChapter,
       privacyAgreementAccepted,
-      submitForm,
       trackingPrefix
     } = this.props;
 
@@ -57,7 +57,7 @@ class SubmitController extends React.Component {
     } = isValidForm(form, pagesByChapter);
 
     if (isValid) {
-      submitForm(formConfig, form);
+      this.props.submitForm(formConfig, form);
     } else {
       // validation errors in this situation are not visible, so we’d
       // like to know if they’re common
@@ -145,7 +145,8 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
   setPrivacyAgreement,
-  setSubmission
+  setSubmission,
+  submitForm
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SubmitController));
