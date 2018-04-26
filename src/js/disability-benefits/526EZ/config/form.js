@@ -134,7 +134,7 @@ const formConfig = {
       title: (isReviewPage) => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
         veteranInformation: {
-          title: 'Veteran Details', // TODO: Figure out if this is even necessary
+          title: 'Veteran Information', // TODO: Figure out if this is even necessary
           path: 'veteran-information',
           uiSchema: {
             'ui:field': ReviewCardField,
@@ -187,7 +187,6 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          depends: formData => formData.prefilled,
           initialData,
           uiSchema: {
             servicePeriods: {

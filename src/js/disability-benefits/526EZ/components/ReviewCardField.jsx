@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   getDefaultFormState,
@@ -37,8 +38,9 @@ export default class ReviewCardField extends React.Component {
       throw new Error(`No viewComponent found in uiSchema for ReviewCardField ${this.props.idSchema.$id}.`);
     }
 
-    if (!['object', 'array'].includes(this.props.schema.type)) {
-      throw new Error(`Unknown schema type in ReviewCardField: ${this.props.schema.type}`);
+    const acceptedTypes = ['object', 'array'];
+    if (!acceptedTypes.includes(this.props.schema.type)) {
+      throw new Error(`Unknown schema type in ReviewCardField. Expected one of [${acceptedTypes.join(', ')}], but got ${this.props.schema.type}.`);
     }
 
     this.state = {
@@ -54,6 +56,14 @@ export default class ReviewCardField extends React.Component {
         : getDefaultFormState(this.props.schema, undefined, this.props.registry.definitions);
       this.props.onChange(set(name, value, formData));
     };
+  }
+
+
+  getTitle = () => {
+    const { uiSchema, formData } = this.props;
+    return typeof uiSchema['ui:title'] === 'function'
+      ? uiSchema['ui:title'](formData)
+      : uiSchema['ui:title'];
   }
 
 
@@ -111,18 +121,10 @@ export default class ReviewCardField extends React.Component {
               </div>
             );
           })}
-          <button className="usa-button-primary update-button" onClick={this.update}>Update</button>
+          <button className="usa-button-primary update-button" onClick={this.update}>Done</button>
         </div>
       </div>
     );
-  }
-
-
-  getTitle = () => {
-    const { uiSchema, formData } = this.props;
-    return typeof uiSchema['ui:title'] === 'function'
-      ? uiSchema['ui:title'](formData)
-      : uiSchema['ui:title'];
   }
 
 
@@ -186,4 +188,25 @@ export default class ReviewCardField extends React.Component {
     return this.getReviewView();
   }
 }
+
+
+ReviewCardField.propTypes = {
+  uiSchema: PropTypes.shape({
+    'ui:options': PropTypes.shape({
+      viewComponent: PropTypes.element.isRequired
+    }).isRequired
+  }).isRequired,
+  schema: PropTypes.object.isRequired,
+  errorSchema: PropTypes.object.isRequired,
+  idSchema: PropTypes.object.isRequired,
+  registry: PropTypes.shape({
+    SchemaField: PropTypes.element.isRequired,
+    definitions: PropTypes.object.isRequired
+  }).isRequired,
+  formData: PropTypes.object.isRequired,
+  onBlur: PropTypes.function.isRequired,
+  formContext: PropTypes.shape({
+    onError: PropTypes.function.isRequired
+  }).isRequired
+};
 
