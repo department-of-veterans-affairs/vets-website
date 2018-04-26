@@ -75,8 +75,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = set('prefilled', true, newData);
   }
 
-  newData = set('view:veteranInfoWrapper')
-
   return {
     metadata,
     formData: newData,
