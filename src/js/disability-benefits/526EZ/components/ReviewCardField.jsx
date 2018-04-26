@@ -172,6 +172,7 @@ export default class ReviewCardField extends React.Component {
     // If there are validation errors
     if (!errorSchemaIsValid(this.props.errorSchema)) {
       // Show them (should be automagic)
+      this.props.formContext.onError();
       // Don't stop editing
     } else {
       // Update the form data in the redux store
