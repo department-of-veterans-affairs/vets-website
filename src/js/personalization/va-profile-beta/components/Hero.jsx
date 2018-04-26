@@ -10,7 +10,7 @@ export default class Hero extends React.Component {
       <div className="va-profile-hero">
         <div className="row-padded">
           <h1 aria-label={ariaLabel} className="page-header">{fullName}</h1>
-          {service && <div className="service-branch">United States {service.branchOfService}</div >}
+          {service && <div className="service-branch">United States {service.branchOfService}</div>}
           <p className="va-introtext">Review your contact, personal, and military service information—and find out how to make any needed updates or corrections.</p>
         </div>
       </div>
