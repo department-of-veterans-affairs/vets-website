@@ -204,9 +204,9 @@ ReviewCardField.propTypes = {
     definitions: PropTypes.object.isRequired
   }).isRequired,
   formData: PropTypes.object.isRequired,
-  onBlur: PropTypes.function.isRequired,
+  onBlur: PropTypes.func.isRequired,
   formContext: PropTypes.shape({
-    onError: PropTypes.function.isRequired
+    onError: PropTypes.func.isRequired
   }).isRequired
 };
 
