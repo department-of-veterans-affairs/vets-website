@@ -192,7 +192,9 @@ export default class ArrayField extends React.Component {
     const DescriptionField = typeof description === 'function'
       ? uiSchema['ui:description']
       : null;
-    const isReviewMode = formData && formData.length;
+
+    const editingState = uiOptions.reviewMode;
+    const isReviewMode = formData && formData.length && editingState;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object

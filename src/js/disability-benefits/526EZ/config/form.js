@@ -179,7 +179,8 @@ const formConfig = {
                 'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
               'ui:options': {
                 itemName: 'Service Period',
-                viewField: ServicePeriodView
+                viewField: ServicePeriodView,
+                reviewMode: true
               },
               items: {
                 serviceBranch: {
@@ -266,6 +267,7 @@ const formConfig = {
               'ui:description':
                 'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
               'ui:options': {
+                reviewMode: true,
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
               },
