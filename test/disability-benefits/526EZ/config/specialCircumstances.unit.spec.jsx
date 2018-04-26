@@ -7,7 +7,7 @@ import { DefinitionTester } from '../../../../src/platform/testing/unit/schemafo
 import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form.js';
 
 describe('Disability benefits 526EZ special circumstances', () => {
-  const { schema, uiSchema } = formConfig.chapters.reviewVeteranDetails.pages.specialCircumstances;
+  const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.specialCircumstances;
   it('renders special circumstances form', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
