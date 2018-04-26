@@ -27,7 +27,8 @@ import {
   FETCH_ADDRESS_COUNTRIES_SUCCESS,
   FETCH_ADDRESS_STATES_SUCCESS,
 
-  CLEAR_PROFILE_ERRORS
+  CLEAR_PROFILE_ERRORS,
+  CLEAR_MESSAGE
 } from '../actions';
 
 const initialState = {
@@ -46,10 +47,15 @@ const initialState = {
   profileLoading: true,
   loading: true,
   formFields: {},
+  message: null,
   addressConstants: {
     states: null,
     countries: null
   }
+};
+
+const MESSAGES = {
+  updatedInformation: 'We saved your updated information.'
 };
 
 function vaProfile(state = initialState, action) {
@@ -101,22 +107,22 @@ function vaProfile(state = initialState, action) {
 
     case SAVE_EMAIL_ADDRESS_SUCCESS: {
       const email = action.newValue;
-      return { ...state, email, pendingSaves: [], modal: null };
+      return { ...state, email, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
     }
 
     case SAVE_PRIMARY_PHONE_SUCCESS: {
       const primaryTelephone = action.newValue;
-      return { ...state, primaryTelephone, pendingSaves: [], modal: null };
+      return { ...state, primaryTelephone, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
     }
 
     case SAVE_ALTERNATE_PHONE_SUCCESS: {
       const alternateTelephone = action.newValue;
-      return { ...state, alternateTelephone, pendingSaves: [], modal: null };
+      return { ...state, alternateTelephone, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
     }
 
     case SAVE_MAILING_ADDRESS_SUCCESS: {
       const mailingAddress = action.newValue;
-      return { ...state, mailingAddress, pendingSaves: [], modal: null };
+      return { ...state, mailingAddress, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
     }
 
     case SAVE_EMAIL_ADDRESS_FAIL:
@@ -129,6 +135,9 @@ function vaProfile(state = initialState, action) {
 
     case CLEAR_PROFILE_ERRORS:
       return { ...state, errors: [] };
+
+    case CLEAR_MESSAGE:
+      return { ...state, message: null };
 
     default:
       return state;

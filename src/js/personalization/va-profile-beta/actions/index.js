@@ -35,6 +35,7 @@ export const SAVE_EMAIL_ADDRESS_FAIL = 'SAVE_EMAIL_ADDRESS_FAIL';
 export const SAVE_EMAIL_ADDRESS_SUCCESS = 'SAVE_EMAIL_ADDRESS_SUCCESS';
 
 export const CLEAR_PROFILE_ERRORS = 'CLEAR_PROFILE_ERRORS';
+export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 
 function updateProfileFormField(field, validator) {
   return (value, dirty) => {
@@ -154,6 +155,10 @@ export const saveField = {
 
 export function clearErrors() {
   return { type: CLEAR_PROFILE_ERRORS };
+}
+
+export function clearMessage() {
+  return { type: CLEAR_MESSAGE };
 }
 
 export function fetchAddressCountries() {
