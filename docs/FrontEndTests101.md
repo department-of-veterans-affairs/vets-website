@@ -68,7 +68,6 @@ Write tests as you go! New functionality added in a PR should ideally be covered
 
 7. Browser environment
 - **chromedriver**: a server that links the browser (Chrome) to the test driver (Selenium), enabling you to execute actions in the browser through a test
-- **electron-prebuilt**: provides a headless browser to run nightwatch tests on, supposedly faster than using Chrome
 - **jsdom**: JS headless browser that creates a realistic testing environment with a DOM to which elements can be mounted
 - **nightwatch**: Node.js framework for e2e tests that runs on a selenium server
 - **saucelabs**: automated cross-browser testing, allows you to run tests on a server
