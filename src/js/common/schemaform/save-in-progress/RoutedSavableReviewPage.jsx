@@ -12,8 +12,8 @@ import { focusElement } from '../../../../platform/utilities/ui';
 import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
 import { getReviewPageOpenChapters } from '../state/selectors';
 import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
+import { getFormContext } from '../save-in-progress/selectors';
 
-import { ReviewPage } from '../review/ReviewPage';
 import ReviewChapters from '../review/ReviewChapters';
 import SubmitController from '../review/SubmitController';
 
@@ -27,7 +27,6 @@ import {
   submitForm,
   uploadFile
 } from '../actions';
-import { getFormContext } from '../save-in-progress/selectors';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -108,6 +107,7 @@ class RoutedSavableReviewPage extends React.Component {
     const {
       form,
       formConfig,
+      formContext,
       location,
       pageList,
       path,
@@ -118,13 +118,13 @@ class RoutedSavableReviewPage extends React.Component {
       <div>
         <ReviewChapters
           formConfig={formConfig}
-          pageList={pageList}
-        />
+          formContext={formContext}
+          pageList={pageList}/>
         <SubmitController
           formConfig={formConfig}
           pageList={pageList}
           path={path}
-        />
+          renderErrorMessage={this.renderErrorMessage}/>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={user.login.showModal}
@@ -139,14 +139,6 @@ class RoutedSavableReviewPage extends React.Component {
           toggleLoginModal={this.props.toggleLoginModal}/>
       </div>
     );
-    /*return (
-      <ReviewPage
-        {...this.props}
-        setData={this.setData}
-        formContext={getFormContext({ user, form })}
-        contentAfterButtons={form.submission.status === 'error' ? null : contentAfterButtons}
-        renderErrorMessage={this.renderErrorMessage}/>
-    ); */
   }
 }
 
@@ -156,13 +148,23 @@ function mapStateToProps(state, ownProps) {
     pageList,
     path
   } = ownProps.route;
+
+  const {
+    form,
+    user
+  } = state;
+
+  const formContext = getFormContext({ form, user });
+  const openChapters = getReviewPageOpenChapters(state);
+
   return {
-    form: state.form,
+    form,
     formConfig,
-    openChapters: getReviewPageOpenChapters(state),
+    formContext,
+    openChapters,
     pageList,
     path,
-    user: state.user
+    user
   };
 }
 

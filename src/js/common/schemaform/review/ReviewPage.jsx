@@ -14,6 +14,7 @@ import PrivacyAgreement from '../../../../platform/forms/components/PrivacyAgree
 import { focusElement } from '../../../../platform/utilities/ui';
 import { getActivePages } from '../../../../platform/forms/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
+// - create composition on review page
 import { getReviewPageOpenChapters } from '../state/selectors';
 import {
   closeReviewChapter,

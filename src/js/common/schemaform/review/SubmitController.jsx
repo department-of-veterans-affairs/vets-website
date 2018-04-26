@@ -1,6 +1,5 @@
 import React from 'react';
 import Raven from 'raven-js';
-import _ from 'lodash/fp';
 import PropTypes from 'prop-types';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../../../platform/forms/components/PrivacyAgreement';
@@ -25,26 +24,21 @@ class SubmitController extends React.Component {
     const {
       form,
       pageList,
-      path,
       router
     } = this.props;
 
     const eligiblePageList = getActivePages(pageList, form.data);
     const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
-    const pageIndex = _.findIndex(item => item.pageKey === path, eligiblePageList);
 
     router.push(expandedPageList[expandedPageList.length - 2].path);
   }
 
   handleSubmit = () => {
-    debugger;
     const {
       form,
       formConfig,
       pagesByChapter,
       privacyAgreementAccepted,
-      setSubmission,
-      showPrivacyAgreementError,
       submitForm,
       trackingPrefix
     } = this.props;
@@ -69,9 +63,9 @@ class SubmitController extends React.Component {
             prefix: trackingPrefix
           }
         });
-        setSubmission('status', 'validationError');
+        this.props.setSubmission('status', 'validationError');
       }
-      setSubmission('hasAttemptedSubmit', true);
+      this.props.setSubmission('hasAttemptedSubmit', true);
     }
   }
 
@@ -80,7 +74,6 @@ class SubmitController extends React.Component {
       privacyAgreementAccepted,
       renderErrorMessage,
       showPrivacyAgreementError,
-      setPrivacyAgreement,
       submission
     } = this.props;
     return (
@@ -88,7 +81,7 @@ class SubmitController extends React.Component {
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
         <PrivacyAgreement
           required
-          onChange={setPrivacyAgreement}
+          onChange={this.props.setPrivacyAgreement}
           checked={privacyAgreementAccepted}
           showError={showPrivacyAgreementError}/>
         <SubmitButtons
@@ -101,11 +94,24 @@ class SubmitController extends React.Component {
   }
 }
 
+SubmitController.propTypes = {
+  form: PropTypes.object.isRequired,
+  formConfig: PropTypes.object.isRequired,
+  pagesByChapter: PropTypes.object.isRequired,
+  pageList: PropTypes.object.isRequired,
+  privacyAgreementAccepted: PropTypes.object.isRequired,
+  renderErrorMessage: PropTypes.func,
+  router: PropTypes.object.isRequired,
+  submission: PropTypes.object.isRequired,
+  showPrivacyAgreementError: PropTypes.object.isRequired,
+  trackingPrefix: PropTypes.string.isRequired
+};
+
 function mapStateToProps(state, ownProps) {
   const {
     formConfig,
     pageList,
-    path
+    renderErrorMessage
   } = ownProps;
   const router = ownProps.router;
 
@@ -116,21 +122,29 @@ function mapStateToProps(state, ownProps) {
   const showPrivacyAgreementError = submission.hasAttemptedSubmit;
   const privacyAgreementAccepted = form.data.privacyAgreementAccepted;
 
+  /*
+
+  - clean up SiP review page
+  - lint and review old PR for other things that need to happen
+  */
+
   return {
     form,
     formConfig,
     pagesByChapter,
     pageList,
-    path,
     privacyAgreementAccepted,
+    renderErrorMessage,
     router,
     submission,
     showPrivacyAgreementError,
     trackingPrefix
-  }
+  };
 }
+
 const mapDispatchToProps = {
   setPrivacyAgreement,
   setSubmission
-}
+};
+
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SubmitController));

@@ -5,9 +5,11 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import { getActivePages } from '../../../../platform/forms/helpers';
 import SchemaForm from '../components/SchemaForm';
-import { getArrayFields, getNonArraySchema, expandArrayPages, getPageKeys } from '../helpers';
+import {
+  getArrayFields,
+  getNonArraySchema,
+} from '../helpers';
 import ArrayField from './ArrayField';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
@@ -81,8 +83,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
       chapterFormConfig,
       expandedPages,
       form,
-      formContext ,
-      pages,
+      formContext,
       pageKeys,
       showUnviewedPageWarning,
       viewedPages
@@ -103,7 +104,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
           {ChapterDescription &&
             <ChapterDescription
               viewedPages={viewedPages}
-              pageKeys={this.pageKeys}
+              pageKeys={pageKeys}
               formData={form.data}/>}
           {expandedPages.map(page => {
             const pageState = form.pages[page.pageKey];
@@ -220,7 +221,6 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
 ReviewCollapsibleChapter.propTypes = {
   chapter: PropTypes.object.isRequired,
-  pages: PropTypes.array.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired
 };

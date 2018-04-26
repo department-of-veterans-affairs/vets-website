@@ -14,7 +14,6 @@ import {
   getViewedPages
 } from '../state/selectors';
 import { getActivePages } from '../../../../platform/forms/helpers';
-import { getFormContext } from '../save-in-progress/selectors';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -24,19 +23,19 @@ import {
 
 class ReviewChapters extends React.Component {
 
+  componentDidMount() {
+    const pageList = this.props.pageList;
+    const form = this.props.form;
+
+    this.props.setViewedPages(new Set(getPageKeys(pageList, form)));
+  }
+
   handleToggleChapter({ name, open, pageKeys }) {
     if (open) {
       this.props.closeReviewChapter(name, pageKeys);
     } else {
       this.props.openReviewChapter(name);
     }
-  }
-
-  componentDidMount() {
-    const pageList = this.props.pageList;
-    const form = this.props.form;
-
-    this.props.setViewedPages(new Set(getPageKeys(pageList, form)));
   }
 
   handleEdit = (pageKey, editing, index = null) => {
@@ -50,12 +49,9 @@ class ReviewChapters extends React.Component {
   render() {
     const {
       chapters,
-      disableSave,
       form,
       formContext,
-      location,
       setValid,
-      user,
       viewedPages
     } = this.props;
 
@@ -88,18 +84,20 @@ class ReviewChapters extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   // from ownprops
-  const { formConfig, pageList } = ownProps;
+  const {
+    formConfig,
+    formContext,
+    pageList
+  } = ownProps;
 
   // from redux state
   const form = state.form;
   const formData = state.form.data;
   const openChapters = getReviewPageOpenChapters(state);
-  const user = state.user;
   const viewedPages = getViewedPages(state);
 
   const chapterNames = getActiveChapters(formConfig, formData);
   const disableSave = formConfig.disableSave;
-  const formContext = getFormContext({ form, user });
   const pagesByChapter = createPageListByChapter(formConfig);
   const chapters = chapterNames.reduce((chaptersAcc, chapterName) => {
     const pages = pagesByChapter[chapterName];
@@ -130,8 +128,6 @@ function mapStateToProps(state, ownProps) {
     formConfig,
     formContext,
     pageList,
-    pagesByChapter,
-    user,
     viewedPages
   };
 }
