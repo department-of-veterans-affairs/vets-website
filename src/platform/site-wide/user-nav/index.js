@@ -8,7 +8,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import './sass/login.scss';
+import './sass/user-nav.scss';
 import startReactApp from '../../startup/react';
 import Main from './containers/Main';
 
