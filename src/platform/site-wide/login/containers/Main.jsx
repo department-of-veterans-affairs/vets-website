@@ -30,7 +30,7 @@ export class Main extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const { currentlyLoggedIn, showModal } = this.props.login;
     const nextParam = this.getRedirectUrl();
 
