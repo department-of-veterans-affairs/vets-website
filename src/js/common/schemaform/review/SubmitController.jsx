@@ -102,18 +102,6 @@ class SubmitController extends React.Component {
   }
 }
 
-SubmitController.propTypes = {
-  form: PropTypes.object.isRequired,
-  formConfig: PropTypes.object.isRequired,
-  pagesByChapter: PropTypes.object.isRequired,
-  pageList: PropTypes.array.isRequired,
-  privacyAgreementAccepted: PropTypes.bool.isRequired,
-  renderErrorMessage: PropTypes.func,
-  router: PropTypes.object.isRequired,
-  submission: PropTypes.object.isRequired,
-  trackingPrefix: PropTypes.string.isRequired
-};
-
 function mapStateToProps(state, ownProps) {
   const {
     formConfig,
@@ -149,4 +137,22 @@ const mapDispatchToProps = {
   submitForm
 };
 
+SubmitController.propTypes = {
+  form: PropTypes.object.isRequired,
+  formConfig: PropTypes.object.isRequired,
+  pagesByChapter: PropTypes.object.isRequired,
+  pageList: PropTypes.array.isRequired,
+  privacyAgreementAccepted: PropTypes.bool.isRequired,
+  renderErrorMessage: PropTypes.func,
+  router: PropTypes.object.isRequired,
+  setPrivacyAgreement: PropTypes.func.isRequired,
+  setSubmission: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  submission: PropTypes.object.isRequired,
+  trackingPrefix: PropTypes.string.isRequired
+};
+
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SubmitController));
+
+// for tests
+export { SubmitController };

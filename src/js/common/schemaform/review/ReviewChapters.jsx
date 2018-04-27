@@ -144,14 +144,21 @@ const mapDispatchToProps = {
 };
 
 ReviewChapters.propTypes = {
+  chapters: PropTypes.array.isRequired,
   closeReviewChapter: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  formConfig: PropTypes.object.isRequired,
   formContext: PropTypes.object,
   openReviewChapter: PropTypes.func.isRequired,
+  pageList: PropTypes.array.isRequired,
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,
+  setViewedPages: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
-  renderErrorMessage: PropTypes.func
+  viewedPages: PropTypes.array.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewChapters));
+
+// for tests
+export { ReviewChapters };

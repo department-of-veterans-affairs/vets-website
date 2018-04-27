@@ -73,21 +73,6 @@ describe('Schemaform review: SubmitController', () => {
     expect(router.push.calledWith('confirmation'));
   });
   it('should not submit when privacy agreement not accepted', () => {
-    const formConfig = {
-      chapters: {
-        chapter1: {
-          pages: {
-            page1: {}
-          }
-        },
-        chapter2: {
-          pages: {
-            page2: {}
-          }
-        }
-      }
-    };
-
     const form = {
       submission: {
         hasAttemptedSubmit: false
@@ -121,8 +106,7 @@ describe('Schemaform review: SubmitController', () => {
         submitForm={submitForm}
         form={form}
         pagesByChapter={pagesByChapter}
-        privacyAgreementAccepted={false}
-        route={{ formConfig, pageList }}/>
+        privacyAgreementAccepted={false}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -281,25 +265,8 @@ describe('Schemaform review: SubmitController', () => {
     expect(submitForm.called).to.be.true;
   });
   it('should go back', () => {
-    const setData = sinon.spy();
-    const onSubmit = sinon.spy();
     const router = {
       push: sinon.spy()
-    };
-    const route = {
-      path: 'testPage',
-      pageList: [
-        {
-          path: 'previous-page'
-        },
-        {
-          path: 'testing',
-          pageKey: 'testPage'
-        },
-        {
-          path: 'next-page'
-        }
-      ]
     };
     const formConfig = {
       chapters: {

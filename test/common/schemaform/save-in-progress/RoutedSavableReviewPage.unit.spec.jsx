@@ -85,7 +85,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         setPrivacyAgreement={f => f}
         route={route}
         location={location}/>
-    ).dive('ReviewPage');
+    );
 
     expect(tree.find('SaveStatus').exists()).to.be.true;
     expect(tree.find('SaveFormLink').exists()).to.be.true;
