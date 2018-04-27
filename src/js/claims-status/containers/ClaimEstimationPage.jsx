@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import AskVAQuestions from '../components/AskVAQuestions';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import { setUpPage } from '../utils/page';
 import { getClaimType } from '../utils/helpers';
 
@@ -14,24 +14,16 @@ class ClaimEstimationPage extends React.Component {
   render() {
     const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
 
-    const breadcrumbArr = [
-      { key: 'home', href: '/', text: 'Home' },
-      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
-      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
-    ];
-
-    const listItem = breadcrumbArr.map(item => {
-      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
-    });
-
     return (
       <div>
         <div className="row">
           <div className="medium-12 columns">
             <Breadcrumbs>
-              {listItem}
-              <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
-              <li><Link to="/">Claim Estimation</Link></li>
+              <a key="home" href="/">Home</a>
+              <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+              <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+              <Link to={`your-claims/${this.props.params.id}`}>Your {claimType} Claim</Link>
+              <Link to="/">Claim Estimation</Link>
             </Breadcrumbs>
           </div>
         </div>

@@ -7,14 +7,14 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONTENTIONS = 3;
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
-    const { claim, loading, message, clearNotification, currentTab, synced, links } = this.props;
+    const { claim, loading, message, clearNotification, currentTab, synced } = this.props;
     const tabs = [
       'Status',
       'Files',
@@ -29,8 +29,10 @@ export default class ClaimDetailLayout extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                {links}
-                <li><Link to="/">Your {getClaimType(claim)} Claim</Link></li>
+                <a key="home" href="/">Home</a>
+                <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+                <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+                <Link to="/">Your {getClaimType(claim)} Claim</Link>
               </Breadcrumbs>
             </div>
           </div>

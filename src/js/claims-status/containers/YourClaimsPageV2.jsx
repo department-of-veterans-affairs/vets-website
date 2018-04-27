@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import recordEvent from '../../../platform/monitoring/record-event';
 
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
@@ -32,7 +33,7 @@ import Pagination from '@department-of-veterans-affairs/jean-pants/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -156,21 +157,12 @@ class YourClaimsPageV2 extends React.Component {
       content = (<div className="va-tab-content">{content}</div>);
     }
 
-    const breadcrumbArr = [
-      { key: 'home', href: '/', text: 'Home' },
-      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
-      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
-    ];
-
-    const listItem = breadcrumbArr.map(item => {
-      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
-    });
-
-
     return (
       <div className="claims-container">
         <Breadcrumbs>
-          {listItem}
+          <a key="home" href="/">Home</a>
+          <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+          <Link key="/your-claims" to="/track-claims/your-claims">Track Your Claims and Appeals</Link>
         </Breadcrumbs>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">

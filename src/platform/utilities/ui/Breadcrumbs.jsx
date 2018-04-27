@@ -14,9 +14,11 @@ class Breadcrumbs extends React.Component {
 
     this.id = this.props.id || uniqid('va-breadcrumbs-');
     this.listId = this.props.listId || uniqid('va-breadcrumbs-list-');
+    this.mobileWidth = this.props.mobileWidth || 425;
 
     this.debouncedToggleDisplay = this.debouncedToggleDisplay.bind(this);
-    this.sliceMobileLink = this.sliceMobileLink.bind(this);
+    this.renderBreadcrumbLinks = this.renderBreadcrumbLinks.bind(this);
+    this.renderMobileLink = this.renderMobileLink.bind(this);
     this.toggleDisplay = this.toggleDisplay.bind(this, this.listId);
   }
 
@@ -25,76 +27,74 @@ class Breadcrumbs extends React.Component {
     window.addEventListener('resize', this.debouncedToggleDisplay);
   }
 
-  // TODO: Figure out how to force update, but only if props updated
-
   componentWillUnmount() {
     window.removeEventListener('resize', this.debouncedToggleDisplay);
   }
 
   debouncedToggleDisplay = _debounce(() => {
     this.toggleDisplay();
-  }, 500)
-
-  sliceMobileLink(targetArr) {
-    // The second to last link being sliced to pull
-    // off the "Back by one" mobile breadcrumb handling
-    const breadcrumbList = targetArr.slice(-2, -1);
-
-    return breadcrumbList;
-  }
+  }, 500);
 
   toggleDisplay() {
-    if (window.innerWidth <= 425) {
+    if (window.innerWidth <= this.mobileWidth) {
       this.setState({ mobileShow: true });
     } else {
       this.setState({ mobileShow: false });
     }
   }
 
+  renderBreadcrumbLinks() {
+    return React.Children.map(this.props.children, (child, i) => {
+      if (i === this.props.children.length - 1) {
+        return (
+          <li>{React.cloneElement(child, {
+            'aria-current': 'page',
+          })}</li>
+        );
+      }
+
+      return <li>{React.cloneElement(child)}</li>;
+    });
+  }
+
+  renderMobileLink() {
+    // The second to last link being sliced from the crumbs array
+    // prop to create the "Back by one" mobile breadcrumb link
+    return React.Children.map(this.props.children, (child, i) => {
+      if (i === this.props.children.length - 2) {
+        return (
+          <li>{React.cloneElement(child, {
+            'aria-label': `Previous page: ${child.props.children}`,
+            className: 'va-nav-breadcrumbs-list__mobile-link',
+          })}</li>
+        );
+      }
+
+      return null;
+    });
+  }
+
   render() {
     const {
-      crumbs,
       ...breadcrumbProps
     } = this.props;
-    const mobileBreadcrumbLink = this.sliceMobileLink(crumbs);
-    const mobileViewport = this.state.mobileShow;
-    const shownList = mobileViewport
-      ? (<ol
-        className="row va-nav-breadcrumbs-list columns"
-        id={`${this.listId}-clone`}
-        {...breadcrumbProps}>
-        {mobileBreadcrumbLink.map((c, i) => {
-          return (
-            <li
-              className="va-nav-breadcrumbs-list__mobile-link"
-              key={i}>
-              <a
-                aria-label={`Previous Step ${c.props.children}`}
-                href={c.props.href}>
-                {c.props.children}
-              </a>
-            </li>
-          );
-        })}
-      </ol>
-      ) : (<ol
-        className="row va-nav-breadcrumbs-list columns"
-        id={this.listId}
-        {...breadcrumbProps}>
-        {crumbs.map((c, i) => {
-          return (
-            <li key={i}>
-              <a
-                aria-current={i === crumbs.length - 1 ? 'page' : null}
-                href={c.props.href}>
-                {c.props.children}
-              </a>
-            </li>
-          );
-        })}
-      </ol>
+    // const mobileBreadcrumbLink = this.sliceMobileLink(crumbs);
+    const mobileShow = this.state.mobileShow;
+    const shownList = mobileShow
+      ? (
+        <ol
+          className="row va-nav-breadcrumbs-list columns"
+          id={`${this.listId}-clone`}>
+          {this.renderMobileLink()}
+        </ol>
+      ) : (
+        <ol
+          className="row va-nav-breadcrumbs-list columns"
+          id={this.listId}
+          {...breadcrumbProps}>
+          {this.renderBreadcrumbLinks()}
+        </ol>
       );
-
 
     return (
       <nav
@@ -110,9 +110,10 @@ class Breadcrumbs extends React.Component {
 }
 
 Breadcrumbs.propTypes = {
-  crumbs: PropTypes.array.isRequired,
+  crumbs: PropTypes.array,
   id: PropTypes.string,
   listId: PropTypes.string,
+  mobileWidth: PropTypes.number,
 };
 
 export default Breadcrumbs;

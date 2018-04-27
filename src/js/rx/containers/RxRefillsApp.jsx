@@ -1,10 +1,12 @@
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 import MHVApp from '../../common/containers/MHVApp';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
@@ -25,6 +27,44 @@ const AppContent = ({ children }) => (
 
 class RxRefillsApp extends React.Component {
   render() {
+    const { location: { pathname }, prescription } = this.props;
+
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/health-care/" key="healthcare">Health Care</a>,
+      <Link to="/" key="prescriptions">Prescription Refills</Link>
+    ];
+
+    if (pathname.match(/\/\d+$/)) {
+      if (this.state.prevPath.match(/\/history\/?$/)) {
+        crumbs.push(<Link to="/history" key="history">History</Link>);
+      }
+    } else if (pathname.match(/\/track\/?$/)) {
+      if (this.state.prevPath.match(/\/history\/?$/)) {
+        crumbs.push(<Link to="/history" key="history">History</Link>);
+      }
+
+      if (prescription) {
+        const prescriptionId = _.get(
+          prescription,
+          ['rx', 'attributes', 'prescriptionId']
+        );
+
+        const prescriptionName = _.get(
+          prescription,
+          ['rx', 'attributes', 'prescriptionName']
+        );
+
+        crumbs.push(<Link to={`/${prescriptionId}`} key="history">{prescriptionName}</Link>);
+      } else if (pathname.match(/\/history\/?$/)) {
+        crumbs.push(<Link to="/history" key="history">History</Link>);
+      } else if (pathname.match(/\/glossary\/?$/)) {
+        crumbs.push(<Link to="/glossary" key="prescriptions">Glossary</Link>);
+      } else if (pathname.match(/\/settings\/?$/)) {
+        crumbs.push(<Link to="/settings" key="prescriptions">Settings</Link>);
+      }
+    }
+
     return (
       <RequiredLoginView
         verify
@@ -32,7 +72,9 @@ class RxRefillsApp extends React.Component {
         user={this.props.user}>
         <DowntimeNotification appTitle="prescription refill tool" dependencies={[services.mhv]}>
           <AppContent>
-            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
+            <Breadcrumbs>
+              {crumbs}
+            </Breadcrumbs>
             <MHVApp serviceRequired={SERVICE_REQUIRED}>
               {this.props.children}
               <ConfirmRefillModal

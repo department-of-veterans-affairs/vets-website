@@ -5,7 +5,7 @@ import { submitRequest, getClaimDetail } from '../actions/index.jsx';
 import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 
 class AskVAPage extends React.Component {
@@ -35,16 +35,6 @@ class AskVAPage extends React.Component {
     const { loadingDecisionRequest, decisionRequestError } = this.props;
     const submitDisabled = !this.state.submittedDocs || loadingDecisionRequest || decisionRequestError;
 
-    const breadcrumbArr = [
-      { key: 'home', href: '/', text: 'Home' },
-      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
-      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
-    ];
-
-    const listItem = breadcrumbArr.map(item => {
-      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
-    });
-
     let buttonMsg = 'Submit';
     if (loadingDecisionRequest) {
       buttonMsg = 'Submitting...';
@@ -56,9 +46,11 @@ class AskVAPage extends React.Component {
         <div className="row">
           <div className="medium-12 columns">
             <Breadcrumbs>
-              {listItem}
-              <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
-              <li><Link to="/">Ask VA</Link></li>
+              <a key="home" href="/">Home</a>
+              <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+              <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+              <Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link>
+              <Link to="/">Ask VA</Link>
             </Breadcrumbs>
           </div>
         </div>

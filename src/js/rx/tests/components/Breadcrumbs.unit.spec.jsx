@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../../platform/utilities/ui/Breadcrumbs';
 
 const props = {
   location: {
@@ -31,15 +32,23 @@ describe('<Breadcrumbs>', () => {
   });
 
   it('should render on prescription detail pages correctly', () => {
-    const tree = SkinDeep.shallowRender(<Breadcrumbs {...props} location={{ pathname: 'foo/123' }}/>);
+    const tree = SkinDeep.shallowRender(
+      <Breadcrumbs {...props}>
+        <Link to="foo/123/">Prescription 123</Link>
+      </Breadcrumbs>
+    );
     const lastSpan = tree.everySubTree('Link').pop().subTree();
 
     expect(lastSpan).to.be.ok;
-    expect(lastSpan.text()).to.equal('prescriptionName');
+    expect(lastSpan.text()).to.equal('Prescription 123');
   });
 
   it('should render on glossary page correctly', () => {
-    const tree = SkinDeep.shallowRender(<Breadcrumbs {...props} location={{ pathname: 'foo/glossary/' }}/>);
+    const tree = SkinDeep.shallowRender(
+      <Breadcrumbs {...props}>
+        <Link to="foo/glossary/">Glossary</Link>
+      </Breadcrumbs>
+    );
     const lastSpan = tree.everySubTree('Link').pop().subTree();
     expect(lastSpan).to.be.ok;
     expect(lastSpan.text()).to.equal('Glossary');

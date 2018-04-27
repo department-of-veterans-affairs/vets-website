@@ -4,6 +4,7 @@ const path = require('path');
 const UglifyJS = require('uglify-js');
 
 const breadcrumb = fs.readFileSync(path.join(__dirname, '../../assets/js/breadcrumbs/mobile-breadcrumb.js'), 'utf8');
+const minifiedCode = UglifyJS.minify(breadcrumb);
 
 module.exports = (files, metalsmith, done) => {
   Object.keys(files).forEach(file => {
@@ -11,7 +12,6 @@ module.exports = (files, metalsmith, done) => {
 
     const data = files[file];
     const $ = cheerio.load(data.contents.toString());
-    const minifiedCode = UglifyJS.minify(breadcrumb);
 
     $('#va-breadcrumbs').each(() => {
       $.root().append(

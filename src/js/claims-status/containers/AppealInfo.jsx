@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 import moment from 'moment';
 
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
@@ -69,22 +69,14 @@ export class AppealInfo extends React.Component {
       // Maybe could simplify this to just check if (appeal) instead
       const claimHeading = this.createHeading();
 
-      const breadcrumbArr = [
-        { key: 'home', href: '/', text: 'Home' },
-        { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
-        { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
-      ];
-
-      const listItem = breadcrumbArr.map(item => {
-        return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
-      });
-
       appealContent = (
         <div>
           <div>
             <Breadcrumbs>
-              {listItem}
-              <li><Link to="/">{claimHeading}</Link></li>
+              <a key="home" href="/">Home</a>
+              <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+              <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+              <Link>{claimHeading}</Link>
             </Breadcrumbs>
           </div>
           <div className="row">

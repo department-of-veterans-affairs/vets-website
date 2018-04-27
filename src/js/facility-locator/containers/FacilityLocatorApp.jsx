@@ -1,49 +1,28 @@
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import React from 'react';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../../platform/utilities/ui/breadcrumb-helper';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 
 class FacilityLocatorApp extends React.Component {
-  componentDidMount() {
-    buildMobileBreadcrumb('va-breadcrumbs-facility', 'va-breadcrumbs-facility-list');
-
-    window.addEventListener('DOMContentLoaded', () => {
-      buildMobileBreadcrumb.bind(this);
-    });
-
-    window.addEventListener('resize', () => {
-      debouncedToggleLinks('va-breadcrumbs-facility-list');
-      debouncedToggleLinks.bind(this);
-    });
-  }
-
-  componentDidUpdate() {
-    buildMobileBreadcrumb('va-breadcrumbs-facility', 'va-breadcrumbs-facility-list');
-
-    window.addEventListener('DOMContentLoaded', () => {
-      buildMobileBreadcrumb.bind(this);
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('DOMContentLoaded', () => {
-      buildMobileBreadcrumb.bind(this);
-    });
-
-    window.removeEventListener('resize', () => {
-      debouncedToggleLinks.bind(this);
-    });
-  }
-
   render() {
     const { selectedFacility } = this.props;
+    const crumbs = [
+      <a href="/" key="0">Home</a>,
+      <Link to="/" key="facility-locator">Facility Locator</Link>
+    ];
+
+    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedFacility) {
+      crumbs.push(<a href={`/facilities/${selectedFacility.id}`} key="2">Facility Detail</a>);
+    }
 
     return (
       <div>
         <div className="row">
           <div className="title-section">
-            <Breadcrumbs selectedFacility={selectedFacility}/>
+            <Breadcrumbs selectedFacility={selectedFacility}>
+              {crumbs}
+            </Breadcrumbs>
           </div>
           <DowntimeNotification appTitle="facility locator tool" dependencies={[services.arcgis]}>
             <div className="facility-locator">

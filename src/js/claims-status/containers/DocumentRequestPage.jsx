@@ -8,7 +8,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Notification from '../components/Notification';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
@@ -74,16 +74,6 @@ class DocumentRequestPage extends React.Component {
   render() {
     let content;
 
-    const breadcrumbArr = [
-      { key: 'home', href: '/', text: 'Home' },
-      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
-      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
-    ];
-
-    const listItem = breadcrumbArr.map(item => {
-      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
-    });
-
     if (this.props.loading) {
       content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
     } else {
@@ -96,9 +86,11 @@ class DocumentRequestPage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                {listItem}
-                <li><Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link></li>
-                <li><Link to="/">Document Request</Link></li>
+                <a key="home" href="/">Home</a>
+                <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+                <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+                <Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link>
+                <Link to="/">Document Request</Link>
               </Breadcrumbs>
             </div>
           </div>

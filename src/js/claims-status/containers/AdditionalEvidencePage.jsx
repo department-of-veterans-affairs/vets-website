@@ -7,7 +7,7 @@ import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 import { getScrollOptions } from '../../../platform/utilities/ui';
@@ -64,16 +64,6 @@ class AdditionalEvidencePage extends React.Component {
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
   render() {
-    const breadcrumbArr = [
-      { key: 'home', href: '/', text: 'Home' },
-      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
-      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
-    ];
-
-    const listItem = breadcrumbArr.map(item => {
-      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
-    });
-
     let content;
 
     if (this.props.loading) {
@@ -88,9 +78,11 @@ class AdditionalEvidencePage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                {listItem}
-                <li><Link to={filesPath}>Your {getClaimType(claim)} Claim</Link></li>
-                <li><Link to="/">Additional Evidence</Link></li>
+                <a key="home" href="/">Home</a>
+                <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+                <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+                <Link to={filesPath}>Your {getClaimType(claim)} Claim</Link>
+                <Link to="/">Additional Evidence</Link>
               </Breadcrumbs>
             </div>
           </div>

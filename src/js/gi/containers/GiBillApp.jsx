@@ -60,32 +60,25 @@ export class GiBillApp extends React.Component {
 
   render() {
     const { constants, preview } = this.props;
-    const { pathname, query: { version } } = this.props.location;
+    // const { pathname, query: { version } } = this.props.location;
+    // const root = { pathname: '/', query: (version ? { version } : {}) };
 
     const crumbs = [
       <a href="/" key="home">Home</a>,
       <a href="/education/" key="education">Education Benefits</a>,
       <a href="/education/gi-bill/" key="gi-bill">GI Bill</a>,
-      <a href="/gi-bill-comparison-tool/" key="gi-bill">GI Bill® Comparison Tool</a>,
+      <Link to="/" key="main">GI Bill® Comparison Tool</Link>
     ];
 
-    if (pathname.match(/search|profile/)) {
-      const root = { pathname: '/', query: (version ? { version } : {}) };
-      crumbs.push(
-        <Link
-          to={root}
-          onClick={browserHistory.goBack}
-          key="search-results">
-          Search Results
-        </Link>
-      );
+    if (location.pathname.match(/search|profile/)) {
+      crumbs.push(<a onClick={browserHistory.goBack} key="search-results">Search Results</a>);
     }
 
-    // if (pathname.match(/profile/)) {
-    //   if (this.props.includeSearch) {
-    //     crumbs.push(<a onClick={browserHistory.goBack} key="search-results">Search Results</a>);
-    //   }
-    // }
+    if (location.pathname.match(/profile/)) {
+      if (this.props.includeSearch) {
+        crumbs.push(<a onClick={browserHistory.goBack} key="search-results">Search Results</a>);
+      }
+    }
 
     let content;
 
@@ -105,7 +98,9 @@ export class GiBillApp extends React.Component {
                 version={preview.version}
                 onViewLiveVersion={this.exitPreviewMode}/>)
             }
-            <Breadcrumbs crumbs={crumbs}/>
+            <Breadcrumbs>
+              {crumbs}
+            </Breadcrumbs>
             {content}
             <AboutThisTool/>
             <Disclaimer/>
