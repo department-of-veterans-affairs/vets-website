@@ -9,7 +9,11 @@ import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import { saveErrors } from './actions';
+import {
+  autoSaveForm,
+  saveAndRedirectToReturnUrl,
+  saveErrors
+} from './actions';
 import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
 import { getFormContext } from '../save-in-progress/selectors';
 
@@ -34,11 +38,6 @@ class RoutedSavableReviewPage extends React.Component {
   componentDidMount() {
     scrollToTop();
     focusElement('h4');
-  }
-
-  setData = (...args) => {
-    this.props.setData(...args);
-    this.debouncedAutoSave();
   }
 
   autoSave = () => {
@@ -107,7 +106,8 @@ class RoutedSavableReviewPage extends React.Component {
         <ReviewChapters
           formConfig={formConfig}
           formContext={formContext}
-          pageList={pageList}/>
+          pageList={pageList}
+          handleSetData={() => this.debouncedAutoSave()}/>
         <SubmitController
           formConfig={formConfig}
           pageList={pageList}
@@ -157,10 +157,13 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
+  autoSaveForm,
+  saveAndRedirectToReturnUrl,
   toggleLoginModal
 };
 
 RoutedSavableReviewPage.propTypes = {
+  autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired

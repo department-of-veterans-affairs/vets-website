@@ -61,6 +61,13 @@ class ReviewChapters extends React.Component {
     this.props.setEditMode(pageKey, editing, index);
   }
 
+  handleSetData = (...args) => {
+    this.props.setData(...args);
+    if (this.props.handleSetData) {
+      this.props.handleSetData();
+    }
+  }
+
   render() {
     const {
       chapters,
@@ -84,7 +91,7 @@ class ReviewChapters extends React.Component {
               onEdit={this.handleEdit}
               open={chapter.open}
               pageKeys={chapter.pageKeys}
-              setData={this.props.setData}
+              setData={(...args) => this.handleSetData(...args)}
               setValid={setValid}
               showUnviewedPageWarning={chapter.showUnviewedPageWarning}
               toggleButtonClicked={() => this.handleToggleChapter(chapter)}
@@ -164,6 +171,7 @@ ReviewChapters.propTypes = {
   formData: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
   formContext: PropTypes.object,
+  handleSetData: PropTypes.func,
   openReviewChapter: PropTypes.func.isRequired,
   pageList: PropTypes.array.isRequired,
   setData: PropTypes.func.isRequired,
