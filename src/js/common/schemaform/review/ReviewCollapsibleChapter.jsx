@@ -23,7 +23,6 @@ export default class ReviewCollapsibleChapter extends React.Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
-    this.scrollToTop = this.scrollToTop.bind(this);
   }
 
   componentWillMount() {
@@ -58,14 +57,6 @@ export default class ReviewCollapsibleChapter extends React.Component {
     }
 
     this.handleEdit(key, false, index);
-  }
-
-  scrollToTop() {
-    scroller.scrollTo(`chapter${this.props.chapterKey}ScrollElement`, window.VetsGov.scroll || {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
   }
 
   scrollToPage(key) {

@@ -22,7 +22,9 @@ import {
   setViewedPages,
   uploadFile
 } from '../actions';
+import Scroll from 'react-scroll';
 
+const scroller = Scroll.scroller;
 class ReviewChapters extends React.Component {
 
   componentDidMount() {
@@ -37,7 +39,16 @@ class ReviewChapters extends React.Component {
       this.props.closeReviewChapter(name, pageKeys);
     } else {
       this.props.openReviewChapter(name);
+      this.scrollToChapter(name)
     }
+  }
+
+  scrollToChapter = (chapterKey) => {
+    scroller.scrollTo(`chapter${chapterKey}ScrollElement`, window.VetsGov.scroll || {
+      duration: 500,
+      delay: 2,
+      smooth: true,
+    });
   }
 
   handleEdit = (pageKey, editing, index = null) => {
