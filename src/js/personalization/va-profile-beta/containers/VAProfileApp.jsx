@@ -6,7 +6,8 @@ import {
   saveField,
   updateFormField,
   openModal,
-  clearErrors
+  clearErrors,
+  clearMessage
 } from '../actions';
 
 import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
@@ -27,10 +28,14 @@ class VAProfileApp extends React.Component {
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
             <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
               <ProfileView
+                startup={this.props.startup}
                 profile={this.props.profile}
+                message={{
+                  content: this.props.profile.message,
+                  clear: this.props.clearMessage
+                }}
                 updateActions={this.props.updateActions}
                 updateFormFieldActions={this.props.updateFormFieldActions}
-                startup={this.props.startup}
                 modal={{
                   open: this.props.openModal,
                   currentlyOpen: this.props.profile.modal,
@@ -58,7 +63,8 @@ const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
     startup,
     openModal,
-    clearErrors
+    clearErrors,
+    clearMessage
   }, dispatch);
 
   actions.updateActions = bindActionCreators(saveField, dispatch);
