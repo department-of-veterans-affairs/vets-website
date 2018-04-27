@@ -155,7 +155,7 @@ ReviewChapters.propTypes = {
   setEditMode: PropTypes.func.isRequired,
   setViewedPages: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
-  viewedPages: PropTypes.array.isRequired
+  viewedPages: PropTypes.object.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewChapters));
