@@ -119,7 +119,6 @@ if (options.buildtype === 'production') {
   manifests.filter(m => !m.production).forEach(m => {
     ignoreList.push(m.contentPage);
   });
-  ignoreList.push('beta-enrollment/personalization.md');
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
 }
