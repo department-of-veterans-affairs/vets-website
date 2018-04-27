@@ -46,10 +46,6 @@ describe('<ReviewCollapsibleChapter>', () => {
 
   it('should handle editing array page', () => {
     const onEdit = sinon.spy();
-    const pages = [{
-      title: '',
-      pageKey: 'test'
-    }];
     const chapterKey = 'test';
     const chapter = {};
     const form = {
@@ -73,7 +69,6 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={onEdit}
-        expanededPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}/>
