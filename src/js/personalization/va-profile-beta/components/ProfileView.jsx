@@ -1,4 +1,8 @@
 import React from 'react';
+import Scroll from 'react-scroll';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+
 import {
   SAVE_MAILING_ADDRESS,
   SAVE_PRIMARY_PHONE,
@@ -13,8 +17,6 @@ import {
   FETCH_VA_PROFILE_FAIL
 } from '../actions';
 
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Hero from './Hero';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
@@ -24,16 +26,29 @@ import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
 import LoadFail from './LoadFail';
 
+// @todo make a shared utility for this
+const scroller = Scroll.animateScroll;
+const scrollToTop = () => {
+  scroller.scrollTo(0, {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
 class ProfileView extends React.Component {
 
   componentWillMount() {
     this.props.startup();
   }
 
-  componentWillUpdate(oldProps) {
+  componentDidUpdate(oldProps) {
     if (this.props.profile !== oldProps.profile && this.props.profile.userFullName) {
       const { first, last } = this.props.profile.userFullName;
       document.title = `Profile: ${first} ${last}`;
+    }
+    if (this.props.message.content && !oldProps.message.content) {
+      scrollToTop();
     }
   }
 
@@ -60,6 +75,7 @@ class ProfileView extends React.Component {
     }
 
     const {
+      message,
       modal: {
         currentlyOpen: currentlyOpenModal,
         pendingSaves,
@@ -89,6 +105,8 @@ class ProfileView extends React.Component {
     return (
       <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
         <div className="usa-width-two-thirds medium-8 small-12 columns">
+
+          <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
 
           <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
 
