@@ -10,6 +10,7 @@ import { errorSchemaIsValid } from '../../../common/schemaform/validation';
 
 import set from '../../../../platform/utilities/data/set';
 import get from '../../../../platform/utilities/data/get';
+import omit from '../../../../platform/utilities/data/omit';
 
 
 /**
@@ -79,48 +80,35 @@ export default class ReviewCardField extends React.Component {
       formData,
       idSchema,
       onBlur,
+      onChange,
       readonly,
       registry,
-      schema,
-      uiSchema
+      required,
+      schema
     } = this.props;
     const { SchemaField } = registry.fields;
-
-    let properties;
-    if (schema.type === 'object') {
-      properties = Object.keys(schema.properties);
-    } else if (schema.type === 'array') {
-      properties = Object.keys(schema.items.properties);
-    } else {
-      // Shouldn't get here, but in case we update the gate in the constructor later...
-      throw new Error(`Unknown schema type in ReviewCardField: ${schema.type}`);
-    }
+    // We've already used the ui:field and ui:title
+    const uiSchema = omit(['ui:field', 'ui:title'], this.props.uiSchema);
 
     const title = this.getTitle();
 
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          <h4>{title}</h4>
-          {properties.map(propName => {
-            return (
-              <div key={propName}>
-                <SchemaField
-                  name={propName}
-                  required={this.isRequired(propName)}
-                  schema={schema.properties[propName]}
-                  uiSchema={uiSchema[propName]}
-                  errorSchema={errorSchema[propName]}
-                  idSchema={idSchema[propName]}
-                  formData={formData[propName]}
-                  onChange={this.onPropertyChange(propName)}
-                  onBlur={onBlur}
-                  registry={registry}
-                  disabled={disabled}
-                  readonly={readonly}/>
-              </div>
-            );
-          })}
+          <h4 className="review-card--title">{title}</h4>
+          <SchemaField
+            name={idSchema.$id}
+            required={required}
+            schema={schema}
+            uiSchema={uiSchema}
+            errorSchema={errorSchema}
+            idSchema={idSchema}
+            formData={formData}
+            onChange={onChange}
+            onBlur={onBlur}
+            registry={registry}
+            disabled={disabled}
+            readonly={readonly}/>
           <button className="usa-button-primary update-button" onClick={this.update}>Done</button>
         </div>
       </div>
@@ -135,8 +123,8 @@ export default class ReviewCardField extends React.Component {
     return (
       <div className="review-card">
         <div className="review-card--header">
-          <h4>{title}</h4>
-          <button className="usa-button-secondary" onClick={this.startEditing}>Edit</button>
+          <h4 className="review-card--title">{title}</h4>
+          <button className="usa-button-secondary edit-button" onClick={this.startEditing}>Edit</button>
         </div>
         <div className="review-card--body">
           <ViewComponent formData={this.props.formData}/>

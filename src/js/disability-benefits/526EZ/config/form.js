@@ -143,7 +143,7 @@ const formConfig = {
               viewComponent: veteranInformationViewField
             },
             fullName: fullNameUI,
-            socialSecurityNumber: merge({}, ssnUI, {
+            socialSecurityNumber: merge(ssnUI, {
               'ui:title': 'Social Security number (must have this or a VA file number)',
               'ui:required': form => !form.vaFileNumber
             }),

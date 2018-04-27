@@ -110,12 +110,12 @@
     justify-content: space-between;
     align-items: center;
 
-    h4 {
+    .review-card--title {
       margin: 0;
       display: inline-block;
     }
 
-    button {
+    .edit-button {
       width: 8rem;
       margin-right: 0;
     }
@@ -127,12 +127,12 @@
     // Remove the top border because it looks like it just extends the header
     border-top: none;
 
-    h4 {
-      margin-top: 1.5rem;
+    .review-card--title {
+      margin: 1.5rem 0 2.5rem;
     }
 
     .update-button {
-      margin-top: 4rem;
+      margin-top: 1rem;
       width: 15rem;
     }
   }
