@@ -38,7 +38,6 @@ class UserDataSection extends React.Component {
 
   renderModalContents = () => {
     const { terms } = this.props;
-    const termsAccepted = this.props.profile.healthTermsCurrent;
 
     if (!this.state.modalOpen) { return null; }
 
@@ -46,7 +45,7 @@ class UserDataSection extends React.Component {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
-    if (termsAccepted) {
+    if (terms.accepted) {
       return (
         <div>
           <h3>You have already accepted the terms and conditions.</h3>
@@ -59,7 +58,7 @@ class UserDataSection extends React.Component {
   }
 
   renderTermsLink = () => {
-    if (this.props.profile.healthTermsCurrent) {
+    if (this.props.terms.accepted) {
       return (
         <p>You have accepted the latest health terms and conditions for this site.</p>
       );
