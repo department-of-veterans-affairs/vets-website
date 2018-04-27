@@ -39,7 +39,7 @@ class ReviewChapters extends React.Component {
       this.props.closeReviewChapter(name, pageKeys);
     } else {
       this.props.openReviewChapter(name);
-      this.scrollToChapter(name)
+      this.scrollToChapter(name);
     }
   }
 
