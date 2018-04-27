@@ -35,8 +35,8 @@ class SaveFormLink extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const loginAttemptCompleted = this.props.user.login.showModal === true
-      && newProps.user.login.showModal === false
+    const loginAttemptCompleted = this.props.showLoginModal === true
+      && newProps.showLoginModal === false
       && this.loginAttemptInProgress;
 
     if (loginAttemptCompleted && newProps.user.login.currentlyLoggedIn) {
@@ -114,6 +114,7 @@ SaveFormLink.propTypes = {
     savedStatus: PropTypes.string.isRequired
   }).isRequired,
   user: PropTypes.object.isRequired,
+  showLoginModal: PropTypes.bool.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
 };
 

@@ -3,13 +3,11 @@ import React from 'react';
 
 import DropDownPanel from '@department-of-veterans-affairs/jean-pants/DropDownPanel';
 import IconUser from '@department-of-veterans-affairs/jean-pants/IconUser';
-import { features } from '../../../../js/personalization/beta-enrollment/containers/BetaApp';
 import { logout } from '../../../user/authentication/utilities';
 import BetaDropdown from './BetaDropdown';
 
 class SignInProfileMenu extends React.Component {
   render() {
-    const isBeta = this.props.isUserRegisteredForBeta && this.props.isUserRegisteredForBeta(features.dashboard);
     const icon = <IconUser color="#fff"/>;
 
     const dropDownContents = (
@@ -27,7 +25,7 @@ class SignInProfileMenu extends React.Component {
         icon={icon}
         isOpen={this.props.isOpen}
         disabled={this.props.disabled}>
-        {isBeta ? <BetaDropdown/> : dropDownContents}
+        {this.propsisDashboardBeta ? <BetaDropdown/> : dropDownContents}
       </DropDownPanel>
     );
   }

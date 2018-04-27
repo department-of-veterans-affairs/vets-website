@@ -1,7 +1,7 @@
 import recordEvent from '../../../monitoring/record-event';
 import { removeFormApi } from '../../../../js/common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../../utilities/api';
-import { updateLoggedInStatus } from '../../../site-wide/user-nav/actions';
+import { updateLoggedInStatus } from '../../authentication/actions';
 import environment from '../../../utilities/environment';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -85,6 +85,10 @@ export function getUserData(dispatch) {
     }
     dispatch(profileLoadingFinished());
   });
+}
+
+export function getProfile() {
+  return getUserData;
 }
 
 export function removingSavedForm() {

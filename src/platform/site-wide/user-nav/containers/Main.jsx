@@ -3,18 +3,20 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import { getUserData } from '../../../user/profile/actions';
-import { isUserRegisteredForBeta } from '../../../../js/personalization/beta-enrollment/actions';
+import { features } from '../../../../js/personalization/beta-enrollment/routes';
 import recordEvent from '../../../monitoring/record-event';
 
 import {
-  updateLoggedInStatus,
   toggleLoginModal,
   toggleSearchHelpUserMenu
 } from '../../../site-wide/user-nav/actions';
 
+import { updateLoggedInStatus } from '../../../user/authentication/actions';
+import { isLoggedIn, isProfileLoading, selectUserGreeting, createIsServiceAvailableSelector } from '../../../user/selectors';
+import { getProfile } from '../../../user/profile/actions';
+
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import SignInModal from '../components/SignInModal';
+import SignInModal from '../../../user/authentication/components/SignInModal';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
@@ -31,7 +33,7 @@ export class Main extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { currentlyLoggedIn, showModal } = this.props.login;
+    const { currentlyLoggedIn, showLoginModal } = this.props;
     const nextParam = this.getRedirectUrl();
 
     const shouldRedirect =
@@ -43,7 +45,7 @@ export class Main extends React.Component {
     }
 
     const shouldCloseLoginModal =
-      !prevProps.login.currentlyLoggedIn && currentlyLoggedIn && showModal;
+      !prevProps.login.currentlyLoggedIn && currentlyLoggedIn && showLoginModal;
 
     if (shouldCloseLoginModal) { this.props.toggleLoginModal(false); }
   }
@@ -53,7 +55,7 @@ export class Main extends React.Component {
   }
 
   setToken = (event) => {
-    if (event.data === sessionStorage.userToken) { this.props.getUserData(); }
+    if (event.data === sessionStorage.userToken) { this.props.getProfile(); }
   }
 
   getRedirectUrl = () => (new URLSearchParams(window.location.search)).get('next');
@@ -88,13 +90,13 @@ export class Main extends React.Component {
       //     logout();
       //   }
       // } else {
-      //   if (this.props.getUserData()) {
+      //   if (this.props.getProfile()) {
       //     this.props.updateLoggedInStatus(true);
       //   }
       // }
 
       // @todo after doing the above, remove this code.
-      if (this.props.getUserData()) {
+      if (this.props.getProfile()) {
         recordEvent({ event: 'login-user-logged-in' });
         this.props.updateLoggedInStatus(true);
       }
@@ -113,46 +115,38 @@ export class Main extends React.Component {
     return (
       <div>
         <SearchHelpSignIn
-          isLoggedIn={this.props.login.currentlyLoggedIn}
-          isMenuOpen={this.props.login.utilitiesMenuIsOpen}
-          isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
-          profile={this.props.profile}
+          isLoggedIn={this.props.currentlyLoggedIn}
+          isMenuOpen={this.props.utilitiesMenuIsOpen}
+          isDashboardBeta={this.props.isBeta}
+          isProfileLoading={this.props.isProfileLoading}
+          userGreeting={this.props.userGreeting}
           toggleLoginModal={this.props.toggleLoginModal}
           toggleMenu={this.props.toggleSearchHelpUserMenu}/>
         <SignInModal
           onClose={this.handleCloseModal}
-          visible={this.props.login.showModal}/>
+          visible={this.props.showLoginModal}/>
       </div>
     );
   }
 }
 
+const isDashBoardBeta = createIsServiceAvailableSelector(features.dashboard);
+
 const mapStateToProps = (state) => {
-  const userState = state.user;
   return {
-    login: userState.login,
-    profile: userState.profile
+    currentlyLoggedIn: isLoggedIn(state),
+    isProfileLoading: isProfileLoading(state),
+    userGreeting: selectUserGreeting(state),
+    isBeta: isDashBoardBeta(state),
+    ...state.navigation
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    isUserRegisteredForBeta: (service) => {
-      return dispatch(isUserRegisteredForBeta(service));
-    },
-    toggleLoginModal: (update) => {
-      dispatch(toggleLoginModal(update));
-    },
-    toggleSearchHelpUserMenu: (menu, isOpen) => {
-      dispatch(toggleSearchHelpUserMenu(menu, isOpen));
-    },
-    updateLoggedInStatus: (update) => {
-      dispatch(updateLoggedInStatus(update));
-    },
-    getUserData: () => {
-      getUserData(dispatch);
-    },
-  };
+const mapDispatchToProps = {
+  toggleLoginModal,
+  toggleSearchHelpUserMenu,
+  updateLoggedInStatus,
+  getProfile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
