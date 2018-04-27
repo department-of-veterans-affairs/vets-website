@@ -1,5 +1,7 @@
 import _ from '../../../../platform/utilities/data';
 
+import { omitRequired } from '../../../common/schemaform/helpers';
+
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 // import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
@@ -113,7 +115,7 @@ const formConfig = {
     fullName,
     // files
     dateRange,
-    disabilities: disabiltiesDefinition,
+    disabilities: omitRequired(disabiltiesDefinition),
     specialIssues,
     servicePeriods,
     privateTreatmentCenterAddress
