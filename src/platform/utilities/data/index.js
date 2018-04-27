@@ -10,12 +10,14 @@ import cloneDeep from './cloneDeep';
 import get from './get';
 import omit from './omit';
 import set from './set';
+import merge from './merge';
 
 export default {
   clone,
   cloneDeep,
   get,
   omit,
-  set
+  set,
+  merge
 };
 
