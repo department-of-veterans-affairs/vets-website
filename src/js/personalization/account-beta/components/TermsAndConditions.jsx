@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function TermsAndConditions({ healthTermsCurrent, openModal }) {
+export default function TermsAndConditions({ terms, openModal }) {
   let content = null;
 
-  if (healthTermsCurrent) {
+  if (terms.accepted) {
     content = (
       <p><i className="fa fa-check-circle"/> You've accepted the latest terms and conditions for using this site's health tools.</p>
     );
