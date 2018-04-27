@@ -21,25 +21,14 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    /*
     const { submission, data } = this.props.form;
     const { response } = submission;
-    const name = data.veteranFullName;
-    */
-    const response = {
-      confirmationNumber: '234234234234',
-      timestamp: '20180404'
-    };
-
-    const name =  {
-      first: 'first',
-      last: 'last'
-    };
+    const name = data.veteranFullName || {};
 
     return (
       <div>
         <h3 className="confirmation-page-title">Claim submitted</h3>
-        <p>We process applications in hte order we receive them. Please print this page for your records. We may contact you if we have questions or need more information.</p>
+        <p>We process applications in the order we receive them. Please print this page for your records. We may contact you if we have questions or need more information.</p>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
           <p>You’ll get a notice in the mail, once we’ve processed your claim.</p>
