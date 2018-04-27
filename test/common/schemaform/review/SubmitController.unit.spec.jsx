@@ -67,6 +67,9 @@ describe('Schemaform review: SubmitController', () => {
         data: {
           privacyAgreementAccepted: false
         }
+      },
+      formConfig: {
+        urlPrefix: '/'
       }
     });
 
