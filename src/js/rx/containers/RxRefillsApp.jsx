@@ -32,37 +32,25 @@ class RxRefillsApp extends React.Component {
     const crumbs = [
       <a href="/" key="home">Home</a>,
       <a href="/health-care/" key="healthcare">Health Care</a>,
-      <Link to="/" key="prescriptions">Prescription Refills</Link>
+      <Link to="/" key="prescriptions">Prescription Refills</Link>,
     ];
 
-    if (pathname.match(/\/\d+$/)) {
-      if (this.state.prevPath.match(/\/history\/?$/)) {
-        crumbs.push(<Link to="/history" key="history">History</Link>);
-      }
-    } else if (pathname.match(/\/track\/?$/)) {
-      if (this.state.prevPath.match(/\/history\/?$/)) {
-        crumbs.push(<Link to="/history" key="history">History</Link>);
-      }
+    if (prescription) {
+      const prescriptionId = _.get(
+        prescription,
+        ['rx', 'attributes', 'prescriptionId']
+      );
 
-      if (prescription) {
-        const prescriptionId = _.get(
-          prescription,
-          ['rx', 'attributes', 'prescriptionId']
-        );
+      const prescriptionName = _.get(
+        prescription,
+        ['rx', 'attributes', 'prescriptionName']
+      );
 
-        const prescriptionName = _.get(
-          prescription,
-          ['rx', 'attributes', 'prescriptionName']
-        );
-
-        crumbs.push(<Link to={`/${prescriptionId}`} key="history">{prescriptionName}</Link>);
-      } else if (pathname.match(/\/history\/?$/)) {
-        crumbs.push(<Link to="/history" key="history">History</Link>);
-      } else if (pathname.match(/\/glossary\/?$/)) {
-        crumbs.push(<Link to="/glossary" key="prescriptions">Glossary</Link>);
-      } else if (pathname.match(/\/settings\/?$/)) {
-        crumbs.push(<Link to="/settings" key="prescriptions">Settings</Link>);
-      }
+      crumbs.push(<Link to={`/${prescriptionId}`} key="prescription-name">{prescriptionName}</Link>);
+    } else if (pathname.match(/\/glossary\/?$/)) {
+      crumbs.push(<Link to="/glossary" key="glossary">Glossary</Link>);
+    } else if (pathname.match(/\/settings\/?$/)) {
+      crumbs.push(<Link to="/settings" key="settings">Settings</Link>);
     }
 
     return (
