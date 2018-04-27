@@ -11,7 +11,7 @@ import {
   updateLoggedInStatus,
   toggleLoginModal,
   toggleSearchHelpUserMenu
-} from '../../../user/login/actions';
+} from '../../../site-wide/user-nav/actions';
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import SignInModal from '../components/SignInModal';

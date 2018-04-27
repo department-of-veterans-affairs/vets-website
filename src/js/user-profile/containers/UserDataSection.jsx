@@ -7,7 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import recordEvent from '../../../platform/monitoring/record-event';
-import { mfa } from '../../../platform/user/login/utilities';
+import { mfa } from '../../../platform/user/authentication/utilities';
 import AcceptTermsPrompt from '../../../platform/user/authorization/components/AcceptTermsPrompt';
 import { fetchLatestTerms, acceptTerms } from '../../../platform/user/profile/actions';
 import PersonalizationBetaInvite from '../components/PersonalizationBetaInvite';

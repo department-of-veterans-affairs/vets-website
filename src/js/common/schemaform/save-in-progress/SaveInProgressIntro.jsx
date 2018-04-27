@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { getNextPagePath } from '../routing';
-import { toggleLoginModal } from '../../../../platform/user/login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import FormStartControls from './FormStartControls';

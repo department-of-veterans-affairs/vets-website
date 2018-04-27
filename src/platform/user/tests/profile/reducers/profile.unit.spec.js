@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import reducer from '../../../profile/reducers';
-import { UPDATE_LOGGEDIN_STATUS } from '../../../login/actions';
+import { UPDATE_LOGGEDIN_STATUS } from '../../../../site-wide/user-nav/actions';
 
 import {
   ACCEPTING_LATEST_MHV_TERMS,

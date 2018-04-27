@@ -4,7 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import recordEvent from '../../../monitoring/record-event';
-import { login, signup } from '../../../user/login/utilities';
+import { login, signup } from '../../../user/authentication/utilities';
 
 const loginHandler = (loginType) => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
