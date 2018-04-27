@@ -134,14 +134,12 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       }
     };
 
-    const setData = sinon.spy();
     const autoSave = sinon.spy();
 
     const tree = shallow(
       <RoutedSavableReviewPage
         form={form}
         user={user}
-        setData={setData}
         route={{ formConfig, pageList }}
         setPrivacyAgreement={f => f}
         location={location}/>
@@ -149,9 +147,9 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
 
     const instance = tree.instance();
     instance.debouncedAutoSave = autoSave;
-    instance.setData({});
 
-    expect(setData.called).to.be.true;
+    instance.debouncedAutoSave();
+
     expect(autoSave.called).to.be.true;
   });
 });
