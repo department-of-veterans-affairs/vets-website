@@ -18,7 +18,11 @@ class AccountMain extends React.Component {
 
   openModal = () => {
     recordEvent({ event: 'terms-shown-profile' });
-    this.setState({ modalOpen: true });
+    this.setState({ modalOpen: true }, () => {
+      if (!this.props.terms.termsContent) {
+        this.props.fetchLatestTerms('mhvac');
+      }
+    });
   }
 
   closeModal = () => {
