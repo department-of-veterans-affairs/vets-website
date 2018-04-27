@@ -89,17 +89,6 @@ const formConfig = {
           title: 'Spouse information',
           path: 'spouse-info',
           depends: isMarried,
-          initialData: {
-            marriages: [
-              {
-                spouseFullName: {
-                  first: 'John',
-                  last: 'Doe'
-                }
-              }
-            ],
-            maritalStatus: 'Married'
-          },
           uiSchema: {
             spouseDateOfBirth: _.merge(currentOrPastDateUI(''), {
               'ui:options': {
