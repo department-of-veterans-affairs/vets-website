@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import recordEvent from '../../../monitoring/record-event';
@@ -42,6 +43,18 @@ class SignInModal extends React.Component {
           <div className="row hide-for-medium-up mobile-explanation">
             <div className="columns small-12">
               <h2>One site. A lifetime of benefits and services at your fingertips.</h2>
+            </div>
+          </div>
+          <div className="downtime-notification row">
+            <div className="columns usa-width-one-half medium-6">
+              <div className="form-warning-banner">
+                <AlertBox
+                  headline="DS Logon isn't working quite right"
+                  content="If you're having trouble signing in to Vets.gov using your DS Logon ID and password, please try again later. Or, you can try signing in with your MyHealth_e_Vet ID and password or through ID.me."
+                  isVisible
+                  status="warning"/>
+                <br/>
+              </div>
             </div>
           </div>
           <div className="row">

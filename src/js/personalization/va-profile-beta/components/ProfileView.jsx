@@ -1,4 +1,8 @@
 import React from 'react';
+import Scroll from 'react-scroll';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+
 import {
   SAVE_MAILING_ADDRESS,
   SAVE_PRIMARY_PHONE,
@@ -13,8 +17,6 @@ import {
   FETCH_VA_PROFILE_FAIL
 } from '../actions';
 
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Hero from './Hero';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
@@ -24,10 +26,30 @@ import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
 import LoadFail from './LoadFail';
 
+// @todo make a shared utility for this
+const scroller = Scroll.animateScroll;
+const scrollToTop = () => {
+  scroller.scrollTo(0, {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
 class ProfileView extends React.Component {
 
   componentWillMount() {
-    this.props.fetchVaProfile();
+    this.props.startup();
+  }
+
+  componentDidUpdate(oldProps) {
+    if (this.props.profile !== oldProps.profile && this.props.profile.userFullName) {
+      const { first, last } = this.props.profile.userFullName;
+      document.title = `Profile: ${first} ${last}`;
+    }
+    if (this.props.message.content && !oldProps.message.content) {
+      scrollToTop();
+    }
   }
 
   openModalHandler(modalName) {
@@ -53,6 +75,7 @@ class ProfileView extends React.Component {
     }
 
     const {
+      message,
       modal: {
         currentlyOpen: currentlyOpenModal,
         pendingSaves,
@@ -68,7 +91,8 @@ class ProfileView extends React.Component {
         primaryTelephone,
         alternateTelephone,
         personalInformation,
-        serviceHistory
+        serviceHistory,
+        addressConstants
       },
       updateFormFieldActions,
       updateActions
@@ -79,12 +103,18 @@ class ProfileView extends React.Component {
     const militaryInformationFailed = !serviceHistory;
 
     return (
-      <div className="row" style={{ marginBottom: 35 }}>
-        <h1>Your Profile</h1>
-        <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
+      <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
         <div className="usa-width-two-thirds medium-8 small-12 columns">
 
-          <h2 style={{ marginBottom: 0 }}>Contact Information</h2>
+          <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
+
+          <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
+
+          <h2 className="va-profile-heading">Contact Information</h2>
+          <AlertBox
+            isVisible
+            status="info"
+            content={<p>We’ll use this information to communicate with you about your VA <strong>Compensation &amp; Pension benefits.</strong></p>}/>
           {contactInformationFailed ? <LoadFail information="contact"/> : (
             <div>
               <AddressSection
@@ -98,7 +128,8 @@ class ProfileView extends React.Component {
                 isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
                 onEdit={this.openModalHandler('mailingAddress')}
                 onSubmit={updateActions.updateMailingAddress}
-                onCancel={this.closeModal}/>
+                onCancel={this.closeModal}
+                addressConstants={addressConstants}/>
 
               <PhoneSection
                 title="Primary Phone"
@@ -127,7 +158,6 @@ class ProfileView extends React.Component {
                 onCancel={this.closeModal}/>
 
               <EmailSection
-                title="Email Address"
                 emailResponseData={email}
                 field={formFields.email}
                 error={errors.includes(SAVE_EMAIL_ADDRESS_FAIL)}
@@ -143,12 +173,14 @@ class ProfileView extends React.Component {
 
           <AccountMessage/>
 
-          <h2>Personal Information</h2>
+          <h2 className="va-profile-heading">Personal Information</h2>
+          <p>If you need to make any updates or corrections, call the Vets.gov Help Desk at  <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We're here Monday-Friday, 8 a.m. - 8 p.m. (ET).</p>
           {personalInformationFailed ? <LoadFail information="personal"/> : (
             <PersonalInformation personalInformation={personalInformation}/>
           )}
 
-          <h2>Military Service</h2>
+          <h2 className="va-profile-heading">Military Service</h2>
+          <p>If you need to make any updates or corrections, call the Vets.gov Help Desk at  <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We're here Monday-Friday, 8 a.m. - 8 p.m. (ET).</p>
           {militaryInformationFailed ? <LoadFail information="military"/> : (
             <MilitaryInformation serviceHistoryResponseData={serviceHistory}/>
           )}
