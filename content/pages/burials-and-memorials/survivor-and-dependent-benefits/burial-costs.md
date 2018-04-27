@@ -32,7 +32,7 @@ You may be able to get burial allowances if you're paying for the burial and fun
 
 <br>
 
-To get this benefit, the Veteran must have been discharged under conditions other than dishonorable, and one of the below circumstances must be true.
+To get this benefit, the Veteran must not have received a dishonorable discharge, and one of the below circumstances must be true.
 
 **One of these must be true of the deceased Veteran. They:**
 
@@ -48,7 +48,7 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 
 </div>
 
-You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to “under conditions other than dishonorable,” you must file for an allowance claim within 2 years after the discharge update. There's no time limit to file for a service-connected burial, plot, or interment allowance.
+You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was upgraded from dishonorable to another discharge type, you must file for an allowance claim within 2 years after the discharge update. There's no time limit to file for a service-connected burial, plot, or interment allowance.
 
 
 ### What kind of benefits can I get?
