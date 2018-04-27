@@ -20,7 +20,11 @@ class UserDataSection extends React.Component {
 
   openModal = () => {
     recordEvent({ event: 'terms-shown-profile' });
-    this.setState({ modalOpen: true });
+    this.setState({ modalOpen: true }, () => {
+      if (!this.props.terms.termsContent) {
+        this.props.fetchLatestTerms('mhvac');
+      }
+    });
   }
 
   closeModal = () => {
@@ -32,25 +36,21 @@ class UserDataSection extends React.Component {
     this.closeModal();
   }
 
-  renderModalContents() {
+  renderModalContents = () => {
     const { terms } = this.props;
     const termsAccepted = this.props.profile.healthTermsCurrent;
-    if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
-      setTimeout(() => {
-        this.props.fetchLatestTerms('mhvac');
-      }, 100);
+
+    if (!this.state.modalOpen) { return null; }
+
+    if (terms.loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (!termsAccepted && this.state.modalOpen && terms.loading === true) {
-      return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (termsAccepted) {
+    }
+
+    if (termsAccepted) {
       return (
         <div>
-          <h3>
-            You have already accepted the terms and conditions.
-          </h3>
-          <div>
-            <button type="submit" onClick={this.closeModal}>Ok</button>
-          </div>
+          <h3>You have already accepted the terms and conditions.</h3>
+          <div><button type="submit" onClick={this.closeModal}>Ok</button></div>
         </div>
       );
     }
@@ -58,7 +58,7 @@ class UserDataSection extends React.Component {
     return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} isInModal/>;
   }
 
-  renderTermsLink() {
+  renderTermsLink = () => {
     if (this.props.profile.healthTermsCurrent) {
       return (
         <p>You have accepted the latest health terms and conditions for this site.</p>
@@ -69,7 +69,7 @@ class UserDataSection extends React.Component {
     );
   }
 
-  renderMultifactorMessage() {
+  renderMultifactorMessage = () => {
     if (this.props.profile.multifactor) { return null; }
 
     const headline = 'Add extra security to your account';
@@ -150,7 +150,7 @@ const mapStateToProps = (state) => {
     login: userState.login,
     name: userState.profile.userFullName,
     profile: userState.profile,
-    terms: userState.profile.terms
+    terms: userState.profile.mhv.terms
   };
 };
 
