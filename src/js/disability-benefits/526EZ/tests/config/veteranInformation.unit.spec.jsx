@@ -38,7 +38,7 @@ describe('526EZ veteran information', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(5);
+    expect(form.find('.usa-input-error-message').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
