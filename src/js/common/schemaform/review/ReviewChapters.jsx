@@ -28,10 +28,12 @@ const scroller = Scroll.scroller;
 class ReviewChapters extends React.Component {
 
   componentDidMount() {
-    const pageList = this.props.pageList;
-    const form = this.props.form;
-
-    this.props.setViewedPages(new Set(getPageKeys(pageList, form)));
+    const {
+      formData,
+      pageList
+    } = this.props;
+    const viewedPages = new Set(getPageKeys(pageList, formData));
+    this.props.setViewedPages(viewedPages);
   }
 
   handleToggleChapter({ name, open, pageKeys }) {
@@ -138,6 +140,7 @@ function mapStateToProps(state, ownProps) {
     chapters,
     disableSave,
     form,
+    formData,
     formConfig,
     formContext,
     pageList,
@@ -158,6 +161,7 @@ ReviewChapters.propTypes = {
   chapters: PropTypes.array.isRequired,
   closeReviewChapter: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
   formContext: PropTypes.object,
   openReviewChapter: PropTypes.func.isRequired,
