@@ -1,0 +1,138 @@
+@mixin focus-gold-light-outline {
+  outline: 2px solid $color-gold-light;
+  outline-offset: 2px;
+}
+
+@mixin focus-gold-lighter-highlight {
+  background: $color-gold-lighter;
+  outline: 2px solid $color-gold-lighter;
+  outline-offset: 0;
+}
+
+a:focus {
+  @include focus-gold-light-outline;
+  outline-offset: 0;
+}
+
+input:focus {
+  @include focus-gold-light-outline;
+}
+
+select:focus {
+  @include focus-gold-light-outline;
+}
+
+.progress-bar-segmented:focus {
+  @include focus-gold-light-outline;
+}
+
+.va-nav-breadcrumbs-list {
+  a:focus {
+    @include focus-gold-lighter-highlight;
+  }
+}
+
+.va-button-link:focus {
+  @include focus-gold-lighter-highlight;
+}
+
+button:focus {
+  @include focus-gold-light-outline;
+  position: relative;
+  z-index: 3;
+}
+
+.usa-sidenav-list {
+  a:focus {
+    @include focus-gold-lighter-highlight;
+  }
+}
+
+#va-header-logo-menu {
+  a.va-header-logo:focus {
+    @include focus-gold-light-outline;
+    position: relative;
+    z-index: 3;
+  }
+
+  .sign-in-nav button:focus {
+    @include focus-gold-light-outline;
+    position: relative;
+    z-index: 3;
+  }
+
+  a:focus {
+    position: relative;
+    outline: 2px solid $color-gold-light;
+    outline-offset: 0;
+    z-index: 3;
+  }
+
+  .vetnav-panel {
+    button:focus, a:focus {
+      outline: none;
+      background: $color-gold-lighter;
+    }
+
+    .vetnav-panel--submenu a:focus {
+      outline: none;
+      background: $color-gold-lighter;
+    }
+  }
+}
+
+input[type="radio"]:focus {
+  & + label {
+    &::before {
+      @include focus-gold-light-outline;
+      position: relative;
+      z-index: 3;
+    }
+  }
+
+  & ~ div {
+    width: 50%;
+    height: 25px;
+    position: absolute;
+    background: $color-gold-light;
+    top: -2;
+    left: 0;
+    z-index: -1;
+  }
+}
+
+nav button:focus {
+  outline-offset: 0;
+}
+
+.popular-container {
+  a.usa-button:focus, button:focus {
+    outline: none;
+    background: $color-gold-lighter;
+  }
+}
+
+.va-nav-linkslist a:focus {
+  outline: none;
+  margin-top: 19px;
+
+  h4 {
+    background: $color-gold-lighter;
+    display: inline;
+    line-height: 2.2;
+  }
+}
+
+.va-footer-linkgroup {
+  a:focus, button:focus {
+    color: $color-gold-light;
+    outline: 2px solid $color-gold-light;
+  }
+}
+
+.va-footer-linkgroup--inline {
+  a:focus {
+    color: $color-gold-light;
+    outline: 2px solid $color-gold-light;
+  }
+}

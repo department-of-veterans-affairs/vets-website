@@ -1,11 +1,12 @@
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
+
 @import "~@department-of-veterans-affairs/jean-pants/sass/core";
 
 @import "modules/m-footer";
 
 // ----- USWDS OVERRIDE ----- //
-@import "uswds-override/focus";
+@import "overrides/uswds/focus";
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-alert";
