@@ -3,13 +3,13 @@ import _ from 'lodash';
 import dateUI from '../../../common/schemaform/definitions/date';
 import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
 
+import ReviewCardField from '../components/ReviewCardField';
+
 import VerifiedReviewContainer from '../components/VerifiedReviewContainer';
 import {
   PrimaryAddressViewField,
   getPage
 } from '../helpers';
-
-import initialData from '../tests/schema/initialData';
 
 function isValidZIP(value) {
   if (value !== null) {
@@ -464,121 +464,122 @@ const addressUISchema = (addressName, title) => {
   };
 };
 
-const addressSchema = (isRequired = false) => {
-  return {
-    type: 'object',
-    required: isRequired ? ['country', 'addressLine1'] : [],
-    properties: {
-      type: {
-        type: 'string',
-        'enum': ['MILITARY', 'DOMESTIC', 'INTERNATIONAL']
-      },
-      country: {
-        type: 'string',
-        'enum': countries
-      },
-      state: {
-        type: 'string',
-        'enum': states
-      },
-      addressLine1: {
-        type: 'string',
-        maxLength: 35,
-        pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-      },
-      addressLine2: {
-        type: 'string',
-        maxLength: 35,
-        pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-      },
-      addressLine3: {
-        type: 'string',
-        maxLength: 35,
-        pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-      },
-      city: {
-        type: 'string',
-        maxLength: 35,
-        pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
-      },
-      zipCode: {
-        type: 'string'
-      },
-      militaryPostOfficeTypeCode: {
-        type: 'string',
-        'enum': ['APO', 'DPO', 'FPO']
-      },
-      militaryStateCode: {
-        type: 'string',
-        'enum': ['AA', 'AE', 'AP']
-      }
+const addressSchema = {
+  type: 'object',
+  required: ['country', 'addressLine1'],
+  properties: {
+    type: {
+      type: 'string',
+      'enum': ['MILITARY', 'DOMESTIC', 'INTERNATIONAL']
+    },
+    country: {
+      type: 'string',
+      'enum': countries
+    },
+    state: {
+      type: 'string',
+      'enum': states
+    },
+    addressLine1: {
+      type: 'string',
+      maxLength: 35,
+      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+    },
+    addressLine2: {
+      type: 'string',
+      maxLength: 35,
+      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+    },
+    addressLine3: {
+      type: 'string',
+      maxLength: 35,
+      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+    },
+    city: {
+      type: 'string',
+      maxLength: 35,
+      pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
+    },
+    zipCode: {
+      type: 'string'
+    },
+    militaryPostOfficeTypeCode: {
+      type: 'string',
+      'enum': ['APO', 'DPO', 'FPO']
+    },
+    militaryStateCode: {
+      type: 'string',
+      'enum': ['AA', 'AE', 'AP']
     }
-  };
+  }
 };
 
-function createPrimaryAddressPage(formSchema, isReview) {
-  const { date } = formSchema.definitions;
-
-  const uiSchema = {
-    veteran: {
-      mailingAddress: addressUISchema('mailingAddress'),
-      primaryPhone: {
-        'ui:title': 'Primary telephone number',
-        'ui:widget': SSNWidget, // TODO: determine whether to rename widget
-        'ui:validations': [validatePhone],
-        'ui:errorMessages': {
-          pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
-        },
-        'ui:options': {
-          widgetClassNames: 'va-input-medium-large'
-        }
+export const uiSchema = {
+  veteran: {
+    'ui:field': ReviewCardField,
+    'ui:options': {
+      viewComponent: PrimaryAddressViewField
+    },
+    mailingAddress: addressUISchema('mailingAddress'),
+    primaryPhone: {
+      'ui:title': 'Primary telephone number',
+      'ui:widget': SSNWidget, // TODO: determine whether to rename widget
+      'ui:validations': [validatePhone],
+      'ui:errorMessages': {
+        pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
       },
-      secondaryPhone: {
-        'ui:title': 'Secondary telephone number',
-        'ui:widget': SSNWidget,
-        'ui:validations': [validatePhone],
-        'ui:errorMessages': {
-          pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
-        },
-        'ui:options': {
-          widgetClassNames: 'va-input-medium-large'
-        }
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large'
+      }
+    },
+    secondaryPhone: {
+      'ui:title': 'Secondary telephone number',
+      'ui:widget': SSNWidget,
+      'ui:validations': [validatePhone],
+      'ui:errorMessages': {
+        pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
       },
-      emailAddress: {
-        'ui:title': 'Email address',
-        'ui:errorMessages': {
-          pattern: 'Please put your email in this format x@x.xxx'
-        }
-      },
-      'view:hasForwardingAddress': {
-        'ui:title':
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large'
+      }
+    },
+    emailAddress: {
+      'ui:title': 'Email address',
+      'ui:errorMessages': {
+        pattern: 'Please put your email in this format x@x.xxx'
+      }
+    },
+    'view:hasForwardingAddress': {
+      'ui:title':
         'I want to provide a forwarding address since my address will be changing soon.'
-      },
-      forwardingAddress: _.merge(
-        addressUISchema('forwardingAddress', 'Forwarding address'),
-        {
-          'ui:options': {
-            expandUnder: 'view:hasForwardingAddress'
-          },
-          country: {
-            'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
-          },
-          addressLine1: {
-            'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
-          },
-          effectiveDate: dateUI('Effective date')
-        }
-      )
-    }
-  };
-  const addressConfig = addressSchema(true);
-  const schema = {
+    },
+    forwardingAddress: _.merge(
+      addressUISchema('forwardingAddress', 'Forwarding address'),
+      {
+        'ui:options': {
+          expandUnder: 'view:hasForwardingAddress'
+        },
+        country: {
+          'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
+        },
+        addressLine1: {
+          'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
+        },
+        effectiveDate: dateUI('Effective date')
+      }
+    )
+  }
+};
+
+export function getPrimaryAddressSchema(formSchema) {
+  const { date } = formSchema.definitions;
+  return {
     type: 'object',
     properties: {
       veteran: {
         type: 'object',
         properties: {
-          mailingAddress: addressConfig,
+          mailingAddress: addressSchema,
           primaryPhone: {
             type: 'string'
           },
@@ -592,7 +593,7 @@ function createPrimaryAddressPage(formSchema, isReview) {
           'view:hasForwardingAddress': {
             type: 'boolean'
           },
-          forwardingAddress: _.merge({}, addressConfig, {
+          forwardingAddress: _.merge({}, addressSchema, {
             type: 'object',
             properties: {
               effectiveDate: date
@@ -602,23 +603,10 @@ function createPrimaryAddressPage(formSchema, isReview) {
       }
     }
   };
-
-  const pageConfig = {
-    pageTitle: 'Address information',
-    isReview,
-    component: VerifiedReviewContainer,
-    description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
-    verifiedReviewComponent: PrimaryAddressViewField,
-    uiSchema,
-    schema,
-    initialData
-  };
-
-  return getPage(pageConfig, 'Veteran Details');
 }
 
-export const createVerifiedPrimaryAddressPage = formConfig =>
-  createPrimaryAddressPage(formConfig, true);
-
-export const createUnverifiedPrimaryAddressPage = formConfig =>
-  createPrimaryAddressPage(formConfig, false);
+// export const createVerifiedPrimaryAddressPage = formConfig =>
+//   createPrimaryAddressPage(formConfig, true);
+// 
+// export const createUnverifiedPrimaryAddressPage = formConfig =>
+//   createPrimaryAddressPage(formConfig, false);

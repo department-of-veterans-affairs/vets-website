@@ -16,7 +16,7 @@ import { genderLabels } from '../../../../platform/static-data/labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
-import { createVerifiedPrimaryAddressPage } from '../pages/primaryAddress';
+import { uiSchema as primaryAddressUiSchema, getPrimaryAddressSchema } from '../pages/primaryAddress';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
@@ -183,7 +183,13 @@ const formConfig = {
             }
           }
         },
-        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
+        primaryAddress: { // createVerifiedPrimaryAddressPage(fullSchema526EZ),
+          title: 'Address information',
+          path: 'veteran-details/address-information',
+          description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
+          uiSchema: primaryAddressUiSchema,
+          schema: getPrimaryAddressSchema(fullSchema526EZ)
+        },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
