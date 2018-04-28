@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-// import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 // import { mhvAccessError } from '../../../platform/static-data/error-messages';
 import { acceptTerms, fetchLatestTerms } from '../actions';
@@ -12,23 +12,22 @@ const TERMS_NAME = 'mhvac';
 export class MhvTermsAndConditions extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isAgreementChecked: false };
+
+    const nextParams = new URLSearchParams(window.location.search);
+    this.redirectUrl = nextParams.get('next');
+
+    this.state = {
+      isAgreementChecked: false,
+      isRecentlyAccepted: false
+    };
   }
 
   componentDidMount() {
     this.props.fetchLatestTerms(TERMS_NAME);
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.accepted && this.props.accepted) {
-      this.redirect();
-    }
-  }
-
-  redirect = () => {
-    const nextParams = new URLSearchParams(window.location.search);
-    const nextPath = nextParams.get('next');
-    if (nextPath) { window.location = nextPath; }
+  redirect = () =>  {
+    if (this.redirectUrl) { window.location = this.redirectUrl; }
   }
 
   handleAgreementCheck = () => {
@@ -38,10 +37,28 @@ export class MhvTermsAndConditions extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.acceptTerms(TERMS_NAME);
+    this.setState({ isRecentlyAccepted: true }, this.redirect);
   }
 
   handleCancel = (e) => {
     e.preventDefault();
+  }
+
+  renderBanner = () => {
+    let headline;
+    let content;
+
+    if (this.state.isRecentlyAccepted) {
+      headline = 'You\'ve accepted the Terms and Conditions for using Vets.gov health tools';
+      content = '';
+    } else if (this.redirectUrl) {
+      headline = 'Using Vets.gov Health Tools';
+      content = 'Before you can use the health tools on Vets.gov, you\'ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.';
+    } else {
+      return null;
+    }
+
+    return <AlertBox status="success" isVisible headline={headline} content={content}/>;
   }
 
   renderTermsAndConditions = () => {
@@ -114,6 +131,7 @@ export class MhvTermsAndConditions extends React.Component {
       <main className="terms-and-conditions">
         <div className="container">
           <div className="row primary">
+            {this.renderBanner()}
             <div className="columns small-12" role="region" aria-label="Terms and Conditions">
               {this.renderTermsAndConditions()}
             </div>
