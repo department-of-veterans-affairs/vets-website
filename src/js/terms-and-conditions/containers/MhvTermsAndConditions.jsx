@@ -77,11 +77,11 @@ export class MhvTermsAndConditions extends React.Component {
       <div>
         <input
           type="checkbox"
-          id="form-yes"
+          id="agreement-checkbox"
           value="yes"
           checked={this.state.isAgreementChecked}
           onChange={this.handleAgreementCheck}/>
-        <label className="agreement-label" htmlFor="form-yes">{yesContent}</label>
+        <label className="agreement-label" htmlFor="agreement-checkbox">{yesContent}</label>
       </div>
     );
 
