@@ -15,7 +15,7 @@ import {
 import SignInLink from '../../components/SignInLink';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
-import { toggleLoginModal } from '../../../login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
 
 
 // For now, this only handles loading errors, but it could feasibly be reworked
@@ -55,7 +55,6 @@ class SaveInProgressErrorPage extends React.Component {
     const { loadedStatus, prestartStatus } = this.props;
     const { noAuth, notFound, prestartError } = this.props.route.formConfig.savedFormMessages || {};
     let content;
-
 
     if (prestartStatus === PRESTART_STATUSES.failure) {
       content = prestartError;

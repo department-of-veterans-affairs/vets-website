@@ -1,18 +1,18 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const MessagingHelpers = require('./messaging-helpers');
-const LoginHelpers = require('../../../../test/e2e/login-helpers');
+const Auth = require('../../../platform/testing/e2e/auth');
 const AccountCreationHelpers = require('../../../../test/e2e/account-creation-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    const token = LoginHelpers.getUserToken();
+    const token = Auth.getUserToken();
 
     MessagingHelpers.initApplicationSubmitMock(token);
     AccountCreationHelpers.initMHVTermsMocks(token);
 
     // Ensure main page (inbox) renders.
-    LoginHelpers.logIn(token, client, '/health-care/messaging', 3)
+    Auth.logIn(token, client, '/health-care/messaging', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Message Your Health Care Team: Vets.gov')
       .waitForElementVisible('#messaging-app', Timeouts.slow);

@@ -130,8 +130,20 @@ function initApplicationSubmitMock() {
       data: {
         attributes: {
           regionalOffice: [],
+          guid: '1234',
           confirmationNumber: '123fake-submission-id-567',
           submittedAt: '2016-05-16'
+        }
+      }
+    }
+  });
+  mock(null, {
+    path: '/v0/burial_claims/1234',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          state: 'success',
         }
       }
     }

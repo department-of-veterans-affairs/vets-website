@@ -4,6 +4,7 @@ import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/Error
 import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import { fieldFailureMessage } from './LoadFail';
 
 class EditEmailModal extends React.Component {
 
@@ -48,7 +49,7 @@ class EditEmailModal extends React.Component {
               field={{ value: field.value.email, dirty: false }}
               errorMessage={field.errorMessage}
               onValueChange={this.onChange}/>
-            <LoadingButton isLoading={isLoading}>Save Email</LoadingButton>
+            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
           </form>
         )}
       </Modal>
@@ -57,18 +58,24 @@ class EditEmailModal extends React.Component {
 }
 
 
-export default function EmailSection({ emailResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
-  let emailDisplay = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
+export default function EmailSection({ emailResponseData, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+  let content = null;
   let modal = null;
 
   if (emailResponseData) {
-    emailDisplay = emailResponseData.email;
+    if (emailResponseData.email) {
+      content = emailResponseData.email;
+    } else {
+      content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your email address</button>;
+    }
+  } else {
+    content = fieldFailureMessage;
   }
 
   if (isEditing) {
     modal = (
       <EditEmailModal
-        title="Edit email"
+        title="Edit email address"
         emailResponseData={emailResponseData}
         field={field}
         error={error}
@@ -83,8 +90,8 @@ export default function EmailSection({ emailResponseData, title, field, error, c
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={emailResponseData && onEdit}>{title}</HeadingWithEdit>
-      <div>{emailDisplay}</div>
+      <HeadingWithEdit onEditClick={emailResponseData && onEdit}>Email Address</HeadingWithEdit>
+      <div>{content}</div>
     </div>
   );
 }

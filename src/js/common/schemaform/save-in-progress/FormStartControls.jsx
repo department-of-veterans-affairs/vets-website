@@ -56,7 +56,8 @@ class FormStartControls extends React.Component {
     this.toggleModal();
     const { beforeStartForm } = this.props.form;
     if (beforeStartForm) {
-      return this.presstartForm().then(() => this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer));
+      debugger;
+      return this.prestartForm().then(() => this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer));
     }
     return this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer);
   }
@@ -73,7 +74,6 @@ class FormStartControls extends React.Component {
     e.preventDefault();
     this.props.toggleLoginModal(true);
   }
-
 
   render() {
     if (this.props.formSaved) {

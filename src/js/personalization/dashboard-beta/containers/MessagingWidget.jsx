@@ -81,7 +81,7 @@ class MessagingWidget extends React.Component {
       <div>
         <h2>Secure messages</h2>
         {content}
-        <p><Link href="/health-care/messaging">View all messages</Link></p>
+        <p><Link href="/health-care/messaging">View all your secure messages</Link></p>
       </div>
     );
   }
