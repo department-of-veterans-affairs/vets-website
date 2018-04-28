@@ -102,7 +102,13 @@ export default function AddressSection({ addressResponseData, addressConstants, 
       const { address } = addressResponseData;
       content = <AddressView address={address}/>;
     } else {
-      content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>;
+      content = (
+        <button
+          type="button"
+          disabled={!addressResponseData.controlInformation.canUpdate}
+          onClick={onEdit}
+          className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>
+      );
     }
   } else {
     content = fieldFailureMessage;
@@ -128,7 +134,7 @@ export default function AddressSection({ addressResponseData, addressConstants, 
     <div>
       {modal}
       <HeadingWithEdit
-        onEditClick={addressResponseData && addressResponseData.controlInformation.canUpdate && onEdit}>{title}
+        onEditClick={addressResponseData && addressResponseData.address && addressResponseData.controlInformation.canUpdate && onEdit}>{title}
       </HeadingWithEdit>
       {content}
     </div>

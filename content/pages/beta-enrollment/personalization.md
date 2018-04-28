@@ -11,12 +11,12 @@ entryname: beta-enrollment
   </nav>
 
 <div class="row">
-<div class="usa-width-two-thirds medium-8">
-  
+<div class="columns usa-width-two-thirds medium-8">
+
 # Try Our New Beta Tools
 
 <div itemprop="description"  class="va-introtext">
-  
+
 We invite you to try out our new beta tools—designed to make it easier for you to see important updates and manage your benefits and information on Vets.gov.
 
 </div>
