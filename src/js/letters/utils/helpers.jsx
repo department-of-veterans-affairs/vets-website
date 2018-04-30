@@ -2,9 +2,9 @@
 import React from 'react';
 import Raven from 'raven-js';
 
-import { apiRequest as commonApiClient } from '../../common/helpers/api';
-import environment from '../../common/helpers/environment';
-import { formatDateShort } from '../../common/utils/helpers';
+import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
+import { formatDateShort } from '../../../platform/utilities/date';
 import {
   AVAILABILITY_STATUSES,
   BENEFIT_OPTIONS,
@@ -410,3 +410,13 @@ export const getStatus = (response) => {
     ? response.errors[0].status
     : 'unknown';
 };
+
+// NOTE: It "shouldn't" ever happen...but it did. In production.
+export function isAddressEmpty(address) {
+  // An address will always have:
+  //  type because it errors out on the api if it doesn't exist (pretty sure)
+  //  countryName because of toGenericAddress() adds it
+  const fieldsToIgnore = ['type', 'countryName'];
+  return Object.keys(address).reduce((emptySoFar, nextField) => emptySoFar && (fieldsToIgnore.includes(nextField) || !address[nextField]), true);
+}
+

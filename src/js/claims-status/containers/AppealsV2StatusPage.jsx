@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getStatusContents, getNextEvents, APPEAL_TYPES, EVENT_TYPES, STATUS_TYPES } from '../utils/appeals-v2-helpers';
+import {
+  getAlertContent,
+  getStatusContents,
+  getNextEvents,
+  ALERT_TYPES,
+  APPEAL_TYPES,
+  EVENT_TYPES,
+  STATUS_TYPES
+} from '../utils/appeals-v2-helpers';
 
 import Timeline from '../components/appeals-v2/Timeline';
 import CurrentStatus from '../components/appeals-v2/CurrentStatus';
@@ -43,6 +51,24 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
     !hideDocketStatusTypes.includes(status.type) &&
     !hideDocketAppealTypes.includes(appealType);
 
+  const filteredAlerts = alerts.filter(a => a.type !== ALERT_TYPES.cavcOption);
+  const afterNextAlerts = (
+    <div>
+      {alerts
+        .filter(a => a.type === ALERT_TYPES.cavcOption)
+        .map((a, i) => {
+          const alert = getAlertContent(a, appealIsActive);
+          return (
+            <div key={`after-next-alert-${i}`}>
+              <h2>{alert.title}</h2>
+              <div>{alert.description}</div>
+            </div>
+          );
+        })
+      }
+    </div>
+  );
+
   return (
     <div>
       <Timeline events={events} missingEvents={incompleteHistory}/>
@@ -50,10 +76,11 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
         title={currentStatus.title}
         description={currentStatus.description}
         isClosed={!appealIsActive}/>
-      <AlertsList alerts={alerts}/>
+      <AlertsList alerts={filteredAlerts} appealIsActive/>
       {appealIsActive && <WhatsNext nextEvents={nextEvents}/>}
       {shouldShowDocket && <Docket {...docket} aod={aod} form9Date={form9Date} appealType={appealType}/>}
       {!appealIsActive && <div className="closed-appeal-notice">This appeal is now closed</div>}
+      {afterNextAlerts}
     </div>
   );
 };

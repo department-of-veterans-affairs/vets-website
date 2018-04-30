@@ -41,8 +41,8 @@ export default function AppealListItem({ appeal, name }) {
         <p><strong>Status:</strong> {getStatusContents(status.type, status.details, name).title}</p>
       </div>
       {appeal.attributes.description &&
-        <span><strong>{appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on appeal:</strong> {appeal.attributes.description}</span>}
-      <Link className="usa-button usa-button-primary" to={`appeals-v2/${appeal.id}/status`}>View status<i className="fa fa-chevron-right"/></Link>
+        <p style={{ marginTop: 0 }}><strong>{appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on appeal:</strong> {appeal.attributes.description}</p>}
+      <Link className="usa-button usa-button-primary" to={`appeals/${appeal.id}/status`}>View status<i className="fa fa-chevron-right"/></Link>
     </div>
   );
 }

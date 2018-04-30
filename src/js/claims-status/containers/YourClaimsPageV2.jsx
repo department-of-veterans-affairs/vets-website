@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import recordEvent from '../../../platform/monitoring/record-event';
 
-import Modal from '../../common/components/Modal';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import {
   changePageV2,
   getAppealsV2,
@@ -24,11 +25,11 @@ import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import ClaimsListItem from '../components/ClaimsListItemV2';
+import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
 import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import NoClaims from '../components/NoClaims';
-import Pagination from '../../common/components/Pagination';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/jean-pants/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -162,7 +163,7 @@ class YourClaimsPageV2 extends React.Component {
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="small-12 columns">
-                <h1 className="claims-container-title">Your Compensation Appeals and Claims</h1>
+                <h1 className="claims-container-title">Track Your Compensation Appeals and Claims</h1>
               </div>
               <div className="small-12 columns">
                 {this.renderErrorMessages()}
@@ -171,7 +172,7 @@ class YourClaimsPageV2 extends React.Component {
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
-                window.dataLayer.push({
+                recordEvent({
                   event: 'claims-consolidated-modal',
                 });
                 this.props.showConsolidatedMessage(true);
@@ -188,6 +189,14 @@ class YourClaimsPageV2 extends React.Component {
           <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
             <FeaturesWarning/>
             <AskVAQuestions/>
+            <div>
+              <h2 className="help-heading">Can’t find your appeal?</h2>
+              <p>
+                If you submitted a Notice of Disagreement for an appeal within the last 3 months,
+                VA might still be processing your appeal. For more information, contact your Veterans
+                Service Organization or representative.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -209,7 +218,7 @@ function mapStateToProps(state) {
   const list = getVisibleRows(sortedList, claimsV2Root.page);
 
   return {
-    appealsAvailable: claimsV2Root.appealsAvailability,
+    appealsAvailable: claimsV2Root.v2Availability,
     claimsAvailable: claimsV2Root.claimsAvailability,
     // claimsAuthorized: claimsState.claimSync.authorized,
     claimsLoading: claimsV2Root.claimsLoading,

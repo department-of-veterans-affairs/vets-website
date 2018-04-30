@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
-import { focusElement } from '../../utils/helpers';
-import ProgressBar from '../../components/ProgressBar';
+import { focusElement } from '../../../../platform/utilities/ui';
+import ProgressBar from '@department-of-veterans-affairs/jean-pants/ProgressBar';
 
 export default class FileField extends React.Component {
   constructor(props) {
@@ -35,18 +35,18 @@ export default class FileField extends React.Component {
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
-      this.props.formContext.uploadFile(
+      this.uploadRequest = this.props.formContext.uploadFile(
         event.target.files[0],
+        this.props.uiSchema['ui:options'],
+        this.updateProgress,
         (file) => {
           this.props.onChange(_.set(idx, file, this.props.formData || []));
+          this.uploadRequest = null;
         },
-        this.props.uiSchema['ui:options'],
-        this.updateProgress
-      ).catch(() => {
-        // rather not use the promise here, but seems better than trying to pass
-        // a blur function
-        // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
-      });
+        () => {
+          this.uploadRequest = null;
+        }
+      );
     }
   }
 
@@ -58,8 +58,23 @@ export default class FileField extends React.Component {
     }
   }
 
+  onAttachmentNameChange = (index, value) => {
+    if (!value) {
+      this.props.onChange(_.unset([index, 'name'], this.props.formData));
+    } else {
+      this.props.onChange(_.set([index, 'name'], value, this.props.formData));
+    }
+  }
+
   updateProgress = (progress) => {
     this.setState({ progress });
+  }
+
+  cancelUpload = (index) => {
+    if (this.uploadRequest) {
+      this.uploadRequest.abort();
+    }
+    this.removeFile(index);
   }
 
   removeFile = (index) => {
@@ -108,7 +123,11 @@ export default class FileField extends React.Component {
               const attachmentIdSchema = {
                 $id: `${idSchema.$id}_${index}_atachmentId`
               };
+              const attachmentNameSchema = {
+                $id: `${idSchema.$id}_${index}_atachmentName`
+              };
               const attachmentIdErrors = _.get([index, 'attachmentId'], errorSchema);
+              const attachmentNameErrors = _.get([index, 'name'], errorSchema);
 
               return (
                 <li key={index} id={`${idSchema.$id}_file_${index}`} className={itemClasses}>
@@ -116,10 +135,16 @@ export default class FileField extends React.Component {
                     <div className="schemaform-file-uploading">
                       <span>{file.name}</span><br/>
                       <ProgressBar percent={this.state.progress}/>
+                      <button type="button" className="va-button-link" onClick={() => {
+                        this.cancelUpload(index);
+                      }}>
+                        Cancel
+                      </button>
                     </div>
                   }
-                  {!file.uploading && <span>{file.name}</span>}
-                  {!hasErrors && itemSchema.properties.attachmentId &&
+                  {!file.uploading && <p>{uiOptions.itemDescription}</p>}
+                  {!file.uploading && <span><strong>{file.name}</strong></span>}
+                  {!hasErrors && _.get('properties.attachmentId', itemSchema) &&
                     <div className="schemaform-file-attachment">
                       <SchemaField
                         name="attachmentId"
@@ -135,6 +160,22 @@ export default class FileField extends React.Component {
                         disabled={this.props.disabled}
                         readonly={this.props.readonly}/>
                     </div>}
+                  {!hasErrors && uiOptions.attachmentName &&
+                  <div className="schemaform-file-attachment">
+                    <SchemaField
+                      name="attachmentName"
+                      required
+                      schema={itemSchema.properties.name}
+                      uiSchema={uiOptions.attachmentName}
+                      errorSchema={attachmentNameErrors}
+                      idSchema={attachmentNameSchema}
+                      formData={formData[index].name}
+                      onChange={(value) => this.onAttachmentNameChange(index, value)}
+                      onBlur={onBlur}
+                      registry={this.props.registry}
+                      disabled={this.props.disabled}
+                      readonly={this.props.readonly}/>
+                  </div>}
                   {!file.uploading && hasErrors && <span className="usa-input-error-message">{errors[0]}</span>}
                   {!file.uploading && <div>
                     <button type="button" className="va-button-link" onClick={() => {

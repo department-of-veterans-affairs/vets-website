@@ -1,9 +1,8 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
+import { mount } from 'enzyme';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillData } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/address';
 import { address } from 'vets-json-schema/dist/definitions.json';
 
@@ -17,152 +16,127 @@ describe('Schemaform definition address', () => {
   it('should render address', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={s}
         uiSchema={uis}/>
     );
 
-    const formDOM = findDOMNode(form);
-
     // Count the form elements
-    const inputs = formDOM.querySelectorAll('input');
-    const selects = formDOM.querySelectorAll('select');
+    const inputs = form.find('input');
+    const selects = form.find('select');
     expect(inputs.length).to.equal(4);
     expect(selects.length).to.equal(2);
 
     // Postal code should be small
-    expect(inputs[inputs.length - 1].classList.contains('usa-input-medium')).to.be.true;
+    expect(inputs.last().is('.usa-input-medium')).to.be.true;
 
     // country is USA and there is no blank option
-    expect(selects[0].value).to.equal('USA');
-    expect(Array.from(selects[0].options).every(option => !!option.value)).to.be.true;
+    expect(selects.first().props().value).to.equal('USA');
+    expect(selects.first().find('option').everyWhere(n => !!n.props().value)).to.be.true;
   }).timeout(4000);
 
   it('should have required inputs if required', () => {
     const s = schema(addressSchema, true);
     const uis = uiSchema();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={s}
         uiSchema={uis}/>
     );
 
-    const formDOM = findDOMNode(form);
-
     // Ideally, we'd get the required inputs, not the <span>s denoting required
     //  fields but this doesn't work.
     // const requiredInputs = formDOM.querySelectorAll('input[required=true]');
-    const requiredInputs = formDOM.querySelectorAll('label span.schemaform-required-span');
+    const requiredInputs = form.find('label').find('span.schemaform-required-span');
     expect(requiredInputs.length).to.not.equal(0);
   }).timeout(4000);
 
   it('should update labels and state selection conditionally', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={s}
         uiSchema={uis}/>
     );
 
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-
-    // By default, the Country is USA, so the postalCode label should be 'ZIP Code'
-    //  and the State label should be 'State' and the field should be a dropdown
-    const labels = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'label');
-    const postalCodeLabel = labels.find(label => label.htmlFor === 'root_postalCode');
-    const stateLabel = labels.find(label => label.htmlFor === 'root_state');
-    const stateField = formDOM.querySelector('#root_state');
+    const labels = form.find('label');
+    const postalCodeLabel = labels.findWhere(label => label.props().htmlFor === 'root_postalCode');
+    const stateLabel = labels.findWhere(label => label.props().htmlFor === 'root_state');
+    const stateField = form.find('select#root_state');
 
     // Check the labels' text
-    expect(postalCodeLabel.textContent === 'ZIP Code');
-    expect(stateLabel.textContent === 'State');
+    expect(postalCodeLabel.text()).to.equal('Postal code');
+    expect(stateLabel.text()).to.equal('State');
 
     // And state input type / options
-    expect(stateField.tagName === 'select');
-    // jsdom doesn't support namedItem; use options instead
-    expect(Array.from(stateField.options).find(op => op.value === 'OR')).to.not.be.undefined;
+    expect(stateField.find('option').someWhere(n => n.props().value === 'OR')).to.be.true;
 
     // Entering a military city should result in different "state" options
-    const cityField = formDOM.querySelector('#root_city');
-    ReactTestUtils.Simulate.change(cityField, {
-      target: {
-        value: 'apo'
-      }
-    });
-    expect(Array.from(stateField.options).find(op => op.value === 'AA')).to.not.be.undefined;
+    fillData(form, 'input#root_city', 'apo');
+    expect(stateField.find('option').someWhere(n => n.props().value === 'AA')).to.be.true;
 
     // Change the country
-    const countryField = find('#root_country');
-
-    ReactTestUtils.Simulate.change(countryField, {
-      target: {
-        value: 'CAN'
-      }
-    });
+    fillData(form, 'select#root_country', 'CAN');
 
     // Check to see if the postal code and state updated
-    expect(stateLabel.textContent === 'Provice');
-    expect(postalCodeLabel.textContent === 'Postal code');
-    expect(Array.from(stateField.options).find(op => op.value === 'QC')).to.not.be.undefined;
+    expect(stateLabel.text()).to.equal('Province');
+    expect(postalCodeLabel.text()).to.equal('Postal code');
+    expect(form.find('select#root_state').find('option').someWhere(n => n.props().value === 'QC')).to.be.true;
 
     // Check for Mexican states
-    ReactTestUtils.Simulate.change(countryField, {
-      target: {
-        value: 'MEX'
-      }
-    });
-    expect(Array.from(stateField.options).find(op => op.value === 'guerrero')).to.not.be.undefined;
+    fillData(form, 'select#root_country', 'MEX');
+    expect(form.find('select#root_state').find('option').someWhere(n => n.props().value === 'guerrero')).to.be.true;
 
     // Change to another country that doesn't have a select box for state
-    ReactTestUtils.Simulate.change(countryField, {
-      target: {
-        value: 'BEL'
-      }
-    });
-
-    expect(stateField.tagName === 'input');
+    fillData(form, 'select#root_country', 'BEL');
+    expect(form.find('input#root_state').exists()).to.be.true;
   }).timeout(4000);
 
   it('should update address field', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={s}
         uiSchema={uis}/>
     );
 
-    const formDOM = findDOMNode(form);
+    fillData(form, 'input#root_street', '123 street');
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_street'), {
-      target: {
-        value: '123 street'
-      }
-    });
-
-    expect(formDOM.querySelector('#root_street').value).to.equal('123 street');
+    expect(form.find('input#root_street').props().value).to.equal('123 street');
   }).timeout(4000);
 
   it('should update country field in empty address', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={s}
         uiSchema={uis}/>
     );
 
-    const formDOM = findDOMNode(form);
+    fillData(form, 'select#root_country', 'CAN');
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_country'), {
-      target: {
-        value: 'CAN'
-      }
-    });
+    expect(form.find('select#root_country').props().value).to.equal('CAN');
+  }).timeout(4000);
 
-    expect(formDOM.querySelector('#root_country').value).to.equal('CAN');
+  it('should require state for non-required addresses with other info', () => {
+    const s = schema(addressSchema, false);
+    const uis = uiSchema();
+    const form = mount(
+      <DefinitionTester
+        schema={s}
+        uiSchema={uis}/>
+    );
+
+    fillData(form, 'input#root_street', '123 st');
+    fillData(form, 'input#root_city', 'Northampton');
+    fillData(form, 'input#root_postalCode', '12345');
+
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
   }).timeout(4000);
 });

@@ -1,5 +1,7 @@
 import React from 'react';
-import ProgressButton from '../../components/form-elements/ProgressButton';
+import moment from 'moment';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
+import { timeFromNow } from '../../../../platform/utilities/date';
 
 export default function SubmitButtons(props) {
   const {
@@ -46,6 +48,21 @@ export default function SubmitButtons(props) {
         <div className="usa-alert-body">
           <p className="schemaform-warning-header"><strong>We’re sorry, there was an error connecting to Vets.gov.</strong></p>
           <p>Please check your Internet connection and try again. If the problem persists, please contact the Vets.gov Help Desk.</p>
+        </div>
+      </div>
+    );
+  } else if (submission.status === 'throttledError') {
+    submitButton = (
+      <ProgressButton
+        onButtonClick={onSubmit}
+        buttonText="Submit Application"
+        buttonClass="usa-button-primary"/>
+    );
+    submitMessage = (
+      <div className="usa-alert usa-alert-error schemaform-failure-alert">
+        <div className="usa-alert-body">
+          <p className="schemaform-warning-header"><strong>We’ve run into a problem</strong></p>
+          <p>We’re sorry. Your submission didn’t go through because we received too many requests from you. Please wait {timeFromNow(moment.unix(submission.extra))} and submit your request again.</p>
         </div>
       </div>
     );

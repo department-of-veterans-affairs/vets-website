@@ -5,11 +5,11 @@ import Scroll from 'react-scroll';
 
 import {
   getDefaultFormState
-} from 'react-jsonschema-form/lib/utils';
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import SchemaForm from '../components/SchemaForm';
 
-import { focusElement } from '../../utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

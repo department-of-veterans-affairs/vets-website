@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
-import AdditionalInfo from '../common/components/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
 
 import {
   stringifyFormReplacer,
@@ -8,7 +8,7 @@ import {
   filterInactivePages,
   createFormPageList
 } from '../common/schemaform/helpers';
-import { getInactivePages } from '../common/utils/helpers';
+import { getInactivePages } from '../../platform/forms/helpers';
 
 function changePostalToZip(address) {
   if (address.country === 'USA') {

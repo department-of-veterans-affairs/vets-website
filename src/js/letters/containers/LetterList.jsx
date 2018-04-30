@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import CollapsiblePanel from '../../common/components/CollapsiblePanel';
+import CollapsiblePanel from '@department-of-veterans-affairs/jean-pants/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../platform/utilities/ui';
 import { letterContent, bslHelpInstructions } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 

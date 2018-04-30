@@ -4,7 +4,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../platform/utilities/ui';
 import { benefitsLabels } from '../labels';
 
 const scroller = Scroll.scroller;
@@ -35,7 +35,7 @@ class ConfirmationPage extends React.Component {
   render() {
     const form = this.props.form;
     const response = form.submission.response
-      ? form.submission.response.attributes
+      ? form.submission.response
       : {};
     const { 'view:claimedBenefits': benefits,
       claimantFullName: claimantName,
@@ -48,11 +48,10 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We process claims in the order we receive them.</p>
+        <h3 className="confirmation-page-title">Claim submitted</h3>
+        <p>We process claims in the order we receive them. Please print this page for your records.</p>
         <p>
-          We may contact you for more information or documents.<br/>
-          <i>Please print this page for your records.</i>
+          We may contact you for more information or documents.
         </p>
         <div className="inset">
           <h4>Burial Benefit Claim <span className="additional">(Form 21P-530)</span></h4>
@@ -64,7 +63,7 @@ class ConfirmationPage extends React.Component {
               <span>{response.confirmationNumber}</span>
             </li>
             <li>
-              <strong>Date received</strong><br/>
+              <strong>Date submitted</strong><br/>
               <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm a [CT]')}</span>
             </li>
             <li>
@@ -73,7 +72,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Benefits claimed</strong><br/>
-              {_.map(benefits, (isRequested, benefitName) => isRequested && <p>{benefitsLabels[benefitName]}</p>)}
+              {_.map(benefits, (isRequested, benefitName) => isRequested && <p key={benefitName}>{benefitsLabels[benefitName]}</p>)}
             </li>
             {hasDocuments && <li>
               <strong>Documents uploaded</strong><br/>

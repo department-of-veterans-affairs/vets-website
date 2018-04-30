@@ -2,12 +2,13 @@
 import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import asyncLoader from '../../common/components/asyncLoader';
+import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
+import asyncLoader from '../../../platform/utilities/ui/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
-import { prefillTransformer, submit } from '../helpers';
+import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -15,7 +16,7 @@ import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
-import { genderLabels } from '../../common/utils/labels';
+import { genderLabels } from '../../../platform/static-data/labels';
 import { validateMatch } from '../../common/schemaform/validation';
 import validateFile from '../validation';
 
@@ -68,6 +69,7 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran information',
           uiSchema: {
+            'ui:description': IdentityFieldsWarning,
             veteranFullName: fullNameUI,
             veteranSocialSecurityNumber: ssnUI,
             gender: {
@@ -170,6 +172,7 @@ const formConfig = {
           path: 'documents/photo',
           title: 'Photo upload',
           reviewTitle: 'Photo review',
+          pageClass: 'photo-field-page',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
             'ui:description': PhotoDescription,
@@ -217,7 +220,7 @@ const formConfig = {
           path: 'documents/discharge',
           title: 'Discharge document upload',
           reviewTitle: 'Discharge document review',
-          depends: form => !form.verified,
+          depends: form => !form.verified || !identityMatchesPrefill(form),
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {

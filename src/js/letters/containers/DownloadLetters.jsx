@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import findIndex from 'lodash/fp/findIndex';
 
 import FormTitle from '../../common/schemaform/components/FormTitle';
-import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
+import SegmentedProgressBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgressBar';
 
 import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';
+
+import { isAddressEmpty } from '../utils/helpers';
 
 export class DownloadLetters extends React.Component {
   constructor() {
@@ -22,6 +24,7 @@ export class DownloadLetters extends React.Component {
     const { children, location } = this.props;
     const currentPageIndex = findIndex(['path', location.pathname], chapters);
     const currentStep = currentPageIndex + 1;
+    const emptyAddress = isAddressEmpty(this.props.address);
 
     let viewLettersButton;
     if (location.pathname === '/confirm-address') {
@@ -29,7 +32,8 @@ export class DownloadLetters extends React.Component {
         <div className="step-content">
           <button
             onClick={this.navigateToLetterList}
-            className="usa-button-primary view-letters-button">
+            className="usa-button-primary view-letters-button"
+            disabled={this.props.isEditingAddress || emptyAddress}>
             View Letters
           </button>
         </div>
@@ -60,6 +64,7 @@ function mapStateToProps(state) {
     letters: letterState.letters,
     fullName: letterState.fullName,
     address: letterState.address,
+    isEditingAddress: letterState.isEditingAddress,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     benefitSummaryOptions: {

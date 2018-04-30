@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Disability Benefits
+description: Find out if you can get VA disability benefits for an illness or injury, including a mental health condition, related to your military service. 
 permalink: /disability-benefits/index.html
 source: http://www.benefits.va.gov/compensation/
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
@@ -18,7 +19,7 @@ majorlinks:
       title: Conditions
       description: Discover which illnesses or injuries qualify you for benefits.
     - url: /track-claims/
-      title: Check Claim and Appeal Status
+      title: Track Your Claims and Appeals
       description: Track the status of your disability claims and appeals.
     - url: /disability-benefits/claims-appeal/
       title: Appeals Process

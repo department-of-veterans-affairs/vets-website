@@ -1,44 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import Modal from '../../common/components/Modal';
-import AlertBox from '../../common/components/AlertBox';
 import _ from 'lodash';
-
 import moment from 'moment';
 
-import { getMultifactorUrl, handleMultifactor } from '../../common/helpers/login-helpers';
-import { updateMultifactorUrl } from '../../login/actions';
-
-import {
-  fetchLatestTerms,
-  acceptTerms,
-} from '../actions';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { mfa } from '../../../platform/utilities/authentication';
+import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
+import { fetchLatestTerms, acceptTerms } from '../actions';
+import PersonalizationBetaInvite from './PersonalizationBetaInvite';
 
 class UserDataSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
-    this.getMultifactorUrl();
-    this.handleMultifactorRequest = this.handleMultifactorRequest.bind(this);
-  }
-
-  componentWillUnmount() {
-    this.multifactorUrlRequest.abort();
-  }
-
-  getMultifactorUrl() {
-    this.multifactorUrlRequest = getMultifactorUrl(this.props.updateMultifactorUrl);
-  }
-
-  handleMultifactorRequest() {
-    handleMultifactor(this.props.login.multifactorUrl);
   }
 
   openModal = () => {
-    window.dataLayer.push({ event: 'terms-shown-profile' });
-    this.setState({ modalOpen: true });
+    recordEvent({ event: 'terms-shown-profile' });
+    this.setState({ modalOpen: true }, () => {
+      if (!this.props.terms.termsContent) {
+        this.props.fetchLatestTerms('mhvac');
+      }
+    });
   }
 
   closeModal = () => {
@@ -50,25 +36,20 @@ class UserDataSection extends React.Component {
     this.closeModal();
   }
 
-  renderModalContents() {
+  renderModalContents = () => {
     const { terms } = this.props;
-    const termsAccepted = this.props.profile.healthTermsCurrent;
-    if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
-      setTimeout(() => {
-        this.props.fetchLatestTerms('mhvac');
-      }, 100);
+
+    if (!this.state.modalOpen) { return null; }
+
+    if (terms.loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (!termsAccepted && this.state.modalOpen && terms.loading === true) {
-      return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (termsAccepted) {
+    }
+
+    if (terms.accepted) {
       return (
         <div>
-          <h3>
-            You have already accepted the terms and conditions.
-          </h3>
-          <div>
-            <button type="submit" onClick={this.closeModal}>Ok</button>
-          </div>
+          <h3>You have already accepted the terms and conditions.</h3>
+          <div><button type="submit" onClick={this.closeModal}>Ok</button></div>
         </div>
       );
     }
@@ -76,8 +57,8 @@ class UserDataSection extends React.Component {
     return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} isInModal/>;
   }
 
-  renderTermsLink() {
-    if (this.props.profile.healthTermsCurrent) {
+  renderTermsLink = () => {
+    if (this.props.terms.accepted) {
       return (
         <p>You have accepted the latest health terms and conditions for this site.</p>
       );
@@ -87,14 +68,14 @@ class UserDataSection extends React.Component {
     );
   }
 
-  renderMultifactorMessage() {
+  renderMultifactorMessage = () => {
     if (this.props.profile.multifactor) { return null; }
 
     const headline = 'Add extra security to your account';
     const content = (
       <div>
         <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
-        <button className="usa-button usa-button-secondary" onClick={this.handleMultifactorRequest}>Add security step</button>
+        <button className="usa-button usa-button-secondary" onClick={mfa}>Add security step</button>
       </div>
     );
 
@@ -112,10 +93,10 @@ class UserDataSection extends React.Component {
   render() {
     const {
       profile: {
-        accountType,
         dob,
         email,
         gender,
+        verified
       },
       name: {
         first: firstName,
@@ -127,7 +108,7 @@ class UserDataSection extends React.Component {
     let content;
     const name = `${firstName || ''} ${middleName || ''} ${lastName || ''}`;
 
-    if (accountType === 3) {
+    if (verified) {
       content = (
         <span>
           <p><span className="label">Name:</span>{_.startCase(_.toLower(name))}</p>
@@ -144,11 +125,12 @@ class UserDataSection extends React.Component {
           {content}
           <p><span className="label">Email address:</span> {email}</p>
           {this.renderMultifactorMessage()}
-          {accountType !== 3 && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
+          {!verified && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
           <p>Want to change your email, password, or other account settings?<br/>
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>
           {this.renderTermsLink()}
+          <PersonalizationBetaInvite profile={this.props.profile}/>
         </div>
         <Modal
           cssClass="va-modal-large"
@@ -167,14 +149,13 @@ const mapStateToProps = (state) => {
     login: userState.login,
     name: userState.profile.userFullName,
     profile: userState.profile,
-    terms: userState.profile.terms
+    terms: userState.profile.mhv.terms
   };
 };
 
 const mapDispatchToProps = {
   fetchLatestTerms,
-  acceptTerms,
-  updateMultifactorUrl,
+  acceptTerms
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDataSection);

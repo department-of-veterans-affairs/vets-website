@@ -77,6 +77,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       <RoutedSavableReviewPage
         router={router}
         setData={setData}
+        openChapters={[]}
         form={form}
         user={user}
         onSubmit={onSubmit}

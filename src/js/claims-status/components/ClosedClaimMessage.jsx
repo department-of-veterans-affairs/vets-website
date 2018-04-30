@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import { orderBy } from 'lodash';
+import recordEvent from '../../../platform/monitoring/record-event';
 import { APPEAL_V2_TYPE } from '../utils/appeals-v2-helpers';
 
 import { getClaimType } from '../utils/helpers';
@@ -49,7 +50,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         <h4 className="usa-alert-title">Recently closed:</h4>
         {closedClaims.map(claim => (
           <p className="usa-alert-text claims-closed-text" key={claim.id}>
-            <Link to={appealTypes.includes(claim.type) ? `appeals/${claim.id}/status` : `your-claims/${claim.id}/status`} onClick={() => { window.dataLayer.push({ event: 'claims-closed-alert-clicked' }); }}>Your {appealTypes.includes(claim.type) ? 'Compensation Appeal' : getClaimType(claim)} – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</Link> has been closed as of {moment(claim.attributes.phaseChangeDate).format('MMMM D, YYYY')}
+            <Link to={appealTypes.includes(claim.type) ? `appeals/${claim.id}/status` : `your-claims/${claim.id}/status`} onClick={() => { recordEvent({ event: 'claims-closed-alert-clicked' }); }}>Your {appealTypes.includes(claim.type) ? 'Compensation Appeal' : getClaimType(claim)} – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</Link> has been closed as of {moment(claim.attributes.phaseChangeDate).format('MMMM D, YYYY')}
           </p>
         ))}
       </div>

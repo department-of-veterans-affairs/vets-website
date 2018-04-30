@@ -63,6 +63,7 @@ export default function appealsReducer(state = initialState, action) {
       return _.merge(state, {
         appealsLoading: false,
         available: true,
+        v1ToV2IdMap: action.v1ToV2IdMap
         // v2Availability: AVAILABLE // New and improved! More bits of info!
       });
     }

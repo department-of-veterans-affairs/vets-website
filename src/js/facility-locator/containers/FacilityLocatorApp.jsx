@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import React from 'react';
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 
 class FacilityLocatorApp extends React.Component {
   renderBreadcrumbs() {

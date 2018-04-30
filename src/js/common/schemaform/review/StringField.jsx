@@ -5,7 +5,7 @@ import {
   getUiOptions,
   getWidget,
   optionsList
-} from 'react-jsonschema-form/lib/utils';
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 /*
  * This is a minimal string field implementation for the

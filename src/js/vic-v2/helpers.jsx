@@ -1,36 +1,69 @@
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
-import environment from '../common/helpers/environment.js';
+import recordEvent from '../../platform/monitoring/record-event';
+import environment from '../../platform/utilities/environment';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
-export function prefillTransformer(pages, formData, metadata) {
+export function prefillTransformer(pages, formData, metadata, state) {
+  let newPages = pages;
+  let newData = formData;
+
   if (formData && formData.serviceBranches) {
     // Mostly we'll be getting branch lists of one or two branches, creating a Set seems like overkill
     const allowedBranches = pages.veteranInformation.schema.properties.serviceBranch.enum;
     const validUserBranches = formData.serviceBranches.filter(branch => allowedBranches.includes(branch));
 
-    const newData = _.unset('serviceBranches', formData);
+    newData = _.unset('serviceBranches', newData);
     if (validUserBranches.length > 0) {
       newData.serviceBranch = validUserBranches[0];
-      return {
-        metadata,
-        formData: newData,
-        pages: _.set('veteranInformation.schema.properties.serviceBranch.enum', validUserBranches, pages)
-      };
+      newPages = _.set('veteranInformation.schema.properties.serviceBranch.enum', validUserBranches, pages);
     }
+  }
 
-    return {
-      metadata,
-      formData: newData,
-      pages
+  if (state.user.profile.services.includes('identity-proofed')) {
+    newData = _.set('processAsIdProofed', true, newData);
+    newData.originalUser = {
+      veteranSocialSecurityNumber: newData.veteranSocialSecurityNumber,
+      veteranFullName: newData.veteranFullName,
+      veteranDateOfBirth: newData.veteranDateOfBirth
     };
   }
 
   return {
     metadata,
-    formData,
-    pages
+    formData: newData,
+    pages: newPages
   };
+}
+
+export function identityMatchesPrefill(formData) {
+  const { originalUser = {} } = formData;
+  return formData.veteranSocialSecurityNumber === originalUser.veteranSocialSecurityNumber
+    && formData.veteranFullName.first === originalUser.veteranFullName.first
+    && formData.veteranFullName.middle === originalUser.veteranFullName.middle
+    && formData.veteranFullName.last === originalUser.veteranFullName.last
+    && formData.veteranFullName.suffix === originalUser.veteranFullName.suffix
+    && formData.veteranDateOfBirth === originalUser.veteranDateOfBirth;
+}
+
+export function transform(form, formConfig) {
+  let newData = _.omit(['verified', 'originalUser', 'processAsIdProofed'], form.data);
+
+  // If we pulled their id info at the start and they haven't changed it, then we can submit on the
+  // backend with id info from MVI and discharge status from eMIS
+  // If they changed it, then we have to verify they're not trying to submit a fradulent
+  // request and process them as an anonymous request
+  if (form.data.processAsIdProofed && identityMatchesPrefill(form.data)) {
+    newData = _.omit([
+      'veteranFullName',
+      'veteranSocialSecurityNumber'
+    ], newData);
+    newData.processAsAnonymous = false;
+  } else {
+    newData.processAsAnonymous = true;
+  }
+
+  return transformForSubmit(formConfig, _.set('data', newData, form));
 }
 
 function checkStatus(guid) {
@@ -117,7 +150,7 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  const formData = transformForSubmit(formConfig, _.unset('data.verified', form));
+  const formData = transform(form, formConfig);
   const body = JSON.stringify({
     vicSubmission: {
       form: formData
@@ -156,10 +189,28 @@ export function submit(form, formConfig) {
     }).then(resp => {
       const guid = resp.data.attributes.guid;
       pollStatus(guid, response => {
+        recordEvent({
+          event: `${formConfig.trackingPrefix}-submission-successful`,
+        });
         resolve(_.set('photo', photo, response));
       }, reject);
     })
-      .catch(reject);
+      .catch(respOrError => {
+        if (respOrError instanceof Response) {
+          if (respOrError.status === 429) {
+            const error = new Error('vets_throttled_error_vic');
+            error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+            reject(error);
+            return;
+          }
+        }
+        reject(respOrError);
+      });
   });
+}
+
+export function hasSavedForm(savedForms, formID) {
+  return savedForms.some(({ form }) => form === formID);
 }
 

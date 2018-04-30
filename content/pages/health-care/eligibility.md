@@ -16,7 +16,7 @@ widgets:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you served in the active military, naval, or air service and separated under conditions other than dishonorable, you may qualify for VA health care benefits. Find out if you can get VA health care.
+Find out if you can get VA health care as a Veteran.
 
 </div>
 
@@ -26,46 +26,54 @@ If you served in the active military, naval, or air service and separated under 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
+You may be able to get VA health care benefits if you served in the active military, naval, or air service and didn't receive a dishonorable discharge.
 
-You may be able to get VA health care benefits if you served on active duty and separated under conditions other than dishonorable.
-
-You should know:
-
-- **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
-
+- **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty, unless any of the descriptions below are true for you.</br>
+</br>
+**This minimum duty requirement may not apply if any of these are true. You:**
   - Were discharged for a disability that was caused—or made worse—by your active-duty service, **or**
   - Were discharged for a hardship or “early out,” **or**
   - Served prior to September 7, 1980
 
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
-- **If you separated under conditions other than honorable:**
-  - You may be able to apply for a discharge upgrade or access some VA benefits through the Character of Discharge review process.<br/>
-  [Learn more about this process](#discharge-upgrade).
-  - Or, you can use VA’s Health Benefits Explorer to find out if any exceptions apply to you.<br/>
-  [Go to the Health Benefits Explorer](http://hbexplorer.vacloud.us/).
-  - Or, you can visit healthcare.gov to find out if you qualify for health insurance.<br/>
-  [Go to healthcare.gov](https://www.healthcare.gov/). <br/>
-  
-<br>
+### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
-#### Enhanced Eligibility Status
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
 
-You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
+**There are 2 ways you can try to qualify:**
 
-- You receive financial compensation (payments) from VA for a service-connected disability
-- You were discharged for a disability resulting from something that happened to you in the line of duty
-- You were discharged for a disability that got worse in the line of duty
-- You’re a recently discharged Combat Veteran
-- You get a VA pension
-- You’re a former Prisoner of War (POW)
-- You’ve received a Purple Heart
-- You get (or qualify for) Medicaid benefits
-- You served in Vietnam between January 9, 1962, and May 7, 1975
-- You served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
-- You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
-If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
+</div>
+</div>
+</div>
+
+<div class="feature" markdown=“1” itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Is there anything that will make me more likely to get these benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if you meet at least one of the requirements listed below.
+
+**At least one of these must be true. You:** 
+
+- Receive financial compensation (payments) from VA for a service-connected disability
+- Were discharged for a disability resulting from something that happened to you in the line of duty
+- Were discharged for a disability that got worse in the line of duty
+- Are a recently discharged Combat Veteran
+- Get a VA pension
+- Are a former Prisoner of War (POW)
+- Have received a Purple Heart
+- Get (or qualify for) Medicaid benefits
+- Served in Vietnam between January 9, 1962, and May 7, 1975
+- Served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
+- Served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
+
+**If none of the above apply to you**, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. <br>
+[Learn more about income limits](http://nationalincomelimits.vaftl.us/).
 
 </div>
 </div>
@@ -85,7 +93,8 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
+[Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
 Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
@@ -100,7 +109,8 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 - [What are priority groups and how do they affect me?](#priority-groups)
 - [I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits?](#other-health-insurance)
-- [If I have a less than honorable discharge, can I still get VA health care benefits?](#discharge-upgrade)
+- [If I can't get VA health care benefits, how else can I get health insurance?](#cannot-get)
+- [If I don't qualify for VA health care benefits, can I still get care for certain needs (like PTSD or military sexual trauma)?](#certain-needs)
 - [I need vision care. Can I get it through VA?](#vision-care)
 - [I need dental care. Can I get it through VA?](#dental-care)
 - [I think I may have a service-connected disability. Can I get disability compensation (monthly payments)?](#disability-compensation)
@@ -269,41 +279,43 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 </div>
 <br>
 
-<span id="discharge-upgrade"></span>
+<span id="cannot-get"></span>
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">If I have a less than honorable discharge, can I still get VA health care benefits?</h4>
+<h4 itemprop="name">If I can't get VA health care benefits, how else can I get health insurance?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You have 2 options to try to qualify for VA health care benefits:
-
-- **Apply for a discharge upgrade.**<br/>
-If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.<br/>
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
-
-- **Go through the Character of Discharge review process.**<br/>
-Even if you don't get a discharge upgrade, you still may be able to access some VA health care benefits. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge. <br/>
-<br/>
-You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you.<br/>
-[Find a VSO near you](https://www.benefits.va.gov/vso/varo.asp).
-
-**Note:** You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.
-
-**How to get mental health care even without VA health care benefits:** <br>
-
-If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health problems linked to your service, you may qualify for VA health benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (<a href="tel:+1-800-827-1000">1-800-827-1000</a>), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
-
-Learn more about accessing VA health services for:<br/>
-- [Mental health problems](/health-care/health-conditions/mental-health/)
-- [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
-- [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
+Visit healthcare.gov to find out if you qualify for health insurance.<br/>
+[Go to healthcare.gov](https://www.healthcare.gov/). <br/>
 
 </div>
 </div>
 </div>
 <br>
+
+<span id="certain-needs"></span>
+<div itemscope itemtype="http://schema.org/Question">
+
+<h4 itemprop="name">If I don't qualify for VA health care benefits, can I still get care for certain needs (like PTSD or military sexual trauma)?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Yes. 
+
+**Find out how you may still be able to get care for:**
+
+- [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/#no-benefits)
+- [Other mental health problems (like depression or substance abuse)](/health-care/health-conditions/mental-health/#no-benefits)
+- [Mental and physical health problems linked to military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/#no-benefits)
+
+Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
+
+</div>
+</div>
+</div>
+<br>  
 
 <span id="vision-care"></span>
 

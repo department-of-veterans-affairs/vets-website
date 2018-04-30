@@ -1,21 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import appendQuery from 'append-query';
 
-import { apiRequest } from '../../common/helpers/api';
-import environment from '../../common/helpers/environment';
-import { gaClientId } from '../../common/utils/helpers';
-import { updateLoggedInStatus } from '../../login/actions';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import recordEvent from '../../../platform/monitoring/record-event';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import { apiRequest } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
 
-class AuthApp extends React.Component {
+export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
-    this.checkUserLevel = this.checkUserLevel.bind(this);
-    this.identityProof = this.identityProof.bind(this);
-    this.setError = this.setError.bind(this);
-    this.setMyToken = this.setMyToken.bind(this);
-
     const { token } = props.location.query;
     this.state = { error: !token };
     this.authSettings = {
@@ -26,15 +19,16 @@ class AuthApp extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.error) { this.checkUserLevel(); }
+    if (!this.state.error) { this.validateToken(); }
   }
 
-  setMyToken(token) {
+  setToken = () => {
     // Internet Explorer 6-11
     const isIE = /*@cc_on!@*/false || !!document.documentMode; // eslint-disable-line spaced-comment
     // Edge 20+
     const isEdge = !isIE && !!window.StyleMedia;
 
+    const { token } = this.props.location.query;
     const parent = window.opener;
     parent.sessionStorage.removeItem('userToken');
     parent.sessionStorage.setItem('userToken', token);
@@ -43,46 +37,25 @@ class AuthApp extends React.Component {
     parent.postMessage(token, environment.BASE_URL);
 
     // This will trigger a browser reload if the user is using IE or Edge.
-    if (isIE || isEdge) {
-      window.opener.location.reload();
-    }
-
+    if (isIE || isEdge) { window.opener.location.reload(); }
     window.close();
   }
 
-  setError() {
+  handleAuthError = () => {
     this.setState({ error: true });
   }
 
-  checkUserLevel() {
-    apiRequest('/user', this.authSettings, this.identityProof, this.setError);
+  handleAuthSuccess = ({ data }) => {
+    // Upon successful authentication, push analytics event and store the token.
+    const userData = data.attributes.profile;
+    const loginPolicy = userData.authnContext || 'idme';
+    recordEvent({ event: `login-success-${loginPolicy}` });
+    this.setToken();
   }
 
-  identityProof({ data }) {
-    const myToken = this.props.location.query.token;
-    const userData = data.attributes.profile;
-    const loginMethod = userData.authnContext || 'idme';
-    window.dataLayer.push({ event: `login-success-${loginMethod}` });
-
-    // If LOA highest is not 3, skip identity proofing
-    // If LOA current == highest (3), skip identity proofing
-    // If LOA current < highest, attempt to identity proof
-    if (userData.loa.highest === 3) {
-      if (userData.loa.current === 3) {
-        this.setMyToken(myToken);
-      } else {
-        const redirect = ({ identityProofUrl }) => {
-          window.location.href = appendQuery(
-            identityProofUrl,
-            { clientId: gaClientId() }
-          );
-        };
-
-        apiRequest('/sessions/identity_proof', this.authSettings, redirect, this.setError);
-      }
-    } else {
-      this.setMyToken(myToken);
-    }
+  // Fetch the user to get the login policy and validate the token against the API.
+  validateToken = () => {
+    apiRequest('/user', this.authSettings, this.handleAuthSuccess, this.handleAuthError);
   }
 
   render() {
@@ -113,19 +86,8 @@ class AuthApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    login: state.login,
-    profile: state.profile
-  };
+  const { login, profile } = state;
+  return { login, profile };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdateLoggedInStatus: (update) => {
-      dispatch(updateLoggedInStatus(update));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(AuthApp);
-export { AuthApp };
+export default connect(mapStateToProps)(AuthApp);

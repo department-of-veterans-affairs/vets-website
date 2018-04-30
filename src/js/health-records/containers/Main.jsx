@@ -6,16 +6,16 @@ import classNames from 'classnames';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/jean-pants/ErrorableRadioButtons';
 
 import ErrorView from '../components/ErrorView';
 import { reportTypes as reportTypesConfig } from '../config';
 import {
   changeDateOption,
   getEligibleClasses,
-  initializeResources,
+  initialAppRefresh,
   openModal,
   resetForm,
   setDate,
@@ -42,7 +42,8 @@ export class Main extends React.Component {
 
   componentDidMount() {
     this.props.resetForm();
-    this.props.initializeResources();
+    this.props.getEligibleClasses();
+    this.props.initialAppRefresh();
   }
 
   handleStartDateChange(startDate) {
@@ -367,7 +368,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   changeDateOption,
   getEligibleClasses,
-  initializeResources,
+  initialAppRefresh,
   openModal,
   resetForm,
   setDate,

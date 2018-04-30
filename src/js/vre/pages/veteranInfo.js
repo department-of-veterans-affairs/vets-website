@@ -4,13 +4,16 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 
-export default function createVeteranInfoPage(schema, extra) {
+export default function createVeteranInfoPage(formSchema, extra) {
+  const schema = extra ? extra.schema : {};
+  const uiSchema = extra ? extra.uiSchema : {};
+
   const {
     veteranFullName,
     veteranDateOfBirth,
     veteranSocialSecurityNumber,
     veteranVaFileNumber
-  } = schema.properties;
+  } = formSchema.properties;
 
   return {
     title: 'Veteran Information',
@@ -29,7 +32,7 @@ export default function createVeteranInfoPage(schema, extra) {
           pattern: 'Your VA file number must be between 7 to 9 digits'
         }
       }
-    }, extra.uiSchema),
+    }, uiSchema),
     schema: {
       type: 'object',
       required: ['veteranDateOfBirth'],
@@ -38,7 +41,7 @@ export default function createVeteranInfoPage(schema, extra) {
         veteranDateOfBirth,
         veteranSocialSecurityNumber,
         veteranVaFileNumber,
-      }, extra.schema)
+      }, schema)
     }
   };
 }

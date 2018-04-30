@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
+import ErrorableTextArea from '@department-of-veterans-affairs/jean-pants/ErrorableTextArea';
 
 class MessageWrite extends React.Component {
   render() {
     return (
       <div className={this.props.cssClass}>
-        <ErrorableTextarea
+        <ErrorableTextArea
           disabled={this.props.disabled}
           errorMessage={this.props.errorMessage}
           label="Message"

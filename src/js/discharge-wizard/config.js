@@ -1,4 +1,4 @@
-const options = require('../common/utils/options-for-select.js');
+import * as options from '../../platform/static-data/options-for-select';
 
 export const labels = {
   drb: 'Discharge Review Board',
@@ -27,7 +27,7 @@ export const questionLabels = {
     '2': 'My discharge is not honorable or under honorable conditions.',
   },
   '6_intention': {
-    '1': 'I want to change my name, discharge date, or something written in the "other remarks" section of my DD214. (This isn\'t common).',
+    '1': 'I want to change my name, discharge date, or something written in the “other remarks” section of my DD214. (This isn\'t common).',
     '2': 'I want to change only my characterization of discharge, re-enlistment code, separation code, and/or narrative reason for discharge.',
   },
   '2_dischargeYear': {},
@@ -59,7 +59,7 @@ export const questionLabels = {
     '4': 'I\'m not sure what kind of discharge upgrade application I previously made.',
   },
   '11_failureToExhaust': {
-    '1': 'The BCMR/BCNR denied my application due to "failure to exhaust other remedies."',
+    '1': 'The BCMR/BCNR denied my application due to “failure to exhaust other remedies.”',
     '2': 'The BCMR/BCNR denied my application for other reasons, such as not agreeing with the evidence in my application.',
   },
   '12_priorService': {

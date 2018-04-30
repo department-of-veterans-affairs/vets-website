@@ -3,7 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../platform/utilities/ui';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -33,7 +33,7 @@ class ConfirmationPage extends React.Component {
   render() {
     const form = this.props.form;
     const response = this.props.form.submission.response
-      ? this.props.form.submission.response.attributes
+      ? this.props.form.submission.response
       : {};
     const name = form.data.veteranFullName;
     const regionalOffice = response.regionalOffice || [];
@@ -48,11 +48,10 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We process claims in the order we receive them.</p>
+        <h3 className="confirmation-page-title">Claim submitted</h3>
+        <p>We process claims in the order we receive them. Please print this page for your records.</p>
         <p>
-          We may contact you for more information or documents.<br/>
-          <i>Please print this page for your records.</i>
+          We may contact you for more information or documents.
         </p>
         <div className="inset">
           <h4>Veterans Pension Benefit Claim <span className="additional">(Form 21P-527EZ)</span></h4>
@@ -60,7 +59,7 @@ class ConfirmationPage extends React.Component {
 
           <ul className="claim-list">
             <li>
-              <strong>Date received</strong><br/>
+              <strong>Date submitted</strong><br/>
               <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm a [CT]')}</span>
             </li>
             <li>
@@ -79,7 +78,7 @@ class ConfirmationPage extends React.Component {
                 <p key={index}>{line}</p>)}</address>
             </li>
             <li>
-              <strong>Note:</strong> If you choose to mail your documents, you don’t have to send in a paper copy of VA Form 21P-527EZ with these documents.
+              <strong>Note:</strong> If you choose to mail in your supporting documents, you don’t have to send in a paper copy of VA Form 21P-527EZ with the documents.
             </li>
           </ul>
         </div>

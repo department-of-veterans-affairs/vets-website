@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
-import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
+import { scrollToFirstError, focusElement } from '../../../platform/utilities/ui';
 import { setArrayRecordTouched } from '../../common/schemaform/helpers';
 import currencyUI from '../../common/schemaform/definitions/currency';
 
 import {
   toIdSchema,
   deepEquals
-} from 'react-jsonschema-form/lib/utils';
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { errorSchemaIsValid } from '../../common/schemaform/validation';
 
@@ -52,6 +52,14 @@ export default class AdditionalSourcesField extends React.Component {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
 
+  componentDidUpdate(oldProps) {
+    const oldDataLength = (oldProps.formData || []).length;
+    const newDataLength = (this.props.formData || []).length;
+    if (newDataLength > oldDataLength) {
+      this.scrollToRow(oldDataLength);
+    }
+  }
+
   onItemChange(indexToChange, value, fullItem = false) {
     const path = fullItem ? [indexToChange] : [indexToChange, 'amount'];
     const newItems = _.set(path, value, this.props.formData || []);
@@ -69,15 +77,13 @@ export default class AdditionalSourcesField extends React.Component {
   }
 
   scrollToRow(index) {
-    setTimeout(() => {
-      scroller.scrollTo(`additional_${index}`, window.VetsGov.scroll || {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: 0
-      });
-      focusElement(`.pensions-heading-${index}`);
-    }, 100);
+    scroller.scrollTo(`additional_${index}`, window.VetsGov.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+      offset: 0
+    });
+    focusElement(`.pensions-heading-${index}`);
   }
 
   handleUpdate(index) {
@@ -97,7 +103,6 @@ export default class AdditionalSourcesField extends React.Component {
   handleAdd() {
     const data = this.props.formData || [];
     this.props.onChange(data.concat({}));
-    this.scrollToRow(data.length);
   }
 
   handleRemove(indexToRemove) {

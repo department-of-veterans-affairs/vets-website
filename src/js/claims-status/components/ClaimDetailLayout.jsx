@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
 import Breadcrumbs from '../components/Breadcrumbs';

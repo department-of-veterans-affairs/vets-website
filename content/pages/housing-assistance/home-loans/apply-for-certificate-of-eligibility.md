@@ -18,12 +18,12 @@ relatedlinks:
       description: Find out how to get an IRRRL loan to refinance an existing loan. 
     - url: /housing-assistance/home-loans/loan-options/cash-out-refinance/
       title: Cash-Out Refinance Loan
-      description: Learn how to get cash from your home equity to pay off debts, pay for school, or take care of other needs. 
+      description: Learn how to get cash from your home equity to pay off debts, pay for school, or take care of other needs.
 ---
 
 <div class="va-introtext">
 
-The first step in getting a VA direct or VA-backed home loan is to apply for a Certificate of Eligibility (COE). This confirms for your lender that you qualify for the VA home loan benefit. Find out how to apply for a COE. Then, choose your loan type and learn about the rest of the loan application process. 
+The first step in getting a VA direct or VA-backed home loan is to apply for a Certificate of Eligibility (COE). This confirms for your lender that you qualify for the VA home loan benefit. Find out how to apply for a COE. Then, choose your loan type and learn about the rest of the loan application process.
 
 </div>
 
@@ -51,13 +51,13 @@ If you’re a **Veteran**, you’ll need a copy of your discharge or separation 
 
 If you’re an **active-duty Servicemember**, you’ll need:
 
-- A statement of service—signed by your commander, adjutant, or personnel officer—showing this information:
-  - Your full name
-  - Your Social Security number
-  - Your date of birth
-  - The date you entered duty
-  - The duration of any lost time
-  - The name of the command providing the information
+* A statement of service—signed by your commander, adjutant, or personnel officer—showing this information:
+  * Your full name
+  * Your Social Security number
+  * Your date of birth
+  * The date you entered duty
+  * The duration of any lost time
+  * The name of the command providing the information
 
 </div>
 </li>
@@ -75,14 +75,14 @@ If you’re a **current or former activated National Guard or Reserve member**, 
 
 If you’re a **current member of the National Guard or Reserves**, and have **never been activated**, you’ll need:
 
-- A statement of service—signed by your commander, adjutant, or personnel officer—showing this information:
-  - Your full name
-  - Your Social Security number
-  - Your date of birth
-  - The date you entered duty
-  - Your total number of creditable years of service
-  - The duration of any lost time
-  - The name of the command providing the information
+* A statement of service—signed by your commander, adjutant, or personnel officer—showing this information:
+  * Your full name
+  * Your Social Security number
+  * Your date of birth
+  * The date you entered duty
+  * Your total number of creditable years of service
+  * The duration of any lost time
+  * The name of the command providing the information
 
 </div>
 </li>
@@ -90,10 +90,10 @@ If you’re a **current member of the National Guard or Reserves**, and have **n
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-ng">Discharged member of the National Guard who was never activated</button>
 <div id="apply-coe-discharged-ng" class="usa-accordion-content">
 
-If you are a **discharged member of the National Guard** and were **never activated**, you’ll need:
+If you're a **discharged member of the National Guard** and were **never activated**, you’ll need:
 
-- Your Report of Separation and Record of Service (NGB Form 22) for each period of National Guard service, **or**
-- Your Retirement Points Statement (NGB Form 23) and proof of the character of service
+* Your Report of Separation and Record of Service (NGB Form 22) for each period of National Guard service, **or**
+* Your Retirement Points Statement (NGB Form 23) and proof of the character of service
 
 </div>
 </li>
@@ -101,10 +101,10 @@ If you are a **discharged member of the National Guard** and were **never activa
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-reserves">Discharged member of the Reserves who was never activated</button>
 <div id="apply-coe-discharged-reserves" class="usa-accordion-content">
 
-If you are a **discharged member of the Reserves** and were **never activated**, you’ll need:
+If you're a **discharged member of the Reserves** and were **never activated**, you’ll need:
 
-- A copy of your latest annual retirement points, **and**
-- Proof of your honorable service
+* A copy of your latest annual retirement points, **and**
+* Proof of your honorable service
 
 </div>
 </li>
@@ -114,13 +114,14 @@ If you are a **discharged member of the Reserves** and were **never activated**,
 
 If you’re a **surviving spouse** who qualifies for home loan benefits, you’ll need the Veteran’s discharge documents (DD214)—if available—**and:**
 
-- **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send a Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses (VA Form 26-1817). [Download VA Form 26-1817](https://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf). **Or**,
-- **If you’re not receiving DIC benefits,** you’ll need to fill out and send an Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child (VA Form 21-534), **and**
+- **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send a Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses (VA Form 26-1817). <br>
+[Download VA Form 26-1817](https://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf). **Or**,
+- **If you’re not receiving DIC benefits,** you’ll need to fill out and send an Application for DIC, Death Pension and/or Accrued Benefits (VA Form 21P-534EZ), **and**
   - A copy of your marriage license, **and**
   - The Veteran’s death certificate
   
   <br>
- [Download VA Form 21-534](https://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).
+ [Download VA Form 21P-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
  
  <br> 
  
@@ -140,7 +141,7 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 
 #### Apply for your COE
 
-You can apply in 1 of 3 ways:
+**You can apply in 1 of 3 ways:**
 
 **Online through eBenefits** <br>
 We recommend applying for your COE online.
@@ -151,8 +152,8 @@ We recommend applying for your COE online.
 In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
 
 **By mail** <br>
-To apply by mail, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and mail it to the address listed on the form. Please keep in mind that this may take longer than applying online or through our Web LGY system. [Download VA Form 26-1880](https://www.vba.va.gov/pubs/forms/vba-26-1880-are.pdf).
-
+To apply by mail, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and mail it to the address listed on the form. Please keep in mind that this may take longer than applying online or through our Web LGY system. <br>
+[Download VA Form 26-1880](https://www.vba.va.gov/pubs/forms/vba-26-1880-are.pdf).
 
 <!-- </li>
 </ol> -->
@@ -163,6 +164,6 @@ To apply by mail, fill out a Request for a Certificate of Eligibility (VA Form 2
 
 Applying for your COE is only one part of the process for getting a VA direct or VA-backed home loan. Your next steps will depend on the type of loan you’re looking to get—and on your lender (for most loans, the lender will be a private bank or mortgage company; for the Native American Direct Loan, we’ll be your lender).
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->

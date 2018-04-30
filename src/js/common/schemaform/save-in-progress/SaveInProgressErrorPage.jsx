@@ -12,9 +12,9 @@ import {
 } from './actions';
 
 import SignInLink from '../../components/SignInLink';
-import ProgressButton from '../../components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
-import { toggleLoginModal } from '../../../login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
 
 
 // For now, this only handles loading errors, but it could feasibly be reworked
@@ -151,7 +151,6 @@ const mapStateToProps = (store) => ({
   prefillStatus: store.form.prefillStatus,
   isLoggedIn: store.user.login.currentlyLoggedIn,
   showLoginModal: store.user.login.showModal,
-  loginUrls: store.user.login.loginUrls,
   isStartingOver: store.form.isStartingOver
 });
 

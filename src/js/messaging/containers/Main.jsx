@@ -5,7 +5,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import ErrorView from '../components/ErrorView';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import {
   closeAdvancedSearch,
@@ -13,7 +13,8 @@ import {
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
-  initializeResources,
+  fetchFolders,
+  fetchRecipients,
   openCreateFolderModal,
   setNewFolderName,
   toggleFolderNav,
@@ -41,7 +42,8 @@ export class Main extends React.Component {
 
   loadApp() {
     const { folders, recipients } = this.props;
-    if (!folders || !folders.length || !recipients) { this.props.initializeResources(); }
+    if (!folders || !folders.length) { this.props.fetchFolders(); }
+    if (!recipients) { this.props.fetchRecipients(); }
   }
 
   handleFolderChange() {
@@ -178,7 +180,8 @@ const mapDispatchToProps = {
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
-  initializeResources,
+  fetchFolders,
+  fetchRecipients,
   openCreateFolderModal,
   setNewFolderName,
   toggleFolderNav,
