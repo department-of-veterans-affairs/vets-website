@@ -29,44 +29,38 @@ If you qualify for VA dental care benefits, you may be able to get some or all o
 
 </div>
 
-<div class="feature" markdown=“1”>
+### Eligibility
 
-### Can I get VA dental care benefits for all of my dental care needs?
+#### Can I get VA dental care benefits for all of my dental care needs?
 
-**You may be eligible for any needed dental care if any one of these is true for you:**
+You may be eligible for any needed dental care if any of the factors listed below are true for you.
 
-- You get VA disability compensation (monthly payments) for a service-connected disability, **or**
-- You're a former Prisoner of War, **or**
-- You have one or more service-connected disabilities that are rated 100% disabling, **or**
-- You can't work because of a service-connected disability (called unemployable), and you get VA disability compensation at the 100% disabling rate
+**At least one of these must be true. You**
+
+- Get VA disability compensation (monthly payments) for a service-connected disability, **or**
+- Are a former Prisoner of War, **or**
+- Have one or more service-connected disabilities that are rated 100% disabling, **or**
+- Can't work because of a service-connected disability (called unemployable), and you get VA disability compensation at the 100% disabling rate
 
 **Note:** If you're getting compensation at the 100% disabling rate based on a temporary rating for a reason such as a long stay in the hospital or rehab care, that doesn't qualify you for this benefit.
 
-</div>
+#### Can I get one-time dental care when I get out of the service?
 
-<div class="feature" markdown=“1”>
+You may be eligible for one-time dental care if you meet all of the requirements listed below.
 
-### Can I get one-time dental care when I get out of the service?
-
-**You may be eligible for one-time dental care if you served on active duty for 90 days or longer during the Persian Gulf War era and all of these are true for you:**
-
+**All of these must be true:**
+- You served on active duty for 90 days or longer during the Persian Gulf War era, **and**
 - You didn't receive a dishonorable discharge, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
 - Your DD214 certificate of discharge doesn't show that you had a complete dental exam and all needed dental treatment before you were discharged
 
 **Note:** Public Law 83 enacted June 16, 1955, amended Veterans’ eligibility for outpatient dental services. As a result, any Veteran who got a dental award letter from VBA dated before 1955 in which VBA determined the dental conditions to be noncompensable is no longer eligible for Class II outpatient dental treatment.
 
-</div>
+#### Can I get VA dental care for specific needs?
 
-<div class="feature" markdown=“1”>
+This depends on a number of factors, like your military service history and your current health and living situation. See the links below  for more information.
 
-### Can I get VA dental care for specific needs?
-
-It depends on a number of factors, like your military service history and your current health and living situation. See the links below  for more information.
-
-</div>
-
-#### Dental care for specific needs
+##### Dental care for specific needs
 
 Click on the statement or statements below that describe you best to find out what types of dental care you may qualify for.
 
@@ -149,6 +143,8 @@ Click on the statement or statements below that describe you best to find out wh
 </div>
 
 <br>
+
+-----
 
 ### How do I apply for VA dental care benefits?
 
