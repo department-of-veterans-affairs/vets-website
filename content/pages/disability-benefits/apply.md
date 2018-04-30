@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Depending on what type of disability claim you're filing, you can apply using either eBenefits or the online application. We’ve listed all the steps below. Find out how to apply for this tax-free monetary benefit. 
+Depending on what type of disability claim you’re filing, you can apply using either eBenefits or the online application. We’ve listed all the steps below. Find out how to apply for this tax-free monetary benefit. 
 
 </div>
 
@@ -75,7 +75,7 @@ For all disability claims, please provide:
 
 #### By mail
 
-Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). [Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
+Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ).<br> [Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -88,12 +88,12 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
+Bring your application to a regional benefit office near you. <br>[Find a regional benefit office](/facilities/).
 
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
+You can work with a trained professional who can help you file a claim. <br> [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
