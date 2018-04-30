@@ -1,13 +1,13 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
-const LoginHelpers = require('../../../../../test/e2e/login-helpers');
+const Auth = require('../../../../platform/testing/e2e/auth');
 
 const { formLinks } = require('../../helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  let token = LoginHelpers.getUserToken();
+  let token = Auth.getUserToken();
 
-  LoginHelpers.logIn(token, client, '/profile', 1)
+  Auth.logIn(token, client, '/profile', 1)
     // The loading indicator tests seem to be problematic because the thing goes away fairly quickly
     // it seems to have already disappeared by the time the test starts looking for it.
     // .waitForElementVisible('.loading-indicator-container', Timeouts.normal)
@@ -15,9 +15,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
     // .waitForElementVisible('.usa-button-big', Timeouts.normal)
     .axeCheck('document');
 
-  token = LoginHelpers.getUserToken();
+  token = Auth.getUserToken();
 
-  LoginHelpers.logIn(token, client, '/profile', 3)
+  Auth.logIn(token, client, '/profile', 3)
     .waitForElementVisible('.section-header', Timeouts.slow)
     .axeCheck('document');
 

@@ -1,4 +1,5 @@
 import _ from '../../../../platform/utilities/data';
+import { merge } from 'lodash/fp';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
@@ -6,16 +7,23 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import ssnUI from '../../../common/schemaform/definitions/ssn';
+import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+
+import { genderLabels } from '../../../../platform/static-data/labels';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
+import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
+import { createVerifiedPrimaryAddressPage } from '../pages/primaryAddress';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
-import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
+import initialData from '../tests/schema/initialData';
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+import ReviewCardField from '../components/ReviewCardField';
 
 import {
   transform,
@@ -42,12 +50,14 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
+  VAFileNumberDescription,
+  veteranInformationViewField
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
 
 const {
-  treatments,
+  treatments: treatmentsSchema,
   disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
@@ -66,7 +76,7 @@ const {
 const FIFTY_MB = 52428800;
 
 // TODO: Remove once typeahead supports auto-filling address and treatment center type
-const vaTreatments = ((treatmentsCommonDef) => {
+const treatments = ((treatmentsCommonDef) => {
   const { type, maxItems, items } = treatmentsCommonDef;
 
   return {
@@ -84,7 +94,7 @@ const vaTreatments = ((treatmentsCommonDef) => {
     }
   };
 
-})(treatments);
+})(treatmentsSchema);
 
 const formConfig = {
   urlPrefix: '/',
@@ -120,58 +130,63 @@ const formConfig = {
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
-    reviewVeteranDetails: {
-      title: (isReviewPage) => {
-        const baseString = 'Review Veteran Details';
-        if (isReviewPage) {
-          return baseString.replace('Review ', '');
-        }
-        return baseString;
-      },
+    veteranDetails: {
+      title: (isReviewPage) => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
-        veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
-        specialCircumstances: { // TODO: create page file and reuse 
-          title: 'Special Circumstances',
-          path: 'review-veteran-details/special-circumstances',
-          depends: formData => formData.prefilled,
+        veteranInformation: {
+          title: 'Veteran Information', // TODO: Figure out if this is even necessary
+          path: 'veteran-information',
           uiSchema: {
-            'ui:description': specialCircumstancesDescription,
-            'view:suicidal': {
-              'ui:title': 'In crisis or thinking of suicide?'
+            'ui:field': ReviewCardField,
+            'ui:title': 'Veteran information',
+            'ui:options': {
+              viewComponent: veteranInformationViewField
             },
-            'view:homeless': {
-              'ui:title': 'Homeless or at risk of becoming homeless?'
+            fullName: fullNameUI,
+            socialSecurityNumber: merge(ssnUI, {
+              'ui:title': 'Social Security number (must have this or a VA file number)',
+              'ui:required': form => !form.vaFileNumber
+            }),
+            vaFileNumber: {
+              'ui:title': 'VA file number (must have this or a Social Security number)',
+              'ui:required': form => !form.socialSecurityNumber,
+              'ui:help': VAFileNumberDescription,
+              'ui:errorMessages': {
+                pattern: 'Your VA file number must be between 7 to 9 digits'
+              }
             },
-            'view:extremeFinancialHardship': {
-              'ui:title': 'Suffering from extreme financial hardship?'
-            },
-            'view:blindOrSightImpaired': {
-              'ui:title': 'Blind or sight-impaired?'
+            dateOfBirth: currentOrPastDateUI('Date of birth'),
+            gender: {
+              'ui:title': 'Gender',
+              'ui:options': {
+                labels: genderLabels
+              }
             }
           },
           schema: {
             type: 'object',
+            required: ['fullName', 'gender', 'dateOfBirth'],
             properties: {
-              'view:suicidal': {
-                type: 'boolean'
+              fullName,
+              socialSecurityNumber: {
+                type: 'string'
               },
-              'view:homeless': {
-                type: 'boolean'
+              vaFileNumber: {
+                type: 'string',
+                pattern: '^[cC]{0,1}\\d{7,9}$'
               },
-              'view:extremeFinancialHardship': {
-                type: 'boolean'
+              gender: {
+                type: 'string',
+                'enum': ['F', 'M']
               },
-              'view:blindOrSightImpaired': {
-                type: 'boolean'
-              }
+              dateOfBirth: date
             }
           }
         },
+        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          depends: formData => formData.prefilled,
-          'ui:description': 'things',
           initialData,
           uiSchema: {
             servicePeriods: {
@@ -214,13 +229,8 @@ const formConfig = {
               servicePeriods
             }
           }
-        }
-      }
-    },
-    veteranDetails: {
-      title: 'Veteran Details',
-      pages: {
-        veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
+        },
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
         specialCircumstances: {
           title: 'Special Circumstances',
           path: 'special-circumstances',
@@ -242,9 +252,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:suicidal': {
-                type: 'boolean'
-              },
+              // 'view:suicidal': { // TODO: re-enable after user testing
+              // type: 'boolean'
+              // },
               'view:homeless': {
                 type: 'boolean'
               },
@@ -254,52 +264,6 @@ const formConfig = {
               'view:blindOrSightImpaired': {
                 type: 'boolean'
               }
-            }
-          }
-        },
-        militaryHistory: {
-          title: 'Military service history',
-          path: 'review-veteran-details/military-service-history',
-          'ui:description': 'things',
-          initialData,
-          uiSchema: {
-            servicePeriods: {
-              'ui:title': 'Military service history',
-              'ui:description':
-                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView,
-              },
-              items: {
-                serviceBranch: {
-                  'ui:title': 'Branch of service'
-                },
-                dateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'End of service must be after start of service'
-                ),
-                dischargeType: {
-                  'ui:title': 'Character of discharge',
-                  'ui:options': {
-                    labels: {
-                      honorable: 'Honorable',
-                      general: 'General',
-                      other: 'Other Than Honorable',
-                      'bad-conduct': 'Bad Conduct',
-                      dishonorable: 'Dishonorable',
-                      undesirable: 'Undesirable'
-                    }
-                  }
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              servicePeriods
             }
           }
         }
@@ -448,7 +412,7 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'ui:description': facilityDescription,
-                vaTreatments: {
+                treatments: {
                   'ui:options': {
                     itemName: 'Facility',
                     viewField: treatmentView
@@ -478,7 +442,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    vaTreatments
+                    treatments
                   }
                 }
               }
