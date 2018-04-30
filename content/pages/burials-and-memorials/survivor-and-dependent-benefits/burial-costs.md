@@ -48,7 +48,7 @@ To get this benefit, the Veteran must not have received a dishonorable discharge
 
 </div>
 
-You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was upgraded from dishonorable to another discharge type, you must file for an allowance claim within 2 years after the discharge update. There's no time limit to file for a service-connected burial, plot, or interment allowance.
+You’ll need to file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was upgraded from dishonorable to another discharge type, you’ll need to file for a burial allowance within 2 years after the discharge update. There’s no time limit to file for a service-connected burial, plot, or interment allowance.
 
 
 ### What kind of benefits can I get?
