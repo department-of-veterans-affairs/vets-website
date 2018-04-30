@@ -35,7 +35,7 @@ Find out how to get VA dental care benefits, or how to buy dental insurance if y
 
 You may be eligible for any needed dental care if any of the factors listed below are true for you.
 
-**At least one of these must be true. You**
+**At least one of these must be true. You:**
 
 - Get VA disability compensation (monthly payments) for a service-connected disability, **or**
 - Are a former Prisoner of War, **or**
