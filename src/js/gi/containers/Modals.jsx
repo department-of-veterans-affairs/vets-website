@@ -318,6 +318,13 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('physicalLoc')}>
+          <h3>Physical Location</h3>
+          <p>
+            TODO!!!
+          </p>
+        </Modal>
+
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcScholarships')}>
           <h3>Scholarships (excluding Pell)</h3>
           <p>

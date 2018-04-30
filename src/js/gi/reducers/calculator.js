@@ -15,6 +15,7 @@ const INITIAL_STATE = {
   books: 0,
   yellowRibbonRecipient: 'no',
   yellowRibbonAmount: 0,
+  physicalLocationOfCampus: 'yes',
   scholarships: 0,
   tuitionAssist: 0,
   enrolled: 'full',
