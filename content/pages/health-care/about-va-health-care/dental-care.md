@@ -25,7 +25,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you qualify for VA dental care benefits, you may be able to get some or all of your dental care through VA. Find out how to get VA dental care or how to buy dental insurance if you don’t qualify.
+Find out how to get VA dental care benefits, or how to buy dental insurance if you don’t qualify.
 
 </div>
 
@@ -58,11 +58,7 @@ You may be eligible for one-time dental care if you meet all of the requirements
 
 #### Can I get VA dental care for specific needs?
 
-This depends on a number of factors, like your military service history and your current health and living situation. See the links below  for more information.
-
-##### Dental care for specific needs
-
-Click on the statement or statements below that describe you best to find out what types of dental care you may qualify for.
+This depends on a number of factors, like your military service history and your current health and living situation. Click on the statement or statements below that describe you best to find out what types of dental care you may qualify for.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -152,13 +148,9 @@ You can apply online by filling out the 10-10EZ health care application.
 
 <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
 
-<br>
-
 ### Where do I go for VA dental care?
 
 We provide dental care to qualified Veterans at over 200 dental clinics across the country, including Alaska and Puerto Rico. [Find a VA dental clinic near you](https://www.va.gov/DENTAL/Dental-Clinic-Locations-Finder.asp).
-
-<br>
 
 ### If I can’t get VA dental care benefits, can I get help buying dental insurance?
 
