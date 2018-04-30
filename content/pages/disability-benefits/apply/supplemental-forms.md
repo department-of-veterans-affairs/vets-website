@@ -17,7 +17,9 @@ relatedlinks:
 
 <div class="va-introtext">
 
-In some situations you may need to turn in an additional form to support your disability claim. For example, you’ll need to fill out another form if you’re claiming a dependent or if you’re requesting aid and attendance benefits. If any of the below situations apply to you, you’ll need to turn in an additional form at the same time you file your disability claim.  
+In some situations you may need to turn in an additional form to support your disability claim. For example, you’ll need to fill out another form if you’re claiming a dependent or if you’re requesting aid and attendance benefits. 
+
+If any of the below situations apply to you, you’ll need to turn in an additional form at the same time you file your disability claim.  
 
 </div>
 
@@ -25,10 +27,10 @@ In some situations you may need to turn in an additional form to support your di
 
 - **A National Guard and Reserve member,** you’ll need to turn in all your service treatment and personnel records from your unit(s).<br>
 - **Claiming dependents,** you’ll need to fill out a Declaration of Status of Dependents (VA Form 21-686c).<br>
-[Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf). <br>
-- **Claiming a child in school between the ages of 18 and 23,** you’ll need to turn in a Request for Approval of School Attendance (VA Form 21-674).<br>
+[Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf), **and** <br>
+  - **If your dependent is a child in school between the ages of 18 and 23,** you’ll need to also turn in a Request for Approval of School Attendance (VA Form 21-674).<br>
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf).<br>
-- **Claiming benefits for a seriously disabled child,** you’ll need to turn in all private medical records for the child’s disabilities.<br>  
+  - **If your dependent is a seriously disabled child,** you’ll need to also turn in all private medical records for the child’s disabilities.<br>  
 - **Claiming Individual Unemployability,** you’ll need to turn in:
   - A Veteran’s Application for Increased Compensation Based on Unemployability (VA Form 21-8940). <br>
 [Download VA Form 21-8940](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf), **and**<br>
