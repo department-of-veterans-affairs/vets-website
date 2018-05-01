@@ -29,7 +29,7 @@ Find out how to get VA dental care benefits, or how to buy dental insurance if y
 
 </div>
 
-### Eligibility
+### Check Your Eligibility
 
 #### Can I get VA dental care benefits for all of my dental care needs?
 
