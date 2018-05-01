@@ -155,8 +155,10 @@ export function addStatusToIssues(issues) {
  * @param {string} id Appeal ID of the appeal to find
  * @returns {object} One appeal object or undefined if not found in the array
  */
-export function isolateAppeal(state, id, v1ToV2IdMap) {
-  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id || v1ToV2IdMap[id]);
+export function isolateAppeal(state, id) {
+  return _.find(state.disability.status.claimsV2.appeals,
+    (a) => a.id === id || (_.get(a, 'attributes.appealIds') || []).includes(id)
+  );
 }
 
 export function formatDate(date) {
@@ -250,9 +252,8 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Please review your Supplemental Statement of the Case';
       contents.description = (
-        <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate}
-        because, after completing the remand instructions from the Board, they couldn’t fully grant
-        your appeal.</p>
+        <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate} because,
+        after completing the remand instructions from the Board, they couldn’t fully grant your appeal.</p>
       );
       break;
     }
@@ -309,14 +310,14 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     case STATUS_TYPES.remand: {
       // TODO: break this out into its own template/component
-      const { decisionIssues } = details;
-      const allowedIssues = decisionIssues
+      const { issues } = details;
+      const allowedIssues = issues
         .filter((issue) => (issue.disposition === 'allowed'))
         .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
-      const deniedIssues = decisionIssues
+      const deniedIssues = issues
         .filter((issue) => (issue.disposition === 'denied'))
         .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
-      const remandIssues = decisionIssues
+      const remandIssues = issues
         .filter((issue) => (issue.disposition === 'remand'))
         .map((issue, i) => (<li key={`remanded-${i}`}>{issue.description}</li>));
 
@@ -380,11 +381,11 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     }
     case STATUS_TYPES.bvaDecision: {
-      const { decisionIssues } = details;
-      const allowedIssues = decisionIssues
+      const { issues } = details;
+      const allowedIssues = issues
         .filter((issue) => (issue.disposition === 'allowed'))
         .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
-      const deniedIssues = decisionIssues
+      const deniedIssues = issues
         .filter((issue) => (issue.disposition === 'denied'))
         .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
 
@@ -763,7 +764,7 @@ export const makeDurationText = (timeliness) => {
 export function getNextEvents(currentStatus, details) {
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc: {
-      const socDuration = makeDurationText(details.ssocTimeliness);
+      const socDuration = makeDurationText(details.socTimeliness);
       return {
         header: `What happens next depends on whether the Decision Review Officer has enough
           evidence to decide in your favor.`,
@@ -1247,6 +1248,9 @@ export function getAlertContent(alert, appealIsActive) {
  * @returns {string} status code or 'unknown'
  */
 export const getStatus = (response) => {
+  if (response instanceof Error) {
+    Raven.captureException(response, { tags: { location: 'getStatus' } });
+  }
   return (response.errors && response.errors.length)
     ? response.errors[0].status
     : 'unknown';

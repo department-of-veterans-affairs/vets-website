@@ -16,7 +16,7 @@ import ReadOnlyArrayField from '../review/ReadOnlyArrayField';
 import BasicArrayField from '../fields/BasicArrayField';
 import TitleField from '../fields/TitleField';
 import ReviewObjectField from '../review/ObjectField';
-import { scrollToFirstError } from '../../utils/helpers';
+import { scrollToFirstError } from '../../../../platform/utilities/ui';
 
 /*
  * Each page uses this component and passes in config. This is where most of the page level
@@ -107,7 +107,8 @@ class SchemaForm extends React.Component {
         pagePerItemIndex,
         reviewMode,
         hideHeaderRow,
-        uploadFile
+        uploadFile,
+        onError: this.onError
       }, formContext)
     };
   }

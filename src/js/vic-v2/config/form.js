@@ -5,7 +5,7 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
-import asyncLoader from '../../common/components/asyncLoader';
+import asyncLoader from '../../../platform/utilities/ui/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
@@ -16,7 +16,7 @@ import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
-import { genderLabels } from '../../common/utils/labels';
+import { genderLabels } from '../../../platform/static-data/labels';
 import { validateMatch } from '../../common/schemaform/validation';
 import validateFile from '../validation';
 

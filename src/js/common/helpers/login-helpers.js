@@ -1,6 +1,6 @@
-import environment from './environment.js';
+import { updateLoggedInStatus } from '../../../platform/site-wide/login/actions';
 import recordEvent from '../../../platform/monitoring/record-event';
-import { updateLoggedInStatus } from '../../login/actions';
+import environment from '../../../platform/utilities/environment';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
 export function getUserData(dispatch) {

@@ -8,7 +8,7 @@ import {
   loadPrescriptions
 } from '../../../rx/actions/prescriptions';
 
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import PrescriptionCard from '../components/PrescriptionCard';
 
@@ -36,29 +36,37 @@ class PrescriptionsWidget extends React.Component {
       );
     }
 
-    if (this.props.prescriptions.length === 0) {
-      content = <p>No recent prescriptions updates</p>;
+    if (this.props.prescriptions) {
+      if (this.props.prescriptions.length === 0) {
+        content = <p>No recent prescriptions updates</p>;
+      }
+
+      return (
+        <div>
+          <h2>Prescription Refills</h2>
+          <div>
+            {content}
+          </div>
+          <p><Link href="/health-care/prescriptions">View all prescriptions</Link></p>
+        </div>
+      );
     }
 
-    return (
-      <div>
-        <h2>Prescription Refills</h2>
-        <div>
-          {content}
-        </div>
-        <p><Link href="/health-care/prescriptions">View all prescriptions</Link></p>
-      </div>
-    );
+    return null;
   }
 }
 
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
 
-  const prescriptions = rxState.prescriptions.items.filter(p => {
-    const thirtyDaysAgo = moment().endOf('day').subtract(30, 'days');
-    return moment(p.attributes.refillSubmitDate).isAfter(thirtyDaysAgo) || moment(p.attributes.refillDate).isAfter(thirtyDaysAgo);
-  });
+  let prescriptions = rxState.prescriptions.items;
+
+  if (prescriptions) {
+    prescriptions = prescriptions.filter(p => {
+      const thirtyDaysAgo = moment().endOf('day').subtract(30, 'days');
+      return moment(p.attributes.refillSubmitDate).isAfter(thirtyDaysAgo) || moment(p.attributes.refillDate).isAfter(thirtyDaysAgo);
+    });
+  }
 
   return {
     ...rxState.prescriptions.active,

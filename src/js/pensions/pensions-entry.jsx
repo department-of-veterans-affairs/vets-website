@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/pensions.scss';
+import './sass/pensions.scss';
 
 import startApp from '../../platform/startup';
 

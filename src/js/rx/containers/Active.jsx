@@ -17,9 +17,9 @@ import {
   openRefillModal
 } from '../actions/modals';
 
-import Pagination from '../../common/components/Pagination';
-import { getScrollOptions } from '../../common/utils/helpers';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/jean-pants/Pagination';
+import { getScrollOptions } from '../../../platform/utilities/ui';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import PrescriptionList from '../components/PrescriptionList';
 import PrescriptionTable from '../components/PrescriptionTable';

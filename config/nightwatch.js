@@ -1,7 +1,6 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-const electron = require('electron');
 const chromedriver = require('chromedriver');
 const seleniumServer = require('selenium-server');
 
@@ -38,7 +37,6 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         chromeOptions: {
-          binary: electron,
           args: ['--window-size=1024,768']
         }
       },
@@ -58,7 +56,14 @@ module.exports = {
       },
     },
     accessibility: {
-      filter: './test/accessibility/*.spec.js'
+      filter: './src/platform/site-wide/tests/sitemap/*.spec.js'
+    },
+    headless: {
+      desiredCapabilities: {
+        chromeOptions: {
+          args: ['--headless', '--window-size=1024,768']
+        }
+      },
     },
     bestpractice: {
       globals: {

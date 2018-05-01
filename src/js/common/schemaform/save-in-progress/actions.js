@@ -1,11 +1,11 @@
 import Raven from 'raven-js';
 import recordEvent from '../../../../platform/monitoring/record-event';
-import environment from '../../helpers/environment.js';
+import environment from '../../../../platform/utilities/environment';
 import 'isomorphic-fetch';
-import { logOut } from '../../../login/actions';
+import { logOut } from '../../../../platform/site-wide/login/actions';
 
 import { removeFormApi, saveFormApi } from './api';
-import { sanitizeForm } from '../../utils/helpers';
+import { sanitizeForm } from '../../../../platform/forms/helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_AUTO_SAVE_FORM_STATUS = 'SET_AUTO_SAVE_FORM_STATUS';

@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
-import { genderLabels } from '../../../common/utils/labels.jsx';
+import { genderLabels } from '../../../../platform/static-data/labels.jsx';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import { benefitsLabels, dischargeTypeLabels } from '../../utils/labels.jsx';

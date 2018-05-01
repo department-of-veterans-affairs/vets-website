@@ -1,8 +1,8 @@
 import React from 'react';
 import Raven from 'raven-js';
 import recordEvent from '../../../platform/monitoring/record-event';
-import environment from '../../common/helpers/environment';
-import { apiRequest } from '../../common/helpers/api';
+import environment from '../../../platform/utilities/environment';
+import { apiRequest } from '../../../platform/utilities/api';
 import { makeAuthRequest } from '../utils/helpers';
 import {
   getStatus,
@@ -96,22 +96,9 @@ export function getAppeals(filter) {
 
 export function fetchAppealsSuccess(response) {
   const appeals = response.data;
-  const v1ToV2IdMap = {};
-  appeals.forEach(appeal => {
-    // In case there are no v1 appeal ids
-    if (!appeal.attributes.appealIds) {
-      return;
-    }
-
-    appeal.attributes.appealIds.forEach(id => {
-      v1ToV2IdMap[id] = appeal.id;
-    });
-  });
-
   return {
     type: FETCH_APPEALS_SUCCESS,
-    appeals,
-    v1ToV2IdMap
+    appeals
   };
 }
 

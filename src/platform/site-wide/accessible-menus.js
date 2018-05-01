@@ -1,4 +1,4 @@
-import { isWideScreen } from '../../js/common/utils/accessibility-helpers';
+import { isWideScreen } from '../utilities/accessibility';
 
 const LEFT_ARROW = 37;
 const UP_ARROW = 38;

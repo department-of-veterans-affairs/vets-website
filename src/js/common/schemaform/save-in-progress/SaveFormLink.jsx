@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
-import { focusElement } from '../../utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
