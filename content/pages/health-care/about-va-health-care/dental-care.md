@@ -146,17 +146,19 @@ This depends on a number of factors, like your military service history and your
 
 -----
 
-### How do I apply for VA dental care benefits?
+### Find Out How to Access Benefits and Services
+
+#### How do I apply for VA dental care benefits?
 
 You can apply online by filling out the 10-10EZ health care application.
 
 <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
 
-### Where do I go for VA dental care?
+#### Where do I go for VA dental care?
 
 We provide dental care to qualified Veterans at over 200 dental clinics across the country, including Alaska and Puerto Rico. [Find a VA dental clinic near you](https://www.va.gov/DENTAL/Dental-Clinic-Locations-Finder.asp).
 
-### If I can’t get VA dental care benefits, can I get help buying dental insurance?
+#### If I can’t get VA dental care benefits, can I get help buying dental insurance?
 
 You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if you:
 
