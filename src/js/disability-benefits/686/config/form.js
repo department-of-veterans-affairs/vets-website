@@ -57,6 +57,7 @@ const formConfig = {
             },
             'view:applicantInfo': {
               fullName: {
+                'ui:title': 'Applicant Information',
                 first: {
                   'ui:title': 'First name',
                   'ui:required': (field) => field.relationship !== 'veteran'
