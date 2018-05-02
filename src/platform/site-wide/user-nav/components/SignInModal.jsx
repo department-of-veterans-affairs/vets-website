@@ -46,11 +46,11 @@ class SignInModal extends React.Component {
             </div>
           </div>
           <div className="downtime-notification row">
-            <div className="columns usa-width-one-half medium-6">
+            <div className="columns small-12">
               <div className="form-warning-banner">
                 <AlertBox
                   headline="DS Logon isn't working quite right"
-                  content="If you're having trouble singing in to Vets.gov using your DS Logon username and password, please try again later. Or, you can try signing in with your My HealtheVet username and password or through ID.me."
+                  content="If you're having trouble signing in to Vets.gov using your DS Logon username and password, please try again later. Or, you can try signing in with your My HealtheVet username and password or through ID.me."
                   isVisible
                   status="warning"/>
                 <br/>
