@@ -18,18 +18,20 @@ const { fullName, ssn } = fullSchema686.definitions;
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/api',
-  trackingPrefix: '686',
+  trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '686',
+  formId: '21-686C',
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'Declaration of status of dependents',
   defaultDefinitions: {
+    fullName,
+    ssn
   },
   chapters: {
     veteranInformation: {
