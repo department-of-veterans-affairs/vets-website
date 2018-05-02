@@ -1,5 +1,5 @@
 // import fullSchema from 'vets-json-schema/dist/686-schema.json';
-import _ from 'lodash';
+import _ from 'lodash/fp';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -11,9 +11,9 @@ import * as address from '../../../common/schemaform/definitions/address';
 import ssnOrVaUI from '../../../common/schemaform/definitions/ssnOrVafile';
 import { relationshipLabels } from '../helpers';
 
-const { claimantEmail } = fullSchema686.properties;
+const { claimantEmail, claimantFullName, veteranFullName } = fullSchema686.properties;
 
-const { fullName, ssn } = fullSchema686.definitions;
+const { ssn, fullName } = fullSchema686.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -41,14 +41,13 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran Information',
           uiSchema: {
-            fullName: fullNameUI,
+            veteranFullName: fullNameUI,
             ssnOrVa: _.merge({}, ssnOrVaUI, {
-              'ui:title': 'Social Security number or VA file number',
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             }),
-            relationship: {
+            'view:relationship': {
               'ui:title': 'Relationship to Veteran',
               'ui:widget': 'radio',
               'ui:options': {
@@ -56,50 +55,40 @@ const formConfig = {
               }
             },
             'view:applicantInfo': {
-              fullName: {
-                'ui:title': 'Applicant Information',
+              'ui:title': 'Applicant Information',
+              claimantFullName: _.merge(fullNameUI, {
                 first: {
-                  'ui:title': 'First name',
-                  'ui:required': (field) => field.relationship !== 'veteran'
+                  'ui:required': (formData) => formData['view:relationship'] !== 'veteran'
                 },
                 last: {
-                  'ui:title': 'Last name',
-                  'ui:required': (field) => field.relationship !== 'veteran'
-                },
-                middle: {
-                  'ui:title': 'Middle name'
-                },
-                suffix: {
-                  'ui:title': 'Suffix',
-                  'ui:options': {
-                    widgetClassNames: 'form-select-medium'
-                  }
+                  'ui:required': (formData) => formData['view:relationship'] !== 'veteran'
                 }
-              },
-              ssn: _.assign(ssnUI, {
-                'ui:title': 'Social Security number',
-                'ui:required': (field) => field.relationship !== 'veteran'
               }),
-              address: address.uiSchema('', false, (formData) => formData.relationship !== 'veteran'),
+              ssn: _.assign(ssnUI, {
+                'ui:required': (formData) => formData['view:relationship'] !== 'veteran'
+              }),
+              address: address.uiSchema('', false, (formData) => {
+                return formData['view:relationship'] !== 'veteran';
+              }),
               claimantEmail: {
                 'ui:title': 'Email address',
-                'ui:required': (field) => field.relationship !== 'veteran'
+                'ui:required': (formData) => formData['view:relationship'] !== 'veteran'
               },
               'ui:options': {
-                expandUnder: 'relationship',
+                expandUnder: 'view:relationship',
                 expandUnderCondition: (field) => field === 'spouse' || field === 'child' || field === 'other'
               }
             },
           },
           schema: {
             type: 'object',
-            required: ['ssnOrVa', 'relationship'],
+            required: ['ssnOrVa', 'view:relationship'],
             properties: {
-              fullName,
+              veteranFullName,
               ssnOrVa: {
                 type: 'string',
               },
-              relationship: {
+              'view:relationship': {
                 type: 'string',
                 'enum': [
                   'veteran',
@@ -111,23 +100,7 @@ const formConfig = {
               'view:applicantInfo': {
                 type: 'object',
                 properties: {
-                  fullName: {
-                    type: 'object',
-                    properties: {
-                      first: {
-                        type: 'string'
-                      },
-                      last: {
-                        type: 'string'
-                      },
-                      middle: {
-                        type: 'string'
-                      },
-                      suffix: {
-                        type: 'string'
-                      }
-                    }
-                  },
+                  claimantFullName,
                   ssn,
                   address: address.schema(fullSchema686),
                   claimantEmail

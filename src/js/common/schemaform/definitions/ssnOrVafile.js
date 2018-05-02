@@ -1,7 +1,7 @@
 import { validateSSNorVAfile } from '../validation';
 
 const uiSchema = {
-  'ui:title': 'Social or VA File',
+  'ui:title': 'Social Security number or VA file number',
   'ui:validations': [
     validateSSNorVAfile
   ],
