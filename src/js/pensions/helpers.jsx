@@ -1,7 +1,7 @@
 import React from 'react';
 import Raven from 'raven-js';
 import moment from 'moment';
-import environment from '../common/helpers/environment.js';
+import environment from '../../platform/utilities/environment';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 function replacer(key, value) {

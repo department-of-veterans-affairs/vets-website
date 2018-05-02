@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import Modal from '../../common/components/Modal';
-import { mfa } from '../../login/utils/helpers';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { mfa } from '../../../platform/utilities/authentication';
+import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
 import { fetchLatestTerms, acceptTerms } from '../actions';
+import PersonalizationBetaInvite from './PersonalizationBetaInvite';
 
 class UserDataSection extends React.Component {
   constructor(props) {
@@ -19,7 +20,11 @@ class UserDataSection extends React.Component {
 
   openModal = () => {
     recordEvent({ event: 'terms-shown-profile' });
-    this.setState({ modalOpen: true });
+    this.setState({ modalOpen: true }, () => {
+      if (!this.props.terms.termsContent) {
+        this.props.fetchLatestTerms('mhvac');
+      }
+    });
   }
 
   closeModal = () => {
@@ -31,25 +36,20 @@ class UserDataSection extends React.Component {
     this.closeModal();
   }
 
-  renderModalContents() {
+  renderModalContents = () => {
     const { terms } = this.props;
-    const termsAccepted = this.props.profile.healthTermsCurrent;
-    if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
-      setTimeout(() => {
-        this.props.fetchLatestTerms('mhvac');
-      }, 100);
+
+    if (!this.state.modalOpen) { return null; }
+
+    if (terms.loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (!termsAccepted && this.state.modalOpen && terms.loading === true) {
-      return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (termsAccepted) {
+    }
+
+    if (terms.accepted) {
       return (
         <div>
-          <h3>
-            You have already accepted the terms and conditions.
-          </h3>
-          <div>
-            <button type="submit" onClick={this.closeModal}>Ok</button>
-          </div>
+          <h3>You have already accepted the terms and conditions.</h3>
+          <div><button type="submit" onClick={this.closeModal}>Ok</button></div>
         </div>
       );
     }
@@ -57,8 +57,8 @@ class UserDataSection extends React.Component {
     return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} isInModal/>;
   }
 
-  renderTermsLink() {
-    if (this.props.profile.healthTermsCurrent) {
+  renderTermsLink = () => {
+    if (this.props.terms.accepted) {
       return (
         <p>You have accepted the latest health terms and conditions for this site.</p>
       );
@@ -68,7 +68,7 @@ class UserDataSection extends React.Component {
     );
   }
 
-  renderMultifactorMessage() {
+  renderMultifactorMessage = () => {
     if (this.props.profile.multifactor) { return null; }
 
     const headline = 'Add extra security to your account';
@@ -130,6 +130,7 @@ class UserDataSection extends React.Component {
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>
           {this.renderTermsLink()}
+          <PersonalizationBetaInvite profile={this.props.profile}/>
         </div>
         <Modal
           cssClass="va-modal-large"
@@ -148,7 +149,7 @@ const mapStateToProps = (state) => {
     login: userState.login,
     name: userState.profile.userFullName,
     profile: userState.profile,
-    terms: userState.profile.terms
+    terms: userState.profile.mhv.terms
   };
 };
 

@@ -4,9 +4,9 @@ import Scroll from 'react-scroll';
 import Raven from 'raven-js';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import Modal from '../../common/components/Modal';
+import { scrollToFirstError, focusElement } from '../../../platform/utilities/ui';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 
 import {
   addressModalContent,

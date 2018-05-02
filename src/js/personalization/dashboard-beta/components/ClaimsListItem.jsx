@@ -14,7 +14,7 @@ export default function ClaimsListItem({ claim }) {
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">{getClaimType(claim)} Claim – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</h3>
-      <p className="status"><span className="claim-item-label">{moment(claim.attributes.phaseChangeDate).format('MMM D')} - </span> {listPhase(claim.attributes.phase)}</p>
+      <p className="status"><span className="claim-item-label">{moment(claim.attributes.phaseChangeDate).format('MMM D')} - Update: </span> {listPhase(claim.attributes.phase)}</p>
       <ul className="communications">
         {inProgress && claim.attributes.developmentLetterSent
           ? <li className="claim-list-item-text"><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a development letter</li>

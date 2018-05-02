@@ -1,7 +1,7 @@
 import set from 'lodash/fp/set';
 import moment from 'moment';
 
-import { makeField } from '../../common/model/fields';
+import { makeField } from '../../../platform/forms/fields';
 
 import {
   CLOSE_ADVANCED_SEARCH,

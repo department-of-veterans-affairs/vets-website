@@ -4,7 +4,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../platform/utilities/ui';
 import { benefitsLabels } from '../labels';
 
 const scroller = Scroll.scroller;
@@ -72,7 +72,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Benefits claimed</strong><br/>
-              {_.map(benefits, (isRequested, benefitName) => isRequested && <p>{benefitsLabels[benefitName]}</p>)}
+              {_.map(benefits, (isRequested, benefitName) => isRequested && <p key={benefitName}>{benefitsLabels[benefitName]}</p>)}
             </li>
             {hasDocuments && <li>
               <strong>Documents uploaded</strong><br/>

@@ -33,6 +33,7 @@ very secret.
 | run only unit tests for a subset of tests | `npm run test:unit -- path/to/my/test.unit.spec.jsx` <br> or <br> `npm run test:unit -- --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
 | run only e2e tests                       | `npm run test:e2e`                       |
 | run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
+| run e2e tests in headless mode           | `npm run test:e2e:headless`              |
 | run all linters                          | `npm run lint`                           |
 | run only javascript linter               | `npm run lint:js`                        |
 | run only sass linter                     | `npm run lint:sass`                      |
@@ -297,11 +298,6 @@ path despite the environment. This ensures that your component will function in
 all builds regardless of the build type. The important distinction is that your
 feature is still active within the code base, but the UI is either enabled or
 disabled by the feature flag.
-
-To enable or disable the feature in a specific build type, toggle the feature
-in `src/platform/testing/unit/mocha-setup.js` and `config/webpack.config.js`. See
-[`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
-example implementation.
 
 ### Supported Browsers
 | Browser                   | Minimum version | Note                                   |

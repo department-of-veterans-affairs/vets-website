@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/veteran-id-card.scss';
+import './sass/veteran-id-card.scss';
 
 import startApp from '../../platform/startup';
 

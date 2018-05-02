@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from '../../../../js/common/utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 
 class FeedbackSubmitted extends React.Component {
   componentDidMount() {

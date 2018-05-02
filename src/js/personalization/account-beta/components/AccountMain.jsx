@@ -1,15 +1,16 @@
 import React from 'react';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import AcceptTermsPrompt from '../../../common/components/AcceptTermsPrompt';
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
-import Modal from '../../../common/components/Modal';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 
 import AccountVerification from './AccountVerification';
 import LoginSettings from './LoginSettings';
 import MultifactorMessage from './MultifactorMessage';
 import TermsAndConditions from './TermsAndConditions';
+import BetaTools from '../containers/BetaTools';
 
-class UserDataSection extends React.Component {
+class AccountMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
@@ -17,7 +18,11 @@ class UserDataSection extends React.Component {
 
   openModal = () => {
     recordEvent({ event: 'terms-shown-profile' });
-    this.setState({ modalOpen: true });
+    this.setState({ modalOpen: true }, () => {
+      if (!this.props.terms.termsContent) {
+        this.props.fetchLatestTerms('mhvac');
+      }
+    });
   }
 
   closeModal = () => {
@@ -31,45 +36,46 @@ class UserDataSection extends React.Component {
 
   renderModalContents() {
     const { terms } = this.props;
-    const termsAccepted = this.props.profile.healthTermsCurrent;
-    if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
-      setTimeout(() => {
-        this.props.fetchLatestTerms('mhvac');
-      }, 100);
+
+    if (!this.state.modalOpen) { return null; }
+
+    if (terms.loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (!termsAccepted && this.state.modalOpen && terms.loading === true) {
-      return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (termsAccepted) {
+    }
+
+    if (terms.accepted) {
       return (
         <div>
-          <h3>
-            You have already accepted the terms and conditions.
-          </h3>
-          <div>
-            <button type="submit" onClick={this.closeModal}>Ok</button>
-          </div>
+          <h3>You have already accepted the terms and conditions.</h3>
+          <div><button type="submit" onClick={this.closeModal}>Ok</button></div>
         </div>
       );
     }
 
-    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} isInModal/>;
+    return <AcceptTermsPrompt terms={terms} cancelPath="/account-beta" onAccept={this.acceptAndClose} isInModal/>;
   }
 
   render() {
     const {
       profile: {
         loa,
-        multifactor,
-        healthTermsCurrent
-      }
+        multifactor
+      },
+      terms
     } = this.props;
 
     return (
       <div>
-        <MultifactorMessage multifactor={multifactor}/>
         <AccountVerification loa={loa}/>
+        <MultifactorMessage multifactor={multifactor}/>
         <LoginSettings/>
-        <TermsAndConditions healthTermsCurrent={healthTermsCurrent} openModal={this.openModal}/>
+        <TermsAndConditions terms={terms} openModal={this.openModal}/>
+        <h4>Have questions about signing in to Vets.gov?</h4>
+        <p>
+          Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on Vets.gov.<br/>
+          <a href="/faq">Go to Vets.gov FAQs</a>
+        </p>
+        <BetaTools/>
         <Modal
           cssClass="va-modal-large"
           contents={this.renderModalContents()}
@@ -81,4 +87,4 @@ class UserDataSection extends React.Component {
   }
 }
 
-export default UserDataSection;
+export default AccountMain;

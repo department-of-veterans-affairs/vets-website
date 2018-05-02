@@ -1,6 +1,6 @@
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { removeFormApi } from '../../../common/schemaform/save-in-progress/api';
-import { apiRequest } from '../../../common/helpers/api';
+import { apiRequest } from '../../../../platform/utilities/api';
 import { getUserData } from '../../../common/helpers/login-helpers';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -34,9 +34,10 @@ export function removingSavedForm() {
   };
 }
 
-export function removingSavedFormSuccess() {
+export function removingSavedFormSuccess(formId) {
   return {
-    type: REMOVING_SAVED_FORM_SUCCESS
+    type: REMOVING_SAVED_FORM_SUCCESS,
+    formId,
   };
 }
 
@@ -92,7 +93,7 @@ export function removeSavedForm(formId) {
     dispatch(removingSavedForm());
     return removeFormApi(formId)
       .then(() => {
-        dispatch(removingSavedFormSuccess());
+        dispatch(removingSavedFormSuccess(formId));
         getUserData(dispatch);
       })
       .catch(() => dispatch(removingSavedFormFailure()));
