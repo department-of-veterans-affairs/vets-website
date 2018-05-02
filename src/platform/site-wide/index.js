@@ -8,7 +8,7 @@ import './legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './accessible-VCL-modal';
 import addMenuListeners from './accessible-menus';
-import startLoginWidget from './login';
+import startUserNavWidget from './user-nav';
 import startFeedbackWidget from './feedback';
 
 /**
@@ -35,6 +35,6 @@ export default function startSitewideComponents(commonStore) {
     }
   });
 
-  startLoginWidget(commonStore);
+  startUserNavWidget(commonStore);
   startFeedbackWidget(commonStore);
 }
