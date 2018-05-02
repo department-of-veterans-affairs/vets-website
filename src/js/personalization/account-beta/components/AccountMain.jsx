@@ -18,7 +18,11 @@ class AccountMain extends React.Component {
 
   openModal = () => {
     recordEvent({ event: 'terms-shown-profile' });
-    this.setState({ modalOpen: true });
+    this.setState({ modalOpen: true }, () => {
+      if (!this.props.terms.termsContent) {
+        this.props.fetchLatestTerms('mhvac');
+      }
+    });
   }
 
   closeModal = () => {
@@ -32,37 +36,32 @@ class AccountMain extends React.Component {
 
   renderModalContents() {
     const { terms } = this.props;
-    const termsAccepted = this.props.profile.healthTermsCurrent;
-    if (!termsAccepted && !this.state.modalOpen && terms.loading === false && !terms.termsContent) {
-      setTimeout(() => {
-        this.props.fetchLatestTerms('mhvac');
-      }, 100);
+
+    if (!this.state.modalOpen) { return null; }
+
+    if (terms.loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (!termsAccepted && this.state.modalOpen && terms.loading === true) {
-      return <LoadingIndicator setFocus message="Loading your information..."/>;
-    } else if (termsAccepted) {
+    }
+
+    if (terms.accepted) {
       return (
         <div>
-          <h3>
-            You have already accepted the terms and conditions.
-          </h3>
-          <div>
-            <button type="submit" onClick={this.closeModal}>Ok</button>
-          </div>
+          <h3>You have already accepted the terms and conditions.</h3>
+          <div><button type="submit" onClick={this.closeModal}>Ok</button></div>
         </div>
       );
     }
 
-    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} onCancel={this.closeModal} isInModal/>;
+    return <AcceptTermsPrompt terms={terms} cancelPath="/account-beta" onAccept={this.acceptAndClose} isInModal/>;
   }
 
   render() {
     const {
       profile: {
         loa,
-        multifactor,
-        healthTermsCurrent
-      }
+        multifactor
+      },
+      terms
     } = this.props;
 
     return (
@@ -70,7 +69,7 @@ class AccountMain extends React.Component {
         <AccountVerification loa={loa}/>
         <MultifactorMessage multifactor={multifactor}/>
         <LoginSettings/>
-        <TermsAndConditions healthTermsCurrent={healthTermsCurrent} openModal={this.openModal}/>
+        <TermsAndConditions terms={terms} openModal={this.openModal}/>
         <h4>Have questions about signing in to Vets.gov?</h4>
         <p>
           Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on Vets.gov.<br/>

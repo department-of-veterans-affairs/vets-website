@@ -4,7 +4,7 @@ import { fieldFailureMessage } from './LoadFail';
 
 export default function MilitaryInformation({ serviceHistoryResponseData }) {
   const serviceHistory = serviceHistoryResponseData && serviceHistoryResponseData.serviceHistory;
-  if (!serviceHistory) return fieldFailureMessage;
+  if (!serviceHistory || serviceHistory.length === 0) return fieldFailureMessage;
 
   return (
     <div>
