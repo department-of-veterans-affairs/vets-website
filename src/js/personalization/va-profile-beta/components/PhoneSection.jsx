@@ -111,7 +111,7 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={phoneResponseData && onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={phoneResponseData && phoneResponseData.number && onEdit}>{title}</HeadingWithEdit>
       {content}
     </div>
   );

@@ -47,7 +47,7 @@
   > button, > .accordion-title {
     min-height: 7rem;
     padding: 2.5rem 6.5rem 2.5rem 3rem;
-    font-size:1.15em;
+    font-size: 1.15em;
     line-height: 1.5;
     font-weight: bold;
   }
@@ -100,3 +100,40 @@
   list-style: disc;
 }
 
+
+// ReviewCardField styles
+.review-card {
+  .review-card--header {
+    background-color: $color-gray-lightest;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .review-card--title {
+      margin: 0;
+      display: inline-block;
+    }
+
+    .edit-button {
+      width: 8rem;
+      margin-right: 0;
+    }
+  }
+
+  .review-card--body {
+    padding: 1.5rem;
+    border: 2px solid $color-gray-lightest;
+    // Remove the top border because it looks like it just extends the header
+    border-top: none;
+
+    .review-card--title {
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .update-button {
+      margin-top: 1rem;
+      width: 15rem;
+    }
+  }
+}

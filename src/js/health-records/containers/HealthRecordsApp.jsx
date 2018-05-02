@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
-import MHVApp from '../../common/containers/MHVApp';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { closeModal } from '../actions/modal';
 import Breadcrumbs from '../components/Breadcrumbs';
 

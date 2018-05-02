@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 
 // This needs to be a React component for RequiredLoginView to pass down

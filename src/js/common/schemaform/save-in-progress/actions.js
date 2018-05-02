@@ -2,7 +2,7 @@ import Raven from 'raven-js';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import environment from '../../../../platform/utilities/environment';
 import 'isomorphic-fetch';
-import { logOut } from '../../../../platform/site-wide/login/actions';
+import { logOut } from '../../../../platform/site-wide/user-nav/actions';
 
 import { removeFormApi, saveFormApi } from './api';
 import { sanitizeForm } from '../../../../platform/forms/helpers';
