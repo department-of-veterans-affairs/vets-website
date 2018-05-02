@@ -63,21 +63,27 @@ class EditAddressModal extends React.Component {
 }
 
 function AddressView({ address }) {
-  const street = [
-    address.addressOne,
-    address.addressTwo ? `, ${address.addressTwo}` : '',
-    address.addressThree ? ` ${address.addressThree}` : ''
-  ].join('');
+  /* eslint-disable prefer-template */
+  let street = address.addressOne || '';
+  if (address.addressOne && address.addressTwo) street += ', ';
+  if (address.addressTwo) street += address.addressTwo;
+  if (address.addressThree) street += ' ' + address.addressThree;
 
   const country = address.type === ADDRESS_TYPES.international ? address.countryName : '';
   let cityStateZip = '';
 
   switch (address.type) {
     case ADDRESS_TYPES.domestic:
-      cityStateZip = `${address.city}, ${getStateName(address.state)} ${address.zipCode}`;
+      cityStateZip = address.city || '';
+      if (address.city && address.state) cityStateZip += ', ';
+      if (address.state) cityStateZip += getStateName(address.state);
+      if (address.zipCode) cityStateZip += ' ' + address.zipCode;
       break;
     case ADDRESS_TYPES.military:
-      cityStateZip = `${address.militaryPostOfficeTypeCode}, ${address.militaryStateCode} ${address.zipCode}`;
+      cityStateZip = address.militaryPostOfficeTypeCode || '';
+      if (address.militaryPostOfficeTypeCode && address.militaryStateCode) cityStateZip += ', ';
+      if (address.militaryStateCode) cityStateZip += address.militaryStateCode;
+      if (address.zipCode) cityStateZip += ' ' + address.zipCode;
       break;
     case ADDRESS_TYPES.international:
     default:
