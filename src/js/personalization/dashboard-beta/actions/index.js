@@ -34,9 +34,10 @@ export function removingSavedForm() {
   };
 }
 
-export function removingSavedFormSuccess() {
+export function removingSavedFormSuccess(formId) {
   return {
-    type: REMOVING_SAVED_FORM_SUCCESS
+    type: REMOVING_SAVED_FORM_SUCCESS,
+    formId,
   };
 }
 
@@ -92,7 +93,7 @@ export function removeSavedForm(formId) {
     dispatch(removingSavedForm());
     return removeFormApi(formId)
       .then(() => {
-        dispatch(removingSavedFormSuccess());
+        dispatch(removingSavedFormSuccess(formId));
         getUserData(dispatch);
       })
       .catch(() => dispatch(removingSavedFormFailure()));

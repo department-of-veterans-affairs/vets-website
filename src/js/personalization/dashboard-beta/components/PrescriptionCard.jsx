@@ -13,18 +13,18 @@ export default function PrescriptionCard({ prescription }) {
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">
-        {headerText[refillStatus]}
+        {prescriptionName}
       </h3>
-      <p><strong>Submit date:</strong> {
+      <p>
+        <strong>Order status:</strong> {headerText[refillStatus]}
+      </p>
+      <p><strong>You submitted your refil order on:</strong> {
         formatDate(refillSubmitDate || refillDate, {
           format: 'L'
         })
       }</p>
       <p>
-        <strong>Prescription:</strong> {prescriptionName}
-      </p>
-      <p>
-        <Link className="usa-button usa-button-primary" href={`/health-care/prescriptions/${prescription.id}/status`}>View prescription<i className="fa fa-chevron-right"/></Link>
+        <Link className="usa-button usa-button-primary" href={`/health-care/prescriptions/${prescription.id}/status`}>View Your Prescription<i className="fa fa-chevron-right"/></Link>
       </p>
     </div>
   );

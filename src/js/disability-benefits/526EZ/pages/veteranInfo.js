@@ -4,7 +4,7 @@ import currentOrPastDateUI from '../../../common/schemaform/definitions/currentO
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { genderLabels } from '../../../../platform/static-data/labels';
-import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
+import initialData from '../tests/schema/initialData';
 
 import VerifiedReviewContainer from '../components/VerifiedReviewContainer';
 import {
