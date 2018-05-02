@@ -33,7 +33,7 @@ body.va-pos-fixed {
   left: -0.9rem;
   overflow-y: scroll;
   position: absolute;
-  width: 100%;
+  width: 103%;
 
   // Just large enough to take precedence over any other dropdowns on the page and the VA Map
   z-index: 1011;
@@ -358,7 +358,6 @@ body.va-pos-fixed {
     position: absolute;
     width: 100%;
     top: 0;
-    left: 30px;
     visibility: visible;
     margin: 0;
 
@@ -367,6 +366,7 @@ body.va-pos-fixed {
       background-color: $color-gray-lightest;
       height: 100%;
       margin-left: 23rem;
+      left: 30px;
       padding: 0.5rem 0 1.6rem;
       width: 31rem;
     }
