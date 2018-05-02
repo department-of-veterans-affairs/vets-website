@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import fullSchema686 from './686-schema.json';
+import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import * as address from '../../../common/schemaform/definitions/address';
