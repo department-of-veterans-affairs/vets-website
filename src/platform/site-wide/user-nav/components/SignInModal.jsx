@@ -50,7 +50,7 @@ class SignInModal extends React.Component {
               <div className="form-warning-banner">
                 <AlertBox
                   headline="DS Logon isn't working quite right"
-                  content="If you're having trouble signing in to Vets.gov using your DS Logon ID and password, please try again later. Or, you can try signing in with your MyHealth_e_Vet ID and password or through ID.me."
+                  content="If you're having trouble singing in to Vets.gov using your DS Logon username and password, please try again later. Or, you can try signing in with your My HealtheVet username and password or through ID.me."
                   isVisible
                   status="warning"/>
                 <br/>
