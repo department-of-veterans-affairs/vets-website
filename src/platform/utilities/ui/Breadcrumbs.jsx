@@ -78,7 +78,6 @@ class Breadcrumbs extends React.Component {
     const {
       ...breadcrumbProps
     } = this.props;
-    // const mobileBreadcrumbLink = this.sliceMobileLink(crumbs);
     const mobileShow = this.state.mobileShow;
     const shownList = mobileShow
       ? (

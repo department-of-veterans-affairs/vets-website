@@ -11,8 +11,8 @@ description: Use your VA education benefits to pay for college or training progr
     <ol class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>
       <li><a href="/disability-benefits/">Disability Benefits</a></li>
-      <li class="parent"><a href="/disability-benefits/526/apply-for-increase/">Apply for Increase</a></li>
-    </ul>
+      <li class="parent"><a href="/disability-benefits/526/apply-for-increase/" aria-current="page">Apply for Increase</a></li>
+    </ol>
   </nav>
   <div class="section">
     <div id="react-root">

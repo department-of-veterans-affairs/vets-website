@@ -21,7 +21,7 @@ import Pagination from '@department-of-veterans-affairs/jean-pants/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 
 const sortOptions = [
   {
@@ -199,7 +199,11 @@ class YourClaimsPage extends React.Component {
 
     return (
       <div className="claims-container">
-        <Breadcrumbs/>
+        <Breadcrumbs>
+          <a key="home" href="/">Home</a>
+          <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+          <a key="your-claims" href="/track-claims/your-claims/">Track Your Claims and Appeals</a>
+        </Breadcrumbs>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
