@@ -163,7 +163,7 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('priorityEnroll')}>
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('priEnroll')}>
           <h3>Priority Enrollment</h3>
           <p>
             TODO!!!
