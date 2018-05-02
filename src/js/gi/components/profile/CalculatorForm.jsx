@@ -9,12 +9,15 @@ class CalculatorForm extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = { value: '' };
+    this.onChange = this.onChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.resetBuyUp = this.resetBuyUp.bind(this);
     this.renderLearnMoreLabel = this.renderLearnMoreLabel.bind(this);
     this.renderInState = this.renderInState.bind(this);
     this.renderTuition = this.renderTuition.bind(this);
     this.renderBooks = this.renderBooks.bind(this);
+    this.renderPhysicalLocation = this.renderPhysicalLocation.bind(this);
     this.renderYellowRibbon = this.renderYellowRibbon.bind(this);
     this.renderScholarships = this.renderScholarships.bind(this);
     this.renderTuitionAssist = this.renderTuitionAssist.bind(this);
@@ -23,6 +26,13 @@ class CalculatorForm extends React.Component {
     this.renderKicker = this.renderKicker.bind(this);
     this.renderBuyUp = this.renderBuyUp.bind(this);
     this.renderWorking = this.renderWorking.bind(this);
+  }
+
+  onChange(e) {
+    const re = /^[0-9\b]+$/;
+    if (e.target.value === '' || re.test(e.target.value)) {
+      this.setState({ value: e.target.value });
+    }
   }
 
   handleInputChange(event) {
@@ -111,6 +121,45 @@ class CalculatorForm extends React.Component {
           name="books"
           value={formatCurrency(this.props.inputs.books)}
           onChange={this.handleInputChange}/>
+      </div>
+    );
+  }
+
+  renderPhysicalLocation() {
+
+    let zipCodeInput;
+
+    if (this.props.inputs.physicalLocationOfCampus === 'no') {
+      zipCodeInput = (
+        <div>
+          <label htmlFor="physicalLocationZipCode">
+            What is the ZIP Code where you'll be located?
+          </label>
+          <input
+            type="text"
+            name="physicalLocationZipCode"
+            value={this.state.value}
+            maxLength="5"
+            onChange={this.onChange}/>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text: 'Will you be physically located at this campus for the majority of your studies this year?',
+            modal: 'physicalLoc'
+          })}
+          name="physicalLocationOfCampus"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ]}
+          value={this.props.inputs.physicalLocationOfCampus}
+          onChange={this.handleInputChange}/>
+        {zipCodeInput}
       </div>
     );
   }
@@ -421,6 +470,7 @@ class CalculatorForm extends React.Component {
         {this.renderInState()}
         {this.renderTuition()}
         {this.renderBooks()}
+        {this.renderPhysicalLocation()}
         {this.renderYellowRibbon()}
         {this.renderScholarships()}
         {this.renderTuitionAssist()}
