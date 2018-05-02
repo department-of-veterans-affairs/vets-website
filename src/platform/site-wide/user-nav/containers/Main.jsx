@@ -45,7 +45,7 @@ export class Main extends React.Component {
     }
 
     const shouldCloseLoginModal =
-      !prevProps.login.currentlyLoggedIn && currentlyLoggedIn && showLoginModal;
+      !prevProps.currentlyLoggedIn && currentlyLoggedIn && showLoginModal;
 
     if (shouldCloseLoginModal) { this.props.toggleLoginModal(false); }
   }
