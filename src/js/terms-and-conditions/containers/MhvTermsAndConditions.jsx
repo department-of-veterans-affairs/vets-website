@@ -57,11 +57,11 @@ export class MhvTermsAndConditions extends React.Component {
     let content;
 
     if (this.state.showAcceptedMessage) {
-      headline = 'You\'ve accepted the Terms and Conditions for using Vets.gov health tools';
+      headline = 'You’ve accepted the Terms and Conditions for using Vets.gov health tools';
       content = '';
     } else if (this.state.showCanceledMessage) {
       headline = 'Using Vets.gov Health Tools';
-      content = 'Before you can use the health tools on Vets.gov, you\'ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.';
+      content = 'Before you can use the health tools on Vets.gov, you’ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.';
     } else {
       return null;
     }
