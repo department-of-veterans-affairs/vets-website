@@ -161,7 +161,10 @@ export class MhvTermsAndConditions extends React.Component {
 
     const header = !this.props.accepted && (
       <div>
-        <AlertBox {...unagreedBannerProps} isVisible={!this.state.showCanceledMessage} status="info"/>
+        <div className="usa-alert usa-alert-info no-background-image">
+          <h4>{unagreedBannerProps.headline}</h4>
+          <p>{unagreedBannerProps.content}</p>
+        </div>
         <div className="va-introtext" dangerouslySetInnerHTML={{ __html: headerContent }}/>
         <h3>Terms and Conditions</h3>
       </div>
