@@ -12,6 +12,8 @@ class ClaimEstimationPage extends React.Component {
     setUpPage();
   }
   render() {
+    const claimId = `your-claims/${this.props.params.id}`;
+    const claimIdEst = `your-claims/${this.props.params.id}/claim-estimate`;
     const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
 
     return (
@@ -22,8 +24,8 @@ class ClaimEstimationPage extends React.Component {
               <a key="home" href="/">Home</a>
               <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
               <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
-              <Link to={`your-claims/${this.props.params.id}`}>Your {claimType} Claim</Link>
-              <Link to="/">Claim Estimation</Link>
+              <Link to={claimId}>Your {claimType} Claim</Link>
+              <Link to={claimIdEst}>Claim Estimation</Link>
             </Breadcrumbs>
           </div>
         </div>

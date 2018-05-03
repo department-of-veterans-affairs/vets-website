@@ -90,7 +90,7 @@ class DocumentRequestPage extends React.Component {
                 <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
                 <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
                 <Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link>
-                <Link to="/">Document Request</Link>
+                <Link to={`${filesPath}/document-request`}>Document Request</Link>
               </Breadcrumbs>
             </div>
           </div>

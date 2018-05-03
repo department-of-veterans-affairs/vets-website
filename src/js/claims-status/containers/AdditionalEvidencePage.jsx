@@ -69,9 +69,9 @@ class AdditionalEvidencePage extends React.Component {
     if (this.props.loading) {
       content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
     } else {
-      const claim = this.props.claim;
-      const filesPath = `your-claims/${claim.id}/files`;
-      const message = this.props.message;
+      const { claim, message } = this.props;
+      const claimsPath = `your-claims/${claim.id}`;
+      const evidencePath = `your-claims/${claim.id}/additional-evidence`;
 
       content = (
         <div>
@@ -81,8 +81,8 @@ class AdditionalEvidencePage extends React.Component {
                 <a key="home" href="/">Home</a>
                 <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
                 <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
-                <Link to={filesPath}>Your {getClaimType(claim)} Claim</Link>
-                <Link to="/">Additional Evidence</Link>
+                <Link to={claimsPath}>Your {getClaimType(claim)} Claim</Link>
+                <Link to={evidencePath}>Additional Evidence</Link>
               </Breadcrumbs>
             </div>
           </div>
@@ -102,7 +102,7 @@ class AdditionalEvidencePage extends React.Component {
                   uploading={this.props.uploading}
                   files={this.props.files}
                   showMailOrFax={this.props.showMailOrFax}
-                  backUrl={this.props.lastPage || filesPath}
+                  backUrl={this.props.lastPage || claimsPath}
                   onSubmit={() => this.props.submitFiles(
                     this.props.claim.id,
                     null,

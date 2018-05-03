@@ -33,6 +33,8 @@ class AskVAPage extends React.Component {
   }
   render() {
     const { loadingDecisionRequest, decisionRequestError } = this.props;
+    const claimId = `your-claims/${this.props.params.id}`;
+    const claimIdAsk = `your-claims/${this.props.params.id}/ask-va-to-decide`;
     const submitDisabled = !this.state.submittedDocs || loadingDecisionRequest || decisionRequestError;
 
     let buttonMsg = 'Submit';
@@ -49,8 +51,8 @@ class AskVAPage extends React.Component {
               <a key="home" href="/">Home</a>
               <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
               <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
-              <Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link>
-              <Link to="/">Ask VA</Link>
+              <Link to={claimId}>Your Disability Compensation Claim</Link>
+              <Link to={claimIdAsk}>Ask VA</Link>
             </Breadcrumbs>
           </div>
         </div>

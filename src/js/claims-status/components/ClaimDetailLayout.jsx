@@ -23,7 +23,7 @@ export default class ClaimDetailLayout extends React.Component {
 
     let content;
     if (!loading) {
-      // const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
+      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}${claim.id}`;
       content = (
         <div>
           <div className="row">
@@ -32,7 +32,7 @@ export default class ClaimDetailLayout extends React.Component {
                 <a key="home" href="/">Home</a>
                 <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
                 <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
-                <Link to="/">Your {getClaimType(claim)} Claim</Link>
+                <Link to={claimsPath}>Your {getClaimType(claim)} Claim</Link>
               </Breadcrumbs>
             </div>
           </div>
