@@ -15,8 +15,15 @@ import { genderLabels } from '../../../../platform/static-data/labels';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
-import { uiSchema as primaryAddressUiSchema, getPrimaryAddressSchema } from '../pages/primaryAddress';
+import {
+  uiSchema as paymentInfoUiSchema,
+  schema as paymentInfoSchema
+} from '../pages/paymentInfo';
+
+import {
+  uiSchema as primaryAddressUiSchema,
+  primaryAddressSchema
+} from '../pages/primaryAddress';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
@@ -188,7 +195,7 @@ const formConfig = {
           path: 'veteran-details/address-information',
           description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
           uiSchema: primaryAddressUiSchema,
-          schema: getPrimaryAddressSchema(fullSchema526EZ)
+          schema: primaryAddressSchema
         },
         militaryHistory: {
           title: 'Military service history',
@@ -236,7 +243,13 @@ const formConfig = {
             }
           }
         },
-        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
+        paymentInformation: { // createVerifiedPaymentInfoPage(fullSchema526EZ),
+          title: 'Payment Information',
+          path: 'payment-information',
+          description: 'This is the bank account information we have on file for you. We’ll pay your benefit to this account. If you need to make changes to your bank information, you can click the Edit button.',
+          uiSchema: paymentInfoUiSchema,
+          schema: paymentInfoSchema
+        },
         specialCircumstances: {
           title: 'Special Circumstances',
           path: 'special-circumstances',

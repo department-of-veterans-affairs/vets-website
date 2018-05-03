@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+
 import dateUI from '../../../common/schemaform/definitions/date';
 import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
 
@@ -568,42 +570,34 @@ export const uiSchema = {
   }
 };
 
-export function getPrimaryAddressSchema(formSchema) {
-  const { date } = formSchema.definitions;
-  return {
-    type: 'object',
-    properties: {
-      veteran: {
-        type: 'object',
-        properties: {
-          mailingAddress: addressSchema,
-          primaryPhone: {
-            type: 'string'
-          },
-          secondaryPhone: {
-            type: 'string'
-          },
-          emailAddress: {
-            type: 'string',
-            format: 'email'
-          },
-          'view:hasForwardingAddress': {
-            type: 'boolean'
-          },
-          forwardingAddress: _.merge({}, addressSchema, {
-            type: 'object',
-            properties: {
-              effectiveDate: date
-            }
-          })
-        }
+export const primaryAddressSchema = {
+  type: 'object',
+  properties: {
+    veteran: {
+      type: 'object',
+      properties: {
+        mailingAddress: addressSchema,
+        primaryPhone: {
+          type: 'string'
+        },
+        secondaryPhone: {
+          type: 'string'
+        },
+        emailAddress: {
+          type: 'string',
+          format: 'email'
+        },
+        'view:hasForwardingAddress': {
+          type: 'boolean'
+        },
+        forwardingAddress: _.merge({}, addressSchema, {
+          type: 'object',
+          properties: {
+            effectiveDate: fullSchema526EZ.definitions.date
+          }
+        })
       }
     }
-  };
-}
+  }
+};
 
-// export const createVerifiedPrimaryAddressPage = formConfig =>
-//   createPrimaryAddressPage(formConfig, true);
-// 
-// export const createUnverifiedPrimaryAddressPage = formConfig =>
-//   createPrimaryAddressPage(formConfig, false);
