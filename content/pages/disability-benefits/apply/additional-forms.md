@@ -17,7 +17,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-In some situations, you may need to turn in an additional form to support your disability claim. For example, if you’re claiming a dependent or if you’re requesting aid and attendance benefits, you’ll need to fill out and submit the form for that listed below. Find out if you’ll need to turn in a supplemental disability form when you file your disability claim. 
+In some situations, you may need to turn in an additional form to support your disability claim. For example, if you’re claiming a dependent or if you’re requesting aid and attendance benefits, you’ll need to fill out and submit the form for that listed below. Find out if you’ll need to turn in any supplemental forms when you file your disability claim. 
 
 </div>
 
