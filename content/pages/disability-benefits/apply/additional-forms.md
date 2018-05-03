@@ -21,9 +21,9 @@ In some situations, you may need to turn in an additional form to support your d
 
 </div>
 
-### Do I need to turn in a supplemental form when I file my disability claim?
+### Do I need to turn in any supplemental forms when I file my disability claim?
 
-You'll need to turn in a supplemental form if any of the below situations apply to you:
+You'll need to turn in a supplemental form for any of the below situations:
 
 
 **If you’re a National Guard and Reserve member,** you’ll need to turn in all your service treatment and personnel records from your unit(s).
