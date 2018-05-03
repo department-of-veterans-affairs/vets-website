@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
@@ -54,7 +55,10 @@ export class MhvTermsAndConditions extends React.Component {
   }
 
   redirect = () =>  {
-    if (this.redirectUrl) { window.location.replace(`${this.redirectUrl}?tc_accepted=true`); }
+    if (this.redirectUrl) {
+      const newUrl = appendQuery(this.redirectUrl, { tc_accepted: true }); // eslint-disable-line camelcase
+      window.location.replace(newUrl);
+    }
   }
 
   handleAgreementCheck = () => {
