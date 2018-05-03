@@ -17,11 +17,13 @@ relatedlinks:
 
 <div class="va-introtext">
 
-In some situations, you may need to turn in an additional form to support your disability claim. For example, you’ll need to fill out another form if you’re claiming a dependent or if you’re requesting aid and attendance benefits. 
-
-If any of the below situations apply to you, you’ll need to turn in an additional form when you file your disability claim.  
+In some situations, you may need to turn in an additional form to support your disability claim. For example, if you’re claiming a dependent or if you’re requesting aid and attendance benefits, you’ll need to fill out and submit the form for that listed below. Find out if you’ll need to turn in a supplemental disability form when you file your disability claim. 
 
 </div>
+
+### Do I need to turn in a supplemental form when I file my disability claim?
+
+You'll need to turn in a supplemental form if any of the below situations apply to you:
 
 
 **If you’re a National Guard and Reserve member,** you’ll need to turn in all your service treatment and personnel records from your unit(s).
