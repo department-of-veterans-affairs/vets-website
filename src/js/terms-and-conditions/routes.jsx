@@ -2,7 +2,7 @@ import MhvTermsAndConditions from './containers/MhvTermsAndConditions';
 
 const routes = [
   {
-    path: 'health-care/terms-and-conditions',
+    path: 'health-care/medical-information-terms-conditions',
     component: MhvTermsAndConditions
   }
 ];
