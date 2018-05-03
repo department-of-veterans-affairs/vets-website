@@ -33,12 +33,14 @@ function isMarried(form = {}) {
   return ['Married', 'Separated'].includes(form.maritalStatus);
 }
 
+const spouseSelector = createSelector(form => {
+  return (form.marriages && form.marriages.length)
+    ? form.marriages[0].spouseFullName
+    : null;
+}, spouse => spouse);
+
 function createSpouseLabelSelector(nameTemplate) {
-  return createSelector(form => {
-    return (form.marriages && form.marriages.length)
-      ? form.marriages[0].spouseFullName
-      : null;
-  }, spouseFullName => {
+  return createSelector(spouseSelector, spouseFullName => {
     if (spouseFullName) {
       return {
         title: nameTemplate(spouseFullName)
