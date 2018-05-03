@@ -28,8 +28,8 @@ export class MhvTermsAndConditions extends React.Component {
   constructor(props) {
     super(props);
 
-    const nextParams = new URLSearchParams(window.location.search);
-    this.redirectUrl = nextParams.get('next');
+    const searchParams = new URLSearchParams(window.location.search);
+    this.redirectUrl = searchParams.get('tc_redirect');
 
     this.state = {
       isAgreementChecked: false,
@@ -54,7 +54,7 @@ export class MhvTermsAndConditions extends React.Component {
   }
 
   redirect = () =>  {
-    if (this.redirectUrl) { window.location = this.redirectUrl; }
+    if (this.redirectUrl) { window.location = `${this.redirectUrl}?tc_accepted=true`; }
   }
 
   handleAgreementCheck = () => {
