@@ -190,7 +190,9 @@ ReviewCardField.propTypes = {
   errorSchema: PropTypes.object.isRequired,
   idSchema: PropTypes.object.isRequired,
   registry: PropTypes.shape({
-    SchemaField: PropTypes.element.isRequired,
+    fields: PropTypes.shape({
+      SchemaField: PropTypes.func.isRequired
+    }),
     definitions: PropTypes.object.isRequired
   }).isRequired,
   formData: PropTypes.object.isRequired,
