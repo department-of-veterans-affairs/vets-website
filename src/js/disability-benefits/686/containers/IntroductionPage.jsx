@@ -47,15 +47,15 @@ class IntroductionPage extends React.Component {
                 <li>The Veteran's current and previous marriage details. If the Veteran's spouse was married before, please include this information too.</li>
                 <li>Details about the Veteran's unmarried child, include their name, Social Security number, and date of birth</li>
               </ul>
-              <p><strong>If you're claiming a dependent who's between the ages of 18 and 23 and attending school,</strong> you'll also need to fill out and turn in a Request for Approval of School Attendance (VA Form 21-764)</p>
+              <p><strong>If you're claiming a dependent who's between the ages of 18 and 23 and attending school,</strong> you'll also need to fill out and turn in a Request for Approval of School Attendance (VA Form 21-764).</p>
               <div>
-                <a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf">Download VA Form 21-674</a>
+                <a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf">Download VA Form 21-674.</a>
               </div>
               <ul><AlertBox content={this.alertContent()} isVisible status="info"/></ul>
               <br/>
               <div><h6>What if I need help filling out my application?</h6></div>
               <ul><p>An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim.</p>
-                <div><a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a></div></ul>
+                <div><a href="/disability-benefits/apply/help/index.html">Get help filing your claim.</a></div></ul>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
