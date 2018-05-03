@@ -3,9 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
-import MHVApp from '../../common/containers/MHVApp';
+import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { closeAlert } from '../actions';
 import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';

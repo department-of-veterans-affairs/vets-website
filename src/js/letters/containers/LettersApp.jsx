@@ -2,7 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import { connect } from 'react-redux';
 
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 

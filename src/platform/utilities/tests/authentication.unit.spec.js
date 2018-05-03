@@ -8,7 +8,7 @@ import {
   verify,
   logout,
   signup
-} from '../authentication';
+} from '../../user/authentication/utilities';
 
 import { mockApiRequest, resetFetch } from '../../testing/unit/helpers';
 
