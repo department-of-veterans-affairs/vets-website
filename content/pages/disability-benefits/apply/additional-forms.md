@@ -57,22 +57,22 @@ If any of the below situations apply to you, you’ll need to turn in an additio
 
 <br>
 
-- **If you’re claiming Specially Adapted Housing or a Special Home Adaptation,** you’ll need to turn in an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555).<br>
+**If you’re claiming Specially Adapted Housing or a Special Home Adaptation,** you’ll need to turn in an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555).<br>
 [Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/vba-26-4555-are.pdf).
 
 <br>
 
-- **If you’re claiming an Auto Allowance,** you’ll need to turn in an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502).<br>
+**If you’re claiming an Auto Allowance,** you’ll need to turn in an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502).<br>
 [Download VA Form 21-4502](https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf).
 
 <br>
 
-- **If you’re claiming additional benefits because you or your spouse need Aid and Aid Attendance,** you’ll need to turn in an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680).<br>
+**If you’re claiming additional benefits because you or your spouse need Aid and Aid Attendance,** you’ll need to turn in an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680).<br>
 [Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf).
 
 <br>
 
-- **If you’re claiming Aid and Attendance because you’re in a nursing home,** you’ll need to turn in a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779).<br>
+**If you’re claiming Aid and Attendance because you’re in a nursing home,** you’ll need to turn in a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779).<br>
 [Download VA Form 21-0779](https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf).<br>
 
 
