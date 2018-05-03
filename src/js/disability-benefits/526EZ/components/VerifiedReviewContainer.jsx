@@ -4,10 +4,20 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-
-import { focusElement } from '../../../../platform/utilities/ui';
-import RoutedSavablePage from '../../../common/schemaform/save-in-progress/RoutedSavablePage';
+import { Validator } from 'jsonschema';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
+
+import { focusElement, scrollToFirstError } from '../../../../platform/utilities/ui';
+import {
+  saveAndRedirectToReturnUrl,
+  autoSaveForm
+} from '../../../common/schemaform/save-in-progress/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
+import {
+  getNextPagePath,
+  getPreviousPagePath
+} from '../../../common/schemaform/routing';
+import RoutedSavablePage from '../../../common/schemaform/save-in-progress/RoutedSavablePage';
 import {
   setData,
   setPrivacyAgreement,
@@ -16,18 +26,8 @@ import {
   submitForm,
   uploadFile
 } from '../../../common/schemaform/actions';
-
 import SaveFormLink from '../../../common/schemaform/save-in-progress/SaveFormLink';
 import SaveStatus from '../../../common/schemaform/save-in-progress/SaveStatus';
-import {
-  saveAndRedirectToReturnUrl,
-  autoSaveForm
-} from '../../../common/schemaform/save-in-progress/actions';
-import { toggleLoginModal } from '../../../login/actions';
-import {
-  getNextPagePath,
-  getPreviousPagePath
-} from '../../../common/schemaform/routing';
 
 import VerifiedReviewPage from './VerifiedReviewPage';
 
@@ -90,11 +90,37 @@ class VerifiedReviewContainer extends React.Component {
     this.props.router.push(path);
   };
 
-  goForward = () => {
-    const { form, route, location } = this.props;
-    const path = getNextPagePath(route.pageList, form.data, location.pathname);
 
-    this.props.router.push(path);
+  validate = (formData, schema) => {
+    const v = new Validator();
+    const result = v.validate(
+      formData,
+      schema
+    );
+
+    return {
+      isValid: result.valid,
+      // removes PII
+      errors: result.errors.map(_.unset('instance'))
+    };
+
+  }
+
+  goForward = () => {
+    const { form, route } = this.props;
+    const { pageKey } = route.pageConfig;
+    const formData = form.data;
+    const { schema } = form.pages[pageKey];
+    const { pageList, path } = route;
+
+    const { isValid } = this.validate(formData, schema);
+    if (isValid) {
+      const pathname = getNextPagePath(pageList, formData, `/${path}`);
+
+      this.props.router.push(pathname);
+    } else {
+      scrollToFirstError();
+    }
   };
 
   handleEdit = (pageKey, editing, index = null) => {

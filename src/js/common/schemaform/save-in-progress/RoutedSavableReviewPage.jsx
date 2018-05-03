@@ -9,7 +9,7 @@ import SaveStatus from '../save-in-progress/SaveStatus';
 
 import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
 import { getReviewPageOpenChapters } from '../state/selectors';
-import { toggleLoginModal } from '../../../login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
 import { ReviewPage } from '../review/ReviewPage';
 import {

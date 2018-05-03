@@ -1,5 +1,5 @@
 import React from 'react';
-import { mfa } from '../../../login/utils/helpers';
+import { mfa } from '../../../../platform/user/authentication/utilities';
 
 export default function MultifactorMessage({ multifactor }) {
   if (multifactor) {
