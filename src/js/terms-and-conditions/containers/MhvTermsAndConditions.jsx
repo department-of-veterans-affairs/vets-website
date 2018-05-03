@@ -1,15 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+
+import { getScrollOptions } from '../../../platform/utilities/ui';
 
 import {
   acceptTerms,
   fetchLatestTerms,
   fetchTermsAcceptance
 } from '../actions';
+
+const ScrollElement = Scroll.Element;
+const scroller = Scroll.scroller;
 
 const TERMS_NAME = 'mhvac';
 
@@ -35,6 +41,16 @@ export class MhvTermsAndConditions extends React.Component {
   componentDidMount() {
     this.props.fetchLatestTerms(TERMS_NAME);
     if (sessionStorage.userToken) { this.props.fetchTermsAcceptance(TERMS_NAME); }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const shouldScrollToBanner =
+      (!prevState.showAcceptedMessage && this.state.showAcceptedMessage) ||
+      (!prevState.showCanceledMessage && this.state.showCanceledMessage);
+
+    if (shouldScrollToBanner) {
+      scroller.scrollTo('banner', getScrollOptions());
+    }
   }
 
   redirect = () =>  {
@@ -76,11 +92,13 @@ export class MhvTermsAndConditions extends React.Component {
     }
 
     return bannerProps && (
-      <AlertBox
-        {...bannerProps}
-        isVisible
-        status="success"
-        onCloseAlert={this.handleCloseBanner}/>
+      <ScrollElement name="banner">
+        <AlertBox
+          {...bannerProps}
+          isVisible
+          status="success"
+          onCloseAlert={this.handleCloseBanner}/>
+      </ScrollElement>
     );
   }
 
