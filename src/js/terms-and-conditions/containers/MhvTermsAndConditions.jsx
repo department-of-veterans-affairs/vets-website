@@ -158,12 +158,16 @@ export class MhvTermsAndConditions extends React.Component {
 
     const { title, headerContent, termsContent } = this.props.attributes;
 
-    const header = !this.props.accepted && (
+    const header = !this.props.accepted &&  (
       <div>
-        <div className="usa-alert usa-alert-info no-background-image">
-          <h3>{unagreedBannerProps.headline}</h3>
-          <p>{unagreedBannerProps.content}</p>
-        </div>
+        {
+          !this.state.showCanceledMessage && (
+            <div className="usa-alert usa-alert-info no-background-image">
+              <h3>{unagreedBannerProps.headline}</h3>
+              <p>{unagreedBannerProps.content}</p>
+            </div>
+          )
+        }
         <div className="va-introtext" dangerouslySetInnerHTML={{ __html: headerContent }}/>
         <h3>Terms and Conditions</h3>
       </div>
