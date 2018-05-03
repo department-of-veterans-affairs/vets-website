@@ -4,10 +4,11 @@ function GetFormHelp() {
   return (
     <div>
       <p className="help-talk">
-          For help filling out this form please call:</p>
+          Enrollment or Eligibility questions:</p>
       <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-VETS (<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>)</a><br/>
-            Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+        <a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a><br/>
+        TTY: <a className="help-phone-number-link" href="tel:+1-800-877-8339">1-800-877-8339</a><br/>
+        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)<br/>
       </p>
     </div>
   );

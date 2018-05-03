@@ -12,11 +12,20 @@ class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
-
+  alertContent = () => {
+    return (
+      <div>
+        <h3>Why do I need to declare a dependent</h3>
+        <p>If you're getting disability compensation and have a 30% or higher disability rating, you can add a dependent to your disability claim. Adding a dependent to your claim could make you eligible for a higher disability payment.</p>
+        <h3>When do I need to declare a dependent?</h3>
+        <p>You need to let VA know when something changes in the status of your dependents that could affect their eligibility for benefits. Changes in status could include in the birth or adoption of a child, if you get married or divorced, if your child becomes seriously disabled, or if your child is over 18 years old and not attending school.</p>
+      </div>
+    );
+  }
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for declaration of dependents"/>
+        <FormTitle title="Apply to add a dependent to your VA benefits"/>
         <p>Equal to VA Form 21-686c (Application for Declaration of Status of Dependents).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -27,29 +36,26 @@ class IntroductionPage extends React.Component {
           {...this.props.saveInProgress}>
           Please complete the 686 form to apply for declaration of status of dependents.
         </SaveInProgressIntro>
-        <h4>Follow the steps below to apply for declaration of status of dependents.</h4>
+        <h4>Follow the steps below to add a dependent to your VA benefits.</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6>When you apply, besure to have these on hand:</h6></div>
+              <div><h6>When you apply, be sure to have these on hand.</h6></div>
               <ul>
-                <li>Social Security number</li>
-                <li>Current and previous marriage details</li>
-                <li>Unmarried child’s name, Social Security number, date of birth, and school information</li>
+                <li>Your Social Security number</li>
+                <li>The Veteran's current and previous marriage details. If the Veteran's spouse was married before, please include this information too.</li>
+                <li>Details about the Veteran's unmarried child, include their name, Social Security number, and date of birth</li>
               </ul>
-              <div><h6>If you're claiming a dependent who's over the age of 18 and attending school, you'll also need:</h6></div>
-              <ul>
-                <li>To turn in a completed Request for Approval of School Attendance (VA Form 21-674).</li>
-                <div>
-                  <a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf">Download VA Form 21-674</a>
-                </div>
-              </ul>
-              <div><h6>What if I need help filling out my application?</h6></div>
-              <p>An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim.</p>
-              <div><a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a></div>
+              <p><strong>If you're claiming a dependent who's between the ages of 18 and 23 and attending school,</strong> you'll also need to fill out and turn in a Request for Approval of School Attendance (VA Form 21-764)</p>
+              <div>
+                <a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf">Download VA Form 21-674</a>
+              </div>
+              <ul><AlertBox content={this.alertContent()} isVisible status="info"/></ul>
               <br/>
-              <AlertBox headline="Why do I need to declare a dependent?" content="You need to let VA know when something changes in the status of your dependents that could affect their eligibility for benefits. Changes in status could include in the birth or adoption of a child, if you get married or divorced, if your child becomes seriously disabled, or if your child is over 18 years old and not attending school." isVisible status="info"/>
+              <div><h6>What if I need help filling out my application?</h6></div>
+              <ul><p>An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim.</p>
+                <div><a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a></div></ul>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
