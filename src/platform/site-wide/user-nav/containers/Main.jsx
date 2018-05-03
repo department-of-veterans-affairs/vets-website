@@ -6,17 +6,22 @@ import URLSearchParams from 'url-search-params';
 import { features } from '../../../../js/personalization/beta-enrollment/routes';
 import recordEvent from '../../../monitoring/record-event';
 
+import SignInModal from '../../../user/authentication/components/SignInModal';
+import {
+  isLoggedIn,
+  isProfileLoading,
+  createIsServiceAvailableSelector
+} from '../../../user/selectors';
+import { getProfile } from '../../../user/profile/actions';
+import { updateLoggedInStatus } from '../../../user/authentication/actions';
+
 import {
   toggleLoginModal,
   toggleSearchHelpUserMenu
 } from '../../../site-wide/user-nav/actions';
 
-import { updateLoggedInStatus } from '../../../user/authentication/actions';
-import { isLoggedIn, isProfileLoading, selectUserGreeting, createIsServiceAvailableSelector } from '../../../user/selectors';
-import { getProfile } from '../../../user/profile/actions';
-
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import SignInModal from '../../../user/authentication/components/SignInModal';
+import { selectUserGreeting } from '../selectors';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
