@@ -68,6 +68,7 @@ export class MHVApp extends React.Component {
   }
 
   renderTcAcceptanceMessage = () => {
+    // Use query param to detect redirect from accepting T&C.
     if (!this.props.location.query.tc_accepted) { return null; }
 
     const alertProps = {
