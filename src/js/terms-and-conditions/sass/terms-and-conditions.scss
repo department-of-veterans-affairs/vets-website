@@ -36,6 +36,17 @@
   margin: 0 0 1.5rem;
 }
 
+
+.usa-alert.no-background-image {
+  h3 {
+    margin: 1rem 0 2rem;
+  }
+
+  &:before {
+    width: 0;
+  }
+}
+
 .agreement-label {
   display: inline-block;
   margin-top: 1rem;
