@@ -126,6 +126,7 @@
     "libxmljs": "^0.18.0",
     "lodash": "^4.5.1",
     "lodash-deep": "^2.0.0",
+    "lodash.uniqueid": "^4.0.1",
     "mapbox": "1.0.0-beta7",
     "metalsmith": "^2.1.0",
     "metalsmith-archive": "^0.1.1",

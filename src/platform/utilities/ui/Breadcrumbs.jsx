@@ -1,8 +1,9 @@
-// TODO: Move to Jean Pants when approved
+// TODO: Move to Design System when approved
 import PropTypes from 'prop-types';
 import React from 'react';
 import _debounce from './debounce';
-import uniqid from 'uniqid';
+// import uniqid from 'uniqid';
+import uniqueId from 'lodash.uniqueid';
 
 class Breadcrumbs extends React.Component {
   constructor(props) {
@@ -11,19 +12,12 @@ class Breadcrumbs extends React.Component {
     this.state = {
       mobileShow: false,
     };
-
-    this.id = this.props.id || uniqid('va-breadcrumbs-');
-    this.listId = this.props.listId || uniqid('va-breadcrumbs-list-');
-    this.mobileWidth = this.props.mobileWidth || 425;
-
-    this.debouncedToggleDisplay = this.debouncedToggleDisplay.bind(this);
-    this.renderBreadcrumbLinks = this.renderBreadcrumbLinks.bind(this);
-    this.renderMobileLink = this.renderMobileLink.bind(this);
-    this.toggleDisplay = this.toggleDisplay.bind(this, this.listId);
   }
 
   componentDidMount() {
-    this.toggleDisplay();
+    const mobileWidth = this.props.mobileWidth || 425;
+
+    this.toggleDisplay(mobileWidth);
     window.addEventListener('resize', this.debouncedToggleDisplay);
   }
 
@@ -32,18 +26,20 @@ class Breadcrumbs extends React.Component {
   }
 
   debouncedToggleDisplay = _debounce(() => {
-    this.toggleDisplay();
+    const mobileWidth = this.props.mobileWidth || 425;
+
+    this.toggleDisplay(mobileWidth);
   }, 500);
 
-  toggleDisplay() {
-    if (window.innerWidth <= this.mobileWidth) {
+  toggleDisplay = breakpoint => {
+    if (window.innerWidth <= breakpoint) {
       this.setState({ mobileShow: true });
     } else {
       this.setState({ mobileShow: false });
     }
   }
 
-  renderBreadcrumbLinks() {
+  renderBreadcrumbLinks = () => {
     return React.Children.map(this.props.children, (child, i) => {
       if (i === this.props.children.length - 1) {
         return (
@@ -53,11 +49,11 @@ class Breadcrumbs extends React.Component {
         );
       }
 
-      return <li>{React.cloneElement(child)}</li>;
+      return <li>{child}</li>;
     });
   }
 
-  renderMobileLink() {
+  renderMobileLink = () => {
     // The second to last link being sliced from the crumbs array
     // prop to create the "Back by one" mobile breadcrumb link
     return React.Children.map(this.props.children, (child, i) => {
@@ -76,21 +72,24 @@ class Breadcrumbs extends React.Component {
 
   render() {
     const {
-      ...breadcrumbProps
+      id,
+      listId
     } = this.props;
+    const breadcrumbId = id || uniqueId('va-breadcrumbs-');
+    const breadcrumbListId = listId || uniqueId('va-breadcrumbs-list-');
     const mobileShow = this.state.mobileShow;
     const shownList = mobileShow
       ? (
         <ol
           className="row va-nav-breadcrumbs-list columns"
-          id={`${this.listId}-clone`}>
+          id={`${breadcrumbListId}-clone`}>
           {this.renderMobileLink()}
         </ol>
       ) : (
         <ol
           className="row va-nav-breadcrumbs-list columns"
-          id={this.listId}
-          {...breadcrumbProps}>
+          id={breadcrumbListId}
+          {...this.props}>
           {this.renderBreadcrumbLinks()}
         </ol>
       );
@@ -100,7 +99,7 @@ class Breadcrumbs extends React.Component {
         aria-label="Breadcrumb"
         aria-live="polite"
         className="va-nav-breadcrumbs"
-        id={this.id}>
+        id={breadcrumbId}>
         <p className="usa-sr-only">Breadcrumb navigation will usually show all page links. It will adjust to show only the previous page when zoomed in, or viewed on a mobile device.</p>
         { shownList }
       </nav>
@@ -109,7 +108,6 @@ class Breadcrumbs extends React.Component {
 }
 
 Breadcrumbs.propTypes = {
-  crumbs: PropTypes.array,
   id: PropTypes.string,
   listId: PropTypes.string,
   mobileWidth: PropTypes.number,
