@@ -87,7 +87,7 @@ export function transformErrors(errors, uiSchema) {
  * This pulls custom validations specified in the uiSchema and validates the formData
  * against them.
  *
- * Expects validations that look like:
+ * Expects validations that EITHER look like:
  *
  * someField: {
  *   "ui:validations": [
@@ -95,9 +95,25 @@ export function transformErrors(errors, uiSchema) {
  *   ]
  * }
  *
- * The function is passed errors, fieldData, pageData, formData, and otherData and
- * should call addError to add the error.
- *
+ * with each validation function having a signature of:
+ * validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], currentIndex)
+ * The function should call addError to add the error.
+ * 
+ * OR look like:
+ * 
+ * someField: {
+ *  "ui:validations": [
+ *    {
+ *      options: {},
+ *      validator: someValidationFunction
+ *    }
+ *  ]
+ * }
+ * 
+ * In which case the validator function is passed the options object along with everything else:
+ * validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options, currentIndex)
+ * The validator function should call addError to add the error.
+ * 
  * @param {Object} errors Errors object from rjsf, which includes an addError method
  * @param {Object} uiSchema The uiSchema for the current field
  * @param {Object} schema The schema for the current field
