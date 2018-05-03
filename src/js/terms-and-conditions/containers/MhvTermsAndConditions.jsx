@@ -44,16 +44,6 @@ export class MhvTermsAndConditions extends React.Component {
     if (sessionStorage.userToken) { this.props.fetchTermsAcceptance(TERMS_NAME); }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const shouldScrollToBanner =
-      (!prevState.showAcceptedMessage && this.state.showAcceptedMessage) ||
-      (!prevState.showCanceledMessage && this.state.showCanceledMessage);
-
-    if (shouldScrollToBanner) {
-      scroller.scrollTo('banner', getScrollOptions());
-    }
-  }
-
   redirect = () =>  {
     if (this.redirectUrl) {
       const newUrl = appendQuery(this.redirectUrl, { tc_accepted: true }); // eslint-disable-line camelcase
@@ -68,12 +58,17 @@ export class MhvTermsAndConditions extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.acceptTerms(TERMS_NAME);
-    this.setState({ showAcceptedMessage: true }, this.redirect);
+    this.setState({ showAcceptedMessage: true }, () => {
+      scroller.scrollTo('banner', getScrollOptions());
+      this.redirect();
+    });
   }
 
   handleCancel = (e) => {
     e.preventDefault();
-    this.setState({ showCanceledMessage: true });
+    this.setState({ showCanceledMessage: true }, () => {
+      scroller.scrollTo('banner', getScrollOptions());
+    });
   }
 
   handleCloseBanner = () => {
