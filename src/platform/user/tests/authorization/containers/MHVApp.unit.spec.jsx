@@ -8,6 +8,7 @@ import { MHVApp } from '../../../authorization/containers/MHVApp.jsx';
 
 describe('<MHVApp>', () => {
   const props = {
+    location: { pathname: '/health-care/prescriptions', query: {} },
     account: {
       errors: null,
       loading: false,
@@ -17,31 +18,17 @@ describe('<MHVApp>', () => {
     },
     availableServices: ['facilities', 'hca', 'user-profile'],
     serviceRequired: 'rx',
-    terms: {
-      accepted: false,
-      errors: null,
-      loading: false
-    },
-    acceptTerms: sinon.spy(),
     createMHVAccount: sinon.spy(),
-    fetchLatestTerms: sinon.spy(),
     fetchMHVAccount: sinon.spy()
   };
 
   const setup = () => {
-    props.acceptTerms.reset();
+    global.window.location.replace = sinon.spy();
     props.createMHVAccount.reset();
-    props.fetchLatestTerms.reset();
     props.fetchMHVAccount.reset();
   };
 
   beforeEach(setup);
-
-  it('should show a loading indicator when fetching terms', () => {
-    const newProps = set('terms.loading', true, props);
-    const wrapper = shallow(<MHVApp {...newProps}/>);
-    expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
-  });
 
   it('should show a loading indicator when fetching an account', () => {
     const newProps = set('account.loading', true, props);
@@ -58,13 +45,6 @@ describe('<MHVApp>', () => {
     expect(loadingIndicator.text()).to.equal('Creating your MHV account...');
   });
 
-
-  it('should fetch terms if the user needs to accept terms', () => {
-    const newProps = set('account.state', 'needs_terms_acceptance', props);
-    const wrapper = shallow(<MHVApp {...newProps}/>);
-    expect(props.fetchLatestTerms.calledOnce).to.be.true;
-    expect(wrapper.find('AcceptTermsPrompt').exists()).to.be.true;
-  });
 
   it('should create an account if the user does not have an account', () => {
     shallow(<MHVApp {...props}/>);
@@ -143,21 +123,6 @@ describe('<MHVApp>', () => {
 
     const newProps = set('account.errors', errors, props);
     const wrapper = shallow(<MHVApp {...newProps}/>);
-    expect(wrapper.find('AlertBox').prop('headline')).to.eq('We\'re not able to process your MHV account');
-  });
-
-  it('should show terms and conditions error', () => {
-    const errors = [
-      {
-        title: 'Terms and conditions error',
-        detail: 'There was a problem with T&C',
-        code: '500',
-        status: '500'
-      }
-    ];
-
-    const newProps = set('terms.errors', errors, props);
-    const wrapper = shallow(<MHVApp {...newProps}/>);
-    expect(wrapper.find('AlertBox').prop('headline')).to.eq('We\'re not able to process the MHV terms and conditions');
+    expect(wrapper.find('AlertBox').prop('headline')).to.eq('We’re not able to process your MHV account');
   });
 });

@@ -51,7 +51,7 @@ export class MHVApp extends React.Component {
     if (this.needsTermsAcceptance()) {
       const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
       const termsConditionsUrl = appendQuery('/health-care/medical-information-terms-conditions', redirectQuery);
-      window.location = termsConditionsUrl;
+      window.location.replace(termsConditionsUrl);
     } else if (!this.hasAccount()) {
       this.props.createMHVAccount();
     }

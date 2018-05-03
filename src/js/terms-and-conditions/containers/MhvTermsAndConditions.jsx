@@ -54,7 +54,7 @@ export class MhvTermsAndConditions extends React.Component {
   }
 
   redirect = () =>  {
-    if (this.redirectUrl) { window.location = `${this.redirectUrl}?tc_accepted=true`; }
+    if (this.redirectUrl) { window.location.replace(`${this.redirectUrl}?tc_accepted=true`); }
   }
 
   handleAgreementCheck = () => {
