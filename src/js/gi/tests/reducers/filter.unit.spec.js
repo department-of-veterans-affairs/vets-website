@@ -11,6 +11,7 @@ const initialState = {
   yellowRibbonScholarship: false,
   principlesOfExcellence: false,
   eightKeysToVeteranSuccess: false,
+  stem: false,
   typeName: 'ALL',
 };
 
@@ -29,6 +30,7 @@ describe('filter reducer', () => {
           yellowRibbonScholarship: false,
           principlesOfExcellence: true,
           eightKeysToVeteranSuccess: false,
+          stem: true,
           typeName: 'ALL'
         },
       }
@@ -42,6 +44,7 @@ describe('filter reducer', () => {
     expect(state.yellowRibbonScholarship).to.eql(false);
     expect(state.principlesOfExcellence).to.eql(true);
     expect(state.eightKeysToVeteranSuccess).to.eql(false);
+    expect(state.stem).to.eql(true);
     expect(state.typeName).to.eql('ALL');
   });
 });
