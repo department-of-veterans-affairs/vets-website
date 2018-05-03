@@ -2,19 +2,20 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  fetchVaProfile,
+  startup,
   saveField,
   updateFormField,
   openModal,
-  clearErrors
+  clearErrors,
+  clearMessage
 } from '../actions';
 
 import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
-import RequiredLoginView from '../../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import ProfileView from '../components/ProfileView';
 
-class UserProfileApp extends React.Component {
+class VAProfileApp extends React.Component {
   render() {
     return (
       <div>
@@ -27,10 +28,14 @@ class UserProfileApp extends React.Component {
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
             <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
               <ProfileView
+                startup={this.props.startup}
                 profile={this.props.profile}
+                message={{
+                  content: this.props.profile.message,
+                  clear: this.props.clearMessage
+                }}
                 updateActions={this.props.updateActions}
                 updateFormFieldActions={this.props.updateFormFieldActions}
-                fetchVaProfile={this.props.fetchVaProfile}
                 modal={{
                   open: this.props.openModal,
                   currentlyOpen: this.props.profile.modal,
@@ -56,9 +61,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
-    fetchVaProfile,
+    startup,
     openModal,
-    clearErrors
+    clearErrors,
+    clearMessage
   }, dispatch);
 
   actions.updateActions = bindActionCreators(saveField, dispatch);
@@ -66,5 +72,5 @@ const mapDispatchToProps = (dispatch) => {
   return actions;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);
-export { UserProfileApp };
+export default connect(mapStateToProps, mapDispatchToProps)(VAProfileApp);
+export { VAProfileApp };

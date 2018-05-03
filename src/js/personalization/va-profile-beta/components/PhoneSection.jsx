@@ -67,7 +67,7 @@ class EditPhoneModal extends React.Component {
               field={{ value: field.value.extension, dirty: false }}
               onValueChange={this.onChange('extension')}/>
 
-            <LoadingButton isLoading={isLoading}>Save Phone</LoadingButton>
+            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
           </form>
         )}
       </Modal>
@@ -87,7 +87,7 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
       const extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
       content = <div>{countryCode} {number} {extension}</div>;
     } else {
-      content = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
+      content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()} number</button>;
     }
   } else {
     content = fieldFailureMessage;
@@ -111,7 +111,7 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={phoneResponseData && onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={phoneResponseData && phoneResponseData.number && onEdit}>{title}</HeadingWithEdit>
       {content}
     </div>
   );
