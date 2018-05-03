@@ -46,7 +46,7 @@ class SignInModal extends React.Component {
             </div>
           </div>
           <div className="downtime-notification row">
-            <div className="columns usa-width-one-half medium-6">
+            <div className="columns small-12">
               <div className="form-warning-banner">
                 <AlertBox
                   headline="DS Logon isn't working quite right"
