@@ -12,10 +12,7 @@ export class Programs extends React.Component {
       yr: {
         modal: 'yribbon',
         text: 'Yellow Ribbon',
-        link: {
-          href: `http://www.benefits.va.gov/gibill/yellow_ribbon/2016/states/${institution.state}.asp`,
-          text: 'See rates',
-        }
+        link: false
       },
 
       studentVeteran: {
@@ -51,6 +48,12 @@ export class Programs extends React.Component {
       dodmou: {
         modal: 'ta',
         text: 'Military Tuition Assistance (TA)',
+        link: false
+      },
+
+      priorityEnroll: {
+        modal: 'priEnroll',
+        text: 'Priority Enrollment',
         link: false
       },
     };
