@@ -42,7 +42,7 @@ const formConfig = {
           title: 'Veteran Information',
           uiSchema: {
             veteranFullName: fullNameUI,
-            ssnOrVa: _.merge({}, ssnOrVaUI, {
+            ssnOrVa: _.merge(ssnOrVaUI, {
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }

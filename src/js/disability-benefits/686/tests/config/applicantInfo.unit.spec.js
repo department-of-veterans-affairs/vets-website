@@ -1,44 +1,43 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mount } from 'enzyme';
 
-import { DefinitionTester, getFormDOM, submitForm } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, fillData, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
-import ReactTestUtils from 'react-dom/test-utils';
 
 describe('686 veteran information', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
 
   it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    const formDOM = getFormDOM(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(9);
+    expect(form.find('input').length).to.equal(8);
+    expect(form.find('select').length).to.equal(1);
   });
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
-    const formDOM = getFormDOM(form);
-    submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
   it('should submit form if applicant is veteran', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -46,35 +45,34 @@ describe('686 veteran information', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
-    const formDOM = getFormDOM(form);
 
-    formDOM.fillData('input#root_veteranFullName_first', 'test');
-    formDOM.fillData('input#root_veteranFullName_last', 'test');
-    formDOM.fillData('input#root_ssnOrVa', '222-23-2425');
-    formDOM.selectRadio('root_view:relationship', 'veteran');
+    fillData(form, 'input#root_veteranFullName_first', 'test');
+    fillData(form, 'input#root_veteranFullName_last', 'test');
+    fillData(form, 'input#root_ssnOrVa', '222-23-2425');
+    selectRadio(form, 'root_view:relationship', 'veteran');
 
-    submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
   it('should expand applicant info if applicant is not veteran', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         data={{}}
         uiSchema={uiSchema}/>
     );
-    const formDOM = getFormDOM(form);
-    formDOM.selectRadio('root_view:relationship', 'other');
-    expect(formDOM.querySelectorAll('input').length).to.equal(17);
+    selectRadio(form, 'root_view:relationship', 'spouse');
+
+    expect(form.find('input').length).to.equal(17);
   });
 
 
   it('should submit form if applicant is not veteran', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -82,23 +80,22 @@ describe('686 veteran information', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
-    const formDOM = getFormDOM(form);
-    formDOM.fillData('input#root_veteranFullName_first', 'test');
-    formDOM.fillData('input#root_veteranFullName_last', 'test');
-    formDOM.fillData('input#root_ssnOrVa', '222-23-2425');
-    formDOM.selectRadio('root_view:relationship', 'other');
+    fillData(form, 'input#root_veteranFullName_first', 'test');
+    fillData(form, 'input#root_veteranFullName_last', 'test');
+    fillData(form, 'input#root_ssnOrVa', '222-23-2425');
+    selectRadio(form, 'root_view:relationship', 'spouse');
 
-    formDOM.fillData('#root_view\\:applicantInfo_claimantFullName_first', 'test');
-    formDOM.fillData('#root_view\\:applicantInfo_claimantFullName_last', 'test');
-    formDOM.fillData('#root_view\\:applicantInfo_ssn', '222-23-2425');
-    formDOM.fillData('#root_view\\:applicantInfo_address_street', 'test st');
-    formDOM.fillData('#root_view\\:applicantInfo_address_city', 'test city');
-    formDOM.fillData('#root_view\\:applicantInfo_address_state', 'MA');
-    formDOM.fillData('#root_view\\:applicantInfo_address_postalCode', '91111');
-    formDOM.fillData('#root_view\\:applicantInfo_claimantEmail', 'test@gmail.com');
+    fillData(form, 'input[name="root_view:applicantInfo_claimantFullName_first"]', 'test');
+    fillData(form, 'input[name="root_view:applicantInfo_claimantFullName_last"]', 'test');
+    fillData(form, 'input[name="root_view:applicantInfo_ssn"]', '222-23-2425');
+    fillData(form, 'input[name="root_view:applicantInfo_address_street"]', 'test st');
+    fillData(form, 'input[name="root_view:applicantInfo_address_city"]', 'test city');
+    fillData(form, 'select[name="root_view:applicantInfo_address_state"]', 'MA');
+    fillData(form, 'input[name="root_view:applicantInfo_address_postalCode"]', '91111');
+    fillData(form, 'input[name="root_view:applicantInfo_claimantEmail"]', 'test@gmail.com');
 
-    submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });
