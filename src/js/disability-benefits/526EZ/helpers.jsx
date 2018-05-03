@@ -517,7 +517,11 @@ const AddressViewField = ({ formData }) => {
   let zipString;
   let stateString;
   let cityString;
-  if (zipCode) zipString = `${zipCode.slice(0, 5)}-${zipCode.slice(5)}`;
+  if (zipCode) {
+    const firstFive = zipCode.slice(0, 5);
+    const lastChunk = zipCode.slice(5);
+    zipString = `${firstFive}${lastChunk ? `-${lastChunk}` : ''}`;
+  }
   if (city || militaryPostOfficeTypeCode) {
     cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
   }
@@ -538,7 +542,7 @@ export const PrimaryAddressViewField = ({ formData }) => {
   const {
     mailingAddress, primaryPhone, secondaryPhone,
     emailAddress, forwardingAddress
-  } = formData.veteran;
+  } = formData;
   return (
     <div>
       <AddressViewField formData={mailingAddress}/>

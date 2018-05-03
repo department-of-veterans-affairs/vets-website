@@ -5,10 +5,8 @@ import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import VerifiedReviewContainer from '../components/VerifiedReviewContainer';
 import {
-  PrimaryAddressViewField,
-  getPage
+  PrimaryAddressViewField
 } from '../helpers';
 
 function isValidZIP(value) {
@@ -516,6 +514,7 @@ const addressSchema = {
 
 export const uiSchema = {
   veteran: {
+    'ui:title': 'Contact information',
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: PrimaryAddressViewField
