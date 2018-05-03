@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
+import PCIUAddress from '../fields/PCIUAddressField';
 import { countries, pciuCountries, states, statesOnlyInPCIU, isValidUSZipCode, isValidCanPostalCode, isValidSpecialCharacter } from '../../../../platform/forms/address';
 
 function validatePostalCodes(errors, address) {
@@ -416,6 +417,7 @@ export const pciuAddressUISchema = (addressName, title) => {
         hideIf: () => true
       }
     },
+    'ui:field': PCIUAddress,
     'ui:options': {
       updateSchema: (formData, pciuAddressSchema) => {
         const newSchema = _.merge({}, pciuAddressSchema);

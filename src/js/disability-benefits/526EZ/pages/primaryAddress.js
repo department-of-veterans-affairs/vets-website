@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import PCIUAddress from '../../../common/schemaform/fields/PCIUAddressField';
 import dateUI from '../../../common/schemaform/definitions/date';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 import { pciuAddressSchema, pciuAddressUISchema } from '../../../common/schemaform/definitions/address';
