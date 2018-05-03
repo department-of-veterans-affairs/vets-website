@@ -21,9 +21,11 @@ In some situations, you may need to turn in an additional form to support your d
 
 </div>
 
+
 ### Do I need to turn in any supplemental forms when I file my disability claim?
 
 
+<br>
 
 **If you’re a National Guard and Reserve member,** you’ll need to turn in all your service treatment and personnel records from your unit(s).
 
