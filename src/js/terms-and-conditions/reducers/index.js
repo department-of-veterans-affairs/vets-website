@@ -20,7 +20,7 @@ const initialState = {
   }
 };
 
-function termsAndConditions(state = initialState, action) {
+export function termsAndConditions(state = initialState, action) {
   switch (action.type) {
     case ACCEPTING_LATEST_TERMS:
     case FETCHING_TERMS_ACCEPTANCE:

@@ -7,4 +7,3 @@ import routes from './routes';
 import reducer from './reducers';
 
 startApp({ reducer, routes });
-
