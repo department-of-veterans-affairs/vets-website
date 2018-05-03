@@ -54,9 +54,29 @@ describe('<MHVApp>', () => {
   it('should create an account after the user accepts terms', () => {
     const newProps = set('account.state', 'needs_terms_acceptance', props);
     const wrapper = shallow(<MHVApp {...newProps}/>);
+    expect(global.window.location.replace.calledOnce).to.be.true;
     const account = { ...props.account, state: 'unknown' };
     wrapper.setProps({ account });
     expect(props.createMHVAccount.calledOnce).to.be.true;
+  });
+
+  it('should create an account after the user accepts terms', () => {
+    const newProps = set('account.state', 'needs_terms_acceptance', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    expect(global.window.location.replace.calledOnce).to.be.true;
+    const account = { ...props.account, state: 'unknown' };
+    wrapper.setProps({ account });
+    expect(props.createMHVAccount.calledOnce).to.be.true;
+  });
+
+  it('should show a success message after the user accepts terms and gets upgraded', () => {
+    const newProps = merge(props, {
+      account: { ...props.account, state: 'upgraded' },
+      location: { ...props.location, query: { tc_accepted: true } }, // eslint-disable-line camelcase
+      availableServices: ['rx']
+    });
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    expect(wrapper.find('AlertBox').prop('headline')).to.eq('Thank you for accepting the Terms and Conditions for using Vets.gov health tools');
   });
 
   it('should not attempt another account creation if the user remains unable to access', () => {
