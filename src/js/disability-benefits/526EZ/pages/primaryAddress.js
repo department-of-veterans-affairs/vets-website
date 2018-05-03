@@ -5,9 +5,7 @@ import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import {
-  PrimaryAddressViewField
-} from '../helpers';
+import { PrimaryAddressViewField } from '../helpers';
 
 function isValidZIP(value) {
   if (value !== null) {
