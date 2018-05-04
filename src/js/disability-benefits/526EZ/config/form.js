@@ -330,20 +330,22 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:validations': [requireEvidenceType],
-                'ui:title': disabilityNameTitle,
-                'ui:description': evidenceTypesDescription,
-                'view:vaMedicalRecords': {
-                  'ui:title': 'VA medical records'
-                },
-                'view:privateMedicalRecords': {
-                  'ui:title': 'Private medical records'
-                },
-                'view:otherEvidence': {
-                  'ui:title': 'Lay statements or other evidence'
-                },
-                'view:evidenceTypeHelp': {
-                  'ui:description': evidenceTypeHelp
+                'view:selectableEvidenceTypes': {
+                  'ui:validations': [requireEvidenceType],
+                  'ui:title': disabilityNameTitle,
+                  'ui:description': evidenceTypesDescription,
+                  'view:vaMedicalRecords': {
+                    'ui:title': 'VA medical records'
+                  },
+                  'view:privateMedicalRecords': {
+                    'ui:title': 'Private medical records'
+                  },
+                  'view:otherEvidence': {
+                    'ui:title': 'Lay statements or other evidence'
+                  },
+                  'view:evidenceTypeHelp': {
+                    'ui:description': evidenceTypeHelp
+                  }
                 }
               }
             }
@@ -356,18 +358,23 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    'view:vaMedicalRecords': {
-                      type: 'boolean'
-                    },
-                    'view:privateMedicalRecords': {
-                      type: 'boolean'
-                    },
-                    'view:otherEvidence': {
-                      type: 'boolean'
-                    },
-                    'view:evidenceTypeHelp': {
+                    'view:selectableEvidenceTypes': {
                       type: 'object',
-                      properties: {}
+                      properties: {
+                        'view:vaMedicalRecords': {
+                          type: 'boolean'
+                        },
+                        'view:privateMedicalRecords': {
+                          type: 'boolean'
+                        },
+                        'view:otherEvidence': {
+                          type: 'boolean'
+                        },
+                        'view:evidenceTypeHelp': {
+                          type: 'object',
+                          properties: {}
+                        }
+                      }
                     }
                   }
                 }
