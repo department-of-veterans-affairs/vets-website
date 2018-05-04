@@ -31,7 +31,7 @@ import {
   transform,
   prefillTransformer,
   supportingEvidenceOrientation,
-  evidenceTypesDescription,
+  // evidenceTypesDescription,
   evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
