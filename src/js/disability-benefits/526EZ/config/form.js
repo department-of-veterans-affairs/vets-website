@@ -56,7 +56,8 @@ import {
   veteranInformationViewField
 } from '../helpers';
 
-import { requireOneSelected, requireEvidenceType } from '../validations';
+import { requireOneSelected } from '../validations';
+import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
   treatments: treatmentsSchema,
@@ -330,10 +331,13 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
+                'ui:title': disabilityNameTitle,
                 'view:selectableEvidenceTypes': {
-                  'ui:validations': [requireEvidenceType],
-                  'ui:title': disabilityNameTitle,
-                  'ui:description': evidenceTypesDescription,
+                  // 'ui:title': evidenceTypesDescription, // this used to be ui:description one level up
+                  'ui:validations': [validateBooleanGroup],
+                  'ui:errorMessages': {
+                    atLeastOne: 'Please select at least one type of supporting evidence'
+                  },
                   'view:vaMedicalRecords': {
                     'ui:title': 'VA medical records'
                   },
