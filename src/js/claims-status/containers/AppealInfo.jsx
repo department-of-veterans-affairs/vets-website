@@ -76,7 +76,7 @@ export class AppealInfo extends React.Component {
               <a key="home" href="/">Home</a>
               <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
               <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
-              <Link>{claimHeading}</Link>
+              <Link to={`/appeals/${appeal.id}`}>{claimHeading}</Link>
             </Breadcrumbs>
           </div>
           <div className="row">
