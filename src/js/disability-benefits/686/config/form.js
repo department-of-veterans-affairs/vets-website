@@ -1,17 +1,71 @@
-// import fullSchema from 'vets-json-schema/dist/686-schema.json';
+import { createSelector } from 'reselect';
+import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import _ from 'lodash/fp';
+
+import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+import ssnUI from '../../../common/schemaform/definitions/ssn';
+import * as address from '../../../common/schemaform/definitions/address';
+import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
-import ssnUI from '../../../common/schemaform/definitions/ssn';
-import * as address from '../../../common/schemaform/definitions/address';
-import { relationshipLabels, VAFileNumberDescription } from '../helpers';
+import SpouseMarriageView from '../components/SpouseMarriageView';
+import { VAFileNumberDescription, relationshipLabels } from '../helpers';
 
-const { claimantEmail, claimantFullName, veteranFullName, veteranSocialSecurityNumber } = fullSchema686.properties;
+import { validateAfterMarriageDate } from '../validation';
 
-const { ssn, fullName, vaFileNumber } = fullSchema686.definitions;
+const {
+  spouseDateOfBirth,
+  spouseSocialSecurityNumber,
+  spouseVaFileNumber,
+  liveWithSpouse,
+  spouseIsVeteran,
+  claimantFullName,
+  claimantEmail,
+  veteranFullName,
+  veteranSocialSecurityNumber
+} = fullSchema686.properties;
+
+const {
+  marriages,
+  fullName,
+  ssn,
+  date,
+  vaFileNumber
+} = fullSchema686.definitions;
+
+function isMarried(form = {}) {
+  return ['Married', 'Separated'].includes(form.maritalStatus);
+}
+
+const spouseSelector = createSelector(form => {
+  return (form.marriages && form.marriages.length)
+    ? form.marriages[0].spouseFullName
+    : null;
+}, spouse => spouse);
+
+function createSpouseLabelSelector(nameTemplate) {
+  return createSelector(spouseSelector, spouseFullName => {
+    if (spouseFullName) {
+      return {
+        title: nameTemplate(spouseFullName)
+      };
+    }
+
+    return {
+      title: null
+    };
+  });
+}
+
+const marriageProperties = marriages.items.properties;
+
+const reasonForSeparation = _.assign(marriageProperties.reasonForSeparation, {
+  'enum': [
+    'Widowed',
+    'Divorced'
+  ]
+});
 
 const formConfig = {
   urlPrefix: '/',
@@ -28,8 +82,10 @@ const formConfig = {
   },
   title: 'Declaration of status of dependents',
   defaultDefinitions: {
+    marriages,
     fullName,
     ssn,
+    date,
     vaFileNumber
   },
   chapters: {
@@ -112,6 +168,182 @@ const formConfig = {
               },
             }
           },
+        }
+      }
+    },
+    currentSpouseInfo: {
+      title: 'Current Spouse’s Information',
+      pages: {
+        spouseInfo: {
+          title: 'Spouse information',
+          path: 'spouse-info',
+          depends: isMarried,
+          uiSchema: {
+            spouseDateOfBirth: _.merge(currentOrPastDateUI(''), {
+              'ui:options': {
+                updateSchema: createSpouseLabelSelector(spouseName =>
+                  `${spouseName.first} ${spouseName.last}’s date of birth`)
+              }
+            }),
+            spouseSocialSecurityNumber: _.merge(ssnUI, {
+              'ui:title': '',
+              'ui:options': {
+                updateSchema: createSpouseLabelSelector(spouseName =>
+                  `${spouseName.first} ${spouseName.last}’s Social Security number`)
+              }
+            }),
+            spouseIsVeteran: {
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                updateSchema: createSpouseLabelSelector(spouseName =>
+                  `Is ${spouseName.first} ${spouseName.last} also a Veteran?`)
+              }
+            },
+            spouseVaFileNumber: {
+              'ui:title': 'What is their VA file number?',
+              'ui:options': {
+                expandUnder: 'spouseIsVeteran'
+              },
+              'ui:errorMessages': {
+                pattern: 'Your VA file number must be between 7 to 9 digits'
+              }
+            },
+            liveWithSpouse: {
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                updateSchema: createSpouseLabelSelector(spouseName =>
+                  `Do you live with ${spouseName.first} ${spouseName.last}?`)
+              }
+            },
+            spouseAddress: _.merge(address.uiSchema('Spouse address', false, form => form.liveWithSpouse === false),
+              {
+                'ui:options': {
+                  expandUnder: 'liveWithSpouse',
+                  expandUnderCondition: false
+                }
+              }
+            ),
+            'view:spouseMarriedBefore': {
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                updateSchema: createSpouseLabelSelector(spouseName =>
+                  `Has ${spouseName.first} ${spouseName.last} been married before?`)
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'spouseDateOfBirth',
+              'spouseSocialSecurityNumber',
+              'spouseIsVeteran',
+              'liveWithSpouse',
+              'view:spouseMarriedBefore'
+            ],
+            properties: {
+              spouseDateOfBirth,
+              spouseSocialSecurityNumber,
+              spouseIsVeteran,
+              spouseVaFileNumber,
+              liveWithSpouse,
+              spouseAddress: address.schema(fullSchema686),
+              'view:spouseMarriedBefore': {
+                type: 'boolean'
+              }
+            }
+          }
+        },
+        spouseMarriageHistory: {
+          title: 'Spouse marriage history',
+          path: 'spouse-info/marriages',
+          depends: (formData) => isMarried(formData) && formData['view:spouseMarriedBefore'],
+          uiSchema: {
+            spouseMarriages: {
+              'ui:description': 'Please provide details about your spouse or surviving spouse’s previous marriages.',
+              'ui:options': {
+                itemName: 'Spouse Marriage',
+                viewField: SpouseMarriageView,
+                reviewTitle: 'Spouse Marriages'
+              },
+              items: {
+                dateOfMarriage: _.merge(currentOrPastDateUI(''), {
+                  'ui:options': {
+                    updateSchema: createSpouseLabelSelector(spouseName =>
+                      `When did ${spouseName.first} ${spouseName.last} get married?`)
+                  }
+                }),
+                locationOfMarriage: {
+                  'ui:options': {
+                    updateSchema: createSpouseLabelSelector(spouseName =>
+                      `Where did ${spouseName.first} ${spouseName.last} get married? (city and state or foreign country)`)
+                  }
+                },
+                spouseFullName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': '',
+                    'ui:options': {
+                      updateSchema: createSpouseLabelSelector(spouseName =>
+                        `First name of ${spouseName.first} ${spouseName.last}’s former spouse`)
+                    }
+                  },
+                  middle: {
+                    'ui:title': '',
+                    'ui:options': {
+                      updateSchema: createSpouseLabelSelector(spouseName =>
+                        `Middle name of ${spouseName.first} ${spouseName.last}’s former spouse`)
+                    }
+                  },
+                  last: {
+                    'ui:title': '',
+                    'ui:options': {
+                      updateSchema: createSpouseLabelSelector(spouseName =>
+                        `Last name of ${spouseName.first} ${spouseName.last}’s former spouse`)
+                    }
+                  }
+                }),
+                dateOfSeparation: _.assign(currentOrPastDateUI('When did this marriage end?'), {
+                  'ui:validations': [
+                    validateAfterMarriageDate
+                  ]
+                }),
+                locationOfSeparation: {
+                  'ui:title': 'Where did this marriage end? (city and state or foreign country)',
+                },
+                reasonForSeparation: {
+                  'ui:title': 'How did this marriage end?',
+                  'ui:widget': 'radio'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              spouseMarriages: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: [
+                    'spouseFullName',
+                    'dateOfMarriage',
+                    'locationOfMarriage',
+                    'reasonForSeparation',
+                    'dateOfSeparation',
+                    'locationOfSeparation'
+                  ],
+                  properties: {
+                    dateOfMarriage: marriageProperties.dateOfMarriage,
+                    locationOfMarriage: marriageProperties.locationOfMarriage,
+                    spouseFullName: marriageProperties.spouseFullName,
+                    dateOfSeparation: marriageProperties.dateOfSeparation,
+                    locationOfSeparation: marriageProperties.locationOfSeparation,
+                    reasonForSeparation
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
