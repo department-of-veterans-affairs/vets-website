@@ -12,7 +12,7 @@ import {
   saveAndRedirectToReturnUrl,
   autoSaveForm
 } from '../../../common/schemaform/save-in-progress/actions';
-import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import {
   getNextPagePath,
   getPreviousPagePath

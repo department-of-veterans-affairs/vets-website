@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
-import MHVApp from '../../common/containers/MHVApp';
+import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';

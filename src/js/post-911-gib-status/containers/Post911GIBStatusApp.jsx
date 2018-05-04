@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 
 import Main from './Main';
