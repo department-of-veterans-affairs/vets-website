@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router';
-import moment from 'moment';
 
 import '../../../messaging/sass/messaging.scss';
 
@@ -92,11 +91,7 @@ const mapStateToProps = (state) => {
   const msgState = state.health.msg;
   const folder = msgState.folders.data.currentItem;
 
-  const { attributes, pagination, sort } = folder;
-  let { messages } = folder;
-  messages = messages.filter(m => {
-    return moment(m.sentDate).startOf('day').isAfter(moment().add(-30, 'days').startOf('day'));
-  });
+  const { attributes, messages, pagination, sort } = folder;
 
   return {
     attributes,
