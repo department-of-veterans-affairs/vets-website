@@ -38,7 +38,9 @@ Do you have illnesses or injuries that started—or got worse—while you were s
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
+You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and you meet one of the requirements listed below.
+
+**One of these must be true:**
 - You got sick or injured while serving in the military and can link your condition to this illness or injury, 
  **or**
 - You had an illness or injury before you joined the military, and serving made it worse
@@ -80,7 +82,8 @@ You may be able to get disability benefits if you have a current illness or inju
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’ll need to apply for benefits. When you apply, you‘ll have to show that your conditions were likely caused by—or got worse because of—your service. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. When you apply, you’ll have to show that your conditions were likely caused by—or got worse because of—your service. <br>
+[Apply for benefits](/disability-benefits/apply/).
 
 <div itemscope itemtype="http://schema.org/Question">
 

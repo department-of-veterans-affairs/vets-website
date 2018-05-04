@@ -2,29 +2,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
-import MHVApp from '../../common/containers/MHVApp';
-import AlertBox from '../../common/components/AlertBox';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
-import { mhvAccessError } from '../../common/utils/error-messages';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { closeAlert } from '../actions';
 import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';
 
-// This needs to be a React component for RequiredLoginView to pass down
-// the isDataAvailable prop, which is only passed on failure.
-function AppContent({ children, isDataAvailable }) {
-  const unregistered = isDataAvailable === false;
-  let view;
+const SERVICE_REQUIRED = 'messaging';
 
-  if (unregistered) {
-    view = mhvAccessError;
-  } else {
-    view = children;
-  }
-
-  return <div id="messaging-app" className="row">{view}</div>;
-}
+const AppContent = ({ children }) => (
+  <div id="messaging-app" className="row">{children}</div>
+);
 
 class MessagingApp extends React.Component {
   // this warning is rendered if the user has no triage teams
@@ -55,12 +45,12 @@ class MessagingApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={3}
-        serviceRequired="messaging"
-        userProfile={this.props.profile}>
+        verify
+        serviceRequired={SERVICE_REQUIRED}
+        user={this.props.user}>
         <DowntimeNotification appTitle="secure messaging tool" dependencies={[services.mhv]}>
           <AppContent>
-            <MHVApp>
+            <MHVApp serviceRequired={SERVICE_REQUIRED}>
               <div id="messaging-app-header">
                 <AlertBox
                   headline={this.props.alert.headline}
@@ -90,13 +80,12 @@ MessagingApp.propTypes = {
 
 const mapStateToProps = (state) => {
   const msgState = state.health.msg;
-  const userState = state.user;
 
   return {
     alert: msgState.alert,
-    recipients: msgState.recipients.data,
     loading: msgState.loading,
-    profile: userState.profile
+    recipients: msgState.recipients.data,
+    user: state.user
   };
 };
 

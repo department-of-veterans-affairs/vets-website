@@ -148,13 +148,17 @@ export function addStatusToIssues(issues) {
 }
 
 /**
- * Finds an appeal from the Redux store with ID matching arg ID
+ * Finds an appeal from the Redux store with ID matching arg ID.
+ * `id` may be a v1 id or a v2 id.
+ *
  * @param {object} state Full redux store state tree
  * @param {string} id Appeal ID of the appeal to find
  * @returns {object} One appeal object or undefined if not found in the array
  */
 export function isolateAppeal(state, id) {
-  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id);
+  return _.find(state.disability.status.claimsV2.appeals,
+    (a) => a.id === id || (_.get(a, 'attributes.appealIds') || []).includes(id)
+  );
 }
 
 export function formatDate(date) {
@@ -248,9 +252,8 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Please review your Supplemental Statement of the Case';
       contents.description = (
-        <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate}
-        because, after completing the remand instructions from the Board, they couldn’t fully grant
-        your appeal.</p>
+        <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate} because,
+        after completing the remand instructions from the Board, they couldn’t fully grant your appeal.</p>
       );
       break;
     }
@@ -307,14 +310,14 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     case STATUS_TYPES.remand: {
       // TODO: break this out into its own template/component
-      const { decisionIssues } = details;
-      const allowedIssues = decisionIssues
+      const { issues } = details;
+      const allowedIssues = issues
         .filter((issue) => (issue.disposition === 'allowed'))
         .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
-      const deniedIssues = decisionIssues
+      const deniedIssues = issues
         .filter((issue) => (issue.disposition === 'denied'))
         .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
-      const remandIssues = decisionIssues
+      const remandIssues = issues
         .filter((issue) => (issue.disposition === 'remand'))
         .map((issue, i) => (<li key={`remanded-${i}`}>{issue.description}</li>));
 
@@ -378,11 +381,11 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     }
     case STATUS_TYPES.bvaDecision: {
-      const { decisionIssues } = details;
-      const allowedIssues = decisionIssues
+      const { issues } = details;
+      const allowedIssues = issues
         .filter((issue) => (issue.disposition === 'allowed'))
         .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
-      const deniedIssues = decisionIssues
+      const deniedIssues = issues
         .filter((issue) => (issue.disposition === 'denied'))
         .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
 
@@ -761,7 +764,7 @@ export const makeDurationText = (timeliness) => {
 export function getNextEvents(currentStatus, details) {
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc: {
-      const socDuration = makeDurationText(details.ssocTimeliness);
+      const socDuration = makeDurationText(details.socTimeliness);
       return {
         header: `What happens next depends on whether the Decision Review Officer has enough
           evidence to decide in your favor.`,
@@ -1175,7 +1178,7 @@ export function getAlertContent(alert, appealIsActive) {
           </div>
         ),
         displayType: 'info',
-        type,
+        type
       };
     }
     case ALERT_TYPES.rampIneligible: {
@@ -1187,7 +1190,7 @@ export function getAlertContent(alert, appealIsActive) {
           <p>On {formattedDate}, VA sent you a letter to let you know about a new program called the Rapid Appeals Modernization Program (RAMP). However, this appeal isn’t eligible for RAMP because it {statusDescription}. If you have other appeals, they may be eligible for RAMP.</p>
         ),
         displayType: 'info',
-        type,
+        type
       };
     }
     case ALERT_TYPES.decisionSoon:
@@ -1197,7 +1200,7 @@ export function getAlertContent(alert, appealIsActive) {
           <p>Your appeal will soon receive a Board decision. Submitting new evidence at this time could delay review of your appeal. If you’ve moved recently, please make sure that VA has your up-to-date mailing address.</p>
         ),
         displayType: 'info',
-        type,
+        type
       };
     case ALERT_TYPES.blockedByVso:
       return {
@@ -1206,7 +1209,7 @@ export function getAlertContent(alert, appealIsActive) {
           <p>Your appeal is eligible to be assigned to a judge based on its place in line, but they’re prevented from reviewing your appeal because your Veterans Service Organization, {details.vsoName}, is reviewing it right now. For more information, please contact your Veterans Service Organization or representative.</p>
         ),
         displayType: 'info',
-        type,
+        type
       };
     case ALERT_TYPES.cavcOption: {
       const formattedDueDate = formatDate(details.dueDate);
@@ -1222,8 +1225,10 @@ export function getAlertContent(alert, appealIsActive) {
             </ul>
           </div>
         ),
-        displayType: 'info',
-        type,
+        // displayType is blank because it doesn't apply; this gets pulled out and displayed as a
+        //  non-alert after "What happens next?"
+        displayType: '',
+        type
       };
     }
     default:
@@ -1231,7 +1236,7 @@ export function getAlertContent(alert, appealIsActive) {
         title: '',
         description: null,
         displayType: '',
-        type,
+        type
       };
   }
 }
@@ -1243,6 +1248,9 @@ export function getAlertContent(alert, appealIsActive) {
  * @returns {string} status code or 'unknown'
  */
 export const getStatus = (response) => {
+  if (response instanceof Error) {
+    Raven.captureException(response, { tags: { location: 'getStatus' } });
+  }
   return (response.errors && response.errors.length)
     ? response.errors[0].status
     : 'unknown';

@@ -19,16 +19,16 @@
     <ul class="va-footer-linkgroup" id="footer-popular">
       <li><h4 class="va-footer-linkgroup-title">Popular on Vets.gov</h4></li>
       {% if buildtype != 'production' %}
-      <li><a href="/veteran-id-card/how-to-get" onClick="footerNavClick(this);">Apply for Printed Veteran ID Card</a></li>
+      <li><a href="/veteran-id-card/how-to-get" onClick="footerNavClick(this);">Apply for a printed Veteran ID Card</a></li>
       {% else %}
-      <li><a href="/veteran-id-card/" onClick="footerNavClick(this);">Apply for Printed Veteran ID Card</a></li>
+      <li><a href="/veteran-id-card/" onClick="footerNavClick(this);">Apply for a printed Veteran ID Card</a></li>
       {% endif %}
       <li><a href="/health-care/apply/" onClick="footerNavClick(this);">Apply for health care</a></li>
       <li><a href="/education/apply-for-education-benefits/" onClick="footerNavClick(this);">Apply for education benefits</a></li>
-      <li><a href="/track-claims/" onClick="footerNavClick(this);">Check your claim and appeal status</a></li>
-      <li><a href="/gi-bill-comparison-tool/" onClick="footerNavClick(this);">Education benefits by school</a></li>
+      <li><a href="/track-claims/" onClick="footerNavClick(this);">Track your claims and appeals</a></li>
+      <li><a href="/gi-bill-comparison-tool/" onClick="footerNavClick(this);">Check education benefits by school</a></li>
       <li><a href="/health-care/prescriptions/" onClick="footerNavClick(this);">Refill prescriptions</a></li>
-      <li><a href="/letters/" onClick="footerNavClick(this);">VA Letters</a></li>
+      <li><a href="/download-va-letters/" onClick="footerNavClick(this);">Download Your VA Letters</a></li>
     </ul>
     <ul class="va-footer-linkgroup va-list--plain" id="footer-contact">
       <li><h4 class="va-footer-linkgroup-title">Contact</h4></li>
@@ -40,7 +40,7 @@ Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">E
       <li><p><button class="va-overlay-trigger usa-button-unstyled va-footer-vcl-trigger" data-show="#modal-crisisline">Get help from the Veterans Crisis Line</button></p></li>
       <li><br></li>
       <li><h4 class="va-footer-linkgroup-title">New to VA?</h4></li>
-      <li><a href="/welcome-to-va">Print Out Your VA Welcome Kit</a></li>
+      <li><a href="/welcome-to-va">Print out your VA Welcome Kit</a></li>
     </ul>
   </div>
     <div class="row" id="va-footer-supplementallinks">
@@ -101,20 +101,18 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 
 <!-- htmllint attr-bans="[]" -->
 {% if buildtype === 'development' %}
-  <script nonce="**CSP_NONCE**">
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ environment: '{{ buildtype }}' });
+  <script>
+    recordEvent({ environment: '{{ buildtype }}' });
   </script>
   <script async src="/js/google-analytics-dev.js"></script>
 {% else %}
   <!-- Google Tag Manager -->
-  <script nonce="**CSP_NONCE**">
+  <script>
     // Always use push with GTM: https://www.simoahava.com/gtm-tips/datalayer-declaration-vs-push/
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ environment: '{{ buildtype }}' });
+    recordEvent({ environment: '{{ buildtype }}' });
     // We want to know if we are being iframed
     if ( self !== top ) {
-      window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
+      recordEvent({ event: 'iframed', embeddedIn: document.referrer});
     }
   </script>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
@@ -128,21 +126,21 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 “To care for him who shall have borne the battle and for his widow, and his orphan.”
 - Abraham Lincoln
 -->
-<script nonce="**CSP_NONCE**" type="text/javascript">
+<script type="text/javascript">
   function footerNavClick(elem) {
     const eventLabel = 'nav-' + elem.parentElement.parentElement.id
-    window.dataLayer.push({
+    recordEvent({
       event: eventLabel,
       navlabel: elem.innerText
     });
   }
 </script>
 {% if widgets %}
-<script nonce="**CSP_NONCE**" type="text/javascript">
+<script type="text/javascript">
 (function() {
   var widgets = {{ widgets | json }};
   var module = {};
-  {% include "src/js/common/utils/static-page-widgets.js" %}
+  {% include "src/js/static-pages/static-page-widgets.js" %}
   mountWidgets(widgets);
 })();
 </script>

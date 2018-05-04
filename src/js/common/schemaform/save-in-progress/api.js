@@ -1,6 +1,7 @@
 import Raven from 'raven-js';
-import environment from '../../helpers/environment';
-import { sanitizeForm } from '../../utils/helpers';
+import recordEvent from '../../../../platform/monitoring/record-event';
+import environment from '../../../../platform/utilities/environment';
+import { sanitizeForm } from '../../../../platform/forms/helpers';
 
 export function removeFormApi(formId) {
   const userToken = sessionStorage.userToken;
@@ -44,7 +45,7 @@ export function saveFormApi(formId, formData, version, returnUrl, savedAt, track
   const userToken = sessionStorage.userToken;
   if (!userToken) {
     Raven.captureMessage('vets_sip_missing_token');
-    window.dataLayer.push({
+    recordEvent({
       event: `${trackingPrefix}sip-form-save-failed`
     });
     return Promise.reject(new Error('Missing token'));
@@ -65,18 +66,18 @@ export function saveFormApi(formId, formData, version, returnUrl, savedAt, track
 
     return Promise.reject(res);
   }).then(result => {
-    window.dataLayer.push({
+    recordEvent({
       event: `${trackingPrefix}sip-form-saved`
     });
 
     return Promise.resolve(result);
   }).catch(resOrError => {
     if (resOrError.status === 401) {
-      window.dataLayer.push({
+      recordEvent({
         event: `${trackingPrefix}sip-form-save-signed-out`
       });
     } else if (resOrError instanceof Response) {
-      window.dataLayer.push({
+      recordEvent({
         event: `${trackingPrefix}sip-form-save-failed`
       });
     } else {
@@ -86,7 +87,7 @@ export function saveFormApi(formId, formData, version, returnUrl, savedAt, track
           form: sanitizeForm(formData)
         }
       });
-      window.dataLayer.push({
+      recordEvent({
         event: `${trackingPrefix}sip-form-save-failed-client`
       });
     }

@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
-import { genderLabels } from '../../../common/utils/labels.jsx';
+import { genderLabels } from '../../../../platform/static-data/labels.jsx';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import { benefitsLabels, dischargeTypeLabels } from '../../utils/labels.jsx';
@@ -23,6 +23,7 @@ const {
   applicantEmail,
   applicantFullName,
   applicantGender,
+  veteranGender,
   applicantPrimaryPhone,
   applicantOtherPhone,
   applicantSocialSecurityNumber,
@@ -278,7 +279,7 @@ const formConfig = {
                 }
               }
             ),
-            applicantGender: {
+            veteranGender: {
               'ui:title': 'Gender',
               'ui:widget': 'radio',
               'ui:required': formData => formData['view:isVeteran'] === true,
@@ -290,7 +291,7 @@ const formConfig = {
           },
           schema: {
             veteranDateOfDeathMIAPOW,
-            applicantGender
+            veteranGender
           }
         })
       }
@@ -319,7 +320,7 @@ const formConfig = {
               }
             },
             previousVeteranBenefitsFullName: _.merge(fullNameUI, {
-              'ui:description': 'Veteran’s name under whom you‘ve claimed benefits',
+              'ui:title': 'Veteran’s name under whom you‘ve claimed benefits',
               'ui:options': {
                 classNames: 'schemaform-field-template',
                 hideIf: isVeteranOrNoApplications

@@ -50,32 +50,32 @@ export default function claimsV2Reducer(state = initialState, action) {
         appeals: action.appeals,
         appealsLoading: false,
         available: true,
-        appealsAvailability: appealsAvailability.AVAILABLE
+        v2Availability: appealsAvailability.AVAILABLE
       });
     case USER_FORBIDDEN_ERROR:
       return _.merge(state, {
         appealsLoading: false,
-        v2Availability: USER_FORBIDDEN_ERROR,
+        v2Availability: appealsAvailability.USER_FORBIDDEN_ERROR,
       });
     case RECORD_NOT_FOUND_ERROR:
       return _.merge(state, {
         appealsLoading: false,
-        v2Availability: RECORD_NOT_FOUND_ERROR,
+        v2Availability: appealsAvailability.RECORD_NOT_FOUND_ERROR,
       });
     case VALIDATION_ERROR:
       return _.merge(state, {
         appealsLoading: false,
-        v2Availability: VALIDATION_ERROR,
+        v2Availability: appealsAvailability.VALIDATION_ERROR,
       });
     case BACKEND_SERVICE_ERROR:
       return _.merge(state, {
         appealsLoading: false,
-        v2Availability: BACKEND_SERVICE_ERROR,
+        v2Availability: appealsAvailability.BACKEND_SERVICE_ERROR,
       });
     case FETCH_APPEALS_ERROR:
       return _.merge(state, {
         appealsLoading: false,
-        v2Availability: FETCH_APPEALS_ERROR,
+        v2Availability: appealsAvailability.FETCH_APPEALS_ERROR,
       });
 
     case CHANGE_INDEX_PAGE:

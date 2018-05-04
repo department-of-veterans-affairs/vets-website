@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import recordEvent from '../../../platform/monitoring/record-event';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
 
@@ -20,37 +21,34 @@ function createVicSettings() {
 }
 
 class VeteranIDCard extends React.Component {
-
   componentWillReceiveProps(nextProps) {
-
     // Once the login logic is all done...
     // This will occur even for unauthenticated users and should only occur once.
-    if (this.props.profile.loading && !nextProps.profile.loading) {
-      const userProfile = nextProps.profile;
+    if (this.props.user.profile.loading && !nextProps.user.profile.loading) {
+      const userProfile = nextProps.user.profile;
       const { serviceRateLimitedAuthed, serviceRateLimitedUnauthed } = this.props.vicSettings;
-      const isloggedIn = !!userProfile.accountType;
 
-      if (isloggedIn) {
+      if (nextProps.user.login.currentlyLoggedIn) {
         if (serviceRateLimitedAuthed) {
-          window.dataLayer.push({ event: 'vic-authenticated-ratelimited' });
+          recordEvent({ event: 'vic-authenticated-ratelimited' });
           this.renderEmailCapture = true;
           if (userProfile.veteranStatus === 'NOT_FOUND') {
-            window.dataLayer.push({ events: 'vic-emis-lookup-failed' });
+            recordEvent({ events: 'vic-emis-lookup-failed' });
           } else if (userProfile.veteranStatus === 'SERVER_ERROR') {
-            window.dataLayer.push({ events: 'vic-emis-error' });
+            recordEvent({ events: 'vic-emis-error' });
           }
         } else {
-          window.dataLayer.push({ event: 'vic-authenticated' });
+          recordEvent({ event: 'vic-authenticated' });
         }
       } else {
         if (serviceRateLimitedUnauthed) {
-          window.dataLayer.push({ event: 'vic-unauthenticated-ratelimited' });
+          recordEvent({ event: 'vic-unauthenticated-ratelimited' });
           this.renderEmailCapture = true;
         } else {
           // Set the flag that the user was already rate limited and allowed to pass through as an unauthorized
           // user so that the serviceRateLimitedAuthed won't also be applied.
           window.sessionStorage.setItem('vicDisableRateLimitedAuth', 'true');
-          window.dataLayer.push({ event: 'vic-unauthenticated' });
+          recordEvent({ event: 'vic-unauthenticated' });
         }
       }
     }
@@ -64,13 +62,11 @@ class VeteranIDCard extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          authRequired={3}
+          verify
           serviceRequired="id-card"
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+          user={this.props.user}>
           <DowntimeNotification appTitle="Veteran ID Card application" dependencies={[services.vic]}>
-            <RequiredVeteranView userProfile={this.props.profile}>
+            <RequiredVeteranView userProfile={this.props.user.profile}>
               {this.props.children}
             </RequiredVeteranView>
           </DowntimeNotification>
@@ -85,12 +81,7 @@ VeteranIDCard.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
-  const userState = state.user;
-  return {
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
-  };
+  return { user: state.user };
 };
 
 export default connect(mapStateToProps)(VeteranIDCard);

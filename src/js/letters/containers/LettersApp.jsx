@@ -2,7 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import { connect } from 'react-redux';
 
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
@@ -54,11 +54,9 @@ export class LettersApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={3}
+        verify
         serviceRequired="evss-claims"
-        userProfile={this.props.profile}
-        loginUrl={this.props.loginUrl}
-        verifyUrl={this.props.verifyUrl}>
+        user={this.props.user}>
         <AppContent>
           <div>
             {this.props.children}
@@ -70,12 +68,7 @@ export class LettersApp extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const userState = state.user;
-  return {
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
-  };
+  return { user: state.user };
 }
 
 export default connect(mapStateToProps)(LettersApp);

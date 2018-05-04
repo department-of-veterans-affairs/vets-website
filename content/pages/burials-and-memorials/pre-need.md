@@ -26,7 +26,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 </div>
 
-**Note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. <br>
+**Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. <br>
 [Find out how to plan a burial for someone who has died](/burials-and-memorials/burial-planning/).
 
 <br>
@@ -51,7 +51,8 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 **Please note:**
 
-- **This application is only for national cemeteries.** If you'd like to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp).
+- **This application is only for national cemeteries.** If you'd like to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. <br>
+[Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp).
 
 - **This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery.** If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">1-877-907-8585</a>, Monday through Friday, 8:00 a.m. to 5:30 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 9:00 a.m. to 1:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
@@ -105,7 +106,9 @@ To apply, you’ll need your (or your sponsor's):
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Get help filing your claim](/disability-benefits/apply/help/).
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
+[Get help filing your claim](/disability-benefits/apply/help/).
+
 
 [Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
@@ -113,7 +116,8 @@ Get help from an accredited representative (a trained professional trusted to he
 
 ### Ready to apply?
 
-Fill out an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+Fill out an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <br>
+[Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
 Print the form, fill it out, and send it to us along with copies of your supporting documents in 1 of 2 ways:
 

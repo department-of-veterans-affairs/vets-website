@@ -2,9 +2,9 @@ import React from 'react';
 import _ from 'lodash/fp';
 import shallowEqual from 'recompose/shallowEqual';
 
-import SegmentedProgressBar from '../../components/SegmentedProgressBar';
+import SegmentedProgressBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgressBar';
 
-import { getActivePages } from '../../utils/helpers';
+import { getActivePages } from '../../../../platform/forms/helpers';
 import { createFormPageList, createPageList, expandArrayPages } from '../helpers';
 
 export default class FormNav extends React.Component {
@@ -46,6 +46,9 @@ export default class FormNav extends React.Component {
       chapterName = page.chapterKey === 'review'
         ? 'Review Application'
         : formConfig.chapters[page.chapterKey].title;
+      if (typeof chapterName === 'function') {
+        chapterName = chapterName();
+      }
     }
 
     return (

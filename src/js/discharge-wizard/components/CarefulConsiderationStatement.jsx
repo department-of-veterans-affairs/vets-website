@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 const reasonStatement = (props) => {
   const reason = props.formValues['4_reason'];
@@ -11,20 +11,20 @@ const reasonStatement = (props) => {
     case '1':
       return (
         <p>
-          Because you answered that your discharge was related to posttraumatic stress disorder (PTSD) or other mental health conditions, the DoD will apply "liberal consideration" to your case. In 2014, the DoD recognized that many Veterans had received discharges due to behavior connected to their previously undiagnosed or undocumented PTSD or mental health condition.
+          Because you answered that your discharge was related to posttraumatic stress disorder (PTSD) or other mental health conditions, the DoD will apply “liberal consideration” to your case. In 2014, the DoD recognized that many Veterans had received discharges due to behavior connected to their previously undiagnosed or undocumented PTSD or mental health condition.
         </p>
       );
     case '2':
       return (
         <p>
-          Because you answered that your discharge was related to a traumatic brain injury (TBI), the DoD will apply "liberal consideration" to your case. In 2014, the DoD recognized that many Veterans had received discharges due to behavior connected to their previously undiagnosed or undocumented TBI.
+          Because you answered that your discharge was related to a traumatic brain injury (TBI), the DoD will apply “liberal consideration” to your case. In 2014, the DoD recognized that many Veterans had received discharges due to behavior connected to their previously undiagnosed or undocumented TBI.
         </p>
       );
     case '3':
       if (dischargeType === '2') {
         return (
           <p>
-          Because you answered that your discharge was due to your sexual orientation, the DoD encourages you to apply for an upgrade. In 2011, the DoD recognized that many Veterans received discharges only because of their sexual orientation. <br/> <strong>Note:</strong> You must prove that your discharge was solely due to your sexual orientation and events specifically related to it. If the events leading to your discharge were unrelated, you may still receive an upgrade, but you'll have to argue that your discharge was unjust punishment for those events.
+          Because you answered that your discharge was due to your sexual orientation, the DoD encourages you to apply for an upgrade. In 2011, the DoD recognized that many Veterans received discharges only because of their sexual orientation. <br/> <strong>Note:</strong> You must prove that your discharge was solely due to your sexual orientation and events specifically related to it. If the events leading to your discharge were unrelated, you may still receive an upgrade, but you’ll have to argue that your discharge was unjust punishment for those events.
           </p>
         );
       } else if (dischargeType === '1') {
@@ -38,7 +38,7 @@ const reasonStatement = (props) => {
     case '4':
       return (
         <p>
-          Because you answered that your discharge was related to sexual assault or harassment, the DoD will apply “liberal consideration” to your case. In 2017, the DoD recognized that many Veterans had received discharges due to sexual assault or harassment, and had unfairly received less than honorable discharges. <strong>Note:</strong> You must prove that your discharge was solely the result of sexual assault or harassment and events specifically related to it. If the events leading to your discharge were unrelated, you may still receive an upgrade, but you'll have to argue that your discharge was unjust punishment for those events.
+          Because you answered that your discharge was related to sexual assault or harassment, the DoD will apply “liberal consideration” to your case. In 2017, the DoD recognized that many Veterans had received discharges due to sexual assault or harassment, and had unfairly received less than honorable discharges. <strong>Note:</strong> You must prove that your discharge was solely the result of sexual assault or harassment and events specifically related to it. If the events leading to your discharge were unrelated, you may still receive an upgrade, but you’ll have to argue that your discharge was unjust punishment for those events.
         </p>
       );
     case '5':

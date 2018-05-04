@@ -24,14 +24,16 @@ very secret.
 | build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
-| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
-| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
+| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in `config/webpack.config.js` |
+| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
+| run all unit tests and watch | `npm run test:watch` |
 | run only unit tests for a subset of tests | `npm run test:unit -- path/to/my/test.unit.spec.jsx` <br> or <br> `npm run test:unit -- --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
 | run only e2e tests                       | `npm run test:e2e`                       |
 | run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
+| run e2e tests in headless mode           | `npm run test:e2e:headless`              |
 | run all linters                          | `npm run lint`                           |
 | run only javascript linter               | `npm run lint:js`                        |
 | run only sass linter                     | `npm run lint:sass`                      |
@@ -74,9 +76,9 @@ accidentally modify copies of upstream.
 
 
 
-The requirements for running this application are Node.js 6.11.1 and yarn 0.27.5
+The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
 
-Once you have nvm installed you should now install node.js version 6.11.1 by running:
+Once you have nvm installed you should now install node.js version 8.10.0 by running:
 
 We use `nvm` to manage Node.js and other tools. Keeping your tools in sync with everyone else will reduce errors. To install please visit: https://github.com/creationix/nvm
 
@@ -90,26 +92,26 @@ Once you have `nvm` installed, you should install Node.js:
 
 
 ```bash
-nvm install 6.11.1
+nvm install 8.10.0
 ```
 _This will also install `npm`_
 
 
-Once you have node.js 6.11.1 you should set as the default version for nvm, you do that by running:
+Once you have node.js 8.10.0 you should set as the default version for nvm, you do that by running:
 
 ```bash
-nvm alias default 6.11.1
+nvm alias default 8.10.0
 ```
 
 Next install Yarn:
 ```bash
-npm i -g yarn@0.27.5
+npm i -g yarn@1.5.1
 ```
 ### Verify your local requirements are set
 
 ```bash
-node --version // 6.11.1
-yarn --version // 0.27.5
+node --version // 8.10.0
+yarn --version // 1.5.1 
 ```
 
 Once you use one of the correct commands above (like `npm run watch`), the site will be available locally by typing `localhost:3001` into your browser. If you get weird errors, try `yarn install` as your first step.
@@ -204,8 +206,8 @@ Unittests are done via `mocha` with the `chai` assertion library run directly vi
 the mocha test runner without going through karma or PhantomJS. This means they run very fast.
 
 Unfortunately, it also means there is no true `window` or `document` provided which
-breaks `ReactTestUtils`'s simulate calls. To rememdy, a fake `window` and
-`document` are provided using `jsdom` and bootstrapped in `test/util/mocha-setup.js`
+breaks `ReactTestUtils`'s simulate calls. To remedy, a fake `window` and
+`document` are provided using `jsdom` and bootstrapped in `src/platform/testing/unit/mocha-setup.js`
 which is required via `test/mocha.opts`.
 
 With this, most everything (except code that accesses HTML5 `dataset`) is testable
@@ -296,11 +298,6 @@ path despite the environment. This ensures that your component will function in
 all builds regardless of the build type. The important distinction is that your
 feature is still active within the code base, but the UI is either enabled or
 disabled by the feature flag.
-
-To enable or disable the feature in a specific build type, toggle the feature
-in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
-[`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
-example implementation.
 
 ### Supported Browsers
 | Browser                   | Minimum version | Note                                   |

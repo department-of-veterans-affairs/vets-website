@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import shouldUpdate from 'recompose/shouldUpdate';
-import { deepEquals } from 'react-jsonschema-form/lib/utils';
+import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import FormPage from './containers/FormPage';
 import ReviewPage from './review/ReviewPage';
@@ -9,7 +9,7 @@ import RoutedSavableReviewPage from './save-in-progress/RoutedSavableReviewPage'
 import FormSaved from './save-in-progress/FormSaved';
 import SaveInProgressErrorPage from './save-in-progress/SaveInProgressErrorPage';
 
-import { getInactivePages, getActivePages } from '../utils/helpers';
+import { getInactivePages, getActivePages } from '../../../platform/forms/helpers';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
@@ -84,7 +84,6 @@ export function createRoutes(formConfig) {
         urlPrefix: formConfig.urlPrefix
       };
     });
-
   if (formConfig.introduction) {
     routes = [
       {
@@ -542,3 +541,21 @@ export function getActiveChapters(formConfig, formData) {
   return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
 }
 
+/**
+ * Returns the schema, omitting all `required` arrays.
+ *
+ * @param schema {Object}
+ * @returns {Object} The schema without any `required` arrays
+ */
+export function omitRequired(schema) {
+  if (typeof schema !== 'object' || Array.isArray(schema)) {
+    return schema;
+  }
+
+  const newSchema = _.omit('required', schema);
+  Object.keys(newSchema).forEach(key => {
+    newSchema[key] = omitRequired(newSchema[key]);
+  });
+
+  return newSchema;
+}

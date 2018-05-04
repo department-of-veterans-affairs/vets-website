@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 
 class IDCardBetaEnrollment extends React.Component {
 
@@ -9,11 +9,8 @@ class IDCardBetaEnrollment extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          authRequired={1}
           serviceRequired="user-profile"
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+          user={this.props.user}>
           {this.props.children}
         </RequiredLoginView>
       </div>
@@ -22,12 +19,7 @@ class IDCardBetaEnrollment extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const userState = state.user;
-  return {
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl,
-  };
+  return { user: state.user };
 };
 
 export default connect(mapStateToProps)(IDCardBetaEnrollment);

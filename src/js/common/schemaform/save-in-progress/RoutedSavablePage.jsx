@@ -13,7 +13,7 @@ import {
   saveAndRedirectToReturnUrl
 } from './actions';
 import { getFormContext } from './selectors';
-import { toggleLoginModal } from '../../../login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { FormPage } from '../containers/FormPage';
 
 class RoutedSavablePage extends React.Component {

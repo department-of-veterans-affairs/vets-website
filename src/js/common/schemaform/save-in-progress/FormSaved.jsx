@@ -5,9 +5,8 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import { handleVerify } from '../../../common/helpers/login-helpers.js';
 import { formTitles } from '../../../user-profile/helpers';
 import FormStartControls from './FormStartControls';
 
@@ -32,17 +31,11 @@ class FormSaved extends React.Component {
     }
   }
 
-  verifyUser = () => {
-    handleVerify(this.props.user.login.verifyUrl);
-  }
-
   render() {
+    const { formId, lastSavedDate } = this.props;
     const { profile } = this.props.user;
-    const lastSavedDate = this.props.lastSavedDate;
-    const formId = this.props.formId;
+    const { verified } = profile;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(formId));
-    const verifiedAccountType = 3;// verified ID.me accounts are type 3
-    const notVerified = profile.accountType !== verifiedAccountType;
     const { success } = this.props.route.formConfig.savedFormMessages || {};
     const expirationDate = moment.unix(this.props.expirationDate).format('M/D/YYYY');
 
@@ -59,7 +52,7 @@ class FormSaved extends React.Component {
             If you’re logged in through a public computer, please sign out of your account before you log off to keep your information secure.
           </div>
         </div>
-        {notVerified && <div className="usa-alert usa-alert-warning">
+        {!verified && <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
             We want to keep your information safe with the highest level of security. Please <a href={`/verify?next=${window.location.pathname}`} className="verify-link">verify your identity</a>.
           </div>

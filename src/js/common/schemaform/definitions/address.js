@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { countries, states, isValidUSZipCode, isValidCanPostalCode } from '../../utils/address';
+import { countries, states, isValidUSZipCode, isValidCanPostalCode } from '../../../../platform/forms/address';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -20,7 +20,7 @@ function validatePostalCodes(errors, address) {
   }
 }
 
-const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
+export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
 
 function validateAddress(errors, address, formData, currentSchema) {
   // Adds error message for state if it is blank and one of the following countries:
@@ -74,10 +74,11 @@ const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
  * @param {boolean} isRequired - If the address is required or not, defaults to false
  */
 export function schema(currentSchema, isRequired = false) {
+  const addressSchema = currentSchema.definitions.address || currentSchema.definitions.addressWithRequiredZip;
   return {
     type: 'object',
     required: isRequired ? requiredFields : [],
-    properties: _.assign(currentSchema.definitions.address.properties, {
+    properties: _.assign(addressSchema.properties, {
       country: {
         'default': 'USA',
         type: 'string',

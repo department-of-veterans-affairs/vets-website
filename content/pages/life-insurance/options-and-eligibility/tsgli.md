@@ -23,7 +23,9 @@ Did you suffer a traumatic injury while serving in the military? Our Servicememb
 
 ### Can I get TSGLI? 
 
-You may be able to get TSGLI if you were insured by SGLI when you experienced a traumatic injury and you:
+You may be able to get TSGLI if you were insured by SGLI when you experienced a traumatic injury, and you meet all of the requirements listed below.
+
+**All of these must be true. You:**
 
 - Have a scheduled loss that is a direct result of the traumatic injury, **and**
 - Suffered the traumatic injury before midnight on the day that you left the military, **and**
@@ -35,7 +37,9 @@ You may be able to get TSGLI if you were insured by SGLI when you experienced a 
 
 #### Are any injuries excluded from TSGLI? 
 
-Yes. To qualify for TSGLI, your injury can’t:
+Yes. To qualify for TSGLI, none of the descriptions below can be true of your injury.
+
+**None of these can be true. Your injury can't:**
 
 - Be self-inflicted on purpose or the result of an attempt at self-injury, **or**
 - Involve the use of an illegal drug or a controlled substance that was given or taken without the advice of a medical doctor, **or**
@@ -53,7 +57,8 @@ You may be able to get retroactive TSGLI (meaning that it takes effect starting 
 
 You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your SGLI coverage was in effect when you got injured. 
 
-**Note:** We’ve removed the previous requirement that you must have been injured during Operations Enduring or Iraqi Freedom (OEF or OIF). [Find out if you qualify for retroactive benefits](https://www.benefits.va.gov/insurance/tsgli-claim-questionnaire.asp). 
+**Note:** We’ve removed the previous requirement that you must have been injured during Operations Enduring or Iraqi Freedom (OEF or OIF). <br>
+[Find out if you qualify for retroactive benefits](https://www.benefits.va.gov/insurance/tsgli-claim-questionnaire.asp). 
 
 <br>
 
@@ -75,7 +80,7 @@ You may get $25,000 to $100,000 in short-term financial support to help in your 
 
 You’re automatically covered through TSGLI if you’re signed up for full-time SGLI. This insurance covers you even if your injury happened while you were off duty.
 
-To get payments—including retroactive TSGLI payments—you’ll need to apply. To file a claim, fill out the Application for TSGLI Benefits, and fax, email, or mail it to us. Look for the address of your service branch on the front page of the form.
+To get payments—including retroactive TSGLI payments—you’ll need to apply. To file a claim, fill out the Application for TSGLI Benefits, and fax, email, or mail it to us. Look for the address of your service branch on the front page of the form.<br>
 
 [Download the Application for TSGLI Benefits](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8600_ed2018-02.pdf).
 
@@ -85,7 +90,7 @@ To get payments—including retroactive TSGLI payments—you’ll need to apply.
 
 First, look at the denial letter you received from your branch of service. Your letter will tell you if you should use the TSGLI Appeal Request Form—and how long you’ll have to submit your appeal.
 
-If your letter says to complete this form, fill it out and submit it to your branch of service.
+If your letter says to complete this form, fill it out and submit it to your branch of service.<br>
 
 [Download the TSGLI Appeal Request Form](https://benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf). 
 

@@ -2,48 +2,36 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
-import Modal from '../../common/components/Modal';
-import MHVApp from '../../common/containers/MHVApp';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
-import { mhvAccessError } from '../../common/utils/error-messages';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { closeModal } from '../actions/modal';
 import Breadcrumbs from '../components/Breadcrumbs';
 
-// This needs to be a React component for RequiredLoginView to pass down
-// the isDataAvailable prop, which is only passed on failure.
-function AppContent({ children, isDataAvailable }) {
-  const unregistered = isDataAvailable === false;
-  let view;
+const SERVICE_REQUIRED = 'health-records';
 
-  if (unregistered) {
-    view = mhvAccessError;
-  } else {
-    view = children;
-  }
-
-  return (
-    <div className="bb-app">
-      <div className="row">
-        <div className="columns small-12">
-          {view}
-        </div>
+const AppContent = ({ children }) => (
+  <div className="bb-app">
+    <div className="row">
+      <div className="columns small-12">
+        {children}
       </div>
     </div>
-  );
-}
+  </div>
+);
 
 export class HealthRecordsApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={3}
-        serviceRequired="health-records"
-        userProfile={this.props.profile}>
+        verify
+        serviceRequired={SERVICE_REQUIRED}
+        user={this.props.user}>
         <DowntimeNotification appTitle="health records tool" dependencies={[services.mhv]}>
           <AppContent>
             <Breadcrumbs location={this.props.location}/>
-            <MHVApp>
+            <MHVApp serviceRequired={SERVICE_REQUIRED}>
               {this.props.children}
               <Modal
                 cssClass="bb-modal"
@@ -66,11 +54,10 @@ HealthRecordsApp.propTypes = {
 
 const mapStateToProps = (state) => {
   const hrState = state.health.hr;
-  const userState = state.user;
 
   return {
     modal: hrState.modal,
-    profile: userState.profile
+    user: state.user
   };
 };
 const mapDispatchToProps = {

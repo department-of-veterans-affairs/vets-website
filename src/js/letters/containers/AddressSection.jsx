@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import Raven from 'raven-js';
 
-import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import Modal from '../../common/components/Modal';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { scrollToFirstError, focusElement } from '../../../platform/utilities/ui';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 
 import {
   addressModalContent,
@@ -188,7 +189,7 @@ export class AddressSection extends React.Component {
   }
 
   handleCancel = () => {
-    window.dataLayer.push({ event: 'letter-update-address-cancel' });
+    recordEvent({ event: 'letter-update-address-cancel' });
     this.props.cancelEditingAddress();
     this.setState({
       errorMessages: {},
@@ -199,7 +200,7 @@ export class AddressSection extends React.Component {
   }
 
   startEditing = () => {
-    window.dataLayer.push({ event: 'letter-update-address-started' });
+    recordEvent({ event: 'letter-update-address-started' });
     this.props.editAddress();
     scrollToTop();
   }

@@ -1,36 +1,19 @@
-import '../common';
-import '../../sass/hca.scss';
+import '../../platform/polyfills';
+import './sass/hca.scss';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { createHistory } from 'history';
-import { Router, useRouterHistory } from 'react-router';
-import { Provider } from 'react-redux';
+import startApp from '../../platform/startup';
 
-import initReact from '../common/init-react';
-import route from './routes';
-import initCommon from '../common/init-common';
+import routes from './routes';
 import reducer from './reducer';
+import manifest from './manifest.json';
 
-const store = initCommon(reducer);
-
-const folderName = window.location.pathname.indexOf('health-care/') >= 0
-  ? 'health-care'
-  : 'healthcare';
-
-const browserHistory = useRouterHistory(createHistory)({
-  basename: `/${folderName}/apply/application`
-});
-
-function init() {
-  ReactDOM.render((
-    <Provider store={store}>
-      <Router history={browserHistory}>
-        {route}
-      </Router>
-    </Provider>
-  ), document.getElementById('react-root'));
+let rootUrl = manifest.rootUrl;
+if (window.location.pathname.indexOf('healthcare/') >= 0) {
+  rootUrl = rootUrl.replace('health-care/', 'healthcare/');
 }
 
-// Start react.
-initReact(init);
+startApp({
+  url: rootUrl,
+  reducer,
+  routes
+});

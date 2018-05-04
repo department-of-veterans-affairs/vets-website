@@ -166,19 +166,19 @@ export default class CropperControls extends React.Component {
   }
 
   onDone = () => {
-    const croppedCanvasOptions = this.refs.cropper.getData().width > MAX_CROPPED_HEIGHT_WIDTH ?
+    const croppedCanvasOptions = this.cropper.getData().width > MAX_CROPPED_HEIGHT_WIDTH ?
       { width: MAX_CROPPED_HEIGHT_WIDTH, height: MAX_CROPPED_HEIGHT_WIDTH } :
       {};
 
     croppedCanvasOptions.imageSmoothingQuality = 'high';
 
-    this.refs.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
+    this.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
       this.props.onPhotoCropped(blob);
     });
   }
 
   onSliderChange = (e) => {
-    this.refs.cropper.zoomTo(e.target.value);
+    this.cropper.zoomTo(e.target.value);
   }
 
   // IE 10 requires explicit handling of slider control
@@ -215,7 +215,7 @@ export default class CropperControls extends React.Component {
 
     // force zoom within zoom bounds
     if (zoomBoundaryValue) {
-      this.refs.cropper.zoomTo(zoomBoundaryValue); // force zoom within constraints
+      this.cropper.zoomTo(zoomBoundaryValue); // force zoom within constraints
       e.preventDefault(); // prevents bad zoom attempt
       return; // don't update state until the subsequent zoom attempt
     }
@@ -281,10 +281,10 @@ export default class CropperControls extends React.Component {
 
   // examines photo and cropper positions to determine if photo is at any edges
   getBoundariesMet = () => {
-    const photoData = this.refs.cropper.getCanvasData();
-    const cropBoxData = this.refs.cropper.getCropBoxData();
+    const photoData = this.cropper.getCanvasData();
+    const cropBoxData = this.cropper.getCropBoxData();
     const boundaries = getPhotoBoundaries({ photoData, cropBoxData });
-    const croppedPhotoWidth = this.refs.cropper.getData().width;
+    const croppedPhotoWidth = this.cropper.getData().width;
 
     const highZoom = croppedPhotoWidth < MIN_SIZE || this.state.zoomValue > WARN_RATIO;
 
@@ -320,10 +320,10 @@ export default class CropperControls extends React.Component {
   // initialize cropbox
   setCropBox = () => {
     // use container and cropbox constants to set cropbox size
-    const containerWidth = this.refs.cropper.getContainerData().width;
+    const containerWidth = this.cropper.getContainerData().width;
     const heightWidth = CROP_BOX_SIZE;
     const left = (containerWidth / 2) - (heightWidth / 2);
-    this.refs.cropper.setCropBoxData({
+    this.cropper.setCropBoxData({
       top: 0,
       left,
       height: heightWidth,
@@ -347,23 +347,23 @@ export default class CropperControls extends React.Component {
 
   // explicit positioning
   movePhotoToPosition = (position) => {
-    this.refs.cropper.setCanvasData(position);
+    this.cropper.setCanvasData(position);
   }
 
   // explicit positioning
   movePhotoToDefaultPosition = () => {
     const defaultPhotoPosition = getDefaultPhotoPosition({
-      photoData: this.refs.cropper.getCanvasData(),
-      cropBoxData: this.refs.cropper.getCropBoxData(),
-      containerWidth: this.refs.cropper.getContainerData().width
+      photoData: this.cropper.getCanvasData(),
+      cropBoxData: this.cropper.getCropBoxData(),
+      containerWidth: this.cropper.getContainerData().width
     });
     this.movePhotoToPosition(defaultPhotoPosition);
   }
 
   // moves photo within bounds
   movePhoto = ({ x = 0, y = 0 } = {}) => {
-    const photoData = this.refs.cropper.getCanvasData();
-    const cropBoxData = this.refs.cropper.getCropBoxData();
+    const photoData = this.cropper.getCanvasData();
+    const cropBoxData = this.cropper.getCropBoxData();
     const boundaries = getPhotoBoundaries({ photoData, cropBoxData });
 
     const newPhotoPosition = getNewPhotoPosition({ photoData, boundaries, x, y });
@@ -373,19 +373,19 @@ export default class CropperControls extends React.Component {
 
   // relative positioning
   rotatePhoto = (degrees) => {
-    this.refs.cropper.rotate(degrees);
+    this.cropper.rotate(degrees);
   }
 
   zoomPhoto = (direction) => {
     switch (direction) {
       case 'IN':
         if (this.state.zoomValue < this.state.zoomMax) {
-          this.refs.cropper.zoom(0.1);
+          this.cropper.zoom(0.1);
         }
         break;
       case 'OUT':
         if (this.state.zoomValue > this.state.zoomMin) {
-          this.refs.cropper.zoom(-0.1);
+          this.cropper.zoom(-0.1);
         }
         break;
       default:
@@ -405,7 +405,7 @@ export default class CropperControls extends React.Component {
   }
 
   updateZoomToDefaultState = () => {
-    const photoData = this.refs.cropper.getCanvasData();
+    const photoData = this.cropper.getCanvasData();
     const zoomMin = photoData.width / photoData.naturalWidth;
 
     this.setState({
@@ -424,7 +424,7 @@ export default class CropperControls extends React.Component {
     return (
       <div className="cropper-container-outer">
         <Cropper
-          ref="cropper"
+          ref={element => { this.cropper = element; }}
           key={cropperKey}
           ready={this.setCropBox}
           responsive
