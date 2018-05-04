@@ -53,7 +53,8 @@ import {
   FDCWarning,
   noFDCWarning,
   VAFileNumberDescription,
-  veteranInformationViewField
+  veteranInformationViewField,
+  getEvidenceTypesDescription
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -333,6 +334,13 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'view:selectableEvidenceTypes': {
+                  'ui:options': {
+                    updateSchema: (form, schema, uiSchema, index) => {
+                      return {
+                        title: getEvidenceTypesDescription(form, index)
+                      };
+                    }
+                  },
                   // 'ui:title': evidenceTypesDescription, // this used to be ui:description one level up
                   'ui:validations': [validateBooleanGroup],
                   'ui:errorMessages': {
