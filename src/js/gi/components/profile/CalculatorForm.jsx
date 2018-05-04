@@ -4,6 +4,7 @@ import React from 'react';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class CalculatorForm extends React.Component {
 
@@ -157,6 +158,14 @@ class CalculatorForm extends React.Component {
             name="yellowRibbonAmount"
             value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
             onChange={this.handleInputChange}/>
+
+          <AlertBox
+            content={<div>
+              <p className="usa-alert-heading">Maximum amount per student: </p>
+              <p className="usa-alert-heading">Number of students: </p>
+            </div>}
+            isVisible
+            status="info"/>
         </div>
       );
     }
