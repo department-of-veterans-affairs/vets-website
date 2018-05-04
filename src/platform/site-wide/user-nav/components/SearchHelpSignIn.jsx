@@ -28,8 +28,7 @@ class SearchHelpSignIn extends React.Component {
   }
 
   renderSignInContent = () => {
-    const { profile } = this.props;
-    const isLoading = profile.loading;
+    const isLoading = this.props.isProfileLoading;
     const shouldRenderSignedInContent =
       (!isLoading && this.props.isLoggedIn) ||
       (isLoading && this.hasSession());
