@@ -638,13 +638,12 @@ export const ADDRESS_TYPES = Object.freeze({
   military: 'MILITARY'
 });
 
-export const militaryPostalOfficeTypeCodes = ['APO', 'FPO', 'DPO'];
+export const militaryPostOfficeTypeCodes = ['APO', 'FPO', 'DPO'];
 export const militaryStateCodes = ['AA', 'AE', 'AP'];
 
 // TODO: write test to ensure this is complete
 // Includes value from states, statesOnlyInPCIU, and militaryStateCodes
 export const pciuStates = [
-  'AA', 'AE', 'AP',
   { label: 'Alabama', value: 'AL' },
   { label: 'Alaska', value: 'AK' },
   { label: 'American Samoa', value: 'AS' },

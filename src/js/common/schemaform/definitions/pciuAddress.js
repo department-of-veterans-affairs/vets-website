@@ -250,7 +250,7 @@ export const mergeUniques = (first, second) => {
   let firstPointer = 0;
   let secondPointer = 0;
 
-  while (first[firstPointer] || second[secondPointer]) {
+  while (result.length < (first.length + second.length)) {
     if (!second[secondPointer] || first[firstPointer] < second[secondPointer]) {
       result.push(first[firstPointer]);
       firstPointer++;
