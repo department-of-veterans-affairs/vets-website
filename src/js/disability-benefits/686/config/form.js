@@ -7,13 +7,11 @@ import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import * as address from '../../../common/schemaform/definitions/address';
+import { relationshipLabels, VAFileNumberDescription } from '../helpers';
 
-import ssnOrVaUI from '../../../common/schemaform/definitions/ssnOrVafile';
-import { relationshipLabels } from '../helpers';
+const { claimantEmail, claimantFullName, veteranFullName, veteranSocialSecurityNumber } = fullSchema686.properties;
 
-const { claimantEmail, claimantFullName, veteranFullName } = fullSchema686.properties;
-
-const { ssn, fullName } = fullSchema686.definitions;
+const { ssn, fullName, vaFileNumber } = fullSchema686.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -31,7 +29,8 @@ const formConfig = {
   title: 'Declaration of status of dependents',
   defaultDefinitions: {
     fullName,
-    ssn
+    ssn,
+    vaFileNumber
   },
   chapters: {
     veteranInformation: {
@@ -42,11 +41,17 @@ const formConfig = {
           title: 'Veteran Information',
           uiSchema: {
             veteranFullName: fullNameUI,
-            ssnOrVa: _.merge(ssnOrVaUI, {
+            veteranSSN: _.merge(ssnUI, {
+              'ui:required': form => !form.veteranVAfileNumber
+            }),
+            veteranVAfileNumber: {
+              'ui:title': 'VA file number (must have this or a Social Security number)',
+              'ui:required': form => !form.veteranSSN,
+              'ui:help': VAFileNumberDescription,
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
-            }),
+            },
             'view:relationship': {
               'ui:title': 'Relationship to Veteran',
               'ui:widget': 'radio',
@@ -82,12 +87,11 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['ssnOrVa', 'view:relationship'],
+            required: ['view:relationship'],
             properties: {
               veteranFullName,
-              ssnOrVa: {
-                type: 'string',
-              },
+              veteranSSN: veteranSocialSecurityNumber,
+              veteranVAfileNumber: vaFileNumber,
               'view:relationship': {
                 type: 'string',
                 'enum': [

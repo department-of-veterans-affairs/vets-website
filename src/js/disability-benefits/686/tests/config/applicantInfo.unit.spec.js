@@ -17,7 +17,7 @@ describe('686 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(9);
     expect(form.find('select').length).to.equal(1);
   });
 
@@ -31,7 +31,7 @@ describe('686 veteran information', () => {
         uiSchema={uiSchema}/>
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -48,7 +48,7 @@ describe('686 veteran information', () => {
 
     fillData(form, 'input#root_veteranFullName_first', 'test');
     fillData(form, 'input#root_veteranFullName_last', 'test');
-    fillData(form, 'input#root_ssnOrVa', '222-23-2425');
+    fillData(form, 'input#root_veteranSSN', '222-23-2425');
     selectRadio(form, 'root_view:relationship', 'veteran');
 
     form.find('form').simulate('submit');
@@ -66,7 +66,7 @@ describe('686 veteran information', () => {
     );
     selectRadio(form, 'root_view:relationship', 'spouse');
 
-    expect(form.find('input').length).to.equal(17);
+    expect(form.find('input').length).to.equal(18);
   });
 
 
@@ -82,7 +82,7 @@ describe('686 veteran information', () => {
     );
     fillData(form, 'input#root_veteranFullName_first', 'test');
     fillData(form, 'input#root_veteranFullName_last', 'test');
-    fillData(form, 'input#root_ssnOrVa', '222-23-2425');
+    fillData(form, 'input#root_veteranSSN', '222-23-2425');
     selectRadio(form, 'root_view:relationship', 'spouse');
 
     fillData(form, 'input[name="root_view:applicantInfo_claimantFullName_first"]', 'test');
