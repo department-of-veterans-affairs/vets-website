@@ -4,6 +4,7 @@ import React from 'react';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class CalculatorForm extends React.Component {
 
@@ -123,6 +124,32 @@ class CalculatorForm extends React.Component {
     if (this.props.inputs.yellowRibbonRecipient === 'yes') {
       amountInput = (
         <div>
+          <Dropdown
+            label="Degree level"
+            name="yrDegreeLevel"
+            alt="Degree level"
+            options={[
+              { value: '3', label: 'Three' },
+              { value: '2', label: 'Two' },
+              { value: '1', label: 'One' }
+            ]}
+            visible
+            value=""
+            onChange={this.handleInputChange}/>
+
+          <Dropdown
+            label="Division or school"
+            name="yellowRibbonSchool"
+            alt="Division or school"
+            options={[
+              { value: '3', label: 'Three' },
+              { value: '2', label: 'Two' },
+              { value: '1', label: 'One' }
+            ]}
+            visible
+            value=""
+            onChange={this.handleInputChange}/>
+
           <label htmlFor="yellowRibbonAmount">
             Yellow Ribbon Amount From School per year
           </label>
@@ -131,6 +158,14 @@ class CalculatorForm extends React.Component {
             name="yellowRibbonAmount"
             value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
             onChange={this.handleInputChange}/>
+
+          <AlertBox
+            content={<div>
+              <p className="usa-alert-heading">Maximum amount per student: </p>
+              <p className="usa-alert-heading">Number of students: </p>
+            </div>}
+            isVisible
+            status="info"/>
         </div>
       );
     }
