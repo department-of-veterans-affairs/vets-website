@@ -149,7 +149,7 @@ class CalculatorForm extends React.Component {
       <div>
         <RadioButtons
           label={this.renderLearnMoreLabel({
-            text: 'Will you be physically located at this campus for the majority of your studies this year?',
+            text: 'Will you be taking classes at this location for the majority of your studies this year?',
             modal: 'physicalLoc'
           })}
           name="physicalLocationOfCampus"
@@ -470,13 +470,13 @@ class CalculatorForm extends React.Component {
         {this.renderInState()}
         {this.renderTuition()}
         {this.renderBooks()}
-        {this.renderPhysicalLocation()}
         {this.renderYellowRibbon()}
         {this.renderScholarships()}
         {this.renderTuitionAssist()}
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderKicker()}
+        {this.renderPhysicalLocation()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>
