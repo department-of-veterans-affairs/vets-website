@@ -9,12 +9,13 @@ import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
 
 import { focusElement } from '../../../../platform/utilities/ui';
+
 import {
   autoSaveForm,
   saveAndRedirectToReturnUrl,
   saveErrors
 } from './actions';
-import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { getFormContext } from '../save-in-progress/selectors';
 
 import ReviewChapters from '../review/ReviewChapters';

@@ -90,7 +90,7 @@ export default function EmailSection({ emailResponseData, field, error, clearErr
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={emailResponseData && onEdit}>Email Address</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={emailResponseData && emailResponseData.email && onEdit}>Email Address</HeadingWithEdit>
       <div>{content}</div>
     </div>
   );
