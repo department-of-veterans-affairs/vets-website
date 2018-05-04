@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
-import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import _ from 'lodash/fp';
 
+import GetFormHelp from '../../components/GetFormHelp.jsx';
+import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import * as address from '../../../common/schemaform/definitions/address';
@@ -81,6 +82,7 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'Declaration of status of dependents',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     marriages,
     fullName,

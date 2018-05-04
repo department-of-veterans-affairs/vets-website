@@ -4,6 +4,13 @@ entryname: 686-dependent-status
 layout: page-react.html
 ---
 <div id="main">
+  <nav class="va-nav-breadcrumbs">
+    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
+      <li><a href="/">Home</a></li>
+      <li><a href="/disability-benefits/"> Disability Benefits </a></li>
+      <li><a href="/disability-benefits/686/dependent-status"> Declaration of Dependents </a></li>
+    </ul>
+  </nav>
   <div class="section">
     <div id="react-root">
       <div class="loading-message">
