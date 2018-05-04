@@ -7,6 +7,8 @@ import { DefinitionTester, fillData } from '../../../../../platform/testing/unit
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
+// We'll be changing this page significantly anyhow, so leaving this disabled for now.
+// This is because of the 4142 conversation.
 xdescribe('Disability benefits 526EZ VA facility', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordRelease;
   it('renders private medical records release form', () => {

@@ -74,6 +74,7 @@ export const sipEnabledForms = new Set([
   'VIC'
 ]);
 
+
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
   if (!formTitles[formNumber] || !formLinks[formNumber]) {
@@ -85,4 +86,3 @@ export function isSIPEnabledForm(savedForm) {
   }
   return true;
 }
-
