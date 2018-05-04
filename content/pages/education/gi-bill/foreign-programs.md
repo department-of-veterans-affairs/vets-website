@@ -97,4 +97,4 @@ Get more information or help with your application:
 - Go to a foreign service post
 - Contact the Canadian Department of Veterans Affairs (Canadian schools only)
 
-You can also check your approval status or send us questions by email 24 hours a day, 7 days a week, by using the Submit a Question section of our website. [Submit a Question](https://gibill.custhelp.va.gov/).
+
