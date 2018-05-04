@@ -56,7 +56,7 @@ import {
   veteranInformationViewField
 } from '../helpers';
 
-import { requireOneSelected } from '../validations';
+import { requireOneSelected, requireEvidenceType } from '../validations';
 
 const {
   treatments: treatmentsSchema,
@@ -330,6 +330,7 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
+                'ui:validations': [requireEvidenceType],
                 'ui:title': disabilityNameTitle,
                 'ui:description': evidenceTypesDescription,
                 'view:vaMedicalRecords': {
