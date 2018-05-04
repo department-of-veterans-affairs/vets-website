@@ -73,9 +73,7 @@ function isBlankDateField(field) {
 function isFullDate(date) {
   return /\d{4}-\d{1,2}-\d{1,2}/.test(date);
 }
-function isValidVAfile(number) {
-  return /^[cC]{0,1}\\d{7,9}$/.test(number);
-}
+
 function isValidDate(day, month, year) {
   // Use the date class to see if the date parses back sanely as a
   // validation check. Not sure is a great idea...
@@ -327,6 +325,5 @@ export {
   validateCustomFormComponent,
   validateIfDirty,
   validateIfDirtyDate,
-  isValidRoutingNumber,
-  isValidVAfile
+  isValidRoutingNumber
 };

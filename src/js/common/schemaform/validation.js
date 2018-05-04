@@ -3,7 +3,6 @@ import { Validator } from 'jsonschema';
 
 import {
   isValidSSN,
-  isValidVAfile,
   isValidPartialDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
@@ -222,12 +221,6 @@ export function isValidForm(form, pageListByChapters) {
 export function validateSSN(errors, ssn) {
   if (ssn && !isValidSSN(ssn)) {
     errors.addError('Please enter a valid 9 digit SSN (dashes allowed)');
-  }
-}
-
-export function validateSSNorVAfile(errors, value) {
-  if (value && !isValidSSN(value) && !isValidVAfile(value)) {
-    errors.addError('Please enter a valid 9 digit SSN (dashes allowed) or a valid VA file number');
   }
 }
 
