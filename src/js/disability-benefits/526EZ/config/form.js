@@ -339,7 +339,8 @@ const formConfig = {
                       return {
                         title: getEvidenceTypesDescription(form, index)
                       };
-                    }
+                    },
+                    showFieldLabel: true
                   },
                   // 'ui:title': evidenceTypesDescription, // this used to be ui:description one level up
                   'ui:validations': [validateBooleanGroup],
