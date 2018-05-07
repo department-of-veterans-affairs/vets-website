@@ -24,7 +24,7 @@ export default function PrescriptionCard({ prescription }) {
         })
       }</p>
       <p>
-        <Link className="usa-button usa-button-primary" href={`/health-care/prescriptions/${prescription.id}/status`}>View Your Prescription<i className="fa fa-chevron-right"/></Link>
+        <Link className="usa-button usa-button-primary" href={`/health-care/prescriptions/${prescription.id}`}>View Your Prescription<i className="fa fa-chevron-right"/></Link>
       </p>
     </div>
   );

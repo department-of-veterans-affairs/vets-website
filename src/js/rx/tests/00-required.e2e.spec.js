@@ -2,7 +2,7 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const RxHelpers = require('./rx-helpers');
 const Auth = require('../../../platform/testing/e2e/auth');
-const AccountCreationHelpers = require('../../../../test/e2e/account-creation-helpers');
+const AccountCreationHelpers = require('../../../platform/testing/e2e/account-creation-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {

@@ -2,7 +2,7 @@
 /* eslint quote-props: 0 */
 /* eslint quotes: 0 */
 
-const mock = require('../../../../test/e2e/mock-helpers');
+const mock = require('../../../platform/testing/e2e/mock-helpers');
 
 const schools = {
   data: [

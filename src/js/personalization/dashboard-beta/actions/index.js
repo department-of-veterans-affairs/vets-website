@@ -1,7 +1,7 @@
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { removeFormApi } from '../../../common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../../../platform/utilities/api';
-import { getUserData } from '../../../common/helpers/login-helpers';
+import { getUserData } from '../../../../platform/user/profile/actions';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
