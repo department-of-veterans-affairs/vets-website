@@ -29,13 +29,13 @@ In some situations, you may need to turn in an additional form to support your d
 | **If you're** | **You'll need to turn in** |
 | --- | --- | 
 | a National Guard and Reserve member,  | all your service treatment and personnel records from your unit(s). | 
-| claiming dependents | a Declaration of Status of Dependents (VA Form 21-686c). [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf).
+| claiming dependents | a Declaration of Status of Dependents (VA Form 21-686c). [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf). 
 
 
-**And:**
-**If your dependent is a child in school between the ages of 18 and 23,** | you’ll also need to turn in a Request for Approval of School Attendance (VA Form 21-674). |
+**And:** <br>
+**If your dependent is a child in school between the ages of 18 and 23,** you’ll also need to turn in a Request for Approval of School Attendance (VA Form 21-674). 
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf).
-**If your dependent is a seriously disabled child,** | you’ll also need to turn in all private medical records for the child’s disabilities. |
+**If your dependent is a seriously disabled child,** you’ll also need to turn in all private medical records for the child’s disabilities. |
 
  | **If you're** | **You'll need to turn in** |
 | --- | --- | 
