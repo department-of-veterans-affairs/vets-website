@@ -64,7 +64,7 @@ Adding a dependent may make you eligible to receive a higher compensation paymen
 
 This depends on where you are in the process of applying for disability benefits.
 
-#### If you haven't yet applied for disability benefits
+#### If you haven’t yet applied for disability benefits
 
 You can apply to add your dependent(s) at the same time you file your claim.
 
@@ -104,7 +104,9 @@ This depends on who you’re adding.
 
 You can apply online. You may also need to provide more information or forms along with your application.
 
-*PLACEHOLDER for button: Apply to Add a Dependent*
+<div id="react-applicationStatus" class="static-page-widget">
+  <a class="usa-button-primary va-button-primary" href="/disability/apply/how-to-add-dependent/">Apply to Add a Dependent</a>
+</div>
 
 **If you’re claiming a seriously disabled child,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
 
