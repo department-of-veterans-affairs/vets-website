@@ -17,6 +17,8 @@ const accountTitleLabels = {
   NOBANK: 'No Bank Account'
 };
 
+const NOBANK = 'NOBANK';
+
 const paymentInformationViewField = ({ formData }) => {
   const {
     accountType,
@@ -29,7 +31,7 @@ const paymentInformationViewField = ({ formData }) => {
   let bankNameString;
   const mask = <span>•••••-</span>;
 
-  if (accountType !== 'NOBANK') {
+  if (accountType !== NOBANK) {
     accountNumberString = (
       <p>
         Account number: {mask}
@@ -75,25 +77,25 @@ export const uiSchema = {
     accountNumber: {
       'ui:title': 'Account number',
       'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType === 'NOBANK'
+        hideIf: formData => formData.directDeposit.accountType === NOBANK
       }
     },
     routingNumber: {
       'ui:title': 'Routing number',
       'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType === 'NOBANK'
+        hideIf: formData => formData.directDeposit.accountType === NOBANK
       }
     },
     bankName: {
       'ui:title': 'Bank name',
       'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType === 'NOBANK'
+        hideIf: formData => formData.directDeposit.accountType === NOBANK
       }
     },
     'view:noBank': {
       'ui:description': (<p>The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="https://www.usdirectexpress.com">www.usdirectexpress.com</a> or by telephone at 1-800-333-1795. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at 1-888-224-2950. They’ll address any questions or concerns you may have and encourage your participation in EFT.</p>),
       'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType !== 'NOBANK'
+        hideIf: formData => formData.directDeposit.accountType !== NOBANK
       }
     },
     'ui:options': {
