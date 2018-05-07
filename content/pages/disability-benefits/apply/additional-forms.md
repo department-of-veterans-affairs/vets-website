@@ -28,9 +28,12 @@ In some situations, you may need to turn in an additional form to support your d
 | --- | --- | 
 | A National Guard and Reserve member  | All your service treatment and personnel records from your unit(s) | 
 
-| Claiming Individual Unemployability | Both of these: - A Veteran’s Application for Increased Compensation Based on Unemployability (VA Form 21-8940). [Download VA Form 21-8940](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf).
-**and**
-- A Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192). [Download VA Form 21-4192](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf). |
+| Claiming Individual Unemployability | Both of these: <br>
+A Veteran’s Application for Increased Compensation Based on Unemployability (VA Form 21-8940). <br>
+[Download VA Form 21-8940](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf) <br>
+**and** <br>
+A Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192). <br>
+[Download VA Form 21-4192](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf). |
 
 | Claiming Posttraumatic Stress Disorder (PTSD) | A Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781) <br>
 [Download VA Form 21-0781](https://www.vba.va.gov/pubs/forms/VBA-21-0781-ARE.PDF). | 
@@ -43,7 +46,6 @@ In some situations, you may need to turn in an additional form to support your d
 
 | Claiming an Auto Allowance, | An Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502) <br>
 [Download VA Form 21-4502](https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf). |
-
 
 | Claiming additional benefits because you or your spouse need Aid and Attendance | An Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). <br>
 [Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf). |
