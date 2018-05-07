@@ -17,12 +17,14 @@ relatedlinks:
 
 <div class="va-introtext">
 
-In some situations, you may need to turn in an additional form to support your disability claim. Find out if you’ll need to turn in any supplemental forms when you file your disability claim. 
+Find out if you’ll need to turn in any supplemental forms when you file your disability claim. 
 
 </div>
 
 
 ### Do I need to turn in any supplemental forms?
+
+In some cases, you may need to turn in one or more supplemental forms to support your disability claim. 
 
 <div class="va-table-overflow">
 <table class="va-table-explanatory">
