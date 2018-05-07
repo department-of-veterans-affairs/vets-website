@@ -5,7 +5,7 @@ import '../../../../platform/startup/moment-setup';
 import { fetchLatestTerms, acceptTerms } from '../actions';
 
 import AccountMain from '../components/AccountMain';
-import RequiredLoginView from '../../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
 

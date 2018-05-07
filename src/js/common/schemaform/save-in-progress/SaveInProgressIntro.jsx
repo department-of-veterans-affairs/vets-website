@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { getNextPagePath } from '../routing';
-import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import FormStartControls from './FormStartControls';
@@ -68,7 +68,7 @@ class SaveInProgressIntro extends React.Component {
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              If you’re signed in to your account, your application process can go more smoothly. Here’s why:<br/>
+              <strong>If you’re signed in to your account, your application process can go more smoothly. Here’s why:</strong><br/>
               <ul>
                 <li>We can prefill part of your application based on your account details.</li>
                 <li>You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.</li>
@@ -94,7 +94,6 @@ class SaveInProgressIntro extends React.Component {
         </div>
       );
     }
-
     return alert;
   }
 
