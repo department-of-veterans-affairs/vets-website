@@ -29,7 +29,7 @@ In some situations, you may need to turn in an additional form to support your d
 | **If you're** | **You'll need to turn in** |
 | --- | --- | 
 | a National Guard and Reserve member,  | all your service treatment and personnel records from your unit(s). | 
-| claiming dependents | a Declaration of Status of Dependents (VA Form 21-686c).[Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf).|
+| claiming dependents | a Declaration of Status of Dependents (VA Form 21-686c). [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf).
 
 
 **And:**
@@ -38,8 +38,6 @@ In some situations, you may need to turn in an additional form to support your d
 | **If your dependent is a seriously disabled child,** | you’ll also need to turn in all private medical records for the child’s disabilities. |
 
  
-| **If you're** | **You'll need to turn in** |
-| --- | --- |
 |claiming Individual Unemployability,| both of these:|
 - A Veteran’s Application for Increased Compensation Based on Unemployability (VA Form 21-8940). 
 [Download VA Form 21-8940](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf).
@@ -48,9 +46,8 @@ In some situations, you may need to turn in an additional form to support your d
 [Download VA Form 21-4192](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf).
 
 
-| **If you're** | **You'll need to turn in** |
-| --- | --- | 
-| claiming Posttraumatic Stress Disorder (PTSD) | you’ll need to turn in a Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781).
+
+| claiming Posttraumatic Stress Disorder (PTSD) | a Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781).
 [Download VA Form 21-0781](https://www.vba.va.gov/pubs/forms/VBA-21-0781-ARE.PDF).
 
 
