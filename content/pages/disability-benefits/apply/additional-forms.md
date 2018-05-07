@@ -90,10 +90,10 @@ In some situations, you may need to turn in an additional form to support your d
         <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf">Download VA Form 21-686c</a>.</p>
         <p><strong>And:</strong></p>
         <p><strong>If your dependent is a child in school between the ages of 18 and 23</strong>, you’ll also need to turn in a Request for Approval of School Attendance (VA Form 21-674).</p>
-        <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf>Download VA Form 21-674</a>.</p>
+        <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf">Download VA Form 21-674</a>.</p> 
         <p><strong>If your dependent is a seriously disabled child</strong>, you’ll also need to turn in all private medical records for the child’s disabilities.</p>
     </td>
   </tr>
- </tbody>
+</tbody>
 </table>
-</div>
+         </div>
