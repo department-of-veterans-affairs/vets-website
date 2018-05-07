@@ -11,6 +11,7 @@ import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
 
 class SaveInProgressIntro extends React.Component {
+  // TODO: update SIP intro content
   getAlert(savedForm) {
     let alert;
     const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill, verifiedPrefillAlert, unverifiedPrefillAlert } = this.props;
