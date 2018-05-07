@@ -37,12 +37,10 @@ In some situations, you may need to turn in an additional form to support your d
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf).
 **If your dependent is a seriously disabled child,** you’ll also need to turn in all private medical records for the child’s disabilities. |
 
- | **If you're** | **You'll need to turn in** |
-| --- | --- | 
-|claiming Individual Unemployability,| both of these: - A Veteran’s Application for Increased Compensation Based on Unemployability (VA Form 21-8940). 
-[Download VA Form 21-8940](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf).
+
+|claiming Individual Unemployability,| both of these: - A Veteran’s Application for Increased Compensation Based on Unemployability (VA Form 21-8940). [Download VA Form 21-8940](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf).
 **and**
-- A Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192). [Download VA Form 21-4192](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf).
+- A Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192). [Download VA Form 21-4192](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf). |
 
 
 
