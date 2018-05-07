@@ -63,10 +63,10 @@ class IntroductionPage extends React.Component {
               <div><h6>When you apply for a disability increase, be sure to have these on hand:</h6></div>
               <ul>
                 <li>Your Social Security number</li>
-                <li>VA medical and hospital records that show your claimed disability has gotten worse</li>
-                <li>Private medical and hospital records that show your claimed disability has gotten worse</li>
+                <li>VA medical and hospital records that show your rated disability has gotten worse</li>
+                <li>Private medical and hospital records that show your rated disability has gotten worse</li>
               </ul>
-              <p>In some situations you may need to turn in additional forms to support your claim. For example, you’ll need to fill out another form if you’re claiming a dependent or requesting aid and attendance benefits. <a href="#">Learn more about what additional forms you may need to file with your disability claim</a>.</p>
+              <p>In some situations you may need to turn in an additional form to support your claim. For example, you’ll need to fill out another form if you’re claiming a dependent or applying for aid and attendance benefits. <a href="#">Learn what additional forms you may need to file with your disability claim</a>.</p>
               <p><strong>What if I need help filling out my application?</strong></p>
               <p>An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. </p>
               <p><a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
@@ -74,7 +74,7 @@ class IntroductionPage extends React.Component {
                 <div className="usa-alert usa-alert-info schemaform-sip-alert">
                   <div className="usa-alert-body">
                     <p><strong>Disability ratings</strong></p>
-                    <p>We assign disability ratings with a severity from 0% to 100% for each disability claim. This rating can change if there are changes in your condition. We’ll decide a claim for increase based on the medical evidence and supporting documents you turn in with your claim.</p>
+                    <p>For each disability claim, we assign a severity rating from 0% to 100%. This rating can change if your condition changes. We’ll decide a claim for increase based on the medical evidence and supporting documents you turn in with your claim.</p>
                     <p><a href="/disability-benefits/eligibility/ratings/">Learn how VA assigns disability ratings</a>.</p>
                   </div>
                 </div>
@@ -88,7 +88,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
-              <p>We usually process claims within <strong>103 days</strong>.</p>
+              <p>We usually process claims within <strong>99 days</strong>.</p>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
