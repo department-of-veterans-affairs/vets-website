@@ -25,14 +25,16 @@ In some situations, you may need to turn in an additional form to support your d
 ### Do I need to turn in any supplemental forms when I file my disability claim?
 
 
-<br>
+
 | **If you're a National Guard and Reserve member,** | 
 | --- | --- | 
-|**you’ll need to turn in all your service treatment and personnel records from your unit(s).** | 
+| you’ll need to turn in all your service treatment and personnel records from your unit(s). | 
 
-<br>
 
-| **If you're claiming dependents,** | ** you’ll need to fill out a Declaration of Status of Dependents (VA Form 21-686c).<br>
+
+| **If you're claiming dependents,** | 
+| --- | --- | 
+| you’ll need to fill out a Declaration of Status of Dependents (VA Form 21-686c).<br>
 [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf).<br>
 
 **And:**
