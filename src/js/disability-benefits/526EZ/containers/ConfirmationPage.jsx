@@ -31,6 +31,7 @@ class ConfirmationPage extends React.Component {
     // ? this.props.form.submission.response.attributes
     // : {};
     const { fullName, selectedDisabilities } = formData;
+    // TODO: update content
 
     return (
       <div>
