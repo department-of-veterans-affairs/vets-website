@@ -31,7 +31,6 @@ import {
   transform,
   prefillTransformer,
   supportingEvidenceOrientation,
-  // evidenceTypesDescription,
   evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
@@ -335,14 +334,9 @@ const formConfig = {
                 'ui:title': disabilityNameTitle,
                 'view:selectableEvidenceTypes': {
                   'ui:options': {
-                    updateSchema: (form, schema, uiSchema, index) => {
-                      return {
-                        title: getEvidenceTypesDescription(form, index)
-                      };
-                    },
+                    updateSchema: (form, schema, uiSchema, index) => ({ title: getEvidenceTypesDescription(form, index) }),
                     showFieldLabel: true
                   },
-                  // 'ui:title': evidenceTypesDescription, // this used to be ui:description one level up
                   'ui:validations': [validateBooleanGroup],
                   'ui:errorMessages': {
                     atLeastOne: 'Please select at least one type of supporting evidence'
