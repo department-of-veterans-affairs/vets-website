@@ -11,7 +11,6 @@ export default function FormStartControls(props) {
 
   const somethingWentWrong = props.ITFStatus && props.ITFStatus === 'expired' || // This may not be possible
                              props.errors && props.errors.length;
-  // TODO: update form start control content
   return (
     <div>
       {!user.login.currentlyLoggedIn && <div>
