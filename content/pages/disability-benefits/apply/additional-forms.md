@@ -42,15 +42,13 @@ In some situations, you may need to turn in an additional form to support your d
 **and**
 - A Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192). [Download VA Form 21-4192](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf). |
 
-
-
 | claiming Posttraumatic Stress Disorder (PTSD) | a Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781).
 [Download VA Form 21-0781](https://www.vba.va.gov/pubs/forms/VBA-21-0781-ARE.PDF).
 
-|claiming PTSD based on a personal assault,| a Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)
+| claiming PTSD based on a personal assault,| a Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)
 [Download VA Form 21-0781a](https://www.vba.va.gov/pubs/forms/VBA-21-0781a-ARE.pdf)
 
-|claiming Specially Adapted Housing or a Special Home Adaptation, | an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555).|
+| claiming Specially Adapted Housing or a Special Home Adaptation, | an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555).|
 [Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/vba-26-4555-are.pdf). 
 |claiming an Auto Allowance, | an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502),
 [Download VA Form 21-4502](https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf).
@@ -60,7 +58,7 @@ In some situations, you may need to turn in an additional form to support your d
 [Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf).
 
 
-|claiming Aid and Attendance because you’re in a nursing home, | a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779). 
+| claiming Aid and Attendance because you’re in a nursing home, | a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779). 
 [Download VA Form 21-0779](https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf).
 
 
