@@ -210,6 +210,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 }
 
+// TODO: refactor to pass form.data instead of the entire form object
 ReviewCollapsibleChapter.propTypes = {
   chapterFormConfig: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,

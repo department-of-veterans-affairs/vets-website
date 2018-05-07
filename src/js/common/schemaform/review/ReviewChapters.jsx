@@ -63,8 +63,8 @@ class ReviewChapters extends React.Component {
 
   handleSetData = (...args) => {
     this.props.setData(...args);
-    if (this.props.handleSetData) {
-      this.props.handleSetData();
+    if (this.props.onSetData) {
+      this.props.onSetData();
     }
   }
 
@@ -121,7 +121,7 @@ function mapStateToProps(state, ownProps) {
   const chapterNames = getActiveChapters(formConfig, formData);
   const disableSave = formConfig.disableSave;
   const pagesByChapter = createPageListByChapter(formConfig);
-  const chapters = chapterNames.reduce((chaptersAcc, chapterName) => {
+  const chapters = chapterNames.map(chapterName => {
     const pages = pagesByChapter[chapterName];
 
     const activePages = getActivePages(pages, formData);
@@ -131,17 +131,15 @@ function mapStateToProps(state, ownProps) {
     const pageKeys = getPageKeys(pages, formData);
     const showUnviewedPageWarning = pageKeys.some(key => !viewedPages.has(key));
 
-    chaptersAcc.push({
+    return {
       expandedPages,
       formConfig: chapterFormConfig,
       name: chapterName,
       open,
       pageKeys,
       showUnviewedPageWarning
-    });
-
-    return chaptersAcc;
-  }, []);
+    };
+  });
 
   return {
     chapters,
@@ -171,7 +169,7 @@ ReviewChapters.propTypes = {
   formData: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
   formContext: PropTypes.object,
-  handleSetData: PropTypes.func,
+  onSetData: PropTypes.func,
   openReviewChapter: PropTypes.func.isRequired,
   pageList: PropTypes.array.isRequired,
   setData: PropTypes.func.isRequired,

@@ -108,7 +108,7 @@ class RoutedSavableReviewPage extends React.Component {
           formConfig={formConfig}
           formContext={formContext}
           pageList={pageList}
-          handleSetData={() => this.debouncedAutoSave()}/>
+          onSetData={() => this.debouncedAutoSave()}/>
         <SubmitController
           formConfig={formConfig}
           pageList={pageList}
