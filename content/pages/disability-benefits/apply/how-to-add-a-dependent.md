@@ -62,6 +62,8 @@ Adding a dependent may make you eligible to receive a higher compensation paymen
 
 ### When should I add a dependent to my benefits?
 
+This depends on where you are in the process of applying for disability benefits.
+
 #### If you haven't yet applied for disability benefits
 
 You can apply to add your dependent(s) at the same time you file your claim.
@@ -70,15 +72,17 @@ If you receive a 30% or higher disability rating, we’ll automatically consider
 
 [Find out how to apply for disability benefits](/disability-benefits/apply/). 
 
-#### If you have dependents but didn't add them when you filed your original disability claim
 
-If you receive a 30% or higher disability rating, apply to add your dependents now.
+#### If you have one or more dependents but didn't add them when you filed your original disability claim
 
-[Find out why it's important to add your dependents right away](#add).
+If you've received a 30% or higher disability rating, apply to add your dependent(s) now.
+
+[Find out why it's important to add your dependent(s) right away](#add).
+
 
 #### If something changes in your family status after you've started receiving compensation
 
-Apply to add any new dependents right away. This could affect your dependents' eligibility for benefits.
+Apply to add any new dependents right away. This could affect your dependent's eligibility for benefits.
 
 **You can add a dependent if:**
 
@@ -123,7 +127,7 @@ Janesville, WI 53547-4444 <br>
 
 **Or fax it to:** 
 
- <a href="tel:+1phonenumber">1-844-531-7817</a> if you live in the U.S., **or**
+ <a href="tel:+1phonenumber">1-844-531-7817</a> if you live in the U.S., **or** <br>
  <a href="tel:+1phonenumber">1-248-524-4260</a> if you live outside of the U.S.
  
  <br>
@@ -137,9 +141,9 @@ Janesville, WI 53547-4444 <br>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-mail">Can I apply to add a child or spouse as a dependent by mail or fax?</button>
 <div id="questions-apply-mail" class="usa-accordion-content">
 	
-Yes, but we strongly encourage you to apply online. We can process online claims much faster than paper claims. The online application is simple, and you can upload any supporting documents we need to decide along with your application. 
+Yes, but we strongly encourage you to apply online. We can process online claims much faster than paper claims. The online application is simple, and you can upload any needed supporting documents along with your application. 
 
-When you file your claim online, you can also save the day you start your claim as the effective benefit start date. If we determine you’re eligible for a higher compensation rate, we’ll pay you back to this date.
+When you file your claim online, you can also save the day you start your claim as the effective benefit start date. This means that if we decide you’re eligible for a higher compensation rate, we’ll pay you back to this date.
 
 **If you can’t, or don't want to apply online, you can apply by mail or fax using the forms below:**
 
@@ -173,9 +177,9 @@ Janesville, WI 53547-4444 <br>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paper">What should I do if I already submitted a paper claim to add a dependent child or spouse, and I’m still waiting for a decision?</button>
 <div id="questions-apply-paper" class="usa-accordion-content">
 
-Go ahead and apply again online. We can process online applications much faster than paper ones. This means that if we determine that you’re eligible for a higher compensation rate, you can start getting your benefits sooner. 
+Go ahead and apply again online. We can process online applications much faster than paper ones. This means that if we decide you’re eligible for a higher compensation rate, you can start getting your benefits sooner. 
 
-We’ll still review your paper application. If you’re awarded a higher compensation rate, we’ll pay you back pay from the date you submitted your original paper claim.
+We’ll still review your paper application. If we award you a higher compensation rate, we’ll pay you back pay from the date you submitted your original paper claim.
 
 </div>
 </li>
@@ -183,7 +187,7 @@ We’ll still review your paper application. If you’re awarded a higher compen
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-help">What if I need help with my claim?</button>
 <div id="questions-apply-help" class="usa-accordion-content">
 
-You can work with an accredited Veterans Service Officer (VSO) who can answer questions or submit the claim on your behalf. We trust these professionals because they're trained and certified in the VA claims and appeals process.<br>
+You can work with an accredited Veterans Service Officer (VSO). We trust these professionals because they're trained and certified in the VA claims and appeals process. A VSO can answer your questions or even file your claim for you.<br>
 [Get help filing your claim](/disability-benefits/apply/help/). 
 
 </div>
@@ -196,9 +200,9 @@ We may pay you back to the date of your marriage or the birth or adoption of you
 
 **All of these must be true. You:**
 	
-- Had already received your 30% or higher disability rating at that point, **and**
+- Had already received your 30% or higher disability rating at the time of the marriage, birth, or adoption, **and**
 - Applied to add the dependent within a year of the marriage, birth, or adoption, **and**
-- Responded within a year to our request for any additional information needed to confirm your dependent <br>
+- Responded within a year to our request for any more information needed to confirm your dependent <br>
 
 If it’s been more than a year since you got married or had or adopted a child, we may not pay you back to the date of the marriage, birth, or adoption. Instead, we may pay you back only to the date you applied to add the dependent or, in some cases, up to a year before you applied.
 
@@ -208,7 +212,7 @@ If it’s been more than a year since you got married or had or adopted a child,
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-how-long">How long does it take VA to make a decision, and how will you notify me?</button>
 <div id="questions-apply-how-long" class="usa-accordion-content">
 
-*Need to confirm answer*
+*Need to confirm answer.*
 
 </div>
 </li>
@@ -216,7 +220,7 @@ If it’s been more than a year since you got married or had or adopted a child,
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-payment">When will I start receiving payment if VA approves my dependency claim?</button>
 <div id="questions-apply-payment" class="usa-accordion-content">
 
-Once we’ve finalized your claim, we’ll begin paying you within 2 weeks.
+We’ll begin paying you within 2 weeks after we approve your claim.
 
 </div>
 </li>
@@ -233,7 +237,7 @@ Once we’ve finalized your claim, we’ll begin paying you within 2 weeks.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-already-receiving">How do I know if I’m already receiving compensation for my dependents?</button>
 <div id="questions-specific-already-receiving" class="usa-accordion-content">
 
-*Note: Will need to confirm if this is changing with the form being added to Vets.gov*
+*Note: Will need to confirm if this is changing with the form being added to Vets.gov.*
 
 You can check this through your eBenefits account.
 
@@ -250,7 +254,7 @@ If you see your dependents listed there, you should be receiving compensation fo
 
 If you and your spouse are both Veterans with a 30% or higher disability rating, you can both claim each other and your children.
 
-It’ll take us longer to process your application if you’re claiming a dependent spouse who’s also a Veteran. But if you apply online, and we determine that you’re eligible for higher compensation, we’ll pay you back to the date you started your application.
+**You should know:** It’ll take us longer to process your application if you’re claiming a dependent spouse who’s also a Veteran. But if you apply online, and we decide you’re eligible for higher compensation, we’ll pay you back to the date you started your application.
 
 </div>
 </li>
@@ -262,7 +266,9 @@ It’ll take us longer to process your application if you’re claiming a depend
 
 You can remove a dependent online through eBenefits. We'll need more time to process a claim to remove a dependent child than a dependent spouse, but the online process is still much faster than submitting a paper claim.
 
-**If you get divorced and need to remove your dependent former spouse or a dependent stepchild of your former spouse**, you'll want to submit the claim as soon as possible. You don’t have to submit or upload the supporting paperwork into eBenefits. This will help to avoid a situation of continuing to receive compensation for these dependents after the divorce and then needing to pay it back by having the money withheld from future checks. <br>
+**If you get divorced and need to remove your dependent former spouse or a dependent stepchild of your former spouse**, you'll want to submit the claim right away. You don’t have to submit or upload the supporting paperwork into eBenefits. 
+
+This will help to make sure you don't keep receiving compensation for these dependents after the divorce. If you don't tell us to remove these dependents and keep receiving extra compensation for them until we discover the error, we may withhold money from your future compensation payments until you've paid it back. <br>
 [Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </div>
@@ -271,13 +277,14 @@ You can remove a dependent online through eBenefits. We'll need more time to pro
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-school">How will VA know not to remove my child from my benefits if they turn 18 but are still in school? Do I have to reapply?</button>
 <div id="questions-specific-child-school" class="usa-accordion-content">
  
-*Note: Will need to confirm if this is changing with the form being added to Vets.gov*
+*Note: Will need to confirm if this is changing with the form being added to Vets.gov.*
 
 You’ll need to update your child’s school information in eBenefits. 
 
 Sign in to your eBenefits account. Click “Add or Remove Dependents” under the “Apply” section on the home page. 
 
 Then select “Update Dependents.” <br>
+<br>
 [Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </div>
