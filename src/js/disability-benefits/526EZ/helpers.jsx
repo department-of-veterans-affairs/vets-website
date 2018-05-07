@@ -468,8 +468,8 @@ const AddressViewField = ({ formData }) => {
   let cityString;
   if (zipCode) {
     const firstFive = zipCode.slice(0, 5);
-    const lastChunk = zipCode.slice(5);
-    zipString = `${firstFive}${lastChunk ? `-${lastChunk}` : ''}`;
+    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
+    zipString = `${firstFive}${lastChunk}`;
   }
   if (city || militaryPostOfficeTypeCode) {
     cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
