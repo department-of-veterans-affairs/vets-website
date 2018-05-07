@@ -355,10 +355,10 @@ const formConfig = {
                   },
                   'view:otherEvidence': {
                     'ui:title': 'Lay statements or other evidence'
-                  },
-                  'view:evidenceTypeHelp': {
-                    'ui:description': evidenceTypeHelp
                   }
+                },
+                'view:evidenceTypeHelp': {
+                  'ui:description': evidenceTypeHelp
                 }
               }
             }
@@ -382,12 +382,12 @@ const formConfig = {
                         },
                         'view:otherEvidence': {
                           type: 'boolean'
-                        },
-                        'view:evidenceTypeHelp': {
-                          type: 'object',
-                          properties: {}
                         }
                       }
+                    },
+                    'view:evidenceTypeHelp': {
+                      type: 'object',
+                      properties: {}
                     }
                   }
                 }
