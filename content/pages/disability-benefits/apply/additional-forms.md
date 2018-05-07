@@ -29,9 +29,6 @@ In some situations, you may need to turn in an additional form to support your d
 | **If you're** | **You'll need to turn in** |
 | --- | --- | 
 | **a National Guard and Reserve member,**  | all your service treatment and personnel records from your unit(s). | 
-
-
-| --- | --- | 
 | claiming dependents | you’ll need to fill out a Declaration of Status of Dependents (VA Form 21-686c).
 [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf).<br>
 
