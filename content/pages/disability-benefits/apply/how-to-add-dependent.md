@@ -104,9 +104,8 @@ This depends on who you’re adding.
 
 You can apply online. You may also need to provide more information or forms along with your application.
 
-*Placeholder for green apply button*
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/disability/apply/how-to-add-dependent/">Apply to Add a Dependent</a>
+  <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/how-to-add-dependent/">Apply to Add a Dependent</a>
 </div>
 
 **If you’re claiming a seriously disabled child,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
