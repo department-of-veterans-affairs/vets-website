@@ -1,4 +1,5 @@
 import _ from 'lodash';
+// TODO: use lodash/fp
 
 import PCIUAddress from '../../../common/schemaform/fields/PCIUAddressField';
 import dateUI from '../../../common/schemaform/definitions/date';
@@ -21,19 +22,25 @@ function validatePhone(errors, phone) {
 }
 
 function createPrimaryAddressPage(formSchema, isReview) {
-  const { date } = formSchema.definitions;
+  const { veteran } = formSchema.properties;
+  const veteranContactInformationSchema = _.omit(veteran, ['properties.homelessness', 'properties.serviceNumber']);
+
 
   const uiSchema = {
     veteran: {
+      'ui:order': ['mailingAddress', 'primaryPhone', 'emailAddress', 'alternateEmailAddress', 'view:hasForwardingAddress', 'forwardingAddress', 'serviceNumber'],
       mailingAddress: pciuAddressUISchema('mailingAddress'),
       primaryPhone: _.assign(phoneUI('Primary telephone number'), {
         'ui:validations': [validatePhone]
       }),
-      secondaryPhone: _.assign(phoneUI('Secondary telephone number'), {
-        'ui:validations': [validatePhone]
-      }),
       emailAddress: {
         'ui:title': 'Email address',
+        'ui:errorMessages': {
+          pattern: 'Please put your email in this format x@x.xxx'
+        }
+      },
+      alternateEmailAddress: {
+        'ui:title': 'Alternate email address',
         'ui:errorMessages': {
           pattern: 'Please put your email in this format x@x.xxx'
         }
@@ -62,31 +69,39 @@ function createPrimaryAddressPage(formSchema, isReview) {
   const schema = {
     type: 'object',
     properties: {
-      veteran: {
+      veteran: _.merge(veteranContactInformationSchema, {
         type: 'object',
         properties: {
-          mailingAddress: pciuAddressSchema,
-          primaryPhone: {
-            type: 'string'
-          },
-          secondaryPhone: {
-            type: 'string'
-          },
-          emailAddress: {
-            type: 'string',
-            format: 'email'
-          },
           'view:hasForwardingAddress': {
             type: 'boolean'
-          },
-          forwardingAddress: _.merge({}, pciuAddressSchema, {
-            type: 'object',
-            properties: {
-              effectiveDate: date
-            }
-          })
+          }
         }
-      }
+      })
+      //veteran: {
+        //type: 'object',
+        //properties: {
+          //mailingAddress: pciuAddressSchema,
+          //primaryPhone: {
+            //type: 'string'
+          //},
+          //secondaryPhone: {
+            //type: 'string'
+          //},
+          //emailAddress: {
+            //type: 'string',
+            //format: 'email'
+          //},
+          //'view:hasForwardingAddress': {
+            //type: 'boolean'
+          //},
+          //forwardingAddress: _.merge({}, pciuAddressSchema, {
+            //type: 'object',
+            //properties: {
+              //effectiveDate: date
+            //}
+          //})
+        //}
+      //}
     }
   };
 

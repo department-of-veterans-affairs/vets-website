@@ -129,7 +129,7 @@ class PCIUAddress extends React.Component {
     const { errorSchema } = this.props;
     return (
       <div>
-        <ErrorableSelect
+        {!isMilitary && <ErrorableSelect
           errorMessage={errorSchema.country.__errors[0]}
           label="Country"
           name="country"
@@ -138,7 +138,7 @@ class PCIUAddress extends React.Component {
           value={{ value: country }}
           required={!isMilitary}
           onValueChange={(value) => this.handleChange(value, 'country')}
-          onBlur={() => this.props.onBlur('country')}/>
+          onBlur={() => this.props.onBlur('country')}/>}
         <ErrorableTextInput
           errorMessage={errorSchema.addressLine1.__errors[0]}
           label="Street address"
