@@ -35,11 +35,11 @@ In some situations, you may need to turn in an additional form to support your d
 </thead>
 <tbody>
   <tr>
-    <td>A National Guard and Reserve member</td>
+   <td><strong>A National Guard and Reserve member</strong></td>
     <td>All your service treatment and personnel records from your unit(s)</td>
   </tr>
   <tr>
-    <td>Claiming Individual Unemployability</td>
+   <td><strong>Claiming Individual Unemployability</strong></td>
     <td><p><strong>Both of these:</strong></p>
         <p>A Veteran’s Application for Increased Compensation Based on Unemployability (VA Form 21-8940)</p>
         <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf">Download VA Form 21-8940</a>.</p>
@@ -49,43 +49,43 @@ In some situations, you may need to turn in an additional form to support your d
     </td>
   </tr>
   <tr>
-    <td>Claiming Posttraumatic Stress Disorder (PTSD)</td>
+    <td><strong>Claiming Posttraumatic Stress Disorder (PTSD)</strong></td>
     <td><p>A Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781)</p>
         <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-0781-ARE.PDF">Download VA Form 21-0781</a>.</p>
     </td>
   </tr>
   <tr>
-    <td>Claiming PTSD based on a personal assault</td>
+   <td><strong>Claiming PTSD based on a personal assault</strong></td>
     <td><p>A Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)</p>
         <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-0781a-ARE.pdf">Download VA Form 21-0781a</a>.</p>
     </td>
   </tr>
   <tr>
-    <td>Claiming Specially Adapted Housing or a Special Home Adaptation</td>
+   <td><strong>Claiming Specially Adapted Housing or a Special Home Adaptation</strong></td>
     <td><p>An Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)</p>
         <p><a href="https://www.vba.va.gov/pubs/forms/vba-26-4555-are.pdf">Download VA Form 26-4555</a>.</p>
     </td>
   </tr>
   <tr>
-    <td>Claiming an Auto Allowance</td>
+   <td><strong>Claiming an Auto Allowance</strong></td>
     <td><p>An Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502)</p>
         <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf">Download VA Form 21-4502</a>.</p>
     </td>
   </tr>
   <tr>
-    <td>Claiming additional benefits because you or your spouse need Aid and Attendance</td>
+    <td><strong>Claiming additional benefits because you or your spouse need Aid and Attendance</strong></td>
     <td><p>An Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680)</p>
         <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf">Download VA Form 21-2680</a>.</p>
     </td>
   </tr>
   <tr>
-    <td>Claiming Aid and Attendance because you’re in a nursing home</td>
+   <td><strong>Claiming Aid and Attendance because you’re in a nursing home</strong></td>
     <td><p>A Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779)</p>
         <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf">Download VA Form 21-0779</a>.</p>
     </td>
   </tr>
   <tr>
-    <td>Claiming dependents</td>
+   <td><strong>Claiming dependents</strong></td>
     <td><p>A Declaration of Status of Dependents (VA Form 21-686c)</p>
         <p><a href="https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf">Download VA Form 21-686c</a>.</p>
         <p><strong>And:</strong></p>
