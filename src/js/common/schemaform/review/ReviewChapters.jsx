@@ -119,7 +119,6 @@ function mapStateToProps(state, ownProps) {
   const viewedPages = getViewedPages(state);
 
   const chapterNames = getActiveChapters(formConfig, formData);
-  const disableSave = formConfig.disableSave;
   const pagesByChapter = createPageListByChapter(formConfig);
   const chapters = chapterNames.map(chapterName => {
     const pages = pagesByChapter[chapterName];
@@ -143,7 +142,6 @@ function mapStateToProps(state, ownProps) {
 
   return {
     chapters,
-    disableSave,
     form,
     formData,
     formConfig,
