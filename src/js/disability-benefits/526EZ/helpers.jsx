@@ -601,12 +601,12 @@ export const noFDCWarning = (
   </div>
 );
 
-const evidenceTypesDescription = (diagnosticCode) => {
+const evidenceTypesDescription = (disabilityName) => {
   return (
-    <p>What supporting evidence do you have that shows how your {getDiagnosticCodeName(diagnosticCode)} <strong>has worsened since VA rated your disability</strong>?</p>
+    <p>What supporting evidence do you have that shows how your {disabilityName} <strong>has worsened since VA rated your disability</strong>?</p>
   );
 };
 
 export const getEvidenceTypesDescription = (form, index) => {
-  return evidenceTypesDescription(form.disabilities[index].diagnosticCode);
+  return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
 };
