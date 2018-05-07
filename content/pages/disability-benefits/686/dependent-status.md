@@ -7,9 +7,8 @@ layout: page-react.html
   <nav class="va-nav-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
-      <li><a href="/"> Dependents </a></li>
-      <li><a href="/"> Declaration of Dependents </a></li>
-      <li><a href="/"> Apply </a></li
+      <li><a href="/disability-benefits/"> Disability Benefits </a></li>
+      <li><a href="/disability-benefits/686/dependent-status"> Declaration of Dependents </a></li>
     </ul>
   </nav>
   <div class="section">

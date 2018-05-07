@@ -32,7 +32,7 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
+	 <h4 class="usa-alert-title">Are you in crisis? <button aria-expanded="false" id="crisis-expander-link">You have options.</button></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
 	    <ul>
@@ -95,7 +95,7 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 
 <div itemprop="itemListElement">
 
-If you have a Vets.gov account or a My Health*e*Vet Premium account, you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments. 
+If you have a Vets.gov account or a My Health*e*Vet Premium account, you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments.
 
 **Send a secure message or sign up now through:**
 - [Vets.gov](/?next=%2Fhealth-care%2Fmessaging), **or** <br>
@@ -114,6 +114,14 @@ If you have a Vets.gov account or a My Health*e*Vet Premium account, you can sen
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')
     .addEventListener('click', function () {
-      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+      var ariaExpandedValue = this.getAttribute('aria-expanded') === 'false'
+                                                                     ? 'true'
+                                                                     : 'false';
+
+      document.getElementById('crisis-expander-content')
+        .classList
+        .toggle('expander-content-closed');
+
+      this.setAttribute('aria-expanded', ariaExpandedValue);
     });
 </script>
