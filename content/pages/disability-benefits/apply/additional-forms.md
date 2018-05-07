@@ -26,9 +26,9 @@ In some situations, you may need to turn in an additional form to support your d
 
 
 
-| **If you're a National Guard and Reserve member,** | 
+| **If you're** | **You'll need** |
 | --- | --- | 
-| you’ll need to turn in all your service treatment and personnel records from your unit(s). | 
+| **If you're a National Guard and Reserve member,**  | turn in all your service treatment and personnel records from your unit(s). | 
 
 
 | **If you're claiming dependents,** | 
