@@ -366,6 +366,7 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
 };
 
 
+// TODO: update alert content
 export const ITFErrorAlert = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
