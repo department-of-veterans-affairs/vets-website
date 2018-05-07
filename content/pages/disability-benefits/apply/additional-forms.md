@@ -53,17 +53,16 @@ In some situations, you may need to turn in an additional form to support your d
 [Download VA Form 21-0781a](https://www.vba.va.gov/pubs/forms/VBA-21-0781a-ARE.pdf)
 
 |claiming Specially Adapted Housing or a Special Home Adaptation, | an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555).|
-[Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/vba-26-4555-are.pdf).
-
-|claiming an Auto Allowance, | an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502).|
+[Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/vba-26-4555-are.pdf). 
+|claiming an Auto Allowance, | an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502),
 [Download VA Form 21-4502](https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf).
 
 
-| claiming additional benefits because you or your spouse need Aid and Attendance, | an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). |
+| claiming additional benefits because you or your spouse need Aid and Attendance, | an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680).
 [Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf).
 
 
-|claiming Aid and Attendance because you’re in a nursing home, | a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779). |
+|claiming Aid and Attendance because you’re in a nursing home, | a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779). 
 [Download VA Form 21-0779](https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf).
 
 
