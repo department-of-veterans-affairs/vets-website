@@ -313,6 +313,7 @@ JSON Schema does not provide all the validation options we need in our forms, so
 - formData: The current form data.
 - schema: The current JSON Schema for the field.
 - errorMessages: The error messsage object (if available) for the field.
+- currentIndex: Used to select the correct field data to validate against
 
 Every validation function should update the errors object with any errors found. This is done by calling its `addErrors()` method. Here's an example:
 
@@ -327,7 +328,7 @@ function validateSSN(errors, ssn) {
 Items in the `ui:validations` array can also be objects. Objects should have two properties:
 
 - options: Object (or anything, really) that will be passed to your validation function. You can use this to allow your validation function to be configurable for different fields on the form.
-- validator: A function with the same signature as above, plus the options object.
+- validator: A function with the same signature as above, plus the options object (second-to-last: ...options, currentIndex).
 
 ```js
 {
