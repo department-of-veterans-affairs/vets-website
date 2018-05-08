@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: How to Add a Dependent to Your Disability Compensation Benefits
-display_title: How to Add a Dependent
+title: Adding a Dependent to Your Disability Compensation Benefits
+display_title: Adding a Dependent to Your Disability Benefits
 description: Find out how to add a dependent family member to your VA disability compensation benefits so you can get a higher payment to help support your family.
 concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18 
@@ -85,7 +85,7 @@ You can apply online to add any new dependents right away. This could affect you
 
 - You get married 
 - You have or adopt a child
-- Your child who is between 18 and 23 years old and enrolled in school full time
+- Your child is between 18 and 23 years old and enrolled in school full time
 - Your child becomes severely disabled before turning 18
 - You become the caregiver for a parent whose income and net worth is below a certain amount
 
@@ -126,6 +126,11 @@ Janesville, WI 53547-4444 <br>
  <a href="tel:+1phonenumber">1-844-531-7817</a> if you live in the U.S., **or** <br>
  <a href="tel:+1phonenumber">1-248-524-4260</a> if you live outside of the U.S.
  
+ #### What if I need help with my claim?
+ 
+You can work with an accredited Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the VA claims and appeals process. A VSO can answer your questions or even file your claim for you.<br>
+[Get help filing your claim](/disability-benefits/apply/help/). 
+
  <br>
 
 ### More questions about adding a dependent
@@ -167,6 +172,7 @@ Janesville, WI 53547-4444 <br>
  <a href="tel:+1phonenumber">1-844-531-7817</a> if you live in the U.S., **or** <br>
  <a href="tel:+1phonenumber">1-248-524-4260</a> if you live outside of the U.S.
 
+
 </div>
 </li>
 <li>
@@ -174,15 +180,6 @@ Janesville, WI 53547-4444 <br>
 <div id="questions-apply-paper" class="usa-accordion-content">
 
 Go ahead and apply again online. We’ll still review your paper application. If we award you a higher compensation rate, we’ll pay you back pay from the date you submitted your original paper claim.
-
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-help">What if I need help with my claim?</button>
-<div id="questions-apply-help" class="usa-accordion-content">
-
-You can work with an accredited Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the VA claims and appeals process. A VSO can answer your questions or even file your claim for you.<br>
-[Get help filing your claim](/disability-benefits/apply/help/). 
 
 </div>
 </li>
@@ -227,10 +224,10 @@ Sign in to your account and click the “Dependents” link under the “My Prof
 
 If you see your dependents listed there, you should be receiving compensation for them. If they’re not listed, you can apply to add them. <br>
 [Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
-<br>
-	
-### Questions about adding or removing specific dependents	
+<br> 
 
+	
+### Questions about adding or removing specific dependents
 </div>
 </li>
 <li>
