@@ -1,53 +1,36 @@
 import Raven from 'raven-js';
-
 import _ from 'lodash/fp';
+
+import { pciuCountries, pciuStates, statesOnlyInPCIU, militaryStateCodes, militaryPostOfficeTypeCodes, isValidPCIUZipCode, isValidSpecialCharacter } from '../../../../../platform/forms/address';
+
 import {
   GET_ADDRESS_COUNTRIES_SUCCESS,
   GET_ADDRESS_COUNTRIES_FAILURE,
   GET_ADDRESS_STATES_SUCCESS,
   GET_ADDRESS_STATES_FAILURE,
-} from '../utils/constants';
+} from '../../../../letters/utils/constants';
 
 export const initialState = {
-  countries: [],
+  countries: pciuCountries,
   countriesAvailable: false,
-  states: [],
+  states: pciuStates,
   statesAvailable: false
 };
 
-function pciu(state = initialState, action) {
+export const pciu = (state = initialState, action) => {
   switch (action.type) {
     case GET_ADDRESS_COUNTRIES_SUCCESS: {
-      let countriesAvailable = true;
-      const countryList = action.countries.data.attributes.countries;
-
-      // Log error if the countries response is not what we expect
-      if (!Array.isArray(countryList) || countryList.length === 0) {
-        Raven.captureMessage(`vets_pciu_unexpected_country_response: ${countryList}`);
-        countriesAvailable = false;
-      }
-
       return {
         ...state,
-        countries: countryList,
-        countriesAvailable
+        ...action
       };
     }
     case GET_ADDRESS_COUNTRIES_FAILURE:
       return _.set('countriesAvailable', false, state);
     case GET_ADDRESS_STATES_SUCCESS: {
-      let statesAvailable = true;
-      const stateList = action.states.data.attributes.states;
-
-      // Log error if the states response is not what we expect
-      if (!Array.isArray(stateList) || stateList.length === 0) {
-        Raven.captureMessage(`vets_pciu_unexpected_state_response: ${stateList}`);
-        statesAvailable = false;
-      }
       return {
         ...state,
-        states: stateList,
-        statesAvailable
+        ...action
       };
     }
     case GET_ADDRESS_STATES_FAILURE:
@@ -56,7 +39,3 @@ function pciu(state = initialState, action) {
       return state;
   }
 }
-
-export default {
- pciu 
-};

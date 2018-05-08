@@ -15,9 +15,8 @@ import { pciuCountries, pciuStates, statesOnlyInPCIU, militaryStateCodes, milita
 import {
   getAddressCountries,
   getAddressStates
-} from '../../../../platform/forms/actions';
+} from './state/action';
 
-import { mergeUniques } from '../definitions/pciuAddress';
 
 /**
  * Input component for a PCIU address.
@@ -38,17 +37,13 @@ class PCIUAddress extends React.Component {
     //this.id = _.uniqueId('address-input-');
   //}
 
-  mergeStates = (states) => { 
-    let allStates = states;
-    if(states.indexOf('APO')){
-      allStates = mergeUniques(states, statesOnlyInPCIU);
-    }
-    return allStates;
-  }
-
   componentDidMount() {
-    this.props.getAddressStates(states => this.setState({'states': this.mergeStates(states)}));
-    this.props.getAddressCountries(countries => this.setState({'countries': countries}));
+    if (!this.props.pciu.statesAvailable) {
+      this.props.getAddressStates();
+    }
+    if (!this.props.pciu.countriesAvailable) {
+      this.props.getAddressCountries();
+    }
     focusElement('h5');
   }
 
@@ -134,7 +129,7 @@ class PCIUAddress extends React.Component {
           label="Country"
           name="country"
           autocomplete="country"
-          options={this.state.countries}
+          options={this.props.countries}
           value={{ value: country }}
           required={!isMilitary}
           onValueChange={(value) => this.handleChange(value, 'country')}
@@ -199,7 +194,7 @@ class PCIUAddress extends React.Component {
           label={<span>State <em>(or AA/AE/AP)</em></span>}
           name="state"
           autocomplete="address-level1"
-          options={this.state.states}
+          options={this.props.states}
           value={{ value: state }}
           required={isUSA}
           onValueChange={(value) => this.handleChange(value, 'state')}
@@ -220,12 +215,27 @@ class PCIUAddress extends React.Component {
 }
 
 
+function mapStateToProps(state) {
+  const {
+    countries,
+     countriesAvailable,
+      states,
+      statesAvailable
+  } = state.pciu;
+
+  return {
+    countries,
+    countriesAvailable,
+    states,
+    statesAvailable
+  };
+}
 
 const mapDispatchToProps = {
   getAddressCountries,
   getAddressStates
 };
 
-export default connect(null, mapDispatchToProps)(PCIUAddress);
+export default connect(mapStateToDispatch, mapDispatchToProps)(PCIUAddress);
 
 export  { PCIUAddress };

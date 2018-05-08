@@ -64,7 +64,7 @@ const militaryPostOfficeTypeCodes = ['APO', 'DPO', 'FPO'];
  */
 export const pciuAddressUISchema = (addressName, title, specialCharacterValidations = []) => {
 
-  const specialCharacterValidations = [validateSpecialCharacter].concat(specialCharacterValidations);
+  const allSpecialCharacterValidations = [validateSpecialCharacter].concat(specialCharacterValidations);
   function validateCity(errors, city, { veteran }) {
     const isMilitaryState = veteran[addressName].militaryPostOfficeTypeCode;
     if (city && isMilitaryState && !militaryPostOfficeTypeCodes.includes(city)) {
@@ -82,15 +82,15 @@ export const pciuAddressUISchema = (addressName, title, specialCharacterValidati
     },
     addressLine1: {
       'ui:title': 'Street',
-      'ui:validations': specialCharacterValidations,
+      'ui:validations': allSpecialCharacterValidations,
     },
     addressLine2: {
       'ui:title': 'Line 2',
-      'ui:validations': specialCharacterValidations,
+      'ui:validations': allSpecialCharacterValidations,
     },
     addressLine3: {
       'ui:title': 'Line 3',
-      'ui:validations': specialCharacterValidations,
+      'ui:validations': allSpecialCharacterValidations,
     },
     city: {
       'ui:options': {
