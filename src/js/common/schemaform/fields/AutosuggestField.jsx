@@ -56,19 +56,30 @@ export default class AutosuggestField extends React.Component {
 
   componentDidMount() {
     if (!this.props.formContext.reviewMode) {
-      const getOptions = this.props.uiSchema['ui:options'].getOptions;
-      if (getOptions) {
-        getOptions().then(options => {
-          if (!this.unmounted) {
-            this.setState({ options, suggestions: this.getSuggestions(options, this.state.input) });
-          }
-        });
-      }
+      this.getOptions();
     }
   }
 
   componentWillUnmount() {
     this.unmounted = true;
+  }
+
+  getOptions = (inputValue) => {
+    const getOptions = this.props.uiSchema['ui:options'].getOptions;
+    if (getOptions) {
+      // If getOptions returns a promise, when it resolves, set the options to the result.
+      // getOptions may also set the options directly. This is useful if it's a debounced function.
+      const returnedPromise = getOptions(inputValue, this.setOptions);
+      if (returnedPromise) {
+        returnedPromise.then(this.setOptions);
+      }
+    }
+  }
+
+  setOptions = (options) => {
+    if (!this.unmounted) {
+      this.setState({ options, suggestions: this.getSuggestions(options, this.state.input) });
+    }
   }
 
   getSuggestions = (options, value) => {
@@ -90,6 +101,10 @@ export default class AutosuggestField extends React.Component {
 
   handleInputValueChange = (inputValue) => {
     if (inputValue !== this.state.input) {
+      if (this.props.uiSchema['ui:options'].queryForResults) {
+        this.getOptions(inputValue);
+      }
+
       let item = { widget: 'autosuggest', label: inputValue };
       // once the input is long enough, check for exactly matching strings so that we don't
       // force a user to click on an item when they've typed an exact match of a label
@@ -101,7 +116,6 @@ export default class AutosuggestField extends React.Component {
       }
 
       this.props.onChange(item);
-
       this.setState({
         input: inputValue,
         suggestions: this.getSuggestions(this.state.options, inputValue)
@@ -113,7 +127,6 @@ export default class AutosuggestField extends React.Component {
         suggestions: this.getSuggestions(this.state.options, inputValue)
       });
     }
-
   }
 
   handleChange = (selectedItem) => {

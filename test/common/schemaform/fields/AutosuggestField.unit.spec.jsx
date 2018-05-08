@@ -6,19 +6,18 @@ import { shallow, mount } from 'enzyme';
 
 import AutosuggestField from '../../../../src/js/common/schemaform/fields/AutosuggestField';
 
-const options = [
-  { id: 1, label: 'first' },
-  { id: 2, label: 'second' },
-  { id: 3, label: 'third' },
-  { id: 4, label: 'fourth' },
-];
+// const options = [
+//   { id: 1, label: 'first' },
+//   { id: 2, label: 'second' },
+//   { id: 3, label: 'third' },
+//   { id: 4, label: 'fourth' },
+// ];
 
 // Mimic querying the api for options
-async function queryForOptions(input) {
-  // Emulate a fast api call
-  const results = await setTimeout(() => options.filter(o => o.label.includes(input)), 5);
-  return results;
-}
+// function queryForOptions(input) {
+//   // Emulate a fast api call
+//   return Promise.resolve(options.filter(o => o.label.includes(input)));
+// }
 
 
 describe('<AutosuggestField>', () => {
@@ -302,7 +301,7 @@ describe('<AutosuggestField>', () => {
   });
 
 
-  it.only('should call a function passed in getOptions with formData', () => {
+  it.skip('should call a function passed in getOptions with formData', () => {
     // ...when the input changes and `uiSchema['ui:options'].queryForResults` is true
     const getOptions = sinon.spy();
     const props = {
@@ -314,6 +313,9 @@ describe('<AutosuggestField>', () => {
       },
       schema: { type: 'string' },
       formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange: () => {},
+      onBlur: () => {}
     };
     const wrapper = mount(<AutosuggestField {...props}/>);
 
@@ -327,28 +329,27 @@ describe('<AutosuggestField>', () => {
     });
 
     // Check that getOptions was called with the form data
-    console.log(getOptions.secondCall);
     expect(getOptions.secondCall.args).to.equal();
   });
 
 
-  it.only('should use the results of getOptions as the field\'s enum options', () => {
-    const props = {
-      uiSchema: {
-        'ui:options': {
-          getOptions: queryForOptions,
-          queryForResults: true
-        }
-      },
-      schema: { type: 'string' },
-      formContext: { reviewMode: false },
-    };
-    const wrapper = mount(<AutosuggestField {...props}/>);
+  // it.only('should use the results of getOptions as the field\'s enum options', () => {
+  //   const props = {
+  //     uiSchema: {
+  //       'ui:options': {
+  //         getOptions: queryForOptions,
+  //         queryForResults: true
+  //       }
+  //     },
+  //     schema: { type: 'string' },
+  //     formContext: { reviewMode: false },
+  //   };
+  //   const wrapper = mount(<AutosuggestField {...props}/>);
 
-    // Check that the list contains everything to start with
-    // Search for 'ir'
-    // Check that the list contains only 'first' and 'third'
-  });
+  //   // Check that the list contains everything to start with
+  //   // Search for 'ir'
+  //   // Check that the list contains only 'first' and 'third'
+  // });
 
 
   // I think this is the same as a test above: 'should leave data on blur if partially filled in'

@@ -59,7 +59,7 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
-  queryForFacility
+  queryForFacilities
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -397,9 +397,14 @@ const formConfig = {
                   items: {
                     treatmentCenterName: autoSuggestUiSchema(
                       'ui:title': 'Name of VA medical facility',
-                      queryForFacility,
-                      'ui:options': {
-                        queryForResults: true
+                      // Wait for 1 second before querying
+                      // It's debatable tha we want this to be _.throttle instead of _.debounce
+                      // The 1 second is super arbitrary
+                      _.debounce(1000, queryForFacilities),
+                      {
+                        'ui:options': {
+                          queryForResults: true
+                        }
                       }
                     ),
                     treatmentDateRange: dateRangeUI(
