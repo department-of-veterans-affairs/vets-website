@@ -41,7 +41,7 @@ Depending on what type of disability claim you’re filing, you can apply using 
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
-- Check to see if you need to turn in an additional form with your claim. For example, if you’re claiming a dependent or requesting aid and attendance benefits, you’ll need to fill out another form. <br>
+- Check to see if you’ll need to turn in any additional forms with your claim. For example, if you’re claiming a dependent or requesting aid and attendance benefits, you’ll need to fill out another form. <br>
 [Learn what supplemental forms you may need to file with your disability claim](/disability-benefits/apply/supplemental-forms/). 
 
 <div markdown="0"><br></div>
