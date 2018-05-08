@@ -21,6 +21,7 @@ class PrescriptionsWidget extends React.Component {
 
   render() {
     let content;
+    const { canAccessRx } = this.props;
 
     if (this.props.loading) {
       content = <LoadingIndicator message="Loading your prescriptions..."/>;
@@ -36,7 +37,7 @@ class PrescriptionsWidget extends React.Component {
       );
     }
 
-    if (this.props.prescriptions) {
+    if (canAccessRx && this.props.prescriptions) {
       if (this.props.prescriptions.length === 0) {
         content = <p>No recent prescriptions updates</p>;
       }
@@ -58,6 +59,8 @@ class PrescriptionsWidget extends React.Component {
 
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
+  const profileState = state.user.profile;
+  const canAccessRx = profileState.services.includes('rx');
 
   let prescriptions = rxState.prescriptions.items;
 
@@ -71,6 +74,7 @@ const mapStateToProps = (state) => {
   return {
     ...rxState.prescriptions.active,
     prescriptions,
+    canAccessRx,
   };
 };
 
