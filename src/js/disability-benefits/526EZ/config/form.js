@@ -1,5 +1,4 @@
 import _ from '../../../../platform/utilities/data';
-import { merge } from 'lodash/fp';
 
 import { omitRequired } from '../../../common/schemaform/helpers';
 
@@ -9,23 +8,30 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
-import ssnUI from '../../../common/schemaform/definitions/ssn';
-import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
-
-import { genderLabels } from '../../../../platform/static-data/labels';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { createVerifiedPaymentInfoPage } from '../pages/paymentInfo';
-import { createVerifiedPrimaryAddressPage } from '../pages/primaryAddress';
+
+import {
+  uiSchema as veteranInfoUiSchema,
+  schema as veteranInfoSchema
+} from '../pages/veteranInfo';
+
+import {
+  uiSchema as primaryAddressUiSchema,
+  primaryAddressSchema
+} from '../pages/primaryAddress';
+
+import {
+  uiSchema as paymentInfoUiSchema,
+  schema as paymentInfoSchema
+} from '../pages/paymentInfo';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
 import initialData from '../tests/schema/initialData';
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
-import ReviewCardField from '../components/ReviewCardField';
 
 import {
   transform,
@@ -51,8 +57,6 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
-  VAFileNumberDescription,
-  veteranInformationViewField,
   getEvidenceTypesDescription
 } from '../helpers';
 
@@ -138,55 +142,18 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
+          description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
           path: 'veteran-information',
-          uiSchema: {
-            'ui:field': ReviewCardField,
-            'ui:title': 'Veteran information',
-            'ui:options': {
-              viewComponent: veteranInformationViewField
-            },
-            fullName: fullNameUI,
-            socialSecurityNumber: merge(ssnUI, {
-              'ui:title': 'Social Security number (must have this or a VA file number)',
-              'ui:required': form => !form.vaFileNumber
-            }),
-            vaFileNumber: {
-              'ui:title': 'VA file number (must have this or a Social Security number)',
-              'ui:required': form => !form.socialSecurityNumber,
-              'ui:help': VAFileNumberDescription,
-              'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
-              }
-            },
-            dateOfBirth: currentOrPastDateUI('Date of birth'),
-            gender: {
-              'ui:title': 'Gender',
-              'ui:options': {
-                labels: genderLabels
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName', 'gender', 'dateOfBirth'],
-            properties: {
-              fullName,
-              socialSecurityNumber: {
-                type: 'string'
-              },
-              vaFileNumber: {
-                type: 'string',
-                pattern: '^[cC]{0,1}\\d{7,9}$'
-              },
-              gender: {
-                type: 'string',
-                'enum': ['F', 'M']
-              },
-              dateOfBirth: date
-            }
-          }
+          uiSchema: veteranInfoUiSchema,
+          schema: veteranInfoSchema
         },
-        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
+        primaryAddress: {
+          title: 'Address information',
+          path: 'veteran-details/address-information',
+          description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
+          uiSchema: primaryAddressUiSchema,
+          schema: primaryAddressSchema
+        },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
@@ -233,7 +200,13 @@ const formConfig = {
             }
           }
         },
-        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
+        paymentInformation: {
+          title: 'Payment Information',
+          path: 'payment-information',
+          description: 'This is the bank account information we have on file for you. We’ll pay your benefit to this account. If you need to make changes to your bank information, you can click the Edit button.',
+          uiSchema: paymentInfoUiSchema,
+          schema: paymentInfoSchema
+        },
         specialCircumstances: {
           title: 'Special Circumstances',
           path: 'special-circumstances',
