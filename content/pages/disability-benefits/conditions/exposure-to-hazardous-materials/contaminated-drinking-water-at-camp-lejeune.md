@@ -21,7 +21,7 @@ You may be able to get disability benefits if you served at Camp Lejeune or MCAS
 
 **Both of these must be true:**
 
-- You were discharged from the military under conditions other than dishonorable, **and**
+- You separated from the military without receiving a dishonorable discharge, **and**
 - You have a diagnosis of one or more of these presumptive conditions:
 
   - Adult leukemia
