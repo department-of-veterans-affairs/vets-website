@@ -33,10 +33,11 @@ class MessagingWidget extends React.Component {
     };
 
     let { messages } = this.props;
-    const { recipients } = this.props;
+    const { recipients, canAccessMessaging } = this.props;
 
-    if (recipients && recipients.length === 0) {
+    if (!canAccessMessaging || (recipients && recipients.length === 0)) {
       // do not show widget if user is not a VA patient
+      // or if user does not have access to messaging
       return null;
     }
 
@@ -90,6 +91,8 @@ class MessagingWidget extends React.Component {
 const mapStateToProps = (state) => {
   const msgState = state.health.msg;
   const folder = msgState.folders.data.currentItem;
+  const profileState = state.user.profile;
+  const canAccessMessaging = profileState.services.includes('messaging');
 
   const { attributes, messages, pagination, sort } = folder;
 
@@ -100,6 +103,7 @@ const mapStateToProps = (state) => {
     recipients: msgState.recipients.data,
     sort,
     pagination,
+    canAccessMessaging,
   };
 };
 
