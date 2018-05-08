@@ -8,7 +8,7 @@ plainlanguage: Certified plain language 4.20.18
 template: detail-page
 order: 5 	
 relatedlinks:
-  - heading: More VA benefits you may be interested in for you and your dependents
+  - heading: More VA benefits for you and your dependents
     links:
     - url: /pension/
       title: Pension Benefits
@@ -142,21 +142,21 @@ You can work with an accredited Veterans Service Officer (VSO). We trust these p
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-mail">Can I apply to add a child or spouse as a dependent by mail or fax?</button>
 <div id="questions-apply-mail" class="usa-accordion-content">
 	
-Yes, but we encourage you to apply online. The online application is simple, and you can upload any needed supporting documents along with your application. 
+Yes, but we encourage you to apply online. The online application is simple, and you can upload your supporting documents to your application.  
 
 When you file your claim online, you can also save the day you start your claim as the effective benefit start date. This means that if we decide you’re eligible for a higher compensation rate, we’ll pay you back to this date.
 
 **If you can’t, or don’t want to apply online, you can apply by mail or fax using the forms below:**
 
 - **To add a dependent spouse or a child under 18 years of age**, fill out a Declaration of Status of Dependents (VA Form 21-686c). <br>
-[Download VA Form 21-686c]( https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf).
+[Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf).
 
 - **To add a dependent child who’s between 18 and 23 years old and attending school full time**, you’ll need to fill out both VA Form 21-686c and a Request for Approval of School Attendance (VA Form 21-674). <br>
-[Download VA Form 21-686c]( https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf). <br>
-[Download VA Form 21-674]( https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf).
+[Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf). <br>
+[Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf).
 
 - **To add a dependent parent**, you’ll need to fill out a Statement of Dependency of Parent(s) (VA Form 21-509). <br>
-[Download VA Form 21-509]( https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf).
+[Download VA Form 21-509](https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf).
 
 **Mail your completed form(s) to:**
 
@@ -216,20 +216,21 @@ We’ll begin paying you within 2 weeks after we approve your claim.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-already-receiving">How do I know if I’m already receiving compensation for my dependents?</button>
 <div id="questions-specific-already-receiving" class="usa-accordion-content">
 
-*Note: Will need to confirm if this is changing with the form being added to Vets.gov.*
+*Note: Will need to confirm if this is changing when the new paper form is released.*
 
 You can check this through your eBenefits account.
 
 Sign in to your account and click the “Dependents” link under the “My Profile” section. 
 
 If you see your dependents listed there, you should be receiving compensation for them. If they’re not listed, you can apply to add them. <br>
-[Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
-<br> 
-
-	
-### Questions about adding or removing specific dependents
+[Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
 </div>
 </li>
+</ul>
+<br>
+	
+### Questions about adding or removing specific dependents
+
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-Veteran-spouse">What if my spouse is also a Veteran with a 30% or higher disability rating? Can we claim each other and our children? Or should only one of us add them as dependents?</button>
 <div id="questions-specific-Veteran-spouse" class="usa-accordion-content">
@@ -244,14 +245,14 @@ If you and your spouse are both Veterans with a 30% or higher disability rating,
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-divorce-remove">What happens if I get divorced or need to remove a dependent?</button>
 <div id="questions-specific-divorce-remove" class="usa-accordion-content">
 	
-*Note: Will need to confirm if this is changing with the form being added to Vets.gov*
+*Note: Will need to confirm if this is changing with when the new paper form being is released.*
 
 You can remove a dependent online through eBenefits. We’ll need more time to process a claim to remove a dependent child than a dependent spouse, but the online process is still much faster than submitting a paper claim.
 
 **If you get divorced and need to remove your former spouse or a dependent stepchild of your former spouse**, you’ll want to submit the claim right away. You don’t have to submit or upload the supporting paperwork into eBenefits. 
 
 This will help to make sure you don’t keep receiving compensation for these dependents after the divorce. If you don’t tell us to remove these dependents and keep receiving extra compensation for them until we discover the error, we may withhold money from your future compensation payments until you’ve paid it back. <br>
-[Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
+[Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </div>
 </li>
@@ -259,7 +260,7 @@ This will help to make sure you don’t keep receiving compensation for these de
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-school">How will VA know not to remove my child from my benefits if they turn 18 but are still in school? Do I have to reapply?</button>
 <div id="questions-specific-child-school" class="usa-accordion-content">
  
-*Note: Will need to confirm if this is changing with the form being added to Vets.gov.*
+*Note: Will need to confirm if this is changing when the new paper form is released.*
 
 You’ll need to update your child’s school information in eBenefits. 
 
@@ -267,7 +268,7 @@ Sign in to your eBenefits account. Click “Add or Remove Dependents” under th
 
 Then select “Update Dependents.” <br>
 <br>
-[Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
+[Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </div>
 </li>
