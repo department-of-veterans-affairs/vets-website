@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import _ from '../data';
 import deconstructPath from '../data/deconstructPath';
@@ -338,6 +339,62 @@ describe('data utils (lodash replacements)', () => {
           expect(newObj[f]).to.eql(obj[f]);
         }
       });
+    });
+  });
+
+  describe.only('debounce', () => {
+    const spy = sinon.spy();
+
+    beforeEach(() => {
+      spy.reset();
+    });
+
+    it('should call a function with the supplied arguments', (done) => {
+      const debouncedFunc = _.debounce(0, spy);
+      debouncedFunc('first arg', 'second arg');
+      setTimeout(() => {
+        expect(spy.called).to.be.true;
+        expect(spy.firstCall.args).to.eql(['first arg', 'second arg']);
+        done();
+      }, 10);
+    });
+
+    it('should call a function after a waiting period', (done) => {
+      const debouncedFunc = _.debounce(100, spy);
+      debouncedFunc();
+      expect(spy.called).to.be.false;
+      setTimeout(() => {
+        expect(spy.called).to.be.true;
+        done();
+      }, 150);
+    });
+
+    it('should not call a function before the wait time is over', () => {
+      const debouncedFunc = _.debounce(100, spy);
+      debouncedFunc();
+      expect(spy.called).to.be.false;
+
+      // Call the function every 50 ms so it resets the timeout clock
+      setTimeout(() => {
+        debouncedFunc();
+        expect(spy.called).to.be.false;
+      }, 50);
+      setTimeout(() => {
+        debouncedFunc();
+        expect(spy.called).to.be.false;
+      }, 100);
+      setTimeout(() => {
+        debouncedFunc();
+        expect(spy.called).to.be.false;
+      }, 150);
+      setTimeout(() => {
+        debouncedFunc();
+        expect(spy.called).to.be.false;
+      }, 200);
+      // And finally, check to make sure it's only been called once
+      setTimeout(() => {
+        expect(spy.callCount).to.equal(1);
+      }, 350);
     });
   });
 });
