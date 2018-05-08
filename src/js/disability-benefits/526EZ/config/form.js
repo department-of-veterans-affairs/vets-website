@@ -8,6 +8,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import { uiSchema as autoSuggestUiSchema } from '../../../common/schemaform/definitions/autosuggest';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -58,6 +59,7 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
+  queryForFacility
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -393,9 +395,13 @@ const formConfig = {
                     viewField: treatmentView
                   },
                   items: {
-                    treatmentCenterName: {
-                      'ui:title': 'Name of VA medical facility'
-                    },
+                    treatmentCenterName: autoSuggestUiSchema(
+                      'ui:title': 'Name of VA medical facility',
+                      queryForFacility,
+                      'ui:options': {
+                        queryForResults: true
+                      }
+                    ),
                     treatmentDateRange: dateRangeUI(
                       'Approximate date of first treatment',
                       'Approximate date of last treatment',
