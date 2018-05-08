@@ -31,8 +31,8 @@ In some cases, you may need to turn in one or more supplemental forms to support
 
 <thead>
   <tr>
-    <th colspan="1" scope="col">If you're:</th>
-    <th colspan="1" scope="col">You'll need to turn in:</th>
+    <th colspan="1" scope="col">If you’re:</th>
+    <th colspan="1" scope="col">You’ll need to turn in:</th>
   </tr>
 </thead>
 <tbody>
