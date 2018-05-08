@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
+import AskVAQuestions from '../../../common/schemaform/components/AskVAQuestions';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -21,9 +22,20 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data } = this.props.form;
-    const { response } = submission;
-    const name = data.veteranFullName || {};
+    // const { submission = {}, data = {} } = this.props.form;
+    const { submission = {}, data = {} } = {};
+    //    const { submission = {}, data = {} } = undefined;
+
+    const {
+      confirmationNumber,
+      timestamp
+    } = submission.response || {};
+    const {
+      first,
+      middle,
+      last,
+      suffix
+    } = data.veteranFullName || {};
 
     return (
       <div>
@@ -38,30 +50,27 @@ export class ConfirmationPage extends React.Component {
         </div>
         <div className="inset">
           <h4>Declaration of Dependents Claim <span className="additional">(Form 21-686c)</span></h4>
-          <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
+          <span>for {first} {middle} {last} {suffix}</span>
 
-          {response && <ul className="claim-list">
+          {confirmationNumber && <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>
-              <span>{response.confirmationNumber}</span>
+              <span>{confirmationNumber}</span>
             </li>
             <li>
               <strong>Date submitted</strong><br/>
-              <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+              <span>{moment(timestamp).format('MMM D, YYYY')}</span>
             </li>
           </ul>}
         </div>
-        <div className="confirmation-guidance-container">
-          <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. (ET). Please have your Social Security number or VA file number ready. For Telecommunication Relay Services, dial <a href="tel:711">711</a>.</p>
-        </div>
-        <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 usa-width-one-half medium-6 columns">
-            <a href="/">
-              <button className="usa-button-primary">Go Back to Vets.gov</button>
-            </a>
-          </div>
-        </div>
+        <AskVAQuestions>
+          <p className="help-talk">Enrollment or Eligibility questions:</p>
+          <p className="help-phone-number">
+            <a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a><br/>
+            TTY: <a className="help-phone-number-link" href="tel:+18008778339">1-800-877-8339</a><br/>
+            Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+          </p>
+        </AskVAQuestions>
       </div>
     );
   }
