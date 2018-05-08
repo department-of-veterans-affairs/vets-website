@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 
+import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
@@ -170,6 +171,151 @@ const formConfig = {
               },
             }
           },
+        }
+      }
+    },
+    marriageInfo: {
+      title: 'Marriage history',
+      path: 'household/marriage-info',
+      uiSchema: {
+        maritalStatus: {
+          'ui:title': 'What’s your marital status?',
+          'ui:widget': 'radio'
+        },
+        marriages: {
+          'ui:title': 'How many times have you been married?',
+          'ui:widget': ArrayCountWidget,
+          'ui:field': 'StringField',
+          'ui:required': (form) => !!_.get('maritalStatus', form)
+          && form.maritalStatus !== 'Never Married',
+          'ui:options': {
+            showFieldLabel: 'label',
+            keepInPageOnReview: true,
+            expandUnder: 'maritalStatus',
+            expandUnderCondition: (status) => !!status
+            && status !== 'Never Married'
+          },
+          'ui:errorMessages': {
+            required: 'You must enter at least 1 marriage'
+          }
+        }
+      },
+      schema: {
+        type: 'object',
+        required: ['maritalStatus'],
+        properties: {
+          maritalStatus,
+          marriages
+        }
+      }
+    },
+    marriageHistory: {
+      title: (form, { pagePerItemIndex }) => getMarriageTitleWithCurrent(form, pagePerItemIndex),
+      path: 'household/marriages/:index',
+      showPagePerItem: true,
+      arrayPath: 'marriages',
+      uiSchema: {
+        marriages: {
+          items: {
+            'ui:options': {
+              updateSchema: (form, schema, uiSchema, index) => {
+                return {
+                  title: getMarriageTitleWithCurrent(form, index)
+                };
+              }
+            },
+            spouseFullName: _.merge(fullNameUI, {
+              first: {
+                'ui:title': 'Spouse first name'
+              },
+              last: {
+                'ui:title': 'Spouse last name'
+              },
+              middle: {
+                'ui:title': 'Spouse middle name'
+              },
+              suffix: {
+                'ui:title': 'Spouse suffix',
+              }
+            }),
+            dateOfMarriage: currentOrPastDateUI('Date of marriage'),
+            locationOfMarriage: {
+              'ui:title': 'Place of marriage (city and state or foreign country)'
+            },
+            marriageType: {
+              'ui:title': 'Type of marriage',
+              'ui:widget': 'radio'
+            },
+            otherExplanation: {
+              'ui:title': 'Please specify',
+              'ui:required': (form, index) => {
+                return _.get(['marriages', index, 'marriageType'], form) === 'Other';
+              },
+              'ui:options': {
+                expandUnder: 'marriageType',
+                expandUnderCondition: 'Other'
+              }
+            },
+            'view:marriageWarning': {
+              'ui:description': marriageWarning,
+              'ui:options': {
+                hideIf: (form, index) => _.get(['marriages', index, 'marriageType'], form) !== 'Common-law'
+              }
+            },
+            'view:pastMarriage': {
+              'ui:options': {
+                hideIf: isCurrentMarriage
+              },
+              reasonForSeparation: {
+                'ui:title': 'How did marriage end?',
+                'ui:widget': 'radio',
+                'ui:required': (...args) => !isCurrentMarriage(...args)
+              },
+              dateOfSeparation: _.assign(currentOrPastDateUI('Date marriage ended'), {
+                'ui:required': (...args) => !isCurrentMarriage(...args),
+                'ui:validations': [
+                  validateAfterMarriageDate
+                ]
+              }),
+              locationOfSeparation: {
+                'ui:title': 'Place marriage ended (city and state or foreign country)',
+                'ui:required': (...args) => !isCurrentMarriage(...args)
+              }
+            }
+          }
+        }
+      },
+      schema: {
+        type: 'object',
+        properties: {
+          marriages: {
+            type: 'array',
+            items: {
+              type: 'object',
+              required: [
+                'spouseFullName',
+                'dateOfMarriage',
+                'locationOfMarriage',
+                'marriageType'
+              ],
+              properties: {
+                spouseFullName: marriageProperties.spouseFullName,
+                dateOfMarriage: marriageProperties.dateOfMarriage,
+                locationOfMarriage: marriageProperties.locationOfMarriage,
+                marriageType,
+                otherExplanation: marriageProperties.otherExplanation,
+                'view:marriageWarning': { type: 'object', properties: {} },
+                'view:pastMarriage': {
+                  type: 'object',
+                  properties: {
+                    reasonForSeparation,
+                    dateOfSeparation: marriageProperties.dateOfSeparation,
+                    locationOfSeparation: marriageProperties.locationOfSeparation
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
