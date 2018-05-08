@@ -8,6 +8,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
 import 'blob-polyfill';
+import 'babel-polyfill';
 // import sinon from 'sinon'
 
 
