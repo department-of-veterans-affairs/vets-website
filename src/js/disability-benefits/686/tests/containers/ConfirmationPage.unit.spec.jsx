@@ -27,7 +27,7 @@ describe('686 <ConfirmationPage>', () => {
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.find('.confirmation-page-title').text()).to.contain('Claim submitted');
+    expect(tree.find('.confirmation-page-title').text()).to.contain('Your claim has been submitted.');
     expect(tree.find('.claim-list').exists()).to.be.true;
     expect(tree.find('span').at(2).text()).to.contain('3702390024');
     expect(tree.find('span').at(3).text()).to.contain('01/01/2010');
@@ -52,7 +52,7 @@ describe('686 <ConfirmationPage>', () => {
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.find('.confirmation-page-title').text()).to.contain('Claim submitted');
+    expect(tree.find('.confirmation-page-title').text()).to.contain('Your claim has been submitted.');
     expect(tree.find('.claim-list').exists()).to.be.false;
     expect(tree.find('p').first().text()).to.contain('We process applications in the order we receive them.');
   });

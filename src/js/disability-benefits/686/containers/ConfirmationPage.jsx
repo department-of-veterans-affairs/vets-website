@@ -39,11 +39,11 @@ export class ConfirmationPage extends React.Component {
       <div>
         <h3 className="confirmation-page-title">Your claim has been submitted.</h3>
         <p>We process applications in the order we receive them. Please print this page for your records. We may contact you if we have questions or need more information.</p>
-        <p>**If you’re claiming a child in school between the ages of 18 and 23 years old,** you’ll need to also fill out a Request for Approval of School Attendance (VA Form 21-674).</p>
-          <a href="https://www.vets.gov">Download VA Form 21-674.</a>
+        <p><strong>If you’re claiming a child in school between the ages of 18 and 23 years old,</strong> you’ll need to also fill out a Request for Approval of School Attendance (VA Form 21-674).</p>
+        <a href="https://www.vets.gov">Download VA Form 21-674.</a>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
-          <p>You’ll get a notice in the mail, once we’ve processed your claim.</p>          
+          <p>You’ll get a notice in the mail, once we’ve processed your claim.</p>
         </div>
         <div className="inset">
           <h4>Declaration of Dependents Claim <span className="additional">(Form 21-686c)</span></h4>
