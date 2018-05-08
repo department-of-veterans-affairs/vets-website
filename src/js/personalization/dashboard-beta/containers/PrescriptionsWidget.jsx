@@ -39,7 +39,7 @@ class PrescriptionsWidget extends React.Component {
 
     if (canAccessRx && this.props.prescriptions) {
       if (this.props.prescriptions.length === 0) {
-        content = <p>No recent prescriptions updates</p>;
+        content = <p>We haven’t refilled or shipped any prescriptions for you in the last 30 days.</p>;
       }
 
       return (
@@ -48,7 +48,7 @@ class PrescriptionsWidget extends React.Component {
           <div>
             {content}
           </div>
-          <p><Link href="/health-care/prescriptions">View all prescriptions</Link></p>
+          <p><Link href="/health-care/prescriptions">View all your prescriptions</Link>.</p>
         </div>
       );
     }
