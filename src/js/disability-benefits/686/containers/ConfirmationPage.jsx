@@ -22,9 +22,7 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    // const { submission = {}, data = {} } = this.props.form;
-    const { submission = {}, data = {} } = {};
-    //    const { submission = {}, data = {} } = undefined;
+    const { submission, data } = this.props.form;
 
     const {
       confirmationNumber,
@@ -50,7 +48,7 @@ export class ConfirmationPage extends React.Component {
         </div>
         <div className="inset">
           <h4>Declaration of Dependents Claim <span className="additional">(Form 21-686c)</span></h4>
-          <span>for {first} {middle} {last} {suffix}</span>
+          <span>For {first} {middle} {last} {suffix}</span>
 
           {confirmationNumber && <ul className="claim-list">
             <li>
@@ -59,7 +57,7 @@ export class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Date submitted</strong><br/>
-              <span>{moment(timestamp).format('MMM D, YYYY')}</span>
+              <span>{moment(timestamp).format('MM/DD/YYYY')}</span>
             </li>
           </ul>}
         </div>
