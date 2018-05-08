@@ -89,7 +89,8 @@ function vaProfile(state = initialState, action) {
 
     case OPEN_MODAL: {
       const modal = action.modal;
-      return { ...state, modal };
+      const errors = modal ? state.errors : [];
+      return { ...state, errors, modal };
     }
 
     case UPDATE_PROFILE_FORM_FIELD: {
