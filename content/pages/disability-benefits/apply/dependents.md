@@ -52,7 +52,7 @@ Adding a dependent may make you eligible to receive a higher compensation paymen
 **You can add your:**
 
 - Spouse (we recognize same-sex and common-law marriages)
-- Unmarried child (including a biological, adopted, or step child) who: 
+- Unmarried child (including a biological, adopted, or stepchild) who: 
   - Is under 18 years old, **or**
   - Is between the ages of 18 and 23 years old and enrolled in school full time, **or**
   - Became seriously disabled before they turned 18 
@@ -66,51 +66,45 @@ This depends on where you are in the process of applying for disability benefits
 
 #### If you haven’t yet applied for disability benefits
 
-You can apply to add your dependent(s) at the same time you file your claim.
+You can apply to add your dependent at the same time you file your disability claim.
 
-If you receive a 30% or higher disability rating, we’ll automatically consider your dependent(s) when we determine your disability compensation.
+If you receive a 30% or higher disability rating, we’ll automatically consider your dependent when we determine your disability compensation.
 
 [Find out how to apply for disability benefits](/disability-benefits/apply/). 
 
 
-#### If you have one or more dependents but didn't add them when you filed your original disability claim
+#### If you have one or more dependents, but didn’t add them when you filed your original disability claim
 
-If you've received a 30% or higher disability rating, apply to add your dependent(s) now.
+If you’ve received a 30% or higher disability rating, you can apply online to add your dependent now.
 
-[Find out why it's important to add your dependent(s) right away](#add).
+#### If something changes in your family status after you’ve started receiving compensation
 
-
-#### If something changes in your family status after you've started receiving compensation
-
-Apply to add any new dependents right away. This could affect your dependent's eligibility for benefits.
+You can apply online to add any new dependents right away. This could affect your dependent’s eligibility for benefits.
 
 **You can add a dependent if:**
 
 - You get married 
 - You have or adopt a child
-- Your child who is over 18 years old enrolls in school full time
+- Your child who is between 18 and 23 years old and enrolled in school full time
 - Your child becomes severely disabled before turning 18
 - You become the caregiver for a parent whose income and net worth is below a certain amount
 
-[Find out why it's important to add your dependents right away](#add).
-
 <br>
 
-### How do I add a dependent to my current disability compensation claim?
-
-This depends on who you’re adding.
+### Ready to apply? 
 
 #### To add a dependent child or spouse
 
 You can apply online. You may also need to provide more information or forms along with your application.
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/how-to-add-a-dependent/">Apply to Add a Dependent</a>
+  <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">Apply to Add a Dependent</a>
+	
 </div>
 
 **If you’re claiming a seriously disabled child,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
 
-**If your child is over 18 and attending school,** you’ll need to submit a Request for Approval of School Attendance (VA Form 21-674) along with your application. <br>
+**If your dependent is a child who’s between 18 and 23 years old and attending school full time,** you’ll need to also submit a Request for Approval of School Attendance (VA Form 21-674) with your application. <br>
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf). 
 
 #### To add a dependent parent
@@ -123,7 +117,7 @@ You’ll need to fill out and submit a Statement of Dependency of Parent(s) (VA 
 <p class="va-address-block">
 Department of Veterans Affairs <br>
 Claims Intake Center <br>
-P.O. Box 4444 <br>
+PO Box 4444 <br>
 Janesville, WI 53547-4444 <br>
 </p>
 
@@ -134,7 +128,7 @@ Janesville, WI 53547-4444 <br>
  
  <br>
 
-### More questions about applying to add a dependent
+### More questions about adding a dependent
 
 <span id="add"></span>
 <div class="usa-accordion">
@@ -143,20 +137,20 @@ Janesville, WI 53547-4444 <br>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-mail">Can I apply to add a child or spouse as a dependent by mail or fax?</button>
 <div id="questions-apply-mail" class="usa-accordion-content">
 	
-Yes, but we strongly encourage you to apply online. We can process online claims much faster than paper claims. The online application is simple, and you can upload any needed supporting documents along with your application. 
+Yes, but we encourage you to apply online. The online application is simple, and you can upload any needed supporting documents along with your application. 
 
 When you file your claim online, you can also save the day you start your claim as the effective benefit start date. This means that if we decide you’re eligible for a higher compensation rate, we’ll pay you back to this date.
 
-**If you can’t, or don't want to apply online, you can apply by mail or fax using the forms below:**
+**If you can’t, or don’t want to apply online, you can apply by mail or fax using the forms below:**
 
-- **To add a dependent spouse or a child under 18 years of age**, use the Declaration of Status of Dependents (VA Form 21-686c). <br>
+- **To add a dependent spouse or a child under 18 years of age**, fill out a Declaration of Status of Dependents (VA Form 21-686c). <br>
 [Download VA Form 21-686c]( https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf).
 
-- **To add a dependent child over the age of 18 who’s attending school full time**, use both VA Form 21-686C and a Request for Approval of School Attendance (VA Form 21-674). <br>
+- **To add a dependent child who’s between 18 and 23 years old and attending school full time**, you’ll need to fill out both VA Form 21-686c and a Request for Approval of School Attendance (VA Form 21-674). <br>
 [Download VA Form 21-686c]( https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf). <br>
 [Download VA Form 21-674]( https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf).
 
-- **To add a dependent parent**, use the Statement of Dependency of Parent(s) (VA Form 21-509). <br>
+- **To add a dependent parent**, you’ll need to fill out a Statement of Dependency of Parent(s) (VA Form 21-509). <br>
 [Download VA Form 21-509]( https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf).
 
 **Mail your completed form(s) to:**
@@ -164,7 +158,7 @@ When you file your claim online, you can also save the day you start your claim 
 <p class="va-address-block">
 Department of Veterans Affairs <br>
 Claims Intake Center <br>
-P.O. Box 4444 <br>
+PO Box 4444 <br>
 Janesville, WI 53547-4444 <br>
 </p>
 
@@ -179,9 +173,7 @@ Janesville, WI 53547-4444 <br>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paper">What should I do if I already submitted a paper claim to add a dependent child or spouse, and I’m still waiting for a decision?</button>
 <div id="questions-apply-paper" class="usa-accordion-content">
 
-Go ahead and apply again online. We can process online applications much faster than paper ones. This means that if we decide you’re eligible for a higher compensation rate, you can start getting your benefits sooner. 
-
-We’ll still review your paper application. If we award you a higher compensation rate, we’ll pay you back pay from the date you submitted your original paper claim.
+Go ahead and apply again online. We’ll still review your paper application. If we award you a higher compensation rate, we’ll pay you back pay from the date you submitted your original paper claim.
 
 </div>
 </li>
@@ -189,7 +181,7 @@ We’ll still review your paper application. If we award you a higher compensati
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-help">What if I need help with my claim?</button>
 <div id="questions-apply-help" class="usa-accordion-content">
 
-You can work with an accredited Veterans Service Officer (VSO). We trust these professionals because they're trained and certified in the VA claims and appeals process. A VSO can answer your questions or even file your claim for you.<br>
+You can work with an accredited Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the VA claims and appeals process. A VSO can answer your questions or even file your claim for you.<br>
 [Get help filing your claim](/disability-benefits/apply/help/). 
 
 </div>
@@ -211,14 +203,6 @@ If it’s been more than a year since you got married or had or adopted a child,
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-how-long">How long does it take VA to make a decision, and how will you notify me?</button>
-<div id="questions-apply-how-long" class="usa-accordion-content">
-
-*Need to confirm answer.*
-
-</div>
-</li>
-<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-payment">When will I start receiving payment if VA approves my dependency claim?</button>
 <div id="questions-apply-payment" class="usa-accordion-content">
 
@@ -228,10 +212,6 @@ We’ll begin paying you within 2 weeks after we approve your claim.
 </li>
 </ul>
 </div>
-
-<br>
-	
-### Questions about adding or removing specific dependents
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -247,7 +227,10 @@ Sign in to your account and click the “Dependents” link under the “My Prof
 
 If you see your dependents listed there, you should be receiving compensation for them. If they’re not listed, you can apply to add them. <br>
 [Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
+<br>
 	
+### Questions about adding or removing specific dependents	
+
 </div>
 </li>
 <li>
@@ -266,11 +249,11 @@ If you and your spouse are both Veterans with a 30% or higher disability rating,
 	
 *Note: Will need to confirm if this is changing with the form being added to Vets.gov*
 
-You can remove a dependent online through eBenefits. We'll need more time to process a claim to remove a dependent child than a dependent spouse, but the online process is still much faster than submitting a paper claim.
+You can remove a dependent online through eBenefits. We’ll need more time to process a claim to remove a dependent child than a dependent spouse, but the online process is still much faster than submitting a paper claim.
 
-**If you get divorced and need to remove your dependent former spouse or a dependent stepchild of your former spouse**, you'll want to submit the claim right away. You don’t have to submit or upload the supporting paperwork into eBenefits. 
+**If you get divorced and need to remove your former spouse or a dependent stepchild of your former spouse**, you’ll want to submit the claim right away. You don’t have to submit or upload the supporting paperwork into eBenefits. 
 
-This will help to make sure you don't keep receiving compensation for these dependents after the divorce. If you don't tell us to remove these dependents and keep receiving extra compensation for them until we discover the error, we may withhold money from your future compensation payments until you've paid it back. <br>
+This will help to make sure you don’t keep receiving compensation for these dependents after the divorce. If you don’t tell us to remove these dependents and keep receiving extra compensation for them until we discover the error, we may withhold money from your future compensation payments until you’ve paid it back. <br>
 [Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </div>
@@ -283,7 +266,7 @@ This will help to make sure you don't keep receiving compensation for these depe
 
 You’ll need to update your child’s school information in eBenefits. 
 
-Sign in to your eBenefits account. Click “Add or Remove Dependents” under the “Apply” section on the home page. 
+Sign in to your eBenefits account. Click “Add or Remove Dependents” under the “Apply” section on the homepage. 
 
 Then select “Update Dependents.” <br>
 <br>
