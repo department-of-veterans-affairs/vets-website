@@ -181,14 +181,18 @@ export default class ReviewCardField extends React.Component {
 ReviewCardField.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
-      viewComponent: PropTypes.element.isRequired
+      viewComponent: PropTypes.oneOfType(
+        [PropTypes.element, PropTypes.func]
+      ).isRequired
     }).isRequired
   }).isRequired,
   schema: PropTypes.object.isRequired,
   errorSchema: PropTypes.object.isRequired,
   idSchema: PropTypes.object.isRequired,
   registry: PropTypes.shape({
-    SchemaField: PropTypes.element.isRequired,
+    fields: PropTypes.shape({
+      SchemaField: PropTypes.func.isRequired
+    }),
     definitions: PropTypes.object.isRequired
   }).isRequired,
   formData: PropTypes.object.isRequired,
