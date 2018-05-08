@@ -7,7 +7,8 @@ import {
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
-  SET_SUBMITTED
+  SET_SUBMITTED,
+  SET_VIEWED_PAGES
 } from '../actions';
 
 import {
@@ -29,7 +30,15 @@ export default {
       .openChapters
       .filter(value => value !== action.closedChapter);
 
-    return _.set('reviewPageView.openChapters', openChapters, state);
+    const newState = _.set('reviewPageView.openChapters', openChapters, state);
+
+    const viewedPages = new Set(state
+      .reviewPageView
+      .viewedPages);
+
+    action.pageKeys.forEach(pageKey => viewedPages.add(pageKey));
+
+    return _.set('reviewPageView.viewedPages', viewedPages, newState);
   },
   [SET_DATA]: (state, action) => {
     const newState = _.set('data', action.data, state);
@@ -60,5 +69,14 @@ export default {
     });
 
     return _.set('submission', submission, state);
+  },
+  [SET_VIEWED_PAGES]: (state, action) => {
+    const viewedPages = new Set(state
+      .reviewPageView
+      .viewedPages);
+
+    action.pageKeys.forEach(pageKey => viewedPages.add(pageKey));
+
+    return _.set('reviewPageView.viewedPages', viewedPages, state);
   }
 };
