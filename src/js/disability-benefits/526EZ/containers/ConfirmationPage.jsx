@@ -35,10 +35,10 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Your claim has been submitted</h3>
+        <h3 className="confirmation-page-title">Your claim has been submitted.</h3>
         <p>We usually process claims within <strong>99 days</strong>.</p>
         <p>We may contact you if we have questions or need more information. You can print this page for your records.</p>
-        <p><strong>If you need us to get your private medical records from your doctor,</strong> you’ll need to fill out an Authorization to Disclose Information to the VA (VA Form 21-4142). If you didn’t upload this form to your application, you can download it here and mail it in.  <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf">Download VA Form 21-4142</a>.</p><br/>
+        <p><strong>If you need us to get your private medical records from your doctor,</strong> you’ll need to fill out an Authorization to Disclose Information to the VA (VA Form 21-4142). If you didn’t upload this form to your application, you can download it here and mail it in.<br>  <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf">Download VA Form 21-4142</a>.</p><br/>
 
         Please print the form, fill it out, and send it to:<br/>
         <dl className="va-address-block">
