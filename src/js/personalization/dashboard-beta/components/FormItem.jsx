@@ -9,7 +9,7 @@ class FormItem extends React.Component {
     const savedFormData = this.props.savedFormData;
     const formId = savedFormData.form;
     const { last_updated: lastSaved, expires_at: expirationTime } = savedFormData.metadata;
-    const lastSavedDateTime = moment.unix(lastSaved).format('M/D/YYYY [at] h:mm a');
+    const lastSavedDateTime = moment.unix(lastSaved).format('MMM DD [at] h:mm a');
     const expirationDate = moment.unix(expirationTime).format('MMM DD');
     const isExpired = moment.unix(expirationTime).isBefore();
     const activeView = (
@@ -17,8 +17,8 @@ class FormItem extends React.Component {
         <div className="saved-form-information">
           <h5 className="form-title saved">Application for {formTitles[formId]}</h5>
           {!!lastSaved && !!expirationDate && <div className="saved-form-metadata-container">
-            <span className="saved-form-metadata">Last saved on: {lastSavedDateTime}</span>
-            <p>Expires on: <span className="expires"> {expirationDate}.</span></p>
+            <span><strong>Last saved on:</strong> {lastSavedDateTime}</span>
+            <p><strong>Expires on:</strong> {expirationDate}</p>
           </div>}
         </div>
         {!!disabledForms[formId] && <div>{disabledForms[formId]}</div>}
