@@ -96,16 +96,23 @@ export default class AutosuggestField extends React.Component {
       return suggestion.id;
     }
 
-    return _.set('widget', 'autosuggest', suggestion);
+    const newSuggestion = _.set('widget', 'autosuggest', suggestion);
+    // When freeInput is true, we'll return the label to the api instead of the id
+    if (this.props.uiSchema['ui:options'].freeInput) {
+      newSuggestion.freeInput = true;
+    }
+
+    return newSuggestion;
   }
 
   handleInputValueChange = (inputValue) => {
     if (inputValue !== this.state.input) {
-      if (this.props.uiSchema['ui:options'].queryForResults) {
+      const uiOptions = this.props.uiSchema['ui:options'];
+      if (uiOptions.queryForResults) {
         this.getOptions(inputValue);
       }
 
-      let item = { widget: 'autosuggest', label: inputValue };
+      let item = { widget: 'autosuggest', label: inputValue, freeInput: uiOptions.freeInput };
       // once the input is long enough, check for exactly matching strings so that we don't
       // force a user to click on an item when they've typed an exact match of a label
       if (inputValue && inputValue.length > 3) {

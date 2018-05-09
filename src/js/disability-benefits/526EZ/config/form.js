@@ -1,4 +1,6 @@
 import _ from '../../../../platform/utilities/data';
+// TODO: Write a merge function
+import { merge } from 'lodash/fp';
 
 import { omitRequired } from '../../../common/schemaform/helpers';
 
@@ -8,7 +10,10 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import { uiSchema as autoSuggestUiSchema } from '../../../common/schemaform/definitions/autosuggest';
+import {
+  schema as autoSuggestSchema,
+  uiSchema as autoSuggestUiSchema
+} from '../../../common/schemaform/definitions/autosuggest';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -97,7 +102,12 @@ const treatments = ((treatmentsCommonDef) => {
       required: ['treatmentCenterName'],
       properties: _.omit(
         ['treatmentCenterAddress', 'treatmentCenterType'],
-        items.properties
+        // Use the autosuggest schema for treatmentCenterName, but keep the validation on it
+        _.set('treatmentCenterName', merge(autoSuggestSchema, {
+          properties: {
+            label: items.properties.treatmentCenterName
+          }
+        }), items.properties)
       )
     }
   };
@@ -396,14 +406,15 @@ const formConfig = {
                   },
                   items: {
                     treatmentCenterName: autoSuggestUiSchema(
-                      'ui:title': 'Name of VA medical facility',
+                      'Name of VA medical facility',
                       // Wait for 1 second before querying
                       // It's debatable tha we want this to be _.throttle instead of _.debounce
                       // The 1 second is super arbitrary
                       _.debounce(1000, queryForFacilities),
                       {
                         'ui:options': {
-                          queryForResults: true
+                          queryForResults: true,
+                          freeInput: true,
                         }
                       }
                     ),

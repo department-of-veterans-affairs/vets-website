@@ -373,7 +373,6 @@ describe('<AutosuggestField>', () => {
       ]);
       done();
     }, 210);
-
   });
 
 

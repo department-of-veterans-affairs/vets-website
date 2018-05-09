@@ -249,7 +249,8 @@ export function stringifyFormReplacer(key, value) {
     }
     // autosuggest widgets save value and label info, but we should just return the value
     if (value.widget === 'autosuggest') {
-      return value.id;
+      // If freeInput is true, the value may not be a suggestion, so we want to return the label instead
+      return value.freeInput ? value.label : value.id;
     }
 
     // Exclude file data
