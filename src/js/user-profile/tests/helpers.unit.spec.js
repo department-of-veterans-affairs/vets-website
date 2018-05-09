@@ -18,12 +18,14 @@ import fullSchema527EZ from '../../pensions/config/form';
 import fullSchema530 from '../../burials/config/form';
 import fullSchema10007 from '../../pre-need/config/form';
 import fullSchemaVIC from '../../vic-v2/config/form';
+import fullSchema686 from '../../disability-benefits/686/config/form';
 
 import schemas from 'vets-json-schema/dist/schemas';
 
 // Maps schema id to config id
 const schemaToConfigIds = {
   '10-10EZ': '1010ez',
+  '21-686C': '21-686C',
   '21P-527EZ': '21P-527EZ',
   '21P-530': '21P-530',
   '22-1990': '1990',
@@ -40,7 +42,8 @@ const schemaToConfigIds = {
 const excludedForms = new Set([
   '28-1900',
   '21-526EZ',
-  '28-8832'
+  '28-8832',
+  '24-0296'
 ]);
 
 describe('profile helpers:', () => {
@@ -62,6 +65,7 @@ describe('profile helpers:', () => {
     it('should include all and only SIP enabled forms', () => {
       const configs = [
         fullSchema1010ez,
+        fullSchema686,
         fullSchema1990,
         fullSchema1990e,
         fullSchema1990n,
@@ -87,3 +91,4 @@ describe('profile helpers:', () => {
     });
   });
 });
+

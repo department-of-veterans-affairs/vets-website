@@ -10,32 +10,9 @@ import {
 } from '../common/schemaform/helpers';
 import { getInactivePages } from '../../platform/forms/helpers';
 
-function changePostalToZip(address) {
-  if (address.country === 'USA') {
-    const newAddress = _.set('zipcode', address.postalCode, address);
-    delete newAddress.postalCode;
-    return newAddress;
-  }
-
-  return address;
-}
-
 export function transform(formConfig, form) {
-  let updatedForm = _.set(
-    'data.veteranAddress',
-    changePostalToZip(form.data.veteranAddress),
-    form
-  );
-  if (_.get('data.view:spouseContactInformation.spouseAddress', form)) {
-    updatedForm = _.set(
-      'data.view:spouseContactInformation.spouseAddress',
-      changePostalToZip(form.data['view:spouseContactInformation'].spouseAddress),
-      updatedForm
-    );
-  }
-
-  const inactivePages = getInactivePages(createFormPageList(formConfig), updatedForm.data);
-  const withoutInactivePages = filterInactivePages(inactivePages, updatedForm);
+  const inactivePages = getInactivePages(createFormPageList(formConfig), form.data);
+  const withoutInactivePages = filterInactivePages(inactivePages, form);
   let withoutViewFields = filterViewFields(withoutInactivePages);
 
   // add back dependents here, because it could have been removed in filterViewFields
