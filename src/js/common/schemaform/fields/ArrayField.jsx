@@ -12,7 +12,7 @@ import {
   deepEquals
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { errorSchemaIsValid, isValidDateRange } from '../validation';
+import { errorSchemaIsValid } from '../validation';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -229,10 +229,9 @@ export default class ArrayField extends React.Component {
         : [getDefaultFormState(schema, undefined, registry.definitions)];
     const lastItem = items[items.length - 1];
     let hasValidLastToView;
-    if (viewMode) {
-      hasValidLastToView = (items.length > 0) && lastItem.serviceBranch && isValidDateRange(lastItem.dateRange.from, lastItem.dateRange.to);
+    if (viewMode && lastItem) {
+      hasValidLastToView = !!lastItem.dateRange.from && !!lastItem.serviceBranch;
     }
-    debugger;
 
     const containerClassNames = classNames({
       'schemaform-field-container': true,

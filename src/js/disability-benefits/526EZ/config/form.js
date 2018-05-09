@@ -267,7 +267,7 @@ const formConfig = {
               'ui:description':
                 'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
               'ui:options': {
-                reviewMode: true,
+                showLastItemInViewMode: true,
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
               },
