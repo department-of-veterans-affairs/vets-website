@@ -39,7 +39,7 @@ class FormStartControls extends React.Component {
     const { beforeStartForm } = this.props.form;
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    const prestartForm = beforeStartForm ? this.prestartForm : null; 
+    const prestartForm = beforeStartForm ? this.prestartForm : null;
     return this.props.fetchInProgressForm(this.props.formId, this.props.migrations, null, null, prestartForm);
   }
 
