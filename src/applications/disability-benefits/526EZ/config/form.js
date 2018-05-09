@@ -1,10 +1,10 @@
 import _ from '../../../../platform/utilities/data';
 
-import { omitRequired } from '../../../common/schemaform/helpers';
+// import { omitRequired } from '../../../common/schemaform/helpers';
 
-import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
-// import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema526EZ from '/Users/adhocteam/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
@@ -29,7 +29,7 @@ import {
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
-import initialData from '../tests/schema/initialData';
+import prefillData from '../tests/schema/initialData'; // add `disabilityActionType` before using
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
@@ -65,7 +65,6 @@ import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
   treatments: treatmentsSchema,
-  disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
 
@@ -74,7 +73,9 @@ const {
   fullName,
   // files
   dateRange,
-  disabilities: disabiltiesDefinition,
+  dateRangeFromRequired,
+  dateRangeAllRequired,
+  disabilities,
   specialIssues,
   servicePeriods,
   privateTreatmentCenterAddress,
@@ -103,6 +104,16 @@ const treatments = ((treatmentsCommonDef) => {
 
 })(treatmentsSchema);
 
+const initialData = ((prefill) => {
+  const disabilitiesWithActionType = prefill.disabilities.map((disability) => {
+    return _.set('disabilityActionType', 'INCREASE', disability);
+  });
+  return {
+    ...prefill,
+    disabilities: disabilitiesWithActionType
+  };
+})(prefillData);
+
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -128,7 +139,9 @@ const formConfig = {
     fullName,
     // files
     dateRange,
-    disabilities: omitRequired(disabiltiesDefinition),
+    dateRangeFromRequired,
+    dateRangeAllRequired,
+    disabilities,
     specialIssues,
     servicePeriods,
     privateTreatmentCenterAddress
@@ -274,7 +287,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              disabilities: disabilitiesSchema
+              disabilities
             }
           }
         }

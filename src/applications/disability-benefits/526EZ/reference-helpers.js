@@ -1,8 +1,8 @@
 import Raven from 'raven-js';
 
 const diagnosticCodeMap = {
-  '123': 'PTSD', // eslint-disable-line
-  '1234': 'Intervertebral Disc Syndrome' // eslint-disable-line
+  '1234': 'PTSD', // eslint-disable-line
+  '5678': 'Intervertebral Disc Syndrome' // eslint-disable-line
 };
 
 export function getDiagnosticCodeName(code) {
