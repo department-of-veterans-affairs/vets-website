@@ -572,7 +572,7 @@ const options = [
 
 
 // Mimic querying the api for options
-export function queryForFacilities(input, setOptions) {
+export function queryForFacilities(input = '', setOptions) {
   // Emulate a fast api call
   setTimeout(() => {
     setOptions(options.filter(o => o.label.includes(input)));

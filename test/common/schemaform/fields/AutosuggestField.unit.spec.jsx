@@ -6,18 +6,18 @@ import { shallow, mount } from 'enzyme';
 
 import AutosuggestField from '../../../../src/js/common/schemaform/fields/AutosuggestField';
 
-// const options = [
-//   { id: 1, label: 'first' },
-//   { id: 2, label: 'second' },
-//   { id: 3, label: 'third' },
-//   { id: 4, label: 'fourth' },
-// ];
+const options = [
+  { id: 1, label: 'first' },
+  { id: 2, label: 'second' },
+  { id: 3, label: 'third' },
+  { id: 4, label: 'fourth' },
+];
 
 // Mimic querying the api for options
-// function queryForOptions(input) {
-//   // Emulate a fast api call
-//   return Promise.resolve(options.filter(o => o.label.includes(input)));
-// }
+function queryForOptions(input = '') {
+  // Emulate a fast api call
+  return Promise.resolve(options.filter(o => o.label.includes(input)));
+}
 
 
 describe('<AutosuggestField>', () => {
@@ -301,7 +301,7 @@ describe('<AutosuggestField>', () => {
   });
 
 
-  it.skip('should call a function passed in getOptions with formData', () => {
+  it('should call a function passed in getOptions with formData and setOptions', () => {
     // ...when the input changes and `uiSchema['ui:options'].queryForResults` is true
     const getOptions = sinon.spy();
     const props = {
@@ -329,27 +329,52 @@ describe('<AutosuggestField>', () => {
     });
 
     // Check that getOptions was called with the form data
-    expect(getOptions.secondCall.args).to.equal();
+    const args = getOptions.secondCall.args;
+    expect(args[0]).to.eql('ir');
+    expect(args[1]).to.be.a('function');
   });
 
 
-  // it.only('should use the results of getOptions as the field\'s enum options', () => {
-  //   const props = {
-  //     uiSchema: {
-  //       'ui:options': {
-  //         getOptions: queryForOptions,
-  //         queryForResults: true
-  //       }
-  //     },
-  //     schema: { type: 'string' },
-  //     formContext: { reviewMode: false },
-  //   };
-  //   const wrapper = mount(<AutosuggestField {...props}/>);
+  it('should use the results of getOptions as the field\'s enum options', (done) => {
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          getOptions: queryForOptions,
+          queryForResults: true
+        }
+      },
+      schema: { type: 'string' },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange: () => {},
+      onBlur: () => {}
+    };
+    const wrapper = mount(<AutosuggestField {...props}/>);
 
-  //   // Check that the list contains everything to start with
-  //   // Search for 'ir'
-  //   // Check that the list contains only 'first' and 'third'
-  // });
+    setTimeout(() => {
+      expect(wrapper.state('options')).to.eql(options);
+    }, 100);
+
+    setTimeout(() => {
+      // Search for 'ir'
+      const input = wrapper.find('input');
+      input.simulate('focus');
+      input.simulate('change', {
+        target: {
+          value: 'ir'
+        }
+      });
+    }, 110);
+
+    setTimeout(() => {
+      expect(wrapper.state('options')).to.eql([
+        { id: 1, label: 'first' },
+        { id: 3, label: 'third' }
+      ]);
+      done();
+    }, 210);
+
+  });
 
 
   // I think this is the same as a test above: 'should leave data on blur if partially filled in'
