@@ -21,6 +21,7 @@ class PrescriptionsWidget extends React.Component {
 
   render() {
     let content;
+    const { canAccessRx } = this.props;
 
     if (this.props.loading) {
       content = <LoadingIndicator message="Loading your prescriptions..."/>;
@@ -36,33 +37,44 @@ class PrescriptionsWidget extends React.Component {
       );
     }
 
-    if (this.props.prescriptions.length === 0) {
-      content = <p>No recent prescriptions updates</p>;
+    if (canAccessRx && this.props.prescriptions) {
+      if (this.props.prescriptions.length === 0) {
+        content = <p>We haven’t refilled or shipped any prescriptions for you in the last 30 days.</p>;
+      }
+
+      return (
+        <div>
+          <h2>Prescription Refills</h2>
+          <div>
+            {content}
+          </div>
+          <p><Link href="/health-care/prescriptions">View all your prescriptions</Link>.</p>
+        </div>
+      );
     }
 
-    return (
-      <div>
-        <h2>Prescription Refills</h2>
-        <div>
-          {content}
-        </div>
-        <p><Link href="/health-care/prescriptions">View all prescriptions</Link></p>
-      </div>
-    );
+    return null;
   }
 }
 
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
+  const profileState = state.user.profile;
+  const canAccessRx = profileState.services.includes('rx');
 
-  const prescriptions = rxState.prescriptions.items.filter(p => {
-    const thirtyDaysAgo = moment().endOf('day').subtract(30, 'days');
-    return moment(p.attributes.refillSubmitDate).isAfter(thirtyDaysAgo) || moment(p.attributes.refillDate).isAfter(thirtyDaysAgo);
-  });
+  let prescriptions = rxState.prescriptions.items;
+
+  if (prescriptions) {
+    prescriptions = prescriptions.filter(p => {
+      const thirtyDaysAgo = moment().endOf('day').subtract(30, 'days');
+      return moment(p.attributes.refillSubmitDate).isAfter(thirtyDaysAgo) || moment(p.attributes.refillDate).isAfter(thirtyDaysAgo);
+    });
+  }
 
   return {
     ...rxState.prescriptions.active,
     prescriptions,
+    canAccessRx,
   };
 };
 

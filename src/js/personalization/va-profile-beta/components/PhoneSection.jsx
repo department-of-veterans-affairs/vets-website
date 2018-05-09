@@ -5,6 +5,7 @@ import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import { fieldFailureMessage } from './LoadFail';
 
 class EditPhoneModal extends React.Component {
 
@@ -25,7 +26,9 @@ class EditPhoneModal extends React.Component {
         ...this.props.field.value,
         [field]: value
       };
-      this.props.onChange(newFieldValue, dirty);
+      // The `dirty` flag triggers validation to run. We only validate
+      // the number at this point in time, so we only run it if that's the field changing.
+      this.props.onChange(newFieldValue, field === 'number' ? dirty : false);
     };
   }
 
@@ -66,7 +69,7 @@ class EditPhoneModal extends React.Component {
               field={{ value: field.value.extension, dirty: false }}
               onValueChange={this.onChange('extension')}/>
 
-            <LoadingButton isLoading={isLoading}>Save Phone</LoadingButton>
+            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
           </form>
         )}
       </Modal>
@@ -76,14 +79,20 @@ class EditPhoneModal extends React.Component {
 
 
 export default function PhoneSection({ phoneResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
-  let phoneDisplay = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
+  let content = null;
   let modal = null;
 
   if (phoneResponseData) {
-    const number = <PhoneNumberWidget value={phoneResponseData.number}/>;
-    const countryCode = phoneResponseData.countryCode && <span>+ {phoneResponseData.countryCode}</span>;
-    const extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
-    phoneDisplay = <div>{countryCode} {number} {extension}</div>;
+    if (phoneResponseData.number) {
+      const number = <PhoneNumberWidget value={phoneResponseData.number}/>;
+      const countryCode = phoneResponseData.countryCode && <span>+ {phoneResponseData.countryCode}</span>;
+      const extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
+      content = <div>{countryCode} {number} {extension}</div>;
+    } else {
+      content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()} number</button>;
+    }
+  } else {
+    content = fieldFailureMessage;
   }
 
   if (isEditing) {
@@ -104,8 +113,8 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={phoneResponseData && onEdit}>{title}</HeadingWithEdit>
-      {phoneDisplay}
+      <HeadingWithEdit onEditClick={phoneResponseData && phoneResponseData.number && onEdit}>{title}</HeadingWithEdit>
+      {content}
     </div>
   );
 }
