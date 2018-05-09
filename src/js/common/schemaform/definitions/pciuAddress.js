@@ -1,4 +1,4 @@
-import PCIUAddress from '../fields/PCIUAddressField';
+import PCIUAddressField from '../fields/PCIUAddressField';
 import { countries, pciuCountries, states, statesOnlyInPCIU, isValidUSZipCode, isValidSpecialCharacter } from '../../../../platform/forms/address';
 
 export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
@@ -13,22 +13,6 @@ const militaryLabels = states.USA
   .map(state => state.label);
 const usaStates = states.USA.map(state => state.value);
 const usaLabels = states.USA.map(state => state.label);
-
-// PCIU Validations
-
-function validateSpecialCharacter(errors, string) {
-  if (string && !isValidSpecialCharacter(string)) {
-    errors.addError(
-      "Please only use letters, numbers, and the special characters #%&'()+,./:@"
-    );
-  }
-}
-
-function validateZIP(errors, zip) {
-  if (zip && !isValidUSZipCode(zip)) {
-    errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
-  }
-}
 
 // PCIU helpers
 export const mergeUniques = (first, second) => {
@@ -48,7 +32,44 @@ export const mergeUniques = (first, second) => {
   return result;
 };
 
+const isMilitaryMailingAddress = (formData) => {
+  return formData.veteran.mailingAddress.type === 'MILITARY';
+};
+
+const isMilitaryForwardingAddress = (formData) => {
+    debugger;
+  return formData.veteran['view:hasForwardingAddress'] && (formData.veteran.formData.veteran.forwardingAddress['view:ForwardingAddress'].type === 'MILITARY');
+};
+
+const isNotMilitaryMailingAddress = (formData) => {
+  return !formData.veteran.mailingAddress.type === 'MILITARY';
+};
+
+const isNotMilitaryForwardingAddress = (formData) => {
+  debugger;
+  return formData.veteran['view:hasForwardingAddress'] && (formData.veteran.formData.veteran.forwardingAddress['view:ForwardingAddress'].type !== 'MILITARY');
+};
+
+const isDomesticMailingAddress = (formData) => {
+  return formData.veteran.mailingAddress.type === 'DOMESTIC';
+};
+
+const isDomesticForwardingAddress = (formData) => {
+    debugger;
+  return formData.veteran['view:hasForwardingAddress'] && (formData.veteran.formData.veteran.forwardingAddress['view:ForwardingAddress'].type === 'DOMESTIC');
+};
+
+const addressLine1MailingAddress = () => {
+  return true;
+};
+
+const addressLine1ForwardingAddress = (formData) => {
+    debugger;
+  return !!formData.veteran['view:hasForwardingAddress'] && true;
+};
+
 // PCIU states and countries
+// TODO are these variables and helpers being used?
 const pciuAllStates = mergeUniques(states.USA, statesOnlyInPCIU);
 const pciuStates = pciuAllStates.map(state => state.value);
 const pciuStateLabels = pciuAllStates.map(state => state.label);
@@ -62,124 +83,62 @@ const militaryPostOfficeTypeCodes = ['APO', 'DPO', 'FPO'];
  * @param {string} addressName - Property name for the address
  * @param {string} title - Block label for the address
  */
-export const pciuAddressUISchema = (addressName, title, specialCharacterValidations = []) => {
+export const pciuAddressUISchema = (addressName, title) => {
 
-  const allSpecialCharacterValidations = [validateSpecialCharacter].concat(specialCharacterValidations);
-  function validateCity(errors, city, { veteran }) {
-    const isMilitaryState = veteran[addressName].militaryPostOfficeTypeCode;
-    if (city && isMilitaryState && !militaryPostOfficeTypeCodes.includes(city)) {
-      errors.addError(
-        'Please enter APO, FPO, or DPO'
-      );
-    }
-  }
+
+  const domesticValidation = title ? isDomesticForwardingAddress : isDomesticMailingAddress;
+  const addressLine1Validation = title ? addressLine1ForwardingAddress : addressLine1MailingAddress;
+  const militaryValidation = title ? isMilitaryForwardingAddress : isMilitaryMailingAddress;
+  const notMilitaryValidation = title ? isNotMilitaryForwardingAddress : isNotMilitaryMailingAddress;
 
   return {
     'ui:title': title,
-    //'ui:order': ['country', 'addressLine1', 'addressLine2', 'addressLine3', 'city', 'state', 'militaryPostOfficeTypeCode', 'militaryStateCode', 'zipCode'],
+    type: {
+      'ui:options': {
+        hideIf: () => true
+      }
+    },
     country: {
-      'ui:title': 'Country'
+      'ui:title': 'Country',
+      'ui:validations': [notMilitaryValidation]
     },
     addressLine1: {
       'ui:title': 'Street',
-      'ui:validations': allSpecialCharacterValidations,
+      'ui:errorMessages': {
+        "^([a-zA-Z0-9\\-'.,,&#]([a-zA-Z0-9\\-'.,,&# ])?)+$": "Please only use letters, numbers, and the special characters -'.,,&#"
+      },
+      // 'ui:validations': [addressLine1Validation]
     },
     addressLine2: {
       'ui:title': 'Line 2',
-      'ui:validations': allSpecialCharacterValidations,
+      'ui:errorMessages': {
+        "^([a-zA-Z0-9\\-'.,,&#]([a-zA-Z0-9\\-'.,,&# ])?)+$": "Please only use letters, numbers, and the special characters -'.,,&#"
+      },
     },
     addressLine3: {
       'ui:title': 'Line 3',
-      'ui:validations': allSpecialCharacterValidations,
-    },
-    city: {
-      'ui:options': {
-        hideIf: () => true
-      }
-    },
-    state: {
-      'ui:options': {
-        labels: pciuStateLabels,
-        hideIf: () => true
-      }
-    },
-    militaryStateCode: {
-      'ui:options': {
-        hideIf: () => true
-      }
-    },
-    zipCode: {
-      'ui:title': 'ZIP code',
-      'ui:validations': [validateZIP],
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 5 or 9 digit ZIP code (dashes allowed)'
+        "^([a-zA-Z0-9\\-'.,,&#]([a-zA-Z0-9\\-'.,,&# ])?)+$": "Please only use letters, numbers, and the special characters -'.,,&#"
       },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large',
-      }
-    },
-    militaryPostOfficeTypeCode: {
-      'ui:title': 'Military Post Office Type Code',
-      'ui:options': {
-        hideIf: () => true
-      }
-    },
-    'ui:field': PCIUAddress,
-  };
-};
-
-
-/*
- * Create schema for PCIU addresses
- *
- * @param {boolean} isRequired - If the address is required or not, defaults to false
- */
-// TODO: use backend schema
-export const pciuAddressSchema = {
-  type: 'object',
-  required: ['country', 'addressLine1'],
-  properties: {
-    type: {
-      type: 'string',
-      'enum': ['MILITARY', 'DOMESTIC', 'INTERNATIONAL']
-    },
-    country: {
-      type: 'string',
-      'enum': pciuCountries
-    },
-    addressLine1: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-    },
-    addressLine2: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-    },
-    addressLine3: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
     },
     city: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
+      'ui:validations': [notMilitaryValidation]
     },
     state: {
-      type: 'string',
-    },
-    militaryPostOfficeTypeCode: {
-      type: 'string',
-      'enum': ['APO', 'DPO', 'FPO']
-    },
-    militaryStateCode: {
-      type: 'string',
-      'enum': ['AA', 'AE', 'AP']
+      'ui:validations': [domesticValidation]
     },
     zipCode: {
-      type: 'string'
-    }
-  }
+      'ui:errorMessages': {
+        '^\\d{5}(?:[-\\s]\\d{4})?$': 'Please enter a valid 5 or 9 digit ZIP code (dashes allowed)'
+      },
+      'ui:validations': [domesticValidation]
+    },
+    militaryPostOfficeTypeCode: {
+      'ui:validations': [militaryValidation]
+    },
+    militaryStateCode: {
+      'ui:validations': [militaryValidation]
+    },
+    'ui:field': PCIUAddressField,
+  };
 };

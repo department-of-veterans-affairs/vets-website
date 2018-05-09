@@ -10,9 +10,6 @@ import {
   GET_ADDRESS_STATES_SUCCESS,
 } from '../../../../letters/utils/constants';
 
-
-import { statesOnlyInPCIU } from '../../../../../platform/forms/address';
-
 // TODO: determine if helpers belong in state folder
 import { mergeAndLabelStateCodes } from '../helpers';
 

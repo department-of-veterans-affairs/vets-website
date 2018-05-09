@@ -716,7 +716,7 @@ export const pciuStates = [
   { label: 'Wyoming', value: 'WY' }
 ];
 
-const pciuStateCodeToLabel = {
+export const pciuStateCodesToLabels = {
   AL: 'Alabama',
   AK: 'Alaska',
   AS: 'American Samoa',

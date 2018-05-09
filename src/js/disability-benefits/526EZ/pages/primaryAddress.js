@@ -1,11 +1,10 @@
 import _ from 'lodash';
 // TODO: use lodash/fp
 
-import PCIUAddress from '../../../common/schemaform/fields/PCIUAddressField';
 import dateUI from '../../../common/schemaform/definitions/date';
 import phoneUI from '../../../common/schemaform/definitions/phone';
-import { pciuAddressSchema, pciuAddressUISchema } from '../../../common/schemaform/definitions/address';
-import { isValidPhone } from '../../../../platform/forms/validations';
+import { pciuAddressUISchema } from '../../../common/schemaform/definitions/address';
+import EmailWidget from '../../../common/schemaform/widgets/EmailWidget';
 
 import VerifiedReviewContainer from '../components/VerifiedReviewContainer';
 import {
@@ -15,11 +14,25 @@ import {
 
 import initialData from '../tests/schema/initialData';
 
+function isValidPhone(value) {
+  if (value !== null) {
+    return /^\d{10}$/.test(value);
+  }
+  return true;
+}
+
 function validatePhone(errors, phone) {
   if (phone && !isValidPhone(phone)) {
-    errors.addError('Phone numbers must be 10 digits (dashes allowed)');
+    errors.addError(
+      'Phone numbers must be 10 digits (dashes allowed)'
+    );
   }
 }
+
+export const hasForwardingAddress = formData => {
+  debugger;
+  return !!formData.veteran['view:hasForwardingAddress'];
+};
 
 function createPrimaryAddressPage(formSchema, isReview) {
   const { veteran } = formSchema.properties;
@@ -28,42 +41,31 @@ function createPrimaryAddressPage(formSchema, isReview) {
 
   const uiSchema = {
     veteran: {
-      'ui:order': ['mailingAddress', 'primaryPhone', 'emailAddress', 'alternateEmailAddress', 'view:hasForwardingAddress', 'forwardingAddress', 'serviceNumber'],
+      'ui:order': ['mailingAddress', 'primaryPhone', 'emailAddress', 'alternateEmailAddress', 'view:hasForwardingAddress', 'forwardingAddress'],
       mailingAddress: pciuAddressUISchema('mailingAddress'),
-      primaryPhone: _.assign(phoneUI('Primary telephone number'), {
+      // TODO: be schema phone validation needs to be updated
+      primaryPhone: _.merge(phoneUI('Primary telephone number'), {
         'ui:validations': [validatePhone]
       }),
       emailAddress: {
         'ui:title': 'Email address',
-        'ui:errorMessages': {
-          pattern: 'Please put your email in this format x@x.xxx'
-        }
+        'ui:widget': EmailWidget
       },
       alternateEmailAddress: {
         'ui:title': 'Alternate email address',
-        'ui:errorMessages': {
-          pattern: 'Please put your email in this format x@x.xxx'
-        }
+        'ui:widget': EmailWidget
       },
       'view:hasForwardingAddress': {
         'ui:title':
         'I want to provide a forwarding address since my address will be changing soon.'
       },
-      forwardingAddress: _.merge(
-        pciuAddressUISchema('forwardingAddress', 'Forwarding address'),
-        {
-          'ui:options': {
-            expandUnder: 'view:hasForwardingAddress'
-          },
-          country: {
-            'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
-          },
-          addressLine1: {
-            'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
-          },
-          effectiveDate: dateUI('Effective date')
-        }
-      )
+      forwardingAddress: {
+        'ui:options': {
+          expandUnder: 'view:hasForwardingAddress',
+        },
+        'view:forwardingAddress': pciuAddressUISchema('forwardingAddress', 'Forwarding address'),
+        effectiveDate: _.merge(dateUI('Effective date'), { 'ui:required': hasForwardingAddress })
+      }
     }
   };
   const schema = {
@@ -74,36 +76,26 @@ function createPrimaryAddressPage(formSchema, isReview) {
         properties: {
           'view:hasForwardingAddress': {
             type: 'boolean'
-          }
+          },
         }
       })
-      //veteran: {
-        //type: 'object',
-        //properties: {
-          //mailingAddress: pciuAddressSchema,
-          //primaryPhone: {
-            //type: 'string'
-          //},
-          //secondaryPhone: {
-            //type: 'string'
-          //},
-          //emailAddress: {
-            //type: 'string',
-            //format: 'email'
-          //},
-          //'view:hasForwardingAddress': {
-            //type: 'boolean'
-          //},
-          //forwardingAddress: _.merge({}, pciuAddressSchema, {
-            //type: 'object',
-            //properties: {
-              //effectiveDate: date
-            //}
-          //})
-        //}
-      //}
     }
   };
+
+  _.set(schema, 'properties.veteran.properties.forwardingAddress', {
+    type: 'object',
+    properties: {
+      'view:forwardingAddress': schema.properties.veteran.properties.forwardingAddress,
+      effectiveDate: schema.properties.veteran.properties.forwardingAddress.properties.effectiveDate
+    }
+  });
+
+  _.unset(schema.properties.veteran.properties.forwardingAddress, 'required');
+
+  _.unset(schema.properties.veteran.properties.forwardingAddress.properties['view:forwardingAddress'], 'required');
+
+  _.set(schema, 'properties.veteran.properties.primaryPhone', { type: 'string' });
+  debugger;
 
   const pageConfig = {
     pageTitle: 'Address information',

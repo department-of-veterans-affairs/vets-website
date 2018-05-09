@@ -22,7 +22,7 @@ function mergeStateLists(firstList, secondList) {
   return combinedList;
 }
 
-export const mergeAndLabelStatesCodes = (stateCodes) => {
+export const mergeAndLabelStateCodes = (stateCodes) => {
   const stateList = stateCodes.map(code => {
     return { value: code, label: pciuStateCodesToLabels[code] };
   });
