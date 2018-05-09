@@ -8,6 +8,49 @@ export const relationshipLabels = {
   other: 'Other'
 };
 
+const numberToWords = {
+  0: 'First',
+  1: 'Second',
+  2: 'Third',
+  3: 'Fourth',
+  4: 'Fifth',
+  5: 'Sixth',
+  6: 'Seventh',
+  7: 'Eighth',
+  8: 'Ninth',
+  9: 'Tenth'
+};
+
+export function isMarried(form = {}) {
+  return ['Married', 'Separated'].includes(form.maritalStatus);
+}
+
+export function getMarriageTitle(index) {
+  const desc = numberToWords[index];
+
+  return desc ? `${desc} marriage` : `Marriage ${index + 1}`;
+}
+
+export function getMarriageTitleWithCurrent(form, index) {
+  if (isMarried(form) && (form.marriages.length - 1) === index) {
+    return 'Current marriage';
+  }
+
+  return getMarriageTitle(index);
+}
+
+export const marriageWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h4 className="usa-alert-heading">Recognition of marriages</h4>
+      <div className="usa-alert-text">
+        <p>If you’re certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).</p>
+        <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
+      </div>
+    </div>
+  </div>
+);
+
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="What does this mean?">
