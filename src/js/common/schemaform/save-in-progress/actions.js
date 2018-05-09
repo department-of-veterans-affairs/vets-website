@@ -204,10 +204,18 @@ export function saveAndRedirectToReturnUrl(...args) {
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
-export function fetchInProgressForm(formId, migrations, prefill = false, prefillTransformer = null) {
+export function fetchInProgressForm(formId, migrations, prefill = false, prefillTransformer = null, prestartForm = null) {
+
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
+    if (prestartForm) {
+      try {
+        await prestartForm();
+      } catch (err) {
+        return;
+      }
+    }
     const trackingPrefix = getState().form.trackingPrefix;
     const userToken = sessionStorage.userToken;
     // If we don’t have a userToken, fail safely

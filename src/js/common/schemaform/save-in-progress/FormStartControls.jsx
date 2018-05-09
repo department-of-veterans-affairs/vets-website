@@ -28,11 +28,9 @@ class FormStartControls extends React.Component {
 
   handleLoadPrefill = () => {
     const { beforeStartForm } = this.props.form;
-    if (beforeStartForm && this.props.prefillAvailable) {
-      return this.prestartForm().then(() => this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer));
-    }
     if (this.props.prefillAvailable) {
-      return this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
+      const prestartForm = beforeStartForm ? this.prestartForm : null;
+      return this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer, prestartForm);
     }
     return this.goToBeginning();
   }
@@ -41,11 +39,8 @@ class FormStartControls extends React.Component {
     const { beforeStartForm } = this.props.form;
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    if (beforeStartForm) {
-      return this.prestartForm().then(() =>
-        this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer));
-    }
-    return this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
+    const prestartForm = beforeStartForm ? this.prestartForm : null; 
+    return this.props.fetchInProgressForm(this.props.formId, this.props.migrations, null, null, prestartForm);
   }
 
   toggleModal = () => {
@@ -55,11 +50,8 @@ class FormStartControls extends React.Component {
   startOver = () => {
     this.toggleModal();
     const { beforeStartForm } = this.props.form;
-    if (beforeStartForm) {
-      debugger;
-      return this.prestartForm().then(() => this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer));
-    }
-    return this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer);
+    const prestartForm = beforeStartForm ? this.prestartForm : null;
+    return this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer, prestartForm);
   }
 
 

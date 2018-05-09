@@ -165,11 +165,8 @@ class RoutedSavableApp extends React.Component {
       const hasPrefillData = props.prefillsAvailable.includes(currentForm) || currentForm === '21-526EZ'; // TODO: remove once 526 added to prefills list
       const { beforeStartForm } = this.props.formConfig;
       if (isSaved || hasPrefillData) {
-        if (beforeStartForm) {
-          return this.prestartForm().then(() => props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData));
-        }
-
-        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData);
+        const prestartForm = beforeStartForm ? this.prestartForm : null;
+        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData, prestartForm);
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break
