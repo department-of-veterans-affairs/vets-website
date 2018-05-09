@@ -79,7 +79,7 @@ If you’ve received a 30% or higher disability rating, you can apply online to 
 
 #### If something changes in your family status after you’ve started receiving compensation
 
-You can apply online to add any new dependents right away. This could affect your dependent’s eligibility for benefits.
+You can apply online to add a new dependent whenever there is a change in your family.
 
 **You can add a dependent if:**
 
@@ -97,7 +97,6 @@ You can apply online to add any new dependents right away. This could affect you
 
 You can apply online. You may also need to provide more information or forms along with your application.
 
-<div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">Apply to Add a Dependent</a>
 	
 </div>
