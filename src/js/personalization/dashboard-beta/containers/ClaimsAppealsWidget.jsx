@@ -118,7 +118,7 @@ class ClaimsAppealsWidget extends React.Component {
         <div>
           {this.renderErrorMessages()}
           {content}
-          <p><Link href="/track-claims">View all your claims and appeals</Link></p>
+          <p><Link href="/track-claims">View all your claims and appeals</Link>.</p>
         </div>
       </div>
     );

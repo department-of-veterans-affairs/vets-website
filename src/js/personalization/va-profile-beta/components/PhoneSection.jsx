@@ -26,7 +26,9 @@ class EditPhoneModal extends React.Component {
         ...this.props.field.value,
         [field]: value
       };
-      this.props.onChange(newFieldValue, dirty);
+      // The `dirty` flag triggers validation to run. We only validate
+      // the number at this point in time, so we only run it if that's the field changing.
+      this.props.onChange(newFieldValue, field === 'number' ? dirty : false);
     };
   }
 
