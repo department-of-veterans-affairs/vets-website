@@ -17,9 +17,11 @@ If you’re leaving active service soon, find out how to get free educational an
 
 ### Can I get educational and career counseling?
 
-You can get these services if you’ll be discharged from active duty within 6 months or:
--	You were separated from active duty not more than 1 year ago without a dishonorable discharge, **and**
--	You qualify as a Veteran for educational assistance under a VA educational program. 
+You can get these services if you’ll be discharged from active duty within 6 months or if you meet both of the requirements listed below.
+
+**Both of these must be true. You:**
+-	Separated from active duty not more than 1 year ago and didn't receive a dishonorable discharge, **and**
+-	Qualify as a Veteran for educational assistance under a VA educational program. 
 
 **Note:** Dependents who qualify for educational assistance may get these services under the following programs:
 - [Post-9/11 GI Bill](/education/gi-bill/post-9-11/)
