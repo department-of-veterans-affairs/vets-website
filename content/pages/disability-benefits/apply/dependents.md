@@ -97,9 +97,8 @@ You can apply online to add a new dependent whenever there is a change in your f
 
 You can apply online. You may also need to provide more information or forms along with your application.
 
-  <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">Apply to Add a Dependent</a>
+<a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">Apply to Add a Dependent</a>
 	
-</div>
 
 **If you’re claiming a seriously disabled child,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
 
