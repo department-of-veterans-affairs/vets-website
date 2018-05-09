@@ -1,7 +1,6 @@
-import Raven from 'raven-js';
 import _ from 'lodash/fp';
 
-import { pciuCountries, pciuStates, statesOnlyInPCIU, militaryStateCodes, militaryPostOfficeTypeCodes, isValidPCIUZipCode, isValidSpecialCharacter } from '../../../../../platform/forms/address';
+import { pciuCountries, pciuStates } from '../../../../../platform/forms/address';
 
 import {
   GET_ADDRESS_COUNTRIES_SUCCESS,
@@ -38,4 +37,4 @@ export const pciu = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};

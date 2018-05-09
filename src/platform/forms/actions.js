@@ -47,10 +47,10 @@ export function getAddressStates(onChange) {
         });
         recordEvent({ event: 'pciu-get-address-states-success' });
         const stateList = response.states.data.attributes.states;
-      // Log error if the states response is not what we expect
-      if (!Array.isArray(stateList) || stateList.length === 0) {
-        return Raven.captureMessage(`vets_letters_unexpected_state_response: ${stateList}`);
-      }
+        // Log error if the states response is not what we expect
+        if (!Array.isArray(stateList) || stateList.length === 0) {
+          return Raven.captureMessage(`vets_letters_unexpected_state_response: ${stateList}`);
+        }
         return onChange(stateList);
       },
       (response) => {

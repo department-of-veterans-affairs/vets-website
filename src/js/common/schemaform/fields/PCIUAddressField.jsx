@@ -8,8 +8,6 @@ import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/Error
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import {
-  pciuCountries,
-  pciuStates,
   militaryStateCodes,
   militaryPostOfficeTypeCodes,
   ADDRESS_TYPES
@@ -84,7 +82,6 @@ class PCIUAddressField extends React.Component {
   };
 
   handleChange = ({ value }, title) => {
-    debugger;
     const { militaryPostOfficeTypeCode } = this.props.formData;
 
     if (!value) {
@@ -115,11 +112,10 @@ class PCIUAddressField extends React.Component {
       !militaryPostOfficeTypeCodes.includes(value)
     ) {
       // this.unsetMilitaryValues();
-      this.setType(value, title);
-      // Set all others
-    } else {
       return this.setType(value, title);
+      // Set all others
     }
+    return this.setType(value, title);
   };
 
   unsetNonMilitaryValues = formData => {
