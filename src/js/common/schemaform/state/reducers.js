@@ -32,9 +32,10 @@ export default {
     return _.set('reviewPageView.openChapters', openChapters, state);
   },
   [SET_DATA]: (state, action) => {
-    const newState = _.set('data', action.data, state);
-
-    return recalculateSchemaAndData(newState);
+    let newState = _.set('data', action.data, state);
+    debugger;
+    newState = recalculateSchemaAndData(newState);
+    return newState;
   },
   [SET_EDIT_MODE]: (state, action) => {
     if (state.pages[action.page].showPagePerItem) {

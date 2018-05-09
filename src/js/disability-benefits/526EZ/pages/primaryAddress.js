@@ -30,7 +30,6 @@ function validatePhone(errors, phone) {
 }
 
 export const hasForwardingAddress = formData => {
-  debugger;
   return !!formData.veteran['view:hasForwardingAddress'];
 };
 
@@ -71,31 +70,60 @@ function createPrimaryAddressPage(formSchema, isReview) {
   const schema = {
     type: 'object',
     properties: {
-      veteran: _.merge(veteranContactInformationSchema, {
+      veteran: {
         type: 'object',
         properties: {
           'view:hasForwardingAddress': {
             type: 'boolean'
           },
+          emailAddress: {
+            type: 'string'
+          },
+          alternateEmailAddress: {
+            type: 'string'
+          },
+          mailingAddress: {
+            type: 'object',
+            properties: {
+              type: {
+                type: 'string'
+              },
+              country: {
+                type: 'string'
+              },
+              city: {
+                type: 'string'
+              }
+            }
+          }
         }
-      })
+      }
     }
   };
 
+
+  // _.unset(schema.properties.veteran.properties.forwardingAddress, 'required');
   _.set(schema, 'properties.veteran.properties.forwardingAddress', {
     type: 'object',
     properties: {
-      'view:forwardingAddress': schema.properties.veteran.properties.forwardingAddress,
-      effectiveDate: schema.properties.veteran.properties.forwardingAddress.properties.effectiveDate
-    }
+      'view:forwardingAddress': {
+        type: 'object',
+        properties: {
+          country: {
+            type: 'string'
+          },
+          city: {
+            type: 'string'
+          }
+        }
+      }
+    },
+    effectiveDate: veteranContactInformationSchema.properties.forwardingAddress.properties.effectiveDate
   });
 
-  _.unset(schema.properties.veteran.properties.forwardingAddress, 'required');
-
-  _.unset(schema.properties.veteran.properties.forwardingAddress.properties['view:forwardingAddress'], 'required');
-
+  // _.unset(schema.properties.veteran.properties.forwardingAddress.properties['view:forwardingAddress'], 'required');
+  _.unset(schema.properties.veteran.properties.forwardingAddress.properties['view:forwardingAddress'].properties, 'effectiveDate');
   _.set(schema, 'properties.veteran.properties.primaryPhone', { type: 'string' });
-  debugger;
 
   const pageConfig = {
     pageTitle: 'Address information',

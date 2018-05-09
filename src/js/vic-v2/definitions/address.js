@@ -84,7 +84,7 @@ export function uiSchema(currentSchema, label = 'Address') {
 
   const hiddenState = {
     type: 'string',
-    'ui:hidden': true
+    // 'ui:hidden': true
   };
 
   const addressChangeSelector = createSelector(

@@ -55,7 +55,6 @@ const isDomesticMailingAddress = (formData) => {
 };
 
 const isDomesticForwardingAddress = (formData) => {
-    debugger;
   return formData.veteran['view:hasForwardingAddress'] && (formData.veteran.formData.veteran.forwardingAddress['view:ForwardingAddress'].type === 'DOMESTIC');
 };
 
@@ -64,7 +63,6 @@ const addressLine1MailingAddress = () => {
 };
 
 const addressLine1ForwardingAddress = (formData) => {
-    debugger;
   return !!formData.veteran['view:hasForwardingAddress'] && true;
 };
 
@@ -100,14 +98,12 @@ export const pciuAddressUISchema = (addressName, title) => {
     },
     country: {
       'ui:title': 'Country',
-      'ui:validations': [notMilitaryValidation]
     },
     addressLine1: {
       'ui:title': 'Street',
       'ui:errorMessages': {
         "^([a-zA-Z0-9\\-'.,,&#]([a-zA-Z0-9\\-'.,,&# ])?)+$": "Please only use letters, numbers, and the special characters -'.,,&#"
       },
-      // 'ui:validations': [addressLine1Validation]
     },
     addressLine2: {
       'ui:title': 'Line 2',
@@ -122,9 +118,10 @@ export const pciuAddressUISchema = (addressName, title) => {
       },
     },
     city: {
-      'ui:validations': [notMilitaryValidation]
+      'ui:title': 'Country',
     },
     state: {
+            'ui:title': 'Country',
       'ui:validations': [domesticValidation]
     },
     zipCode: {
@@ -134,9 +131,13 @@ export const pciuAddressUISchema = (addressName, title) => {
       'ui:validations': [domesticValidation]
     },
     militaryPostOfficeTypeCode: {
-      'ui:validations': [militaryValidation]
+            'ui:title': 'Country',
+      'ui:options': {
+        hideIf: () => true
+      }
     },
     militaryStateCode: {
+            'ui:title': 'Country',
       'ui:validations': [militaryValidation]
     },
     'ui:field': PCIUAddressField,

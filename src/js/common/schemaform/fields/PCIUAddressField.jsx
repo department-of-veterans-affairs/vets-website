@@ -41,14 +41,23 @@ class PCIUAddressField extends React.Component {
     // TODO: remove ui:validations
     const { type } = this.props.formData;
     if (type === 'DOMESTIC') {
-      this.props.schema.required = ['country', 'addressLine1', 'city', 'state', 'zipCode'];
+      this.props.schema.required = [
+        'country',
+        'addressLine1',
+        'city',
+        'state',
+        'zipCode'
+      ];
     } else if (type === 'MILITARY') {
-      this.props.schema.required = ['addressLine1', 'militaryStateCode', 'militaryPostOfficeTypeCode'];
+      this.props.schema.required = [
+        'addressLine1',
+        'militaryStateCode',
+        'militaryPostOfficeTypeCode'
+      ];
     } else {
-      this.props.schema.required = ['country', 'addressLine1'];
+      this.props.schema.required = ['country', 'addressLine1', 'city'];
     }
     console.log('updating');
-    debugger;
   }
 
   setValue = (value, title) => {
@@ -56,85 +65,79 @@ class PCIUAddressField extends React.Component {
   };
 
   setType = (value, title) => {
+    // debugger;
     // Avoid resetting previously set values
-    const newData = _.set(title, value, this.props.formData);
+    let newData = _.set(title, value, this.props.formData);
     if (
       militaryPostOfficeTypeCodes.includes(_.uppercase(value)) ||
       militaryStateCodes.includes(value)
     ) {
-      this.props.onChange(_.set('type', military, newData));
+      newData = _.set('type', military, newData);
+      newData = this.unsetNonMilitaryValues(newData);
+    } else if ((title === 'country' && value === 'USA') || title === 'state') {
+      newData = _.set('type', domestic, newData);
+      newData = this.unsetMilitaryValues(newData);
+    } else if (title === 'country' && value !== 'USA') {
+      newData = _.set('type', international, newData);
+      newData = this.unsetMilitaryValues(newData);
+    } else if (title === 'city' && newData.type === 'MILITARY') {
+      newData = _.set('type', international, newData);
+      newData = this.unsetMilitaryValues(newData);
     }
-    if (
-      title === 'city' &&
-      !militaryPostOfficeTypeCodes.includes(_.uppercase(value))
-    ) {
-      this.props.onChange(_.unset('type', newData));
-    }
-    if (title === 'country' && value === 'USA') {
-      this.props.onChange(_.set('type', domestic, newData));
-    }
-    if (title === 'country' && value !== 'USA') {
-      this.props.onChange(_.set('type', international, newData));
-    }
+    this.props.onChange(newData);
   };
 
   handleChange = ({ value }, title) => {
+    debugger;
+    this.props.uiSchema['ui:options'].updateSchema(this.props.formData, this.props.schema);
     const { militaryPostOfficeTypeCode } = this.props.formData;
+
     if (!value) {
       return this.props.onChange(_.unset(title, this.props.formData));
     }
-    // Set military city and unset non military
-    // Is set value needed here?
+
     if (
-      title === 'city' &&
-      !militaryPostOfficeTypeCodes.includes(_.uppercase(value))
-    ) {
-      this.setValue(value, title);
-      this.unsetMilitaryValues();
-      return this.setType(value, title);
-    } else if (
       title === 'city' &&
       militaryPostOfficeTypeCodes.includes(_.uppercase(value))
     ) {
-      this.setValue(value, 'militaryPostOfficeTypeCode');
-
-      this.unsetNonMilitaryValues();
+      // this.unsetNonMilitaryValues();
       return this.setType(value, 'militaryPostOfficeTypeCode');
       // Set military state and unset non military
-    } else if (title === 'state' && militaryStateCodes.includes(value)) {
-      this.setValue(value, 'militaryStateCode');
-      this.unsetNonMilitaryValues();
+    } else if (
+      title === 'militaryStateCode' ||
+      (title === 'state' && militaryStateCodes.includes(value))
+    ) {
+      // this.unsetNonMilitaryValues();
       return this.setType(value, 'militaryStateCode');
       // Set state and unset military state
     } else if (title === 'state' && !militaryStateCodes.includes(value)) {
-      this.setValue(value, title);
-      this.unsetMilitaryValues();
+      // this.unsetMilitaryValues();
+      return this.setType(value, title);
       // Set city and unset military post office type code
     } else if (
       militaryPostOfficeTypeCode &&
       title === 'city' &&
       !militaryPostOfficeTypeCodes.includes(value)
     ) {
-      this.setValue(value, title);
-      this.unsetMilitaryValues();
+      // this.unsetMilitaryValues();
+      this.setType(value, title);
       // Set all others
     } else {
-      this.setValue(value, title);
       return this.setType(value, title);
     }
   };
 
-  unsetNonMilitaryValues = () => {
-    this.props.onChange(_.unset('city', this.props.formData));
-    this.props.onChange(_.unset('state', this.props.formData));
-    this.props.onChange(_.unset('country', this.props.formData));
+  unsetNonMilitaryValues = formData => {
+    let newData = _.unset('city', formData);
+    newData = _.unset('state', newData);
+    newData = _.unset('country', newData);
+    return newData;
   };
 
-  unsetMilitaryValues = () => {
-    this.props.onChange(_.unset('militaryStateCode', this.props.formData));
-    this.props.onChange(
-      _.unset('militaryPostOfficeTypeCode', this.props.formData)
-    );
+  unsetMilitaryValues = formData => {
+    let newData = _.unset('militaryStateCode', formData);
+    newData = _.unset('militaryPostOfficeTypeCode', newData);
+    return newData;
   };
 
   render() {
@@ -154,7 +157,8 @@ class PCIUAddressField extends React.Component {
 
     const viewCity = city || militaryPostOfficeTypeCode;
     const isMilitary = !!(type === military);
-    const isUSA = type === domestic;
+    const isDomestic = type === domestic;
+    const viewCityError = isMilitary ? errorSchema.militaryPostOfficeTypeCode.__errors[0] : errorSchema.city.__errors[0];
 
     return (
       <div>
@@ -198,10 +202,7 @@ class PCIUAddressField extends React.Component {
           onValueChange={value => this.handleChange(value, 'addressLine3')}
           onBlur={() => this.props.onBlur('addressLine3')}/>
         <ErrorableTextInput
-          errorMessage={
-            errorSchema.city.__errors[0] ||
-            errorSchema.militaryPostOfficeTypeCode.__errors[0]
-          }
+          errorMessage={viewCityError}
           label={
             <span>
               City <em>(or APO/FPO/DPO)</em>
@@ -233,13 +234,13 @@ class PCIUAddressField extends React.Component {
             autocomplete="address-level2"
             options={militaryStateCodes}
             value={{ value: militaryStateCode }}
-            required={militaryPostOfficeTypeCode}
+            required={isMilitary}
             onValueChange={value =>
               this.handleChange(value, 'militaryStateCode')
             }
             onBlur={() => this.props.onBlur('militaryStateCode')}/>
         )}
-        {isUSA && (
+        {isDomestic && (
           <ErrorableSelect
             errorMessage={errorSchema.state.__errors[0]}
             label={
@@ -251,11 +252,11 @@ class PCIUAddressField extends React.Component {
             autocomplete="address-level1"
             options={this.props.states}
             value={{ value: state }}
-            required={isUSA}
+            required={isDomestic}
             onValueChange={value => this.handleChange(value, 'state')}
             onBlur={() => this.props.onBlur('state')}/>
         )}
-        {isUSA && (
+        {isDomestic && (
           <ErrorableTextInput
             errorMessage={errorSchema.zipCode.__errors[0]}
             additionalClass="usa-input-medium"
@@ -263,7 +264,7 @@ class PCIUAddressField extends React.Component {
             name="zipCode"
             autocomplete="postal-code"
             field={{ value: zipCode }}
-            required={isUSA}
+            required={isDomestic}
             onValueChange={value => this.handleChange(value, 'zipCode')}
             onBlur={() => this.props.onBlur('zipCode')}/>
         )}
