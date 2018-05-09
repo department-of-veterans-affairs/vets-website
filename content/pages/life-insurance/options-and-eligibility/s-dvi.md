@@ -27,7 +27,7 @@ You can apply for S-DVI if you meet all of the requirements listed below.
 
 **All of these must be true. You:**
 
-- Were released from active duty and didn't receive a dishonorable discharge on or after April 25, 1951, **and**
+- Were released from active duty on or after April 25, 1951, and didn't receive a dishonorable discharge **and**
 - Were rated for a service-connected disability (even if only 0%), **and**
 - Are in good health except for any service-connected conditions, **and**
 - Apply within 2 years from the date we grant your new service-connected disability
