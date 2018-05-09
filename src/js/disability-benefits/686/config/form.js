@@ -15,7 +15,6 @@ import SpouseMarriageView from '../components/SpouseMarriageView';
 import {
   getMarriageTitleWithCurrent,
   isMarried,
-  marriageWarning,
   relationshipLabels,
   VAFileNumberDescription,
 } from '../helpers';
@@ -236,20 +235,30 @@ const formConfig = {
                     };
                   }
                 },
-                spouseFullName: _.merge(fullNameUI, {
-                  first: {
-                    'ui:title': 'Spouse first name'
-                  },
-                  last: {
-                    'ui:title': 'Spouse last name'
-                  },
-                  middle: {
-                    'ui:title': 'Spouse middle name'
-                  },
-                  suffix: {
-                    'ui:title': 'Spouse suffix',
+                spouseFullName: {
+                  'ui:options': {
+                    updateSchema: (form, schema, uiSchema, index) => {
+                      const spouse = isCurrentMarriage(form, index) ? 'Spouse’s' : 'Former spouse’s';
+                      return _.merge(schema, {
+                        properties:
+                        {
+                          first: {
+                            title: `${spouse} first name`
+                          },
+                          last: {
+                            title: `${spouse} last name`
+                          },
+                          middle: {
+                            title: `${spouse} middle name`
+                          },
+                          suffix: {
+                            title: `${spouse} suffix`
+                          }
+                        }
+                      });
+                    }
                   }
-                }),
+                },
                 dateOfMarriage: currentOrPastDateUI('When did you get married?'),
                 locationOfMarriage: {
                   'ui:title': 'Where did you get married? (city and state or foreign country)'
@@ -282,8 +291,7 @@ const formConfig = {
                   required: [
                     'spouseFullName',
                     'dateOfMarriage',
-                    'locationOfMarriage',
-                    'marriageType'
+                    'locationOfMarriage'
                   ],
                   properties: {
                     spouseFullName: marriageProperties.spouseFullName,

@@ -39,18 +39,6 @@ export function getMarriageTitleWithCurrent(form, index) {
   return getMarriageTitle(index);
 }
 
-export const marriageWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h4 className="usa-alert-heading">Recognition of marriages</h4>
-      <div className="usa-alert-text">
-        <p>If you’re certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).</p>
-        <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
-      </div>
-    </div>
-  </div>
-);
-
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="What does this mean?">
