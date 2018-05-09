@@ -41,9 +41,9 @@ export default {
     return _.set('reviewPageView.viewedPages', viewedPages, newState);
   },
   [SET_DATA]: (state, action) => {
-    let newState = _.set('data', action.data, state);
-    newState = recalculateSchemaAndData(newState);
-    return newState;
+    const newState = _.set('data', action.data, state);
+
+    return recalculateSchemaAndData(newState);
   },
   [SET_EDIT_MODE]: (state, action) => {
     if (state.pages[action.page].showPagePerItem) {

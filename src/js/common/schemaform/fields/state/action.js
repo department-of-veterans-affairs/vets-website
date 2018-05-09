@@ -20,15 +20,15 @@ export function getAddressCountries() {
       null,
       (response) => {
         const countryList = response.countries.data.attributes.countries;
+        // Log error if the countries response is not what we expect
+        if (!Array.isArray(countryList) || countryList.length === 0) {
+          Raven.captureMessage(`vets_pciu_unexpected_country_response: ${countryList}`);
+        }
         dispatch({
           type: GET_ADDRESS_COUNTRIES_SUCCESS,
           countries: countryList,
           countriesAvailable: true
         });
-        // Log error if the countries response is not what we expect
-        if (!Array.isArray(countryList) || countryList.length === 0) {
-          return Raven.captureMessage(`vets_pciu_unexpected_country_response: ${countryList}`);
-        }
         return recordEvent({ event: 'pciu-get-address-countries-success' });
       },
       (response) => {
@@ -47,16 +47,17 @@ export function getAddressStates() {
       '/v0/address/states',
       null,
       (response) => {
-        const stateList = mergeAndLabelStateCodes(response.states.data.attributes.states);
+        let stateList = response.states.data.attributes.states;
+        // Log error if the states response is not what we expect
+        if (!Array.isArray(stateList) || stateList.length === 0) {
+          Raven.captureMessage(`vets_letters_unexpected_state_response: ${stateList}`);
+        }
+        stateList = mergeAndLabelStateCodes(response.states.data.attributes.states);
         dispatch({
           type: GET_ADDRESS_STATES_SUCCESS,
           states: stateList,
           statesAvailable: true
         });
-        // Log error if the states response is not what we expect
-        if (!Array.isArray(stateList) || stateList.length === 0) {
-          return Raven.captureMessage(`vets_letters_unexpected_state_response: ${stateList}`);
-        }
         return recordEvent({ event: 'pciu-get-address-states-success' });
       },
       (response) => {

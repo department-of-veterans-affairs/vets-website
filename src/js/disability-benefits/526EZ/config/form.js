@@ -70,7 +70,6 @@ const {
 } = fullSchema526EZ.properties;
 
 const {
-  address,
   date,
   fullName,
   // files
@@ -78,7 +77,6 @@ const {
   disabilities: disabiltiesDefinition,
   specialIssues,
   servicePeriods,
-  phone,
   privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
@@ -126,7 +124,6 @@ const formConfig = {
   confirmation: ConfirmationPage,
   getHelp: GetFormHelp,
   defaultDefinitions: {
-    address,
     date,
     fullName,
     // files
@@ -134,7 +131,6 @@ const formConfig = {
     disabilities: omitRequired(disabiltiesDefinition),
     specialIssues,
     servicePeriods,
-    phone,
     privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',

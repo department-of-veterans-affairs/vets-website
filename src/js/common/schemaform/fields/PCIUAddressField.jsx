@@ -92,18 +92,15 @@ class PCIUAddressField extends React.Component {
       title === 'city' &&
       militaryPostOfficeTypeCodes.includes(_.uppercase(value))
     ) {
-      // this.unsetNonMilitaryValues();
       return this.setType(value, 'militaryPostOfficeTypeCode');
       // Set military state and unset non military
     } else if (
       title === 'militaryStateCode' ||
       (title === 'state' && militaryStateCodes.includes(value))
     ) {
-      // this.unsetNonMilitaryValues();
       return this.setType(value, 'militaryStateCode');
       // Set state and unset military state
     } else if (title === 'state' && !militaryStateCodes.includes(value)) {
-      // this.unsetMilitaryValues();
       return this.setType(value, title);
       // Set city and unset military post office type code
     } else if (
@@ -111,7 +108,6 @@ class PCIUAddressField extends React.Component {
       title === 'city' &&
       !militaryPostOfficeTypeCodes.includes(value)
     ) {
-      // this.unsetMilitaryValues();
       return this.setType(value, title);
       // Set all others
     }
