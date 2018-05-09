@@ -7,7 +7,7 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import formConfig from '../../config/form.js';
 
 describe('Disability benefits 526EZ special circumstances', () => {
-  const { schema, uiSchema } = formConfig.chapters.reviewVeteranDetails.pages.specialCircumstances;
+  const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.specialCircumstances;
   it('renders special circumstances form', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
@@ -19,7 +19,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
       uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(3);
   });
 
   it('submit empty form', () => {

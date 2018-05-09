@@ -49,7 +49,7 @@ class EditEmailModal extends React.Component {
               field={{ value: field.value.email, dirty: false }}
               errorMessage={field.errorMessage}
               onValueChange={this.onChange}/>
-            <LoadingButton isLoading={isLoading}>Save Email</LoadingButton>
+            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
           </form>
         )}
       </Modal>
@@ -58,7 +58,7 @@ class EditEmailModal extends React.Component {
 }
 
 
-export default function EmailSection({ emailResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+export default function EmailSection({ emailResponseData, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
@@ -66,7 +66,7 @@ export default function EmailSection({ emailResponseData, title, field, error, c
     if (emailResponseData.email) {
       content = emailResponseData.email;
     } else {
-      content = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
+      content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your email address</button>;
     }
   } else {
     content = fieldFailureMessage;
@@ -75,7 +75,7 @@ export default function EmailSection({ emailResponseData, title, field, error, c
   if (isEditing) {
     modal = (
       <EditEmailModal
-        title="Edit email"
+        title="Edit email address"
         emailResponseData={emailResponseData}
         field={field}
         error={error}
@@ -90,7 +90,7 @@ export default function EmailSection({ emailResponseData, title, field, error, c
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={emailResponseData && onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={emailResponseData && emailResponseData.email && onEdit}>Email Address</HeadingWithEdit>
       <div>{content}</div>
     </div>
   );

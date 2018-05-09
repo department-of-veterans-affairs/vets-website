@@ -107,7 +107,8 @@ class SchemaForm extends React.Component {
         pagePerItemIndex,
         reviewMode,
         hideHeaderRow,
-        uploadFile
+        uploadFile,
+        onError: this.onError
       }, formContext)
     };
   }

@@ -1,6 +1,6 @@
-const mock = require('../../../../test/e2e/mock-helpers');
+const mock = require('../../../platform/testing/e2e/mock-helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
-const LoginHelpers = require('../../../../test/e2e/login-helpers.js');
+const Auth = require('../../../platform/testing/e2e/auth.js');
 const moment = require('moment');
 
 function completePersonalInformation(client, data) {
@@ -224,7 +224,7 @@ function initApplicationSubmitMock() {
 }
 
 function initSaveInProgressMock(url, client) {
-  const token = LoginHelpers.getUserToken();
+  const token = Auth.getUserToken();
 
   mock(null, {
     path: '/v0/health_care_applications',
@@ -355,7 +355,7 @@ function initSaveInProgressMock(url, client) {
     .url(url)
     .waitForElementVisible('body', Timeouts.normal);
 
-  LoginHelpers.setUserToken(token, client);
+  Auth.setUserToken(token, client);
 
   return token;
 }

@@ -43,7 +43,6 @@ class FormPage extends React.Component {
   }
 
   onChange = (formData) => {
-    debugger;
     let newData = formData;
     if (this.props.route.pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular

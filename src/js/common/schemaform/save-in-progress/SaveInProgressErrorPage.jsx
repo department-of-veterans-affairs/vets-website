@@ -11,10 +11,10 @@ import {
   removeInProgressForm
 } from './actions';
 
-import SignInLink from '../../components/SignInLink';
+import SignInLink from '../../../../platform/forms/components/SignInLink';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
-import { toggleLoginModal } from '../../../login/actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
 
 // For now, this only handles loading errors, but it could feasibly be reworked

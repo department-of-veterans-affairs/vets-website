@@ -1,5 +1,7 @@
 import _ from '../../../../platform/utilities/data';
 
+import { omitRequired } from '../../../common/schemaform/helpers';
+
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 // import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
@@ -9,9 +11,21 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { createVerifiedPaymentInfoPage, createUnverifiedPaymentInfoPage } from '../pages/paymentInfo';
-import { createVerifiedVeteranInfoPage, createUnverifiedVeteranInfoPage } from '../pages/veteranInfo';
-import { createVerifiedPrimaryAddressPage, createUnverifiedPrimaryAddressPage } from '../pages/primaryAddress';
+
+import {
+  uiSchema as veteranInfoUiSchema,
+  schema as veteranInfoSchema
+} from '../pages/veteranInfo';
+
+import {
+  uiSchema as primaryAddressUiSchema,
+  primaryAddressSchema
+} from '../pages/primaryAddress';
+
+import {
+  uiSchema as paymentInfoUiSchema,
+  schema as paymentInfoSchema
+} from '../pages/paymentInfo';
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
@@ -23,7 +37,6 @@ import {
   transform,
   prefillTransformer,
   supportingEvidenceOrientation,
-  evidenceTypesDescription,
   evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
@@ -44,9 +57,11 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
+  getEvidenceTypesDescription
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
+import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
   treatments: treatmentsSchema,
@@ -116,7 +131,7 @@ const formConfig = {
     fullName,
     // files
     dateRange,
-    disabilities: disabiltiesDefinition,
+    disabilities: omitRequired(disabiltiesDefinition),
     specialIssues,
     servicePeriods,
     phone,
@@ -126,58 +141,26 @@ const formConfig = {
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
-    reviewVeteranDetails: {
-      title: (isReviewPage) => {
-        const baseString = 'Review Veteran Details';
-        if (isReviewPage) {
-          return baseString.replace('Review ', '');
-        }
-        return baseString;
-      },
+    veteranDetails: {
+      title: (isReviewPage) => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
-        veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
-        specialCircumstances: { // TODO: create page file and reuse 
-          title: 'Special Circumstances',
-          path: 'review-veteran-details/special-circumstances',
-          depends: formData => formData.prefilled,
-          uiSchema: {
-            'ui:description': specialCircumstancesDescription,
-            'view:suicidal': {
-              'ui:title': 'In crisis or thinking of suicide?'
-            },
-            'view:homeless': {
-              'ui:title': 'Homeless or at risk of becoming homeless?'
-            },
-            'view:extremeFinancialHardship': {
-              'ui:title': 'Suffering from extreme financial hardship?'
-            },
-            'view:blindOrSightImpaired': {
-              'ui:title': 'Blind or sight-impaired?'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:suicidal': {
-                type: 'boolean'
-              },
-              'view:homeless': {
-                type: 'boolean'
-              },
-              'view:extremeFinancialHardship': {
-                type: 'boolean'
-              },
-              'view:blindOrSightImpaired': {
-                type: 'boolean'
-              }
-            }
-          }
+        veteranInformation: {
+          title: 'Veteran Information', // TODO: Figure out if this is even necessary
+          description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
+          path: 'veteran-information',
+          uiSchema: veteranInfoUiSchema,
+          schema: veteranInfoSchema
         },
-        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ),
+        primaryAddress: {
+          title: 'Address information',
+          path: 'veteran-details/address-information',
+          description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
+          uiSchema: primaryAddressUiSchema,
+          schema: primaryAddressSchema
+        },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          depends: formData => formData.prefilled,
           initialData,
           uiSchema: {
             servicePeriods: {
@@ -221,17 +204,16 @@ const formConfig = {
             }
           }
         },
-        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ),
-      }
-    },
-    veteranDetails: {
-      title: 'Veteran Details',
-      pages: {
-        veteranInformation: createUnverifiedVeteranInfoPage(fullSchema526EZ),
+        paymentInformation: {
+          title: 'Payment Information',
+          path: 'payment-information',
+          description: 'This is the bank account information we have on file for you. We’ll pay your benefit to this account. If you need to make changes to your bank information, you can click the Edit button.',
+          uiSchema: paymentInfoUiSchema,
+          schema: paymentInfoSchema
+        },
         specialCircumstances: {
           title: 'Special Circumstances',
-          path: 'veteran-details/special-circumstances',
-          depends: formData => !formData.prefilled,
+          path: 'special-circumstances',
           uiSchema: {
             'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
@@ -264,55 +246,7 @@ const formConfig = {
               }
             }
           }
-        },
-        primaryAddress: createUnverifiedPrimaryAddressPage(fullSchema526EZ),
-        militaryHistory: {
-          title: 'Military service history',
-          path: 'veteran-details/military-service-history',
-          depends: formData => !formData.prefilled,
-          initialData,
-          uiSchema: {
-            servicePeriods: {
-              'ui:title': 'Military service history',
-              'ui:description':
-                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView,
-              },
-              items: {
-                serviceBranch: {
-                  'ui:title': 'Branch of service'
-                },
-                dateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'End of service must be after start of service'
-                ),
-                dischargeType: {
-                  'ui:title': 'Character of discharge',
-                  'ui:options': {
-                    labels: {
-                      honorable: 'Honorable',
-                      general: 'General',
-                      other: 'Other Than Honorable',
-                      'bad-conduct': 'Bad Conduct',
-                      dishonorable: 'Dishonorable',
-                      undesirable: 'Undesirable'
-                    }
-                  }
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              servicePeriods
-            }
-          }
-        },
-        paymentInformation: createUnverifiedPaymentInfoPage(fullSchema526EZ),
+        }
       }
     },
     ratedDisabilities: {
@@ -375,15 +309,25 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': evidenceTypesDescription,
-                'view:vaMedicalRecords': {
-                  'ui:title': 'VA medical records'
-                },
-                'view:privateMedicalRecords': {
-                  'ui:title': 'Private medical records'
-                },
-                'view:otherEvidence': {
-                  'ui:title': 'Lay statements or other evidence'
+                'view:selectableEvidenceTypes': {
+                  'ui:options': {
+                    // Only way to get access to the disability info like 'name' within this nested schema
+                    updateSchema: (form, schema, uiSchema, index) => ({ title: getEvidenceTypesDescription(form, index) }),
+                    showFieldLabel: true
+                  },
+                  'ui:validations': [validateBooleanGroup],
+                  'ui:errorMessages': {
+                    atLeastOne: 'Please select at least one type of supporting evidence'
+                  },
+                  'view:vaMedicalRecords': {
+                    'ui:title': 'VA medical records'
+                  },
+                  'view:privateMedicalRecords': {
+                    'ui:title': 'Private medical records'
+                  },
+                  'view:otherEvidence': {
+                    'ui:title': 'Lay statements or other evidence'
+                  }
                 },
                 'view:evidenceTypeHelp': {
                   'ui:description': evidenceTypeHelp
@@ -399,14 +343,19 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    'view:vaMedicalRecords': {
-                      type: 'boolean'
-                    },
-                    'view:privateMedicalRecords': {
-                      type: 'boolean'
-                    },
-                    'view:otherEvidence': {
-                      type: 'boolean'
+                    'view:selectableEvidenceTypes': {
+                      type: 'object',
+                      properties: {
+                        'view:vaMedicalRecords': {
+                          type: 'boolean'
+                        },
+                        'view:privateMedicalRecords': {
+                          type: 'boolean'
+                        },
+                        'view:otherEvidence': {
+                          type: 'boolean'
+                        }
+                      }
                     },
                     'view:evidenceTypeHelp': {
                       type: 'object',
@@ -424,7 +373,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -452,7 +401,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -501,7 +450,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -529,7 +478,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -580,7 +529,7 @@ const formConfig = {
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
-            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
             const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
             return hasRecords && requestsRecords;
           },
@@ -682,7 +631,7 @@ const formConfig = {
         recordUpload: {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
-            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
             const uploadRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'yes';
             return hasRecords && uploadRecords;
           },
@@ -755,7 +704,7 @@ const formConfig = {
         },
         documentUpload: {
           title: 'Lay statements or other evidence',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:otherEvidence`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:otherEvidence`, formData),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),

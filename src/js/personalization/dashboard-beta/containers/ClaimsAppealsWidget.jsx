@@ -16,7 +16,7 @@ import {
   getAppealsV2,
   getClaimsV2,
 } from '../../../claims-status/actions/index.jsx';
-import { scrollToTop, setUpPage } from '../../../claims-status/utils/page';
+import { scrollToTop } from '../../../claims-status/utils/page';
 
 import ClaimsUnavailable from '../../../claims-status/components/ClaimsUnavailable';
 import AppealsUnavailable from '../../../claims-status/components/AppealsUnavailable';
@@ -35,11 +35,7 @@ class ClaimsAppealsWidget extends React.Component {
       this.props.getAppealsV2();
     }
 
-    if (this.props.claimsLoading && this.props.appealsLoading) {
-      scrollToTop();
-    } else {
-      setUpPage();
-    }
+    scrollToTop();
   }
 
   renderListItem(claim) {
@@ -122,7 +118,7 @@ class ClaimsAppealsWidget extends React.Component {
         <div>
           {this.renderErrorMessages()}
           {content}
-          <p><Link href="/track-claims">View all your claims and appeals</Link></p>
+          <p><Link href="/track-claims">View all your claims and appeals</Link>.</p>
         </div>
       </div>
     );
@@ -147,7 +143,7 @@ const mapStateToProps = (state) => {
     });
 
   return {
-    appealsAvailable: claimsV2Root.appealsAvailability,
+    appealsAvailable: claimsV2Root.v2Availability,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,

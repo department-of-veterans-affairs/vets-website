@@ -1,4 +1,4 @@
-const mock = require('../../../../test/e2e/mock-helpers');
+const mock = require('../../../platform/testing/e2e/mock-helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 
 function completeClaimantInformation(client, data) {
@@ -59,6 +59,7 @@ function completeBenefitSelection(client, data) {
   // TODO: Include autosuggest interaction
   client
     .fill('input[name="root_application_claimant_desiredCemetery"]', data.claimant.desiredCemetery.label)
+    .click('body')
   // Test is flaky so have to select option twice for it to register
     .selectRadio('root_application_hasCurrentlyBuried', data.hasCurrentlyBuried)
     .selectRadio('root_application_hasCurrentlyBuried', data.hasCurrentlyBuried);

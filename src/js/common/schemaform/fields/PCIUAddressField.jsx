@@ -38,7 +38,6 @@ class PCIUAddressField extends React.Component {
 
   componentDidUpdate() {
     // conditionally set required fields based on whether a type has been set
-    // TODO: remove ui:validations
     const { type } = this.props.formData;
     if (type === 'DOMESTIC') {
       this.props.schema.required = [
@@ -57,7 +56,6 @@ class PCIUAddressField extends React.Component {
     } else {
       this.props.schema.required = ['country', 'addressLine1', 'city'];
     }
-    console.log('updating');
   }
 
   setValue = (value, title) => {
@@ -65,8 +63,6 @@ class PCIUAddressField extends React.Component {
   };
 
   setType = (value, title) => {
-    // debugger;
-    // Avoid resetting previously set values
     let newData = _.set(title, value, this.props.formData);
     if (
       militaryPostOfficeTypeCodes.includes(_.uppercase(value)) ||
@@ -89,7 +85,6 @@ class PCIUAddressField extends React.Component {
 
   handleChange = ({ value }, title) => {
     debugger;
-    this.props.uiSchema['ui:options'].updateSchema(this.props.formData, this.props.schema);
     const { militaryPostOfficeTypeCode } = this.props.formData;
 
     if (!value) {
@@ -131,6 +126,7 @@ class PCIUAddressField extends React.Component {
     let newData = _.unset('city', formData);
     newData = _.unset('state', newData);
     newData = _.unset('country', newData);
+    newData = _.unset('zipCode', newData);
     return newData;
   };
 
@@ -181,6 +177,7 @@ class PCIUAddressField extends React.Component {
           autocomplete="address-line1"
           charMax={35}
           field={{ value: addressLine1 }}
+          required
           onValueChange={value => this.handleChange(value, 'addressLine1')}
           onBlur={() => this.props.onBlur('addressLine1')}/>
         <ErrorableTextInput

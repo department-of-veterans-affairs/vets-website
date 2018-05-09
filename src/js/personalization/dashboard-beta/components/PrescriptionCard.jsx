@@ -18,13 +18,13 @@ export default function PrescriptionCard({ prescription }) {
       <p>
         <strong>Order status:</strong> {headerText[refillStatus]}
       </p>
-      <p><strong>You submitted your refil order on:</strong> {
+      <p><strong>You submitted your refill order on:</strong> {
         formatDate(refillSubmitDate || refillDate, {
           format: 'L'
         })
       }</p>
       <p>
-        <Link className="usa-button usa-button-primary" href={`/health-care/prescriptions/${prescription.id}/status`}>View Your Prescription<i className="fa fa-chevron-right"/></Link>
+        <Link className="usa-button usa-button-primary" href={`/health-care/prescriptions/${prescription.id}`}>View Your Prescription<i className="fa fa-chevron-right"/></Link>
       </p>
     </div>
   );
