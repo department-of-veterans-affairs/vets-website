@@ -99,6 +99,11 @@ export function isEmptyAddress(address) {
     .every(prop => !address[prop]);
 }
 
+/**
+ * Accepts an abbreviation and returns the full state name
+ * @param {string} abbreviation
+ * @returns {string}
+ */
 export function getStateName(abbreviation) {
   return STATE_NAMES[abbreviation];
 }
