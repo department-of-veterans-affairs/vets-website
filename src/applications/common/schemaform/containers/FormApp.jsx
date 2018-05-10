@@ -5,7 +5,6 @@ import Scroll from 'react-scroll';
 import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
 import AskVAQuestions from '../components/AskVAQuestions';
-import RoutedSavableApp from '../save-in-progress/RoutedSavableApp';
 
 const Element = Scroll.Element;
 
@@ -29,6 +28,7 @@ class FormApp extends React.Component {
 
     let formTitle;
     let formNav;
+    let renderedChildren = children;
     if (!isIntroductionPage) {
       // Show nav only if we're not on the intro or confirmation page
       if (!isConfirmationPage) {
@@ -39,32 +39,22 @@ class FormApp extends React.Component {
       if (formConfig.title) {
         formTitle = <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>;
       }
+
+      renderedChildren = (
+        <div className="progress-box progress-box-schemaform">
+          {children}
+        </div>
+      );
     }
 
     return (
       <div>
         <div className="row">
           <div className="usa-width-two-thirds medium-8 columns">
-            {
-              saveEnabled ?
-                (
-                  <RoutedSavableApp
-                    formConfig={formConfig}
-                    currentLocation={currentLocation}>
-                    {children}
-                  </RoutedSavableApp>
-                ) :
-                (
-                  <div>
-                    <Element name="topScrollElement"/>
-                    {formTitle}
-                    {formNav}
-                    <div className="progress-box progress-box-schemaform">
-                      {children}
-                    </div>
-                  </div>
-                )
-            }
+            <Element name="topScrollElement"/>
+            {formTitle}
+            {formNav}
+            {renderedChildren}
           </div>
         </div>
         {!isConfirmationPage && <AskVAQuestions>

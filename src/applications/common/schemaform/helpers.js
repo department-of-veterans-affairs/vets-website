@@ -4,10 +4,6 @@ import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-for
 
 import FormPage from './containers/FormPage';
 import ReviewPage from './review/ReviewPage';
-import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
-import RoutedSavableReviewPage from './save-in-progress/RoutedSavableReviewPage';
-import FormSaved from './save-in-progress/FormSaved';
-import SaveInProgressErrorPage from './save-in-progress/SaveInProgressErrorPage';
 
 import { getInactivePages, getActivePages } from '../../../platform/forms/helpers';
 
@@ -73,7 +69,7 @@ export function createPageList(formConfig, formPages) {
 export function createRoutes(formConfig) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
-  const Page = formConfig.disableSave ? FormPage : RoutedSavablePage;
+  const Page = FormPage;
   let routes = formPages
     .map(page => {
       return {
@@ -95,37 +91,11 @@ export function createRoutes(formConfig) {
     ].concat(routes);
   }
 
-  if (!formConfig.disableSave) {
-    routes.push({
-      path: 'form-saved',
-      component: FormSaved,
-      pageList,
-      formConfig
-    });
-  }
-
-  if (!formConfig.disableSave) {
-    routes.push({
-      path: 'error',
-      component: SaveInProgressErrorPage,
-      pageList, // In case we need it for startOver?
-      formConfig
-    });
-  }
-
-  if (!formConfig.disableSave) {
-    routes.push({
-      path: 'resume',
-      pageList,
-      formConfig
-    });
-  }
-
   return routes.concat([
     {
       path: 'review-and-submit',
       formConfig,
-      component: formConfig.disableSave ? ReviewPage : RoutedSavableReviewPage,
+      component: ReviewPage,
       pageList
     },
     {
