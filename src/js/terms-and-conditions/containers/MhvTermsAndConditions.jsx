@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import appendQuery from 'append-query';
-import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
@@ -28,10 +27,6 @@ const unagreedBannerProps = {
 export class MhvTermsAndConditions extends React.Component {
   constructor(props) {
     super(props);
-
-    const searchParams = new URLSearchParams(window.location.search);
-    this.redirectUrl = searchParams.get('tc_redirect');
-
     this.state = {
       isAgreementChecked: false,
       showAcceptedMessage: false,
@@ -44,9 +39,16 @@ export class MhvTermsAndConditions extends React.Component {
     if (sessionStorage.userToken) { this.props.fetchTermsAcceptance(TERMS_NAME); }
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.accepted && this.props.accepted) {
+      this.handleAcceptance();
+    }
+  }
+
   redirect = () =>  {
-    if (this.redirectUrl) {
-      const newUrl = appendQuery(this.redirectUrl, { tc_accepted: true }); // eslint-disable-line camelcase
+    const redirectUrl = this.props.location.query.tc_redirect;
+    if (redirectUrl) {
+      const newUrl = appendQuery(redirectUrl, { tc_accepted: true }); // eslint-disable-line camelcase
       window.location.replace(newUrl);
     }
   }
@@ -55,13 +57,16 @@ export class MhvTermsAndConditions extends React.Component {
     this.setState({ isAgreementChecked: !this.state.isAgreementChecked });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.acceptTerms(TERMS_NAME);
+  handleAcceptance = () => {
     this.setState({ showAcceptedMessage: true }, () => {
       scroller.scrollTo('banner', getScrollOptions());
       this.redirect();
     });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.acceptTerms(TERMS_NAME);
   }
 
   handleCancel = (e) => {
