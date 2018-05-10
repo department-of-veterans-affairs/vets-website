@@ -29,6 +29,7 @@ export class MhvTermsAndConditions extends React.Component {
     super(props);
     this.state = {
       isAgreementChecked: false,
+      isSubmitted: false,
       showAcceptedMessage: false,
       showCanceledMessage: false
     };
@@ -40,8 +41,8 @@ export class MhvTermsAndConditions extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.accepted && this.props.accepted) {
-      this.handleAcceptance();
+    if (this.state.isSubmitted && !prevProps.accepted && this.props.accepted) {
+      this.handleAcceptanceSuccess();
     }
   }
 
@@ -57,7 +58,7 @@ export class MhvTermsAndConditions extends React.Component {
     this.setState({ isAgreementChecked: !this.state.isAgreementChecked });
   }
 
-  handleAcceptance = () => {
+  handleAcceptanceSuccess = () => {
     this.setState({ showAcceptedMessage: true }, () => {
       scroller.scrollTo('banner', getScrollOptions());
       this.redirect();
@@ -66,7 +67,9 @@ export class MhvTermsAndConditions extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.acceptTerms(TERMS_NAME);
+    this.setState({ isSubmitted: true }, () => {
+      this.props.acceptTerms(TERMS_NAME);
+    });
   }
 
   handleCancel = (e) => {
