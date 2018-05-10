@@ -170,13 +170,14 @@ export const privateRecordsChoiceHelp = (
   </AdditionalInfo>
 );
 
+const firstOrNextString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'next' : 'first');
 
-export const privateMedicalRecordsIntro = ({ formData }) => {
-  const firstOrNext = formData['view:vaMedicalRecords'] ? 'next' : 'first';
-  return (
-    <p>Ok, {firstOrNext} we’ll ask about your private medical records related to your {getDiagnosticCodeName(formData.diagnosticCode)}.</p>
-  );
-};
+export const privateMedicalRecordsIntro = ({ formData }) => (
+  <p>
+    Ok, {firstOrNextString(formData['view:selectableEvidenceTypes'])} we’ll ask about your private
+    medical records related to your {getDiagnosticCodeName(formData.diagnosticCode)}.
+  </p>
+);
 
 export function validatePostalCodes(errors, formData) {
   let isValidPostalCode = true;
