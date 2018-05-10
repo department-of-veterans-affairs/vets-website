@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import { mount } from 'enzyme';
 
 import { DefinitionTester, submitForm, getFormDOM } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
@@ -79,6 +80,21 @@ describe('686 marriage history', () => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
+  });
+
+  it('should render Former spouse label for previous marriages', () => {
+    const form = mount(
+      <DefinitionTester
+        data={{ marriages: { length: 2 } }}
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
+    );
+
+
+    expect(form.find('#root_spouseFullName_first-label').text().includes('Former spouse')).to.be.true;
+    expect(form.find('#root_spouseFullName_middle-label').text().includes('Former spouse')).to.be.true;
+    expect(form.find('#root_spouseFullName_last-label').text().includes('Former spouse')).to.be.true;
   });
 
   it('should submit with valid data', () => {
