@@ -37,7 +37,7 @@ export class Main extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const { currentlyLoggedIn, showLoginModal } = this.props;
     const nextParam = this.getRedirectUrl();
 
@@ -49,8 +49,7 @@ export class Main extends React.Component {
       window.location.replace(redirectPath);
     }
 
-    const shouldCloseLoginModal =
-      !prevProps.currentlyLoggedIn && currentlyLoggedIn && showLoginModal;
+    const shouldCloseLoginModal = currentlyLoggedIn && showLoginModal;
 
     if (shouldCloseLoginModal) { this.props.toggleLoginModal(false); }
   }

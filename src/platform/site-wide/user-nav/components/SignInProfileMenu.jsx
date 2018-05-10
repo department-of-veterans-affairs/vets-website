@@ -25,7 +25,7 @@ class SignInProfileMenu extends React.Component {
         icon={icon}
         isOpen={this.props.isOpen}
         disabled={this.props.disabled}>
-        {this.propsisDashboardBeta ? <BetaDropdown/> : dropDownContents}
+        {this.props.isDashboardBeta ? <BetaDropdown/> : dropDownContents}
       </DropDownPanel>
     );
   }
