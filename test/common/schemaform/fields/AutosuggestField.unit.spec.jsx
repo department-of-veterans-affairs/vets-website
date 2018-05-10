@@ -376,8 +376,46 @@ describe('<AutosuggestField>', () => {
   });
 
 
-  // I think this is the same as a test above: 'should leave data on blur if partially filled in'
-  it.skip('should allow arbitrary text input if no matches are found', () => {});
+  // The stringifyFormReplacer will send the label to the api instead of the id if freeInput is
+  //  true in the formData
+  it('should set a freeInput property to true in the formData if freeInput is true in ui:options', () => {
+    const validationSpy = sinon.spy();
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          freeInput: true,
+          labels: {
+            AL: 'Label 1',
+            BC: 'Label 2'
+          }
+        },
+        'ui:validations': [validationSpy]
+      },
+      schema: {
+        type: 'string',
+        'enum': ['AL', 'BC']
+      },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange: () => {},
+      onBlur: () => {}
+    };
+    const wrapper = mount(<AutosuggestField {...props}/>);
+
+    // Input something not in options
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'asdf'
+      }
+    });
+
+    setTimeout(() => {
+      const fieldData = validationSpy.firstCall.args[1];
+      expect(fieldData.freeInput).to.be.true;
+    });
+  });
 
 
   it.skip('should fill in other formData when a suggestion is selected', () => {});
