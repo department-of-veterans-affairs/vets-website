@@ -348,12 +348,14 @@ export const veteranInformationViewField = ({ formData }) => {
  */
 export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
+  // A valid rated disability *can* have a rating percentage of 0%
+  const showRatingPercentage = !!(ratingPercentage || ratingPercentage === 0);
 
   return (
     <div>
       {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
       {name && <p className="diagnostic-text">{getDiagnosticText(name)}</p>}
-      {ratingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
+      {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
 };
