@@ -43,7 +43,6 @@ import {
   transform,
   prefillTransformer,
   supportingEvidenceOrientation,
-  evidenceTypesDescription,
   evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
@@ -64,13 +63,15 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
-  queryForFacilities
+  queryForFacilities,
+  getEvidenceTypesDescription
 } from '../helpers';
 
 import {
   requireOneSelected,
   validateTreatmentCenterName
 } from '../validations';
+import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
   treatments: treatmentsSchema,
@@ -319,15 +320,25 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': evidenceTypesDescription,
-                'view:vaMedicalRecords': {
-                  'ui:title': 'VA medical records'
-                },
-                'view:privateMedicalRecords': {
-                  'ui:title': 'Private medical records'
-                },
-                'view:otherEvidence': {
-                  'ui:title': 'Lay statements or other evidence'
+                'view:selectableEvidenceTypes': {
+                  'ui:options': {
+                    // Only way to get access to the disability info like 'name' within this nested schema
+                    updateSchema: (form, schema, uiSchema, index) => ({ title: getEvidenceTypesDescription(form, index) }),
+                    showFieldLabel: true
+                  },
+                  'ui:validations': [validateBooleanGroup],
+                  'ui:errorMessages': {
+                    atLeastOne: 'Please select at least one type of supporting evidence'
+                  },
+                  'view:vaMedicalRecords': {
+                    'ui:title': 'VA medical records'
+                  },
+                  'view:privateMedicalRecords': {
+                    'ui:title': 'Private medical records'
+                  },
+                  'view:otherEvidence': {
+                    'ui:title': 'Lay statements or other evidence'
+                  }
                 },
                 'view:evidenceTypeHelp': {
                   'ui:description': evidenceTypeHelp
@@ -343,14 +354,19 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    'view:vaMedicalRecords': {
-                      type: 'boolean'
-                    },
-                    'view:privateMedicalRecords': {
-                      type: 'boolean'
-                    },
-                    'view:otherEvidence': {
-                      type: 'boolean'
+                    'view:selectableEvidenceTypes': {
+                      type: 'object',
+                      properties: {
+                        'view:vaMedicalRecords': {
+                          type: 'boolean'
+                        },
+                        'view:privateMedicalRecords': {
+                          type: 'boolean'
+                        },
+                        'view:otherEvidence': {
+                          type: 'boolean'
+                        }
+                      }
                     },
                     'view:evidenceTypeHelp': {
                       type: 'object',
@@ -368,7 +384,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -396,7 +412,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -458,7 +474,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -486,7 +502,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -537,7 +553,7 @@ const formConfig = {
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
-            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
             const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
             return hasRecords && requestsRecords;
           },
@@ -639,7 +655,7 @@ const formConfig = {
         recordUpload: {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
-            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
             const uploadRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'yes';
             return hasRecords && uploadRecords;
           },
@@ -712,7 +728,7 @@ const formConfig = {
         },
         documentUpload: {
           title: 'Lay statements or other evidence',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:otherEvidence`, formData),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:otherEvidence`, formData),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),

@@ -95,14 +95,6 @@ export const supportingEvidenceOrientation = (
   </p>
 );
 
-
-export const evidenceTypesDescription = ({ formData }) => {
-  return (
-    <p>What supporting evidence do you have that shows how your {getDiagnosticCodeName(formData.diagnosticCode)} <strong>has worsened since VA rated your disability</strong>?</p>
-  );
-};
-
-
 export const evidenceTypeHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
     <h3>Types of evidence</h3>
@@ -576,3 +568,15 @@ export function queryForFacilities(input = '', setOptions) {
   // Emulate a fast api call
   return Promise.resolve(setOptions(options.filter(o => o.label.includes(input))));
 }
+
+
+const evidenceTypesDescription = (disabilityName) => {
+  return (
+    <p>What supporting evidence do you have that shows how your {disabilityName} <strong>has worsened since VA rated your disability</strong>?</p>
+  );
+};
+
+export const getEvidenceTypesDescription = (form, index) => {
+  return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
+};
+
