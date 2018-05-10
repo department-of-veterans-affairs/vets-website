@@ -22,6 +22,9 @@ import ClaimsUnavailable from '../../../claims-status/components/ClaimsUnavailab
 import AppealsUnavailable from '../../../claims-status/components/AppealsUnavailable';
 import ClaimsAppealsUnavailable from '../../../claims-status/components/ClaimsAppealsUnavailable';
 
+import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealsListItemV2';
 
@@ -78,6 +81,28 @@ class ClaimsAppealsWidget extends React.Component {
     return null;
   }
 
+  renderWidgetDowntimeNotification = (appName) => {
+    return (status, downtimeWindow, downtimeMap, children) => {
+      switch (status) {
+        case 'down':
+          return (
+            <div>
+              <AlertBox
+                content={<div>
+                  <h4 className="usa-alert-heading">{appName} is down for maintenance</h4>
+                  <p>We’re making some updates to our {appName.toLowerCase()} tool. We’re sorry it’s not working right now and hope to be finished by {downtimeWindow.startTime.format('MMMM Do')}, {downtimeWindow.endTime.format('LT')}. Please check back soon.</p>
+                </div>}
+                isVisible
+                status="warning"/>
+            </div>
+          );
+        default:
+          return children;
+      }
+    };
+  }
+
+
   render() {
     const {
       claimsAppealsCount,
@@ -116,6 +141,12 @@ class ClaimsAppealsWidget extends React.Component {
       <div>
         <h2>Track Claims</h2>
         <div>
+          <DowntimeNotification appTitle="claims" dependencies={[services.mhv]} render={this.renderWidgetDowntimeNotification('Claims tracking')}>
+            <div/>
+          </DowntimeNotification>
+          <DowntimeNotification appTitle="appeals" dependencies={[services.appeals]} render={this.renderWidgetDowntimeNotification('Appeals tracking')}>
+            <div/>
+          </DowntimeNotification>
           {this.renderErrorMessages()}
           {content}
           <p><Link href="/track-claims">View all your claims and appeals</Link>.</p>
