@@ -583,7 +583,7 @@ const formConfig = {
                         'addressLine2',
                         'city',
                         'state',
-                        'zip'
+                        'zipCode'
                       ],
                       // TODO: confirm validation for PCIU address across all usage
                       // 'ui:validations': [validateAddress],
@@ -602,7 +602,7 @@ const formConfig = {
                       state: {
                         'ui:title': 'State'
                       },
-                      zip: {
+                      zipCode: {
                         'ui:title': 'Postal code',
                         'ui:options': {
                           widgetClassNames: 'usa-input-medium',
