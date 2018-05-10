@@ -71,8 +71,7 @@ function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, re
 }
 
 async function sendProfileRequests() {
-  const result = {};
-  const requests = [
+  return [
     ['email', '/profile/email'],
     ['primaryTelephone', '/profile/primary_phone'],
     ['alternateTelephone', '/profile/alternate_phone'],
@@ -80,19 +79,21 @@ async function sendProfileRequests() {
     ['serviceHistory', '/profile/service_history'],
     ['personalInformation', '/profile/personal_information'],
     ['userFullName', '/profile/full_name']
-  ];
-
-  /* eslint-disable no-await-in-loop */
-  for (const [property, url] of requests) {
+  ].map(async ([propertyName, apiRoute]) => {
+    let propertyValue = null;
     try {
-      const response = await apiRequest(url);
-      result[property] = response.data.attributes;
+      const response = await apiRequest(apiRoute);
+      propertyValue = response.data.attributes;
     } catch (err) {
-      // Allow the property to remain undefined
+      // Let propertyValue remain null
     }
-  }
-
-  return result;
+    return [propertyName, propertyValue];
+  }).reduce(async (resultPromise, pendingRequest) => {
+    const result = await resultPromise;
+    const [propertyName, propertyValue] = await pendingRequest;
+    result[propertyName] = propertyValue;
+    return result;
+  }, {});
 }
 
 export function fetchVaProfile() {
