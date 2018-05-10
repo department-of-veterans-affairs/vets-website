@@ -18,7 +18,7 @@ export default function PrescriptionCard({ prescription }) {
       <p>
         <strong>Order status:</strong> {headerText[refillStatus]}
       </p>
-      <p><strong>You submitted your refil order on:</strong> {
+      <p><strong>You submitted your refill order on:</strong> {
         formatDate(refillSubmitDate || refillDate, {
           format: 'L'
         })

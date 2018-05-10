@@ -18,7 +18,7 @@ export default function AccountVerification({ loa }) {
         status="info"/>
     );
   } else {
-    content = <p><i className="fa fa-check-circle"/> Your account has been verified.</p>;
+    content = <p><i className="fa fa-check-circle"/> We’ve verified your identity.</p>;
   }
 
   return (

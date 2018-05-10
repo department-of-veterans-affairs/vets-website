@@ -78,10 +78,11 @@ const formConfig = {
   version: 0,
   prefillEnabled: false,
   savedFormMessages: {
-    notFound: 'Please start over to apply for declaration of status of dependents.',
-    noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
+    notFound: 'Please start over to apply to add a dependent to your VA compensation benefits.',
+    noAuth: 'Please sign in again to continue your application to add a dependent to your VA compensation benefits.'
   },
-  title: 'Declaration of status of dependents',
+  title: 'Apply to add a dependent to your VA benefits',
+  subTitle: 'VA Form 21-686c',
   getHelp: GetFormHelp,
   defaultDefinitions: {
     marriages,
