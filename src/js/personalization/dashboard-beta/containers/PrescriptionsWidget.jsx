@@ -44,7 +44,7 @@ class PrescriptionsWidget extends React.Component {
 
       return (
         <div>
-          <h2>Prescription Refills</h2>
+          <h2>Refill Prescriptions</h2>
           <div>
             {content}
           </div>
