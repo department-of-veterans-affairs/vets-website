@@ -342,7 +342,7 @@ describe('data utils (lodash replacements)', () => {
     });
   });
 
-  describe.only('debounce', () => {
+  describe('debounce', () => {
     const spy = sinon.spy();
 
     beforeEach(() => {
