@@ -1,5 +1,5 @@
 import recordEvent from '../../../monitoring/record-event';
-import { removeFormApi } from '../../../../js/common/schemaform/save-in-progress/api';
+import { removeFormApi } from '../../../../applications/common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../../utilities/api';
 import { updateLoggedInStatus } from '../../../site-wide/user-nav/actions';
 import environment from '../../../utilities/environment';

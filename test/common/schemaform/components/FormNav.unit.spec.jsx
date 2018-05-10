@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import FormNav from '../../../../src/js/common/schemaform/components/FormNav';
+import FormNav from '../../../../src/applications/common/schemaform/components/FormNav';
 
 describe('Schemaform FormNav', () => {
   it('should render current chapter data', () => {

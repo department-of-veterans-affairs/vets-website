@@ -4,7 +4,7 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import { getUserData } from '../../../user/profile/actions';
-import { isUserRegisteredForBeta } from '../../../../js/personalization/beta-enrollment/actions';
+import { isUserRegisteredForBeta } from '../../../../applications/personalization/beta-enrollment/actions';
 import recordEvent from '../../../monitoring/record-event';
 
 import {
