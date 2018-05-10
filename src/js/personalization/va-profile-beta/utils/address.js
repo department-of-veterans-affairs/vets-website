@@ -11,7 +11,7 @@ const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 * @readonly
 * @enum {AddressType}
 */
-const ADDRESS_TYPES = {
+export const ADDRESS_TYPES = {
   domestic: 'DOMESTIC',
   international: 'INTERNATIONAL',
   military: 'MILITARY'
@@ -38,7 +38,7 @@ const ADDRESS_TYPES = {
  * @param {Address} address
  * @returns {Address}
  */
-function consolidateAddress(address) {
+export function consolidateAddress(address) {
   const consolidated = {
     ...address
   };
@@ -70,7 +70,7 @@ function getInferredAddressType(address) {
  * @param {Address} address
  * @returns {Address}
  */
-function expandAddress(address) {
+export function expandAddress(address) {
   const expanded = {
     ...address,
     type: getInferredAddressType(address)
@@ -92,15 +92,50 @@ function expandAddress(address) {
  * @param {Address} address
  * @returns {boolean}
  */
-function isEmptyAddress(address) {
+export function isEmptyAddress(address) {
   const ignore = ['type', 'countryName'];
   return Object.keys(address)
     .filter(prop => !ignore.includes(prop))
     .every(prop => !address[prop]);
 }
 
-function getStateName(abbreviation) {
+export function getStateName(abbreviation) {
   return STATE_NAMES[abbreviation];
 }
 
-export { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName, isEmptyAddress };
+
+/**
+ * Accepts any address and returns an object containing the fields formatted for display
+ * @param {Address} address
+ * @returns {object} An object containing properties for street, cityStateZip, and country
+ */
+export function formatAddress(address) {
+  /* eslint-disable prefer-template */
+  let street = address.addressOne || '';
+  if (address.addressOne && address.addressTwo) street += ', ';
+  if (address.addressTwo) street += address.addressTwo;
+  if (address.addressThree) street += ' ' + address.addressThree;
+
+  const country = address.type === ADDRESS_TYPES.international ? address.countryName : '';
+  let cityStateZip = '';
+
+  switch (address.type) {
+    case ADDRESS_TYPES.domestic:
+      cityStateZip = address.city || '';
+      if (address.city && address.state) cityStateZip += ', ';
+      if (address.state) cityStateZip += getStateName(address.state);
+      if (address.zipCode) cityStateZip += ' ' + address.zipCode;
+      break;
+    case ADDRESS_TYPES.military:
+      cityStateZip = address.militaryPostOfficeTypeCode || '';
+      if (address.militaryPostOfficeTypeCode && address.militaryStateCode) cityStateZip += ', ';
+      if (address.militaryStateCode) cityStateZip += address.militaryStateCode;
+      if (address.zipCode) cityStateZip += ' ' + address.zipCode;
+      break;
+    case ADDRESS_TYPES.international:
+    default:
+      cityStateZip = address.city;
+  }
+
+  return { street, cityStateZip, country };
+}

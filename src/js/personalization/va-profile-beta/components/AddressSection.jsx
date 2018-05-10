@@ -5,7 +5,7 @@ import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
-import { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName, isEmptyAddress } from '../utils';
+import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from '../utils/address';
 
 class EditAddressModal extends React.Component {
 
@@ -63,32 +63,7 @@ class EditAddressModal extends React.Component {
 }
 
 function AddressView({ address }) {
-  /* eslint-disable prefer-template */
-  let street = address.addressOne || '';
-  if (address.addressOne && address.addressTwo) street += ', ';
-  if (address.addressTwo) street += address.addressTwo;
-  if (address.addressThree) street += ' ' + address.addressThree;
-
-  const country = address.type === ADDRESS_TYPES.international ? address.countryName : '';
-  let cityStateZip = '';
-
-  switch (address.type) {
-    case ADDRESS_TYPES.domestic:
-      cityStateZip = address.city || '';
-      if (address.city && address.state) cityStateZip += ', ';
-      if (address.state) cityStateZip += getStateName(address.state);
-      if (address.zipCode) cityStateZip += ' ' + address.zipCode;
-      break;
-    case ADDRESS_TYPES.military:
-      cityStateZip = address.militaryPostOfficeTypeCode || '';
-      if (address.militaryPostOfficeTypeCode && address.militaryStateCode) cityStateZip += ', ';
-      if (address.militaryStateCode) cityStateZip += address.militaryStateCode;
-      if (address.zipCode) cityStateZip += ' ' + address.zipCode;
-      break;
-    case ADDRESS_TYPES.international:
-    default:
-      cityStateZip = address.city;
-  }
+  const { street, cityStateZip, country } = formatAddress(address);
 
   return (
     <div>
