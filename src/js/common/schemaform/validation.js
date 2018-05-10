@@ -91,19 +91,33 @@ export function transformErrors(errors, uiSchema) {
  *
  * someField: {
  *   "ui:validations": [
- *     someValidationFunction,
+ *     someValidation
  *   ]
  * }
  *
- * The function is passed errors, fieldData, pageData, formData, and otherData and
- * should call addError to add the error.
- *
+ * Each item in the ui:validations array can be a function OR an object:
+ *    - Functions are called with (in order)
+ *        pathErrors:                   Errors object for the field
+ *        currentData:                  Data for the field
+ *        formData:                     Current form data
+ *        schema:                       Current JSON Schema for the field
+ *        uiSchema['ui:errorMessages']: Error messsage object (if available) for the field
+ *        currentIndex:                 Used to select the correct field data to validate against
+ *    - Objects should have two properties, 'options' and 'validator'
+ *        options:   Object (or anything, really) that will be passed to your validation function.
+ *                   You can use this to allow your validation function to be configurable for
+ *                   different fields on the form.
+ *        validator: Same signature as function above, but with extra 'options' object as the
+ *                   second-to-last argument (...options, currentIndex)
+ * Both versions of custom validators should call `addError()` to actually add any errors to the
+ * errors object
+ * 
  * @param {Object} errors Errors object from rjsf, which includes an addError method
  * @param {Object} uiSchema The uiSchema for the current field
  * @param {Object} schema The schema for the current field
  * @param {Object} formData The (flattened) data for the entire form
- * @param {String} path The path to the current field relative to the root of the page.
- *   Used to select the correct field data to validate against
+ * @param {string} [path] The path to the current field relative to the root of the page.
+ * @param {number} [currentIndex] Used to select the correct field data to validate against
  */
 
 export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '', currentIndex = null) {

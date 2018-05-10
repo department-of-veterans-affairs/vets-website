@@ -33,9 +33,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={onEdit}
-        pages={pages}
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
@@ -46,10 +46,6 @@ describe('<ReviewCollapsibleChapter>', () => {
 
   it('should handle editing array page', () => {
     const onEdit = sinon.spy();
-    const pages = [{
-      title: '',
-      pageKey: 'test'
-    }];
     const chapterKey = 'test';
     const chapter = {};
     const form = {
@@ -73,9 +69,8 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={onEdit}
-        pages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
@@ -87,6 +82,12 @@ describe('<ReviewCollapsibleChapter>', () => {
   it('should display a page for each item for an array page', () => {
     const onEdit = sinon.spy();
     const pages = [{
+      title: '',
+      pageKey: 'test',
+      showPagePerItem: true,
+      arrayPath: 'testing',
+      path: 'path/:index'
+    }, {
       title: '',
       pageKey: 'test',
       showPagePerItem: true,
@@ -126,9 +127,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         viewedPages={new Set()}
         onEdit={onEdit}
         open
-        pages={pages}
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
@@ -183,13 +184,14 @@ describe('<ReviewCollapsibleChapter>', () => {
         viewedPages={new Set()}
         onEdit={() => {}}
         open
-        pages={pages}
+        pageKeys={['test1', 'test2', 'test3']}
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
-    expect(tree.everySubTree('.form-review-panel-page')).to.have.length(1);
+    expect(tree.everySubTree('.form-review-panel-page')).to.have.length(2);
   });
 
   it('should display condition pages with fulfilled conditions', () => {
@@ -239,9 +241,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         viewedPages={new Set()}
         onEdit={() => {}}
         open
-        pages={pages}
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
@@ -278,21 +280,15 @@ describe('<ReviewCollapsibleChapter>', () => {
         viewedPages={new Set()}
         onEdit={onEdit}
         open
-        pages={pages}
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
+        showUnviewedPageWarning
         form={form}/>
     );
 
     expect(wrapper.find('.schemaform-review-chapter-warning').length).to.equal(1);
     expect(wrapper.find('.schemaform-review-page-warning').length).to.equal(1);
-
-    wrapper.setProps({
-      open: false
-    });
-
-    // Closing chapter should mark as viewed
-    expect(setPagesViewed.firstCall.args[0]).to.eql(['test']);
   });
   it('should handle submitting array page', () => {
     const onEdit = sinon.spy();
@@ -325,9 +321,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         viewedPages={new Set()}
         onEdit={onEdit}
         setData={setData}
-        pages={pages}
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
