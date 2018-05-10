@@ -66,7 +66,7 @@ class IntroductionPage extends React.Component {
                 <li>VA medical and hospital records that show your rated disability has gotten worse</li>
                 <li>Private medical and hospital records that show your rated disability has gotten worse</li>
               </ul>
-              <p>In some cases, you may need to turn in one or more supplemental forms to support your claim. For example, you’ll need to fill out another form if you’re claiming a dependent or applying for aid and attendance benefits.<br> <a href="#">Learn what additional forms you may need to file with your disability claim</a>.</p>
+              <p>In some cases, you may need to turn in one or more supplemental forms to support your claim. For example, you’ll need to fill out another form if you’re claiming a dependent or applying for aid and attendance benefits.<br/> <a href="https://github.com/department-of-veterans-affairs/vets-website/pull/disability-benefits/apply/supplemental-forms/">Learn what additional forms you may need to file with your disability claim</a>.</p>
               <p><strong>What if I need help filling out my application?</strong></p>
               <p>An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. </p>
               <p><a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
