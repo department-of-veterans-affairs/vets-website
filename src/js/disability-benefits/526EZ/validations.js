@@ -8,3 +8,19 @@ export function requireOneSelected(errors, fieldData, formData, schema, errorMes
     errors.addError('Please select at least one condition (or all that apply).');
   }
 }
+
+
+// Make sure all the validations on label get displayed on the parent object
+export function validateTreatmentCenterName(errors, fieldData, formData, schema) {
+  const { maxLength, pattern } = schema.properties.label;
+  const input = fieldData.label;
+
+  if (maxLength && input.length > maxLength) {
+    errors.addError(`Please enter a name with fewer than ${maxLength} characters.`);
+  }
+
+  if (pattern && !(new RegExp(pattern)).test(input)) {
+    // TODO: Figure out how to communicate this more effectively
+    errors.addError('Please enter a valid name.');
+  }
+}

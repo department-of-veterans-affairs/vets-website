@@ -67,7 +67,10 @@ import {
   queryForFacilities
 } from '../helpers';
 
-import { requireOneSelected } from '../validations';
+import {
+  requireOneSelected,
+  validateTreatmentCenterName
+} from '../validations';
 
 const {
   treatments: treatmentsSchema,
@@ -415,7 +418,10 @@ const formConfig = {
                         'ui:options': {
                           queryForResults: true,
                           freeInput: true,
-                        }
+                        },
+                        'ui:validations': [
+                          validateTreatmentCenterName
+                        ]
                       }
                     ),
                     treatmentDateRange: dateRangeUI(
