@@ -4,7 +4,7 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import FormNav from '../components/FormNav';
+import FormApp from '../containers/FormApp';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
