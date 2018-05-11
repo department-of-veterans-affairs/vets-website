@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { pciuCountries, pciuStates } from '../../../platform/forms/address';
+import { pciuCountries, pciuStates } from './helpers';
 
 import formConfig from './config/form';
 import createSchemaFormReducer from '../../common/schemaform/state';

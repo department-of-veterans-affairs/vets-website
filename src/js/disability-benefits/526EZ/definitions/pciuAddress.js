@@ -1,6 +1,6 @@
 import PCIUAddressField from '../fields/PCIUAddressField';
 
-import { pciuStates, militaryStateCodes, pciuCountries, ADDRESS_TYPES } from '../../../../platform/forms/address';
+import { pciuStates, militaryStateCodes, pciuCountries, ADDRESS_TYPES } from '../helpers';
 
 const { domestic, military } = ADDRESS_TYPES;
 /*

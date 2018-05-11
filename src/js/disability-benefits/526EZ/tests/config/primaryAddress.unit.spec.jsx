@@ -7,9 +7,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
-import {
-  DefinitionTester // selectCheckbox
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import reducer from '../../reducer';
 import initialData from '../schema/initialData.js';

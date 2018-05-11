@@ -2,8 +2,6 @@ import _ from 'lodash';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
-import { pciuStateValues, pciuStateNames, militaryStateCodes, pciuCountries } from '../../../../platform/forms/address';
-
 import dateUI from '../../../common/schemaform/definitions/date';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 import { pciuAddressUISchema } from '../definitions/pciuAddress';
@@ -11,7 +9,7 @@ import EmailWidget from '../../../common/schemaform/widgets/EmailWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import { PrimaryAddressViewField } from '../helpers';
+import { PrimaryAddressViewField, pciuStateValues, pciuStateNames, militaryStateCodes, pciuCountries } from '../helpers';
 
 function isValidPhone(value) {
   if (value !== null) {
