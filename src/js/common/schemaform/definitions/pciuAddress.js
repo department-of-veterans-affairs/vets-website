@@ -1,5 +1,7 @@
 import PCIUAddressField from '../fields/PCIUAddressField';
 
+import { pciuStates, militaryStateCodes } from '../../../../platform/forms/address';
+
 /*
  * Create uiSchema for PCIU addresses
  *
@@ -7,32 +9,69 @@ import PCIUAddressField from '../fields/PCIUAddressField';
  * @param {string} title - Block label for the address
  */
 export const pciuAddressUISchema = (addressName, title) => {
-
   return {
     'ui:title': title,
+    'ui:order': ['country', 'addressLine1', 'addressLine2', 'addressLine3',
+      'city', 'state', 'zipCode', 'militaryPostOfficeTypeCode', 'militaryStateCode'],
+    country: {
+      'ui:title': 'Country',
+      'ui:options': {
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === 'MILITARY'
+      }
+    },
     addressLine1: {
       'ui:title': 'Street',
       'ui:errorMessages': {
-        "^([a-zA-Z0-9\\-'.,,&#]([a-zA-Z0-9\\-'.,,&# ])?)+$": "Please only use letters, numbers, and the special characters -'.,,&#"
-      },
+        pattern: "Please only use letters, numbers, and the special characters -'.,,&#"
+      }
     },
     addressLine2: {
       'ui:title': 'Line 2',
       'ui:errorMessages': {
-        "^([a-zA-Z0-9\\-'.,,&#]([a-zA-Z0-9\\-'.,,&# ])?)+$": "Please only use letters, numbers, and the special characters -'.,,&#"
-      },
+        pattern: "Please only use letters, numbers, and the special characters -'.,,&#"
+      }
     },
     addressLine3: {
       'ui:title': 'Line 3',
       'ui:errorMessages': {
-        "^([a-zA-Z0-9\\-'.,,&#]([a-zA-Z0-9\\-'.,,&# ])?)+$": "Please only use letters, numbers, and the special characters -'.,,&#"
-      },
+        pattern: "Please only use letters, numbers, and the special characters -'.,,&#"
+      }
+    },
+    city: {
+      'ui:title': 'City (or APO/FPO/DPO)',
+      'ui:options': {
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === 'MILITARY'
+      }
+    },
+    state: {
+      'ui:title': 'State (or AA/AE/AP)',
+      'ui:options': {
+        labels: pciuStates,
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type !== 'DOMESTIC'
+      }
     },
     zipCode: {
+      'ui:title': 'ZIP code',
       'ui:errorMessages': {
-        '^\\d{5}(?:[-\\s]\\d{4})?$': 'Please enter a valid 5 or 9 digit ZIP code (dashes allowed)'
+        pattern: 'Please enter a valid 5 or 9 digit ZIP code (dashes allowed)'
       },
+      'ui:options': {
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type !== 'DOMESTIC'
+      }
     },
-    'ui:field': PCIUAddressField,
+    militaryPostOfficeTypeCode: {
+      'ui:title': 'City (or APO/FPO/DPO)',
+      'ui:options': {
+        hideIf: formData => !formData.veteran[addressName] || formData.veteran[addressName].type !== 'MILITARY'
+      }
+    },
+    militaryStateCode: {
+      'ui:title': 'State (or AA/AE/AP)',
+      'ui:options': {
+        labels: militaryStateCodes,
+        hideIf: formData => !formData.veteran[addressName] || formData.veteran[addressName].type !== 'MILITARY'
+      }
+    },
+    'ui:field': PCIUAddressField
   };
 };

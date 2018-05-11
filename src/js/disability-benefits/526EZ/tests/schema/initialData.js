@@ -16,15 +16,15 @@ export default {
     bankName: 'Local bank'
   },
   veteran: {
-    primaryPhone: '2342342342',
-    secondaryPhone: '3242342342',
+    primaryPhone: '23423423426',
+    secondaryPhone: '32423423426',
     emailAddress: 'test@test.com',
     mailingAddress: {
       type: 'DOMESTIC',
       country: 'USA',
       city: 'Detroit',
       state: 'MI',
-      zipCode: '234563453',
+      zipCode: '2345634953',
       addressLine1: '234 Maple St.'
     }
   },

@@ -2,9 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import _ from 'lodash/fp';
 
-
-import { DefinitionTester, // selectCheckbox 
+import {
+  DefinitionTester // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
@@ -19,8 +20,8 @@ describe('Disability benefits 526EZ primary address', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{}}
-        formData={{}}
+        data={initialData}
+        formData={initialData}
         uiSchema={uiSchema}/>
     );
 
@@ -32,16 +33,11 @@ describe('Disability benefits 526EZ primary address', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{ veteran: {
-          'view:hasForwardingAddress': true
-        }
-        }}
-        formData={{ veteran: {
-          'view:hasForwardingAddress': true
-        }
-        }}
+        data={_.set('view:hasForwardingAddress', true, initialData)}
+        formData={_.set('view:hasForwardingAddress', true, initialData)}
         uiSchema={uiSchema}/>
     );
+    console.log(JSON.stringify(form));
     expect(form.find('select').length).to.equal(6);
     expect(form.find('input').length).to.equal(13);
   });
@@ -51,8 +47,8 @@ describe('Disability benefits 526EZ primary address', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{}}
-        formData={{}}
+        data={initialData}
+        formData={initialData}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );

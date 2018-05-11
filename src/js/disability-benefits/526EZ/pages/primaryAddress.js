@@ -10,6 +10,7 @@ import EmailWidget from '../../../common/schemaform/widgets/EmailWidget';
 import ReviewCardField from '../components/ReviewCardField';
 
 import { PrimaryAddressViewField } from '../helpers';
+import { militaryStateCodes } from '../../../../platform/forms/address';
 
 function isValidPhone(value) {
   if (value !== null) {
@@ -27,7 +28,7 @@ function validatePhone(errors, phone) {
 }
 
 export const hasForwardingAddress = formData => {
-  return !!formData.veteran['view:hasForwardingAddress'];
+  return formData.veteran && !!formData.veteran['view:hasForwardingAddress'];
 };
 
 // TODO: replace with updated pciu schema (phone, zipCode)
@@ -38,9 +39,6 @@ const addressSchema = {
       type: 'string',
     },
     country: {
-      type: 'string',
-    },
-    state: {
       type: 'string',
     },
     addressLine1: {
@@ -63,6 +61,9 @@ const addressSchema = {
       maxLength: 35,
       pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
     },
+    state: {
+      type: 'string',
+    },
     zipCode: {
       type: 'string'
     },
@@ -71,6 +72,7 @@ const addressSchema = {
     },
     militaryStateCode: {
       type: 'string',
+      'enum': militaryStateCodes
     }
   }
 };
