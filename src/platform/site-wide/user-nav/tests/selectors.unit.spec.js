@@ -41,6 +41,7 @@ describe('User navigation selectors', () => {
       });
 
       expect(result).to.equal('Jane');
+      delete window.sessionStorage.userFirstName;
     });
   });
 });
