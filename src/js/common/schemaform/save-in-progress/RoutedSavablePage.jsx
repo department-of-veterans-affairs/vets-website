@@ -44,7 +44,7 @@ class RoutedSavablePage extends React.Component {
       <div>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={user.login.showModal}
+          showLoginModal={this.props.showLoginModal}
           toggleLoginModal={this.props.toggleLoginModal}
           form={form}>
         </SaveStatus>
@@ -52,6 +52,7 @@ class RoutedSavablePage extends React.Component {
           locationPathname={this.props.location.pathname}
           form={form}
           user={user}
+          showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}/>
       </div>
@@ -71,7 +72,8 @@ class RoutedSavablePage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
-    user: state.user
+    user: state.user,
+    showLoginModal: state.navigation.showLoginModal
   };
 }
 
