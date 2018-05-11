@@ -115,7 +115,7 @@ describe('Disability benefits 526EZ primary address', () => {
     expect(onSubmit.called).to.be.false;
   });
   it('does submit with required info', () => {
-    const onSubmit = sinon.spy();
+    // const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={store}>
         <DefinitionTester

@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import {
   flatten,
   isPrefillDataComplete,
-  prefillTransformer
+  prefillTransformer,
+  mergeAndLabelStateCodes
 } from '../helpers.jsx';
 import initialData from './schema/initialData.js';
 
@@ -20,6 +21,7 @@ const completeData = initialData;
 const incompleteData = {};
 const { formData: transformedPrefill } = prefillTransformer([], initialData, {}, { prefilStatus: 'success' });
 const { formData: incompletePrefill } = prefillTransformer([], {}, {}, { prefilStatus: 'success' });
+const stateList = mergeAndLabelStateCodes(['AA', 'AZ']);
 
 describe('526 helpers', () => {
   describe('flatten', () => {
@@ -42,6 +44,14 @@ describe('526 helpers', () => {
     });
     it('should not record if the form was not completely prefilled', () => {
       expect(incompletePrefill.prefilled).to.be.undefined;
+    });
+  });
+  describe('mergeAndLabelStateCodes', () => {
+    it('should label state codes', () => {
+      expect(stateList[1].label).to.equal('Arizona');
+    });
+    it('should merge state codes with military state codes', () => {
+      expect(stateList[3].value).to.equal('AP');
     });
   });
 });

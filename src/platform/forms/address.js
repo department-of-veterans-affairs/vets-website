@@ -716,8 +716,9 @@ export const pciuStates = [
   { label: 'Wyoming', value: 'WY' }
 ];
 
-export const pciuStateCodesToLabels = pciuStates.map(object => {
-  return { [object.value]: object.label };
+export const pciuStateCodesToLabels = pciuStates.reduce((acc, item) => {
+  acc[item.value] = item.label;
+  return acc;
 });
 export const pciuStateValues = pciuStates.map(object => object.value);
 export const pciuStateNames = pciuStates.map(object => object.label);

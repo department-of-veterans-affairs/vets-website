@@ -61,14 +61,13 @@ class PCIUAddressField extends React.Component {
     }
   }
 
-
   setValue = (value, title) => {
     this.props.onChange(_.set(title, value, this.props.formData));
   };
 
   setType = (value, title) => {
     let newData = _.set(title, value, this.props.formData);
-    if (militaryPostOfficeTypeCodes.includes(_.uppercase(value)) || militaryStateCodes.includes(value)) {
+    if (this.isMilitary(value, title)) {
       newData = _.set('type', military, newData);
       newData = this.unsetNonMilitaryValues(newData);
     } else if ((title === 'country' && value === 'USA') || title === 'state') {
@@ -77,13 +76,25 @@ class PCIUAddressField extends React.Component {
     } else if (title === 'country' && value !== 'USA') {
       newData = _.set('type', international, newData);
       newData = this.unsetMilitaryValues(newData);
-    } else if ((title === 'city' || title === 'militaryPostOfficeTypeCode') &&
-      !militaryPostOfficeTypeCodes.includes(_.uppercase(value))) {
-      newData = _.set('type', international, newData);
+    } else if (this.isNonMilitaryCity(value, title)) {
       newData = this.unsetMilitaryValues(newData);
     }
     this.props.onChange(newData);
   };
+
+  isMilitary = (value, title) => {
+    if (title === 'militaryPostOfficeTypeCode' && militaryPostOfficeTypeCodes.includes(_.uppercase(value))) {
+      return true;
+    }
+    if (title === 'militaryStateCode' && militaryStateCodes.includes(value)) {
+      return true;
+    }
+    return false;
+  }
+
+  isNonMilitaryCity = (value, title) => {
+    return !!(title === 'city' || title === 'militaryPostOfficeTypeCode') && !this.isMilitary(value, title);
+  }
 
   // This runs a series of steps that order properties and then group them into
   // expandable groups. If there are no expandable groups, then the end result of this

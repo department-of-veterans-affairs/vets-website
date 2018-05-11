@@ -451,6 +451,7 @@ const EffectiveDateViewField = ({ formData }) => {
 };
 
 const AddressViewField = ({ formData }) => {
+
   const {
     addressLine1, addressLine2, addressLine3, city, state,
     zipCode, militaryStateCode, militaryPostOfficeTypeCode
@@ -458,16 +459,17 @@ const AddressViewField = ({ formData }) => {
   let zipString;
   let stateString;
   let cityString;
+
   if (zipCode) {
     const firstFive = zipCode.slice(0, 5);
     const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
-    zipString = `${firstFive}${lastChunk}`;
+    zipString = firstFive + lastChunk;
   }
   if (city || militaryPostOfficeTypeCode) {
-    cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
+    cityString = city || militaryPostOfficeTypeCode;
   }
   if (state || militaryStateCode) {
-    stateString = `${state}` || `${militaryStateCode}`;
+    stateString = state || militaryStateCode;
   }
   return (
     <div>
@@ -567,15 +569,15 @@ export const getEvidenceTypesDescription = (form, index) => {
 function mergeStateLists(firstList, secondList) {
   const combinedList = [];
   let p1 = 0;
-  let p2 = 9;
+  let p2 = 0;
   while (firstList[p1] || secondList[p2]) {
     const firstListItem = firstList[p1];
     const secondListItem = secondList[p2];
-    if (firstListItem.label < secondListItem.label) {
+    if (!secondListItem || (firstListItem && firstListItem.label < secondListItem.label)) {
       combinedList.push(firstListItem);
       p1++;
-    } else if (secondListItem.label < firstListItem.label) {
-      combinedList.push(firstListItem);
+    } else if (!firstListItem || (secondListItem && secondListItem.label < firstListItem.label)) {
+      combinedList.push(secondListItem);
       p2++;
     } else {
       combinedList.push(firstListItem);
@@ -587,9 +589,11 @@ function mergeStateLists(firstList, secondList) {
 }
 
 export const mergeAndLabelStateCodes = (stateCodes) => {
+
   const stateList = stateCodes.map(code => {
     return { value: code, label: pciuStateCodesToLabels[code] };
   });
+
   return mergeStateLists(stateList, militaryStateNames);
 };
 
