@@ -1,7 +1,7 @@
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { removeFormApi } from '../../../common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../../../platform/utilities/api';
-import { getUserData } from '../../../../platform/user/profile/actions';
+import { getProfile } from '../../../../platform/user/profile/actions';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
@@ -81,7 +81,7 @@ export function acceptTerms(termsName) {
       settings,
       () => {
         dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_SUCCESS });
-        getUserData(dispatch);
+        dispatch(getProfile());
       },
       () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
     );
@@ -94,7 +94,7 @@ export function removeSavedForm(formId) {
     return removeFormApi(formId)
       .then(() => {
         dispatch(removingSavedFormSuccess(formId));
-        getUserData(dispatch);
+        dispatch(getProfile());
       })
       .catch(() => dispatch(removingSavedFormFailure()));
   };

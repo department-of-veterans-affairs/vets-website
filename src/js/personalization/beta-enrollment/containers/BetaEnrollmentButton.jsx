@@ -2,8 +2,9 @@ import appendQuery from 'append-query';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { registerBeta, isUserRegisteredForBeta } from '../actions';
+import { registerBeta } from '../actions';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import { createIsServiceAvailableSelector } from '../../../../platform/user/selectors';
 
 class BetaEnrollmentButton extends React.Component {
   static propTypes = {
@@ -38,7 +39,7 @@ class BetaEnrollmentButton extends React.Component {
   }
 
   render() {
-    if (this.props.isUserRegisteredForBeta(this.props.feature)) this.onRegistered();
+    if (this.props.isUserRegisteredForBeta) this.onRegistered();
 
     if (this.state.hasError) {
       return (
@@ -65,15 +66,16 @@ class BetaEnrollmentButton extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const isServiceAvailable = createIsServiceAvailableSelector(ownProps.feature);
   return {
-    user: state.user
+    user: state.user,
+    isUserRegisteredForBeta: isServiceAvailable(state)
   };
 };
 
 const mapDispatchToProps = {
-  registerBeta,
-  isUserRegisteredForBeta
+  registerBeta
 };
 
 const BetaEnrollmentButtonContainer = connect(mapStateToProps, mapDispatchToProps)(BetaEnrollmentButton);
