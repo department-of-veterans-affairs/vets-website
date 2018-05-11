@@ -6,13 +6,6 @@ export const REGISTER_SERVICE = 'REGISTER_SERVICE';
 export const UNREGISTERING_SERVICE = 'UNREGISTERING_SERVICE';
 export const UNREGISTER_SERVICE = 'UNREGISTER_SERVICE';
 
-export function isUserRegisteredForBeta(service) {
-  return (dispatch, getState) => {
-    const { user } = getState();
-    return user.profile.services.includes(service);
-  };
-}
-
 export function registerBeta(service) {
   return dispatch => {
     dispatch({ type: REGISTERING_SERVICE, service });

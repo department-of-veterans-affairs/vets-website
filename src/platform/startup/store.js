@@ -7,7 +7,8 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import feedback from '../site-wide/feedback/reducers';
-import login from '../site-wide/user-nav/reducers';
+import navigation from '../site-wide/user-nav/reducers';
+import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
 
 /**
@@ -16,6 +17,7 @@ import profile from '../user/profile/reducers';
  */
 export const commonReducer = {
   user: combineReducers({ login, profile }),
+  navigation,
   feedback,
   scheduledDowntime
 };

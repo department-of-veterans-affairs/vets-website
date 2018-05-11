@@ -53,7 +53,7 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   renderErrorMessage = () => {
-    const { route, user, form, location } = this.props;
+    const { route, user, form, location, showLoginModal } = this.props;
     const errorText = route.formConfig.errorText;
     const savedStatus = form.savedStatus;
 
@@ -61,6 +61,7 @@ class RoutedSavableReviewPage extends React.Component {
       locationPathname={location.pathname}
       form={form}
       user={user}
+      showLoginModal={showLoginModal}
       saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
       toggleLoginModal={this.props.toggleLoginModal}>
       save your application
@@ -116,7 +117,7 @@ class RoutedSavableReviewPage extends React.Component {
           renderErrorMessage={this.renderErrorMessage}/>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={user.login.showModal}
+          showLoginModal={this.props.showLoginModal}
           toggleLoginModal={this.props.toggleLoginModal}
           form={form}>
         </SaveStatus>
@@ -124,6 +125,7 @@ class RoutedSavableReviewPage extends React.Component {
           locationPathname={location.pathname}
           form={form}
           user={user}
+          showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}/>
       </div>
@@ -151,6 +153,7 @@ function mapStateToProps(state, ownProps) {
     formConfig,
     formContext,
     pageList,
+    showLoginModal: state.navigation.showLoginModal,
     path,
     route,
     user
