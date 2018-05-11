@@ -426,10 +426,7 @@ const formConfig = {
                   items: {
                     treatmentCenterName: autoSuggestUiSchema(
                       'Name of VA medical facility',
-                      // Wait for 1 second before querying
-                      // It's debatable tha we want this to be _.throttle instead of _.debounce
-                      // The 1 second is super arbitrary
-                      _.debounce(1000, queryForFacilities),
+                      queryForFacilities,
                       {
                         'ui:options': {
                           queryForResults: true,

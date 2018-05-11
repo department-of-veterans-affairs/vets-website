@@ -564,9 +564,9 @@ const options = [
 
 
 // Mimic querying the api for options
-export function queryForFacilities(input = '', setOptions) {
+export function queryForFacilities(input = '') {
   // Emulate a fast api call
-  return Promise.resolve(setOptions(options.filter(o => o.label.includes(input))));
+  return Promise.resolve(options.filter(o => o.label.includes(input)));
 }
 
 

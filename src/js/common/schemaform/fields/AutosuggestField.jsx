@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import debounce from '../../../../platform/utilities/data/debounce';
 import Downshift from 'downshift';
 import sortListByFuzzyMatch from '../../../../platform/utilities/fuzzy-matching';
 import classNames from 'classnames';
@@ -46,6 +47,9 @@ export default class AutosuggestField extends React.Component {
       });
       suggestions = this.getSuggestions(options, input);
     }
+
+    const debounceRate = uiOptions.debounceRate === undefined ? 1000 : uiOptions.debounceRate;
+    this.debouncedGetOptions = debounce(debounceRate, this.getOptions);
 
     this.state = {
       options,
@@ -109,7 +113,7 @@ export default class AutosuggestField extends React.Component {
     if (inputValue !== this.state.input) {
       const uiOptions = this.props.uiSchema['ui:options'];
       if (uiOptions.queryForResults) {
-        this.getOptions(inputValue);
+        this.debouncedGetOptions(inputValue);
       }
 
       let item = { widget: 'autosuggest', label: inputValue, freeInput: uiOptions.freeInput };
