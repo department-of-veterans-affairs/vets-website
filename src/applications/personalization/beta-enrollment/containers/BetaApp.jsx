@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import objectValues from 'lodash/fp/values';
-import { isUserRegisteredForBeta } from '../../beta-enrollment/actions';
 import { features } from '../../beta-enrollment/routes';
+import { isProfileLoading, createIsServiceAvailableSelector } from '../../../../platform/user/selectors';
 
 class BetaApp extends React.Component {
 
@@ -13,23 +13,21 @@ class BetaApp extends React.Component {
 
   render() {
     if (this.props.loading) return null;
-    if (this.props.isUserRegisteredForBeta(this.props.featureName)) return this.props.children;
+    if (this.props.isUserRegisteredForBeta) return this.props.children;
 
     document.location.replace(this.props.redirect);
     return null;
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const isServiceAvailable = createIsServiceAvailableSelector(ownProps.featureName);
   return {
-    loading: state.user.profile.loading
+    loading: isProfileLoading(state),
+    isUserRegisteredForBeta: isServiceAvailable(state)
   };
-};
-
-const mapDispatchToProps = {
-  isUserRegisteredForBeta
 };
 
 export { BetaApp, features };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BetaApp);
+export default connect(mapStateToProps)(BetaApp);
