@@ -24,7 +24,7 @@ export default {
       country: 'USA',
       city: 'Detroit',
       state: 'MI',
-      zipCode: '2345634953',
+      zipCode: '23453',
       addressLine1: '234 Maple St.'
     }
   },

@@ -566,7 +566,10 @@ export const getEvidenceTypesDescription = (form, index) => {
   return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
 };
 
-function mergeStateLists(firstList, secondList) {
+export const mergeStateLists = ([firstList, secondList, ...rest]) => {
+  if (!secondList) {
+    return firstList;
+  }
   const combinedList = [];
   let p1 = 0;
   let p2 = 0;
@@ -585,8 +588,8 @@ function mergeStateLists(firstList, secondList) {
       p2++;
     }
   }
-  return combinedList;
-}
+  return mergeStateLists([combinedList.concat(...rest)]);
+};
 
 export const mergeAndLabelStateCodes = (stateCodes) => {
 
@@ -594,6 +597,6 @@ export const mergeAndLabelStateCodes = (stateCodes) => {
     return { value: code, label: pciuStateCodesToLabels[code] };
   });
 
-  return mergeStateLists(stateList, militaryStateNames);
+  return mergeStateLists([stateList, militaryStateNames]);
 };
 

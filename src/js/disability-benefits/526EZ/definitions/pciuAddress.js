@@ -1,7 +1,8 @@
 import PCIUAddressField from '../fields/PCIUAddressField';
 
-import { pciuStates, militaryStateCodes, pciuCountries } from '../../../../platform/forms/address';
+import { pciuStates, militaryStateCodes, pciuCountries, ADDRESS_TYPES } from '../../../../platform/forms/address';
 
+const { domestic, military } = ADDRESS_TYPES;
 /*
  * Create uiSchema for PCIU addresses
  *
@@ -17,7 +18,7 @@ export const pciuAddressUISchema = (addressName, title) => {
       'ui:title': 'Country',
       'ui:options': {
         labels: pciuCountries,
-        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === 'MILITARY'
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === military
       }
     },
     addressLine1: {
@@ -41,14 +42,14 @@ export const pciuAddressUISchema = (addressName, title) => {
     city: {
       'ui:title': 'City (or APO/FPO/DPO)',
       'ui:options': {
-        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === 'MILITARY'
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === military
       }
     },
     state: {
       'ui:title': 'State (or AA/AE/AP)',
       'ui:options': {
         labels: pciuStates,
-        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type !== 'DOMESTIC'
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type !== domestic
       }
     },
     zipCode: {
@@ -57,20 +58,20 @@ export const pciuAddressUISchema = (addressName, title) => {
         pattern: 'Please enter a valid 5 or 9 digit ZIP code (dashes allowed)'
       },
       'ui:options': {
-        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type !== 'DOMESTIC'
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type !== domestic
       }
     },
     militaryPostOfficeTypeCode: {
       'ui:title': 'City (or APO/FPO/DPO)',
       'ui:options': {
-        hideIf: formData => !formData.veteran[addressName] || formData.veteran[addressName].type !== 'MILITARY'
+        hideIf: formData => !formData.veteran[addressName] || formData.veteran[addressName].type !== military
       }
     },
     militaryStateCode: {
       'ui:title': 'State (or AA/AE/AP)',
       'ui:options': {
         labels: militaryStateCodes,
-        hideIf: formData => !formData.veteran[addressName] || formData.veteran[addressName].type !== 'MILITARY'
+        hideIf: formData => !formData.veteran[addressName] || formData.veteran[addressName].type !== military
       }
     },
     'ui:field': PCIUAddressField

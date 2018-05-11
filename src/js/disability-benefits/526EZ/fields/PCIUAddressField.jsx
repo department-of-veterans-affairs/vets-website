@@ -8,11 +8,7 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import {
-  militaryStateCodes,
-  militaryPostOfficeTypeCodes,
-  ADDRESS_TYPES
-} from '../../../../platform/forms/address';
+import { militaryPostOfficeTypeCodes, militaryStateCodes, ADDRESS_TYPES } from '../../../../platform/forms/address';
 
 const { domestic, international, military } = ADDRESS_TYPES;
 
