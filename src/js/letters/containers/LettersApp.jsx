@@ -45,9 +45,7 @@ export class AppContent extends React.Component {
 
     return (
       <div className="usa-grid">
-        <DowntimeNotification appTitle="Letters Generator" dependencies={[services.evss]}>
-          {view}
-        </DowntimeNotification>
+        {view}
       </div>
     );
   }
@@ -60,11 +58,13 @@ export class LettersApp extends React.Component {
         verify
         serviceRequired="evss-claims"
         user={this.props.user}>
-        <AppContent>
-          <div>
-            {this.props.children}
-          </div>
-        </AppContent>
+        <DowntimeNotification appTitle="Letters Generator" dependencies={[services.evss]}>
+          <AppContent>
+            <div>
+              {this.props.children}
+            </div>
+          </AppContent>
+        </DowntimeNotification>
       </RequiredLoginView>
     );
   }
