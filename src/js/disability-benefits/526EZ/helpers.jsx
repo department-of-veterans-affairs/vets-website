@@ -95,14 +95,6 @@ export const supportingEvidenceOrientation = (
   </p>
 );
 
-
-export const evidenceTypesDescription = ({ formData }) => {
-  return (
-    <p>What supporting evidence do you have that shows how your {getDiagnosticCodeName(formData.diagnosticCode)} <strong>has worsened since VA rated your disability</strong>?</p>
-  );
-};
-
-
 export const evidenceTypeHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
     <h3>Types of evidence</h3>
@@ -423,57 +415,6 @@ export const GetFormHelp = () => {
   );
 };
 
-function lowerCaseFirstLetter(word) {
-  return word[0].toLowerCase().concat(word.slice(1));
-}
-
-function lowerCaseAll(words) {
-  return words.map(word => lowerCaseFirstLetter(word));
-}
-
-function kebabize(words) {
-  return lowerCaseAll(words).join('-');
-}
-
-function getVerifiedPagePath(chapterTitleWords, pageTitleWords) {
-  const verifiedChapterPath = chapterTitleWords.slice(0);
-  verifiedChapterPath.unshift('review');
-  const verifiedPagePath = pageTitleWords.slice(0);
-  return `${kebabize(verifiedChapterPath)}/${kebabize(verifiedPagePath)}`;
-}
-
-function getUnverifiedPagePath(chapterTitleWords, pageTitleWords) {
-  const unverifiedChapterPath = chapterTitleWords.slice(0);
-  const unverifiedPagePath = pageTitleWords.slice(0);
-  return `${kebabize(unverifiedChapterPath)}/${kebabize(unverifiedPagePath)}`;
-}
-
-function getPath(chapterTitle, pageTitle, isReview) {
-  const chapterTitleWords = chapterTitle.split(' ');
-  const pageTitleWords = pageTitle.split(' ');
-  const getPagePath = isReview ? getVerifiedPagePath : getUnverifiedPagePath;
-  return getPagePath(chapterTitleWords, pageTitleWords);
-}
-
-const verifiedDepends = ({ prefilled }) => !!prefilled;
-
-const unverifiedDepends = ({ prefilled }) => !prefilled;
-
-export function getPage(pageConfig, chapterTitle) {
-  const { pageTitle, component, isReview, ...rest } = pageConfig;
-  const pagePath = getPath(chapterTitle, pageTitle, isReview);
-  const depends = isReview ? verifiedDepends : unverifiedDepends;
-  const pageComponent = isReview ? component : undefined;
-
-  return {
-    title: pageTitle,
-    path: pagePath,
-    component: pageComponent,
-    depends,
-    ...rest
-  };
-}
-
 export const ITFDescription = (
   <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
 );
@@ -517,7 +458,11 @@ const AddressViewField = ({ formData }) => {
   let zipString;
   let stateString;
   let cityString;
-  if (zipCode) zipString = `${zipCode.slice(0, 5)}-${zipCode.slice(5)}`;
+  if (zipCode) {
+    const firstFive = zipCode.slice(0, 5);
+    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
+    zipString = `${firstFive}${lastChunk}`;
+  }
   if (city || militaryPostOfficeTypeCode) {
     cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
   }
@@ -538,7 +483,7 @@ export const PrimaryAddressViewField = ({ formData }) => {
   const {
     mailingAddress, primaryPhone, secondaryPhone,
     emailAddress, forwardingAddress
-  } = formData.veteran;
+  } = formData;
   return (
     <div>
       <AddressViewField formData={mailingAddress}/>
@@ -609,3 +554,12 @@ export const noFDCWarning = (
   </div>
 );
 
+const evidenceTypesDescription = (disabilityName) => {
+  return (
+    <p>What supporting evidence do you have that shows how your {disabilityName} <strong>has worsened since VA rated your disability</strong>?</p>
+  );
+};
+
+export const getEvidenceTypesDescription = (form, index) => {
+  return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
+};

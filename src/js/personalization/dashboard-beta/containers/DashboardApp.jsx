@@ -13,6 +13,8 @@ import PrescriptionsWidget from './PrescriptionsWidget';
 import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 import profileManifest from '../../va-profile-beta/manifest.json';
 import accountManifest from '../../account-beta/manifest.json';
@@ -50,8 +52,65 @@ moment.updateLocale('en', {
 });
 
 class DashboardApp extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalDismissed: false
+    };
+  }
+
   componentDidMount() {
     scrollToTop();
+  }
+
+  dismissModal = () => {
+    this.setState({
+      modalDismissed: true,
+    });
+  }
+
+  renderDowntimeNotification = (status, downtimeWindow, downtimeMap, children) => {
+    switch (status) {
+      case 'downtimeApproaching':
+        return (
+          <div className="downtime-notification row-padded" data-status={status}>
+            <Modal id="downtime-approaching-modal"
+              title="Some parts of your homepage will be down for maintenance soon"
+              status="info"
+              onClose={this.dismissModal}
+              visible={!this.state.modalDismissed}>
+              <p>We’ll be making updates to some tools and features on {downtimeWindow.startTime.format('MMMM Do')} between {downtimeWindow.startTime.format('LT')} and {downtimeWindow.endTime.format('LT')} If you have trouble using parts of the dashboard during that time, please check back soon.</p>
+              <button type="button" className="usa-button-secondary" onClick={this.dismissModal}>Continue</button>
+            </Modal>
+            {children}
+          </div>
+        );
+      default:
+        return children;
+    }
+  }
+
+  renderWidgetDowntimeNotification = (appName, sectionTitle) => {
+    return (status, downtimeWindow, downtimeMap, children) => {
+      switch (status) {
+        case 'down':
+          return (
+            <div>
+              <h2>{sectionTitle}</h2>
+              <AlertBox
+                content={<div>
+                  <h4 className="usa-alert-heading">{appName} is down for maintenance</h4>
+                  <p>We’re making some updates to our {appName.toLowerCase()} tool. We’re sorry it’s not working right now and hope to be finished by {downtimeWindow.startTime.format('MMMM Do')}, {downtimeWindow.endTime.format('LT')}. Please check back soon.</p>
+                </div>}
+                isVisible
+                status="warning"/>
+            </div>
+          );
+        default:
+          return children;
+      }
+    };
   }
 
   render() {
@@ -67,9 +126,16 @@ class DashboardApp extends React.Component {
               userProfile={this.props.profile}
               removeSavedForm={this.props.removeSavedForm}
               savedForms={this.props.profile.savedForms}/>
+
             <ClaimsAppealsWidget/>
-            <MessagingWidget/>
-            <PrescriptionsWidget/>
+
+            <DowntimeNotification appTitle="messaging" dependencies={[services.mvi, services.mhv]} render={this.renderWidgetDowntimeNotification('Secure messaging', 'Track Secure Messages')}>
+              <MessagingWidget/>
+            </DowntimeNotification>
+
+            <DowntimeNotification appTitle="rx" dependencies={[services.mvi, services.mhv]} render={this.renderWidgetDowntimeNotification('prescription refill', 'Refill Prescriptions')}>
+              <PrescriptionsWidget/>
+            </DowntimeNotification>
           </div>
           <div>
             <h2>Manage Your Health and Benefits</h2>
@@ -78,7 +144,7 @@ class DashboardApp extends React.Component {
               <li>
                 <a href="/health-care/schedule-an-appointment/">
                   <h4 className="va-nav-linkslist-title">Schedule a VA Appointment</h4>
-                  <p className="va-nav-linkslist-description">Find out how to make a doctor's appointment with a member of your VA health care team online or by phone.</p>
+                  <p className="va-nav-linkslist-description">Find out how to make a doctor’s appointment with a member of your VA health care team online or by phone.</p>
                 </a>
               </li>
               <li>
@@ -135,7 +201,7 @@ class DashboardApp extends React.Component {
           serviceRequired={['evss-claims', 'appeals-status', 'user-profile']}
           user={this.props.user}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
-            <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.emis]}>
+            <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.mhv, services.appeals]} render={this.renderDowntimeNotification}>
               {view}
             </DowntimeNotification>
           </BetaApp>
