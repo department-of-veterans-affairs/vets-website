@@ -343,13 +343,8 @@ describe('data utils (lodash replacements)', () => {
   });
 
   describe('debounce', () => {
-    const spy = sinon.spy();
-
-    beforeEach(() => {
-      spy.reset();
-    });
-
     it('should call a function with the supplied arguments', (done) => {
+      const spy = sinon.spy();
       const debouncedFunc = _.debounce(0, spy);
       debouncedFunc('first arg', 'second arg');
       setTimeout(() => {
@@ -360,6 +355,7 @@ describe('data utils (lodash replacements)', () => {
     });
 
     it('should call a function after a waiting period', (done) => {
+      const spy = sinon.spy();
       const debouncedFunc = _.debounce(100, spy);
       debouncedFunc();
       expect(spy.called).to.be.false;
@@ -370,6 +366,7 @@ describe('data utils (lodash replacements)', () => {
     });
 
     it('should not call a function before the wait time is over', () => {
+      const spy = sinon.spy();
       const debouncedFunc = _.debounce(100, spy);
       debouncedFunc();
       expect(spy.called).to.be.false;
