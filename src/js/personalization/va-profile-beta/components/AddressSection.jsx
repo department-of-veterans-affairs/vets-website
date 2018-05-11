@@ -56,6 +56,7 @@ class EditAddressModal extends React.Component {
               countries={this.props.addressConstants.countries}/>
           )}
           <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
+          <button type="button" className="usa-button-secondary" onClick={this.props.onCancel}>Cancel</button>
         </form>
       </Modal>
     );
