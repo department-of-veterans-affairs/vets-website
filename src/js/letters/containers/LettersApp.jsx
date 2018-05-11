@@ -3,6 +3,7 @@ import Raven from 'raven-js';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
@@ -44,7 +45,9 @@ export class AppContent extends React.Component {
 
     return (
       <div className="usa-grid">
-        {view}
+        <DowntimeNotification appTitle="Letters Generator" dependencies={[services.evss]}>
+          {view}
+        </DowntimeNotification>
       </div>
     );
   }
