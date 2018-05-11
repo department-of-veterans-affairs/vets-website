@@ -237,26 +237,50 @@ const formConfig = {
                 },
                 spouseFullName: {
                   'ui:options': {
-                    updateSchema: (form, schema, uiSchema, index) => {
-                      const spouse = isCurrentMarriage(form, index) ? 'Spouse’s' : 'Former spouse’s';
-                      return _.merge(schema, {
-                        properties:
-                        {
-                          first: {
-                            title: `${spouse} first name`
-                          },
-                          last: {
-                            title: `${spouse} last name`
-                          },
-                          middle: {
-                            title: `${spouse} middle name`
-                          },
-                          suffix: {
-                            title: `${spouse} suffix`
-                          }
+                    updateSchema: (function makeUpdateSchema() {
+
+                      let formerSpouseSchema;
+                      let currentSpouseSchema;
+
+                      return (form, schema, uiSchema, index) => {
+
+                        if (!formerSpouseSchema) {
+                          formerSpouseSchema = _.merge(schema, {
+                            properties: {
+                              first: {
+                                title: 'Former spouse’s first name'
+                              },
+                              last: {
+                                title: 'Former spouse‘s last name'
+                              },
+                              middle: {
+                                title: 'Former spouse‘s middle name'
+                              },
+                              suffix: {
+                                title: 'Former spouse‘s suffix'
+                              }
+                            }
+                          });
+                          currentSpouseSchema = _.merge(schema, {
+                            properties: {
+                              first: {
+                                title: 'Spouse‘s first name'
+                              },
+                              last: {
+                                title: 'Spouse‘s last name'
+                              },
+                              middle: {
+                                title: 'Spouse‘s middle name'
+                              },
+                              suffix: {
+                                title: 'Spouse‘s suffix'
+                              }
+                            }
+                          });
                         }
-                      });
-                    }
+                        return isCurrentMarriage(form, index) ? currentSpouseSchema : formerSpouseSchema;
+                      };
+                    }())
                   }
                 },
                 dateOfMarriage: currentOrPastDateUI('When did you get married?'),
