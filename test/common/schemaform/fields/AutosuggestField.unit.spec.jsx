@@ -301,12 +301,13 @@ describe('<AutosuggestField>', () => {
   });
 
 
-  it('should call a function passed in getOptions with formData and setOptions', () => {
+  it('should call a function passed in getOptions with formData and setOptions', (done) => {
     // ...when the input changes and `uiSchema['ui:options'].queryForResults` is true
     const getOptions = sinon.spy();
     const props = {
       uiSchema: {
         'ui:options': {
+          debounceRate: 0,
           getOptions,
           queryForResults: true
         }
@@ -329,9 +330,12 @@ describe('<AutosuggestField>', () => {
     });
 
     // Check that getOptions was called with the form data
-    const args = getOptions.secondCall.args;
-    expect(args[0]).to.eql('ir');
-    expect(args[1]).to.be.a('function');
+    setTimeout(() => {
+      const args = getOptions.secondCall.args;
+      expect(args[0]).to.eql('ir');
+      expect(args[1]).to.be.a('function');
+      done();
+    });
   });
 
 
@@ -339,6 +343,7 @@ describe('<AutosuggestField>', () => {
     const props = {
       uiSchema: {
         'ui:options': {
+          debounceRate: 0,
           getOptions: queryForOptions,
           queryForResults: true
         }
@@ -378,8 +383,8 @@ describe('<AutosuggestField>', () => {
 
   // The stringifyFormReplacer will send the label to the api instead of the id if freeInput is
   //  true in the formData
-  it('should set a freeInput property to true in the formData if freeInput is true in ui:options', () => {
-    const validationSpy = sinon.spy();
+  it('should set a freeInput property to true in the formData if freeInput is true in ui:options', (done) => {
+    const onChange = sinon.spy();
     const props = {
       uiSchema: {
         'ui:options': {
@@ -388,8 +393,7 @@ describe('<AutosuggestField>', () => {
             AL: 'Label 1',
             BC: 'Label 2'
           }
-        },
-        'ui:validations': [validationSpy]
+        }
       },
       schema: {
         type: 'string',
@@ -397,7 +401,7 @@ describe('<AutosuggestField>', () => {
       },
       formContext: { reviewMode: false },
       idSchema: { $id: 'id' },
-      onChange: () => {},
+      onChange,
       onBlur: () => {}
     };
     const wrapper = mount(<AutosuggestField {...props}/>);
@@ -407,13 +411,14 @@ describe('<AutosuggestField>', () => {
     input.simulate('focus');
     input.simulate('change', {
       target: {
-        value: 'asdf'
+        value: 'konami'
       }
     });
 
     setTimeout(() => {
-      const fieldData = validationSpy.firstCall.args[1];
+      const fieldData = onChange.firstCall.args[0];
       expect(fieldData.freeInput).to.be.true;
+      done();
     });
   });
 
