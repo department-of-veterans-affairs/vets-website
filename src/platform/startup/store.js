@@ -30,9 +30,9 @@ export const commonReducer = {
  */
 export default function createCommonStore(appReducer = {}) {
   const reducer = Object.assign({}, appReducer, commonReducer);
-  const useDevTools = __BUILDTYPE__ === 'development' && window.devToolsExtension;
+  const useDevTools = __BUILDTYPE__ === 'development' && window.__REDUX_DEVTOOLS_EXTENSION__;
 
   return createStore(combineReducers(reducer), compose(
-    applyMiddleware(thunk), useDevTools ? window.devToolsExtension() : f => f));
+    applyMiddleware(thunk), useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f));
 }
 

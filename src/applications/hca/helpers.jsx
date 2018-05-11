@@ -30,6 +30,7 @@ export function transform(formConfig, form) {
   }) || '{}';
 
   return JSON.stringify({
+    asyncCompatible: __BUILDTYPE__ !== 'production',
     form: formData
   });
 }
