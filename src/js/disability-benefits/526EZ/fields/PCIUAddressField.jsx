@@ -16,8 +16,8 @@ import {
 
 const { domestic, international, military } = ADDRESS_TYPES;
 
-import { pureWithDeepEquals } from '../helpers';
-import { getAddressCountries, getAddressStates } from './state/action';
+import { pureWithDeepEquals } from '../../../common/schemaform/helpers';
+import { getAddressCountries, getAddressStates } from '../actions';
 
 /**
  * Input component for a PCIU address.
@@ -115,7 +115,7 @@ class PCIUAddressField extends React.Component {
       return this.setType(value, 'militaryStateCode');
       // Reset state
     } else if (title === 'state' && !militaryStateCodes.includes(value)) {
-      return this.setType(value, title); 
+      return this.setType(value, title);
     }
     // Set all others
     return this.setType(value, title);

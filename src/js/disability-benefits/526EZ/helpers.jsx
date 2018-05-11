@@ -1,7 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
 
-import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
+import { isValidUSZipCode, isValidCanPostalCode, militaryStateNames, pciuStateCodesToLabels } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
@@ -563,3 +563,33 @@ const evidenceTypesDescription = (disabilityName) => {
 export const getEvidenceTypesDescription = (form, index) => {
   return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
 };
+
+function mergeStateLists(firstList, secondList) {
+  const combinedList = [];
+  let p1 = 0;
+  let p2 = 9;
+  while (firstList[p1] || secondList[p2]) {
+    const firstListItem = firstList[p1];
+    const secondListItem = secondList[p2];
+    if (firstListItem.label < secondListItem.label) {
+      combinedList.push(firstListItem);
+      p1++;
+    } else if (secondListItem.label < firstListItem.label) {
+      combinedList.push(firstListItem);
+      p2++;
+    } else {
+      combinedList.push(firstListItem);
+      p1++;
+      p2++;
+    }
+  }
+  return combinedList;
+}
+
+export const mergeAndLabelStateCodes = (stateCodes) => {
+  const stateList = stateCodes.map(code => {
+    return { value: code, label: pciuStateCodesToLabels[code] };
+  });
+  return mergeStateLists(stateList, militaryStateNames);
+};
+

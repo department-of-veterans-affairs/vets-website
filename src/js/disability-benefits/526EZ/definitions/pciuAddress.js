@@ -1,6 +1,6 @@
 import PCIUAddressField from '../fields/PCIUAddressField';
 
-import { pciuStates, militaryStateCodes } from '../../../../platform/forms/address';
+import { pciuStates, militaryStateCodes, pciuCountries } from '../../../../platform/forms/address';
 
 /*
  * Create uiSchema for PCIU addresses
@@ -16,6 +16,7 @@ export const pciuAddressUISchema = (addressName, title) => {
     country: {
       'ui:title': 'Country',
       'ui:options': {
+        labels: pciuCountries,
         hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === 'MILITARY'
       }
     },

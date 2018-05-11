@@ -16,8 +16,8 @@ export default {
     bankName: 'Local bank'
   },
   veteran: {
-    primaryPhone: '23423423426',
-    secondaryPhone: '32423423426',
+    primaryPhone: '2342342342',
+    secondaryPhone: '3242342342',
     emailAddress: 'test@test.com',
     mailingAddress: {
       type: 'DOMESTIC',

@@ -2,15 +2,16 @@ import _ from 'lodash';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
+import { pciuStateValues, pciuStateNames, militaryStateCodes, pciuCountries } from '../../../../platform/forms/address';
+
 import dateUI from '../../../common/schemaform/definitions/date';
 import phoneUI from '../../../common/schemaform/definitions/phone';
-import { pciuAddressUISchema } from '../../../common/schemaform/definitions/pciuAddress';
+import { pciuAddressUISchema } from '../definitions/pciuAddress';
 import EmailWidget from '../../../common/schemaform/widgets/EmailWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
 import { PrimaryAddressViewField } from '../helpers';
-import { militaryStateCodes } from '../../../../platform/forms/address';
 
 function isValidPhone(value) {
   if (value !== null) {
@@ -40,6 +41,7 @@ const addressSchema = {
     },
     country: {
       type: 'string',
+      'enum': pciuCountries
     },
     addressLine1: {
       type: 'string',
@@ -63,6 +65,8 @@ const addressSchema = {
     },
     state: {
       type: 'string',
+      'enum': pciuStateValues,
+      enumNames: pciuStateNames
     },
     zipCode: {
       type: 'string'
@@ -97,8 +101,7 @@ export const uiSchema = {
       'ui:widget': EmailWidget
     },
     'view:hasForwardingAddress': {
-      'ui:title':
-        'I want to provide a forwarding address since my address will be changing soon.'
+      'ui:title': 'I want to provide a forwarding address since my address will be changing soon.'
     },
     forwardingAddress: {
       'ui:options': {
