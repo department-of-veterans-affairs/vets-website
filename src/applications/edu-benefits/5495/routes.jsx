@@ -1,5 +1,3 @@
-import { createRoutes as createFormRoutes } from '../../common/schemaform/helpers';
-
 import { addSaveInProgressRoutes } from '../../common/schemaform/save-in-progress/helpers';
 
 import Form5495App from './Form5495App';
@@ -10,7 +8,7 @@ const routes = [
     path: '/',
     component: Form5495App,
     indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-    childRoutes: addSaveInProgressRoutes(formConfig, createFormRoutes(formConfig)),
+    childRoutes: addSaveInProgressRoutes(formConfig),
   }
 ];
 

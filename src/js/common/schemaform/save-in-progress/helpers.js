@@ -1,36 +1,35 @@
 import {
   createPageList,
-  createFormPageList
+  createFormPageList,
+  createRoutes
 } from '../helpers';
 import RoutedSavablePage from './RoutedSavablePage';
 import RoutedSavableReviewPage from './RoutedSavableReviewPage';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
-export function addSaveInProgressRoutes(config, routes) {
-  const protectedRoutes = ['introduction', 'review-and-submit', 'confirmation', '*'];
+export function addSaveInProgressRoutes(config) {
+  const protectedRoutes = new Set(['introduction', 'review-and-submit', 'confirmation', '*']);
   const formPages = createFormPageList(config);
   const pageList = createPageList(config, formPages);
+  const newRoutes = createRoutes(config);
 
-  const newRoutes = routes;
-
-  newRoutes.forEach((route) => {
-    const indexOfRoute = newRoutes.indexOf(route);
+  newRoutes.forEach((route, index) => {
     let newRoute;
 
     // rewrite page component
-    if (!protectedRoutes.includes(route.path)) {
+    if (!protectedRoutes.has(route.path)) {
       newRoute = Object.assign({}, route, { component: RoutedSavablePage });
-      if (indexOfRoute !== -1) {
-        newRoutes[indexOfRoute] = newRoute;
+      if (index !== -1) {
+        newRoutes[index] = newRoute;
       }
     }
 
     // rewrite review page component
     if (route.path === 'review-and-submit') {
       newRoute = Object.assign({}, route, { component: RoutedSavableReviewPage });
-      if (indexOfRoute !== -1) {
-        newRoutes[indexOfRoute] = newRoute;
+      if (index !== -1) {
+        newRoutes[index] = newRoute;
       }
     }
   });
@@ -42,18 +41,14 @@ export function addSaveInProgressRoutes(config, routes) {
       pageList,
       config
     });
-  }
 
-  if (!config.disableSave) {
     newRoutes.push({
       path: 'error',
       component: SaveInProgressErrorPage,
       pageList, // In case we need it for startOver?
       config
     });
-  }
 
-  if (!config.disableSave) {
     newRoutes.push({
       path: 'resume',
       pageList,

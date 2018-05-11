@@ -69,12 +69,11 @@ export function createPageList(formConfig, formPages) {
 export function createRoutes(formConfig) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
-  const Page = FormPage;
   let routes = formPages
     .map(page => {
       return {
         path: page.path,
-        component: page.component || Page,
+        component: page.component || FormPage,
         pageConfig: page,
         pageList,
         urlPrefix: formConfig.urlPrefix
