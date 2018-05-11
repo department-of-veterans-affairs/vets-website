@@ -18,9 +18,9 @@ Servicemembers, Veterans, and family members may qualify for burial in a VA nati
 
 ### Can I get VA burial and memorial benefits?
 
-You may qualify for burial and memorial benefits if you match one of the descriptions listed below.
+You may qualify for burial and memorial benefits if you meet one of the requirements listed below.
 
-**One of these must describe you. You're:**
+**One of these must be true. You're:**
 
 
 - A Veteran who didn't receive a dishonorable discharge, **or**
