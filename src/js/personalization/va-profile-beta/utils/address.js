@@ -104,8 +104,8 @@ export function isEmptyAddress(address) {
  * @param {string} abbreviation
  * @returns {string}
  */
-export function getStateName(abbreviation) {
-  return STATE_NAMES[abbreviation];
+export function getStateName(abbreviation = '') {
+  return STATE_NAMES[abbreviation.toUpperCase()];
 }
 
 
@@ -127,8 +127,8 @@ export function formatAddress(address) {
   switch (address.type) {
     case ADDRESS_TYPES.domestic:
       cityStateZip = address.city || '';
-      if (address.city && address.state) cityStateZip += ', ';
-      if (address.state) cityStateZip += getStateName(address.state);
+      if (address.city && address.stateCode) cityStateZip += ', ';
+      if (address.stateCode) cityStateZip += getStateName(address.stateCode);
       if (address.zipCode) cityStateZip += ' ' + address.zipCode;
       break;
     case ADDRESS_TYPES.military:
