@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 import { fetchProfile, setPageTitle, showModal } from '../actions';
 import AccordionItem from '../components/AccordionItem';

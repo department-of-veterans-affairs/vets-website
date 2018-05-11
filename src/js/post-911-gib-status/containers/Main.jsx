@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../../platform/static-data/error-messages';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';

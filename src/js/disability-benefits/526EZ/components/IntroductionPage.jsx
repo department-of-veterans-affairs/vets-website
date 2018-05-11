@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/jean-pants/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
 import { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';

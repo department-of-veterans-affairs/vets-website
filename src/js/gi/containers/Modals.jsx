@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 
 export class Modals extends React.Component {
 

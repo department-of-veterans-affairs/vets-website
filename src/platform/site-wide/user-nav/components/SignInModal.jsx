@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 

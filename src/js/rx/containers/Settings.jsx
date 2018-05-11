@@ -4,10 +4,10 @@ import { withRouter } from 'react-router';
 import classNames from 'classnames';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/jean-pants/ErrorableRadioButtons';
-import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import { makeField } from '../../../platform/forms/fields';
 
 import { closeAlert } from '../actions/alert';

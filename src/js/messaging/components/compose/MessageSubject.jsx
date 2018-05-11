@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 
 class MessageSubject extends React.Component {
   render() {

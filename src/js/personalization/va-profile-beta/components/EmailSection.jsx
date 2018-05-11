@@ -1,9 +1,9 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
-import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
 
 class EditEmailModal extends React.Component {

@@ -4,9 +4,9 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import { formLinks, formTitles } from '../../../user-profile/helpers';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 import { removeSavedForm } from '../../../../platform/user/profile/actions';
 
 export class ApplicationStatus extends React.Component {

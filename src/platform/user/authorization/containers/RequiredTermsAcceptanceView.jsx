@@ -9,7 +9,7 @@ import {
 } from '../../profile/actions';
 
 import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 export class RequiredTermsAcceptanceView extends React.Component {
   componentDidMount() {

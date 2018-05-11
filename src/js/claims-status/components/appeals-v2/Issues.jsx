@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CollapsiblePanel from '@department-of-veterans-affairs/jean-pants/CollapsiblePanel';
+import CollapsiblePanel from '@department-of-veterans-affairs/formation/CollapsiblePanel';
 
 const Issues = ({ issues }) => {
   const open = issues.filter(i => i.status === 'open');

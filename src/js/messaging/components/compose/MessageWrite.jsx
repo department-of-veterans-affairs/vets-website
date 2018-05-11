@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ErrorableTextArea from '@department-of-veterans-affairs/jean-pants/ErrorableTextArea';
+import ErrorableTextArea from '@department-of-veterans-affairs/formation/ErrorableTextArea';
 
 class MessageWrite extends React.Component {
   render() {

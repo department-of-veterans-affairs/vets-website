@@ -6,7 +6,7 @@ import moment from 'moment';
 import { getNextPagePath } from '../routing';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
 

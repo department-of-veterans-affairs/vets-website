@@ -1,9 +1,9 @@
 import React from 'react';
 import HeadingWithEdit from './HeadingWithEdit';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
 import { ADDRESS_TYPES, consolidateAddress, expandAddress, getStateName, isEmptyAddress } from '../utils';
 

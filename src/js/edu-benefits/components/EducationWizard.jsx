@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 
-import ErrorableRadioButtons from '@department-of-veterans-affairs/jean-pants/ErrorableRadioButtons';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
 
 const levels = [
   ['newBenefit'],

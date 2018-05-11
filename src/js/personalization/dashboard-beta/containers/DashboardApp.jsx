@@ -13,8 +13,8 @@ import PrescriptionsWidget from './PrescriptionsWidget';
 import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import profileManifest from '../../va-profile-beta/manifest.json';
 import accountManifest from '../../account-beta/manifest.json';

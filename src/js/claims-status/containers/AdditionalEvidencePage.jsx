@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import Breadcrumbs from '../components/Breadcrumbs';

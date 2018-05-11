@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 export const fieldFailureMessage = <span>We’re sorry. We can’t access this information right now. Please refresh the page or try again.</span>;
 
