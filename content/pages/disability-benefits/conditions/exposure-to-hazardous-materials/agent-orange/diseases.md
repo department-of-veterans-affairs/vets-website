@@ -36,6 +36,5 @@ We believe that contact with Agent Orange, a toxic chemical used to clear trees 
 - **[Porphyria Cutanea Tarda](https://www.publichealth.va.gov/exposures/agentorange/conditions/porphyria-cutanea-tarda.asp):** A rare illness that can make your liver stop working the way it should and can cause your skin to thin and blister when you’re out in the sun. Under VA’s rating regulations, it must be at least 10% disabling within 1 year of contact with herbicides.
 
 
-If you have an illness you think is caused by contact with Agent Orange—and you don’t see it listed here—you can still apply for benefits. You’ll need to show that you have a disability and include a doctor’s report or a hospital report stating that your illness is believed to be caused by contact with Agent Orange.
-
+If you have an illness you think is caused by contact with Agent Orange—and you don’t see it listed here—you can still apply for benefits. You’ll need to show that you have a disability and include a doctor’s report or a hospital report stating that your illness is believed to be caused by contact with Agent Orange. <br>
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
