@@ -32,7 +32,7 @@ When a Servicemember or Veteran, spouse, or dependent child dies, the person who
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a> to request a burial.
 
-You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/).
+You don’t need to do anything else except prepare yourself and your family for the funeral. <br> [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/).
 
 <br>
 
@@ -47,7 +47,7 @@ To start, you may want to choose a funeral director to help you plan the burial.
 
 You'll need:
 
- - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. [Find out which discharge documents we accept along with your application](https://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
+ - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. <br> [Find out which discharge documents we accept along with your application](https://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
 
 You'll need the deceased's:
 
@@ -114,4 +114,4 @@ If you have questions about the Burial at Sea program, please contact the United
 
 ### Can I get help paying for burial costs?
 
-If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, you may be able to get financial help for burial and funeral costs. [Apply for burial allowances](/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/).
+If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, you may be able to get financial help for burial and funeral costs. <br> [Apply for burial allowances](/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/).
