@@ -13,7 +13,6 @@ order: 1
 <div class="va-introtext">
   
 Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. But if the reactions don’t go away over time or they disrupt your life, you may have PTSD. Find out if you can get disability compensation or benefits if you have symptoms of PTSD. <br>
-
 [Learn more about PTSD](https://www.ptsd.va.gov/public/index.asp).
 
 </div>
