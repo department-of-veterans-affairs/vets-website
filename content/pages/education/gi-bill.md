@@ -59,11 +59,11 @@ majorlinks:
 
 Since 1944, the GI Bill has helped millions of Veterans pay for college, graduate school, and training programs. Under this bill, qualifying Veterans and their family members can get money to cover all or some of the costs for school or training. Learn more about these benefits below—and how to apply for them.
 
-If you served on active duty after September 10, 2001, you may qualify for Post-9/11 GI Bill education benefits. You can check to see if you have Post-9/11 GI Bill benefits. [View and print your benefits summary](/education/gi-bill/post-9-11/ch-33-benefit/).
+If you served on active duty after September 10, 2001, you may qualify for Post-9/11 GI Bill education benefits. You can check to see if you have Post-9/11 GI Bill benefits. <br> [View and print your benefits summary](/education/gi-bill/post-9-11/ch-33-benefit/).
 
-The GI Bill Comparison Tool and Veterans Service Organizations can help you explore options and find out what benefits you can get. [Find a Veterans Service Organization](https://www.va.gov/vso/).
+The GI Bill Comparison Tool and Veterans Service Organizations can help you explore options and find out what benefits you can get. <br> [Find a Veterans Service Organization](https://www.va.gov/vso/).
 
 
-<a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a> <a class="usa-button-primary va-button-primary" href="/education/apply/">Apply for Education Benefits</a><br>  
+<a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a> <a class="usa-button-primary va-button-primary" href="/education/apply/">Apply for Education Benefits.</a><br>  
 
 </div>
