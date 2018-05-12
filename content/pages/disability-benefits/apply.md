@@ -18,8 +18,8 @@ majorlinks:
       description: Find out which supporting documents you’ll need to give us so we can decide your claim.    
     - url: /disability-benefits/apply/one-year/
       title: Disabilities That Appear Within 1 Year After Discharge
-      description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
-    - url: /disability-benefits/apply/help/
+      description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service. 
+    - url: /disability-benefits/apply/help/ 
       title: Get Help Filing a Claim
       description: Find out how to work with a trained professional called an accredited representative to file your claim.
 relatedlinks:
@@ -40,7 +40,7 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br> [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
 <div markdown="0"><br></div>
 
@@ -52,7 +52,7 @@ You can apply for disability benefits online. We’ve listed all the steps below
 For the first disability claim you file, please provide:
 
 - Discharge papers (DD214 or other separation documents) 
-- Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records)
+- Service treatment records <br> [Order service records through the National Archives.](https://www.archives.gov/veterans/military-service-records)
 
 For all disability claims, please provide:
 
@@ -68,7 +68,7 @@ For all disability claims, please provide:
 <h4 itemprop="name">Ready to apply?</h4>
 <div itemprop="itemListElement">
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to ebenefits to apply.</a>
 
 </div>
 </div>
@@ -81,7 +81,7 @@ For all disability claims, please provide:
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
+You can work with a trained professional who can help you file a claim. <br> [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
@@ -101,7 +101,7 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
+Bring your application to a regional benefit office near you. <br> [Find a regional benefit office](/facilities/).
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
@@ -112,7 +112,7 @@ Bring your application to a regional benefit office near you. [Find a regional b
 
 You don’t need to do anything while you’re waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
-<a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
+<a class="usa-button-primary" href="/track-claims">Track the status of your claim.</a>
 
 <span id="days-to-complete-claim"></span>
 #### How long does it take VA to make a decision?
