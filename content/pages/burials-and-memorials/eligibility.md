@@ -60,12 +60,12 @@ In the event of your death, the person planning your burial can also request oth
 
 ### If I'm the survivor of a deceased Servicemember or Veteran, what other benefits can I get?
 
-We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service. [Learn about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
+We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service. <br> [Learn about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
 
 -------
 
 ### Can I plan ahead for my burial in a VA national cemetery?
 
-Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in the event of your death. To do this, you’ll need to apply for a pre-need eligibility determination. [Find out how to apply](/burials-and-memorials/pre-need/).
+Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in the event of your death. To do this, you’ll need to apply for a pre-need eligibility determination. <br> [Find out how to apply](/burials-and-memorials/pre-need/).
 
-**Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp).
+**Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. <br> [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp).
