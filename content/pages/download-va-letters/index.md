@@ -17,7 +17,7 @@ To receive some benefits, Veterans need a letter proving their status. You can a
 
 You can download a variety of letters from VA that include information about your benefits and service history.
 
-<a href='/download-va-letters/letters' class='usa-button-primary'>Access Your VA Letters</a>
+<a href='/download-va-letters/letters' class='usa-button-primary'>Access your VA letters.</a>
 
 </section>
 
