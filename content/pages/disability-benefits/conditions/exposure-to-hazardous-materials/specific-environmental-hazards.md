@@ -37,8 +37,8 @@ You may be able to get disability benefits if you have an illness or other condi
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. <br> [Apply for disability benefits](/disability-benefits/apply/).
 
-When you apply, you’ll have to show that your health problems are linked to your contact with certain environmental hazards while serving in the military. Be sure to send in all information (such as the Burn Pit Registry) supporting your claim that you came into contact with certain environmental hazards. [Check the Burn Pit Registry](https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/).
+When you apply, you’ll have to show that your health problems are linked to your contact with certain environmental hazards while serving in the military. Be sure to send in all information (such as the Burn Pit Registry) supporting your claim that you came into contact with certain environmental hazards. <br> [Check the Burn Pit Registry](https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/).
 
 
