@@ -9,7 +9,7 @@ order: 10
 
 <div class="va-introtext">
 
-If you have a disability that’s related to your military service but didn’t appear until after you ended your service, you can file a postservice claim for disability benefits. [File a claim now](/disability-benefits/apply/).
+If you have a disability that’s related to your military service but didn’t appear until after you ended your service, you can file a postservice claim for disability benefits. <br> [File a claim now](/disability-benefits/apply/).
 
 </div>
 
