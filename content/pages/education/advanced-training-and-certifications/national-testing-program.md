@@ -37,7 +37,7 @@ Payment for testing fees, including:
 
 ### How do I get this benefit?
 
-We’ll charge your GI Bill benefit package for testing expenses. [Learn about how we charge your GI Bill benefit package](https://gibill.custhelp.com/app/answers/detail/a_id/29).
+We’ll charge your GI Bill benefit package for testing expenses. <br> [Learn about how we charge your GI Bill benefit package](https://gibill.custhelp.com/app/answers/detail/a_id/29).
 
 - You may need to provide your proof of payment.
 - We’ll pay you back only for mandatory test fees.
