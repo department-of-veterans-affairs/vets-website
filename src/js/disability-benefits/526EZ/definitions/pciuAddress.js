@@ -1,6 +1,6 @@
 import PCIUAddressField from '../fields/PCIUAddressField';
 
-import { pciuStates, militaryStateCodes, pciuCountries, ADDRESS_TYPES } from '../helpers';
+import { pciuStates, pciuStateValues, pciuStateNames, militaryStateCodes, pciuCountries, ADDRESS_TYPES, militaryPostOfficeTypeCodes } from '../helpers';
 
 const { domestic, military } = ADDRESS_TYPES;
 /*
@@ -14,6 +14,19 @@ export const pciuAddressUISchema = (addressName, title) => {
     'ui:title': title,
     'ui:order': ['country', 'addressLine1', 'addressLine2', 'addressLine3',
       'city', 'state', 'zipCode', 'militaryPostOfficeTypeCode', 'militaryStateCode'],
+    'ui:options': {
+      updateSchema: (formData, schema) => {
+        let newSchema = Object.assign({}, schema);
+        const address = formData.veteran[addressName];
+        if (militaryPostOfficeTypeCodes.includes(address.city)) {
+          newSchema.properties.militaryStateCode.enum = militaryPostOfficeTypeCodes;
+        } else {
+          newSchema.properties.militaryStateCode.enum = pciuStateValues;
+          newSchema.properties.militaryStateCode.enumNames = pciuStateNames;
+        }
+        return newSchema;
+      }
+    },
     country: {
       'ui:title': 'Country',
       'ui:options': {
@@ -41,6 +54,12 @@ export const pciuAddressUISchema = (addressName, title) => {
     },
     city: {
       'ui:title': 'City (or APO/FPO/DPO)',
+      'ui:validations': [(errors, fieldData, formData) => {
+        const address = formData.veteran[addressName];
+        if (address.type === 'MILITARY' && !militaryPostOfficeTypeCodes.includes(address.militaryState)) {
+          errors.addError('Please enter APO, FPO, or DPO');
+        }
+      }],
       'ui:options': {
         hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === military
       }
@@ -63,6 +82,12 @@ export const pciuAddressUISchema = (addressName, title) => {
     },
     militaryPostOfficeTypeCode: {
       'ui:title': 'City (or APO/FPO/DPO)',
+      'ui:validations': [(errors, fieldData, formData) => {
+        const address = formData.veteran[addressName];
+        if (address.type === 'MILITARY' && !militaryPostOfficeTypeCodes.includes(address.militaryState)) {
+          errors.addError('Please enter APO, FPO, or DPO');
+        }
+      }],      
       'ui:options': {
         hideIf: formData => !formData.veteran[addressName] || formData.veteran[addressName].type !== military
       }

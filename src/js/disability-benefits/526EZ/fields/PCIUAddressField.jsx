@@ -62,9 +62,11 @@ class PCIUAddressField extends React.Component {
   };
 
   setType = (value, title) => {
+    const { city, militaryPostOfficeTypeCode } = this.props.formData;
     let newData = _.set(title, value, this.props.formData);
-    if (this.isMilitary(value, title)) {
+    if (this.isMilitary(value, title) && city) {
       newData = _.set('type', military, newData);
+      newData = _.set('militaryPostOfficeTypeCode', (city || militaryPostOfficeTypeCode), newData);
       newData = this.unsetNonMilitaryValues(newData);
     } else if ((title === 'country' && value === 'USA') || title === 'state') {
       newData = _.set('type', domestic, newData);
@@ -77,6 +79,11 @@ class PCIUAddressField extends React.Component {
     }
     this.props.onChange(newData);
   };
+
+  setValue = (value, title) => {
+    const newData = _.set(title, value, this.props.formData);
+    this.props.onChange(newData);
+  }
 
   isMilitary = (value, title) => {
     if (title === 'militaryPostOfficeTypeCode' && militaryPostOfficeTypeCodes.includes(_.uppercase(value))) {
@@ -108,20 +115,25 @@ class PCIUAddressField extends React.Component {
   }
 
   handleChange = (value, title) => {
+    const { militaryStateCode } = this.props.formData;
+
     if (!value) {
       return this.props.onChange(_.unset(title, this.props.formData));
     }
-    // Set military city
-    if (title === 'city' && militaryPostOfficeTypeCodes.includes(_.uppercase(value))) {
+    // Set military type if military post office type code value selected for city and military state not yet selected
+    if (title === 'city' && militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && !militaryStateCode) {
       return this.setType(value, 'militaryPostOfficeTypeCode');
-      // Reset city
-    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.uppercase(value))) {
+    // Reset military type if city is changed and state/military state not yet set
+    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && !militaryStateCode) {
       return this.setType(value, 'city');
-      // Set military state
-    } else if (title === 'militaryStateCode' || (title === 'state' && militaryStateCodes.includes(value))) {
+    // Update military post office type code if military state already set (must deselect military state to reset type)
+    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && militaryStateCode) {
+      return this.setValue(value, title);
+    // Set military type if military state value selected for state
+    } else if (title === 'state' && militaryStateCodes.includes(value)) {
       return this.setType(value, 'militaryStateCode');
-      // Reset state
-    } else if (title === 'state' && !militaryStateCodes.includes(value)) {
+    // Reset state
+    } else if (title === 'militaryStateCode' && !militaryStateCodes.includes(value)) {
       return this.setType(value, title);
     }
     // Set all others

@@ -31,7 +31,7 @@ export const hasForwardingAddress = formData => {
 };
 
 // TODO: replace with updated pciu schema (phone, zipCode)
-const addressSchema = {
+export const addressSchema = {
   type: 'object',
   properties: {
     type: {
@@ -74,7 +74,8 @@ const addressSchema = {
     },
     militaryStateCode: {
       type: 'string',
-      'enum': militaryStateCodes
+      'enum': pciuStateValues,
+      enumNames: pciuStateNames
     }
   }
 };
