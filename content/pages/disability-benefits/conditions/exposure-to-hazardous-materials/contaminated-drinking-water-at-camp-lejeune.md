@@ -52,7 +52,8 @@ You’ll need to apply for benefits.
 
 **You can apply in 1 of 3 ways:**
 
-- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results),
+- [Apply online at eBenefits](http://www.ebenefits.va.gov) <br>
+Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results),
 **or**
 - [Get help from an accredited representative, like a Veterans Service Officer (VSO)](/disability-benefits/apply/help/),
 **or**
@@ -112,7 +113,7 @@ Austin, TX 78714-9200<br>
 
 - Medical records that show you have one of the 15 conditions listed above, **and**
 
-- [A Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
+- Have your doctor fill out and sign this form before submitting. <br> [A Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b).
 
 <div class="feature" markdown="1">
 
