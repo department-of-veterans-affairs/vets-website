@@ -168,8 +168,7 @@ If you have questions about the claims process, call your nearest VA regional of
 
 If you miss your claim exam, contact us right away to let us know why you didn't make it. We can help you figure out what to do next.
 
-If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" might be an illness or the death of someone in your immediate family.
-
+If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" might be an illness or the death of someone in your immediate family.<br>
 [Find contact information for your nearest VA regional office](/facilities/).
 
 </div>
