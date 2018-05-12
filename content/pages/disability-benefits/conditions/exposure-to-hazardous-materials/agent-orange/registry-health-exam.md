@@ -67,7 +67,7 @@ Please note that:
 
 ### Need help?
 Need to make an appointment for your Agent Orange Registry health exam? <br>
-[Contact your local VA Environmental Health Coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp)
+[Contact your local VA Environmental Health Coordinator.](https://www.publichealth.va.gov/exposures/coordinators.asp)
 
 ### Get more information
 [Learn more about the Agent Orange Registry health exam](https://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp). 
