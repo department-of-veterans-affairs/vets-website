@@ -74,7 +74,7 @@ The benefits depend on the benefit program you use:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’ll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/).
+You’ll need to apply for benefits. <br> [Apply for education benefits](/education/apply-for-education-benefits/).
 
 </div>
 </div>
