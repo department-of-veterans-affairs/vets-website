@@ -10,7 +10,7 @@ order: 5
 
 <div class="va-introtext">
 
-If you’re already getting disability benefits but think you may qualify for more, you can file a new claim. [File a claim now](/disability-benefits/apply/).
+If you’re already getting disability benefits but think you may qualify for more, you can file a new claim. <br> [File a claim now](/disability-benefits/apply/).
 
 </div>
 
@@ -19,7 +19,7 @@ If you’re already getting disability benefits but think you may qualify for mo
 When you file a new claim, you may get:
 - More financial support 
 - Special monthly payments
-- A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability). [Learn more about Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
+- A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability).<br> [Learn more about Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
 
 </div>
  
