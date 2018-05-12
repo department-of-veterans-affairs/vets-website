@@ -22,6 +22,6 @@ People attending the ceremony may:
 - Bring flowers, which may go with the casket or urn when it’s taken from the committal shelter to the gravesite, **and**
 - Visit the gravesite at the end of the workday, but not immediately following the ceremony
 
-Funerals at Arlington National Cemetery are different. [Learn about Arlington National Cemetery funerals](http://www.arlingtoncemetery.mil/Funerals/About-Funerals).
+Funerals at Arlington National Cemetery are different. <br> [Learn about Arlington National Cemetery funerals](http://www.arlingtoncemetery.mil/Funerals/About-Funerals).
 
-**Note:** If you requested a headstone, marker, or medallion, we’ll arrange for it to be delivered within 60 days. [Learn about headstones, markers, and medallions](/burials-and-memorials/honor/headstones-markers-medallions/).
+**Note:** If you requested a headstone, marker, or medallion, we’ll arrange for it to be delivered within 60 days. <br> [Learn about headstones, markers, and medallions](/burials-and-memorials/honor/headstones-markers-medallions/).
