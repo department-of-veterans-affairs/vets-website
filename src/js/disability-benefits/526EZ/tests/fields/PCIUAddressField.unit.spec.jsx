@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { mount } from 'enzyme';
 import _ from 'lodash/fp';
 import { Provider } from 'react-redux';
@@ -22,7 +23,19 @@ militaryData = _.set('veteran.mailingAddress.militaryPostOfficeTypeCode', 'APO',
 const militaryWithoutStateData = _.unset('veteran.mailingAddress.militaryStateCode', militaryData);
 const internationalData = _.set('veteran.mailingAddress.type', 'INTERNATIONAL', invalidData);
 
+let oldFetch;
+const setup = () => {
+  oldFetch = global.fetch;
+  global.fetch = sinon.stub();
+  global.fetch.returns(Promise.resolve({ ok: true }));
+};
+const teardown = () => {
+  global.fetch = oldFetch;
+};
+
 describe('PCIU Address field', () => {
+  beforeEach(setup);
+  afterEach(teardown);
   const {
     schema,
     uiSchema

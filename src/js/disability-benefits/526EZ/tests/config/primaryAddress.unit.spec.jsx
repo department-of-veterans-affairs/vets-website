@@ -18,7 +18,19 @@ const forwardingData = _.set("veteran['view:hasForwardingAddress']", true, initi
 const militaryData = _.set('veteran.mailingAddress.type', 'MILITARY', invalidData);
 const internationalData = _.set('veteran.mailingAddress.type', 'INTERNATIONAL', invalidData);
 
+let oldFetch;
+const setup = () => {
+  oldFetch = global.fetch;
+  global.fetch = sinon.stub();
+  global.fetch.returns(Promise.resolve({ ok: true }));
+};
+const teardown = () => {
+  global.fetch = oldFetch;
+};
+
 describe('Disability benefits 526EZ primary address', () => {
+  beforeEach(setup);
+  afterEach(teardown);  
   const {
     schema,
     uiSchema
