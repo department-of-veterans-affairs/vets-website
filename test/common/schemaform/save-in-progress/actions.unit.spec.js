@@ -243,6 +243,30 @@ describe('Schemaform save / load actions:', () => {
     beforeEach(setup);
     afterEach(teardown);
 
+    it('calls prestart, if provided', () => {
+      const prestart = sinon.stub();
+      prestart.resolves();
+      const thunk = fetchInProgressForm('1010ez', {}, false, null, prestart);
+      const dispatch = sinon.spy();
+      delete sessionStorage.userToken;
+
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledOnce).to.be.true;
+        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
+      });
+    });
+    it('gates on prestart, if provided', () => {
+      const prestart = sinon.stub();
+      prestart.rejects();
+      const thunk = fetchInProgressForm('1010ez', {}, false, null, prestart);
+      const dispatch = sinon.spy();
+      delete sessionStorage.userToken;
+
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledOnce).to.be.false;
+        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.false;
+      });
+    });
     it('dispatches a no-auth if the user has no session token', () => {
       const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
