@@ -30,7 +30,7 @@ const teardown = () => {
 
 describe('Disability benefits 526EZ primary address', () => {
   beforeEach(setup);
-  afterEach(teardown);  
+  afterEach(teardown);
   const {
     schema,
     uiSchema
