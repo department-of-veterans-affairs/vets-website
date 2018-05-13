@@ -22,7 +22,7 @@ militaryData = _.set('veteran.mailingAddress.militaryPostOfficeTypeCode', 'APO',
 const militaryWithoutStateData = _.unset('veteran.mailingAddress.militaryStateCode', militaryData);
 const internationalData = _.set('veteran.mailingAddress.type', 'INTERNATIONAL', invalidData);
 
-describe('Disability benefits 526EZ primary address', () => {
+describe('PCIU Address field', () => {
   const {
     schema,
     uiSchema
