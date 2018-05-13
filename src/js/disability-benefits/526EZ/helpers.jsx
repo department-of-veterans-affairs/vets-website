@@ -474,13 +474,13 @@ const AddressViewField = ({ formData, title }) => {
   return (
     <div>
       <p><strong>{title}</strong>:</p>
-      <p>
+      <div>
         {addressLine1 && <p>{ addressLine1 }</p>}
         {addressLine2 && <p>{ addressLine2 }</p>}
         {addressLine3 && <p>{ addressLine3 }</p>}
         <p>{cityString} {stateString} {zipString}</p>
         {country && country !== 'USA' && <p>{ country }</p>}
-      </p>
+      </div>
     </div>
   );
 };
