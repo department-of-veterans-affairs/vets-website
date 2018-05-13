@@ -61,21 +61,64 @@ class PCIUAddressField extends React.Component {
     this.props.onChange(_.set(title, value, this.props.formData));
   };
 
+  // Conditionally updates title based on value
+  setTitle = (value, title) => {
+    const { militaryStateCode } = this.props.formData;
+    // Set military post office type code title and military type
+    if (title === 'city' && militaryPostOfficeTypeCodes.includes(_.uppercase(value))) {
+      return this.setType(value, 'militaryPostOfficeTypeCode');
+    // Reset military post office type code to city and no military state set and unset military type
+    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && !militaryStateCode) {
+      return this.setType(value, 'city');
+    // Update military post office type code value only if military state already set (must deselect any existing military state code to reset type)
+    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && militaryStateCode) {
+      return this.setValue(value, title);
+    // Set military state if military state value selected for state and military type
+    } else if (title === 'state' && militaryStateCodes.includes(value)) {
+      return this.setType(value, 'militaryStateCode');
+    // Reset military state to state and unset military type
+    } else if (title === 'militaryStateCode' && !militaryStateCodes.includes(value)) {
+      return this.setType(value, 'state');
+    }
+    // Set all others
+    return this.setType(value, title);
+  };
+
   setType = (value, title) => {
-    const { city, militaryPostOfficeTypeCode } = this.props.formData;
     let newData = _.set(title, value, this.props.formData);
-    if (this.isMilitary(value, title) && city) {
+    if (this.isMilitary(value, title)) {
       newData = _.set('type', military, newData);
-      newData = _.set('militaryPostOfficeTypeCode', (city || militaryPostOfficeTypeCode), newData);
+      if (title === 'militaryPostOfficeTypeCode') {
+        const { state } = this.props.formData;
+        // Assign existing state value into a military state code value        
+        if (state) {
+          newData = _.set('militaryStateCode', state, newData);
+        }
+      }
+      if (title === 'militaryStateCode') {
+        const { city } = this.props.formData;
+        // Assign existing city value into a military post office type code value        
+        if (city) {
+          newData = _.set('militaryPostOfficeTypeCode', city, newData);
+        }
+      }
       newData = this.unsetNonMilitaryValues(newData);
+      // if state is set to a non-military value  
     } else if ((title === 'country' && value === 'USA') || title === 'state') {
       newData = _.set('type', domestic, newData);
+      const { militaryPostOfficeTypeCode } = newData;
+      // assign city value to military post office type code value
+      if (militaryPostOfficeTypeCode) {
+        newData = _.set('city', militaryPostOfficeTypeCode, newData);
+      }
       newData = this.unsetMilitaryValues(newData);
     } else if (title === 'country' && value !== 'USA') {
       newData = _.set('type', international, newData);
       newData = this.unsetMilitaryValues(newData);
-    } else if (this.isNonMilitaryCity(value, title)) {
-      newData = this.unsetMilitaryValues(newData);
+    // unset military type via non military city if no military state code value set
+    } else if (title === 'city' && newData.type === 'MILITARY' && !newData.militaryStateCode) {
+      newData = _.unset('type', newData);
+      this.unsetMilitaryValues();
     }
     this.props.onChange(newData);
   };
@@ -115,30 +158,11 @@ class PCIUAddressField extends React.Component {
   }
 
   handleChange = (value, title) => {
-    const { militaryStateCode } = this.props.formData;
-
     if (!value) {
       return this.props.onChange(_.unset(title, this.props.formData));
     }
-    // Set military type if military post office type code value selected for city and military state not yet selected
-    if (title === 'city' && militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && !militaryStateCode) {
-      return this.setType(value, 'militaryPostOfficeTypeCode');
-    // Reset military type if city is changed and state/military state not yet set
-    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && !militaryStateCode) {
-      return this.setType(value, 'city');
-    // Update military post office type code if military state already set (must deselect military state to reset type)
-    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && militaryStateCode) {
-      return this.setValue(value, title);
-    // Set military type if military state value selected for state
-    } else if (title === 'state' && militaryStateCodes.includes(value)) {
-      return this.setType(value, 'militaryStateCode');
-    // Reset state
-    } else if (title === 'militaryStateCode' && !militaryStateCodes.includes(value)) {
-      return this.setType(value, 'state');
-    }
-    // Set all others
-    return this.setType(value, title);
-  };
+    return this.setTitle(value, title);
+  }
 
   unsetNonMilitaryValues = formData => {
     let newData = _.unset('city', formData);

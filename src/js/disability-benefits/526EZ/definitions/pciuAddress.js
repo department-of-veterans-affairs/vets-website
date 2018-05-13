@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import PCIUAddressField from '../fields/PCIUAddressField';
 
 import { pciuStates, pciuStateValues, pciuStateNames, militaryStateCodes, pciuCountries, ADDRESS_TYPES, militaryPostOfficeTypeCodes } from '../helpers';
@@ -16,12 +17,15 @@ export const pciuAddressUISchema = (addressName, title) => {
       'city', 'state', 'zipCode', 'militaryPostOfficeTypeCode', 'militaryStateCode'],
     'ui:options': {
       updateSchema: (formData, schema) => {
-        const newSchema = Object.assign({}, schema);
+        let newSchema = Object.assign({}, schema);
         const address = formData.veteran[addressName];
         if (!address) return schema;
-        const { city, militaryPostOfficeTypeCode } = address;
-        if (address && militaryPostOfficeTypeCodes.includes(city) && !militaryPostOfficeTypeCode) {
+        const { city, militaryPostOfficeTypeCode, state, militaryStateCode } = address;
+        const cityValue = city || militaryPostOfficeTypeCode;
+        const stateValue = state || militaryStateCode;
+        if (address && militaryPostOfficeTypeCodes.includes(cityValue) && !stateValue) {
           newSchema.properties.militaryStateCode.enum = militaryPostOfficeTypeCodes;
+          newSchema = _.unset('properties.militaryStateCode.enumNames', newSchema);
         } else {
           newSchema.properties.militaryStateCode.enum = pciuStateValues;
           newSchema.properties.militaryStateCode.enumNames = pciuStateNames;
@@ -58,7 +62,7 @@ export const pciuAddressUISchema = (addressName, title) => {
       'ui:title': 'City (or APO/FPO/DPO)',
       'ui:validations': [(errors, fieldData, formData) => {
         const address = formData.veteran[addressName];
-        if (address.type === 'MILITARY' && !militaryPostOfficeTypeCodes.includes(address.militaryState)) {
+        if (address.type === 'MILITARY' && !militaryPostOfficeTypeCodes.includes(address.militaryPostOfficeTypeCode)) {
           errors.addError('Please enter APO, FPO, or DPO');
         }
       }],
@@ -68,9 +72,15 @@ export const pciuAddressUISchema = (addressName, title) => {
     },
     state: {
       'ui:title': 'State (or AA/AE/AP)',
+      'ui:validations': [(errors, fieldData, formData) => {
+        const address = formData.veteran[addressName];
+        if (address.type === 'MILITARY' && !militaryStateCodes.includes(address.state)) {
+          errors.addError('Please enter AA, AE, or AP');
+        }
+      }],
       'ui:options': {
         labels: pciuStates,
-        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type !== domestic
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type !== domestic,
       }
     },
     zipCode: {
@@ -86,7 +96,7 @@ export const pciuAddressUISchema = (addressName, title) => {
       'ui:title': 'City (or APO/FPO/DPO)',
       'ui:validations': [(errors, fieldData, formData) => {
         const address = formData.veteran[addressName];
-        if (address.type === 'MILITARY' && !militaryPostOfficeTypeCodes.includes(address.militaryState)) {
+        if (address.type === 'MILITARY' && !militaryPostOfficeTypeCodes.includes(address.militaryPostOfficeTypeCode)) {
           errors.addError('Please enter APO, FPO, or DPO');
         }
       }],
@@ -96,6 +106,12 @@ export const pciuAddressUISchema = (addressName, title) => {
     },
     militaryStateCode: {
       'ui:title': 'State (or AA/AE/AP)',
+      'ui:validations': [(errors, fieldData, formData) => {
+        const address = formData.veteran[addressName];
+        if (address.type === 'MILITARY' && !militaryStateCodes.includes(address.militaryStateCode)) {
+          errors.addError('Please enter AA, AE, or AP');
+        }
+      }],
       'ui:options': {
         labels: militaryStateCodes,
         hideIf: formData => !formData.veteran[addressName] || formData.veteran[addressName].type !== military

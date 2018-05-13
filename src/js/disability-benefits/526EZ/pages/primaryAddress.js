@@ -9,7 +9,7 @@ import EmailWidget from '../../../common/schemaform/widgets/EmailWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import { PrimaryAddressViewField, pciuStateValues, pciuStateNames, militaryStateCodes, pciuCountries } from '../helpers';
+import { PrimaryAddressViewField, pciuStateValues, pciuStateNames, pciuCountries } from '../helpers';
 
 function isValidPhone(value) {
   if (value !== null) {
