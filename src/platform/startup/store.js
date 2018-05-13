@@ -7,8 +7,9 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import feedback from '../site-wide/feedback/reducers';
-import login from '../site-wide/login/reducers';
-import profile from '../../js/user-profile/reducers/profile';
+import navigation from '../site-wide/user-nav/reducers';
+import login from '../user/authentication/reducers';
+import profile from '../user/profile/reducers';
 
 /**
  * Reducer object containing all of the site-wide reducers
@@ -16,6 +17,7 @@ import profile from '../../js/user-profile/reducers/profile';
  */
 export const commonReducer = {
   user: combineReducers({ login, profile }),
+  navigation,
   feedback,
   scheduledDowntime
 };
@@ -30,9 +32,9 @@ export const commonReducer = {
  */
 export default function createCommonStore(appReducer = {}) {
   const reducer = Object.assign({}, appReducer, commonReducer);
-  const useDevTools = __BUILDTYPE__ === 'development' && window.devToolsExtension;
+  const useDevTools = __BUILDTYPE__ === 'development' && window.__REDUX_DEVTOOLS_EXTENSION__;
 
   return createStore(combineReducers(reducer), compose(
-    applyMiddleware(thunk), useDevTools ? window.devToolsExtension() : f => f));
+    applyMiddleware(thunk), useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f));
 }
 

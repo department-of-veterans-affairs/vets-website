@@ -11,7 +11,8 @@ import {
   getNonArraySchema,
   checkValidSchema,
   formatReviewDate,
-  expandArrayPages
+  expandArrayPages,
+  omitRequired
 } from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -844,6 +845,41 @@ describe('Schemaform helpers:', () => {
     });
     it('should format month year date', () => {
       expect(formatReviewDate('2010-01-XX', true)).to.equal('01/2010');
+    });
+  });
+  describe('omitRequired', () => {
+    it('should omit all required arrays', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field1: {
+            type: 'object',
+            properties: {
+              nestedField: {
+                type: 'string',
+                'enum': ['option1', 'option2']
+              }
+            },
+            required: ['nestedField']
+          }
+        },
+        required: ['field1']
+      };
+      const expected = {
+        type: 'object',
+        properties: {
+          field1: {
+            type: 'object',
+            properties: {
+              nestedField: {
+                type: 'string',
+                'enum': ['option1', 'option2']
+              }
+            }
+          }
+        }
+      };
+      expect(omitRequired(schema)).to.eql(expected);
     });
   });
 });

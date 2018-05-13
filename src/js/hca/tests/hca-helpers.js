@@ -1,4 +1,4 @@
-const mock = require('../../../../test/e2e/mock-helpers');
+const mock = require('../../../platform/testing/e2e/mock-helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const Auth = require('../../../platform/testing/e2e/auth.js');
 const moment = require('moment');

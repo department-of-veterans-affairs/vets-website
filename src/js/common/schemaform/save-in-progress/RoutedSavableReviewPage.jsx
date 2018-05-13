@@ -4,25 +4,31 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import Scroll from 'react-scroll';
 import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
 
-import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
-import { getReviewPageOpenChapters } from '../state/selectors';
-import { toggleLoginModal } from '../../../../platform/site-wide/login/actions';
+import { focusElement } from '../../../../platform/utilities/ui';
 
-import { ReviewPage } from '../review/ReviewPage';
 import {
-  closeReviewChapter,
-  openReviewChapter,
-  setData,
-  setPrivacyAgreement,
-  setEditMode,
-  setSubmission,
-  submitForm,
-  uploadFile
-} from '../actions';
-import { getFormContext } from './selectors';
+  autoSaveForm,
+  saveAndRedirectToReturnUrl,
+  saveErrors
+} from './actions';
+import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
+import { getFormContext } from '../save-in-progress/selectors';
+
+import ReviewChapters from '../review/ReviewChapters';
+import SubmitController from '../review/SubmitController';
+
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
@@ -30,9 +36,9 @@ class RoutedSavableReviewPage extends React.Component {
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
   }
 
-  setData = (...args) => {
-    this.props.setData(...args);
-    this.debouncedAutoSave();
+  componentDidMount() {
+    scrollToTop();
+    focusElement('h4');
   }
 
   autoSave = () => {
@@ -47,7 +53,7 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   renderErrorMessage = () => {
-    const { route, user, form, location } = this.props;
+    const { route, user, form, location, showLoginModal } = this.props;
     const errorText = route.formConfig.errorText;
     const savedStatus = form.savedStatus;
 
@@ -55,6 +61,7 @@ class RoutedSavableReviewPage extends React.Component {
       locationPathname={location.pathname}
       form={form}
       user={user}
+      showLoginModal={showLoginModal}
       saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
       toggleLoginModal={this.props.toggleLoginModal}>
       save your application
@@ -86,13 +93,31 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   render() {
-    const { form, user, location } = this.props;
+    const {
+      form,
+      formConfig,
+      formContext,
+      location,
+      pageList,
+      path,
+      user
+    } = this.props;
 
-    const contentAfterButtons = (
+    return (
       <div>
+        <ReviewChapters
+          formConfig={formConfig}
+          formContext={formContext}
+          pageList={pageList}
+          onSetData={() => this.debouncedAutoSave()}/>
+        <SubmitController
+          formConfig={formConfig}
+          pageList={pageList}
+          path={path}
+          renderErrorMessage={this.renderErrorMessage}/>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={user.login.showModal}
+          showLoginModal={this.props.showLoginModal}
           toggleLoginModal={this.props.toggleLoginModal}
           form={form}>
         </SaveStatus>
@@ -100,49 +125,57 @@ class RoutedSavableReviewPage extends React.Component {
           locationPathname={location.pathname}
           form={form}
           user={user}
+          showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}/>
       </div>
     );
-
-    return (
-      <ReviewPage
-        {...this.props}
-        setData={this.setData}
-        formContext={getFormContext({ user, form })}
-        contentAfterButtons={form.submission.status === 'error' ? null : contentAfterButtons}
-        renderErrorMessage={this.renderErrorMessage}/>
-    );
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  const route = ownProps.route;
+  const {
+    formConfig,
+    pageList,
+    path
+  } = route;
+
+  const {
+    form,
+    user
+  } = state;
+
+  const formContext = getFormContext({ form, user });
+
   return {
-    form: state.form,
-    openChapters: getReviewPageOpenChapters(state),
-    user: state.user
+    form,
+    formConfig,
+    formContext,
+    pageList,
+    showLoginModal: state.navigation.showLoginModal,
+    path,
+    route,
+    user
   };
 }
 
 const mapDispatchToProps = {
-  closeReviewChapter,
-  openReviewChapter,
-  setEditMode,
-  setSubmission,
-  submitForm,
-  setPrivacyAgreement,
-  setData,
-  uploadFile,
-  saveAndRedirectToReturnUrl,
   autoSaveForm,
+  saveAndRedirectToReturnUrl,
   toggleLoginModal
 };
 
 RoutedSavableReviewPage.propTypes = {
+  autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired
-  }).isRequired
+  }).isRequired,
+  formContext: PropTypes.object.isRequired,
+  pageList: PropTypes.array.isRequired,
+  path: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavableReviewPage));

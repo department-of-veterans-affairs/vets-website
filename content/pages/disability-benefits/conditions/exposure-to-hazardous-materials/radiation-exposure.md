@@ -17,7 +17,7 @@ Find out if you can get disability compensation or benefits for illnesses—incl
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you were discharged under conditions other than dishonorable and you have an illness that’s on the list of those believed to be caused by radiation—or that doctors say may be caused by radiation. <br>
+You may be able to get disability benefits if you didn't receive a dishonorable discharge and have an illness that’s on the list of those believed to be caused by radiation—or that doctors say may be caused by radiation. <br>
 [See the list of radiation-related illnesses](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309). 
 
 You must also have had contact with ionizing radiation while serving in the military in at least one of the below ways.

@@ -1,7 +1,7 @@
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { removeFormApi } from '../../../common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../../../platform/utilities/api';
-import { getUserData } from '../../../common/helpers/login-helpers';
+import { getProfile } from '../../../../platform/user/profile/actions';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
@@ -34,9 +34,10 @@ export function removingSavedForm() {
   };
 }
 
-export function removingSavedFormSuccess() {
+export function removingSavedFormSuccess(formId) {
   return {
-    type: REMOVING_SAVED_FORM_SUCCESS
+    type: REMOVING_SAVED_FORM_SUCCESS,
+    formId,
   };
 }
 
@@ -80,7 +81,7 @@ export function acceptTerms(termsName) {
       settings,
       () => {
         dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_SUCCESS });
-        getUserData(dispatch);
+        dispatch(getProfile());
       },
       () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
     );
@@ -92,8 +93,8 @@ export function removeSavedForm(formId) {
     dispatch(removingSavedForm());
     return removeFormApi(formId)
       .then(() => {
-        dispatch(removingSavedFormSuccess());
-        getUserData(dispatch);
+        dispatch(removingSavedFormSuccess(formId));
+        dispatch(getProfile());
       })
       .catch(() => dispatch(removingSavedFormFailure()));
   };

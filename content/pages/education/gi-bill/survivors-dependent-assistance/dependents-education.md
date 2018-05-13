@@ -10,7 +10,7 @@ order: 2
 
 <div class="va-introtext">
 
-Find out if you can get help paying for school or job training through the Survivors’ and Dependents’ Educational Assistance (DEA) program if you’re the child or spouse of a Veteran who has died or is disabled.
+Find out if you can get help paying for school or job training through the Survivors’ and Dependents’ Educational Assistance (DEA) program—also called Chapter 35—if you’re the child or spouse of a Veteran who has died or is disabled. 
 
 </div>
 
