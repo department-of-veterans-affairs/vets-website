@@ -134,7 +134,7 @@ class PCIUAddressField extends React.Component {
       return this.setType(value, 'militaryStateCode');
     // Reset state
     } else if (title === 'militaryStateCode' && !militaryStateCodes.includes(value)) {
-      return this.setType(value, title);
+      return this.setType(value, 'state');
     }
     // Set all others
     return this.setType(value, title);

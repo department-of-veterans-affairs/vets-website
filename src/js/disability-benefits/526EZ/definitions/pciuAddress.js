@@ -16,9 +16,11 @@ export const pciuAddressUISchema = (addressName, title) => {
       'city', 'state', 'zipCode', 'militaryPostOfficeTypeCode', 'militaryStateCode'],
     'ui:options': {
       updateSchema: (formData, schema) => {
-        let newSchema = Object.assign({}, schema);
+        const newSchema = Object.assign({}, schema);
         const address = formData.veteran[addressName];
-        if (militaryPostOfficeTypeCodes.includes(address.city)) {
+        if (!address) return schema;
+        const { city, militaryPostOfficeTypeCode } = address;
+        if (address && militaryPostOfficeTypeCodes.includes(city) && !militaryPostOfficeTypeCode) {
           newSchema.properties.militaryStateCode.enum = militaryPostOfficeTypeCodes;
         } else {
           newSchema.properties.militaryStateCode.enum = pciuStateValues;
@@ -87,7 +89,7 @@ export const pciuAddressUISchema = (addressName, title) => {
         if (address.type === 'MILITARY' && !militaryPostOfficeTypeCodes.includes(address.militaryState)) {
           errors.addError('Please enter APO, FPO, or DPO');
         }
-      }],      
+      }],
       'ui:options': {
         hideIf: formData => !formData.veteran[addressName] || formData.veteran[addressName].type !== military
       }
