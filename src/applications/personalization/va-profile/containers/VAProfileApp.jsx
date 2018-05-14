@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { selectUser, isLOA3 } from '../../../../platform/user/selectors';
+import isPersonalizationEnabled from '../../dashboard/isPersonalizationEnabled';
 import LegacyProfile from '../../../user-profile/containers/UserProfileApp';
 
 import {
@@ -26,7 +27,7 @@ class VAProfileApp extends React.Component {
           user={this.props.account}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          {!this.props.isLOA3 ? <LegacyProfile/> : (
+          {isPersonalizationEnabled() && this.props.isLOA3 ? (
             <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
               <ProfileView
                 startup={this.props.startup}
@@ -46,7 +47,7 @@ class VAProfileApp extends React.Component {
                   clearErrors: this.props.clearErrors
                 }}/>
             </DowntimeNotification>
-          )}
+          ) : <LegacyProfile/>}
         </RequiredLoginView>
       </div>
     );

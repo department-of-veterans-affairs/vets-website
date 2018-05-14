@@ -6,6 +6,8 @@ import IconUser from '@department-of-veterans-affairs/formation/IconUser';
 import LegacyDropdown from './LegacyDropdown';
 import PersonalizationDropdown from './PersonalizationDropdown';
 
+import isPersonalizationEnabled from '../../../../applications/personalization/dashboard/isPersonalizationEnabled';
+
 class SignInProfileMenu extends React.Component {
   render() {
     const icon = <IconUser color="#fff"/>;
@@ -18,7 +20,7 @@ class SignInProfileMenu extends React.Component {
         icon={icon}
         isOpen={this.props.isOpen}
         disabled={this.props.disabled}>
-        {this.props.isLOA3 ? <PersonalizationDropdown/> : <LegacyDropdown/>}
+        {isPersonalizationEnabled() && this.props.isLOA3 ? <PersonalizationDropdown/> : <LegacyDropdown/>}
       </DropDownPanel>
     );
   }
