@@ -1,21 +1,21 @@
-import { apiRequest } from '../../../../platform/utilities/api';
-import Raven from 'raven-js';
+// import { apiRequest } from '../../../../platform/utilities/api';
+// import Raven from 'raven-js';
 
-function fetchITF(itfUrl, optionalSettings = null) {
-  return apiRequest(
-    `${itfUrl}`,
-    optionalSettings,
-    ({ data }) => {
-      const { status, expirationDate }  = data.attributes.intent_to_file;
-      return { status, expirationDate };
-    },
-    ({ errors }) => {
-      const errorMessage = 'Network request failed';
-      Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
-      return { errorMessage, errors };
-    }
-  );
-}
+// function fetchITF(itfUrl, optionalSettings = null) {
+//   return apiRequest(
+//     `${itfUrl}`,
+//     optionalSettings,
+//     ({ data }) => {
+//       const { status, expirationDate }  = data.attributes.intent_to_file;
+//       return { status, expirationDate };
+//     },
+//     ({ errors }) => {
+//       const errorMessage = 'Network request failed';
+//       Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
+//       return { errorMessage, errors };
+//     }
+//   );
+// }
 
 function fakeFetch(x) {
   return new Promise(resolve => {
@@ -26,11 +26,11 @@ function fakeFetch(x) {
 }
 
 
-async function processITF(itfUrl, options = null, dispatch) {
-  const ITF = await fetchITF(itfUrl, options);
-  dispatch({ type: 'SET_PRESTART_STATUS', ...ITF });
-  return ITF;
-}
+// async function processITF(itfUrl, options = null, dispatch) {
+//   const ITF = await fetchITF(itfUrl, options);
+//   dispatch({ type: 'SET_PRESTART_STATUS', ...ITF });
+//   return ITF;
+// }
 
 async function fakeFetchITF(mockITF, dispatch) {
 
@@ -44,8 +44,8 @@ async function fakeFetchITF(mockITF, dispatch) {
 export function submitIntentToFile(formConfig, resolve, reject) {
   return async (dispatch) => {
     const mockITFfailure = { errorMessage: 'Network request failed', errors: [2, 3] };
-    const mockITFsuccess = { status: 'active', expirationDate: '2018-12-12' };
-    const mockITFexpired = { status: 'expired', expirationDate: '2012-12-12' };
+    // const mockITFsuccess = { status: 'active', expirationDate: '2018-12-12' };
+    // const mockITFexpired = { status: 'expired', expirationDate: '2012-12-12' };
     dispatch({ type: 'SET_PRESTART_PENDING' });
     // const existingITF = await processITF('/intent_to_file/compensation/active', null, dispatch);
     const existingITF = await fakeFetchITF(mockITFfailure, dispatch);

@@ -221,14 +221,14 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
     // If we don’t have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
-      return Promise.resolve();
+      Promise.resolve();
     }
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',
