@@ -38,7 +38,6 @@ majorlinks:
 
 You may be able to get VA disability benefits if you got sick or injured, or developed a mental health condition (like PTSD) while serving in the military. You may also qualify if your service made a condition worse that you had before you began serving. Even when a condition doesn’t appear until years after your service ends, if it resulted from an injury or illness that happened during active military service (called “service connected”), you may qualify for monthly VA disability payments. Find out if you can get disability compensation and other benefits like health care.
 
+</div> 
 
-</div>
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply.</a>
