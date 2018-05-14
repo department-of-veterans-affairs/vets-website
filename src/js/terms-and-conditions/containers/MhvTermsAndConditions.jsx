@@ -21,7 +21,8 @@ const TERMS_NAME = 'mhvac';
 
 const unagreedBannerProps = {
   headline: 'Using Vets.gov Health Tools',
-  content: 'Before you can use the health tools on Vets.gov, you’ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.'
+  content: 'Before you can use the health tools on Vets.gov, you’ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.',
+  status: 'warning'
 };
 
 export class MhvTermsAndConditions extends React.Component {
@@ -92,7 +93,8 @@ export class MhvTermsAndConditions extends React.Component {
     if (this.state.showAcceptedMessage) {
       bannerProps = {
         headline: 'You’ve accepted the Terms and Conditions for using Vets.gov health tools',
-        content: ''
+        content: '',
+        status: 'success'
       };
     } else if (this.state.showCanceledMessage) {
       bannerProps = unagreedBannerProps;
@@ -103,7 +105,6 @@ export class MhvTermsAndConditions extends React.Component {
         <AlertBox
           {...bannerProps}
           isVisible
-          status="success"
           onCloseAlert={this.handleCloseBanner}/>
       </ScrollElement>
     );
