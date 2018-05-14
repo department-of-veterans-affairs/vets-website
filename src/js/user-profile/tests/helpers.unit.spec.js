@@ -19,6 +19,7 @@ import fullSchema530 from '../../burials/config/form';
 import fullSchema10007 from '../../pre-need/config/form';
 import fullSchemaVIC from '../../vic-v2/config/form';
 import fullSchema686 from '../../disability-benefits/686/config/form';
+import fullSchema526EZ from '../../disability-benefits/526EZ/config/form';
 
 import schemas from 'vets-json-schema/dist/schemas';
 
@@ -65,6 +66,7 @@ describe('profile helpers:', () => {
     it('should include all and only SIP enabled forms', () => {
       const configs = [
         fullSchema1010ez,
+        fullSchema526EZ,
         fullSchema686,
         fullSchema1990,
         fullSchema1990e,

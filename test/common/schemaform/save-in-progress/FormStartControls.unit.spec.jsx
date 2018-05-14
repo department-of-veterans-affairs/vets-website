@@ -132,6 +132,7 @@ describe('Schemaform <FormStartControls>', () => {
       <FormStartControls
         formId="1010ez"
         migrations={[]}
+        form={{}}
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
@@ -151,6 +152,7 @@ describe('Schemaform <FormStartControls>', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <FormStartControls
         formId="1010ez"
+        form={{}}
         migrations={[]}
         router={routerSpy}
         formSaved

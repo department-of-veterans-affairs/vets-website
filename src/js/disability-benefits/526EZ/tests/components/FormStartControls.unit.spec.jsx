@@ -71,43 +71,4 @@ describe('526 <FormStartControls>', () => {
 
     expect(tree.find('Connect').exists()).to.be.true;
   });
-  it('should render loading view', () => {
-    const tree = shallow(
-      <FormStartControls
-        ITFStatus={'pending'}
-        user={{
-          login: {
-            currentlyLoggedIn: true
-          },
-          profile: {
-            verified: true,
-            savedForms: [],
-            services: []
-          }
-        }}/>
-    );
-
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
-  });
-  it('should render ITF error view', () => {
-    const tree = shallow(
-      <FormStartControls
-        ITFStatus={'expired'}
-        user={{
-          login: {
-            currentlyLoggedIn: true
-          },
-          profile: {
-            verified: true,
-            savedForms: [],
-            services: []
-          }
-        }}/>
-    );
-
-    expect(tree.find('.usa-alert').text()).to.contain('intent');
-    expect(tree.find('SaveInProgressIntro').exists()).to.be.false;
-    expect(tree.find('button').exists()).to.be.false;
-    expect(tree.find('a').exists()).to.be.false;
-  });
 });

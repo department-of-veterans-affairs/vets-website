@@ -45,9 +45,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.subTree('.usa-alert').text()).to.contain('In progress');
     expect(tree.subTree('.usa-alert').text()).to.contain('will expire on');
-    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
-    expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.false;
-    expect(tree.subTree('withRouter(FormStartControls)').props.startPage).to.equal('testing');
+    expect(tree.subTree('Connect(FormStartControls)')).not.to.be.false;
+    expect(tree.subTree('Connect(FormStartControls)').props.prefillAvailable).to.be.false;
+    expect(tree.subTree('Connect(FormStartControls)').props.startPage).to.equal('testing');
   });
   it('should pass prefills available prop', () => {
     const user = {
@@ -73,7 +73,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         toggleLoginModal={toggleLoginModal}/>
     );
 
-    expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.true;
+    expect(tree.subTree('Connect(FormStartControls)').props.prefillAvailable).to.be.true;
   });
   it('should render sign in message', () => {
     const user = {
@@ -103,7 +103,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('.va-button-link')).not.to.be.false;
-    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+    expect(tree.subTree('Connect(FormStartControls)')).not.to.be.false;
   });
   it('should render prefill Notification when prefill enabled and not signed in', () => {
     const prefillEnabled = true;
@@ -136,7 +136,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.subTree('.usa-alert').text()).to.contain('If you’re signed in to your account, your application process can go more smoothly. Here’s why:We can prefill part of your application based on your account details.You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.Sign in to your account.');
     expect(tree.subTree('.va-button-link')).not.to.be.false;
-    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+    expect(tree.subTree('Connect(FormStartControls)')).not.to.be.false;
   });
 
   it('should render message if signed in with no saved form', () => {
@@ -162,7 +162,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('You can save this form in progress');
-    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+    expect(tree.subTree('Connect(FormStartControls)')).not.to.be.false;
   });
 
   it('should render prefill notification if signed in with no saved form and prefill available', () => {
@@ -188,7 +188,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.');
-    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+    expect(tree.subTree('Connect(FormStartControls)')).not.to.be.false;
   });
 
   it('should render loading indicator while profile is loading', () => {
@@ -217,7 +217,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('LoadingIndicator')).not.to.be.false;
-    expect(tree.subTree('withRouter(FormStartControls)')).to.be.false;
+    expect(tree.subTree('Connect(FormStartControls)')).to.be.false;
   });
   it('should render message if signed in with an expired form', () => {
     const user = {
@@ -244,7 +244,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('You can save this form in progress');
-    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+    expect(tree.subTree('Connect(FormStartControls)')).not.to.be.false;
   });
   it('should render sign in message from render prop', () => {
     const user = {
@@ -277,6 +277,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(renderSpy.called).to.be.true;
     expect(tree.text()).to.contain('Render prop info');
-    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+    expect(tree.subTree('Connect(FormStartControls)')).not.to.be.false;
   });
 });
