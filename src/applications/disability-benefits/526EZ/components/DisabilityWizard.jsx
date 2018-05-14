@@ -9,7 +9,7 @@ import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/Err
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
 import ButtonContainer from './ButtonContainer';
-import { TitleContent, GetStartedMessage, disabilityStatusOptions, disabilityUpdateOptions, layouts } from '../helpers';
+import { GetStartedMessage, disabilityStatusOptions, disabilityUpdateOptions, layouts } from '../helpers';
 
 const { chooseStatus, chooseUpdate, applyGuidance } = layouts;
 
@@ -149,23 +149,22 @@ class DisabilityWizard extends React.Component {
     const { errorMessage } = this.state;
 
     return (
-      <div className="va-nav-linkslist--related form-expanding-group-open">
-        <TitleContent
-          atGuidance={this.atGuidance}
-          checkGuidanceStatus={this.checkGuidanceStatus}/>
-        <div>
-          {atGuidance() && <GetStartedMessage checkDisabilityStatus={this.checkDisabilityStatus}/>}
-          {isChoosingStatus() &&
-          <ErrorableRadioButtons
-            name="disabilityStatus"
-            label="Please choose the option that describes you:"
-            id="disabilityStatus"
-            options={disabilityStatusOptions}
-            errorMessage={errorMessage}
-            onValueChange={({ value }) => this.answerQuestion('disabilityStatus', value)}
-            value={{ value: this.getDisabilityStatus() }}/>
-          }
-          {isChoosingUpdate() &&
+      <div>
+        <p>Just answer a few questions, and we’ll show you where to find the form that’s right for you.</p>
+        <div className="va-nav-linkslist--related form-expanding-group-open">
+          <div>
+            {atGuidance() && <GetStartedMessage checkDisabilityStatus={this.checkDisabilityStatus}/>}
+            {isChoosingStatus() &&
+            <ErrorableRadioButtons
+              name="disabilityStatus"
+              label="Please choose the option that describes you:"
+              id="disabilityStatus"
+              options={disabilityStatusOptions}
+              errorMessage={errorMessage}
+              onValueChange={({ value }) => this.answerQuestion('disabilityStatus', value)}
+              value={{ value: this.getDisabilityStatus() }}/>
+            }
+            {isChoosingUpdate() &&
             <ErrorableCheckboxes
               name="disabilityUpdate"
               label="Please choose the option that describes you:"
@@ -174,15 +173,16 @@ class DisabilityWizard extends React.Component {
               errorMessage={errorMessage}
               onValueChange={(option, checked) => this.answerQuestion(option.value, checked)}
               values={this.getUpdates()}/>
-          }
-          {<ButtonContainer
-            {...this.props}
-            checkGuidanceStatus={this.checkGuidanceStatus}
-            isChoosingStatus={this.isChoosingStatus}
-            atGuidance={this.atGuidance}
-            goBack={this.goBack}
-            goForward={this.goForward}
-            authenticate={this.authenticate}/>}
+            }
+            {<ButtonContainer
+              {...this.props}
+              checkGuidanceStatus={this.checkGuidanceStatus}
+              isChoosingStatus={this.isChoosingStatus}
+              atGuidance={this.atGuidance}
+              goBack={this.goBack}
+              goForward={this.goForward}
+              authenticate={this.authenticate}/>}
+          </div>
         </div>
       </div>
     );

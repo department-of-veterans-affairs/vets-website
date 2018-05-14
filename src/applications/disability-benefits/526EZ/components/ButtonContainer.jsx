@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function ButtonContainer(props) {
-  const { user, loginUrl, verifyUrl, checkGuidanceStatus, isChoosingStatus, atGuidance, goBack, goForward, authenticate } = props;
+  const { checkGuidanceStatus, isChoosingStatus, atGuidance, goBack, goForward, authenticate } = props;
   const { atIncreaseGuidance, atEbenefitsGuidance } = checkGuidanceStatus();
 
   return  (<div>

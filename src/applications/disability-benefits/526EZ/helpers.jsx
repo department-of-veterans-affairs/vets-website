@@ -567,17 +567,6 @@ export const getEvidenceTypesDescription = (form, index) => {
   return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
 };
 
-
-export const TitleContent = (props) => {
-  const { atGuidance, checkGuidanceStatus } = props;
-  const { atAppealGuidance, atIncreaseGuidance } = checkGuidanceStatus();
-  let titleContent = 'You’ll need to file a disability claim on eBenefits';
-  if (!atGuidance()) titleContent = 'What type of disability claim should I file?';
-  if (atAppealGuidance) titleContent = 'You’ll need to file an appeal';
-  if (atIncreaseGuidance) titleContent = 'You’ll need to file a claim for increase';
-  return <h3>{titleContent}</h3>;
-};
-
 export const GetStartedMessage = ({ checkDisabilityStatus }) => {
   const { isFirst, isAppeal, isAddOnly, isAddAndIncrease } = checkDisabilityStatus();
   const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
