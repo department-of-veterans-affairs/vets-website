@@ -55,7 +55,7 @@ If you qualify for more than one VA education benefit, you’ll have to pick whi
 
 Post-9/11 GI Bill benefits expire 15 years after your last separation date from active service. You must use all of your benefit by that time or you’ll lose whatever’s left.
 
-**If your service ended on or after January 1, 2013:** There’s no time limit (known as a “delimiting date”) to use your education benefits. A recently enacted law gets rid of the expiration date for you. This change may not be reflected in some of the letters you receive from us. We're working to update our systems to support this change. We appreciate your patience as we make the updates to our systems. [Learn more about this and other new provisions from Forever GI Bill - Harry W. Colmery Veterans Educational Assistance Act.](https://www.benefits.va.gov/GIBILL/ForeverGIBill.asp)
+**If your service ended on or after January 1, 2013:** There’s no time limit (known as a “delimiting date”) to use your education benefits. A recently enacted law gets rid of the expiration date for you. This change may not be reflected in some of the letters you receive from us. We're working to update our systems to support this change. We appreciate your patience as we make the updates to our systems. <br> [Learn more about this and other new provisions from Forever GI Bill - Harry W. Colmery Veterans Educational Assistance Act.](https://www.benefits.va.gov/GIBILL/ForeverGIBill.asp)
 </div>
 </div>
 </div>
@@ -184,4 +184,4 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 </div>
 </div>
 
-GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our [Terms of Use](https://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
+GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase. <br> [Read our Terms of Use](https://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
