@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import DropDownPanel from '@department-of-veterans-affairs/jean-pants/DropDownPanel';
-import IconUser from '@department-of-veterans-affairs/jean-pants/IconUser';
+import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
+import IconUser from '@department-of-veterans-affairs/formation/IconUser';
 import { logout } from '../../../user/authentication/utilities';
 import BetaDropdown from './BetaDropdown';
 

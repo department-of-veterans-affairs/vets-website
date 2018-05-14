@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { SubmitController } from '../../../../src/js/common/schemaform/review/SubmitController';
+import { SubmitController } from '../../../../src/applications/common/schemaform/review/SubmitController';
 
 describe('Schemaform review: SubmitController', () => {
   it('should route to confirmation page after submit', () => {
