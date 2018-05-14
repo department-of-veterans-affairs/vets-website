@@ -3,6 +3,6 @@
   "entryFile": "./account-entry.jsx",
   "entryName": "account",
   "rootUrl": "/account",
-  "production": false,
+  "production": true,
   "contentPage": "account/index.md"
 }
