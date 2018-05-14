@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import StringField from '../../../../src/js/common/schemaform/review/StringField.jsx';
+import StringField from '../../../../src/applications/common/schemaform/review/StringField.jsx';
 
 describe('Schemaform <StringField>', () => {
   it('should render', () => {

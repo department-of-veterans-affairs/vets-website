@@ -2,8 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import SaveStatus from '../../../../src/js/common/schemaform/save-in-progress/SaveStatus.jsx';
-import { SAVE_STATUSES } from '../../../../src/js/common/schemaform/save-in-progress/actions';
+import SaveStatus from '../../../../src/applications/common/schemaform/save-in-progress/SaveStatus.jsx';
+import { SAVE_STATUSES } from '../../../../src/applications/common/schemaform/save-in-progress/actions';
 
 describe('<SaveStatus>', () => {
   const props = {

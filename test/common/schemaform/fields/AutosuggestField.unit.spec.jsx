@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 
-import AutosuggestField from '../../../../src/js/common/schemaform/fields/AutosuggestField';
+import AutosuggestField from '../../../../src/applications/common/schemaform/fields/AutosuggestField';
 
 describe('<AutosuggestField>', () => {
   it('should render', () => {

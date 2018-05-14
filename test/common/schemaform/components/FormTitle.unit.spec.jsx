@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import FormTitle from '../../../../src/js/common/schemaform/components/FormTitle';
+import FormTitle from '../../../../src/applications/common/schemaform/components/FormTitle';
 
 describe('Schemaform <FormTitle>', () => {
   it('should render', () => {

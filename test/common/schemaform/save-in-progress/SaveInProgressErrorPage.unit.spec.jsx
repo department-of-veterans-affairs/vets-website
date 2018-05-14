@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { SaveInProgressErrorPage } from '../../../../src/js/common/schemaform/save-in-progress/SaveInProgressErrorPage';
-import { LOAD_STATUSES } from '../../../../src/js/common/schemaform/save-in-progress/actions';
+import { SaveInProgressErrorPage } from '../../../../src/applications/common/schemaform/save-in-progress/SaveInProgressErrorPage';
+import { LOAD_STATUSES } from '../../../../src/applications/common/schemaform/save-in-progress/actions';
 
 let oldFetch;
 let oldSessionStorage;

@@ -1,15 +1,12 @@
 import _ from 'lodash/fp';
 
 import {
-  LOG_OUT,
   TOGGLE_LOGIN_MODAL,
-  UPDATE_LOGGEDIN_STATUS,
   UPDATE_SEARCH_HELP_USER_MENU,
 } from '../actions';
 
 const initialState = {
-  currentlyLoggedIn: false,
-  showModal: false,
+  showLoginModal: false,
   utilitiesMenuIsOpen: {
     search: false,
     help: false,
@@ -25,16 +22,10 @@ function closeAllMenus(menuState) {
   });
 }
 
-function loginStuff(state = initialState, action) {
+export default function userNavReducer(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_LOGGEDIN_STATUS:
-      return _.set('currentlyLoggedIn', action.value, state);
-
     case TOGGLE_LOGIN_MODAL:
-      return _.set('showModal', action.isOpen, state);
-
-    case LOG_OUT:
-      return _.set('currentlyLoggedIn', false, state);
+      return _.set('showLoginModal', action.isOpen, state);
 
     case UPDATE_SEARCH_HELP_USER_MENU:
       closeAllMenus(state);
@@ -44,5 +35,3 @@ function loginStuff(state = initialState, action) {
       return state;
   }
 }
-
-export default loginStuff;
