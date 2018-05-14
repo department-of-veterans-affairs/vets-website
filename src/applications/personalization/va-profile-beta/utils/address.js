@@ -98,7 +98,7 @@ export function expandAddress(address) {
  * @returns {boolean}
  */
 export function isEmptyAddress(address) {
-  const ignore = ['type', 'countryName'];
+  const ignore = ['type', 'countryName', 'addressEffectiveDate'];
   return Object.keys(address)
     .filter(prop => !ignore.includes(prop))
     .every(prop => !address[prop]);

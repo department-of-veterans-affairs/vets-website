@@ -116,7 +116,7 @@ export default function AddressSection({ addressResponseData, addressConstants, 
     <div>
       {modal}
       <HeadingWithEdit
-        onEditClick={addressResponseData && addressResponseData.address && addressResponseData.controlInformation.canUpdate && onEdit}>{title}
+        onEditClick={addressResponseData && !isEmptyAddress(addressResponseData.address) && addressResponseData.controlInformation.canUpdate && onEdit}>{title}
       </HeadingWithEdit>
       {content}
     </div>
