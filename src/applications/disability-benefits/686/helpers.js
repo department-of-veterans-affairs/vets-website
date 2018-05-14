@@ -56,33 +56,6 @@ export const dependentsMinItem = (
   <span>If you are claiming child dependents, <strong>you must add at least one</strong> here.</span>
 );
 
-export const documentDescription = () => {
-  return (
-    <div>
-      <p>File upload guidelines:</p>
-      <ul>
-        <li>File types you can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 50 MB</li>
-      </ul>
-      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
-    </div>
-  );
-};
-export const additionalDocumentDescription = () => {
-  return (
-    <div>
-      <p>If you have other evidence, like lay or buddy statements, that you would
-        like to submit, you can upload them here.</p>
-      <p>File upload guidelines:</p>
-      <ul>
-        <li>File types you can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 50 MB</li>
-      </ul>
-      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
-    </div>
-  );
-};
-
 export const schoolAttendanceWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
