@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { SaveInProgressIntro } from '../../../../src/js/common/schemaform/save-in-progress/SaveInProgressIntro';
+import { SaveInProgressIntro } from '../../../../src/applications/common/schemaform/save-in-progress/SaveInProgressIntro';
 
 describe('Schemaform <SaveInProgressIntro>', () => {
   const pageList = [{

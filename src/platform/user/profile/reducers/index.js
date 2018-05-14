@@ -1,6 +1,6 @@
 import { merge, set } from 'lodash/fp';
 
-import { UPDATE_LOGGEDIN_STATUS } from '../../../site-wide/user-nav/actions';
+import { UPDATE_LOGGEDIN_STATUS } from '../../authentication/actions';
 
 import {
   UPDATE_PROFILE_FIELDS,

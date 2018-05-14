@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { logout } from '../../../user/authentication/utilities';
-import dashboardManifest from '../../../../js/personalization/dashboard-beta/manifest.json';
+import dashboardManifest from '../../../../applications/personalization/dashboard-beta/manifest.json';
 
 const LEFT_CLICK = 1;
 const dashboardLink = dashboardManifest.rootUrl;

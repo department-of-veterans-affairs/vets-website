@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import ReviewFieldTemplate from '../../../../src/js/common/schemaform/review/ReviewFieldTemplate';
+import ReviewFieldTemplate from '../../../../src/applications/common/schemaform/review/ReviewFieldTemplate';
 
 describe('Schemaform ReviewFieldTemplate', () => {
   it('should render review row', () => {

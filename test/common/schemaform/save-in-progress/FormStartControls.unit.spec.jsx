@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { getFormDOM } from '../../../../src/platform/testing/unit/schemaform-utils';
-import { FormStartControls } from '../../../../src/js/common/schemaform/save-in-progress/FormStartControls';
+import { FormStartControls } from '../../../../src/applications/common/schemaform/save-in-progress/FormStartControls';
 
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
