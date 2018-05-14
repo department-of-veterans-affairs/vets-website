@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import { features } from '../../../../js/personalization/beta-enrollment/routes';
+import { features } from '../../../../applications/personalization/beta-enrollment/routes';
 import recordEvent from '../../../monitoring/record-event';
 
 import SignInModal from '../../../user/authentication/components/SignInModal';

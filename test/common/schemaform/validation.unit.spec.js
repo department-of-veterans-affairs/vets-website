@@ -16,7 +16,7 @@ import {
   validateCurrentOrPastMonthYear,
   validateAutosuggestOption,
   isValidForm
-} from '../../../src/js/common/schemaform/validation';
+} from '../../../src/applications/common/schemaform/validation';
 
 describe('Schemaform validations', () => {
   describe('transformErrors', () => {
