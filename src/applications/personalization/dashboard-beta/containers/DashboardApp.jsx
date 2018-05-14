@@ -10,7 +10,7 @@ import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 
-import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
+import BetaApp, { features } from '../../../beta-enrollment/containers/BetaApp';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import Modal from '@department-of-veterans-affairs/formation/Modal';

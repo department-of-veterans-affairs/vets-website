@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import { features } from '../../../personalization/beta-enrollment/containers/BetaApp';
-import { unregisterBeta } from '../../../personalization/beta-enrollment/actions';
+import { features } from '../../../beta-enrollment/containers/BetaApp';
+import { unregisterBeta } from '../../../beta-enrollment/actions';
 
 class BetaTools extends React.Component {
   constructor() {

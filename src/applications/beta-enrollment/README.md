@@ -8,8 +8,9 @@ During a screenshare session, the veteran was instructed to navigate to `beta-en
 ## Implementing In Other Applications
 To create a similar process for another application, follow these steps:
 
-1. Create the content/Markdown page where you would like the enrollment button to reside. Make sure to include a React root element, `<div id="react-root"></div>`.
-2. Register the route by creating the button in `beta-enrollment/routes.js`.
+1. Create the content/Markdown page in `content/beta-enrollment` where you would like the enrollment button to reside.
+2. Make sure to include a React root element in the Markdown file, `<div id="react-root"></div>`.
+3. Register the route by creating the button in `beta-enrollment/routes.js`.
 
 ## Unenrolling from Beta
 There is an action available for deleting a service from the user's services array, but it must be implemented manually.

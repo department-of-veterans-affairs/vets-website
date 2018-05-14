@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import objectValues from 'lodash/fp/values';
-import { features } from '../../beta-enrollment/routes';
-import { isProfileLoading, createIsServiceAvailableSelector } from '../../../../platform/user/selectors';
+import { features } from '../routes';
+import { isProfileLoading, createIsServiceAvailableSelector } from '../../../platform/user/selectors';
 
 class BetaApp extends React.Component {
 
