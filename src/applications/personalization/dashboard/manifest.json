@@ -3,7 +3,7 @@
   "entryFile": "./dashboard-entry.jsx",
   "entryName": "dashboard",
   "rootUrl": "/dashboard",
-  "production": true,
+  "production": false,
   "contentPage": "dashboard/index.md",
   "hideInvitation": true
 }
