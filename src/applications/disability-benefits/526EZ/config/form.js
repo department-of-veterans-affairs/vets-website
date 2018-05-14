@@ -261,11 +261,10 @@ const formConfig = {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',
           path: 'select-disabilities',
+          hideOnReview: true,
           uiSchema: {
             'ui:description': 'Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.',
             disabilities: {
-              // Using StringField because it doesn't do much and we just need to render the widget.
-              // If this becomes a common(ish) pattern, we should make a BasicField or something.
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
               'ui:validations': [{

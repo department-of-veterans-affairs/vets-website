@@ -19,10 +19,16 @@ export default class SelectArrayItemsWidget extends React.Component {
       value: items,
       id,
       options,
-      required
+      required,
+      formContext
     } = this.props;
     const { label: Label, selectedPropName, disabled } = options;
 
+    if (formContext.reviewMode) {
+      return (
+        <ul>{items.map((d, i) => <li key={i}>{d.name}</li>)}</ul>
+      );
+    }
     // Note: Much of this was stolen from CheckboxWidget
     return (
       <div>
