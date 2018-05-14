@@ -17,6 +17,7 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for education benefits as an eligible dependent"/>
         <p>Equal to VA Form 22-5490 (Dependents’ Application for VA Education Benefits).</p>
         <SaveInProgressIntro
+          router={this.props.router}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -60,6 +61,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
+          router={this.props.router}
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}

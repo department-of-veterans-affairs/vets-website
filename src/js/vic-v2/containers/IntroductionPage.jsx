@@ -56,6 +56,7 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for a Veteran ID Card"/>
         <SaveInProgressIntro
+          router={this.props.router}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VIC Application"
@@ -156,6 +157,7 @@ verification system available.</p>
           <strong>Start the Veteran ID Card application without signing in.</strong>
         </div>}
         <SaveInProgressIntro
+          router={this.props.router}
           buttonOnly
           pageList={this.props.route.pageList}
           startText="Start the Veteran ID Card Application"

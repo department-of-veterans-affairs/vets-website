@@ -20,6 +20,7 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for Veterans pension benefits"/>
         <p>Equal to VA Form 21P-527EZ (Application for Pension).</p>
         <SaveInProgressIntro
+          router={this.props.router}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the Pension Application"
@@ -86,6 +87,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
+          router={this.props.router}
           buttonOnly
           pageList={this.props.route.pageList}
           startText="Start the Pension Application"

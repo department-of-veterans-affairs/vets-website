@@ -130,6 +130,7 @@ class SaveInProgressIntro extends React.Component {
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
         <FormStartControls
+          router={this.props.router}
           resumeOnly={this.props.resumeOnly}
           messages={this.props.messages}
           startText={this.props.startText}

@@ -10,12 +10,14 @@ class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
   render() {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits"/>
         <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
         <SaveInProgressIntro
+          router={this.props.router}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -59,6 +61,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
+          router={this.props.router}
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
