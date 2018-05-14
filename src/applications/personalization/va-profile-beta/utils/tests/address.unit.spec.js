@@ -39,7 +39,7 @@ const military = {
 
 describe('formatAddress', () => {
 
-  it('formats domestic addresses', () => {
+  it('formats domestic addresses with three street lines', () => {
     const expectedResult = {
       street: '140 Rock Creek Church Rd NW, Apt 57 Area Name',
       cityStateZip: 'Springfield, Oregon 97477',
@@ -47,6 +47,29 @@ describe('formatAddress', () => {
     };
 
     expect(addressUtils.formatAddress(domestic)).to.deep.equal(expectedResult);
+  });
+
+  it('formats domestic addresses with two street lines', () => {
+    const expectedResult = {
+      street: '140 Rock Creek Church Rd NW, Apt 57',
+      cityStateZip: 'Springfield, Oregon 97477',
+      country: ''
+    };
+    const address = { ...domestic };
+    address.addressThree = '';
+    expect(addressUtils.formatAddress(address)).to.deep.equal(expectedResult);
+  });
+
+  it('formats domestic addresses with one street line', () => {
+    const expectedResult = {
+      street: '140 Rock Creek Church Rd NW',
+      cityStateZip: 'Springfield, Oregon 97477',
+      country: ''
+    };
+    const address = { ...domestic };
+    address.addressTwo = '';
+    address.addressThree = '';
+    expect(addressUtils.formatAddress(address)).to.deep.equal(expectedResult);
   });
 
   it('formats military addresses', () => {
