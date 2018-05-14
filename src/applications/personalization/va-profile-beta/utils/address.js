@@ -2,6 +2,7 @@ import ADDRESS_DATA from '../../../letters/utils/address-data';
 
 const STATE_NAMES = ADDRESS_DATA.states;
 const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
+const UNITED_STATES = 'USA';
 
 /**
 * @typedef {string} AddressType
@@ -46,7 +47,7 @@ export function consolidateAddress(address) {
   if (consolidated.type === ADDRESS_TYPES.military) {
     consolidated.city = consolidated.militaryPostOfficeTypeCode;
     consolidated.stateCode = consolidated.militaryStateCode;
-    consolidated.countryName = 'USA';
+    consolidated.countryName = UNITED_STATES;
     delete consolidated.militaryPostOfficeTypeCode;
     delete consolidated.militaryStateCode;
   }
@@ -60,7 +61,7 @@ export function consolidateAddress(address) {
  * @returns {AddressType}
  */
 function getInferredAddressType(address) {
-  if (address.countryName !== 'USA') return ADDRESS_TYPES.international;
+  if (address.countryName !== UNITED_STATES) return ADDRESS_TYPES.international;
   if (MILITARY_STATES.has(address.stateCode)) return ADDRESS_TYPES.military;
   return ADDRESS_TYPES.domestic;
 }
@@ -112,10 +113,11 @@ export function getStateName(abbreviation = '') {
 /**
  * Accepts any address and returns an object containing the fields formatted for display
  * @param {Address} address
- * @returns {object} An object containing properties for street, cityStateZip, and country
+ * @returns {object} An object containing properties for street, cityStateZip, and country. The country property is returned as the empty string if USA, because that value is so common it isn't usually displayed.
  */
 export function formatAddress(address) {
   /* eslint-disable prefer-template */
+
   let street = address.addressOne || '';
   if (address.addressOne && address.addressTwo) street += ', ';
   if (address.addressTwo) street += address.addressTwo;
@@ -131,12 +133,14 @@ export function formatAddress(address) {
       if (address.stateCode) cityStateZip += getStateName(address.stateCode);
       if (address.zipCode) cityStateZip += ' ' + address.zipCode;
       break;
+
     case ADDRESS_TYPES.military:
       cityStateZip = address.militaryPostOfficeTypeCode || '';
       if (address.militaryPostOfficeTypeCode && address.militaryStateCode) cityStateZip += ', ';
       if (address.militaryStateCode) cityStateZip += address.militaryStateCode;
       if (address.zipCode) cityStateZip += ' ' + address.zipCode;
       break;
+
     case ADDRESS_TYPES.international:
     default:
       cityStateZip = address.city;

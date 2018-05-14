@@ -1,42 +1,47 @@
 import * as addressUtils from '../address';
 import { expect } from 'chai';
 
+// Examples from:
+// https://github.com/department-of-veterans-affairs/vets-api/blob/1efd2c206859b1a261e762a50cdb44dc8b66462d/spec/factories/pciu_address.rb#L34
+
 const domestic = {
   type: 'DOMESTIC',
   countryName: 'USA',
-  addressOne: 'First',
-  addressTwo: 'Second',
-  addressThree: 'Third',
-  city: 'City',
-  stateCode: 'KY',
-  zipCode: '12345'
+  addressOne: '140 Rock Creek Church Rd NW',
+  addressTwo: 'Apt 57',
+  addressThree: 'Area Name',
+  city: 'Springfield',
+  stateCode: 'OR',
+  zipCode: '97477',
+  zipSuffix: ''
 };
 
 const international = {
   type: 'INTERNATIONAL',
-  countryName: 'Canada',
-  addressOne: 'First',
-  addressTwo: 'Second',
-  addressThree: 'Third',
-  city: 'Montreal'
+  countryName: 'France',
+  addressOne: '2 Avenue Gabriel',
+  addressTwo: 'Line2',
+  addressThree: 'Line3',
+  city: 'Paris'
 };
 
 const military = {
   type: 'MILITARY',
-  addressOne: 'First',
-  addressTwo: 'Second',
-  addressThree: 'Third',
+  addressOne: '57 Columbus Strassa',
+  addressTwo: 'Line2',
+  addressThree: 'Ben Franklin Village',
   militaryPostOfficeTypeCode: 'APO',
-  militaryStateCode: 'AA',
-  zipCode: '12345'
+  militaryStateCode: 'AE',
+  zipCode: '09028',
+  zipSuffix: '1234'
 };
 
 describe('formatAddress', () => {
 
   it('formats domestic addresses', () => {
     const expectedResult = {
-      street: 'First, Second Third',
-      cityStateZip: 'City, Kentucky 12345',
+      street: '140 Rock Creek Church Rd NW, Apt 57 Area Name',
+      cityStateZip: 'Springfield, Oregon 97477',
       country: ''
     };
 
@@ -45,8 +50,8 @@ describe('formatAddress', () => {
 
   it('formats military addresses', () => {
     const expectedResult = {
-      street: 'First, Second Third',
-      cityStateZip: 'APO, AA 12345',
+      street: '57 Columbus Strassa, Line2 Ben Franklin Village',
+      cityStateZip: 'APO, AE 09028',
       country: ''
     };
 
@@ -55,9 +60,9 @@ describe('formatAddress', () => {
 
   it('formats international addresses', () => {
     const expectedResult = {
-      street: 'First, Second Third',
-      cityStateZip: 'Montreal',
-      country: 'Canada'
+      street: '2 Avenue Gabriel, Line2 Line3',
+      cityStateZip: 'Paris',
+      country: 'France'
     };
 
     expect(addressUtils.formatAddress(international)).to.deep.equal(expectedResult);
@@ -92,12 +97,13 @@ describe('consolidateAddress', () => {
     const expectedResult = {
       type: 'MILITARY',
       countryName: 'USA',
-      addressOne: 'First',
-      addressTwo: 'Second',
-      addressThree: 'Third',
-      city: 'APO',
-      stateCode: 'AA',
-      zipCode: '12345'
+      addressOne: military.addressOne,
+      addressTwo: military.addressTwo,
+      addressThree: military.addressThree,
+      city: military.militaryPostOfficeTypeCode,
+      stateCode: military.militaryStateCode,
+      zipCode: military.zipCode,
+      zipSuffix: military.zipSuffix
     };
     expect(addressUtils.consolidateAddress(military)).to.deep.equal(expectedResult);
   });
