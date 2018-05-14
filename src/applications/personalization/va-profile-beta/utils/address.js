@@ -36,8 +36,10 @@ export const ADDRESS_TYPES = {
 
 /**
  * Converts an address into a standardized format so that military address follow the same interface as other address types.
+ * If type is Military, then the countryName property is added and set to USA, militaryPostOfficeTypeCode is renamed to city, and militaryStateCode to stateCode.
+ * Non-military addresses are unaffected.
  * @param {Address} address
- * @returns {Address}
+ * @returns {Address} A new Address object
  */
 export function consolidateAddress(address) {
   const consolidated = {
@@ -67,9 +69,11 @@ function getInferredAddressType(address) {
 }
 
 /**
- * Converts an address that may have been modified or standardized and needs its type to be inferred
+ * Converts an address that may have been modified or standardized and needs its type to be inferred.
+ * If type is Military, the inverse conversion of 'consolidateAddress' is performed.
+ * Non-military addresses are unaffected.
  * @param {Address} address
- * @returns {Address}
+ * @returns {Address} A new Address object
  */
 export function expandAddress(address) {
   const expanded = {

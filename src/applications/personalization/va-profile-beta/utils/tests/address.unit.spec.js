@@ -25,6 +25,7 @@ const international = {
   city: 'Paris'
 };
 
+// 'countryName' is NOT part of the Military Address model.
 const military = {
   type: 'MILITARY',
   addressOne: '57 Columbus Strassa',
@@ -93,7 +94,7 @@ describe('isEmptyAddress', () => {
 });
 
 describe('consolidateAddress', () => {
-  it('converts a military address into a standard address format', () => {
+  it('converts a military address into a standard address format by adding the countryName set to USA, militaryPostOfficeTypeCode converted to city, and militaryStateCode converted to stateCode.', () => {
     const expectedResult = {
       type: 'MILITARY',
       countryName: 'USA',
@@ -113,7 +114,7 @@ describe('consolidateAddress', () => {
 });
 
 describe('expandAddress', () => {
-  it('converts a previously-consolidated address into the proper model by inferring the address type', () => {
+  it('converts a previously-consolidated address into the proper model by inferring the address type. If it is inferred as military, the inverse conversion of consolidateAddress is performed.', () => {
     const consolidated = addressUtils.consolidateAddress(military);
     consolidated.type = 'Will be inferred based on address fields';
     expect(addressUtils.expandAddress(consolidated)).to.deep.equal(military);
