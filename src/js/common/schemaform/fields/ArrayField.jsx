@@ -228,11 +228,11 @@ export default class ArrayField extends React.Component {
         ? formData
         : [getDefaultFormState(schema, undefined, registry.definitions)];
     const lastItem = items[items.length - 1];
-    let hasValidLastToView;
-    if (viewMode && lastItem) {
-      hasValidLastToView = !!lastItem.dateRange.from && !!lastItem.serviceBranch;
+    let showInViewMode = viewMode && lastItem;
+    const lastIndex = this.props.formData && this.props.formData.length - 1;
+    if (!errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
+      showInViewMode = false;
     }
-
     const containerClassNames = classNames({
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription
@@ -273,7 +273,7 @@ export default class ArrayField extends React.Component {
             if (
               isReviewMode
                 ? isEditing
-                : !hasValidLastToView && (isLast || isEditing)
+                : !showInViewMode && (isLast || isEditing)
             ) {
               return (
                 <div
@@ -306,7 +306,7 @@ export default class ArrayField extends React.Component {
                           disabled={disabled}
                           readonly={readonly}/>
                       </div>
-                      {(notLastOrMultipleRows || hasValidLastToView) && (
+                      {(notLastOrMultipleRows || showInViewMode) && (
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             {!isLast && (

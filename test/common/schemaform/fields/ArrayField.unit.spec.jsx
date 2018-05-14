@@ -16,6 +16,7 @@ const formContext = {
   setTouched: sinon.spy()
 };
 const requiredSchema = {};
+const errorSchema = {};
 
 describe('Schemaform <ArrayField>', () => {
   it('should render', () => {
@@ -44,6 +45,7 @@ describe('Schemaform <ArrayField>', () => {
       <ArrayField
         schema={schema}
         uiSchema={uiSchema}
+        errorSchema={errorSchema}
         idSchema={idSchema}
         registry={registry}
         formContext={formContext}
@@ -84,6 +86,7 @@ describe('Schemaform <ArrayField>', () => {
       <ArrayField
         schema={schema}
         uiSchema={uiSchema}
+        errorSchema={errorSchema}
         idSchema={idSchema}
         registry={registry}
         formData={formData}
@@ -97,7 +100,10 @@ describe('Schemaform <ArrayField>', () => {
   });
   describe('should handle', () => {
     let tree;
-    let errorSchema;
+    const fullErrorSchema = {
+      0: {},
+      1: {}
+    };
     let onChange;
     let onBlur;
     beforeEach(() => {
@@ -126,13 +132,12 @@ describe('Schemaform <ArrayField>', () => {
         {},
         {}
       ];
-      errorSchema = {};
       onChange = sinon.spy();
       onBlur = sinon.spy();
       tree = SkinDeep.shallowRender(
         <ArrayField
           schema={schema}
-          errorSchema={errorSchema}
+          errorSchema={fullErrorSchema}
           uiSchema={uiSchema}
           idSchema={idSchema}
           registry={registry}
@@ -164,7 +169,7 @@ describe('Schemaform <ArrayField>', () => {
 
       expect(tree.everySubTree('SchemaField').length).to.equal(2);
 
-      errorSchema[0] = { __errors: ['Testing'] };
+      fullErrorSchema[0] = { __errors: ['Testing'] };
 
       tree.getMountedInstance().handleUpdate(0);
 
@@ -180,7 +185,7 @@ describe('Schemaform <ArrayField>', () => {
     });
     it('add when invalid', () => {
       formContext.setTouched.reset();
-      errorSchema[1] = { __errors: ['Test error'] };
+      fullErrorSchema[1] = { __errors: ['Test error'] };
       tree.getMountedInstance().handleAdd();
 
       expect(formContext.setTouched.called).to.be.true;
@@ -221,7 +226,6 @@ describe('Schemaform <ArrayField>', () => {
         viewField: f => f
       }
     };
-    const errorSchema = {};
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -238,5 +242,53 @@ describe('Schemaform <ArrayField>', () => {
     );
 
     expect(tree.subTree('button').props.disabled).to.be.true;
+  });
+  it('should render review mode when specified and has data', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: [],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const formData = [
+      {},
+      {}
+    ];
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        showLastItemInViewMode: false,
+        viewField: f => f
+      }
+    };
+    const fullErrorSchema = {
+      0: {},
+      1: {}
+    };
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        schema={schema}
+        errorSchema={fullErrorSchema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        onChange={onChange}
+        onBlur={onBlur}
+        formData={formData}
+        formContext={formContext}
+        requiredSchema={requiredSchema}/>
+    );
+
+    expect(tree.everySubTree('input').length).to.equal(0);
+    expect(tree.everySubTree('.va-growable-background').length).to.equal(2);
   });
 });
