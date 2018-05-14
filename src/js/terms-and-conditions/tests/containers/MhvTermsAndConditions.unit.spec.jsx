@@ -46,9 +46,21 @@ describe('<MhvTermsAndConditions>', () => {
 
   it('should show a success message after acceptance', () => {
     const wrapper = shallow(<MhvTermsAndConditions {...props}/>);
-    wrapper.setState({ isSubmitted: true });
-    wrapper.setProps({ accepted: true });
+    wrapper.setState({ isSubmitted: true }, () => {
+      wrapper.setProps({ accepted: true });
+    });
     expect(wrapper.state('showAcceptedMessage')).to.be.true;
+    const alertBox = wrapper.find('AlertBox').first();
+    expect(alertBox.prop('status')).to.eq('success');
+    expect(alertBox.prop('headline')).to.eq('You’ve accepted the Terms and Conditions for using Vets.gov health tools');
+  });
+
+  it('should show a success message after acceptance', () => {
+    const wrapper = shallow(<MhvTermsAndConditions {...props}/>);
+    wrapper.setState({ showCanceledMessage: true });
+    const alertBox = wrapper.find('AlertBox').first();
+    expect(alertBox.prop('status')).to.eq('warning');
+    expect(alertBox.prop('headline')).to.eq('Using Vets.gov Health Tools');
   });
 
   it('should redirect after acceptance if there is a redirect URL', () => {
