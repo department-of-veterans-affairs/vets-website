@@ -256,7 +256,12 @@ const formConfig = {
       }
     },
     ratedDisabilities: {
-      title: 'Your Rated Disabilities',
+      title: (isReview) => {
+        if (isReview) {
+          return 'Rated Disabilities';
+        }
+        return 'Your Rated Disabilities';
+      },
       pages: {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',
