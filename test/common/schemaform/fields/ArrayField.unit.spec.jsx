@@ -100,10 +100,7 @@ describe('Schemaform <ArrayField>', () => {
   });
   describe('should handle', () => {
     let tree;
-    const fullErrorSchema = {
-      0: {},
-      1: {}
-    };
+    let fullErrorSchema;
     let onChange;
     let onBlur;
     beforeEach(() => {
@@ -132,6 +129,7 @@ describe('Schemaform <ArrayField>', () => {
         {},
         {}
       ];
+      fullErrorSchema = {};
       onChange = sinon.spy();
       onBlur = sinon.spy();
       tree = SkinDeep.shallowRender(
@@ -259,18 +257,16 @@ describe('Schemaform <ArrayField>', () => {
     };
     const formData = [
       {},
-      {}
     ];
     const uiSchema = {
       'ui:title': 'List of things',
       'ui:options': {
-        showLastItemInViewMode: false,
+        showLastItemInViewMode: true,
         viewField: f => f
       }
     };
     const fullErrorSchema = {
       0: {},
-      1: {}
     };
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -287,8 +283,92 @@ describe('Schemaform <ArrayField>', () => {
         formContext={formContext}
         requiredSchema={requiredSchema}/>
     );
-
-    expect(tree.everySubTree('input').length).to.equal(0);
-    expect(tree.everySubTree('.va-growable-background').length).to.equal(2);
+    expect(tree.everySubTree('SchemaField').length).to.equal(0);
+  });
+  it('should render edit mode when specified and has no data', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: [],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const formData = [
+    ];
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        showLastItemInViewMode: true,
+        viewField: f => f
+      }
+    };
+    const fullErrorSchema = {
+    };
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        schema={schema}
+        errorSchema={fullErrorSchema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        onChange={onChange}
+        onBlur={onBlur}
+        formData={formData}
+        formContext={formContext}
+        requiredSchema={requiredSchema}/>
+    );
+    expect(tree.everySubTree('SchemaField').length).to.equal(1);
+  });
+  it('should render edit mode when specified and has invalid data', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: [],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const formData = [
+      {},
+    ];
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        showLastItemInViewMode: true,
+        viewField: f => f
+      }
+    };
+    const fullErrorSchema = {
+      0: { thing: { __errors: ['some error'] } },
+    };
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        schema={schema}
+        errorSchema={fullErrorSchema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        onChange={onChange}
+        onBlur={onBlur}
+        formData={formData}
+        formContext={formContext}
+        requiredSchema={requiredSchema}/>
+    );
+    expect(tree.everySubTree('SchemaField').length).to.equal(1);
   });
 });
