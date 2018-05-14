@@ -10,7 +10,7 @@ function NewBadge() {
   return <span className="usa-label va-label-primary">New</span>;
 }
 
-class BetaDropdown extends React.Component {
+class PersonalizationDropdown extends React.Component {
   componentDidMount() {
     // If when this component is mounted the user is on the index page without the "next" parameter in the URL...
     if (window.location.pathname === '/' && !window.location.search) {
@@ -42,4 +42,4 @@ class BetaDropdown extends React.Component {
   }
 }
 
-export default BetaDropdown;
+export default PersonalizationDropdown;
