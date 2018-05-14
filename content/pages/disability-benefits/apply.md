@@ -63,6 +63,16 @@ For all disability claims, please provide:
 </div>
 
 
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h4 itemprop="name">Ready to apply?</h4>
+<div itemprop="itemListElement">
+
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+
+</div>
+</div>
+<div markdown="0"><br></div>
 <div id="react-applicationEntry"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
