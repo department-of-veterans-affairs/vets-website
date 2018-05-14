@@ -38,9 +38,9 @@ You may be able to get up to 36 months of benefits, including:
 
 **Note:** A new provision of the law extends benefit eligibility to January 1, 2021, for spouses of Servicemembers who died in the line of duty between September 11, 2001, and December 31, 2005.
 
-- If you’re a dependent and your parent died in the line of duty before August 1, 2011, you may qualify for both the Fry Scholarship and the Survivors’ and Dependents’ Educational Assistance (DEA) program. But you can use only 1 program at a time. We cap combined benefits at 81 months of full-time training. [Read about the DEA program](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
+- If you’re a dependent and your parent died in the line of duty before August 1, 2011, you may qualify for both the Fry Scholarship and the Survivors’ and Dependents’ Educational Assistance (DEA) program. But you can use only 1 program at a time. We cap combined benefits at 81 months of full-time training. <br> [Read about the DEA program](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
 
-- Surviving spouses qualify to get Dependency and Indemnity Compensation (DIC) while using the Fry Scholarship. Children over age 18 who get DIC benefits have to give up those payments when they start to use the Fry Scholarship. [Read about DIC](https://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp).
+- Surviving spouses qualify to get Dependency and Indemnity Compensation (DIC) while using the Fry Scholarship. Children over age 18 who get DIC benefits have to give up those payments when they start to use the Fry Scholarship. <br> [Read about DIC](https://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp).
 
 **Exception:**<br>
 Spouses who remarry can’t get the Fry Scholarship.
@@ -54,7 +54,7 @@ Spouses who remarry can’t get the Fry Scholarship.
 
 ##### Choose a school
 
-- The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+- The GI Bill Comparison Tool can help you pick a school. <br> [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 - You should contact your school’s certifying official to make sure your program is approved for VA benefits.  
 
 </li>
@@ -64,9 +64,9 @@ Spouses who remarry can’t get the Fry Scholarship.
 ##### Apply for benefits
 
 - [Apply online now](/education/apply-for-education-benefits/application/5490/introduction), **or**
-- Fill out a Dependents’ Application for VA Education Benefits (VA Form 22-5490) and send it to the VA regional office where you want to go to school. [Download VA Form 22-5490](https://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490).
+- Fill out a Dependents’ Application for VA Education Benefits (VA Form 22-5490) and send it to the VA regional office where you want to go to school. <br> [Download VA Form 22-5490](https://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490).
 - If you aren’t legally an adult, your parent or guardian must sign the application.
-- If you’ve already started your educational program, ask a certifying official from your school or your employer to fill out a VA Enrollment Certification (VA Form 22-1999). They’ll need to submit it online using VA Online Certification (VA-ONCE). [Download VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
+- If you’ve already started your educational program, ask a certifying official from your school or your employer to fill out a VA Enrollment Certification (VA Form 22-1999). They’ll need to submit it online using VA Online Certification (VA-ONCE). <br> [Download VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
 
 </li>
 
