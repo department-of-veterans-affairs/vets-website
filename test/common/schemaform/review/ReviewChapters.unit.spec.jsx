@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { ReviewChapters } from '../../../../src/js/common/schemaform/review/ReviewChapters';
+import { ReviewChapters } from '../../../../src/applications/common/schemaform/review/ReviewChapters';
 
 describe('Schemaform review: ReviewChapters', () => {
   it('should handle editing', () => {

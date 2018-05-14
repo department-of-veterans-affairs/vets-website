@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import appendQuery from 'append-query';
 
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import { mhvAccessError } from '../../../static-data/error-messages';
 import {
   createMHVAccount,

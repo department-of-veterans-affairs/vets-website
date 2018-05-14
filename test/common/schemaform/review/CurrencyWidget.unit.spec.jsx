@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import CurrencyWidget from '../../../../src/js/common/schemaform/review/CurrencyWidget';
+import CurrencyWidget from '../../../../src/applications/common/schemaform/review/CurrencyWidget';
 
 describe('Schemaform review <CurrencyWidget>', () => {
   it('should format currency', () => {

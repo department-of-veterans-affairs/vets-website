@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import DateWidget from '../../../../src/js/common/schemaform/widgets/DateWidget';
+import DateWidget from '../../../../src/applications/common/schemaform/widgets/DateWidget';
 
 describe('Schemaform: DateWidget', () => {
   it('should render', () => {

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { ApplicationStatus } from '../../../../src/js/common/schemaform/save-in-progress/ApplicationStatus';
+import { ApplicationStatus } from '../../../../src/applications/common/schemaform/save-in-progress/ApplicationStatus';
 
 describe('schemaform <ApplicationStatus>', () => {
   it('should render loading', () => {
