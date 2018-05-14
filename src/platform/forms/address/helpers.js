@@ -1,4 +1,4 @@
-import ADDRESS_DATA from '../../../letters/utils/address-data';
+import ADDRESS_DATA from './data';
 
 const STATE_NAMES = ADDRESS_DATA.states;
 const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);

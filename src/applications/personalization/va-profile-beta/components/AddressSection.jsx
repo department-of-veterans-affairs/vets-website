@@ -5,7 +5,7 @@ import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
-import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from '../utils/address';
+import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from '../../../../platform/forms/address/helpers';
 
 class EditAddressModal extends React.Component {
 

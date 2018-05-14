@@ -1,4 +1,4 @@
-import * as addressUtils from '../address';
+import * as addressUtils from '../address/helpers';
 import { expect } from 'chai';
 
 // Examples from:
