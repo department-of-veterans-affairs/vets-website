@@ -33,6 +33,10 @@ const initialState = {
   dob: null,
   gender: null,
   accountType: null,
+  loa: {
+    current: null,
+    highest: null
+  },
   verified: false,
   mhv: {
     account: {
