@@ -104,15 +104,12 @@ const treatments = ((treatmentsCommonDef) => {
 
 })(treatmentsSchema);
 
-const initialData = ((prefill) => {
-  const disabilitiesWithActionType = prefill.disabilities.map((disability) => {
+const initialData = {
+  ...prefillData,
+  disabilities: prefillData.disabilities.map((disability) => {
     return _.set('disabilityActionType', 'INCREASE', disability);
-  });
-  return {
-    ...prefill,
-    disabilities: disabilitiesWithActionType
-  };
-})(prefillData);
+  })
+};
 
 const formConfig = {
   urlPrefix: '/',
