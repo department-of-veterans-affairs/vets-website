@@ -286,9 +286,7 @@ export default class ArrayField extends React.Component {
                     <div className="small-12 columns va-growable-expanded">
                       {isLast &&
                       items.length > 1 &&
-                      uiSchema['ui:options'].itemName ? (
-                        <h5>New {uiSchema['ui:options'].itemName}</h5>
-                        ) : null}
+                      uiSchema['ui:options'].itemName ? (<h5>New {uiSchema['ui:options'].itemName}</h5>) : null}
                       <div className="input-section">
                         <SchemaField
                           key={index}
