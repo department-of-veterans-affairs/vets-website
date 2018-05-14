@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { logout } from '../../../user/authentication/utilities';
-import dashboardManifest from '../../../../applications/personalization/dashboard-beta/manifest.json';
+import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
 
 const LEFT_CLICK = 1;
 const dashboardLink = dashboardManifest.rootUrl;
@@ -34,8 +34,8 @@ class BetaDropdown extends React.Component {
   render() {
     return (
       <ul>
-        <li><a href="/profile-beta">Profile</a> <NewBadge/></li>
-        <li><a href="/account-beta">Account</a> <NewBadge/></li>
+        <li><a href="/profile">Profile</a> <NewBadge/></li>
+        <li><a href="/account">Account</a> <NewBadge/></li>
         <li><a href="#" onClick={logout}>Sign Out</a></li>
       </ul>
     );

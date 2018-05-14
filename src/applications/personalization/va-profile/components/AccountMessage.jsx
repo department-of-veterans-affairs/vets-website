@@ -1,5 +1,5 @@
 import React from 'react';
-import accountManifest from '../../account-beta/manifest.json';
+import accountManifest from '../../account/manifest.json';
 
 export default function AccountMessage() {
   return (

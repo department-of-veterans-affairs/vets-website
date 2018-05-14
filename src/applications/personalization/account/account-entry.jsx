@@ -1,4 +1,4 @@
-import '../va-profile-beta/sass/va-profile.scss';
+import '../va-profile/sass/va-profile.scss';
 import '../../../platform/polyfills';
 import '../../user-profile/sass/user-profile.scss';
 
