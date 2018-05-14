@@ -1,6 +1,6 @@
 ## Form config
 
-Forms are created by creating a page that uses FormApp from the schemaform folder, a form config object, and routes generated from that config file. See `src/js/edu-benefits/1995` for an example.
+Forms are created by creating a page that uses FormApp from the schemaform folder, a form config object, and routes generated from that config file. See `src/applications/edu-benefits/1995` for an example.
 
 ```js
 {

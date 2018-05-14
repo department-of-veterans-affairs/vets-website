@@ -32,7 +32,7 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-	 <h4 class="usa-alert-title">Are you in crisis? <button aria-expanded="false" id="crisis-expander-link">You have options.</button></h4>
+	 <h4 class="usa-alert-title">Are you in crisis? <button class="va-button-link" aria-expanded="false" id="crisis-expander-link">You have options.</button></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
 	    <ul>

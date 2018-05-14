@@ -3,7 +3,7 @@ import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
-import { FormSaved } from '../../../../src/js/common/schemaform/save-in-progress/FormSaved';
+import { FormSaved } from '../../../../src/applications/common/schemaform/save-in-progress/FormSaved';
 
 describe('Schemaform <FormSaved>', () => {
   let windowOpen;

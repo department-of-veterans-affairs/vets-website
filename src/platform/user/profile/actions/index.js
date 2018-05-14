@@ -1,7 +1,7 @@
 import recordEvent from '../../../monitoring/record-event';
-import { removeFormApi } from '../../../../js/common/schemaform/save-in-progress/api';
+import { removeFormApi } from '../../../../applications/common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../../utilities/api';
-import { updateLoggedInStatus } from '../../../site-wide/user-nav/actions';
+import { updateLoggedInStatus } from '../../authentication/actions';
 import environment from '../../../utilities/environment';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -31,60 +31,62 @@ export function profileLoadingFinished() {
   };
 }
 
-export function getUserData(dispatch) {
-  fetch(`${environment.API_URL}/v0/user`, {
-    method: 'GET',
-    headers: new Headers({
-      Authorization: `Token token=${sessionStorage.userToken}`
-    })
-  }).then(response => {
-    if (response.ok) return response.json();
-    const error = new Error(response.statusText);
-    error.status = response.status;
-    throw error;
-  }).then(json => {
-    const userData = json.data.attributes.profile;
-    // sessionStorage coerces everything into String. this if-statement
-    // is to prevent the firstname being set to the string 'Null'
-    if (userData.first_name) {
-      sessionStorage.setItem('userFirstName', userData.first_name);
-    }
-    // Report out the current level of assurance for the user
-    recordEvent({ event: `login-loa-current-${userData.loa.current}` });
-    dispatch(updateProfileFields({
-      savedForms: json.data.attributes.in_progress_forms,
-      prefillsAvailable: json.data.attributes.prefills_available,
-      accountType: userData.loa.current,
-      email: userData.email,
-      userFullName: {
-        first: userData.first_name,
-        middle: userData.middle_name,
-        last: userData.last_name,
-      },
-      authnContext: userData.authn_context,
-      loa: userData.loa,
-      multifactor: userData.multifactor,
-      verified: userData.verified,
-      gender: userData.gender,
-      dob: userData.birth_date,
-      status: json.data.attributes.va_profile.status,
-      veteranStatus: json.data.attributes.veteran_status.status,
-      isVeteran: json.data.attributes.veteran_status.is_veteran,
-      services: json.data.attributes.services,
-      mhv: {
-        account: { state: json.data.attributes.mhv_account_state },
-        terms: { accepted: json.data.attributes.health_terms_current }
+export function getProfile() {
+  return (dispatch) => {
+    fetch(`${environment.API_URL}/v0/user`, {
+      method: 'GET',
+      headers: new Headers({
+        Authorization: `Token token=${sessionStorage.userToken}`
+      })
+    }).then(response => {
+      if (response.ok) return response.json();
+      const error = new Error(response.statusText);
+      error.status = response.status;
+      throw error;
+    }).then(json => {
+      const userData = json.data.attributes.profile;
+      // sessionStorage coerces everything into String. this if-statement
+      // is to prevent the firstname being set to the string 'Null'
+      if (userData.first_name) {
+        sessionStorage.setItem('userFirstName', userData.first_name);
       }
-    }));
-    dispatch(updateLoggedInStatus(true));
-  }).catch(error => {
-    if (error.status === 401) {
-      for (const key of ['entryTime', 'userToken', 'userFirstName']) {
-        sessionStorage.removeItem(key);
+      // Report out the current level of assurance for the user
+      recordEvent({ event: `login-loa-current-${userData.loa.current}` });
+      dispatch(updateProfileFields({
+        savedForms: json.data.attributes.in_progress_forms,
+        prefillsAvailable: json.data.attributes.prefills_available,
+        accountType: userData.loa.current,
+        email: userData.email,
+        userFullName: {
+          first: userData.first_name,
+          middle: userData.middle_name,
+          last: userData.last_name,
+        },
+        authnContext: userData.authn_context,
+        loa: userData.loa,
+        multifactor: userData.multifactor,
+        verified: userData.verified,
+        gender: userData.gender,
+        dob: userData.birth_date,
+        status: json.data.attributes.va_profile.status,
+        veteranStatus: json.data.attributes.veteran_status.status,
+        isVeteran: json.data.attributes.veteran_status.is_veteran,
+        services: json.data.attributes.services,
+        mhv: {
+          account: { state: json.data.attributes.mhv_account_state },
+          terms: { accepted: json.data.attributes.health_terms_current }
+        }
+      }));
+      dispatch(updateLoggedInStatus(true));
+    }).catch(error => {
+      if (error.status === 401) {
+        for (const key of ['entryTime', 'userToken', 'userFirstName']) {
+          sessionStorage.removeItem(key);
+        }
       }
-    }
-    dispatch(profileLoadingFinished());
-  });
+      dispatch(profileLoadingFinished());
+    });
+  };
 }
 
 export function removingSavedForm() {
@@ -139,7 +141,7 @@ export function acceptTerms(termsName) {
       settings,
       () => {
         dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_SUCCESS });
-        getUserData(dispatch);
+        dispatch(getProfile());
       },
       () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
     );
@@ -152,7 +154,7 @@ export function removeSavedForm(formId) {
     return removeFormApi(formId)
       .then(() => {
         dispatch({ type: REMOVING_SAVED_FORM_SUCCESS, formId });
-        getUserData(dispatch);
+        dispatch(getProfile());
       })
       .catch(() => dispatch(removingSavedFormFailure()));
   };

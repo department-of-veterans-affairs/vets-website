@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import RadioWidget from '../../../../src/js/common/schemaform/widgets/RadioWidget';
+import RadioWidget from '../../../../src/applications/common/schemaform/widgets/RadioWidget';
 
 describe('Schemaform <RadioWidget>', () => {
   it('should render', () => {
