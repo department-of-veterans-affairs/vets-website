@@ -8,11 +8,9 @@ import RequiredLoginView from '../../../authorization/components/RequiredLoginVi
 describe('<RequiredLoginView>', () => {
   const redirectFunc = sinon.spy();
   let oldWindow;
-  let oldStorage;
 
   const initialSetup = () => {
     oldWindow = global.window;
-    oldStorage = global.sessionStorage;
     global.sessionStorage = { userToken: 'abcdefg' };
 
     global.window = {
@@ -24,7 +22,6 @@ describe('<RequiredLoginView>', () => {
   };
   const teardown = () => {
     global.window = oldWindow;
-    global.sessionStorage = oldStorage;
   };
 
   beforeEach(initialSetup);
@@ -167,7 +164,8 @@ describe('<RequiredLoginView>', () => {
     describe('needs verification', () => {
       it('should prompt for verification', () => {
         const { tree } = setup({ user: loa1User });
-        expect(tree.subTree('Connect(Main)').props.renderType).to.equal('verifyPage');
+        tree.getMountedInstance().componentDidUpdate();
+        expect(redirectFunc.calledWith(sinon.match('/verify'))).to.be.true;
       });
     });
 

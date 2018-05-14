@@ -50,7 +50,7 @@ if (burialPages.has(location.pathname)) {
     applyText: 'Apply for Burial Benefits'
   });
 }
-// TODO: add build flag
+
 if (disabilityPages.has(location.pathname) && __BUILDTYPE__ !== 'production') {
   createDisabilityIncreaseApplicationEntry(store);
 }
