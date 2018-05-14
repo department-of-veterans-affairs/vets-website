@@ -212,6 +212,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
     if (prestartForm) {
       try {
         await prestartForm();
+      // If prestart error, fail safely
       } catch (err) {
         return;
       }
