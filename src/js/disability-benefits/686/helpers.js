@@ -12,6 +12,38 @@ export const childRelationshipStatusLabels = {
   adopted: 'Adopted',
   stepchild: 'Stepchild'
 };
+
+const numberToWords = {
+  0: 'First',
+  1: 'Second',
+  2: 'Third',
+  3: 'Fourth',
+  4: 'Fifth',
+  5: 'Sixth',
+  6: 'Seventh',
+  7: 'Eighth',
+  8: 'Ninth',
+  9: 'Tenth'
+};
+
+export function isMarried(form = {}) {
+  return ['Married', 'Separated'].includes(form.maritalStatus);
+}
+
+export function getMarriageTitle(index) {
+  const desc = numberToWords[index];
+
+  return desc ? `${desc} marriage` : `Marriage ${index + 1}`;
+}
+
+export function getMarriageTitleWithCurrent(form, index) {
+  if (isMarried(form) && (form.marriages.length - 1) === index) {
+    return 'Current marriage';
+  }
+
+  return getMarriageTitle(index);
+}
+
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="What does this mean?">

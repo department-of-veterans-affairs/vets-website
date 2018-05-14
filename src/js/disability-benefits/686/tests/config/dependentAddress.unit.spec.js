@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe.only('686 dependent info', () => {
+describe('686 dependent info', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.unMarriedChildren.pages.childrenAddress;
   const dependentData = () => {
     // default child age is between 18 - 23
@@ -89,7 +89,7 @@ describe.only('686 dependent info', () => {
     expect(form.find('input').length).to.equal(8);
 
   });
-  it('should submit form with required fields filled', () => {
+  xit('should submit form with required fields filled', () => {
     const props = dependentData();
     props.dependents[0].childInHousehold = false;
     const onSubmit = sinon.spy();
