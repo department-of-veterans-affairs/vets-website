@@ -12,7 +12,6 @@ import {
   clearErrors,
   clearMessage
 } from '../actions';
-import BetaApp, { features } from '../../../beta-enrollment/containers/BetaApp';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import ProfileView from '../components/ProfileView';
@@ -28,27 +27,25 @@ class VAProfileApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           {!this.props.isLOA3 ? <LegacyProfile/> : (
-            <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
-              <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
-                <ProfileView
-                  startup={this.props.startup}
-                  profile={this.props.profile}
-                  message={{
-                    content: this.props.profile.message,
-                    clear: this.props.clearMessage
-                  }}
-                  updateActions={this.props.updateActions}
-                  updateFormFieldActions={this.props.updateFormFieldActions}
-                  modal={{
-                    open: this.props.openModal,
-                    currentlyOpen: this.props.profile.modal,
-                    formFields: this.props.profile.formFields,
-                    pendingSaves: this.props.profile.pendingSaves,
-                    errors: this.props.profile.errors,
-                    clearErrors: this.props.clearErrors
-                  }}/>
-              </DowntimeNotification>
-            </BetaApp>
+            <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
+              <ProfileView
+                startup={this.props.startup}
+                profile={this.props.profile}
+                message={{
+                  content: this.props.profile.message,
+                  clear: this.props.clearMessage
+                }}
+                updateActions={this.props.updateActions}
+                updateFormFieldActions={this.props.updateFormFieldActions}
+                modal={{
+                  open: this.props.openModal,
+                  currentlyOpen: this.props.profile.modal,
+                  formFields: this.props.profile.formFields,
+                  pendingSaves: this.props.profile.pendingSaves,
+                  errors: this.props.profile.errors,
+                  clearErrors: this.props.clearErrors
+                }}/>
+            </DowntimeNotification>
           )}
         </RequiredLoginView>
       </div>

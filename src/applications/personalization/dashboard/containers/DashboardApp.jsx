@@ -10,7 +10,6 @@ import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 
-import BetaApp, { features } from '../../../beta-enrollment/containers/BetaApp';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
@@ -200,11 +199,9 @@ class DashboardApp extends React.Component {
           authRequired={3}
           serviceRequired={['evss-claims', 'appeals-status', 'user-profile']}
           user={this.props.user}>
-          <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
-            <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.mhv, services.appeals]} render={this.renderDowntimeNotification}>
-              {view}
-            </DowntimeNotification>
-          </BetaApp>
+          <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.mhv, services.appeals]} render={this.renderDowntimeNotification}>
+            {view}
+          </DowntimeNotification>
         </RequiredLoginView>
       </div>
     );
