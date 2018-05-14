@@ -60,7 +60,8 @@ We’ll give you up to $368 per month in compensation (payments) for these types
 [Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
 ### Get more information
-- [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions.
+- [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). 
+- [You can also search frequently asked questions](https://www.vets.gov/faq/).
 - Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>) or TDD/TTY <a href="tel:18008778339">1-800-877-8339</a>.
 
 GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol&reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our Terms of Use.
