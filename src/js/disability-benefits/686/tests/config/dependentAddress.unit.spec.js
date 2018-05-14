@@ -3,13 +3,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, fillData, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 dependent info', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.unMarriedChildren.pages.childrenAddress;
   const dependentData = () => {
-    // default child age is between 18 - 23
     return {
       'view:hasUnmarriedChildren': true,
       dependents: [
@@ -20,8 +19,7 @@ describe('686 dependent info', () => {
           },
           childSocialSecurityNumber: '222-24-2525',
           childRelationship: 'biological',
-          childInHousehold: true
-        },
+        }
       ]
     };
   };
@@ -39,15 +37,13 @@ describe('686 dependent info', () => {
   });
 
   it('should not submit empty form', () => {
-    const props = dependentData();
-    props.dependents[0].childInHousehold = null;
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
-        data={props}
+        data={dependentData()}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
@@ -68,28 +64,27 @@ describe('686 dependent info', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-
+    selectRadio(form, 'root_childInHousehold', 'Y');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
   it('should expand address info if child does not live with applicant', () => {
-    const props = dependentData();
-    props.dependents[0].childInHousehold = false;
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
-        data={props}
+        data={dependentData()}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
+    selectRadio(form, 'root_childInHousehold', 'N');
     expect(form.find('input').length).to.equal(8);
-
   });
-  xit('should submit form with required fields filled', () => {
+
+  it('should submit form with required fields filled', () => {
     const props = dependentData();
     props.dependents[0].childInHousehold = false;
     const onSubmit = sinon.spy();
@@ -103,11 +98,11 @@ describe('686 dependent info', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
-
+    selectRadio(form, 'root_childInHousehold', 'N');
     fillData(form, 'input#root_childInfo_childAddress_street', 'test st');
-    // fillData(form, 'input#root_childInfo_childAddress_city', 'test city');
-    // fillData(form, 'select#root_childInfo_childAddress_state', 'CA');
-    // fillData(form, 'input#root_childInfo_childAddress_postalCode', '91111');
+    fillData(form, 'input#root_childInfo_childAddress_city', 'test city');
+    fillData(form, 'select#root_childInfo_childAddress_state', 'CA');
+    fillData(form, 'input#root_childInfo_childAddress_postalCode', '91111');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
