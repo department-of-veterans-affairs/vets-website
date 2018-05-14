@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import createCommonStore from '../../../../platform/startup/store';
-import { GiBillApp } from '../../../../js/gi/containers/GiBillApp';
+import { GiBillApp } from '../../../../applications/gi/containers/GiBillApp';
 import reducer from '../../reducers';
 
 const defaultProps = createCommonStore(reducer).getState();

@@ -6,7 +6,7 @@ There are generally two forms of common definitions: schema/uiSchema objects and
 
 ## Widgets
 
-There are a set of common widgets that are included by default. You can use these by setting `ui:widget` for a field to the name. Some of them are associated with particular schema types or formats. Widgets are located in `src/js/common/schemaform/widgets`.
+There are a set of common widgets that are included by default. You can use these by setting `ui:widget` for a field to the name. Some of them are associated with particular schema types or formats. Widgets are located in `src/applications/common/schemaform/widgets`.
 
 Widget       | Default schema type or format
 ------------ | -------------
@@ -20,16 +20,16 @@ There are more widgets than just these, but we normally use definitions they're 
 
 ## Definitions
 
-We also have a set of common definitions. Some of our common field patterns are more complex than widgets and have common label text, validation, or field components. These definitions include all those things. The simpler ones are provided as schema and uiSchema objects which you can import and overwrite to customize. Others are more complex and are functions that require certain parameters. Definitions are located in `src/js/common/schemaform/definitions`.
+We also have a set of common definitions. Some of our common field patterns are more complex than widgets and have common label text, validation, or field components. These definitions include all those things. The simpler ones are provided as schema and uiSchema objects which you can import and overwrite to customize. Others are more complex and are functions that require certain parameters. Definitions are located in `src/applications/common/schemaform/definitions`.
 
 ### Address
-- File: src/js/common/schemaform/definitions/address.js
+- File: src/applications/common/schemaform/definitions/address.js
 - uiSchema: Yes
 - schema: Yes
 - Function or object: Functions
 
 ### Autosuggest
-- File: src/js/common/schemaform/definitions/autosuggest.js
+- File: src/applications/common/schemaform/definitions/autosuggest.js
 - uiSchema: Yes
 - schema: Yes (for use when you are not using an `enum` in the schema)
 - Function or object: Function for uiSchema, object for schema
@@ -37,7 +37,7 @@ We also have a set of common definitions. Some of our common field patterns are 
 This is our common type-ahead widget, which lets users type in values and narrow down a long list of options.
 
 ### Bank account
-- File: src/js/common/schemaform/definitions/bankAccount.js
+- File: src/applications/common/schemaform/definitions/bankAccount.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Object
@@ -45,13 +45,13 @@ This is our common type-ahead widget, which lets users type in values and narrow
 This is for our common EFT information field, where we collect account type (checking/savings), bank account number, and routing number.
 
 ### Currency
-- File: src/js/common/schemaform/definitions/currency.js
+- File: src/applications/common/schemaform/definitions/currency.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Function
 
 ### Current or past dates
-- File: src/js/common/schemaform/definitions/currentOrPastDate.js
+- File: src/applications/common/schemaform/definitions/currentOrPastDate.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Function
@@ -59,7 +59,7 @@ This is for our common EFT information field, where we collect account type (che
 Our common date field with current or past validation set
 
 ### Current or past month/year
-- File: src/js/common/schemaform/definitions/currentOrPastMonthYear.js
+- File: src/applications/common/schemaform/definitions/currentOrPastMonthYear.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Function
@@ -67,7 +67,7 @@ Our common date field with current or past validation set
 Our common date field without the day field and with current or past validation set
 
 ### Date
-- File: src/js/common/schemaform/definitions/date.js
+- File: src/applications/common/schemaform/definitions/date.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Function
@@ -75,7 +75,7 @@ Our common date field without the day field and with current or past validation 
 Our common date field with basic date validation
 
 ### Date range
-- File: src/js/common/schemaform/definitions/dateRange.js
+- File: src/applications/common/schemaform/definitions/dateRange.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Function
@@ -83,7 +83,7 @@ Our common date field with basic date validation
 Two of our common date fields, with validation that they must form a valid range
 
 ### File upload
-- File: src/js/common/schemaform/definitions/file.js
+- File: src/applications/common/schemaform/definitions/file.js
 - uiSchema: Yes
 - schema: Yes (but it isn't different from the ones in vets-json-schema)
 - Function or object: Function for uiSchema, object for schema
@@ -91,7 +91,7 @@ Two of our common date fields, with validation that they must form a valid range
 Our file upload field. You'll need to specify at least an endpoint for the upload.
 
 ### Full name
-- File: src/js/common/schemaform/definitions/fullName.js
+- File: src/applications/common/schemaform/definitions/fullName.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Object
@@ -99,7 +99,7 @@ Our file upload field. You'll need to specify at least an endpoint for the uploa
 Our normal name field, which is first, middle, last, and suffix
 
 ### Month/year
-- File: src/js/common/schemaform/definitions/monthYear.js
+- File: src/applications/common/schemaform/definitions/monthYear.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Function
@@ -107,7 +107,7 @@ Our normal name field, which is first, middle, last, and suffix
 Our common date field without the day field and with basic validation
 
 ### Month/year range
-- File: src/js/common/schemaform/definitions/monthYearRange.js
+- File: src/applications/common/schemaform/definitions/monthYearRange.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Function
@@ -115,7 +115,7 @@ Our common date field without the day field and with basic validation
 Two of our common date fields without the day field and with validation to make sure they're a valid range
 
 ### Non-military jobs
-- File: src/js/common/schemaform/definitions/nonMilitaryJobs.js
+- File: src/applications/common/schemaform/definitions/nonMilitaryJobs.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Object
@@ -123,7 +123,7 @@ Two of our common date fields without the day field and with validation to make 
 The schema for an array of non-military jobs. May be pretty education specific and not broadly useful.
 
 ### Non-required full name
-- File: src/js/common/schemaform/definitions/nonRequiredFullName.js
+- File: src/applications/common/schemaform/definitions/nonRequiredFullName.js
 - uiSchema: No
 - schema: Yes
 - Function or object: Function
@@ -131,7 +131,7 @@ The schema for an array of non-military jobs. May be pretty education specific a
 Function that will take in a full name schema and set the required field list to empty on it.
 
 ### Person ID
-- File: src/js/common/schemaform/definitions/personId.js
+- File: src/applications/common/schemaform/definitions/personId.js
 - uiSchema: Yes
 - schema: Yes
 - Function or object: Function
@@ -139,7 +139,7 @@ Function that will take in a full name schema and set the required field list to
 One common pattern we have is asking for an SSN with a checkbox that you can check if you don't have one and instead input a VA file number.
 
 ### Phone
-- File: src/js/common/schemaform/definitions/phone.js
+- File: src/applications/common/schemaform/definitions/phone.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Function
@@ -147,7 +147,7 @@ One common pattern we have is asking for an SSN with a checkbox that you can che
 Phone number with very loose validation
 
 ### Social Security number
-- File: src/js/common/schemaform/definitions/ssn.js
+- File: src/applications/common/schemaform/definitions/ssn.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Object
@@ -155,7 +155,7 @@ Phone number with very loose validation
 SSN with default label text and validation
 
 ### Year
-- File: src/js/common/schemaform/definitions/year.js
+- File: src/applications/common/schemaform/definitions/year.js
 - uiSchema: Yes
 - schema: No
 - Function or object: Object
