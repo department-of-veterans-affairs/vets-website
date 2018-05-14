@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getNextPagePath, getPreviousPagePath } from '../../../src/js/common/schemaform/routing';
+import { getNextPagePath, getPreviousPagePath } from '../../../src/applications/common/schemaform/routing';
 
 describe('Schemaform routing', () => {
   function getPageList(dependsCallback) {

@@ -20,7 +20,7 @@ export default class FormNav extends React.Component {
     const formPages = createFormPageList(formConfig);
     const pageList = createPageList(formConfig, formPages);
 
-    // These lines are also in src/js/common/schemaform/routing.js#getEligiblePages
+    // These lines are also in src/applications/common/schemaform/routing.js#getEligiblePages
     // TODO: Pull this logic out to be used in routing.js only
     const expandedPageList = expandArrayPages(pageList, formData);
     const eligiblePageList = getActivePages(expandedPageList, formData);
