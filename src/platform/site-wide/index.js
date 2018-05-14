@@ -1,20 +1,18 @@
 /**
- * Module for site wide components  
+ * Module for site wide components
  * @module platform/site-wide
  */
 
-// This will move later, mostly likely
-import '../../js/common/sentry.js';
-
-import '../../js/legacy/menu';  // Used in the footer.
-import '../../js/common/usa-banner-toggle';
-import '../../js/common/utils/accessible-VCL-modal';
-import addMenuListeners from '../../js/common/utils/accessible-menus';
-import createLoginWidget from '../../js/login/login-entry';
-import createFeedbackWidget from '../../js/feedback/feedback-entry';
+import '../monitoring/sentry.js';
+import './legacy/menu';  // Used in the footer.
+import './usa-banner-toggle';
+import './accessible-VCL-modal';
+import addMenuListeners from './accessible-menus';
+import startUserNavWidget from './user-nav';
+import startFeedbackWidget from './feedback';
 
 /**
- * Start up the site-wide components that live on every page, like 
+ * Start up the site-wide components that live on every page, like
  * the login widget, the header menus, and the feedback widget.
  *
  * @param {Store} commonStore The Redux store being used by this application
@@ -24,7 +22,7 @@ export default function startSitewideComponents(commonStore) {
 
   // New navigation menu
   if (document.querySelector('#vetnav')) {
-    require('../../js/legacy/mega-menu.js');
+    require('./legacy/mega-menu.js');
   }
 
   // Prevent some browsers from changing the value when scrolling while hovering
@@ -37,6 +35,6 @@ export default function startSitewideComponents(commonStore) {
     }
   });
 
-  createLoginWidget(commonStore);
-  createFeedbackWidget(commonStore);
+  startUserNavWidget(commonStore);
+  startFeedbackWidget(commonStore);
 }

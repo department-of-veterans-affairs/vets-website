@@ -1,0 +1,28 @@
+$font-path: "~uswds/src/fonts";
+$image-path: "~uswds/src/img";
+@import "~@department-of-veterans-affairs/formation/sass/core";
+
+@import "modules/m-footer";
+
+// ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
+@import "modules/m-crisis-line";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
+@import "modules/m-search";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-loading-indicator";
+@import "modules/m-vet-nav";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-print";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-dropdown";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
+@import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
+
+// ----- mobile typography -- see #6214 on vets.gov-team ---- //
+
+@import "~@department-of-veterans-affairs/formation/sass/mobile-typography";
+
+// ----- VA SHAME ---- //
+
+@import "~@department-of-veterans-affairs/formation/sass/shame";

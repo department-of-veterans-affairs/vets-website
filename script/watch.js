@@ -14,7 +14,7 @@ let busy = false;
 let pendingTests = [];
 
 // all unit test files
-const allUnitTests = glob.sync('test/**/*.unit.spec.js?(x)');
+const allUnitTests = glob.sync('{src,test}/**/*.unit.spec.js?(x)');
 
 // runs array of test files passed in or all tests if no value provided
 async function runUnitTests(unitTests = allUnitTests) {

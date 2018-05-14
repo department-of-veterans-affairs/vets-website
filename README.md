@@ -24,8 +24,8 @@ very secret.
 | build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
-| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
-| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
+| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in `config/webpack.config.js` |
+| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
@@ -33,6 +33,7 @@ very secret.
 | run only unit tests for a subset of tests | `npm run test:unit -- path/to/my/test.unit.spec.jsx` <br> or <br> `npm run test:unit -- --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
 | run only e2e tests                       | `npm run test:e2e`                       |
 | run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
+| run e2e tests in headless mode           | `npm run test:e2e:headless`              |
 | run all linters                          | `npm run lint`                           |
 | run only javascript linter               | `npm run lint:js`                        |
 | run only sass linter                     | `npm run lint:sass`                      |
@@ -58,22 +59,12 @@ very secret.
 | content/includes | Collection of HTML fragments shared between layouts. Must be html. No Markdown. |
 | logs             | Directory for log output from build tools. Currently only used by nightwatch and selenium for end-to-end testing. |
 | node\_modules    | install location of npm modules. Managed by npm. |
-| old              | Directories from the original Jekyll site that still need to be examined for possibly useful content before being deleted. |
-| script           | Scripts for building the repostiory. The most commonly used script is `build.js` which runs Metalsmith |
-| src              | Any source files that require compilation. This is all our Javascript and Sass currently. |
-| test             | Tests for files inside `src`.  The directory structure of `test` should mirror that of `src`. |
+| script           | Scripts for building the repository. The most commonly used script is `build.js` which runs Metalsmith |
+| src              | All of our application code, including styles and tests |
 
-### Where are the Javascript and Sass `vendor` or `libs` directories?
-
-There are none!!
-
-All third-party styles and javascript are handled via npm using package.json. This allows
-strong versioning of third-party libraries and makes it impossible for developers to
-accidentally modify copies of upstream.
+Inside the `src` directory, we have two folders `applications` and `platform`. `applications` contains the individual applications used on Vets.gov, typically associated with a particular URL. `platform` contains the shared code used by those applications: the platform we build applications on top of.
 
 ### Requirements
-
-
 
 The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
 
@@ -158,13 +149,13 @@ Webpack's configuration is stored in `config/webpack.config.js` and declares a s
 loaders which are Webpack's version of plugins. The loaders are used to compile ES2015
 to ES5 via Babel, and to process the sass into CSS.
 
-Webpack is configured to handle multiple different entrypoints (see `entry`
-in `webpack.config.js`). In general, there should be one entrypoint
-`non-react.entry.js` used by most of the static content pages. Each react app
-should have their own entrypoint.
+Webpack is configured to create a bundle for each application, as defined in the manifest.json files
+found in `src/applications`. There are three "special" bundles: `vendor`, which contains dependencies
+shared across all bundles; `styles`, which has no JS and is used to create a common CSS file shared
+across applications, and `static-pages`, which is the bundle used by all static pages.
 
-Sass and styles are loaded *via Javascript*. Each entrypoint `require()` an appropriate
-top-level sass file which the imports the rest of the css dependency tree as needed.
+Sass and styles are loaded *via Javascript*. Each entry file typically imports an appropriate
+top-level sass file which the imports some shared variables and individual Sass files as needed.
 Webpack then generates a separate css bundle for each of these entrypoints allowing
 the site to have app-specific css.
 
@@ -194,25 +185,21 @@ Quirks:
 
 Overall, this runs pretty well.
 
-In a future TODO, hooking ESlint and Sass lint into metalsmith or webpack dev
-server would allow them to execute during incremental builds as well.
-
-
 ### Unit Test -- Mocha
-All unittests re under `test/\*` and are named with the suffix `.unit.spec.js`.
+All unit tests are named with the suffix `.unit.spec.js` and live in `tests` directories inside
+`src/applications` and `src/platform`. Keeping tests near application code keeps applications self contained
+and allows easier switching the files relevant to particular features on Vets.gov.
 
-Unittests are done via `mocha` with the `chai` assertion library run directly via
-the mocha test runner without going through karma or PhantomJS. This means they run very fast.
+Unit tests are done via `mocha` with the `chai` assertion library run directly via
+the mocha test runner in Node.
 
 Unfortunately, it also means there is no true `window` or `document` provided which
 breaks `ReactTestUtils`'s simulate calls. To remedy, a fake `window` and
 `document` are provided using `jsdom` and bootstrapped in `src/platform/testing/unit/mocha-setup.js`
-which is required via `test/mocha.opts`.
+which is required via `src/platform/testing/unit/mocha.opts`.
 
-With this, most everything (except code that accesses HTML5 `dataset`) is testable
-without the overhead of starting a browser.
-
-The `mocha-setup.js` file can be thought of as the init script for mocha tests.
+If you need to polyfill additional browser functionality, `mocha-setup.js` is the place to do that
+globally. The `mocha-setup.js` file can be thought of as the init script for mocha tests.
 
 Note that because mocha is running the test files directly, it needs to use
 `babel-register` (see `compilers` option in `mocha.opts`) to execute babel on
@@ -222,10 +209,11 @@ be shared between build and test.
 ### End-to-end Test -- nightwatch
 
 All end-to-end tests are under `test/\*` and are named with the suffix `.e2e.spec.js`.
+All end-to-end tests are named with the suffix `.e2e.spec.js` and live in `tests` directories inside
+`src/applications` and `src/platform`.
 
-Nightwatch is being used for browser-based testing. On the default configuration,
-PhantomJS is used as the default browser for faster testing and to prevent
-nightwatch from interfering with the developer's UI.
+Nightwatch is being used for browser-based testing. By default, Chrome is used as the browser
+for tests. On Jenkins, Headless Chrome is used.
 
 Nightwatch is a wrapper on Selenium. It is configured in `config/nightwatch.js`.
 To run a nightwatch test, 3 things need to execute:
@@ -240,10 +228,6 @@ for starting up and controlling web browser.  For mocha tests that we want to
 run on real browser, either because the tests is exercising browser quirks or because
 the test requries features that jsdom does not provide, putting them into a
 `e2e.spec.js` file is completely valid and good.
-
-TODO(awong): Figure out sauce labs integrations. Not all e2e tests should always be
-run on all browsers. That's wasteful. How do we determine what should be run on
-multiple browsers as opposed to on PhantomJS in Jenkins?
 
 #### E2E Troubleshooting
 Try running your `selenium` server manually:
@@ -265,12 +249,9 @@ There are some [limitations](https://github.com/department-of-veterans-affairs/v
 
 ### Automated Accessibility Testing -- aXe
 
-The automated accessibility tests are contained within the `test/accessibility`
-directory. All URLs from the generated sitemap are scanned with aXe
-rules for 508 compliance.
-
-Automated accessibility tests are run by Jenkins on PRs for the production build
-type.
+All end-to-end tests should also run our accessibility checking tool, aXe. There's a Nightwatch command
+written for this, which should be run for any page that you test in an end-to-end tests. We also run aXe
+on all pages in the sitemap, to ensure 508 and WCAG compliance.
 
 ### Continuous Integration
 Continuous integration and deployment is done via
@@ -298,11 +279,6 @@ all builds regardless of the build type. The important distinction is that your
 feature is still active within the code base, but the UI is either enabled or
 disabled by the feature flag.
 
-To enable or disable the feature in a specific build type, toggle the feature
-in `src/platform/testing/unit/mocha-setup.js` and `config/webpack.config.js`. See
-[`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
-example implementation.
-
 ### Supported Browsers
 | Browser                   | Minimum version | Note                                   |
 | ------------------------- | --------------- | -------------------------------------- |
@@ -324,6 +300,4 @@ example implementation.
 - React JSON Schemaform
   - [Schemaform Walkthrough](docs/schemaform/walkthrough.md)
   - [Form Config](docs/schemaform/form-config.md)
-
-##### *Verify if these are still relevant.
 

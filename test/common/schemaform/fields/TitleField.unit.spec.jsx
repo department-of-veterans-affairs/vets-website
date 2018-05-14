@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import TitleField from '../../../../src/js/common/schemaform/fields/TitleField';
+import TitleField from '../../../../src/applications/common/schemaform/fields/TitleField';
 
 describe('Schemaform <TitleField>', () => {
   it('should render legend for root', () => {

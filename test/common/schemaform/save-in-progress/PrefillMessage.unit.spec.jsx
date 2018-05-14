@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import PrefillMessage from '../../../../src/js/common/schemaform/save-in-progress/PrefillMessage';
+import PrefillMessage from '../../../../src/applications/common/schemaform/save-in-progress/PrefillMessage';
 
 describe('Schemaform <PrefillMessage>', () => {
   it('should render', () => {

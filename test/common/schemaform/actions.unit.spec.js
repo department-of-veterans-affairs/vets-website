@@ -14,7 +14,7 @@ import {
   SET_SUBMITTED,
   submitForm,
   uploadFile
-} from '../../../src/js/common/schemaform/actions';
+} from '../../../src/applications/common/schemaform/actions';
 
 describe('Schemaform actions:', () => {
   describe('setData', () => {
@@ -494,6 +494,43 @@ describe('Schemaform actions:', () => {
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'jpg',
         errorMessage: 'Network request failed'
+      });
+    });
+    it('should set error if error message is bad', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: 'jpg',
+          size: 0
+        },
+        {
+          fileTypes: ['jpg'],
+          maxSize: 5,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes
+        },
+        f => f,
+        onChange,
+        f => f
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(500, null, undefined);
+
+      expect(onChange.firstCall.args[0]).to.eql({
+        name: 'jpg',
+        uploading: true
+      });
+      expect(onChange.secondCall.args[0]).to.eql({
+        name: 'jpg',
+        errorMessage: 'Internal Server Error'
       });
     });
   });
