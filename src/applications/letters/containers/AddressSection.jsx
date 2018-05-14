@@ -5,8 +5,8 @@ import Raven from 'raven-js';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import { scrollToFirstError, focusElement } from '../../../platform/utilities/ui';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 
 import {
   addressModalContent,

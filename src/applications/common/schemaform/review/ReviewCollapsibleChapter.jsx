@@ -11,7 +11,7 @@ import {
   getNonArraySchema,
 } from '../helpers';
 import ArrayField from './ArrayField';
-import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

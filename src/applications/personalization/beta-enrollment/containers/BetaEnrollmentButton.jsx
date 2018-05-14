@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerBeta } from '../actions';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { createIsServiceAvailableSelector } from '../../../../platform/user/selectors';
 
 class BetaEnrollmentButton extends React.Component {

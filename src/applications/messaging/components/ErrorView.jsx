@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { isEmpty, some, includes, intersection, concat } from 'lodash';
 
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { mhvAccessError } from '../../../platform/static-data/error-messages';
 import { errorCodes } from '../config';
 

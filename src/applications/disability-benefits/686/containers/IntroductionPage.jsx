@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/jean-pants/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

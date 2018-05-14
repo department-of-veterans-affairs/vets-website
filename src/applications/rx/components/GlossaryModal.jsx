@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 import GlossaryList from './GlossaryList';
 
 class GlossaryModal extends React.Component {

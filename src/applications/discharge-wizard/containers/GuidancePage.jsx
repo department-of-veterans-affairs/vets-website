@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import recordEvent from '../../../platform/monitoring/record-event';
 
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
 import { branchOfService, board, formData, venueAddress } from '../utils';
 import { venueWarning, upgradeVenueWarning } from '../config';

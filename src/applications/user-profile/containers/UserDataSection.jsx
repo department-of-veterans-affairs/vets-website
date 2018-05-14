@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { mfa } from '../../../platform/user/authentication/utilities';
 import AcceptTermsPrompt from '../../../platform/user/authorization/components/AcceptTermsPrompt';

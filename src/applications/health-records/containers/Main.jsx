@@ -6,9 +6,9 @@ import classNames from 'classnames';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/jean-pants/ErrorableRadioButtons';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
 
 import ErrorView from '../components/ErrorView';
 import { reportTypes as reportTypesConfig } from '../config';

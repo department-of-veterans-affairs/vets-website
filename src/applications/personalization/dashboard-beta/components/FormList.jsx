@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 
 import FormItem from './FormItem';
 import { isSIPEnabledForm } from '../helpers';

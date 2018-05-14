@@ -7,7 +7,7 @@ import FacilityDirectionsLink from '../components/search-results/FacilityDirecti
 import FacilityHours from '../components/FacilityHours';
 import FacilityMap from '../components/FacilityMap';
 import FacilityPhoneLink from '../components/search-results/FacilityPhoneLink';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';

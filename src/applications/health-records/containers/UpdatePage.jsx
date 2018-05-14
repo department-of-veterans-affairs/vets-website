@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router';
 import { checkRefreshStatus } from '../actions/refresh';
 import { submitForm } from '../actions/form';
 
-import ProgressBar from '@department-of-veterans-affairs/jean-pants/ProgressBar';
+import ProgressBar from '@department-of-veterans-affairs/formation/ProgressBar';
 
 export class UpdatePage extends React.Component {
   constructor(props) {

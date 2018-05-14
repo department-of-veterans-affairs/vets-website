@@ -1,10 +1,10 @@
 import React from 'react';
 import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
-import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 import HeadingWithEdit from './HeadingWithEdit';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 import LoadingButton from './LoadingButton';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
 
 class EditPhoneModal extends React.Component {

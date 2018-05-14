@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import React from 'react';
 
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import {
   APPEAL_V2_TYPE,
   claimsAvailability,
@@ -23,7 +23,7 @@ import AppealsUnavailable from '../../../claims-status/components/AppealsUnavail
 import ClaimsAppealsUnavailable from '../../../claims-status/components/ClaimsAppealsUnavailable';
 
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealsListItemV2';

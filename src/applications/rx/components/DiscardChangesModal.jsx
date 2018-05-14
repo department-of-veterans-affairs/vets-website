@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 
 class DiscardChangesModal extends React.Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
 import { features } from '../../../personalization/beta-enrollment/containers/BetaApp';
 import { unregisterBeta } from '../../../personalization/beta-enrollment/actions';
 

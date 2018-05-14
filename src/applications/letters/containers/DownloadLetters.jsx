@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import findIndex from 'lodash/fp/findIndex';
 
 import FormTitle from '../../common/schemaform/components/FormTitle';
-import SegmentedProgressBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgressBar';
+import SegmentedProgressBar from '@department-of-veterans-affairs/formation/SegmentedProgressBar';
 
 import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';

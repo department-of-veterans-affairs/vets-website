@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 

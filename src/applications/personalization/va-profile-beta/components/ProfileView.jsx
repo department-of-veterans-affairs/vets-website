@@ -1,7 +1,7 @@
 import React from 'react';
 import Scroll from 'react-scroll';
-import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import {
   SAVE_MAILING_ADDRESS,

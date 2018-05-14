@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SaveInProgressIntro from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
 import { ITFErrorAlert, VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert, ITFDescription } from '../helpers';
