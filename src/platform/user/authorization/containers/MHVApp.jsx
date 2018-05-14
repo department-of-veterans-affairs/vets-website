@@ -74,7 +74,7 @@ export class MHVApp extends React.Component {
     const alertProps = {
       headline: 'Thank you for accepting the Terms and Conditions for using Vets.gov health tools',
       content: (
-        <p>We’ve upgraded your MyHealth<em>e</em>Vet account to Premium status. So you can now access health tools on both Vets.gov and the MyHealth<em>e</em>Vet website.</p>
+        <p>You can now access health tools on Vets.gov.</p>
       ),
       onCloseAlert: this.closeTcAcceptanceMessage
     };
