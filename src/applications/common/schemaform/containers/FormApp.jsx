@@ -24,7 +24,6 @@ class FormApp extends React.Component {
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
     const GetFormHelp = formConfig.getHelp;
-    const saveEnabled = !formConfig.disableSave;
 
     let formTitle;
     let formNav;

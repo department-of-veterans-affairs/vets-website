@@ -1,10 +1,6 @@
 import _ from 'lodash/fp';
 
 import {
-  recalculateSchemaAndData
-} from '../state/helpers';
-
-import {
   SET_SAVE_FORM_STATUS,
   SET_AUTO_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
@@ -19,7 +15,7 @@ import {
 } from '../save-in-progress/actions';
 
 import createSchemaFormReducer from '../state';
-import { createInitialState } from '../state/helpers';
+import { createInitialState, recalculateSchemaAndData } from '../state/helpers';
 import reducers from '../state/reducers';
 
 export const saveInProgressReducers = {
