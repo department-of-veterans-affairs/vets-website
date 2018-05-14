@@ -78,14 +78,6 @@ const mapDispatchToProps = {
   registerBeta
 };
 
-const BetaEnrollmentButtonContainer = connect(mapStateToProps, mapDispatchToProps)(BetaEnrollmentButton);
-
-function createBetaEnrollmentButton(feature, returnUrl) {
-  return () => {
-    return <BetaEnrollmentButtonContainer feature={feature} returnUrl={returnUrl}/>;
-  };
-}
-
 export { BetaEnrollmentButton };
 
-export default createBetaEnrollmentButton;
+export default connect(mapStateToProps, mapDispatchToProps)(BetaEnrollmentButton);

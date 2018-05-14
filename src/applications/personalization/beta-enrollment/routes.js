@@ -1,4 +1,4 @@
-import createBetaEnrollmentButton from './containers/BetaEnrollmentButton';
+import createBetaEnrollmentButton from './createBetaEnrollmentButton';
 
 export const features = {
   healthAccount: 'health_account',
