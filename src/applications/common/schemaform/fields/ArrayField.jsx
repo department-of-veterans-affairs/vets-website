@@ -3,7 +3,6 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-import { Validator } from 'jsonschema';
 
 import { scrollToFirstError } from '../../../../platform/utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
@@ -46,27 +45,25 @@ export default class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
   }
 
-  // This fills in an empty item in the array if it has minItems set
-  // so that schema validation runs against the fields in the first item
-  // in the array. This shouldn’t be necessary, but there’s a fix in rjsf
-  // that has not been released yet
-  componentDidMount() {
+  componentWillMount() {
     const { schema, uiSchema, formData = [], registry } = this.props;
     const items = (formData && formData.length)
       ? formData
       : [getDefaultFormState(schema, undefined, registry.definitions)];
     const lastItem = items[items.length - 1];
-    this.showInViewMode = uiSchema['ui:options'].showLastItemInViewMode && lastItem;
+    this.showInViewMode = !!(uiSchema['ui:options'].showLastItemInViewMode && lastItem);
     const lastIndex = this.props.formData && this.props.formData.length - 1;
-    const v = new Validator();
-    const result = v.validate(
-      formData,
-      schema
-    );
-    if (!errorSchemaIsValid(this.props.errorSchema[lastIndex]) || !result.valid) {
+    if (this.props.errorSchema[lastIndex] && !errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       this.showInViewMode = false;
     }
-    debugger;
+  }
+
+  // This fills in an empty item in the array if it has minItems set
+  // so that schema validation runs against the fields in the first item
+  // in the array. This shouldn’t be necessary, but there’s a fix in rjsf
+  // that has not been released yet
+  componentDidMount() {
+    const { schema, formData = [], registry } = this.props;
     if (schema.minItems > 0 && formData.length === 0) {
       this.props.onChange(Array(schema.minItems).fill(
         getDefaultFormState(schema.additionalItems, undefined, registry.definitions)

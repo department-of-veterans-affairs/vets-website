@@ -283,8 +283,7 @@ describe('Schemaform <ArrayField>', () => {
         formContext={formContext}
         requiredSchema={requiredSchema}/>
     );
-    console.log(tree.toString());
-    expect(tree.everySubTree('.va-growable').length).to.equal(1);
+    expect(tree.everySubTree('SchemaField').length).to.equal(0);
   });
   it('should render edit mode when specified and has no data', () => {
     const idSchema = {};
@@ -326,8 +325,6 @@ describe('Schemaform <ArrayField>', () => {
         formContext={formContext}
         requiredSchema={requiredSchema}/>
     );
-    console.log(tree.toString());    
-    expect(tree.everySubTree('.va-growable').length).to.equal(0);    
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
   });
   it('should render edit mode when specified and has invalid data', () => {

@@ -32,8 +32,8 @@ export default {
     {
       serviceBranch: 'Army',
       dateRange: {
-        from: '1990-02-02',
-        to: '2010-03-04'
+        // from: '1990-02-02',
+        // to: '2010-03-04'
       }
     }
   ],
