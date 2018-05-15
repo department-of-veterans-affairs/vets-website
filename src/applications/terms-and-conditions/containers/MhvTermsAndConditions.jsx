@@ -111,7 +111,12 @@ export class MhvTermsAndConditions extends React.Component {
   }
 
   renderAgreementSection = () => {
-    if (!this.props.isLoggedIn || this.props.accepted) { return null; }
+    const shouldHideSection =
+      !this.props.user.loggedIn ||
+      !this.props.user.verified ||
+      this.props.accepted;
+
+    if (shouldHideSection) { return null; }
 
     const yesCheckbox = (
       <div>
@@ -213,7 +218,10 @@ export class MhvTermsAndConditions extends React.Component {
 
 const mapStateToProps = (state) => ({
   ...state.termsAndConditions,
-  isLoggedIn: state.user.login.currentlyLoggedIn
+  user: {
+    loggedIn: state.user.login.currentlyLoggedIn,
+    verified: state.user.profile.verified
+  }
 });
 
 const mapDispatchToProps = {
