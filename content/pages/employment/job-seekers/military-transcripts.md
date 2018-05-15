@@ -23,6 +23,7 @@ Military transcripts are certified documents that active-duty Servicemembers and
 
 </div>
 
-To request that transcripts be sent to a hiring manager, fill out an official JST [Special Mail Request form](https://jst.doded.mil/JST_SPEC.pdf), complete with the employer’s contact information, and email it to <a href="mailto:jst@doded.mil">jst@doded.mil</a>.
+To request that transcripts be sent to a hiring manager, <br> [Fill out an official JST Special Mail Request form](https://jst.doded.mil/JST_SPEC.pdf). <br>
+Complete the form with the employer’s contact information and email it to <a href="mailto:jst@doded.mil">jst@doded.mil</a>.
 
-Air Force personnel can request transcripts from the Community College of the Air Force (CCAF). Even if you have not attended classes at the CCAF, you can still obtain a transcript. Use the [transcript order form](http://www.airuniversity.af.mil/barnes/ccaf) to have an official copy mailed to you.
+Air Force personnel can request transcripts from the Community College of the Air Force (CCAF). Even if you have not attended classes at the CCAF, you can still obtain a transcript. <br> [Use the transcript order form to have an official copy mailed to you](http://www.airuniversity.af.mil/barnes/ccaf).
