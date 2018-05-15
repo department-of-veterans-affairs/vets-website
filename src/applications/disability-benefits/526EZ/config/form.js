@@ -266,7 +266,7 @@ const formConfig = {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',
           path: 'select-disabilities',
-          hideOnReview: true,
+          hasCustomArrayField: true,
           uiSchema: {
             'ui:description': 'Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.',
             disabilities: {
