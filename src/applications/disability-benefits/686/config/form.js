@@ -11,12 +11,13 @@ import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import SpouseMarriageView from '../components/SpouseMarriageView';
+import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import {
   getMarriageTitleWithCurrent,
   isMarried,
   relationshipLabels,
   VAFileNumberDescription,
+  getSpouseMarriageTitle
 } from '../helpers';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -388,11 +389,17 @@ const formConfig = {
                 }
               }
             ),
-            'view:spouseMarriedBefore': {
-              'ui:widget': 'yesNo',
+            spouseMarriages: {
+              'ui:title': 'How many times has your spouse been married (including current marriage)?',
+              'ui:widget': ArrayCountWidget,
+              'ui:field': 'StringField',
               'ui:options': {
-                updateSchema: createSpouseLabelSelector(spouseName =>
-                  `Has ${spouseName.first} ${spouseName.last} been married before?`)
+                showFieldLabel: 'label',
+                keepInPageOnReview: true,
+                countOffset: -1
+              },
+              'ui:errorMessages': {
+                required: 'You must enter at least 1 marriage'
               }
             }
           },
@@ -403,7 +410,7 @@ const formConfig = {
               'spouseSocialSecurityNumber',
               'spouseIsVeteran',
               'liveWithSpouse',
-              'view:spouseMarriedBefore'
+              'spouseMarriages'
             ],
             properties: {
               spouseDateOfBirth,
@@ -412,25 +419,20 @@ const formConfig = {
               spouseVaFileNumber,
               liveWithSpouse,
               spouseAddress: address.schema(fullSchema686),
-              'view:spouseMarriedBefore': {
-                type: 'boolean'
-              }
+              spouseMarriages: marriages
             }
           }
         },
         spouseMarriageHistory: {
-          title: 'Spouse marriage history',
-          path: 'spouse-info/marriages',
-          depends: (formData) => isMarried(formData) && formData['view:spouseMarriedBefore'],
+          title: (form, { pagePerItemIndex }) => getSpouseMarriageTitle(pagePerItemIndex),
+          path: 'spouse-info/marriages/:index',
+          depends: isMarried,
+          showPagePerItem: true,
+          arrayPath: 'spouseMarriages',
           uiSchema: {
             spouseMarriages: {
-              'ui:description': 'Please provide details about your spouse or surviving spouse’s previous marriages.',
-              'ui:options': {
-                itemName: 'Spouse Marriage',
-                viewField: SpouseMarriageView,
-                reviewTitle: 'Spouse Marriages'
-              },
               items: {
+                'ui:title': SpouseMarriageTitle,
                 dateOfMarriage: _.merge(currentOrPastDateUI(''), {
                   'ui:options': {
                     updateSchema: createSpouseLabelSelector(spouseName =>

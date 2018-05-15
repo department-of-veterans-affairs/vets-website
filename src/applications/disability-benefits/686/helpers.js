@@ -39,6 +39,12 @@ export function getMarriageTitleWithCurrent(form, index) {
   return getMarriageTitle(index);
 }
 
+export function getSpouseMarriageTitle(index) {
+  const desc = numberToWords[index];
+
+  return desc ? `Spouse’s ${desc.toLowerCase()} marriage` : `Spouse marriage ${index + 1}`;
+}
+
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="What does this mean?">
