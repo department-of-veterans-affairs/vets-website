@@ -1,6 +1,8 @@
 import React from 'react';
 
-export default function TermsAndConditions({ terms }) {
+export default function TermsAndConditions({ terms, verified }) {
+  if (!verified) { return null; }
+
   const termsConditionsUrl = '/health-care/medical-information-terms-conditions';
 
   if (terms.accepted) {

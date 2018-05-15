@@ -11,7 +11,8 @@ class AccountMain extends React.Component {
     const {
       profile: {
         loa,
-        multifactor
+        multifactor,
+        verified
       },
       terms
     } = this.props;
@@ -21,7 +22,7 @@ class AccountMain extends React.Component {
         <AccountVerification loa={loa}/>
         <MultifactorMessage multifactor={multifactor}/>
         <LoginSettings/>
-        <TermsAndConditions terms={terms}/>
+        <TermsAndConditions terms={terms} verified={verified}/>
         <h4>Have questions about signing in to Vets.gov?</h4>
         <p>
           Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on Vets.gov.<br/>
