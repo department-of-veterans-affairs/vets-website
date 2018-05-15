@@ -78,6 +78,7 @@ const {
   specialIssues,
   servicePeriods,
   privateTreatmentCenterAddress,
+  dateRangeFromRequired
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -131,7 +132,8 @@ const formConfig = {
     disabilities: omitRequired(disabiltiesDefinition),
     specialIssues,
     servicePeriods,
-    privateTreatmentCenterAddress
+    privateTreatmentCenterAddress,
+    dateRangeFromRequired
   },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
@@ -196,7 +198,18 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              servicePeriods
+              servicePeriods: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    dateRange: _.set('required', ['from'], dateRange),
+                    serviceBranch: {
+                      type: 'string'
+                    }
+                  }
+                }
+              }
             }
           }
         },

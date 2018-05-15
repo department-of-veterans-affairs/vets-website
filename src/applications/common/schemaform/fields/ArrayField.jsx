@@ -3,8 +3,11 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
+import { Validator } from 'jsonschema';
+
 import { scrollToFirstError } from '../../../../platform/utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
+
 
 import {
   toIdSchema,
@@ -34,7 +37,6 @@ export default class ArrayField extends React.Component {
     this.state = {
       editing: props.formData ? props.formData.map(() => false) : [true]
     };
-
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
@@ -49,7 +51,22 @@ export default class ArrayField extends React.Component {
   // in the array. This shouldn’t be necessary, but there’s a fix in rjsf
   // that has not been released yet
   componentDidMount() {
-    const { schema, formData = [], registry } = this.props;
+    const { schema, uiSchema, formData = [], registry } = this.props;
+    const items = (formData && formData.length)
+      ? formData
+      : [getDefaultFormState(schema, undefined, registry.definitions)];
+    const lastItem = items[items.length - 1];
+    this.showInViewMode = uiSchema['ui:options'].showLastItemInViewMode && lastItem;
+    const lastIndex = this.props.formData && this.props.formData.length - 1;
+    const v = new Validator();
+    const result = v.validate(
+      formData,
+      schema
+    );
+    if (!errorSchemaIsValid(this.props.errorSchema[lastIndex]) || !result.valid) {
+      this.showInViewMode = false;
+    }
+    debugger;
     if (schema.minItems > 0 && formData.length === 0) {
       this.props.onChange(Array(schema.minItems).fill(
         getDefaultFormState(schema.additionalItems, undefined, registry.definitions)
@@ -192,22 +209,14 @@ export default class ArrayField extends React.Component {
     const DescriptionField = typeof description === 'function'
       ? uiSchema['ui:description']
       : null;
-    const {
-      reviewMode: isReviewMode,
-      showLastItemInViewMode: viewMode
-    } = uiOptions;
+    const { reviewMode: isReviewMode } = uiOptions;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items = (formData && formData.length)
       ? formData
       : [getDefaultFormState(schema, undefined, registry.definitions)];
-    const lastItem = items[items.length - 1];
-    let showInViewMode = viewMode && lastItem;
-    const lastIndex = this.props.formData && this.props.formData.length - 1;
-    if (!errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
-      showInViewMode = false;
-    }
+
     const containerClassNames = classNames({
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription
@@ -236,7 +245,7 @@ export default class ArrayField extends React.Component {
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
 
-            if (isReviewMode ? isEditing : !showInViewMode && (isLast || isEditing)) {
+            if (isReviewMode ? isEditing : !this.showInViewMode && (isLast || isEditing)) {
               return (
                 <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
                   <Element name={`table_${itemIdPrefix}`}/>
@@ -259,7 +268,7 @@ export default class ArrayField extends React.Component {
                           disabled={disabled}
                           readonly={readonly}/>
                       </div>
-                      {(notLastOrMultipleRows || showInViewMode) &&
+                      {(notLastOrMultipleRows || this.showInViewMode) &&
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}

@@ -283,7 +283,8 @@ describe('Schemaform <ArrayField>', () => {
         formContext={formContext}
         requiredSchema={requiredSchema}/>
     );
-    expect(tree.everySubTree('SchemaField').length).to.equal(0);
+    console.log(tree.toString());
+    expect(tree.everySubTree('.va-growable').length).to.equal(1);
   });
   it('should render edit mode when specified and has no data', () => {
     const idSchema = {};
@@ -325,6 +326,8 @@ describe('Schemaform <ArrayField>', () => {
         formContext={formContext}
         requiredSchema={requiredSchema}/>
     );
+    console.log(tree.toString());    
+    expect(tree.everySubTree('.va-growable').length).to.equal(0);    
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
   });
   it('should render edit mode when specified and has invalid data', () => {
@@ -369,6 +372,53 @@ describe('Schemaform <ArrayField>', () => {
         formContext={formContext}
         requiredSchema={requiredSchema}/>
     );
+    expect(tree.everySubTree('SchemaField').length).to.equal(1);
+  });
+  it('should render edit mode until submit if initial data incomplete or invalid', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: [],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const formData = [
+      {},
+    ];
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        showLastItemInViewMode: true,
+        viewField: f => f
+      }
+    };
+    const fullErrorSchema = {
+      0: { thing: { __errors: ['some error'] } },
+    };
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        schema={schema}
+        errorSchema={fullErrorSchema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        onChange={onChange}
+        onBlur={onBlur}
+        formData={formData}
+        formContext={formContext}
+        requiredSchema={requiredSchema}/>
+    );
+    expect(tree.everySubTree('SchemaField').length).to.equal(1);
+    const newItem = { field: 'abc' };
+    tree.getMountedInstance().onItemChange(0, newItem);
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
   });
 });
