@@ -39,4 +39,5 @@ You
 [Apply online](https://www.vip.vetbiz.gov/).
 
 ### Learn more
-Contact a [trained specialist](https://www.va.gov/osdbu/verification/assistance/counselors.asp) who can coach you through the application process.
+Trained specialists can coach you through the application process. <br>
+[Contact a trained specialist](https://www.va.gov/osdbu/verification/assistance/counselors.asp).
