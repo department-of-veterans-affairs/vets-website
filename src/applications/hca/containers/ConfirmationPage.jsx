@@ -25,12 +25,22 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
+    let title = 'Claim received';
+    let emailMessage;
+
+    if (__BUILDTYPE__ !== 'production') {
+      title = 'Your claim has been submitted';
+      if (data.email) {
+        emailMessage =  'We’ll send you an email to let you know when we’ve received your application.';
+      }
+    }
+
     return (
       <div>
-        <h3 className="confirmation-page-title">Your claim has been submitted</h3>
+        <h3 className="confirmation-page-title">{title}</h3>
         <p>We usually process claims within <strong>a week</strong>.</p>
         <p>
-          We may contact you for more information or documents. We’ll send you an email to let you know when we've received your application.<br/>
+          We may contact you for more information or documents. {emailMessage}<br/>
           <p><i>Please print this page for your records.</i></p>
         </p>
         <div className="inset">
