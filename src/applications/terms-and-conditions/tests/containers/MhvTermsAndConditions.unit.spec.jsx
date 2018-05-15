@@ -16,7 +16,10 @@ describe('<MhvTermsAndConditions>', () => {
       termsContent: 'terms and conditions',
       yesContent: 'agree'
     },
-    isLoggedIn: true,
+    user: {
+      loggedIn: true,
+      verified: true
+    },
     loading: { tc: false, acceptance: false },
     acceptTerms: sinon.spy(),
     fetchLatestTerms: sinon.spy(),
@@ -70,6 +73,24 @@ describe('<MhvTermsAndConditions>', () => {
     wrapper.setProps({ accepted: true });
     expect(wrapper.state('showAcceptedMessage')).to.be.true;
     expect(global.window.location.replace.calledOnce).to.be.true;
+  });
+
+  it('should not allow the user to agree if they are not logged in', () => {
+    const newProps = set('user.loggedIn', false, props);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
+  });
+
+  it('should not allow the user to agree if they are not verified', () => {
+    const newProps = set('user.verified', false, props);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
+  });
+
+  it('should not allow the user to agree if they have already accepted', () => {
+    const newProps = set('accepted', true, props);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
   });
 });
 
