@@ -25,8 +25,10 @@ You can take part in VA’s work-study program if you meet all of the requiremen
   - You can finish the work-study contract while you still qualify for education benefits, **and**
   - You’re using one of these VA education benefits: 
 
-    - Post-9/11 GI Bill (for [Veterans](/education/gi-bill/post-9-11/) or for [family members using transferred benefits](/education/gi-bill/transfer/))
-    - Montgomery GI Bill [Active Duty (MGIB-AD)](/education/gi-bill/montgomery-active-duty/) or [Selected Reserve (MGIB-SR)](/education/gi-bill/montgomery-selected-reserve/)
+    - Post-9/11 GI Bill for <br>
+    [Veterans](/education/gi-bill/post-9-11/), or <br>
+    [Family members using transferred benefits](/education/gi-bill/transfer/)
+    - Montgomery GI Bill for <br> [Active Duty (MGIB-AD)](/education/gi-bill/montgomery-active-duty/) <br> [Selected Reserve (MGIB-SR)](/education/gi-bill/montgomery-selected-reserve/)
     - [Veterans' Educational Assistance Program (VEAP)](/education/other-educational-assistance-programs/veap/)
     - [Survivors’ and Dependents’ Educational Assistance program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/) <br>
     (**Note:** Dependents who qualify under 38 U.S.C. Chapter 35 may use work study only while enrolled at a school in one of the 50 states.)
