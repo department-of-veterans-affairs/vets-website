@@ -191,6 +191,8 @@ class RoutedSavableApp extends React.Component {
     } else if (!formConfig.disableSave && this.shouldRedirectOrLoad) {
       content = <LoadingIndicator message="Retrieving your profile information..."/>;
     } else if (!isInProgress(trimmedPathname)) {
+      // content = children;
+
       content = (
         <FormApp formConfig={formConfig} currentLocation={currentLocation}>
           {children}

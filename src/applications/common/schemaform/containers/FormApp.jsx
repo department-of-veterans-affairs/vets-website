@@ -6,6 +6,8 @@ import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
 import AskVAQuestions from '../components/AskVAQuestions';
 
+import { isInProgress } from '../../../../platform/forms/helpers';
+
 const Element = Scroll.Element;
 
 /*
@@ -29,15 +31,17 @@ class FormApp extends React.Component {
     let formNav;
     let renderedChildren = children;
     if (!isIntroductionPage) {
-      // Show nav only if we're not on the intro or confirmation page
-      if (!isConfirmationPage) {
-        formNav = <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>;
-      }
       // Show title only if we're not on the intro page and if there is a title
       // specified in the form config
       if (formConfig.title) {
         formTitle = <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>;
       }
+    }
+
+    // Show nav only if we're not on the intro, form-saved, error, or confirmation page
+    // Also add form classes only if on an actual form page
+    if (isInProgress(trimmedPathname)) {
+      formNav = <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>;
 
       renderedChildren = (
         <div className="progress-box progress-box-schemaform">

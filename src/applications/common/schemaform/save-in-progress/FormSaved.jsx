@@ -36,7 +36,7 @@ class FormSaved extends React.Component {
     const { profile } = this.props.user;
     const { verified } = profile;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(formId));
-    const { success } = this.props.route.formConfig.savedFormMessages || {};
+    const { success } = this.props.route.config.savedFormMessages || {};
     const expirationDate = moment.unix(this.props.expirationDate).format('M/D/YYYY');
 
     return (
@@ -79,7 +79,7 @@ FormSaved.propTypes = {
     pageList: PropTypes.arrayOf(PropTypes.shape({
       path: PropTypes.string
     })),
-    formConfig: PropTypes.object.isRequired
+    config: PropTypes.object.isRequired
   }),
   lastSavedDate: PropTypes.number.isRequired,
 };
