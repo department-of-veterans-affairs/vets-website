@@ -35,6 +35,14 @@ describe('<MhvTermsAndConditions>', () => {
 
   beforeEach(setup);
 
+  it('should show an error when there are errors', () => {
+    const newProps = set('errors', { code: 404 }, props);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    const alertBox = wrapper.find('AlertBox');
+    expect(alertBox.exists()).to.be.true;
+    expect(alertBox.prop('status')).to.eq('error');
+  });
+
   it('should show a loading indicator when fetching terms and conditions', () => {
     const newProps = set('loading.tc', true, props);
     const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
