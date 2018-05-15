@@ -35,21 +35,24 @@ export function addSaveInProgressRoutes(config) {
   });
 
   if (!config.disableSave) {
-    newRoutes.push({
+    // const lengthOfRoutes = newRoutes.length;
+    // const positionToAddRoutes = lengthOfRoutes - 1;
+
+    newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'form-saved',
       component: FormSaved,
       pageList,
       config
     });
 
-    newRoutes.push({
+    newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'error',
       component: SaveInProgressErrorPage,
       pageList, // In case we need it for startOver?
       config
     });
 
-    newRoutes.push({
+    newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'resume',
       pageList,
       config
