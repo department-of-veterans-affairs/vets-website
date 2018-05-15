@@ -8,7 +8,7 @@ export default function createDisabilityIncreaseApplicationEntry(store) {
   const root = document.getElementById('react-applicationEntry');
   if (root) {
     import(
-      /* webpackChunkName: "education-application-status" */
+      /* webpackChunkName: "disability-application-status" */
       '../disabilityIncreaseEntry').then(module => {
       const { ApplicationStatus, DisabilityWizard } = module.default;
       ReactDOM.render((
