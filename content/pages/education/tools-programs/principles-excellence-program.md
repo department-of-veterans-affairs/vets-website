@@ -33,4 +33,4 @@ Schools that don’t charge tuition and fees don’t have to follow the Principl
 - On-the-job training and apprenticeship programs
 - Residency and internship programs
 
-Use the GI Bill Comparison Tool to learn which schools are part of the program. You can also compare benefits offered by different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+Use the GI Bill Comparison Tool to learn which schools are part of the program. You can also compare benefits offered by different schools. <br> [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
