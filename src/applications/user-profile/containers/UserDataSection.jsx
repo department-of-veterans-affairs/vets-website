@@ -10,26 +10,36 @@ import PersonalizationBetaInvite from '../components/PersonalizationBetaInvite';
 class UserDataSection extends React.Component {
   renderTermsConditions = () => {
     const termsConditionsUrl = '/health-care/medical-information-terms-conditions';
+    let content;
 
     if (this.props.terms.accepted) {
-      return (
+      content = (
         <p>You’ve accepted the latest <a href={termsConditionsUrl}>Terms and Conditions for Medical Information</a>.</p>
+      );
+    } else {
+      content = (
+        <div>
+          <div className="usa-alert usa-alert-info no-background-image">
+            <p><strong>Want to use Vets.gov health tools to do things like refill your VA prescriptions?</strong></p>
+            <p>To get started, you’ll need to read and agree to the <a href={termsConditionsUrl}>Terms and Conditions for Medical Information</a>. This will give us your permission to show you your VA medical information on this site.</p>
+          </div>
+          <p>Once you agree to these Terms and Conditions, you’ll be able to use Vets.gov health tools to:</p>
+          <ul>
+            <li>Refill your VA prescriptions</li>
+            <li>Download your VA health records</li>
+            <li>Share secure messages with your health care team</li>
+          </ul>
+          <p>Go to the <a href={termsConditionsUrl}>Terms and Conditions for Health Tools</a></p>
+        </div>
       );
     }
 
     return (
       <div>
-        <div className="usa-alert usa-alert-info no-background-image">
-          <p><strong>Want to use Vets.gov health tools to do things like refill your VA prescriptions?</strong></p>
-          <p>To get started, you’ll need to read and agree to the <a href={termsConditionsUrl}>Terms and Conditions for Medical Information</a>. This will give us your permission to show you your VA medical information on this site.</p>
+        <h4 className="section-header">Terms and Conditions</h4>
+        <div className="info-container">
+          {content}
         </div>
-        <p>Once you agree to these Terms and Conditions, you’ll be able to use Vets.gov health tools to:</p>
-        <ul>
-          <li>Refill your VA prescriptions</li>
-          <li>Download your VA health records</li>
-          <li>Share secure messages with your health care team</li>
-        </ul>
-        <p>Go to the <a href={termsConditionsUrl}>Terms and Conditions for Health Tools</a></p>
       </div>
     );
   }
@@ -97,10 +107,7 @@ class UserDataSection extends React.Component {
           </p>
           <PersonalizationBetaInvite profile={this.props.profile}/>
         </div>
-        <h4 className="section-header">Terms and Conditions</h4>
-        <div className="info-container">
-          {this.renderTermsConditions()}
-        </div>
+        {verified && this.renderTermsConditions()}
       </div>
     );
   }
