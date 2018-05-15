@@ -17,7 +17,8 @@ If you qualify for VA health care, you can get high-quality mental health servic
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-	 <h4 class="usa-alert-title">Do you need to talk to someone right now? <a id="crisis-expander-link">We're here to support you.</a></h4>
+	<h4 class="usa-alert-title">How do I talk to someone right now?</h4><br>
+	<a id="crisis-expander-link">Find out how to get support any time day or night.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
 	    <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
