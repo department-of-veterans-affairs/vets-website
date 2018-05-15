@@ -32,11 +32,17 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 <div class="usa-alert usa-alert-warning va-alert">
 <div class="usa-alert-body">
 
-##### Are you in crisis? You have options.
+##### How do I talk to someone right now? 
 
-- Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
-- Text <a href="sms:838255">838255</a> to get help right away.
+Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.
+
+**To connect with a Veterans Crisis Line responder any time day or night:**
+
+- Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.
+- [Start a confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
+- Text <a href="sms:838255">838255</a>.
+
+**You can also:**
 - Call <a href="tel:911">911</a>.
 - Go to the nearest emergency room.
 
