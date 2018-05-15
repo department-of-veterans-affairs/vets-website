@@ -30,7 +30,7 @@ class ConfirmationPage extends React.Component {
     // const response = this.props.form.submission.response
     // ? this.props.form.submission.response.attributes
     // : {};
-    const { fullName, selectedDisabilities } = formData;
+    const { fullName, disabilities } = formData;
 
     return (
       <div>
@@ -63,7 +63,7 @@ class ConfirmationPage extends React.Component {
             <strong>Conditions claimed</strong>
             <br/>
             <ul className="disability-list">
-              {selectedDisabilities.map((disability, i) => {
+              {disabilities.map((disability, i) => {
                 return <li key={i}>{disability.name}</li>;
               })}
             </ul>
