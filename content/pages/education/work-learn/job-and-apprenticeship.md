@@ -64,13 +64,13 @@ You can’t get OJT if you’re an active-duty Servicemember or a spouse using a
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’ll need to make sure the program is approved for VA education benefits. [Check with your local VA office](/facilities). 
+You’ll need to make sure the program is approved for VA education benefits. <br> [Check with your local VA office](/facilities). 
 
 You’ll most likely need to enter into a training contract for a set amount of time with an employer or union. During training, you’ll probably get a salary from the employer or union, which can go up as you gain more skills. When you finish your training, you’ll get a job certification or journeyman status.
 
 If you’re a Veteran in an approved program, you can use your GI Bill benefit and get tax-free money for books and supplies. The Post-9/11 GI Bill offers you a monthly housing allowance (MHA) in addition to your entry-level wage. We issue GI Bill payments each month after your employer or union reports your hours to us.
 
-Your payment depends on which GI Bill program you’re using. [View the payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+Your payment depends on which GI Bill program you’re using. <br> [View the payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
 #### Post-9/11 GI Bill MHA Payment Rates
 You’ll get 100% of your applicable MHA during the first 6 months of training. Then you’ll get this percentage of your MHA until your benefits run out:
