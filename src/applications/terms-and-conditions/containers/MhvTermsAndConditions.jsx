@@ -166,6 +166,10 @@ export class MhvTermsAndConditions extends React.Component {
   renderTermsAndConditions = () => {
     const { loading } = this.props;
 
+    if (loading.acceptance && this.state.isSubmitted) {
+      return <LoadingIndicator setFocus message="Accepting terms and conditions..."/>;
+    }
+
     if (loading.tc || loading.acceptance) {
       return <LoadingIndicator setFocus message="Loading terms and conditions..."/>;
     }

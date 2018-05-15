@@ -38,13 +38,26 @@ describe('<MhvTermsAndConditions>', () => {
   it('should show a loading indicator when fetching terms and conditions', () => {
     const newProps = set('loading.tc', true, props);
     const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
-    expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
+    const loader = wrapper.find('LoadingIndicator');
+    expect(loader.exists()).to.be.true;
+    expect(loader.prop('message')).to.eq('Loading terms and conditions...');
   });
 
-  it('should show a loading indicator when accepting or fetching acceptance', () => {
+  it('should show a loading indicator when fetching previous acceptance', () => {
     const newProps = set('loading.acceptance', true, props);
     const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
-    expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
+    const loader = wrapper.find('LoadingIndicator');
+    expect(loader.exists()).to.be.true;
+    expect(loader.prop('message')).to.eq('Loading terms and conditions...');
+  });
+
+  it('should show a loading indicator when accepting terms and conditions', () => {
+    const newProps = set('loading.acceptance', true, props);
+    const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
+    wrapper.setState({ isSubmitted: true });
+    const loader = wrapper.find('LoadingIndicator');
+    expect(loader.exists()).to.be.true;
+    expect(loader.prop('message')).to.eq('Accepting terms and conditions...');
   });
 
   it('should show a success message after acceptance', () => {
