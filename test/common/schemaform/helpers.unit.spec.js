@@ -14,6 +14,7 @@ import {
   expandArrayPages,
   omitRequired
 } from '../../../src/applications/common/schemaform/helpers';
+import { addSaveInProgressRoutes } from '../../../src/applications/common/schemaform/save-in-progress/helpers';
 
 describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {
@@ -89,7 +90,7 @@ describe('Schemaform helpers:', () => {
 
       expect(routes[0].path).to.equal('introduction');
     });
-    it('should create routes with resume', () => {
+    it('should create routes with save enabled', () => {
       const formConfig = {
         chapters: {
           firstChapter: {
@@ -102,32 +103,14 @@ describe('Schemaform helpers:', () => {
         }
       };
 
-      const routes = createRoutes(formConfig);
+      const routes = addSaveInProgressRoutes(formConfig);
 
       expect(routes[0].path).to.equal('test-page');
-      expect(routes[1].path).to.equal('form-saved');
-      expect(routes[2].path).to.equal('error');
-      expect(routes[3].path).to.equal('resume');
-    });
-    it('should create routes with save', () => {
-      const formConfig = {
-        chapters: {
-          firstChapter: {
-            pages: {
-              testPage: {
-                path: 'test-page'
-              }
-            }
-          }
-        }
-      };
-
-      const routes = createRoutes(formConfig);
-
-      expect(routes[0].path).to.equal('test-page');
-      expect(routes[1].path).to.equal('form-saved');
-      expect(routes[2].path).to.equal('error');
-      expect(routes[4].path).to.equal('review-and-submit');
+      expect(routes[1].path).to.equal('review-and-submit');
+      expect(routes[2].path).to.equal('confirmation');
+      expect(routes[3].path).to.equal('form-saved');
+      expect(routes[4].path).to.equal('error');
+      expect(routes[5].path).to.equal('resume');
     });
   });
   describe('hasFieldsOtherThanArray', () => {
