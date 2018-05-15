@@ -528,28 +528,42 @@ const formConfig = {
       }
     },
     unMarriedChildren: {
-      title: 'Veteran\'s Unmarried Children',
+      title: 'Veteran’s Unmarried Children',
       pages: {
         dependents: {
           path: 'unmarried-children',
-          title: 'Veteran\'s Unmarried Children',
+          title: 'Veteran’s Unmarried Children',
           uiSchema: {
+            'ui:description': 'Please provide details about your unmarried children.',
             'view:hasUnmarriedChildren': {
               'ui:widget': 'yesNo',
               'ui:title': 'Do you have unmarried children?',
             },
             dependents: {
               'ui:options': {
-                itemName: 'Dependent',
+                itemName: 'Child',
                 expandUnder: 'view:hasUnmarriedChildren',
-                viewField: DependentField
+                viewField: DependentField,
               },
               'ui:errorMessages': {
                 minItems: dependentsMinItem
               },
               items: {
-                fullName: fullNameUI,
-                childDateOfBirth: currentOrPastDateUI('Child\'s date of birth')
+                fullName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': 'Child’s first name'
+                  },
+                  middle: {
+                    'ui:title': 'Child’s middle name'
+                  },
+                  last: {
+                    'ui:title': 'Child’s last name'
+                  },
+                  suffix: {
+                    'ui:title': 'Child’s suffix'
+                  }
+                }),
+                childDateOfBirth: currentOrPastDateUI('Child’s date of birth')
               }
             }
           },
@@ -616,14 +630,14 @@ const formConfig = {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Information'),
                 childSocialSecurityNumber: _.merge(ssnUI, {
-                  'ui:title': 'Social Security number',
+                  'ui:title': 'Child’s Social Security number',
                   'ui:required': (formData, index) => !_.get(`dependents.${index}.view:noSSN`, formData)
                 }),
                 'view:noSSN': {
                   'ui:title': 'Does not have a Social Security number (foreign national, etc.)'
                 },
                 childRelationship: {
-                  'ui:title': 'Child status (Check all that apply.)',
+                  'ui:title': 'What’s the status of this child? (Please check all that apply.)',
                   'ui:options': {
                     showFieldLabel: true,
                     labels: childRelationshipStatusLabels
@@ -631,7 +645,7 @@ const formConfig = {
                   'ui:widget': 'radio',
                 },
                 inSchool: {
-                  'ui:title': '18-23 years old and in school',
+                  'ui:title': 'Child is 18 to 23 years old and in school',
                   'ui:options': {
                     hideIf: (form, index) => {
                       const childAge = calculateChildAge(form, index);
@@ -649,12 +663,12 @@ const formConfig = {
                   }
                 },
                 disabled: {
-                  'ui:title': 'Seriously Disabled',
+                  'ui:title': 'Seriously disabled before 18 years old',
                   'ui:options': {
                     hideIf: (form, index) => {
                       const childAge = calculateChildAge(form, index);
                       if (childAge) {
-                        return childAge < 18;
+                        return childAge > 18;
                       }
                       return true;
                     }
@@ -667,7 +681,7 @@ const formConfig = {
                   }
                 },
                 married: {
-                  'ui:title': 'Child Previously Married'
+                  'ui:title': 'Child was previously married'
                 },
                 'view:stepChildCondition': {
                   'ui:options': {
@@ -734,7 +748,7 @@ const formConfig = {
                   },
                   childAddress: _.merge(address.uiSchema('Address', false, (form, index) => !_.get(['dependents', index, 'childInHousehold'], form)),
                     {
-                      'ui:title': 'Child Address',
+                      'ui:title': 'Child’s Address',
                     }),
                   personChildLiveWith: {
                     firstName: {

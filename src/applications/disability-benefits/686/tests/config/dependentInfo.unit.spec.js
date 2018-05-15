@@ -36,7 +36,7 @@ describe('686 dependent info', () => {
     expect(form.find('input').length).to.equal(8);
   });
 
-  it('should not show disabled or inSchool if child is less than 18 years old', () => {
+  it('should show disabled if child is less than 18 years old', () => {
     const props = dependentData();
     props.dependents[0].childDateOfBirth = '1-10-2010';
     const form = mount(
@@ -48,10 +48,10 @@ describe('686 dependent info', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(7);
   });
 
-  it('should show disabled but not inSchool if child is older than 23', () => {
+  it('should not show disabled or inSchool if child is older than 23', () => {
     const props = dependentData();
     props.dependents[0].childDateOfBirth = '1-10-1986';
     const form = mount(
@@ -63,7 +63,7 @@ describe('686 dependent info', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
   });
 
   it('should not submit empty form', () => {
