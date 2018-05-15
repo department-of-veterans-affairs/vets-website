@@ -27,7 +27,7 @@ describe('hca <ConfirmationPage>', () => {
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.subTree('.confirmation-page-title').text()).to.contain('Claim received');
+    expect(tree.subTree('.confirmation-page-title').text()).to.contain('Your claim has been submitted');
     expect(tree.subTree('.claim-list')).to.exist;
     expect(tree.everySubTree('span')[2].text()).to.contain('Jan. 1, 2010');
     expect(tree.everySubTree('span')[3].text()).to.contain('3702390024');
@@ -50,7 +50,7 @@ describe('hca <ConfirmationPage>', () => {
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>
     );
-    expect(tree.subTree('.confirmation-page-title').text()).to.contain('Claim received');
+    expect(tree.subTree('.confirmation-page-title').text()).to.contain('Your claim has been submitted');
     expect(tree.everySubTree('p')[0].text()).to.contain('We usually process claims within a week.');
     expect(tree.subTree('.claim-list')).to.be.false;
     expect(tree.everySubTree('.confirmation-guidance-message')[0].text()).to.contain('Find out what happens after you apply.');
