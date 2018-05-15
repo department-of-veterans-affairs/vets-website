@@ -147,13 +147,14 @@ class DisabilityWizard extends React.Component {
   render() {
     const { isChoosingStatus, isChoosingUpdate, atGuidance } = this;
     const { errorMessage } = this.state;
+    const { verified: isVerified } = this.props.user.profile;
 
     return (
       <div>
         <p>Just answer a few questions, and we’ll show you where to find the form that’s right for you.</p>
         <div className="va-nav-linkslist--related form-expanding-group-open">
           <div>
-            {atGuidance() && <GetStartedMessage checkDisabilityStatus={this.checkDisabilityStatus}/>}
+            {atGuidance() && <GetStartedMessage isVerified={isVerified} checkDisabilityStatus={this.checkDisabilityStatus}/>}
             {isChoosingStatus() &&
             <ErrorableRadioButtons
               name="disabilityStatus"
@@ -176,6 +177,7 @@ class DisabilityWizard extends React.Component {
             }
             {<ButtonContainer
               {...this.props}
+              isVerified={isVerified}
               checkGuidanceStatus={this.checkGuidanceStatus}
               isChoosingStatus={this.isChoosingStatus}
               atGuidance={this.atGuidance}

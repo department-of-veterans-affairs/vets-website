@@ -567,9 +567,9 @@ export const getEvidenceTypesDescription = (form, index) => {
   return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
 };
 
-export const GetStartedMessage = ({ checkDisabilityStatus }) => {
+export const GetStartedMessage = ({ checkDisabilityStatus, isVerified }) => {
   const { isFirst, isAppeal, isAddOnly, isAddAndIncrease } = checkDisabilityStatus();
-  const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
+  const signInMessage = isVerified ? '' : ' To apply for a disability increase, you’ll need to sign in and verify your account.';
   let getStartedMessage = `Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
   if (isFirst) {
     getStartedMessage = 'We’re sorry. We’re not set up to accept original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.';

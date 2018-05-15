@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function ButtonContainer(props) {
-  const { checkGuidanceStatus, isChoosingStatus, atGuidance, goBack, goForward, authenticate } = props;
+  const { checkGuidanceStatus, isChoosingStatus, atGuidance, goBack, goForward, authenticate, isVerified } = props;
   const { atIncreaseGuidance, atEbenefitsGuidance } = checkGuidanceStatus();
 
   return  (<div>
@@ -10,10 +10,12 @@ export default function ButtonContainer(props) {
     <button type="button" className="usa-button-secondary" onClick={goBack}><span className="button-icon">« </span>Back</button>
     }
     {atIncreaseGuidance && !sessionStorage.userToken &&
-    <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={authenticate}>Sign In or Create an Account<span className="button-icon"> »</span></a>
+    <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={authenticate}>Sign In and Verify Your Identity<span className="button-icon"> »</span></a>
     }
-    {atIncreaseGuidance && sessionStorage.userToken &&
-      <a className="usa-button-primary" href={`/verify?next=${'/disability-benefits/526/apply-for-increase/introduction/'}`}>Apply for Claim for Increase<span className="button-icon"> »</span></a>}
+    {atIncreaseGuidance && sessionStorage.userToken && !isVerified &&
+      <a className="usa-button-primary" href={`/verify?next=${'/disability-benefits/526/apply-for-increase/introduction/'}`}>Verify Your Identity<span className="button-icon"> »</span></a>}
+    {atIncreaseGuidance && isVerified &&
+      <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/">Apply for Claim for Increase<span className="button-icon"> »</span></a>}
     {atEbenefitsGuidance &&
     <a className="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits<span className="button-icon"> »</span></a>
     }
