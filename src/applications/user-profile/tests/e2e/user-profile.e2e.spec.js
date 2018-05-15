@@ -17,7 +17,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   token = Auth.getUserToken();
 
-  Auth.logIn(token, client, '/profile', 3)
+  Auth.logIn(token, client, '/account', 1)
     .waitForElementVisible('.section-header', Timeouts.slow)
     .axeCheck('document');
 
