@@ -26,7 +26,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 <h3 itemprop="name">Prepare</h3>
 <div itemprop="itemListElement">
 
-- If you haven’t done so already, check to see if you qualify. [Check your eligibility](/health-care/eligibility/).
+- If you haven’t done so already, check to see if you qualify. <br> [Check your eligibility](/health-care/eligibility/).
 - Gather the documents listed below that you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ).
 
 </div>
@@ -51,16 +51,16 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Get help filing your claim](/disability-benefits/apply/help/).
-
-Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims).<br> [Get help filing your claim](/disability-benefits/apply/help/).
+Or, <br> 
+[Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>
 </div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits.</a>
 </div>
 
 <div class="feature">
@@ -69,7 +69,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 <h4 itemprop="name">Are you a caregiver of a post-9/11 Veteran or Servicemember?</h4>
 <div itemprop="itemListElement">
 
-You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
+You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG). <br> 
 
 [Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
 
@@ -87,7 +87,7 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 
 ##### By mail
 
-Apply by mail using an Application for Health Benefits (VA Form 10-10EZ). [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+Apply by mail using an Application for Health Benefits (VA Form 10-10EZ). <br> [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -99,8 +99,8 @@ Atlanta, GA 30329<br>
 
 ##### In person
 
-Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br />
-[Find a VA medical center or clinic near you](/facilities/).<br />
+Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br>
+[Find a VA medical center or clinic near you](/facilities/).<br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
 </div>
@@ -113,7 +113,7 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 
 [Find out what happens after you apply](/health-care/after-you-apply/).
 
-If you’ve also applied for a VA pension or disability benefits, you can check the status of those claims online. [Check the status of your claim](/track-claims/).
+If you’ve also applied for a VA pension or disability benefits, you can check the status of those claims online. <br> [Check the status of your claim](/track-claims/).
 
 </div>
 </div>
@@ -135,7 +135,7 @@ If you’ve also applied for a VA pension or disability benefits, you can check 
 <h3 itemprop="name">How do I update my information if I’m already signed up?</h3>
 <div itemprop="itemListElement">
 
-To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
+To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). <br> [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
 </div>
 </div>
