@@ -157,4 +157,4 @@ Chemicals, paints, radiation, and other hazards you may have come in contact wit
 
 <br>
 
-If you need help accessing services, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+If you need help accessing services, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Or, <br> [Contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
