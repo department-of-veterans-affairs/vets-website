@@ -29,7 +29,7 @@ export class ConfirmationPage extends React.Component {
     let emailMessage;
 
     if (__BUILDTYPE__ !== 'production') {
-      title = 'Your claim has been submitted';
+      title = 'Your claim has been submitted.';
       if (data.email) {
         emailMessage =  'We’ll send you an email to let you know when we’ve received your application.';
       }
