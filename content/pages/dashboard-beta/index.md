@@ -1,12 +1,12 @@
 ---
-title: Your Vets.gov Account
+title: Your Vets.gov Dashboard
 layout: page-react.html
-entryname: user-profile
+entryname: dashboard-beta
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
-      <li><a href="/">Home</a></li>
+      <li></li>
     </ul>
   </nav>
 
@@ -19,5 +19,5 @@ entryname: user-profile
       </div>
     </div>
   </div>
-  <!-- HCA Application End -->
+  <!-- Dashboard Application End -->
 </div>

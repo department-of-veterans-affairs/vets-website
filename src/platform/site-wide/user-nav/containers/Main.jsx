@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
+import { features } from '../../../../applications/personalization/beta-enrollment/routes';
 import recordEvent from '../../../monitoring/record-event';
 
 import SignInModal from '../../../user/authentication/components/SignInModal';
 import {
   isLoggedIn,
   isProfileLoading,
-  isLOA3
+  createIsServiceAvailableSelector
 } from '../../../user/selectors';
 import { getProfile } from '../../../user/profile/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
@@ -118,9 +119,9 @@ export class Main extends React.Component {
     return (
       <div>
         <SearchHelpSignIn
-          isLOA3={this.props.isLOA3}
           isLoggedIn={this.props.currentlyLoggedIn}
           isMenuOpen={this.props.utilitiesMenuIsOpen}
+          isDashboardBeta={this.props.isBeta}
           isProfileLoading={this.props.isProfileLoading}
           userGreeting={this.props.userGreeting}
           toggleLoginModal={this.props.toggleLoginModal}
@@ -133,12 +134,14 @@ export class Main extends React.Component {
   }
 }
 
+const isDashBoardBeta = createIsServiceAvailableSelector(features.dashboard);
+
 const mapStateToProps = (state) => {
   return {
     currentlyLoggedIn: isLoggedIn(state),
     isProfileLoading: isProfileLoading(state),
-    isLOA3: isLOA3(state),
     userGreeting: selectUserGreeting(state),
+    isBeta: isDashBoardBeta(state),
     ...state.navigation
   };
 };
