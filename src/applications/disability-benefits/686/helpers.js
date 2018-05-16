@@ -7,6 +7,11 @@ export const relationshipLabels = {
   child: 'Unmarried adult child',
   other: 'Other'
 };
+export const childRelationshipStatusLabels = {
+  biological: 'Biological',
+  adopted: 'Adopted',
+  stepchild: 'Stepchild'
+};
 
 const numberToWords = {
   0: 'First',
@@ -44,5 +49,25 @@ export const VAFileNumberDescription = (
     <AdditionalInfo triggerText="What does this mean?">
       <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
     </AdditionalInfo>
+  </div>
+);
+
+export const dependentsMinItem = (
+  <span>If you are claiming child dependents, <strong>you must add at least one</strong> here.</span>
+);
+
+export const schoolAttendanceWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong></div>
+    </div>
+  </div>
+);
+
+export const disableWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">You'll need to provide all private medical records for your child's disability.</div>
+    </div>
   </div>
 );
