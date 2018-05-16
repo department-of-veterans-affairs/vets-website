@@ -34,7 +34,7 @@ const initialState = {
       loading: false,
       polling: false,
       polledTimes: 0,
-      state: 'unknown'
+      state: null
     },
     terms: {
       accepted: false,

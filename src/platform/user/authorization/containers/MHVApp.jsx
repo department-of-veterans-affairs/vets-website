@@ -64,13 +64,7 @@ const INELIGIBLE_MESSAGES = {
 
 export class MHVApp extends React.Component {
   componentDidMount() {
-    const { account } = this.props;
-
-    if (!account.state) {
-      this.props.fetchMHVAccount();
-    } else {
-      this.handleAccountState();
-    }
+    this.props.fetchMHVAccount();
   }
 
   componentDidUpdate(prevProps) {
