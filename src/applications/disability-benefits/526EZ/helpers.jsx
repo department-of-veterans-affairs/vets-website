@@ -229,11 +229,13 @@ export const download4142Notice = (
     out an Authorization to Disclose Information to the VA (VA Form 21-4142) so
     we can request your records.</p>
     <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">Download VA Form 21-4142</a>
-    <p>Please print the form, fill it out, and send it to:<br/>
-    Department of Veterans Affairs<br/>
-    Claims Intake Center<br/>
-    PO Box 4444<br/>
-    Janesville, WI 53547-4444<br/></p>
+    <p>
+      Please print the form, fill it out, and send it to:<br/>
+      Department of Veterans Affairs<br/>
+      Claims Intake Center<br/>
+      PO Box 4444<br/>
+      Janesville, WI 53547-4444<br/>
+    </p>
     <p>Or you can upload a completed VA Form 21-4142 to your online application.</p>
   </div>
 );
