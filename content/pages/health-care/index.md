@@ -76,7 +76,7 @@ With VA health care, you’re covered for regular checkups with your primary car
         <p>We can also connect you with other non-VA resources in your area.</p>
         <p><b>Are you in crisis right now?</b> <br>
         <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
-        <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
+        <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <br><a href="/facilities/">Contact your closest VA medical center</a>.</p>
       </div>
     </div>
   </div>
