@@ -23,6 +23,29 @@ class SignInModal extends React.Component {
     }
   }
 
+  renderDSLogonDowntimeBanner = (status) => {
+    if (status === 'down') {
+      return (
+        <div className="downtime-notification row">
+          <div className="columns small-12">
+            <div className="form-warning-banner">
+              <AlertBox
+                headline="DS Logon isn't working quite right"
+                content="If you're having trouble signing in to Vets.gov using your DS Logon username and password, please try again later. Or, you can try signing in with your My HealtheVet username and password or through ID.me."
+                isVisible
+                status="warning"/>
+              <br/>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div></div>
+    );
+  }
+
   renderModalContent = () => {
     return (
       <main className="login">
@@ -46,20 +69,7 @@ class SignInModal extends React.Component {
               <h2>One site. A lifetime of benefits and services at your fingertips.</h2>
             </div>
           </div>
-          <DowntimeNotification appTitle="user dashboard" dependencies={[services.dslogon]}>
-            <div className="downtime-notification row">
-              <div className="columns small-12">
-                <div className="form-warning-banner">
-                  <AlertBox
-                    headline="DS Logon isn't working quite right"
-                    content="If you're having trouble signing in to Vets.gov using your DS Logon username and password, please try again later. Or, you can try signing in with your My HealtheVet username and password or through ID.me."
-                    isVisible
-                    status="warning"/>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </DowntimeNotification>
+          <DowntimeNotification appTitle="user dashboard" render={this.renderDSLogonDowntimeBanner} dependencies={[services.dslogon]}></DowntimeNotification>
           <div className="row">
             <div className="columns usa-width-one-half medium-6">
               <div className="signin-actions-container">
