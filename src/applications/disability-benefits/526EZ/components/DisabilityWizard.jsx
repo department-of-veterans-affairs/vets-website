@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
+import classNames from 'classnames';
 
 import ErrorableCheckboxes from './ErrorableCheckboxes';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
@@ -148,17 +149,30 @@ class DisabilityWizard extends React.Component {
     const { isChoosingStatus, isChoosingUpdate, atGuidance } = this;
     const { errorMessage } = this.state;
     const { verified: isVerified } = this.props.user.profile;
+    const labelText = 'Just answer a few questions, and we’ll show you where to find the form that’s right for you.';
+    const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
+      'va-button-primary': !this.state.open
+    });
+    const contentClasses = classNames('form-expanding-group-open', 'va-nav-linkslist--related', 'wizard-content', {
+      'wizard-content-closed': !this.state.open
+    });
 
     return (
-      <div>
-        <p>Just answer a few questions, and we’ll show you where to find the form that’s right for you.</p>
-        <div className="va-nav-linkslist--related form-expanding-group-open">
+      <div className="disability-increase-wizard">
+        <button
+          aria-expanded={this.state.open ? 'true' : 'false'}
+          aria-controls="wizardOptions"
+          className={buttonClasses}
+          onClick={() => this.setState({ open: !this.state.open })}>
+          Find Your Disability Claim Form
+        </button>
+        <div className={contentClasses} id="wizardOptions">
           <div>
             {atGuidance() && <GetStartedMessage isVerified={isVerified} checkDisabilityStatus={this.checkDisabilityStatus}/>}
             {isChoosingStatus() &&
             <ErrorableRadioButtons
               name="disabilityStatus"
-              label="Please choose the option that describes you:"
+              label={labelText}
               id="disabilityStatus"
               options={disabilityStatusOptions}
               errorMessage={errorMessage}
@@ -168,7 +182,7 @@ class DisabilityWizard extends React.Component {
             {isChoosingUpdate() &&
             <ErrorableCheckboxes
               name="disabilityUpdate"
-              label="Please choose the option that describes you:"
+              label={labelText}
               id="disabilityUpdate"
               options={disabilityUpdateOptions}
               errorMessage={errorMessage}
