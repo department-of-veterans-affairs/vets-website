@@ -110,8 +110,7 @@ Call 911 or go to the nearest emergency room. You don’t have to contact us in 
 
 If you’re far from a VA medical center, we may pay for emergency care in a non-VA setting. Be sure to contact your nearest VA medical center as soon as possible—and ask to talk to the patient transfer or patient administration representative. Payment for emergency care in a non-VA setting ends when a VA provider concludes that you’re stable enough to be transferred to a VA medical center.
 
-For more information, call your local VA medical center’s enrollment coordinator. <br>
-Or [get more details on emergency care coverage](https://www.va.gov/healthbenefits/access/emergency_care.asp).
+For more information, call your local VA medical center’s enrollment coordinator. Or, <br> [Get more details on emergency care coverage](https://www.va.gov/healthbenefits/access/emergency_care.asp).
 
 <br>
 
