@@ -77,7 +77,8 @@ describe('<Main>', () => {
   it('renders a system down message when letters is available but address is unavailable', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: available, addressAvailability: unavailable });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('#systemDownMessage')).to.not.be.false;
+    // expect(tree.subTree('#systemDownMessage')).to.not.be.false;
+    expect(tree.subTree('#maintenance-mode')).to.not.be.false;
   });
 
   it('shows a system down message for backend service error', () => {
@@ -108,7 +109,8 @@ describe('<Main>', () => {
   it('should show system down message when service is unavailable', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: unavailable, addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('#systemDownMessage')).to.not.be.false;
+    // expect(tree.subTree('#systemDownMessage')).to.not.be.false;
+    expect(tree.subTree('#maintenance-mode')).to.not.be.false;
   });
 
   it('renders system down message for all unspecified errors', () => {
