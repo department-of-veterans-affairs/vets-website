@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
+import moment from 'moment';
 
 import ArrayCountWidget from '../../../common/schemaform/widgets/ArrayCountWidget';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
@@ -8,16 +9,22 @@ import currentOrPastDateUI from '../../../common/schemaform/definitions/currentO
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import * as address from '../../../common/schemaform/definitions/address';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
+import DependentField from '../components/DependentField';
+import createHouseholdMemberTitle from '../components/DisclosureTitle';
+
 import {
-  getMarriageTitleWithCurrent,
-  isMarried,
-  relationshipLabels,
   VAFileNumberDescription,
-  getSpouseMarriageTitle
+  getSpouseMarriageTitle,
+  relationshipLabels,
+  dependentsMinItem,
+  schoolAttendanceWarning,
+  disableWarning,
+  childRelationshipStatusLabels,
+  getMarriageTitleWithCurrent,
+  isMarried
 } from '../helpers';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -31,7 +38,8 @@ const {
   claimantFullName,
   claimantEmail,
   veteranFullName,
-  veteranSocialSecurityNumber
+  veteranSocialSecurityNumber,
+  dependents
 } = fullSchema686.properties;
 
 const {
@@ -40,7 +48,7 @@ const {
   fullName,
   ssn,
   date,
-  vaFileNumber
+  vaFileNumber,
 } = fullSchema686.definitions;
 
 const marriageProperties = marriages.items.properties;
@@ -49,7 +57,6 @@ function isCurrentMarriage(form, index) {
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
   return isMarried(form) && numMarriages - 1 === index;
 }
-
 const spouseSelector = createSelector(form => {
   return (form.marriages && form.marriages.length)
     ? form.marriages[0].spouseFullName
@@ -68,6 +75,13 @@ function createSpouseLabelSelector(nameTemplate) {
       title: null
     };
   });
+}
+function calculateChildAge(form, index) {
+  if (form.dependents[index].childDateOfBirth) {
+    const childAge = (form.dependents[index].childDateOfBirth);
+    return moment().diff(childAge, 'years');
+  }
+  return null;
 }
 
 const reasonForSeparation = _.assign(marriageProperties.reasonForSeparation, {
@@ -94,6 +108,7 @@ const formConfig = {
   subTitle: 'VA Form 21-686c',
   getHelp: GetFormHelp,
   defaultDefinitions: {
+    address,
     marriages,
     fullName,
     ssn,
@@ -508,6 +523,244 @@ const formConfig = {
                     reasonForSeparation
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    unMarriedChildren: {
+      title: 'Veteran’s Unmarried Children',
+      pages: {
+        dependents: {
+          path: 'unmarried-children',
+          title: 'Veteran’s Unmarried Children',
+          uiSchema: {
+            'ui:description': 'Please provide details about your unmarried children.',
+            'view:hasUnmarriedChildren': {
+              'ui:widget': 'yesNo',
+              'ui:title': 'Do you have unmarried children?',
+            },
+            dependents: {
+              'ui:options': {
+                itemName: 'Child',
+                expandUnder: 'view:hasUnmarriedChildren',
+                viewField: DependentField,
+              },
+              'ui:errorMessages': {
+                minItems: dependentsMinItem
+              },
+              items: {
+                fullName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': 'Child’s first name'
+                  },
+                  middle: {
+                    'ui:title': 'Child’s middle name'
+                  },
+                  last: {
+                    'ui:title': 'Child’s last name'
+                  },
+                  suffix: {
+                    'ui:title': 'Child’s suffix'
+                  }
+                }),
+                childDateOfBirth: currentOrPastDateUI('Child’s date of birth')
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:hasUnmarriedChildren'],
+            properties: {
+              'view:hasUnmarriedChildren': {
+                type: 'boolean'
+              },
+              dependents: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['fullName', 'childDateOfBirth'],
+                  properties: {
+                    fullName: dependents.items.properties.fullName,
+                    childDateOfBirth: dependents.items.properties.childDateOfBirth
+                  }
+                }
+              }
+            }
+          }
+        },
+        childrenInformation: {
+          path: 'unmarried-children/information/:index',
+          title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} information`,
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: ['childRelationship'],
+                  properties: {
+                    childSocialSecurityNumber: dependents.items.properties.childSocialSecurityNumber,
+                    'view:noSSN': { type: 'boolean' },
+                    childRelationship: dependents.items.properties.childRelationship,
+                    inSchool: dependents.items.properties.attendingCollege,
+                    'view:schoolWarning': {
+                      type: 'object',
+                      properties: {}
+                    },
+                    disabled: dependents.items.properties.disabled,
+                    'view:disableWarning': {
+                      type: 'object',
+                      properties: {}
+                    },
+                    married: dependents.items.properties.previouslyMarried,
+                    'view:stepChildCondition': {
+                      type: 'boolean',
+                    },
+                  }
+                }
+              }
+            }
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                'ui:title': createHouseholdMemberTitle('fullName', 'Information'),
+                childSocialSecurityNumber: _.merge(ssnUI, {
+                  'ui:title': 'Child’s Social Security number',
+                  'ui:required': (formData, index) => !_.get(`dependents.${index}.view:noSSN`, formData)
+                }),
+                'view:noSSN': {
+                  'ui:title': 'Does not have a Social Security number (foreign national, etc.)'
+                },
+                childRelationship: {
+                  'ui:title': 'What’s the status of this child? (Please check all that apply.)',
+                  'ui:options': {
+                    showFieldLabel: true,
+                    labels: childRelationshipStatusLabels
+                  },
+                  'ui:widget': 'radio',
+                },
+                inSchool: {
+                  'ui:title': 'Child is 18 to 23 years old and in school',
+                  'ui:options': {
+                    hideIf: (form, index) => {
+                      const childAge = calculateChildAge(form, index);
+                      if (childAge) {
+                        return childAge < 18 || childAge > 23;
+                      }
+                      return true;
+                    }
+                  }
+                },
+                'view:schoolWarning': {
+                  'ui:description': schoolAttendanceWarning,
+                  'ui:options': {
+                    expandUnder: 'inSchool'
+                  }
+                },
+                disabled: {
+                  'ui:title': 'Seriously disabled before 18 years old',
+                  'ui:options': {
+                    hideIf: (form, index) => {
+                      const childAge = calculateChildAge(form, index);
+                      if (childAge) {
+                        return childAge > 18;
+                      }
+                      return true;
+                    }
+                  }
+                },
+                'view:disableWarning': {
+                  'ui:description': disableWarning,
+                  'ui:options': {
+                    expandUnder: 'disabled'
+                  }
+                },
+                married: {
+                  'ui:title': 'Child was previously married'
+                },
+                'view:stepChildCondition': {
+                  'ui:options': {
+                    expandUnder: 'childRelationship',
+                    expandUnderCondition: (formData) => formData === 'stepchild'
+                  },
+                  'ui:required': (formData, index) => _.get(`dependents.${index}.childRelationship`, formData) === 'stepchild',
+                  'ui:widget': 'yesNo',
+                  'ui:title': 'Is your child the biological child of your spouse?',
+                },
+              }
+            }
+          }
+        },
+        childrenAddress: {
+          path: 'unmarried-children/address/:index',
+          title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: ['childInHousehold'],
+                  properties: {
+                    childInHousehold: dependents.items.properties.childInHousehold,
+                    childInfo: {
+                      type: 'object',
+                      properties: {
+                        childAddress: address.schema(fullSchema686),
+                        personChildLiveWith: {
+                          type: 'object',
+                          properties: {
+                            firstName: {
+                              type: 'string'
+                            },
+                            lastName: {
+                              type: 'string'
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
+                childInHousehold: {
+                  'ui:title': 'Does your child currently live with you?',
+                  'ui:widget': 'yesNo'
+                },
+                childInfo: {
+                  'ui:options': {
+                    expandUnder: 'childInHousehold',
+                    expandUnderCondition: false
+                  },
+                  childAddress: _.merge(address.uiSchema('Address', false, (form, index) => !_.get(['dependents', index, 'childInHousehold'], form)),
+                    {
+                      'ui:title': 'Child’s Address',
+                    }),
+                  personChildLiveWith: {
+                    firstName: {
+                      'ui:title': 'First name of person child lives with (if applicable)'
+                    },
+                    lastName: {
+                      'ui:title': 'Last name of person child lives with (if applicable)'
+                    }
+                  }
+                },
               }
             }
           }

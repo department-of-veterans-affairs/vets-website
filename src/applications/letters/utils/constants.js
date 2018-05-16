@@ -100,7 +100,7 @@ export const REQUEST_OPTIONS = Object.freeze({
   hasSpecialMonthlyCompensation: 'hasSpecialMonthlyCompensation',
 });
 
-import ADDRESS_DATA from './address-data';
+import ADDRESS_DATA from '../../../platform/forms/address/data';
 
 export const STATE_CODE_TO_NAME = ADDRESS_DATA.states;
 
