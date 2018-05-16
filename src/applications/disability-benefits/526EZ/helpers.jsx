@@ -220,7 +220,7 @@ export function validateAddress(errors, formData) {
 
 export const download4142Notice = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <p>Since your doctor has your private medical records, you'll need to fill
+    <p>Since your doctor has your private medical records, you’ll need to fill
     out an Authorization to Disclose Information to the VA (VA Form 21-4142) so
     we can request your records.</p>
     <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf">Download VA Form 21-4142</a>
