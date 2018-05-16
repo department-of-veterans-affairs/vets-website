@@ -8,7 +8,7 @@ import {
   DateWidget,
   SelectWidget,
   yesNo
-} from '../../../../src/js/common/schemaform/review/widgets';
+} from '../../../../src/applications/common/schemaform/review/widgets';
 
 describe('Schemaform review widgets', () => {
   describe('<CheckboxWidget>', () => {

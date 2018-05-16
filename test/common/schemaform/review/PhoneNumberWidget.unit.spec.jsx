@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import PhoneNumberWidget from '../../../../src/js/common/schemaform/review/PhoneNumberWidget';
+import PhoneNumberWidget from '../../../../src/applications/common/schemaform/review/PhoneNumberWidget';
 
 describe('Schemaform review <PhoneNumberWidget>', () => {
   it('should format phone number', () => {

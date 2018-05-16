@@ -1,5 +1,5 @@
-@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
-@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 
 span.sidelines {
   position: relative;
@@ -274,54 +274,5 @@ span.sidelines {
 
   @media(min-width: 768px) {
     display: inline;
-  }
-}
-
-.terms-acceptance {
-  margin-bottom: 3em;
-
-  .terms-box {
-    border: 1px solid $color-gray-light;
-    margin-bottom: 10px;
-
-    .terms-head {
-      padding: 10px;
-      font-weight: bold;
-      color: $color-gray-dark;
-      background-color: $color-inset-bg;
-      border-bottom: 1px solid $color-gray-light;
-    }
-
-    .terms-scroller {
-      padding: 10px;
-      max-height: 400px;
-      overflow: auto;
-    }
-
-    .form-radio-buttons {
-      padding: 0 10px 5px 10px;
-      border-top: 1px solid $color-gray-light;
-      background-color: $color-inset-bg;
-      color: $color-gray-dark;
-
-      &.disabled {
-        color: $color-gray-medium;
-      }
-
-      input {
-        margin-left: -9999rem;
-
-        &[disabled] {
-          & + label {
-            cursor: default;
-          }
-        }
-      }
-
-      label {
-        display: inline-block;
-        max-width: none;
-      }
-    }
   }
 }
