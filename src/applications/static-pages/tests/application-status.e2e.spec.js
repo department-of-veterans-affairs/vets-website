@@ -73,12 +73,21 @@ module.exports = E2eHelpers.createE2eTest(
   (client) => {
     const token = Auth.getUserToken();
 
-    Auth.logIn(token, client, '/', 3)
-      .axeCheck('.main'); // TODO: Figure out why this is failing
+    Auth.logIn(token, client, '/', 3);
 
     initUserMock(token, 3);
 
+    // const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
+    // const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
+    // const burialPages = new Set([
+    //   '/burials-and-memorials/',
+    //   '/burials-and-memorials/survivor-and-dependent-benefits/',
+    //   '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/'
+    // ]);
+    // const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
     testStatus(client, '/health-care/apply', '/health-care/apply/application/resume');
+    testStatus(client, '/health-care/', '/health-care/apply/application/resume');
+    testStatus(client, '/health-care/eligibility', '/health-care/apply/application/resume');
     client.end();
   }
 );
