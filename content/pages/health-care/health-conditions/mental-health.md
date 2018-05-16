@@ -89,14 +89,14 @@ All mental health care at VA supports recovery. Our goal is to help you take cha
 
 ### How do I get mental health services through VA?
 
-The VA health care program covers mental health services. To get these services, first apply for VA health care. [Apply for health care](/health-care/apply/).
+The VA health care program covers mental health services. To get these services, first apply for VA health care. <br> [Apply for health care](/health-care/apply/).
 
 Once you’ve signed up:
 
 - **If you have a VA primary care provider,** talk to them about your mental health concerns. Your provider will offer support and treatment as needed, and can connect you with a mental health specialist (like a psychiatrist) for more support.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
   - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
-  - Contact your local VA medical center. [Find a VA medical center near you](/facilities/).
+  - Contact your local VA medical center. <br> [Find a VA medical center near you](/facilities/).
 
 <br>
 
@@ -105,11 +105,11 @@ Once you’ve signed up:
 
 You may still be able to get care:
 
-- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
+- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. <br> [Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
-  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
+  - Visit our website to learn about VA programs for Veterans who are homeless. <br> [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
-  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
+  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. <br> [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 **Please note:** If you don’t qualify for VA health care, you may still be able to get certain health care services (like care for issues linked to military sexual trauma). Call our general VA hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>) to find out what your care options may be.
 
@@ -117,8 +117,8 @@ You may still be able to get care:
 
 ### Where can I find more information or support?
 
-[Get resources and support to help you readjust after returning from deployment](https://www.mentalhealth.va.gov/returningservicevets.asp).<br />
-[Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
+[Get resources and support to help you readjust after returning from deployment](https://www.mentalhealth.va.gov/returningservicevets.asp).<br>
+[Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br>
 [Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
 
 <script type="text/javascript">
