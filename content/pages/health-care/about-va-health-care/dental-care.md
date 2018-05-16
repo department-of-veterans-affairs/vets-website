@@ -196,7 +196,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 You can apply online by filling out the 10-10EZ health care application.
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for benefits.</a>
 
 <br>
 
@@ -213,10 +213,11 @@ You may be able to buy dental insurance at a reduced cost through the VA Dental 
 
 **At least one of these must be true. You:**
 
-- Are signed up for VA health care <br>
-([Apply now](/health-care/apply/)), **or**
+- Are signed up for VA health care, <br>
+**or**
 - Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). <br>
-[Find out if you can sign up for CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp).
+[Find out if you can sign up for CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp). <br>
+[Apply for VA health care now](/health-care/apply/).
 
 
 [Learn more about VADIP](https://www.va.gov/healthbenefits/VADIP/).
