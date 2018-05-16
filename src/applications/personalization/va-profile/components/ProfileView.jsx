@@ -29,11 +29,22 @@ class ProfileView extends React.Component {
   }
 
   render() {
-    if (this.props.profile.loading) {
+    const {
+      message,
+      profile: {
+        userFullName,
+        personalInformation,
+        serviceHistory,
+        loading,
+        errors
+      }
+    } = this.props;
+
+    if (loading) {
       return <LoadingIndicator message="Loading complete profile..."/>;
     }
 
-    if (this.props.profile.errors.includes(FETCH_VA_PROFILE_FAIL)) {
+    if (errors.includes(FETCH_VA_PROFILE_FAIL)) {
       return (
         <div className="row">
           <AlertBox status="error" isVisible
@@ -41,15 +52,6 @@ class ProfileView extends React.Component {
         </div>
       );
     }
-
-    const {
-      message,
-      profile: {
-        userFullName,
-        personalInformation,
-        serviceHistory
-      }
-    } = this.props;
 
     return (
       <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
