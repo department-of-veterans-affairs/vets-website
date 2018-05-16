@@ -40,9 +40,9 @@ class SearchHelpSignIn extends React.Component {
         <SignInProfileMenu
           disabled={isLoading}
           clickHandler={this.handleAccountMenuClick}
-          isDashboardBeta={this.props.isDashboardBeta}
           greeting={this.props.userGreeting}
-          isOpen={this.props.isMenuOpen.account}/>
+          isOpen={this.props.isMenuOpen.account}
+          isLOA3={this.props.isLOA3}/>
       );
     }
 
@@ -79,9 +79,9 @@ class SearchHelpSignIn extends React.Component {
 }
 
 SearchHelpSignIn.propTypes = {
+  isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
-  isDashboardBeta: PropTypes.bool.isRequired,
   isProfileLoading: PropTypes.bool.isRequired,
   userGreeting: PropTypes.string.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
