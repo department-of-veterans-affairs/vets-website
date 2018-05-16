@@ -82,7 +82,7 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 <div markdown="0"><br></div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits.</a>
 </div>
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -94,9 +94,8 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
-[Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
-
-Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+[Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). Or, <br> 
+[Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>
