@@ -4,17 +4,11 @@ import reducer from '../../../profile/reducers';
 import { UPDATE_LOGGEDIN_STATUS } from '../../../../user/authentication/actions';
 
 import {
-  ACCEPTING_LATEST_MHV_TERMS,
-  ACCEPTING_LATEST_MHV_TERMS_FAILURE,
-  ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
   CREATE_MHV_ACCOUNT_FAILURE,
   CREATE_MHV_ACCOUNT_SUCCESS,
   CREATING_MHV_ACCOUNT,
   FETCH_MHV_ACCOUNT_FAILURE,
   FETCH_MHV_ACCOUNT_SUCCESS,
-  FETCHING_LATEST_MHV_TERMS,
-  FETCHING_LATEST_MHV_TERMS_FAILURE,
-  FETCHING_LATEST_MHV_TERMS_SUCCESS,
   FETCHING_MHV_ACCOUNT,
   PROFILE_LOADING_FINISHED,
   REMOVING_SAVED_FORM_SUCCESS
@@ -31,16 +25,6 @@ describe('Profile reducer', () => {
     expect(state.loading).to.be.false;
   });
 
-  it('should be loading when accepting MHV terms', () => {
-    const state = reducer({ mhv: { terms: {} } }, { type: ACCEPTING_LATEST_MHV_TERMS });
-    expect(state.mhv.terms.loading).to.be.true;
-  });
-
-  it('should be loading when fetching MHV terms', () => {
-    const state = reducer({ mhv: { terms: {} } }, { type: FETCHING_LATEST_MHV_TERMS });
-    expect(state.mhv.terms.loading).to.be.true;
-  });
-
   it('should be loading when creating MHV account', () => {
     const state = reducer({ mhv: { account: {} } }, { type: CREATING_MHV_ACCOUNT });
     expect(state.mhv.account.loading).to.be.true;
@@ -49,28 +33,6 @@ describe('Profile reducer', () => {
   it('should be loading when fetching MHV account', () => {
     const state = reducer({ mhv: { account: {} } }, { type: FETCHING_MHV_ACCOUNT });
     expect(state.mhv.account.loading).to.be.true;
-  });
-
-  it('should handle failed acceptance of MHV terms', () => {
-    const state = reducer({
-      mhv: { terms: {} }
-    }, {
-      type: ACCEPTING_LATEST_MHV_TERMS_FAILURE,
-      errors: [{ title: 'error', code: 500 }]
-    });
-    expect(state.mhv.terms.errors).to.exist;
-    expect(state.mhv.terms.loading).to.be.false;
-  });
-
-  it('should handle failed fetch of MHV terms', () => {
-    const state = reducer({
-      mhv: { terms: {} }
-    }, {
-      type: FETCHING_LATEST_MHV_TERMS_FAILURE,
-      errors: [{ title: 'error', code: 500 }]
-    });
-    expect(state.mhv.terms.errors).to.exist;
-    expect(state.mhv.terms.loading).to.be.false;
   });
 
   it('should handle failed creation of MHV account', () => {
@@ -93,25 +55,6 @@ describe('Profile reducer', () => {
     });
     expect(state.mhv.account.errors).to.exist;
     expect(state.mhv.account.loading).to.be.false;
-  });
-
-  it('should handle failed acceptance of MHV terms', () => {
-  });
-
-  it('should handle successful acceptance of MHV terms', () => {
-    const state = reducer({ mhv: { terms: {} } }, { type: ACCEPTING_LATEST_MHV_TERMS_SUCCESS });
-    expect(state.mhv.terms.loading).to.be.false;
-  });
-
-  it('should handle successful fetch of MHV terms', () => {
-    const state = reducer({
-      mhv: { terms: {} }
-    }, {
-      type: FETCHING_LATEST_MHV_TERMS_SUCCESS,
-      terms: { termsContent: 'foo bar' }
-    });
-    expect(state.mhv.terms.loading).to.be.false;
-    expect(state.mhv.terms.termsContent).to.eq('foo bar');
   });
 
   it('should start polling after MHV account creation if not yet upgraded', () => {

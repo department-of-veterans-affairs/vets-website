@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import '../../../../platform/startup/moment-setup';
 
-import { fetchLatestTerms, acceptTerms } from '../actions';
-
 import AccountMain from '../components/AccountMain';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
@@ -28,9 +26,7 @@ class UserProfileApp extends React.Component {
                   <AccountMain
                     login={this.props.login}
                     profile={this.props.profile}
-                    terms={this.props.terms}
-                    fetchLatestTerms={this.props.fetchLatestTerms}
-                    acceptTerms={this.props.acceptTerms}/>
+                    terms={this.props.terms}/>
                 </div>
               </div>
             </DowntimeNotification>
@@ -51,10 +47,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  fetchLatestTerms,
-  acceptTerms
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);
+export default connect(mapStateToProps)(UserProfileApp);
 export { UserProfileApp };
