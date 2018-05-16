@@ -121,8 +121,8 @@ export class ApplicationStatus extends React.Component {
               cssClass="va-modal-large"
               id="start-over-modal"
               onClose={this.toggleModal}
+              title="Starting over will delete your in-progress form."
               visible={this.state.modalOpen}>
-              <h4>Starting over will delete your in-progress form.</h4>
               <p>Are you sure you want to start over?</p>
               <ProgressButton
                 onButtonClick={() => this.removeForm(formId)}
