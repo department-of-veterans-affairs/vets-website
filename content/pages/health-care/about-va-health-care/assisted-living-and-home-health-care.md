@@ -121,14 +121,14 @@ You may be able to get VA benefits to help pay for nursing home care. It depends
 
 **Learn more about:**
 
-[Community Living Centers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/VA_Community_Living_Centers.asp)
-VA nursing centers that are designed to feel like home
+[Community Living Centers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/VA_Community_Living_Centers.asp). <br>
+VA nursing centers that are designed to feel like home.
 
-[Community Nursing Homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Community_Nursing_Homes.asp)
-Non-VA nursing homes that we contract with in many parts of the country so you can get care near your home and family
+[Community Nursing Homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Community_Nursing_Homes.asp). <br>
+Non-VA nursing homes that we contract with in many parts of the country so you can get care near your home and family.
 
-[State Veterans Homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/State_Veterans_Homes.asp#)
-State-owned and -managed centers that provide full-time care for Veterans and, sometimes, non-Veteran spouses and Gold Star parents
+[State Veterans Homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/State_Veterans_Homes.asp#). <br>
+State-owned and -managed centers that provide full-time care for Veterans and, sometimes, non-Veteran spouses and Gold Star parents.
 
 <br>
 
@@ -142,14 +142,14 @@ These places are not run, staffed, or paid for by VA, but we do inspect and appr
 
 **Learn more about:**
 
-[Medical foster homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Medical_Foster_Homes.asp)
-Private homes where a few people live together and get care
+[Medical foster homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Medical_Foster_Homes.asp). <br>
+Private homes where a few people live together and get care.
 
-[Adult family homes (or adult foster homes)](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Adult_Family_Homes.asp)
-Private homes with rooms to rent for 6 or fewer people
+[Adult family homes (or adult foster homes)](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Adult_Family_Homes.asp). <br>
+Private homes with rooms to rent for 6 or fewer people.
 
-[Assisted living facilities](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Assisted_Living.asp)
-Centers where Veterans can live in a rented room or apartment, and have access to shared living spaces like a dining room
+[Assisted living facilities](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Assisted_Living.asp). <br>
+Centers where Veterans can live in a rented room or apartment, and have access to shared living spaces like a dining room.
 
 <br>
 
@@ -161,20 +161,20 @@ If you’re signed up for VA health care, you can get help managing your disabil
 
 **Learn more about:**
 
-[Home-based primary care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Home_Based_Primary_Care.asp)
-A VA health care team, led by a VA doctor, who provides services (like nursing care, physical therapy, and help with daily tasks) in your home
+[Home-based primary care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Home_Based_Primary_Care.asp). <br>
+A VA health care team, led by a VA doctor, who provides services (like nursing care, physical therapy, and help with daily tasks) in your home.
 
-[Homemaker/home health aide (H/HHA) services](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Homemaker_and_Home_Health_Aide_Care.asp#)
-A trained caregiver (supervised by a registered nurse) who comes into your home to help you care for yourself
+[Homemaker/home health aide (H/HHA) services](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Homemaker_and_Home_Health_Aide_Care.asp#). <br>
+A trained caregiver (supervised by a registered nurse) who comes into your home to help you care for yourself.
 
-[Adult day health care](https://www.va.gov/Geriatrics/guide/longtermcare/Adult_Day_Health_Care.asp)
-A program you can go to during the day for social activities, companionship, and recreation as well as care and support
+[Adult day health care](https://www.va.gov/Geriatrics/guide/longtermcare/Adult_Day_Health_Care.asp). <br>
+A program you can go to during the day for social activities, companionship, and recreation as well as care and support.
 
-[Hospice care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Hospice_Care.asp#)
+[Hospice care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Hospice_Care.asp#). <br>
 Skilled caregivers who come into your home to provide comfort care to you and your family. You qualify for hospice care if you have a terminal condition (a condition that can’t be treated), with less than 6 months to live, and you’re no longer seeking treatment other than to ease pain.
 
-[Palliative care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Palliative_Care.asp)
-Skilled caregivers who come into your home to provide comfort care to help ease your pain and control your symptoms so you can do as much as possible in your daily life
+[Palliative care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Palliative_Care.asp). <br>
+Skilled caregivers who come into your home to provide comfort care to help ease your pain and control your symptoms so you can do as much as possible in your daily life. 
 
 <br>
 
@@ -186,10 +186,10 @@ If you’re signed up for VA health care, you can get home-based health care as 
 
 **Learn more about:**
 
-[Skilled home health care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp)
-Health care providers from a community-based home health agency who come to your house to provide care such as wound care, physical therapy, social work support, and help with daily tasks
+[Skilled home health care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp). <br>
+Health care providers from a community-based home health agency who come to your house to provide care such as wound care, physical therapy, social work support, and help with daily tasks.
 
-[Home Telehealth](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Telehealth_Care.asp)
+[Home Telehealth](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Telehealth_Care.asp). <br>
 A VA care coordinator who keeps track of your health remotely using special equipment in your home and will check in with you by phone, if needed. If there are any signs of a problem, your care coordinator will work with you and your VA doctor and nurse to figure out what to do next.
 
 <br>
