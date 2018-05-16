@@ -47,6 +47,7 @@ import {
   privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
+  download4142Notice,
   recordReleaseWarning,
   // validateAddress, // TODO: This needs to be fleshed out
   documentDescription,
@@ -504,10 +505,16 @@ const formConfig = {
                     }
                   }
                 },
+                'view:privateRecords4142Notice': {
+                  'ui:description': download4142Notice,
+                  'ui:options': {
+                    expandUnder: 'view:uploadPrivateRecords',
+                    expandUnderCondition: 'no'
+                  }
+                },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp
                 }
-                // probably need another thing here for the 'no' alert
               }
             }
           },
@@ -522,6 +529,11 @@ const formConfig = {
                     'view:uploadPrivateRecords': {
                       type: 'string',
                       'enum': ['yes', 'no']
+                    },
+                    'view:privateRecords4142Notice': {
+                      type: 'object',
+                      'ui:collapsed': true,
+                      properties: {}
                     },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
