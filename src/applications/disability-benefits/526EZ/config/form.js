@@ -48,6 +48,7 @@ import {
   facilityDescription,
   treatmentView,
   download4142Notice,
+  authorizationToDisclose,
   recordReleaseWarning,
   // validateAddress, // TODO: This needs to be fleshed out
   documentDescription,
@@ -540,6 +541,37 @@ const formConfig = {
                       properties: {}
                     }
                   }
+                }
+              }
+            }
+          }
+        },
+        authorizationToDisclose: {
+          title: '',
+          path: 'supporting-evidence/:index/authorization-to-disclose',
+          showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
+          arrayPath: 'disabilities',
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+            return hasRecords && requestsRecords;
+          },
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:description': authorizationToDisclose
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
                 }
               }
             }
