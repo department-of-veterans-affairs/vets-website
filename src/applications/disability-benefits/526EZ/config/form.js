@@ -500,7 +500,7 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, please get them from my doctor'
+                      no: 'No, my doctor has my medical records'
                     }
                   }
                 },
