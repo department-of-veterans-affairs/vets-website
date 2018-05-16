@@ -73,9 +73,10 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 
 **Both of these must be true:**
 
-- You're scheduling your appointment with a VA medical facility that accepts online scheduling.<br>
-[Find out if your VA medical center accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
-- You've had an appointment at that VA medical facility within the last 2 years
+- You're scheduling your appointment with a VA medical facility that accepts online scheduling,
+**and**
+- You've had an appointment at that VA medical facility within the last 2 years. <br>
+[Find out if your VA medical center accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list).
 
 **And, you must have one of these free accounts:**
 - A premium My Health<em>e</em>Vet account <br>
@@ -84,7 +85,7 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 [Sign up for a DS Logon account](https://mobile.va.gov/dslogon).
 
 <div>
-  <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/">Schedule a VA Appointment Online</a>
+  <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/">Schedule a VA Appointment Online</a>.
 </div>
 </div>
 </div>
