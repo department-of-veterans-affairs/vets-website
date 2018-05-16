@@ -507,6 +507,7 @@ const formConfig = {
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp
                 }
+                // probably need another thing here for the 'no' alert
               }
             }
           },
@@ -538,11 +539,13 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => {
-            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
-            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
-            return hasRecords && requestsRecords;
-          },
+          // TODO: Re-enable actual depends logic for page once 4142 PDF generation is working through vets-api
+          depends: () => false,
+          // depends: (formData, index) => {
+          //   const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+          //   const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+          //   return hasRecords && requestsRecords;
+          // },
           uiSchema: {
             disabilities: {
               items: {
