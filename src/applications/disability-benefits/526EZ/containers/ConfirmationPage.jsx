@@ -36,8 +36,21 @@ class ConfirmationPage extends React.Component {
       <div>
         <h3 className="confirmation-page-title">Claim submitted</h3>
         <p>We usually process claims within <strong>103 days</strong>.</p>
-        <p>We may contact you if we have questions or need more information. You can print this page for your records.</p>
-
+        <p>We may contact you if we have questions or need more information.
+        You can print this page for your records. <strong>If you need us to get
+        your private medical records from your doctor,</strong> you’ll need to
+        fill out an Authorization to Disclose Information to the VA (VA Form
+        21-4142). If you didn’t upload this form to your application, you can
+        download it here and mail it in.</p>
+        <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+        Download VA Form 21-4142</a>
+        <p>
+          Please print the form, fill it out, and send it to:<br/>
+          Department of Veterans Affairs<br/>
+          Claims Intake Center<br/>
+          PO Box 4444<br/>
+          Janesville, WI 53547-4444<br/>
+        </p>
         <h4 className="confirmation-guidance-heading">
           What happens after I apply?
         </h4>
