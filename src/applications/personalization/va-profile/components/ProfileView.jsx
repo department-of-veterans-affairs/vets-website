@@ -11,7 +11,6 @@ import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
-import LoadFail from './LoadFail';
 
 class ProfileView extends React.Component {
 
