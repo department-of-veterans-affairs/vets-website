@@ -14,7 +14,7 @@ describe('<MHVApp>', () => {
       loading: false,
       polling: false,
       polledTimes: 0,
-      state: 'unknown'
+      state: null
     },
     availableServices: ['facilities', 'hca', 'user-profile'],
     serviceRequired: 'rx',
@@ -47,25 +47,19 @@ describe('<MHVApp>', () => {
 
 
   it('should create an account if the user does not have an account', () => {
-    shallow(<MHVApp {...props}/>);
-    expect(props.createMHVAccount.calledOnce).to.be.true;
-  });
-
-  it('should create an account after the user accepts terms', () => {
-    const newProps = set('account.state', 'needs_terms_acceptance', props);
-    const wrapper = shallow(<MHVApp {...newProps}/>);
-    expect(global.window.location.replace.calledOnce).to.be.true;
+    const wrapper = shallow(<MHVApp {...props}/>);
     const account = { ...props.account, state: 'unknown' };
     wrapper.setProps({ account });
     expect(props.createMHVAccount.calledOnce).to.be.true;
   });
 
   it('should create an account after the user accepts terms', () => {
-    const newProps = set('account.state', 'needs_terms_acceptance', props);
-    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const wrapper = shallow(<MHVApp {...props}/>);
+    const needsAcceptanceAccount = { ...props.account, state: 'needs_terms_acceptance' };
+    wrapper.setProps({ account: needsAcceptanceAccount });
     expect(global.window.location.replace.calledOnce).to.be.true;
-    const account = { ...props.account, state: 'unknown' };
-    wrapper.setProps({ account });
+    const acceptedAccount = { ...props.account, state: 'unknown' };
+    wrapper.setProps({ account: acceptedAccount });
     expect(props.createMHVAccount.calledOnce).to.be.true;
   });
 
@@ -88,8 +82,11 @@ describe('<MHVApp>', () => {
 
   it('should poll for account state while account is being created', () => {
     const clock = sinon.useFakeTimers();
-    const wrapper = shallow(<MHVApp {...props}/>);
-    const pollingAccount = set('polling', true, props.account);
+    const newProps = set('account.state', 'unknown', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    props.fetchMHVAccount.reset();
+
+    const pollingAccount = set('polling', true, newProps.account);
     wrapper.setProps({ account: pollingAccount });
     expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
 
@@ -99,14 +96,14 @@ describe('<MHVApp>', () => {
     clock.tick(2000);
     expect(props.fetchMHVAccount.calledThrice).to.be.true;
 
-    const account = {
+    const upgradedAccount = {
       ...props.account,
       polling: false,
       polledTimes: 0,
       state: 'upgraded'
     };
 
-    wrapper.setProps({ account });
+    wrapper.setProps({ account: upgradedAccount });
     expect(props.fetchMHVAccount.calledOnce).to.be.false;
     clock.restore();
   });
