@@ -26,7 +26,8 @@ export default class SelectArrayItemsWidget extends React.Component {
 
     if (formContext.reviewMode) {
       return (
-        <ul>{items.filter(i => i['view:selected']).map((d, i) => <li key={i}>{d.name}</li>)}</ul>
+        <ul>{items.filter(item => item['view:selected'])
+          .map((disability, index) => <li key={index}>{disability.name}</li>)}</ul>
       );
     }
     // Note: Much of this was stolen from CheckboxWidget
