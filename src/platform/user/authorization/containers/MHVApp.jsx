@@ -40,6 +40,16 @@ const INELIGIBLE_MESSAGES = {
 
   country_ineligible: null,
 
+  has_deactivated_mhv_ids: {
+    headline: <span>It looks like you’ve disabled your My Health<em>e</em>Vet account</span>,
+    content: (
+      <div>
+        <p>We’re sorry. We can’t give you access to the Vets.gov health tools because it looks like you already have a My HealtheVet account that’s been disabled.</p>
+        <p>Please call the My HealtheVet Help Desk at 1-877-327-0022 (TTY: 1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to activate your disabled account.</p>
+      </div>
+    )
+  },
+
   has_multiple_active_mhv_ids: {
     headline: <span>It looks like you have more than one My Health<em>e</em>Vet account</span>,
     content: (
@@ -48,7 +58,7 @@ const INELIGIBLE_MESSAGES = {
         <p>Please call the My HealtheVet Help Desk at 1-877-327-0022 (TTY: 1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to delete any extra accounts in the system.</p>
       </div>
     )
-  },
+  }
 };
 /* eslint-enable camelcase */
 
