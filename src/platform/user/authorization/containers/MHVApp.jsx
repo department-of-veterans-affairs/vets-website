@@ -135,13 +135,17 @@ export class MHVApp extends React.Component {
   renderIneligibleMessage = (ineligibleState) => {
     const alertProps = INELIGIBLE_MESSAGES[ineligibleState];
 
-    return alertProps && (
-      <AlertBox
-        headline={alertProps.headline}
-        content={alertProps.content}
-        isVisible
-        status="error"/>
-    );
+    if (alertProps) {
+      return (
+        <AlertBox
+          headline={alertProps.headline}
+          content={alertProps.content}
+          isVisible
+          status="error"/>
+      );
+    }
+
+    return mhvAccessError;
   }
 
   render() {
