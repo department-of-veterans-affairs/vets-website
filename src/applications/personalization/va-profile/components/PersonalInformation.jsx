@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from '../../../../platform/startup/moment-setup';
-import { fieldFailureMessage } from './LoadFail';
+import LoadFail, { fieldFailureMessage } from './LoadFail';
 
 function Gender({ gender }) {
   if (gender) return <span>{gender === 'M' ? 'Male' : 'Female'}</span>;
@@ -12,13 +12,20 @@ function BirthDate({ birthDate }) {
   return fieldFailureMessage;
 }
 
-export default function PersonalInformation({ personalInformation: { gender, birthDate } }) {
+export default function PersonalInformation({ personalInformation }) {
+  const { gender, birthDate } = personalInformation;
   return (
     <div>
-      <h3>Gender</h3>
-      <Gender gender={gender}/>
-      <h3>Birth date</h3>
-      <BirthDate birthDate={birthDate}/>
+      <h2 className="va-profile-heading">Personal Information</h2>
+      <p>If you need to make any updates or corrections, call the Vets.gov Help Desk at  <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We're here Monday-Friday, 8 a.m. - 8 p.m. (ET).</p>
+      {!personalInformation ?  <LoadFail information="personal"/> : (
+        <div>
+          <h3>Gender</h3>
+          <Gender gender={gender}/>
+          <h3>Birth date</h3>
+          <BirthDate birthDate={birthDate}/>
+        </div>
+      )}
     </div>
   );
 }
