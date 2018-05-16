@@ -64,7 +64,7 @@ export class Main extends React.Component {
         break;
       case unavailable: {
         appContent = (
-          <div>
+          <div id="maintenance-mode">
             <h2>The VA letters tool is down for maintenance</h2>
             <p>We're doing some work on the VA letters tool on May 16, 2018, between 7:00 p.m and 8:00 p.m. (ET). If you're having trouble using this tool during this time, please check back again later.</p>
           </div>
