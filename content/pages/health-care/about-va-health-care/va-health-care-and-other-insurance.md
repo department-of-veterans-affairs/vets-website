@@ -41,7 +41,7 @@ We don’t bill Medicare or Medicaid, but we may bill Medicare supplemental heal
 
 ### What if my health insurance provider doesn’t cover all the non-service-connected care that VA bills them for?
 
-You won’t have to pay any unpaid balance not covered by your health insurance provider. But, depending on your eligibility priority group, you may have to pay a VA copayment for non-service-connected care. [Learn more about eligibility priority groups](https://www.va.gov/healthbenefits/resources/priority_groups.asp).
+You won’t have to pay any unpaid balance not covered by your health insurance provider. But, depending on your eligibility priority group, you may have to pay a VA copayment for non-service-connected care. <br> [Learn more about eligibility priority groups](https://www.va.gov/healthbenefits/resources/priority_groups.asp).
 
 <br>
 
@@ -62,7 +62,7 @@ No. Whether or not you have health insurance coverage doesn’t affect the VA he
 
 ### If I’m signed up for the VA health care program, does that mean I meet the requirements to have health care under the Affordable Care Act (ACA)?
 
-Yes. Being signed up for VA health care meets your Affordable Care Act health coverage requirement of having “minimum essential health coverage.” You don’t need any other insurance to meet this requirement. We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
+Yes. Being signed up for VA health care meets your Affordable Care Act health coverage requirement of having “minimum essential health coverage.” You don’t need any other insurance to meet this requirement. We’ll update this site if the ACA changes with new laws. <br> [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 
 </div>
 
@@ -113,7 +113,7 @@ You’ll need to choose which benefits to use each time you receive care.
 
 To use VA benefits, you’ll need to get care at a VA medical center or other VA location. We’ll also cover your care if we pre-authorize you (meaning we give you permission ahead of time) to get services in a non-VA hospital or other care setting. Keep in mind that you may need to pay a VA copayment for non-service-connected care.
 
-If you go to a non-VA care setting, Medicare may pay for your care. Or, if we only authorize some services in a non-VA location, then Medicare may pay for other services you may need during your stay. Check your Medicare plan so you know which care locations and services you’re covered for. [Learn more about Medicare](http://www.medicare.gov).
+If you go to a non-VA care setting, Medicare may pay for your care. Or, if we only authorize some services in a non-VA location, then Medicare may pay for other services you may need during your stay. Check your Medicare plan so you know which care locations and services you’re covered for. <br> [Learn more about Medicare](http://www.medicare.gov).
 
 <br>
 
