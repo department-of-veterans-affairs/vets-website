@@ -95,11 +95,11 @@ Benefits may include educational and vocational (job) counseling, plus help with
 
 ### Life Insurance
 
-If you’re the spouse or dependent child of a Servicemember, you may qualify for term life insurance coverage through our Family Servicemembers’ Group Life Insurance (FSGLI). [Find out if you qualify for FSGLI and how to apply](/life-insurance/options-and-eligibility/fsgli/).
+If you’re the spouse or dependent child of a Servicemember, you may qualify for term life insurance coverage through our Family Servicemembers’ Group Life Insurance (FSGLI). <br> [Find out if you qualify for FSGLI and how to apply](/life-insurance/options-and-eligibility/fsgli/).
 
-If you have FSGLI coverage, you can also get free, professional financial planning and online will preparation services. [Access beneficiary financial counseling and online will preparation](http://www.benefits.va.gov/insurance/bfcs.asp).
+If you have FSGLI coverage, you can also get free, professional financial planning and online will preparation services. <br> [Access beneficiary financial counseling and online will preparation](http://www.benefits.va.gov/insurance/bfcs.asp).
 
-If you or your Servicemember or Veteran has a terminal illness, you may be able to get your life insurance benefits early. Having a terminal illness means you have an illness that can’t be cured and will likely result in death within a short period of time. [Learn about accelerated claims for terminally ill policyholders](/life-insurance/disabled-and-terminally-ill/).
+If you or your Servicemember or Veteran has a terminal illness, you may be able to get your life insurance benefits early. Having a terminal illness means you have an illness that can’t be cured and will likely result in death within a short period of time. <br> [Learn about accelerated claims for terminally ill policyholders](/life-insurance/disabled-and-terminally-ill/).
 
 **Looking for life insurance information on behalf of a Servicemember or Veteran?**<br>
 [Learn about life insurance benefits for Servicemembers and Veterans](/life-insurance/).
@@ -109,9 +109,9 @@ If you or your Servicemember or Veteran has a terminal illness, you may be able 
 
 ### Survivors Pension
 
-If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, you may be able to get monthly pension payments. [Find out if you qualify for a Survivors Pension and how to apply](/pension/survivors-pension/).
+If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, you may be able to get monthly pension payments. <br> [Find out if you qualify for a Survivors Pension and how to apply](/pension/survivors-pension/).
 
-If you need help with your daily activities—or you’re housebound—you may also qualify for Aid and Attendance or Housebound allowances. This extra money will be added to your monthly pension payments. [Find out if you qualify for Aid and Attendance or Housebound allowances](/pension/aid-attendance-housebound/).
+If you need help with your daily activities—or you’re housebound—you may also qualify for Aid and Attendance or Housebound allowances. This extra money will be added to your monthly pension payments. <br> [Find out if you qualify for Aid and Attendance or Housebound allowances](/pension/aid-attendance-housebound/).
 
 **Looking for pension information on behalf of a Veteran?**<br>
 [Learn about the Veterans Pension program](/pension/).
@@ -121,9 +121,9 @@ If you need help with your daily activities—or you’re housebound—you may a
 
 ### Burials and Memorials
 
-If you’d like to find out in advance if you can be buried in a VA national cemetery, you can apply for a pre-need determination of eligibility. [Apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/).
+If you’d like to find out in advance if you can be buried in a VA national cemetery, you can apply for a pre-need determination of eligibility. <br> [Apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/).
 
-If a Servicemember, Veteran, or eligible spouse or dependent child in your family dies, we’re here to help you through the process of planning their burial and memorial.
+If a Servicemember, Veteran, or eligible spouse or dependent child in your family dies, we’re here to help you through the process of planning their burial and memorial. <br>
 
 [Learn about how to plan a burial for a deceased family member](/burials-and-memorials/burial-planning/).<br>
 [See if the deceased qualifies for burial in a VA national cemetery and other burial honors](/burials-and-memorials/eligibility/).<br>
@@ -131,21 +131,21 @@ If a Servicemember, Veteran, or eligible spouse or dependent child in your famil
 [Get support through bereavement counseling after the death of a loved one](/burials-and-memorials/bereavement-counseling/).
 
 #### Survivor and Dependent Benefits
-If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral. [Find out if you qualify for burial allowances and survivor compensation](/burials-and-memorials/survivor-and-dependent-benefits/).
+If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral. <br> [Find out if you qualify for burial allowances and survivor compensation](/burials-and-memorials/survivor-and-dependent-benefits/).
 
-If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/). 
+If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. <br> [Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/). 
 <br>
 
 <span id="housing-assistance">
 
 ### Housing Assistance
 
-If you’re the surviving spouse of a Veteran, we may be able to help you build, buy, improve, or refinance a home.
+If you’re the surviving spouse of a Veteran, we may be able to help you build, buy, improve, or refinance a home. <br> 
 [Learn how VA-backed home loans work](/housing-assistance/home-loans/loan-options/).<br>
 [Find out if you qualify to get a Certificate of Eligibility (COE) for a VA-backed home loan](/housing-assistance/home-loans/eligibility/).<br>
 [Find out how to apply for a COE—and what to do next to get a VA-backed home loan](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).<br>
 
-If you have a VA-backed home loan and you’re having trouble making your mortgage payments, we may be able to help you avoid foreclosure and keep your home. [Find out how we can help you avoid foreclosure](/housing-assistance/home-loans/trouble-making-payments/). 
+If you have a VA-backed home loan and you’re having trouble making your mortgage payments, we may be able to help you avoid foreclosure and keep your home. <br> [Find out how we can help you avoid foreclosure](/housing-assistance/home-loans/trouble-making-payments/). 
 
 **Looking for information about buying, building, or making changes to a home to help a Veteran with disabilities?**<br>
 [Learn about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
@@ -155,12 +155,12 @@ If you have a VA-backed home loan and you’re having trouble making your mortga
 
 ### Caregiver Support
 
-If you’re a family member caring for a Veteran with disabilities who was injured in the line of duty on or after September 11, 2001, you may qualify for supportive benefits and services through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for comprehensive assistance and how to apply](/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers).
+If you’re a family member caring for a Veteran with disabilities who was injured in the line of duty on or after September 11, 2001, you may qualify for supportive benefits and services through the Program of Comprehensive Assistance to Family Caregivers. <br> [Find out if you qualify for comprehensive assistance and how to apply](/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers).
 
-Your Veteran may also qualify for assisted living, residential (live-in), or home health care through VA. This may include support for you as the caregiver if you need skilled help or a break so you can work, travel, or run errands. [Learn more about these long-term care services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
+Your Veteran may also qualify for assisted living, residential (live-in), or home health care through VA. This may include support for you as the caregiver if you need skilled help or a break so you can work, travel, or run errands. <br> [Learn more about these long-term care services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
 
 We also have trained Caregiver Support Coordinators at each of our VA medical centers and a Caregiver Peer Support Mentoring Program to help connect caregivers to one another for support and learning.
-If you need help accessing services, help connecting with your local Caregiver Support Coordinator, or just a listening ear, call our toll-free Caregiver Support Line at 1-855-260-3274. Our caring, licensed professionals are ready to help.
+If you need help accessing services, help connecting with your local Caregiver Support Coordinator, or just a listening ear, call our toll-free Caregiver Support Line at 1-855-260-3274. Our caring, licensed professionals are ready to help. <br>
 [Get more information and tools for caregivers](https://www.caregiver.va.gov/index.asp).
 <br>
 <br>
