@@ -61,7 +61,6 @@ function profileInformation(state = initialState, action) {
     case CREATING_MHV_ACCOUNT:
       return set('mhv.account', {
         ...state.mhv.account,
-        errors: null,
         loading: true
       }, state);
 

@@ -69,6 +69,12 @@ export class MHVApp extends React.Component {
     const accountStateChanged = prevProps.account.state !== account.state;
     if (accountStateChanged) { this.handleAccountState(); }
 
+    // Check the account state again if we just got an error.
+    // If it occurred from fetching the account, this is just a retry.
+    // If it occurred from account creation, we will get the corresponding
+    // failure state and handle it accordingly.
+    if (!prevProps.account.errors && account.errors) { this.props.fetchMHVAccount(); }
+
     const shouldPollAccount = account.polling && !account.loading && !this.hasAccount();
     if (shouldPollAccount) {
       setTimeout(() => {
