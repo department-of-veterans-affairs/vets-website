@@ -4,7 +4,7 @@ import {
   isNotBlank,
   isBlank,
   isValidRequiredField
-} from './validations';
+} from '../validations';
 
 export const countries = [
   { value: 'USA', label: 'United States' },

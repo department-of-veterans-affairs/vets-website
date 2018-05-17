@@ -170,13 +170,14 @@ export const privateRecordsChoiceHelp = (
   </AdditionalInfo>
 );
 
+const firstOrNextString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'next' : 'first');
 
-export const privateMedicalRecordsIntro = ({ formData }) => {
-  const firstOrNext = formData['view:vaMedicalRecords'] ? 'next' : 'first';
-  return (
-    <p>Ok, {firstOrNext} we’ll ask about your private medical records related to your {getDiagnosticCodeName(formData.diagnosticCode)}.</p>
-  );
-};
+export const privateMedicalRecordsIntro = ({ formData }) => (
+  <p>
+    Ok, {firstOrNextString(formData['view:selectableEvidenceTypes'])} we’ll ask about your private
+    medical records related to your {getDiagnosticCodeName(formData.diagnosticCode)}.
+  </p>
+);
 
 export function validatePostalCodes(errors, formData) {
   let isValidPostalCode = true;
@@ -347,12 +348,14 @@ export const veteranInformationViewField = ({ formData }) => {
  */
 export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
+  // A valid rated disability *can* have a rating percentage of 0%
+  const showRatingPercentage = Number.isInteger(ratingPercentage);
 
   return (
     <div>
       {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
       {name && <p className="diagnostic-text">{getDiagnosticText(name)}</p>}
-      {ratingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
+      {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
 };
