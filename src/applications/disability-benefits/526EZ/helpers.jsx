@@ -1,7 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
+import { isValidUSZipCode, isValidCanPostalCode, states } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
@@ -453,31 +453,37 @@ const EffectiveDateViewField = ({ formData }) => {
   );
 };
 
-const AddressViewField = ({ formData }) => {
+const AddressViewField = ({ formData, title }) => {
+
   const {
     addressLine1, addressLine2, addressLine3, city, state,
-    zipCode, militaryStateCode, militaryPostOfficeTypeCode
+    zipCode, militaryStateCode, militaryPostOfficeTypeCode, country
   } = formData;
   let zipString;
   let stateString;
   let cityString;
+
   if (zipCode) {
     const firstFive = zipCode.slice(0, 5);
     const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
-    zipString = `${firstFive}${lastChunk}`;
+    zipString = firstFive + lastChunk;
   }
   if (city || militaryPostOfficeTypeCode) {
-    cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
+    cityString = city || militaryPostOfficeTypeCode;
   }
   if (state || militaryStateCode) {
-    stateString = `${state}` || `${militaryStateCode}`;
+    stateString = state || militaryStateCode;
   }
   return (
     <div>
-      {addressLine1 && <p>{addressLine1}</p>}
-      {addressLine2 && <p>{addressLine2}</p>}
-      {addressLine3 && <p>{addressLine3}</p>}
-      <p>{cityString} {stateString} {zipString}</p>
+      <p><strong>{title}</strong>:</p>
+      <div>
+        {addressLine1 && <p>{ addressLine1 }</p>}
+        {addressLine2 && <p>{ addressLine2 }</p>}
+        {addressLine3 && <p>{ addressLine3 }</p>}
+        <p>{cityString} {stateString} {zipString}</p>
+        {country && country !== 'USA' && <p>{ country }</p>}
+      </div>
     </div>
   );
 };
@@ -487,9 +493,10 @@ export const PrimaryAddressViewField = ({ formData }) => {
     mailingAddress, primaryPhone, secondaryPhone,
     emailAddress, forwardingAddress
   } = formData;
+  const { effectiveDate } = forwardingAddress;
   return (
     <div>
-      <AddressViewField formData={mailingAddress}/>
+      <AddressViewField formData={mailingAddress} title={'Mailing Address'}/>
       {primaryPhone && (
         <PhoneViewField formData={primaryPhone} name="Primary phone"/>
       )}
@@ -500,10 +507,10 @@ export const PrimaryAddressViewField = ({ formData }) => {
         <EmailViewField formData={emailAddress} name="Email address"/>
       )}
       {formData['view:hasForwardingAddress'] && (
-        <AddressViewField formData={forwardingAddress}/>
+        <AddressViewField formData={forwardingAddress['view:forwardingAddress']} title={'Forwarding Address'}/>
       )}
-      {formData.effectiveDate && (
-        <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
+      {effectiveDate && (
+        <EffectiveDateViewField formData={effectiveDate}/>
       )}
     </div>
   );
@@ -565,4 +572,283 @@ const evidenceTypesDescription = (disabilityName) => {
 
 export const getEvidenceTypesDescription = (form, index) => {
   return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
+};
+
+export const statesOnlyInPCIU = [
+  { label: 'Philippine Islands', value: 'PI' },
+  { label: 'U.S. Minor Outlying Islands', value: 'UM' }
+];
+
+export const pciuCountries = [
+  'Afghanistan',
+  'Albania',
+  'Algeria',
+  'Angola',
+  'Anguilla',
+  'Antigua',
+  'Antigua and Barbuda',
+  'Argentina',
+  'Armenia',
+  'Australia',
+  'Austria',
+  'Azerbaijan',
+  'Azores',
+  'Bahamas',
+  'Bahrain',
+  'Bangladesh',
+  'Barbados',
+  'Barbuda',
+  'Belarus',
+  'Belgium',
+  'Belize',
+  'Benin',
+  'Bermuda',
+  'Bhutan',
+  'Bolivia',
+  'Bosnia-Herzegovina',
+  'Botswana',
+  'Brazil',
+  'Brunei',
+  'Bulgaria',
+  'Burkina Faso',
+  'Burma',
+  'Burundi',
+  'Cambodia',
+  'Cameroon',
+  'Canada',
+  'Cape Verde',
+  'Cayman Islands',
+  'Central African Republic',
+  'Chad',
+  'Chile',
+  'China',
+  'Colombia',
+  'Comoros',
+  'Congo, Democratic Republic of',
+  "Congo, People's Republic of",
+  'Costa Rica',
+  "Cote d'Ivoire",
+  'Croatia',
+  'Cuba',
+  'Cyprus',
+  'Czech Republic',
+  'Denmark',
+  'Djibouti',
+  'Dominica',
+  'Dominican Republic',
+  'Ecuador',
+  'Egypt',
+  'El Salvador',
+  'England',
+  'Equatorial Guinea',
+  'Eritrea',
+  'Estonia',
+  'Ethiopia',
+  'Fiji',
+  'Finland',
+  'France',
+  'French Guiana',
+  'Gabon',
+  'Gambia',
+  'Georgia',
+  'Germany',
+  'Ghana',
+  'Gibraltar',
+  'Great Britain',
+  'Great Britain and Gibraltar',
+  'Greece',
+  'Greenland',
+  'Grenada',
+  'Guadeloupe',
+  'Guatemala',
+  'Guinea',
+  'Guinea, Republic of Guinea',
+  'Guinea-Bissau',
+  'Guyana',
+  'Haiti',
+  'Honduras',
+  'Hong Kong',
+  'Hungary',
+  'Iceland',
+  'India',
+  'Indonesia',
+  'Iran',
+  'Iraq',
+  'Ireland',
+  'Israel (Jerusalem)',
+  'Israel (Tel Aviv)',
+  'Italy',
+  'Jamaica',
+  'Japan',
+  'Jordan',
+  'Kazakhstan',
+  'Kenya',
+  'Kosovo',
+  'Kuwait',
+  'Kyrgyzstan',
+  'Laos',
+  'Latvia',
+  'Lebanon',
+  'Leeward Islands',
+  'Lesotho',
+  'Liberia',
+  'Libya',
+  'Liechtenstein',
+  'Lithuania',
+  'Luxembourg',
+  'Macao',
+  'Macedonia',
+  'Madagascar',
+  'Malawi',
+  'Malaysia',
+  'Mali',
+  'Malta',
+  'Martinique',
+  'Mauritania',
+  'Mauritius',
+  'Mexico',
+  'Moldavia',
+  'Mongolia',
+  'Montenegro',
+  'Montserrat',
+  'Morocco',
+  'Mozambique',
+  'Namibia',
+  'Nepal',
+  'Netherlands',
+  'Netherlands Antilles',
+  'Nevis',
+  'New Caledonia',
+  'New Zealand',
+  'Nicaragua',
+  'Niger',
+  'Nigeria',
+  'North Korea',
+  'Northern Ireland',
+  'Norway',
+  'Oman',
+  'Pakistan',
+  'Panama',
+  'Papua New Guinea',
+  'Paraguay',
+  'Peru',
+  'Philippines',
+  'Philippines (restricted payments)',
+  'Poland',
+  'Portugal',
+  'Qatar',
+  'Republic of Yemen',
+  'Romania',
+  'Russia',
+  'Rwanda',
+  'Sao-Tome/Principe',
+  'Saudi Arabia',
+  'Scotland',
+  'Senegal',
+  'Serbia',
+  'Serbia/Montenegro',
+  'Seychelles',
+  'Sicily',
+  'Sierra Leone',
+  'Singapore',
+  'Slovakia',
+  'Slovenia',
+  'Somalia',
+  'South Africa',
+  'South Korea',
+  'Spain',
+  'Sri Lanka',
+  'St. Kitts',
+  'St. Lucia',
+  'St. Vincent',
+  'Sudan',
+  'Suriname',
+  'Swaziland',
+  'Sweden',
+  'Switzerland',
+  'Syria',
+  'Taiwan',
+  'Tajikistan',
+  'Tanzania',
+  'Thailand',
+  'Togo',
+  'Trinidad and Tobago',
+  'Tunisia',
+  'Turkey (Adana only)',
+  'Turkey (except Adana)',
+  'Turkmenistan',
+  'USA',
+  'Uganda',
+  'Ukraine',
+  'United Arab Emirates',
+  'United Kingdom',
+  'Uruguay',
+  'Uzbekistan',
+  'Vanuatu',
+  'Venezuela',
+  'Vietnam',
+  'Wales',
+  'Western Samoa',
+  'Yemen Arab Republic',
+  'Zambia',
+  'Zimbabwe'
+];
+
+export const ADDRESS_TYPES = Object.freeze({
+  domestic: 'DOMESTIC',
+  international: 'INTERNATIONAL',
+  military: 'MILITARY'
+});
+
+export const militaryPostOfficeTypeCodes = ['APO', 'FPO', 'DPO'];
+export const militaryStateCodes = ['AA', 'AE', 'AP'];
+export const militaryStateNames = [
+  { label: 'Armed Forces Americas (AA)', value: 'AA' },
+  { label: 'Armed Forces Europe (AE)', value: 'AE' },
+  { label: 'Armed Forces Pacific (AP)', value: 'AP' },
+];
+
+export const mergeStateLists = ([firstList, secondList, ...rest]) => {
+  if (!secondList) {
+    return firstList;
+  }
+  const combinedList = [];
+  let p1 = 0;
+  let p2 = 0;
+  while (firstList[p1] || secondList[p2]) {
+    const firstListItem = firstList[p1];
+    const secondListItem = secondList[p2];
+    if (!secondListItem || (firstListItem && firstListItem.label < secondListItem.label)) {
+      combinedList.push(firstListItem);
+      p1++;
+    } else if (!firstListItem || (secondListItem && secondListItem.label < firstListItem.label)) {
+      combinedList.push(secondListItem);
+      p2++;
+    } else {
+      combinedList.push(firstListItem);
+      p1++;
+      p2++;
+    }
+  }
+  return mergeStateLists([combinedList.concat(...rest)]);
+};
+
+export const pciuStates = mergeStateLists([states.USA, militaryStateNames, statesOnlyInPCIU]);
+
+export const pciuStateCodesToLabels = pciuStates.reduce((acc, item) => {
+  acc[item.value] = item.label;
+  return acc;
+});
+export const pciuStateValues = pciuStates.map(object => object.value);
+export const pciuStateNames = pciuStates.map(object => object.label);
+
+export const labelStateCodes = (stateCodes) => {
+  return stateCodes.map(code => {
+    return { value: code, label: pciuStateCodesToLabels[code] };
+  });
+};
+
+export const mergeAndLabelStateCodes = (stateCodes) => {
+  const stateList = labelStateCodes(stateCodes);
+  return mergeStateLists([stateList, militaryStateNames]);
 };
