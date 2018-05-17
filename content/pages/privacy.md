@@ -82,7 +82,7 @@ Vets.gov takes the security of all personally identifiable information we receiv
 Vets.gov  provides access to other Web sites outside our control and jurisdiction.  When you link to these Web sites, you leave our Web site and your communications no longer are protected by our privacy policies.  VA  is not responsible for the privacy practices or the content of non-VA Web sites.  We encourage you to review the privacy policy or terms and conditions of those sites to fully understand what information is collected and how it is used.
 
 #### Contact VA Privacy Service
-Please let us know if you have any questions or concerns regarding our privacy policy or use of your information by contacting us online. <br/> [Contact VA Privacy Service](mailto:privacyservice@va.gov) <p> You can also mail us your question or concern at Department of Veterans Affairs, Privacy Service, 810 Vermont Avenue, N.W. (005R1A) Washington, DC 20420. </p>
+Please let us know if you have any questions or concerns regarding our privacy policy or use of your information by contacting us online. <br/> [Contact VA Privacy Service](mailto:privacyservice@va.gov). <p> You can also mail us your question or concern at Department of Veterans Affairs, Privacy Service, 810 Vermont Avenue, N.W. (005R1A) Washington, DC 20420. </p>
 
 Your inquiry will be treated confidentially and will not be shared with third parties, except as necessary to respond to your inquiry and for other purposes as authorized by the Privacy Act and other relevant legal authority.
 
