@@ -3,7 +3,7 @@ import PCIUAddressField from '../fields/PCIUAddressField';
 
 import { pciuStates, pciuStateValues, pciuStateNames, militaryStateCodes, pciuCountries, ADDRESS_TYPES, militaryPostOfficeTypeCodes } from '../helpers';
 
-const { domestic, military } = ADDRESS_TYPES;
+const { domestic, military, international } = ADDRESS_TYPES;
 /*
  * Create uiSchema for PCIU addresses
  *
@@ -14,7 +14,7 @@ export const pciuAddressUISchema = (addressName, title) => {
   return {
     'ui:title': title,
     'ui:order': ['country', 'addressLine1', 'addressLine2', 'addressLine3',
-      'city', 'state', 'zipCode', 'militaryPostOfficeTypeCode', 'militaryStateCode'],
+      'city', 'state', 'militaryPostOfficeTypeCode', 'militaryStateCode', 'zipCode'],
     'ui:options': {
       updateSchema: (formData, schema) => {
         let newSchema = Object.assign({}, schema);
@@ -35,9 +35,14 @@ export const pciuAddressUISchema = (addressName, title) => {
     },
     country: {
       'ui:title': 'Country',
+      'ui:validations': [(errors, fieldData, formData) => {
+        const address = formData.veteran[addressName];
+        if (address.type === 'MILITARY' && (address.country !== 'USA')) {
+          errors.addError('Please select USA for overseas military addresses');
+        }
+      }],
       'ui:options': {
-        labels: pciuCountries,
-        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === military
+        labels: pciuCountries
       }
     },
     addressLine1: {
@@ -89,7 +94,7 @@ export const pciuAddressUISchema = (addressName, title) => {
         pattern: 'Please enter a valid 5 or 9 digit ZIP code (dashes allowed)'
       },
       'ui:options': {
-        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type !== domestic
+        hideIf: formData => formData.veteran[addressName] && formData.veteran[addressName].type === international
       }
     },
     militaryPostOfficeTypeCode: {

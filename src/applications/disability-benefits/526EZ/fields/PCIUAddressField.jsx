@@ -51,7 +51,7 @@ class PCIUAddressField extends React.Component {
     if (type === 'DOMESTIC') {
       this.props.schema.required = ['country', 'addressLine1', 'city', 'state', 'zipCode'];
     } else if (type === 'MILITARY') {
-      this.props.schema.required = ['addressLine1', 'militaryStateCode', 'militaryPostOfficeTypeCode'];
+      this.props.schema.required = ['country', 'addressLine1', 'militaryStateCode', 'militaryPostOfficeTypeCode', 'zipCode'];
     } else {
       this.props.schema.required = ['country', 'addressLine1', 'city'];
     }
@@ -112,7 +112,7 @@ class PCIUAddressField extends React.Component {
         newData = _.set('city', militaryPostOfficeTypeCode, newData);
       }
       newData = this.unsetMilitaryValues(newData);
-    } else if (title === 'country' && value !== 'USA') {
+    } else if (title === 'country' && value !== 'USA' && newData.type !== military) {
       newData = _.set('type', international, newData);
       newData = this.unsetMilitaryValues(newData);
     // unset military type via non military city if no military state code value set
@@ -167,8 +167,6 @@ class PCIUAddressField extends React.Component {
   unsetNonMilitaryValues = formData => {
     let newData = _.unset('city', formData);
     newData = _.unset('state', newData);
-    newData = _.unset('country', newData);
-    newData = _.unset('zipCode', newData);
     return newData;
   };
 
