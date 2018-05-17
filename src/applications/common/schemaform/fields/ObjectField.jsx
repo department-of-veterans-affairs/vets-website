@@ -31,6 +31,9 @@ function setFirstFields(id) {
       const fields = Array.from(block.querySelectorAll('.form-checkbox,.schemaform-field-template'));
       if (fields.length) {
         fields[0].classList.add('schemaform-first-field');
+        if (fields[1].classList.contains('schemaform-first-field')) {
+          fields[1].classList.toggle('schemaform-first-field');
+        }
       }
     });
   }
