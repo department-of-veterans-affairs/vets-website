@@ -54,6 +54,7 @@ const {
   benefit,
   highSchool,
   currentlyActiveDuty,
+  currentSameAsPrevious,
   outstandingFelony,
   previousBenefits,
   serviceBranch,
@@ -364,7 +365,7 @@ const formConfig = {
                 hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
-            'view:currentSameAsPrevious': {
+            currentSameAsPrevious: {
               'ui:options': {
                 hideIf: (formData) => !_.get('previousBenefits.view:claimedSponsorService', formData)
               },
@@ -372,12 +373,12 @@ const formConfig = {
             },
             'view:currentSponsorInformation': {
               'ui:options': {
-                hideIf: (formData) => formData['view:currentSameAsPrevious']
+                hideIf: (formData) => formData.currentSameAsPrevious
               },
               veteranFullName: _.merge(fullNameUi, {
                 'ui:options': {
                   updateSchema: (form) => {
-                    if (!_.get('view:currentSameAsPrevious', form)) {
+                    if (!_.get('currentSameAsPrevious', form)) {
                       return fullName;
                     }
                     return nonRequiredFullName;
@@ -400,7 +401,7 @@ const formConfig = {
               'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
-                  'ui:required': (formData) => !_.get('view:currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
+                  'ui:required': (formData) => !_.get('currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
                 },
                 'view:noSSN': {
                   'ui:title': 'I don’t know my sponsor’s Social Security number',
@@ -421,9 +422,7 @@ const formConfig = {
             ],
             properties: {
               spouseInfo,
-              'view:currentSameAsPrevious': {
-                type: 'boolean'
-              },
+              currentSameAsPrevious,
               'view:currentSponsorInformation': {
                 type: 'object',
                 properties: {
