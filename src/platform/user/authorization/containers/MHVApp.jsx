@@ -138,6 +138,19 @@ export class MHVApp extends React.Component {
     return <AlertBox isVisible status="success" {...alertProps}/>;
   }
 
+  renderPlaceholderErrorMessage() {
+    const alertProps = {
+      headline: <span>We’re not able to process your My Health<em>e</em>Vet account</span>,
+      content: (
+        <p>
+          Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+        </p>
+      )
+    };
+
+    return <AlertBox isVisible status="error" {...alertProps}/>;
+  }
+
   renderIneligibleMessage = (ineligibleState) => {
     const alertProps = INELIGIBLE_MESSAGES[ineligibleState];
 
@@ -167,12 +180,25 @@ export class MHVApp extends React.Component {
     return <AlertBox isVisible status="error" {...alertProps}/>;
   }
 
-  renderPlaceholderErrorMessage() {
+  renderRegisterFailedMessage() {
     const alertProps = {
-      headline: <span>We’re not able to process your My Health<em>e</em>Vet account</span>,
+      headline: <span>We can’t create your premium My Health<em>e</em>Vet account right now</span>,
       content: (
         <p>
-          Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+          We’re sorry. Something went wrong on our end, and we can’t create your premium My HealtheVet account right now. We’ve verified all your information, and the next time you sign in to Vets.gov to use tools like secure messaging or prescription refills, we’ll automatically create your account for you. Please check back later.
+        </p>
+      )
+    };
+
+    return <AlertBox isVisible status="error" {...alertProps}/>;
+  }
+
+  renderUpgradeFailedMessage() {
+    const alertProps = {
+      headline: <span>We can’t upgrade your My Health<em>e</em>Vet account to premium</span>,
+      content: (
+        <p>
+          We’re sorry. Something went wrong on our end. We’ve created your My HealtheVet account, but we can’t upgrade it to a premium account right now. You can use most of the tools on Vets.gov, but you won’t be able to send secure messages or refill prescriptions at this time. We’re working to fix this. Please try again later.
         </p>
       )
     };
@@ -194,6 +220,10 @@ export class MHVApp extends React.Component {
     if (account.errors) { return this.renderPlaceholderErrorMessage(); }
 
     if (account.level === 'Unknown') { return this.renderAccountUnknownMessage(); }
+
+    if (account.state === 'register_failed') { return this.renderRegisterFailedMessage(); }
+
+    if (account.state === 'upgrade_failed') { return this.renderUpgradeFailedMessage(); }
 
     if (this.isIneligible()) { return this.renderIneligibleMessage(this.props.account.state); }
 
