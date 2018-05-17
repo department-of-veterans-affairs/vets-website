@@ -31,7 +31,7 @@ describe('Schemaform <FormSaved>', () => {
         path: 'testing'
       }
     ],
-    config: {
+    formConfig: {
     }
   };
   const formId = '1010ez';

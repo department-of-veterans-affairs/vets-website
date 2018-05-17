@@ -37,8 +37,8 @@ class SaveInProgressErrorPage extends React.Component {
   }
   // Reload the form and try again.
   reloadForm = () => {
-    // Form config is put in this.props.routes[length - 1]
-    const formConfig = this.props.route.config;
+    // formConfig is put in this.props.routes[length - 1]
+    const formConfig = this.props.route.formConfig;
     if (this.props.isStartingOver) {
       this.props.removeInProgressForm(formConfig.formId, formConfig.migrations);
     } else {
@@ -52,7 +52,7 @@ class SaveInProgressErrorPage extends React.Component {
 
   render() {
     const { loadedStatus } = this.props;
-    const { noAuth, notFound } = this.props.route.config.savedFormMessages || {};
+    const { noAuth, notFound } = this.props.route.formConfig.savedFormMessages || {};
     let content;
 
     switch (loadedStatus) {

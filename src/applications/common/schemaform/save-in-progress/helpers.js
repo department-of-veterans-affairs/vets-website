@@ -8,11 +8,11 @@ import RoutedSavableReviewPage from './RoutedSavableReviewPage';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
-export function createRoutesWithSaveInProgress(config) {
+export function createRoutesWithSaveInProgress(formConfig) {
   const protectedRoutes = new Set(['introduction', 'review-and-submit', 'confirmation', '*']);
-  const formPages = createFormPageList(config);
-  const pageList = createPageList(config, formPages);
-  const newRoutes = createRoutes(config);
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+  const newRoutes = createRoutes(formConfig);
 
   newRoutes.forEach((route, index) => {
     let newRoute;
@@ -30,28 +30,25 @@ export function createRoutesWithSaveInProgress(config) {
     }
   });
 
-  if (!config.disableSave) {
-    // const lengthOfRoutes = newRoutes.length;
-    // const positionToAddRoutes = lengthOfRoutes - 1;
-
+  if (!formConfig.disableSave) {
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'form-saved',
       component: FormSaved,
       pageList,
-      config
+      formConfig
     });
 
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'error',
       component: SaveInProgressErrorPage,
       pageList, // In case we need it for startOver?
-      config
+      formConfig
     });
 
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'resume',
       pageList,
-      config
+      formConfig
     });
   }
 
