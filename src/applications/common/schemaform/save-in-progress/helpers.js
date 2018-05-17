@@ -8,7 +8,7 @@ import RoutedSavableReviewPage from './RoutedSavableReviewPage';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
-export function addSaveInProgressRoutes(config) {
+export function createRoutesWithSaveInProgress(config) {
   const protectedRoutes = new Set(['introduction', 'review-and-submit', 'confirmation', '*']);
   const formPages = createFormPageList(config);
   const pageList = createPageList(config, formPages);

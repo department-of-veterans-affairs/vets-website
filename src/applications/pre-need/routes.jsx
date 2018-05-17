@@ -1,4 +1,4 @@
-import { addSaveInProgressRoutes } from '../common/schemaform/save-in-progress/helpers';
+import { createRoutesWithSaveInProgress } from '../common/schemaform/save-in-progress/helpers';
 
 import formConfig from './config/form';
 import PreNeedApp from './PreNeedApp.jsx';
@@ -7,7 +7,7 @@ const route = {
   path: '/',
   component: PreNeedApp,
   indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-  childRoutes: addSaveInProgressRoutes(formConfig),
+  childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
 export default route;
