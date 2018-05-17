@@ -26,10 +26,16 @@ function initUserMock(token, level) {
             status: 'OK',
             is_veteran: true,
           },
-          in_progress_forms: [{
-            form: '1010ez',
-            metadata: {}
-          }],
+          in_progress_forms: [
+            {
+              form: '1010ez',
+              metadata: {}
+            },
+            {
+              form: '21P-527EZ',
+              metadata: {}
+            }
+          ],
           prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
           mhv_account_state: 'upgraded',
@@ -88,6 +94,10 @@ module.exports = E2eHelpers.createE2eTest(
     testStatus(client, '/health-care/apply', '/health-care/apply/application/resume');
     testStatus(client, '/health-care/', '/health-care/apply/application/resume');
     testStatus(client, '/health-care/eligibility', '/health-care/apply/application/resume');
+
+    testStatus(client, '/pension/apply', '/pension/application/527EZ/resume');
+    testStatus(client, '/pension/', '/pension/application/527EZ/resume');
+    testStatus(client, '/pension/eligibility', '/pension/application/527EZ/resume');
     client.end();
   }
 );
