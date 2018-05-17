@@ -175,4 +175,32 @@ describe('<MHVApp>', () => {
     const headline = shallow(wrapper.find('AlertBox').prop('headline'));
     expect(headline.text()).to.eq('We can’t upgrade your My HealtheVet account to premium');
   });
+
+  it('should show error if the user has mismatched SSNs', () => {
+    const newProps = set('account.state', 'needs_ssn_resolution', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const headline = wrapper.find('AlertBox').prop('headline');
+    expect(headline).to.eq('We can’t give you access to the Vets.gov health tools');
+  });
+
+  it('should show error if the user is not a VA patient', () => {
+    const newProps = set('account.state', 'needs_va_patient', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const headline = wrapper.find('AlertBox').prop('headline');
+    expect(headline).to.eq('We can’t give you access to the Vets.gov health tools');
+  });
+
+  it('should show error if the user has a disabled MHV account', () => {
+    const newProps = set('account.state', 'has_deactivated_mhv_ids', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const headline = shallow(wrapper.find('AlertBox').prop('headline'));
+    expect(headline.text()).to.eq('It looks like you’ve disabled your My HealtheVet account');
+  });
+
+  it('should show error if the user has multiple active MHV accounts', () => {
+    const newProps = set('account.state', 'has_multiple_active_mhv_ids', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const headline = shallow(wrapper.find('AlertBox').prop('headline'));
+    expect(headline.text()).to.eq('It looks like you have more than one My HealtheVet account');
+  });
 });
