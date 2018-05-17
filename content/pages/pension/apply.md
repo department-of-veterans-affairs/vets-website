@@ -21,7 +21,7 @@ You can apply online, by mail, or in person for a Veterans pension. Follow these
 
 ### Prepare
 
-- Find out if you qualify. [Check your eligibility](/pension/eligibility/).
+- Find out if you qualify. <br> [Check your eligibility](/pension/eligibility/).
 - Gather the information listed below that you’ll need to fill out your pension application.
 
 <div class="feature">
@@ -38,7 +38,7 @@ You can apply online, by mail, or in person for a Veterans pension. Follow these
 </div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for Veterans Pension Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for Veterans Pension Benefits</a>.
 </div>
 
 
