@@ -16,6 +16,7 @@ import { genderLabels } from '../../../platform/static-data/labels';
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
 import MilitaryPrefillMessage from '../../common/schemaform/save-in-progress/MilitaryPrefillMessage';
+import DowntimeMessage from '../components/DowntimeMessage';
 
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
@@ -145,6 +146,10 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.'
+  },
+  downtime: {
+    dependencies: ['es'],
+    message: DowntimeMessage
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,

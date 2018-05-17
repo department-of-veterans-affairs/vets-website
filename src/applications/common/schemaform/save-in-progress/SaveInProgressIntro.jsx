@@ -9,6 +9,8 @@ import { fetchInProgressForm, removeInProgressForm } from './actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
+import DowntimeNotification, { serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeMessage from './DowntimeMessage';
 
 class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
@@ -105,13 +107,27 @@ class SaveInProgressIntro extends React.Component {
     return pageList[1].path;
   };
 
+  renderDowntime = (status, downtimeWindow, downtimeMap, children) => {
+    if (status === serviceStatus.down) {
+      const Message = this.props.downtime.message || DowntimeMessage;
+
+      return (
+        <Message/>
+      );
+    }
+
+    return children;
+  }
+
   render() {
     const { profile } = this.props.user;
     const startPage = this.getStartPage();
     const savedForm = profile && profile.savedForms
       .filter(f => moment.unix(f.metadata.expires_at).isAfter())
       .find(f => f.form === this.props.formId);
-    const prefillAvailable = this.props.prefillAvailable || !!(profile && profile.prefillsAvailable.includes(this.props.formId)); // TODO: remove 1st clause once 526 added to list
+    const prefillAvailable = this.props.prefillAvailable ||
+      // TODO: remove 1st clause once 526 added to list
+      !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
     if (profile.loading && !this.props.resumeOnly) {
       return (
@@ -126,7 +142,7 @@ class SaveInProgressIntro extends React.Component {
       return null;
     }
 
-    return (
+    const content = (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
         <FormStartControls
@@ -147,6 +163,19 @@ class SaveInProgressIntro extends React.Component {
         <br/>
       </div>
     );
+
+    if (this.props.downtime && !this.props.isLoggedIn) {
+      return (
+        <DowntimeNotification
+          appTitle={this.props.formId}
+          render={this.renderDowntime}
+          dependencies={this.props.downtime.dependencies}>
+          {content}
+        </DowntimeNotification>
+      );
+    }
+
+    return content;
   }
 }
 
@@ -170,7 +199,8 @@ SaveInProgressIntro.propTypes = {
   renderSignInMessage: PropTypes.func,
   verifyRequiredPrefill: PropTypes.bool,
   verifiedPrefillAlert: PropTypes.element,
-  unverifiedPrefillAlert: PropTypes.element
+  unverifiedPrefillAlert: PropTypes.element,
+  downtime: PropTypes.object
 };
 
 export const introSelector = getIntroState;

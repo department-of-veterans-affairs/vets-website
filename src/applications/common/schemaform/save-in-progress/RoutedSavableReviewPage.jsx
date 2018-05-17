@@ -20,6 +20,8 @@ import { getFormContext } from '../save-in-progress/selectors';
 
 import ReviewChapters from '../review/ReviewChapters';
 import SubmitController from '../review/SubmitController';
+import DowntimeNotification, { serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeMessage from './DowntimeMessage';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -92,6 +94,18 @@ class RoutedSavableReviewPage extends React.Component {
     );
   }
 
+  renderDowntime = (status, downtimeWindow, downtimeMap, children) => {
+    if (status === serviceStatus.down) {
+      const Message = this.props.formConfig.downtime.message || DowntimeMessage;
+
+      return (
+        <Message/>
+      );
+    }
+
+    return children;
+  }
+
   render() {
     const {
       form,
@@ -103,6 +117,27 @@ class RoutedSavableReviewPage extends React.Component {
       user
     } = this.props;
 
+    const submitController = (
+      <SubmitController
+        formConfig={formConfig}
+        pageList={pageList}
+        path={path}
+        renderErrorMessage={this.renderErrorMessage}/>
+    );
+
+    let submitContent = submitController;
+
+    if (formConfig.downtime) {
+      submitContent = (
+        <DowntimeNotification
+          appTitle="application"
+          render={this.renderDowntime}
+          dependencies={formConfig.downtime.dependencies}>
+          {submitController}
+        </DowntimeNotification>
+      );
+    }
+
     return (
       <div>
         <ReviewChapters
@@ -110,11 +145,7 @@ class RoutedSavableReviewPage extends React.Component {
           formContext={formContext}
           pageList={pageList}
           onSetData={() => this.debouncedAutoSave()}/>
-        <SubmitController
-          formConfig={formConfig}
-          pageList={pageList}
-          path={path}
-          renderErrorMessage={this.renderErrorMessage}/>
+        {submitContent}
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={this.props.showLoginModal}
