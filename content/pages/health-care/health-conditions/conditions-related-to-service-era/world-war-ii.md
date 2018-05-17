@@ -32,11 +32,11 @@ If you served during World War II—anytime between September 1, 1939, and Septe
 
 You may be at risk of illnesses or injuries caused by:
 
-- **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
-- **[Ionizing Radiation](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/):** A type of radiation exposure from atmospheric and underground nuclear weapons tests
-- **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
-- **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness, in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served during the Battle of the Bulge, conducted from December 1944 through January 1945 under conditions of extreme cold.
-- **[Mustard gas](/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/):** An odorless, poisonous gas used during combat in World Wars I and II 
+- **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp)** <br> Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears).
+- **[Ionizing Radiation](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/)** <br> A type of radiation exposure from atmospheric and underground nuclear weapons tests.
+- **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp)** <br> Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job.
+- **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp)** <br> Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness, in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served during the Battle of the Bulge, conducted from December 1944 through January 1945 under conditions of extreme cold.
+- **[Mustard gas](/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/)** <br> An odorless, poisonous gas used during combat in World Wars I and II. 
 
 </div>
 
@@ -47,19 +47,19 @@ Take these steps to make sure you’re taking care of your health:
 <ol class="process">
 <li class="process-step list-one">
 
-Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp).
+Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. <br> [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp).
 
 </li>
 
 <li class="process-step list-two">
 
-Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. [Learn more about the Ionizing Radiation Registry health exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
+Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. <br> [Learn more about the Ionizing Radiation Registry health exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
 
 </li>
 
 <li class="process-step list-three">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [Learn more about disability benefits](/disability-benefits/).
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. <br> [Learn more about disability benefits](/disability-benefits/).
 
 </li>
 </ol>
