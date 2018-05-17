@@ -68,7 +68,6 @@ const mapStateToProps = (state) => {
   if (prescriptions) {
     const thirtyDaysAgo = moment().endOf('day').subtract(30, 'days');
     const statuses = new Set([
-      rxStatuses.active,
       rxStatuses.refillinprocess,
       rxStatuses.submitted
     ]);
