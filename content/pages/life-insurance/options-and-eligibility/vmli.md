@@ -78,7 +78,7 @@ Your agent will help you fill out a Veterans’ Mortgage Life Insurance Statemen
 - How many more mortgage payments you need to make to pay off your mortgage, **and**
 - The amount of VMLI coverage you need
 
-Use our VMLI Premium Calculator to figure out what your premium may be. [Go to the VMLI Premium Calculator](https://insurance.va.gov/VMLICalc/VMLICalc.asp).
+Use our VMLI Premium Calculator to figure out what your premium may be. <br> [Go to the VMLI Premium Calculator](https://insurance.va.gov/VMLICalc/VMLICalc.asp).
 
 <br>
 
