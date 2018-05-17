@@ -46,24 +46,21 @@ describe('<MHVApp>', () => {
   });
 
 
-  it('should create an account if the user does not have an account', () => {
+  it('should create an account if the user does not have an account but is eligible', () => {
     const wrapper = shallow(<MHVApp {...props}/>);
-    const account = { ...props.account, state: 'unknown' };
+    const account = set('state', 'no_account', props.account);
     wrapper.setProps({ account });
     expect(props.createMHVAccount.calledOnce).to.be.true;
   });
 
-  it('should create an account after the user accepts terms', () => {
+  it('should redirect if the user needs to accepts T&C', () => {
     const wrapper = shallow(<MHVApp {...props}/>);
-    const needsAcceptanceAccount = { ...props.account, state: 'needs_terms_acceptance' };
-    wrapper.setProps({ account: needsAcceptanceAccount });
+    const account = set('state', 'needs_terms_acceptance', props.account);
+    wrapper.setProps({ account });
     expect(global.window.location.replace.calledOnce).to.be.true;
-    const acceptedAccount = { ...props.account, state: 'unknown' };
-    wrapper.setProps({ account: acceptedAccount });
-    expect(props.createMHVAccount.calledOnce).to.be.true;
   });
 
-  it('should show a success message after the user accepts terms and gets upgraded', () => {
+  it('should show a success message after the user accepts T&C and gets upgraded', () => {
     const newProps = merge(props, {
       account: { ...props.account, state: 'upgraded' },
       location: { ...props.location, query: { tc_accepted: true } }, // eslint-disable-line camelcase
@@ -73,20 +70,15 @@ describe('<MHVApp>', () => {
     expect(wrapper.find('AlertBox').prop('headline')).to.eq('Thank you for accepting the Terms and Conditions for using Vets.gov health tools');
   });
 
-  it('should not attempt another account creation if the user remains unable to access', () => {
-    const wrapper = shallow(<MHVApp {...props}/>);
-    const account = { ...props.account, state: 'unknown' };
-    wrapper.setProps({ account });
-    expect(props.createMHVAccount.calledOnce).to.be.true;
-  });
-
   it('should poll for account state while account is being created', () => {
     const clock = sinon.useFakeTimers();
-    const newProps = set('account.state', 'unknown', props);
-    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const wrapper = shallow(<MHVApp {...props}/>);
     props.fetchMHVAccount.reset();
 
-    const pollingAccount = set('polling', true, newProps.account);
+    const initialAccount = set('state', 'no_account', props.account);
+    wrapper.setProps({ account: initialAccount });
+
+    const pollingAccount = set('polling', true, initialAccount);
     wrapper.setProps({ account: pollingAccount });
     expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
 
@@ -108,7 +100,7 @@ describe('<MHVApp>', () => {
     clock.restore();
   });
 
-  it('should show MHV access error if nothing is loading and terms do not have to be accepted', () => {
+  it('should show MHV access error if nothing is loading or processing', () => {
     const wrapper = shallow(<MHVApp {...props}/>);
     expect(wrapper.find('#mhv-access-error').exists()).to.be.true;
   });
@@ -128,7 +120,7 @@ describe('<MHVApp>', () => {
     expect(wrapper.find('#test').exists()).to.be.true;
   });
 
-  it('should show account error', () => {
+  it('should show placeholder account error', () => {
     const errors = [
       {
         title: 'Account error',
