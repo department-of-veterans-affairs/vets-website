@@ -129,12 +129,10 @@ describe('PCIU Address field', () => {
 
     // HACK: we may need to update enzyme to enable this prop check (see enzyme issue #1153)
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('DOMESTIC');
-    expect(form.find('PCIUAddressField').text()).to.contain('Country');
     expect(form.find('select[id="root_veteran_mailingAddress_state"] option').length).to.equal(65);
     form.find('PCIUAddressField').find('input').at(3).simulate('change', { target: { value: 'APO' } });
     form.update();
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('MILITARY');    
-    expect(form.find('PCIUAddressField').text()).to.not.contain('Country');
     expect(form.find('select[id="root_veteran_mailingAddress_militaryStateCode"] option').length).to.equal(4);
   });
   it('sets military type via state', () => {
@@ -151,14 +149,12 @@ describe('PCIU Address field', () => {
     );
 
     // HACK: we may need to update enzyme to enable this prop check (see enzyme issue #1153)
-    expect(form.find('PCIUAddressField').text()).to.contain('Country');
     expect(form.find('select[id="root_veteran_mailingAddress_state"] option').length).to.equal(65);
     expect(form.find('input[id="root_veteran_mailingAddress_city"]').props().value).to.equal('Detroit');
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('DOMESTIC');    
     form.find('PCIUAddressField').find('select').at(1).simulate('change', { target: { value: 'AA' } });
     form.update();
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('MILITARY');    
-    expect(form.find('PCIUAddressField').text()).to.not.contain('Country');
     expect(form.find('select[id="root_veteran_mailingAddress_militaryStateCode"] option').length).to.equal(65);
     expect(form.find('input[id="root_veteran_mailingAddress_militaryPostOfficeTypeCode"]').props().value).to.equal('Detroit');
   });
@@ -177,11 +173,11 @@ describe('PCIU Address field', () => {
 
     // HACK: we may need to update enzyme to enable this prop check (see enzyme issue #1153)
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('MILITARY');    
-    expect(form.find('PCIUAddressField').text()).to.not.contain('Country');
+    expect(form.find('input[id="root_veteran_mailingAddress_militaryPostOfficeTypeCode"]').props().value).to.equal('APO');
     form.find('PCIUAddressField').find('input').at(3).simulate('change', { target: { value: 'Detroit' } });
     form.update();
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('DOMESTIC');    
-    expect(form.find('PCIUAddressField').text()).to.contain('Country');
+    expect(form.find('input[id="root_veteran_mailingAddress_city"]').props().value).to.equal('Detroit');
   });
   it('unsets military type via state', () => {
     const form = mount(
@@ -196,16 +192,16 @@ describe('PCIU Address field', () => {
     );
 
     // HACK: we may need to update enzyme to enable this prop check (see enzyme issue #1153)
-    expect(form.find('PCIUAddressField').text()).to.contain('Country');
+    expect(form.find('select[id="root_veteran_mailingAddress_state"] option').length).to.equal(65);
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('DOMESTIC');    
     form.find('PCIUAddressField').find('select').at(1).simulate('change', { target: { value: 'AA' } });
     form.update();
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('MILITARY');    
-    expect(form.find('PCIUAddressField').text()).to.not.contain('Country');
-    form.find('PCIUAddressField').find('select').at(0).simulate('change', { target: { value: 'WI' } });
+    expect(form.find('select[id="root_veteran_mailingAddress_militaryStateCode"] option').length).to.equal(65);
+    form.find('PCIUAddressField').find('select[id="root_veteran_mailingAddress_militaryStateCode"]').simulate('change', { target: { value: 'WI' } });
     form.update();
-    // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('DOMESTIC');    
-    expect(form.find('PCIUAddressField').text()).to.contain('Country');
+    // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('DOMESTIC'); 
+    expect(form.find('select[id="root_veteran_mailingAddress_state"] option').length).to.equal(65);
   });
   it('updates military post office type code without updating type if has military state', () => {
 
@@ -221,11 +217,9 @@ describe('PCIU Address field', () => {
     );
 
     // HACK: we may need to update enzyme to enable this prop check (see enzyme issue #1153)
-    expect(form.find('PCIUAddressField').text()).to.not.contain('Country');
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('MILITARY');
     form.find('input[id="root_veteran_mailingAddress_militaryPostOfficeTypeCode"]').simulate('change', { target: { value: 'Detroit' } });
     form.update();
-    expect(form.find('PCIUAddressField').text()).to.not.contain('Country');
     form.find('form').simulate('submit');
     // expect(form.find('PCIUAddressField').prop('formData').type).to.equal('MILITARY');
     // should display military post office type code error and phone number error (used to display form edit view)   
