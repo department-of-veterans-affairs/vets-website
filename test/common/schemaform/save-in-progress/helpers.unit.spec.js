@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { addSaveInProgressRoutes } from '../../../../src/applications/common/schemaform/save-in-progress/helpers';
+import { createRoutesWithSaveInProgress } from '../../../../src/applications/common/schemaform/save-in-progress/helpers';
 
 describe('createRoutes', () => {
   it('should create routes with save enabled', () => {
@@ -15,7 +15,7 @@ describe('createRoutes', () => {
       }
     };
 
-    const routes = addSaveInProgressRoutes(formConfig);
+    const routes = createRoutesWithSaveInProgress(formConfig);
 
     expect(routes[0].path).to.equal('test-page');
     expect(routes[1].path).to.equal('review-and-submit');

@@ -28,7 +28,7 @@ describe('<SaveInProgressErrorPage>', () => {
   afterEach(teardown);
 
   const route = {
-    formConfig: {
+    config: {
       formId: '1010ez',
       migrations: []
     }
