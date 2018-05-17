@@ -140,6 +140,7 @@ describe('<MHVApp>', () => {
 
     const newProps = set('account.errors', errors, props);
     const wrapper = shallow(<MHVApp {...newProps}/>);
-    expect(wrapper.find('AlertBox').prop('headline')).to.eq('We’re not able to process your MHV account');
+    const alertBoxText = wrapper.find('AlertBox').dive().text();
+    expect(alertBoxText).to.contain('We’re not able to process your My HealtheVet account');
   });
 });
