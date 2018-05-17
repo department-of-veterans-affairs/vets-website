@@ -2,8 +2,15 @@ import React from 'react';
 import moment from '../../../../platform/startup/moment-setup';
 import LoadFail, { fieldFailureMessage } from './LoadFail';
 
-export default function MilitaryInformation({ serviceHistoryResponseData }) {
-  const serviceHistory = serviceHistoryResponseData && serviceHistoryResponseData.serviceHistory;
+export default function MilitaryInformation({ militaryInformation }) {
+  if (!militaryInformation) return <h1>Loading MilitaryInformation</h1>;
+
+  const {
+    serviceHistory: {
+      serviceHistory
+    }
+  } = militaryInformation;
+
   return (
     <div>
       <h2 className="va-profile-heading">Military Service</h2>

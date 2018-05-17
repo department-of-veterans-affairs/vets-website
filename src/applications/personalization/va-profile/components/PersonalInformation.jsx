@@ -13,7 +13,13 @@ function BirthDate({ birthDate }) {
 }
 
 export default function PersonalInformation({ personalInformation }) {
-  const { gender, birthDate } = personalInformation;
+  if (!personalInformation) return <h1>Loading personal information</h1>;
+
+  const {
+    gender,
+    birthDate
+  } = personalInformation;
+
   return (
     <div>
       <h2 className="va-profile-heading">Personal Information</h2>

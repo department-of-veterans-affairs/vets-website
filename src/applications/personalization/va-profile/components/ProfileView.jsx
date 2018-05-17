@@ -1,11 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
-
-import {
-  FETCH_VA_PROFILE_FAIL
-} from '../actions';
 
 import Hero from './Hero';
 import ContactInformation from './ContactInformation';
@@ -19,6 +14,8 @@ class ProfileView extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
+
+    // @todo update this now that the props shape changed
     if (this.props.profile !== oldProps.profile && this.props.profile.userFullName) {
       const { first, last } = this.props.profile.userFullName;
       document.title = `Profile: ${first} ${last}`;
@@ -29,38 +26,25 @@ class ProfileView extends React.Component {
   }
 
   render() {
+    if (!this.props.profile.isReady) return <h1>Loading...</h1>;
+
     const {
       message,
       profile: {
-        userFullName,
+        hero,
         personalInformation,
-        serviceHistory,
-        loading,
-        errors
+        militaryInformation
       }
     } = this.props;
-
-    if (loading) {
-      return <LoadingIndicator message="Loading complete profile..."/>;
-    }
-
-    if (errors.includes(FETCH_VA_PROFILE_FAIL)) {
-      return (
-        <div className="row">
-          <AlertBox status="error" isVisible
-            content={<h4 className="usa-alert-heading">Failed to load VA Profile</h4>}/>
-        </div>
-      );
-    }
 
     return (
       <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
-          <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory}/>
+          <Hero hero={hero} militaryInformation={militaryInformation}/>
           <ContactInformation {...this.props}/>
           <PersonalInformation personalInformation={personalInformation}/>
-          <MilitaryInformation serviceHistoryResponseData={serviceHistory}/>
+          <MilitaryInformation militaryInformation={militaryInformation}/>
         </div>
       </div>
     );

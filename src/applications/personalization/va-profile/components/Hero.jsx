@@ -2,9 +2,28 @@ import React from 'react';
 
 export default class Hero extends React.Component {
   render() {
-    const { userFullName, serviceHistoryResponseData } = this.props;
-    const service = serviceHistoryResponseData && serviceHistoryResponseData.serviceHistory[0];
-    const fullName = [userFullName.first, userFullName.middle, userFullName.last].join(' ');
+    const {
+      hero,
+      militaryInformation
+    } = this.props;
+
+    if (!hero || !militaryInformation) return <h1>Loading hero</h1>;
+    const {
+      userFullName: {
+        first,
+        middle,
+        last
+      }
+    } = hero;
+
+    const {
+      serviceHistory: {
+        serviceHistory
+      } = {}
+    } = militaryInformation;
+
+    const service = serviceHistory && serviceHistory[0];
+    const fullName = [first, middle, last].join(' ');
     const ariaLabel = `Profile: ${fullName}`;
     return (
       <div className="va-profile-hero">
