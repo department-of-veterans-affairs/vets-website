@@ -154,6 +154,32 @@ export class MHVApp extends React.Component {
     return mhvAccessError;
   }
 
+  renderAccountUnknownMessage() {
+    const alertProps = {
+      headline: <span>We can’t confirm your My Health<em>e</em>Vet account level</span>,
+      content: (
+        <p>
+          We’re sorry. Something went wrong on our end. We can’t confirm your My HealtheVet account level right now. You can use most of the tools on Vets.gov, but you won’t be able to send secure messages or refill prescriptions at this time. We’re working to fix this. Please check back later.
+        </p>
+      )
+    };
+
+    return <AlertBox isVisible status="error" {...alertProps}/>;
+  }
+
+  renderPlaceholderErrorMessage() {
+    const alertProps = {
+      headline: <span>We’re not able to process your My Health<em>e</em>Vet account</span>,
+      content: (
+        <p>
+          Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+        </p>
+      )
+    };
+
+    return <AlertBox isVisible status="error" {...alertProps}/>;
+  }
+
   render() {
     const { account } = this.props;
 
@@ -165,22 +191,11 @@ export class MHVApp extends React.Component {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
-    if (account.errors) {
-      const alertProps = {
-        headline: 'We’re not able to process your MHV account',
-        content: (
-          <p>
-            Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </p>
-        )
-      };
+    if (account.errors) { return this.renderPlaceholderErrorMessage(); }
 
-      return <AlertBox isVisible status="error" {...alertProps}/>;
-    }
+    if (account.level === 'Unknown') { return this.renderAccountUnknownMessage(); }
 
-    if (this.isIneligible()) {
-      return this.renderIneligibleMessage(this.props.account.state);
-    }
+    if (this.isIneligible()) { return this.renderIneligibleMessage(this.props.account.state); }
 
     if (!this.hasService()) { return mhvAccessError; }
 

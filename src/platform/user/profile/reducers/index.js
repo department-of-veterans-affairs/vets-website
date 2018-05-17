@@ -73,7 +73,7 @@ function profileInformation(state = initialState, action) {
       }, state);
 
     case FETCH_MHV_ACCOUNT_SUCCESS: {
-      const { accountState } = action.data.attributes;
+      const { accountState, accountLevel } = action.data.attributes;
       const { polling, polledTimes } = state.mhv.account;
       const shouldPoll =
         accountState !== 'upgraded' &&
@@ -85,7 +85,8 @@ function profileInformation(state = initialState, action) {
         loading: false,
         polling: shouldPoll,
         polledTimes: shouldPoll ? polledTimes + 1 : 0,
-        state: accountState
+        state: accountState,
+        level: accountLevel
       }, state);
     }
 
