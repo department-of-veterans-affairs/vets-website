@@ -36,16 +36,12 @@ const INELIGIBLE_MESSAGES = {
     )
   },
 
-  state_ineligible: null,
-
-  country_ineligible: null,
-
   has_deactivated_mhv_ids: {
     headline: <span>It looks like you’ve disabled your My Health<em>e</em>Vet account</span>,
     content: (
       <div>
-        <p>We’re sorry. We can’t give you access to the Vets.gov health tools because it looks like you already have a My HealtheVet account that’s been disabled.</p>
-        <p>Please call the My HealtheVet Help Desk at 1-877-327-0022 (TTY: 1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to activate your disabled account.</p>
+        <p>We’re sorry. We can’t give you access to the Vets.gov health tools because it looks like you already have a My Health<em>e</em>Vet account that’s been disabled.</p>
+        <p>Please call the My Health<em>e</em>Vet Help Desk at 1-877-327-0022 (TTY: 1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to activate your disabled account.</p>
       </div>
     )
   },
@@ -55,7 +51,7 @@ const INELIGIBLE_MESSAGES = {
     content: (
       <div>
         <p>We’re sorry. We can’t give you access to the Vets.gov health tools because we’ve found more than one active account for you in the My Health<em>e</em>Vet system.</p>
-        <p>Please call the My HealtheVet Help Desk at 1-877-327-0022 (TTY: 1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to delete any extra accounts in the system.</p>
+        <p>Please call the My Health<em>e</em>Vet Help Desk at 1-877-327-0022 (TTY: 1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to delete any extra accounts in the system.</p>
       </div>
     )
   }
