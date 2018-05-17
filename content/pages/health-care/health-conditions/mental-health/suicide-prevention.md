@@ -63,8 +63,8 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 
 #### You can also find information and support on our websites:
 
-- Get information about suicide prevention and the support we offer. [Visit our suicide prevention website](https://www.mentalhealth.va.gov/MENTALHEALTH/suicide_prevention/index.asp).
-- Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. [Visit Make the Connection](https://maketheconnection.net/).
+- Get information about suicide prevention and the support we offer. <br> [Visit our suicide prevention website](https://www.mentalhealth.va.gov/MENTALHEALTH/suicide_prevention/index.asp).
+- Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. <br> [Visit Make the Connection](https://maketheconnection.net/).
 
 </div>
 
@@ -87,7 +87,7 @@ They may also change the way they act, and start to:
 
 [Get the full list of signs that someone may be considering suicide](https://www.veteranscrisisline.net/SignsOfCrisis/Identifying.aspx).
 
-Learn about common suicide myths and realities, Veteran-specific suicide risks, and warning signs. [Recognize when to ask for help](https://www.mentalhealth.va.gov/suicide_prevention/whentoaskforhelp.asp).
+Learn about common suicide myths and realities, Veteran-specific suicide risks, and warning signs. <br> [Recognize when to ask for help](https://www.mentalhealth.va.gov/suicide_prevention/whentoaskforhelp.asp).
 
 [Take our Veterans self-check quiz](https://www.vetselfcheck.org/Welcome.cfm).
 
@@ -99,7 +99,7 @@ Yes. If you’re a family member or friend of a Veteran who’s having trouble a
 
 To speak with a VA coach, call <a href="tel:+1-888-823-7458">1-888-823-7458</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-To get tips and resources for spouses, parents, and Veterans, visit the Coaching Into Care website. [Visit Coaching into Care](https://www.mirecc.va.gov/coaching/).
+To get tips and resources for spouses, parents, and Veterans, visit the Coaching Into Care website. <br> [Visit Coaching into Care](https://www.mirecc.va.gov/coaching/).
 
 <br>
 
