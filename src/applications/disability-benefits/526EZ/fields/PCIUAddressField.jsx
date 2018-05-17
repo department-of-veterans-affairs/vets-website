@@ -65,13 +65,13 @@ class PCIUAddressField extends React.Component {
   setTitle = (value, title) => {
     const { militaryStateCode } = this.props.formData;
     // Set military post office type code title and military type
-    if (title === 'city' && militaryPostOfficeTypeCodes.includes(_.uppercase(value))) {
+    if (title === 'city' && militaryPostOfficeTypeCodes.includes(_.upperCase(value))) {
       return this.setType(value, 'militaryPostOfficeTypeCode');
     // Reset military post office type code to city and no military state set and unset military type
-    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && !militaryStateCode) {
+    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.upperCase(value)) && !militaryStateCode) {
       return this.setType(value, 'city');
     // Update military post office type code value only if military state already set (must deselect any existing military state code to reset type)
-    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.uppercase(value)) && militaryStateCode) {
+    } else if (title === 'militaryPostOfficeTypeCode' && !militaryPostOfficeTypeCodes.includes(_.upperCase(value)) && militaryStateCode) {
       return this.setValue(value, title);
     // Set military state if military state value selected for state and military type
     } else if (title === 'state' && militaryStateCodes.includes(value)) {
@@ -117,7 +117,7 @@ class PCIUAddressField extends React.Component {
       newData = this.unsetMilitaryValues(newData);
     // unset military type via non military city if no military state code value set
     } else if (title === 'city' && newData.type === 'MILITARY' && !newData.militaryStateCode) {
-      newData = _.unset('type', newData);
+      newData = _.set('type', domestic, newData);
       this.unsetMilitaryValues();
     }
     this.props.onChange(newData);
@@ -129,7 +129,7 @@ class PCIUAddressField extends React.Component {
   }
 
   isMilitary = (value, title) => {
-    if (title === 'militaryPostOfficeTypeCode' && militaryPostOfficeTypeCodes.includes(_.uppercase(value))) {
+    if (title === 'militaryPostOfficeTypeCode' && militaryPostOfficeTypeCodes.includes(_.upperCase(value))) {
       return true;
     }
     if (title === 'militaryStateCode' && militaryStateCodes.includes(value)) {
