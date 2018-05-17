@@ -1,17 +1,18 @@
 import React from 'react';
 import moment from '../../../../platform/startup/moment-setup';
-import LoadFail, { fieldFailureMessage } from './LoadFail';
+import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
 
 class MilitaryInformation extends React.Component {
   renderContent = () => {
     const {
       serviceHistory: {
-        serviceHistory
+        serviceHistory,
+        error
       }
     } = this.props.militaryInformation;
 
-    if (!serviceHistory || serviceHistory.length === 0) fieldFailureMessage;
+    if (error || serviceHistory.length === 0) return <LoadFail information="military"/>;
 
     return (
       <div>

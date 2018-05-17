@@ -7,8 +7,8 @@ export default async function sendAndMergeApiRequests(requestMap) {
     try {
       const response = await apiRequest(apiRoute);
       return response.data.attributes;
-    } catch (err) {
-      return null;
+    } catch (error) {
+      return { error };
     }
   });
 

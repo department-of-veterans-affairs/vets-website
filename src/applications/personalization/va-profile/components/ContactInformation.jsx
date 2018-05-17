@@ -52,8 +52,9 @@ class ContactInformation extends React.Component {
       updateActions
     } = this.props;
 
-    const contactInformationFailed = !email && !mailingAddress && !primaryTelephone && !alternateTelephone;
-    if (contactInformationFailed) return <LoadFail information="contact"/>;
+    if (email.error && mailingAddress.error && primaryTelephone.error && alternateTelephone.error) {
+      return <LoadFail information="contact"/>;
+    }
 
     return (
       <div>

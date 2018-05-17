@@ -1,24 +1,25 @@
 import React from 'react';
 import moment from '../../../../platform/startup/moment-setup';
-import LoadFail, { fieldFailureMessage } from './LoadFail';
+import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
 
 function Gender({ gender }) {
-  if (gender) return <span>{gender === 'M' ? 'Male' : 'Female'}</span>;
-  return fieldFailureMessage;
+  return <span>{gender === 'M' ? 'Male' : 'Female'}</span>;
 }
 
 function BirthDate({ birthDate }) {
-  if (birthDate) return <span>{moment(birthDate).format('MMM D, YYYY')}</span>;
-  return fieldFailureMessage;
+  return <span>{moment(birthDate).format('MMM D, YYYY')}</span>;
 }
 
 class PersonalInformation extends React.Component {
   renderContent = () => {
     const {
       gender,
-      birthDate
+      birthDate,
+      error
     } = this.props.personalInformation;
+
+    if (error) return <LoadFail information="personal"/>;
 
     return (
       <div>

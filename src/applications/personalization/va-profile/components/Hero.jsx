@@ -20,12 +20,15 @@ class Hero extends React.Component {
     const {
       militaryInformation: {
         serviceHistory: {
-          serviceHistory
+          serviceHistory,
+          error: serviceHistoryError
         } = {}
       }
     } = this.props;
-    const service = serviceHistory && serviceHistory[0];
-    return service && <div className="service-branch">United States {service.branchOfService}</div>;
+    if (!serviceHistoryError && serviceHistory && serviceHistory.length > 0) {
+      return <div className="service-branch">United States {serviceHistory[0].branchOfService}</div>;
+    }
+    return null;
   }
   render() {
     return (

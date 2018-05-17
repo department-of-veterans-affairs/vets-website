@@ -79,7 +79,9 @@ export default function AddressSection({ addressResponseData, addressConstants, 
   let content = null;
   let modal = null;
 
-  if (addressResponseData) {
+  if (addressResponseData.error) {
+    content = fieldFailureMessage;
+  } else {
     if (addressResponseData.address && !isEmptyAddress(addressResponseData.address)) {
       const { address } = addressResponseData;
       content = <AddressView address={address}/>;
@@ -92,8 +94,6 @@ export default function AddressSection({ addressResponseData, addressConstants, 
           className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>
       );
     }
-  } else {
-    content = fieldFailureMessage;
   }
 
   if (isEditing) {
