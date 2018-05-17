@@ -86,7 +86,17 @@ export class MHVApp extends React.Component {
   isIneligible = () => this.props.account.state in INELIGIBLE_MESSAGES;
 
   handleAccountState = () => {
-    if (this.isIneligible()) { return; }
+    if (this.isIneligible()) {
+      // Unverified accounts should have been handled before this component
+      // rendered, but if it hasn't for some reason, we will redirect now.
+      if (this.props.account.state === 'needs_identity_verification') {
+        const nextQuery = { next: window.location.pathname };
+        const verifyUrl = appendQuery('/verify', nextQuery);
+        window.location.replace(verifyUrl);
+      }
+
+      return;
+    }
 
     if (this.needsTermsAcceptance()) {
       const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
