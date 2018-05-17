@@ -7,14 +7,6 @@ export function transform(formConfig, form) {
   // Clone the form in so we don’t modify the original...because of reasons FP
   const newForm = _.cloneDeep(form);
 
-  // Copy the data if necessary
-  if (form.data['view:currentSameAsPrevious']) {
-    newForm.data['view:currentSponsorInformation'] = {
-      veteranFullName: form.data.previousBenefits.veteranFullName,
-      'view:veteranId': form.data.previousBenefits['view:veteranId']
-    };
-  }
-
   const formData = transformForSubmit(formConfig, newForm);
   return JSON.stringify({
     educationBenefitsClaim: {
