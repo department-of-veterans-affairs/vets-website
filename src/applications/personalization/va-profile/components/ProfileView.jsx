@@ -28,7 +28,7 @@ class ProfileView extends React.Component {
   }
 
   render() {
-    if (!this.props.profile.isReady) return <LoadingIndicator message="Loading your profile information..."/>;
+    if (!this.props.profile.isReady || !this.props.profile.hero) return <LoadingIndicator message="Loading your profile information..."/>;
 
     const {
       message,
