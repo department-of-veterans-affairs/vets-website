@@ -1,20 +1,10 @@
-import { apiRequest } from '../../../../platform/utilities/api';
 import sendAndMergeApiRequests from '../util/sendAndMergeApiRequests';
-
-export const VA_PROFILE_READY = 'VA_PROFILE_READY';
 
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
 export const FETCH_CONTACT_INFORMATION_SUCCESS = 'FETCH_CONTACT_INFORMATION_SUCCESS';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS = 'FETCH_PERSONAL_INFORMATION_SUCCESS';
 export const FETCH_MILITARY_INFORMATION_SUCCESS = 'FETCH_MILITARY_INFORMATION_SUCCESS';
-
-export const FETCH_ADDRESS_STATES = 'FETCH_ADDRESS_STATES';
-export const FETCH_ADDRESS_STATES_SUCCESS = 'FETCH_ADDRESS_STATES_SUCCESS';
-export const FETCH_ADDRESS_STATES_FAIL = 'FETCH_ADDRESS_STATES_FAIL';
-
-export const FETCH_ADDRESS_COUNTRIES = 'FETCH_ADDRESS_COUNTRIES';
-export const FETCH_ADDRESS_COUNTRIES_SUCCESS = 'FETCH_ADDRESS_COUNTRIES_SUCCESS';
-export const FETCH_ADDRESS_COUNTRIES_FAIL = 'FETCH_ADDRESS_COUNTRIES_FAIL';
+export const FETCH_ADDRESS_CONSTANTS_SUCCESS = 'FETCH_ADDRESS_CONSTANTS_SUCCESS';
 
 export * from './updaters';
 export * from './misc';
@@ -48,11 +38,12 @@ function fetchContactInformation() {
 
 function fetchPersonalInformation() {
   return async (dispatch) => {
-    const response = await apiRequest('/profile/personal_information');
-    const personalInformation = response.data.attributes;
+    const result = await sendAndMergeApiRequests({
+      personalInformation: '/profile/personal_information'
+    });
     dispatch({
       type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-      personalInformation
+      personalInformation: result.personalInformation
     });
   };
 }
@@ -69,38 +60,23 @@ function fetchMilitaryInformation() {
   };
 }
 
-function fetchAddressCountries() {
+function fetchAddressConstants() {
   return async (dispatch) => {
-    const response = await apiRequest('/address/countries');
-    dispatch({
-      type: FETCH_ADDRESS_COUNTRIES_SUCCESS,
-      countries: response.data.attributes.countries
+    const addressConstants = await sendAndMergeApiRequests({
+      countries: '/address/countries',
+      states: '/address/states'
     });
-  };
-}
-
-function fetchAddressStates() {
-  return async (dispatch) => {
-    const response = await apiRequest('/address/states');
     dispatch({
-      type: FETCH_ADDRESS_STATES_SUCCESS,
-      states: response.data.attributes.states
+      type: FETCH_ADDRESS_CONSTANTS_SUCCESS,
+      addressConstants
     });
   };
 }
 
 export function startup() {
   return async (dispatch) => {
-    try {
-      await Promise.all([
-        dispatch(fetchAddressCountries()),
-        dispatch(fetchAddressStates())
-      ]);
-    } catch (err) {
-      // There are error handlers throughout the app
-    }
-    dispatch({ type: VA_PROFILE_READY });
     dispatch(fetchHero());
+    dispatch(fetchAddressConstants());
     dispatch(fetchContactInformation());
     dispatch(fetchPersonalInformation());
     dispatch(fetchMilitaryInformation());

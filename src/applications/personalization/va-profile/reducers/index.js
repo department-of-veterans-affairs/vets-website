@@ -1,14 +1,10 @@
 import {
-  // Startup actions
-  FETCH_ADDRESS_COUNTRIES_SUCCESS,
-  FETCH_ADDRESS_STATES_SUCCESS,
-  VA_PROFILE_READY,
-
   // Fetch actions
   FETCH_HERO_SUCCESS,
   FETCH_CONTACT_INFORMATION_SUCCESS,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_MILITARY_INFORMATION_SUCCESS,
+  FETCH_ADDRESS_CONSTANTS_SUCCESS,
 
   // Saves
   SAVE_MAILING_ADDRESS,
@@ -35,32 +31,18 @@ import {
 } from '../actions';
 
 const initialState = {
-  isReady: false,
   hero: null,
   contactInformation: null,
   personalInformation: null,
   militaryInformation: null,
-
-  userFullName: null,
-  email: null,
-  dob: null,
-  gender: null,
-  ssn: null,
-  primaryTelephone: null,
-  alternateTelephone: null,
-  mailingAddress: null,
-  serviceHistory: null,
+  addressConstants: null,
   modal: null,
   pendingSaves: [],
   errors: [],
   profileLoading: true,
   loading: true,
   formFields: {},
-  message: null,
-  addressConstants: {
-    states: null,
-    countries: null
-  }
+  message: null
 };
 
 const MESSAGES = {
@@ -69,20 +51,6 @@ const MESSAGES = {
 
 function vaProfile(state = initialState, action) {
   switch (action.type) {
-
-    // Startup
-    case FETCH_ADDRESS_COUNTRIES_SUCCESS: {
-      const addressConstants = { ...state.addressConstants, countries: action.countries };
-      return { ...state, addressConstants };
-    }
-
-    case FETCH_ADDRESS_STATES_SUCCESS: {
-      const addressConstants = { ...state.addressConstants, states: action.states };
-      return { ...state, addressConstants };
-    }
-
-    case VA_PROFILE_READY:
-      return { ...state, isReady: true };
 
     // Fetch
     case FETCH_HERO_SUCCESS:
@@ -96,6 +64,9 @@ function vaProfile(state = initialState, action) {
 
     case FETCH_MILITARY_INFORMATION_SUCCESS:
       return { ...state, militaryInformation: action.militaryInformation };
+
+    case FETCH_ADDRESS_CONSTANTS_SUCCESS:
+      return { ...state, addressConstants: action.addressConstants };
 
     // Saves
     case SAVE_EMAIL_ADDRESS:

@@ -121,7 +121,7 @@ class ContactInformation extends React.Component {
           status="info"
           content={<p>We’ll use this information to communicate with you about your VA <strong>Compensation &amp; Pension benefits.</strong></p>}/>
         <LoadingSection
-          isLoading={!this.props.profile.contactInformation}
+          isLoading={!this.props.profile.contactInformation || !this.props.profile.addressConstants}
           message="Loading contact information..."
           render={this.renderContent}/>
         <div>
