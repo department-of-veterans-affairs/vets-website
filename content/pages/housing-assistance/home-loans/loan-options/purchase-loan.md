@@ -23,7 +23,7 @@ You may be able to get a VA-backed purchase loan if you meet all of the requirem
 -	Meet our—and your lender’s—standards for credit, income, and any other requirements, **and**
 -	Will live in the home you’re buying with the loan
 
-[See if you qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/)
+[See if you qualify for a VA-backed home loan Certificate of Eligibility (COE).](/housing-assistance/home-loans/eligibility/)
 </div>
 
 <br>
