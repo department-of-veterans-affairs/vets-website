@@ -6,7 +6,7 @@ function testStatus(client, page, url) {
   client
     .url(`${E2eHelpers.baseUrl}${page}`)
     .waitForElementVisible('.sip-application-status', Timeouts.slow)
-    .axeCheck('.main'); // TODO: Figure out why this is failing
+    .axeCheck('.main');
 
   client
     .expect.element('a.usa-button-primary')
