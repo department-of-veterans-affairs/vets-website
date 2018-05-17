@@ -135,4 +135,44 @@ describe('<MHVApp>', () => {
     const headline = shallow(wrapper.find('AlertBox').prop('headline'));
     expect(headline.text()).to.eq('We’re not able to process your My HealtheVet account');
   });
+
+  it('should fetch account again if encountered an error', () => {
+    const newProps = set('account.state', 'no_account', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    props.fetchMHVAccount.reset();
+
+    const errors = [
+      {
+        title: 'Account error',
+        detail: 'There was a problem with your account',
+        code: '500',
+        status: '500'
+      }
+    ];
+
+    const account = set('errors', errors, props.account);
+    wrapper.setProps({ account });
+    expect(props.fetchMHVAccount.calledOnce).to.be.true;
+  });
+
+  it('should show error if unable to determine MHV account level', () => {
+    const newProps = set('account.level', 'Unknown', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const headline = shallow(wrapper.find('AlertBox').prop('headline'));
+    expect(headline.text()).to.eq('We can’t confirm your My HealtheVet account level');
+  });
+
+  it('should show error if failed to register MHV account', () => {
+    const newProps = set('account.state', 'register_failed', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const headline = shallow(wrapper.find('AlertBox').prop('headline'));
+    expect(headline.text()).to.eq('We can’t create your premium My HealtheVet account right now');
+  });
+
+  it('should show error if failed to upgrade MHV account', () => {
+    const newProps = set('account.state', 'upgrade_failed', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const headline = shallow(wrapper.find('AlertBox').prop('headline'));
+    expect(headline.text()).to.eq('We can’t upgrade your My HealtheVet account to premium');
+  });
 });
