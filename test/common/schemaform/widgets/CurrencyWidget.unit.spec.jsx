@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import CurrencyWidget from '../../../../src/js/common/schemaform/widgets/CurrencyWidget';
+import CurrencyWidget from '../../../../src/applications/common/schemaform/widgets/CurrencyWidget';
 
 describe('Schemaform <CurrencyWidget>', () => {
   it('should render', () => {

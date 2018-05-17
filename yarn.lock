@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@department-of-veterans-affairs/jean-pants@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/jean-pants/-/jean-pants-0.6.1.tgz#17c8ad92fe7c9cdef37e50f04bab43dbba5363b8"
+"@department-of-veterans-affairs/formation@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-0.7.1.tgz#1b9d84b709dd70152f51ea1467e195b69644ba4f"
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
@@ -9990,9 +9990,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#30556f64daddb62ea9dbf69622cc0797c892194c":
-  version "3.40.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#30556f64daddb62ea9dbf69622cc0797c892194c"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#72b5c131b4a9ebd6b5773722ce8d923a86196ff2":
+  version "3.44.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#72b5c131b4a9ebd6b5773722ce8d923a86196ff2"
 
 vm-browserify@0.0.4, vm-browserify@~0.0.1:
   version "0.0.4"

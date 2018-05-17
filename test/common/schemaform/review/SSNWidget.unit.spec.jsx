@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import SSNWidget from '../../../../src/js/common/schemaform/review/SSNWidget';
+import SSNWidget from '../../../../src/applications/common/schemaform/review/SSNWidget';
 
 describe('Schemaform review <SSNWidget>', () => {
   it('should format ssn', () => {
