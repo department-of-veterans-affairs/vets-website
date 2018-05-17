@@ -1,6 +1,6 @@
 import _ from '../../../../platform/utilities/data';
 
-import { omitRequired } from '../../../common/schemaform/helpers';
+// import { omitRequired } from '../../../common/schemaform/helpers';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
@@ -30,7 +30,7 @@ import {
 
 // TODO: Load live user prefill data from network
 // TODO: initialData for dev / testing purposes only and should be removed for production
-import initialData from '../tests/schema/initialData';
+import prefillData from '../tests/schema/initialData'; // add `disabilityActionType` before using
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
@@ -67,7 +67,6 @@ import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
   treatments: treatmentsSchema,
-  disabilities: disabilitiesSchema,
   privateRecordReleases
 } = fullSchema526EZ.properties;
 
@@ -76,7 +75,9 @@ const {
   fullName,
   // files
   dateRange,
-  disabilities: disabiltiesDefinition,
+  dateRangeFromRequired,
+  dateRangeAllRequired,
+  disabilities,
   specialIssues,
   servicePeriods,
   privateTreatmentCenterAddress,
@@ -105,6 +106,13 @@ const treatments = ((treatmentsCommonDef) => {
 
 })(treatmentsSchema);
 
+const initialData = {
+  ...prefillData,
+  disabilities: prefillData.disabilities.map((disability) => {
+    return _.set('disabilityActionType', 'INCREASE', disability);
+  })
+};
+
 const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/21-526EZ',
@@ -132,7 +140,9 @@ const formConfig = {
     fullName,
     // files
     dateRange,
-    disabilities: omitRequired(disabiltiesDefinition),
+    dateRangeFromRequired,
+    dateRangeAllRequired,
+    disabilities,
     specialIssues,
     servicePeriods,
     privateTreatmentCenterAddress
@@ -278,7 +288,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              disabilities: disabilitiesSchema
+              disabilities
             }
           }
         }
@@ -574,7 +584,7 @@ const formConfig = {
                         'addressLine2',
                         'city',
                         'state',
-                        'zip'
+                        'zipCode'
                       ],
                       // TODO: confirm validation for PCIU address across all usage
                       // 'ui:validations': [validateAddress],
@@ -593,7 +603,7 @@ const formConfig = {
                       state: {
                         'ui:title': 'State'
                       },
-                      zip: {
+                      zipCode: {
                         'ui:title': 'Postal code',
                         'ui:options': {
                           widgetClassNames: 'usa-input-medium',

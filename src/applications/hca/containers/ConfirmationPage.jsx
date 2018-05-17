@@ -25,26 +25,34 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
+    let title = 'Claim received';
+    let dateTitle = 'Date received';
+    let emailMessage;
+
+    if (__BUILDTYPE__ !== 'production') {
+      title = 'Your claim has been submitted.';
+      dateTitle = 'Date submitted';
+      if (data.email) {
+        emailMessage =  'We’ll send you an email to let you know when we’ve received your application.';
+      }
+    }
+
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h3 className="confirmation-page-title">{title}</h3>
         <p>We usually process claims within <strong>a week</strong>.</p>
         <p>
-          We may contact you for more information or documents.<br/>
-          <i>Please print this page for your records.</i>
+          We may contact you for more information or documents. {emailMessage}<br/>
+          <p><i>Please print this page for your records.</i></p>
         </p>
         <div className="inset">
-          <h4>Health Care Benefit Claim <span className="additional">(Form 10-10EZ)</span></h4>
+          <h4 className="schemaform-confirmation-claim-header">Health Care Benefit Claim <span className="additional">(Form 10-10EZ)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           {response && <ul className="claim-list">
             <li>
-              <strong>Date received</strong><br/>
+              <strong>{dateTitle}</strong><br/>
               <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
-            </li>
-            <li>
-              <strong>Confirmation number</strong><br/>
-              <span>{response.formSubmissionId}</span>
             </li>
           </ul>}
         </div>

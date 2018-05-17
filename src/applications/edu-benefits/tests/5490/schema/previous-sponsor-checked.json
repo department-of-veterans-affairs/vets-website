@@ -21,16 +21,6 @@
       }
     },
     "view:currentSameAsPrevious": true,
-    "view:currentSponsorInformation": {
-      "veteranFullName": {
-        "first": "Jim",
-        "last": "Doe"
-      },
-      "view:veteranId": {
-         "view:noSSN": false,
-         "veteranSocialSecurityNumber": "334444333"
-      }
-    },
     "highSchool": {
       "view:hasHighSchool": {
         "dateRange": {}
