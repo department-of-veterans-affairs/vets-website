@@ -127,9 +127,6 @@ export default class ReviewCollapsibleChapter extends React.Component {
               pageData = form.data;
               fullPageKey = page.pageKey;
             }
-            if (page.hasCustomArrayField) {
-              pageSchema = pageState.schema;
-            }
 
             const classes = classNames('form-review-panel-page', {
               'schemaform-review-page-warning': !viewedPages.has(fullPageKey)
@@ -161,7 +158,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       buttonText="Update Page"
                       buttonClass="usa-button-primary"/>}
                   </SchemaForm>}
-                {!page.hasCustomArrayField && arrayFields.map(arrayField => (
+                {arrayFields.map(arrayField => (
                   <div key={arrayField.path} className="form-review-array">
                     <ArrayField
                       pageKey={page.pageKey}

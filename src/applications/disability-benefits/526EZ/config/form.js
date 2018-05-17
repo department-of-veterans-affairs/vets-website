@@ -266,7 +266,6 @@ const formConfig = {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',
           path: 'select-disabilities',
-          hasCustomArrayField: true,
           uiSchema: {
             'ui:description': 'Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.',
             disabilities: {
@@ -281,7 +280,8 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: 'label',
                 label: disabilityOption,
-                widgetClassNames: 'widget-outline'
+                widgetClassNames: 'widget-outline',
+                keepInPageOnReview: true
               }
             }
           },
