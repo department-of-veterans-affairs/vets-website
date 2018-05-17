@@ -70,7 +70,7 @@ If you've received one of these discharge statuses, you may not be eligible for 
 </div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ/">Apply for Veterans Pension Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ/">Apply for Veterans Pension Benefits</a>.
 </div>
 
 [Find out how to apply for a survivors pension](/pension/survivors-pension/). <br>
