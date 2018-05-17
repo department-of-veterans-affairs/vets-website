@@ -1,5 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 
 import Hero from './Hero';
@@ -26,7 +28,7 @@ class ProfileView extends React.Component {
   }
 
   render() {
-    if (!this.props.profile.isReady) return <h1>Loading...</h1>;
+    if (!this.props.profile.isReady) return <LoadingIndicator message="Loading your profile information..."/>;
 
     const {
       message,

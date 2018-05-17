@@ -1,38 +1,49 @@
 import React from 'react';
+import LoadingSection from './LoadingSection';
 
-export default class Hero extends React.Component {
-  render() {
+class Hero extends React.Component {
+  renderName = () => {
     const {
-      hero,
-      militaryInformation
-    } = this.props;
-
-    if (!hero || !militaryInformation) return <h1>Loading hero</h1>;
-    const {
-      userFullName: {
-        first,
-        middle,
-        last
+      hero: {
+        userFullName: {
+          first,
+          middle,
+          last
+        }
       }
-    } = hero;
-
-    const {
-      serviceHistory: {
-        serviceHistory
-      } = {}
-    } = militaryInformation;
-
-    const service = serviceHistory && serviceHistory[0];
+    } = this.props;
     const fullName = [first, middle, last].join(' ');
     const ariaLabel = `Profile: ${fullName}`;
+    return <h1 aria-label={ariaLabel} className="page-header">{fullName}</h1>;
+  }
+  renderService = () => {
+    const {
+      militaryInformation: {
+        serviceHistory: {
+          serviceHistory
+        } = {}
+      }
+    } = this.props;
+    const service = serviceHistory && serviceHistory[0];
+    return service && <div className="service-branch">United States {service.branchOfService}</div>;
+  }
+  render() {
     return (
       <div className="va-profile-hero">
         <div className="row-padded">
-          <h1 aria-label={ariaLabel} className="page-header">{fullName}</h1>
-          {service && <div className="service-branch">United States {service.branchOfService}</div>}
+          <LoadingSection
+            isLoading={!this.props.hero}
+            message="Loading full name..."
+            render={this.renderName}/>
+          <LoadingSection
+            isLoading={!this.props.militaryInformation}
+            message="Loading service information..."
+            render={this.renderService}/>
           <p className="va-introtext">Review your contact, personal, and military service information—and find out how to make any needed updates or corrections.</p>
         </div>
       </div>
     );
   }
 }
+
+export default Hero;
