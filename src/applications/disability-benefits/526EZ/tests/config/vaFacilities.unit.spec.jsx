@@ -38,6 +38,7 @@ describe('Disability benefits 526EZ VA facility', () => {
         uiSchema={uiSchema}/>
     );
 
+
     fillDate(form, 'root_treatments_0_treatmentDateRange_from', '1950-1-3');
     fillDate(form, 'root_treatments_0_treatmentDateRange_to', '1955-1-3');
     fillData(form, 'input#root_treatments_0_treatmentCenterName', 'Local facility');

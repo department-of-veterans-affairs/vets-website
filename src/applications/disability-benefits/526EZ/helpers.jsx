@@ -126,6 +126,7 @@ export const facilityDescription = ({ formData }) => {
 export const treatmentView = ({ formData }) => {
   const { from, to } = formData.treatmentDateRange;
 
+  const name = formData.treatmentCenterName.label || '';
   let treatmentPeriod = '';
   if (from && to) {
     treatmentPeriod = `${from} — ${to}`;
@@ -135,7 +136,7 @@ export const treatmentView = ({ formData }) => {
 
   return (
     <div>
-      <strong>{formData.treatmentCenterName}</strong><br/>
+      <strong>{name}</strong><br/>
       {treatmentPeriod}
     </div>
   );

@@ -15,7 +15,7 @@ export function requireOneSelected(errors, fieldData, formData, schema, errorMes
 //  few we call out deliberately.
 export function validateTreatmentCenterName(errors, fieldData, formData, schema) {
   const { maxLength, pattern } = schema.properties.label;
-  const input = fieldData.label;
+  const input = fieldData.label || '';
 
   if (maxLength && input.length > maxLength) {
     errors.addError(`Please enter a name with fewer than ${maxLength} characters.`);
