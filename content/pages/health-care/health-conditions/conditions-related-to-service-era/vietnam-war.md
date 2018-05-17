@@ -32,10 +32,10 @@ If you served during the Vietnam War—anytime between November 1, 1965, and Apr
 
 You may be at risk of:
 
-- **[Diseases related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/):** A toxic chemical used to clear trees and plants during the war that can cause long-term health effects
-- **[Hepatitis C](http://www.hepatitis.va.gov/patient/hcv/index.asp):** An infectious disease that can harm your liver
-- **[Hearing problems caused by noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
-- **[Illnesses or injuries caused by occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
+- **[Diseases related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/)** <br> A toxic chemical used to clear trees and plants during the war that can cause long-term health effects.
+- **[Hepatitis C](http://www.hepatitis.va.gov/patient/hcv/index.asp)** <br> An infectious disease that can harm your liver.
+- **[Hearing problems caused by noise](http://www.publichealth.va.gov/exposures/noise/index.asp)** <br> Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears).
+- **[Illnesses or injuries caused by occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp)** <br> Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job.
 
 </div>
 
@@ -46,13 +46,13 @@ Take these steps to make sure you’re taking care of your health:
 <ol class="process">
 <li class="process-step list-one">
 
-Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp).
+Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. <br> [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp).
 
 </li>
 
 <li class="process-step list-two">
 
-Ask your local VA environmental health coordinator about getting a free Agent Orange Registry health exam. [Learn more about the exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
+Ask your local VA environmental health coordinator about getting a free Agent Orange Registry health exam. <br> [Learn more about the exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
 
 </li>
 
