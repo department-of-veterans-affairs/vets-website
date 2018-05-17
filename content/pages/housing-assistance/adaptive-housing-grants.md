@@ -94,6 +94,6 @@ Fill out VA Form 26-4555 and bring it to your nearest VA regional office. To fin
 
 ### Need help?
 
-<a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>
+<a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member.</a>
 
 Or, call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.
