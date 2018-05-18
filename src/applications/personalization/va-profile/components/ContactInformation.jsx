@@ -1,5 +1,3 @@
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
-
 import {
   SAVE_MAILING_ADDRESS,
   SAVE_PRIMARY_PHONE,
