@@ -83,7 +83,9 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         onSubmit={onSubmit}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
-        route={route}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        path={route.path}
         location={location}/>
     );
 
@@ -140,7 +142,8 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       <RoutedSavableReviewPage
         form={form}
         user={user}
-        route={{ formConfig, pageList }}
+        formConfig={formConfig}
+        pageList={pageList}
         setPrivacyAgreement={f => f}
         location={location}/>
     );
