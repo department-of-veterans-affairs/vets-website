@@ -40,6 +40,7 @@ class MessagingWidget extends React.Component {
     }
 
     let content;
+    messages = messages || [];
 
     messages = messages.filter(message => {
       return message.readReceipt !== 'READ';
@@ -73,7 +74,7 @@ class MessagingWidget extends React.Component {
           fields={fields}/>
       );
     } else {
-      content = <p>You don't have any unread messages from your health care team.</p>;
+      content = <p>You don’t have any unread messages from your health care team.</p>;
     }
 
     return (
