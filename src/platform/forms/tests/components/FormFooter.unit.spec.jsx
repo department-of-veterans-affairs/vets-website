@@ -22,7 +22,7 @@ describe('FormFooter', () => {
   });
 
   it('should render <GetFormHelp> if passed to config', () => {
-    const GetFormHelp = function GetFormHelp() { return( <div>Help!</div> ) };
+    const GetFormHelp = function GetFormHelp() { return (<div>Help!</div>); };
     const tree = SkinDeep.shallowRender(
       <FormFooter formConfig={{ getHelp: GetFormHelp }} currentLocation={{ pathname: '/introduction' }}/>
     );
