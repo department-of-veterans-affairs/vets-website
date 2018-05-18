@@ -253,8 +253,8 @@ export const download4142Notice = (
 
 export const authorizationToDisclose = (
   <div>
-    <p>Since your medical records are with your doctor, you'll need to fill out an Authorization to Disclose
-    Information to the VA (VA Form 21-4142) so we can request your records. You'll need to fill out a form for
+    <p>Since your medical records are with your doctor, you’ll need to fill out an Authorization to Disclose
+    Information to the VA (VA Form 21-4142) so we can request your records. You’ll need to fill out a form for
     each doctor.</p>
     <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">Download VA Form 21-4142</a>
     <p>Please print the form, fill it out, and send it to:</p>
