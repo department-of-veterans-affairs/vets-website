@@ -41,7 +41,7 @@ function getOptionList(enumOptions, labels, groups) {
     return acc;
   }, []);
 
-  if (groups) {
+  if (Object.values(groups).length) {
     return uniqueGroups.map((group, index) => getGroup({ name: group, index }, enumOptions, labels, groups));
   }
   return getOptions(enumOptions, labels);
