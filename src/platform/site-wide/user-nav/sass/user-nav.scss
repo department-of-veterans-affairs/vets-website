@@ -270,15 +270,7 @@ span.sidelines {
   }
 }
 
-.signin-spacer {
+.sign-in-spacer {
   color: $color-white;
   margin: 0 0.6em;
-}
-
-.signin-greeting {
-  display: none;
-
-  @media(min-width: 768px) {
-    display: inline;
-  }
 }
