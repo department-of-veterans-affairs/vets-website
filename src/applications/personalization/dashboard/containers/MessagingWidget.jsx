@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-import '../../../messaging/sass/messaging.scss';
-
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
 import { formattedDate } from '../../../messaging/utils/helpers';
 
