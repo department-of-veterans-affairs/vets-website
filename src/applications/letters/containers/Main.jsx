@@ -40,7 +40,7 @@ export class Main extends React.Component {
 
     // If address isn't available, take the whole system down
     if (addressAvailability === unavailable) {
-      return unavailable;
+      return backendServiceError;
     }
 
     return lettersAvailability;
@@ -62,15 +62,7 @@ export class Main extends React.Component {
       case letterEligibilityError:
         appContent = this.props.children;
         break;
-      case unavailable: {
-        appContent = (
-          <div id="maintenance-mode">
-            <h2>The VA letters tool is down for maintenance</h2>
-            <p>We're doing some work on the VA letters tool on May 16, 2018, between 7:00 p.m and 8:00 p.m. (ET). If you're having trouble using this tool during this time, please check back again later.</p>
-          </div>
-        );
-        break;
-      }
+      case unavailable: // fall-through to default
       case backendServiceError: // fall-through to default
       case invalidAddressProperty: // fall-through to default
       default:
