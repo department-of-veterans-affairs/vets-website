@@ -77,24 +77,21 @@ function vaProfile(state = initialState, action) {
       return { ...state, pendingSaves };
     }
 
-    case SAVE_EMAIL_ADDRESS_SUCCESS: {
-      const email = action.newValue;
-      return { ...state, email, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
-    }
-
-    case SAVE_PRIMARY_PHONE_SUCCESS: {
-      const primaryTelephone = action.newValue;
-      return { ...state, primaryTelephone, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
-    }
-
-    case SAVE_ALTERNATE_PHONE_SUCCESS: {
-      const alternateTelephone = action.newValue;
-      return { ...state, alternateTelephone, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
-    }
-
+    case SAVE_EMAIL_ADDRESS_SUCCESS:
+    case SAVE_PRIMARY_PHONE_SUCCESS:
+    case SAVE_ALTERNATE_PHONE_SUCCESS:
     case SAVE_MAILING_ADDRESS_SUCCESS: {
-      const mailingAddress = action.newValue;
-      return { ...state, mailingAddress, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
+      const contactInformation = {
+        ...state.contactInformation,
+        [action.fieldName]: action.newValue
+      };
+      return {
+        ...state,
+        contactInformation,
+        message: MESSAGES.updatedInformation,
+        pendingSaves: [],
+        modal: null
+      };
     }
 
     case SAVE_EMAIL_ADDRESS_FAIL:

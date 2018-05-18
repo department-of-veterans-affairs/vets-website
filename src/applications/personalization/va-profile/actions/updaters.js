@@ -16,9 +16,9 @@ export const SAVE_EMAIL_ADDRESS = 'SAVE_EMAIL_ADDRESS';
 export const SAVE_EMAIL_ADDRESS_FAIL = 'SAVE_EMAIL_ADDRESS_FAIL';
 export const SAVE_EMAIL_ADDRESS_SUCCESS = 'SAVE_EMAIL_ADDRESS_SUCCESS';
 
-function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, requestFailAction, method = 'POST') {
+function saveFieldHandler(apiRoute, fieldName, requestStartAction, requestSuccessAction, requestFailAction, method = 'POST') {
   return fieldValue => {
-    return dispatch => {
+    return async dispatch => {
       const options = {
         body: JSON.stringify(fieldValue),
         method,
@@ -28,9 +28,17 @@ function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, re
       };
 
       dispatch({ type: requestStartAction });
-      return apiRequest(apiRoute, options)
-        .then(response => dispatch({ type: requestSuccessAction, newValue: response.data.attributes }))
-        .catch(() => dispatch({ type: requestFailAction }));
+
+      try {
+        const response = await apiRequest(apiRoute, options);
+        dispatch({
+          type: requestSuccessAction,
+          fieldName,
+          newValue: response.data.attributes
+        });
+      } catch (err) {
+        dispatch({ type: requestFailAction });
+      }
     };
   };
 }
@@ -38,24 +46,28 @@ function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, re
 export const saveField = {
   updateEmailAddress: saveFieldHandler(
     '/profile/email',
+    'email',
     SAVE_EMAIL_ADDRESS,
     SAVE_EMAIL_ADDRESS_SUCCESS,
     SAVE_EMAIL_ADDRESS_FAIL),
 
   updatePrimaryPhone: saveFieldHandler(
     '/profile/primary_phone',
+    'primaryTelephone',
     SAVE_PRIMARY_PHONE,
     SAVE_PRIMARY_PHONE_SUCCESS,
     SAVE_PRIMARY_PHONE_FAIL),
 
   updateAlternatePhone: saveFieldHandler(
     '/profile/alternate_phone',
+    'alternateTelephone',
     SAVE_ALTERNATE_PHONE,
     SAVE_ALTERNATE_PHONE_SUCCESS,
     SAVE_ALTERNATE_PHONE_FAIL),
 
   updateMailingAddress: saveFieldHandler(
     '/profile/mailing_address',
+    'mailingAddress',
     SAVE_MAILING_ADDRESS,
     SAVE_MAILING_ADDRESS_SUCCESS,
     SAVE_MAILING_ADDRESS_FAIL,
