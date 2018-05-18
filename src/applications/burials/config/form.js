@@ -21,6 +21,7 @@ import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../l
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 import { isFullDate } from '../../../platform/forms/validations';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
+import FormFooter from '../../../platform/forms/components/FormFooter';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -94,6 +95,7 @@ const formConfig = {
   },
   title: 'Apply for burial benefits',
   subTitle: 'Form 21P-530',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
