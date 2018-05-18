@@ -761,15 +761,15 @@ const formConfig = {
                           17: 'Temporary Total Disability - PTSD',
                           18: 'Temporary Total Disability - PTSD',
                           19: 'Temporary Total Disability - PTSD',
-                          20: 'Other',                          
+                          20: 'Other',
                           21: 'Other',
-                          22: 'Other',                          
+                          22: 'Other',
                           23: 'Other',
-                          24: 'Other',                          
+                          24: 'Other',
                           25: 'Other',
-                          26: 'Other',                          
+                          26: 'Other',
                           27: 'Other',
-                          28: 'Other',                          
+                          28: 'Other',
                           29: 'Other',
                           30: 'Other',
                           31: 'Claim Dependents',
@@ -777,7 +777,7 @@ const formConfig = {
                           33: 'DBQ Scar',
                           34: 'DBQ Scar',
                           35: 'DBQ Vision',
-                          36: 'DBQ Vision' 
+                          36: 'DBQ Vision'
                         }
                       }
                     },

@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash/fp';
 import { asNumber } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
