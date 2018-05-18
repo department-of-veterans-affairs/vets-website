@@ -59,7 +59,9 @@ class FormApp extends React.Component {
             {renderedChildren}
           </div>
         </div>
-        <Footer formConfig={formConfig}/>
+        <Footer
+          formConfig={formConfig}
+          currentLocation={currentLocation}/>
         <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
       </div>
     );

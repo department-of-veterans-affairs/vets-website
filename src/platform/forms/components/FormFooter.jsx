@@ -4,18 +4,17 @@ import AskVAQuestions from './AskVAQuestions';
 
 export default class FormFooter extends React.Component {
   render() {
-    const GetFormHelp = this.props.formConfig.getHelp;
+    const { formConfig, currentLocation } = this.props;
+    const GetFormHelp = formConfig.getHelp;
+    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
 
     return (
       <div>
-        <AskVAQuestions>
+        {!isConfirmationPage && <AskVAQuestions>
           {!!GetFormHelp && <GetFormHelp/>}
-        </AskVAQuestions>
+        </AskVAQuestions>}
       </div>
     );
   }
 }
-
-// {!isConfirmationPage && <AskVAQuestions>
-//   {!!GetFormHelp && <GetFormHelp/>}
-// </AskVAQuestions>}
