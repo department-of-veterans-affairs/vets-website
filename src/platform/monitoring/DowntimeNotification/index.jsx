@@ -120,7 +120,7 @@ class DowntimeNotification extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.isReady) this.props.getScheduledDowntime();
+    this.props.getScheduledDowntime();
   }
 
   /**
