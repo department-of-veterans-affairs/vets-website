@@ -13,16 +13,12 @@ const signInUrl = appendQuery('/', nextQuery);
 const verifyUrl = appendQuery('/verify', nextQuery);
 
 class RequiredLoginView extends React.Component {
-  componentDidUpdate() {
-    const isLoading = this.props.user.profile.loading;
+  componentDidMount() {
+    this.redirectIfNeeded();
+  }
 
-    if (!isLoading) {
-      if (this.shouldSignIn()) {
-        window.location.replace(signInUrl);
-      } else if (this.shouldVerify()) {
-        window.location.replace(verifyUrl);
-      }
-    }
+  componentDidUpdate() {
+    this.redirectIfNeeded();
   }
 
   shouldSignIn = () => !this.props.user.login.currentlyLoggedIn;
@@ -39,6 +35,13 @@ class RequiredLoginView extends React.Component {
     }
 
     return false;
+  }
+
+  redirectIfNeeded = () => {
+    if (!this.props.user.profile.loading) {
+      if (this.shouldSignIn()) window.location.replace(signInUrl);
+      else if (this.shouldVerify()) window.location.replace(verifyUrl);
+    }
   }
 
   // Checks that (1) session has a valid authentication token and
