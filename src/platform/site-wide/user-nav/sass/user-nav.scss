@@ -237,7 +237,6 @@ span.sidelines {
 
 .sign-in-nav {
   color: $color-white;
-  margin-left: 1rem;
   white-space: nowrap;
 
   a {
@@ -257,6 +256,9 @@ span.sidelines {
   }
 }
 
+.sign-in-links {
+  margin-left: 1rem;
+}
 
 .sign-in-link {
   color: inherit !important;
