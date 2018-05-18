@@ -2,7 +2,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _debounce from './debounce';
-// import uniqid from 'uniqid';
 import uniqueId from 'lodash.uniqueid';
 
 class Breadcrumbs extends React.Component {
