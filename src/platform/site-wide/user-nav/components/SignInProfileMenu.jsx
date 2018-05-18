@@ -21,7 +21,7 @@ class SignInProfileMenu extends React.Component {
       <DropDownPanel
         buttonText={this.props.greeting}
         clickHandler={this.props.clickHandler}
-        id="accountMenu"
+        id="account-menu"
         icon={icon}
         isOpen={this.props.isOpen}
         disabled={this.props.disabled}>
