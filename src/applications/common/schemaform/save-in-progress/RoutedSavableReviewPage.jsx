@@ -3,6 +3,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import get from '../../../../platform/utilities/data/get';
 
 import Scroll from 'react-scroll';
 import SaveFormLink from '../save-in-progress/SaveFormLink';
@@ -117,26 +118,17 @@ class RoutedSavableReviewPage extends React.Component {
       user
     } = this.props;
 
-    const submitController = (
-      <SubmitController
-        formConfig={formConfig}
-        pageList={pageList}
-        path={path}
-        renderErrorMessage={this.renderErrorMessage}/>
-    );
-
-    let submitContent = submitController;
-
-    if (formConfig.downtime) {
-      submitContent = (
-        <DowntimeNotification
-          appTitle="application"
-          render={this.renderDowntime}
-          dependencies={formConfig.downtime.dependencies}>
-          {submitController}
-        </DowntimeNotification>
-      );
-    }
+    // const submitController = (
+    // );
+    //
+    // let submitContent = submitController;
+    //
+    // if (formConfig.downtime) {
+    //   submitContent = (
+    //   );
+    // }
+    //
+    const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
 
     return (
       <div>
@@ -145,7 +137,16 @@ class RoutedSavableReviewPage extends React.Component {
           formContext={formContext}
           pageList={pageList}
           onSetData={() => this.debouncedAutoSave()}/>
-        {submitContent}
+        <DowntimeNotification
+          appTitle="application"
+          render={this.renderDowntime}
+          dependencies={downtimeDependencies}>
+          <SubmitController
+            formConfig={formConfig}
+            pageList={pageList}
+            path={path}
+            renderErrorMessage={this.renderErrorMessage}/>
+        </DowntimeNotification>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={this.props.showLoginModal}
