@@ -4,7 +4,6 @@ import Scroll from 'react-scroll';
 
 import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
-import AskVAQuestions from '../components/AskVAQuestions';
 
 import { isInProgress } from '../../../../platform/forms/helpers';
 
@@ -25,7 +24,7 @@ class FormApp extends React.Component {
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
-    const GetFormHelp = formConfig.getHelp;
+    const Footer = formConfig.footerContent;
 
     let formTitle;
     let formNav;
@@ -60,9 +59,7 @@ class FormApp extends React.Component {
             {renderedChildren}
           </div>
         </div>
-        {!isConfirmationPage && <AskVAQuestions>
-          {!!GetFormHelp && <GetFormHelp/>}
-        </AskVAQuestions>}
+        <Footer formConfig={formConfig}/>
         <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
       </div>
     );

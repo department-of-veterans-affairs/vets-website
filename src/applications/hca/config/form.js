@@ -13,6 +13,8 @@ import {
 
 import { genderLabels } from '../../../platform/static-data/labels';
 
+import FormFooter from '../../../platform/forms/components/FormFooter';
+
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
 import MilitaryPrefillMessage from '../../common/schemaform/save-in-progress/MilitaryPrefillMessage';
@@ -152,6 +154,7 @@ const formConfig = {
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10EZ',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
