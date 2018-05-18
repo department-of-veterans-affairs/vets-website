@@ -2,6 +2,8 @@ import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
+import FormFooter from '../../../platform/forms/components/FormFooter';
+
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
@@ -80,6 +82,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,

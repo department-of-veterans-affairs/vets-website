@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isFullDate } from '../../../platform/forms/validations';
+import FormFooter from '../../../platform/forms/components/FormFooter';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 
 import * as address from '../../common/schemaform/definitions/address';
@@ -190,6 +191,7 @@ const formConfig = {
   },
   title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
