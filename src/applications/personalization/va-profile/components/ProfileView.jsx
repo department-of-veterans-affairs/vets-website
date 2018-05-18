@@ -16,10 +16,8 @@ class ProfileView extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-
-    // @todo update this now that the props shape changed
-    if (this.props.profile !== oldProps.profile && this.props.profile.userFullName) {
-      const { first, last } = this.props.profile.userFullName;
+    if (this.props.profile !== oldProps.profile && this.props.profile.hero.userFullName) {
+      const { first, last } = this.props.profile.hero.userFullName;
       document.title = `Profile: ${first} ${last}`;
     }
     if (this.props.message.content && !oldProps.message.content) {
