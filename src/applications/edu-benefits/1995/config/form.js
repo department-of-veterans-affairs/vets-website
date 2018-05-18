@@ -47,6 +47,7 @@ const formConfig = {
   formId: '22-1995',
   version: 1,
   migrations: [urlMigration('/1995')],
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
