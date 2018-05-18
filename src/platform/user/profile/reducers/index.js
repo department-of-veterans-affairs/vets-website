@@ -1,16 +1,10 @@
 import { merge, set } from 'lodash/fp';
 
-import { UPDATE_LOGGEDIN_STATUS } from '../../../site-wide/user-nav/actions';
+import { UPDATE_LOGGEDIN_STATUS } from '../../authentication/actions';
 
 import {
   UPDATE_PROFILE_FIELDS,
   PROFILE_LOADING_FINISHED,
-  FETCHING_LATEST_MHV_TERMS,
-  FETCHING_LATEST_MHV_TERMS_SUCCESS,
-  FETCHING_LATEST_MHV_TERMS_FAILURE,
-  ACCEPTING_LATEST_MHV_TERMS,
-  ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
-  ACCEPTING_LATEST_MHV_TERMS_FAILURE,
   FETCHING_MHV_ACCOUNT,
   FETCH_MHV_ACCOUNT_FAILURE,
   FETCH_MHV_ACCOUNT_SUCCESS,
@@ -62,33 +56,6 @@ function profileInformation(state = initialState, action) {
     case PROFILE_LOADING_FINISHED:
     case UPDATE_LOGGEDIN_STATUS:
       return set('loading', false, state);
-
-    case ACCEPTING_LATEST_MHV_TERMS:
-    case FETCHING_LATEST_MHV_TERMS:
-      return set('mhv.terms', {
-        ...state.mhv.terms,
-        errors: null,
-        loading: true,
-      }, state);
-
-    case ACCEPTING_LATEST_MHV_TERMS_SUCCESS:
-      return set('mhv.terms.loading', false, state);
-
-    case FETCHING_LATEST_MHV_TERMS_SUCCESS: {
-      return set('mhv.terms', {
-        ...state.mhv.terms,
-        ...action.terms,
-        loading: false,
-      }, state);
-    }
-
-    case ACCEPTING_LATEST_MHV_TERMS_FAILURE:
-    case FETCHING_LATEST_MHV_TERMS_FAILURE:
-      return set('mhv.terms', {
-        ...state.mhv.terms,
-        errors: action.errors,
-        loading: false,
-      }, state);
 
     case FETCHING_MHV_ACCOUNT:
     case CREATING_MHV_ACCOUNT:

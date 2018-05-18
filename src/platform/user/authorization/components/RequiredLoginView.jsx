@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intersection } from 'lodash';
 
-import SystemDownView from '@department-of-veterans-affairs/jean-pants/SystemDownView';
+import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
 
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 const healthTools = ['health-records', 'rx', 'messaging'];
 const nextQuery = { next: window.location.pathname };

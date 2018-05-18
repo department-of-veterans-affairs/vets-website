@@ -13,7 +13,7 @@ import {
   formatReviewDate,
   expandArrayPages,
   omitRequired
-} from '../../../src/js/common/schemaform/helpers';
+} from '../../../src/applications/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {

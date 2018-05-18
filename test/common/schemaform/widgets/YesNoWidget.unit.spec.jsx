@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import YesNoWidget from '../../../../src/js/common/schemaform/widgets/YesNoWidget';
+import YesNoWidget from '../../../../src/applications/common/schemaform/widgets/YesNoWidget';
 
 describe('Schemaform <YesNoWidget>', () => {
   it('should render', () => {

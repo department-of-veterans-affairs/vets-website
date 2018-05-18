@@ -22,7 +22,7 @@ You can get this benefit if you went into the service for the first time between
 **All of these must be true:**
   - You opened and put money into your VEAP account before April 1, 1987, **and**
   - You put in $25–$2,700 on your own, **and**
-  - You finished your first period of service and were discharged or released from service under conditions other than dishonorable
+  - You finished your first period of service and didn't receive a dishonorable discharge
 
 ### Who’s covered?
 Veterans

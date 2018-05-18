@@ -12,9 +12,9 @@ import {
   SAVE_STATUSES,
   LOAD_STATUSES,
   PREFILL_STATUSES
-} from '../../../../src/js/common/schemaform/save-in-progress/actions';
+} from '../../../../src/applications/common/schemaform/save-in-progress/actions';
 
-import createSchemaFormReducer from '../../../../src/js/common/schemaform/state';
+import createSchemaFormReducer from '../../../../src/applications/common/schemaform/state';
 
 describe('schemaform createSaveInProgressInitialState', () => {
   it('creates a reducer with initial state for each page', () => {

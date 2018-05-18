@@ -1,10 +1,10 @@
 const AccountCreationHelpers = require('../../testing/e2e/account-creation-helpers');
 const E2eHelpers = require('../../testing/e2e/helpers');
-const GibsHelpers = require('../../../js/post-911-gib-status/tests/post-911-gib-status-helpers');
-const LettersHelpers = require('../../../js/letters/tests/letters-helpers');
-const MessagingHelpers = require('../../../js/messaging/tests/messaging-helpers');
+const GibsHelpers = require('../../../applications/post-911-gib-status/tests/post-911-gib-status-helpers');
+const LettersHelpers = require('../../../applications/letters/tests/letters-helpers');
+const MessagingHelpers = require('../../../applications/messaging/tests/messaging-helpers');
 const Auth = require('../../testing/e2e/auth');
-const RxHelpers = require('../../../js/rx/tests/rx-helpers');
+const RxHelpers = require('../../../applications/rx/tests/rx-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {

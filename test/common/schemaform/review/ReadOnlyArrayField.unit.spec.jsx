@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import ReadOnlyArrayField from '../../../../src/js/common/schemaform/review/ReadOnlyArrayField';
+import ReadOnlyArrayField from '../../../../src/applications/common/schemaform/review/ReadOnlyArrayField';
 
 describe('Schemaform review: ReadOnlyArrayField', () => {
   it('should render', () => {

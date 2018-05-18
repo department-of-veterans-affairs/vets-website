@@ -25,9 +25,9 @@ After running the above command, the generator will start up and ask you a serie
 
 This value will be used as the page title. If you're creating a form, it will also be used as the header for the introduction page and as a header on the confirmation page.
 
-### What folder in src/js should your app live in?
+### What folder in src/applications should your app live in?
 
-Most of our React applications have their own folder in src/js, so normally you want to pick a new folder. However, if you're building an application that's related to other applications, there may be a folder that your app should go in. An example would be if you were creating a new education form, you would probably create your app in edu-benefits/newform.
+Most of our React applications have their own folder in src/applications, so normally you want to pick a new folder. However, if you're building an application that's related to other applications, there may be a folder that your app should go in. An example would be if you were creating a new education form, you would probably create your app in edu-benefits/newform.
 
 ### What should be the name of your app's entry bundle?
 

@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { getScheduledDowntime } from './actions';
 
 import moment from '../../../platform/startup/moment-setup';
-import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 /**
  * A list of services that correspond to those which we have downtime information as provided by the API.

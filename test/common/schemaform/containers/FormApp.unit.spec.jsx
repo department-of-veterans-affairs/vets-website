@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { FormApp } from '../../../../src/js/common/schemaform/containers/FormApp';
+import { FormApp } from '../../../../src/applications/common/schemaform/containers/FormApp';
 
 describe('Schemaform <FormApp>', () => {
   it('should render children on intro page, but not form title or nav', () => {

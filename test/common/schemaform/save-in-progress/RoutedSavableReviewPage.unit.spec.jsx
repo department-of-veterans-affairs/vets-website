@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { RoutedSavableReviewPage } from '../../../../src/js/common/schemaform/save-in-progress/RoutedSavableReviewPage';
+import { RoutedSavableReviewPage } from '../../../../src/applications/common/schemaform/save-in-progress/RoutedSavableReviewPage';
 
 describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
   const location = {
@@ -85,7 +85,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         setPrivacyAgreement={f => f}
         route={route}
         location={location}/>
-    ).dive('ReviewPage');
+    );
 
     expect(tree.find('SaveStatus').exists()).to.be.true;
     expect(tree.find('SaveFormLink').exists()).to.be.true;
@@ -134,14 +134,12 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       }
     };
 
-    const setData = sinon.spy();
     const autoSave = sinon.spy();
 
     const tree = shallow(
       <RoutedSavableReviewPage
         form={form}
         user={user}
-        setData={setData}
         route={{ formConfig, pageList }}
         setPrivacyAgreement={f => f}
         location={location}/>
@@ -149,9 +147,9 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
 
     const instance = tree.instance();
     instance.debouncedAutoSave = autoSave;
-    instance.setData({});
 
-    expect(setData.called).to.be.true;
+    instance.debouncedAutoSave();
+
     expect(autoSave.called).to.be.true;
   });
 });

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import SSNWidget from '../../../../src/js/common/schemaform/widgets/SSNWidget';
+import SSNWidget from '../../../../src/applications/common/schemaform/widgets/SSNWidget';
 
 describe('Schemaform <SSNWidget>', () => {
   it('should render', () => {

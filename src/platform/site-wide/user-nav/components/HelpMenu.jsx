@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import DropDownPanel from '@department-of-veterans-affairs/jean-pants/DropDownPanel';
-import IconHelp from '@department-of-veterans-affairs/jean-pants/IconHelp';
+import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
+import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
 
 class HelpMenu extends React.Component {
   render() {

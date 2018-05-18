@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
-import uiSchema, { fileSchema } from '../../../../src/js/common/schemaform/definitions/file';
+import uiSchema, { fileSchema } from '../../../../src/applications/common/schemaform/definitions/file';
 
 describe('Schemaform definition file', () => {
   it('should render file', () => {
