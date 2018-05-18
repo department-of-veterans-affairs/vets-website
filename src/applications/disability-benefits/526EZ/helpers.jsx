@@ -266,7 +266,7 @@ export const authorizationToDisclose = (
       Department of Veterans Affairs<br/>
       Claims Intake Center<br/>
       PO Box 4444<br/>
-      Janesville, WI 53547-4444>
+      Janesville, WI 53547-4444
     </p>
   </div>
 );
