@@ -169,8 +169,14 @@ const mapStateToProps = (state) => {
 
   const claimsAppealsList = claimsV2Root.appeals
     .concat(claimsV2Root.claims).filter(c => {
-      const updateDate = c.type === 'evss_claims' ? c.attributes.phaseChangeDate : c.attributes.updated;
-      return moment(updateDate).isAfter(moment().endOf('day').subtract(30, 'days'));
+      let updateDate;
+      if (c.type === 'evss_claims') {
+        updateDate = (c.attributes.phaseChangeDate || c.attributes.updatedAt);
+      } else {
+        updateDate = c.attributes.updated;
+      }
+
+      return updateDate && moment(updateDate).isAfter(moment().endOf('day').subtract(30, 'days'));
     });
 
   return {
