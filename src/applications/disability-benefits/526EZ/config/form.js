@@ -737,6 +737,50 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                      'ui:options': {
+                        groupBy: true,
+                        groups: {
+                          1: 'Automobile',
+                          2: 'Individual Unemploy',
+                          3: 'Specially Adapted',
+                          4: 'Spouse Aid Attend',
+                          5: 'Special Monthly Comp',
+                          6: 'Special Monthly Comp',
+                          7: 'Temporary Total Disability - PTSD',
+                          8: 'Temporary Total Disability - PTSD',
+                          9: 'Temporary Total Disability - PTSD',
+                          10: 'Temporary Total Disability - PTSD',
+                          11: 'Temporary Total Disability - PTSD',
+                          12: 'Temporary Total Disability - PTSD',
+                          13: 'Temporary Total Disability - PTSD',
+                          14: 'Temporary Total Disability - PTSD',
+                          15: 'Temporary Total Disability - PTSD',
+                          16: 'Temporary Total Disability - PTSD',
+                          17: 'Temporary Total Disability - PTSD',
+                          18: 'Temporary Total Disability - PTSD',
+                          19: 'Temporary Total Disability - PTSD',
+                          20: 'Other',                          
+                          21: 'Other',
+                          22: 'Other',                          
+                          23: 'Other',
+                          24: 'Other',                          
+                          25: 'Other',
+                          26: 'Other',                          
+                          27: 'Other',
+                          28: 'Other',                          
+                          29: 'Other',
+                          30: 'Other',
+                          31: 'Claim Dependents',
+                          32: 'DBQ',
+                          33: 'DBQ Scar',
+                          34: 'DBQ Scar',
+                          35: 'DBQ Vision',
+                          36: 'DBQ Vision' 
+                        }
+                      }
+                    },
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -758,7 +802,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: ['name'],
+                        required: ['name', 'attachmentId'],
                         properties: {
                           name: {
                             type: 'string'
@@ -768,6 +812,86 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
+                          },
+                          attachmentId: {
+                            type: 'string',
+                            'enum': [
+                              '1',
+                              '2',
+                              '3',
+                              '4',
+                              '5',
+                              '6',
+                              '7',
+                              '8',
+                              '9',
+                              '10',
+                              '11',
+                              '12',
+                              '13',
+                              '14',
+                              '15',
+                              '16',
+                              '17',
+                              '18',
+                              '19',
+                              '20',
+                              '21',
+                              '22',
+                              '23',
+                              '24',
+                              '25',
+                              '26',
+                              '27',
+                              '28',
+                              '29',
+                              '30',
+                              '31',
+                              '32',
+                              '33',
+                              '34',
+                              '35',
+                              '36',
+                              '37'
+                            ],
+                            enumNames: [
+                              'Application for Automotive Adaptive Equipment',
+                              'Application for Compensation for Unemployability',
+                              'Application for Specially Adapted Housing',
+                              'Examination for Housebound Status',
+                              'Request for Nursing Home Information',
+                              'Examination for Housebound Status',
+                              'Temporary Total Disability for PTSD_21_0781 and PTSD_21_0781A',
+                              'Service Connected PTSD Statement',
+                              'Service Connected Personal Assault PTSD Statement',
+                              'Police Report',
+                              'Military Performance Report',
+                              'ER Medical Report',
+                              'Private Medical Treatment Record',
+                              'Buddy Statement',
+                              'DD214',
+                              'Military Personnel File',
+                              'Decorations/Awards/Medal Citations',
+                              'Other Correspondance',
+                              'Personal Journal or Diary',
+                              'Certificate of Release or Discharge from Active Duty (e.g. DD 214, NOAA 56-16, PHS 1867)',
+                              'Service Treatment Record - Dental',
+                              'Service Treatment Record - Medical',
+                              'Medical Evidence from Private Provider',
+                              'Medical Evidence from Government Facility',
+                              'Social Security Disability Documentation',
+                              'Military Personnel Record',
+                              'Buddy/Lay Statement',
+                              'VA Form 21-4142 - Authorization To Disclose Information',
+                              'VA Form 21-4142a - General Release for Medical Provider Information',
+                              'Other Correspondence',
+                              'Application to Claim Dependents',
+                              'Disability Benefits Questionnaire (DBQ) - Veteran Provided',
+                              'Disability Benefits Questionnaire (DBQ) - Veteran Provided',
+                              'Photographs',
+                              'Disability Benefits Questionnaire (DBQ) - Veteran Provided',
+                              'Goldmann Perimetry Chart/Field Of Vision Chart'
+                            ] // TODO: create helper to label display
                           }
                         }
                       }
