@@ -153,7 +153,11 @@ export const privateRecordsChoice = ({ formData }) => {
   return (
     <div>
       <h4>About private medical records</h4>
-      <p>You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
+      <p>
+        You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private
+        doctor. If you have those records, you can upload them here, or we can get them for you. If
+        you want us to get your records, you’ll need to authorize their release.
+      </p>
     </div>
   );
 };
@@ -162,16 +166,25 @@ export const privateRecordsChoice = ({ formData }) => {
 export const privateRecordsChoiceHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
     <h4>You upload your medical records</h4>
-    <p>If you upload a digital copy of all your medical records, we can review your claim more quickly. Uploading a digital
-    file works best if you have a computer with a fast Internet connection. The digital file could be uploaded as a .pdf
-    or other photo file format, like a .jpeg or .png.</p>
-    <h4>We get your medical records for you</h4>
-    <p>If you tell us which VA medical center treated you for your condition, we can get your
-    medical records for you. Getting your records may take us some time, and this could mean that
-    it’ll take us longer to make a decision on your claim. You’ll need to first fill out an
-    Authorization to Disclose Information to the VA (VA Form 21-4142) so we can request your
-    records.</p>
-    <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">Download VA Form 21-4142</a>
+    <p>
+      If you upload a digital copy of all your medical records, we can review
+      your claim more quickly. Uploading a digital file works best if you have
+      a computer with a fast Internet connection. The digital file could be
+      uploaded as a .pdf or other photo file format, like a .jpeg or .png.
+    </p>
+    <h4>We get your medical records from your doctor</h4>
+    <p>
+      We can get your medical records for you, but you’ll first need to fill
+      out an Authorization to Disclose Information to VA (VA Form 21-4142) so
+      we can request your records. Getting your records might take us some
+      time, and this could mean it’ll take us longer to make a decision on
+      your claim.
+    </p>
+    <p>
+      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+        Download VA Form 21-4142
+      </a>.
+    </p>
   </AdditionalInfo>
 );
 
@@ -225,10 +238,16 @@ export function validateAddress(errors, formData) {
 
 export const download4142Notice = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <p>Since your doctor has your private medical records, you’ll need to fill
-    out an Authorization to Disclose Information to the VA (VA Form 21-4142) so
-    we can request your records. You’ll need to fill out a form for each doctor.</p>
-    <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">Download VA Form 21-4142</a>
+    <p>
+      Since your doctor has your private medical records, you’ll need to fill
+      out an Authorization to Disclose Information to the VA (VA Form 21-4142) so
+      we can request your records. You’ll need to fill out a form for each doctor.
+    </p>
+    <p>
+      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+        Download VA Form 21-4142
+      </a>.
+    </p>
   </div>
 );
 
@@ -245,8 +264,6 @@ export const authorizationToDisclose = (
       PO Box 4444<br/>
       Janesville, WI 53547-4444>
     </p>
-    <p>Or you can upload a completed VA Form 21-4142 to your online
-    application. You'll have a chance later to upload your documents.</p>
   </div>
 );
 
