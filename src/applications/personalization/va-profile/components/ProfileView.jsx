@@ -16,7 +16,7 @@ class ProfileView extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-    if (this.props.profile !== oldProps.profile && this.props.profile.hero.userFullName) {
+    if (this.props.profile !== oldProps.profile && this.props.profile.hero && this.props.profile.hero.userFullName) {
       const { first, last } = this.props.profile.hero.userFullName;
       document.title = `Profile: ${first} ${last}`;
     }
