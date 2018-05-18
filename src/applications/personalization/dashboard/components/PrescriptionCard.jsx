@@ -1,14 +1,11 @@
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
+import TrackPackageLink from '../../../rx/components/TrackPackageLink';
 import { formatDate } from '../../../rx/utils/helpers';
 
 export default function PrescriptionCard({ prescription }) {
-  const { prescriptionName, refillSubmitDate, refillDate, refillStatus } = prescription.attributes;
-
-  const headerText = {
-    refillinprocess: 'Your prescription refill is in progress',
-  };
+  const { prescriptionName, refillSubmitDate, refillDate, isTrackable } = prescription.attributes;
 
   return (
     <div className="claim-list-item-container">
@@ -16,7 +13,7 @@ export default function PrescriptionCard({ prescription }) {
         {prescriptionName}
       </h3>
       <p>
-        <strong>Order status:</strong> {headerText[refillStatus]}
+        <strong>Order status:</strong> {isTrackable ? 'We’ve shipped your order' : 'We’re working to fill your prescription'}
       </p>
       <p><strong>You submitted your refill order on:</strong> {
         formatDate(refillSubmitDate || refillDate, {
@@ -24,7 +21,19 @@ export default function PrescriptionCard({ prescription }) {
         })
       }</p>
       <p>
-        <Link className="usa-button usa-button-primary" href={`/health-care/prescriptions/${prescription.id}`}>View Your Prescription<i className="fa fa-chevron-right"/></Link>
+        {isTrackable ? (
+          <TrackPackageLink
+            key={`rx-${prescription.id}-track`}
+            className="usa-button"
+            text="Track Your Package"
+            url={`/${prescription.id}/track`}/>
+        ) : (
+          <Link
+            className="usa-button usa-button-primary"
+            href={`/health-care/prescriptions/${prescription.id}`}>
+            View Your Prescription<i className="fa fa-chevron-right"/>
+          </Link>
+        )}
       </p>
     </div>
   );
