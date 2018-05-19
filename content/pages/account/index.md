@@ -1,7 +1,7 @@
 ---
-title: Your Vets.gov Profile
+title: Your Vets.gov Account
 layout: page-react.html
-entryname: va-profile
+entryname: account
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
@@ -18,5 +18,5 @@ entryname: va-profile
       </div>
     </div>
   </div>
-  <!-- Profile Beta End -->
+  <!-- Account Beta End -->
 </div>
