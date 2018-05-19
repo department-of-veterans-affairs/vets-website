@@ -17,6 +17,7 @@ class TrackPackageLink extends React.Component {
         <a
           className={linkClass}
           href={this.props.url}
+          onClick={this.props.onClick}
           rel="external noopener noreferrer"
           target="_blank">
           {this.props.text}
@@ -26,7 +27,7 @@ class TrackPackageLink extends React.Component {
       link = (
         <Link
           className={linkClass}
-          to={this.props.url}>
+          to={this.props.url} onClick={this.props.onClick}>
           {this.props.text}
         </Link>
       );
@@ -37,6 +38,7 @@ class TrackPackageLink extends React.Component {
 }
 
 TrackPackageLink.propTypes = {
+  onClick: PropTypes.func,
   className: PropTypes.string,
   external: PropTypes.bool,
   text: PropTypes.string.isRequired,

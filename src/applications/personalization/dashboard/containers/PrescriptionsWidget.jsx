@@ -8,8 +8,6 @@ import {
   loadPrescriptions
 } from '../../../rx/actions/prescriptions';
 
-import { rxStatuses } from '../../../rx/config';
-
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
 
@@ -68,8 +66,8 @@ const mapStateToProps = (state) => {
   if (prescriptions) {
     const thirtyDaysAgo = moment().endOf('day').subtract(30, 'days');
     const statuses = new Set([
-      rxStatuses.refillinprocess,
-      rxStatuses.submitted
+      'refillinprocess',
+      'submitted'
     ]);
 
     prescriptions = prescriptions
