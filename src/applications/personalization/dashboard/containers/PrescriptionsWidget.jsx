@@ -38,8 +38,8 @@ class PrescriptionsWidget extends React.Component {
       );
     }
 
-    if (canAccessRx && this.props.prescriptions) {
-      if (this.props.prescriptions.length === 0) {
+    if (canAccessRx) {
+      if (this.props.prescriptions && this.props.prescriptions.length === 0) {
         content = <p>We haven’t refilled or shipped any prescriptions for you in the last 30 days.</p>;
       }
 
@@ -93,3 +93,4 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrescriptionsWidget);
+export { PrescriptionsWidget };
