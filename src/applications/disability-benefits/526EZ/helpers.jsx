@@ -620,3 +620,12 @@ export const layouts = {
   chooseUpdate: 'choose_update',
   applyGuidance: 'apply_guidance'
 };
+
+export const disabilityStatuses = {
+  ADD: 'add',
+  ADDANDINCREASE: 'addAndIncrease',
+  APPEAL: 'appeal',
+  FIRST: 'first',
+  INCREASE: 'increase',
+  UPDATE: 'update'
+};

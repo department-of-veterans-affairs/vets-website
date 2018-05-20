@@ -10,7 +10,12 @@ import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/Err
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
 import ButtonContainer from './ButtonContainer';
-import { GetStartedMessage, disabilityStatusOptions, disabilityUpdateOptions, layouts } from '../helpers';
+import {
+  GetStartedMessage, disabilityStatusOptions,
+  disabilityUpdateOptions, layouts, disabilityStatuses
+} from '../helpers';
+
+const { ADD, ADDANDINCREASE, APPEAL, FIRST, INCREASE, UPDATE } = disabilityStatuses;
 
 const { chooseStatus, chooseUpdate, applyGuidance } = layouts;
 
@@ -23,32 +28,24 @@ class DisabilityWizard extends React.Component {
     };
   }
 
-  getDisabilityStatus = () => {
-    const { isAppeal, isFirst, isUndefined } = this.checkDisabilityStatus();
-    if (isAppeal) return 'appeal';
-    if (isFirst) return 'first';
-    if (isUndefined) return undefined;
-    return 'update';
-  }
-
   getDisabilityUpdate = (option, checked) => {
     const { isUpdate, isAddAndIncrease } = this.checkDisabilityStatus();
     if (checked) {
       if (isUpdate) {
         return option;
       }
-      return 'addAndIncrease';
+      return ADDANDINCREASE;
     }
     if (!checked) {
       if (isAddAndIncrease) {
-        if (option === 'add') {
-          return 'increase';
+        if (option === ADD) {
+          return INCREASE;
         }
-        if (option === 'increase') {
-          return 'add';
+        if (option === INCREASE) {
+          return ADD;
         }
       }
-      return 'update';
+      return UPDATE;
     }
     return false;
   };
@@ -57,9 +54,15 @@ class DisabilityWizard extends React.Component {
     const { disabilityStatus } = this.state;
     const updates = { add: false, increase: false };
     const regexIncrease = RegExp(/increase/i);
-    if (disabilityStatus && disabilityStatus.includes('add')) updates.add = true;
+    if (disabilityStatus && disabilityStatus.includes(ADD)) updates.add = true;
     if (disabilityStatus && regexIncrease.test(disabilityStatus)) updates.increase = true;
     return updates;
+  }
+
+  // Groups disability status into groups used by first screen: appeal, first, update, and undefined
+  groupDisabilityStatus = () => {
+    const { disabilityStatus } = this.state;
+    return [ADD, ADDANDINCREASE, INCREASE].includes(disabilityStatus) ? UPDATE : disabilityStatus;
   }
 
   isChoosingStatus = () => this.state.currentLayout === chooseStatus;
@@ -80,14 +83,14 @@ class DisabilityWizard extends React.Component {
   checkDisabilityStatus = () => {
     const { disabilityStatus } = this.state;
     return {
-      isUpdate: (disabilityStatus === 'update'),
-      isAppeal: (disabilityStatus === 'appeal'),
-      isFirst: (disabilityStatus === 'first'),
-      isAddOnly: (disabilityStatus === 'add'),
-      containsAdd: (disabilityStatus === 'add' || disabilityStatus === 'addAndIncrease'),
-      isIncreaseOnly: (disabilityStatus === 'increase'),
-      isAddAndIncrease: (disabilityStatus === 'addAndIncrease'),
-      isUndefined: (!disabilityStatus)
+      isUpdate: (disabilityStatus === UPDATE),
+      isAppeal: (disabilityStatus === APPEAL),
+      isFirst: (disabilityStatus === FIRST),
+      isAddOnly: (disabilityStatus === ADD),
+      containsAdd: (disabilityStatus === ADD || disabilityStatus === ADDANDINCREASE),
+      isIncreaseOnly: (disabilityStatus === INCREASE),
+      isAddAndIncrease: (disabilityStatus === ADDANDINCREASE),
+      isUndefined: (disabilityStatus === undefined)
     };
   }
 
@@ -177,7 +180,7 @@ class DisabilityWizard extends React.Component {
               options={disabilityStatusOptions}
               errorMessage={errorMessage}
               onValueChange={({ value }) => this.answerQuestion('disabilityStatus', value)}
-              value={{ value: this.getDisabilityStatus() }}/>
+              value={{ value: this.groupDisabilityStatus() }}/>
             }
             {isChoosingUpdate() &&
             <ErrorableCheckboxes
@@ -190,7 +193,6 @@ class DisabilityWizard extends React.Component {
               values={this.getUpdates()}/>
             }
             {<ButtonContainer
-              {...this.props}
               isVerified={isVerified}
               checkGuidanceStatus={this.checkGuidanceStatus}
               isChoosingStatus={this.isChoosingStatus}
