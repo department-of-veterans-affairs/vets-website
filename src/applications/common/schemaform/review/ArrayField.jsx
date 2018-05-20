@@ -207,7 +207,7 @@ class ArrayField extends React.Component {
                   <div className="row small-collapse schemaform-array-row" id={`table_${fieldName}_${index}`}>
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && uiOptions.itemName && items.length > 1
-                        ? <h5>New {uiOptions.itemName}</h5>
+                        ? <h5>Additional {uiOptions.itemName}</h5>
                         : null}
                       <SchemaForm
                         data={item}

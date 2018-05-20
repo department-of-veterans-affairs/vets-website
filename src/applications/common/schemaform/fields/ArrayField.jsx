@@ -19,6 +19,18 @@ import { errorSchemaIsValid } from '../validation';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+
+const isEmpty = (collection) => {
+  if (collection === undefined) {
+    return true;
+  }
+  if (typeof collection !== 'object') {
+    return false;
+  }
+  return _.every(isEmpty, Object.values(collection));
+};
+
+
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
   constructor(props) {
@@ -46,14 +58,16 @@ export default class ArrayField extends React.Component {
   }
 
   componentWillMount() {
-    const { schema, uiSchema, formData = [], registry } = this.props;
-    const items = (formData && formData.length)
-      ? formData
-      : [getDefaultFormState(schema, undefined, registry.definitions)];
-    const lastItem = items[items.length - 1];
-    this.showInViewMode = !!(uiSchema['ui:options'].showLastItemInViewMode && lastItem);
-    const lastIndex = this.props.formData && this.props.formData.length - 1;
-    if (this.props.errorSchema[lastIndex] && !errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
+    const { uiSchema } = this.props;
+    // this should be an array
+    // TODO: fix update advance bug
+    this.showInViewMode = !!uiSchema['ui:options'].showLastItemInViewMode;
+    console.log('errors', this.props.errorSchema);
+    const hasErrors = !_.every(errorSchemaIsValid, this.props.errorSchema);
+    console.log('hasErrors', hasErrors);
+    if (hasErrors) {
+      console.log('false');
+      // this should be an array
       this.showInViewMode = false;
     }
   }
@@ -150,9 +164,9 @@ export default class ArrayField extends React.Component {
           ? false
           : val;
       });
-      const editingState = this.props.uiSchema['ui:options'].reviewMode;
+      const editingState = this.props.uiSchema['ui:options'].reviewMode ? true : 'adding';
       const newState = _.assign(this.state, {
-        editing: newEditing.concat(!!editingState)
+        editing: newEditing.concat(editingState)
       });
       this.setState(newState, () => {
         const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
@@ -196,7 +210,6 @@ export default class ArrayField extends React.Component {
     } = this.props;
     const definitions = registry.definitions;
     const { TitleField, SchemaField } = registry.fields;
-
     const uiOptions = uiSchema['ui:options'] || {};
     const ViewField = uiOptions.viewField;
     const title = uiSchema['ui:title'] || schema.title;
@@ -239,16 +252,20 @@ export default class ArrayField extends React.Component {
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
             const isLast = items.length === (index + 1);
-            const isEditing = this.state.editing[index];
+            const isEditing = this.state.editing[index] === true;
+            const isEmptyItem = isEmpty(item);
+            const isAdding = this.state.editing[index] === 'adding';
             const notLastOrMultipleRows = !isLast || items.length > 1;
-
-            if (isReviewMode ? isEditing : !this.showInViewMode && (isLast || isEditing)) {
+            const isInvalidView = !this.showInViewMode && !!uiSchema['ui:options'].showLastItemInViewMode;
+            console.log('invalid', isInvalidView, index)
+            const showButtons = notLastOrMultipleRows || (isLast && (isInvalidView || this.showInViewMode));
+            if (isReviewMode ? isEditing :  (isEmptyItem || isAdding || isEditing || isInvalidView || (isLast && !this.showInViewMode))) {
               return (
-                <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
+                <div key={index} className={!isEmptyItem ? 'va-growable-background' : null}>
                   <Element name={`table_${itemIdPrefix}`}/>
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && items.length > 1 && uiSchema['ui:options'].itemName
+                      {(isLast && (isAdding || (!this.showInViewMode && !isInvalidView))) && items.length > 1 && uiSchema['ui:options'].itemName
                         ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                         : null}
                       <div className="input-section">
@@ -265,10 +282,10 @@ export default class ArrayField extends React.Component {
                           disabled={disabled}
                           readonly={readonly}/>
                       </div>
-                      {(notLastOrMultipleRows || this.showInViewMode) &&
+                      {showButtons &&
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
-                            {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
+                            {!isAdding && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
                           </div>
                           <div className="small-6 right columns">
                             <button className="usa-button-secondary float-right" type="button" onClick={() => this.handleRemove(index)}>Remove</button>

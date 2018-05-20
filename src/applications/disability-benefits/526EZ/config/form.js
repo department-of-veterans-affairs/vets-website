@@ -198,18 +198,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              servicePeriods: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    dateRange: _.set('required', ['from'], dateRange),
-                    serviceBranch: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
+              servicePeriods
             }
           }
         },
