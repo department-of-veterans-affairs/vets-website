@@ -23,7 +23,6 @@ class FormApp extends React.Component {
     const { currentLocation, formConfig, children, formData } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
     const Footer = formConfig.footerContent;
 
     let formTitle;
