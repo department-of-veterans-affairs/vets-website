@@ -15,9 +15,9 @@ const endTime = moment().add(6, 'hour').toDate();
 let old;
 
 const innerText = 'This is the inner text';
-function getComponent(dependencies = [], getScheduledDowntime = () => {}) {
+function getComponent(dependencies = [], getScheduledDowntime = () => {}, otherProps = {}) {
   return enzyme.shallow(
-    <DowntimeNotification dependencies={dependencies} getScheduledDowntime={getScheduledDowntime} shouldSendRequest>
+    <DowntimeNotification dependencies={dependencies} getScheduledDowntime={getScheduledDowntime} {...otherProps} shouldSendRequest>
       <span>{innerText}</span>
     </DowntimeNotification>
   );
@@ -154,4 +154,34 @@ describe('<DowntimeNotification/>', () => {
     });
   });
 
+  describe('custom render', () => {
+    it('allows a custom render property', () => {
+      const serviceMap = createServiceMap([
+        {
+          attributes: {
+            externalService: services.mhv,
+            startTime: beforeNow,
+            endTime
+          }
+        }
+      ]);
+
+      const render = (downtime, children) => {
+        return (
+          <div>
+            <h1>Custom render for status {downtime.status}</h1>
+            {children}
+          </div>
+        );
+      };
+
+      const wrapper = getComponent([services.mhv], () => {}, { render });
+      wrapper.setProps({ isReady: true, serviceMap });
+
+      const text = wrapper.text();
+
+      expect(text).to.contain(`Custom render for status ${serviceStatus.down}`, 'Custom render works');
+      expect(text).to.contain(innerText, 'Custom render passes children nodes');
+    });
+  });
 });
