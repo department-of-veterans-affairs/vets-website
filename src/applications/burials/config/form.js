@@ -20,6 +20,7 @@ import {
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 import { isFullDate } from '../../../platform/forms/validations';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -89,7 +90,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   downtime: {
-    dependencies: ['icmhs']
+    dependencies: [services.icmhs]
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for burial benefits.',

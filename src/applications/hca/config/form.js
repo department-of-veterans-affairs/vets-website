@@ -12,6 +12,7 @@ import {
 } from '../../../platform/forms/address';
 
 import { genderLabels } from '../../../platform/static-data/labels';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
 
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
@@ -148,7 +149,7 @@ const formConfig = {
     noAuth: 'Please sign in again to resume your application for health care.'
   },
   downtime: {
-    dependencies: ['es'],
+    dependencies: [services.es],
     message: DowntimeMessage
   },
   transformForSubmit: transform,
