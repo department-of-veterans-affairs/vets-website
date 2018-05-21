@@ -11,7 +11,7 @@ const dismissedDowntimeNotifications = {
     this._dismissedDowntimeNotifications = rawData ? JSON.parse(rawData) : [];
   },
   contains(appTitle) {
-    return this._dismissedDowntimeNotifications.find(_appTitle => _appTitle === appTitle);
+    return this._dismissedDowntimeNotifications.some(_appTitle => _appTitle === appTitle);
   },
   push(appTitle) {
     this._dismissedDowntimeNotifications.push(appTitle);
