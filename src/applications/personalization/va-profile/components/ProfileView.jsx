@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
+import DowntimeNotification, { services, serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 
 import Hero from './Hero';
 import ContactInformation from './ContactInformation';
@@ -10,10 +11,6 @@ import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
 
 class ProfileView extends React.Component {
-
-  componentWillMount() {
-    this.props.startup();
-  }
 
   componentDidUpdate(oldProps) {
     if (this.props.profile !== oldProps.profile && this.props.profile.hero && this.props.profile.hero.userFullName) {
@@ -29,6 +26,11 @@ class ProfileView extends React.Component {
     if (!this.props.profile.hero) return <LoadingIndicator message="Loading your profile information..."/>;
 
     const {
+      fetchAddressConstants,
+      fetchContactInformation,
+      fetchMilitaryInformation,
+      fetchHero,
+      fetchPersonalInformation,
       message,
       profile: {
         hero,
