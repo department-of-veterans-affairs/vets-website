@@ -6,11 +6,11 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 import { formTitles, formLinks, disabledForms } from '../helpers';
 
 class FormItem extends React.Component {
-  handleContinueApplication = (formId) => {
+  recordDashboardClick = (formId, actionType = 'continue-button') => {
     return () => {
       recordEvent({
         event: 'dashboard-navigation',
-        'dashboard-action': 'continue-button',
+        'dashboard-action': actionType,
         'dashboard-product': formId,
       });
     };
@@ -36,12 +36,15 @@ class FormItem extends React.Component {
         <div className="row small-collapse">
           <div className="small-12 medium-8 large-8 columns">
             <div className="application-route-container resume">
-              {!disabledForms[formId] && <a className="usa-button-primary application-route" href={`${formLinks[formId]}resume`} onClick={this.handleContinueApplication(formId)}>Continue Your Application</a>}
+              {!disabledForms[formId] && <a className="usa-button-primary application-route" href={`${formLinks[formId]}resume`} onClick={this.recordDashboardClick(formId)}>Continue Your Application</a>}
             </div>
           </div>
           <div className="small-12 medium-4 large-4 columns">
             <div className="remove-saved-application-container">
-              <button className="va-button-link remove-saved-application-button" onClick={() => this.props.toggleModal(formId)}>
+              <button className="va-button-link remove-saved-application-button" onClick={() => {
+                this.props.toggleModal(formId);
+                this.recordDashboardClick(formId, 'delete-link');
+              }}>
                 <i className="fa fa-trash"></i><span className="remove-saved-application-label">Delete</span>
               </button>
             </div>

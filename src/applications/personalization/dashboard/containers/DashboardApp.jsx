@@ -51,11 +51,11 @@ moment.updateLocale('en', {
   ]
 });
 
-function recordDashboardClick(product) {
+function recordDashboardClick(product, actionType = 'view-link') {
   return () => {
     recordEvent({
       event: 'dashboard-navigation',
-      'dashboard-action': 'view-button',
+      'dashboard-action': actionType,
       'dashboard-product': product,
     });
   };
@@ -192,12 +192,12 @@ class DashboardApp extends React.Component {
           <div>
             <h2>View Your Profile</h2>
             <p>Review your contact, personal, and military service information—and find out how to make any needed updates or corrections.<br/>
-              <a className="usa-button-primary" href={profileManifest.rootUrl} onClick={recordDashboardClick('view-your-profile')}>View Your Profile</a>
+              <a className="usa-button-primary" href={profileManifest.rootUrl} onClick={recordDashboardClick('view-your-profile', 'view-button')}>View Your Profile</a>
             </p>
 
             <h2>Manage Your Account</h2>
             <p>View your current account settings—and find out how to update them as needed to access more site tools or add extra security to your account.<br/>
-              <a className="usa-button-primary" href={accountManifest.rootUrl} onClick={recordDashboardClick('view-your-account-settings')}>View Your Account Settings</a>
+              <a className="usa-button-primary" href={accountManifest.rootUrl} onClick={recordDashboardClick('view-your-account-settings', 'view-button')}>View Your Account Settings</a>
             </p>
           </div>
         </div>

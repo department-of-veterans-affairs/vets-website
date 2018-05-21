@@ -7,9 +7,20 @@ import moment from 'moment';
 import {
   loadPrescriptions
 } from '../../../rx/actions/prescriptions';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
+
+function recordDashboardClick(product) {
+  return () => {
+    recordEvent({
+      event: 'dashboard-navigation',
+      'dashboard-action': 'view-link',
+      'dashboard-product': product,
+    });
+  };
+}
 
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
@@ -47,7 +58,7 @@ class PrescriptionsWidget extends React.Component {
           <div>
             {content}
           </div>
-          <p><Link href="/health-care/prescriptions">View all your prescriptions</Link>.</p>
+          <p><Link href="/health-care/prescriptions" onClick={recordDashboardClick('view-all-prescriptions')}>View all your prescriptions</Link>.</p>
         </div>
       );
     }

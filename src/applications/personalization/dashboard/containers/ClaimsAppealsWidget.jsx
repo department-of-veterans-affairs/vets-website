@@ -15,6 +15,7 @@ import {
   getClaimsV2,
 } from '../../../claims-status/actions/index.jsx';
 import { scrollToTop } from '../../../claims-status/utils/page';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import ClaimsUnavailable from '../../../claims-status/components/ClaimsUnavailable';
 import AppealsUnavailable from '../../../claims-status/components/AppealsUnavailable';
@@ -25,6 +26,16 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealsListItemV2';
+
+function recordDashboardClick(product) {
+  return () => {
+    recordEvent({
+      event: 'dashboard-navigation',
+      'dashboard-action': 'view-link',
+      'dashboard-product': product,
+    });
+  };
+}
 
 class ClaimsAppealsWidget extends React.Component {
   componentDidMount() {
@@ -147,7 +158,7 @@ class ClaimsAppealsWidget extends React.Component {
           </DowntimeNotification>
           {this.renderErrorMessages()}
           {content}
-          <p><Link href="/track-claims">View all your claims and appeals</Link>.</p>
+          <p><Link href="/track-claims" onClick={recordDashboardClick('view-all-claims')}>View all your claims and appeals</Link>.</p>
         </div>
       </div>
     );
