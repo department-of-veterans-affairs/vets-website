@@ -8,16 +8,16 @@ export function getScheduledDowntime() {
   return async (dispatch) => {
     dispatch({ type: RETREIVE_SCHEDULED_DOWNTIME });
 
-    let response = null;
+    let response;
     try {
       response = await apiRequest('/maintenance_windows/');
     } catch (err) {
       // Probably in a test environment and the route isn't mocked.
+    } finally {
+      dispatch({
+        type: RECEIVE_SCHEDULED_DOWNTIME,
+        map: createServiceMap(response && response.data)
+      });
     }
-
-    dispatch({
-      type: RECEIVE_SCHEDULED_DOWNTIME,
-      map: createServiceMap(response && response.data)
-    });
   };
 }
