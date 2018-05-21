@@ -32,6 +32,17 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
   // to the data or form schema before a user starts filling in a prefilled form
   prefillTransformer: (pages, formData, metadata ) => { pages, formData, metadata }
 
+  // Object to configure downtime notifications. When a form has a dependency that is currently
+  // under maintenance, forms will replace the submit buttons with a downtime banner. Also, on form
+  // intro pages, a banner will be shown in place of the start application controls, for logged out
+  // users.
+  downtime: {
+    // A list of service dependencies. The names for these are created by DevOps.
+    dependencies: ['service'],
+    // An optional component that will be shown as the downtime banner.
+    message: MessageComponent
+  },
+
   // Object containing the configuration for each chapter. Each property is the key for a chapter
   chapters: {
 

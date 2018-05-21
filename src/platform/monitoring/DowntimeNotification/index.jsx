@@ -23,7 +23,8 @@ export const services = {
   mvi: 'mvi',
   mhv: 'mhv',
   tims: 'tims',
-  vic: 'vic'
+  vic: 'vic',
+  icmhs: 'icmhs'
 };
 
 /**

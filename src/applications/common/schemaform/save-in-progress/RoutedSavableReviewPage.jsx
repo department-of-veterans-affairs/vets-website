@@ -100,7 +100,7 @@ class RoutedSavableReviewPage extends React.Component {
       const Message = this.props.formConfig.downtime.message || DowntimeMessage;
 
       return (
-        <Message/>
+        <Message downtimeWindow={downtimeWindow}/>
       );
     }
 
@@ -118,16 +118,6 @@ class RoutedSavableReviewPage extends React.Component {
       user
     } = this.props;
 
-    // const submitController = (
-    // );
-    //
-    // let submitContent = submitController;
-    //
-    // if (formConfig.downtime) {
-    //   submitContent = (
-    //   );
-    // }
-    //
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
 
     return (

@@ -88,6 +88,9 @@ const formConfig = {
   formId: '21P-530',
   version: 0,
   prefillEnabled: true,
+  downtime: {
+    dependencies: ['icmhs']
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for burial benefits.',
     noAuth: 'Please sign in again to resume your application for burial benefits.'

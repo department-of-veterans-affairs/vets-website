@@ -184,6 +184,9 @@ const formConfig = {
   version: 1,
   migrations,
   prefillEnabled: true,
+  downtime: {
+    dependencies: ['icmhs']
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
