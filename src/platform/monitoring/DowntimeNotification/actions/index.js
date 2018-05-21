@@ -1,5 +1,5 @@
-import { apiRequest } from '../../../platform/utilities/api';
-import { createServiceMap } from './util/helpers';
+import { apiRequest } from '../../../utilities/api';
+import { createServiceMap } from '../util/helpers';
 
 export const RETREIVE_SCHEDULED_DOWNTIME = 'RETREIVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';

@@ -47,7 +47,9 @@ class DowntimeNotification extends React.Component {
     }
 
     const downtime = getSoonestDowntime(this.props.serviceMap, this.props.dependencies);
-    let content = this.props.children || this.props.content;
+    const children = this.props.children || this.props.content;
+
+    let content = children;
 
     if (downtime) {
       if (this.props.render) {
@@ -63,9 +65,7 @@ class DowntimeNotification extends React.Component {
           <DowntimeApproaching
             appTitle={this.props.appTitle}
             startTime={downtime.startTime}
-            endTime={downtime.endTime}>
-            {this.props.children || this.props.content}
-          </DowntimeApproaching>
+            endTime={downtime.endTime}>{children}</DowntimeApproaching>
         );
       }
     }
