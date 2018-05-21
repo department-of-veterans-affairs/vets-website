@@ -1,12 +1,13 @@
 import {
   RECEIVE_SCHEDULED_DOWNTIME,
   RETREIVE_SCHEDULED_DOWNTIME
-} from './actions';
+} from '../actions';
 
 
 const initialState = {
   isReady: false,
-  values: []
+  isPending: false,
+  serviceMap: null
 };
 
 export default function scheduledDowntime(state = initialState, action) {
@@ -15,10 +16,15 @@ export default function scheduledDowntime(state = initialState, action) {
     case RECEIVE_SCHEDULED_DOWNTIME:
       return {
         isReady: true,
-        values: action.value
+        isPending: false,
+        serviceMap: action.map
       };
 
     case RETREIVE_SCHEDULED_DOWNTIME:
+      return {
+        ...state,
+        isPending: true
+      };
     default:
       return state;
   }

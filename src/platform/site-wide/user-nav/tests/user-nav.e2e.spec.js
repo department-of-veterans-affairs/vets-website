@@ -3,8 +3,8 @@ const Timeouts = require('../../../testing/e2e/timeouts.js');
 const Auth = require('../../../testing/e2e/auth');
 
 const selectors = {
-  menu: '#login-root button[aria-controls="accountMenu"]',
-  signOut: '#accountMenu > ul > li:nth-child(2) > a'
+  menu: '#login-root button[aria-controls="account-menu"]',
+  signOut: '#account-menu > ul > li:nth-child(2) > a'
 };
 
 module.exports = E2eHelpers.createE2eTest(
