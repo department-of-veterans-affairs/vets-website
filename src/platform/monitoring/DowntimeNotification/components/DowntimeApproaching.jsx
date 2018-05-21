@@ -9,8 +9,7 @@ export default class DowntimeApproaching extends React.Component {
     super(props);
     dismissedDowntimeNotifications.setup();
     this.state = {
-      modalDismissed: dismissedDowntimeNotifications.contains(props.appTitle),
-      cache: {}
+      modalDismissed: dismissedDowntimeNotifications.contains(props.appTitle)
     };
   }
 
@@ -28,9 +27,8 @@ export default class DowntimeApproaching extends React.Component {
       content
     } = this.props;
 
-    let downtimeNotification = null;
-    if (!this.state.modalDismissed) {
-      downtimeNotification = (
+    return (
+      <DowntimeNotificationWrapper status={serviceStatus.downtimeApproaching}>
         <Modal id="downtime-approaching-modal"
           onClose={this.dismissModal}
           visible={!this.state.modalDismissed}>
@@ -38,10 +36,6 @@ export default class DowntimeApproaching extends React.Component {
           <p>We’ll be doing some work on the {appTitle} on {startTime.format('MMMM Do')} between {startTime.format('LT')} and {endTime.format('LT')} If you have trouble using this tool during that time, please check back soon.</p>
           <button type="button" className="usa-button-secondary" onClick={this.dismissModal}>Dismiss</button>
         </Modal>);
-    }
-    return (
-      <DowntimeNotificationWrapper status={serviceStatus.downtimeApproaching}>
-        {downtimeNotification}
         {children || content}
       </DowntimeNotificationWrapper>
     );
