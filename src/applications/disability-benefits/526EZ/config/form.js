@@ -65,7 +65,8 @@ import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
   treatments: treatmentsSchema,
-  privateRecordReleases
+  privateRecordReleases,
+  standardClaim,
 } = fullSchema526EZ.properties;
 
 const {
@@ -815,7 +816,7 @@ const formConfig = {
           path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': FDCDescription,
-            noRapidProcessing: {
+            standardClaim: {
               'ui:title':
                 'Do you want to apply using the Fully Developed Claim program?',
               'ui:widget': 'yesNo',
@@ -828,17 +829,17 @@ const formConfig = {
                 }
               }
             },
-            fdcWarning: {
+            'view:fdcWarning': {
               'ui:description': FDCWarning,
               'ui:options': {
-                expandUnder: 'noRapidProcessing',
+                expandUnder: 'standardClaim',
                 expandUnderCondition: false
               }
             },
-            noFDCWarning: {
+            'view:noFDCWarning': {
               'ui:description': noFDCWarning,
               'ui:options': {
-                expandUnder: 'noRapidProcessing',
+                expandUnder: 'standardClaim',
                 expandUnderCondition: true
               }
             }
@@ -846,14 +847,12 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              noRapidProcessing: {
-                type: 'boolean'
-              },
-              fdcWarning: {
+              standardClaim,
+              'view:fdcWarning': {
                 type: 'object',
                 properties: {}
               },
-              noFDCWarning: {
+              'view:noFDCWarning': {
                 type: 'object',
                 properties: {}
               }
