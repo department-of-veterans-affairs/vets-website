@@ -16,6 +16,7 @@ export default function scheduledDowntime(state = initialState, action) {
     case RECEIVE_SCHEDULED_DOWNTIME:
       return {
         isReady: true,
+        isPending: false,
         serviceMap: action.map
       };
 
