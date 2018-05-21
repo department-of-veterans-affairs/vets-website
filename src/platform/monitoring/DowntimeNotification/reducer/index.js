@@ -1,6 +1,6 @@
 import {
   RECEIVE_SCHEDULED_DOWNTIME,
-  RETREIVE_SCHEDULED_DOWNTIME
+  RETRIEVE_SCHEDULED_DOWNTIME
 } from '../actions';
 
 
@@ -20,7 +20,7 @@ export default function scheduledDowntime(state = initialState, action) {
         serviceMap: action.map
       };
 
-    case RETREIVE_SCHEDULED_DOWNTIME:
+    case RETRIEVE_SCHEDULED_DOWNTIME:
       return {
         ...state,
         isPending: true

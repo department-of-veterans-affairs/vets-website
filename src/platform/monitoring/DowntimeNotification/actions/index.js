@@ -1,12 +1,12 @@
 import { apiRequest } from '../../../utilities/api';
 import { createServiceMap } from '../util/helpers';
 
-export const RETREIVE_SCHEDULED_DOWNTIME = 'RETREIVE_SCHEDULED_DOWNTIME';
+export const RETRIEVE_SCHEDULED_DOWNTIME = 'RETRIEVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
 
 export function getScheduledDowntime() {
   return async (dispatch) => {
-    dispatch({ type: RETREIVE_SCHEDULED_DOWNTIME });
+    dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
 
     let response;
     try {
