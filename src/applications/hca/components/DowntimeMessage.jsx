@@ -1,7 +1,8 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import classNames from 'classnames';
 
-export default function DowntimeMessage() {
+export default function DowntimeMessage({ isAfterSteps }) {
   const message = (
     <div>
       <p>We’re sorry. The health care application is currently down while we fix a few things. We’ll be back up as soon as we can.</p>
@@ -11,6 +12,9 @@ export default function DowntimeMessage() {
 
   return (
     <AlertBox
+      className={classNames({
+        'schemaform-downtime-after-steps': isAfterSteps
+      })}
       headline="The health care application is down for maintenance."
       content={message}
       isVisible
