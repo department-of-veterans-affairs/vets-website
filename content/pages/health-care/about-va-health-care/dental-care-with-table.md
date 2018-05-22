@@ -90,7 +90,7 @@ This depends on a number of factors, like your military service history and your
     </td>
   </tr>
   <tr>
-   <td><strong>I’m active in a 38 U.S.C. Chapter 31 vocational rehabilitation program.</strong></td>
+   <td><strong>Are active in a 38 U.S.C. Chapter 31 vocational rehabilitation program.</strong></td>
     <td><p>Dental care that a VA dental care provider concludes is needed to:
       
 - Make it possible for you to be in the vocational rehab program, **or**
@@ -117,7 +117,7 @@ This depends on a number of factors, like your military service history and your
     </td>
   </tr>
   <tr>
-    <td><strong>I currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care).</strong></td>
+    <td><strong>Currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care).</strong></td>
     <td><p>Dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for.</p>
     </td>
   </tr>
@@ -134,7 +134,7 @@ This depends on a number of factors, like your military service history and your
 
 You can apply online by filling out the 10-10EZ health care application.
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for benefits.</a>
 
 #### Where do I go for VA dental care?
 
