@@ -9,6 +9,8 @@ import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -65,7 +67,8 @@ import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
   treatments: treatmentsSchema,
-  privateRecordReleases
+  privateRecordReleases,
+  standardClaim,
 } = fullSchema526EZ.properties;
 
 const {
@@ -130,6 +133,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
@@ -815,7 +819,7 @@ const formConfig = {
           path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': FDCDescription,
-            noRapidProcessing: {
+            standardClaim: {
               'ui:title':
                 'Do you want to apply using the Fully Developed Claim program?',
               'ui:widget': 'yesNo',
@@ -828,17 +832,17 @@ const formConfig = {
                 }
               }
             },
-            fdcWarning: {
+            'view:fdcWarning': {
               'ui:description': FDCWarning,
               'ui:options': {
-                expandUnder: 'noRapidProcessing',
+                expandUnder: 'standardClaim',
                 expandUnderCondition: false
               }
             },
-            noFDCWarning: {
+            'view:noFDCWarning': {
               'ui:description': noFDCWarning,
               'ui:options': {
-                expandUnder: 'noRapidProcessing',
+                expandUnder: 'standardClaim',
                 expandUnderCondition: true
               }
             }
@@ -846,14 +850,12 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              noRapidProcessing: {
-                type: 'boolean'
-              },
-              fdcWarning: {
+              standardClaim,
+              'view:fdcWarning': {
                 type: 'object',
                 properties: {}
               },
-              noFDCWarning: {
+              'view:noFDCWarning': {
                 type: 'object',
                 properties: {}
               }

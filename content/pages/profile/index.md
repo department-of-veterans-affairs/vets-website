@@ -1,7 +1,7 @@
 ---
-title: Your Vets.gov Account
+title: Your Vets.gov Profile
 layout: page-react.html
-entryname: user-profile
+entryname: va-profile
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
@@ -13,11 +13,10 @@ entryname: user-profile
   <div class="section">
     <div id="react-root">
       <div class="loading-message">
-        <div class="loading-indicator-container">
-          <div class="loading-indicator" role="progressbar" aria-valuetext="Please wait while we load the application for you." tabIndex="0"></div> Please wait while we load the application for you.
-        </div>
+        <h3>Please wait while we load the application for you.</h3>
+        <img src="/img/preloader-primary-darkest.gif" alt="Loading">
       </div>
     </div>
   </div>
-  <!-- HCA Application End -->
+  <!-- Profile Beta End -->
 </div>
