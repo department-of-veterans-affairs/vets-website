@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-import '../../../messaging/sass/messaging.scss';
-
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
 import { formattedDate } from '../../../messaging/utils/helpers';
 
@@ -42,6 +40,7 @@ class MessagingWidget extends React.Component {
     }
 
     let content;
+    messages = messages || [];
 
     messages = messages.filter(message => {
       return message.readReceipt !== 'READ';
@@ -75,7 +74,7 @@ class MessagingWidget extends React.Component {
           fields={fields}/>
       );
     } else {
-      content = <p>You don't have any unread messages from your health care team.</p>;
+      content = <p>You don’t have any unread messages from your health care team.</p>;
     }
 
     return (
