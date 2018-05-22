@@ -4,6 +4,12 @@ import { createServiceMap } from '../util/helpers';
 export const RETRIEVE_SCHEDULED_DOWNTIME = 'RETRIEVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
 
+export const DISMISS_DOWNTIME_APPROACHING_MODAL = 'DISMISS_DOWNTIME_APPROACHING_MODAL';
+
+export function dismissDowntimeApproachingModal(appTitle) {
+  return { type: DISMISS_DOWNTIME_APPROACHING_MODAL, appTitle };
+}
+
 export function getScheduledDowntime() {
   return async (dispatch) => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
