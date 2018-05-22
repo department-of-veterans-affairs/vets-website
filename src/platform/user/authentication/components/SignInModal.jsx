@@ -5,7 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { services, serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 
 const loginHandler = (loginType) => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -24,7 +24,7 @@ class SignInModal extends React.Component {
   }
 
   renderDSLogonDowntimeBanner = (status) => {
-    if (status === 'down') {
+    if (status === serviceStatus.down) {
       return (
         <div className="downtime-notification row">
           <div className="columns small-12">
@@ -69,7 +69,7 @@ class SignInModal extends React.Component {
               <h2>One site. A lifetime of benefits and services at your fingertips.</h2>
             </div>
           </div>
-          <DowntimeNotification appTitle="user dashboard" render={this.renderDSLogonDowntimeBanner} dependencies={[services.dslogon]}></DowntimeNotification>
+          <DowntimeNotification render={this.renderDSLogonDowntimeBanner} dependencies={[services.dslogon]}></DowntimeNotification>
           <div className="row">
             <div className="columns usa-width-one-half medium-6">
               <div className="signin-actions-container">
