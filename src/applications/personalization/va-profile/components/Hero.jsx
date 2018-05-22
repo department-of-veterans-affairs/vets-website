@@ -2,6 +2,9 @@ import React from 'react';
 import LoadingSection from './LoadingSection';
 
 class Hero extends React.Component {
+  componentDidMount() {
+    this.props.fetchHero();
+  }
   renderName = () => {
     const {
       hero: {

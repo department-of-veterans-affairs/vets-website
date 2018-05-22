@@ -41,13 +41,14 @@ class VAProfileApp extends React.Component {
           user={this.props.account}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <DowntimeNotification appTitle="profile" dependencies={[ services.evss, services.mvi, services.emis ]}>
+          <DowntimeNotification appTitle="profile" dependencies={[services.evss, services.mvi, services.emis]} render={this.renderDowntime}>
             <ProfileView
               fetchAddressConstants={this.props.fetchAddressConstants}
               fetchContactInformation={this.props.fetchContactInformation}
               fetchMilitaryInformation={this.props.fetchMilitaryInformation}
               fetchHero={this.props.fetchHero}
               fetchPersonalInformation={this.props.fetchPersonalInformation}
+              scheduledDowntime={this.props.scheduledDowntime}
               profile={this.props.profile}
               message={{
                 content: this.props.profile.message,
@@ -63,7 +64,7 @@ class VAProfileApp extends React.Component {
                 errors: this.props.profile.errors,
                 clearErrors: this.props.clearErrors
               }}/>
-            </DowntimeNotification>
+          </DowntimeNotification>
         </RequiredLoginView>
       </div>
     );
@@ -71,21 +72,9 @@ class VAProfileApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  let downtime = null;
-  const scheduledDowntimeReady = state.scheduledDowntime.isReady;
-  if (scheduledDowntimeReady) {
-    downtime = {
-      evss: state.scheduledDowntime.serviceMap.get(services.evss),
-      mvi: state.scheduledDowntime.serviceMap.get(services.mvi),
-      emis: state.scheduledDowntime.serviceMap.get(services.emis)
-    };
-  }
-
   return {
     account: state.user,
-    profile: state.vaProfile,
-    scheduledDowntimeReady,
-    downtime
+    profile: state.vaProfile
   };
 };
 

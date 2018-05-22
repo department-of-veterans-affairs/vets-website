@@ -12,6 +12,9 @@ function BirthDate({ birthDate }) {
 }
 
 class PersonalInformation extends React.Component {
+  componentDidMount() {
+    this.props.fetchPersonalInformation();
+  }
   renderContent = () => {
     const {
       gender,
@@ -33,7 +36,6 @@ class PersonalInformation extends React.Component {
   render() {
     return (
       <div>
-        <h2 className="va-profile-heading">Personal Information</h2>
         <p>If you need to make any updates or corrections, call the Vets.gov Help Desk at  <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We're here Monday-Friday, 8 a.m. - 8 p.m. (ET).</p>
         <LoadingSection
           isLoading={!this.props.personalInformation}

@@ -20,6 +20,11 @@ import LoadFail from './LoadFail';
 
 class ContactInformation extends React.Component {
 
+  componentDidMount() {
+    this.props.fetchContactInformation();
+    this.props.fetchAddressConstants();
+  }
+
   openModalHandler(modalName) {
     return () => this.props.modal.open(modalName);
   }
@@ -114,7 +119,6 @@ class ContactInformation extends React.Component {
   render() {
     return (
       <div>
-        <h2 className="va-profile-heading">Contact Information</h2>
         <AlertBox
           isVisible
           status="info"

@@ -82,7 +82,9 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
   let content = null;
   let modal = null;
 
-  if (phoneResponseData) {
+  if (phoneResponseData.error) {
+    content = fieldFailureMessage;
+  } else {
     if (phoneResponseData.number) {
       const number = <PhoneNumberWidget value={phoneResponseData.number}/>;
       const countryCode = phoneResponseData.countryCode && <span>+ {phoneResponseData.countryCode}</span>;
@@ -91,8 +93,6 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
     } else {
       content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()} number</button>;
     }
-  } else {
-    content = fieldFailureMessage;
   }
 
   if (isEditing) {
