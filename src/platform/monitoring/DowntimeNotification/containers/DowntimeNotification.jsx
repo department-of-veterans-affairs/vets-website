@@ -46,21 +46,25 @@ class DowntimeNotification extends React.Component {
     }
 
     const children = this.props.children || this.props.content;
-    const downtime = getSoonestDowntime(this.props.serviceMap, this.props.dependencies);
 
     if (this.props.render) {
-      return this.props.render(downtime, children);
+      return this.props.render({
+        externalServive: this.props.externalServive,
+        status: this.props.status,
+        startTime: this.props.startTime,
+        endTime: this.props.endTime
+      }, children);
     }
 
-    if (!downtime) {
-      return children;
+    if (this.props.status === serviceStatus.downtimeApproaching) {
+      return <DowntimeApproaching {...this.props}/>;
     }
 
-    if (downtime.status === serviceStatus.downtimeApproaching) {
-      return <DowntimeApproaching {...downtime} {...this.props}/>;
+    if (this.props.status === serviceStatus.down) {
+      return <Down {...this.props}/>;
     }
 
-    return <Down {...downtime} {...this.props}/>;
+    return children;
   }
 }
 
@@ -69,10 +73,16 @@ const mapStateToProps = (state, ownProps) => {
   const shouldSendRequest = !scheduledDowntime.isReady && !scheduledDowntime.isPending;
   const isDowntimeApproachingModalDismissed = scheduledDowntime.dismissedDowntimeApproachingModals.includes(ownProps.appTitle);
 
+  let downtime = null;
+  if (scheduledDowntime.isReady) {
+    downtime = getSoonestDowntime(scheduledDowntime.serviceMap, ownProps.dependencies);
+  }
+
   return {
     shouldSendRequest,
     isDowntimeApproachingModalDismissed,
-    ...scheduledDowntime
+    ...scheduledDowntime,
+    ...downtime
   };
 };
 
