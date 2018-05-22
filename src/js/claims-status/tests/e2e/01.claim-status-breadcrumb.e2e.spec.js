@@ -1,20 +1,30 @@
-const E2eHelpers = require('../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../platform/testing/e2e/timeouts');
-const GiHelpers = require('./gibct-helpers');
+const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
+const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
+const DisabilityHelpers = require('./claims-status-helpers');
+const Auth = require('../../../../platform/testing/e2e/auth');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    GiHelpers.initApplicationMock();
+    const token = Auth.getUserToken();
+
+    DisabilityHelpers.initClaimsListMock(token);
+
+    DisabilityHelpers.initClaimDetailMocks(token, false, true, false, 8);
+
+    Auth.logIn(token, client, '/track-claims', 3)
+      .waitForElementVisible('.claim-list-item-container', Timeouts.slow);
 
     client
-      .url(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
+      .click('.claim-list-item-container:first-child a.usa-button-primary')
+      .waitForElementVisible('body', Timeouts.slow)
+      .waitForElementVisible('.claim-title', Timeouts.slow);
 
-    E2eHelpers.overrideSmoothScrolling(client);
-    client.timeoutsAsyncScript(2000);
+    // redirect to status tab
+    client.assert.urlContains('/your-claims/11/status');
 
+    // status tab highlighted
     client
-      .waitForElementVisible('body', Timeouts.normal)
-      .waitForElementVisible('.gi-app', Timeouts.slow);
+      .expect.element('a.va-tab-trigger.va-tab-trigger--current').text.to.equal('Status');
 
     client
       .waitForElementVisible('.va-nav-breadcrumbs', Timeouts.normal)
