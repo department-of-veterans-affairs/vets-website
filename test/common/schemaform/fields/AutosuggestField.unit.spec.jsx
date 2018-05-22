@@ -383,7 +383,7 @@ describe('<AutosuggestField>', () => {
 
   // The stringifyFormReplacer will send the label to the api instead of the id if freeInput is
   //  true in the formData
-  it('should set a freeInput property to true in the formData if freeInput is true in ui:options', (done) => {
+  it('should return a string if freeInput is true in ui:options', (done) => {
     const onChange = sinon.spy();
     const props = {
       uiSchema: {
@@ -417,7 +417,7 @@ describe('<AutosuggestField>', () => {
 
     setTimeout(() => {
       const fieldData = onChange.firstCall.args[0];
-      expect(fieldData.freeInput).to.be.true;
+      expect(fieldData).to.equal('konami');
       done();
     });
   });

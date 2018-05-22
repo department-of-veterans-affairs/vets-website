@@ -48,7 +48,7 @@ export default class AutosuggestField extends React.Component {
       suggestions = this.getSuggestions(options, input);
     }
 
-    const debounceRate = uiOptions.debounceRate || 1000;
+    const debounceRate = uiOptions.debounceRate === undefined ? 1000 : uiOptions.debounceRate;
     this.debouncedGetOptions = debounce(debounceRate, this.getOptions);
 
     this.state = {
