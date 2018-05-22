@@ -10,6 +10,7 @@ import {
   clearErrors,
   clearMessage
 } from '../actions';
+
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import ProfileView from '../components/ProfileView';
