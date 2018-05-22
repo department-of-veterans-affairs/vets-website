@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
+import { get4142Selection } from '../helpers';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -31,13 +32,10 @@ class ConfirmationPage extends React.Component {
     // ? this.props.form.submission.response.attributes
     // : {};
     const { fullName, disabilities } = formData;
+    const selected4142 = get4142Selection(disabilities || []);
 
-    return (
+    const privateRecordReleaseContent = (
       <div>
-        <h3 className="confirmation-page-title">Claim submitted</h3>
-        <p>We usually process claims within <strong>103 days</strong>.</p>
-        <p>We may contact you if we have questions or need more information.
-        You can print this page for your records.</p>
         <p>
           <strong>If you need us to get your private medical records from your
           doctor,</strong> you’ll need to fill out an Authorization to Disclose
@@ -55,6 +53,16 @@ class ConfirmationPage extends React.Component {
           PO Box 4444<br/>
           Janesville, WI 53547-4444
         </p>
+      </div>
+    );
+
+    return (
+      <div>
+        <h3 className="confirmation-page-title">Claim submitted</h3>
+        <p>We usually process claims within <strong>103 days</strong>.</p>
+        <p>We may contact you if we have questions or need more information.
+        You can print this page for your records.</p>
+        { selected4142 && privateRecordReleaseContent}
         <h4 className="confirmation-guidance-heading">
           What happens after I apply?
         </h4>
