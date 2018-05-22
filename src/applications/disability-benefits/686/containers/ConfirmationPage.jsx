@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import AskVAQuestions from '../../../common/schemaform/components/AskVAQuestions';
+import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {

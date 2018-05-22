@@ -20,6 +20,8 @@ import {
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 import { isFullDate } from '../../../platform/forms/validations';
+import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
+import FormFooter from '../../../platform/forms/components/FormFooter';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -31,7 +33,6 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import currencyUI from '../../common/schemaform/definitions/currency';
 import { validateBurialAndDeathDates } from '../validation';
-import GetFormHelp from '../../common/schemaform/components/GetPensionOrBurialFormHelp';
 
 const {
   relationship,
@@ -94,6 +95,7 @@ const formConfig = {
   },
   title: 'Apply for burial benefits',
   subTitle: 'Form 21P-530',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,

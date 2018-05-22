@@ -9,6 +9,7 @@ import {
 import { urlMigration } from '../../config/migrations';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import GetFormHelp from '../../components/GetFormHelp';
 
 import educationTypeUISchema from '../../definitions/educationType';
@@ -63,6 +64,7 @@ const formConfig = {
   },
   title: 'Update your education benefits',
   subTitle: 'Form 22-1995',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {
