@@ -619,3 +619,27 @@ const evidenceTypesDescription = (disabilityName) => {
 export const getEvidenceTypesDescription = (form, index) => {
   return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
 };
+
+/**
+ * If user chooses private medical record supporting evidence, he/she has a choice
+ * to either upload PMRs directly or fill out a 4142. Here, we determine if the user
+ * chose the 4142 option for any of his/her disabilities
+ * @param {array} disabilities
+ * @returns {boolean} true if user selected option to fill out 4142 on their own
+ */
+export const get4142Selection = (disabilities) => {
+  return disabilities.reduce((selected, disability) => {
+    if (selected === true) {
+      return true;
+    }
+
+    const {
+      'view:selected': viewSelected,
+      'view:uploadPrivateRecords': viewUploadPMR
+    } = disability;
+    if (viewSelected === true && viewUploadPMR === 'no') {
+      return true;
+    }
+    return false;
+  }, false);
+};
