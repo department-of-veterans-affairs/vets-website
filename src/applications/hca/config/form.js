@@ -138,7 +138,7 @@ const formConfig = {
   submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-',
   formId: '1010ez',
-  version: 4,
+  version: 5,
   migrations,
   prefillEnabled: true,
   savedFormMessages: {
