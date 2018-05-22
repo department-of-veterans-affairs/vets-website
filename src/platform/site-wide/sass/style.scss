@@ -4,6 +4,9 @@ $image-path: "~uswds/src/img";
 
 @import "modules/m-footer";
 
+// ----- USWDS OVERRIDE ----- //
+@import "overrides/uswds/focus";
+
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
 @import "modules/m-crisis-line";

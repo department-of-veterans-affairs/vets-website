@@ -274,3 +274,13 @@ span.sidelines {
   color: $color-white;
   margin: 0 0.6em;
 }
+
+.usa-sidenav-list {
+  a:focus {
+    @include focus-gold-lighter-highlight;
+  }
+}
+
+.progress-bar-segmented:focus {
+  @include focus-gold-light-outline;
+}

@@ -76,6 +76,10 @@
   .progress-bar-segmented {
     @include schemaform-padding;
     padding-right: 2rem;
+
+    &:focus {
+      @include focus-gold-light-outline;
+    }
   }
 
   .letters-address {
@@ -196,4 +200,3 @@ label + div {
 }
 
 // --- End copy from _m-schemaform.css --- //
-

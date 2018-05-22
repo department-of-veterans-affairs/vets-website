@@ -62,6 +62,10 @@ fieldset {
   &:focus {
     outline: none;
   }
+
+  a:focus {
+    @include focus-gold-lighter-highlight;
+  }
 }
 
 .form-error-date .input-date-label {

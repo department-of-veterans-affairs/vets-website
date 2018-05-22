@@ -92,6 +92,11 @@ input[type="range"] {
     text-decoration: none;
     color: $color-gray !important;
   }
+
+  &:focus {
+    @include focus-gold-light-outline;
+    outline-offset: 0;
+  }
 }
 
 .fa {

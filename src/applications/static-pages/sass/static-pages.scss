@@ -28,6 +28,11 @@
     text-align: center;
   }
 
+  a.usa-button:focus, button:focus {
+    outline: none;
+    background: $color-gold-lighter;
+  }
+
   .popular-container-links {
     @include media($medium-large-screen) {
       display: flex;
