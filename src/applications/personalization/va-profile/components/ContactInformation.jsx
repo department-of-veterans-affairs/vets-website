@@ -11,14 +11,16 @@ import {
 
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import accountManifest from '../../account/manifest.json';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
 import EmailSection from './EmailSection';
 import LoadingSection from './LoadingSection';
 import LoadFail from './LoadFail';
+import { handleDowntimeForSection } from './DowntimeBanner';
 
-class ContactInformation extends React.Component {
+class ContactInformationContent extends React.Component {
 
   componentDidMount() {
     this.props.fetchContactInformation();
@@ -136,4 +138,13 @@ class ContactInformation extends React.Component {
   }
 }
 
-export default ContactInformation;
+export default function ContactInformation(props) {
+  return (
+    <div>
+      <h2 className="va-profile-heading">Contact Information</h2>
+      <DowntimeNotification render={handleDowntimeForSection('contact')} dependencies={[services.evss, services.mvi]}>
+        <ContactInformationContent {...props}/>
+      </DowntimeNotification>
+    </div>
+  );
+}

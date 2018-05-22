@@ -1,7 +1,9 @@
 import React from 'react';
 import LoadingSection from './LoadingSection';
+import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import { handleDowntimeForSection } from './DowntimeBanner';
 
-class Hero extends React.Component {
+class HeroContent extends React.Component {
   componentDidMount() {
     this.props.fetchHero();
   }
@@ -41,10 +43,7 @@ class Hero extends React.Component {
             isLoading={!this.props.hero}
             message="Loading full name..."
             render={this.renderName}/>
-          <LoadingSection
-            isLoading={!this.props.militaryInformation}
-            message="Loading service information..."
-            render={this.renderService}/>
+          {this.props.militaryInformation && this.renderService()}
           <p className="va-introtext">Review your contact, personal, and military service information—and find out how to make any needed updates or corrections.</p>
         </div>
       </div>
@@ -52,4 +51,12 @@ class Hero extends React.Component {
   }
 }
 
-export default Hero;
+export default function Hero(props) {
+  return (
+    <div>
+      <DowntimeNotification render={handleDowntimeForSection('name')} dependencies={[services.mvi]}>
+        <HeroContent {...props}/>
+      </DowntimeNotification>
+    </div>
+  );
+}

@@ -1,7 +1,9 @@
 import React from 'react';
+import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import moment from '../../../../platform/startup/moment-setup';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
+import { handleDowntimeForSection } from './DowntimeBanner';
 
 function Gender({ gender }) {
   return <span>{gender === 'M' ? 'Male' : 'Female'}</span>;
@@ -11,7 +13,7 @@ function BirthDate({ birthDate }) {
   return <span>{moment(birthDate).format('MMM D, YYYY')}</span>;
 }
 
-class PersonalInformation extends React.Component {
+class PersonalInformationContent extends React.Component {
   componentDidMount() {
     this.props.fetchPersonalInformation();
   }
@@ -46,4 +48,14 @@ class PersonalInformation extends React.Component {
   }
 }
 
-export default PersonalInformation;
+export default function PersonalInformation(props) {
+  return (
+    <div>
+      <h2 className="va-profile-heading">Personal Information</h2>
+      <DowntimeNotification render={handleDowntimeForSection('personal')} dependencies={[services.mvi]}>
+        <PersonalInformationContent {...props}/>
+      </DowntimeNotification>
+    </div>
+  );
+}
+
