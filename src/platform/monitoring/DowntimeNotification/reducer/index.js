@@ -1,3 +1,5 @@
+import { createServiceMap } from '../util/helpers';
+
 import {
   RECEIVE_SCHEDULED_DOWNTIME,
   RETRIEVE_SCHEDULED_DOWNTIME,
@@ -25,7 +27,7 @@ export default function scheduledDowntime(state = initialState, action) {
         ...state,
         isReady: true,
         isPending: false,
-        serviceMap: action.map
+        serviceMap: createServiceMap(action.data)
       };
 
     case RETRIEVE_SCHEDULED_DOWNTIME:
