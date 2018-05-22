@@ -13,13 +13,8 @@ const defaultProps = {
     search: false
   },
   isUserRegisteredForBeta: () => {},
-  profile: {
-    email: 'test@vets.gov',
-    loading: false,
-    userFullName: {
-      first: 'Test'
-    }
-  },
+  isProfileLoading: false,
+  userGreeting: 'test@vets.gov',
   toggleLoginModal: () => {},
   toggleMenu: () => {}
 };
@@ -59,6 +54,6 @@ describe('<SearchHelpSignIn>', () => {
       <SearchHelpSignIn {...loa1Props}/>
     );
     const dropdown = wrapper.find('SignInProfileMenu').dive().find('DropDownPanel').dive();
-    expect(dropdown.text()).to.contain(defaultProps.profile.email);
+    expect(dropdown.text()).to.contain(defaultProps.userGreeting);
   });
 });

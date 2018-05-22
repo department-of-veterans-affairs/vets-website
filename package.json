@@ -210,7 +210,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/jean-pants": "^0.6.0",
+    "@department-of-veterans-affairs/formation": "^0.7.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
@@ -230,7 +230,7 @@
     "reselect": "^2.5.4",
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#29ce2919db9327f10cefb71f09f07714f1dc458b",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#72b5c131b4a9ebd6b5773722ce8d923a86196ff2",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }

@@ -14,7 +14,7 @@ import {
   SET_SUBMITTED,
   submitForm,
   uploadFile
-} from '../../../src/js/common/schemaform/actions';
+} from '../../../src/applications/common/schemaform/actions';
 
 describe('Schemaform actions:', () => {
   describe('setData', () => {

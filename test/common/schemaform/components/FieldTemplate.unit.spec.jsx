@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import FieldTemplate from '../../../../src/js/common/schemaform/components/FieldTemplate';
+import FieldTemplate from '../../../../src/applications/common/schemaform/components/FieldTemplate';
 
 describe('Schemaform <FieldTemplate>', () => {
   it('should render', () => {

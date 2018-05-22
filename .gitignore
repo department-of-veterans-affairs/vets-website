@@ -22,3 +22,4 @@ coverage
 .yalc
 yalc.lock
 /test-results.xml
+package-lock.json

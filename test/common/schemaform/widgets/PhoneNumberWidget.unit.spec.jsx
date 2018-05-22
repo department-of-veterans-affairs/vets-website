@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import PhoneNumberWidget from '../../../../src/js/common/schemaform/widgets/PhoneNumberWidget';
+import PhoneNumberWidget from '../../../../src/applications/common/schemaform/widgets/PhoneNumberWidget';
 
 describe('Schemaform <PhoneNumberWidget>', () => {
   it('should render', () => {

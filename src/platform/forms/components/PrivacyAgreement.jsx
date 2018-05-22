@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
 
 export default function PrivacyAgreement({ onChange, checked, showError }) {
   return (
