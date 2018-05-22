@@ -10,12 +10,11 @@ describe('Downtime Notification Reducer', () => {
       expect(result).to.have.all.keys(scheduledDowntimeInterface);
     });
     it('flips the isReady flag and sets value when RECEIVE_SCHEDULED_DOWNTIME is dispatched', () => {
-      const map = new Map();
-      const action = { type: RECEIVE_SCHEDULED_DOWNTIME, map };
+      const action = { type: RECEIVE_SCHEDULED_DOWNTIME, data: [] };
       const result = scheduledDowntime(undefined, action);
 
       expect(result).to.have.all.keys(scheduledDowntimeInterface);
-      expect(result.serviceMap).to.be.equal(map);
+      expect(result.serviceMap).to.be.instanceof(Map);
     });
   });
 });
