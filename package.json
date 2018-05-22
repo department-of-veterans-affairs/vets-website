@@ -227,7 +227,7 @@
     "reselect": "^2.5.4",
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#72b5c131b4a9ebd6b5773722ce8d923a86196ff2",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#b227d1c2cfdd75424dc158aedfe92387bc79ba9f",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }
