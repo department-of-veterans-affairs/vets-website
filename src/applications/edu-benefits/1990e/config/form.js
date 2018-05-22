@@ -48,6 +48,7 @@ const formConfig = {
   formId: '22-1990E',
   version: 1,
   migrations: [urlMigration('/1990e')],
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply to use transferred education benefits.',
     noAuth: 'Please sign in again to resume your application for transferred education benefits.'
