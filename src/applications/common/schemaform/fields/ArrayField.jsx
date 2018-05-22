@@ -30,6 +30,9 @@ const isEmpty = (collection) => {
   return _.every(isEmpty, Object.values(collection));
 };
 
+const isInvalid = (item, index, errorSchema) => {
+  return isEmpty(item) || !errorSchemaIsValid(errorSchema[index]);
+};
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -46,7 +49,7 @@ export default class ArrayField extends React.Component {
      */
 
     this.state = {
-      editing: props.formData ? props.formData.map(() => false) : [true]
+      editing: props.formData ? props.formData.map((item, index) => isInvalid(item, index, props.errorSchema)) : [true]
     };
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -55,21 +58,6 @@ export default class ArrayField extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
-  }
-
-  componentWillMount() {
-    const { uiSchema } = this.props;
-    // this should be an array
-    // TODO: fix update advance bug
-    this.showInViewMode = !!uiSchema['ui:options'].showLastItemInViewMode;
-    console.log('errors', this.props.errorSchema);
-    const hasErrors = !_.every(errorSchemaIsValid, this.props.errorSchema);
-    console.log('hasErrors', hasErrors);
-    if (hasErrors) {
-      console.log('false');
-      // this should be an array
-      this.showInViewMode = false;
-    }
   }
 
   // This fills in an empty item in the array if it has minItems set
@@ -251,21 +239,16 @@ export default class ArrayField extends React.Component {
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
-            const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index] === true;
             const isEmptyItem = isEmpty(item);
             const isAdding = this.state.editing[index] === 'adding';
-            const notLastOrMultipleRows = !isLast || items.length > 1;
-            const isInvalidView = !this.showInViewMode && !!uiSchema['ui:options'].showLastItemInViewMode;
-            console.log('invalid', isInvalidView, index)
-            const showButtons = notLastOrMultipleRows || (isLast && (isInvalidView || this.showInViewMode));
-            if (isReviewMode ? isEditing :  (isEmptyItem || isAdding || isEditing || isInvalidView || (isLast && !this.showInViewMode))) {
+            if (isReviewMode ? isEditing :  (isAdding || isEditing)) {
               return (
-                <div key={index} className={!isEmptyItem ? 'va-growable-background' : null}>
+                <div key={index} className={!isAdding && !isEmptyItem ? 'va-growable-background' : null}>
                   <Element name={`table_${itemIdPrefix}`}/>
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {(isLast && (isAdding || (!this.showInViewMode && !isInvalidView))) && items.length > 1 && uiSchema['ui:options'].itemName
+                      {isAdding && items.length > 1 && uiSchema['ui:options'].itemName
                         ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                         : null}
                       <div className="input-section">
@@ -282,7 +265,7 @@ export default class ArrayField extends React.Component {
                           disabled={disabled}
                           readonly={readonly}/>
                       </div>
-                      {showButtons &&
+                      {isEditing &&
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             {!isAdding && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
