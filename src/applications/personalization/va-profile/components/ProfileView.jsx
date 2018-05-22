@@ -3,6 +3,8 @@ import Scroll from 'react-scroll';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
+import recordEvent from '../../../../platform/monitoring/record-event';
+
 import {
   SAVE_MAILING_ADDRESS,
   SAVE_PRIMARY_PHONE,
@@ -35,6 +37,19 @@ const scrollToTop = () => {
     smooth: true,
   });
 };
+
+function recordedAction(actionName, sectionName, callback) {
+  return () => {
+    if (sectionName && actionName) {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': actionName,
+        'profile-section': sectionName,
+      });
+    }
+    callback();
+  };
+}
 
 class ProfileView extends React.Component {
 
@@ -126,9 +141,10 @@ class ProfileView extends React.Component {
                 onChange={updateFormFieldActions.mailingAddress}
                 isEditing={currentlyOpenModal === 'mailingAddress'}
                 isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
-                onEdit={this.openModalHandler('mailingAddress')}
-                onSubmit={updateActions.updateMailingAddress}
-                onCancel={this.closeModal}
+                onEdit={recordedAction('edit-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
+                onAdd={recordedAction('add-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
+                onSubmit={recordedAction('update-button', 'mailing-address', updateActions.updateMailingAddress)}
+                onCancel={recordedAction('cancel-button', 'mailing-address', this.closeModal)}
                 addressConstants={addressConstants}/>
 
               <PhoneSection
@@ -140,9 +156,10 @@ class ProfileView extends React.Component {
                 onChange={updateFormFieldActions.primaryTelephone}
                 isEditing={currentlyOpenModal === 'primaryPhone'}
                 isLoading={pendingSaves.includes(SAVE_PRIMARY_PHONE)}
-                onEdit={this.openModalHandler('primaryPhone')}
-                onSubmit={updateActions.updatePrimaryPhone}
-                onCancel={this.closeModal}/>
+                onEdit={recordedAction('edit-link', 'primary-telephone', this.openModalHandler('primaryPhone'))}
+                onAdd={recordedAction('add-link', 'primary-telephone', this.openModalHandler('primaryPhone'))}
+                onSubmit={recordedAction('update-button', 'primary-telephone', updateActions.updatePrimaryPhone)}
+                onCancel={recordedAction('cancel-button', 'primary-telephone', this.closeModal)}/>
 
               <PhoneSection
                 title="Alternate Phone"
@@ -153,9 +170,10 @@ class ProfileView extends React.Component {
                 onChange={updateFormFieldActions.alternateTelephone}
                 isEditing={currentlyOpenModal === 'altPhone'}
                 isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
-                onEdit={this.openModalHandler('altPhone')}
-                onSubmit={updateActions.updateAlternatePhone}
-                onCancel={this.closeModal}/>
+                onEdit={recordedAction('edit-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+                onAdd={recordedAction('add-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+                onSubmit={recordedAction('update-button', 'alternative-telephone', updateActions.updateAlternatePhone)}
+                onCancel={recordedAction('cancel-button', 'alternative-telephone', this.closeModal)}/>
 
               <EmailSection
                 emailResponseData={email}
@@ -165,9 +183,10 @@ class ProfileView extends React.Component {
                 onChange={updateFormFieldActions.email}
                 isEditing={currentlyOpenModal === 'email'}
                 isLoading={pendingSaves.includes(SAVE_EMAIL_ADDRESS)}
-                onEdit={this.openModalHandler('email')}
-                onSubmit={updateActions.updateEmailAddress}
-                onCancel={this.closeModal}/>
+                onEdit={recordedAction('edit-link', 'email', this.openModalHandler('email'))}
+                onAdd={recordedAction('add-link', 'email', this.openModalHandler('email'))}
+                onSubmit={recordedAction('update-button', 'email', updateActions.updateEmailAddress)}
+                onCancel={recordedAction('cancel-button', 'email', this.closeModal)}/>
             </div>
           )}
 
