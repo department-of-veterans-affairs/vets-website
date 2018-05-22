@@ -246,4 +246,25 @@ describe('HCA migrations', () => {
       expect(metadata.returnUrl).to.equal('/household-information/spouse-information');
     });
   });
+  describe('fifth migration', () => {
+    const migration = migrations[4];
+    it('should unset required fields that are blank strings', () => {
+      const data = {
+        formData: {
+          veteranFullName: {
+            first: '   ',
+            last: ' '
+          },
+          veteranAddress: {
+            street: '                    ',
+            city: ' '
+          }
+        }
+      };
+
+      const { formData } = migration(data);
+      expect(formData.veteranFullName).to.eql({});
+      expect(formData.veteranAddress).to.eql({});
+    });
+  });
 });

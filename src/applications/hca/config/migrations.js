@@ -115,5 +115,24 @@ export default [
         ? metadata
         : _.set('returnUrl', '/va-benefits/basic-information', metadata)
     };
+  },
+  // required strings can not pass validation with only spaces
+  ({ formData, metadata }) => {
+    let newFormData = formData;
+    const notBlankStringPattern = /^.*\S.*/;
+
+    ['veteranFullName.first',
+      'veteranFullName.last',
+      'veteranAddress.street',
+      'veteranAddress.city'].forEach(selector => {
+      if (!notBlankStringPattern.test(_.get(selector, newFormData))) {
+        newFormData = _.unset(selector, newFormData);
+      }
+    });
+
+    return {
+      formData: newFormData,
+      metadata
+    };
   }
 ];
