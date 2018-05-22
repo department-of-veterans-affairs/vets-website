@@ -1,6 +1,4 @@
 import _ from '../../../../platform/utilities/data';
-// TODO: Write a merge function
-import { merge } from 'lodash/fp';
 
 // import { omitRequired } from '../../../common/schemaform/helpers';
 
@@ -11,7 +9,6 @@ import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import {
-  schema as autoSuggestSchema,
   uiSchema as autoSuggestUiSchema
 } from '../../../common/schemaform/definitions/autosuggest';
 
@@ -69,7 +66,6 @@ import {
 
 import {
   requireOneSelected,
-  validateTreatmentCenterName
 } from '../validations';
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
@@ -105,15 +101,7 @@ const treatments = ((treatmentsCommonDef) => {
       // TODO: use standard required property once treatmentCenterType added
       // back in schema (because it's required)
       required: ['treatmentCenterName'],
-      properties: _.omit(
-        ['treatmentCenterAddress', 'treatmentCenterType'],
-        // Use the autosuggest schema for treatmentCenterName, but keep the validation on it
-        _.set('treatmentCenterName', merge(autoSuggestSchema, {
-          properties: {
-            label: items.properties.treatmentCenterName
-          }
-        }), items.properties)
-      )
+      properties: _.omit(['treatmentCenterAddress', 'treatmentCenterType'], items.properties)
     }
   };
 
@@ -442,9 +430,11 @@ const formConfig = {
                           queryForResults: true,
                           freeInput: true,
                         },
-                        'ui:validations': [
-                          validateTreatmentCenterName
-                        ]
+                        'ui:errorMessages': {
+                          // If the maxLength changes, we'll want to update the message too
+                          maxLength: 'Please enter a name with fewer than 100 characters.',
+                          pattern: 'Please enter a valid name.'
+                        }
                       }
                     ),
                     treatmentDateRange: dateRangeUI(

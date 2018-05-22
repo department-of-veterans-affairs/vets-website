@@ -48,7 +48,7 @@ export default class AutosuggestField extends React.Component {
       suggestions = this.getSuggestions(options, input);
     }
 
-    const debounceRate = uiOptions.debounceRate === undefined ? 1000 : uiOptions.debounceRate;
+    const debounceRate = uiOptions.debounceRate || 1000;
     this.debouncedGetOptions = debounce(debounceRate, this.getOptions);
 
     this.state = {
@@ -100,13 +100,12 @@ export default class AutosuggestField extends React.Component {
       return suggestion.id;
     }
 
-    const newSuggestion = _.set('widget', 'autosuggest', suggestion);
     // When freeInput is true, we'll return the label to the api instead of the id
     if (this.props.uiSchema['ui:options'].freeInput) {
-      newSuggestion.freeInput = true;
+      return suggestion.label;
     }
 
-    return newSuggestion;
+    return _.set('widget', 'autosuggest', suggestion);
   }
 
   handleInputValueChange = (inputValue) => {
@@ -116,7 +115,7 @@ export default class AutosuggestField extends React.Component {
         this.debouncedGetOptions(inputValue);
       }
 
-      let item = { widget: 'autosuggest', label: inputValue, freeInput: uiOptions.freeInput };
+      let item = { widget: 'autosuggest', label: inputValue };
       // once the input is long enough, check for exactly matching strings so that we don't
       // force a user to click on an item when they've typed an exact match of a label
       if (inputValue && inputValue.length > 3) {
@@ -126,7 +125,7 @@ export default class AutosuggestField extends React.Component {
         }
       }
 
-      this.props.onChange(item);
+      this.props.onChange(this.props.uiSchema['ui:options'].freeInput ? inputValue : item);
       this.setState({
         input: inputValue,
         suggestions: this.getSuggestions(this.state.options, inputValue)
