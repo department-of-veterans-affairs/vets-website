@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import ReviewCollapsibleChapter from '../../../../src/js/common/schemaform/review/ReviewCollapsibleChapter';
+import ReviewCollapsibleChapter from '../../../../src/applications/common/schemaform/review/ReviewCollapsibleChapter';
 
 describe('<ReviewCollapsibleChapter>', () => {
   it('should handle editing', () => {

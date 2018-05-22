@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ReviewPage } from '../../../../src/js/common/schemaform/review/ReviewPage';
+import { ReviewPage } from '../../../../src/applications/common/schemaform/review/ReviewPage';
 
 describe('Schemaform review: ReviewPage', () => {
   const location = {

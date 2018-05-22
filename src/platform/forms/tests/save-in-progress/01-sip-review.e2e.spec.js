@@ -1,6 +1,6 @@
 const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts.js');
-const HcaHelpers = require('../../../../js/hca/tests/hca-helpers.js');
+const HcaHelpers = require('../../../../applications/hca/tests/hca-helpers.js');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {

@@ -459,3 +459,47 @@ body.va-pos-fixed {
     height: auto;
   }
 }
+
+#va-header-logo-menu {
+  a.va-header-logo:focus {
+    @include focus-gold-light-outline;
+    position: relative;
+    z-index: 3;
+  }
+
+  .sign-in-nav button:focus {
+    @include focus-gold-light-outline;
+    position: relative;
+    z-index: 3;
+  }
+
+  a:focus {
+    position: relative;
+    outline: 2px solid $color-gold-light;
+    outline-offset: 0;
+    z-index: 3;
+  }
+
+  .vetnav-panel {
+    button:focus, a:focus {
+      outline: none;
+      background: $color-gold-lighter;
+    }
+
+    .vetnav-panel--submenu a:focus {
+      outline: none;
+      background: $color-gold-lighter;
+    }
+  }
+}
+
+.va-nav-linkslist a:focus {
+  outline: none;
+  margin-top: 19px;
+
+  h4 {
+    background: $color-gold-lighter;
+    display: inline;
+    line-height: 2.2;
+  }
+}

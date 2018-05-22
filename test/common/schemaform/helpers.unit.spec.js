@@ -13,7 +13,7 @@ import {
   formatReviewDate,
   expandArrayPages,
   omitRequired
-} from '../../../src/js/common/schemaform/helpers';
+} from '../../../src/applications/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {
@@ -88,46 +88,6 @@ describe('Schemaform helpers:', () => {
       const routes = createRoutes(formConfig);
 
       expect(routes[0].path).to.equal('introduction');
-    });
-    it('should create routes with resume', () => {
-      const formConfig = {
-        chapters: {
-          firstChapter: {
-            pages: {
-              testPage: {
-                path: 'test-page'
-              }
-            }
-          }
-        }
-      };
-
-      const routes = createRoutes(formConfig);
-
-      expect(routes[0].path).to.equal('test-page');
-      expect(routes[1].path).to.equal('form-saved');
-      expect(routes[2].path).to.equal('error');
-      expect(routes[3].path).to.equal('resume');
-    });
-    it('should create routes with save', () => {
-      const formConfig = {
-        chapters: {
-          firstChapter: {
-            pages: {
-              testPage: {
-                path: 'test-page'
-              }
-            }
-          }
-        }
-      };
-
-      const routes = createRoutes(formConfig);
-
-      expect(routes[0].path).to.equal('test-page');
-      expect(routes[1].path).to.equal('form-saved');
-      expect(routes[2].path).to.equal('error');
-      expect(routes[4].path).to.equal('review-and-submit');
     });
   });
   describe('hasFieldsOtherThanArray', () => {

@@ -35,7 +35,7 @@ You’re considered a Veteran if you meet either of the requirements listed belo
 
 **At least one of these must be true. You:**
 
-- Served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and were discharged under conditions other than dishonorable, **or**
+- Served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and didn't receive a dishonorable discharge, **or**
 - Served as a Reservist or member of the National Guard and were called to federal active duty or disabled from a disease or injury that started or got worse in the line of duty or while in training status
 
 <br>

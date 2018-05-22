@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 
-import fullSchema1010ez from '../../../js/hca/config/form';
-import fullSchema1990 from '../../../js/edu-benefits/1990/config/form';
-import fullSchema1990e from '../../../js/edu-benefits/1990e/config/form';
-import fullSchema1990n from '../../../js/edu-benefits/1990n/config/form';
-import fullSchema1995 from '../../../js/edu-benefits/1995/config/form';
-import fullSchema5490 from '../../../js/edu-benefits/5490/config/form';
-import fullSchema5495 from '../../../js/edu-benefits/5495/config/form';
-import fullSchema527EZ from '../../../js/pensions/config/form';
-import fullSchema530 from '../../../js/burials/config/form';
-import fullSchema10007 from '../../../js/pre-need/config/form';
-import fullSchema686 from '../../../js/disability-benefits/686/config/form';
+import fullSchema1010ez from '../../../applications/hca/config/form';
+import fullSchema1990 from '../../../applications/edu-benefits/1990/config/form';
+import fullSchema1990e from '../../../applications/edu-benefits/1990e/config/form';
+import fullSchema1990n from '../../../applications/edu-benefits/1990n/config/form';
+import fullSchema1995 from '../../../applications/edu-benefits/1995/config/form';
+import fullSchema5490 from '../../../applications/edu-benefits/5490/config/form';
+import fullSchema5495 from '../../../applications/edu-benefits/5495/config/form';
+import fullSchema527EZ from '../../../applications/pensions/config/form';
+import fullSchema530 from '../../../applications/burials/config/form';
+import fullSchema10007 from '../../../applications/pre-need/config/form';
+import fullSchema686 from '../../../applications/disability-benefits/686/config/form';
 
 import schemas from 'vets-json-schema/dist/schemas';
 

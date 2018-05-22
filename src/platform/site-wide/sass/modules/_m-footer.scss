@@ -218,3 +218,18 @@
       }
   }
 }
+
+
+.va-footer-linkgroup {
+  a:focus, button:focus {
+    color: $color-gold-light;
+    outline: 2px solid $color-gold-light;
+  }
+}
+
+.va-footer-linkgroup--inline {
+  a:focus {
+    color: $color-gold-light;
+    outline: 2px solid $color-gold-light;
+  }
+}

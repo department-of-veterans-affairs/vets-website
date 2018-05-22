@@ -14,7 +14,7 @@ All that said, we should be careful to not create a bad user experience when usi
 
 ### Common widget code
 
-There's a simple static page widget feature that you can use to help with the first two points above. The code is in `src/js/static-pages/static-page-widgets.js`. Using this will inline some JS that can handle displaying a loading spinner and showing an error message if something goes wrong before the React code can take over rendering. Several pension pages use this functionality (`content/pages/pension/index.md`, `content/pages/pension/apply.md`). It's controlled by defining a widgets list in the front matter for the static content page you're on. The options are:
+There's a simple static page widget feature that you can use to help with the first two points above. The code is in `src/applications/static-pages/static-page-widgets.js`. Using this will inline some JS that can handle displaying a loading spinner and showing an error message if something goes wrong before the React code can take over rendering. Several pension pages use this functionality (`content/pages/pension/index.md`, `content/pages/pension/apply.md`). It's controlled by defining a widgets list in the front matter for the static content page you're on. The options are:
 
 ```
 - widgets

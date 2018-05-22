@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intersection } from 'lodash';
 
-import SystemDownView from '@department-of-veterans-affairs/jean-pants/SystemDownView';
+import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
 
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 const healthTools = ['health-records', 'rx', 'messaging'];
 const nextQuery = { next: window.location.pathname };
@@ -13,16 +13,12 @@ const signInUrl = appendQuery('/', nextQuery);
 const verifyUrl = appendQuery('/verify', nextQuery);
 
 class RequiredLoginView extends React.Component {
-  componentDidUpdate() {
-    const isLoading = this.props.user.profile.loading;
+  componentDidMount() {
+    this.redirectIfNeeded();
+  }
 
-    if (!isLoading) {
-      if (this.shouldSignIn()) {
-        window.location.replace(signInUrl);
-      } else if (this.shouldVerify()) {
-        window.location.replace(verifyUrl);
-      }
-    }
+  componentDidUpdate() {
+    this.redirectIfNeeded();
   }
 
   shouldSignIn = () => !this.props.user.login.currentlyLoggedIn;
@@ -39,6 +35,13 @@ class RequiredLoginView extends React.Component {
     }
 
     return false;
+  }
+
+  redirectIfNeeded = () => {
+    if (!this.props.user.profile.loading) {
+      if (this.shouldSignIn()) window.location.replace(signInUrl);
+      else if (this.shouldVerify()) window.location.replace(verifyUrl);
+    }
   }
 
   // Checks that (1) session has a valid authentication token and

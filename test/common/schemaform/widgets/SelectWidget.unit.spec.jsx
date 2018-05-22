@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import SelectWidget from '../../../../src/js/common/schemaform/widgets/SelectWidget';
+import SelectWidget from '../../../../src/applications/common/schemaform/widgets/SelectWidget';
 
 describe('Schemaform <SelectWidget>', () => {
   it('should render', () => {

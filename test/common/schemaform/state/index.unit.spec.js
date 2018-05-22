@@ -8,9 +8,9 @@ import {
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
   SET_SUBMITTED
-} from '../../../../src/js/common/schemaform/actions';
+} from '../../../../src/applications/common/schemaform/actions';
 
-import createSchemaFormReducer from '../../../../src/js/common/schemaform/state';
+import createSchemaFormReducer from '../../../../src/applications/common/schemaform/state';
 
 describe('schemaform createSchemaFormReducer', () => {
   it('creates a reducer with initial state for each page', () => {
