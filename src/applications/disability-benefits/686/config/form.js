@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 
 import ArrayCountWidget from '../../../common/schemaform/widgets/ArrayCountWidget';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
@@ -106,6 +107,7 @@ const formConfig = {
   },
   title: 'Apply to add a dependent to your VA benefits',
   subTitle: 'VA Form 21-686c',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address,

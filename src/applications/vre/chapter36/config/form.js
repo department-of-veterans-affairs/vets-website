@@ -19,6 +19,8 @@ import phoneUI from '../../../common/schemaform/definitions/phone';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { validateMatch } from '../../../common/schemaform/validation';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+
 const {
   applicantEmail,
   applicantFullName,
@@ -153,6 +155,7 @@ const formConfig = {
   formId: '28-8832',
   version: 0,
   prefillEnabled: true,
+  footerContent: FormFooter,
   savedFormMessages: {
     notFound: 'Please start over to apply for vocational counseling.',
     noAuth: 'Please sign in again to resume your application for vocational counseling.'
