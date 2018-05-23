@@ -26,6 +26,20 @@ class ProfileView extends React.Component {
     }
   }
 
+  renderMVIErrorState() {
+    return (
+      <div>
+        <h1>Your Profile</h1>
+        <h4>We’re having trouble matching your information to our Veteran records</h4>
+        <p>We’re sorry. We’re having trouble matching your information to our Veteran records, so we can’t give you access to tools for managing your health and benefits.</p>
+
+        <p>If you’d like to use these tools on Vets.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect with you with the right person who can help.</p>
+
+        <p><a href="/facilities/">Find your nearest VA Medical Center</a>.</p>
+      </div>
+    );
+  }
+
   renderLOAState() {
     return (
       <div>
@@ -78,16 +92,19 @@ class ProfileView extends React.Component {
     let content;
 
     if (user.profile.verified) {
-      content = (
-        <div>
-          <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
-          <Hero hero={hero} militaryInformation={militaryInformation}/>
-          <ContactInformation {...this.props}/>
-          <PersonalInformation personalInformation={personalInformation}/>
-          <MilitaryInformation militaryInformation={militaryInformation}/>
-        </div>
-      );
-
+      if (user.profile.veteranStatus === 'OK') {
+        content = (
+          <div>
+            <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
+            <Hero hero={hero} militaryInformation={militaryInformation}/>
+            <ContactInformation {...this.props}/>
+            <PersonalInformation personalInformation={personalInformation}/>
+            <MilitaryInformation militaryInformation={militaryInformation}/>
+          </div>
+        );
+      } else {
+        content = this.renderMVIErrorState();
+      }
     } else {
       content = this.renderLOAState();
     }
