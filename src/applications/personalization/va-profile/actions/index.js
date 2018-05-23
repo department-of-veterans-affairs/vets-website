@@ -9,7 +9,7 @@ export const FETCH_ADDRESS_CONSTANTS_SUCCESS = 'FETCH_ADDRESS_CONSTANTS_SUCCESS'
 export * from './updaters';
 export * from './misc';
 
-function fetchHero() {
+export function fetchHero() {
   return async (dispatch) => {
     const hero = await sendAndMergeApiRequests({
       userFullName: '/profile/full_name'
@@ -21,7 +21,7 @@ function fetchHero() {
   };
 }
 
-function fetchContactInformation() {
+export function fetchContactInformation() {
   return async (dispatch) => {
     const contactInformation = await sendAndMergeApiRequests({
       email: '/profile/email',
@@ -36,7 +36,7 @@ function fetchContactInformation() {
   };
 }
 
-function fetchPersonalInformation() {
+export function fetchPersonalInformation() {
   return async (dispatch) => {
     const result = await sendAndMergeApiRequests({
       personalInformation: '/profile/personal_information'
@@ -48,7 +48,7 @@ function fetchPersonalInformation() {
   };
 }
 
-function fetchMilitaryInformation() {
+export function fetchMilitaryInformation() {
   return async (dispatch) => {
     const militaryInformation = await sendAndMergeApiRequests({
       serviceHistory: '/profile/service_history'
@@ -60,7 +60,7 @@ function fetchMilitaryInformation() {
   };
 }
 
-function fetchAddressConstants() {
+export function fetchAddressConstants() {
   return async (dispatch) => {
     const addressConstants = await sendAndMergeApiRequests({
       countries: '/address/countries',

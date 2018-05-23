@@ -9,17 +9,17 @@ import {
   SAVE_EMAIL_ADDRESS_FAIL
 } from '../actions';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
-
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
 import EmailSection from './EmailSection';
 import LoadingSection from './LoadingSection';
 import LoadFail from './LoadFail';
-
+import { handleDowntimeForSection } from './DowntimeBanner';
 
 function recordedAction(actionName, sectionName, callback) {
   return () => {
@@ -34,7 +34,12 @@ function recordedAction(actionName, sectionName, callback) {
   };
 }
 
-class ContactInformation extends React.Component {
+class ContactInformationContent extends React.Component {
+
+  componentDidMount() {
+    this.props.fetchContactInformation();
+    this.props.fetchAddressConstants();
+  }
 
   openModalHandler(modalName) {
     return () => this.props.modal.open(modalName);
@@ -152,4 +157,13 @@ class ContactInformation extends React.Component {
   }
 }
 
-export default ContactInformation;
+export default function ContactInformation(props) {
+  return (
+    <div>
+      <h2 className="va-profile-heading">Contact Information</h2>
+      <DowntimeNotification render={handleDowntimeForSection('contact')} dependencies={[services.evss, services.mvi]}>
+        <ContactInformationContent {...props}/>
+      </DowntimeNotification>
+    </div>
+  );
+}
