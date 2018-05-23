@@ -4,8 +4,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 
+import { createServiceMap } from '../util/helpers';
 import { services, serviceStatus } from '../index';
-import { DowntimeNotification } from '../containers/DowntimeNotification';
+import { DowntimeNotification, mapStateToProps } from '../containers/DowntimeNotification';
 
 let old;
 
@@ -17,6 +18,60 @@ function getComponent(dependencies = [], getScheduledDowntime = () => {}, otherP
     </DowntimeNotification>
   );
 }
+
+describe('mapStateToProps', () => {
+
+  it('should set shouldSendRequest to true when scheduled downtime is not ready and a request is not pending', () => {
+    const scheduledDowntime = {
+      isReady: false,
+      isPending: false,
+      dismissedDowntimeWarnings: []
+    };
+
+    const ownProps = {
+      appTitle: 'test app',
+      dependencies: ['Service A']
+    };
+
+    const props = mapStateToProps({ scheduledDowntime }, ownProps);
+    expect(props.shouldSendRequest).to.be.true;
+    expect(props.status).to.be.undefined;
+  });
+
+  it('should have properties of a downtime object if downtime is found', () => {
+    const serviceMap = createServiceMap([
+      {
+        attributes: {
+          externalService: 'myservice',
+          startTime: moment().toISOString(),
+          endTime: moment().add(1, 'day').toISOString()
+        }
+      }
+    ]);
+
+    const scheduledDowntime = {
+      isReady: true,
+      isPending: false,
+      dismissedDowntimeWarnings: [],
+      serviceMap
+    };
+
+    const ownProps = {
+      appTitle: 'My app',
+      dependencies: ['myservice']
+    };
+
+    const props = mapStateToProps({ scheduledDowntime }, ownProps);
+
+    expect(props).to.include.all.keys([
+      'externalService',
+      'status',
+      'startTime',
+      'endTime'
+    ]);
+
+  });
+});
 
 describe('<DowntimeNotification/>', () => {
 
@@ -53,7 +108,13 @@ describe('<DowntimeNotification/>', () => {
   describe('Approaching downtime', () => {
     it('should render the children and a Modal when downtime is approaching', () => {
       const wrapper = getComponent([services.mhv]);
-      wrapper.setProps({ isReady: true, startTime: moment(), endTime: moment(), status: serviceStatus.downtimeApproaching });
+      wrapper.setProps({
+        isReady: true,
+        initializeDowntimeWarnings() {},
+        startTime: moment(),
+        endTime: moment(),
+        status: serviceStatus.downtimeApproaching
+      });
 
       const downtimeApproaching = wrapper.find('DowntimeApproaching').dive();
       const innerWrapper = downtimeApproaching.find('DowntimeNotificationWrapper').dive();
