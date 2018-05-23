@@ -7,7 +7,12 @@ import { DefinitionTester, fillData } from '../../../../../platform/testing/unit
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
-describe('Disability benefits 526EZ VA facility', () => {
+// We don't allow users to hit this page for the time being, because we have
+// nothing that we can do with this information. The page is always skipped in
+// the config. Also, these tests possibly duplicate
+// privateMedicalRecordsRelease.unit.spec.jsx so we probably want to delete one
+// of these two files down the road.
+xdescribe('Disability benefits 526EZ VA facility', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordRelease;
   it('renders private record release form', () => {
     const form = mount(<DefinitionTester

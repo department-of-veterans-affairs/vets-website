@@ -87,9 +87,10 @@ describe('Letters helpers: ', () => {
 
     it('should only be defined if value is valid', () => {
       _.forEach(option => {
+        expect(getBenefitOptionText(option, 0, true)).not.to.be.undefined;
         expect(getBenefitOptionText(option, 20, true)).not.to.be.undefined;
         expect(getBenefitOptionText(option, undefined, true)).to.be.undefined;
-        expect(getBenefitOptionText(option, 'unavailable', true)).to.be.undefined;
+        expect(getBenefitOptionText(option, null, true)).to.be.undefined;
       }, ['monthlyAwardAmount', 'serviceConnectedPercentage']);
     });
 
