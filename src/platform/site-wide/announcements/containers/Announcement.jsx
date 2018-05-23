@@ -22,7 +22,12 @@ class Announcement extends React.Component {
     } = this.props;
 
     this.props.dismissAnnouncement(announcementName);
-    relatedAnnouncements.forEach(relatedAnnouncementName => this.props.dismissAnnouncement(relatedAnnouncementName));
+
+    relatedAnnouncements
+      .filter(relatedAnnouncementName => !this.props.dismissed.includes(relatedAnnouncementName))
+      .forEach(relatedAnnouncementName => {
+        this.props.dismissAnnouncement(relatedAnnouncementName);
+      });
   }
   render() {
     const {
