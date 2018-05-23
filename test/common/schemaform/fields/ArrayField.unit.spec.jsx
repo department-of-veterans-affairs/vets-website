@@ -79,10 +79,6 @@ describe('Schemaform <ArrayField>', () => {
         viewField: f => f
       }
     };
-    const formData = [
-      { field: 'information' },
-      { field: 'information' }
-    ];
     const tree = SkinDeep.shallowRender(
       <ArrayField
         schema={schema}
@@ -90,13 +86,99 @@ describe('Schemaform <ArrayField>', () => {
         errorSchema={errorSchema}
         idSchema={idSchema}
         registry={registry}
-        formData={formData}
         formContext={formContext}
         onChange={f => f}
         requiredSchema={requiredSchema}/>
     );
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
+  });
+  it('should render prefilled items', () => {
+    const idSchema = {
+      $id: 'field'
+    };
+    const schema = {
+      type: 'array',
+      items: [],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        viewField: f => f
+      }
+    };
+    const formData = [
+      { field: 'information' },
+      { field: 'information' }
+    ];
+
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        schema={schema}
+        uiSchema={uiSchema}
+        errorSchema={errorSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        formData={formData}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
+    );
     expect(tree.everySubTree('.va-growable-background').length).to.equal(2);
+  });
+  it('should render invalid prefilled items', () => {
+    const idSchema = {
+      $id: 'field'
+    };
+    const schema = {
+      type: 'array',
+      items: [],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const ViewField = f => f;
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        viewField: ViewField
+      }
+    };
+    const fullErrorSchema = {
+      0: { field: { __errors: ['some error'] } },
+    };
+    const formData = [
+      { field: 'information' },
+      { field: 'information' }
+    ];
+
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        schema={schema}
+        uiSchema={uiSchema}
+        errorSchema={fullErrorSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        formData={formData}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
+    );
+
+    expect(tree.everySubTree('SchemaField').length).to.equal(1);
+    expect(tree.everySubTree('ViewField').length).to.equal(1);
   });
   describe('should handle', () => {
     let tree;
@@ -147,34 +229,34 @@ describe('Schemaform <ArrayField>', () => {
       );
     });
     it('edit', () => {
-      expect(tree.everySubTree('SchemaField').length).to.equal(1);
+      expect(tree.everySubTree('SchemaField').length).to.equal(0);
 
       tree.getMountedInstance().handleEdit(0);
 
-      expect(tree.everySubTree('SchemaField').length).to.equal(2);
+      expect(tree.everySubTree('SchemaField').length).to.equal(1);
     });
     it('update when valid', () => {
       tree.getMountedInstance().handleEdit(0);
 
-      expect(tree.everySubTree('SchemaField').length).to.equal(2);
+      expect(tree.everySubTree('SchemaField').length).to.equal(1);
 
       tree.getMountedInstance().handleUpdate(0);
 
-      expect(tree.everySubTree('SchemaField').length).to.equal(1);
+      expect(tree.everySubTree('SchemaField').length).to.equal(0);
     });
     it('not update when invalid', () => {
       tree.getMountedInstance().handleEdit(0);
 
-      expect(tree.everySubTree('SchemaField').length).to.equal(2);
+      expect(tree.everySubTree('SchemaField').length).to.equal(1);
 
       fullErrorSchema[0] = { __errors: ['Testing'] };
 
       tree.getMountedInstance().handleUpdate(0);
 
-      expect(tree.everySubTree('SchemaField').length).to.equal(2);
+      expect(tree.everySubTree('SchemaField').length).to.equal(1);
     });
     it('add', () => {
-      expect(tree.everySubTree('SchemaField').length).to.equal(1);
+      expect(tree.everySubTree('SchemaField').length).to.equal(0);
 
       tree.getMountedInstance().handleAdd();
 
@@ -189,9 +271,9 @@ describe('Schemaform <ArrayField>', () => {
       expect(formContext.setTouched.called).to.be.true;
     });
     it('remove', () => {
-      expect(tree.everySubTree('SchemaField').length).to.equal(1);
+      expect(tree.everySubTree('SchemaField').length).to.equal(0);
       const instance = tree.getMountedInstance();
-
+      instance.handleEdit(0);
       instance.handleRemove(0);
 
       expect(onChange.firstCall.args[0].length).to.equal(1);
@@ -239,185 +321,6 @@ describe('Schemaform <ArrayField>', () => {
         requiredSchema={requiredSchema}/>
     );
 
-    expect(tree.subTree('button').props.disabled).to.be.true;
-  });
-  it('should render review mode when showLastItemInViewMode is configured and has valid data', () => {
-    const idSchema = {};
-    const schema = {
-      type: 'array',
-      items: [],
-      additionalItems: {
-        type: 'object',
-        properties: {
-          field: {
-            type: 'string'
-          }
-        }
-      }
-    };
-    const formData = [
-      { field: 'information' }
-    ];
-    const ViewField = f => f;
-    const uiSchema = {
-      'ui:title': 'List of things',
-      'ui:options': {
-        showLastItemInViewMode: true,
-        viewField: ViewField
-      }
-    };
-    const onChange = sinon.spy();
-    const onBlur = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <ArrayField
-        schema={schema}
-        errorSchema={errorSchema}
-        uiSchema={uiSchema}
-        idSchema={idSchema}
-        registry={registry}
-        onChange={onChange}
-        onBlur={onBlur}
-        formData={formData}
-        formContext={formContext}
-        requiredSchema={requiredSchema}/>
-    );
-    expect(tree.everySubTree('SchemaField').length).to.equal(0);
-    expect(tree.everySubTree('ViewField').length).to.equal(1);
-  });
-  it('should render edit mode when showLastItemInViewMode is configured and has no data', () => {
-    const idSchema = {};
-    const schema = {
-      type: 'array',
-      items: [],
-      additionalItems: {
-        type: 'object',
-        properties: {
-          field: {
-            type: 'string'
-          }
-        }
-      }
-    };
-    const formData = [];
-    const uiSchema = {
-      'ui:title': 'List of things',
-      'ui:options': {
-        showLastItemInViewMode: true,
-        viewField: f => f
-      }
-    };
-    const fullErrorSchema = {};
-    const onChange = sinon.spy();
-    const onBlur = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <ArrayField
-        schema={schema}
-        errorSchema={fullErrorSchema}
-        uiSchema={uiSchema}
-        idSchema={idSchema}
-        registry={registry}
-        onChange={onChange}
-        onBlur={onBlur}
-        formData={formData}
-        formContext={formContext}
-        requiredSchema={requiredSchema}/>
-    );
-
-    expect(tree.everySubTree('SchemaField').length).to.equal(1);
-  });
-  it('should render edit mode when showLastItemInViewMode is configured and has invalid data', () => {
-    const idSchema = {};
-    const schema = {
-      type: 'array',
-      items: [],
-      additionalItems: {
-        type: 'object',
-        properties: {
-          field: {
-            type: 'string'
-          }
-        }
-      }
-    };
-    const formData = [
-      { field: 'information' },
-    ];
-    const uiSchema = {
-      'ui:title': 'List of things',
-      'ui:options': {
-        showLastItemInViewMode: true,
-        viewField: f => f
-      }
-    };
-    const fullErrorSchema = {
-      0: { thing: { __errors: ['some error'] } },
-    };
-    const onChange = sinon.spy();
-    const onBlur = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <ArrayField
-        schema={schema}
-        errorSchema={fullErrorSchema}
-        uiSchema={uiSchema}
-        idSchema={idSchema}
-        registry={registry}
-        onChange={onChange}
-        onBlur={onBlur}
-        formData={formData}
-        formContext={formContext}
-        requiredSchema={requiredSchema}/>
-    );
-    // White background shouldn't be default style for last items if showLastItemInViewMode selected
-    expect(tree.everySubTree('.va-growable-background').length).to.equal(1);
-    expect(tree.everySubTree('SchemaField').length).to.equal(1);
-  });
-  it('should not render review mode until valid data is submitted', () => {
-    const idSchema = {};
-    const schema = {
-      type: 'array',
-      items: [],
-      additionalItems: {
-        type: 'object',
-        required: ['field'],
-        properties: {
-          field: {
-            type: 'string'
-          }
-        }
-      }
-    };
-    const formData = [
-      {},
-    ];
-    const uiSchema = {
-      'ui:title': 'List of things',
-      'ui:options': {
-        showLastItemInViewMode: true,
-        viewField: f => f
-      }
-    };
-    const onChange = sinon.spy();
-    const onBlur = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <ArrayField
-        schema={schema}
-        errorSchema={errorSchema}
-        uiSchema={uiSchema}
-        idSchema={idSchema}
-        registry={registry}
-        onChange={onChange}
-        onBlur={onBlur}
-        formData={formData}
-        formContext={formContext}
-        requiredSchema={requiredSchema}/>
-    );
-    expect(tree.everySubTree('SchemaField').length).to.equal(1);
-    const newItem = { field: 'abc' };
-    tree.getMountedInstance().onItemChange(0, newItem);
-    expect(tree.everySubTree('SchemaField').length).to.equal(1);
-    // check new in title here?
-    console.log(tree.toString());
-    // do we need to update the tree or something here? is there a similar test above?
-    expect(tree.everySubTree('SchemaField').length).to.equal(0);
+    expect(tree.everySubTree('button')[2].props.disabled).to.be.true;
   });
 });
