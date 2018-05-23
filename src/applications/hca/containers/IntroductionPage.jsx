@@ -9,8 +9,8 @@ import SaveInProgressIntro, { introActions, introSelector } from '../../common/s
 import DowntimeNotification, { services, serviceStatus } from '../../../platform/monitoring/DowntimeNotification';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-function renderDowntime(status, downtimeWindow, downtimeMap, children) {
-  if (status === serviceStatus.down) {
+function renderDowntime(downtime, children) {
+  if (downtime.status === serviceStatus.down) {
     const message = (
       <div>
         <p>We’re sorry. The health care application is currently down while we fix a few things. We’ll be back up as soon as we can.</p>

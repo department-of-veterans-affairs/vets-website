@@ -91,8 +91,8 @@ class DashboardApp extends React.Component {
     };
   }
 
-  renderDowntimeNotification = (status, downtimeWindow, downtimeMap, children) => {
-    switch (status) {
+  renderDowntimeNotification = (downtime, children) => {
+    switch (downtime.status) {
       case 'downtimeApproaching':
         return (
           <div className="downtime-notification row-padded" data-status={status}>
@@ -101,7 +101,7 @@ class DashboardApp extends React.Component {
               status="info"
               onClose={this.dismissModal}
               visible={!this.state.modalDismissed}>
-              <p>We’ll be making updates to some tools and features on {downtimeWindow.startTime.format('MMMM Do')} between {downtimeWindow.startTime.format('LT')} and {downtimeWindow.endTime.format('LT')} If you have trouble using parts of the dashboard during that time, please check back soon.</p>
+              <p>We’ll be making updates to some tools and features on {downtime.startTime.format('MMMM Do')} between {downtime.startTime.format('LT')} and {downtime.endTime.format('LT')} If you have trouble using parts of the dashboard during that time, please check back soon.</p>
               <button type="button" className="usa-button-secondary" onClick={this.dismissModal}>Continue</button>
             </Modal>
             {children}
@@ -113,8 +113,8 @@ class DashboardApp extends React.Component {
   }
 
   renderWidgetDowntimeNotification = (appName, sectionTitle) => {
-    return (status, downtimeWindow, downtimeMap, children) => {
-      switch (status) {
+    return (downtime, children) => {
+      switch (downtime.status) {
         case 'down':
           return (
             <div>
@@ -122,7 +122,7 @@ class DashboardApp extends React.Component {
               <AlertBox
                 content={<div>
                   <h4 className="usa-alert-heading">{appName} is down for maintenance</h4>
-                  <p>We’re making some updates to our {appName.toLowerCase()} tool. We’re sorry it’s not working right now and hope to be finished by {downtimeWindow.startTime.format('MMMM Do')}, {downtimeWindow.endTime.format('LT')}. Please check back soon.</p>
+                  <p>We’re making some updates to our {appName.toLowerCase()} tool. We’re sorry it’s not working right now and hope to be finished by {downtime.startTime.format('MMMM Do')}, {downtime.endTime.format('LT')}. Please check back soon.</p>
                 </div>}
                 isVisible
                 status="warning"/>
