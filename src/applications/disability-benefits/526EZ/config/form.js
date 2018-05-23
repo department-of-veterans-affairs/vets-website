@@ -47,6 +47,8 @@ import {
   privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
+  download4142Notice,
+  authorizationToDisclose,
   recordReleaseWarning,
   // validateAddress, // TODO: This needs to be fleshed out
   documentDescription,
@@ -500,8 +502,15 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, please get them from my doctor'
+                      no: 'No, my doctor has my medical records.'
                     }
+                  }
+                },
+                'view:privateRecords4142Notice': {
+                  'ui:description': download4142Notice,
+                  'ui:options': {
+                    expandUnder: 'view:uploadPrivateRecords',
+                    expandUnderCondition: 'no'
                   }
                 },
                 'view:privateRecordsChoiceHelp': {
@@ -522,11 +531,47 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no']
                     },
+                    'view:privateRecords4142Notice': {
+                      type: 'object',
+                      'ui:collapsed': true,
+                      properties: {}
+                    },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
                       properties: {}
                     }
                   }
+                }
+              }
+            }
+          }
+        },
+        authorizationToDisclose: {
+          title: '',
+          path: 'supporting-evidence/:index/authorization-to-disclose',
+          showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
+          arrayPath: 'disabilities',
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+            return hasRecords && requestsRecords;
+          },
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:description': authorizationToDisclose
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
                 }
               }
             }
@@ -538,11 +583,13 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => {
-            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
-            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
-            return hasRecords && requestsRecords;
-          },
+          // TODO: Re-enable actual depends logic for page once 4142 PDF generation is working through vets-api
+          depends: () => false,
+          // depends: (formData, index) => {
+          //   const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+          //   const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+          //   return hasRecords && requestsRecords;
+          // },
           uiSchema: {
             disabilities: {
               items: {
