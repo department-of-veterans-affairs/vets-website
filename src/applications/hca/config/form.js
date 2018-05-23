@@ -12,7 +12,6 @@ import {
 import { genderLabels } from '../../../platform/static-data/labels';
 import { services } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
-import environment from '../../../platform/utilities/environment';
 
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
@@ -139,7 +138,6 @@ const stateLabels = createUSAStateLabels(states);
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/health_care_applications',
-  environment,
   trackingPrefix: 'hca-',
   formId: '1010ez',
   version: 5,
