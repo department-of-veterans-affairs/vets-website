@@ -79,10 +79,10 @@ export function setViewedPages(pageKeys) {
   };
 }
 
-function submitToUrl(body, submitUrl, trackingPrefix, environment) {
+function submitToUrl(body, submitUrl, trackingPrefix) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
-    req.open('POST', `${environment.API_URL}${submitUrl}`);
+    req.open('POST', `${submitUrl}`);
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
         recordEvent({
@@ -163,7 +163,7 @@ export function submitForm(formConfig, form) {
         ? formConfig.transformForSubmit(formConfig, form)
         : transformForSubmit(formConfig, form);
 
-      promise = submitToUrl(body, formConfig.submitUrl, formConfig.trackingPrefix, formConfig.environment);
+      promise = submitToUrl(body, formConfig.submitUrl, formConfig.trackingPrefix);
     }
 
     return promise
@@ -227,7 +227,7 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
 
     const req = new XMLHttpRequest();
 
-    req.open('POST', `${uiOptions.environment.API_URL}${uiOptions.endpoint}`);
+    req.open('POST', `${uiOptions.endpoint}`);
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
         const body = 'response' in req ? req.response : req.responseText;

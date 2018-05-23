@@ -25,7 +25,7 @@ export default function fileUiSchema(label, userOptions = {}) {
           confirmationCode: fileInfo.data.attributes.confirmationCode
         };
       },
-      endpoint: '/v0/claim_attachments',
+      // endpoint: '/v0/claim_attachments',
       addAnotherLabel: 'Add Another',
       showFieldLabel: true,
       keepInPageOnReview: true,
