@@ -8,7 +8,7 @@ export function selectAnnouncement(state) {
     const path = document.location.pathname;
     announcement = config.announcements.find(a => a.paths.test(path));
 
-    if (announcements.dismissed.includes(announcement.name)) {
+    if (announcements.dismissed.includes(announcement.name) || announcement.disabled) {
       announcement = null;
     }
   }
