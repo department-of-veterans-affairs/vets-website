@@ -1,13 +1,22 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
-export default function DashboardIntro({ dismiss }) {
+export default function ProfileIntro({ dismiss, profile }) {
+  if (!profile.loading) {
+    if (profile.load.current !== 3) return <div/>;
+  }
+
   return (
     <Modal
       visible
       onClose={dismiss}
-      id="dashboard-announcement">
-      <h1>Check out the profile</h1>
+      id="modal-announcement">
+      <div className="announcement-heading">
+        <img alt="profile icon" src="/img/profile-announcement.svg"/>
+      </div>
+      <h3 className="announcement-title">Welcome to your new Vets.gov profile</h3>
+      <p>Review your contact, personal, and military service information—and find out how to update it as needed.</p>
+      <button type="button" onClick={dismiss}>Continue</button>
     </Modal>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { isLoggedIn } from '../../../user/selectors';
+import { isLoggedIn, selectProfile } from '../../../user/selectors';
 import { selectAnnouncement } from '../selectors';
 
 import {
@@ -39,6 +39,7 @@ class Announcement extends React.Component {
         <announcement.component
           announcement={announcement}
           isLoggedIn={this.props.isLoggedIn}
+          profile={this.props.profile}
           dismiss={this.dismiss}/>
       );
     }
@@ -50,6 +51,7 @@ const mapStateToProps = (state) => {
   return {
     announcement: selectAnnouncement(state),
     isLoggedIn: isLoggedIn(state),
+    profile: selectProfile(state),
     ...state.announcements
   };
 };

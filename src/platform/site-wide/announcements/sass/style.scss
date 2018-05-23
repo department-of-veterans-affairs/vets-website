@@ -12,3 +12,16 @@
   z-index: 2;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
+
+#modal-announcement h3 {
+  margin-top: 1.5em;
+}
+
+.announcement-heading {
+  background-color: $color-primary-alt-lightest;
+  text-align: center;
+  padding: 42px 0;
+  img {
+    max-width: 86px;
+  }
+}
