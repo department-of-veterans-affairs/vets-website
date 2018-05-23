@@ -139,7 +139,6 @@ class ContactInformationContent extends React.Component {
   render() {
     return (
       <div>
-        <h2 className="va-profile-heading">Contact Information</h2>
         <AlertBox
           isVisible
           status="info"
