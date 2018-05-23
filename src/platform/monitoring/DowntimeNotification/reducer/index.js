@@ -3,20 +3,15 @@ import { createServiceMap } from '../util/helpers';
 import {
   RECEIVE_SCHEDULED_DOWNTIME,
   RETRIEVE_SCHEDULED_DOWNTIME,
+  INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS,
   DISMISS_DOWNTIME_APPROACHING_MODAL
 } from '../actions';
-
-const DISMISSED_DOWNTIME_WARNINGS = 'DISMISSED_DOWNTIME_WARNINGS';
-function getDismissedDowntimeApproachingModals() {
-  const rawData = window.sessionStorage[DISMISSED_DOWNTIME_WARNINGS];
-  return rawData ? JSON.parse(rawData) : [];
-}
 
 const initialState = {
   isReady: false,
   isPending: false,
   serviceMap: null,
-  dismissedDowntimeApproachingModals: getDismissedDowntimeApproachingModals()
+  dismissedDowntimeWarnings: []
 };
 
 export default function scheduledDowntime(state = initialState, action) {
@@ -36,12 +31,17 @@ export default function scheduledDowntime(state = initialState, action) {
         isPending: true
       };
 
-    case DISMISS_DOWNTIME_APPROACHING_MODAL: {
-      const dismissedDowntimeApproachingModals = state.dismissedDowntimeApproachingModals.concat(action.appTitle);
-      window.sessionStorage[DISMISSED_DOWNTIME_WARNINGS] = JSON.stringify(dismissedDowntimeApproachingModals);
+    case INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS:
       return {
         ...state,
-        dismissedDowntimeApproachingModals
+        dismissedDowntimeWarnings: action.dismissedDowntimeWarnings
+      };
+
+    case DISMISS_DOWNTIME_APPROACHING_MODAL: {
+      const dismissedDowntimeWarnings = state.dismissedDowntimeWarnings.concat(action.appTitle);
+      return {
+        ...state,
+        dismissedDowntimeWarnings
       };
     }
 

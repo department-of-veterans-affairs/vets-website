@@ -4,10 +4,19 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import { getScheduledDowntime, dismissDowntimeApproachingModal } from '../actions';
-import { getSoonestDowntime } from '../util/helpers';
+import {
+  getScheduledDowntime,
+  initializeDowntimeWarnings,
+  dismissDowntimeWarning
+} from '../actions';
+
+import {
+  getSoonestDowntime
+} from '../util/helpers';
+
 import services from '../config/services';
 import serviceStatus from '../config/serviceStatus';
+
 import Down from '../components/Down';
 import DowntimeApproaching from '../components/DowntimeApproaching';
 
@@ -68,10 +77,11 @@ class DowntimeNotification extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+// exported for unit tests
+export const mapStateToProps = (state, ownProps) => {
   const scheduledDowntime = state.scheduledDowntime;
   const shouldSendRequest = !scheduledDowntime.isReady && !scheduledDowntime.isPending;
-  const isDowntimeApproachingModalDismissed = scheduledDowntime.dismissedDowntimeApproachingModals.includes(ownProps.appTitle);
+  const isDowntimeWarningDismissed = scheduledDowntime.dismissedDowntimeWarnings.includes(ownProps.appTitle);
 
   let downtime = null;
   if (scheduledDowntime.isReady) {
@@ -80,7 +90,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     shouldSendRequest,
-    isDowntimeApproachingModalDismissed,
+    isDowntimeWarningDismissed,
     ...scheduledDowntime,
     ...downtime
   };
@@ -91,8 +101,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getScheduledDowntime() {
       return dispatch(getScheduledDowntime());
     },
-    dismissDowntimeApproachingModal() {
-      return dispatch(dismissDowntimeApproachingModal(ownProps.appTitle));
+    initializeDowntimeWarnings() {
+      return dispatch(initializeDowntimeWarnings());
+    },
+    dismissDowntimeWarning() {
+      return dispatch(dismissDowntimeWarning(ownProps.appTitle));
     }
   };
 };

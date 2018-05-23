@@ -4,7 +4,7 @@ import { RECEIVE_SCHEDULED_DOWNTIME } from '../actions';
 
 describe('Downtime Notification Reducer', () => {
   describe('scheduledDowntime', () => {
-    const scheduledDowntimeInterface = ['isReady', 'serviceMap', 'isPending', 'dismissedDowntimeApproachingModals'];
+    const scheduledDowntimeInterface = ['isReady', 'serviceMap', 'isPending', 'dismissedDowntimeWarnings'];
     it('returns the initial state', () => {
       const result = scheduledDowntime(undefined, { type: 'SHOULD_NOT_MATTER' });
       expect(result).to.have.all.keys(scheduledDowntimeInterface);
