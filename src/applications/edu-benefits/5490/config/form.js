@@ -34,6 +34,7 @@ import * as personId from '../../../common/schemaform/definitions/personId';
 
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import GetFormHelp from '../../components/GetFormHelp';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
@@ -54,6 +55,7 @@ const {
   benefit,
   highSchool,
   currentlyActiveDuty,
+  currentSameAsPrevious,
   outstandingFelony,
   previousBenefits,
   serviceBranch,
@@ -84,6 +86,7 @@ const formConfig = {
   formId: '22-5490',
   version: 1,
   migrations: [urlMigration('/5490')],
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
@@ -93,6 +96,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
@@ -364,7 +368,7 @@ const formConfig = {
                 hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
-            'view:currentSameAsPrevious': {
+            currentSameAsPrevious: {
               'ui:options': {
                 hideIf: (formData) => !_.get('previousBenefits.view:claimedSponsorService', formData)
               },
@@ -372,12 +376,12 @@ const formConfig = {
             },
             'view:currentSponsorInformation': {
               'ui:options': {
-                hideIf: (formData) => formData['view:currentSameAsPrevious']
+                hideIf: (formData) => formData.currentSameAsPrevious
               },
               veteranFullName: _.merge(fullNameUi, {
                 'ui:options': {
                   updateSchema: (form) => {
-                    if (!_.get('view:currentSameAsPrevious', form)) {
+                    if (!_.get('currentSameAsPrevious', form)) {
                       return fullName;
                     }
                     return nonRequiredFullName;
@@ -400,7 +404,7 @@ const formConfig = {
               'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
-                  'ui:required': (formData) => !_.get('view:currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
+                  'ui:required': (formData) => !_.get('currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
                 },
                 'view:noSSN': {
                   'ui:title': 'I don’t know my sponsor’s Social Security number',
@@ -421,9 +425,7 @@ const formConfig = {
             ],
             properties: {
               spouseInfo,
-              'view:currentSameAsPrevious': {
-                type: 'boolean'
-              },
+              currentSameAsPrevious,
               'view:currentSponsorInformation': {
                 type: 'object',
                 properties: {

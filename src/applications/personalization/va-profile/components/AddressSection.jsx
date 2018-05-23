@@ -75,11 +75,13 @@ function AddressView({ address }) {
   );
 }
 
-export default function AddressSection({ addressResponseData, addressConstants, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+export default function AddressSection({ addressResponseData, addressConstants, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd,  onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
-  if (addressResponseData) {
+  if (addressResponseData.error) {
+    content = fieldFailureMessage;
+  } else {
     if (addressResponseData.address && !isEmptyAddress(addressResponseData.address)) {
       const { address } = addressResponseData;
       content = <AddressView address={address}/>;
@@ -88,12 +90,10 @@ export default function AddressSection({ addressResponseData, addressConstants, 
         <button
           type="button"
           disabled={!addressResponseData.controlInformation.canUpdate}
-          onClick={onEdit}
+          onClick={onAdd}
           className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>
       );
     }
-  } else {
-    content = fieldFailureMessage;
   }
 
   if (isEditing) {

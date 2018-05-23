@@ -78,7 +78,7 @@ class EditPhoneModal extends React.Component {
 }
 
 
-export default function PhoneSection({ phoneResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+export default function PhoneSection({ phoneResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
@@ -89,7 +89,7 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
       const extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
       content = <div>{countryCode} {number} {extension}</div>;
     } else {
-      content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()} number</button>;
+      content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()} number</button>;
     }
   } else {
     content = fieldFailureMessage;

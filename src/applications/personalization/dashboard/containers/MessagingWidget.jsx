@@ -3,16 +3,24 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-import '../../../messaging/sass/messaging.scss';
-
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
 import { formattedDate } from '../../../messaging/utils/helpers';
 
-
+import recordEvent from '../../../../platform/monitoring/record-event';
 import {
   fetchFolder,
   fetchRecipients,
 } from '../../../messaging/actions';
+
+function recordDashboardClick(product) {
+  return () => {
+    recordEvent({
+      event: 'dashboard-navigation',
+      'dashboard-action': 'view-link',
+      'dashboard-product': product,
+    });
+  };
+}
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
@@ -42,6 +50,7 @@ class MessagingWidget extends React.Component {
     }
 
     let content;
+    messages = messages || [];
 
     messages = messages.filter(message => {
       return message.readReceipt !== 'READ';
@@ -75,14 +84,14 @@ class MessagingWidget extends React.Component {
           fields={fields}/>
       );
     } else {
-      content = <p>You don't have any unread messages from your health care team.</p>;
+      content = <p>You don’t have any unread messages from your health care team.</p>;
     }
 
     return (
       <div>
         <h2>Check Secure Messages</h2>
         {content}
-        <p><Link href="/health-care/messaging">View all your secure messages</Link>.</p>
+        <p><Link href="/health-care/messaging" onClick={recordDashboardClick('view-all-messages')}>View all your secure messages</Link>.</p>
       </div>
     );
   }

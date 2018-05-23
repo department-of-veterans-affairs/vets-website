@@ -3,10 +3,19 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
+import recordEvent from '../../../../platform/monitoring/record-event';
 import { getPhaseDescription, isClaimComplete, getClaimType } from '../../../claims-status/utils/helpers';
 
 function listPhase(phase) {
   return (phase === 8) ? 'Closed' : getPhaseDescription(phase);
+}
+
+function handleViewClaim() {
+  recordEvent({
+    event: 'dashboard-navigation',
+    'dashboard-action': 'view-button',
+    'dashboard-product': 'view-claim',
+  });
 }
 
 export default function ClaimsListItem({ claim }) {
@@ -26,7 +35,7 @@ export default function ClaimsListItem({ claim }) {
           ? <li className="claim-list-item-text"><i className="fa fa-exclamation-triangle claim-list-item-icon"></i>Items need attention</li>
           : null}
       </ul>
-      <Link className="usa-button usa-button-primary" href={`/track-claims/your-claims/${claim.id}/status`}>View claim <i className="fa fa-chevron-right"/></Link>
+      <Link className="usa-button usa-button-primary" href={`/track-claims/your-claims/${claim.id}/status`} onClick={handleViewClaim}>View claim <i className="fa fa-chevron-right"/></Link>
     </div>
   );
 }

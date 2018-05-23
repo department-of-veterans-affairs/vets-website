@@ -14,7 +14,7 @@ import {
   PREFILL_STATUSES
 } from '../../../../src/applications/common/schemaform/save-in-progress/actions';
 
-import createSchemaFormReducer from '../../../../src/applications/common/schemaform/state';
+import { createSaveInProgressFormReducer } from '../../../../src/applications/common/schemaform/save-in-progress/reducers';
 
 describe('schemaform createSaveInProgressInitialState', () => {
   it('creates a reducer with initial state for each page', () => {
@@ -42,7 +42,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
         }
       }
     };
-    const reducer = createSchemaFormReducer(formConfig, { data: {} });
+    const reducer = createSaveInProgressFormReducer(formConfig, { data: {} });
     const state = reducer(undefined, {});
 
     expect(state.isStartingOver).to.be.false;
@@ -68,7 +68,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
         }
       }
     };
-    const reducer = createSchemaFormReducer(formConfig, { data: {} });
+    const reducer = createSaveInProgressFormReducer(formConfig, { data: {} });
 
     const data = {
       formData: {

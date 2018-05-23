@@ -7,10 +7,20 @@ import moment from 'moment';
 import {
   loadPrescriptions
 } from '../../../rx/actions/prescriptions';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-
 import PrescriptionCard from '../components/PrescriptionCard';
+
+function recordDashboardClick(product) {
+  return () => {
+    recordEvent({
+      event: 'dashboard-navigation',
+      'dashboard-action': 'view-link',
+      'dashboard-product': product,
+    });
+  };
+}
 
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
@@ -37,8 +47,8 @@ class PrescriptionsWidget extends React.Component {
       );
     }
 
-    if (canAccessRx && this.props.prescriptions) {
-      if (this.props.prescriptions.length === 0) {
+    if (canAccessRx) {
+      if (this.props.prescriptions && this.props.prescriptions.length === 0) {
         content = <p>We haven’t refilled or shipped any prescriptions for you in the last 30 days.</p>;
       }
 
@@ -48,7 +58,7 @@ class PrescriptionsWidget extends React.Component {
           <div>
             {content}
           </div>
-          <p><Link href="/health-care/prescriptions">View all your prescriptions</Link>.</p>
+          <p><Link href="/health-care/prescriptions" onClick={recordDashboardClick('view-all-prescriptions')}>View all your prescriptions</Link>.</p>
         </div>
       );
     }
@@ -65,10 +75,19 @@ const mapStateToProps = (state) => {
   let prescriptions = rxState.prescriptions.items;
 
   if (prescriptions) {
-    prescriptions = prescriptions.filter(p => {
-      const thirtyDaysAgo = moment().endOf('day').subtract(30, 'days');
-      return moment(p.attributes.refillSubmitDate).isAfter(thirtyDaysAgo) || moment(p.attributes.refillDate).isAfter(thirtyDaysAgo);
-    });
+    const thirtyDaysAgo = moment().endOf('day').subtract(30, 'days');
+    const statuses = new Set([
+      'refillinprocess',
+      'submitted'
+    ]);
+
+    prescriptions = prescriptions
+      // Filter by status
+      .filter(p => statuses.has(p.attributes.refillStatus))
+      // Filter by date
+      .filter(p => {
+        return moment(p.attributes.refillSubmitDate).isAfter(thirtyDaysAgo) || moment(p.attributes.refillDate).isAfter(thirtyDaysAgo);
+      });
   }
 
   return {
@@ -83,3 +102,4 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrescriptionsWidget);
+export { PrescriptionsWidget };

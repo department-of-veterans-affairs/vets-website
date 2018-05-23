@@ -1,5 +1,11 @@
 import React from 'react';
 import { mfa } from '../../../../platform/user/authentication/utilities';
+import recordEvent from '../../../../platform/monitoring/record-event';
+
+function recordAnalyticEvent() {
+  recordEvent({ event: 'multifactor-link-clicked' });
+  mfa();
+}
 
 export default function MultifactorMessage({ multifactor }) {
   if (multifactor) {
@@ -15,7 +21,7 @@ export default function MultifactorMessage({ multifactor }) {
     <div>
       <h4>Want to make your account more secure?</h4>
       <p>Add an extra layer of security (called 2-factor authentication). This helps to make sure only you can access your account—even if someone gets your password.</p>
-      <button className="usa-button-primary" onClick={mfa}>Secure Your Account</button>
+      <button className="usa-button-primary" onClick={recordAnalyticEvent}>Secure Your Account</button>
     </div>
   );
 }

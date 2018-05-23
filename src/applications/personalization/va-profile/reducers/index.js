@@ -1,4 +1,12 @@
 import {
+  // Fetch actions
+  FETCH_HERO_SUCCESS,
+  FETCH_CONTACT_INFORMATION_SUCCESS,
+  FETCH_PERSONAL_INFORMATION_SUCCESS,
+  FETCH_MILITARY_INFORMATION_SUCCESS,
+  FETCH_ADDRESS_CONSTANTS_SUCCESS,
+
+  // Saves
   SAVE_MAILING_ADDRESS,
   SAVE_MAILING_ADDRESS_FAIL,
   SAVE_MAILING_ADDRESS_SUCCESS,
@@ -15,43 +23,26 @@ import {
   SAVE_EMAIL_ADDRESS_FAIL,
   SAVE_EMAIL_ADDRESS_SUCCESS,
 
-  FETCH_VA_PROFILE,
-  FETCH_VA_PROFILE_SUCCESS,
-  FETCH_VA_PROFILE_FAIL,
-
-  VA_PROFILE_READY,
-  OPEN_MODAL,
-
+  // Miscellaneous actions
   UPDATE_PROFILE_FORM_FIELD,
-
-  FETCH_ADDRESS_COUNTRIES_SUCCESS,
-  FETCH_ADDRESS_STATES_SUCCESS,
-
+  OPEN_MODAL,
   CLEAR_PROFILE_ERRORS,
   CLEAR_MESSAGE
 } from '../actions';
 
 const initialState = {
-  userFullName: null,
-  email: null,
-  dob: null,
-  gender: null,
-  ssn: null,
-  primaryTelephone: null,
-  alternateTelephone: null,
-  mailingAddress: null,
-  serviceHistory: null,
+  hero: null,
+  contactInformation: null,
+  personalInformation: null,
+  militaryInformation: null,
+  addressConstants: null,
   modal: null,
   pendingSaves: [],
   errors: [],
   profileLoading: true,
   loading: true,
   formFields: {},
-  message: null,
-  addressConstants: {
-    states: null,
-    countries: null
-  }
+  message: null
 };
 
 const MESSAGES = {
@@ -61,43 +52,23 @@ const MESSAGES = {
 function vaProfile(state = initialState, action) {
   switch (action.type) {
 
-    case FETCH_VA_PROFILE: {
-      return state;
-    }
+    // Fetch
+    case FETCH_HERO_SUCCESS:
+      return { ...state, hero: action.hero };
 
-    case FETCH_VA_PROFILE_FAIL: {
-      const errors = state.errors.concat(FETCH_VA_PROFILE_FAIL);
-      return { ...state, errors };
-    }
+    case FETCH_CONTACT_INFORMATION_SUCCESS:
+      return { ...state, contactInformation: action.contactInformation };
 
-    case FETCH_VA_PROFILE_SUCCESS: {
-      return { ...state, ...action.newState, profileLoading: false };
-    }
+    case FETCH_PERSONAL_INFORMATION_SUCCESS:
+      return { ...state, personalInformation: action.personalInformation };
 
-    case FETCH_ADDRESS_COUNTRIES_SUCCESS: {
-      const addressConstants = { ...state.addressConstants, countries: action.countries };
-      return { ...state, addressConstants };
-    }
+    case FETCH_MILITARY_INFORMATION_SUCCESS:
+      return { ...state, militaryInformation: action.militaryInformation };
 
-    case FETCH_ADDRESS_STATES_SUCCESS: {
-      const addressConstants = { ...state.addressConstants, states: action.states };
-      return { ...state, addressConstants };
-    }
+    case FETCH_ADDRESS_CONSTANTS_SUCCESS:
+      return { ...state, addressConstants: action.addressConstants };
 
-    case VA_PROFILE_READY:
-      return { ...state, loading: false };
-
-    case OPEN_MODAL: {
-      const modal = action.modal;
-      const errors = modal ? state.errors : [];
-      return { ...state, errors, modal };
-    }
-
-    case UPDATE_PROFILE_FORM_FIELD: {
-      const formFields = { ...state.formFields, [action.field]: action.newState };
-      return { ...state, formFields };
-    }
-
+    // Saves
     case SAVE_EMAIL_ADDRESS:
     case SAVE_PRIMARY_PHONE:
     case SAVE_ALTERNATE_PHONE:
@@ -106,24 +77,21 @@ function vaProfile(state = initialState, action) {
       return { ...state, pendingSaves };
     }
 
-    case SAVE_EMAIL_ADDRESS_SUCCESS: {
-      const email = action.newValue;
-      return { ...state, email, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
-    }
-
-    case SAVE_PRIMARY_PHONE_SUCCESS: {
-      const primaryTelephone = action.newValue;
-      return { ...state, primaryTelephone, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
-    }
-
-    case SAVE_ALTERNATE_PHONE_SUCCESS: {
-      const alternateTelephone = action.newValue;
-      return { ...state, alternateTelephone, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
-    }
-
+    case SAVE_EMAIL_ADDRESS_SUCCESS:
+    case SAVE_PRIMARY_PHONE_SUCCESS:
+    case SAVE_ALTERNATE_PHONE_SUCCESS:
     case SAVE_MAILING_ADDRESS_SUCCESS: {
-      const mailingAddress = action.newValue;
-      return { ...state, mailingAddress, message: MESSAGES.updatedInformation, pendingSaves: [], modal: null };
+      const contactInformation = {
+        ...state.contactInformation,
+        [action.fieldName]: action.newValue
+      };
+      return {
+        ...state,
+        contactInformation,
+        message: MESSAGES.updatedInformation,
+        pendingSaves: [],
+        modal: null
+      };
     }
 
     case SAVE_EMAIL_ADDRESS_FAIL:
@@ -132,6 +100,18 @@ function vaProfile(state = initialState, action) {
     case SAVE_MAILING_ADDRESS_FAIL: {
       const errors = state.errors.concat(action.type);
       return { ...state, pendingSaves: [], errors };
+    }
+
+    // Miscellaneous
+    case UPDATE_PROFILE_FORM_FIELD: {
+      const formFields = { ...state.formFields, [action.field]: action.newState };
+      return { ...state, formFields };
+    }
+
+    case OPEN_MODAL: {
+      const modal = action.modal;
+      const errors = modal ? state.errors : [];
+      return { ...state, errors, modal };
     }
 
     case CLEAR_PROFILE_ERRORS:
