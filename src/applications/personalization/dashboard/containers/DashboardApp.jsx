@@ -66,7 +66,9 @@ class DashboardApp extends React.Component {
     super(props);
 
     this.state = {
-      modalDismissed: false
+      modalDismissed: false,
+      'show-loa-alert': true,
+      'show-mvi-alert': true,
     };
   }
 
@@ -82,6 +84,9 @@ class DashboardApp extends React.Component {
 
   dismissAlertBox = (name) => {
     return () => {
+      this.setState({
+        [`show-${name}-alert`]: false,
+      });
       window.localStorage.setItem(`hide-${name}-alert`, true);
     };
   }
@@ -178,8 +183,27 @@ class DashboardApp extends React.Component {
           <p><a href="/faq#verifying-your-identity">Learn about how to verify your identity</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('loa')}
-        isVisible={!localStorage.getItem('hide-loa-alert')}
+        isVisible={this.state['show-loa-alert'] && !localStorage.getItem('hide-loa-alert')}
         status="info"/>
+    );
+  }
+
+  renderMVIWarning() {
+    if (this.props.profile.veteranStatus === 'OK') {
+      return null;
+    }
+
+    return (
+      <AlertBox
+        content={<div>
+          <h4 className="usa-alert-heading">We’re having trouble matching your information to our Veteran records</h4>
+          <p>We’re sorry. We’re having trouble matching your information to our Veteran records, so we can’t give you access to tools for managing your health and benefits.</p>
+          <p>If you’d like to use these tools on Vets.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect with you with the right person who can help.</p>
+          <p><a href="/facilities">Find your nearest VA Medical Center</a></p>
+        </div>}
+        onCloseAlert={this.dismissAlertBox('mvi')}
+        isVisible={this.state['show-mvi-alert'] && !localStorage.getItem('hide-mvi-alert')}
+        status="warning"/>
     );
   }
 
@@ -205,6 +229,7 @@ class DashboardApp extends React.Component {
               savedForms={this.props.profile.savedForms}/>
 
             {this.renderLOAPrompt()}
+            {this.renderMVIWarning()}
 
             <ClaimsAppealsWidget/>
 
