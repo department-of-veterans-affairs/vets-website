@@ -21,7 +21,7 @@ class AccountMain extends React.Component {
     this.setState({
       'show-acct-mvi-alert': false,
     });
-    window.localStorage.setItem('hide-acct-mvi-alert', true);
+    localStorage.setItem('hide-acct-mvi-alert', true);
   }
 
   renderMVIError() {

@@ -87,7 +87,7 @@ class DashboardApp extends React.Component {
       this.setState({
         [`show-${name}-alert`]: false,
       });
-      window.localStorage.setItem(`hide-${name}-alert`, true);
+      localStorage.setItem(`hide-${name}-alert`, true);
     };
   }
 
