@@ -70,6 +70,7 @@ import { validateBooleanGroup } from '../../../common/schemaform/validation';
 const {
   treatments: treatmentsSchema,
   privateRecordReleases,
+  serviceInformation,
   standardClaim,
 } = fullSchema526EZ.properties;
 
@@ -82,7 +83,6 @@ const {
   dateRangeAllRequired,
   disabilities,
   specialIssues,
-  servicePeriods,
   privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
@@ -146,7 +146,6 @@ const formConfig = {
     dateRangeAllRequired,
     disabilities,
     specialIssues,
-    servicePeriods,
     privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',
@@ -212,7 +211,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              servicePeriods
+              servicePeriods: serviceInformation.properties.servicePeriods
             }
           }
         },
