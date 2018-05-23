@@ -31,7 +31,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h3 className="confirmation-page-title">Your claim has been submitted.</h3>
         <p>
           We’ll let you know by mail or phone if we need more information.<br/>
           <i>Please print this page for your records.</i>
@@ -46,7 +46,7 @@ class ConfirmationPage extends React.Component {
               <span>{response.trackingNumber}</span>
             </li>
             <li>
-              <strong>Date received</strong><br/>
+              <strong>Date submitted</strong><br/>
               <span>{submittedAt.format('MMM D, YYYY')}</span>
             </li>
           </ul>}

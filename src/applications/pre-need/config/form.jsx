@@ -232,7 +232,7 @@ const formConfig = {
                 },
                 ssn: {
                   ...ssnDashesUI,
-                  'ui:title': 'Sponsor’s social security number'
+                  'ui:title': 'Sponsor’s Social Security number'
                 },
                 dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
                 placeOfBirth: {

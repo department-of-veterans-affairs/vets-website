@@ -34,7 +34,7 @@ export const authorizedAgentDescription = (
 );
 
 export const veteranRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>Servicemember or Veteran</strong> whose military status and history will be used to decide if you qualify for burial in a VA national cemetery.</div>
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>Servicemember or Veteran</strong>. You’re applying as the Servicemember or Veteran. We’ll use your military status and history to decide if you qualify for burial in a VA national cemetery.</div>
 );
 
 export const spouseRelationshipDescription = (
@@ -298,7 +298,7 @@ export const veteranUI = {
 
 export const serviceRecordsUI = {
   'ui:title': 'Service periods',
-  'ui:description': 'Please record all periods of service',
+  'ui:description': 'Please provide all service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'Service Period'

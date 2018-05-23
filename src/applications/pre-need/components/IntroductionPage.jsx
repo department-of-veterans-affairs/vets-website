@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from '../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
@@ -18,12 +17,6 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const infoBoxContent = (
-      <p>
-        <strong>You won’t be able to save your work or come back to finish.</strong> So, before you start, it’s a good idea to gather the information and documents you’ll need.
-      </p>
-    );
-
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for pre-need eligibility determination"/>
@@ -43,7 +36,7 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h5>Prepare</h5>
-              <h6>To fill out this application, you’ll need:</h6>
+              <h6>When you apply, be sure to have these on hand:</h6>
               <ul>
                 <li>
                   The name of the VA national cemetery where you’d prefer to be buried. <a href="/facilities/">Find a VA national cemetery</a>.
@@ -88,10 +81,6 @@ class IntroductionPage extends React.Component {
               <p>
                 <strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/">Get help filing your claim.</a>
               </p>
-              <AlertBox
-                content={infoBoxContent}
-                isVisible
-                status="info"/>
             </li>
             <li className="process-step list-two">
               <h5>Apply</h5>
@@ -112,7 +101,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the pre-need eligibility determination application"
+          startText="Start the Pre-need Eligibility Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
         <div className="omb-info--container">
