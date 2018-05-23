@@ -3,12 +3,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
-  startup,
   saveField,
   updateFormField,
   openModal,
   clearErrors,
-  clearMessage
+  clearMessage,
+  fetchAddressConstants,
+  fetchContactInformation,
+  fetchHero,
+  fetchMilitaryInformation,
+  fetchPersonalInformation
 } from '../actions';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
@@ -27,7 +31,11 @@ class VAProfileApp extends React.Component {
           verifyUrl={this.props.verifyUrl}>
           <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
             <ProfileView
-              startup={this.props.startup}
+              fetchAddressConstants={this.props.fetchAddressConstants}
+              fetchContactInformation={this.props.fetchContactInformation}
+              fetchHero={this.props.fetchHero}
+              fetchMilitaryInformation={this.props.fetchMilitaryInformation}
+              fetchPersonalInformation={this.props.fetchPersonalInformation}
               profile={this.props.profile}
               message={{
                 content: this.props.profile.message,
@@ -59,7 +67,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
-    startup,
+    fetchAddressConstants,
+    fetchContactInformation,
+    fetchHero,
+    fetchMilitaryInformation,
+    fetchPersonalInformation,
     openModal,
     clearErrors,
     clearMessage
