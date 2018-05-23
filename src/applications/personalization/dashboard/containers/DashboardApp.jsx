@@ -87,7 +87,7 @@ class DashboardApp extends React.Component {
       this.setState({
         [`show-${name}-alert`]: false,
       });
-      localStorage.setItem(`hide-${name}-alert`, true);
+      window.localStorage.setItem(`hide-${name}-alert`, true);
     };
   }
 
@@ -183,7 +183,7 @@ class DashboardApp extends React.Component {
           <p><a href="/faq#verifying-your-identity">Learn about how to verify your identity</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('loa')}
-        isVisible={this.state['show-loa-alert'] && !localStorage.getItem('hide-loa-alert')}
+        isVisible={this.state['show-loa-alert'] && !window.localStorage.getItem('hide-loa-alert')}
         status="info"/>
     );
   }
@@ -202,7 +202,7 @@ class DashboardApp extends React.Component {
           <p><a href="/facilities">Find your nearest VA Medical Center</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('mvi')}
-        isVisible={this.state['show-mvi-alert'] && !localStorage.getItem('hide-mvi-alert')}
+        isVisible={this.state['show-mvi-alert'] && !window.localStorage.getItem('hide-mvi-alert')}
         status="warning"/>
     );
   }
