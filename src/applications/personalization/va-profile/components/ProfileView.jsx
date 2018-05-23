@@ -1,6 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 
@@ -33,8 +34,7 @@ class ProfileView extends React.Component {
         <p><strong>This one-time process takes about 5-10 minutes.</strong></p>
 
         <div>
-          <p><a href="#">How will Vets.gov verify my identity?</a></p>
-          <div>
+          <AdditionalInfo triggerText="How will Vets.gov verify my identity?">
             <p>We use ID.me, our Veteran-owned technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
             <p><strong>To verify your identity, you’ll need both of these:</strong>
               <ul>
@@ -48,15 +48,15 @@ class ProfileView extends React.Component {
                 <li>The ability to answer certain questions based on private and public data (like your credit report or mortgage history) to prove you’re you</li>
               </ul>
             </p>
-            <button className="usa-button-primary va-button-primary" href="/verify">
-              <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
-            </button>
-            <h4>What if I’m having trouble verifying my identity?</h4>
-            <p><a href="/faq/" target="_blank">Get answers to Frequently Asked Questions</a></p>
-            <p>
-              Or call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-            </p>
-          </div>
+          </AdditionalInfo><br/>
+          <button className="usa-button-primary va-button-primary" href="/verify">
+            <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
+          </button>
+          <h4>What if I’m having trouble verifying my identity?</h4>
+          <p><a href="/faq/" target="_blank">Get answers to Frequently Asked Questions</a></p>
+          <p>
+            Or call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+          </p>
         </div>
       </div>
     );
@@ -66,6 +66,7 @@ class ProfileView extends React.Component {
     if (!this.props.profile.hero) return <LoadingIndicator message="Loading your profile information..."/>;
 
     const {
+      user,
       message,
       profile: {
         hero,
@@ -76,7 +77,7 @@ class ProfileView extends React.Component {
 
     let content;
 
-    if (this.props.profile.verified) {
+    if (user.profile.verified) {
       content = (
         <div>
           <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
