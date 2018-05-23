@@ -80,6 +80,12 @@ class DashboardApp extends React.Component {
     });
   }
 
+  dismissAlertBox = (name) => {
+    return () => {
+      window.localStorage.setItem(`hide-${name}-alert`, true);
+    };
+  }
+
   renderDowntimeNotification = (status, downtimeWindow, downtimeMap, children) => {
     switch (status) {
       case 'downtimeApproaching':
@@ -158,6 +164,25 @@ class DashboardApp extends React.Component {
     );
   }
 
+  renderLOAPrompt() {
+    if (this.props.profile.verified) {
+      return null;
+    }
+
+    return (
+      <AlertBox
+        content={<div>
+          <h4 className="usa-alert-heading">Verify your identity to access more Vets.gov tools and features</h4>
+          <p>When you verify your identity, you can use Vets.gov to do things like track your claims, refill your prescriptions, and download your VA benefit letters.</p>
+          <a className="usa-button-primary" href="/verify">Verify Your Identity</a>
+          <p><a href="/faq#verifying-your-identity">Learn about how to verify your identity</a></p>
+        </div>}
+        onCloseAlert={this.dismissAlertBox('loa')}
+        isVisible={!localStorage.getItem('hide-loa-alert')}
+        status="info"/>
+    );
+  }
+
   render() {
     const availableWidgetsCount = [
       this.props.canAccessClaims,
@@ -178,6 +203,8 @@ class DashboardApp extends React.Component {
               userProfile={this.props.profile}
               removeSavedForm={this.props.removeSavedForm}
               savedForms={this.props.profile.savedForms}/>
+
+            {this.renderLOAPrompt()}
 
             <ClaimsAppealsWidget/>
 
