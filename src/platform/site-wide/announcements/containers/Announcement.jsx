@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { isLoggedIn } from '../../../user/selectors';
 import { selectAnnouncement } from '../selectors';
 
 import {
@@ -25,15 +26,14 @@ class Announcement extends React.Component {
   }
   render() {
     const {
-      announcement,
-      user
+      announcement
     } = this.props;
 
     if (announcement) {
       return (
         <announcement.component
           announcement={announcement}
-          user={user}
+          isLoggedIn={this.props.isLoggedIn}
           dismiss={this.dismiss}/>
       );
     }
@@ -44,7 +44,7 @@ class Announcement extends React.Component {
 const mapStateToProps = (state) => {
   return {
     announcement: selectAnnouncement(state),
-    user: state.user,
+    isLoggedIn: isLoggedIn(state),
     ...state.announcements
   };
 };

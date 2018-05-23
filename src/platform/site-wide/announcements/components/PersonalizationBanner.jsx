@@ -1,6 +1,7 @@
 import React from 'react';
 
-export default function PersonalizationBanner({ dismiss }) {
+export default function PersonalizationBanner({ dismiss, isLoggedIn }) {
+  if (!isLoggedIn) return <div/>;
   return (
     <div className="personalization-announcement">
       <a onClick={dismiss} href="/dashboard">Check out your new personalized homepage</a>
