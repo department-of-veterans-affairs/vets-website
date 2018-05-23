@@ -113,7 +113,7 @@ Austin, TX 78714-9200<br>
 
 - Medical records that show you have one of the 15 conditions listed above, **and**
 
-- Have your doctor fill out and sign this form before submitting. <br> [A Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b).
+- A completed Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b). Have your doctor fill out and sign this form before submitting it to us. <br> [Download VA Form 10-10068b](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b).
 
 <div class="feature" markdown="1">
 
