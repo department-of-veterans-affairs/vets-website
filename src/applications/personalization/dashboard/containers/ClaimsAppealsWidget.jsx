@@ -147,7 +147,7 @@ class ClaimsAppealsWidget extends React.Component {
     }
 
     return (
-      <div>
+      <div id="claims-widget">
         <h2>Track Claims</h2>
         <div>
           <DowntimeNotification appTitle="claims" dependencies={[services.mhv]} render={this.renderWidgetDowntimeNotification('Claims tracking')}>

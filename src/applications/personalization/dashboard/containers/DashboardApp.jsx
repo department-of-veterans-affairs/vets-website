@@ -123,7 +123,49 @@ class DashboardApp extends React.Component {
     };
   }
 
+  renderEmptyStateLinks() {
+    return (
+      <div>
+        <h2>Explore Our Most Used Benefits</h2>
+
+        <ul className="va-nav-linkslist-list">
+          <li>
+            <a href="/disability-benefits/" onClick={recordDashboardClick('disability-benefits')}>
+              <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
+              <p className="va-nav-linkslist-description">Apply for disability compensation and other benefits for conditions related to your military service.</p>
+            </a>
+          </li>
+          <li>
+            <a href="/health-care/" onClick={recordDashboardClick('health-care')}>
+              <h4 className="va-nav-linkslist-title">Health Care Benefits</h4>
+              <p className="va-nav-linkslist-description">Apply for VA health care, find out how to access services, and manage your health and benefits online.</p>
+            </a>
+          </li>
+          <li>
+            <a href="/education/" onClick={recordDashboardClick('education-benefits')}>
+              <h4 className="va-nav-linkslist-title">Education Benefits</h4>
+              <p className="va-nav-linkslist-description">Apply for and manage benefits that help you pay for college and training programs.</p>
+            </a>
+          </li>
+          <li>
+            <a href="/disability-benefits/" onClick={recordDashboardClick('disability-benefits')}>
+              <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
+              <p className="va-nav-linkslist-description">Apply for disability compensation and other benefits for conditions related to your military service.</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+
   render() {
+    const availableWidgetsCount = [
+      this.props.canAccessClaims,
+      this.props.canAccessRx,
+      this.props.canAccessMessaging,
+      this.props.canAccessAppeals,
+    ].filter(e => e).length;
+
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
@@ -147,6 +189,7 @@ class DashboardApp extends React.Component {
               <PrescriptionsWidget/>
             </DowntimeNotification>
           </div>
+          {(availableWidgetsCount === 0) && this.renderEmptyStateLinks()}
           <div>
             <h2>Manage Your Health and Benefits</h2>
 
@@ -221,8 +264,18 @@ class DashboardApp extends React.Component {
 
 const mapStateToProps = (state) => {
   const userState = state.user;
+  const profileState = userState.profile;
+  const canAccessRx = profileState.services.includes('rx');
+  const canAccessMessaging = profileState.services.includes('messaging');
+  const canAccessAppeals = profileState.services.includes('appeals-status');
+  const canAccessClaims = profileState.services.includes('evss-claims');
+
   return {
-    profile: userState.profile,
+    canAccessRx,
+    canAccessMessaging,
+    canAccessAppeals,
+    canAccessClaims,
+    profile: profileState,
     user: userState
   };
 };
