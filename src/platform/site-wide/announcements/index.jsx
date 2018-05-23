@@ -4,6 +4,8 @@
  * @module platform/site-wide/announcement
  */
 
+import './sass/style.scss';
+
 import React from 'react';
 import { Provider } from 'react-redux';
 

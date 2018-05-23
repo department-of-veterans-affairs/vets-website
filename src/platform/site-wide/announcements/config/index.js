@@ -7,12 +7,14 @@ const config = {
     {
       name: 'dashboard-intro',
       paths: /^(\/dashboard\/)$/,
-      component: DashboardIntro
+      component: DashboardIntro,
+      relatedAnnouncements: ['personalization']
     },
     {
       name: 'profile-intro',
       paths: /^(\/profile\/)$/,
-      component: ProfileIntro
+      component: ProfileIntro,
+      relatedAnnouncements: ['personalization']
     },
     {
       name: 'personalization',

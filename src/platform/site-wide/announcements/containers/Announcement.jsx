@@ -10,16 +10,32 @@ import {
 
 class Announcement extends React.Component {
   componentDidMount() {
-    this.props.initDismissedAnnouncements()
+    this.props.initDismissedAnnouncements();
   }
   dismiss = () => {
-    console.log(this)
-    this.props.dismissAnnouncement(this.props.announcement.name);
+    const {
+      announcement: {
+        name: announcementName,
+        relatedAnnouncements = []
+      }
+    } = this.props;
+
+    this.props.dismissAnnouncement(announcementName);
+    relatedAnnouncements.forEach(relatedAnnouncementName => this.props.dismissAnnouncement(relatedAnnouncementName));
   }
   render() {
-    const announcement = this.props.announcement;
+    const {
+      announcement,
+      user
+    } = this.props;
+
     if (announcement) {
-      return <announcement.component announcement={announcement} dismiss={this.dismiss}/>;
+      return (
+        <announcement.component
+          announcement={announcement}
+          user={user}
+          dismiss={this.dismiss}/>
+      );
     }
     return <div/>;
   }
@@ -28,6 +44,7 @@ class Announcement extends React.Component {
 const mapStateToProps = (state) => {
   return {
     announcement: selectAnnouncement(state),
+    user: state.user,
     ...state.announcements
   };
 };

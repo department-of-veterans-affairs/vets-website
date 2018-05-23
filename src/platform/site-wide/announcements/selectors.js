@@ -6,11 +6,11 @@ export function selectAnnouncement(state) {
 
   if (announcements.isInitialized) {
     const path = document.location.pathname;
-    announcement = config.announcements.find(announcement => {
-      const matchesPath = announcement.paths.test(path);
-      const dismissed = announcements.dismissed.includes(announcement.name);
-      return matchesPath && !dismissed;
-    });
+    announcement = config.announcements.find(a => a.paths.test(path));
+
+    if (announcements.dismissed.includes(announcement.name)) {
+      announcement = null;
+    }
   }
 
   return announcement;
