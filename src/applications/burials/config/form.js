@@ -23,6 +23,7 @@ import { isFullDate } from '../../../platform/forms/validations';
 import { services } from '../../../platform/monitoring/DowntimeNotification';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -85,6 +86,7 @@ const formConfig = {
   urlPrefix: '/',
   submit,
   trackingPrefix: 'burials-530-',
+  environment,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-530',
@@ -531,12 +533,14 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             deathCertificate: _.assign(fileUploadUI('Veteran’s death certificate', {
-              hideIf: form => form.burialAllowanceRequested !== 'service'
+              hideIf: form => form.burialAllowanceRequested !== 'service',
+              'environment': environment,
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
             transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains or other supporting evidence', {
-              addAnotherLabel: 'Add Another Document'
+              addAnotherLabel: 'Add Another Document',
+              'environment': environment,
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
             }),
