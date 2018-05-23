@@ -5,7 +5,7 @@ export default function DashboardIntro({ dismiss }) {
   return (
     <Modal
       visible
-      onClose={dismissAnnouncement}
+      onClose={dismiss}
       id="dashboard-announcement">
       <h1>Check out the profile</h1>
     </Modal>
