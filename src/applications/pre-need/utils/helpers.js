@@ -298,7 +298,7 @@ export const veteranUI = {
 
 export const serviceRecordsUI = {
   'ui:title': 'Service periods',
-  'ui:description': 'Please provide all service periods. If you need to add another service period, please click the Add Another Service Period button.',
+  'ui:description': 'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'Service Period'

@@ -39,7 +39,8 @@ class IntroductionPage extends React.Component {
               <h6>When you apply, be sure to have these on hand:</h6>
               <ul>
                 <li>
-                  The name of the VA national cemetery where you’d prefer to be buried. <a href="/facilities/">Find a VA national cemetery</a>.
+                  The name of the VA national cemetery where you’d prefer to be buried.<br/>
+                  <a href="/facilities/">Find a VA national cemetery</a>.
                 </li>
                 <li>
                   Service history or the service history of the Servicemember or Veteran who’s sponsoring your application. This includes your or your sponsor’s:
@@ -79,7 +80,8 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
-                <strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/">Get help filing your claim.</a>
+                <strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim.<br/>
+                <a href="/disability-benefits/apply/help/">Get help filing your claim.</a>
               </p>
             </li>
             <li className="process-step list-two">
