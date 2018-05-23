@@ -113,7 +113,7 @@ class SaveInProgressIntro extends React.Component {
 
       return (
         <Message
-          afterSteps
+          isAfterSteps={this.props.buttonOnly}
           downtimeWindow={downtimeWindow}/>
       );
     }
