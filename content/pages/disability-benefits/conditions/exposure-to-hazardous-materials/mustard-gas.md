@@ -72,6 +72,6 @@ You have to claim an actual disease or disability. It’s not enough to state th
 
 ### What if I need help filing my disability claim?
 
-If you have questions about benefits related to mustard gas exposure, you can contact us via email. <a href="mailto:mustardgas@vba.va.gov">Email us at mustardgas@vba.va.gov</a>
+If you have questions about benefits related to mustard gas exposure, you can contact us via email. <br> <a href="mailto:mustardgas@vba.va.gov">Email us at mustardgas@vba.va.gov</a>.
 
 You can also get help from a trained professional trusted to help with VA-related claims. <br> [Get help filing your claim](/disability-benefits/apply/help/).
