@@ -37,7 +37,7 @@ class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>Burial Pre-Need Claim <span className="additional">(Form 40-10007)</span></h4>
+          <h4 className="schemaform-confirmation-claim-header">Burial Pre-Need Claim <span className="additional">(Form 40-10007)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           {response.trackingNumber && <ul className="claim-list">

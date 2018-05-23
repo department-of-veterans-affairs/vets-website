@@ -46,7 +46,7 @@ export const childRelationshipDescription = (
 );
 
 export const otherRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">You’re applying on <strong>behalf</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information.</div>
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying on <strong>behalf</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for the Servicemember's or Veteran's information as the sponsor.</div>
 );
 
 export const sponsorMilitaryStatusDescription = (
