@@ -58,7 +58,7 @@ class EditEmailModal extends React.Component {
 }
 
 
-export default function EmailSection({ emailResponseData, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+export default function EmailSection({ emailResponseData, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
@@ -66,7 +66,7 @@ export default function EmailSection({ emailResponseData, field, error, clearErr
     if (emailResponseData.email) {
       content = emailResponseData.email;
     } else {
-      content = <button type="button" onClick={onEdit} className="va-button-link va-profile-btn">Please add your email address</button>;
+      content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your email address</button>;
     }
   } else {
     content = fieldFailureMessage;

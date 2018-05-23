@@ -6,12 +6,8 @@ import moment from 'moment';
 
 import { createServiceMap } from '../util/helpers';
 import { services, serviceStatus } from '../index';
-import { DowntimeNotification } from '../containers/DowntimeNotification';
+import { DowntimeNotification, mapStateToProps } from '../containers/DowntimeNotification';
 
-const beforeNow = moment().subtract(1, 'minute').toDate();
-const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toDate();
-const moreThanHour = moment().add(1, 'hour').add(1, 'hour').toDate();
-const endTime = moment().add(6, 'hour').toDate();
 let old;
 
 const innerText = 'This is the inner text';
@@ -22,6 +18,60 @@ function getComponent(dependencies = [], getScheduledDowntime = () => {}, otherP
     </DowntimeNotification>
   );
 }
+
+describe('mapStateToProps', () => {
+
+  it('should set shouldSendRequest to true when scheduled downtime is not ready and a request is not pending', () => {
+    const scheduledDowntime = {
+      isReady: false,
+      isPending: false,
+      dismissedDowntimeWarnings: []
+    };
+
+    const ownProps = {
+      appTitle: 'test app',
+      dependencies: ['Service A']
+    };
+
+    const props = mapStateToProps({ scheduledDowntime }, ownProps);
+    expect(props.shouldSendRequest).to.be.true;
+    expect(props.status).to.be.undefined;
+  });
+
+  it('should have properties of a downtime object if downtime is found', () => {
+    const serviceMap = createServiceMap([
+      {
+        attributes: {
+          externalService: 'myservice',
+          startTime: moment().toISOString(),
+          endTime: moment().add(1, 'day').toISOString()
+        }
+      }
+    ]);
+
+    const scheduledDowntime = {
+      isReady: true,
+      isPending: false,
+      dismissedDowntimeWarnings: [],
+      serviceMap
+    };
+
+    const ownProps = {
+      appTitle: 'My app',
+      dependencies: ['myservice']
+    };
+
+    const props = mapStateToProps({ scheduledDowntime }, ownProps);
+
+    expect(props).to.include.all.keys([
+      'externalService',
+      'status',
+      'startTime',
+      'endTime'
+    ]);
+
+  });
+});
 
 describe('<DowntimeNotification/>', () => {
 
@@ -44,75 +94,27 @@ describe('<DowntimeNotification/>', () => {
 
     it('should render the children components when there are no dependencies', () => {
       const wrapper = getComponent();
-      wrapper.setProps({ isReady: true, serviceMap: new Map() });
+      wrapper.setProps({ isReady: true });
       expect(wrapper.text()).to.contain(innerText, 'The message was rendered.');
     });
 
     it('should render the children components when dependencies have no downtime', () => {
       const wrapper = getComponent([services.mvi]);
-      wrapper.setProps({ isReady: true, serviceMap: new Map() });
-      expect(wrapper.text()).to.contain(innerText, 'The message was rendered.');
-    });
-
-    it('should render the children components when dependencies have downtime but it\'s over an hour away', () => {
-      const serviceMap = createServiceMap([
-        {
-          attributes: {
-            externalService: services.mvi,
-            startTime: moreThanHour,
-            endTime
-          }
-        }
-      ]);
-      const wrapper = getComponent([services.mvi]);
-      wrapper.setProps({ isReady: true, serviceMap });
-      expect(wrapper.text()).to.contain(innerText, 'The message was rendered.');
-    });
-
-    it('should ignore downtime for services that are not dependencies', () => {
-      const serviceMap = createServiceMap([
-        {
-          attributes: {
-            externalService: services.mhv,
-            startTime: beforeNow,
-            endTime
-          },
-        },
-        {
-          attributes: {
-            externalService: services.arcgis,
-            startTime: beforeNow,
-            endTime
-          },
-        },
-        {
-          attributes: {
-            externalService: services.evss,
-            startTime: beforeNow,
-            endTime
-          }
-        }
-      ]);
-      const wrapper = getComponent([services.mvi]);
-      wrapper.setProps({ isReady: true, serviceMap });
+      wrapper.setProps({ isReady: true });
       expect(wrapper.text()).to.contain(innerText, 'The message was rendered.');
     });
   });
 
   describe('Approaching downtime', () => {
-    it('should render the children and a Modal when downtime is approaching for authenticated users', () => {
-      const serviceMap = createServiceMap([
-        {
-          attributes: {
-            externalService: services.mhv,
-            startTime: withinHour,
-            endTime
-          }
-        }
-      ]);
-
+    it('should render the children and a Modal when downtime is approaching', () => {
       const wrapper = getComponent([services.mhv]);
-      wrapper.setProps({ isReady: true, serviceMap });
+      wrapper.setProps({
+        isReady: true,
+        initializeDowntimeWarnings() {},
+        startTime: moment(),
+        endTime: moment(),
+        status: serviceStatus.downtimeApproaching
+      });
 
       const downtimeApproaching = wrapper.find('DowntimeApproaching').dive();
       const innerWrapper = downtimeApproaching.find('DowntimeNotificationWrapper').dive();
@@ -124,26 +126,9 @@ describe('<DowntimeNotification/>', () => {
   });
 
   describe('In downtime', () => {
-    it('should not render the children when we are in downtime and instead show an AlertBox for unauthenticated users', () => {
-      const serviceMap = createServiceMap([
-        {
-          attributes: {
-            externalService: services.appeals,
-            startTime: moreThanHour,
-            endTime
-          }
-        },
-        {
-          attributes: {
-            externalService: services.mhv,
-            startTime: beforeNow,
-            endTime
-          }
-        }
-      ]);
-
+    it('should not render the children when we are in downtime and instead show an AlertBox', () => {
       const wrapper = getComponent([services.mhv]);
-      wrapper.setProps({ isReady: true, serviceMap });
+      wrapper.setProps({ isReady: true, status: serviceStatus.down });
 
       const down = wrapper.find('Down').dive();
       const innerWrapper = down.find('DowntimeNotificationWrapper').dive();
@@ -156,16 +141,6 @@ describe('<DowntimeNotification/>', () => {
 
   describe('custom render', () => {
     it('allows a custom render property', () => {
-      const serviceMap = createServiceMap([
-        {
-          attributes: {
-            externalService: services.mhv,
-            startTime: beforeNow,
-            endTime
-          }
-        }
-      ]);
-
       const render = (downtime, children) => {
         return (
           <div>
@@ -176,7 +151,7 @@ describe('<DowntimeNotification/>', () => {
       };
 
       const wrapper = getComponent([services.mhv], () => {}, { render });
-      wrapper.setProps({ isReady: true, serviceMap });
+      wrapper.setProps({ isReady: true, status: serviceStatus.down });
 
       const text = wrapper.text();
 

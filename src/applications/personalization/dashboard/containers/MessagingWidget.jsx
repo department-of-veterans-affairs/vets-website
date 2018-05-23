@@ -6,11 +6,21 @@ import { Link } from 'react-router';
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
 import { formattedDate } from '../../../messaging/utils/helpers';
 
-
+import recordEvent from '../../../../platform/monitoring/record-event';
 import {
   fetchFolder,
   fetchRecipients,
 } from '../../../messaging/actions';
+
+function recordDashboardClick(product) {
+  return () => {
+    recordEvent({
+      event: 'dashboard-navigation',
+      'dashboard-action': 'view-link',
+      'dashboard-product': product,
+    });
+  };
+}
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
@@ -81,7 +91,7 @@ class MessagingWidget extends React.Component {
       <div>
         <h2>Check Secure Messages</h2>
         {content}
-        <p><Link href="/health-care/messaging">View all your secure messages</Link>.</p>
+        <p><Link href="/health-care/messaging" onClick={recordDashboardClick('view-all-messages')}>View all your secure messages</Link>.</p>
       </div>
     );
   }

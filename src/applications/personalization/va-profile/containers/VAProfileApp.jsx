@@ -2,15 +2,8 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { services, serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
-import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
-
 import {
-  fetchAddressConstants,
-  fetchContactInformation,
-  fetchMilitaryInformation,
-  fetchHero,
-  fetchPersonalInformation,
+  startup,
   saveField,
   updateFormField,
   openModal,
@@ -19,19 +12,10 @@ import {
 } from '../actions';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
+import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import ProfileView from '../components/ProfileView';
 
 class VAProfileApp extends React.Component {
-  renderDowntime = (downtime, children) => {
-    if (downtime.status === serviceStatus.downtimeApproaching) {
-      return (
-        <DowntimeApproaching appTitle="profile" startTime={downtime.startTime} endTime={downtime.endTime}>
-          {children}
-        </DowntimeApproaching>
-      );
-    }
-    return children;
-  }
   render() {
     return (
       <div>
@@ -41,14 +25,9 @@ class VAProfileApp extends React.Component {
           user={this.props.account}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <DowntimeNotification appTitle="profile" dependencies={[services.evss, services.mvi, services.emis]} render={this.renderDowntime}>
+          <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
             <ProfileView
-              fetchAddressConstants={this.props.fetchAddressConstants}
-              fetchContactInformation={this.props.fetchContactInformation}
-              fetchMilitaryInformation={this.props.fetchMilitaryInformation}
-              fetchHero={this.props.fetchHero}
-              fetchPersonalInformation={this.props.fetchPersonalInformation}
-              scheduledDowntime={this.props.scheduledDowntime}
+              startup={this.props.startup}
               profile={this.props.profile}
               message={{
                 content: this.props.profile.message,
@@ -74,17 +53,13 @@ class VAProfileApp extends React.Component {
 const mapStateToProps = (state) => {
   return {
     account: state.user,
-    profile: state.vaProfile
+    profile: state.vaProfile,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
-    fetchAddressConstants,
-    fetchContactInformation,
-    fetchMilitaryInformation,
-    fetchHero,
-    fetchPersonalInformation,
+    startup,
     openModal,
     clearErrors,
     clearMessage

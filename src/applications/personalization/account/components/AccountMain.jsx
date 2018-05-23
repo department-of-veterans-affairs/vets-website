@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import AccountVerification from './AccountVerification';
 import LoginSettings from './LoginSettings';
@@ -25,7 +26,7 @@ class AccountMain extends React.Component {
         <h4>Have questions about signing in to Vets.gov?</h4>
         <p>
           Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on Vets.gov.<br/>
-          <a href="/faq">Go to Vets.gov FAQs</a>
+          <a href="/faq" onClick={() => recordEvent({ event: 'account-navigation', 'account-action': 'view-link', 'account-section': 'vets-faqs' })}>Go to Vets.gov FAQs</a>
         </p>
       </div>
     );

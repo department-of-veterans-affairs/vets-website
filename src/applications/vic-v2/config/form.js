@@ -2,6 +2,8 @@
 import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
+import FormFooter from '../../../platform/forms/components/FormFooter';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
@@ -51,6 +53,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  footerContent: FormFooter,
   savedFormMessages: {
     notFound: 'Please start over to apply for a Veteran ID Card.',
     noAuth: 'Please sign in again to continue your application for a Veteran ID Card.'

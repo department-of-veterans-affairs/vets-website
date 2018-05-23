@@ -1,10 +1,6 @@
 import _ from 'lodash/fp';
 
 import {
-  recalculateSchemaAndData
-} from '../state/helpers';
-
-import {
   SET_SAVE_FORM_STATUS,
   SET_AUTO_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
@@ -17,6 +13,10 @@ import {
   PREFILL_STATUSES,
   saveErrors
 } from '../save-in-progress/actions';
+
+import createSchemaFormReducer from '../state';
+import { createInitialState, recalculateSchemaAndData } from '../state/helpers';
+import reducers from '../state/reducers';
 
 export const saveInProgressReducers = {
   [SET_SAVE_FORM_STATUS]: (state, action) => {
@@ -127,4 +127,16 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     prefillTransformer: formConfig.prefillTransformer,
     trackingPrefix: formConfig.trackingPrefix
   });
+}
+
+export function createSaveInProgressFormReducer(formConfig) {
+  let formReducers = reducers;
+  let initialState = createInitialState(formConfig);
+
+  if (!formConfig.disableSave) {
+    formReducers = Object.assign({}, formReducers, saveInProgressReducers);
+    initialState = createSaveInProgressInitialState(formConfig, initialState);
+  }
+
+  return createSchemaFormReducer(formConfig, initialState, formReducers);
 }

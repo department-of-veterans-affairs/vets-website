@@ -12,6 +12,7 @@ import {
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
@@ -19,6 +20,19 @@ import EmailSection from './EmailSection';
 import LoadingSection from './LoadingSection';
 import LoadFail from './LoadFail';
 import { handleDowntimeForSection } from './DowntimeBanner';
+
+function recordedAction(actionName, sectionName, callback) {
+  return () => {
+    if (sectionName && actionName) {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': actionName,
+        'profile-section': sectionName,
+      });
+    }
+    callback();
+  };
+}
 
 class ContactInformationContent extends React.Component {
 
@@ -72,9 +86,10 @@ class ContactInformationContent extends React.Component {
           onChange={updateFormFieldActions.mailingAddress}
           isEditing={currentlyOpenModal === 'mailingAddress'}
           isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
-          onEdit={this.openModalHandler('mailingAddress')}
-          onSubmit={updateActions.updateMailingAddress}
-          onCancel={this.closeModal}
+          onEdit={recordedAction('edit-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
+          onAdd={recordedAction('add-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
+          onSubmit={recordedAction('update-button', 'mailing-address', updateActions.updateMailingAddress)}
+          onCancel={recordedAction('cancel-button', 'mailing-address', this.closeModal)}
           addressConstants={addressConstants}/>
 
         <PhoneSection
@@ -86,9 +101,10 @@ class ContactInformationContent extends React.Component {
           onChange={updateFormFieldActions.primaryTelephone}
           isEditing={currentlyOpenModal === 'primaryPhone'}
           isLoading={pendingSaves.includes(SAVE_PRIMARY_PHONE)}
-          onEdit={this.openModalHandler('primaryPhone')}
-          onSubmit={updateActions.updatePrimaryPhone}
-          onCancel={this.closeModal}/>
+          onEdit={recordedAction('edit-link', 'primary-telephone', this.openModalHandler('primaryPhone'))}
+          onAdd={recordedAction('add-link', 'primary-telephone', this.openModalHandler('primaryPhone'))}
+          onSubmit={recordedAction('update-button', 'primary-telephone', updateActions.updatePrimaryPhone)}
+          onCancel={recordedAction('cancel-button', 'primary-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Alternate Phone"
@@ -99,9 +115,10 @@ class ContactInformationContent extends React.Component {
           onChange={updateFormFieldActions.alternateTelephone}
           isEditing={currentlyOpenModal === 'altPhone'}
           isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
-          onEdit={this.openModalHandler('altPhone')}
-          onSubmit={updateActions.updateAlternatePhone}
-          onCancel={this.closeModal}/>
+          onEdit={recordedAction('edit-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+          onAdd={recordedAction('add-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+          onSubmit={recordedAction('update-button', 'alternative-telephone', updateActions.updateAlternatePhone)}
+          onCancel={recordedAction('cancel-button', 'alternative-telephone', this.closeModal)}/>
 
         <EmailSection
           emailResponseData={email}
@@ -111,9 +128,10 @@ class ContactInformationContent extends React.Component {
           onChange={updateFormFieldActions.email}
           isEditing={currentlyOpenModal === 'email'}
           isLoading={pendingSaves.includes(SAVE_EMAIL_ADDRESS)}
-          onEdit={this.openModalHandler('email')}
-          onSubmit={updateActions.updateEmailAddress}
-          onCancel={this.closeModal}/>
+          onEdit={recordedAction('edit-link', 'email', this.openModalHandler('email'))}
+          onAdd={recordedAction('add-link', 'email', this.openModalHandler('email'))}
+          onSubmit={recordedAction('update-button', 'email', updateActions.updateEmailAddress)}
+          onCancel={recordedAction('cancel-button', 'email', this.closeModal)}/>
       </div>
     );
   }
@@ -121,6 +139,7 @@ class ContactInformationContent extends React.Component {
   render() {
     return (
       <div>
+        <h2 className="va-profile-heading">Contact Information</h2>
         <AlertBox
           isVisible
           status="info"
@@ -131,7 +150,7 @@ class ContactInformationContent extends React.Component {
           render={this.renderContent}/>
         <div>
           <h3>Want to update the email you use to sign in to Vets.gov?</h3>
-          <a href={accountManifest.rootUrl}>Go to your account settings</a>
+          <a href={accountManifest.rootUrl} onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'account-settings' }); }}>Go to your account settings</a>
         </div>
       </div>
     );

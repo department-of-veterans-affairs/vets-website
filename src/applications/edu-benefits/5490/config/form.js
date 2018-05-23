@@ -34,6 +34,7 @@ import * as personId from '../../../common/schemaform/definitions/personId';
 
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import GetFormHelp from '../../components/GetFormHelp';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
@@ -85,6 +86,7 @@ const formConfig = {
   formId: '22-5490',
   version: 1,
   migrations: [urlMigration('/5490')],
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
@@ -94,6 +96,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     date,

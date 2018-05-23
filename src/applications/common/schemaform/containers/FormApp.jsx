@@ -4,8 +4,8 @@ import Scroll from 'react-scroll';
 
 import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
-import AskVAQuestions from '../components/AskVAQuestions';
-import RoutedSavableApp from '../save-in-progress/RoutedSavableApp';
+
+import { isInProgress } from '../../../../platform/forms/helpers';
 
 const Element = Scroll.Element;
 
@@ -23,17 +23,12 @@ class FormApp extends React.Component {
     const { currentLocation, formConfig, children, formData } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
-    const GetFormHelp = formConfig.getHelp;
-    const saveEnabled = !formConfig.disableSave;
+    const Footer = formConfig.footerContent;
 
     let formTitle;
     let formNav;
+    let renderedChildren = children;
     if (!isIntroductionPage) {
-      // Show nav only if we're not on the intro or confirmation page
-      if (!isConfirmationPage) {
-        formNav = <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>;
-      }
       // Show title only if we're not on the intro page and if there is a title
       // specified in the form config
       if (formConfig.title) {
@@ -41,35 +36,31 @@ class FormApp extends React.Component {
       }
     }
 
+    // Show nav only if we're not on the intro, form-saved, error, or confirmation page
+    // Also add form classes only if on an actual form page
+    if (isInProgress(trimmedPathname)) {
+      formNav = <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>;
+
+      renderedChildren = (
+        <div className="progress-box progress-box-schemaform">
+          {children}
+        </div>
+      );
+    }
+
     return (
       <div>
         <div className="row">
           <div className="usa-width-two-thirds medium-8 columns">
-            {
-              saveEnabled ?
-                (
-                  <RoutedSavableApp
-                    formConfig={formConfig}
-                    currentLocation={currentLocation}>
-                    {children}
-                  </RoutedSavableApp>
-                ) :
-                (
-                  <div>
-                    <Element name="topScrollElement"/>
-                    {formTitle}
-                    {formNav}
-                    <div className="progress-box progress-box-schemaform">
-                      {children}
-                    </div>
-                  </div>
-                )
-            }
+            <Element name="topScrollElement"/>
+            {formTitle}
+            {formNav}
+            {renderedChildren}
           </div>
         </div>
-        {!isConfirmationPage && <AskVAQuestions>
-          {!!GetFormHelp && <GetFormHelp/>}
-        </AskVAQuestions>}
+        <Footer
+          formConfig={formConfig}
+          currentLocation={currentLocation}/>
         <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
       </div>
     );

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import Scroll from 'react-scroll';
 
+import recordEvent from '../../../../platform/monitoring/record-event';
 import { removeSavedForm } from '../actions';
 
 import FormList from '../components/FormList';
@@ -49,6 +50,16 @@ moment.updateLocale('en', {
     'Dec.'
   ]
 });
+
+function recordDashboardClick(product, actionType = 'view-link') {
+  return () => {
+    recordEvent({
+      event: 'dashboard-navigation',
+      'dashboard-action': actionType,
+      'dashboard-product': product,
+    });
+  };
+}
 
 class DashboardApp extends React.Component {
   constructor(props) {
@@ -141,13 +152,13 @@ class DashboardApp extends React.Component {
 
             <ul className="va-nav-linkslist-list">
               <li>
-                <a href="/health-care/schedule-an-appointment/">
+                <a href="/health-care/schedule-an-appointment/" onClick={recordDashboardClick('schedule-appointment')}>
                   <h4 className="va-nav-linkslist-title">Schedule a VA Appointment</h4>
                   <p className="va-nav-linkslist-description">Find out how to make a doctor’s appointment with a member of your VA health care team online or by phone.</p>
                 </a>
               </li>
               <li>
-                <a href="/education/gi-bill/post-9-11/ch-33-benefit">
+                <a href="/education/gi-bill/post-9-11/ch-33-benefit" onClick={recordDashboardClick('post-911')}>
                   <h4 className="va-nav-linkslist-title">Check Post-9/11 GI Bill Benefits</h4>
                   <p className="va-nav-linkslist-description">View and print your statement of benefits.</p>
                 </a>
@@ -159,19 +170,19 @@ class DashboardApp extends React.Component {
 
             <ul className="va-nav-linkslist-list">
               <li>
-                <a href="/discharge-upgrade-instructions/">
+                <a href="/discharge-upgrade-instructions/" onClick={recordDashboardClick('apply-discharge')}>
                   <h4 className="va-nav-linkslist-title">How to Apply for a Discharge Upgrade</h4>
                   <p className="va-nav-linkslist-description">Answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction.</p>
                 </a>
               </li>
               <li>
-                <a href="/health-care/health-records/">
+                <a href="/health-care/health-records/" onClick={recordDashboardClick('health-records')}>
                   <h4 className="va-nav-linkslist-title">Get Your VA Health Records</h4>
                   <p className="va-nav-linkslist-description">View, download, and print your VA health records.</p>
                 </a>
               </li>
               <li>
-                <a href="/download-va-letters/">
+                <a href="/download-va-letters/" onClick={recordDashboardClick('download-letters')}>
                   <h4 className="va-nav-linkslist-title">Download Your VA Letters</h4>
                   <p className="va-nav-linkslist-description">Access and download benefit letters and documents proving your status online.</p>
                 </a>
@@ -181,12 +192,12 @@ class DashboardApp extends React.Component {
           <div>
             <h2>View Your Profile</h2>
             <p>Review your contact, personal, and military service information—and find out how to make any needed updates or corrections.<br/>
-              <a className="usa-button-primary" href={profileManifest.rootUrl}>View Your Profile</a>
+              <a className="usa-button-primary" href={profileManifest.rootUrl} onClick={recordDashboardClick('view-your-profile', 'view-button')}>View Your Profile</a>
             </p>
 
             <h2>Manage Your Account</h2>
             <p>View your current account settings—and find out how to update them as needed to access more site tools or add extra security to your account.<br/>
-              <a className="usa-button-primary" href={accountManifest.rootUrl}>View Your Account Settings</a>
+              <a className="usa-button-primary" href={accountManifest.rootUrl} onClick={recordDashboardClick('view-your-account-settings', 'view-button')}>View Your Account Settings</a>
             </p>
           </div>
         </div>

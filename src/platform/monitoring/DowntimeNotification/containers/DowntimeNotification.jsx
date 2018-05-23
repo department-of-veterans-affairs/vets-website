@@ -4,10 +4,19 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import { getScheduledDowntime } from '../actions';
-import { getSoonestDowntime } from '../util/helpers';
+import {
+  getScheduledDowntime,
+  initializeDowntimeWarnings,
+  dismissDowntimeWarning
+} from '../actions';
+
+import {
+  getSoonestDowntime
+} from '../util/helpers';
+
 import services from '../config/services';
 import serviceStatus from '../config/serviceStatus';
+
 import Down from '../components/Down';
 import DowntimeApproaching from '../components/DowntimeApproaching';
 
@@ -45,44 +54,60 @@ class DowntimeNotification extends React.Component {
       return this.props.loadingIndicator || <LoadingIndicator message={`Checking the ${this.props.appTitle} status...`}/>;
     }
 
-    const downtime = getSoonestDowntime(this.props.serviceMap, this.props.dependencies);
     const children = this.props.children || this.props.content;
 
-    let content = children;
-
-    if (downtime) {
-      if (this.props.render) {
-        content = this.props.render(downtime, children);
-      } else if (downtime.status === serviceStatus.down) {
-        content = (
-          <Down
-            appTitle={this.props.appTitle}
-            endTime={downtime.endTime}/>
-        );
-      } else if (downtime.status === serviceStatus.downtimeApproaching) {
-        content = (
-          <DowntimeApproaching
-            appTitle={this.props.appTitle}
-            startTime={downtime.startTime}
-            endTime={downtime.endTime}>{children}</DowntimeApproaching>
-        );
-      }
+    if (this.props.render) {
+      return this.props.render({
+        externalService: this.props.externalService,
+        status: this.props.status,
+        startTime: this.props.startTime,
+        endTime: this.props.endTime
+      }, children);
     }
 
-    return content;
+    if (this.props.status === serviceStatus.downtimeApproaching) {
+      return <DowntimeApproaching {...this.props}/>;
+    }
+
+    if (this.props.status === serviceStatus.down) {
+      return <Down {...this.props}/>;
+    }
+
+    return children;
   }
 }
 
-const mapStateToProps = (state) => {
-  const shouldSendRequest = !state.scheduledDowntime.isReady && !state.scheduledDowntime.isPending;
+// exported for unit tests
+export const mapStateToProps = (state, ownProps) => {
+  const scheduledDowntime = state.scheduledDowntime;
+  const shouldSendRequest = !scheduledDowntime.isReady && !scheduledDowntime.isPending;
+  const isDowntimeWarningDismissed = scheduledDowntime.dismissedDowntimeWarnings.includes(ownProps.appTitle);
+
+  let downtime = null;
+  if (scheduledDowntime.isReady) {
+    downtime = getSoonestDowntime(scheduledDowntime.serviceMap, ownProps.dependencies);
+  }
+
   return {
     shouldSendRequest,
-    ...state.scheduledDowntime
+    isDowntimeWarningDismissed,
+    ...scheduledDowntime,
+    ...downtime
   };
 };
 
-const mapDispatchToProps = {
-  getScheduledDowntime
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getScheduledDowntime() {
+      return dispatch(getScheduledDowntime());
+    },
+    initializeDowntimeWarnings() {
+      return dispatch(initializeDowntimeWarnings());
+    },
+    dismissDowntimeWarning() {
+      return dispatch(dismissDowntimeWarning(ownProps.appTitle));
+    }
+  };
 };
 
 export { DowntimeNotification };
