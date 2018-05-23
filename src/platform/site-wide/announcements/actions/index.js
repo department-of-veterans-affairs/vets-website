@@ -29,7 +29,7 @@ export function initDismissedAnnouncements() {
   return {
     type: INIT_DISMISSED_ANNOUNCEMENTS,
     dismissedAnnouncements: localAnnouncements()
-  }
+  };
 }
 
 export function dismissAnnouncement(announcement) {

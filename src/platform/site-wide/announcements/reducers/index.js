@@ -4,6 +4,7 @@ import {
 } from '../actions';
 
 const initialState = {
+  isInitialized: false,
   dismissed: []
 };
 
@@ -12,6 +13,7 @@ export default function announcements(state = initialState, action) {
     case INIT_DISMISSED_ANNOUNCEMENTS:
       return {
         ...state,
+        isInitialized: true,
         dismissed: action.dismissedAnnouncements
       };
 

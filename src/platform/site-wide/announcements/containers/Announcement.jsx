@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import config from '../config';
+import { selectAnnouncement } from '../selectors';
 
 import {
   initDismissedAnnouncements,
@@ -12,18 +12,25 @@ class Announcement extends React.Component {
   componentDidMount() {
     this.props.initDismissedAnnouncements()
   }
-  getRouteData() {
-    const path = document.location.pathname;
-    return config.routes.find(routeData => routeData.pages.test(path));
+  dismiss = () => {
+    console.log(this)
+    this.props.dismissAnnouncement(this.props.announcement.name);
   }
   render() {
-    const routeData = this.getRouteData();
-    if (!routeData) return <div/>
-    return <routeData.component {...this.props} {...routeData}/>;
+    const announcement = this.props.announcement;
+    if (announcement) {
+      return <announcement.component announcement={announcement} dismiss={this.dismiss}/>;
+    }
+    return <div/>;
   }
 }
 
-const mapStateToProps = (state) => state.announcements;
+const mapStateToProps = (state) => {
+  return {
+    announcement: selectAnnouncement(state),
+    ...state.announcements
+  };
+};
 
 const mapDispatchToProps = {
   initDismissedAnnouncements,
