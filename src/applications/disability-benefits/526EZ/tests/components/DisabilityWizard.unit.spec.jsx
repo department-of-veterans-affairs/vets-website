@@ -21,18 +21,6 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('button')).not.to.be.false;
     expect(tree.find('#wizardOptions').props().className).to.contain('wizard-content-closed');
   });
-  it('should show update page', () => {
-    // mount is used for props, shallow is used for setState
-    const tree = mount(
-      shallow(
-        <DisabilityWizard {...defaultProps}/>
-      ).get(0)
-    );
-
-    expect(tree.find('#wizardOptions').props().className).to.contain('wizard-content-closed');
-    tree.setState({ open: true });
-    expect(tree.find('#wizardOptions').props().className).to.not.contain('wizard-content-closed');
-  });
   it('should show status page', () => {
     const tree = mount(
       <DisabilityWizard {...defaultProps}/>
@@ -145,6 +133,24 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
+    expect(tree.text()).to.contain('Verify Your Identity »');
+    expect(tree.find('p').at(0).text()).to.contain('Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.');
+    global.sessionStorage = oldStorage;
+  });
+  it('should show authenticated and verified increase guidance page', () => {
+    // mount is used for find, shallow is used for setState    
+    const oldStorage = global.sessionStorage;
+    global.sessionStorage = { userToken: 'abcdefg' };
+
+    const tree = mount(
+      shallow(
+        <DisabilityWizard {...defaultProps} user={{ profile: { verified: true } }}/>
+      ).get(0)
+    );
+
+    tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
+    tree.setProps({ user: { profile: { verified: true } } });
+    expect(tree.text()).to.contain('Apply for Claim for Increase »');
     expect(tree.find('p').at(0).text()).to.contain('Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.');
     global.sessionStorage = oldStorage;
   });
