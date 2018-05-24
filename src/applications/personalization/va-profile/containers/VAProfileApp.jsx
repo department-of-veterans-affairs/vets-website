@@ -51,7 +51,6 @@ class VAProfileApp extends React.Component {
               ...this.props.downtimeData,
               ...this.props.downtimeActions
             }}
-            downtimeActions={this.props.downtimeActions}
             modal={{
               open: this.props.openModal,
               currentlyOpen: this.props.profile.modal,
@@ -71,6 +70,7 @@ const mapStateToProps = (state) => {
     account: state.user,
     profile: state.vaProfile,
     downtimeData: {
+      appTitle: 'profile',
       isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile')
     }
   };

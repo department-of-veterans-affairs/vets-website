@@ -27,7 +27,6 @@ class ProfileView extends React.Component {
     if (downtime.status === serviceStatus.downtimeApproaching) {
       return (
         <DowntimeApproaching
-          appTitle="profile"
           {...downtime}
           {...this.props.downtimeData}
           messaging={{
@@ -100,6 +99,9 @@ class ProfileView extends React.Component {
         hero,
         personalInformation,
         militaryInformation
+      },
+      downtimeData: {
+        appTitle
       }
     } = this.props;
 
@@ -108,7 +110,7 @@ class ProfileView extends React.Component {
     if (user.profile.verified) {
       if (user.profile.veteranStatus === 'OK') {
         content = (
-          <DowntimeNotification appTitle="profile" render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
+          <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
             <div>
               <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
