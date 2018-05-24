@@ -50,6 +50,7 @@ class EditEmailModal extends React.Component {
               errorMessage={field.errorMessage}
               onValueChange={this.onChange}/>
             <LoadingButton isLoading={isLoading}>Update</LoadingButton>
+            <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
           </form>
         )}
       </Modal>
