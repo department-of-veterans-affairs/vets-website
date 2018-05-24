@@ -107,14 +107,14 @@ class SaveInProgressIntro extends React.Component {
     return pageList[1].path;
   };
 
-  renderDowntime = (status, downtimeWindow, downtimeMap, children) => {
-    if (status === serviceStatus.down) {
+  renderDowntime = (downtime = {}, children) => {
+    if (downtime.status === serviceStatus.down) {
       const Message = this.props.downtime.message || DowntimeMessage;
 
       return (
         <Message
           isAfterSteps={this.props.buttonOnly}
-          downtimeWindow={downtimeWindow}/>
+          downtime={downtime}/>
       );
     }
 

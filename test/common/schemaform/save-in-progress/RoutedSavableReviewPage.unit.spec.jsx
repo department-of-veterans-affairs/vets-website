@@ -240,9 +240,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
 
     it('should not be displayed when service is up', () => {
       const submit = shallow(tree.instance().renderDowntime(
-        'up',
-        {},
-        null,
+        { status: 'up' },
         <span className="not-down"/>
       ));
 
@@ -252,9 +250,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
 
     it('should be displayed when service is down', () => {
       const submit = shallow(tree.instance().renderDowntime(
-        'down',
-        {},
-        null,
+        { status: 'down' },
         <span className="not-down"/>
       ));
 

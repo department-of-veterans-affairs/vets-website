@@ -2,8 +2,8 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import classNames from 'classnames';
 
-export default function DowntimeMessage({ downtimeWindow, isAfterSteps }) {
-  const endTime = downtimeWindow.endTime;
+export default function DowntimeMessage({ downtime, isAfterSteps }) {
+  const endTime = downtime.endTime;
 
   return (
     <AlertBox
