@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 
 const disabilityForms = new Set(['21-526EZ']);
 
-export default function createDisabilityIncreaseApplicationEntry(store) {
-  const root = document.getElementById('react-applicationEntry');
+export default function createDisabilityIncreaseApplicationStatus(store) {
+  const root = document.getElementById('react-applicationStatus');
   if (root) {
     import(
       /* webpackChunkName: "disability-application-status" */
@@ -15,7 +15,7 @@ export default function createDisabilityIncreaseApplicationEntry(store) {
         <Provider store={store}>
           <ApplicationStatus
             formIds={disabilityForms}
-            formType="education"
+            formType="disability"
             showApplyButton={root.getAttribute('data-hide-apply-button') === null}
             stayAfterDelete
             applyRender={() => (

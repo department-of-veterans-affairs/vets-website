@@ -5,7 +5,7 @@ import startSitewideComponents from '../../platform/site-wide';
 
 import createApplicationStatus from './createApplicationStatus';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
-import createDisabilityIncreaseApplicationEntry from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationEntry';
+import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
 
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
@@ -15,7 +15,7 @@ const burialPages = new Set([
   '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/'
 ]);
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
-const disabilityPages = new Set(['/disability-benefits/apply/', '/disability-benefits/eligibility/']);
+const disabilityPages = new Set(['/disability-benefits/', '/disability-benefits/apply/', '/disability-benefits/eligibility/']);
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -52,5 +52,5 @@ if (burialPages.has(location.pathname)) {
 }
 
 if (disabilityPages.has(location.pathname) && __BUILDTYPE__ !== 'production') {
-  createDisabilityIncreaseApplicationEntry(store);
+  createDisabilityIncreaseApplicationStatus(store);
 }
