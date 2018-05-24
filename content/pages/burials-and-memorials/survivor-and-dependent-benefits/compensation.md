@@ -31,6 +31,10 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 ### Can I get compensation from VA?
 
+</div>
+
+<div class="feature" markdown="0">
+
 <h4>If you’re a surviving spouse<h4>
 
 You can get compensation if at least one of the below descriptions is true for you. 
@@ -68,7 +72,7 @@ You may be able to get compensation if both of these are true:
 
 - The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
 - Your income is below a certain amount <br>
-- [View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp) 
+[View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
 
 -----
 
