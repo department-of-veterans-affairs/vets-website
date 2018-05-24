@@ -89,6 +89,7 @@ It was the consensus of our test users that call to action links can be styled a
   * You are adding or removing something like a receipt, prescription, appeal
   * Show/hide accordions
   * Submit a form asynchronously
+  * Submit an asynchronous request, then redirect users based on the server response. This is a middle ground, but feels like a good case for using a button, considering the original function was asynchronous and might keep users on the same page depending on the response.
   * Open and close a modal dialog
   * Alert boxes or confirmations
   * Do not underline button text. Better to have a halo, background color, or border with plenty of hit space.
