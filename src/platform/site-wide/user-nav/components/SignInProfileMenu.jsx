@@ -1,21 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
 import IconUser from '@department-of-veterans-affairs/formation/IconUser';
-import { logout } from '../../../user/authentication/utilities';
-import BetaDropdown from './BetaDropdown';
+
+import LegacyDropdown from './LegacyDropdown';
+import PersonalizationDropdown from './PersonalizationDropdown';
+
+import isPersonalizationEnabled from '../../../../applications/personalization/dashboard/isPersonalizationEnabled';
 
 class SignInProfileMenu extends React.Component {
   render() {
     const icon = <IconUser color="#fff"/>;
-
-    const dropDownContents = (
-      <ul>
-        <li><a href="/profile">Account</a></li>
-        <li><a href="#" onClick={logout}>Sign Out</a></li>
-      </ul>
-    );
 
     return (
       <DropDownPanel
@@ -25,7 +20,7 @@ class SignInProfileMenu extends React.Component {
         icon={icon}
         isOpen={this.props.isOpen}
         disabled={this.props.disabled}>
-        {this.props.isDashboardBeta ? <BetaDropdown/> : dropDownContents}
+        {isPersonalizationEnabled() && this.props.isLOA3 ? <PersonalizationDropdown/> : <LegacyDropdown/>}
       </DropDownPanel>
     );
   }

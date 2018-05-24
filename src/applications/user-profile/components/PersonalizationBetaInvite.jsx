@@ -1,5 +1,5 @@
 import React from 'react';
-import dashboardManifest from '../../personalization/dashboard-beta/manifest.json';
+import dashboardManifest from '../../personalization/dashboard/manifest.json';
 
 const eligibleServices = [
   'evss-claims',
