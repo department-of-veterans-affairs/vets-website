@@ -7,7 +7,7 @@ import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 import { getScrollOptions } from '../../../platform/utilities/ui';
@@ -69,18 +69,20 @@ class AdditionalEvidencePage extends React.Component {
     if (this.props.loading) {
       content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
     } else {
-      const claim = this.props.claim;
-      const filesPath = `your-claims/${claim.id}/files`;
-      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
-      const message = this.props.message;
+      const { claim, message } = this.props;
+      const claimsPath = `your-claims/${claim.id}`;
+      const evidencePath = `your-claims/${claim.id}/additional-evidence`;
 
       content = (
         <div>
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                <li><Link to={claimsPath}>Your Claims</Link></li>
-                <li><Link to={filesPath}>Your {getClaimType(claim)} Claim</Link></li>
+                <a key="home" href="/">Home</a>
+                <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+                <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+                <Link to={claimsPath}>Your {getClaimType(claim)} Claim</Link>
+                <Link to={evidencePath}>Additional Evidence</Link>
               </Breadcrumbs>
             </div>
           </div>
@@ -92,7 +94,7 @@ class AdditionalEvidencePage extends React.Component {
                     <Element name="uploadError"/>
                     <Notification title={message.title} body={message.body} type={message.type}/>
                   </div>}
-                <h1 className="claims-header">Additional evidence</h1>
+                <h1 className="claims-header">Additional Evidence</h1>
                 <EvidenceWarning/>
                 <AddFilesForm
                   field={this.props.uploadField}
@@ -100,7 +102,7 @@ class AdditionalEvidencePage extends React.Component {
                   uploading={this.props.uploading}
                   files={this.props.files}
                   showMailOrFax={this.props.showMailOrFax}
-                  backUrl={this.props.lastPage || filesPath}
+                  backUrl={this.props.lastPage || claimsPath}
                   onSubmit={() => this.props.submitFiles(
                     this.props.claim.id,
                     null,

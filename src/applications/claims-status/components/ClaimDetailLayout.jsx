@@ -7,7 +7,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONTENTIONS = 3;
@@ -23,13 +23,16 @@ export default class ClaimDetailLayout extends React.Component {
 
     let content;
     if (!loading) {
-      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
+      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}/${claim.id}`;
       content = (
         <div>
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                <li><Link to={claimsPath}>Your Claims</Link></li>
+                <a key="home" href="/">Home</a>
+                <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+                <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+                <Link to={claimsPath}>Your {getClaimType(claim)} Claim</Link>
               </Breadcrumbs>
             </div>
           </div>

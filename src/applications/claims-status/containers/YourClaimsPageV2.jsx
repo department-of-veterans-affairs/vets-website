@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import recordEvent from '../../../platform/monitoring/record-event';
 
 import Modal from '@department-of-veterans-affairs/formation/Modal';
@@ -32,7 +33,7 @@ import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -158,12 +159,16 @@ class YourClaimsPageV2 extends React.Component {
 
     return (
       <div className="claims-container">
-        <Breadcrumbs/>
+        <Breadcrumbs>
+          <a key="home" href="/">Home</a>
+          <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+          <Link key="/your-claims" to="/track-claims/your-claims">Track Your Claims and Appeals</Link>
+        </Breadcrumbs>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="small-12 columns">
-                <h1 className="claims-container-title">Track Your Compensation Appeals and Claims</h1>
+                <h1 className="claims-container-title">Track Your Compensation Claims and Appeals</h1>
               </div>
               <div className="small-12 columns">
                 {this.renderErrorMessages()}

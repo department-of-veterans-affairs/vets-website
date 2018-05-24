@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 import moment from 'moment';
 
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
@@ -68,12 +68,15 @@ export class AppealInfo extends React.Component {
     } else if (appealsAvailability === AVAILABLE && appeal) {
       // Maybe could simplify this to just check if (appeal) instead
       const claimHeading = this.createHeading();
+
       appealContent = (
         <div>
           <div>
             <Breadcrumbs>
-              <li><Link to="your-claims">Track Your Claims and Appeals</Link></li>
-              <li><strong>{claimHeading}</strong></li>
+              <a key="home" href="/">Home</a>
+              <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+              <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+              <Link to={`/appeals/${appeal.id}`}>{claimHeading}</Link>
             </Breadcrumbs>
           </div>
           <div className="row">

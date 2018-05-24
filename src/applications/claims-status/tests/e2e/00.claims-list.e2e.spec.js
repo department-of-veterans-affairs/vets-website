@@ -29,7 +29,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .expect
       .element('.claims-container h1')
-      .text.to.equal('Track Your Compensation Appeals and Claims');
+      .text.to.equal('Track Your Compensation Claims and Appeals');
 
     client
       .expect

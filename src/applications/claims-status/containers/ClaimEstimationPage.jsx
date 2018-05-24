@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import AskVAQuestions from '../components/AskVAQuestions';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import { setUpPage } from '../utils/page';
 import { getClaimType } from '../utils/helpers';
 
@@ -12,14 +12,20 @@ class ClaimEstimationPage extends React.Component {
     setUpPage();
   }
   render() {
+    const claimId = `your-claims/${this.props.params.id}`;
+    const claimIdEst = `your-claims/${this.props.params.id}/claim-estimate`;
     const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
+
     return (
       <div>
         <div className="row">
           <div className="medium-12 columns">
             <Breadcrumbs>
-              <li><Link to="your-claims">Your Claims</Link></li>
-              <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
+              <a key="home" href="/">Home</a>
+              <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+              <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+              <Link to={claimId}>Your {claimType} Claim</Link>
+              <Link to={claimIdEst}>Claim Estimation</Link>
             </Breadcrumbs>
           </div>
         </div>

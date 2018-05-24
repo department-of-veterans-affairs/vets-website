@@ -8,7 +8,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../../platform/utilities/ui/Breadcrumbs';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
@@ -79,7 +79,6 @@ class DocumentRequestPage extends React.Component {
     } else {
       const trackedItem = this.props.trackedItem;
       const filesPath = `your-claims/${this.props.claim.id}/files`;
-      const claimsPath = `your-claims${this.props.claim.attributes.open ? '' : '/closed'}`;
       const message = this.props.message;
 
       content = (
@@ -87,8 +86,11 @@ class DocumentRequestPage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                <li><Link to={claimsPath}>Your Claims</Link></li>
-                <li><Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link></li>
+                <a key="home" href="/">Home</a>
+                <a key="disability-benefits" href="/disability-benefits/">Disability Benefits</a>
+                <Link key="your-claims" to="your-claims">Track Your Claims and Appeals</Link>
+                <Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link>
+                <Link to={`${filesPath}/document-request`}>Document Request</Link>
               </Breadcrumbs>
             </div>
           </div>

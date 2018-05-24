@@ -42,6 +42,16 @@ class ClaimStatusPage extends React.Component {
   render() {
     const { claim, loading, message, synced } = this.props;
 
+    const breadcrumbArr = [
+      { key: 'home', href: '/', text: 'Home' },
+      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
+      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
+    ];
+
+    const listItem = breadcrumbArr.map(item => {
+      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
+    });
+
     let content = null;
     if (!loading) {
       const phase = claim.attributes.phase;
@@ -77,6 +87,7 @@ class ClaimStatusPage extends React.Component {
         loading={loading}
         clearNotification={this.props.clearNotification}
         currentTab="Status"
+        links={listItem}
         message={message}
         synced={synced}>
         {content}
