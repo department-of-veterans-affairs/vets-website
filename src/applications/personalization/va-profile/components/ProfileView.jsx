@@ -2,6 +2,8 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+import DowntimeNotification, { services, serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 
 import Hero from './Hero';
@@ -19,6 +21,22 @@ class ProfileView extends React.Component {
     if (this.props.message.content && !oldProps.message.content) {
       scrollToTop();
     }
+  }
+
+  handleDowntime = (downtime, children) => {
+    if (downtime.status === serviceStatus.downtimeApproaching) {
+      return (
+        <DowntimeApproaching
+          appTitle="profile"
+          {...downtime}
+          {...this.props.downtimeData}
+          messaging={{
+            title: <h3>Some parts of the profile will be down for maintenance soon</h3>
+          }}
+          content={children}/>
+      );
+    }
+    return children;
   }
 
   renderMVIErrorState() {
@@ -90,13 +108,15 @@ class ProfileView extends React.Component {
     if (user.profile.verified) {
       if (user.profile.veteranStatus === 'OK') {
         content = (
-          <div>
-            <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
-            <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
-            <ContactInformation {...this.props}/>
-            <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
-            <MilitaryInformation fetchMilitaryInformation={fetchMilitaryInformation} militaryInformation={militaryInformation}/>
-          </div>
+          <DowntimeNotification appTitle="profile" render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
+            <div>
+              <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
+              <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
+              <ContactInformation {...this.props}/>
+              <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
+              <MilitaryInformation fetchMilitaryInformation={fetchMilitaryInformation} militaryInformation={militaryInformation}/>
+            </div>
+          </DowntimeNotification>
         );
       } else {
         content = this.renderMVIErrorState();
