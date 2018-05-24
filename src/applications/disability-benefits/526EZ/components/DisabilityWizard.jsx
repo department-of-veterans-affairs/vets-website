@@ -13,7 +13,7 @@ import ButtonContainer from './ButtonContainer';
 import {
   GetStartedMessage, disabilityStatusOptions,
   disabilityUpdateOptions, layouts, disabilityStatuses
-} from '../helpers';
+} from '../wizardHelpers';
 
 const { ADD, ADDANDINCREASE, APPEAL, FIRST, INCREASE, UPDATE } = disabilityStatuses;
 

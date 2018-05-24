@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import createCommonStore from '../../../../../platform/startup/store';
 import DisabilityWizard from '../../components/DisabilityWizard';
-import { layouts } from '../../helpers';
+import { layouts } from '../../wizardHelpers';
 
 const { chooseUpdate, applyGuidance } = layouts;
 
@@ -22,12 +22,14 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('#wizardOptions').props().className).to.contain('wizard-content-closed');
   });
   it('should show update page', () => {
+    // mount is used for props, shallow is used for setState
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
       ).get(0)
     );
 
+    expect(tree.find('#wizardOptions').props().className).to.contain('wizard-content-closed');
     tree.setState({ open: true });
     expect(tree.find('#wizardOptions').props().className).to.not.contain('wizard-content-closed');
   });
@@ -48,12 +50,14 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
   });
   it('should show update page', () => {
+    // mount is used for find, shallow is used for setState
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
       ).get(0)
     );
 
+    expect(tree.find('input').length).to.equal(3);
     tree.setState({ disabilityStatus: 'update', currentLayout: chooseUpdate });
     expect(tree.find('input').length).to.equal(2);
   });
@@ -66,17 +70,8 @@ describe('<DisabilityWizard>', () => {
     tree.find('a').simulate('click');
     expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
   });
-  it('should show ebenefits guidance page', () => {
-    const tree = mount(
-      shallow(
-        <DisabilityWizard {...defaultProps}/>
-      ).get(0)
-    );
-
-    tree.setState({ disabilityStatus: 'first', currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Go to eBenefits »');
-  });
   it('should show ebenefits guidance page for first claims', () => {
+    // mount is used for find, shallow is used for setState  
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -88,6 +83,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal('We’re sorry. We’re not set up to accept original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.');
   });
   it('should show ebenefits guidance page for new claims', () => {
+    // mount is used for find, shallow is used for setState  
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -99,6 +95,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal('Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.');
   });
   it('should show ebenefits guidance page for new and increase claims', () => {
+    // mount is used for find, shallow is used for setState  
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -110,6 +107,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal('Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.');
   });
   it('should show appeals guidance page', () => {
+    // mount is used for find, shallow is used for setState    
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -121,6 +119,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal('If you disagree with our decision on your disability claim, you can appeal it. Learn how to file an appeal.');
   });
   it('should show unauthenticated increase guidance page', () => {
+    // mount is used for find, shallow is used for setState    
     const oldStorage = global.sessionStorage;
     global.sessionStorage = { userToken: '' };
     const tree = mount(
@@ -135,6 +134,7 @@ describe('<DisabilityWizard>', () => {
     global.sessionStorage = oldStorage;
   });
   it('should show authenticated increase guidance page', () => {
+    // mount is used for find, shallow is used for setState    
     const oldStorage = global.sessionStorage;
     global.sessionStorage = { userToken: 'abcdefg' };
 
