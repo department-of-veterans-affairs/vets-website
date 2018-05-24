@@ -4,6 +4,11 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import DowntimeNotification, { serviceStatus } from '../index';
 import { DownMessaging } from './Down';
 
+/**
+ * A banner component for simple downtime messaging
+ * @param {object} props appTitle, dependencies, children
+ * @module platorm/monitoring/DowntimeNotification/Banner
+ */
 export default function DowntimeBanner({ appTitle, dependencies, children }) {
   return (
     <DowntimeNotification
