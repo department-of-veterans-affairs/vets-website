@@ -77,6 +77,7 @@ class ProfileView extends React.Component {
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
+      user,
       message,
       profile: {
         hero,
