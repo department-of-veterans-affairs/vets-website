@@ -6,10 +6,9 @@ entryname: va-profile
 <div id="main">
   <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
   id="va-breadcrumbs">
-    <p class="usa-sr-only">Breadcrumb navigation will usually show all page links. It will adjust to show only the previous page when zoomed in, or viewed on a mobile device.</p>
-    <ol class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
+    <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a aria-current="page" href="/">Home</a></li>
-    </ol>
+    </ul>
   </nav>
 
   <div class="section">

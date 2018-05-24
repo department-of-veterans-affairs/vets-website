@@ -11,12 +11,11 @@ maintenance_line2: In the meantime, you can call 1-877-222-VETS (<a href="tel:+1
 <div id="main">
   <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
   id="va-breadcrumbs">
-    <p class="usa-sr-only">Breadcrumb navigation will usually show all page links. It will adjust to show only the previous page when zoomed in, or viewed on a mobile device.</p>
-    <ol class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
+    <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>
       <li><a href="/health-care/">Health Care</a></li>
       <li><a aria-current="page" href="/health-care/apply/">Apply for VA Health Care</a></li>
-    </ol>
+    </ul>
   </nav>
 
   <div class="section">

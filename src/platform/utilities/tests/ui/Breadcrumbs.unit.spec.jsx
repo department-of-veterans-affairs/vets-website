@@ -40,7 +40,7 @@ describe('<Breadcrumbs>', () => {
       </Breadcrumbs>
     );
     const navElem = tree.subTree('nav');
-    const orderedList = tree.subTree('ol');
+    const orderedList = tree.subTree('ul');
 
     expect(navElem.props.id).to.equal('foo');
     expect(orderedList.props.listId).to.equal('foo-list');
@@ -53,7 +53,7 @@ describe('<Breadcrumbs>', () => {
         {props.pathHref}
       </Breadcrumbs>
     );
-    const orderedList = tree.subTree('ol');
+    const orderedList = tree.subTree('ul');
 
     expect(orderedList.props['aria-labelledby']).to.equal('foo-id-1');
   });
@@ -83,48 +83,25 @@ describe('<Breadcrumbs>', () => {
     expect(navElem.props['aria-live']).to.equal('polite');
   });
 
-  it('should render exactly one <p> element', () => {
+  it('should render exactly one <ul> element', () => {
     const tree = SkinDeep.shallowRender(
       <Breadcrumbs>
         {props.pathHref}
       </Breadcrumbs>
     );
-    const helperText = tree.everySubTree('p');
-
-    expect(helperText).to.be.ok;
-    expect(helperText.length).to.equal(1);
-  });
-
-  it('should render the correct <p> props', () => {
-    const tree = SkinDeep.shallowRender(
-      <Breadcrumbs>
-        {props.pathHref}
-      </Breadcrumbs>
-    );
-    const orderedList = tree.subTree('p');
-
-    expect(orderedList.props.className).to.equal('usa-sr-only');
-  });
-
-  it('should render exactly one <ol> element', () => {
-    const tree = SkinDeep.shallowRender(
-      <Breadcrumbs>
-        {props.pathHref}
-      </Breadcrumbs>
-    );
-    const orderedList = tree.everySubTree('ol');
+    const orderedList = tree.everySubTree('ul');
 
     expect(orderedList).to.be.ok;
     expect(orderedList.length).to.equal(1);
   });
 
-  it('should render the correct <ol> props', () => {
+  it('should render the correct <ul> props', () => {
     const tree = SkinDeep.shallowRender(
       <Breadcrumbs id="foo">
         {props.pathHref}
       </Breadcrumbs>
     );
-    const orderedList = tree.subTree('ol');
+    const orderedList = tree.subTree('ul');
 
     expect(orderedList.props.className).to.equal('row va-nav-breadcrumbs-list columns');
   });

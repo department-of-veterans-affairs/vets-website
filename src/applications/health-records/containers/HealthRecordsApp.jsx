@@ -31,7 +31,7 @@ export class HealthRecordsApp extends React.Component {
 
     if (location.pathname.match(/download\/?$/)) {
       crumbs.push(<Link to="/" key="main">Get Your VA Health Records</Link>);
-      crumbs.push(<Link to="/" key="download">Download Your VA Health Records</Link>);
+      crumbs.push(<Link to="/download" key="download">Download Your VA Health Records</Link>);
     } else {
       crumbs.push(<Link to="/" key="main">Get Your VA Health Records</Link>);
     }

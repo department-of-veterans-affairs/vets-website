@@ -12,6 +12,7 @@ After digging through the Google Analytics for Vets.gov, I found that Apple devi
 1. The single biggest segment by screen resolution was 375x667px.
 2. The second biggest segment was Samsung traffic, with resolutions including 360x560, 410x720, and 410x770.
 3. These viewport widths should trigger the mobile breadcrumb on first load, and subsequent loads. Testing will be done to ensure high-density displays render the optimal breadcrumb.
+4. Viewport breakpoint was consolidated to 481px, same as our SCSS/CSS media query break point. This allowed for using `window.matchMedia` for the conditional width checking.
 
 ## Research and Local Testing
 
@@ -31,7 +32,6 @@ After digging through the Google Analytics for Vets.gov, I found that Apple devi
 3. Investigate testing on Browserstack or SauceLabs account for wider coverage. Possible avenues include:
     * Live testing of `localhost` feature branch with different devices
     * Running our e2e test coverage in different browsers
-    * Optimizing the mobile break point for current gen devices
     * Finalize PR with engineers
 4. Promote to `master` branch after daily 2PM EST build, giving a full 24 hour window to test further in staging.
 

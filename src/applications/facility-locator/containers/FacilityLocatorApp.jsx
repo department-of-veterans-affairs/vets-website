@@ -18,12 +18,10 @@ class FacilityLocatorApp extends React.Component {
 
     return (
       <div>
+        <Breadcrumbs selectedFacility={selectedFacility}>
+          {crumbs}
+        </Breadcrumbs>
         <div className="row">
-          <div className="title-section">
-            <Breadcrumbs selectedFacility={selectedFacility}>
-              {crumbs}
-            </Breadcrumbs>
-          </div>
           <DowntimeNotification appTitle="facility locator tool" dependencies={[services.arcgis]}>
             <div className="facility-locator">
               {this.props.children}

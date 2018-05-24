@@ -14,7 +14,7 @@ class Breadcrumbs extends React.Component {
   }
 
   componentDidMount() {
-    const mobileWidth = this.props.mobileWidth || 425;
+    const mobileWidth = this.props.mobileWidth;
 
     this.toggleDisplay(mobileWidth);
     window.addEventListener('resize', this.debouncedToggleDisplay);
@@ -25,7 +25,7 @@ class Breadcrumbs extends React.Component {
   }
 
   debouncedToggleDisplay = _debounce(() => {
-    const mobileWidth = this.props.mobileWidth || 425;
+    const mobileWidth = this.props.mobileWidth;
 
     this.toggleDisplay(mobileWidth);
   }, 500);
@@ -79,18 +79,18 @@ class Breadcrumbs extends React.Component {
     const mobileShow = this.state.mobileShow;
     const shownList = mobileShow
       ? (
-        <ol
+        <ul
           className="row va-nav-breadcrumbs-list columns"
           id={`${breadcrumbListId}-clone`}>
           {this.renderMobileLink()}
-        </ol>
+        </ul>
       ) : (
-        <ol
+        <ul
           className="row va-nav-breadcrumbs-list columns"
           id={breadcrumbListId}
           {...this.props}>
           {this.renderBreadcrumbLinks()}
-        </ol>
+        </ul>
       );
 
     return (
@@ -99,17 +99,20 @@ class Breadcrumbs extends React.Component {
         aria-live="polite"
         className="va-nav-breadcrumbs"
         id={breadcrumbId}>
-        <p className="usa-sr-only">Breadcrumb navigation will usually show all page links. It will adjust to show only the previous page when zoomed in, or viewed on a mobile device.</p>
         { shownList }
       </nav>
     );
   }
 }
 
+Breadcrumbs.defaultProps = {
+  mobileWidth: 481,
+};
+
 Breadcrumbs.propTypes = {
   id: PropTypes.string,
   listId: PropTypes.string,
-  mobileWidth: PropTypes.number,
+  mobileWidth: PropTypes.number.isRequired,
 };
 
 export default Breadcrumbs;

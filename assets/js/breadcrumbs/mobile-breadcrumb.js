@@ -5,7 +5,7 @@ var config = {
   jsVisualClass: 'js-visual',
   mobileClass: 'va-nav-breadcrumbs-list__mobile-link',
   triggerDelay: 500,
-  triggerWidth: 425,
+  triggerWidth: 481,
 };
 
 // https://davidwalsh.name/javascript-debounce-function
@@ -76,7 +76,7 @@ function toggleLinks(targetId) {
   var breadcrumb = document.getElementById(targetId);
   var clone = document.getElementById(targetId + '-clone');
 
-  if (window.innerWidth <= config.triggerWidth) {
+  if (window.matchMedia('(max-width: ' + config.triggerWidth + 'px)').matches) {
     breadcrumb.classList.add(config.jsHiddenClass);
     clone.classList.remove(config.jsHiddenClass);
   } else {
@@ -97,14 +97,14 @@ function buildMobileBreadcrumb(parentId, targetId) {
   // breadcrumb to show.
   target.classList.add(config.jsHiddenClass);
 
-  // Append the sliced mobile breadcrumb to cloned <ol>
+  // Append the sliced mobile breadcrumb to cloned <ul>
   clonedList.appendChild(mobileLink[0]);
 
-  // Append cloned <ol> to <nav>
+  // Append cloned <ul> to <nav>
   container.appendChild(clonedList);
 
-  // Determine which breadcrumb <ol> to show
-  if (window.innerWidth <= config.triggerWidth) {
+  // Determine which breadcrumb <ul> to show
+  if (window.matchMedia('(max-width: ' + config.triggerWidth + 'px)').matches) {
     clonedList.classList.remove(config.jsHiddenClass);
   } else {
     target.classList.remove(config.jsHiddenClass);
