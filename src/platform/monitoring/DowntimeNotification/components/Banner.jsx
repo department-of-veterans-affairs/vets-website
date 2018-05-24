@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import DowntimeNotification, { serviceStatus } from '../index';
+import DowntimeNotification, { services, serviceStatus } from '../index';
 import { DownMessaging } from './Down';
 
 /**
@@ -33,6 +33,6 @@ export default function DowntimeBanner({ appTitle, dependencies, children }) {
 
 DowntimeBanner.propTypes = {
   appTitle: PropTypes.string,
-  dependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  dependencies: PropTypes.arrayOf(PropTypes.oneOf(Object.values(services))).isRequired,
   children: PropTypes.node
 };
