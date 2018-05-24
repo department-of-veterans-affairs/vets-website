@@ -153,7 +153,11 @@ export const privateRecordsChoice = ({ formData }) => {
   return (
     <div>
       <h4>About private medical records</h4>
-      <p>You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
+      <p>
+        You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private
+        doctor. If you have those records, you can upload them here, or we can get them for you. If
+        you want us to get your records, you’ll need to authorize their release.
+      </p>
     </div>
   );
 };
@@ -162,11 +166,25 @@ export const privateRecordsChoice = ({ formData }) => {
 export const privateRecordsChoiceHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
     <h4>You upload your medical records</h4>
-    <p>If you upload a digital copy of all your medical records, we can review your claim more quickly. Uploading a digital
-      file works best if you have a computer with a fast Internet connection. The digital file could be uploaded as a .pdf
-      or other photo file format, like a .jpeg or .png.</p>
-    <h4>We get your medical records for you</h4>
-    <p>If you tell us which VA medical center treated you for your condition, we can get your medical records for you. Getting your records may take us some time. This could take us longer to make a decision on your claim.</p>
+    <p>
+      If you upload a digital copy of all your medical records, we can review
+      your claim more quickly. Uploading a digital file works best if you have
+      a computer with a fast Internet connection. The digital file could be
+      uploaded as a .pdf or other photo file format, like a .jpeg or .png.
+    </p>
+    <h4>We get your medical records from your doctor</h4>
+    <p>
+      We can get your medical records for you, but you’ll first need to fill
+      out an Authorization to Disclose Information to VA (VA Form 21-4142) so
+      we can request your records. Getting your records might take us some
+      time, and this could mean it’ll take us longer to make a decision on
+      your claim.
+    </p>
+    <p>
+      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+        Download VA Form 21-4142
+      </a>.
+    </p>
   </AdditionalInfo>
 );
 
@@ -217,6 +235,41 @@ export function validateAddress(errors, formData) {
 
   validatePostalCodes(errors, formData);
 }
+
+export const download4142Notice = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <p>
+      Since your doctor has your private medical records, you’ll need to fill
+      out an Authorization to Disclose Information to the VA (VA Form 21-4142) so
+      we can request your records. You’ll need to fill out a form for each doctor.
+    </p>
+    <p>
+      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+        Download VA Form 21-4142
+      </a>.
+    </p>
+  </div>
+);
+
+export const authorizationToDisclose = (
+  <div>
+    <p>Since your medical records are with your doctor, you’ll need to fill out an Authorization to Disclose
+    Information to the VA (VA Form 21-4142) so we can request your records. You’ll need to fill out a form for
+    each doctor.</p>
+    <p>
+      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+        Download VA Form 21-4142
+      </a>.
+    </p>
+    <p>Please print the form, fill it out, and send it to:</p>
+    <p className="va-address-block">
+      Department of Veterans Affairs<br/>
+      Claims Intake Center<br/>
+      PO Box 4444<br/>
+      Janesville, WI 53547-4444
+    </p>
+  </div>
+);
 
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
@@ -361,7 +414,6 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
 };
 
 
-// TODO: update alert content
 export const ITFErrorAlert = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
@@ -566,4 +618,28 @@ const evidenceTypesDescription = (disabilityName) => {
 
 export const getEvidenceTypesDescription = (form, index) => {
   return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
+};
+
+/**
+ * If user chooses private medical record supporting evidence, he/she has a choice
+ * to either upload PMRs directly or fill out a 4142. Here, we determine if the user
+ * chose the 4142 option for any of his/her disabilities
+ * @param {array} disabilities
+ * @returns {boolean} true if user selected option to fill out 4142 on their own
+ */
+export const get4142Selection = (disabilities) => {
+  return disabilities.reduce((selected, disability) => {
+    if (selected === true) {
+      return true;
+    }
+
+    const {
+      'view:selected': viewSelected,
+      'view:uploadPrivateRecords': viewUploadPMR
+    } = disability;
+    if (viewSelected === true && viewUploadPMR === 'no') {
+      return true;
+    }
+    return false;
+  }, false);
 };

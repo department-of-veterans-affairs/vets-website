@@ -15,6 +15,8 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import yearUI from '../../../common/schemaform/definitions/year';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+
 import { disabilityRatingLabels, dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
@@ -67,6 +69,7 @@ const formConfig = {
   formId: '28-1900',
   version: 0,
   prefillEnabled: true,
+  footerContent: FormFooter,
   savedFormMessages: {
     notFound: '',
     noAuth: ''

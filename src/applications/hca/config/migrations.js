@@ -115,5 +115,28 @@ export default [
         ? metadata
         : _.set('returnUrl', '/va-benefits/basic-information', metadata)
     };
+  },
+  // required strings can not pass validation with only spaces
+  ({ formData, metadata }) => {
+    let newFormData = formData;
+    let newMetaData = metadata;
+    const notBlankStringPattern = /^.*\S.*/;
+
+    [
+      { selector: 'veteranAddress.city', returnUrl: 'veteran-information/veteran-address' },
+      { selector: 'veteranAddress.street', returnUrl: 'veteran-information/veteran-address' },
+      { selector: 'veteranFullName.last', returnUrl: 'veteran-information/personal-information' },
+      { selector: 'veteranFullName.first', returnUrl: 'veteran-information/personal-information' }
+    ].forEach(({ selector, returnUrl }) => {
+      if (!notBlankStringPattern.test(_.get(selector, newFormData))) {
+        newFormData = _.unset(selector, newFormData);
+        newMetaData = _.set('returnUrl', returnUrl, newMetaData);
+      }
+    });
+
+    return {
+      formData: newFormData,
+      metadata: newMetaData
+    };
   }
 ];

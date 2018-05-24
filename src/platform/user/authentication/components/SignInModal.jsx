@@ -5,6 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
+import DowntimeNotification, { services, serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 
 const loginHandler = (loginType) => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -20,6 +21,29 @@ class SignInModal extends React.Component {
     if (!prevProps.visible && this.props.visible) {
       recordEvent({ event: 'login-modal-opened' });
     }
+  }
+
+  renderDSLogonDowntimeBanner = (status) => {
+    if (status === serviceStatus.down) {
+      return (
+        <div className="downtime-notification row">
+          <div className="columns small-12">
+            <div className="form-warning-banner">
+              <AlertBox
+                headline="DS Logon isn't working quite right"
+                content="If you're having trouble signing in to Vets.gov using your DS Logon username and password, please try again later. Or, you can try signing in with your My HealtheVet username and password or through ID.me."
+                isVisible
+                status="warning"/>
+              <br/>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div></div>
+    );
   }
 
   renderModalContent = () => {
@@ -45,18 +69,7 @@ class SignInModal extends React.Component {
               <h2>One site. A lifetime of benefits and services at your fingertips.</h2>
             </div>
           </div>
-          <div className="downtime-notification row">
-            <div className="columns small-12">
-              <div className="form-warning-banner">
-                <AlertBox
-                  headline="DS Logon isn't working quite right"
-                  content="If you're having trouble signing in to Vets.gov using your DS Logon username and password, please try again later. Or, you can try signing in with your My HealtheVet username and password or through ID.me."
-                  isVisible
-                  status="warning"/>
-                <br/>
-              </div>
-            </div>
-          </div>
+          <DowntimeNotification render={this.renderDSLogonDowntimeBanner} dependencies={[services.dslogon]}></DowntimeNotification>
           <div className="row">
             <div className="columns usa-width-one-half medium-6">
               <div className="signin-actions-container">
