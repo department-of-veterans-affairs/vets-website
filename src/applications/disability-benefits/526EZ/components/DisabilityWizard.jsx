@@ -224,6 +224,7 @@ const mapDispatchToProps = (dispatch) => {
 
 DisabilityWizard.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 

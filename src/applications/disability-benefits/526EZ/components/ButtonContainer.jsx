@@ -26,13 +26,11 @@ export default function ButtonContainer(props) {
 }
 
 ButtonContainer.propTypes = {
-  user: PropTypes.object.isRequired,
-  loginUrl: PropTypes.string.isRequired,
-  verifyUrl: PropTypes.func.isRequired,
   checkGuidanceStatus: PropTypes.func.isRequired,
   isChoosingStatus: PropTypes.func.isRequired,
   atGuidance: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   authenticate: PropTypes.func.isRequired,
+  isVerified: PropTypes.func.isRequired
 };
