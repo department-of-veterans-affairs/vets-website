@@ -44,8 +44,6 @@ You may be eligible for any needed dental care if any of the factors listed belo
 
 **Note:** If you're getting compensation at the 100% disabling rate based on a temporary rating for a reason such as a long stay in the hospital or rehab care, that doesn't qualify you for this benefit.
 
-<br>
-
 #### Can I get one-time dental care when I get out of the service?
 
 You may be eligible for one-time dental care if you meet all of the requirements listed below.
@@ -57,8 +55,6 @@ You may be eligible for one-time dental care if you meet all of the requirements
 - Your DD214 certificate of discharge doesn't show that you had a complete dental exam and all needed dental treatment before you were discharged
 
 **Note:** Public Law 83 enacted June 16, 1955, amended Veterans’ eligibility for outpatient dental services. As a result, any Veteran who got a dental award letter from VBA dated before 1955 in which VBA determined the dental conditions to be noncompensable is no longer eligible for Class II outpatient dental treatment.
-
-<br>
 
 #### Can I get VA dental care for specific needs?
 
@@ -75,22 +71,22 @@ This depends on a number of factors, like your military service history and your
 </thead>
 <tbody>
   <tr>
-   <td><strong>Have a service-connected dental condition that you're not getting VA disability payments for (called a noncompensable dental condition).</strong></td>
-    <td><p>Any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth).</p>
+   <td><strong>Have a service-connected dental condition that you're not getting VA disability payments for (called a noncompensable dental condition)</strong></td>
+    <td><p>Any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth)</p>
       <p><strong>Note:</strong> A Dental Trauma Rating (VA Form 10-564-D) or VA Regional Office Rating Decision letter (VA Form 10-7131) will tell you the tooth/teeth/condition(s) that are trauma rated.</p></td>
   </tr>
   <tr>
-   <td><strong>Have a disability that’s the result of combat wounds or service trauma.</strong></td>
-    <td><p>Any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth).</p>
+   <td><strong>Have a disability that’s the result of combat wounds or service trauma</strong></td>
+    <td><p>Any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth)</p>
       <p><strong>Note:</strong> A Dental Trauma Rating (VA Form 10-564-D) or VA Regional Office Rating Decision letter (VA Form 10-7131) will tell you the tooth/teeth/condition(s) that are trauma rated.</p></td>
   </tr>
   <tr>
-    <td><strong>Have evidence from a VA dental care provider who has concluded that your dental condition is linked to a service-connected health condition and is making that condition worse.</strong></td>
-    <td><p>Dental care to treat the oral conditions that a VA dental care provider concludes are directly making your service-connected health condition worse.</p>
+    <td><strong>Have evidence from a VA dental care provider who has concluded that your dental condition is linked to a service-connected health condition and is making that condition worse</strong></td>
+    <td><p>Dental care to treat the oral conditions that a VA dental care provider concludes are directly making your service-connected health condition worse</p>
     </td>
   </tr>
   <tr>
-   <td><strong>Are active in a 38 U.S.C. Chapter 31 vocational rehabilitation program.</strong></td>
+   <td><strong>Are active in a 38 U.S.C. Chapter 31 vocational rehabilitation program</strong></td>
     <td><p>Dental care that a VA dental care provider concludes is needed to:
       
 - Make it possible for you to be in the vocational rehab program, **or**
@@ -103,12 +99,12 @@ This depends on a number of factors, like your military service history and your
     </td>
   </tr>
   <tr>
-   <td><strong>Get VA care or are scheduled for inpatient care for a health condition—and need dental care for a dental issue that’s making your health condition harder to treat.</strong></td>
-    <td><p>Dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat.</p>
+   <td><strong>Get VA care or are scheduled for inpatient care for a health condition—and need dental care for a dental issue that’s making your health condition harder to treat</strong></td>
+    <td><p>Dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat</p>
     </td>
   </tr>
   <tr>
-    <td><strong>Signed up to get care through the Homeless Veterans Dental Program (VHA Directive 2007-039).</strong></td>
+    <td><strong>Signed up to get care through the Homeless Veterans Dental Program (VHA Directive 2007-039)</strong></td>
      <td><p>A one-time course of dental care that a VA dental care provider concludes you need to:</P>
       <p>
 - Relieve pain, **or**
@@ -117,8 +113,8 @@ This depends on a number of factors, like your military service history and your
     </td>
   </tr>
   <tr>
-    <td><strong>Currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care).</strong></td>
-    <td><p>Dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for.</p>
+    <td><strong>Currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care)</strong></td>
+    <td><p>Dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for</p>
     </td>
   </tr>
 </tbody>
