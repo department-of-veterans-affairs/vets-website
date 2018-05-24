@@ -1,11 +1,7 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
-export default function ProfileIntro({ dismiss, profile }) {
-  if (!profile.loading) {
-    if (profile.load.current !== 3) return <div/>;
-  }
-
+export default function ProfileIntro({ dismiss }) {
   return (
     <Modal
       visible
