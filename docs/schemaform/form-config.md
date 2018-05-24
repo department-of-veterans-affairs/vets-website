@@ -16,8 +16,7 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
   // The prefix for Google Analytics events that are sent for different form actions
   trackingPrefix: '',
 
-  // The title of the form. Displayed on all pages.
-  // Accepts a string or a function that will be passed `onReview` (with a value of true) as a parameter on the review page.
+  // The title of the form. Displayed on all pages
   title: '',
 
   // The subtitle (e.g. form number) of the form. Displayed on all pages, if there's also a title
@@ -37,6 +36,7 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
   chapters: {
 
     // The title of the chapter
+    // Accepts a string or a function that will be passed `onReview` (with a value of true) as a parameter on the review page.
     title: '',
 
     // Object containing the pages for each chapter. Each property is the key for a
