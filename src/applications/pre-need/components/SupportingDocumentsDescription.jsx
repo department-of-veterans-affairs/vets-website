@@ -7,12 +7,12 @@ export default function SupportingDocumentsDescription(props) {
 
   if (isVeteran(props.formData)) {
     desc = (
-      <p>To apply, you’ll need a copy of your DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your military status and service history. If you don’t have these documents, you can still apply--and we’ll request the documents for you.</p>
+      <p>To apply, you’ll need a copy of your DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your military status and service history. If you don’t have these documents, you can still apply — and we’ll request the documents for you.</p>
     );
   } else if (isUnmarriedChild(props.formData)) {
     desc = (
       <div>
-        <p>To apply, you’ll need a copy of your sponsor’s DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your sponsor’s military status and service history. If you don’t have these documents, you can still apply--and we’ll request the documents for you.</p>
+        <p>To apply, you’ll need a copy of your sponsor’s DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your sponsor’s military status and service history. If you don’t have these documents, you can still apply — and we’ll request the documents for you.</p>
         <p>You’ll need to also provide supporting documents showing:</p>
         <ul>
           <li>Medical evidence of a disability</li>
@@ -23,7 +23,7 @@ export default function SupportingDocumentsDescription(props) {
     );
   } else {
     desc = (
-      <p>To apply, you’ll need a copy of your sponsor’s DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your sponsor’s military status and service history. If you don’t have these documents, you can still apply--and we’ll request the documents for you.</p>
+      <p>To apply, you’ll need a copy of your sponsor’s DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your sponsor’s military status and service history. If you don’t have these documents, you can still apply — and we’ll request the documents for you.</p>
     );
   }
 
@@ -44,10 +44,7 @@ export default function SupportingDocumentsDescription(props) {
       </AdditionalInfo>
       <AdditionalInfo triggerText="Can I mail or fax documents?">
         <p>
-          Please upload your documents online to help VA process your request quickly.
-        </p>
-        <p>
-          If you can’t upload documents:
+          We can process your request more quickly if you upload your documents here. If you can’t upload your documents:
         </p>
         <ol className="mail-or-fax-steps">
           <li>Make copies of the documents.</li>
@@ -56,7 +53,7 @@ export default function SupportingDocumentsDescription(props) {
             <p>Mail or fax them to:</p>
             <div className="mail-fax-address">
               <div>National Cemetery Scheduling Office</div>
-              <div>P.O. Box 510543</div>
+              <div>PO Box 510543</div>
               <div>St. Louis, MO 63151</div>
             </div>
             <p>Fax (toll-free): 1-855-840-8299</p>

@@ -232,7 +232,7 @@ const formConfig = {
                 },
                 ssn: {
                   ...ssnDashesUI,
-                  'ui:title': 'Sponsor’s social security number'
+                  'ui:title': 'Sponsor’s Social Security number'
                 },
                 dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
                 placeOfBirth: {
@@ -377,6 +377,7 @@ const formConfig = {
               veteran: {
                 serviceRecords: _.merge(serviceRecordsUI, {
                   'ui:title': 'Sponsor’s service periods',
+                  'ui:description': 'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
                   items: {
                     serviceBranch: {
                       'ui:title': 'Sponsor’s branch of service'
