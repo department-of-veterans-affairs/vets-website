@@ -15,7 +15,7 @@ export default function createDisabilityIncreaseApplicationStatus(store) {
         <Provider store={store}>
           <ApplicationStatus
             formIds={disabilityForms}
-            formType="disability"
+            formType="disability compensation"
             showApplyButton={root.getAttribute('data-hide-apply-button') === null}
             stayAfterDelete
             applyRender={() => (
