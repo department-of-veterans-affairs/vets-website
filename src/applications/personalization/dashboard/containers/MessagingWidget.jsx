@@ -88,7 +88,7 @@ class MessagingWidget extends React.Component {
     }
 
     return (
-      <div>
+      <div id="msg-widget">
         <h2>Check Secure Messages</h2>
         {content}
         <p><Link href="/health-care/messaging" onClick={recordDashboardClick('view-all-messages')}>View all your secure messages</Link>.</p>

@@ -53,7 +53,7 @@ class PrescriptionsWidget extends React.Component {
       }
 
       return (
-        <div>
+        <div id="rx-widget">
           <h2>Refill Prescriptions</h2>
           <div>
             {content}

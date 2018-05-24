@@ -36,6 +36,7 @@ class VAProfileApp extends React.Component {
               fetchHero={this.props.fetchHero}
               fetchMilitaryInformation={this.props.fetchMilitaryInformation}
               fetchPersonalInformation={this.props.fetchPersonalInformation}
+              user={this.props.account}
               profile={this.props.profile}
               message={{
                 content: this.props.profile.message,
