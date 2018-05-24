@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FormApp from '../common/schemaform/containers/FormApp';
+import RoutedSavableApp from '../common/schemaform/save-in-progress/RoutedSavableApp';
 import formConfig from './config/form';
 import RateLimiter from '../../platform/monitoring/RateLimiter';
 import RateLimitContent from './components/RateLimitContent';
@@ -12,9 +12,9 @@ export default function VeteranIDCard({ location, children }) {
       waitForProfile
       renderLimitedContent={RateLimitContent}
       bypassLimit={({ user }) => user.profile.savedForms.some(f => f.form === 'VIC')}>
-      <FormApp formConfig={formConfig} currentLocation={location}>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
-      </FormApp>
+      </RoutedSavableApp>
     </RateLimiter>
   );
 }

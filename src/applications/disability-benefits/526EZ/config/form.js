@@ -12,6 +12,8 @@ import {
   uiSchema as autoSuggestUiSchema
 } from '../../../common/schemaform/definitions/autosuggest';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -48,6 +50,8 @@ import {
   privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
+  download4142Notice,
+  authorizationToDisclose,
   recordReleaseWarning,
   // validateAddress, // TODO: This needs to be fleshed out
   documentDescription,
@@ -71,7 +75,9 @@ import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
   treatments: treatmentsSchema,
-  privateRecordReleases
+  privateRecordReleases,
+  serviceInformation,
+  standardClaim,
 } = fullSchema526EZ.properties;
 
 const {
@@ -83,7 +89,6 @@ const {
   dateRangeAllRequired,
   disabilities,
   specialIssues,
-  servicePeriods,
   privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
@@ -133,6 +138,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
@@ -143,7 +149,6 @@ const formConfig = {
     dateRangeAllRequired,
     disabilities,
     specialIssues,
-    servicePeriods,
     privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',
@@ -209,7 +214,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              servicePeriods
+              servicePeriods: serviceInformation.properties.servicePeriods
             }
           }
         },
@@ -259,7 +264,12 @@ const formConfig = {
       }
     },
     ratedDisabilities: {
-      title: 'Your Rated Disabilities',
+      title: (isReview) => {
+        if (isReview) {
+          return 'Rated Disabilities';
+        }
+        return 'Your Rated Disabilities';
+      },
       pages: {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',
@@ -267,8 +277,6 @@ const formConfig = {
           uiSchema: {
             'ui:description': 'Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.',
             disabilities: {
-              // Using StringField because it doesn't do much and we just need to render the widget.
-              // If this becomes a common(ish) pattern, we should make a BasicField or something.
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
               'ui:validations': [{
@@ -280,7 +288,8 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: 'label',
                 label: disabilityOption,
-                widgetClassNames: 'widget-outline'
+                widgetClassNames: 'widget-outline',
+                keepInPageOnReview: true
               }
             }
           },
@@ -511,8 +520,15 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, please get them from my doctor'
+                      no: 'No, my doctor has my medical records.'
                     }
+                  }
+                },
+                'view:privateRecords4142Notice': {
+                  'ui:description': download4142Notice,
+                  'ui:options': {
+                    expandUnder: 'view:uploadPrivateRecords',
+                    expandUnderCondition: 'no'
                   }
                 },
                 'view:privateRecordsChoiceHelp': {
@@ -533,11 +549,47 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no']
                     },
+                    'view:privateRecords4142Notice': {
+                      type: 'object',
+                      'ui:collapsed': true,
+                      properties: {}
+                    },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
                       properties: {}
                     }
                   }
+                }
+              }
+            }
+          }
+        },
+        authorizationToDisclose: {
+          title: '',
+          path: 'supporting-evidence/:index/authorization-to-disclose',
+          showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
+          arrayPath: 'disabilities',
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+            return hasRecords && requestsRecords;
+          },
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:description': authorizationToDisclose
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
                 }
               }
             }
@@ -549,11 +601,13 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => {
-            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
-            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
-            return hasRecords && requestsRecords;
-          },
+          // TODO: Re-enable actual depends logic for page once 4142 PDF generation is working through vets-api
+          depends: () => false,
+          // depends: (formData, index) => {
+          //   const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+          //   const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+          //   return hasRecords && requestsRecords;
+          // },
           uiSchema: {
             disabilities: {
               items: {
@@ -830,7 +884,7 @@ const formConfig = {
           path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': FDCDescription,
-            noRapidProcessing: {
+            standardClaim: {
               'ui:title':
                 'Do you want to apply using the Fully Developed Claim program?',
               'ui:widget': 'yesNo',
@@ -843,17 +897,17 @@ const formConfig = {
                 }
               }
             },
-            fdcWarning: {
+            'view:fdcWarning': {
               'ui:description': FDCWarning,
               'ui:options': {
-                expandUnder: 'noRapidProcessing',
+                expandUnder: 'standardClaim',
                 expandUnderCondition: false
               }
             },
-            noFDCWarning: {
+            'view:noFDCWarning': {
               'ui:description': noFDCWarning,
               'ui:options': {
-                expandUnder: 'noRapidProcessing',
+                expandUnder: 'standardClaim',
                 expandUnderCondition: true
               }
             }
@@ -861,14 +915,12 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              noRapidProcessing: {
-                type: 'boolean'
-              },
-              fdcWarning: {
+              standardClaim,
+              'view:fdcWarning': {
                 type: 'object',
                 properties: {}
               },
-              noFDCWarning: {
+              'view:noFDCWarning': {
                 type: 'object',
                 properties: {}
               }
