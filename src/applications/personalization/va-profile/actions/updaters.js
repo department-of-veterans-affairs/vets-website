@@ -1,4 +1,5 @@
 import { apiRequest } from '../../../../platform/utilities/api';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 export const SAVE_MAILING_ADDRESS = 'SAVE_MAILING_ADDRESS';
 export const SAVE_MAILING_ADDRESS_FAIL = 'SAVE_MAILING_ADDRESS_FAIL';
@@ -16,6 +17,23 @@ export const SAVE_EMAIL_ADDRESS = 'SAVE_EMAIL_ADDRESS';
 export const SAVE_EMAIL_ADDRESS_FAIL = 'SAVE_EMAIL_ADDRESS_FAIL';
 export const SAVE_EMAIL_ADDRESS_SUCCESS = 'SAVE_EMAIL_ADDRESS_SUCCESS';
 
+
+function recordProfileTransaction(fieldName) {
+  const names = {
+    email: 'email-address',
+    primaryTelephone: 'primary-telephone',
+    alternateTelephone: 'alternative-telephone',
+    mailingAddress: 'mailing-address',
+  };
+
+  if (names[fieldName]) {
+    recordEvent({
+      event: 'profile-transaction',
+      'profile-section': names[fieldName]
+    });
+  }
+}
+
 function saveFieldHandler(apiRoute, fieldName, requestStartAction, requestSuccessAction, requestFailAction, method = 'POST') {
   return fieldValue => {
     return async dispatch => {
@@ -31,6 +49,7 @@ function saveFieldHandler(apiRoute, fieldName, requestStartAction, requestSucces
 
       try {
         const response = await apiRequest(apiRoute, options);
+        recordProfileTransaction(fieldName);
         dispatch({
           type: requestSuccessAction,
           fieldName,
