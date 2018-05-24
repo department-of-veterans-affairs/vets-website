@@ -32,5 +32,5 @@ ButtonContainer.propTypes = {
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   authenticate: PropTypes.func.isRequired,
-  isVerified: PropTypes.func.isRequired
+  isVerified: PropTypes.bool.isRequired
 };
