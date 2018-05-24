@@ -8,7 +8,7 @@ During a screenshare session, the veteran was instructed to navigate to `beta-en
 ## Implementing In Other Applications
 To create a similar process for another application, follow these steps:
 
-1. Create the content/Markdown page in `content/beta-enrollment` where you would like the enrollment button to reside.
+1. Create the content/Markdown page in `content/beta-enrollment` where you would like the enrollment button to reside. [Example from Personalization UAT](https://github.com/department-of-veterans-affairs/vets-website/blob/b2baab7e9ad26c7d464c417366f9241a3bbab660/content/pages/beta-enrollment/personalization.md).
 2. Make sure to include a React root element in the Markdown file, `<div id="react-root"></div>`.
 3. Register the route as React entrypoint by creating the button in `beta-enrollment/routes.js`.
 4. Any applications that are part of that Beta should be wrapped in a `BetaApp` tags. For example, Personalization products were wrapped in:
