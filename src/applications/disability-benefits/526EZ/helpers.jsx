@@ -409,9 +409,8 @@ export const evidenceSummaryView = ({ formData }) => {
         <li>We have received the additional evidence you uploaded:
           <ul>
             {additionalDocuments.map((document, id) => {
-              // attachmentId is 1 indexed
               return (<li className="dashed-bullet" key={id}>
-                <strong>{`${documentTypes[document.attachmentId - 1]} (${document.name})`}</strong>
+                <strong>{`${documentTypes[id]} (${document.name})`}</strong>
               </li>);
             })
             }

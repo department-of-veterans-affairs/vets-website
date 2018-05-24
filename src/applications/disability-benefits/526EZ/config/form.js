@@ -673,7 +673,6 @@ const formConfig = {
                     attachmentSchema: {
                       'ui:title': 'Document type',
                       'ui:options': {
-                        groupBy: true,
                         groups: documentGroups
                       }
                     },
@@ -753,9 +752,8 @@ const formConfig = {
                       };
                     },
                     attachmentSchema: {
-                      'ui:title': 'Document type',
+                      'ui:title': 'What kind of document is this?',
                       'ui:options': {
-                        groupBy: true,
                         groups: documentGroups
                       }
                     },
