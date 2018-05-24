@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import DowntimeNotification, { serviceStatus } from '../index';
@@ -28,3 +30,9 @@ export default function DowntimeBanner({ appTitle, dependencies, children }) {
       dependencies={dependencies}/>
   );
 }
+
+DowntimeBanner.propTypes = {
+  appTitle: PropTypes.string,
+  dependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  children: PropTypes.node
+};
