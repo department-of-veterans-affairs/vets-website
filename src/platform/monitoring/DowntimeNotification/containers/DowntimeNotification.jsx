@@ -96,18 +96,10 @@ export const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    getScheduledDowntime() {
-      return dispatch(getScheduledDowntime());
-    },
-    initializeDowntimeWarnings() {
-      return dispatch(initializeDowntimeWarnings());
-    },
-    dismissDowntimeWarning() {
-      return dispatch(dismissDowntimeWarning(ownProps.appTitle));
-    }
-  };
+const mapDispatchToProps = {
+  getScheduledDowntime,
+  initializeDowntimeWarnings,
+  dismissDowntimeWarning
 };
 
 export { DowntimeNotification };
