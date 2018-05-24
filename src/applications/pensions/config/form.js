@@ -6,6 +6,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isFullDate } from '../../../platform/forms/validations';
 import { services } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 
 import * as address from '../../common/schemaform/definitions/address';
@@ -1594,6 +1595,7 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             files: fileUploadUI('', {
+              fileUploadURL: `${environment.API_URL}/v0/claim_attachments`,
               hideLabelText: true
             }),
             'view:uploadMessage': {

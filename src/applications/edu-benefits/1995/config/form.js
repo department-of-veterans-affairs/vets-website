@@ -10,6 +10,7 @@ import { urlMigration } from '../../config/migrations';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 
 import educationTypeUISchema from '../../definitions/educationType';
@@ -43,7 +44,7 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/1995',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
   trackingPrefix: 'edu-1995-',
   formId: '22-1995',
   version: 1,

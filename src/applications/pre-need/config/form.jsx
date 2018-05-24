@@ -563,7 +563,7 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
-                endpoint: `${environment.API_URL}/v0/preneeds/preneed_attachments`,
+                fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`,
                 fileTypes: ['pdf'],
                 maxSize: 15728640,
                 hideLabelText: true,

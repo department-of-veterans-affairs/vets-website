@@ -86,7 +86,6 @@ const formConfig = {
   urlPrefix: '/',
   submit,
   trackingPrefix: 'burials-530-',
-  // environment,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-530',
@@ -533,14 +532,14 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             deathCertificate: _.assign(fileUploadUI('Veteran’s death certificate', {
-              endpoint: `${environment.API_URL}/v0/claim_attachments`,
+              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
               hideIf: form => form.burialAllowanceRequested !== 'service',
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
             transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains or other supporting evidence', {
               addAnotherLabel: 'Add Another Document',
-              endpoint: `${environment.API_URL}/v0/claim_attachments`,
+              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
             }),

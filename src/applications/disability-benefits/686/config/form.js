@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import ArrayCountWidget from '../../../common/schemaform/widgets/ArrayCountWidget';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
@@ -95,7 +96,7 @@ const reasonForSeparation = _.assign(marriageProperties.reasonForSeparation, {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/dependents_applications',
+  submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   transformForSubmit: transform,
   trackingPrefix: '686-',
   introduction: IntroductionPage,

@@ -226,7 +226,7 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
 
     const req = new XMLHttpRequest();
 
-    req.open('POST', `${uiOptions.endpoint}`);
+    req.open('POST', `${uiOptions.fileUploadUrl}`);
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
         const body = 'response' in req ? req.response : req.responseText;
