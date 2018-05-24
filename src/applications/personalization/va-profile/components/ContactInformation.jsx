@@ -34,6 +34,26 @@ function recordedAction(actionName, sectionName, callback) {
   };
 }
 
+function ContactError({ error }) {
+  const lacksParticipantId = error.errors.some(e => e.code === 403);
+  if (lacksParticipantId) {
+    // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/10581
+    return (
+      <AlertBox
+        status="info"
+        isVisible
+        content={
+          <div>
+            <h3>Contact information is coming soon</h3>
+            <p>We’re working to give you access to review and edit your contact information. Please check back soon.</p>
+          </div>
+        }/>
+    );
+  }
+
+  return <LoadFail information="contact"/>;
+}
+
 class ContactInformationContent extends React.Component {
 
   componentDidMount() {
@@ -72,7 +92,7 @@ class ContactInformationContent extends React.Component {
     } = this.props;
 
     if (email.error && mailingAddress.error && primaryTelephone.error && alternateTelephone.error) {
-      return <LoadFail information="contact"/>;
+      return <ContactError error={email.error}/>;
     }
 
     return (
