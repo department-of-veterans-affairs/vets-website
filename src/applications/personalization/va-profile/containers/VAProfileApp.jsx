@@ -31,6 +31,7 @@ class VAProfileApp extends React.Component {
           verifyUrl={this.props.verifyUrl}>
           <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
             <ProfileView
+              user={this.props.account}
               fetchAddressConstants={this.props.fetchAddressConstants}
               fetchContactInformation={this.props.fetchContactInformation}
               fetchHero={this.props.fetchHero}
