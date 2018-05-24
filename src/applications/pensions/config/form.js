@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isFullDate } from '../../../platform/forms/validations';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 
@@ -185,6 +186,9 @@ const formConfig = {
   version: 1,
   migrations,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [services.icmhs]
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
