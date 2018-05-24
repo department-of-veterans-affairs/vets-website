@@ -47,6 +47,7 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
   chapters: {
 
     // The title of the chapter
+    // Accepts a string or a function that will be passed `onReview` (with a value of true) as a parameter on the review page.
     title: '',
 
     // Object containing the pages for each chapter. Each property is the key for a
