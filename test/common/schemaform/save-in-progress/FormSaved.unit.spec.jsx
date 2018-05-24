@@ -3,7 +3,7 @@ import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
-import { FormSaved } from '../../../../src/js/common/schemaform/save-in-progress/FormSaved';
+import { FormSaved } from '../../../../src/applications/common/schemaform/save-in-progress/FormSaved';
 
 describe('Schemaform <FormSaved>', () => {
   let windowOpen;
@@ -68,7 +68,7 @@ describe('Schemaform <FormSaved>', () => {
   });
   it('should not display verify link if user is verified', () => {
     const u = user();
-    u.profile.accountType = 3;
+    u.profile.verified = true;
     const tree = SkinDeep.shallowRender(
       <FormSaved formId={formId} lastSavedDate={lastSavedDate} expirationDate={expirationDate} route={route} user={u}/>
     );

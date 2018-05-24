@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import ObjectField from '../../../../src/js/common/schemaform/review/ObjectField';
+import ObjectField from '../../../../src/applications/common/schemaform/review/ObjectField';
 
 describe('Schemaform review: ObjectField', () => {
   it('should render', () => {

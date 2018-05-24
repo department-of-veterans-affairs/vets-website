@@ -17,7 +17,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you're a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap, you can apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services online. Find out how to apply.  
+If you’re a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap, you can apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services online. Find out how to apply.  
 
 </div>
 
@@ -66,26 +66,31 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 
 <div class="feature" markdown=“1”>
 
-### What if I'm a Servicemember who hasn't yet received a service-connected disability rating?
+### What if I’m a Servicemember who hasn’t yet received a service-connected disability rating?
 
-You don't need to wait for a rating. Instead, please fill out VA Form 28-0588 (VA Vocational Rehabilitation - Getting Ahead After You Get Out). [Download Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
+You don’t need to wait for a rating. Instead, please fill out VA Vocational Rehabilitation - Getting Ahead After You Get Out (VA Form 28-0588). <br>
+[Download VA Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
 
-You may be eligible for VR&amp;E benefits and services if you're:
+You may be eligible for VR&amp;E benefits and services if you’re in at least one of the below situations.
+
+**At least one of these must be true. You’re:**
 - Going through the Physical Evaluation Board process, **or**
-- Expecting an other-than-dishonorable discharge and have a VA memorandum rating of 20% or more, **or**
-- In the Integrated Disability Evaluation System (IDES). [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides).
+- Expecting an other than dishonorable discharge and have a VA memorandum rating of 20% or more, **or**
+- Entered in the Integrated Disability Evaluation System (IDES). <br>
+[Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides).
 
-**Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to September 30, 2018.
+**Please note:** Severely injured active-duty Servicemembers can automatically receive VR&E benefits before VA issues a disability rating, because of Sec. 1631(b) of the National Defense Authorization Act (PL 110-181). The sunset date of that law has been extended to September 30, 2018, through Sec. 724 of Public Law 113-291.
 
 </div>
 
 
 ### What happens after I apply?
 
-After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're entitled to VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+After you apply, we’ll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to find out if you have an employment handicap and if you’re eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 After we make an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 
-You can also meet with VRCs called VetSuccess on Campus (VSOC) Counselors at schools participating in the VetSuccess on Campus (VSOC) program. [Learn more about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+You can also meet with VRCs called VetSuccess on Campus (VSOC) Counselors at schools participating in the VetSuccess on Campus (VSOC) program. <br>
+[Learn more about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
 
 <div markdown="0"><br></div>

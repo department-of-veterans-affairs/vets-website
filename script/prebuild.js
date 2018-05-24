@@ -2,7 +2,7 @@ const semver = require('semver');
 const fs = require('fs');
 const path = require('path');
 
-const minimumNodeVersion = '6.11.1';
+const minimumNodeVersion = '8.10.0';
 
 if (!(process.env.INSTALL_HOOKS === 'no')) {
   // Make sure git pre-commit hooks are installed

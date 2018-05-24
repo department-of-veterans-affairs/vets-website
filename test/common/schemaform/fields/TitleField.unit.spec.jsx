@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import TitleField from '../../../../src/js/common/schemaform/fields/TitleField';
+import TitleField from '../../../../src/applications/common/schemaform/fields/TitleField';
 
 describe('Schemaform <TitleField>', () => {
   it('should render legend for root', () => {
@@ -12,11 +12,11 @@ describe('Schemaform <TitleField>', () => {
 
     expect(tree.subTree('legend')).not.to.be.false;
   });
-  it('should render h5 for non-root', () => {
+  it('should render subtitle for non-root', () => {
     const tree = SkinDeep.shallowRender(
       <TitleField id="root_someField"/>
     );
 
-    expect(tree.subTree('h5')).not.to.be.false;
+    expect(tree.subTree('.schemaform-block-subtitle')).not.to.be.false;
   });
 });

@@ -23,7 +23,9 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability that makes it hard for you to succeed in your employment path, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Employment Through Long-Term Services track. VR&E training can help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for vocational counseling and  training with VR&E. 
+If you have a service-connected disability that makes it hard for you to succeed in your employment path, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Employment Through Long-Term Services track. VR&E training can help you find work in a different field that better suits your current abilities and interests.
+
+Find out if you’re eligible for vocational counseling and  training with VR&E. 
 
 </div>
 
@@ -31,13 +33,16 @@ If you have a service-connected disability that makes it hard for you to succeed
 
 ### Can I get vocational counseling and training for new skills through VR&amp;E?
 
-You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and: 
+You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability, and you meet all of the requirements listed below.
+
+**All of these must be true:**
 
 - You have an employment barrier or handicap, **and**
 - You're enrolled in VR&amp;E, **and**
 - Your service-connected disability makes it hard for you to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests)
 
-**Note:** You may be eligible for both VR&E training and GI Bill benefits. You'll need to decide which benefit you want to use. [Learn more about the GI Bill](/education/gi-bill/).
+**Note:** You may be eligible for both VR&E training and GI Bill benefits. You'll need to decide which benefit you want to use. <br>
+[Learn more about the GI Bill](/education/gi-bill/).
 
 </div>
 
@@ -97,18 +102,25 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 [Find out how to apply if you haven’t yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
-**Note:** VR&amp;E is an employment program that's different from the GI Bill and may be used to pay for education needed to train you for suitable employment. [Learn more about the GI Bill](/education/gi-bill/).
+**Note:** VR&amp;E is an employment program that's different from the GI Bill and may be used to pay for education needed to train you for suitable employment. <br>
+[Learn more about the GI Bill](/education/gi-bill/).
 
 <br>
 
 ### Get more information
 
-We offer:
+**We offer opportunities to get training and practical hands-on work experience at the same time through programs like:**
+- **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
+  [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
+- **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. <br>
+  [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
 
-- Opportunities to get training and practical hands-on work experience at the same time through programs like:
-  - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
-  - **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
-- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
-- Counselors to help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
-- Other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
-- Links to more resources outside VA that can help you in your job search. [See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
+**We also offer:**
+- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." <br>
+[Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
+- Counselors to help you transition from military to college life. <br>
+[Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+- Other employment resources for Servicemembers and Veterans. <br>
+[Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
+- Links to more resources outside VA that can help you in your job search. <br>
+[See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).

@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: How VA Assigns Disability Ratings
+description: Find out how we assign a VA disability rating for each disability claim.
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 1
