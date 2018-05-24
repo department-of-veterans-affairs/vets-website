@@ -365,7 +365,7 @@ describe('data utils (lodash replacements)', () => {
       }, 150);
     });
 
-    it('should not call a function before the wait time is over', () => {
+    it('should not call a function before the wait time is over', (done) => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(100, spy);
       debouncedFunc();
@@ -391,7 +391,19 @@ describe('data utils (lodash replacements)', () => {
       // And finally, check to make sure it's only been called once
       setTimeout(() => {
         expect(spy.callCount).to.equal(1);
+        done();
       }, 350);
+    });
+
+    it('should not call the function after it\'s been canceled', (done) => {
+      const spy = sinon.spy();
+      const debouncedFunction = _.debounce(100, spy);
+      debouncedFunction();
+      setTimeout(() => debouncedFunction.cancel(), 50);
+      setTimeout(() => {
+        expect(spy.callCount).to.equal(0);
+        done();
+      }, 200);
     });
   });
 });

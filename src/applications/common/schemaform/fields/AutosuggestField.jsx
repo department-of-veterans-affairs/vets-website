@@ -66,6 +66,7 @@ export default class AutosuggestField extends React.Component {
 
   componentWillUnmount() {
     this.unmounted = true;
+    this.debouncedGetOptions.cancel();
   }
 
   getOptions = (inputValue) => {
