@@ -22,41 +22,39 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 <div class="feature" markdown="1">
 
-### You may not be completely ready to start looking for a job, but there are other ways you can prepare.
+### You may not be completely ready to start looking for a job, but you can start to prepare for your transition to civilian life. 
 
 - ##### Do you plan to leave active duty in less than 12 months?
 
   [Prepare for your transition with this timeline.](/employment/job-seekers/less-than-one-year/) 
-
 <br>
 
 - ##### Have you recently left active duty?
 
-  If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits. <br> [Find out if you're eligible for benefits through Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support/).
-
+  If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits. <br> [Find out if you’re eligible for benefits through Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support/).
 <br>
 
 - ##### Are you already in the workforce?
 
-  [Search for a new career](https://www.careeronestop.org/JobSearch/job-search.aspx), or <br> [Consider additional education](/education/gi-bill/).
+  [Search for a new career](https://www.careeronestop.org/JobSearch/job-search.aspx), or <br> [Consider additional education or training programs](/education/gi-bill/).
 
 </div>
 
-### If you are ready to begin, take these steps:
+### If you’re ready to begin looking for a job, take these steps:
 
 <ol class="process" markdown="0">
 <li class="process-step list-one" markdown="1">
 
 ##### Discover your skills and interests<br>
 
-[Identify the type of work you enjoy with the Interest Profiler](/employment/job-seekers/interest-profiler/), then <br> [Explore related career paths](https://www.mynextmove.org/).
+[Use Interest Profiler to help you identify the type of work you enjoy](/employment/job-seekers/interest-profiler/), then <br> [Explore related career paths](https://www.mynextmove.org/).
 </li>
 
 <li class="process-step list-two" markdown="1">
 
 ##### Learn about job titles and qualifications<br>
 
-Browse careers by industry and learn about jobs that are similar to your MOS. <br> [Use the Military Skills Translator](/employment/job-seekers/skills-translator).
+Browse careers by industry and learn about jobs that are similar to your Military Occupational Specialty (MOS). <br> [Use the Military Skills Translator](/employment/job-seekers/skills-translator).
 </li>
 
 <li class="process-step list-three" markdown="1">
@@ -64,7 +62,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS. <b
 ##### Build a resume<br>
 
 - [Build your resume](/employment/job-seekers/create-resume).
-- [Present yourself professionaly with a free LinkedIn&trade; Job Seeker profile](https://veterans.linkedin.com/).
+- [Create a free LinkedIn&trade; Job Seeker profile](https://veterans.linkedin.com/).
 </li>
 
 <li class="process-step list-four" markdown="1">
@@ -73,14 +71,14 @@ Browse careers by industry and learn about jobs that are similar to your MOS. <b
 
 - [Consider a job with the federal government](/employment/job-seekers/federal-employment/).
 - Review job boards, search job banks, and research openings at companies that interest you.
-- Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They might know of specific openings or might be able to introduce you to people at companies you’ve targeted.
+- Contact people you have worked with previously, family, and friends to let them know you’re looking for a job. They might know of specific openings or might be able to introduce you to people at companies you’ve targeted.
 </li>
 
 <li class="process-step list-five" markdown="1">
 
 ##### Search online job banks
 
-- [Research jobs sponsored by the U.S. Department of Labor on careeronestop.org](https://www.careeronestop.org/JobSearch/job-search.aspx).
+- [Research jobs on careeronestop.orgs](https://www.careeronestop.org/JobSearch/job-search.aspx), a job bank sponsored by the U.S. Department of Labor. 
 - [Search for connections and job listings on LinkedIn&trade;](https://veterans.linkedin.com/). <br>
 - Search other online job boards.
 </li>
