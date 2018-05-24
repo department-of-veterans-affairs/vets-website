@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import Hero from './Hero';
 import ContactInformation from './ContactInformation';
@@ -30,7 +31,7 @@ class ProfileView extends React.Component {
 
         <p>If you’d like to use these tools on Vets.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect with you with the right person who can help.</p>
 
-        <p><a href="/facilities/">Find your nearest VA Medical Center</a>.</p>
+        <p><a href="/facilities/" onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'find-center' }); }}>Find your nearest VA Medical Center</a>.</p>
       </div>
     );
   }
@@ -43,26 +44,29 @@ class ProfileView extends React.Component {
         <p><strong>This one-time process takes about 5-10 minutes.</strong></p>
 
         <div>
-          <AdditionalInfo triggerText="How will Vets.gov verify my identity?">
-            <p>We use ID.me, our Veteran-owned technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
-            <p><strong>To verify your identity, you’ll need both of these:</strong>
-              <ul>
-                <li>A smartphone (or a landline or mobile phone and a computer with an Internet connection), <strong>and</strong></li>
-                <li>Your Social Security number</li>
-              </ul>
-            </p>
-            <p><strong>You’ll also need one of these:</strong>
-              <ul>
-                <li>A digital image of your driver’s license or passport, <strong>or</strong></li>
-                <li>The ability to answer certain questions based on private and public data (like your credit report or mortgage history) to prove you’re you</li>
-              </ul>
-            </p>
-          </AdditionalInfo><br/>
-          <button className="usa-button-primary va-button-primary" href="/verify">
+          <div onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'learn-more-identity' }); }}>
+            <AdditionalInfo triggerText="How will Vets.gov verify my identity?">
+              <p>We use ID.me, our Veteran-owned technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
+              <p><strong>To verify your identity, you’ll need both of these:</strong>
+                <ul>
+                  <li>A smartphone (or a landline or mobile phone and a computer with an Internet connection), <strong>and</strong></li>
+                  <li>Your Social Security number</li>
+                </ul>
+              </p>
+              <p><strong>You’ll also need one of these:</strong>
+                <ul>
+                  <li>A digital image of your driver’s license or passport, <strong>or</strong></li>
+                  <li>The ability to answer certain questions based on private and public data (like your credit report or mortgage history) to prove you’re you</li>
+                </ul>
+              </p>
+            </AdditionalInfo>
+          </div>
+          <br/>
+          <button className="usa-button-primary va-button-primary" href="/verify" onClick={() => { recordEvent({ event: 'verify-link-clicked' });}}>
             <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
           </button>
           <h4>What if I’m having trouble verifying my identity?</h4>
-          <p><a href="/faq/" target="_blank">Get answers to Frequently Asked Questions</a></p>
+          <p><a href="/faq/" target="_blank" onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'vets-faqs' }); }}>Get answers to Frequently Asked Questions</a></p>
           <p>
             Or call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
           </p>
