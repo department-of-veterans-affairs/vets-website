@@ -42,7 +42,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 
 <li class="process-step list-three">
 
-**Get your Veterans Health Identification Card (VHIC).** This is the card you’ll use for ID and to check in at your VA health care appointments. To get your card, contact your local VA medical center and speak with the enrollment coordinator. Ask the coordinator to help you arrange to have your picture taken for your new VHIC. Or, you can request your VHIC at your next VA health care appointment. <br /> [Learn more about the VHIC](https://www.va.gov/HEALTHBENEFITS/vhic/index.asp). <br />
+**Get your Veteran Health Identification Card (VHIC).** This is the card you’ll use for ID and to check in at your VA health care appointments. To get your card, contact your local VA medical center and speak with the enrollment coordinator. Ask the coordinator to help you arrange to have your picture taken for your new VHIC. Or, you can request your VHIC at your next VA health care appointment. <br /> [Learn more about the VHIC](https://www.va.gov/HEALTHBENEFITS/vhic/index.asp). <br />
 [Find a VA medical center near you](/facilities/).
 
 </li>
@@ -82,7 +82,7 @@ Contact your local VA medical center or clinic and ask for:
 
 #### What if I need help understanding my benefits or accessing services?
 
-If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
+If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. <br>[Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 
 If you’re signed up for VA health care, you can manage your VA health and benefits online through Vets.gov: <br />
 [Refill your prescriptions](/health-care/prescriptions/). <br />
