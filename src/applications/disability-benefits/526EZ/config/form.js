@@ -77,8 +77,7 @@ const {
   disabilities: disabiltiesDefinition,
   specialIssues,
   servicePeriods,
-  privateTreatmentCenterAddress,
-  dateRangeFromRequired
+  privateTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -132,8 +131,7 @@ const formConfig = {
     disabilities: omitRequired(disabiltiesDefinition),
     specialIssues,
     servicePeriods,
-    privateTreatmentCenterAddress,
-    dateRangeFromRequired
+    privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',

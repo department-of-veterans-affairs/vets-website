@@ -19,20 +19,7 @@ import { errorSchemaIsValid } from '../validation';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
-
-const isEmpty = (collection) => {
-  if (collection === undefined) {
-    return true;
-  }
-  if (typeof collection !== 'object') {
-    return false;
-  }
-  return _.every(isEmpty, Object.values(collection));
-};
-
-const isInvalid = (item, index, errorSchema) => {
-  return isEmpty(item) || !errorSchemaIsValid(errorSchema[index]);
-};
+const isInvalid = (item, index, errorSchema) => !errorSchemaIsValid(errorSchema[index]);
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -240,11 +227,10 @@ export default class ArrayField extends React.Component {
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
             const isEditing = this.state.editing[index] === true;
-            const isEmptyItem = isEmpty(item);
             const isAdding = this.state.editing[index] === 'adding';
             if (isReviewMode ? isEditing :  (isAdding || isEditing)) {
               return (
-                <div key={index} className={!isAdding && !isEmptyItem ? 'va-growable-background' : null}>
+                <div key={index} className={!isAdding ? 'va-growable-background' : null}>
                   <Element name={`table_${itemIdPrefix}`}/>
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
