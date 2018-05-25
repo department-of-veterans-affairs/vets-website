@@ -22,7 +22,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 <div class="feature" markdown="1">
 
-### You may not be completely ready to start looking for a job, but you can start to prepare for your transition to civilian life. 
+### You may not be completely ready to start looking for a job, but you can start to prepare for a job search. 
 
 - ##### Do you plan to leave active duty in less than 12 months?
 
@@ -94,10 +94,10 @@ Browse careers by industry and learn about jobs that are similar to your Militar
 
 
 ### Consider furthering your education
-- The gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.<br> [Learn more about Post-9/11 GI Bill benefits](/education/gi-bill/post-9-11/).
+- The Post-9/11 GI Bill gives Veterans who served on active duty service after September 10, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.<br> [Learn more about Post-9/11 GI Bill benefits](/education/gi-bill/post-9-11/).
 - Fill in any gaps in your education or skill set by taking classes and getting advanced training and certifications. <br> [Learn more about advanced training certifications](/education/advanced-training-and-certifications/).
 - [Consider military tuition assistance (for active duty)](http://myarmybenefits.us.army.mil/Home/Benefit_Library/Federal_Benefits_Page/Tuition_Assistance_(TA).html?serv=149).
-- Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with LinkedIn&trade. <br> [Sign up for LinkedIn&trade; Learning](https://veterans.linkedin.com).
+- Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with LinkedIn. <br> [Sign up for LinkedIn&trade; Learning](https://veterans.linkedin.com).
 - [Earn a free Coursera Course Certificate](https://www.surveymonkey.com/survey-closed/?sm=FJHklU3G8dZiAvMvaXCjHbRQzq11Lm9wxWgvT3bLmUfVF_2BDwr4Heo0_2BnYHEhahfBKrDxUsNaZ3DU3iPeqmxGl_2FwdWj3AJAYhMRrDOUGicxY_3D).
 
 <br>
