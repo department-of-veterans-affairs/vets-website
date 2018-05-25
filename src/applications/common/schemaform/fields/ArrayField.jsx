@@ -31,12 +31,12 @@ export default class ArrayField extends React.Component {
     }
 
     /*
-     * We’re keeping the editing state in local state because it’s easier to manage and
+     * We’re keeping the item modes state in local state because it’s easier to manage and
      * doesn’t need to persist from page to page
      */
 
     this.state = {
-      editing: props.formData ? props.formData.map((item, index) => isInvalid(item, index, props.errorSchema)) : [true]
+      itemModes: props.formData ? props.formData.map((item, index) => (isInvalid(item, index, props.errorSchema) ? 'editing' : 'viewing')) : ['adding']
     };
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -103,8 +103,8 @@ export default class ArrayField extends React.Component {
   /*
    * Clicking edit on an item that’s not last and so is in view mode
    */
-  handleEdit(index, status = true) {
-    this.setState(_.set(['editing', index], status, this.state), () => {
+  handleEdit(index) {
+    this.setState(_.set(['itemModes', index], 'editing', this.state), () => {
       this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
     });
   }
@@ -114,7 +114,7 @@ export default class ArrayField extends React.Component {
    */
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editing', index], false, this.state), () => {
+      this.setState(_.set(['itemModes', index], 'viewing', this.state), () => {
         this.scrollToTop();
       });
     } else {
@@ -132,16 +132,16 @@ export default class ArrayField extends React.Component {
   handleAdd() {
     const lastIndex = this.props.formData.length - 1;
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
-      // When we add another, we want to change the editing state of the currently
+      // When we add another, we want to change the item mode state of the currently
       // last item, but not ones above it
-      const newEditing = this.state.editing.map((val, index) => {
-        return (index + 1) === this.state.editing.length
-          ? false
+      const newItemModes = this.state.itemModes.map((val, index) => {
+        return (index + 1) === this.state.itemModes.length
+          ? 'viewing'
           : val;
       });
-      const editingState = this.props.uiSchema['ui:options'].reviewMode ? true : 'adding';
+      const itemState = this.props.uiSchema['ui:options'].reviewMode ? 'editing' : 'adding';
       const newState = _.assign(this.state, {
-        editing: newEditing.concat(editingState)
+        itemModes: newItemModes.concat(itemState)
       });
       this.setState(newState, () => {
         const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
@@ -162,7 +162,7 @@ export default class ArrayField extends React.Component {
   handleRemove(indexToRemove) {
     const newItems = this.props.formData.filter((val, index) => index !== indexToRemove);
     const newState = _.assign(this.state, {
-      editing: this.state.editing.filter((val, index) => index !== indexToRemove),
+      itemModes: this.state.itemModes.filter((val, index) => index !== indexToRemove),
     });
     this.props.onChange(newItems);
     this.setState(newState, () => {
@@ -183,6 +183,7 @@ export default class ArrayField extends React.Component {
       onBlur,
       schema
     } = this.props;
+
     const definitions = registry.definitions;
     const { TitleField, SchemaField } = registry.fields;
     const uiOptions = uiSchema['ui:options'] || {};
@@ -226,9 +227,10 @@ export default class ArrayField extends React.Component {
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
-            const isEditing = this.state.editing[index] === true;
-            const isAdding = this.state.editing[index] === 'adding';
-            if (isReviewMode ? isEditing :  (isAdding || isEditing)) {
+            const isNotViewing = this.state.itemModes[index] !== 'viewing';
+            const isEditing = this.state.itemModes[index] === 'editing';
+            const isAdding = this.state.itemModes[index] === 'adding';
+            if (isReviewMode ? isEditing : isNotViewing) {
               return (
                 <div key={index} className={!isAdding ? 'va-growable-background' : null}>
                   <Element name={`table_${itemIdPrefix}`}/>
