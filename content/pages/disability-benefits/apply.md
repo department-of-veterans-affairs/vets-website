@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-You can apply for disability benefits online. Depending on what type of disability claim you’re filing, you’ll apply using either eBenefits or the online application. We’ve listed all the steps below. Find out how to apply for this tax-free monetary benefit. 
+Depending on what type of disability claim you’re filing, you can apply using either eBenefits or the online application. We’ve listed all the steps below. Find out how to apply for this tax-free monetary benefit. 
 
 </div>
 
@@ -40,8 +40,9 @@ You can apply for disability benefits online. Depending on what type of disabili
 
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
-- Check if you need to turn in additional forms with your claim, for example, if you're claiming a dependent or benefits for a seriously disabled child. [See the list of required forms for these special situations](/disability-benefits/apply/evidence/). 
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
+- Check to see if you’ll need to turn in any additional forms with your claim. For example, if you’re claiming a dependent or requesting aid and attendance benefits, you’ll need to fill out another form. <br>
+[Learn what supplemental forms you may need to file with your disability claim](/disability-benefits/apply/supplemental-forms/). 
 
 <div markdown="0"><br></div>
 
@@ -74,7 +75,7 @@ For all disability claims, please provide:
 
 #### By mail
 
-Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). [Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
+Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ).<br> [Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -87,12 +88,12 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
+Bring your application to a regional benefit office near you. <br>[Find a regional benefit office](/facilities/).
 
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
+You can work with a trained professional who can help you file a claim. <br> [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
