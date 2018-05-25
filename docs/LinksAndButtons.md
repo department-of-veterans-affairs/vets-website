@@ -65,10 +65,11 @@ It was the consensus of our test users that call to action links can be styled a
     1. SUCCESS CRITERIA:
     2. Respond to ENTER keypress
     3. The browser URL changes
-    4. HTML5 history object changes
-    5. Avoid hash route URLs if possible. These interfere with in-page anchor links, and were common with early SPA libraries like Backbone.
+    4. HTML5 history object changes. (Not applicable if using React Router.)
+    5. Avoid hash route URLs if possible. These interfere with in-page anchor links, and were common with early SPA libraries like Backbone. (Not applicable if using React Router.)
     6. Append anchor links to URL when a link points to an in-page anchor ID (skip nav, tabs)
-    7. Do not add role=“button” to links. Screen readers announce the link as “button”, and changes user   * Recommended to underline links when in paragraphs or blocks of text
+    7. Do not add role=“button” to links. Screen readers announce the link as “button”, and changes user
+    8. Recommended to underline links when in paragraphs or blocks of text
 2. Buttons perform a UI action
     1. SUCCESS CRITERIA:
     2. Respond to ENTER, SPACEBAR keypresses
