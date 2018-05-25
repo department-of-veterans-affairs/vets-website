@@ -261,7 +261,7 @@ describe('Schemaform <ArrayField>', () => {
       tree.getMountedInstance().handleAdd();
 
       expect(onChange.firstCall.args[0].length).to.equal(3);
-      expect(tree.getMountedInstance().state.editing[2]).to.equal('adding');
+      expect(tree.getMountedInstance().state.itemModes[2]).to.equal('adding');
     });
     it('add when invalid', () => {
       formContext.setTouched.reset();
@@ -277,7 +277,7 @@ describe('Schemaform <ArrayField>', () => {
       instance.handleRemove(0);
 
       expect(onChange.firstCall.args[0].length).to.equal(1);
-      expect(instance.state.editing.length).to.equal(1);
+      expect(instance.state.itemModes.length).to.equal(1);
     });
     it('item change', () => {
       const newItem = {};
@@ -321,6 +321,6 @@ describe('Schemaform <ArrayField>', () => {
         requiredSchema={requiredSchema}/>
     );
 
-    expect(tree.everySubTree('button')[2].props.disabled).to.be.true;
+    expect(tree.subTree('button').props.disabled).to.be.true;
   });
 });
