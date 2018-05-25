@@ -100,7 +100,7 @@ export default class AutosuggestField extends React.Component {
         }
       }
 
-      this.props.onChange(item);
+      this.props.onChange(this.useEnum ? inputValue : item);
 
       this.setState({
         input: inputValue,
@@ -141,10 +141,18 @@ export default class AutosuggestField extends React.Component {
     const id = idSchema.$id;
 
     if (formContext.reviewMode) {
+      const readOnlyData = <span>{getInput(formData, uiSchema, schema)}</span>;
+
+      // If we're using an enum, this is a string field and the label will
+      // be included by ReviewFieldTemplate
+      if (this.useEnum) {
+        return readOnlyData;
+      }
+
       return (
         <div className="review-row">
           <dt>{this.props.uiSchema['ui:title']}</dt>
-          <dd><span>{getInput(formData, uiSchema, schema)}</span></dd>
+          <dd><span>{readOnlyData}</span></dd>
         </div>
       );
     }
@@ -174,6 +182,7 @@ export default class AutosuggestField extends React.Component {
             <input {...getInputProps({
               id,
               name: id,
+              className: 'autosuggest-input',
               onBlur: isOpen ? undefined : this.handleBlur,
               onKeyDown: this.handleKeyDown
             })}/>
