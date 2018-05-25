@@ -27,16 +27,18 @@ If you’re a Veteran, Servicemember, or surviving spouse, we may be able to hel
   
 We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.
   
-**Find the support you need:**
+**Talk with someone right now to find the support you need:**
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
-- **If you're a female Veteran, contact your nearest VA medical center.** Ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits.<br>
-[Find the nearest VA medical center](/facilities/).
-
-**If you need to talk with someone right now:**
-
-Reach out to our Veterans Crisis Line. Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
+- **Or, reach out to our Veterans Crisis line.** Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
 [Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
+
+**If you're a woman Veteran:**
+
+You can also call our Women Veterans Call Center or connect with your Women Veterans Program Manager for help getting housing, health care, and other benefits. 
+- **Call the VA Women Veterans Call Center** at 1-855-VA-WOMEN (<a href="tel:+18558296636">1-855-829-6636</a>), Monday - Friday, 8:00 a.m. to 10:00 p.m. and Saturday, 8:00 a.m. to 6:30 p.m. (ET).
+- **Or, contact your nearest VA medical center** and ask for the Women Veterans Program Manager.<br>
+[Find the nearest VA medical center](/facilities/).
 
 </div>
 </div>
