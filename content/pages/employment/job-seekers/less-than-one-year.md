@@ -26,7 +26,7 @@ relatedlinks:
 
 - **Why should you read this?**
 
-  You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
+  You can take certain steps to improve your chances of a smooth and successful transition into civilian life.
 </div>
 
 
@@ -38,14 +38,14 @@ relatedlinks:
 
 ##### 12 Months Before Leaving Active Duty
 
-- Fill in any gaps in your education or skill set by taking classes and obtaining certifications and licensures. The GI Bill may be used for some of this prior to exiting the service. <br> [Find out more about the GI Bill](/education/gi-bill/).
-- Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you are unable to attend this training, it is available through Joint Knowledge Online, but you must have approval from your service branch to get credit. <br>
+- Fill in any gaps in your education or skill set by taking classes and obtaining certifications and licensures. The GI Bill may be used for some of this before you leave the service. <br> [Find out more about the GI Bill](/education/gi-bill/).
+- Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you’re unable to attend this training, it’s available through Joint Knowledge Online, but you must have approval from your service branch to get credit. <br>
 [Visit Joint Knowledge Online](https://jkodirect.jten.mil). <br>
-You must complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service branch specific. <br> [Check documents related to your branch](https://dodtap.mil/my.policy).
+You'll need to complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service branch specific. <br> [Check documents related to your branch](https://dodtap.mil/my.policy).
 
 - Review military transcripts and service records for accuracy. <br>
 [Check your military transcripts](/employment/job-seekers/military-transcripts/).
-- Think about which industries and careers interest you, using tools such as o*Net and CareerScope. <br> 
+- Think about which industries and careers interest you, using tools such as O*Net and CareerScope. <br> 
 [Use the Interest Profiler Tool](/employment/job-seekers/interest-profiler/). <br>
 - Start developing a resume by translating military skills into equivalent civilian skills. <br>
 [Use the military skills translator](/employment/job-seekers/skills-translator). <br>
@@ -63,7 +63,7 @@ You must complete the VA Benefits Briefings I and II, the Department of Labor Em
 - Complete the Preseparation Counseling Checklist found on Form DD2648.
 - Compile your service-treatment records and military hospital reports if you plan on registering for VA medical resources. <br>
 [You can order both of these through the National Archives](https://www.archives.gov/veterans/military-service-records/). <br>
-Treatment records are not required for registration or treament at VA.
+Treatment records aren’t required for registration or treament at VA.
 - Compile private medical records and hospital reports.
 - Finalize your resume. 
 - [Begin actively searching for employment](https://www.careeronestop.org/JobSearch/job-search.aspx).
@@ -80,7 +80,7 @@ Treatment records are not required for registration or treament at VA.
 
 - Attend networking and recruiting events.
 - Review job boards, search job banks, and research openings at companies that interest you.
-- Actively engage in your career search.
+- Actively start your career search.
 - Avoid using military lingo like “V/R” in your career-search emails.
 - Wear professional, civilian clothing to events and in networking website photos.
 
@@ -91,7 +91,7 @@ Treatment records are not required for registration or treament at VA.
 
 ##### 1 Month Before Leaving Active Duty
 
-- Complete TAP GPS (can be completed earlier).
+- Complete TAP GPS. (This can be completed earlier.)
 - Prepare for final round of job interviews.
 </div>
 </li>
