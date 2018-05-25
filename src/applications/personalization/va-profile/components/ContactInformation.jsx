@@ -35,7 +35,7 @@ function recordedAction(actionName, sectionName, callback) {
 }
 
 function ContactError({ error }) {
-  const lacksParticipantId = error.errors.some(e => e.code === 403);
+  const lacksParticipantId = error.errors.some(e => e.code === '403');
   if (lacksParticipantId) {
     // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/10581
     return (
