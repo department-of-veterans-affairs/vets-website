@@ -79,9 +79,9 @@ class ProfileView extends React.Component {
             </AdditionalInfo>
           </div>
           <br/>
-          <button className="usa-button-primary va-button-primary" href="/verify" onClick={() => { recordEvent({ event: 'verify-link-clicked' });}}>
+          <a className="usa-button-primary va-button-primary" href="/verify" onClick={() => { recordEvent({ event: 'verify-link-clicked' });}}>
             <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
-          </button>
+          </a>
           <h4>What if I’m having trouble verifying my identity?</h4>
           <p><a href="/faq/" target="_blank" onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'vets-faqs' }); }}>Get answers to Frequently Asked Questions</a></p>
           <p>
