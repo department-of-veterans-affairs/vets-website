@@ -6,6 +6,20 @@ import { shallow, mount } from 'enzyme';
 
 import AutosuggestField from '../../../../src/applications/common/schemaform/fields/AutosuggestField';
 
+const options = [
+  { id: 1, label: 'first' },
+  { id: 2, label: 'second' },
+  { id: 3, label: 'third' },
+  { id: 4, label: 'fourth' },
+];
+
+// Mimic querying the api for options
+function queryForOptions(input = '') {
+  // Emulate a fast api call
+  return Promise.resolve(options.filter(o => o.label.includes(input)));
+}
+
+
 describe('<AutosuggestField>', () => {
   it('should render', () => {
     const uiSchema = {
@@ -29,6 +43,8 @@ describe('<AutosuggestField>', () => {
     expect(input.props().name).to.equal('id');
     expect(input.props().value).to.equal('label');
   });
+
+
   it('should render in review mode', () => {
     const uiSchema = {
       'ui:options': {
@@ -49,6 +65,8 @@ describe('<AutosuggestField>', () => {
     expect(tree.find('Downshift').exists()).to.be.false;
     expect(tree.find('dd').text()).to.contain('testing');
   });
+
+
   it('should call onChange when suggestion is selected', (done) => {
     const uiSchema = {
       'ui:options': {
@@ -101,6 +119,8 @@ describe('<AutosuggestField>', () => {
       done();
     }, 0);
   });
+
+
   it('should clear data when input is cleared', () => {
     const uiSchema = {
       'ui:options': {
@@ -139,6 +159,8 @@ describe('<AutosuggestField>', () => {
     });
     expect(onChange.lastCall.args.length).to.equal(0);
   });
+
+
   it('should trigger onBlur', (done) => {
     const uiSchema = {
       'ui:options': {
@@ -179,6 +201,8 @@ describe('<AutosuggestField>', () => {
       done();
     });
   });
+
+
   it('should leave data on blur if partially filled in', (done) => {
     const uiSchema = {
       'ui:options': {
@@ -226,6 +250,8 @@ describe('<AutosuggestField>', () => {
       done();
     });
   });
+
+
   it('should use options from enum to get first item', (done) => {
     const uiSchema = {
       'ui:options': {
@@ -273,4 +299,128 @@ describe('<AutosuggestField>', () => {
       done();
     }, 0);
   });
+
+
+  it('should call a function passed in getOptions with formData', (done) => {
+    // ...when the input changes and `uiSchema['ui:options'].queryForResults` is true
+    const getOptions = sinon.spy(queryForOptions);
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          debounceRate: 0,
+          getOptions,
+          queryForResults: true
+        }
+      },
+      schema: { type: 'string' },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange: () => {},
+      onBlur: () => {}
+    };
+    const wrapper = mount(<AutosuggestField {...props}/>);
+
+    // Search for 'ir'
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'ir'
+      }
+    });
+
+    // Check that getOptions was called with the form data
+    setTimeout(() => {
+      const args = getOptions.secondCall.args;
+      expect(args[0]).to.eql('ir');
+      done();
+    });
+  });
+
+
+  it('should use the results of getOptions as the field\'s enum options', (done) => {
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          debounceRate: 0,
+          getOptions: queryForOptions,
+          queryForResults: true
+        }
+      },
+      schema: { type: 'string' },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange: () => {},
+      onBlur: () => {}
+    };
+    const wrapper = mount(<AutosuggestField {...props}/>);
+
+    setTimeout(() => {
+      expect(wrapper.state('options')).to.eql(options);
+    }, 100);
+
+    setTimeout(() => {
+      // Search for 'ir'
+      const input = wrapper.find('input');
+      input.simulate('focus');
+      input.simulate('change', {
+        target: {
+          value: 'ir'
+        }
+      });
+    }, 110);
+
+    setTimeout(() => {
+      expect(wrapper.state('options')).to.eql([
+        { id: 1, label: 'first' },
+        { id: 3, label: 'third' }
+      ]);
+      done();
+    }, 210);
+  });
+
+
+  // The stringifyFormReplacer will send the label to the api instead of the id if freeInput is
+  //  true in the formData
+  it('should return a string if freeInput is true in ui:options', (done) => {
+    const onChange = sinon.spy();
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          freeInput: true,
+          labels: {
+            AL: 'Label 1',
+            BC: 'Label 2'
+          }
+        }
+      },
+      schema: {
+        type: 'string',
+        'enum': ['AL', 'BC']
+      },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange,
+      onBlur: () => {}
+    };
+    const wrapper = mount(<AutosuggestField {...props}/>);
+
+    // Input something not in options
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'konami'
+      }
+    });
+
+    setTimeout(() => {
+      const fieldData = onChange.firstCall.args[0];
+      expect(fieldData).to.equal('konami');
+      done();
+    });
+  });
+
+
+  it.skip('should fill in other formData when a suggestion is selected', () => {});
 });

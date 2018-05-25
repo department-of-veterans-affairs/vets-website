@@ -8,6 +8,9 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import {
+  uiSchema as autoSuggestUiSchema
+} from '../../../common/schemaform/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -62,10 +65,13 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
+  queryForFacilities,
   getEvidenceTypesDescription
 } from '../helpers';
 
-import { requireOneSelected } from '../validations';
+import {
+  requireOneSelected,
+} from '../validations';
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
@@ -101,10 +107,7 @@ const treatments = ((treatmentsCommonDef) => {
       // TODO: use standard required property once treatmentCenterType added
       // back in schema (because it's required)
       required: ['treatmentCenterName'],
-      properties: _.omit(
-        ['treatmentCenterAddress', 'treatmentCenterType'],
-        items.properties
-      )
+      properties: _.omit(['treatmentCenterAddress', 'treatmentCenterType'], items.properties)
     }
   };
 
@@ -429,9 +432,21 @@ const formConfig = {
                     viewField: treatmentView
                   },
                   items: {
-                    treatmentCenterName: {
-                      'ui:title': 'Name of VA medical facility'
-                    },
+                    treatmentCenterName: autoSuggestUiSchema(
+                      'Name of VA medical facility',
+                      queryForFacilities,
+                      {
+                        'ui:options': {
+                          queryForResults: true,
+                          freeInput: true,
+                        },
+                        'ui:errorMessages': {
+                          // If the maxLength changes, we'll want to update the message too
+                          maxLength: 'Please enter a name with fewer than 100 characters.',
+                          pattern: 'Please enter a valid name.'
+                        }
+                      }
+                    ),
                     treatmentDateRange: dateRangeUI(
                       'Approximate date of first treatment',
                       'Approximate date of last treatment',
