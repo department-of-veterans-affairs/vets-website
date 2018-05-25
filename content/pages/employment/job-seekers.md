@@ -94,7 +94,7 @@ Browse careers by industry and learn about jobs that are similar to your Militar
 
 
 ### Consider furthering your education
-- The Post-9/11 GI Bill gives Veterans who served on active duty service after September 10, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.<br> [Learn more about Post-9/11 GI Bill benefits](/education/gi-bill/post-9-11/).
+- The Post-9/11 GI Bill gives Veterans who served on active duty after September 10, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.<br> [Learn more about Post-9/11 GI Bill benefits](/education/gi-bill/post-9-11/).
 - Fill in any gaps in your education or skill set by taking classes and getting advanced training and certifications. <br> [Learn more about advanced training certifications](/education/advanced-training-and-certifications/).
 - [Consider military tuition assistance (for active duty)](http://myarmybenefits.us.army.mil/Home/Benefit_Library/Federal_Benefits_Page/Tuition_Assistance_(TA).html?serv=149).
 - Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with LinkedIn. <br> [Sign up for LinkedIn&trade; Learning](https://veterans.linkedin.com).
