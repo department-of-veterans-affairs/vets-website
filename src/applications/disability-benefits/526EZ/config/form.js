@@ -10,6 +10,7 @@ import ServicePeriodView from '../../../common/schemaform/components/ServicePeri
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -119,7 +120,7 @@ const initialData = {
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  // submitUrl: '/v0/21-526EZ',
+  // submitUrl: `${environment.API_URL}/v0/21-526EZ`,
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
@@ -705,7 +706,7 @@ const formConfig = {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     itemDescription: 'Adding additional evidence:',
-                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     addAnotherLabel: 'Add Another Document',
                     fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
                     maxSize: FIFTY_MB,
@@ -775,7 +776,7 @@ const formConfig = {
                 additionalDocuments: Object.assign({},
                   fileUploadUI('Lay statements or other evidence', {
                     itemDescription: 'Adding additional evidence:',
-                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     addAnotherLabel: 'Add Another Document',
                     fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
                     maxSize: FIFTY_MB,

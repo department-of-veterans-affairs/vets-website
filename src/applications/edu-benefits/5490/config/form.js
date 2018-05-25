@@ -35,6 +35,7 @@ import * as personId from '../../../common/schemaform/definitions/personId';
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
@@ -81,7 +82,7 @@ const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/5490',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5490`,
   trackingPrefix: 'edu-5490-',
   formId: '22-5490',
   version: 1,

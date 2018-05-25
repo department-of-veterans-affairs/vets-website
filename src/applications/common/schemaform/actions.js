@@ -3,7 +3,6 @@ import moment from 'moment';
 import recordEvent from '../../../platform/monitoring/record-event';
 import _ from '../../../platform/utilities/data';
 import { transformForSubmit } from './helpers';
-import environment from '../../../platform/utilities/environment';
 import { timeFromNow } from '../../../platform/utilities/date';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
@@ -82,7 +81,7 @@ export function setViewedPages(pageKeys) {
 function submitToUrl(body, submitUrl, trackingPrefix) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
-    req.open('POST', `${environment.API_URL}${submitUrl}`);
+    req.open('POST', submitUrl);
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
         recordEvent({
@@ -227,7 +226,7 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
 
     const req = new XMLHttpRequest();
 
-    req.open('POST', `${environment.API_URL}${uiOptions.endpoint}`);
+    req.open('POST', uiOptions.fileUploadUrl);
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
         const body = 'response' in req ? req.response : req.responseText;

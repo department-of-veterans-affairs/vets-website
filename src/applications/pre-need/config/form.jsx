@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
 
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
@@ -69,7 +70,7 @@ const nonRequiredFullName = _.omit('required', fullName);
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/preneeds/burial_forms',
+  submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
@@ -562,7 +563,7 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
-                endpoint: '/v0/preneeds/preneed_attachments',
+                fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`,
                 fileTypes: ['pdf'],
                 maxSize: 15728640,
                 hideLabelText: true,

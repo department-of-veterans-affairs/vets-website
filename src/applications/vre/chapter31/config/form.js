@@ -16,6 +16,7 @@ import fileUploadUI from '../../../common/schemaform/definitions/file';
 import yearUI from '../../../common/schemaform/definitions/year';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 
 import { disabilityRatingLabels, dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
@@ -61,7 +62,7 @@ const expandIfWorking = {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/vre',
+  // submitUrl: `${environment.API_URL}/v0/vre`,
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'vre-chapter-31',
   introduction: IntroductionPage,
@@ -400,6 +401,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': DD214Description,
             dischargeDocuments: fileUploadUI('Upload your discharge document', {
+              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
               fileTypes: [
                 'pdf',
                 'jpeg',

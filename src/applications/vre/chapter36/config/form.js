@@ -20,6 +20,7 @@ import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { validateMatch } from '../../../common/schemaform/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+// import environment from '../../../../platform/utilities/environment';
 
 const {
   applicantEmail,
@@ -146,7 +147,7 @@ const previousBenefitApplicationsUI = {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/vre',
+  // submitUrl: `${environment.API_URL}/v0/vre`,
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'vre-chapter-36',
   introduction: IntroductionPage,
