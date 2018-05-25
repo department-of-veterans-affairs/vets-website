@@ -25,7 +25,7 @@ describe('686 spouse info', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(2);
     expect(form.find('#root_spouseSocialSecurityNumber-label').text()).to.contain('Jane Doe');
   });
@@ -46,12 +46,12 @@ describe('686 spouse info', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(2);
 
     fillData(form, '#root_liveWithSpouseNo', 'N');
 
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('input').length).to.equal(11);
     expect(form.find('select').length).to.equal(4);
 
     form.find('form').simulate('submit');
@@ -75,11 +75,11 @@ describe('686 spouse info', () => {
     );
 
     expect(form.find('select').length).to.equal(2);
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7);
 
     fillData(form, '#root_spouseIsVeteranYes', 'Y');
 
-    expect(form.find('input').length).to.equal(9);
+    expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(2);
   });
 
@@ -113,7 +113,7 @@ describe('686 spouse info', () => {
     fillData(form, 'input#root_spouseSocialSecurityNumber', '234432444');
     fillData(form, 'input#root_spouseIsVeteranNo', 'N');
     fillData(form, 'input#root_liveWithSpouseYes', 'Y');
-    fillData(form, 'input[id="root_view:spouseMarriedBeforeYes"]', 'Y');
+    fillData(form, 'input[id="root_spouseMarriages"]', '2');
 
     form.find('form').simulate('submit');
 

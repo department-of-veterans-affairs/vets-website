@@ -1,9 +1,0 @@
-{
-  "appName": "Dashboard Beta",
-  "entryFile": "./dashboard-entry.jsx",
-  "entryName": "dashboard-beta",
-  "rootUrl": "/dashboard-beta",
-  "production": true,
-  "contentPage": "dashboard-beta/index.md",
-  "hideInvitation": true
-}

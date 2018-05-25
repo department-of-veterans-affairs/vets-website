@@ -4,67 +4,43 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
-import recordEvent from '../../../platform/monitoring/record-event';
 import { mfa } from '../../../platform/user/authentication/utilities';
-import AcceptTermsPrompt from '../../../platform/user/authorization/components/AcceptTermsPrompt';
-import { fetchLatestTerms, acceptTerms } from '../../../platform/user/profile/actions';
 import PersonalizationBetaInvite from '../components/PersonalizationBetaInvite';
 
 class UserDataSection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { modalOpen: false };
-  }
+  renderTermsConditions = () => {
+    const termsConditionsUrl = '/health-care/medical-information-terms-conditions';
+    let content;
 
-  openModal = () => {
-    recordEvent({ event: 'terms-shown-profile' });
-    this.setState({ modalOpen: true }, () => {
-      if (!this.props.terms.termsContent) {
-        this.props.fetchLatestTerms('mhvac');
-      }
-    });
-  }
-
-  closeModal = () => {
-    this.setState({ modalOpen: false });
-  }
-
-  acceptAndClose = (arg) => {
-    this.props.acceptTerms(arg);
-    this.closeModal();
-  }
-
-  renderModalContents = () => {
-    const { terms } = this.props;
-
-    if (!this.state.modalOpen) { return null; }
-
-    if (terms.loading) {
-      return <LoadingIndicator setFocus message="Loading your information..."/>;
-    }
-
-    if (terms.accepted) {
-      return (
+    if (this.props.terms.accepted) {
+      content = (
+        <p>You’ve accepted the latest <a href={termsConditionsUrl}>Terms and Conditions for Medical Information</a>.</p>
+      );
+    } else {
+      content = (
         <div>
-          <h3>You have already accepted the terms and conditions.</h3>
-          <div><button type="submit" onClick={this.closeModal}>Ok</button></div>
+          <div className="usa-alert usa-alert-info no-background-image">
+            <p><strong>Want to use Vets.gov health tools to do things like refill your VA prescriptions?</strong></p>
+            <p>To get started, you’ll need to read and agree to the <a href={termsConditionsUrl}>Terms and Conditions for Medical Information</a>. This will give us your permission to show you your VA medical information on this site.</p>
+          </div>
+          <p>Once you agree to these Terms and Conditions, you’ll be able to use Vets.gov health tools to:</p>
+          <ul>
+            <li>Refill your VA prescriptions</li>
+            <li>Download your VA health records</li>
+            <li>Share secure messages with your health care team</li>
+          </ul>
+          <p>Go to the <a href={termsConditionsUrl}>Terms and Conditions for Health Tools</a></p>
         </div>
       );
     }
 
-    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} isInModal/>;
-  }
-
-  renderTermsLink = () => {
-    if (this.props.terms.accepted) {
-      return (
-        <p>You have accepted the latest health terms and conditions for this site.</p>
-      );
-    }
     return (
-      <p><a onClick={this.openModal}>Terms and Conditions for Health Tools</a></p>
+      <div>
+        <h4 className="section-header">Terms and Conditions</h4>
+        <div className="info-container">
+          {content}
+        </div>
+      </div>
     );
   }
 
@@ -129,15 +105,9 @@ class UserDataSection extends React.Component {
           <p>Want to change your email, password, or other account settings?<br/>
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>
-          {this.renderTermsLink()}
           <PersonalizationBetaInvite profile={this.props.profile}/>
         </div>
-        <Modal
-          cssClass="va-modal-large"
-          contents={this.renderModalContents()}
-          id="mhvac-modal"
-          visible={this.state.modalOpen}
-          onClose={this.closeModal}/>
+        {verified && this.renderTermsConditions()}
       </div>
     );
   }
@@ -153,10 +123,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  fetchLatestTerms,
-  acceptTerms
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserDataSection);
+export default connect(mapStateToProps)(UserDataSection);
 export { UserDataSection };

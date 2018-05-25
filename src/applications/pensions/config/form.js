@@ -4,6 +4,9 @@ import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isFullDate } from '../../../platform/forms/validations';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
+import FormFooter from '../../../platform/forms/components/FormFooter';
+import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
@@ -59,7 +62,6 @@ import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from '../../common/schemaform/definitions/currency';
-import GetFormHelp from '../../common/schemaform/components/GetPensionOrBurialFormHelp';
 
 import { validateServiceBirthDates, validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -184,12 +186,16 @@ const formConfig = {
   version: 1,
   migrations,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [services.icmhs]
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
   },
   title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),

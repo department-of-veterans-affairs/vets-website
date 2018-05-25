@@ -4,7 +4,7 @@ import Scroll from 'react-scroll';
 import moment from 'moment';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import AskVAQuestions from '../../../common/schemaform/components/AskVAQuestions';
+import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {

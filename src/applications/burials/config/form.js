@@ -20,6 +20,9 @@ import {
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 import { isFullDate } from '../../../platform/forms/validations';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
+import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
+import FormFooter from '../../../platform/forms/components/FormFooter';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -31,7 +34,6 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import currencyUI from '../../common/schemaform/definitions/currency';
 import { validateBurialAndDeathDates } from '../validation';
-import GetFormHelp from '../../common/schemaform/components/GetPensionOrBurialFormHelp';
 
 const {
   relationship,
@@ -88,12 +90,16 @@ const formConfig = {
   formId: '21P-530',
   version: 0,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [services.icmhs]
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for burial benefits.',
     noAuth: 'Please sign in again to resume your application for burial benefits.'
   },
   title: 'Apply for burial benefits',
   subTitle: 'Form 21P-530',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,

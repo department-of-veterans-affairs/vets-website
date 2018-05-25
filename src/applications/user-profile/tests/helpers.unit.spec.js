@@ -14,6 +14,7 @@ import fullSchema1990n from '../../edu-benefits/1990n/config/form';
 import fullSchema1995 from '../../edu-benefits/1995/config/form';
 import fullSchema5490 from '../../edu-benefits/5490/config/form';
 import fullSchema5495 from '../../edu-benefits/5495/config/form';
+import fullSchema526EZ from '../../disability-benefits/526EZ/config/form';
 import fullSchema527EZ from '../../pensions/config/form';
 import fullSchema530 from '../../burials/config/form';
 import fullSchema10007 from '../../pre-need/config/form';
@@ -25,6 +26,7 @@ import schemas from 'vets-json-schema/dist/schemas';
 // Maps schema id to config id
 const schemaToConfigIds = {
   '10-10EZ': '1010ez',
+  '21-526EZ': '21-526EZ',
   '21-686C': '21-686C',
   '21P-527EZ': '21P-527EZ',
   '21P-530': '21P-530',
@@ -41,7 +43,6 @@ const schemaToConfigIds = {
 
 const excludedForms = new Set([
   '28-1900',
-  '21-526EZ',
   '28-8832',
   '24-0296'
 ]);
@@ -72,6 +73,7 @@ describe('profile helpers:', () => {
         fullSchema1995,
         fullSchema5490,
         fullSchema5495,
+        fullSchema526EZ,
         fullSchema527EZ,
         fullSchema530,
         fullSchema10007,

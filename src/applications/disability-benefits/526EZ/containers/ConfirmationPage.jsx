@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
+import { get4142Selection } from '../helpers';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -30,14 +31,38 @@ class ConfirmationPage extends React.Component {
     // const response = this.props.form.submission.response
     // ? this.props.form.submission.response.attributes
     // : {};
-    const { fullName, selectedDisabilities } = formData;
+    const { fullName, disabilities } = formData;
+    const selected4142 = get4142Selection(disabilities || []);
+
+    const privateRecordReleaseContent = (
+      <div>
+        <p>
+          <strong>If you need us to get your private medical records from your
+          doctor,</strong> you’ll need to fill out an Authorization to Disclose
+          Information to the VA (VA Form 21-4142).
+        </p>
+        <p>
+          <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+            Download VA Form 21-4142
+          </a>.
+        </p>
+        <p>Please print the form, fill it out, and send it to:</p>
+        <p className="va-address-block">
+          Department of Veterans Affairs<br/>
+          Claims Intake Center<br/>
+          PO Box 4444<br/>
+          Janesville, WI 53547-4444
+        </p>
+      </div>
+    );
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim submitted</h3>
-        <p>We usually process claims within <strong>103 days</strong>.</p>
-        <p>We may contact you if we have questions or need more information. You can print this page for your records.</p>
-
+        <h3 className="confirmation-page-title">Your claim has been submitted.</h3>
+        <p>We usually process claims within <strong>99 days</strong>.</p>
+        <p>We may contact you if we have questions or need more information.
+        You can print this page for your records.</p>
+        { selected4142 && privateRecordReleaseContent}
         <h4 className="confirmation-guidance-heading">
           What happens after I apply?
         </h4>
@@ -47,7 +72,7 @@ class ConfirmationPage extends React.Component {
           time frame you see may vary based on how complex your claim is.
         </p>
         <a href="/disability-benefits/track-claims">
-          Check the status of your disability claim
+          Check the status of your disability claim.
         </a>
         <br/>
         <a href="/disability-benefits/after-you-apply/">
@@ -63,7 +88,7 @@ class ConfirmationPage extends React.Component {
             <strong>Conditions claimed</strong>
             <br/>
             <ul className="disability-list">
-              {selectedDisabilities.map((disability, i) => {
+              {disabilities.filter(item => item['view:selected']).map((disability, i) => {
                 return <li key={i}>{disability.name}</li>;
               })}
             </ul>
@@ -83,7 +108,7 @@ class ConfirmationPage extends React.Component {
         </div>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+18772228387">1-877-222-8387</a>, Monday &#8211;
+          <p className="confirmation-guidance-message">If you have questions, please call <a href="tel:+18772228387">1-877-222-8387</a>, Monday &#8211;
             Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
           </p>
         </div>

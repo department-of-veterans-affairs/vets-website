@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { Link } from 'react-router';
 import React from 'react';
 
+import recordEvent from '../../../platform/monitoring/record-event';
+
 class Breadcrumbs extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +23,7 @@ class Breadcrumbs extends React.Component {
     const { location: { pathname }, prescription } = this.props;
 
     const crumbs = [
-      <a href="/" key="home">Home</a>,
+      <a href="/" key="home" onClick={() => { recordEvent({ event: 'nav-breadcrumb' });}}>Home</a>,
       <a href="/health-care/" key="healthcare">Health Care</a>,
     ];
 

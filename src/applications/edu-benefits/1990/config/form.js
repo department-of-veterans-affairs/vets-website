@@ -9,6 +9,7 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import { schema as addressSchema, uiSchema as addressUI } from '../../../common/schemaform/definitions/address';
 import phoneUI from '../../../common/schemaform/definitions/phone';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
@@ -89,6 +90,7 @@ const formConfig = {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
   },
+  prefillEnabled: true,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -102,6 +104,7 @@ const formConfig = {
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {
