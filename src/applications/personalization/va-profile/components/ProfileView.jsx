@@ -112,7 +112,7 @@ class ProfileView extends React.Component {
     let content;
 
     if (user.profile.verified) {
-      if (user.profile.veteranStatus === 'OK') {
+      if (user.profile.status === 'OK') {
         content = (
           <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
             <div>

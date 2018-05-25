@@ -189,7 +189,7 @@ class DashboardApp extends React.Component {
   }
 
   renderMVIWarning() {
-    if (this.props.profile.veteranStatus === 'OK') {
+    if (this.props.profile.status === 'OK') {
       return null;
     }
 
