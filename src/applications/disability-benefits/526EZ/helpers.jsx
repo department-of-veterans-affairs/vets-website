@@ -126,6 +126,7 @@ export const facilityDescription = ({ formData }) => {
 export const treatmentView = ({ formData }) => {
   const { from, to } = formData.treatmentDateRange;
 
+  const name = formData.treatmentCenterName.label || '';
   let treatmentPeriod = '';
   if (from && to) {
     treatmentPeriod = `${from} — ${to}`;
@@ -135,7 +136,7 @@ export const treatmentView = ({ formData }) => {
 
   return (
     <div>
-      <strong>{formData.treatmentCenterName}</strong><br/>
+      <strong>{name}</strong><br/>
       {treatmentPeriod}
     </div>
   );
@@ -610,6 +611,22 @@ export const noFDCWarning = (
   </div>
 );
 
+
+const options = [
+  { id: 1, label: 'first' },
+  { id: 2, label: 'second' },
+  { id: 3, label: 'third' },
+  { id: 4, label: 'fourth' },
+];
+
+
+// Mimic querying the api for options
+export function queryForFacilities(input = '') {
+  // Emulate a fast api call
+  return Promise.resolve(options.filter(o => o.label.includes(input)));
+}
+
+
 const evidenceTypesDescription = (disabilityName) => {
   return (
     <p>What supporting evidence do you have that shows how your {disabilityName} <strong>has worsened since VA rated your disability</strong>?</p>
@@ -643,3 +660,4 @@ export const get4142Selection = (disabilities) => {
     return false;
   }, false);
 };
+
