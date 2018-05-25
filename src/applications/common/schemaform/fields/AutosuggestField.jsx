@@ -72,12 +72,7 @@ export default class AutosuggestField extends React.Component {
   getOptions = (inputValue) => {
     const getOptions = this.props.uiSchema['ui:options'].getOptions;
     if (getOptions) {
-      // If getOptions returns a promise, when it resolves, set the options to the result.
-      // getOptions may also set the options directly. This is useful if it's a debounced function.
-      const returnedPromise = getOptions(inputValue, this.setOptions);
-      if (returnedPromise) {
-        returnedPromise.then(this.setOptions);
-      }
+      getOptions(inputValue).then(this.setOptions);
     }
   }
 

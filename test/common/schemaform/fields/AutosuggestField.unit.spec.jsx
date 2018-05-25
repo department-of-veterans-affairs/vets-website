@@ -301,9 +301,9 @@ describe('<AutosuggestField>', () => {
   });
 
 
-  it('should call a function passed in getOptions with formData and setOptions', (done) => {
+  it('should call a function passed in getOptions with formData', (done) => {
     // ...when the input changes and `uiSchema['ui:options'].queryForResults` is true
-    const getOptions = sinon.spy();
+    const getOptions = sinon.spy(queryForOptions);
     const props = {
       uiSchema: {
         'ui:options': {
@@ -333,7 +333,6 @@ describe('<AutosuggestField>', () => {
     setTimeout(() => {
       const args = getOptions.secondCall.args;
       expect(args[0]).to.eql('ir');
-      expect(args[1]).to.be.a('function');
       done();
     });
   });
