@@ -62,7 +62,10 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
-  getEvidenceTypesDescription
+  getEvidenceTypesDescription,
+  documentTypes,
+  documentTypeEnums,
+  documentGroups
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -722,6 +725,12 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                      'ui:options': {
+                        groups: documentGroups
+                      }
+                    },
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -743,7 +752,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: ['name'],
+                        required: ['name', 'attachmentId'],
                         properties: {
                           name: {
                             type: 'string'
@@ -753,6 +762,11 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
+                          },
+                          attachmentId: {
+                            type: 'string',
+                            'enum': documentTypeEnums,
+                            enumNames: documentTypes
                           }
                         }
                       }
@@ -792,6 +806,12 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
+                    attachmentSchema: {
+                      'ui:title': 'What kind of document is this?',
+                      'ui:options': {
+                        groups: documentGroups
+                      }
+                    },
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -813,7 +833,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: ['name'],
+                        required: ['name', 'attachmentId'],
                         properties: {
                           name: {
                             type: 'string'
@@ -823,6 +843,11 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
+                          },
+                          attachmentId: {
+                            type: 'string',
+                            'enum': documentTypeEnums,
+                            enumNames: documentTypes
                           }
                         }
                       }

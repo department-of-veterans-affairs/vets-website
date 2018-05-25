@@ -163,4 +163,32 @@ describe('Schemaform <SelectWidget>', () => {
 
     expect(tree.everySubTree('option').length).to.equal(1);
   });
+  it('should render grouped options', () => {
+    const enumOptions = [
+      {
+        label: 'Testing',
+        val: 'test1'
+      },
+      {
+        label: 'Testing',
+        val: 'test2'
+      }
+    ];
+    const groups = {
+      test1: 'group1',
+      test2: 'group2'
+    };
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <SelectWidget
+        schema={{
+          'default': 'test'
+        }}
+        id="testing"
+        onChange={onChange}
+        options={{ enumOptions, groups }}/>
+    );
+
+    expect(tree.everySubTree('optgroup').length).to.equal(2);
+  });
 });

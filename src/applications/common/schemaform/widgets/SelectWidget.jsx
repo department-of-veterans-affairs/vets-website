@@ -15,6 +15,38 @@ function getValue(event) {
   return event.target.value;
 }
 
+function getOptions(enumOptions, labels) {
+  return enumOptions.map((option, i) => {
+    return <option key={i} value={option.value}>{labels[option.value] || option.label}</option>;
+  });
+}
+
+function getGroup(group, enumOptions, labels, groups) {
+  const groupedLabels = Object.values(labels).filter(label => groups[label.value] === group.name);
+  const groupedOptions = Object.values(enumOptions).filter(enumOption => groups[enumOption.value] === group.name);
+  const children = getOptions(groupedOptions, groupedLabels);
+
+  return (
+    <optgroup key={group.index} label={group.name}>
+      {children}
+    </optgroup>
+  );
+}
+
+function getOptionList(enumOptions, labels, groups) {
+  const uniqueGroups = Object.values(groups).reduce((acc, item) => {
+    if (acc.indexOf(item) === -1) {
+      acc.push(item);
+    }
+    return acc;
+  }, []);
+
+  if (Object.values(groups).length) {
+    return uniqueGroups.map((group, index) => getGroup({ name: group, index }, enumOptions, labels, groups));
+  }
+  return getOptions(enumOptions, labels);
+}
+
 function SelectWidget({
   schema,
   id,
@@ -28,7 +60,7 @@ function SelectWidget({
   onBlur,
   placeholder
 }) {
-  const { enumOptions, labels = {} } = options;
+  const { enumOptions, labels = {}, groups = {} } = options;
   return (
     <select
       id={id}
@@ -48,10 +80,7 @@ function SelectWidget({
         onChange(processValue(schema, newValue));
       }}>
       {!schema.default && <option value="">{placeholder}</option>}
-      {enumOptions.map((option, i) => {
-        return <option key={i} value={option.value}>{labels[option.value] || option.label}</option>;
-      })
-      }</select>
+      {getOptionList(enumOptions, labels, groups)}</select>
   );
 }
 
