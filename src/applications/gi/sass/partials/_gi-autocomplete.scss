@@ -23,7 +23,11 @@
 
   .suggestion {
     padding: .5rem 1rem;
-    cursor: pointer;
+
+    &-highlighted {
+      background-color: $color-primary-alt-light;
+      cursor: pointer;
+    }
   }
 
 }

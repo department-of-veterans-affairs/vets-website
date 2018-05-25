@@ -3,6 +3,7 @@ import React from 'react';
 import { debounce } from 'lodash';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import Downshift from 'downshift';
+import classNames from 'classnames';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -65,13 +66,14 @@ export class KeywordSearch extends React.Component {
           htmlFor="institution-search">
           {this.props.label}
         </label>
-        <Downshift onChange={this.handleChange} onSelect={(item) => this.handleSuggestionSelected(item)}>
+        <Downshift onSelect={(item) => this.handleSuggestionSelected(item)}>
           {({
             getInputProps,
             getItemProps,
             isOpen,
             inputValue,
-            highlightedIndex
+            highlightedIndex,
+            selectedItem
           }) => (
             <div>
               <input {...getInputProps({
@@ -81,18 +83,16 @@ export class KeywordSearch extends React.Component {
                 'aria-labelledby': 'institution-search-label',
                 onBlur: this.handleInputBlur
               })}/>
-              {isOpen && (<div className="suggestions-list">
+              {isOpen && (<div className="suggestions-list" role="listbox">
                 {suggestions.map((item, index) => (
                   <div
                     key={index}
-                    className="suggestion"
-                    {...getItemProps({
-                      item: item.label,
-                      style: {
-                        backgroundColor:
-                        highlightedIndex === index ? '#9bdaf1' : 'white',
-                      },
-                    })}>
+                    role="option"
+                    aria-selected={selectedItem === item.label ? 'true' : 'false'}
+                    className={classNames('suggestion', {
+                      'suggestion-highlighted': highlightedIndex === index
+                    })}
+                    {...getItemProps({ item: item.label })}>
                     {item.label}
                   </div>
                 ))}
