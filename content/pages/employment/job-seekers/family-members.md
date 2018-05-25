@@ -21,7 +21,7 @@ SECO also partners with other organizations that offer assistance for spouses in
 - Pursuing additional education and/or training.
 
 [Learn more about Military Spouse Employment Partnership (MSEP)](https://msepjobs.militaryonesource.mil/msep/) <br> [The My Career Advancement Account (MyCAA) scholarship program](https://myseco.militaryonesource.mil/Portal/Media/Default/Collaterals_Catalog/Program_Overview/MyCAA-Helping-Spouses-Reach-Career-Goals.pdf)<br>
-[Blue Star Families](https://www.bluestarfam.org/).
+[Blue Star Families](https://www.bluestarfam.org/)
 
 <div class="feature" markdown="1">
 
@@ -35,9 +35,9 @@ Yes, if:
 
 ### Other programs
 - [The Military Spouse eMentor Program](https://ementorprogram.org/p/milspouse/about) <br> This program connects spouses with career-specific mentors.
-- [The Military Spouse Fellowship Program](http://www.saveandinvest.org/military/military-spouse-fellowship-program) <br> Offers 50 spouses a year (at no cost to themselves) the opportunity to earn the Accredited Financial Counselor® certificate.
+- [The Military Spouse Fellowship Program](http://www.saveandinvest.org/military/military-spouse-fellowship-program) <br> This program offers 50 spouses a year (at no cost to themselves) the opportunity to earn the Accredited Financial Counselor® certificate.
 - [The Tragedy Assistance Program for Survivors](https://www.taps.org/) <br> If you’re a surviving spouse, the Tragedy Assistance Program for Survivors offers seminars, peer mentors, and other forms of support to help you complete your education or find a sustainable career.
-- Spouses can attend Department of Labor Employment Workshops (DOLEW) online through the Transition Assistance Program (TAP) Virtual Curriculum by going to the Department of Labor website, or in person at some military installations. These workshops focus on building résumés and cover letters as well as developing networking and interviewing skills. <br>
+- Spouses can attend Department of Labor Employment Workshops (DOLEW) online through the Transition Assistance Program (TAP) Virtual Curriculum by going to the Department of Labor website, or in person at some military installations. These workshops focus on building resumes and cover letters as well as developing networking and interviewing skills. <br>
 
 [Visit Joint Knowledge Online](https://jkodirect.jten.mil). <br> 
 [Visit the Department of Labor website](https://www.dol.gov/vets/).
@@ -51,6 +51,6 @@ If entrepreneurship interests you, learn about everything from start-up costs to
 -----
 
 ### How it works
-Sign up for a current DS Logon ID. This is the same login used for online services like TRICARE. If you’re unsure of your DS Logon, need to request a logon account, or need to register on the SECO site, please go to the DS Logon self-service site<br> 
+Sign up for a current DS Logon ID. This is the same login used for online services like TRICARE. If you’re unsure of your DS Logon, need to request a logon account, or need to register on the SECO site, please go to the DS Logon self-service site.<br> 
 
 [Visit My Access Center](https://myaccess.dmdc.osd.mil/my.policy).
