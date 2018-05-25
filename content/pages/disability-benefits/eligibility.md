@@ -82,7 +82,7 @@ If you've received one of these discharge statuses, you may not be eligible for 
 </div>
 </div>
 
-<div id="react-applicationEntry"></div>
+<div id="react-applicationStatus"></div>
 <div itemscope itemtype="http://schema.org/Question">
 
 [Learn about the application process](/disability-benefits/apply/).

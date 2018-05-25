@@ -62,8 +62,8 @@ Tax-free monetary benefits
 
 ### As a surviving spouse or child, how do I get compensation? 
 
-You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation (VA Form 21-534). <br>
-[Download VA Form 21-534](https://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
+You’ll need to apply for compensation. Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). <br>
+[Download VA Form 21P-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
 
 **You can apply for this benefit in 1 of 3 ways:**
 

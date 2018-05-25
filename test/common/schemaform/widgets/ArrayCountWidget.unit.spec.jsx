@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import ArrayCountWidget from '../../../../src/js/common/schemaform/widgets/ArrayCountWidget';
+import ArrayCountWidget from '../../../../src/applications/common/schemaform/widgets/ArrayCountWidget';
 
 describe('Schemaform <ArrayCountWidget>', () => {
   it('should render with the right count', () => {

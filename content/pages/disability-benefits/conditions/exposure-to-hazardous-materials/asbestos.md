@@ -23,7 +23,7 @@ You may be able to get disability benefits if you have an illness believed to be
 **Both of these must be true:**
 
 - You had contact with asbestos while serving in the military, **and**
-- You were discharged under conditions other than dishonorable
+- You didn't receive a dishonorable discharge
 
 <br>
 
