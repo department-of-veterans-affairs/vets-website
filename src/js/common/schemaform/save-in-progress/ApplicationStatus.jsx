@@ -152,7 +152,7 @@ export class ApplicationStatus extends React.Component {
     } else if (showApplyButton) {
       return (
         <div itemProp="steps" itemScope itemType="http://schema.org/HowToSection">
-          <h3 itemProp="name">How do I apply online?</h3>
+          <h3 itemProp="name">How do I apply?</h3>
           <div itemProp="itemListElement">
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
             <div className="sip-application-status">
