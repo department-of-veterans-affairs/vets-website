@@ -26,7 +26,7 @@ class AccountApp extends React.Component {
           authRequired={1}
           serviceRequired="user-profile"
           user={this.props.user}>
-          {isPersonalizationEnabled() && this.props.isLOA3 ? (
+          {isPersonalizationEnabled() ? (
             <DowntimeNotification appTitle="user account page" dependencies={[services.mvi, services.emis]}>
               <div className="row user-profile-row">
                 <div className="usa-width-two-thirds medium-8 small-12 columns">
