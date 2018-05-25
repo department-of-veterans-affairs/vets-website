@@ -25,7 +25,8 @@ import {
   disableWarning,
   childRelationshipStatusLabels,
   getMarriageTitleWithCurrent,
-  isMarried
+  isMarried,
+  transform
 } from '../helpers';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -94,7 +95,8 @@ const reasonForSeparation = _.assign(marriageProperties.reasonForSeparation, {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: '/v0/dependents_applications',
+  transformForSubmit: transform,
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -126,12 +128,12 @@ const formConfig = {
           title: 'Veteran Information',
           uiSchema: {
             veteranFullName: fullNameUI,
-            veteranSSN: _.merge(ssnUI, {
+            veteranSocialSecurityNumber: _.merge(ssnUI, {
               'ui:required': form => !form.veteranVAfileNumber
             }),
             veteranVAfileNumber: {
               'ui:title': 'VA file number (must have this or a Social Security number)',
-              'ui:required': form => !form.veteranSSN,
+              'ui:required': form => !form.veteranSocialSecurityNumber,
               'ui:help': VAFileNumberDescription,
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
@@ -175,7 +177,7 @@ const formConfig = {
             required: ['view:relationship'],
             properties: {
               veteranFullName,
-              veteranSSN: veteranSocialSecurityNumber,
+              veteranSocialSecurityNumber,
               veteranVAfileNumber: vaFileNumber,
               'view:relationship': {
                 type: 'string',

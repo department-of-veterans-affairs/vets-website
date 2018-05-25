@@ -1,5 +1,6 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import React from 'react';
+import { transformForSubmit } from '../../common/schemaform/helpers';
 
 export const relationshipLabels = {
   veteran: 'I am the Veteran',
@@ -77,3 +78,10 @@ export const disableWarning = (
     </div>
   </div>
 );
+
+export function transform(formConfig, form) {
+  const formData = transformForSubmit(formConfig, form);
+  return JSON.stringify({
+    form: formData
+  });
+}
