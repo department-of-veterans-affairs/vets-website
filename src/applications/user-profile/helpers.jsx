@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 
 export const formBenefits = {
-  '21-526EZ': 'disability compensation and related compensation benefits',
+  '21-526EZ': 'increased disability compensation',
   '21P-527EZ': 'Veterans pension benefits',
   '21P-530': 'burial benefits',
   '1010ez': 'health care',
@@ -64,8 +64,8 @@ export const trackingPrefixes = {
 
 export const sipEnabledForms = new Set([
   '1010ez',
-  '21-526EZ',
   '21-686C',
+  '21-526EZ',
   '21P-527EZ',
   '21P-530',
   '22-1990',
