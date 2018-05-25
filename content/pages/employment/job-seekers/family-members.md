@@ -51,6 +51,6 @@ If entrepreneurship interests you, learn about everything from start-up costs to
 -----
 
 ### How it works
-Sign up for a current DS Logon ID. This is the same login used for online services like TRICARE. If you’re unsure of your DS Logon, need to request a logon account, or need to register on the SECO site, please go to the DS Logon self-service site.<br> 
+Sign up for a current DS Logon ID. This is the same login used for online services like TRICARE. If you’re unsure of your DS Logon, need to request a logon account, or need to register on the SECO site, please go to the DS Logon access center.<br> 
 
 [Visit My Access Center](https://myaccess.dmdc.osd.mil/my.policy).
