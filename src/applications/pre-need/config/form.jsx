@@ -2,6 +2,9 @@ import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
+import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
+
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
@@ -67,7 +70,7 @@ const nonRequiredFullName = _.omit('required', fullName);
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/preneeds/burial_forms',
+  submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
@@ -80,6 +83,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
@@ -229,7 +233,7 @@ const formConfig = {
                 },
                 ssn: {
                   ...ssnDashesUI,
-                  'ui:title': 'Sponsor’s social security number'
+                  'ui:title': 'Sponsor’s Social Security number'
                 },
                 dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
                 placeOfBirth: {
@@ -374,6 +378,7 @@ const formConfig = {
               veteran: {
                 serviceRecords: _.merge(serviceRecordsUI, {
                   'ui:title': 'Sponsor’s service periods',
+                  'ui:description': 'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
                   items: {
                     serviceBranch: {
                       'ui:title': 'Sponsor’s branch of service'
@@ -558,7 +563,7 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
-                endpoint: '/v0/preneeds/preneed_attachments',
+                fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`,
                 fileTypes: ['pdf'],
                 maxSize: 15728640,
                 hideLabelText: true,

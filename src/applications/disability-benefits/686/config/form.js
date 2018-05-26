@@ -3,6 +3,8 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 
 import ArrayCountWidget from '../../../common/schemaform/widgets/ArrayCountWidget';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
@@ -24,7 +26,8 @@ import {
   disableWarning,
   childRelationshipStatusLabels,
   getMarriageTitleWithCurrent,
-  isMarried
+  isMarried,
+  transform
 } from '../helpers';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -93,7 +96,8 @@ const reasonForSeparation = _.assign(marriageProperties.reasonForSeparation, {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/v0/dependents_applications`,
+  transformForSubmit: transform,
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -106,6 +110,7 @@ const formConfig = {
   },
   title: 'Apply to add a dependent to your VA benefits',
   subTitle: 'VA Form 21-686c',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address,
@@ -124,12 +129,12 @@ const formConfig = {
           title: 'Veteran Information',
           uiSchema: {
             veteranFullName: fullNameUI,
-            veteranSSN: _.merge(ssnUI, {
+            veteranSocialSecurityNumber: _.merge(ssnUI, {
               'ui:required': form => !form.veteranVAfileNumber
             }),
             veteranVAfileNumber: {
               'ui:title': 'VA file number (must have this or a Social Security number)',
-              'ui:required': form => !form.veteranSSN,
+              'ui:required': form => !form.veteranSocialSecurityNumber,
               'ui:help': VAFileNumberDescription,
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
@@ -173,7 +178,7 @@ const formConfig = {
             required: ['view:relationship'],
             properties: {
               veteranFullName,
-              veteranSSN: veteranSocialSecurityNumber,
+              veteranSocialSecurityNumber,
               veteranVAfileNumber: vaFileNumber,
               'view:relationship': {
                 type: 'string',

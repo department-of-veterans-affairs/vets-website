@@ -19,6 +19,9 @@ import phoneUI from '../../../common/schemaform/definitions/phone';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { validateMatch } from '../../../common/schemaform/validation';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+// import environment from '../../../../platform/utilities/environment';
+
 const {
   applicantEmail,
   applicantFullName,
@@ -144,7 +147,7 @@ const previousBenefitApplicationsUI = {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/vre',
+  // submitUrl: `${environment.API_URL}/v0/vre`,
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'vre-chapter-36',
   introduction: IntroductionPage,
@@ -153,6 +156,7 @@ const formConfig = {
   formId: '28-8832',
   version: 0,
   prefillEnabled: true,
+  footerContent: FormFooter,
   savedFormMessages: {
     notFound: 'Please start over to apply for vocational counseling.',
     noAuth: 'Please sign in again to resume your application for vocational counseling.'

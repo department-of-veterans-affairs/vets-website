@@ -4,6 +4,8 @@ import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
 import schoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import applicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
@@ -31,11 +33,12 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/1990n',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990n`,
   trackingPrefix: 'edu-1990n-',
   formId: '22-1990N',
   version: 1,
   migrations: [urlMigration('/1990n')],
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
@@ -48,6 +51,7 @@ const formConfig = {
   },
   title: 'Apply for education benefits under the National Call to Service program',
   subTitle: 'Form 22-1990N',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {

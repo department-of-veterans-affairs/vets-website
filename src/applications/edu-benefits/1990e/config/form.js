@@ -4,6 +4,8 @@ import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
@@ -43,11 +45,12 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/1990e',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990e`,
   trackingPrefix: 'edu-1990e-',
   formId: '22-1990E',
   version: 1,
   migrations: [urlMigration('/1990e')],
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply to use transferred education benefits.',
     noAuth: 'Please sign in again to resume your application for transferred education benefits.'
@@ -62,6 +65,7 @@ const formConfig = {
   },
   title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990E',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {

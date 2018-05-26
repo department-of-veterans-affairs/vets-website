@@ -23,6 +23,7 @@ class IntroductionPage extends React.Component {
           router={this.props.router}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
+          downtime={this.props.route.formConfig.downtime}
           startText="Start the Pension Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
@@ -91,6 +92,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           pageList={this.props.route.pageList}
           startText="Start the Pension Application"
+          downtime={this.props.route.formConfig.downtime}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
           Please complete the 21-527EZ form to apply for pension benefits.

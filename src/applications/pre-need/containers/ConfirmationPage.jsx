@@ -31,13 +31,13 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h3 className="confirmation-page-title">Your claim has been submitted.</h3>
         <p>
           We’ll let you know by mail or phone if we need more information.<br/>
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>Burial Pre-Need Claim <span className="additional">(Form 40-10007)</span></h4>
+          <h4 className="schemaform-confirmation-claim-header">Burial Pre-Need Claim <span className="additional">(Form 40-10007)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           {response.trackingNumber && <ul className="claim-list">
@@ -46,7 +46,7 @@ class ConfirmationPage extends React.Component {
               <span>{response.trackingNumber}</span>
             </li>
             <li>
-              <strong>Date received</strong><br/>
+              <strong>Date submitted</strong><br/>
               <span>{submittedAt.format('MMM D, YYYY')}</span>
             </li>
           </ul>}

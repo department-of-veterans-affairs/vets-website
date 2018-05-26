@@ -4,8 +4,7 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import FormNav from '../components/FormNav';
-import FormTitle from '../components/FormTitle';
+import FormApp from '../containers/FormApp';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -192,10 +191,9 @@ class RoutedSavableApp extends React.Component {
   })
 
   render() {
-    const { currentLocation, formConfig, children, formData, loadedStatus, prestartStatus } = this.props;
+    const { currentLocation, formConfig, children, loadedStatus, prestartStatus } = this.props;
     const { prestartMessage } = formConfig;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    const isIntroductionPage = trimmedPathname.endsWith('introduction');
     let content;
     const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
     if (!formConfig.disableSave && loadingForm && this.props.prefillStatus === LOAD_STATUSES.pending) {
@@ -208,28 +206,17 @@ class RoutedSavableApp extends React.Component {
       content = <LoadingIndicator message="Saving your form..."/>;
     } else if (!formConfig.disableSave && this.shouldRedirectOrLoad) {
       content = <LoadingIndicator message="Retrieving your profile information..."/>;
-    } else if (!isInProgress(trimmedPathname)) {
-      content = children;
     } else {
       content = (
-        <div>
-          <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>
-          <div className="progress-box progress-box-schemaform">
-            {children}
-          </div>
-        </div>
+        <FormApp formConfig={formConfig} currentLocation={currentLocation}>
+          {children}
+        </FormApp>
       );
     }
 
     return (
       <div>
         <Element name="topScrollElement"/>
-        {
-          formConfig.title &&
-          // If we’re on the introduction page, show the title if we’re actually on the loading screen
-          (!isIntroductionPage || this.props.loadedStatus !== LOAD_STATUSES.notAttempted) &&
-            <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>
-        }
         {content}
       </div>
     );

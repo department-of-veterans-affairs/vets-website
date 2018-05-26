@@ -8,6 +8,12 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import {
+  uiSchema as autoSuggestUiSchema
+} from '../../../common/schemaform/definitions/autosuggest';
+
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 
 import { submitIntentToFile } from '../actions';
 import IntroductionPage from '../components/IntroductionPage';
@@ -46,6 +52,8 @@ import {
   privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
+  download4142Notice,
+  authorizationToDisclose,
   recordReleaseWarning,
   // validateAddress, // TODO: This needs to be fleshed out
   documentDescription,
@@ -59,15 +67,20 @@ import {
   FDCWarning,
   noFDCWarning,
   ITFErrorAlert,
+  queryForFacilities,
   getEvidenceTypesDescription
 } from '../helpers';
 
-import { requireOneSelected } from '../validations';
+import {
+  requireOneSelected,
+} from '../validations';
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
   treatments: treatmentsSchema,
-  privateRecordReleases
+  privateRecordReleases,
+  serviceInformation,
+  standardClaim,
 } = fullSchema526EZ.properties;
 
 const {
@@ -79,7 +92,6 @@ const {
   dateRangeAllRequired,
   disabilities,
   specialIssues,
-  servicePeriods,
   privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
@@ -97,10 +109,7 @@ const treatments = ((treatmentsCommonDef) => {
       // TODO: use standard required property once treatmentCenterType added
       // back in schema (because it's required)
       required: ['treatmentCenterName'],
-      properties: _.omit(
-        ['treatmentCenterAddress', 'treatmentCenterType'],
-        items.properties
-      )
+      properties: _.omit(['treatmentCenterAddress', 'treatmentCenterType'], items.properties)
     }
   };
 
@@ -115,7 +124,8 @@ const initialData = {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/21-526EZ',
+  intentToFileUrl: '/evss_claims/intent_to_file/compensation',
+  // submitUrl: `${environment.API_URL}/v0/21-526EZ`,
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   beforeStartForm: submitIntentToFile,
   prestartMessage: 'Submitting your intent to file...',
@@ -134,6 +144,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
@@ -144,7 +155,6 @@ const formConfig = {
     dateRangeAllRequired,
     disabilities,
     specialIssues,
-    servicePeriods,
     privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',
@@ -210,7 +220,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              servicePeriods
+              servicePeriods: serviceInformation.properties.servicePeriods
             }
           }
         },
@@ -260,7 +270,12 @@ const formConfig = {
       }
     },
     ratedDisabilities: {
-      title: 'Your Rated Disabilities',
+      title: (isReview) => {
+        if (isReview) {
+          return 'Rated Disabilities';
+        }
+        return 'Your Rated Disabilities';
+      },
       pages: {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',
@@ -268,8 +283,6 @@ const formConfig = {
           uiSchema: {
             'ui:description': 'Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.',
             disabilities: {
-              // Using StringField because it doesn't do much and we just need to render the widget.
-              // If this becomes a common(ish) pattern, we should make a BasicField or something.
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
               'ui:validations': [{
@@ -281,7 +294,8 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: 'label',
                 label: disabilityOption,
-                widgetClassNames: 'widget-outline'
+                widgetClassNames: 'widget-outline',
+                keepInPageOnReview: true
               }
             }
           },
@@ -423,9 +437,21 @@ const formConfig = {
                     viewField: treatmentView
                   },
                   items: {
-                    treatmentCenterName: {
-                      'ui:title': 'Name of VA medical facility'
-                    },
+                    treatmentCenterName: autoSuggestUiSchema(
+                      'Name of VA medical facility',
+                      queryForFacilities,
+                      {
+                        'ui:options': {
+                          queryForResults: true,
+                          freeInput: true,
+                        },
+                        'ui:errorMessages': {
+                          // If the maxLength changes, we'll want to update the message too
+                          maxLength: 'Please enter a name with fewer than 100 characters.',
+                          pattern: 'Please enter a valid name.'
+                        }
+                      }
+                    ),
                     treatmentDateRange: dateRangeUI(
                       'Approximate date of first treatment',
                       'Approximate date of last treatment',
@@ -500,8 +526,15 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, please get them from my doctor'
+                      no: 'No, my doctor has my medical records.'
                     }
+                  }
+                },
+                'view:privateRecords4142Notice': {
+                  'ui:description': download4142Notice,
+                  'ui:options': {
+                    expandUnder: 'view:uploadPrivateRecords',
+                    expandUnderCondition: 'no'
                   }
                 },
                 'view:privateRecordsChoiceHelp': {
@@ -522,11 +555,47 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no']
                     },
+                    'view:privateRecords4142Notice': {
+                      type: 'object',
+                      'ui:collapsed': true,
+                      properties: {}
+                    },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
                       properties: {}
                     }
                   }
+                }
+              }
+            }
+          }
+        },
+        authorizationToDisclose: {
+          title: '',
+          path: 'supporting-evidence/:index/authorization-to-disclose',
+          showPagePerItem: true,
+          itemFilter: (item) => _.get('view:selected', item),
+          arrayPath: 'disabilities',
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+            return hasRecords && requestsRecords;
+          },
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:description': authorizationToDisclose
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
                 }
               }
             }
@@ -538,11 +607,13 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => {
-            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
-            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
-            return hasRecords && requestsRecords;
-          },
+          // TODO: Re-enable actual depends logic for page once 4142 PDF generation is working through vets-api
+          depends: () => false,
+          // depends: (formData, index) => {
+          //   const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+          //   const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+          //   return hasRecords && requestsRecords;
+          // },
           uiSchema: {
             disabilities: {
               items: {
@@ -655,7 +726,7 @@ const formConfig = {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     itemDescription: 'Adding additional evidence:',
-                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     addAnotherLabel: 'Add Another Document',
                     fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
                     maxSize: FIFTY_MB,
@@ -725,7 +796,7 @@ const formConfig = {
                 additionalDocuments: Object.assign({},
                   fileUploadUI('Lay statements or other evidence', {
                     itemDescription: 'Adding additional evidence:',
-                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     addAnotherLabel: 'Add Another Document',
                     fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
                     maxSize: FIFTY_MB,
@@ -819,7 +890,7 @@ const formConfig = {
           path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': FDCDescription,
-            noRapidProcessing: {
+            standardClaim: {
               'ui:title':
                 'Do you want to apply using the Fully Developed Claim program?',
               'ui:widget': 'yesNo',
@@ -832,17 +903,17 @@ const formConfig = {
                 }
               }
             },
-            fdcWarning: {
+            'view:fdcWarning': {
               'ui:description': FDCWarning,
               'ui:options': {
-                expandUnder: 'noRapidProcessing',
+                expandUnder: 'standardClaim',
                 expandUnderCondition: false
               }
             },
-            noFDCWarning: {
+            'view:noFDCWarning': {
               'ui:description': noFDCWarning,
               'ui:options': {
-                expandUnder: 'noRapidProcessing',
+                expandUnder: 'standardClaim',
                 expandUnderCondition: true
               }
             }
@@ -850,14 +921,12 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              noRapidProcessing: {
-                type: 'boolean'
-              },
-              fdcWarning: {
+              standardClaim,
+              'view:fdcWarning': {
                 type: 'object',
                 properties: {}
               },
-              noFDCWarning: {
+              'view:noFDCWarning': {
                 type: 'object',
                 properties: {}
               }

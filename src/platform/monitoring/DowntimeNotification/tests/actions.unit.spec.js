@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import {
   getScheduledDowntime,
   RECEIVE_SCHEDULED_DOWNTIME,
-  RETREIVE_SCHEDULED_DOWNTIME
+  RETRIEVE_SCHEDULED_DOWNTIME
 } from '../actions';
 
 describe('getScheduledDowntime', () => {
@@ -47,18 +47,13 @@ describe('getScheduledDowntime', () => {
         { id: '139', type: 'maintenance_windows', attributes: { externalService: 'mhv', description, startTime, endTime } },
       ]
     };
-    const mapped = [
-      { service: 'appeals', description, startTime: new Date(startTime), endTime: new Date(endTime) },
-      { service: 'mhv', description, startTime: new Date(startTime), endTime: new Date(endTime) }
-    ];
     fetchResponse.json = () => Promise.resolve(raw);
     actionCreator(dispatch).then(() => {
       const [firstArgs, secondArgs] = dispatch.args;
       const firstAction = firstArgs[0];
       const secondAction = secondArgs[0];
-      expect(firstAction.type).to.be.equal(RETREIVE_SCHEDULED_DOWNTIME, 'RETREIVE_SCHEDULED_DOWNTIME was dispatched');
+      expect(firstAction.type).to.be.equal(RETRIEVE_SCHEDULED_DOWNTIME, 'RETRIEVE_SCHEDULED_DOWNTIME was dispatched');
       expect(secondAction.type).to.be.equal(RECEIVE_SCHEDULED_DOWNTIME, 'RECEIVE_SCHEDULED_DOWNTIME was dispatched');
-      expect(secondAction.value).to.be.deep.equal(mapped, 'The data was mapped properly');
     }).then(done, done);
   });
 });

@@ -6,7 +6,6 @@ import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import { formatDateShort } from '../../../platform/utilities/date';
 import {
-  AVAILABILITY_STATUSES,
   BENEFIT_OPTIONS,
   STATE_CODE_TO_NAME,
   ADDRESS_TYPES,
@@ -255,7 +254,8 @@ export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDat
     valueString = value;
   }
 
-  const isAvailable = value && value !== AVAILABILITY_STATUSES.unavailable;
+  // NOTE: $0 award is a legitimate number for award amounts
+  const isAvailable = (value === 0 || value);
   const availableOptions = new Set([BENEFIT_OPTIONS.awardEffectiveDate, BENEFIT_OPTIONS.monthlyAwardAmount, BENEFIT_OPTIONS.serviceConnectedPercentage]);
 
   if (!availableOptions.has(option)) {

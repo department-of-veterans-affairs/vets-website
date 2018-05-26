@@ -2,6 +2,8 @@ import _ from 'lodash/fp';
 import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
@@ -41,11 +43,12 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/5495',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5495`,
   trackingPrefix: 'edu-5495-',
   formId: '22-5495',
   version: 1,
   migrations: [urlMigration('/5495')],
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
@@ -61,6 +64,7 @@ const formConfig = {
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {

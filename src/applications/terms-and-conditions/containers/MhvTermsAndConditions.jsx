@@ -6,6 +6,7 @@ import appendQuery from 'append-query';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 
 import {
@@ -57,11 +58,17 @@ export class MhvTermsAndConditions extends React.Component {
 
   handleAgreementCheck = () => {
     this.setState({ isAgreementChecked: !this.state.isAgreementChecked });
+    recordEvent({
+      event: 'account-navigation',
+      'account-action': 'agree-check',
+      'account-section': 'terms'
+    });
   }
 
   handleAcceptanceSuccess = () => {
     this.setState({ showAcceptedMessage: true }, () => {
       scroller.scrollTo('banner', getScrollOptions());
+      recordEvent({ event: 'account-terms-transaction' });
       this.redirect();
     });
   }
@@ -71,12 +78,22 @@ export class MhvTermsAndConditions extends React.Component {
     this.setState({ isSubmitted: true }, () => {
       this.props.acceptTerms(TERMS_NAME);
     });
+    recordEvent({
+      event: 'account-navigation',
+      'account-action': 'update-button',
+      'account-section': 'terms'
+    });
   }
 
   handleCancel = (e) => {
     e.preventDefault();
     this.setState({ showCanceledMessage: true }, () => {
       scroller.scrollTo('banner', getScrollOptions());
+    });
+    recordEvent({
+      event: 'account-navigation',
+      'account-action': 'cancel-button',
+      'account-section': 'terms'
     });
   }
 
