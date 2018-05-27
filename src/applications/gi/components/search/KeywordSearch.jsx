@@ -52,10 +52,6 @@ export class KeywordSearch extends React.Component {
     this.props.onFilterChange('name', searchQuery);
   }
 
-  handleInputBlur = () => {
-    this.props.onFilterChange('name', this.props.autocomplete.searchTerm);
-  }
-
   render() {
     const { suggestions, searchTerm } = this.props.autocomplete;
     return (
@@ -66,22 +62,19 @@ export class KeywordSearch extends React.Component {
           htmlFor="institution-search">
           {this.props.label}
         </label>
-        <Downshift onSelect={(item) => this.handleSuggestionSelected(item)}>
+        <Downshift inputValue={searchTerm} onSelect={(item) => this.handleSuggestionSelected(item)}>
           {({
             getInputProps,
             getItemProps,
             isOpen,
-            inputValue,
             highlightedIndex,
             selectedItem
           }) => (
             <div>
               <input {...getInputProps({
-                value: searchTerm || inputValue,
                 onChange: this.handleChange,
                 onKeyUp: this.handleKeyUp,
                 'aria-labelledby': 'institution-search-label',
-                onBlur: this.handleInputBlur
               })}/>
               {isOpen && (<div className="suggestions-list" role="listbox">
                 {suggestions.map((item, index) => (
