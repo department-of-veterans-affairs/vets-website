@@ -27,6 +27,8 @@ relatedlinks:
 
 If you’re a Veteran in a mental health crisis and you’re thinking about hurting yourself—or you know a Veteran who’s considering this—act now. You’re not alone, and you can get help.
 
+</div>
+
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
 	<h4 class="usa-alert-title">How can I talk to someone right now?</h4>
