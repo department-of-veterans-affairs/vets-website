@@ -32,7 +32,7 @@ class AccountApp extends React.Component {
                 <div className="usa-width-two-thirds medium-8 small-12 columns">
                   <h1>Your Vets.gov Account Settings</h1>
                   <div className="va-introtext">
-                    <p>Below, you'll find your current settings for signing in to Vets.gov. Find out how to update your settings as needed to access more site tools or add extra security to your account.</p>
+                    <p>Below, you’ll find your current settings for signing in to Vets.gov. Find out how to update your settings as needed to access more site tools or add extra security to your account.</p>
                   </div>
                   <Announcement dismiss={this.dismissAnnouncement} isDismissed={this.props.announcementDismissed}/>
                   <AccountMain
