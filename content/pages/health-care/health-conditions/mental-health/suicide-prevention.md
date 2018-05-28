@@ -27,26 +27,27 @@ relatedlinks:
 
 If you’re a Veteran in a mental health crisis and you’re thinking about hurting yourself—or you know a Veteran who’s considering this—act now. You’re not alone, and you can get help.
 
-</div>
-
-<div class="usa-alert usa-alert-warning va-alert">
-<div class="usa-alert-body">
-
-##### How do I talk to someone right now? 
-
-Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.
-
-**To connect with a Veterans Crisis Line responder any time day or night:**
-
-- Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.
-- [Start a confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
-- Text <a href="sms:838255">838255</a>.
-
-**You can also:**
-- Call <a href="tel:911">911</a>.
-- Go to the nearest emergency room.
-
-</div>
+<div class="usa-alert usa-alert-warning">
+  <div class="usa-alert-body">
+	<h4 class="usa-alert-title">How can I talk to someone right now?</h4>
+	<a id="crisis-expander-link">Find out how to get support any time day or night.</a></h4>
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner usa-alert-text">
+	    <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
+	    <ul>
+              <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+  	      <li>Text <a href="sms:838255">838255</a>.</li>
+            </ul>
+     	    <p><strong>You can also:</strong></p>	  
+            <ul>
+              <li>Call <a href="tel:911">911</a>.</li>
+	      <li>Go to the nearest emergency room.</li>
+	    </ul>
+	  </div>
+  	</div>
+  </div>
 </div>
 
 <br>
