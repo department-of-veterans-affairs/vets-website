@@ -68,7 +68,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 ### How do I get compensation? 
 
-You’ll need to fill out an application for benefits. The application you fill out will depend on who’s applying for compensation benefits.    
+You’ll need to fill out an application for benefits. The application you fill out will depend on your survivor status.    
 
 #### If you’re a surviving spouse or child, 
 
