@@ -49,8 +49,8 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 	    </ul>
 	  </div>
   	</div>
-  </div>
-</div>
+      </div>
+    </div>
 
 <br>
 
