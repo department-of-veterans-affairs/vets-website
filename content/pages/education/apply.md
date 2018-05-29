@@ -61,11 +61,9 @@ Find out how to apply for VA education benefits as a Veteran, Servicemember, or 
 <div id="react-applicationStatus" class="static-page-widget"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-
-<h3 itemprop="name">Are there other ways to apply?</h3>
 <div itemprop="itemListElement">
 
-Yes. You can also apply:
+**You can also apply:**
 
 #### In person
 Go to a VA regional office and have a VA employee help you.<br/>
