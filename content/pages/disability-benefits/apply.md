@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Disability Benefits Application Process
+title: How to Apply for Disability Benefits
 display_title: Application Process
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
@@ -35,9 +35,9 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 </div>
 
-### Prepare
+### How do I prepare before starting my application?
 
-- [Check your eligibility](/disability-benefits/eligibility/).
+- [Find out if you're eligible for VA disability benefits."](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
@@ -64,7 +64,7 @@ For all disability claims, please provide:
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h4 itemprop="name">Ready to apply?</h4>
+<h4 itemprop="name">How do I apply?</h4>
 <div itemprop="itemListElement">
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
@@ -72,10 +72,11 @@ For all disability claims, please provide:
 </div>
 </div>
 <div markdown="0"><br></div>
+###You Can Also Apply:###
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h3 itemprop="name">Other ways to apply</h3>
+<h3 itemprop="name"</h3>
 <div itemprop="itemListElement">
 
 #### With the help of a trained professional
