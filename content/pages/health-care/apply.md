@@ -47,12 +47,14 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 </div>
 </div>
 
-
 <div id="react-applicationStatus" class="static-page-widget">
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
-You can also apply:
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<div itemprop="itemListElement">
+
+**You can also apply:**
 
 ##### By phone
 
@@ -125,7 +127,6 @@ If you’ve also applied for a VA pension or disability benefits, you can check 
 </div>
 </div>
 </div>
-
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name">How do I update my information if I’m already signed up?</h3>
