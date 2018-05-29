@@ -25,24 +25,13 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const name = data.veteranFullName;
 
-    let title = 'Claim received';
-    let dateTitle = 'Date received';
-    let emailMessage;
-
-    if (__BUILDTYPE__ !== 'production') {
-      title = 'Your claim has been submitted.';
-      dateTitle = 'Date submitted';
-      if (data.email) {
-        emailMessage =  'We’ll send you an email to let you know when we’ve received your application.';
-      }
-    }
-
     return (
       <div>
-        <h3 className="confirmation-page-title">{title}</h3>
+        <h3 className="confirmation-page-title">Your claim has been submitted.</h3>
         <p>We usually process claims within <strong>a week</strong>.</p>
+        <p>We’ll send you an email when we successfully receive your application. If your application didn’t successfully go through, we’ll also send you an email letting you know.</p>
         <p>
-          We may contact you for more information or documents. {emailMessage}<br/>
+          We may contact you if we need more information or documents from you.
           <p><i>Please print this page for your records.</i></p>
         </p>
         <div className="inset">
@@ -51,7 +40,7 @@ export class ConfirmationPage extends React.Component {
 
           {response && <ul className="claim-list">
             <li>
-              <strong>{dateTitle}</strong><br/>
+              <strong>Date submitted</strong><br/>
               <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
             </li>
           </ul>}
