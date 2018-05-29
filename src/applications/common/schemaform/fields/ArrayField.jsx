@@ -19,8 +19,6 @@ import { errorSchemaIsValid } from '../validation';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
-const isInvalid = (item, index, errorSchema) => !errorSchemaIsValid(errorSchema[index]);
-
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
   constructor(props) {
@@ -36,7 +34,7 @@ export default class ArrayField extends React.Component {
      */
 
     this.state = {
-      itemModes: props.formData ? props.formData.map((item, index) => (isInvalid(item, index, props.errorSchema) ? 'editing' : 'viewing')) : ['adding']
+      itemModes: props.formData ? props.formData.map((item, index) => (!errorSchemaIsValid(props.errorSchema[index]) ? 'editing' : 'viewing')) : ['adding']
     };
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
