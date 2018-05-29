@@ -70,10 +70,9 @@ For all disability claims, please provide:
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
 </div>
-### You Can Also Apply: 
 </div>
 <div markdown="0"><br></div>
-
+### You Can Also Apply: 
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
