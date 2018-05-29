@@ -72,7 +72,7 @@ For all disability claims, please provide:
 </div>
 </div>
 <div markdown="0"><br></div>
-###You Can Also Apply:###
+### You Can Also Apply:
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
