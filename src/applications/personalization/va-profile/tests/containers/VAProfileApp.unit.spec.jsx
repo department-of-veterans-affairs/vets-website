@@ -1,12 +1,13 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import enzyme from 'enzyme';
 import { expect } from 'chai';
 
 import { VAProfileApp } from '../../containers/VAProfileApp';
 
 describe('<VAProfileApp/>', () => {
   let props = {};
-  before(() => {
+
+  beforeEach(() => {
     props = {
       user: {},
       profile: {},
@@ -18,9 +19,9 @@ describe('<VAProfileApp/>', () => {
       downtimeActions: {}
     };
   });
+
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<VAProfileApp {...props}/>);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.be.ok;
+    const wrapper = enzyme.shallow(<VAProfileApp {...props}/>);
+    expect(wrapper.find('ProfileView')).to.have.lengthOf(1);
   });
 });
