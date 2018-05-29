@@ -88,3 +88,12 @@ Please note that the screening process for disability benefits is geared toward 
 We’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help give the best care to Veterans with PTSD. <br>
 [Learn about our PTSD programs](https://www.mentalhealth.va.gov/PTSD.asp).
 
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>
+
