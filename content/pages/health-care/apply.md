@@ -49,16 +49,16 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 
 
 <div id="react-applicationStatus" class="static-page-widget">
-
-<h5>Apply online</h5>
-  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
-##### Apply by phone
+You can also apply:
+
+##### By phone
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>) to get help with your application.
 
-##### Apply by mail
+##### By mail
 
 Apply by mail using an Application for Health Benefits (VA Form 10-10EZ). <br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
@@ -71,7 +71,7 @@ Health Eligibility Center<br>
 Atlanta, GA 30329<br>
 </p>
 
-##### Apply in person
+##### In person
 
 Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br>
 [Find a VA medical center or clinic near you](/facilities/).<br>
@@ -80,10 +80,24 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 Or get help through your state's Department of Veterans Affairs. <br>
 [Find your state’s Department of Veterans Affairs](https://www.va.gov/statedva.htm).
 
-##### Apply with the help of a trained professional 
+##### With the help of a trained professional 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
 [Get help filing a claim](/disability-benefits/apply/help/index.html).
 
+</div>
+</div>
+
+<div class="feature">
+
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">What if I'm the caregiver of a post-9/11 Veteran or Servicemember?</h4>
+<div itemprop="itemListElement">
+
+You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
+
+[Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
+
+</div>
 </div>
 </div>
 
