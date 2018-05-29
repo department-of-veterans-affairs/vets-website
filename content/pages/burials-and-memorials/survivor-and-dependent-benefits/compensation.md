@@ -14,16 +14,16 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 <div class="feature" markdown="0">
   
-#### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
+#### You can get compensation if one of the below descriptions is true about the deceased Servicemember or Veteran:
 
 </div>
 
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training
 - The Veteran died from a service-connected illness or injury
 - The Veteran didn’t die from a service-connected illness or injury, but was eligible to get VA compensation for a service-connected disability that VA rated as totally disabling: 
-- For at least 10 years before their death, **or**
-- Since the Veteran’s release from active duty and for at least 5 years immediately before their death, **or**
-- For at least 1 year before their death if the Veteran was a former Prisoner of War who died after September 30, 1999
+  - For at least 10 years before their death, **or**
+  - Since the Veteran’s release from active duty and for at least 5 years immediately before their death, **or**
+  - For at least 1 year before their death if the Veteran was a former Prisoner of War who died after September 30, 1999
 
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
 
@@ -35,9 +35,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 <div class="feature" markdown="0">
 
-<h4>If you’re a surviving spouse<h4>
-
-You can get compensation if at least one of the below descriptions is true for you. 
+<h4>If you’re a surviving spouse, you can get compensation if at least one of the below descriptions is true for you. <h4>
 
 </div>
 
@@ -48,25 +46,22 @@ You can get compensation if at least one of the below descriptions is true for y
 
 <div class="feature" markdown="0">
 
-<h4>If you’re a surviving child<h4>
-
-You can get compensation if the below descriptions are true for you.
+<h4>If you’re a surviving child, you can get compensation if the below descriptions are true for you. <h4>
 
 </div>
 
-**Both of these must describe you:**
-- You aren’t married, **and**
-- You aren’t included on the surviving spouse’s compensation
+**Both of these must be true. You:**
+- Aren’t married, **and**
+- Aren’t included on the surviving spouse’s compensation
 
-**And one of these must also describe you:**
-- You’re under the age of 18 (or under the age of 23 if attending school), **or**
-- You were adopted out of the Veteran’s family, but meet all other eligibility criteria
+**And one of these must also be true. You:**
+- Are under the age of 18 (or under the age of 23 if attending school), **or**
+- Were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
 <div class="feature" markdown="0">
 
-<h4>If you're a surviving parent<h4>
+<h4>If you're a surviving parent, you may be able to get compensation if both of the below descriptions are true. <h4>
 
-You may be able to get compensation if both of these are true: 
 
 </div>
 
@@ -89,7 +84,7 @@ Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form
 
 ### If you're a surviving parent  
 
-You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). <br>
+Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). <br>
 
 [Download VA Form 21-535](https://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
 
@@ -98,7 +93,7 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 - Mail the form to the Pension Management Center for your state <br>
 [Find your PMC](/pension/pension-management-center/).
 
-- Work with an accredited representative <br>
+- Work with an accredited representative who can help you file your claim. <br>
 [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 - Go to a VA regional benefit office and get help from a VA employee <br>
