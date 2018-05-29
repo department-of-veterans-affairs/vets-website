@@ -13,11 +13,7 @@ import {
   openModal,
   clearErrors,
   clearMessage,
-  fetchAddressConstants,
-  fetchContactInformation,
-  fetchHero,
-  fetchMilitaryInformation,
-  fetchPersonalInformation
+  fetchInformation
 } from '../actions';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
@@ -30,34 +26,30 @@ class VAProfileApp extends React.Component {
         <RequiredLoginView
           authRequired={1}
           serviceRequired="user-profile"
-          user={this.props.account}
+          user={this.props.user}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <ProfileView
-            user={this.props.account}
-            fetchAddressConstants={this.props.fetchAddressConstants}
-            fetchContactInformation={this.props.fetchContactInformation}
-            fetchHero={this.props.fetchHero}
-            fetchMilitaryInformation={this.props.fetchMilitaryInformation}
-            fetchPersonalInformation={this.props.fetchPersonalInformation}
+            user={this.props.user}
             profile={this.props.profile}
-            message={{
-              content: this.props.profile.message,
-              clear: this.props.clearMessage
-            }}
+            {...this.props.fetchActions}
             updateActions={this.props.updateActions}
             updateFormFieldActions={this.props.updateFormFieldActions}
+            message={{
+              content: this.props.profile.message,
+              clear: this.props.uiActions.clearMessage
+            }}
             downtimeData={{
               ...this.props.downtimeData,
               ...this.props.downtimeActions
             }}
             modal={{
-              open: this.props.openModal,
+              open: this.props.uiActions.openModal,
               currentlyOpen: this.props.profile.modal,
               formFields: this.props.profile.formFields,
               pendingSaves: this.props.profile.pendingSaves,
               errors: this.props.profile.errors,
-              clearErrors: this.props.clearErrors
+              clearErrors: this.props.uiActions.clearErrors
             }}/>
         </RequiredLoginView>
       </div>
@@ -67,7 +59,7 @@ class VAProfileApp extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.user,
+    user: state.user,
     profile: state.vaProfile,
     downtimeData: {
       appTitle: 'profile',
@@ -77,24 +69,15 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  const actions = bindActionCreators({
-    fetchAddressConstants,
-    fetchContactInformation,
-    fetchHero,
-    fetchMilitaryInformation,
-    fetchPersonalInformation,
-    openModal,
-    clearErrors,
-    clearMessage
-  }, dispatch);
-
-  actions.updateActions = bindActionCreators(saveField, dispatch);
-  actions.updateFormFieldActions = bindActionCreators(updateFormField, dispatch);
-  actions.downtimeActions = bindActionCreators({
-    initializeDowntimeWarnings,
-    dismissDowntimeWarning
-  }, dispatch);
-  return actions;
+  const uiActions = { openModal, clearErrors, clearMessage };
+  const downtimeActions = { initializeDowntimeWarnings, dismissDowntimeWarning };
+  return {
+    uiActions: bindActionCreators(uiActions, dispatch),
+    fetchActions: bindActionCreators(fetchInformation, dispatch),
+    updateActions: bindActionCreators(saveField, dispatch),
+    updateFormFieldActions: bindActionCreators(updateFormField, dispatch),
+    downtimeActions: bindActionCreators(downtimeActions, dispatch)
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VAProfileApp);
