@@ -37,7 +37,7 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 ### How do I prepare before starting my application?
 
-- [Find out if you're eligible for VA disability benefits."](/disability-benefits/eligibility/).
+- [Find out if you're eligible for VA disability benefits"](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
