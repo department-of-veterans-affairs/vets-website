@@ -120,3 +120,12 @@ Get tips for talking to children of different ages about suicide:
 - [School-age children](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto9to13.asp)
 - [Teenagers](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto14to18.asp)
 - [All ages](https://www.mirecc.va.gov/visn19/talk2kids/docs/Talk2Child_color.pdf)
+
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>
