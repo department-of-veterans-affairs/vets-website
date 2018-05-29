@@ -20,7 +20,7 @@ function IncreaseLOAPrompt() {
       <p><strong>This one-time process takes about 5-10 minutes.</strong></p>
 
       <div>
-        <div onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'learn-more-identity' }); }}>
+        <div onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'additional-info': 'learn-more-identity' }); }}>
           <AdditionalInfo triggerText="How will Vets.gov verify my identity?">
             <p>We use ID.me, our Veteran-owned technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
             <p><strong>To verify your identity, you’ll need both of these:</strong>
