@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
 export default function ProfileIntro({ dismiss, profile }) {
-  if (!profile.loading) return <div/>;
+  if (profile.loading) return <div/>;
   if (profile.loa.current !== 3) return <div/>;
 
   return (
