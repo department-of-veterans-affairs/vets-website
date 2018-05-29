@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
 
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+
 import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
 import { setData, uploadFile } from '../actions';
@@ -40,6 +42,12 @@ class RoutedSavablePage extends React.Component {
 
   render() {
     const { user, form } = this.props;
+    const prestartStatus = 'success';
+    const contentBeforeForm = (
+      <AlertBox status="success"
+        isVisible={prestartStatus === 'success'}
+        content={<div><h3>Intent to File Submitted</h3><p>Your intent to file has been submitted and will expire 1 year from today.</p></div>}/>
+    );
     const contentAfterButtons = (
       <div>
         <SaveStatus
@@ -64,6 +72,7 @@ class RoutedSavablePage extends React.Component {
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}
         formContext={getFormContext({ user, form })}
+        contentBeforeForm={contentBeforeForm}
         contentAfterButtons={contentAfterButtons}/>
     );
   }

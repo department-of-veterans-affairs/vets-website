@@ -44,7 +44,7 @@ async function fakeFetchITF(mockITF, dispatch) {
 export function submitIntentToFile(formConfig, resolve, reject) {
   return async (dispatch) => {
     const mockITFfailure = { errorMessage: 'Network request failed', errors: [2, 3] };
-    // const mockITFsuccess = { status: 'active', expirationDate: '2018-12-12' };
+    const mockITFsuccess = { status: 'active', expirationDate: '2018-12-12' };
     // const mockITFexpired = { status: 'expired', expirationDate: '2012-12-12' };
     dispatch({ type: 'SET_PRESTART_PENDING' });
     // const existingITF = await processITF('/intent_to_file/compensation/active', null, dispatch);
@@ -53,7 +53,7 @@ export function submitIntentToFile(formConfig, resolve, reject) {
       return;
     }
     // const newITF = await processITF('/intent_to_file/compensation', { method: 'POST' }, dispatch);
-    const newITF = await fakeFetchITF(mockITFfailure, dispatch);
+    const newITF = await fakeFetchITF(mockITFsuccess, dispatch);
     if (!newITF.status || newITF.status !== 'active') {
       dispatch({ type: 'SET_PRESTART_STATUS', ...newITF });
       reject(newITF);

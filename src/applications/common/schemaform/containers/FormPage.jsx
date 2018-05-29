@@ -79,6 +79,7 @@ class FormPage extends React.Component {
       route,
       params,
       form,
+      contentBeforeForm,
       contentAfterButtons,
       formContext
     } = this.props;
@@ -103,6 +104,7 @@ class FormPage extends React.Component {
 
     return (
       <div className={pageClasses}>
+        {contentBeforeForm}
         <SchemaForm
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
