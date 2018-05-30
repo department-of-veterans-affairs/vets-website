@@ -159,9 +159,9 @@ class DashboardApp extends React.Component {
             </a>
           </li>
           <li>
-            <a href="/disability-benefits/" onClick={recordDashboardClick('disability-benefits')}>
-              <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
-              <p className="va-nav-linkslist-description">Apply for disability compensation and other benefits for conditions related to your military service.</p>
+            <a href="/employment/" onClick={recordDashboardClick('employment')}>
+              <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
+              <p className="va-nav-linkslist-description">Find out if you're eligible for Vocational Rehabilitation and Employment (VR&E) services, get support for your Veteran-owned small business, and access other resources to help build your career skills and find a job.</p>
             </a>
           </li>
         </ul>
