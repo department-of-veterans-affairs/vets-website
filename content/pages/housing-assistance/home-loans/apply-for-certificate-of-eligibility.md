@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Apply for Your COE
+title: How To Apply for Your COE
 concurrence: 
 order: 3
 relatedlinks:
@@ -138,7 +138,7 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 
 <br>
 
-#### Apply for your COE
+#### How do I apply for my COE?
 
 You can apply in 1 of 3 ways:
 
