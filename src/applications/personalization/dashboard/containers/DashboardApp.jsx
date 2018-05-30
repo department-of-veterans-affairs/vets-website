@@ -189,7 +189,7 @@ class DashboardApp extends React.Component {
   }
 
   renderMVIWarning() {
-    if (this.props.profile.veteranStatus === 'OK') {
+    if (this.props.profile.loa.current === 1 || this.props.profile.status === 'OK') {
       return null;
     }
 
@@ -302,8 +302,7 @@ class DashboardApp extends React.Component {
     return (
       <div name="topScrollElement">
         <RequiredLoginView
-          authRequired={3}
-          serviceRequired={['evss-claims', 'appeals-status', 'user-profile']}
+          serviceRequired={['user-profile']}
           user={this.props.user}>
           <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.mhv, services.appeals]} render={this.renderDowntimeNotification}>
             {view}

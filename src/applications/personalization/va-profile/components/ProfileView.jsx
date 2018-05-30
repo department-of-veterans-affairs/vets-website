@@ -61,7 +61,7 @@ class ProfileView extends React.Component {
         <p><strong>This one-time process takes about 5-10 minutes.</strong></p>
 
         <div>
-          <div onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'learn-more-identity' }); }}>
+          <div onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'additional-info': 'learn-more-identity' }); }}>
             <AdditionalInfo triggerText="How will Vets.gov verify my identity?">
               <p>We use ID.me, our Veteran-owned technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
               <p><strong>To verify your identity, you’ll need both of these:</strong>
@@ -79,9 +79,9 @@ class ProfileView extends React.Component {
             </AdditionalInfo>
           </div>
           <br/>
-          <button className="usa-button-primary va-button-primary" href="/verify" onClick={() => { recordEvent({ event: 'verify-link-clicked' });}}>
+          <a className="usa-button-primary va-button-primary" href="/verify" onClick={() => { recordEvent({ event: 'verify-link-clicked' });}}>
             <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
-          </button>
+          </a>
           <h4>What if I’m having trouble verifying my identity?</h4>
           <p><a href="/faq/" target="_blank" onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'vets-faqs' }); }}>Get answers to Frequently Asked Questions</a></p>
           <p>
@@ -112,7 +112,7 @@ class ProfileView extends React.Component {
     let content;
 
     if (user.profile.verified) {
-      if (user.profile.veteranStatus === 'OK') {
+      if (user.profile.status === 'OK') {
         content = (
           <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
             <div>

@@ -90,6 +90,7 @@ function logIn(token, client, url, level) {
     .url(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
+  E2eHelpers.disableAnnouncements(client);
   setUserToken(token, client);
 
   client

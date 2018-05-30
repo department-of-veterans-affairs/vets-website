@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -180,7 +181,7 @@ const formConfig = {
             'ui:title': 'Upload Your Photo',
             'ui:description': PhotoDescription,
             photo: _.assign(fileUploadUI('Upload a digital photo', {
-              endpoint: '/v0/vic/profile_photo_attachments',
+              fileUploadUrl: `${environment.API_URL}/v0/vic/profile_photo_attachments`,
               fileTypes: [
                 'png',
                 'tiff',
@@ -227,7 +228,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
-              endpoint: '/v0/vic/supporting_documentation_attachments',
+              fileUploadUrl: `${environment.API_URL}/v0/vic/supporting_documentation_attachments`,
               fileTypes: [
                 'pdf',
                 'png',

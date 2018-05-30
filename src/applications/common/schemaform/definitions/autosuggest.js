@@ -25,12 +25,15 @@ export const schema = {
  * @param {object} options - Any other options to override the uiSchema defaults with
  */
 export function uiSchema(label, getOptions, options = {}) {
+  const validations = [];
+  if (!_.get('ui:options.freeInput', options)) {
+    validations.push(validateAutosuggestOption);
+  }
+
   return _.merge({
     'ui:title': label,
     'ui:field': AutosuggestField,
-    'ui:validations': [
-      validateAutosuggestOption
-    ],
+    'ui:validations': validations,
     'ui:errorMessages': {
       type: 'Please select an option from the suggestions'
     },

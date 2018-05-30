@@ -9,6 +9,8 @@ import * as addressUI from '../../common/schemaform/definitions/address.js';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 
+import environment from '../../../platform/utilities/environment';
+
 const {
   veteranFullName,
   veteranSSN,
@@ -44,7 +46,7 @@ const authorizationToChangeClaimantAddressDescription =
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/vso_appointments',
+  submitUrl: `${environment.API_URL}/v0/vso_appointments`,
   trackingPrefix: 'form-2122-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

@@ -6,7 +6,9 @@ import { DashboardApp } from '../../containers/DashboardApp';
 
 
 const props = {
-  profile: {}
+  profile: {
+    loa: {}
+  }
 };
 
 describe('<DashboardApp>', () => {
