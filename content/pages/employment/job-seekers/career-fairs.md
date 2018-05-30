@@ -32,7 +32,7 @@ Career fairs are an important first step in the search for employment. In-person
 
 - Dress professionally.
 - Research the companies that will be in attendance, and find out what jobs they have open.
-- Prioritize the employers you are interested in, and prepare two to three questions for the representatives of those companies.
+- Prioritize the employers you are interested in, and prepare 2 to 3 questions for the representatives of those companies.
 - Bring multiple copies of your resume and any relevant military transcripts.
 - Bring business cards to encourage follow-up conversations with prospective employers.
 - For virtual or online events, fill out all necessary online profile requirements (including resume, references, and a professional high-resolution photo). <br> [Update your LinkedIn profile](https://www.linkedin.com/).
@@ -47,17 +47,17 @@ Career fairs are an important first step in the search for employment. In-person
 
 [Corporate Gray military-friendly job fairs](https://www.corporategray.com/jobfairs) <br> These take place in the Washington, DC, metro area and in Virginia Beach. Corporate Gray also hosts Virtual Military Job Fairs, which are open to all transitioning Servicemembers and Veterans.
 
-[Hiring Our Heroes](https://www.uschamberfoundation.org/events/hiringfairs) <br> Organizes hiring fairs and other events to help Veterans, transitioning Servicemembers, and military spouses find meaningful employment opportunities.
+[Hiring Our Heroes](https://www.uschamberfoundation.org/events/hiringfairs) <br> The U.S. Chamber of Commerce Foundation organizes hiring fairs and other events to help Veterans, transitioning Servicemembers, and military spouses find meaningful employment opportunities.
 
 [JobZone career fairs](https://www.jobzoneonline.com/) <br> These fairs bring together the area’s top employers, including defense and commercial companies, federal agencies, placement and staffing companies, colleges, and universities.
 
-[Military Officers Association of America (MOAA)](http://www.moaa.org/) <br> Hosts six free, live hiring and networking events, as well as quarterly virtual events for Servicemembers and their spouses.
+[Military Officers Association of America (MOAA)](http://www.moaa.org/) <br> This organization hosts free, live hiring and networking events, as well as quarterly virtual events for Servicemembers and their spouses.
 
-[TechExpoUSA.com](https://techexpousa.com/) <br> Serves as an online career center where defense contractors, technology companies, consulting firms, and numerous U.S. governmental agencies can recruit and hire experienced professionals with security clearance.
+[TechExpoUSA.com](https://techexpousa.com/) <br> This site serves as an online career center where defense contractors, technology companies, consulting firms, and numerous U.S. governmental agencies can recruit and hire experienced professionals with security clearance.
 
-[Virtual Job Scout](https://www.virtualjobscout.org/) <br> Sponsored by the U.S. Chamber of Commerce Foundation’s Hiring Our Heroes, connects Veterans, transitioning Servicemembers, and military spouses with recruiters online.
+[Virtual Job Scout](https://www.virtualjobscout.org/) <br> Sponsored by the U.S. Chamber of Commerce Foundation’s Hiring Our Heroes, this site connects Veterans, transitioning Servicemembers, and military spouses with recruiters online.
 
-[Veteran Recruiting job fairs](http://veteranrecruiting.com/) <br> Virtual events that give job seekers the opportunity to chat live with employers online. Employers are also available offline.
+[Veteran Recruiting job fairs](http://veteranrecruiting.com/) <br> These virtual events give job seekers the opportunity to chat live with employers online. Employers are also available offline.
 
 </div>
 </div>
