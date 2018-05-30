@@ -121,7 +121,7 @@ export default class AutosuggestField extends React.Component {
         }
       }
 
-      this.props.onChange(this.props.uiSchema['ui:options'].freeInput ? inputValue : item);
+      this.props.onChange((this.props.uiSchema['ui:options'].freeInput || this.useEnum) ? inputValue : item);
       this.setState({
         input: inputValue,
         suggestions: this.getSuggestions(this.state.options, inputValue)
@@ -160,10 +160,18 @@ export default class AutosuggestField extends React.Component {
     const id = idSchema.$id;
 
     if (formContext.reviewMode) {
+      const readOnlyData = <span>{getInput(formData, uiSchema, schema)}</span>;
+
+      // If this is an non-object field then the label will
+      // be included by ReviewFieldTemplate
+      if (schema.type !== 'object') {
+        return readOnlyData;
+      }
+
       return (
         <div className="review-row">
           <dt>{this.props.uiSchema['ui:title']}</dt>
-          <dd><span>{getInput(formData, uiSchema, schema)}</span></dd>
+          <dd>{readOnlyData}</dd>
         </div>
       );
     }
@@ -193,6 +201,7 @@ export default class AutosuggestField extends React.Component {
             <input {...getInputProps({
               id,
               name: id,
+              className: 'autosuggest-input',
               onBlur: isOpen ? undefined : this.handleBlur,
               onKeyDown: this.handleKeyDown
             })}/>
