@@ -228,9 +228,10 @@ export default class ArrayField extends React.Component {
             const isNotViewing = this.state.itemModes[index] !== 'viewing';
             const isEditing = this.state.itemModes[index] === 'editing';
             const isAdding = this.state.itemModes[index] === 'adding';
+            const isAddingFirst = isAdding && items.length === 1;
             if (isReviewMode ? isEditing : isNotViewing) {
               return (
-                <div key={index} className={!isAdding ? 'va-growable-background' : null}>
+                <div key={index} className={!isAddingFirst ? 'va-growable-background' : null}>
                   <Element name={`table_${itemIdPrefix}`}/>
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
