@@ -44,7 +44,7 @@ If your decision notice shows at least a 10% disability rating, you’ll get you
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you disagree with your disability rating, you can file an appeal. You’ll need to do this within 1 year of getting your decision notice. <br> [Learn about how to file an appeal](/disability-benefits/claims-appeal/).
+If you disagree with your disability rating, you can file an appeal. You’ll need to do this within 1 year of getting your decision notice. <br> [Find out how to file an appeal](/disability-benefits/claims-appeal/).
 
 </div>
 </div>
