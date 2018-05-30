@@ -62,3 +62,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.end();
 });
+
+// Disabling because of conflicts with Personalization Profile/Account pages.
+module.exports['@disabled'] = true;
