@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'us-forms-system/lib/js/utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import { formTitles } from '../../../user-profile/helpers';
 import FormStartControls from './FormStartControls';

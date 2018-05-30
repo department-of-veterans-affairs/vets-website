@@ -1,5 +1,9 @@
 import _ from 'lodash/fp';
 
+import createSchemaFormReducer from 'us-forms-system/lib/js/state';
+import { createInitialState, recalculateSchemaAndData } from 'us-forms-system/lib/js/state/helpers';
+import reducers from 'us-forms-system/lib/js/state/reducers';
+
 import {
   SET_SAVE_FORM_STATUS,
   SET_AUTO_SAVE_FORM_STATUS,
@@ -13,10 +17,6 @@ import {
   PREFILL_STATUSES,
   saveErrors
 } from '../save-in-progress/actions';
-
-import createSchemaFormReducer from '../state';
-import { createInitialState, recalculateSchemaAndData } from '../state/helpers';
-import reducers from '../state/reducers';
 
 export const saveInProgressReducers = {
   [SET_SAVE_FORM_STATUS]: (state, action) => {

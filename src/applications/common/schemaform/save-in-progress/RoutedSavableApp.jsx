@@ -4,7 +4,10 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import FormApp from '../containers/FormApp';
+import FormApp from 'us-forms-system/lib/js/containers/FormApp';
+import { isInProgress } from 'us-forms-system/lib/js/helpers';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -12,10 +15,10 @@ import {
   setFetchFormStatus,
   fetchInProgressForm
 } from './actions';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-
-import { isInProgress } from '../../../../platform/forms/helpers';
 import { getSaveInProgressState } from './selectors';
+
+// import { isInProgress } from '../../../../platform/forms/helpers';
+
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

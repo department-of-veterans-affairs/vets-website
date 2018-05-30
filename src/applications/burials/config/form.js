@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
@@ -18,23 +19,24 @@ import {
   submit
 } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
-import { validateBooleanGroup } from '../../common/schemaform/validation';
+import toursOfDutyUI from '../definitions/toursOfDuty';
+import { validateBurialAndDeathDates } from '../validation';
+
 import { isFullDate } from '../../../platform/forms/validations';
 import { services } from '../../../platform/monitoring/DowntimeNotification';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 
-import * as address from '../../common/schemaform/definitions/address';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import FullNameField from '../../common/schemaform/fields/FullNameField';
-import phoneUI from '../../common/schemaform/definitions/phone';
-import ssnUI from '../../common/schemaform/definitions/ssn';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import toursOfDutyUI from '../definitions/toursOfDuty';
-import fileUploadUI from '../../common/schemaform/definitions/file';
-import currencyUI from '../../common/schemaform/definitions/currency';
-import { validateBurialAndDeathDates } from '../validation';
+import * as address from 'us-forms-system/lib/js/definitions/address';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+
 
 const {
   relationship,

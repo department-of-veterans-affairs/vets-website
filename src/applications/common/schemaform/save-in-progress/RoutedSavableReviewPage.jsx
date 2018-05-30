@@ -3,25 +3,24 @@ import React from 'react';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import get from '../../../../platform/utilities/data/get';
-
 import Scroll from 'react-scroll';
+
+import get from 'us-forms-system/lib/js/utilities/data/get';
+import { focusElement } from 'us-forms-system/lib/js/utilities/ui';
+import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
+import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
+
 import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
-
-import { focusElement } from '../../../../platform/utilities/ui';
-
+import { getFormContext } from '../save-in-progress/selectors';
 import {
   autoSaveForm,
   saveAndRedirectToReturnUrl,
   saveErrors
 } from './actions';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
-import { getFormContext } from '../save-in-progress/selectors';
-
-import ReviewChapters from '../review/ReviewChapters';
-import SubmitController from '../review/SubmitController';
 import DowntimeNotification, { serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+
 import DowntimeMessage from './DowntimeMessage';
 
 const scroller = Scroll.scroller;
