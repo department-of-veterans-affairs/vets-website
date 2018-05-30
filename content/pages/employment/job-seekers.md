@@ -31,12 +31,12 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 - ##### Have you recently left active duty?
 
-  If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits. <br> [Find out if you’re eligible for benefits through Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support/).
+  If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX) program. <br> [Find out if you’re eligible for unemployment benefits](/employment/job-seekers/unemployment-support/).
 <br>
 
 - ##### Are you already in the workforce?
 
-  [Search for a new career](https://www.careeronestop.org/JobSearch/job-search.aspx), or <br> [Consider additional education or training programs](/education/gi-bill/).
+  [Search for a new career](https://www.careeronestop.org/JobSearch/job-search.aspx), or <br> [Consider additional education or training programs through the GI Bill](/education/gi-bill/).
 
 </div>
 
@@ -47,7 +47,8 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 ##### Discover your skills and interests<br>
 
-[Use Interest Profiler to help you identify the type of work you enjoy](/employment/job-seekers/interest-profiler/), then <br> [Explore related career paths](https://www.mynextmove.org/).
+[Use our Interest Profiler to identify the type of work you enjoy](/employment/job-seekers/interest-profiler/). <br>
+[Then explore related career paths](https://www.mynextmove.org/).
 </li>
 
 <li class="process-step list-two" markdown="1">
@@ -106,7 +107,7 @@ Browse careers by industry and learn about jobs that are similar to your Militar
 
 - [Government and private resources offer one-on-one assistance](https://www.dol.gov/veterans/findajob/).
 - Qualified Veterans with service-connected disabilities can get employment support services such as small business counseling, as well as specialized vocational rehabilitation help. <br> 
-[Learn more about small business counseling](/employment/job-seekers/service-disabled/). <br>
+[Learn more about employment support for Veterans with service-connected disabilities](/employment/job-seekers/service-disabled/). <br>
 [Learn more about Vocational Rehabilitation and Employment (VR&amp;E)](/employment/vocational-rehab-and-employment/).
 -  American Job Centers offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, resume-writing tools, and free Internet access. <br>
 [Learn more about American Job Centers](http://www.careeronestop.org/ReEmployment/Veterans/JobSearchHelp/ChangeCareers/one-stop-career-centers.aspx).
