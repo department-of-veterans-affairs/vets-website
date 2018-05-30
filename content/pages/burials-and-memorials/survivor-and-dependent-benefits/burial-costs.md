@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Burial Allowance Application Process
-display_title: Burial Allowance Application Process
+title: How to Apply for Burial Allowance
+display_title: How to Apply for Burial Allowance
 order: 1
 ---
 
@@ -57,8 +57,9 @@ You may need a copy of:
 
 </div>
 
-### Ready to apply?
+### How do I apply?
 
+### You can also apply:
 You can apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br> [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
 Mail the application and other paperwork to your local regional benefit office. <br> [Find your local regional benefit office](/facilities).
