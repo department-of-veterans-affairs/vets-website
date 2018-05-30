@@ -106,6 +106,10 @@ To apply, you’ll need your (or your sponsor's):
 
 <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/">Apply for Pre-need Eligibility</a>
 
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">Other ways to apply</h4>
+<div itemprop="itemListElement">
+	
 **By mail**
 
 Apply by mail using an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <br> [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
