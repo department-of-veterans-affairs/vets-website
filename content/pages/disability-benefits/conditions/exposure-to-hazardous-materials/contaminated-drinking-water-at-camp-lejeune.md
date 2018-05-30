@@ -16,7 +16,6 @@ If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCA
 
 ### Can I get disability benefits from VA?
 
-
 You may be able to get disability benefits if you served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987 and you meet both of the requirements listed below. 
 
 **Both of these must be true. You:**
@@ -52,12 +51,10 @@ You’ll need to apply for benefits.
 
 **You can apply in 1 of 3 ways:**
 
-- [Apply online at eBenefits](http://www.ebenefits.va.gov) <br>
-Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results),
-**or**
-- [Get help from an accredited representative, like a Veterans Service Officer (VSO)](/disability-benefits/apply/help/),
-**or**
-- [Get help at a VA regional benefit office](/facilities/)
+- [Apply online at eBenefits](http://www.ebenefits.va.gov). <br>
+Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results).
+- [Get help from an accredited representative, like a Veterans Service Officer (VSO)](/disability-benefits/apply/help/).
+- [Get help at a VA regional benefit office](/facilities/).
 
 **When you apply, you’ll also need to give us:**
 
@@ -92,9 +89,13 @@ You’ll need to apply for benefits.
 
 **You can apply in 1 of 2 ways:**
 
--	[Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/Home/Index?ReturnUrl=%2FApp%2FStepApplicant), **or**
+#### Apply online
 
-- [Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). 
+[Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/Home/Index?ReturnUrl=%2FApp%2FStepApplicant).
+
+#### Apply by fax or mail
+
+[Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). 
 <br>
 Fax it to 1-512-460-5536, or mail it to:
 
