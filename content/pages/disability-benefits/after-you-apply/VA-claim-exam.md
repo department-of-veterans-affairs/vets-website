@@ -57,7 +57,7 @@ If you have enough medical evidence in your file to support your claim, we won't
 
 The staff at your local VA medical center or a local doctor’s office that we partner with will contact you. They’ll either send you a letter by mail with the date and time of your exam, or call you to find a time that works for you.
 
-Make sure both the VA regional office and the VA medical center nearest you have your up-to-date address, phone number, and email address so you get your exam notice in time.
+Make sure both the VA regional benefit office and the VA medical center nearest you have your up-to-date address, phone number, and email address so you get your exam notice in time.
 
 </div>
 </li>
@@ -78,8 +78,8 @@ If you can’t make it to your appointment, let us know right away. You can most
 **To reschedule your appointment:**
 
 * Call 1-800-827-1000, **or**
-* Go to your nearest regional benefit office. <br>
-  [Find your local regional benefit office](/facilities/).
+* Go to your nearest VA regional benefit office. <br>
+  [Find your nearest VA regional benefit office](/facilities/).
 
 </div>
 </li>
@@ -157,8 +157,8 @@ Either a VA doctor or a non-VA doctor who we’ve contracted with will do the ex
 
 No. The doctor will give the exam results to our VA claims processors. Our claims processors will decide your claim based on these results, plus your other medical and military records.
 
-If you have questions about the claims process, call your nearest VA regional office. <br>
-[Find contact information for your nearest VA regional office](/facilities/).
+If you have questions about the claims process, call your nearest VA regional benefit office. <br>
+[Find contact information for your nearest VA regional benefit office](/facilities/).
 
 </div>
 </li>
@@ -169,7 +169,7 @@ If you have questions about the claims process, call your nearest VA regional of
 If you miss your claim exam, contact us right away to let us know why you didn't make it. We can help you figure out what to do next.
 
 If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" might be an illness or the death of someone in your immediate family.<br>
-[Find contact information for your nearest VA regional office](/facilities/).
+[Find contact information for your nearest VA regional benefit office](/facilities/).
 
 </div>
 </li>
@@ -202,7 +202,7 @@ Each claim is different, but it usually takes us about 3 to 4 months to process 
 
 Yes. To get a copy of the final report from your exam, you can:
 
-* [Contact your nearest VA regional office](/facilities/), **or**
+* [Contact your nearest VA regional benefit office](/facilities/), **or**
 * Call us at 1-800-827-1000 and request an appointment to view your file
 
 </div>
