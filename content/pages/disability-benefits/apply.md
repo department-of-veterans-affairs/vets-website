@@ -53,7 +53,7 @@ For the first disability claim you file, please provide:
 
 - Discharge papers (DD214 or other separation documents) 
 - Service treatment records <br> 
-[Order service records through the National Archives.](https://www.archives.gov/veterans/military-service-records)
+[Order service records through the National Archives](https://www.archives.gov/veterans/military-service-records).
 
 For all disability claims, please provide:
 
@@ -104,7 +104,7 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-Bring your application to a regional benefit office near you. <br> [Find a regional benefit office](/facilities/).
+Bring your application to a VA regional benefit office near you. <br> [Find your nearest VA regional benefit office](/facilities/).
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
