@@ -38,7 +38,7 @@ We’ll give you up to $368 per month in compensation (payments) for these types
 - [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
-- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists in non-degree educational programs lasting two years or less
+- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists in non-degree educational programs lasting 2 years or less
 - [Licensing and certification tests](/education/advanced-training-and-certifications/licensing-certification/)
 - [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
 - [Certain entrance examinations (national testing)](/education/advanced-training-and-certifications/national-testing-program/)
@@ -60,7 +60,9 @@ We’ll give you up to $368 per month in compensation (payments) for these types
 [Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
 ### Get more information
-- [Ask questions or search frequently asked questions on the GI Bill customer service page](http://gibill.custhelp.com/). 
-- Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>) or TDD/TTY <a href="tel:18008778339">1-800-877-8339</a>.
+- Ask questions or search frequently asked questions on the GI Bill customer service page. <br />
+[Go to the GI Bill customer service page](http://gibill.custhelp.com/). 
+- Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), or TTY <a href="tel:18008778339">1-800-877-8339</a>, Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol&reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our Terms of Use.
+GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol&reg; does not constitute a waiver of VA’s trademark rights in that phrase. <br>
+[Read our Terms of Use](https://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
