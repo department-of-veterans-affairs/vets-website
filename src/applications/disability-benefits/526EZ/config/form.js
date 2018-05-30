@@ -545,6 +545,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['view:uploadPrivateRecords'],
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
@@ -753,6 +754,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['privateRecords'],
                   properties: {
                     privateRecords: {
                       type: 'array',
@@ -823,6 +825,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['additionalDocuments'],
                   properties: {
                     additionalDocuments: {
                       type: 'array',
