@@ -34,7 +34,7 @@ export default class ArrayField extends React.Component {
      */
 
     this.state = {
-      itemModes: props.formData ? props.formData.map((item, index) => (!errorSchemaIsValid(props.errorSchema[index]) ? 'editing' : 'viewing')) : ['adding']
+      itemModes: props.formData && props.formData.length ? props.formData.map((item, index) => (!errorSchemaIsValid(props.errorSchema[index]) ? 'editing' : 'viewing')) : ['adding']
     };
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);

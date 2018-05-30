@@ -57,7 +57,7 @@ describe('Schemaform <ArrayField>', () => {
     expect(tree.everySubTree('SchemaField')).not.to.be.empty;
     expect(tree.everySubTree('.va-growable-background')).to.be.empty;
   });
-  it('should render items', () => {
+  it('should render an empty form', () => {
     const idSchema = {
       $id: 'field'
     };
@@ -92,7 +92,7 @@ describe('Schemaform <ArrayField>', () => {
     );
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
   });
-  it('should render prefilled items', () => {
+  it('should render valid prefilled items', () => {
     const idSchema = {
       $id: 'field'
     };
@@ -157,7 +157,7 @@ describe('Schemaform <ArrayField>', () => {
       }
     };
     const fullErrorSchema = {
-      0: { field: { __errors: ['some error'] } },
+      0: { __errors: ['Test error'] }
     };
     const formData = [
       { field: 'information' },
@@ -201,10 +201,11 @@ describe('Schemaform <ArrayField>', () => {
           }
         }
       };
+      const ViewField = f => f;
       const uiSchema = {
         'ui:title': 'List of things',
         'ui:options': {
-          viewField: f => f
+          viewField: ViewField
         }
       };
       const formData = [
@@ -229,7 +230,7 @@ describe('Schemaform <ArrayField>', () => {
       );
     });
     it('edit', () => {
-      expect(tree.everySubTree('SchemaField').length).to.equal(0);
+      expect(tree.everySubTree('ViewField').length).to.equal(2);
 
       tree.getMountedInstance().handleEdit(0);
 
@@ -256,7 +257,7 @@ describe('Schemaform <ArrayField>', () => {
       expect(tree.everySubTree('SchemaField').length).to.equal(1);
     });
     it('add', () => {
-      expect(tree.everySubTree('SchemaField').length).to.equal(0);
+      expect(tree.everySubTree('ViewField').length).to.equal(2);
 
       tree.getMountedInstance().handleAdd();
 
@@ -271,7 +272,7 @@ describe('Schemaform <ArrayField>', () => {
       expect(formContext.setTouched.called).to.be.true;
     });
     it('remove', () => {
-      expect(tree.everySubTree('SchemaField').length).to.equal(0);
+      expect(tree.everySubTree('ViewField').length).to.equal(2);
       const instance = tree.getMountedInstance();
       instance.handleEdit(0);
       instance.handleRemove(0);

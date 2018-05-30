@@ -102,7 +102,8 @@ describe('686 dependent info', () => {
     fillData(form, 'select#root_dependents_0_childDateOfBirthDay', '31');
     fillData(form, 'input#root_dependents_0_childDateOfBirthYear', '1986');
     form.find('.va-growable-add-btn').simulate('click');
-    expect(form.find('.va-growable-background').length).to.equal(2);
+
+    expect(form.find('.va-growable-background').text()).to.contain('test');
   });
 });
 
