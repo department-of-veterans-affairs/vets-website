@@ -89,10 +89,10 @@ You’ll need to apply for benefits.
 
 **You can apply in 1 of 2 ways:**
 
-- Apply online. <br />
-[Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/Home/Index?ReturnUrl=%2FApp%2FStepApplicant).
-- Or apply by fax or mail. <br />
-[Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). <br />
+- Fill out an online Camp Lejeune Family Member Application (VA Form 10-10068). <br />
+[Apply online](https://www.clfamilymembers.fsc.va.gov/Home/Index?ReturnUrl=%2FApp%2FStepApplicant).
+- Or download the application and send it to us by fax or mail. <br />
+[Download VA Form 10-10068](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). <br />
 Fax it to 1-512-460-5536, or mail it to:
 
 <p class="va-address-block">
