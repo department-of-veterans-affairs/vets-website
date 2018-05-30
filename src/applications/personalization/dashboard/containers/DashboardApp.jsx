@@ -179,8 +179,8 @@ class DashboardApp extends React.Component {
         content={<div>
           <h4 className="usa-alert-heading">Verify your identity to access more Vets.gov tools and features</h4>
           <p>When you verify your identity, you can use Vets.gov to do things like track your claims, refill your prescriptions, and download your VA benefit letters.</p>
-          <a className="usa-button-primary" href="/verify">Verify Your Identity</a>
-          <p><a href="/faq#verifying-your-identity">Learn about how to verify your identity</a></p>
+          <a className="usa-button-primary" href="/verify" onClick={() => { recordEvent({ event: 'verify-link-clicked' }); }}>Verify Your Identity</a>
+          <p><a href="/faq#verifying-your-identity" onClick={recordDashboardClick('learn-more-identity')}>Learn about how to verify your identity</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('loa')}
         isVisible={this.state['show-loa-alert'] && !window.localStorage.getItem('hide-loa-alert')}
