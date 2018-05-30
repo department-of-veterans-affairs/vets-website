@@ -57,7 +57,7 @@ You don’t need to do anything unless we send you a letter asking for more info
 <li class="process-step list-one">
 
 #### Claim Received
-We’ll let you know when we receive your claim. Depending on what type of disability claim you file, you’ll get a message from us on eBenefits or by email. 
+We’ll let you know when we receive your claim. Depending on where you filed your disability claim, you’ll either get a message from us on eBenefits or by email. 
 - **If you applied on eBenefits,** you’ll see a notice from us in your claims list within about 1 hour of applying.<br>
 - **If you applied online for a claim for increased disability,** you’ll get a confirmation message from us after submitting the form online. <br>
 
