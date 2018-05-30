@@ -19,7 +19,8 @@ Want to start a business? We offer entrepreneurship training through the Small B
 You can get this training if you qualify for any of these programs:
 
 - [The Post-9/11 GI Bill](/education/gi-bill/post-9-11/)
-- The Montgomery GI Bill, [Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) or [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR)
+- [The Montgomery GI Bill Active Duty (MGIB-AD)](/education/gi-bill/montgomery-active-duty/)
+- [The Montgomery GI Bill Selected Reserve (MGIB-SR)](/education/gi-bill/montgomery-selected-reserve/) 
 - [The Veterans' Educational Assistance Program (VEAP)](/education/other-educational-assistance-programs/veap/)
 
 **Note:** Dependents can’t get this training under the Survivors’ and Dependents’ Educational Assistance (DEA) program.
@@ -30,4 +31,4 @@ You can get this training if you qualify for any of these programs:
 
 [Contact your local VA Small Business Liaison](https://www.va.gov/osdbu/about/contacts.asp).
 
-Go to a conference or event to talk directly to VA Small Business Liaisons and entrepreneurs. <br> [Find a conference or event](https://www.va.gov/osdbu/library/events.asp).
+Go to a conference or event to talk directly to VA Small Business Liaisons and entrepreneurs. <br> [Find a conference or event](https://www.va.gov/OSDBU/calendar.asp).
