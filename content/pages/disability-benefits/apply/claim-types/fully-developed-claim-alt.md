@@ -8,9 +8,9 @@ order: 2
 
 <div class="va-introtext">
 
-You can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim. With this program, you send in all the evidence or supporting documents you have—or can easily get—when you file your claim.
+You can use the Fully Developed Claim (FDC) program to get a faster decision on your disability benefits claim. With this program, you send in all the evidence or supporting documents you have—or can easily get—when you file your claim.
 
-If you file a claim in the FDC program and we decide that additional documents exist that we need to decide your claim, we’ll remove your claim from the FDC program and process it as a standard claim. Find out how you can participate in the FDC program.
+If we discover that there are other private records we need to decide your claim, we’ll remove your claim from the FDC program and review it through the standard claims process. Find out how you can participate in the FDC program.
 
 <br>
 
@@ -28,9 +28,9 @@ When turning in your claim under the FDC program, please send us all the support
 
 1. [Fill out an Application for Disability Compensation (VA Form 21P-526EZ)](/disability-benefits/apply/).<br>
 2. When you file your claim, you'll need to turn in:
-    - A copy of your discharge papers (DD214 or other separation documents),  **and**
-    - All private and VA medical records you have that are related to your claim, **and**
-    - Service treatment records, **and**
+    - A copy of your DD214 or other separation documents,  **and**
+    - Service treatment records,  **and**
+    - All private and VA medical records related to your illness or injury, **and**
     - Information about any health records that are available at a federal facility, like a VA medical center or clinic
 3. Go to any VA medical appointments required to decide your claim.
 
@@ -68,7 +68,7 @@ With the standard claim process, we’ll handle the evidence-gathering steps lis
 
 * Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 * Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
-* Make every reasonable effort to request relevant records that you authorize us to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor, hospital records, or records from current or former employers.
+* Make every reasonable effort to request relevant records that you authorize us to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor or hospital, or records from current or former employers.
 
 </div>
 </li>
@@ -103,12 +103,12 @@ You’ll need to turn in the information and evidence as soon as you can.
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="where-to-send">How do I turn in my information and evidence?</button>
 <div id="where-to-send" class="usa-accordion-content">
-When you file your disability claim, you'll be able to upload all supporting documents and evidence.<br>
-[Fill out an Application for Disability Compensation (VA Form 21P-526EZ)](/disability-benefits/apply/).
+When you file your disability claim, you'll be able to submit all your supporting documents and evidence at the same time.
 
  
 </div>
 </li>
+
 
 
 
