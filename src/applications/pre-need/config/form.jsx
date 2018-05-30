@@ -5,7 +5,7 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 
-import * as address from '../../common/schemaform/definitions/address';
+import * as address from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fileUploadUI from '../../common/schemaform/definitions/file';
