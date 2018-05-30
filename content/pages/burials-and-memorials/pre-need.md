@@ -30,7 +30,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 <br>
 
-### Prepare
+### How do I prepare before starting my application?
 
 <ol class="process">
 <li class="process-step list-one">
