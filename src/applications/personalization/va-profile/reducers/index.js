@@ -65,8 +65,13 @@ function vaProfile(state = initialState, action) {
     case FETCH_MILITARY_INFORMATION_SUCCESS:
       return { ...state, militaryInformation: action.militaryInformation };
 
-    case FETCH_ADDRESS_CONSTANTS_SUCCESS:
-      return { ...state, addressConstants: action.addressConstants };
+    case FETCH_ADDRESS_CONSTANTS_SUCCESS: {
+      const flattened = {
+        states: action.addressConstants.states.states,
+        countries: action.addressConstants.countries.countries,
+      };
+      return { ...state, addressConstants: flattened };
+    }
 
     // Saves
     case SAVE_EMAIL_ADDRESS:

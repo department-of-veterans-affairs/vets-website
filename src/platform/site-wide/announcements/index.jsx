@@ -20,6 +20,9 @@ import Announcement from './containers/Announcement';
 export default function startAnnouncement(store) {
   const annoucementRoot = document.getElementById('announcement-root');
 
+  const isDisabled = window.localStorage.DISMISSED_ANNOUNCEMENTS === '*';
+  if (isDisabled) return;
+
   startReactApp((
     <Provider store={store}>
       <Announcement/>
