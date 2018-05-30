@@ -58,7 +58,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 <div itemprop="itemListElement">
 
 #### In person
-Go to a VA regional office and have a VA employee help you. <br> [Find a regional office near you](/facilities).
+Go to a VA regional benefit office and have a VA employee help you. <br> [Find your nearest VA regional benefit office](/facilities).
 
 Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
