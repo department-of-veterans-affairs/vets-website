@@ -29,8 +29,7 @@ export class ConfirmationPage extends React.Component {
     let dateTitle = 'Date received';
     let emailMessage;
 
-    // if (__BUILDTYPE__ !== 'production') {
-    if (true) {
+    if (__BUILDTYPE__ !== 'production') {
       title = 'Your claim has been submitted.';
       dateTitle = 'Date submitted';
       if (data.email) {
