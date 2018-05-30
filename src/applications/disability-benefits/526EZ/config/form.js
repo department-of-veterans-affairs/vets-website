@@ -704,9 +704,9 @@ const formConfig = {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     itemDescription: 'Adding additional evidence:',
-                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
