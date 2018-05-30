@@ -231,7 +231,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Homelessness',
             'view:homelessness': {
-              'ui:title': 'Are you homeless or in danger of becoming homeless?',
+              'ui:title': 'Are you homeless or at risk of becoming homeless?',
               'ui:widget': 'yesNo',
             },
           },
