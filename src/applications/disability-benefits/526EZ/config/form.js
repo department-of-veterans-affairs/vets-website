@@ -61,7 +61,6 @@ import {
   // releaseView, // Where was this used before?
   disabilityOption,
   GetFormHelp,
-  specialCircumstancesDescription,
   FDCDescription,
   FDCWarning,
   noFDCWarning,
@@ -230,35 +229,24 @@ const formConfig = {
           title: 'Special Circumstances',
           path: 'special-circumstances',
           uiSchema: {
-            'ui:description': specialCircumstancesDescription,
-            'view:suicidal': {
-              'ui:title': 'In crisis or thinking of suicide?'
+            'ui:title': 'Homelessness',
+            'view:homelessness': {
+              'ui:title': 'Are you homeless or in danger of becoming homeless?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                labels: {
+                  y: 'Yes',
+                  n: 'No'
+                }
+              }
             },
-            'view:homeless': {
-              'ui:title': 'Homeless or at risk of becoming homeless?'
-            },
-            'view:extremeFinancialHardship': {
-              'ui:title': 'Suffering from extreme financial hardship?'
-            },
-            'view:blindOrSightImpaired': {
-              'ui:title': 'Blind or sight-impaired?'
-            }
           },
           schema: {
             type: 'object',
             properties: {
-              // 'view:suicidal': { // TODO: re-enable after user testing
-              // type: 'boolean'
-              // },
-              'view:homeless': {
+              'view:homelessness': {
                 type: 'boolean'
               },
-              'view:extremeFinancialHardship': {
-                type: 'boolean'
-              },
-              'view:blindOrSightImpaired': {
-                type: 'boolean'
-              }
             }
           }
         }
