@@ -143,16 +143,16 @@ export default class AutosuggestField extends React.Component {
     if (formContext.reviewMode) {
       const readOnlyData = <span>{getInput(formData, uiSchema, schema)}</span>;
 
-      // If we're using an enum, this is a string field and the label will
+      // If this is an non-object field then the label will
       // be included by ReviewFieldTemplate
-      if (this.useEnum) {
+      if (schema.type !== 'object') {
         return readOnlyData;
       }
 
       return (
         <div className="review-row">
           <dt>{this.props.uiSchema['ui:title']}</dt>
-          <dd><span>{readOnlyData}</span></dd>
+          <dd>{readOnlyData}</dd>
         </div>
       );
     }
