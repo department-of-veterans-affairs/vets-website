@@ -233,12 +233,6 @@ const formConfig = {
             'view:homelessness': {
               'ui:title': 'Are you homeless or in danger of becoming homeless?',
               'ui:widget': 'yesNo',
-              'ui:options': {
-                labels: {
-                  y: 'Yes',
-                  n: 'No'
-                }
-              }
             },
           },
           schema: {
