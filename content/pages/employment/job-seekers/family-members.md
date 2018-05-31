@@ -18,7 +18,7 @@ SECO also partners with other organizations that offer assistance for spouses in
 - Connecting with employers committed to hiring military spouses
 - Pursuing additional education and/or training
 
-Learn more about these organizations:
+Learn more about these organizations:<br>
 [The Military Spouse Employment Partnership (MSEP)](https://msepjobs.militaryonesource.mil/msep/) <br> [The My Career Advancement Account (MyCAA) scholarship program](https://myseco.militaryonesource.mil/Portal/Media/Default/Collaterals_Catalog/Program_Overview/MyCAA-Helping-Spouses-Reach-Career-Goals.pdf)<br>
 [Blue Star Families](https://www.bluestarfam.org/)
 
