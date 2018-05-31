@@ -24,7 +24,7 @@ relatedlinks:
 
   Servicemembers, and their spouses, who are within one year of separating from the military.
 
-- **Why should you read this?**
+- **Why should I read this?**
 
   You can take certain steps to improve your chances of a smooth and successful transition into civilian life.
 </div>
@@ -41,6 +41,7 @@ relatedlinks:
 - Fill in any gaps in your education or skill set by taking classes and obtaining certifications and licensures. The GI Bill may be used for some of this before you leave the service. <br> [Find out more about the GI Bill](/education/gi-bill/).
 - Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you’re unable to attend this training, it’s available through Joint Knowledge Online, but you must have approval from your service branch to get credit. <br>
 [Visit Joint Knowledge Online](https://jkodirect.jten.mil). <br>
+
 You'll need to complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service branch specific. <br> [Check documents related to your branch](https://dodtap.mil/my.policy).
 
 - Review military transcripts and service records for accuracy. <br>
