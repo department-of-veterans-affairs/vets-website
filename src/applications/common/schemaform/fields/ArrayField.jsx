@@ -19,6 +19,20 @@ import { errorSchemaIsValid } from '../validation';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+const isEmpty = (collection) => {
+  if (collection === undefined) {
+    return true;
+  }
+  if (typeof collection !== 'object') {
+    return false;
+  }
+  return _.every(isEmpty, Object.values(collection));
+};
+
+const notYetAnswered = (item, index, errorSchema) => {
+  return isEmpty(item) || !errorSchemaIsValid(errorSchema);
+};
+
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
   constructor(props) {
@@ -34,7 +48,7 @@ export default class ArrayField extends React.Component {
      */
 
     this.state = {
-      itemModes: props.formData && props.formData.length ? props.formData.map((item, index) => (!errorSchemaIsValid(props.errorSchema[index]) ? 'editing' : 'viewing')) : ['adding']
+      itemModes: props.formData && props.formData.length ? props.formData.map((item, index) => (notYetAnswered(item, index, props.errorSchema[index]) ? 'editing' : 'viewing')) : ['adding']
     };
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -195,7 +209,7 @@ export default class ArrayField extends React.Component {
       : null;
     const { reviewMode: isReviewMode } = uiOptions;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
-
+    const lastIndex = Math.max((formData && formData.length - 1), 0);
     // if we have form data, use that, otherwise use an array with a single default object
     const items = (formData && formData.length)
       ? formData
@@ -290,7 +304,7 @@ export default class ArrayField extends React.Component {
                 'usa-button-disabled': !this.props.formData
               }
             )}
-            disabled={!this.props.formData}
+            disabled={!this.props.formData || isEmpty(this.props.formData[lastIndex])}
             onClick={this.handleAdd}>
             Add Another {uiOptions.itemName}
           </button>

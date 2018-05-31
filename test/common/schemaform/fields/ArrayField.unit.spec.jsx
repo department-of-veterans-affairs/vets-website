@@ -16,7 +16,10 @@ const formContext = {
   setTouched: sinon.spy()
 };
 const requiredSchema = {};
-const errorSchema = {};
+const errorSchema = {
+  0: { __errors: [] },
+  1: { __errors: [] }
+};
 
 describe('Schemaform <ArrayField>', () => {
   it('should render', () => {
@@ -157,7 +160,8 @@ describe('Schemaform <ArrayField>', () => {
       }
     };
     const fullErrorSchema = {
-      0: { __errors: ['Test error'] }
+      0: { __errors: ['Test error'] },
+      1: { __errors: [] }
     };
     const formData = [
       { field: 'information' },
@@ -182,7 +186,6 @@ describe('Schemaform <ArrayField>', () => {
   });
   describe('should handle', () => {
     let tree;
-    let fullErrorSchema;
     let onChange;
     let onBlur;
     beforeEach(() => {
@@ -208,17 +211,18 @@ describe('Schemaform <ArrayField>', () => {
           viewField: ViewField
         }
       };
+      errorSchema[0] = { __errors: [] };
+      errorSchema[1] = { __errors: [] };
       const formData = [
         { field: 'information' },
         { field: 'information' }
       ];
-      fullErrorSchema = {};
       onChange = sinon.spy();
       onBlur = sinon.spy();
       tree = SkinDeep.shallowRender(
         <ArrayField
           schema={schema}
-          errorSchema={fullErrorSchema}
+          errorSchema={errorSchema}
           uiSchema={uiSchema}
           idSchema={idSchema}
           registry={registry}
@@ -250,7 +254,7 @@ describe('Schemaform <ArrayField>', () => {
 
       expect(tree.everySubTree('SchemaField').length).to.equal(1);
 
-      fullErrorSchema[0] = { __errors: ['Testing'] };
+      errorSchema[0] = { __errors: ['Testing'] };
 
       tree.getMountedInstance().handleUpdate(0);
 
@@ -266,7 +270,7 @@ describe('Schemaform <ArrayField>', () => {
     });
     it('add when invalid', () => {
       formContext.setTouched.reset();
-      fullErrorSchema[1] = { __errors: ['Test error'] };
+      errorSchema[1] = { __errors: ['Test error'] };
       tree.getMountedInstance().handleAdd();
 
       expect(formContext.setTouched.called).to.be.true;
