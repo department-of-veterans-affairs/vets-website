@@ -23,8 +23,8 @@ class SignInModal extends React.Component {
     }
   }
 
-  renderDSLogonDowntimeBanner = (status) => {
-    if (status === serviceStatus.down) {
+  renderDSLogonDowntimeBanner = (downtime) => {
+    if (downtime.status === serviceStatus.down) {
       return (
         <div className="downtime-notification row">
           <div className="columns small-12">

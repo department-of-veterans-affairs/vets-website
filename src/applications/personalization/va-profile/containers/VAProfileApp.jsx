@@ -3,16 +3,24 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
-  startup,
+  initializeDowntimeWarnings,
+  dismissDowntimeWarning
+} from '../../../../platform/monitoring/DowntimeNotification/actions';
+
+import {
   saveField,
   updateFormField,
   openModal,
   clearErrors,
-  clearMessage
+  clearMessage,
+  fetchAddressConstants,
+  fetchContactInformation,
+  fetchHero,
+  fetchMilitaryInformation,
+  fetchPersonalInformation
 } from '../actions';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import ProfileView from '../components/ProfileView';
 
 class VAProfileApp extends React.Component {
@@ -25,25 +33,32 @@ class VAProfileApp extends React.Component {
           user={this.props.account}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
-            <ProfileView
-              startup={this.props.startup}
-              profile={this.props.profile}
-              message={{
-                content: this.props.profile.message,
-                clear: this.props.clearMessage
-              }}
-              updateActions={this.props.updateActions}
-              updateFormFieldActions={this.props.updateFormFieldActions}
-              modal={{
-                open: this.props.openModal,
-                currentlyOpen: this.props.profile.modal,
-                formFields: this.props.profile.formFields,
-                pendingSaves: this.props.profile.pendingSaves,
-                errors: this.props.profile.errors,
-                clearErrors: this.props.clearErrors
-              }}/>
-          </DowntimeNotification>
+          <ProfileView
+            user={this.props.account}
+            fetchAddressConstants={this.props.fetchAddressConstants}
+            fetchContactInformation={this.props.fetchContactInformation}
+            fetchHero={this.props.fetchHero}
+            fetchMilitaryInformation={this.props.fetchMilitaryInformation}
+            fetchPersonalInformation={this.props.fetchPersonalInformation}
+            profile={this.props.profile}
+            message={{
+              content: this.props.profile.message,
+              clear: this.props.clearMessage
+            }}
+            updateActions={this.props.updateActions}
+            updateFormFieldActions={this.props.updateFormFieldActions}
+            downtimeData={{
+              ...this.props.downtimeData,
+              ...this.props.downtimeActions
+            }}
+            modal={{
+              open: this.props.openModal,
+              currentlyOpen: this.props.profile.modal,
+              formFields: this.props.profile.formFields,
+              pendingSaves: this.props.profile.pendingSaves,
+              errors: this.props.profile.errors,
+              clearErrors: this.props.clearErrors
+            }}/>
         </RequiredLoginView>
       </div>
     );
@@ -54,12 +69,20 @@ const mapStateToProps = (state) => {
   return {
     account: state.user,
     profile: state.vaProfile,
+    downtimeData: {
+      appTitle: 'profile',
+      isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile')
+    }
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
-    startup,
+    fetchAddressConstants,
+    fetchContactInformation,
+    fetchHero,
+    fetchMilitaryInformation,
+    fetchPersonalInformation,
     openModal,
     clearErrors,
     clearMessage
@@ -67,6 +90,10 @@ const mapDispatchToProps = (dispatch) => {
 
   actions.updateActions = bindActionCreators(saveField, dispatch);
   actions.updateFormFieldActions = bindActionCreators(updateFormField, dispatch);
+  actions.downtimeActions = bindActionCreators({
+    initializeDowntimeWarnings,
+    dismissDowntimeWarning
+  }, dispatch);
   return actions;
 };
 

@@ -91,15 +91,15 @@ class ClaimsAppealsWidget extends React.Component {
   }
 
   renderWidgetDowntimeNotification = (appName) => {
-    return (status, downtimeWindow, downtimeMap, children) => {
-      switch (status) {
+    return (downtime, children) => {
+      switch (downtime.status) {
         case 'down':
           return (
             <div>
               <AlertBox
                 content={<div>
                   <h4 className="usa-alert-heading">{appName} is down for maintenance</h4>
-                  <p>We’re making some updates to our {appName.toLowerCase()} tool. We’re sorry it’s not working right now and hope to be finished by {downtimeWindow.startTime.format('MMMM Do')}, {downtimeWindow.endTime.format('LT')}. Please check back soon.</p>
+                  <p>We’re making some updates to our {appName.toLowerCase()} tool. We’re sorry it’s not working right now and hope to be finished by {downtime.startTime.format('MMMM Do')}, {downtime.endTime.format('LT')}. Please check back soon.</p>
                 </div>}
                 isVisible
                 status="warning"/>
@@ -147,7 +147,7 @@ class ClaimsAppealsWidget extends React.Component {
     }
 
     return (
-      <div>
+      <div id="claims-widget">
         <h2>Track Claims</h2>
         <div>
           <DowntimeNotification appTitle="claims" dependencies={[services.mhv]} render={this.renderWidgetDowntimeNotification('Claims tracking')}>

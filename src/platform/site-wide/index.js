@@ -10,6 +10,7 @@ import './accessible-VCL-modal';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startFeedbackWidget from './feedback';
+import startAnnouncementWidget from './announcements';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -37,4 +38,5 @@ export default function startSitewideComponents(commonStore) {
 
   startUserNavWidget(commonStore);
   startFeedbackWidget(commonStore);
+  startAnnouncementWidget(commonStore);
 }

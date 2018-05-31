@@ -66,7 +66,9 @@ class DashboardApp extends React.Component {
     super(props);
 
     this.state = {
-      modalDismissed: false
+      modalDismissed: false,
+      'show-loa-alert': true,
+      'show-mvi-alert': true,
     };
   }
 
@@ -80,8 +82,17 @@ class DashboardApp extends React.Component {
     });
   }
 
-  renderDowntimeNotification = (status, downtimeWindow, downtimeMap, children) => {
-    switch (status) {
+  dismissAlertBox = (name) => {
+    return () => {
+      this.setState({
+        [`show-${name}-alert`]: false,
+      });
+      window.localStorage.setItem(`hide-${name}-alert`, true);
+    };
+  }
+
+  renderDowntimeNotification = (downtime, children) => {
+    switch (downtime.status) {
       case 'downtimeApproaching':
         return (
           <div className="downtime-notification row-padded" data-status={status}>
@@ -90,7 +101,7 @@ class DashboardApp extends React.Component {
               status="info"
               onClose={this.dismissModal}
               visible={!this.state.modalDismissed}>
-              <p>We’ll be making updates to some tools and features on {downtimeWindow.startTime.format('MMMM Do')} between {downtimeWindow.startTime.format('LT')} and {downtimeWindow.endTime.format('LT')} If you have trouble using parts of the dashboard during that time, please check back soon.</p>
+              <p>We’ll be making updates to some tools and features on {downtime.startTime.format('MMMM Do')} between {downtime.startTime.format('LT')} and {downtime.endTime.format('LT')} If you have trouble using parts of the dashboard during that time, please check back soon.</p>
               <button type="button" className="usa-button-secondary" onClick={this.dismissModal}>Continue</button>
             </Modal>
             {children}
@@ -102,8 +113,8 @@ class DashboardApp extends React.Component {
   }
 
   renderWidgetDowntimeNotification = (appName, sectionTitle) => {
-    return (status, downtimeWindow, downtimeMap, children) => {
-      switch (status) {
+    return (downtime, children) => {
+      switch (downtime.status) {
         case 'down':
           return (
             <div>
@@ -111,7 +122,7 @@ class DashboardApp extends React.Component {
               <AlertBox
                 content={<div>
                   <h4 className="usa-alert-heading">{appName} is down for maintenance</h4>
-                  <p>We’re making some updates to our {appName.toLowerCase()} tool. We’re sorry it’s not working right now and hope to be finished by {downtimeWindow.startTime.format('MMMM Do')}, {downtimeWindow.endTime.format('LT')}. Please check back soon.</p>
+                  <p>We’re making some updates to our {appName.toLowerCase()} tool. We’re sorry it’s not working right now and hope to be finished by {downtime.startTime.format('MMMM Do')}, {downtime.endTime.format('LT')}. Please check back soon.</p>
                 </div>}
                 isVisible
                 status="warning"/>
@@ -123,7 +134,87 @@ class DashboardApp extends React.Component {
     };
   }
 
+  renderEmptyStateLinks() {
+    return (
+      <div>
+        <h2>Explore Our Most Used Benefits</h2>
+
+        <ul className="va-nav-linkslist-list">
+          <li>
+            <a href="/disability-benefits/" onClick={recordDashboardClick('disability-benefits')}>
+              <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
+              <p className="va-nav-linkslist-description">Apply for disability compensation and other benefits for conditions related to your military service.</p>
+            </a>
+          </li>
+          <li>
+            <a href="/health-care/" onClick={recordDashboardClick('health-care')}>
+              <h4 className="va-nav-linkslist-title">Health Care Benefits</h4>
+              <p className="va-nav-linkslist-description">Apply for VA health care, find out how to access services, and manage your health and benefits online.</p>
+            </a>
+          </li>
+          <li>
+            <a href="/education/" onClick={recordDashboardClick('education-benefits')}>
+              <h4 className="va-nav-linkslist-title">Education Benefits</h4>
+              <p className="va-nav-linkslist-description">Apply for and manage benefits that help you pay for college and training programs.</p>
+            </a>
+          </li>
+          <li>
+            <a href="/employment/" onClick={recordDashboardClick('employment')}>
+              <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
+              <p className="va-nav-linkslist-description">Find out if you're eligible for Vocational Rehabilitation and Employment (VR&E) services, get support for your Veteran-owned small business, and access other resources to help build your career skills and find a job.</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+
+  renderLOAPrompt() {
+    if (this.props.profile.verified) {
+      return null;
+    }
+
+    return (
+      <AlertBox
+        content={<div>
+          <h4 className="usa-alert-heading">Verify your identity to access more Vets.gov tools and features</h4>
+          <p>When you verify your identity, you can use Vets.gov to do things like track your claims, refill your prescriptions, and download your VA benefit letters.</p>
+          <a className="usa-button-primary" href="/verify" onClick={() => { recordEvent({ event: 'verify-link-clicked' }); }}>Verify Your Identity</a>
+          <p><a href="/faq#verifying-your-identity" onClick={recordDashboardClick('learn-more-identity')}>Learn about how to verify your identity</a></p>
+        </div>}
+        onCloseAlert={this.dismissAlertBox('loa')}
+        isVisible={this.state['show-loa-alert'] && !window.localStorage.getItem('hide-loa-alert')}
+        status="info"/>
+    );
+  }
+
+  renderMVIWarning() {
+    if (this.props.profile.loa.current === 1 || this.props.profile.status === 'OK') {
+      return null;
+    }
+
+    return (
+      <AlertBox
+        content={<div>
+          <h4 className="usa-alert-heading">We’re having trouble matching your information to our Veteran records</h4>
+          <p>We’re sorry. We’re having trouble matching your information to our Veteran records, so we can’t give you access to tools for managing your health and benefits.</p>
+          <p>If you’d like to use these tools on Vets.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect with you with the right person who can help.</p>
+          <p><a href="/facilities" onClick={() => { recordEvent({ event: 'dashboard-navigation', 'dashboard-action': 'view-link', 'dashboard-product': 'find-center' }); }}>Find your nearest VA Medical Center</a></p>
+        </div>}
+        onCloseAlert={this.dismissAlertBox('mvi')}
+        isVisible={this.state['show-mvi-alert'] && !window.localStorage.getItem('hide-mvi-alert')}
+        status="warning"/>
+    );
+  }
+
   render() {
+    const availableWidgetsCount = [
+      this.props.canAccessClaims,
+      this.props.canAccessRx,
+      this.props.canAccessMessaging,
+      this.props.canAccessAppeals,
+    ].filter(e => e).length;
+
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
@@ -137,6 +228,9 @@ class DashboardApp extends React.Component {
               removeSavedForm={this.props.removeSavedForm}
               savedForms={this.props.profile.savedForms}/>
 
+            {this.renderLOAPrompt()}
+            {this.renderMVIWarning()}
+
             <ClaimsAppealsWidget/>
 
             <DowntimeNotification appTitle="messaging" dependencies={[services.mvi, services.mhv]} render={this.renderWidgetDowntimeNotification('Secure messaging', 'Track Secure Messages')}>
@@ -147,6 +241,7 @@ class DashboardApp extends React.Component {
               <PrescriptionsWidget/>
             </DowntimeNotification>
           </div>
+          {(availableWidgetsCount === 0) && this.renderEmptyStateLinks()}
           <div>
             <h2>Manage Your Health and Benefits</h2>
 
@@ -207,8 +302,7 @@ class DashboardApp extends React.Component {
     return (
       <div name="topScrollElement">
         <RequiredLoginView
-          authRequired={3}
-          serviceRequired={['evss-claims', 'appeals-status', 'user-profile']}
+          serviceRequired={['user-profile']}
           user={this.props.user}>
           <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.mhv, services.appeals]} render={this.renderDowntimeNotification}>
             {view}
@@ -221,8 +315,18 @@ class DashboardApp extends React.Component {
 
 const mapStateToProps = (state) => {
   const userState = state.user;
+  const profileState = userState.profile;
+  const canAccessRx = profileState.services.includes('rx');
+  const canAccessMessaging = profileState.services.includes('messaging');
+  const canAccessAppeals = profileState.services.includes('appeals-status');
+  const canAccessClaims = profileState.services.includes('evss-claims');
+
   return {
-    profile: userState.profile,
+    canAccessRx,
+    canAccessMessaging,
+    canAccessAppeals,
+    canAccessClaims,
+    profile: profileState,
     user: userState
   };
 };

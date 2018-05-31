@@ -48,7 +48,7 @@ describe('686 veteran information', () => {
 
     fillData(form, 'input#root_veteranFullName_first', 'test');
     fillData(form, 'input#root_veteranFullName_last', 'test');
-    fillData(form, 'input#root_veteranSSN', '222-23-2425');
+    fillData(form, 'input#root_veteranSocialSecurityNumber', '222-23-2425');
     selectRadio(form, 'root_view:relationship', 'veteran');
 
     form.find('form').simulate('submit');
@@ -82,7 +82,7 @@ describe('686 veteran information', () => {
     );
     fillData(form, 'input#root_veteranFullName_first', 'test');
     fillData(form, 'input#root_veteranFullName_last', 'test');
-    fillData(form, 'input#root_veteranSSN', '222-23-2425');
+    fillData(form, 'input#root_veteranSocialSecurityNumber', '222-23-2425');
     selectRadio(form, 'root_view:relationship', 'spouse');
 
     fillData(form, 'input[name="root_view:applicantInfo_claimantFullName_first"]', 'test');

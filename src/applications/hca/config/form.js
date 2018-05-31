@@ -10,11 +10,14 @@ import {
   states
 } from '../../../platform/forms/address';
 import { genderLabels } from '../../../platform/static-data/labels';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
 
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
 import MilitaryPrefillMessage from '../../common/schemaform/save-in-progress/MilitaryPrefillMessage';
+import DowntimeMessage from '../components/DowntimeMessage';
 
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
@@ -135,15 +138,19 @@ const stateLabels = createUSAStateLabels(states);
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/health_care_applications',
+  submitUrl: `${environment.API_URL}/v0/health_care_applications`,
   trackingPrefix: 'hca-',
   formId: '1010ez',
-  version: 4,
+  version: 5,
   migrations,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.'
+  },
+  downtime: {
+    dependencies: [services.es],
+    message: DowntimeMessage
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
@@ -173,9 +180,16 @@ const formConfig = {
           uiSchema: {
             'ui:description': applicantDescription,
             veteranFullName: _.merge(fullNameUI, {
+              first: {
+                'ui:errorMessages': {
+                  minLength: 'Please provide a valid name. Must be at least 1 character.',
+                  pattern: 'Please provide a valid name. Must be at least 1 character.'
+                }
+              },
               last: {
                 'ui:errorMessages': {
-                  minLength: 'Please provide a valid name. Must be at least 2 characters.'
+                  minLength: 'Please provide a valid name. Must be at least 2 characters.',
+                  pattern: 'Please provide a valid name. Must be at least 2 characters.'
                 }
               }
             }),
@@ -301,7 +315,18 @@ const formConfig = {
           title: 'Permanent address',
           initialData: {},
           uiSchema: {
-            veteranAddress: addressUI('Permanent address', true)
+            veteranAddress: _.merge(addressUI('Permanent address', true), {
+              street: {
+                'ui:errorMessages': {
+                  pattern: 'Please provide a valid street. Must be at least 1 character.'
+                }
+              },
+              city: {
+                'ui:errorMessages': {
+                  pattern: 'Please provide a valid city. Must be at least 1 character.'
+                }
+              }
+            })
           },
           schema: {
             type: 'object',
@@ -526,7 +551,7 @@ const formConfig = {
           title: 'Spouse’s information',
           initialData: {},
           depends: (formData) => formData.discloseFinancialInformation && formData.maritalStatus &&
-            (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated'),
+          (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated'),
           uiSchema: {
             'ui:title': 'Spouse’s information',
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
@@ -640,7 +665,7 @@ const formConfig = {
               'ui:title': 'Spouse income',
               'ui:options': {
                 hideIf: (formData) => !formData.maritalStatus ||
-                  (formData.maritalStatus.toLowerCase() !== 'married' && formData.maritalStatus.toLowerCase() !== 'separated')
+                (formData.maritalStatus.toLowerCase() !== 'married' && formData.maritalStatus.toLowerCase() !== 'separated')
               },
               spouseGrossIncome: _.merge(currencyUI('Spouse gross annual income from employment'), {
                 'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated')

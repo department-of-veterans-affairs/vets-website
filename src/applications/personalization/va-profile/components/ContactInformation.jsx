@@ -9,20 +9,20 @@ import {
   SAVE_EMAIL_ADDRESS_FAIL
 } from '../actions';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
-
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
 import EmailSection from './EmailSection';
 import LoadingSection from './LoadingSection';
 import LoadFail from './LoadFail';
-
+import { handleDowntimeForSection } from './DowntimeBanner';
 
 function recordedAction(actionName, sectionName, callback) {
-  return () => {
+  return (...args) => {
     if (sectionName && actionName) {
       recordEvent({
         event: 'profile-navigation',
@@ -30,11 +30,36 @@ function recordedAction(actionName, sectionName, callback) {
         'profile-section': sectionName,
       });
     }
-    callback();
+    callback(...args);
   };
 }
 
-class ContactInformation extends React.Component {
+function ContactError({ error }) {
+  const lacksParticipantId = error.errors.some(e => e.code === '403');
+  if (lacksParticipantId) {
+    // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/10581
+    return (
+      <AlertBox
+        status="info"
+        isVisible
+        content={
+          <div>
+            <h3>Contact information is coming soon</h3>
+            <p>We’re working to give you access to review and edit your contact information. Please check back soon.</p>
+          </div>
+        }/>
+    );
+  }
+
+  return <LoadFail information="contact"/>;
+}
+
+class ContactInformationContent extends React.Component {
+
+  componentDidMount() {
+    this.props.fetchContactInformation();
+    this.props.fetchAddressConstants();
+  }
 
   openModalHandler(modalName) {
     return () => this.props.modal.open(modalName);
@@ -67,7 +92,7 @@ class ContactInformation extends React.Component {
     } = this.props;
 
     if (email.error && mailingAddress.error && primaryTelephone.error && alternateTelephone.error) {
-      return <LoadFail information="contact"/>;
+      return <ContactError error={email.error}/>;
     }
 
     return (
@@ -134,7 +159,6 @@ class ContactInformation extends React.Component {
   render() {
     return (
       <div>
-        <h2 className="va-profile-heading">Contact Information</h2>
         <AlertBox
           isVisible
           status="info"
@@ -152,4 +176,13 @@ class ContactInformation extends React.Component {
   }
 }
 
-export default ContactInformation;
+export default function ContactInformation(props) {
+  return (
+    <div>
+      <h2 className="va-profile-heading">Contact Information</h2>
+      <DowntimeNotification render={handleDowntimeForSection('contact')} dependencies={[services.evss, services.mvi]}>
+        <ContactInformationContent {...props}/>
+      </DowntimeNotification>
+    </div>
+  );
+}

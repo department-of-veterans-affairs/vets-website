@@ -5,6 +5,7 @@ import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 import schoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import applicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
@@ -32,7 +33,7 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/1990n',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990n`,
   trackingPrefix: 'edu-1990n-',
   formId: '22-1990N',
   version: 1,

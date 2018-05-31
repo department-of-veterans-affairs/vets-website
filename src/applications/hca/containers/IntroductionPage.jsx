@@ -6,29 +6,7 @@ import { focusElement } from '../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from '../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
-import DowntimeNotification, { services, serviceStatus } from '../../../platform/monitoring/DowntimeNotification';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-function renderDowntime(status, downtimeWindow, downtimeMap, children) {
-  if (status === serviceStatus.down) {
-    const message = (
-      <div>
-        <p>We’re sorry. The health care application is currently down while we fix a few things. We’ll be back up as soon as we can.</p>
-        <p>In the meantime, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>) and press 2 to complete this application over the phone.</p>
-      </div>
-    );
-
-    return (
-      <AlertBox
-        headline="The health care application is down for maintenance."
-        content={message}
-        isVisible
-        status="warning"/>
-    );
-  }
-
-  return children;
-}
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -39,20 +17,16 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for health care benefits"/>
         <p>Equal to VA Form 10-10EZ (Application for Health Benefits).</p>
-        <DowntimeNotification
-          appTitle="health care application"
-          render={renderDowntime}
-          dependencies={[services.es]}>
-          <SaveInProgressIntro
-            prefillEnabled={this.props.route.formConfig.prefillEnabled}
-            messages={this.props.route.formConfig.savedFormMessages}
-            pageList={this.props.route.pageList}
-            startText="Start the Health Care Application"
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}>
-            Please complete the 10-10EZ form to apply for health care benefits.
-          </SaveInProgressIntro>
-        </DowntimeNotification>
+        <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          downtime={this.props.route.formConfig.downtime}
+          pageList={this.props.route.pageList}
+          startText="Start the Health Care Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
+          Please complete the 10-10EZ form to apply for health care benefits.
+        </SaveInProgressIntro>
         <h4>Follow the steps below to apply for health care benefits.</h4>
         <div className="process schemaform-process">
           <ol>
@@ -91,18 +65,14 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <DowntimeNotification
-          appTitle="health care application"
-          render={renderDowntime}
-          dependencies={[services.es]}>
-          <SaveInProgressIntro
-            buttonOnly
-            messages={this.props.route.formConfig.savedFormMessages}
-            pageList={this.props.route.pageList}
-            startText="Start the Health Care Application"
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>
-        </DowntimeNotification>
+        <SaveInProgressIntro
+          buttonOnly
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the Health Care Application"
+          downtime={this.props.route.formConfig.downtime}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018"/>
         </div>
