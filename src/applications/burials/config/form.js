@@ -34,7 +34,11 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import currencyUI from '../../common/schemaform/definitions/currency';
-import { validateBurialAndDeathDates } from '../validation';
+import {
+  validateBurialAndDeathDates,
+  validateCentralMailPostalCode
+} from '../validation';
+import migrations from '../migrations';
 
 const {
   relationship,
@@ -89,7 +93,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-530',
-  version: 0,
+  version: 1,
+  migrations,
   prefillEnabled: true,
   downtime: {
     dependencies: [services.icmhs]
@@ -506,7 +511,11 @@ const formConfig = {
                 hideIf: form => _.get('relationship.isEntity', form) !== true
               }
             },
-            claimantAddress: address.uiSchema('Address'),
+            claimantAddress: _.set(
+              'ui:validations[1]',
+              validateCentralMailPostalCode,
+              address.uiSchema('Address')
+            ),
             claimantEmail: {
               'ui:title': 'Email address'
             },

@@ -64,7 +64,11 @@ import createNonRequiredFullName from '../../common/schemaform/definitions/nonRe
 import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from '../../common/schemaform/definitions/currency';
 
-import { validateServiceBirthDates, validateAfterMarriageDate } from '../validation';
+import {
+  validateServiceBirthDates,
+  validateAfterMarriageDate,
+  validateCentralMailPostalCode
+} from '../validation';
 import migrations from '../migrations';
 
 const {
@@ -1544,7 +1548,11 @@ const formConfig = {
           path: 'additional-information/contact',
           uiSchema: {
             'ui:title': 'Contact information',
-            veteranAddress: address.uiSchema('Mailing address'),
+            veteranAddress: _.set(
+              'ui:validations[1]',
+              validateCentralMailPostalCode,
+              address.uiSchema('Mailing address')
+            ),
             email: {
               'ui:title': 'Primary email'
             },
