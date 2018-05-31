@@ -92,7 +92,7 @@ If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Co
 </li>
 </ol>
 
-### Ready to apply?
+### How do I apply?
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
