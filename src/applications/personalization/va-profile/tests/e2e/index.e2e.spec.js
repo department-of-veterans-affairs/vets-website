@@ -27,6 +27,14 @@ const VERIFICATIONS = {
   primaryPhone: {
     selector: '.va-profile-phone',
     value: '(123) 456-7890'
+  },
+  gender: {
+    selector: '.va-profile-gender',
+    value: 'Male'
+  },
+  birthDate: {
+    selector: '.va-profile-birthdate',
+    value: 'Mar. 21, 1972'
   }
 };
 
