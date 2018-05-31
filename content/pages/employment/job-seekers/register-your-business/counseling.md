@@ -8,11 +8,11 @@ concurrence: complete
 <div class="va-introtext">
 
 The Small Business Administration and VA’s Office of Small and Disadvantaged Business Utilization in collaboration with Business USA have resources to support you in starting a new business or growing an existing one. <br>
-[Find out more about the Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned). <br>
-[Visit Business USA](http://business.usa.gov/).
-
 
 </div>
+
+[Find out more about the Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned). <br>
+[Visit Business USA](http://business.usa.gov/).
 
 These resources help you with business-plan writing, funding, licensure and permits, mentoring, marketing, how to contract with the government, and more.
 
