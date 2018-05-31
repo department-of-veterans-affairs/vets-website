@@ -3,12 +3,11 @@ import moment from 'moment';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import {
-  maritalStatuses
-} from '../../../platform/static-data/options-for-select';
-import {
-  states
-} from '../../../platform/forms/address';
+import { validateMatch } from 'us-forms-system/lib/js/validation';
+import { createUSAStateLabels } from 'us-forms-system/lib/js/helpers';
+
+import { maritalStatuses } from '../../../platform/static-data/options-for-select';
+import { states } from '../../../platform/forms/address';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { services } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
@@ -20,8 +19,6 @@ import MilitaryPrefillMessage from '../../common/schemaform/save-in-progress/Mil
 import DowntimeMessage from '../components/DowntimeMessage';
 
 import GetFormHelp from '../components/GetFormHelp';
-import { validateMatch } from '../../common/schemaform/validation';
-import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 import {
   transform,

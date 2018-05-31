@@ -1,5 +1,5 @@
 import Raven from 'raven-js';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import { recordEvent } from 'us-forms-system/lib/js/helpers';
 import environment from '../../../../platform/utilities/environment';
 import { sanitizeForm } from '../../../../platform/forms/helpers';
 

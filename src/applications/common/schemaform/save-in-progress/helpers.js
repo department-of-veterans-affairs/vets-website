@@ -2,7 +2,8 @@ import {
   createPageList,
   createFormPageList,
   createRoutes
-} from '../helpers';
+} from 'us-forms-system/lib/js/helpers';
+
 import RoutedSavablePage from './RoutedSavablePage';
 import RoutedSavableReviewPage from './RoutedSavableReviewPage';
 import FormSaved from './FormSaved';

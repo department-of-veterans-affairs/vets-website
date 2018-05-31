@@ -1,10 +1,11 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
-import recordEvent from '../../../../platform/monitoring/record-event';
+
+import { recordEvent } from 'us-forms-system/lib/js/helpers';
+import { focusElement } from 'us-forms-system/lib/js/utilities/ui';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
-import { focusElement } from '../../../../platform/utilities/ui';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
 
+import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
+import { FormPage } from 'us-forms-system/lib/js/containers/FormPage';
+
 import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
-import { setData, uploadFile } from '../actions';
+// import { setData, uploadFile } from '../actions';
 import {
   saveErrors,
   autoSaveForm,
@@ -14,7 +17,7 @@ import {
 } from './actions';
 import { getFormContext } from './selectors';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
-import { FormPage } from '../containers/FormPage';
+// import { FormPage } from '../containers/FormPage';
 
 class RoutedSavablePage extends React.Component {
   constructor(props) {
