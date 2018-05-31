@@ -45,7 +45,18 @@
     "value": {
       "data": {
         "attributes": {
-          "email": "test@test.com"
+          "email": "old_email@va.gov"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/email",
+    "verb": "post",
+    "value": {
+      "data": {
+        "attributes": {
+          "email": "new_email@va.gov"
         }
       }
     }
@@ -58,7 +69,31 @@
         "attributes": {
           "address": {
             "addressEffectiveDate": "2012-04-03T04:00:00.000+00:00",
-            "addressOne": "123 MAIN ST",
+            "addressOne": "123 OLD ST",
+            "addressThree": "",
+            "addressTwo": "BEN FRANKLIN VILLAGE",
+            "militaryPostOfficeTypeCode": "APO",
+            "militaryStateCode": "AE",
+            "type": "MILITARY",
+            "zipCode": "09028",
+            "zipSuffix": ""
+          },
+          "controlInformation": {
+            "canUpdate": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/mailing_address",
+    "verb": "put",
+    "value": {
+      "data": {
+        "attributes": {
+          "address": {
+            "addressEffectiveDate": "2012-04-03T04:00:00.000+00:00",
+            "addressOne": "123 NEW ST",
             "addressThree": "",
             "addressTwo": "BEN FRANKLIN VILLAGE",
             "militaryPostOfficeTypeCode": "APO",
@@ -88,7 +123,20 @@
     }
   },
   {
-    "path": "/v0/profile/telephone_phone",
+    "path": "/v0/profile/primary_phone",
+    "verb": "put",
+    "value": {
+      "data": {
+        "attributes": {
+          "countryCode": "1",
+          "extension": null,
+          "number": "0987654321"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/alternate_phone",
     "verb": "get",
     "value": {
       "data": {

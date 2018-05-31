@@ -46,6 +46,7 @@ class EditEmailModal extends React.Component {
             <ErrorableTextInput
               autoFocus
               label="Email Address"
+              name="email"
               field={{ value: field.value.email, dirty: false }}
               errorMessage={field.errorMessage}
               onValueChange={this.onChange}/>
@@ -89,7 +90,7 @@ export default function EmailSection({ emailResponseData, field, error, clearErr
   }
 
   return (
-    <div>
+    <div className="va-profile-email">
       {modal}
       <HeadingWithEdit onEditClick={emailResponseData && emailResponseData.email && onEdit}>Email Address</HeadingWithEdit>
       <div>{content}</div>
