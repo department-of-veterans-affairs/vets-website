@@ -35,6 +35,10 @@ const VERIFICATIONS = {
   birthDate: {
     selector: '.va-profile-birthdate',
     value: 'Mar. 21, 1972'
+  },
+  serviceHistory: {
+    selector: '.va-profile-servicehistory',
+    value: 'Army'
   }
 };
 
