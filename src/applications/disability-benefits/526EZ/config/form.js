@@ -61,7 +61,6 @@ import {
   // releaseView, // Where was this used before?
   disabilityOption,
   GetFormHelp,
-  specialCircumstancesDescription,
   FDCDescription,
   FDCWarning,
   noFDCWarning,
@@ -230,35 +229,18 @@ const formConfig = {
           title: 'Special Circumstances',
           path: 'special-circumstances',
           uiSchema: {
-            'ui:description': specialCircumstancesDescription,
-            'view:suicidal': {
-              'ui:title': 'In crisis or thinking of suicide?'
+            'ui:title': 'Homelessness',
+            'view:homelessness': {
+              'ui:title': 'Are you homeless or at risk of becoming homeless?',
+              'ui:widget': 'yesNo',
             },
-            'view:homeless': {
-              'ui:title': 'Homeless or at risk of becoming homeless?'
-            },
-            'view:extremeFinancialHardship': {
-              'ui:title': 'Suffering from extreme financial hardship?'
-            },
-            'view:blindOrSightImpaired': {
-              'ui:title': 'Blind or sight-impaired?'
-            }
           },
           schema: {
             type: 'object',
             properties: {
-              // 'view:suicidal': { // TODO: re-enable after user testing
-              // type: 'boolean'
-              // },
-              'view:homeless': {
+              'view:homelessness': {
                 type: 'boolean'
               },
-              'view:extremeFinancialHardship': {
-                type: 'boolean'
-              },
-              'view:blindOrSightImpaired': {
-                type: 'boolean'
-              }
             }
           }
         }
@@ -545,6 +527,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['view:uploadPrivateRecords'],
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
@@ -753,6 +736,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['privateRecords'],
                   properties: {
                     privateRecords: {
                       type: 'array',
@@ -823,6 +807,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['additionalDocuments'],
                   properties: {
                     additionalDocuments: {
                       type: 'array',
