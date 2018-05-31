@@ -27,6 +27,7 @@ As a Veteran with a service-connected disability, there are many ways for you to
 ### Federal Job Preference
 
 If you’re a Veteran with a service-connected disability, you qualify for hiring preference when competing for certain federal jobs. <br> [Learn more about applying for federal jobs](/employment/job-seekers/federal-employment/). <br> 
+
 Some classifications, or exceptions, may qualify you for specific federal positions. Know which hiring exceptions you qualify for as a service-disabled Veteran. <br> [Check federal hiring authority information before applying](http://www.fedshirevets.gov/job/shav/).
 
 **Vocational Rehabilitation and Employment (VR&amp;E)**
@@ -46,4 +47,6 @@ Credentialing and job training can help with your search. <br> [Check to make su
 -----
 
 ### Learn more
-[Contact your local Veteran Employment Specialist (VES)](https://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp), **or** <br> [Contact your policy and benefits advocate](/disability-benefits/apply/help/)
+[Contact your local Veteran Employment Specialist (VES)](https://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp).<br>
+
+[Contact your policy and benefits advocate](/disability-benefits/apply/help/).
