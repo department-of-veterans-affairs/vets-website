@@ -26,11 +26,13 @@ Learn more about these organizations:<br>
 
 ### Am I eligible for SECO services?
 
-Yes, if:
+You may be eligible for SECO services if any of the descriptions below is true for you.
 
-- You’re the spouse of an active-duty, National Guard, or Reserve Servicemember in the Army, Marine Corps, Navy, or Air Force.
-- You’re the spouse of a Servicemember who has been separated from active duty, National Guard, or Reserves for less than 180 days.
-- You’re the surviving spouse of a Servicemember who died while on active duty.
+**One of these must be true. You're the:**
+
+- Spouse of an active-duty, National Guard, or Reserve Servicemember in the Army, Marine Corps, Navy, or Air Force, **or**
+- Spouse of a Servicemember who has been separated from active duty, National Guard, or Reserves for less than 180 days, **or**
+- Surviving spouse of a Servicemember who died while on active duty.
 </div>
 
 ### Other programs
