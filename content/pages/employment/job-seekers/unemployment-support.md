@@ -72,7 +72,7 @@ Receiving unemployment will not affect your wages, but if you receive separation
 - Current resume or military job history
 
 If you’re unemployed and at risk of becoming homeless, call or visit your local VA medical center or Community Resource and Referral Center where VA staff are ready to help. <br>
-[Find a local VA medical center](/facilities/).
+[Find your nearest VA medical center](/facilities/).
 
 </div>
 </div>
