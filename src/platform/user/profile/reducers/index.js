@@ -46,6 +46,7 @@ const initialState = {
       loading: false
     }
   },
+  vet360: {},
   savedForms: [],
   prefillsAvailable: [],
   loading: true,

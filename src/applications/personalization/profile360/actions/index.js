@@ -1,7 +1,6 @@
 import sendAndMergeApiRequests from '../util/sendAndMergeApiRequests';
 
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
-export const FETCH_CONTACT_INFORMATION_SUCCESS = 'FETCH_CONTACT_INFORMATION_SUCCESS';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS = 'FETCH_PERSONAL_INFORMATION_SUCCESS';
 export const FETCH_MILITARY_INFORMATION_SUCCESS = 'FETCH_MILITARY_INFORMATION_SUCCESS';
 export const FETCH_ADDRESS_CONSTANTS_SUCCESS = 'FETCH_ADDRESS_CONSTANTS_SUCCESS';
@@ -17,21 +16,6 @@ export function fetchHero() {
     dispatch({
       type: FETCH_HERO_SUCCESS,
       hero
-    });
-  };
-}
-
-export function fetchContactInformation() {
-  return async (dispatch) => {
-    const contactInformation = await sendAndMergeApiRequests({
-      email: '/profile/email',
-      primaryTelephone: '/profile/primary_phone',
-      alternateTelephone: '/profile/alternate_phone',
-      mailingAddress: '/profile/mailing_address'
-    });
-    dispatch({
-      type: FETCH_CONTACT_INFORMATION_SUCCESS,
-      contactInformation
     });
   };
 }
@@ -77,7 +61,6 @@ export function startup() {
   return async (dispatch) => {
     dispatch(fetchHero());
     dispatch(fetchAddressConstants());
-    dispatch(fetchContactInformation());
     dispatch(fetchPersonalInformation());
     dispatch(fetchMilitaryInformation());
   };

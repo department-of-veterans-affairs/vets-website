@@ -55,6 +55,7 @@ export function getProfile() {
           middle: userData.middle_name,
           last: userData.last_name,
         },
+        vet360: json.data.attributes.vet360_contact_information,
         authnContext: userData.authn_context,
         loa: userData.loa,
         multifactor: userData.multifactor,
