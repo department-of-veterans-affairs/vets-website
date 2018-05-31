@@ -29,6 +29,12 @@ describe('<EmailSection/>', () => {
     expect(wrapper.text()).to.contain(props.emailResponseData.email);
   });
 
+  it('should render an error', () => {
+    props.emailResponseData.error = { message: 'Some error' };
+    const wrapper = enzyme.shallow(<EmailSection {...props}/>);
+    expect(wrapper.text()).to.contain('We’re sorry');
+  });
+
   it('should render a submittable form when the isEditing flag is set to true', () => {
     props.onSubmit = sinon.stub();
     props.isEditing = true;
