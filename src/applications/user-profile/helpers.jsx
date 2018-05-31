@@ -1,6 +1,7 @@
 import Raven from 'raven-js';
 
 export const formBenefits = {
+  '21-526EZ': 'increased disability compensation',
   '21P-527EZ': 'Veterans pension benefits',
   '21P-530': 'burial benefits',
   '1010ez': 'health care',
@@ -30,6 +31,7 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
 }, {});
 
 export const formLinks = {
+  '21-526EZ': '/disability-benefits/526/apply-for-increase/',
   '21P-527EZ': '/pension/application/527EZ/',
   '21P-530': '/burials-and-memorials/application/530/',
   '1010ez': '/health-care/apply/application/',
@@ -45,6 +47,7 @@ export const formLinks = {
 };
 
 export const trackingPrefixes = {
+  '21-526EZ': 'disability-526EZ-',
   '21P-527EZ': 'pensions-527EZ-',
   '21P-530': 'burials-530-',
   '1010ez': 'hca-',
@@ -62,6 +65,7 @@ export const trackingPrefixes = {
 export const sipEnabledForms = new Set([
   '1010ez',
   '21-686C',
+  '21-526EZ',
   '21P-527EZ',
   '21P-530',
   '22-1990',

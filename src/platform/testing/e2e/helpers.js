@@ -64,6 +64,12 @@ function overrideAnimations(client) {
   [styles]);
 }
 
+function disableAnnouncements(client) {
+  client.execute(() => {
+    window.localStorage.setItem('DISMISSED_ANNOUNCEMENTS', '*');
+  });
+}
+
 // Returns an object suitable for a nightwatch test case.
 //
 // Provides test framework maintainers a single entry point for annotating all tests with things
@@ -116,6 +122,7 @@ module.exports = {
   baseUrl: `http://${process.env.WEB_HOST || 'localhost'}:${process.env.WEB_PORT || 3333}`,
   apiUrl: `http://${process.env.API_HOST || 'localhost'}:${process.env.API_PORT || 3000}`,
   createE2eTest,
+  disableAnnouncements,
   expectNavigateAwayFrom,
   expectNavigateAwayFromExact,
   expectExactLocation,

@@ -84,6 +84,7 @@ If you've received one of these discharge statuses, you may not be eligible for 
 </div>
 
 <div markdown="0"><br></div>
+<div id="react-applicationStatus"></div>
 
 <div itemscope itemtype="http://schema.org/Question">
 

@@ -4,7 +4,9 @@ import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isFullDate } from '../../../platform/forms/validations';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 
 import * as address from '../../common/schemaform/definitions/address';
@@ -185,6 +187,9 @@ const formConfig = {
   version: 1,
   migrations,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [services.icmhs]
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
@@ -1590,6 +1595,7 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             files: fileUploadUI('', {
+              fileUploadURL: `${environment.API_URL}/v0/claim_attachments`,
               hideLabelText: true
             }),
             'view:uploadMessage': {

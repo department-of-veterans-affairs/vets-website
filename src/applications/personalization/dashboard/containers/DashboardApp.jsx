@@ -159,9 +159,9 @@ class DashboardApp extends React.Component {
             </a>
           </li>
           <li>
-            <a href="/disability-benefits/" onClick={recordDashboardClick('disability-benefits')}>
-              <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
-              <p className="va-nav-linkslist-description">Apply for disability compensation and other benefits for conditions related to your military service.</p>
+            <a href="/employment/" onClick={recordDashboardClick('employment')}>
+              <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
+              <p className="va-nav-linkslist-description">Find out if you're eligible for Vocational Rehabilitation and Employment (VR&E) services, get support for your Veteran-owned small business, and access other resources to help build your career skills and find a job.</p>
             </a>
           </li>
         </ul>
@@ -179,8 +179,8 @@ class DashboardApp extends React.Component {
         content={<div>
           <h4 className="usa-alert-heading">Verify your identity to access more Vets.gov tools and features</h4>
           <p>When you verify your identity, you can use Vets.gov to do things like track your claims, refill your prescriptions, and download your VA benefit letters.</p>
-          <a className="usa-button-primary" href="/verify">Verify Your Identity</a>
-          <p><a href="/faq#verifying-your-identity">Learn about how to verify your identity</a></p>
+          <a className="usa-button-primary" href="/verify" onClick={() => { recordEvent({ event: 'verify-link-clicked' }); }}>Verify Your Identity</a>
+          <p><a href="/faq#verifying-your-identity" onClick={recordDashboardClick('learn-more-identity')}>Learn about how to verify your identity</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('loa')}
         isVisible={this.state['show-loa-alert'] && !window.localStorage.getItem('hide-loa-alert')}
@@ -189,7 +189,7 @@ class DashboardApp extends React.Component {
   }
 
   renderMVIWarning() {
-    if (this.props.profile.veteranStatus === 'OK') {
+    if (this.props.profile.loa.current === 1 || this.props.profile.status === 'OK') {
       return null;
     }
 
@@ -199,7 +199,7 @@ class DashboardApp extends React.Component {
           <h4 className="usa-alert-heading">We’re having trouble matching your information to our Veteran records</h4>
           <p>We’re sorry. We’re having trouble matching your information to our Veteran records, so we can’t give you access to tools for managing your health and benefits.</p>
           <p>If you’d like to use these tools on Vets.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect with you with the right person who can help.</p>
-          <p><a href="/facilities">Find your nearest VA Medical Center</a></p>
+          <p><a href="/facilities" onClick={() => { recordEvent({ event: 'dashboard-navigation', 'dashboard-action': 'view-link', 'dashboard-product': 'find-center' }); }}>Find your nearest VA Medical Center</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('mvi')}
         isVisible={this.state['show-mvi-alert'] && !window.localStorage.getItem('hide-mvi-alert')}
@@ -302,8 +302,7 @@ class DashboardApp extends React.Component {
     return (
       <div name="topScrollElement">
         <RequiredLoginView
-          authRequired={3}
-          serviceRequired={['evss-claims', 'appeals-status', 'user-profile']}
+          serviceRequired={['user-profile']}
           user={this.props.user}>
           <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.mhv, services.appeals]} render={this.renderDowntimeNotification}>
             {view}

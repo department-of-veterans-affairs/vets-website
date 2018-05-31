@@ -58,8 +58,8 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim submitted</h3>
-        <p>We usually process claims within <strong>103 days</strong>.</p>
+        <h3 className="confirmation-page-title">Your claim has been submitted.</h3>
+        <p>We usually process claims within <strong>99 days</strong>.</p>
         <p>We may contact you if we have questions or need more information.
         You can print this page for your records.</p>
         { selected4142 && privateRecordReleaseContent}
@@ -72,7 +72,7 @@ class ConfirmationPage extends React.Component {
           time frame you see may vary based on how complex your claim is.
         </p>
         <a href="/disability-benefits/track-claims">
-          Check the status of your disability claim
+          Check the status of your disability claim.
         </a>
         <br/>
         <a href="/disability-benefits/after-you-apply/">
@@ -88,7 +88,7 @@ class ConfirmationPage extends React.Component {
             <strong>Conditions claimed</strong>
             <br/>
             <ul className="disability-list">
-              {disabilities.map((disability, i) => {
+              {disabilities.filter(item => item['view:selected']).map((disability, i) => {
                 return <li key={i}>{disability.name}</li>;
               })}
             </ul>
@@ -108,7 +108,7 @@ class ConfirmationPage extends React.Component {
         </div>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+18772228387">1-877-222-8387</a>, Monday &#8211;
+          <p className="confirmation-guidance-message">If you have questions, please call <a href="tel:+18772228387">1-877-222-8387</a>, Monday &#8211;
             Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
           </p>
         </div>

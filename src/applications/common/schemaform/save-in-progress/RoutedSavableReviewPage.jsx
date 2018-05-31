@@ -3,6 +3,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import get from '../../../../platform/utilities/data/get';
 
 import Scroll from 'react-scroll';
 import SaveFormLink from '../save-in-progress/SaveFormLink';
@@ -20,6 +21,8 @@ import { getFormContext } from '../save-in-progress/selectors';
 
 import ReviewChapters from '../review/ReviewChapters';
 import SubmitController from '../review/SubmitController';
+import DowntimeNotification, { serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeMessage from './DowntimeMessage';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -92,6 +95,18 @@ class RoutedSavableReviewPage extends React.Component {
     );
   }
 
+  renderDowntime = (downtime, children) => {
+    if (downtime.status === serviceStatus.down) {
+      const Message = this.props.formConfig.downtime.message || DowntimeMessage;
+
+      return (
+        <Message downtime={downtime}/>
+      );
+    }
+
+    return children;
+  }
+
   render() {
     const {
       form,
@@ -103,6 +118,8 @@ class RoutedSavableReviewPage extends React.Component {
       user
     } = this.props;
 
+    const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
+
     return (
       <div>
         <ReviewChapters
@@ -110,11 +127,16 @@ class RoutedSavableReviewPage extends React.Component {
           formContext={formContext}
           pageList={pageList}
           onSetData={() => this.debouncedAutoSave()}/>
-        <SubmitController
-          formConfig={formConfig}
-          pageList={pageList}
-          path={path}
-          renderErrorMessage={this.renderErrorMessage}/>
+        <DowntimeNotification
+          appTitle="application"
+          render={this.renderDowntime}
+          dependencies={downtimeDependencies}>
+          <SubmitController
+            formConfig={formConfig}
+            pageList={pageList}
+            path={path}
+            renderErrorMessage={this.renderErrorMessage}/>
+        </DowntimeNotification>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={this.props.showLoginModal}

@@ -553,6 +553,11 @@ legend.schemaform-label.schemaform-file-label {
   position: relative;
 }
 
+.autosuggest-input {
+  // override accordion styles, which are the bane of our existence
+  background-image: none !important;
+}
+
 .autosuggest-list {
   background: $color-white;
   border: 1px solid $color-gray;
@@ -621,4 +626,9 @@ legend.schemaform-label.schemaform-file-label {
 
 .schemaform-title-underline {
   border-bottom: 3px solid $color-primary;
+}
+
+.schemaform-downtime-after-steps {
+  margin-top: 0;
+  margin-bottom: 1em;
 }

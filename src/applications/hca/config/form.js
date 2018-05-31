@@ -10,11 +10,14 @@ import {
   states
 } from '../../../platform/forms/address';
 import { genderLabels } from '../../../platform/static-data/labels';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
 
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
 import MilitaryPrefillMessage from '../../common/schemaform/save-in-progress/MilitaryPrefillMessage';
+import DowntimeMessage from '../components/DowntimeMessage';
 
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
@@ -135,7 +138,7 @@ const stateLabels = createUSAStateLabels(states);
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/health_care_applications',
+  submitUrl: `${environment.API_URL}/v0/health_care_applications`,
   trackingPrefix: 'hca-',
   formId: '1010ez',
   version: 5,
@@ -144,6 +147,10 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.'
+  },
+  downtime: {
+    dependencies: [services.es],
+    message: DowntimeMessage
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,

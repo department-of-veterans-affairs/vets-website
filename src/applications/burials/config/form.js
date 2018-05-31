@@ -20,8 +20,10 @@ import {
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 import { isFullDate } from '../../../platform/forms/validations';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -89,6 +91,9 @@ const formConfig = {
   formId: '21P-530',
   version: 0,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [services.icmhs]
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for burial benefits.',
     noAuth: 'Please sign in again to resume your application for burial benefits.'
@@ -527,12 +532,14 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             deathCertificate: _.assign(fileUploadUI('Veteran’s death certificate', {
-              hideIf: form => form.burialAllowanceRequested !== 'service'
+              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+              hideIf: form => form.burialAllowanceRequested !== 'service',
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
             transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains or other supporting evidence', {
-              addAnotherLabel: 'Add Another Document'
+              addAnotherLabel: 'Add Another Document',
+              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
             }),

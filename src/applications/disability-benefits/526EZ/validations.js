@@ -8,3 +8,4 @@ export function requireOneSelected(errors, fieldData, formData, schema, errorMes
     errors.addError('Please select at least one condition (or all that apply).');
   }
 }
+

@@ -10,6 +10,7 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import { schema as addressSchema, uiSchema as addressUI } from '../../../common/schemaform/definitions/address';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
@@ -81,7 +82,7 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/1990',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990`,
   trackingPrefix: 'edu-',
   formId: '22-1990',
   version: 1,
