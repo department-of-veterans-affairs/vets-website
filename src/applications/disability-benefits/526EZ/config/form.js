@@ -710,14 +710,14 @@ const formConfig = {
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },
                     parseResponse: (response, file) => {
                       return {
                         name: file.name,
-                        confirmationCode: response.data.attributes.guid
+                        confirmationCode: response.guid
                       };
                     },
                     attachmentName: {
@@ -775,20 +775,20 @@ const formConfig = {
                 additionalDocuments: Object.assign({},
                   fileUploadUI('Lay statements or other evidence', {
                     itemDescription: 'Adding additional evidence:',
-                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },
                     parseResponse: (response, file) => {
                       return {
                         name: file.name,
-                        confirmationCode: response.data.attributes.guid
+                        confirmationCode: response.guid
                       };
                     },
                     attachmentName: {
