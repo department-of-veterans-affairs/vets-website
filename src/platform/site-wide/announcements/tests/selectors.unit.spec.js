@@ -66,9 +66,7 @@ describe('selectAnnouncement', () => {
   });
 
   it('returns null when a matched annoucement has been dismissed', () => {
-    state.announcements.dismissed = [
-      'dummy3'
-    ];
+    state.announcements.dismissed.push('dummy3');
     const result = selectors.selectAnnouncement(state, config, '/some-route-3/');
     expect(result).to.be.null;
   });
