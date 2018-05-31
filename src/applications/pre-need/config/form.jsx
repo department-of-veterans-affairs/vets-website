@@ -68,6 +68,12 @@ const {
 
 const nonRequiredFullName = _.omit('required', fullName);
 
+function currentlyBuriedPersonsMinItem() {
+  const copy = Object.assign({}, currentlyBuriedPersons);
+  copy.minItems = 1;
+  return _.set('items.properties.cemeteryNumber', autosuggest.schema, copy);
+}
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
@@ -541,11 +547,7 @@ const formConfig = {
                     }
                   },
                   hasCurrentlyBuried,
-                  currentlyBuriedPersons: _.set(
-                    'items.properties.cemeteryNumber',
-                    autosuggest.schema,
-                    currentlyBuriedPersons
-                  )
+                  currentlyBuriedPersons: currentlyBuriedPersonsMinItem()
                 }
               }
             }
