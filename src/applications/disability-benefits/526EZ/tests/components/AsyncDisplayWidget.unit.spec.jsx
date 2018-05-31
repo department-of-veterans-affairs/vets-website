@@ -93,4 +93,20 @@ describe('AsyncDisplayWidget', () => {
       expect(widget.find('#view-component').length).to.equal(1);
     });
   });
+
+  it('should pass the callback return result to viewComponent', () => {
+    const viewComponentProps = { prop1: 'adf', prop2: 'asdff' };
+    const props = {
+      options: {
+        viewComponent,
+        // May need to set a timeout if this proves flaky
+        callback: () => Promise.resolve(viewComponentProps)
+      }
+    };
+    const widget = shallow(<AsyncDisplayWidget {...props}/>);
+    // After briefly flashing the LoadingIndicator, it'll display the viewComponent
+    setTimeout(() => {
+      expect(widget.find('#view-component').props).to.equal(viewComponentProps);
+    });
+  });
 });
