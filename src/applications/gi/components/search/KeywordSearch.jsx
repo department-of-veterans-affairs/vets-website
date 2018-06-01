@@ -80,6 +80,7 @@ export class KeywordSearch extends React.Component {
           }) => (
             <div>
               <input {...getInputProps({
+                type: 'text',
                 onChange: this.handleChange,
                 onKeyUp: this.handleKeyUp,
                 'aria-labelledby': 'institution-search-label',
