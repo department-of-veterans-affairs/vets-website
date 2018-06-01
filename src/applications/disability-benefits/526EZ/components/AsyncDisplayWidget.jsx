@@ -80,7 +80,7 @@ export default class AsyncDisplayWidget extends React.Component {
         // Show error message or error component passed in
         const CustomAlert = uiOptions.failureComponent;
         // TODO: Get generic headline and content
-        content = <CustomAlert/> || (
+        content = CustomAlert ? <CustomAlert/> : (
           <AlertBox
             status="error"
             isVisible
