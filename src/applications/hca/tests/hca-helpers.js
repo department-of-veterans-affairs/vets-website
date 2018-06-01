@@ -76,6 +76,7 @@ function completeAdditionalInformation(client) {
 }
 
 function completeVaBenefits(client, data) {
+  client.pause(1000);
   client
     .selectRadio('root_vaCompensationType', data.vaCompensationType);
 }

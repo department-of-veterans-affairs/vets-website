@@ -145,6 +145,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Review and Submit Page.
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .pause(1000)
       .click('input[type="checkbox"]')
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
