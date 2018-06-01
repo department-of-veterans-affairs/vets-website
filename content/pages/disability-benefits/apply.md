@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Disability Benefits Application Process
+title: How to Apply for Disablity Benefits
 display_title: Application Process
 description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today. 
 order: 2
@@ -32,13 +32,13 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-You can apply for disability benefits online. We’ve listed all the steps below so when you’re ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
+Find out how to apply for disability benefits. 
 
 </div>
 
-### Prepare
+### How do I prepare before starting my application?
 
-- [Check your eligibility](/disability-benefits/eligibility/).
+- [Find out if you're eligible for VA disability benefits](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
@@ -65,7 +65,7 @@ For all disability claims, please provide:
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h4 itemprop="name">Ready to apply?</h4>
+<h4 itemprop="name">How do I apply?</h4>
 <div itemprop="itemListElement">
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
@@ -82,7 +82,7 @@ For all disability claims, please provide:
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
+You can work with a trained professional called an accredited representative to get help applying for health care benefits. [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
