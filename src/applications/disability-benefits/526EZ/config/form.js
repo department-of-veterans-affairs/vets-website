@@ -243,6 +243,13 @@ const formConfig = {
                   'ui:title': 'Contact full name',
                   'ui:errorMessages': {
                     pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
+                  },
+                  'ui:required': (formData) => {
+                    const { veteran } = formData;
+                    if (!veteran['view:homelessness'] || !veteran.homelessness) {
+                      return false;
+                    }
+                    return !!veteran.homelessness.primaryPhone;
                   }
                 },
                 primaryPhone: {
@@ -250,6 +257,13 @@ const formConfig = {
                   'ui:widget': SSNWidget, // probably not the best name for this widget...
                   'ui:errorMessages': {
                     pattern: 'Phone numbers must be 10 digits (dashes allowed)'
+                  },
+                  'ui:required': (formData) => {
+                    const { veteran } = formData;
+                    if (!veteran['view:homelessness'] || !veteran.homelessness) {
+                      return false;
+                    }
+                    return !!veteran.homelessness.pointOfContactName;
                   }
                 }
               }
