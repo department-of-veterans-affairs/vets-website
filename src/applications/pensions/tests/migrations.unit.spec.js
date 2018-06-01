@@ -96,7 +96,7 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('test');
     expect(formData).to.be.an('object');
   });
-  it.only('should set url to address page if zip is bad', () => {
+  it('should set url to address page if zip is bad', () => {
     const { formData, metadata } = migrations[1]({
       formData: {
         veteranAddress: {
