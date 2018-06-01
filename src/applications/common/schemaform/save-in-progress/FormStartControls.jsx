@@ -30,9 +30,10 @@ class FormStartControls extends React.Component {
     const { beforeStartForm } = this.props.form;
     if (this.props.prefillAvailable) {
       const prestartForm = beforeStartForm ? this.prestartForm : null;
-      return this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer, prestartForm);
+      this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer, prestartForm);
+    } else {
+      this.goToBeginning();
     }
-    return this.goToBeginning();
   }
 
   handleLoadForm = () => {
