@@ -161,7 +161,7 @@ class RoutedSavableApp extends React.Component {
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
       const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
-      const hasPrefillData = props.prefillsAvailable.includes(currentForm) || currentForm === '21-526EZ'; // TODO: remove once 526 added to prefills list
+      const hasPrefillData = props.prefillsAvailable.includes(currentForm);
       const { beforeStartForm } = this.props.formConfig;
       if (isSaved || hasPrefillData) {
         const prestartForm = beforeStartForm ? this.prestartForm : null;
