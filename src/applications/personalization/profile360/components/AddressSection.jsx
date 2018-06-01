@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { kebabCase } from 'lodash';
+
 import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import Address from './Address';
@@ -38,7 +41,7 @@ class EditAddressModal extends React.Component {
 
   render() {
     return (
-      <Modal id="profile-address-modal" onClose={this.props.onCancel} visible>
+      <Modal id={kebabCase(this.props.title)} onClose={this.props.onCancel} visible>
         <h3>{this.props.title}</h3>
         <AlertBox
           isVisible={!!this.props.error}
@@ -103,7 +106,7 @@ export default function AddressSection({ addressData, addressConstants, title, f
   if (isEditing) {
     modal = (
       <EditAddressModal
-        title="Edit mailing address"
+        title="Edit address"
         addressData={addressData}
         addressConstants={addressConstants}
         onChange={onChange}

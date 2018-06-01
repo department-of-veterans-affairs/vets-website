@@ -106,13 +106,13 @@ class ContactInformationContent extends React.Component {
           field={formFields.residentialAddress}
           error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.mailingAddress}
-          isEditing={currentlyOpenModal === 'mailingAddress'}
+          onChange={updateFormFieldActions.residentialAddress}
+          isEditing={currentlyOpenModal === 'residentialAddress'}
           isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
-          onEdit={recordedAction('edit-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
-          onAdd={recordedAction('add-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
-          onSubmit={recordedAction('update-button', 'mailing-address', updateActions.updateMailingAddress)}
-          onCancel={recordedAction('cancel-button', 'mailing-address', this.closeModal)}
+          onEdit={recordedAction('edit-link', 'residential-address', this.openModalHandler('residentialAddress'))}
+          onAdd={recordedAction('add-link', 'residential-address', this.openModalHandler('residentialAddress'))}
+          onSubmit={recordedAction('update-button', 'residential-address', updateActions.updateMailingAddress)}
+          onCancel={recordedAction('cancel-button', 'residential-address', this.closeModal)}
           addressConstants={addressConstants}/>
 
         <PhoneSection

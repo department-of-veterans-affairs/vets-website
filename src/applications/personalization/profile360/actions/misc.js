@@ -41,7 +41,11 @@ function updateProfileFormField(field, validator) {
 
 export const updateFormField = {
   email: updateProfileFormField('email', validateEmail),
+  faxNumber: updateProfileFormField('faxNumber', validateTelephone),
+  homePhone: updateProfileFormField('homePhone', validateTelephone),
   mailingAddress: updateProfileFormField('mailingAddress'),
-  primaryTelephone: updateProfileFormField('primaryTelephone', validateTelephone),
-  alternateTelephone: updateProfileFormField('alternateTelephone', validateTelephone)
+  mobilePhone: updateProfileFormField('mobilePhone', validateTelephone),
+  residentialAddress: updateProfileFormField('residentialAddress'),
+  temporaryPhone: updateProfileFormField('temporaryPhone', validateTelephone),
+  workPhone: updateProfileFormField('workPhone', validateTelephone),
 };
