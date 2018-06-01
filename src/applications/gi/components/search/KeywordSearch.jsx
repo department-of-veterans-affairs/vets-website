@@ -62,7 +62,15 @@ export class KeywordSearch extends React.Component {
           htmlFor="institution-search">
           {this.props.label}
         </label>
-        <Downshift inputValue={searchTerm} onSelect={(item) => this.handleSuggestionSelected(item)}>
+        <Downshift
+          inputValue={searchTerm}
+          onSelect={(item) => this.handleSuggestionSelected(item)}
+          itemToString={item => {
+            if (typeof item === 'string') {
+              return item;
+            }
+            return item.label;
+          }}>
           {({
             getInputProps,
             getItemProps,
