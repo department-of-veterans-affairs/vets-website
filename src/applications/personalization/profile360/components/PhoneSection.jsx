@@ -83,7 +83,7 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
   let content = null;
   let modal = null;
 
-  if (phoneResponseData.error) {
+  if (!phoneResponseData) {
     content = fieldFailureMessage;
   } else {
     if (phoneResponseData.number) {

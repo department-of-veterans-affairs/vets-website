@@ -57,7 +57,6 @@ function ContactError({ error }) {
 class ContactInformationContent extends React.Component {
 
   componentDidMount() {
-    this.props.fetchContactInformation();
     this.props.fetchAddressConstants();
   }
 
@@ -71,6 +70,20 @@ class ContactInformationContent extends React.Component {
 
   renderContent = () => {
     const {
+      user: {
+        profile: {
+          vet360: {
+            email,
+            faxNumber,
+            homePhone,
+            mailing_address: mailingAddress,
+            mobilePhone,
+            residentialAddress,
+            temporaryPhone,
+            workPhone,
+          }
+        },
+      },
       modal: {
         currentlyOpen: currentlyOpenModal,
         pendingSaves,
@@ -79,27 +92,36 @@ class ContactInformationContent extends React.Component {
         clearErrors
       },
       profile: {
-        contactInformation: {
-          email,
-          mailingAddress,
-          primaryTelephone,
-          alternateTelephone,
-        },
         addressConstants
       },
       updateFormFieldActions,
       updateActions
     } = this.props;
 
-    if (email.error && mailingAddress.error && primaryTelephone.error && alternateTelephone.error) {
-      return <ContactError error={email.error}/>;
-    }
+    // if (email.error && mailingAddress.error && primaryTelephone.error && alternateTelephone.error) {
+    //   return <ContactError error={email.error}/>;
+    // }
 
     return (
       <div>
         <AddressSection
           title="Mailing Address"
-          addressResponseData={mailingAddress}
+          addressData={mailingAddress}
+          field={formFields.mailingAddress}
+          error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
+          clearErrors={clearErrors}
+          onChange={updateFormFieldActions.mailingAddress}
+          isEditing={currentlyOpenModal === 'mailingAddress'}
+          isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
+          onEdit={recordedAction('edit-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
+          onAdd={recordedAction('add-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
+          onSubmit={recordedAction('update-button', 'mailing-address', updateActions.updateMailingAddress)}
+          onCancel={recordedAction('cancel-button', 'mailing-address', this.closeModal)}
+          addressConstants={addressConstants}/>
+
+        <AddressSection
+          title="Residential Address"
+          addressData={mailingAddress}
           field={formFields.mailingAddress}
           error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
           clearErrors={clearErrors}
@@ -114,7 +136,7 @@ class ContactInformationContent extends React.Component {
 
         <PhoneSection
           title="Primary Phone"
-          phoneResponseData={primaryTelephone}
+          phoneResponseData={homePhone}
           field={formFields.primaryTelephone}
           error={errors.includes(SAVE_PRIMARY_PHONE_FAIL)}
           clearErrors={clearErrors}
@@ -128,7 +150,7 @@ class ContactInformationContent extends React.Component {
 
         <PhoneSection
           title="Alternate Phone"
-          phoneResponseData={alternateTelephone}
+          phoneResponseData={mobilePhone}
           field={formFields.alternateTelephone}
           error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
           clearErrors={clearErrors}
@@ -163,10 +185,7 @@ class ContactInformationContent extends React.Component {
           isVisible
           status="info"
           content={<p>We’ll use this information to communicate with you about your VA <strong>Compensation &amp; Pension benefits.</strong></p>}/>
-        <LoadingSection
-          isLoading={!this.props.profile.contactInformation || !this.props.profile.addressConstants}
-          message="Loading contact information..."
-          render={this.renderContent}/>
+        {this.renderContent()}
         <div>
           <h3>Want to update the email you use to sign in to Vets.gov?</h3>
           <a href={accountManifest.rootUrl} onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'account-settings' }); }}>Go to your account settings</a>

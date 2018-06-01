@@ -11,8 +11,8 @@ class EditAddressModal extends React.Component {
 
   componentDidMount() {
     const defaultFieldValue = { address: {} };
-    if (this.props.addressResponseData) {
-      defaultFieldValue.address = consolidateAddress(this.props.addressResponseData.address);
+    if (this.props.addressData) {
+      defaultFieldValue.address = consolidateAddress(this.props.addressData);
     }
     this.props.onChange(defaultFieldValue);
   }
@@ -75,21 +75,19 @@ function AddressView({ address }) {
   );
 }
 
-export default function AddressSection({ addressResponseData, addressConstants, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd,  onCancel, onSubmit }) {
+export default function AddressSection({ addressData, addressConstants, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd,  onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
-  if (addressResponseData.error) {
+  if (!addressData) {
     content = fieldFailureMessage;
   } else {
-    if (addressResponseData.address && !isEmptyAddress(addressResponseData.address)) {
-      const { address } = addressResponseData;
-      content = <AddressView address={address}/>;
+    if (!isEmptyAddress(addressData)) {
+      content = <AddressView address={addressData}/>;
     } else {
       content = (
         <button
           type="button"
-          disabled={!addressResponseData.controlInformation.canUpdate}
           onClick={onAdd}
           className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>
       );
@@ -100,7 +98,7 @@ export default function AddressSection({ addressResponseData, addressConstants, 
     modal = (
       <EditAddressModal
         title="Edit mailing address"
-        addressResponseData={addressResponseData}
+        addressResponseData={addressData}
         addressConstants={addressConstants}
         onChange={onChange}
         field={field}
@@ -116,7 +114,7 @@ export default function AddressSection({ addressResponseData, addressConstants, 
     <div>
       {modal}
       <HeadingWithEdit
-        onEditClick={addressResponseData && !isEmptyAddress(addressResponseData.address) && addressResponseData.controlInformation.canUpdate && onEdit}>{title}
+        onEditClick={!isEmptyAddress(addressData) && onEdit}>{title}
       </HeadingWithEdit>
       {content}
     </div>

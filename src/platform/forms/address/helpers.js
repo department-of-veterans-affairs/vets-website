@@ -99,7 +99,7 @@ export function expandAddress(address) {
  */
 export function isEmptyAddress(address) {
   const ignore = ['type', 'countryName', 'addressEffectiveDate'];
-  return Object.keys(address)
+  return address && Object.keys(address)
     .filter(prop => !ignore.includes(prop))
     .every(prop => !address[prop]);
 }

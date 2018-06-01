@@ -14,7 +14,6 @@ import {
   clearErrors,
   clearMessage,
   fetchAddressConstants,
-  fetchContactInformation,
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation
@@ -36,7 +35,6 @@ class VAProfileApp extends React.Component {
           <ProfileView
             user={this.props.account}
             fetchAddressConstants={this.props.fetchAddressConstants}
-            fetchContactInformation={this.props.fetchContactInformation}
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
             fetchPersonalInformation={this.props.fetchPersonalInformation}
@@ -79,7 +77,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
     fetchAddressConstants,
-    fetchContactInformation,
     fetchHero,
     fetchMilitaryInformation,
     fetchPersonalInformation,
