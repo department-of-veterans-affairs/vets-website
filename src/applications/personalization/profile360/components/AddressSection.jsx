@@ -1,7 +1,7 @@
 import React from 'react';
 import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import Address from '../../../letters/components/Address';
+import Address from './Address';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
@@ -64,7 +64,13 @@ class EditAddressModal extends React.Component {
 }
 
 function AddressView({ address }) {
-  const { street, cityStateZip, country } = formatAddress(address);
+  const { street, cityStateZip, country } = formatAddress({
+    addressOne: address.addressLine1,
+    addressTwo: address.addressLine2,
+    addressThree: address.addressLine3,
+    type: address.addressType.toUpperCase(),
+    ...address,
+  });
 
   return (
     <div>
@@ -98,7 +104,7 @@ export default function AddressSection({ addressData, addressConstants, title, f
     modal = (
       <EditAddressModal
         title="Edit mailing address"
-        addressResponseData={addressData}
+        addressData={addressData}
         addressConstants={addressConstants}
         onChange={onChange}
         field={field}

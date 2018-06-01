@@ -1,7 +1,6 @@
 import {
   // Fetch actions
   FETCH_HERO_SUCCESS,
-  FETCH_CONTACT_INFORMATION_SUCCESS,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_MILITARY_INFORMATION_SUCCESS,
   FETCH_ADDRESS_CONSTANTS_SUCCESS,
@@ -55,9 +54,6 @@ function vaProfile(state = initialState, action) {
     // Fetch
     case FETCH_HERO_SUCCESS:
       return { ...state, hero: action.hero };
-
-    case FETCH_CONTACT_INFORMATION_SUCCESS:
-      return { ...state, contactInformation: action.contactInformation };
 
     case FETCH_PERSONAL_INFORMATION_SUCCESS:
       return { ...state, personalInformation: action.personalInformation };

@@ -9,6 +9,8 @@ import {
   SAVE_EMAIL_ADDRESS_FAIL
 } from '../actions';
 
+import { every } from 'lodash';
+
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
@@ -17,7 +19,6 @@ import accountManifest from '../../account/manifest.json';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
 import EmailSection from './EmailSection';
-import LoadingSection from './LoadingSection';
 import LoadFail from './LoadFail';
 import { handleDowntimeForSection } from './DowntimeBanner';
 
@@ -32,26 +33,6 @@ function recordedAction(actionName, sectionName, callback) {
     }
     callback(...args);
   };
-}
-
-function ContactError({ error }) {
-  const lacksParticipantId = error.errors.some(e => e.code === '403');
-  if (lacksParticipantId) {
-    // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/10581
-    return (
-      <AlertBox
-        status="info"
-        isVisible
-        content={
-          <div>
-            <h3>Contact information is coming soon</h3>
-            <p>We’re working to give you access to review and edit your contact information. Please check back soon.</p>
-          </div>
-        }/>
-    );
-  }
-
-  return <LoadFail information="contact"/>;
 }
 
 class ContactInformationContent extends React.Component {
@@ -74,10 +55,10 @@ class ContactInformationContent extends React.Component {
         profile: {
           vet360: {
             email,
-            faxNumber,
             homePhone,
-            mailing_address: mailingAddress,
+            mailingAddress,
             mobilePhone,
+            faxNumber,
             residentialAddress,
             temporaryPhone,
             workPhone,
@@ -98,9 +79,9 @@ class ContactInformationContent extends React.Component {
       updateActions
     } = this.props;
 
-    // if (email.error && mailingAddress.error && primaryTelephone.error && alternateTelephone.error) {
-    //   return <ContactError error={email.error}/>;
-    // }
+    if (every(Object.keys(this.props.user.profile.vet360), false)) {
+      return <LoadFail information="contact"/>;
+    }
 
     return (
       <div>
@@ -121,8 +102,8 @@ class ContactInformationContent extends React.Component {
 
         <AddressSection
           title="Residential Address"
-          addressData={mailingAddress}
-          field={formFields.mailingAddress}
+          addressData={residentialAddress}
+          field={formFields.residentialAddress}
           error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.mailingAddress}
@@ -149,8 +130,50 @@ class ContactInformationContent extends React.Component {
           onCancel={recordedAction('cancel-button', 'primary-telephone', this.closeModal)}/>
 
         <PhoneSection
-          title="Alternate Phone"
+          title="Mobile Phone"
           phoneResponseData={mobilePhone}
+          field={formFields.alternateTelephone}
+          error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
+          clearErrors={clearErrors}
+          onChange={updateFormFieldActions.alternateTelephone}
+          isEditing={currentlyOpenModal === 'altPhone'}
+          isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
+          onEdit={recordedAction('edit-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+          onAdd={recordedAction('add-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+          onSubmit={recordedAction('update-button', 'alternative-telephone', updateActions.updateAlternatePhone)}
+          onCancel={recordedAction('cancel-button', 'alternative-telephone', this.closeModal)}/>
+
+        <PhoneSection
+          title="Work Phone"
+          phoneResponseData={workPhone}
+          field={formFields.alternateTelephone}
+          error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
+          clearErrors={clearErrors}
+          onChange={updateFormFieldActions.alternateTelephone}
+          isEditing={currentlyOpenModal === 'altPhone'}
+          isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
+          onEdit={recordedAction('edit-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+          onAdd={recordedAction('add-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+          onSubmit={recordedAction('update-button', 'alternative-telephone', updateActions.updateAlternatePhone)}
+          onCancel={recordedAction('cancel-button', 'alternative-telephone', this.closeModal)}/>
+
+        <PhoneSection
+          title="Temporary Phone"
+          phoneResponseData={temporaryPhone}
+          field={formFields.alternateTelephone}
+          error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
+          clearErrors={clearErrors}
+          onChange={updateFormFieldActions.alternateTelephone}
+          isEditing={currentlyOpenModal === 'altPhone'}
+          isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
+          onEdit={recordedAction('edit-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+          onAdd={recordedAction('add-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
+          onSubmit={recordedAction('update-button', 'alternative-telephone', updateActions.updateAlternatePhone)}
+          onCancel={recordedAction('cancel-button', 'alternative-telephone', this.closeModal)}/>
+
+        <PhoneSection
+          title="Fax Number"
+          phoneResponseData={faxNumber}
           field={formFields.alternateTelephone}
           error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
           clearErrors={clearErrors}
