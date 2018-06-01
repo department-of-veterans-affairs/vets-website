@@ -188,7 +188,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',
-  version: 1,
+  version: 2,
   migrations,
   prefillEnabled: true,
   downtime: {
