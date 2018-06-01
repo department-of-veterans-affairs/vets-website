@@ -6,6 +6,8 @@ In the following example, anything that matches the `paths` property will render
 
 **config/index**
 ```jsx
+import React from 'react';
+
 const config = {
   announcements: [
     {
