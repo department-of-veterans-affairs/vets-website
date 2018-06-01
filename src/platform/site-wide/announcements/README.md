@@ -13,7 +13,7 @@ const config = {
     {
       name: 'New Education Feature',
       paths: /^(\/education\/)$/,
-      component: ({ announcement, dismiss }) => {
+      component: ({ announcement, dismiss, isLoggedIn, profile }) => {
         return (
           <div className="education-announcement">
             {announcement.name}
