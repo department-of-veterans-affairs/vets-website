@@ -246,7 +246,7 @@ const formConfig = {
                   },
                   'ui:required': (formData) => {
                     const { veteran } = formData;
-                    if (!veteran['view:homelessness'] || !veteran.homelessness) {
+                    if (veteran['view:homelessness'] !== true || !veteran.homelessness) {
                       return false;
                     }
                     return !!veteran.homelessness.primaryPhone;
@@ -260,7 +260,7 @@ const formConfig = {
                   },
                   'ui:required': (formData) => {
                     const { veteran } = formData;
-                    if (!veteran['view:homelessness'] || !veteran.homelessness) {
+                    if (veteran['view:homelessness'] !== true || !veteran.homelessness) {
                       return false;
                     }
                     return !!veteran.homelessness.pointOfContactName;
