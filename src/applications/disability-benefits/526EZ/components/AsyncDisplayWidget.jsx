@@ -86,7 +86,7 @@ export default class AsyncDisplayWidget extends React.Component {
             isVisible
             headline="We're sorry, we can't seem to find your information right now."
             content="That's a real bummer, we know. Maybe try again later."
-            className="fetch-fail-alert"/>
+            className="async-display-widget-alert-box"/>
         );
         break;
       }
