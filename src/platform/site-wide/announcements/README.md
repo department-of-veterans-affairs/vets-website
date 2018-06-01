@@ -21,7 +21,11 @@ const config = {
           </div>
         );
       },
-      relatedAnnouncements: ['education-intro']
+      relatedAnnouncements: ['Education Intro']
+    },
+    {
+      name: 'Education Intro',
+      // ...
     }
   ]
 };
