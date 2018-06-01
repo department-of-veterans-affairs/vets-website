@@ -19,7 +19,7 @@ import { errorSchemaIsValid } from '../validation';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
-const isEmpty = (collection) => {
+function isEmpty(collection) {
   if (collection === undefined) {
     return true;
   }
@@ -27,11 +27,15 @@ const isEmpty = (collection) => {
     return false;
   }
   return _.every(isEmpty, Object.values(collection));
-};
+}
 
-const notYetAnswered = (item, index, errorSchema) => {
+function notYetAnswered(item, index, errorSchema) {
   return isEmpty(item) || !errorSchemaIsValid(errorSchema);
-};
+}
+
+function getItemModes(items, errorSchema) {
+  return items.map((item, index) => (notYetAnswered(item, index, errorSchema[index]) ? 'editing' : 'viewing'));
+}
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -48,7 +52,7 @@ export default class ArrayField extends React.Component {
      */
 
     this.state = {
-      itemModes: props.formData && props.formData.length ? props.formData.map((item, index) => (notYetAnswered(item, index, props.errorSchema[index]) ? 'editing' : 'viewing')) : ['adding']
+      itemModes: props.formData && props.formData.length ? getItemModes(props.formData, props.errorSchema) : ['adding']
     };
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
