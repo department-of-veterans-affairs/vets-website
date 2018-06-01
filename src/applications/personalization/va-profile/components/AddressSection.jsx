@@ -113,7 +113,7 @@ export default function AddressSection({ addressResponseData, addressConstants, 
   }
 
   return (
-    <div>
+    <div className="va-profile-address">
       {modal}
       <HeadingWithEdit
         onEditClick={addressResponseData && !isEmptyAddress(addressResponseData.address) && addressResponseData.controlInformation.canUpdate && onEdit}>{title}
