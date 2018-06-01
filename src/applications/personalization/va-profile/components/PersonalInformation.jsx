@@ -6,11 +6,11 @@ import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
 
 function Gender({ gender }) {
-  return <span>{gender === 'M' ? 'Male' : 'Female'}</span>;
+  return <span className="va-profile-gender">{gender === 'M' ? 'Male' : 'Female'}</span>;
 }
 
 function BirthDate({ birthDate }) {
-  return <span>{moment(birthDate).format('MMM D, YYYY')}</span>;
+  return <span className="va-profile-birthdate">{moment(birthDate).format('MMM D, YYYY')}</span>;
 }
 
 class PersonalInformationContent extends React.Component {

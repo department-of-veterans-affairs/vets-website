@@ -112,7 +112,7 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
   }
 
   return (
-    <div>
+    <div className="va-profile-phone">
       {modal}
       <HeadingWithEdit onEditClick={phoneResponseData && phoneResponseData.number && onEdit}>{title}</HeadingWithEdit>
       {content}
