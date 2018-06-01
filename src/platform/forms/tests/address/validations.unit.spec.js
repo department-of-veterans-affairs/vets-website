@@ -28,7 +28,7 @@ describe('Forms address validations:', () => {
       expect(isValidCentralMailPostalCode({
         country: 'USA',
         postalCode: '234441233'
-      })).to.be.true;
+      })).to.be.false;
     });
   });
 });

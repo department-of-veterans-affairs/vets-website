@@ -527,7 +527,7 @@ const formConfig = {
             properties: {
               firmName,
               officialPosition,
-              claimantAddress: address.schema(fullSchemaBurials, true),
+              claimantAddress: address.schema(fullSchemaBurials, true, 'centralMailAddress'),
               claimantEmail,
               claimantPhone
             }
