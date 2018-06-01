@@ -25,6 +25,7 @@ const config = {
     }
   ]
 };
+
 export default config;
 ```
 The `announcement` property in the rendered component will contain the announcement as stored in the config, so in this case `announcement.name` will render `New Education Feature`. The `dismiss` property will disable the announcement "permanently" by storing its name in localStorage. Any related announcements will also be disabled by being stored there as well.
