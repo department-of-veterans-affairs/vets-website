@@ -109,18 +109,6 @@ function initApplicationMock(token) {
     verb: 'get',
     value: eligibleDataClasses
   });
-
-  mock(token, {
-    path: '/v0/health_records',
-    verb: 'get',
-    value: {
-    }
-  });
-
-  mock(token, {
-    path: '/v0/health_records',
-    verb: 'post'
-  });
 }
 
 module.exports = {

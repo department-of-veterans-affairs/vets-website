@@ -38,6 +38,16 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.update-page', Timeouts.normal)
       .axeCheck('.main');
 
+    client
+      .click('.update-page a')
+      .waitForElementVisible('.download-page', Timeouts.normal)
+      .axeCheck('.main');
+
+    client
+      .click('.download-page > p > a')
+      .click('.va-modal-actions > a')
+      .waitForElementVisible('.blue-button-logo', Timeouts.normal);
+
     client.end();
   }
 );
