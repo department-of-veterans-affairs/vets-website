@@ -25,11 +25,13 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Try to save form with validation errors
     client
+      .pause(1000)
       .click('.edit-btn');
     client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
 
     client
       .waitForElementVisible('.form-review-panel-page .usa-button-primary', Timeouts.normal)
+      .pause(1000)
       .click('.form-review-panel-page .usa-button-primary');
 
     client.expect.element('.usa-input-error').to.be.visible;
@@ -46,6 +48,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Click privacy agreement and trying to submit form with empty fields
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .pause(1000)
       .click('input[type="checkbox"]')
       // Disabling axeCheck for now, to return to in a separate PR
       // .axeCheck('.main')

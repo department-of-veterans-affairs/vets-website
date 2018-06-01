@@ -30,6 +30,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Edit form fields successfully
     client
+      .pause(1000)
       .click('.edit-btn');
     client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
 
@@ -44,7 +45,9 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('.edit-btn').to.be.visible;
     client
       .waitForElementVisible('button.usa-button-unstyled', Timeouts.normal)
-      .click('button.usa-button-unstyled');
+      .pause(1000)
+      .click('button.usa-button-unstyled')
+      .pause(1000);
 
     client.expect.element('.edit-btn').to.not.be.present;
 
@@ -74,6 +77,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Click privacy agreement
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .pause(1000)
       .click('input[type="checkbox"]')
       // Disabling axeCheck for now, to return to in a separate PR
       // .axeCheck('.main')

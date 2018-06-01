@@ -2,6 +2,7 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const HcaHelpers = require('./hca-helpers.js');
 const testData = require('./schema/maximal-test.json');
+const FormsTestHelpers = require('../../../platform/forms/testing-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -16,7 +17,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.usa-button-primary');
 
     E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
+    FormsTestHelpers.overrideSmoothFormsScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
@@ -96,6 +97,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Dependent Information Page
     client.expect.element('label[for="root_view:reportDependentsYes"]').to.be.visible;
+    client.pause(2000);
     HcaHelpers.completeDependentInformation(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
@@ -143,7 +145,6 @@ module.exports = E2eHelpers.createE2eTest(
     // Review and Submit Page.
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
-      .pause(1000)
       .click('input[type="checkbox"]')
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
