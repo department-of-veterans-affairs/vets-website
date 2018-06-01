@@ -27,7 +27,7 @@ export default class AsyncDisplayWidget extends React.Component {
     }
 
     if (typeof uiOptions.viewComponent !== 'function') {
-      throw new Error('AsyncDisplayWidget requires viewComponent in ui:options to be a React element.');
+      throw new Error('AsyncDisplayWidget requires viewComponent in ui:options to be a React component.');
     }
 
     if (typeof uiOptions.callback !== 'function') {
