@@ -209,14 +209,15 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return async (dispatch, getState) => {
+
+    // If the form has any gating logic that may prevent a user from entering, we perform this here
     if (prestartForm) {
-      try {
-        await prestartForm();
-      // If prestart error, fail safely
-      } catch (err) {
+      const shouldNotEnterForm = !await prestartForm();
+      if (shouldNotEnterForm) {
         return;
       }
     }
+
     const trackingPrefix = getState().form.trackingPrefix;
     const userToken = sessionStorage.userToken;
     // If we don’t have a userToken, fail safely

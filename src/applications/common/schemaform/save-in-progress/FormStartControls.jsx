@@ -18,6 +18,17 @@ class FormStartControls extends React.Component {
     }
   }
 
+  getPrestartForm = () => {
+    const { form: formConfig, prestartForm } = this.props;
+    const { prestartCheck } = formConfig;
+    if (!prestartCheck) {
+      return null;
+    }
+    return () => new Promise((resolve, reject) => {
+      return prestartForm(prestartCheck, formConfig, resolve, reject);
+    });
+  }
+
   goToIntroduction = () => {
     this.props.router.push('/introduction');
   }
@@ -27,9 +38,8 @@ class FormStartControls extends React.Component {
   }
 
   handleLoadPrefill = () => {
-    const { beforeStartForm } = this.props.form;
     if (this.props.prefillAvailable) {
-      const prestartForm = beforeStartForm ? this.prestartForm : null;
+      const prestartForm = this.getPrestartForm();
       this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer, prestartForm);
     } else {
       this.goToBeginning();
@@ -37,10 +47,9 @@ class FormStartControls extends React.Component {
   }
 
   handleLoadForm = () => {
-    const { beforeStartForm } = this.props.form;
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    const prestartForm = beforeStartForm ? this.prestartForm : null;
+    const prestartForm = this.getPrestartForm();
     return this.props.fetchInProgressForm(this.props.formId, this.props.migrations, null, null, prestartForm);
   }
 
@@ -50,18 +59,9 @@ class FormStartControls extends React.Component {
 
   startOver = () => {
     this.toggleModal();
-    const { beforeStartForm } = this.props.form;
-    const prestartForm = beforeStartForm ? this.prestartForm : null;
+    const prestartForm = this.getPrestartForm();
     return this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer, prestartForm);
   }
-
-
-  prestartForm = () => new Promise((resolve, reject) => {
-    const { formId, migrations, prefillTransformer } = this.props;
-    const formConfig = { formId, migrations, prefillTransformer };
-    const { form: { beforeStartForm }, prestartForm } = this.props;
-    return prestartForm(beforeStartForm, formConfig, resolve, reject);
-  })
 
   authenticate = (e) => {
     e.preventDefault();
@@ -137,8 +137,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    prestartForm: (beforeStartForm, config, onChange, resolve, reject) => {
-      dispatch(beforeStartForm(config, onChange, resolve, reject));
+    prestartForm: (prestartCheck, config, onChange, resolve, reject) => {
+      dispatch(prestartCheck(config, onChange, resolve, reject));
     }
   };
 }

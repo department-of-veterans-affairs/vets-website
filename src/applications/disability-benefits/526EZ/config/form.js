@@ -127,7 +127,7 @@ const formConfig = {
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   // submitUrl: `${environment.API_URL}/v0/21-526EZ`,
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  beforeStartForm: submitIntentToFile,
+  prestartCheck: submitIntentToFile,
   prestartMessage: 'Submitting your intent to file...',
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',

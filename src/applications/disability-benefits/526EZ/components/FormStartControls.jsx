@@ -29,7 +29,7 @@ export default function FormStartControls(props) {
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
-        beforeStartForm={props.beforeStartForm}
+        prestartCheck={props.prestartCheck}
         startText="Start the Disability Compensation Application"
         {...props.saveInProgressActions}
         {...props.saveInProgress}/>}

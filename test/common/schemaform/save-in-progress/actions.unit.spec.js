@@ -245,7 +245,7 @@ describe('Schemaform save / load actions:', () => {
 
     it('calls prestart, if provided', () => {
       const prestart = sinon.stub();
-      prestart.resolves();
+      prestart.resolves(true);
       const thunk = fetchInProgressForm('1010ez', {}, false, null, prestart);
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;
@@ -258,7 +258,7 @@ describe('Schemaform save / load actions:', () => {
     });
     it('gates on prestart, if provided', () => {
       const prestart = sinon.stub();
-      prestart.rejects();
+      prestart.resolves(false);
       const thunk = fetchInProgressForm('1010ez', {}, false, null, prestart);
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;

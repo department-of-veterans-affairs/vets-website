@@ -151,6 +151,17 @@ class RoutedSavableApp extends React.Component {
     return message;
   }
 
+  getPrestartForm = () => {
+    const { formConfig, prestartForm } = this.props;
+    const { prestartCheck } = formConfig;
+    if (!prestartCheck) {
+      return null;
+    }
+    return () => new Promise((resolve, reject) => {
+      return prestartForm(prestartCheck, formConfig, resolve, reject);
+    });
+  }
+
   redirectOrLoad(props) {
     // Stop a user that's been redirected to be redirected again after logging in
     this.shouldRedirectOrLoad = false;
@@ -162,9 +173,8 @@ class RoutedSavableApp extends React.Component {
       const currentForm = props.formConfig.formId;
       const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
       const hasPrefillData = props.prefillsAvailable.includes(currentForm);
-      const { beforeStartForm } = this.props.formConfig;
       if (isSaved || hasPrefillData) {
-        const prestartForm = beforeStartForm ? this.prestartForm : null;
+        const prestartForm = this.getPrestartForm();
         props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData, prestartForm);
       } else {
         // No forms to load; go to the beginning
@@ -183,13 +193,6 @@ class RoutedSavableApp extends React.Component {
     window.removeEventListener('beforeunload', this.onbeforeunload);
   }
 
-  prestartForm = () => new Promise((resolve, reject) => {
-    const { formConfig } = this.props;
-    const { beforeStartForm } = formConfig;
-    const { prestartForm } = this.props;
-    return prestartForm(beforeStartForm, formConfig, resolve, reject);
-  })
-
   render() {
     const { currentLocation, formConfig, children, loadedStatus, prestartStatus } = this.props;
     const { prestartMessage } = formConfig;
@@ -198,7 +201,7 @@ class RoutedSavableApp extends React.Component {
     const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
     if (!formConfig.disableSave && loadingForm && this.props.prefillStatus === LOAD_STATUSES.pending) {
       content = <LoadingIndicator message="Retrieving your profile information..."/>;
-    } else if (formConfig.beforeStartForm && prestartStatus === PRESTART_STATUSES.pending) {
+    } else if (formConfig.prestartCheck && prestartStatus === PRESTART_STATUSES.pending) {
       content = <LoadingIndicator message={prestartMessage}/>;
     } else if (!formConfig.disableSave && loadingForm) {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
@@ -231,8 +234,8 @@ function mapDispatchToProps(dispatch) {
     fetchInProgressForm: (...args) => {
       dispatch(fetchInProgressForm(...args));
     },
-    prestartForm: (beforeStartForm, config, onChange, resolve, reject) => {
-      dispatch(beforeStartForm(config, onChange, resolve, reject));
+    prestartForm: (prestartCheck, config, onChange, resolve, reject) => {
+      dispatch(prestartCheck(config, onChange, resolve, reject));
     }
   };
 }
