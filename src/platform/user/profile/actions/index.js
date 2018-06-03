@@ -57,6 +57,23 @@ export function getProfile() {
         },
         // vet360: json.data.attributes.vet360_contact_information,
         vet360: {
+          mobilePhone: {
+            areaCode: '503',
+            countryCode: '1',
+            createdAt: '2018-04-21T20:09:50Z',
+            effectiveEndDate: '2018-04-21T20:09:50Z',
+            effectiveStartDate: '2018-04-21T20:09:50Z',
+            extension: '0000',
+            id: 123,
+            isInternational: true,
+            isTextable: true,
+            isTty: true,
+            isVoicemailable: true,
+            phoneNumber: '5551234',
+            phoneType: 'MOBILE',
+            sourceDate: '2018-04-21T20:09:50Z',
+            updatedAt: '2018-04-21T20:09:50Z'
+          },
           mailingAddress: {
             addressLine1: '1493 Martin Luther King Rd',
             addressLine2: 'string',

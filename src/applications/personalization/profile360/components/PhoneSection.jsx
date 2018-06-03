@@ -10,7 +10,7 @@ import { fieldFailureMessage } from './LoadFail';
 class EditPhoneModal extends React.Component {
 
   componentDidMount() {
-    const defaultFieldValue = this.props.phoneResponseData || { countryCode: '', extension: '', number: '' };
+    const defaultFieldValue = this.props.phoneData || { countryCode: '', extension: '', phoneNumber: '' };
     this.props.onChange(defaultFieldValue);
   }
 
@@ -60,8 +60,8 @@ class EditPhoneModal extends React.Component {
 
             <ErrorableTextInput
               label="Number"
-              field={{ value: field.value.number, dirty: false }}
-              onValueChange={this.onChange('number')}
+              field={{ value: field.value.phoneNumber, dirty: false }}
+              onValueChange={this.onChange('phoneNumber')}
               errorMessage={field.errorMessage}/>
 
             <ErrorableTextInput
@@ -79,18 +79,18 @@ class EditPhoneModal extends React.Component {
 }
 
 
-export default function PhoneSection({ phoneResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd, onCancel, onSubmit }) {
+export default function PhoneSection({ phoneData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
-  if (!phoneResponseData) {
+  if (!phoneData) {
     content = fieldFailureMessage;
   } else {
-    if (phoneResponseData.number) {
-      const number = <PhoneNumberWidget value={phoneResponseData.number}/>;
-      const countryCode = phoneResponseData.countryCode && <span>+ {phoneResponseData.countryCode}</span>;
-      const extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
-      content = <div>{countryCode} {number} {extension}</div>;
+    if (phoneData.phoneNumber) {
+      const phoneNumber = <PhoneNumberWidget value={`${phoneData.areaCode}${phoneData.phoneNumber}`}/>;
+      const countryCode = phoneData.countryCode && <span>+ {phoneData.countryCode}</span>;
+      const extension = phoneData.extension && <span>x{phoneData.extension}</span>;
+      content = <div>{countryCode} {phoneNumber} {extension}</div>;
     } else {
       content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()} number</button>;
     }
@@ -104,7 +104,7 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
         error={error}
         clearErrors={clearErrors}
         onChange={onChange}
-        phoneResponseData={phoneResponseData}
+        phoneData={phoneData}
         onSubmit={onSubmit}
         isLoading={isLoading}
         onCancel={onCancel}/>
@@ -114,7 +114,7 @@ export default function PhoneSection({ phoneResponseData, title, field, error, c
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={phoneResponseData && phoneResponseData.number && onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={phoneData && phoneData.phoneNumber && onEdit}>{title}</HeadingWithEdit>
       {content}
     </div>
   );

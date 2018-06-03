@@ -117,7 +117,7 @@ class ContactInformationContent extends React.Component {
 
         <PhoneSection
           title="Primary Phone"
-          phoneResponseData={homePhone}
+          phoneData={homePhone}
           field={formFields.primaryTelephone}
           error={errors.includes(SAVE_PRIMARY_PHONE_FAIL)}
           clearErrors={clearErrors}
@@ -131,21 +131,21 @@ class ContactInformationContent extends React.Component {
 
         <PhoneSection
           title="Mobile Phone"
-          phoneResponseData={mobilePhone}
-          field={formFields.alternateTelephone}
+          phoneData={mobilePhone}
+          field={formFields.mobilePhone}
           error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.alternateTelephone}
-          isEditing={currentlyOpenModal === 'altPhone'}
+          onChange={updateFormFieldActions.mobilePhone}
+          isEditing={currentlyOpenModal === 'mobilePhone'}
           isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
-          onEdit={recordedAction('edit-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
-          onAdd={recordedAction('add-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
-          onSubmit={recordedAction('update-button', 'alternative-telephone', updateActions.updateAlternatePhone)}
-          onCancel={recordedAction('cancel-button', 'alternative-telephone', this.closeModal)}/>
+          onEdit={recordedAction('edit-link', 'mobile-telephone', this.openModalHandler('mobilePhone'))}
+          onAdd={recordedAction('add-link', 'mobile-telephone', this.openModalHandler('mobilePhone'))}
+          onSubmit={recordedAction('update-button', 'mobile-telephone', updateActions.updateAlternatePhone)}
+          onCancel={recordedAction('cancel-button', 'mobile-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Work Phone"
-          phoneResponseData={workPhone}
+          phoneData={workPhone}
           field={formFields.alternateTelephone}
           error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
           clearErrors={clearErrors}
@@ -159,7 +159,7 @@ class ContactInformationContent extends React.Component {
 
         <PhoneSection
           title="Temporary Phone"
-          phoneResponseData={temporaryPhone}
+          phoneData={temporaryPhone}
           field={formFields.alternateTelephone}
           error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
           clearErrors={clearErrors}
@@ -173,7 +173,7 @@ class ContactInformationContent extends React.Component {
 
         <PhoneSection
           title="Fax Number"
-          phoneResponseData={faxNumber}
+          phoneData={faxNumber}
           field={formFields.alternateTelephone}
           error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
           clearErrors={clearErrors}
