@@ -14,13 +14,14 @@ import {
   SAVE_PRIMARY_PHONE_FAIL,
   SAVE_PRIMARY_PHONE_SUCCESS,
 
-  SAVE_ALTERNATE_PHONE,
-  SAVE_ALTERNATE_PHONE_FAIL,
-  SAVE_ALTERNATE_PHONE_SUCCESS,
-
   SAVE_EMAIL_ADDRESS,
   SAVE_EMAIL_ADDRESS_FAIL,
   SAVE_EMAIL_ADDRESS_SUCCESS,
+
+
+  SAVE_MOBILE_PHONE,
+  SAVE_MOBILE_PHONE_FAIL,
+  SAVE_MOBILE_PHONE_SUCCESS,
 
   // Miscellaneous actions
   UPDATE_PROFILE_FORM_FIELD,
@@ -72,7 +73,7 @@ function vaProfile(state = initialState, action) {
     // Saves
     case SAVE_EMAIL_ADDRESS:
     case SAVE_PRIMARY_PHONE:
-    case SAVE_ALTERNATE_PHONE:
+    case SAVE_MOBILE_PHONE:
     case SAVE_MAILING_ADDRESS: {
       const pendingSaves = state.pendingSaves.concat(action.type);
       return { ...state, pendingSaves };
@@ -80,7 +81,7 @@ function vaProfile(state = initialState, action) {
 
     case SAVE_EMAIL_ADDRESS_SUCCESS:
     case SAVE_PRIMARY_PHONE_SUCCESS:
-    case SAVE_ALTERNATE_PHONE_SUCCESS:
+    case SAVE_MOBILE_PHONE_SUCCESS:
     case SAVE_MAILING_ADDRESS_SUCCESS: {
       const contactInformation = {
         ...state.contactInformation,
@@ -96,8 +97,8 @@ function vaProfile(state = initialState, action) {
     }
 
     case SAVE_EMAIL_ADDRESS_FAIL:
+    case SAVE_MOBILE_PHONE_FAIL:
     case SAVE_PRIMARY_PHONE_FAIL:
-    case SAVE_ALTERNATE_PHONE_FAIL:
     case SAVE_MAILING_ADDRESS_FAIL: {
       const errors = state.errors.concat(action.type);
       return { ...state, pendingSaves: [], errors };

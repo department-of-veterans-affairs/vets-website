@@ -25,6 +25,25 @@ function validateTelephone({ number }) {
   return isValidPhone(number) ? '' : 'Please enter a valid phone.';
 }
 
+function cleanPhoneDataForUpdate(value) {
+  const {
+    areaCode,
+    countryCode,
+    extension,
+    phoneType,
+    phoneNumber,
+  } = value;
+
+  return {
+    areaCode,
+    countryCode,
+    extension,
+    phoneType,
+    phoneNumber,
+    isInternational: countryCode !== '1',
+  };
+}
+
 function updateProfileFormField(field, validator) {
   return (value, dirty) => {
     const errorMessage = validator && dirty ? validator(value) : '';
@@ -32,7 +51,7 @@ function updateProfileFormField(field, validator) {
       type: UPDATE_PROFILE_FORM_FIELD,
       field,
       newState: {
-        value,
+        value: cleanPhoneDataForUpdate(value),
         errorMessage
       }
     };

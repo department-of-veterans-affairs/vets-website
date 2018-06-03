@@ -6,7 +6,9 @@ import {
   SAVE_ALTERNATE_PHONE_FAIL,
   SAVE_PRIMARY_PHONE_FAIL,
   SAVE_MAILING_ADDRESS_FAIL,
-  SAVE_EMAIL_ADDRESS_FAIL
+  SAVE_EMAIL_ADDRESS_FAIL,
+  SAVE_MOBILE_PHONE,
+  SAVE_MOBILE_PHONE_FAIL,
 } from '../actions';
 
 import { every } from 'lodash';
@@ -133,14 +135,14 @@ class ContactInformationContent extends React.Component {
           title="Mobile Phone"
           phoneData={mobilePhone}
           field={formFields.mobilePhone}
-          error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
+          error={errors.includes(SAVE_MOBILE_PHONE_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.mobilePhone}
           isEditing={currentlyOpenModal === 'mobilePhone'}
-          isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
+          isLoading={pendingSaves.includes(SAVE_MOBILE_PHONE)}
           onEdit={recordedAction('edit-link', 'mobile-telephone', this.openModalHandler('mobilePhone'))}
           onAdd={recordedAction('add-link', 'mobile-telephone', this.openModalHandler('mobilePhone'))}
-          onSubmit={recordedAction('update-button', 'mobile-telephone', updateActions.updateAlternatePhone)}
+          onSubmit={recordedAction('update-button', 'mobile-telephone', updateActions.updateMobilePhone)}
           onCancel={recordedAction('cancel-button', 'mobile-telephone', this.closeModal)}/>
 
         <PhoneSection

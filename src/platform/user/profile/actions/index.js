@@ -8,6 +8,7 @@ export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
 export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
+export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
 export * from './mhv';
 
@@ -65,7 +66,7 @@ export function getProfile() {
             effectiveStartDate: '2018-04-21T20:09:50Z',
             extension: '0000',
             id: 123,
-            isInternational: true,
+            isInternational: false,
             isTextable: true,
             isTty: true,
             isVoicemailable: true,
