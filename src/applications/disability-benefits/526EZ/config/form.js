@@ -717,7 +717,7 @@ const formConfig = {
                     parseResponse: (response, file) => {
                       return {
                         name: file.name,
-                        confirmationCode: response.guid
+                        confirmationCode: response.data.attributes.guid
                       };
                     },
                     attachmentName: {
@@ -788,7 +788,7 @@ const formConfig = {
                     parseResponse: (response, file) => {
                       return {
                         name: file.name,
-                        confirmationCode: response.guid
+                        confirmationCode: response.data.attributes.guid
                       };
                     },
                     attachmentName: {
