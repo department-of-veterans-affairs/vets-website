@@ -5,23 +5,10 @@ import {
   FETCH_MILITARY_INFORMATION_SUCCESS,
   FETCH_ADDRESS_CONSTANTS_SUCCESS,
 
-  // Saves
-  SAVE_MAILING_ADDRESS,
-  SAVE_MAILING_ADDRESS_FAIL,
-  SAVE_MAILING_ADDRESS_SUCCESS,
-
-  SAVE_PRIMARY_PHONE,
-  SAVE_PRIMARY_PHONE_FAIL,
-  SAVE_PRIMARY_PHONE_SUCCESS,
-
-  SAVE_EMAIL_ADDRESS,
-  SAVE_EMAIL_ADDRESS_FAIL,
-  SAVE_EMAIL_ADDRESS_SUCCESS,
-
-
-  SAVE_MOBILE_PHONE,
-  SAVE_MOBILE_PHONE_FAIL,
-  SAVE_MOBILE_PHONE_SUCCESS,
+  VET360_TRANSACTION_REQUESTED,
+  VET360_TRANSACTION_BEGUN,
+  VET360_TRANSACTION_UPDATE,
+  VET360_TRANSACTION_FINISHED,
 
   // Miscellaneous actions
   UPDATE_PROFILE_FORM_FIELD,
@@ -42,7 +29,8 @@ const initialState = {
   profileLoading: true,
   loading: true,
   formFields: {},
-  message: null
+  message: null,
+  transactions: {}
 };
 
 const MESSAGES = {
@@ -70,38 +58,14 @@ function vaProfile(state = initialState, action) {
       return { ...state, addressConstants: flattened };
     }
 
-    // Saves
-    case SAVE_EMAIL_ADDRESS:
-    case SAVE_PRIMARY_PHONE:
-    case SAVE_MOBILE_PHONE:
-    case SAVE_MAILING_ADDRESS: {
-      const pendingSaves = state.pendingSaves.concat(action.type);
-      return { ...state, pendingSaves };
-    }
-
-    case SAVE_EMAIL_ADDRESS_SUCCESS:
-    case SAVE_PRIMARY_PHONE_SUCCESS:
-    case SAVE_MOBILE_PHONE_SUCCESS:
-    case SAVE_MAILING_ADDRESS_SUCCESS: {
-      const contactInformation = {
-        ...state.contactInformation,
-        [action.fieldName]: action.newValue
-      };
-      return {
-        ...state,
-        contactInformation,
-        message: MESSAGES.updatedInformation,
-        pendingSaves: [],
-        modal: null
-      };
-    }
-
-    case SAVE_EMAIL_ADDRESS_FAIL:
-    case SAVE_MOBILE_PHONE_FAIL:
-    case SAVE_PRIMARY_PHONE_FAIL:
-    case SAVE_MAILING_ADDRESS_FAIL: {
-      const errors = state.errors.concat(action.type);
-      return { ...state, pendingSaves: [], errors };
+    case VET360_TRANSACTION_REQUESTED:
+    case VET360_TRANSACTION_BEGUN:
+    case VET360_TRANSACTION_UPDATE:
+    case VET360_TRANSACTION_FINISHED: {
+      const transactions = { ...state.transactions };
+      transactions[action.fieldName] = action.response || null;
+      console.log(action.fieldName, transactions[action.fieldName]);
+      return { ...state, transactions, modal: null };
     }
 
     // Miscellaneous

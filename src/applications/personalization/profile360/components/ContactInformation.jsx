@@ -79,10 +79,12 @@ class ContactInformationContent extends React.Component {
         clearErrors
       },
       profile: {
-        addressConstants
+        addressConstants,
+        transactions
       },
       updateFormFieldActions,
-      updateActions
+      updateActions,
+      getTransactionStatus
     } = this.props;
 
     if (every(Object.keys(this.props.user.profile.vet360), false)) {
@@ -124,6 +126,8 @@ class ContactInformationContent extends React.Component {
         <PhoneSection
           title="Home Phone"
           phoneData={homePhone}
+          transaction={transactions.homePhone}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'homePhone')}
           field={formFields.homePhone}
           error={errors.includes(SAVE_HOME_PHONE_FAIL)}
           clearErrors={clearErrors}
@@ -138,6 +142,8 @@ class ContactInformationContent extends React.Component {
         <PhoneSection
           title="Mobile Phone"
           phoneData={mobilePhone}
+          transaction={transactions.mobilePhone}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'mobilePhone')}
           field={formFields.mobilePhone}
           error={errors.includes(SAVE_MOBILE_PHONE_FAIL)}
           clearErrors={clearErrors}
@@ -152,6 +158,8 @@ class ContactInformationContent extends React.Component {
         <PhoneSection
           title="Work Phone"
           phoneData={workPhone}
+          transaction={transactions.workPhone}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'workPhone')}
           field={formFields.workPhone}
           error={errors.includes(SAVE_WORK_PHONE_FAIL)}
           clearErrors={clearErrors}
@@ -166,6 +174,8 @@ class ContactInformationContent extends React.Component {
         <PhoneSection
           title="Temporary Phone"
           phoneData={temporaryPhone}
+          transaction={transactions.tempPhone}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'tempPhone')}
           field={formFields.temporaryTelephone}
           error={errors.includes(SAVE_TEMPORARY_PHONE_FAIL)}
           clearErrors={clearErrors}
@@ -180,6 +190,8 @@ class ContactInformationContent extends React.Component {
         <PhoneSection
           title="Fax Number"
           phoneData={faxNumber}
+          transaction={transactions.faxNumber}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'faxNumber')}
           field={formFields.faxNumber}
           error={errors.includes(SAVE_FAX_NUMBER_FAIL)}
           clearErrors={clearErrors}

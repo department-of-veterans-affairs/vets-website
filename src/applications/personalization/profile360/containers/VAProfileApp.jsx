@@ -16,7 +16,8 @@ import {
   fetchAddressConstants,
   fetchHero,
   fetchMilitaryInformation,
-  fetchPersonalInformation
+  fetchPersonalInformation,
+  getTransactionStatus
 } from '../actions';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
@@ -34,6 +35,7 @@ class VAProfileApp extends React.Component {
           verifyUrl={this.props.verifyUrl}>
           <ProfileView
             user={this.props.account}
+            getTransactionStatus={this.props.getTransactionStatus}
             fetchAddressConstants={this.props.fetchAddressConstants}
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
@@ -80,6 +82,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchHero,
     fetchMilitaryInformation,
     fetchPersonalInformation,
+    getTransactionStatus,
     openModal,
     clearErrors,
     clearMessage
@@ -91,6 +94,7 @@ const mapDispatchToProps = (dispatch) => {
     initializeDowntimeWarnings,
     dismissDowntimeWarning
   }, dispatch);
+
   return actions;
 };
 
