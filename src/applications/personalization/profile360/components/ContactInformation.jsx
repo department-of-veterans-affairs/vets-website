@@ -180,7 +180,7 @@ class ContactInformationContent extends React.Component {
         <PhoneSection
           title="Fax Number"
           phoneData={faxNumber}
-          field={formFields.alternateTelephone}
+          field={formFields.faxNumber}
           error={errors.includes(SAVE_FAX_NUMBER_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.faxNumber}

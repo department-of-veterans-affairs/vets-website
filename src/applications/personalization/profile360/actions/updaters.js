@@ -76,7 +76,7 @@ function saveFieldHandler(apiRoute, fieldName, requestStartAction, requestSucces
   };
 }
 
-function updatePhoneHandler(fieldName, requestStartAction, requestSuccessAction, requestFailAction, method = 'POST') {
+function updatePhoneHandler(fieldName, requestStartAction, requestSuccessAction, requestFailAction, method = 'PUT') {
   return fieldValue => {
     return async dispatch => {
       const options = {
