@@ -167,6 +167,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
         schemaUpdate.properties = _.set('state.enumNames', militaryLabels, withEnum);
       }
 
+      // Hide the state field for non US and CAN addresses
       if (!stateList && !schemaUpdate.properties.state['ui:hidden']) {
         schemaUpdate.properties = _.set('state.ui:hidden', true, schemaUpdate.properties);
       } else if (stateList && schemaUpdate.properties.state['ui:hidden']) {
