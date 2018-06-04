@@ -19,7 +19,7 @@ class FormStartControls extends React.Component {
   }
 
   getPrestartForm = () => {
-    const { form: formConfig, prestartForm } = this.props;
+    const { formConfig, prestartForm } = this.props;
     const { prestartCheck } = formConfig;
     if (!prestartCheck) {
       return null;
@@ -115,7 +115,7 @@ class FormStartControls extends React.Component {
 
 FormStartControls.propTypes = {
   prestartForm: PropTypes.func,
-  form: PropTypes.object.isRequired,
+  formConfig: PropTypes.object.isRequired,
   formId: PropTypes.string.isRequired,
   handleLoadPrefill: PropTypes.func,
   migrations: PropTypes.array,
@@ -131,7 +131,7 @@ FormStartControls.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    formConfig: state.form
   };
 }
 
