@@ -33,9 +33,12 @@ export default class AsyncDisplayWidget extends React.Component {
     if (typeof uiOptions.callback !== 'function') {
       throw new Error('AsyncDisplayWidget requires callback in ui:options to be a function.');
     }
+  }
 
+
+  componentDidMount() {
     // TODO: Don't call the callback _every_ time the component is mounted
-    const cbPromise = uiOptions.callback();
+    const cbPromise = this.props.options.callback();
     if (cbPromise instanceof Promise) {
       cbPromise.then((data) => {
         this.setState({
