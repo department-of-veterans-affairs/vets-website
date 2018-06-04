@@ -29,10 +29,6 @@ class FormStartControls extends React.Component {
     });
   }
 
-  goToIntroduction = () => {
-    this.props.router.push('/introduction');
-  }
-
   goToBeginning = () => {
     this.props.router.push(this.props.startPage);
   }
@@ -61,11 +57,6 @@ class FormStartControls extends React.Component {
     this.toggleModal();
     const prestartForm = this.getPrestartForm();
     return this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer, prestartForm);
-  }
-
-  authenticate = (e) => {
-    e.preventDefault();
-    this.props.toggleLoginModal(true);
   }
 
   render() {
@@ -114,8 +105,8 @@ class FormStartControls extends React.Component {
 
 
 FormStartControls.propTypes = {
+  prestartCheck: PropTypes.func,
   prestartForm: PropTypes.func,
-  formConfig: PropTypes.object.isRequired,
   formId: PropTypes.string.isRequired,
   handleLoadPrefill: PropTypes.func,
   migrations: PropTypes.array,
