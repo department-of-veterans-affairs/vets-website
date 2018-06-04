@@ -152,7 +152,7 @@ smith.use(collections({
     }
   },
   burialsPreNeed: {
-    pattern: 'burials-and-memorials/pre-need/*.md',
+    pattern: 'burials-and-memorials/pre-need/after*.md',
     sortBy: 'title',
     metadata: {
       name: 'Pre-need Determination'
