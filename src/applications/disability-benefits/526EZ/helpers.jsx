@@ -564,12 +564,6 @@ export const PrimaryAddressViewField = ({ formData }) => {
 };
 
 
-export const specialCircumstancesDescription = (
-  <p>To help us better understand your situation, please tell us if
-      any of the below situations apply to you. <strong>Are you:</strong></p>
-);
-
-
 export const FDCDescription = (
   <div>
     <h5>Fully developed claim program</h5>

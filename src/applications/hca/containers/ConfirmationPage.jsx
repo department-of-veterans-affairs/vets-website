@@ -33,7 +33,7 @@ export class ConfirmationPage extends React.Component {
       title = 'Your claim has been submitted.';
       dateTitle = 'Date submitted';
       if (data.email) {
-        emailMessage =  'We’ll send you an email to let you know when we’ve received your application.';
+        emailMessage = <p>We’ll send you an email when we successfully receive your application. If your application didn’t successfully go through, we’ll also send you an email letting you know.</p>;
       }
     }
 
@@ -41,9 +41,10 @@ export class ConfirmationPage extends React.Component {
       <div>
         <h3 className="confirmation-page-title">{title}</h3>
         <p>We usually process claims within <strong>a week</strong>.</p>
+        {emailMessage}
         <p>
-          We may contact you for more information or documents. {emailMessage}<br/>
-          <p><i>Please print this page for your records.</i></p>
+          We may contact you if we need more information or documents from you.<br></br>
+          <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
           <h4 className="schemaform-confirmation-claim-header">Health Care Benefit Claim <span className="additional">(Form 10-10EZ)</span></h4>

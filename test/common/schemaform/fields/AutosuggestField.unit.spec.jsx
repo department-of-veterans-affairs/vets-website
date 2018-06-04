@@ -58,6 +58,7 @@ describe('<AutosuggestField>', () => {
       <AutosuggestField
         formContext={formContext}
         idSchema={{ $id: 'id' }}
+        schema={{ type: 'object' }}
         formData={{ widget: 'autosuggest', label: 'testing' }}
         uiSchema={uiSchema}/>
     );
