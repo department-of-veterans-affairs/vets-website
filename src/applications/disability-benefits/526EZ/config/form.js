@@ -68,7 +68,7 @@ import {
 
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
-import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
+import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWidget';
 
 const {
   treatments: treatmentsSchema,
@@ -234,13 +234,13 @@ const formConfig = {
                 'ui:widget': 'yesNo',
               },
               homelessness: {
-                'ui:description': 'If you have a person who we should contact to get in touch with you, please provide their name and number here.',
+                'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
                 'ui:options': {
                   expandUnder: 'view:homelessness',
                   expandUnderCondition: (homelessOrAtRisk) => (homelessOrAtRisk === true)
                 },
                 pointOfContactName: {
-                  'ui:title': 'Contact full name',
+                  'ui:title': 'Name of person we should contact',
                   'ui:errorMessages': {
                     pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
                   },
@@ -253,8 +253,8 @@ const formConfig = {
                   }
                 },
                 primaryPhone: {
-                  'ui:title': 'Contact phone number',
-                  'ui:widget': SSNWidget, // probably not the best name for this widget...
+                  'ui:title': 'Phone number',
+                  'ui:widget': PhoneNumberWidget,
                   'ui:errorMessages': {
                     pattern: 'Phone numbers must be 10 digits (dashes allowed)'
                   },
@@ -274,6 +274,7 @@ const formConfig = {
             properties: {
               veteran: {
                 type: 'object',
+                required: ['view:homelessness'],
                 properties: {
                   'view:homelessness': {
                     type: 'boolean'
