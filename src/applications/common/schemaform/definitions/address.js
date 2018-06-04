@@ -72,6 +72,8 @@ const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
  *
  * @param {object} schema - Schema for a full form, including address definition in definitions
  * @param {boolean} isRequired - If the address is required or not, defaults to false
+ * @param {string} addressProperty - The name of the address definition to use from the common
+ *   definitions in currentSchema
  */
 export function schema(currentSchema, isRequired = false, addressProperty = 'address') {
   const addressSchema = currentSchema.definitions[addressProperty];
