@@ -20,7 +20,6 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for burial benefits"/>
         <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
         <SaveInProgressIntro
-          router={this.props.router}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           downtime={this.props.route.formConfig.downtime}
@@ -74,7 +73,6 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
-          router={this.props.router}
           buttonOnly
           pageList={this.props.route.pageList}
           startText="Start the Burial Benefits Application"

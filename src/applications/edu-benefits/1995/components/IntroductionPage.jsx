@@ -16,7 +16,6 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Manage your education benefits"/>
         <p itemProp="description">Equal to VA Form 22-1995 (Request for Change of Program or Place of Training).</p>
         <SaveInProgressIntro
-          router={this.props.router}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -64,7 +63,6 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
-          router={this.props.router}
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}

@@ -148,7 +148,6 @@ class SaveInProgressIntro extends React.Component {
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
         <FormStartControls
-          router={this.props.router}
           resumeOnly={this.props.resumeOnly}
           messages={this.props.messages}
           startText={this.props.startText}
@@ -157,7 +156,7 @@ class SaveInProgressIntro extends React.Component {
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}
           prefillTransformer={this.props.prefillTransformer}
-          prestartCheck={this.props.prestartCheck}
+          beforeStartForm={this.props.beforeStartForm}
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}

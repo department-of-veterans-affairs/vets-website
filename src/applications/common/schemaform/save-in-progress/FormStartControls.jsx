@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
@@ -142,6 +143,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormStartControls);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormStartControls));
 
 export { FormStartControls };
