@@ -99,6 +99,8 @@ function updatePhoneHandler(fieldName, requestStartAction, requestSuccessAction,
         console.log('transaction attributes', response.data.attributes);
 
         // update profile info on FE side
+        // TODO: this should be triggered upon hitting a terminal success state
+        // when polling for status
         dispatch({
           type: UPDATE_VET360_PROFILE_FIELD,
           fieldName,
