@@ -92,7 +92,7 @@ export default function PhoneSection({ phoneData, title, field, error, clearErro
       const extension = phoneData.extension && <span>x{phoneData.extension}</span>;
       content = <div>{countryCode} {phoneNumber} {extension}</div>;
     } else {
-      content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()} number</button>;
+      content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>;
     }
   }
 

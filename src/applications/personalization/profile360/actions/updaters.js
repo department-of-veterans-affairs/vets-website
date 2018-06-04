@@ -6,13 +6,9 @@ export const SAVE_MAILING_ADDRESS = 'SAVE_MAILING_ADDRESS';
 export const SAVE_MAILING_ADDRESS_FAIL = 'SAVE_MAILING_ADDRESS_FAIL';
 export const SAVE_MAILING_ADDRESS_SUCCESS = 'SAVE_MAILING_ADDRESS_SUCCESS';
 
-export const SAVE_PRIMARY_PHONE = 'SAVE_PRIMARY_PHONE';
-export const SAVE_PRIMARY_PHONE_FAIL = 'SAVE_PRIMARY_PHONE_FAIL';
-export const SAVE_PRIMARY_PHONE_SUCCESS = 'SAVE_PRIMARY_PHONE_SUCCESS';
-
-export const SAVE_ALTERNATE_PHONE = 'SAVE_ALTERNATE_PHONE';
-export const SAVE_ALTERNATE_PHONE_FAIL = 'SAVE_ALTERNATE_PHONE_FAIL';
-export const SAVE_ALTERNATE_PHONE_SUCCESS = 'SAVE_ALTERNATE_PHONE_SUCCESS';
+export const SAVE_HOME_PHONE = 'SAVE_HOME_PHONE';
+export const SAVE_HOME_PHONE_FAIL = 'SAVE_HOME_PHONE_FAIL';
+export const SAVE_HOME_PHONE_SUCCESS = 'SAVE_HOME_PHONE_SUCCESS';
 
 export const SAVE_EMAIL_ADDRESS = 'SAVE_EMAIL_ADDRESS';
 export const SAVE_EMAIL_ADDRESS_FAIL = 'SAVE_EMAIL_ADDRESS_FAIL';
@@ -21,6 +17,18 @@ export const SAVE_EMAIL_ADDRESS_SUCCESS = 'SAVE_EMAIL_ADDRESS_SUCCESS';
 export const SAVE_MOBILE_PHONE = 'SAVE_MOBILE_PHONE';
 export const SAVE_MOBILE_PHONE_FAIL = 'SAVE_MOBILE_PHONE_FAIL';
 export const SAVE_MOBILE_PHONE_SUCCESS = 'SAVE_MOBILE_PHONE_SUCCESS';
+
+export const SAVE_WORK_PHONE = 'SAVE_WORK_PHONE';
+export const SAVE_WORK_PHONE_FAIL = 'SAVE_WORK_PHONE_FAIL';
+export const SAVE_WORK_PHONE_SUCCESS = 'SAVE_WORK_PHONE_SUCCESS';
+
+export const SAVE_TEMPORARY_PHONE = 'SAVE_TEMPORARY_PHONE';
+export const SAVE_TEMPORARY_PHONE_FAIL = 'SAVE_TEMPORARY_PHONE_FAIL';
+export const SAVE_TEMPORARY_PHONE_SUCCESS = 'SAVE_TEMPORARY_PHONE_SUCCESS';
+
+export const SAVE_FAX_NUMBER = 'SAVE_FAX_NUMBER';
+export const SAVE_FAX_NUMBER_FAIL = 'SAVE_FAX_NUMBER_FAIL';
+export const SAVE_FAX_NUMBER_SUCCESS = 'SAVE_FAX_NUMBER_SUCCESS';
 
 export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
@@ -104,11 +112,35 @@ function updatePhoneHandler(fieldName, requestStartAction, requestSuccessAction,
 }
 
 export const saveField = {
+  updateHomePhone: updatePhoneHandler(
+    'homePhone',
+    SAVE_HOME_PHONE,
+    SAVE_HOME_PHONE_SUCCESS,
+    SAVE_HOME_PHONE_FAIL),
+
   updateMobilePhone: updatePhoneHandler(
     'mobilePhone',
     SAVE_MOBILE_PHONE,
     SAVE_MOBILE_PHONE_SUCCESS,
     SAVE_MOBILE_PHONE_FAIL),
+
+  updateWorkPhone: updatePhoneHandler(
+    'workPhone',
+    SAVE_WORK_PHONE,
+    SAVE_WORK_PHONE_SUCCESS,
+    SAVE_WORK_PHONE_FAIL),
+
+  updateTemporaryPhone: updatePhoneHandler(
+    'temporaryPhone',
+    SAVE_TEMPORARY_PHONE,
+    SAVE_TEMPORARY_PHONE_SUCCESS,
+    SAVE_TEMPORARY_PHONE_FAIL),
+
+  updateFaxNumber: updatePhoneHandler(
+    'faxNumber',
+    SAVE_FAX_NUMBER,
+    SAVE_FAX_NUMBER_SUCCESS,
+    SAVE_FAX_NUMBER_FAIL),
 
   updateEmailAddress: saveFieldHandler(
     '/profile/email',
@@ -116,20 +148,6 @@ export const saveField = {
     SAVE_EMAIL_ADDRESS,
     SAVE_EMAIL_ADDRESS_SUCCESS,
     SAVE_EMAIL_ADDRESS_FAIL),
-
-  updatePrimaryPhone: saveFieldHandler(
-    '/profile/primary_phone',
-    'primaryTelephone',
-    SAVE_PRIMARY_PHONE,
-    SAVE_PRIMARY_PHONE_SUCCESS,
-    SAVE_PRIMARY_PHONE_FAIL),
-
-  updateAlternatePhone: saveFieldHandler(
-    '/profile/alternate_phone',
-    'alternateTelephone',
-    SAVE_ALTERNATE_PHONE,
-    SAVE_ALTERNATE_PHONE_SUCCESS,
-    SAVE_ALTERNATE_PHONE_FAIL),
 
   updateMailingAddress: saveFieldHandler(
     '/profile/mailing_address',

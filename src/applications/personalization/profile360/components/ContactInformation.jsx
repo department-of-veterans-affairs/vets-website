@@ -1,14 +1,18 @@
 import {
-  SAVE_MAILING_ADDRESS,
-  SAVE_PRIMARY_PHONE,
-  SAVE_ALTERNATE_PHONE,
-  SAVE_EMAIL_ADDRESS,
-  SAVE_ALTERNATE_PHONE_FAIL,
-  SAVE_PRIMARY_PHONE_FAIL,
-  SAVE_MAILING_ADDRESS_FAIL,
   SAVE_EMAIL_ADDRESS_FAIL,
-  SAVE_MOBILE_PHONE,
+  SAVE_EMAIL_ADDRESS,
+  SAVE_FAX_NUMBER_FAIL,
+  SAVE_FAX_NUMBER,
+  SAVE_HOME_PHONE_FAIL,
+  SAVE_HOME_PHONE,
+  SAVE_MAILING_ADDRESS_FAIL,
+  SAVE_MAILING_ADDRESS,
   SAVE_MOBILE_PHONE_FAIL,
+  SAVE_MOBILE_PHONE,
+  SAVE_TEMPORARY_PHONE_FAIL,
+  SAVE_TEMPORARY_PHONE,
+  SAVE_WORK_PHONE_FAIL,
+  SAVE_WORK_PHONE,
 } from '../actions';
 
 import { every } from 'lodash';
@@ -118,18 +122,18 @@ class ContactInformationContent extends React.Component {
           addressConstants={addressConstants}/>
 
         <PhoneSection
-          title="Primary Phone"
+          title="Home Phone"
           phoneData={homePhone}
-          field={formFields.primaryTelephone}
-          error={errors.includes(SAVE_PRIMARY_PHONE_FAIL)}
+          field={formFields.homePhone}
+          error={errors.includes(SAVE_HOME_PHONE_FAIL)}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.primaryTelephone}
-          isEditing={currentlyOpenModal === 'primaryPhone'}
-          isLoading={pendingSaves.includes(SAVE_PRIMARY_PHONE)}
-          onEdit={recordedAction('edit-link', 'primary-telephone', this.openModalHandler('primaryPhone'))}
-          onAdd={recordedAction('add-link', 'primary-telephone', this.openModalHandler('primaryPhone'))}
-          onSubmit={recordedAction('update-button', 'primary-telephone', updateActions.updatePrimaryPhone)}
-          onCancel={recordedAction('cancel-button', 'primary-telephone', this.closeModal)}/>
+          onChange={updateFormFieldActions.homePhone}
+          isEditing={currentlyOpenModal === 'homePhone'}
+          isLoading={pendingSaves.includes(SAVE_HOME_PHONE)}
+          onEdit={recordedAction('edit-link', 'home-telephone', this.openModalHandler('homePhone'))}
+          onAdd={recordedAction('add-link', 'home-telephone', this.openModalHandler('homePhone'))}
+          onSubmit={recordedAction('update-button', 'home-telephone', updateActions.updateHomePhone)}
+          onCancel={recordedAction('cancel-button', 'home-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Mobile Phone"
@@ -148,44 +152,44 @@ class ContactInformationContent extends React.Component {
         <PhoneSection
           title="Work Phone"
           phoneData={workPhone}
-          field={formFields.alternateTelephone}
-          error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
+          field={formFields.workPhone}
+          error={errors.includes(SAVE_WORK_PHONE_FAIL)}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.alternateTelephone}
-          isEditing={currentlyOpenModal === 'altPhone'}
-          isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
-          onEdit={recordedAction('edit-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
-          onAdd={recordedAction('add-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
-          onSubmit={recordedAction('update-button', 'alternative-telephone', updateActions.updateAlternatePhone)}
-          onCancel={recordedAction('cancel-button', 'alternative-telephone', this.closeModal)}/>
+          onChange={updateFormFieldActions.workPhone}
+          isEditing={currentlyOpenModal === 'workPhone'}
+          isLoading={pendingSaves.includes(SAVE_WORK_PHONE)}
+          onEdit={recordedAction('edit-link', 'work-telephone', this.openModalHandler('workPhone'))}
+          onAdd={recordedAction('add-link', 'work-telephone', this.openModalHandler('workPhone'))}
+          onSubmit={recordedAction('update-button', 'work-telephone', updateActions.updateWorkPhone)}
+          onCancel={recordedAction('cancel-button', 'work-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Temporary Phone"
           phoneData={temporaryPhone}
-          field={formFields.alternateTelephone}
-          error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
+          field={formFields.temporaryTelephone}
+          error={errors.includes(SAVE_TEMPORARY_PHONE_FAIL)}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.alternateTelephone}
-          isEditing={currentlyOpenModal === 'altPhone'}
-          isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
-          onEdit={recordedAction('edit-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
-          onAdd={recordedAction('add-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
-          onSubmit={recordedAction('update-button', 'alternative-telephone', updateActions.updateAlternatePhone)}
-          onCancel={recordedAction('cancel-button', 'alternative-telephone', this.closeModal)}/>
+          onChange={updateFormFieldActions.temporaryPhone}
+          isEditing={currentlyOpenModal === 'tempPhone'}
+          isLoading={pendingSaves.includes(SAVE_TEMPORARY_PHONE)}
+          onEdit={recordedAction('edit-link', 'temporary-telephone', this.openModalHandler('tempPhone'))}
+          onAdd={recordedAction('add-link', 'temporary-telephone', this.openModalHandler('tempPhone'))}
+          onSubmit={recordedAction('update-button', 'temporary-telephone', updateActions.updateTemporaryPhone)}
+          onCancel={recordedAction('cancel-button', 'temporary-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Fax Number"
           phoneData={faxNumber}
           field={formFields.alternateTelephone}
-          error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
+          error={errors.includes(SAVE_FAX_NUMBER_FAIL)}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.alternateTelephone}
-          isEditing={currentlyOpenModal === 'altPhone'}
-          isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
-          onEdit={recordedAction('edit-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
-          onAdd={recordedAction('add-link', 'alternative-telephone', this.openModalHandler('altPhone'))}
-          onSubmit={recordedAction('update-button', 'alternative-telephone', updateActions.updateAlternatePhone)}
-          onCancel={recordedAction('cancel-button', 'alternative-telephone', this.closeModal)}/>
+          onChange={updateFormFieldActions.faxNumber}
+          isEditing={currentlyOpenModal === 'faxNumber'}
+          isLoading={pendingSaves.includes(SAVE_FAX_NUMBER)}
+          onEdit={recordedAction('edit-link', 'fax-number', this.openModalHandler('faxNumber'))}
+          onAdd={recordedAction('add-link', 'fax-number', this.openModalHandler('faxNumber'))}
+          onSubmit={recordedAction('update-button', 'fax-number', updateActions.updateFaxNumber)}
+          onCancel={recordedAction('cancel-button', 'fax-number', this.closeModal)}/>
 
         <EmailSection
           emailResponseData={email}
