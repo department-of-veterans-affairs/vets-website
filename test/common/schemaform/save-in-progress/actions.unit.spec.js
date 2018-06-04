@@ -251,9 +251,8 @@ describe('Schemaform save / load actions:', () => {
       delete sessionStorage.userToken;
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
+        expect(dispatch.called).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
-        expect(dispatch.calledWith(setFetchFormPending(false))).to.be.true;
       });
     });
     it('gates on prestart, if provided', () => {
@@ -273,9 +272,8 @@ describe('Schemaform save / load actions:', () => {
       delete sessionStorage.userToken;
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
+        expect(dispatch.called).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
-        expect(dispatch.calledWith(setFetchFormPending(false))).to.be.true;
       });
     });
     it('dispatches a pending', () => {
