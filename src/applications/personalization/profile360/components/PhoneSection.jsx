@@ -5,6 +5,7 @@ import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import Transaction from './Transaction';
 import { fieldFailureMessage } from './LoadFail';
 
 class EditPhoneModal extends React.Component {
@@ -79,11 +80,13 @@ class EditPhoneModal extends React.Component {
 }
 
 
-export default function PhoneSection({ phoneData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd, onCancel, onSubmit }) {
+export default function PhoneSection({ phoneData, transaction, getTransactionStatus, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
-  if (!phoneData) {
+  if (transaction !== undefined) {
+    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus}/>;
+  } else if (!phoneData) {
     content = fieldFailureMessage;
   } else {
     if (phoneData.phoneNumber) {
