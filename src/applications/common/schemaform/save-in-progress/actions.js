@@ -214,7 +214,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
     if (prestartForm) {
       const shouldNotEnterForm = !await prestartForm();
       if (shouldNotEnterForm) {
-        return;
+        return false;
       }
     }
 
@@ -223,14 +223,14 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
     // If we don’t have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
-      Promise.resolve();
+      return false;
     }
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',
@@ -248,18 +248,18 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
       } else if (res.status === 404) {
         status = LOAD_STATUSES.notFound;
       }
-      return Promise.reject(status);
+      throw Error(status);
     }).then((resBody) => {
       // Just in case something funny happens where the json returned isn’t an object as expected
       // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
       if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
-        return Promise.reject(LOAD_STATUSES.invalidData);
+        throw Error(LOAD_STATUSES.invalidData);
       }
 
       // If an empty object is returned, throw a not-found
       // TODO: When / if we return a 404 for applications that don’t exist, remove this
       if (Object.keys(resBody).length === 0) {
-        return Promise.reject(LOAD_STATUSES.notFound);
+        throw Error(LOAD_STATUSES.notFound);
       }
 
       // If we’ve made it this far, we’ve got valid form
@@ -297,7 +297,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
             metadata: resBody.metadata
           }
         });
-        return Promise.reject(LOAD_STATUSES.invalidData);
+        throw Error(LOAD_STATUSES.invalidData);
       }
     }).catch((status) => {
       let loadedStatus = status;
