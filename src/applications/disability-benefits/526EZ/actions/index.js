@@ -41,7 +41,7 @@ async function fakeFetchITF(mockITF, dispatch) {
   return ITF;
 }
 
-export function submitIntentToFile(formConfig, resolve) {
+export function submitIntentToFile(resolve) {
   return async (dispatch) => {
 
     const mockITFfailure = { errorMessage: 'Network request failed', errors: [2, 3] };

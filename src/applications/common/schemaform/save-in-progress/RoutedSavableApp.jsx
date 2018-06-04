@@ -152,13 +152,12 @@ class RoutedSavableApp extends React.Component {
   }
 
   getPrestartForm = () => {
-    const { formConfig, prestartForm } = this.props;
-    const { prestartCheck } = formConfig;
+    const { formConfig: { prestartCheck }, prestartForm } = this.props;
     if (!prestartCheck) {
       return null;
     }
-    return () => new Promise((resolve, reject) => {
-      return prestartForm(prestartCheck, formConfig, resolve, reject);
+    return () => new Promise((resolve) => {
+      return prestartForm(prestartCheck, resolve);
     });
   }
 
@@ -234,8 +233,8 @@ function mapDispatchToProps(dispatch) {
     fetchInProgressForm: (...args) => {
       dispatch(fetchInProgressForm(...args));
     },
-    prestartForm: (prestartCheck, config, onChange, resolve, reject) => {
-      dispatch(prestartCheck(config, onChange, resolve, reject));
+    prestartForm: (prestartCheck, resolve) => {
+      dispatch(prestartCheck(resolve));
     }
   };
 }
