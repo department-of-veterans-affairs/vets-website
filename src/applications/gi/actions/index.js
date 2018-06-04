@@ -118,7 +118,6 @@ export function fetchAutocompleteSuggestions(text, version) {
   const url = `${api.url}/institutions/autocomplete?${queryString}`;
 
   return dispatch => {
-    dispatch({ type: AUTOCOMPLETE_STARTED });
 
     return fetch(url, api.settings)
       .then(res => res.json())
