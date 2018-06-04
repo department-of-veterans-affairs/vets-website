@@ -82,13 +82,14 @@ export default class AsyncDisplayWidget extends React.Component {
       case REJECTED: {
         // Show error message or error component passed in
         const CustomAlert = uiOptions.failureComponent;
+        const { errorHeadline, errorContent } = uiOptions;
         // TODO: Get generic headline and content
         content = CustomAlert ? <CustomAlert/> : (
           <AlertBox
             status="error"
             isVisible
-            headline="We're sorry, we can't seem to find your information right now."
-            content="That's a real bummer, we know. Maybe try again later."
+            headline={errorHeadline || 'We can’t find your information'}
+            content={errorContent || 'We’re sorry. We can’t find your information in our system right now. Please try again later.'}
             className="async-display-widget-alert-box"/>
         );
         break;
@@ -96,8 +97,7 @@ export default class AsyncDisplayWidget extends React.Component {
       case PENDING:
       default: {
         // Show loading spinner or pending component passed in
-        const loadingMessage = uiOptions.loadingMessage || 'Loading...';
-        content = (<LoadingIndicator message={loadingMessage}/>);
+        content = (<LoadingIndicator message={uiOptions.loadingMessage || 'Please wait while we load your information.'}/>);
         break;
       }
     }

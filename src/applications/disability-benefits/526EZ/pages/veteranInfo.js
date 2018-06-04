@@ -8,7 +8,8 @@ export const uiSchema = {
   'ui:title': 'Veteran information',
   'ui:options': {
     viewComponent: veteranInformationViewField,
-    loadingMessage: 'Fetching your information...',
+    errorHeadline: '',
+    errorContent: 'We’re sorry. We can’t find your personal details in our system right now. Please try again later.',
     callback: () => {
       // TODO: Actually fetch the information
       return Promise.resolve({
