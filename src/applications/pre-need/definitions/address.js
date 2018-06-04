@@ -89,7 +89,7 @@ export function schema(currentSchema, isRequired = false) {
       },
       postalCode: {
         type: 'string',
-        maxLength: 5
+        maxLength: 10
       }
     })
   };
@@ -167,6 +167,12 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
         schemaUpdate.properties = _.set('state.enumNames', militaryLabels, withEnum);
       }
 
+      if (!stateList && !schemaUpdate.properties.state['ui:hidden']) {
+        schemaUpdate.properties = _.set('state.ui:hidden', true, schemaUpdate.properties);
+      } else if (stateList && schemaUpdate.properties.state['ui:hidden']) {
+        schemaUpdate.properties = _.unset('state.ui:hidden', schemaUpdate.properties);
+      }
+
       return schemaUpdate;
     }
   );
@@ -210,7 +216,6 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
     city: {
       'ui:title': 'City'
     },
-    state: {},
     postalCode: {
       'ui:title': 'Postal code',
       'ui:options': {
