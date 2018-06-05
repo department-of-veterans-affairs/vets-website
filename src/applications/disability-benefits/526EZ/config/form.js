@@ -75,7 +75,6 @@ const {
   privateRecordReleases,
   serviceInformation,
   standardClaim,
-  // veteran
 } = fullSchema526EZ.properties;
 
 const {
