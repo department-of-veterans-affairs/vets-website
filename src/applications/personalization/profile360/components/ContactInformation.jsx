@@ -1,20 +1,3 @@
-import {
-  SAVE_EMAIL_ADDRESS_FAIL,
-  SAVE_EMAIL_ADDRESS,
-  SAVE_FAX_NUMBER_FAIL,
-  SAVE_FAX_NUMBER,
-  SAVE_HOME_PHONE_FAIL,
-  SAVE_HOME_PHONE,
-  SAVE_MAILING_ADDRESS_FAIL,
-  SAVE_MAILING_ADDRESS,
-  SAVE_MOBILE_PHONE_FAIL,
-  SAVE_MOBILE_PHONE,
-  SAVE_TEMPORARY_PHONE_FAIL,
-  SAVE_TEMPORARY_PHONE,
-  SAVE_WORK_PHONE_FAIL,
-  SAVE_WORK_PHONE,
-} from '../actions';
-
 import { every } from 'lodash';
 
 import React from 'react';
@@ -73,9 +56,7 @@ class ContactInformationContent extends React.Component {
       },
       modal: {
         currentlyOpen: currentlyOpenModal,
-        pendingSaves,
         formFields,
-        errors,
         clearErrors
       },
       profile: {
@@ -99,11 +80,9 @@ class ContactInformationContent extends React.Component {
           transaction={transactions.mailingAddress}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'mailingAddress')}
           field={formFields.mailingAddress}
-          error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.mailingAddress}
           isEditing={currentlyOpenModal === 'mailingAddress'}
-          isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
           onEdit={recordedAction('edit-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
           onAdd={recordedAction('add-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
           onSubmit={recordedAction('update-button', 'mailing-address', updateActions.updateMailingAddress)}
@@ -116,11 +95,9 @@ class ContactInformationContent extends React.Component {
           transaction={transactions.residentialAddress}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'residentialAddress')}
           field={formFields.residentialAddress}
-          error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.residentialAddress}
           isEditing={currentlyOpenModal === 'residentialAddress'}
-          isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
           onEdit={recordedAction('edit-link', 'residential-address', this.openModalHandler('residentialAddress'))}
           onAdd={recordedAction('add-link', 'residential-address', this.openModalHandler('residentialAddress'))}
           onSubmit={recordedAction('update-button', 'residential-address', updateActions.updateMailingAddress)}
@@ -133,11 +110,9 @@ class ContactInformationContent extends React.Component {
           transaction={transactions.homePhone}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'homePhone')}
           field={formFields.homePhone}
-          error={errors.includes(SAVE_HOME_PHONE_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.homePhone}
           isEditing={currentlyOpenModal === 'homePhone'}
-          isLoading={pendingSaves.includes(SAVE_HOME_PHONE)}
           onEdit={recordedAction('edit-link', 'home-telephone', this.openModalHandler('homePhone'))}
           onAdd={recordedAction('add-link', 'home-telephone', this.openModalHandler('homePhone'))}
           onSubmit={recordedAction('update-button', 'home-telephone', updateActions.updateHomePhone)}
@@ -149,11 +124,9 @@ class ContactInformationContent extends React.Component {
           transaction={transactions.mobilePhone}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'mobilePhone')}
           field={formFields.mobilePhone}
-          error={errors.includes(SAVE_MOBILE_PHONE_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.mobilePhone}
           isEditing={currentlyOpenModal === 'mobilePhone'}
-          isLoading={pendingSaves.includes(SAVE_MOBILE_PHONE)}
           onEdit={recordedAction('edit-link', 'mobile-telephone', this.openModalHandler('mobilePhone'))}
           onAdd={recordedAction('add-link', 'mobile-telephone', this.openModalHandler('mobilePhone'))}
           onSubmit={recordedAction('update-button', 'mobile-telephone', updateActions.updateMobilePhone)}
@@ -165,11 +138,9 @@ class ContactInformationContent extends React.Component {
           transaction={transactions.workPhone}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'workPhone')}
           field={formFields.workPhone}
-          error={errors.includes(SAVE_WORK_PHONE_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.workPhone}
           isEditing={currentlyOpenModal === 'workPhone'}
-          isLoading={pendingSaves.includes(SAVE_WORK_PHONE)}
           onEdit={recordedAction('edit-link', 'work-telephone', this.openModalHandler('workPhone'))}
           onAdd={recordedAction('add-link', 'work-telephone', this.openModalHandler('workPhone'))}
           onSubmit={recordedAction('update-button', 'work-telephone', updateActions.updateWorkPhone)}
@@ -181,11 +152,9 @@ class ContactInformationContent extends React.Component {
           transaction={transactions.tempPhone}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'tempPhone')}
           field={formFields.temporaryTelephone}
-          error={errors.includes(SAVE_TEMPORARY_PHONE_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.temporaryPhone}
           isEditing={currentlyOpenModal === 'tempPhone'}
-          isLoading={pendingSaves.includes(SAVE_TEMPORARY_PHONE)}
           onEdit={recordedAction('edit-link', 'temporary-telephone', this.openModalHandler('tempPhone'))}
           onAdd={recordedAction('add-link', 'temporary-telephone', this.openModalHandler('tempPhone'))}
           onSubmit={recordedAction('update-button', 'temporary-telephone', updateActions.updateTemporaryPhone)}
@@ -197,11 +166,9 @@ class ContactInformationContent extends React.Component {
           transaction={transactions.faxNumber}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'faxNumber')}
           field={formFields.faxNumber}
-          error={errors.includes(SAVE_FAX_NUMBER_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.faxNumber}
           isEditing={currentlyOpenModal === 'faxNumber'}
-          isLoading={pendingSaves.includes(SAVE_FAX_NUMBER)}
           onEdit={recordedAction('edit-link', 'fax-number', this.openModalHandler('faxNumber'))}
           onAdd={recordedAction('add-link', 'fax-number', this.openModalHandler('faxNumber'))}
           onSubmit={recordedAction('update-button', 'fax-number', updateActions.updateFaxNumber)}
@@ -212,11 +179,9 @@ class ContactInformationContent extends React.Component {
           transaction={transactions.email}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'email')}
           field={formFields.email}
-          error={errors.includes(SAVE_EMAIL_ADDRESS_FAIL)}
           clearErrors={clearErrors}
           onChange={updateFormFieldActions.email}
           isEditing={currentlyOpenModal === 'email'}
-          isLoading={pendingSaves.includes(SAVE_EMAIL_ADDRESS)}
           onEdit={recordedAction('edit-link', 'email', this.openModalHandler('email'))}
           onAdd={recordedAction('add-link', 'email', this.openModalHandler('email'))}
           onSubmit={recordedAction('update-button', 'email', updateActions.updateEmailAddress)}
