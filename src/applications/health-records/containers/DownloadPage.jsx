@@ -120,6 +120,7 @@ export class DownloadPage extends React.Component {
         </div>);
       };
     }
+
     return <DownloadLink ref={e => { this.pdfDownloadButton = e; }} onClick={linkOnClick} name="PDF File" docType="pdf"/>;
   }
 
@@ -154,14 +155,12 @@ export class DownloadPage extends React.Component {
     }
 
     return (
-      <div>
+      <div className="download-page">
         <h1>Access Your Health Records</h1>
         {this.renderMessageBanner()}
         {this.renderRequestDate()}
         {this.renderDownloadButtons()}
-        <p>
-          {this.renderConfirmModal()}
-        </p>
+        <p>{this.renderConfirmModal()}</p>
       </div>
     );
   }
@@ -175,6 +174,7 @@ const mapStateToProps = (state) => {
     refresh: hrState.refresh,
   };
 };
+
 const mapDispatchToProps = {
   openModal,
   closeModal,

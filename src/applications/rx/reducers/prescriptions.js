@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 const initialState = {
   currentItem: null,
-  items: [],
+  items: null,
   active: {
     loading: false,
     sort: {

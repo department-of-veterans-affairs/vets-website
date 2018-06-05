@@ -56,6 +56,7 @@ export function getProfile() {
           middle: userData.middle_name,
           last: userData.last_name,
         },
+        // vet360: TODO: camelcaseObject(json.data.attributes.vet360_contact_information)
         // vet360: json.data.attributes.vet360_contact_information,
         vet360: {
           mobilePhone: {
@@ -92,12 +93,7 @@ export function getProfile() {
             sourceDate: '2018-04-21T20:09:50Z',
             updatedAt: '2018-04-21T20:09:50Z'
           },
-          faxNumber: {
-            areaCode: '503',
-            countryCode: '1',
-            phoneNumber: '',
-            phoneType: 'FAX',
-          },
+          faxNumber: {},
           temporaryPhone: {
             areaCode: '503',
             countryCode: '1',

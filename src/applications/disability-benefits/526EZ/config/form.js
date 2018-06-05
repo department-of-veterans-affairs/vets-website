@@ -8,9 +8,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import {
-  uiSchema as autoSuggestUiSchema
-} from '../../../common/schemaform/definitions/autosuggest';
+import { uiSchema as autoSuggestUiSchema } from '../../../common/schemaform/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -68,9 +66,7 @@ import {
   getEvidenceTypesDescription
 } from '../helpers';
 
-import {
-  requireOneSelected,
-} from '../validations';
+import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {
@@ -704,13 +700,13 @@ const formConfig = {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     itemDescription: 'Adding additional evidence:',
-                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },
@@ -775,13 +771,13 @@ const formConfig = {
                 additionalDocuments: Object.assign({},
                   fileUploadUI('Lay statements or other evidence', {
                     itemDescription: 'Adding additional evidence:',
-                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },

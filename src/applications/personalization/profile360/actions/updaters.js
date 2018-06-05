@@ -137,6 +137,7 @@ function updateVet360Field(apiRoute, fieldName) {
 }
 
 export const saveField = {
+<<<<<<< HEAD
   updateHomePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE),
   updateMobilePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE),
   updateWorkPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE),
@@ -144,4 +145,13 @@ export const saveField = {
   updateFaxNumber: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER),
   updateEmailAddress: updateVet360Field('/profile/email', VET360_CONSTANTS.FIELD_NAMES.EMAIL),
   updateMailingAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS)
+=======
+  updateHomePhone: updateVet360Field('/profile/telephones', 'homePhone'),
+  updateMobilePhone: updateVet360Field('/profile/telephones', 'mobilePhone'),
+  updateWorkPhone: updateVet360Field('/profile/telephones', 'workPhone'),
+  updateTemporaryPhone: updateVet360Field('/profile/telephones', 'temporaryPhone'),
+  updateFaxNumber: updateVet360Field('/profile/telephones', 'faxNumber'),
+  updateEmailAddress: updateVet360Field('/profile/email', 'email'),
+  updateMailingAddress: updateVet360Field('/profile/mailing_address', 'mailingAddress')
+>>>>>>> 8f02c5d53fff856e2c60c91ebc09ae1f9142f0b9
 };
