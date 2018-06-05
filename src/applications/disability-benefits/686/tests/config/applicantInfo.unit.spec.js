@@ -17,7 +17,7 @@ describe('686 applicant information', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(9);
     expect(form.find('select').length).to.equal(3);
   });
 
@@ -46,13 +46,13 @@ describe('686 applicant information', () => {
         uiSchema={uiSchema}/>
     );
 
-    fillData(form, 'input#root_application_claimant_claimantFullName_first', 'test');
-    fillData(form, 'input#root_application_claimant_claimantFullName_last', 'test');
-    fillData(form, 'input#root_application_claimant_claimantSocialSecurityNumber', '222-23-2425');
-    fillData(form, 'select#root_application_claimant_dateOfBirthMonth', '1');
-    fillData(form, 'select#root_application_claimant_dateOfBirthDay', '31');
-    fillData(form, 'input#root_application_claimant_dateOfBirthYear', '1986');
-    selectRadio(form, 'root_application_claimant_relationshipToVet', '1');
+    fillData(form, 'input#root_claimant_claimantFullName_first', 'test');
+    fillData(form, 'input#root_claimant_claimantFullName_last', 'test');
+    fillData(form, 'input#root_claimant_claimantSocialSecurityNumber', '222-23-2425');
+    fillData(form, 'select#root_claimant_dateOfBirthMonth', '1');
+    fillData(form, 'select#root_claimant_dateOfBirthDay', '31');
+    fillData(form, 'input#root_claimant_dateOfBirthYear', '1986');
+    selectRadio(form, 'root_claimant_relationshipToVet', '1');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -67,7 +67,7 @@ describe('686 applicant information', () => {
         data={{}}
         uiSchema={uiSchema}/>
     );
-    selectRadio(form, 'root_application_claimant_relationshipToVet', '2');
+    selectRadio(form, 'root_claimant_relationshipToVet', '2');
 
     expect(form.find('.schemaform-radio-indent').length).to.equal(1);
   });
@@ -80,7 +80,7 @@ describe('686 applicant information', () => {
         data={{}}
         uiSchema={uiSchema}/>
     );
-    selectRadio(form, 'root_application_claimant_relationshipToVet', '3');
+    selectRadio(form, 'root_claimant_relationshipToVet', '3');
 
     expect(form.find('.schemaform-radio-indent').length).to.equal(1);
   });
@@ -93,7 +93,7 @@ describe('686 applicant information', () => {
         data={{}}
         uiSchema={uiSchema}/>
     );
-    selectRadio(form, 'root_application_claimant_relationshipToVet', '4');
+    selectRadio(form, 'root_claimant_relationshipToVet', '4');
 
     expect(form.find('.schemaform-radio-indent').length).to.equal(1);
   });
