@@ -134,8 +134,7 @@ const formConfig = {
             'ui:description': applicantDescription,
             claimantFullName: fullNameUI,
             claimantSocialSecurityNumber: ssnUI,
-            dateOfBirth: currentOrPastDateUI('Date of birth'),
-            relationshipToVet: {
+            'view:relationshipToVet': {
               'ui:title': 'Relationship to Veteran',
               'ui:widget': 'radio',
               'ui:options': {
@@ -158,14 +157,12 @@ const formConfig = {
             required: [
               'claimantFullName',
               'claimantSocialSecurityNumber',
-              'dateOfBirth',
-              'relationshipToVet'
+              'view:relationshipToVet'
             ],
             properties: {
               claimantFullName,
               claimantSocialSecurityNumber,
-              dateOfBirth: date,
-              relationshipToVet: {
+              'view:relationshipToVet': {
                 type: 'string',
                 'enum': [
                   '1',
