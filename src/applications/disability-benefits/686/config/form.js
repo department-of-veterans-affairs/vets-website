@@ -16,18 +16,23 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
+import applicantDescription from '../../../common/schemaform/components/ApplicantDescription';
 
 import {
-  VAFileNumberDescription,
   getSpouseMarriageTitle,
-  relationshipLabels,
   dependentsMinItem,
   schoolAttendanceWarning,
   disableWarning,
   childRelationshipStatusLabels,
   getMarriageTitleWithCurrent,
   isMarried,
-  transform
+  transform,
+  fullMaidenNameUI,
+  spouseRelationshipDescription,
+  childRelationshipDescription,
+  otherRelationshipDescription,
+  // isVeteran,
+  // VAFileNumberDescription
 } from '../helpers';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -38,10 +43,8 @@ const {
   spouseVaFileNumber,
   liveWithSpouse,
   spouseIsVeteran,
-  claimantFullName,
-  claimantEmail,
-  veteranFullName,
-  veteranSocialSecurityNumber,
+  claimantSocialSecurityNumber,
+  // veteranSocialSecurityNumber,
   dependents
 } = fullSchema686.properties;
 
@@ -121,81 +124,74 @@ const formConfig = {
     vaFileNumber
   },
   chapters: {
-    veteranInformation: {
-      title: 'Veteran Information',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        veteranInformation: {
-          path: 'veteran-information',
-          title: 'Veteran Information',
+        applicantInformation: {
+          title: 'Applicant information',
+          path: 'applicant-information',
           uiSchema: {
-            veteranFullName: fullNameUI,
-            veteranSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:required': form => !form.veteranVAfileNumber
-            }),
-            veteranVAfileNumber: {
-              'ui:title': 'VA file number (must have this or a Social Security number)',
-              'ui:required': form => !form.veteranSocialSecurityNumber,
-              'ui:help': VAFileNumberDescription,
-              'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
-              }
-            },
-            'view:relationship': {
-              'ui:title': 'Relationship to Veteran',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: relationshipLabels
-              }
-            },
-            'view:applicantInfo': {
-              'ui:title': 'Applicant Information',
-              claimantFullName: _.merge(fullNameUI, {
-                first: {
-                  'ui:required': (formData) => formData['view:relationship'] !== 'veteran'
+            'ui:description': applicantDescription,
+            application: {
+              claimant: {
+                claimantFullName: fullMaidenNameUI,
+                claimantSocialSecurityNumber: ssnUI,
+                dateOfBirth: currentOrPastDateUI('Date of birth'),
+                relationshipToVet: {
+                  'ui:title': 'Relationship to Veteran',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      1: 'I am the Veteran',
+                      2: 'Spouse or surviving spouse',
+                      3: 'Unmarried adult child',
+                      4: 'Other'
+                    },
+                    nestedContent: {
+                      2: spouseRelationshipDescription,
+                      3: childRelationshipDescription,
+                      4: otherRelationshipDescription
+                    }
+                  }
                 },
-                last: {
-                  'ui:required': (formData) => formData['view:relationship'] !== 'veteran'
-                }
-              }),
-              ssn: _.assign(ssnUI, {
-                'ui:required': (formData) => formData['view:relationship'] !== 'veteran'
-              }),
-              address: address.uiSchema('', false, (formData) => {
-                return formData['view:relationship'] !== 'veteran';
-              }),
-              claimantEmail: {
-                'ui:title': 'Email address',
-                'ui:required': (formData) => formData['view:relationship'] !== 'veteran'
-              },
-              'ui:options': {
-                expandUnder: 'view:relationship',
-                expandUnderCondition: (field) => field === 'spouse' || field === 'child' || field === 'other'
               }
-            },
+            }
           },
           schema: {
             type: 'object',
-            required: ['view:relationship'],
             properties: {
-              veteranFullName,
-              veteranSocialSecurityNumber,
-              veteranVAfileNumber: vaFileNumber,
-              'view:relationship': {
-                type: 'string',
-                'enum': [
-                  'veteran',
-                  'spouse',
-                  'child',
-                  'other'
-                ]
-              },
-              'view:applicantInfo': {
+              application: {
                 type: 'object',
                 properties: {
-                  claimantFullName,
-                  ssn,
-                  address: address.schema(fullSchema686),
-                  claimantEmail
+                  claimant: {
+                    type: 'object',
+                    required: [
+                      'claimantFullName',
+                      'claimantSocialSecurityNumber',
+                      'dateOfBirth',
+                      'relationshipToVet'
+                    ],
+                    properties: {
+                      claimantFullName: _.merge(fullName, {
+                        properties: {
+                          maiden: {
+                            type: 'string'
+                          }
+                        }
+                      }),
+                      claimantSocialSecurityNumber,
+                      dateOfBirth: date,
+                      relationshipToVet: {
+                        type: 'string',
+                        'enum': [
+                          '1',
+                          '2',
+                          '3',
+                          '4'
+                        ]
+                      }
+                    }
+                  }
                 }
               }
             }
