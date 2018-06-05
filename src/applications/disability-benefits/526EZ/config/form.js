@@ -237,7 +237,6 @@ const formConfig = {
                   'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
                   'ui:options': {
                     expandUnder: 'isHomeless',
-                    expandUnderCondition: (homelessOrAtRisk) => (homelessOrAtRisk === true)
                   },
                   pointOfContactName: {
                     'ui:title': 'Name of person we should contact',
