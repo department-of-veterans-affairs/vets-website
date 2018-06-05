@@ -229,41 +229,43 @@ const formConfig = {
           uiSchema: {
             veteran: {
               'ui:title': 'Homelessness',
-              'view:homelessness': {
-                'ui:title': 'Are you homeless or at risk of becoming homeless?',
-                'ui:widget': 'yesNo',
-              },
               homelessness: {
-                'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
-                'ui:options': {
-                  expandUnder: 'view:homelessness',
-                  expandUnderCondition: (homelessOrAtRisk) => (homelessOrAtRisk === true)
+                isHomeless: {
+                  'ui:title': 'Are you homeless or at risk of becoming homeless?',
+                  'ui:widget': 'yesNo',
                 },
-                pointOfContactName: {
-                  'ui:title': 'Name of person we should contact',
-                  'ui:errorMessages': {
-                    pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
+                pointOfContact: {
+                  'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
+                  'ui:options': {
+                    expandUnder: 'isHomeless',
+                    expandUnderCondition: (homelessOrAtRisk) => (homelessOrAtRisk === true)
                   },
-                  'ui:required': (formData) => {
-                    const { veteran } = formData;
-                    if (veteran['view:homelessness'] !== true || !veteran.homelessness) {
-                      return false;
+                  pointOfContactName: {
+                    'ui:title': 'Name of person we should contact',
+                    'ui:errorMessages': {
+                      pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
+                    },
+                    'ui:required': (formData) => {
+                      const { homelessness } = formData.veteran;
+                      if (homelessness.isHomeless !== true) {
+                        return false;
+                      }
+                      return !!homelessness.pointOfContact.primaryPhone;
                     }
-                    return !!veteran.homelessness.primaryPhone;
-                  }
-                },
-                primaryPhone: {
-                  'ui:title': 'Phone number',
-                  'ui:widget': PhoneNumberWidget,
-                  'ui:errorMessages': {
-                    pattern: 'Phone numbers must be 10 digits (dashes allowed)'
                   },
-                  'ui:required': (formData) => {
-                    const { veteran } = formData;
-                    if (veteran['view:homelessness'] !== true || !veteran.homelessness) {
-                      return false;
+                  primaryPhone: {
+                    'ui:title': 'Phone number',
+                    'ui:widget': PhoneNumberWidget,
+                    'ui:errorMessages': {
+                      pattern: 'Phone numbers must be 10 digits (dashes allowed)'
+                    },
+                    'ui:required': (formData) => {
+                      const { homelessness } = formData.veteran;
+                      if (homelessness.isHomeless !== true) {
+                        return false;
+                      }
+                      return !!homelessness.pointOfContact.pointOfContactName;
                     }
-                    return !!veteran.homelessness.pointOfContactName;
                   }
                 }
               }
@@ -274,24 +276,29 @@ const formConfig = {
             properties: {
               veteran: {
                 type: 'object',
-                required: ['view:homelessness'],
                 properties: {
-                  'view:homelessness': {
-                    type: 'boolean'
-                  },
-                  // TODO: Update to use 526 homelessness schema once
+                  // TODO: Update to use 526 homelessness schema once in vets-json-schema
                   homelessness: {
                     type: 'object',
+                    required: ['isHomeless'],
                     properties: {
-                      pointOfContactName: {
-                        type: 'string',
-                        minLength: 1,
-                        maxLength: 100,
-                        pattern: '^([a-zA-Z0-9-/]+( ?))*$'
+                      isHomeless: {
+                        type: 'boolean'
                       },
-                      primaryPhone: { // common: definitions.usaPhone
-                        type: 'string',
-                        pattern: '^\\d{10}$'
+                      pointOfContact: {
+                        type: 'object',
+                        properties: {
+                          pointOfContactName: {
+                            type: 'string',
+                            minLength: 1,
+                            maxLength: 100,
+                            pattern: '^([a-zA-Z0-9-/]+( ?))*$'
+                          },
+                          primaryPhone: { // common: definitions.usaPhone
+                            type: 'string',
+                            pattern: '^\\d{10}$'
+                          }
+                        }
                       }
                     }
                   }
