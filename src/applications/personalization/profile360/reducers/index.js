@@ -26,11 +26,9 @@ const initialState = {
   militaryInformation: null,
   addressConstants: null,
   modal: null,
-  pendingSaves: [],
   formFields: {},
   message: null,
-  transactions: {},
-  errors: [] // @todo remove this - transactions hold error information now
+  transactions: {}
 };
 
 const MESSAGES = {
