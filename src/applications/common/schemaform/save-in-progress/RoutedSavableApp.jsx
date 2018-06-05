@@ -108,7 +108,7 @@ class RoutedSavableApp extends React.Component {
       && status !== LOAD_STATUSES.pending
       && status !== this.props.loadedStatus
       && !window.location.pathname.endsWith('/error')
-      || (prestartStatus && (prestartStatus === PRESTART_STATUSES.failure) && (prestartStatus !== this.props.prestartStatus))
+      || ((prestartStatus === PRESTART_STATUSES.failure) && (prestartStatus !== this.props.prestartStatus))
     ) {
       let action = 'push';
       if (window.location.pathname.endsWith('resume')) {
@@ -156,9 +156,7 @@ class RoutedSavableApp extends React.Component {
     if (!prestartCheck) {
       return null;
     }
-    return () => new Promise((resolve) => {
-      return prestartForm(prestartCheck, resolve);
-    });
+    return () => prestartForm(prestartCheck);
   }
 
   redirectOrLoad(props) {
@@ -194,13 +192,13 @@ class RoutedSavableApp extends React.Component {
 
   render() {
     const { currentLocation, formConfig, children, loadedStatus, prestartStatus } = this.props;
-    const { prestartMessage } = formConfig;
+    const { prestartMessage, prestartPendingStatuses } = formConfig;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     let content;
     const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
     if (!formConfig.disableSave && loadingForm && this.props.prefillStatus === LOAD_STATUSES.pending) {
       content = <LoadingIndicator message="Retrieving your profile information..."/>;
-    } else if (formConfig.prestartCheck && prestartStatus === PRESTART_STATUSES.pending) {
+    } else if (formConfig.prestartCheck && prestartPendingStatuses.has(prestartStatus)) {
       content = <LoadingIndicator message={prestartMessage}/>;
     } else if (!formConfig.disableSave && loadingForm) {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
@@ -233,8 +231,8 @@ function mapDispatchToProps(dispatch) {
     fetchInProgressForm: (...args) => {
       dispatch(fetchInProgressForm(...args));
     },
-    prestartForm: (prestartCheck, resolve) => {
-      dispatch(prestartCheck(resolve));
+    prestartForm: (prestartCheck) => {
+      dispatch(prestartCheck());
     }
   };
 }

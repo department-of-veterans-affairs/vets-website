@@ -24,9 +24,7 @@ class FormStartControls extends React.Component {
     if (!prestartCheck) {
       return null;
     }
-    return () => new Promise((resolve) => {
-      return prestartForm(prestartCheck, resolve);
-    });
+    return () => prestartForm(prestartCheck);
   }
 
   goToBeginning = () => {
@@ -128,8 +126,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    prestartForm: (prestartCheck, resolve) => {
-      dispatch(prestartCheck(resolve));
+    prestartForm: (prestartCheck) => {
+      dispatch(prestartCheck());
     }
   };
 }

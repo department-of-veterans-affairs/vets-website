@@ -12,7 +12,7 @@ import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
-import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
+import { PREFILL_STATUSES, PRESTART_STATUSES as commonPrestartStatuses } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
 
@@ -414,6 +414,13 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
   );
 };
 
+export const PRESTART_STATUSES = {
+  none: 'none',
+  inactive: 'inactive',
+  ...commonPrestartStatuses
+};
+
+export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART_STATUSES.inactive, PRESTART_STATUSES.pending]);
 
 export const ITFErrorAlert = (
   <div className="usa-alert usa-alert-warning">

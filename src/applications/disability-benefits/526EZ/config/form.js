@@ -15,7 +15,7 @@ import {
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 
-import { submitIntentToFile } from '../actions';
+import { verifyIntentToFile } from '../actions';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -68,7 +68,8 @@ import {
   noFDCWarning,
   ITFErrorAlert,
   queryForFacilities,
-  getEvidenceTypesDescription
+  getEvidenceTypesDescription,
+  prestartPendingStatuses
 } from '../helpers';
 
 import {
@@ -127,8 +128,9 @@ const formConfig = {
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   // submitUrl: `${environment.API_URL}/v0/21-526EZ`,
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  prestartCheck: submitIntentToFile,
-  prestartMessage: 'Submitting your intent to file...',
+  prestartCheck: verifyIntentToFile,
+  prestartMessage: 'Verifying your intent to file...',
+  prestartPendingStatuses,
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,

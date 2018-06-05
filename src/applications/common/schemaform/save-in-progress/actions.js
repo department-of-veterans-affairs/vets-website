@@ -14,13 +14,12 @@ export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
 export const SET_START_OVER = 'SET_START_OVER';
 export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
-
+export const SET_PRESTART_STATUS = 'SET_PRESTART_STATUS';
 
 export const PRESTART_STATUSES = Object.freeze({
-  notAttempted: 'not-attempted',
-  pending: 'pending',
   failure: 'failure',
-  expired: 'expired'
+  success: 'success',
+  pending: 'pending'
 });
 
 export const SAVE_STATUSES = Object.freeze({
@@ -103,6 +102,15 @@ export function setPrefillComplete() {
     type: SET_PREFILL_UNFILLED,
   };
 }
+
+export function setPrestartStatus(status, data) {
+  return {
+    type: SET_PRESTART_STATUS,
+    status,
+    data
+  };
+}
+
 /**
  * Transforms the data from an old version of a form to be used in the latest
  *  version.
@@ -212,8 +220,8 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
 
     // If the form has any gating logic that may prevent a user from entering, we perform this here
     if (prestartForm) {
-      const shouldNotEnterForm = !await prestartForm();
-      if (shouldNotEnterForm) {
+      const shouldEnterForm = await prestartForm();
+      if (shouldEnterForm === false) {
         return false;
       }
     }

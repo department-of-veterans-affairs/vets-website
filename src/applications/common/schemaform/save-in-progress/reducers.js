@@ -8,6 +8,7 @@ import {
   SET_IN_PROGRESS_FORM,
   SET_START_OVER,
   SET_PREFILL_UNFILLED,
+  SET_PRESTART_STATUS,
   SAVE_STATUSES,
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -98,21 +99,14 @@ export const saveInProgressReducers = {
       loadedStatus: LOAD_STATUSES.pending
     });
   },
-  SET_PRESTART_STATUS: (state, action) => {
+  [SET_PRESTART_STATUS]: (state, action) => {
     const newState = _.set('prestartStatus', action.status, state);
 
-    if (action.status) {
-      newState.prestartExpirationDate = action.expirationDate;
-    }
-
-    if (action.errorMessage) {
-      newState.prestartStatus = PRESTART_STATUSES.failure;
+    if (action.status === PRESTART_STATUSES.success) {
+      newState.prestartData = action.data;
     }
 
     return newState;
-  },
-  SET_PRESTART_PENDING: (state) => {
-    return _.set('prestartStatus', PRESTART_STATUSES.pending, state);
   },
   [SET_PREFILL_UNFILLED]: (state) => {
     return _.assign(state, {

@@ -1,69 +1,86 @@
-// import { apiRequest } from '../../../../platform/utilities/api';
-// import Raven from 'raven-js';
+import { apiRequest } from '../../../../platform/utilities/api';
+import Raven from 'raven-js';
+import { setPrestartStatus } from '../../../common/schemaform/save-in-progress/actions';
+import { PRESTART_STATUSES } from '../helpers';
 
-// function fetchITF(itfUrl, optionalSettings = null) {
-//   return apiRequest(
-//     `${itfUrl}`,
-//     optionalSettings,
-//     ({ data }) => {
-//       const { status, expirationDate }  = data.attributes.intent_to_file;
-//       return { status, expirationDate };
-//     },
-//     ({ errors }) => {
-//       const errorMessage = 'Network request failed';
-//       Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
-//       return { errorMessage, errors };
-//     }
-//   );
-// }
+export function checkITFRequest(dispatch) {
 
-function fakeFetch(x) {
+  return apiRequest(
+    '/intent_to_file/compensation',
+    null,
+    ({ data }) => {
+      let status;
+      let expirationDate;
+      const itfList = data.attributes.intent_to_file;
+      if (itfList.length === 0) {
+        status = PRESTART_STATUSES.none;
+      } else {
+        const activeList = itfList.filter(itf => itf.status === 'active');
+        if (activeList.length === 0) {
+          status = PRESTART_STATUSES.inactive;
+        } else {
+          status = PRESTART_STATUSES.success;
+          expirationDate = activeList[0].expirationDate;
+        }
+      }
+      dispatch(setPrestartStatus(status, expirationDate));
+      return status;
+    },
+    ({ errors }) => {
+      const errorMessage = 'Network request failed';
+      Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
+      dispatch(setPrestartStatus(PRESTART_STATUSES.failure, errors));
+      return PRESTART_STATUSES.failure;
+    }
+  );
+}
+
+export function submitITFRequest(dispatch) {
+
+  return apiRequest(
+    '/intent_to_file/compensation',
+    { method: 'POST' },
+    ({ data }) => {
+      dispatch(setPrestartStatus(PRESTART_STATUSES.success, data.attributes.intent_to_file.expirationDate));
+      return PRESTART_STATUSES.success;
+    },
+    ({ errors }) => {
+      const errorMessage = 'Network request failed';
+      Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
+      dispatch(setPrestartStatus(PRESTART_STATUSES.failure, errors));
+      return PRESTART_STATUSES.failure;
+    }
+  );
+}
+
+function fakeITFRequest(x, cb) {
   return new Promise(resolve => {
     setTimeout(() => {
+      cb();
       resolve(x);
     }, 2000);
   });
 }
 
-
-// async function processITF(itfUrl, options = null, dispatch) {
-//   const ITF = await fetchITF(itfUrl, options);
-//   dispatch({ type: 'SET_PRESTART_STATUS', ...ITF });
-//   return ITF;
-// }
-
-async function fakeFetchITF(mockITF, dispatch) {
-
-  const ITF = await fakeFetch(mockITF);
-  if (ITF.status && ITF.status === 'active') {
-    dispatch({ type: 'SET_PRESTART_STATUS', ...ITF });
-  }
-  return ITF;
-}
-
-export function submitIntentToFile(resolve) {
+export function verifyIntentToFile() {
   return async (dispatch) => {
 
-    const mockITFfailure = { errorMessage: 'Network request failed', errors: [2, 3] };
-    const mockITFsuccess = { status: 'active', expirationDate: '2018-12-12' };
-    // const mockITFexpired = { status: 'expired', expirationDate: '2012-12-12' };
-    dispatch({ type: 'SET_PRESTART_PENDING' });
-    // const existingITF = await processITF('/intent_to_file/compensation/active', null, dispatch);
-    const existingITF = await fakeFetchITF(mockITFfailure, dispatch);
+    dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
+    // const existingITF = await checkITFRequest(dispatch);
+    const existingITFStatus = await fakeITFRequest('pending', () => dispatch(setPrestartStatus(PRESTART_STATUSES.pending)));
 
-    if (existingITF && existingITF.status === 'active') {
-      resolve(true);
+    if (existingITFStatus === PRESTART_STATUSES.failure) {
+      return false;
+    } else if (existingITFStatus === PRESTART_STATUSES.success) {
+      return true;
     }
 
-    // const newITF = await processITF('/intent_to_file/compensation', { method: 'POST' }, dispatch);
-    const newITF = await fakeFetchITF(mockITFsuccess, dispatch);
+    // const newITF = await submitITFRequest(dispatch);
+    const newITFStatus = await fakeITFRequest('success', () => dispatch(setPrestartStatus(PRESTART_STATUSES.success, '2018-12-12')));
 
-    if (!newITF.status || newITF.status !== 'active') {
-
-      dispatch({ type: 'SET_PRESTART_STATUS', ...newITF });
-
-      resolve(false);
+    if (newITFStatus === PRESTART_STATUSES.failure) {
+      return false;
     }
-    resolve(true);
+    return true;
   };
 }
