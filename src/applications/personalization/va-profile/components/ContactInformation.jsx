@@ -54,7 +54,7 @@ function ContactError({ error }) {
   return <LoadFail information="contact"/>;
 }
 
-class ContactInformationContent extends React.Component {
+export class ContactInformationContent extends React.Component {
 
   componentDidMount() {
     this.props.fetchContactInformation();

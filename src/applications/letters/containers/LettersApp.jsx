@@ -3,7 +3,8 @@ import Raven from 'raven-js';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
+import DowntimeBanner from '../../../platform/monitoring/DowntimeNotification/components/Banner';
 
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
@@ -58,13 +59,12 @@ export class LettersApp extends React.Component {
         verify
         serviceRequired="evss-claims"
         user={this.props.user}>
-        <DowntimeNotification appTitle="Letters Generator" dependencies={[services.evss]}>
-          <AppContent>
-            <div>
-              {this.props.children}
-            </div>
-          </AppContent>
-        </DowntimeNotification>
+        <AppContent>
+          <DowntimeBanner appTitle="Letters Generator" dependencies={[services.evss]}/>
+          <div>
+            {this.props.children}
+          </div>
+        </AppContent>
       </RequiredLoginView>
     );
   }

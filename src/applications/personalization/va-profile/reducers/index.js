@@ -39,8 +39,6 @@ const initialState = {
   modal: null,
   pendingSaves: [],
   errors: [],
-  profileLoading: true,
-  loading: true,
   formFields: {},
   message: null
 };
