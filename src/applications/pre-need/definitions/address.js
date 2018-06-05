@@ -25,7 +25,8 @@ export const countriesWithStateCodes = new Set(['USA', 'CAN']);
 function validateAddress(errors, address, formData, currentSchema) {
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada, or Mexico
-  if (address.state === undefined
+  if (countriesWithStateCodes.has(address.country)
+    && address.state === undefined
     && currentSchema.required.length) {
     errors.state.addError('Please select a state or province');
   }
@@ -71,7 +72,7 @@ const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
  * @param {boolean} isRequired - If the address is required or not, defaults to false
  */
 export function schema(currentSchema, isRequired = false) {
-  const addressSchema = currentSchema.definitions.address || currentSchema.definitions.addressWithRequiredZip;
+  const addressSchema = currentSchema.definitions.address;
   return {
     type: 'object',
     required: isRequired ? requiredFields : [],
@@ -89,7 +90,7 @@ export function schema(currentSchema, isRequired = false) {
       },
       postalCode: {
         type: 'string',
-        maxLength: 10
+        maxLength: 6
       }
     })
   };
