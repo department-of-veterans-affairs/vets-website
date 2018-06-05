@@ -80,11 +80,11 @@ class EditPhoneModal extends React.Component {
 }
 
 
-export default function PhoneSection({ phoneData, transaction, getTransactionStatus, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd, onCancel, onSubmit }) {
+export default function PhoneSection({ phoneData, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
-  if (transaction !== undefined) {
+  if (transaction && !transaction.isPending && !transaction.isFailed) {
     content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus}/>;
   } else if (!phoneData) {
     content = fieldFailureMessage;
@@ -104,12 +104,12 @@ export default function PhoneSection({ phoneData, transaction, getTransactionSta
       <EditPhoneModal
         title={`Edit ${title.toLowerCase()}`}
         field={field}
-        error={error}
+        error={transaction && transaction.error}
         clearErrors={clearErrors}
         onChange={onChange}
         phoneData={phoneData}
         onSubmit={onSubmit}
-        isLoading={isLoading}
+        isLoading={transaction && transaction.isPending}
         onCancel={onCancel}/>
     );
   }
@@ -117,7 +117,7 @@ export default function PhoneSection({ phoneData, transaction, getTransactionSta
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={phoneData && phoneData.phoneNumber && onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={phoneData && phoneData.phoneNumber && !transaction && onEdit}>{title}</HeadingWithEdit>
       {content}
     </div>
   );

@@ -7,3 +7,14 @@ export const TRANSACTION_STATUS = {
   COMPLETED_NO_CHANGES_DETECTED: 'COMPLETED_NO_CHANGES_DETECTED',
   COMPLETED_FAILURE: 'COMPLETED_FAILURE'
 };
+
+export const FIELD_NAMES = {
+  HOME_PHONE: 'homePhone',
+  MOBILE_PHONE: 'mobilePhone',
+  WORK_PHONE: 'workPhone',
+  TEMP_PHONE: 'temporaryPhone',
+  FAX_NUMBER: 'faxNumber',
+  EMAIL: 'email',
+  MAILING_ADDRESS: 'mailingAddress',
+  RESIDENTIAL_ADDRESS: 'residentialAddress'
+};

@@ -1,7 +1,8 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import recordEvent from '../../../../platform/monitoring/record-event';
-import { kebabCase, uniqueId } from 'lodash';
+import { kebabCase } from 'lodash';
 
+import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
 
 export const SAVE_MAILING_ADDRESS = 'SAVE_MAILING_ADDRESS';
@@ -35,8 +36,9 @@ export const SAVE_FAX_NUMBER_SUCCESS = 'SAVE_FAX_NUMBER_SUCCESS';
 export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
 export const VET360_TRANSACTION_REQUESTED = 'VET360_TRANSACTION_REQUESTED';
-export const VET360_TRANSACTION_BEGUN = 'VET360_TRANSACTION_BEGUN';
-export const VET360_TRANSACTION_UPDATE = 'VET360_TRANSACTION_UPDATE';
+export const VET360_TRANSACTION_REQUEST_FAILED = 'VET360_TRANSACTION_REQUEST_FAILED';
+export const VET360_TRANSACTION_REQUEST_SUCCEEDED = 'VET360_TRANSACTION_REQUEST_SUCCEEDED';
+export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
 export const VET360_TRANSACTION_FINISHED = 'VET360_TRANSACTION_FINISHED';
 
 function recordProfileTransaction(fieldName) {
@@ -54,128 +56,40 @@ function recordProfileTransaction(fieldName) {
   }
 }
 
-// function saveFieldHandler(apiRoute, fieldName, requestStartAction, requestSuccessAction, requestFailAction, method = 'POST') {
-//   return fieldValue => {
-//     return async dispatch => {
-//       const options = {
-//         body: JSON.stringify(fieldValue),
-//         method,
-//         headers: {
-//           'Content-Type': 'application/json'
-//         }
-//       };
-
-//       dispatch({ type: requestStartAction });
-
-//       try {
-//         const response = await apiRequest(apiRoute, options);
-//         recordProfileTransaction(fieldName);
-//         dispatch({
-//           type: requestSuccessAction,
-//           fieldName,
-//           newValue: response.data.attributes
-//         });
-//       } catch (err) {
-//         dispatch({ type: requestFailAction });
-//       }
-//     };
-//   };
-// }
-
-// function updatePhoneHandler(fieldName, requestStartAction, requestSuccessAction, requestFailAction, method = 'PUT') {
-//   return fieldValue => {
-//     return async dispatch => {
-//       const options = {
-//         body: JSON.stringify(fieldValue),
-//         method,
-//         headers: {
-//           'Content-Type': 'application/json'
-//         }
-//       };
-
-//       dispatch({ type: requestStartAction });
-
-//       try {
-//         const response = await apiRequest('/profile/telephones', options);
-
-//         recordProfileTransaction(kebabCase(`${fieldValue.phoneType} phone`));
-
-//         // TODO: save transaction ID for status check
-//         // TODO: check metadata for actionable info
-//         console.log('transaction attributes', response.data.attributes);
-
-//         // update profile info on FE side
-//         dispatch({
-//           type: UPDATE_VET360_PROFILE_FIELD,
-//           fieldName,
-//           newValue: fieldValue,
-//         });
-//       } catch (err) {
-//         dispatch({ type: requestFailAction });
-//       }
-//     };
-//   };
-// }
-
-const mockedTransactionStore = {
-  create(fieldName) {
-    return {
-      type: VET360_TRANSACTION_BEGUN,
-      fieldName,
-      response: {
-        data: {
-          attributes: {
-            transactionId: uniqueId('transaction_'),
-            transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED,
-            metadata: {
-              isMocked: true
-            }
-          }
-        }
-      }
-    };
-  },
-  update(transactionId) {
-    return {
-      data: {
-        attributes: {
-          transactionId,
-          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_FAILURE,
-          metadata: {
-            isMocked: true
-          }
-        }
-      }
-    };
-  }
-};
-
 export function getTransactionStatus(transaction, fieldName) {
-  return async dispatch => {
-    const {
-      data: {
-        attributes: {
-          transactionId,
-          metadata: {
-            isMocked
-          }
-        }
-      }
-    } = transaction;
+  return async (dispatch, getState) => {
     try {
-      let response = null;
-      if (isMocked) {
-        response = mockedTransactionStore.update(transactionId);
-      } else {
-        response = await apiRequest(`/profile/status/${transactionId}`, options);
-      }
+      const { transactionId } = transaction.data.attributes;
+      const response = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : localVet360.updateTransaction(transactionId);
+
       dispatch({
-        type: VET360_TRANSACTION_UPDATE,
+        type: VET360_TRANSACTION_UPDATED,
         response,
         fieldName
       });
+
+      // Check to see if the transaction is finished
+      if (response.data.attributes.transactionStatus === VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_SUCCESS) {
+        const currentState = getState();
+        const newValue = currentState.vaProfile.formFields[fieldName].value;
+
+        // Remove the transaction with a delay for effect
+        setTimeout(() => {
+          dispatch({
+            type: VET360_TRANSACTION_FINISHED,
+            fieldName
+          });
+        }, 3000);
+
+        // Update the property on the FE
+        dispatch({
+          type: UPDATE_VET360_PROFILE_FIELD,
+          fieldName,
+          newValue
+        });
+      }
     } catch (err) {
-      // Hm...
+      // Just allow the former transaction status to remain in the store in the event of an error.
     }
   };
 }
@@ -183,13 +97,9 @@ export function getTransactionStatus(transaction, fieldName) {
 function updateVet360Field(apiRoute, fieldName) {
   return fieldValue => {
     return async (dispatch, getState) => {
-      dispatch({
-        type: VET360_TRANSACTION_REQUESTED,
-        fieldName
-      });
-
-      const currentValue = getState().user.profile.vet360[fieldName];
-      const method = currentValue === null ? 'POST' : 'PUT';
+      const currentState = getState();
+      const currentFieldValue = currentState.user.profile.vet360[fieldName];
+      const method = currentFieldValue === null ? 'POST' : 'PUT';
       const options = {
         body: JSON.stringify(fieldValue),
         method,
@@ -197,26 +107,41 @@ function updateVet360Field(apiRoute, fieldName) {
           'Content-Type': 'application/json'
         }
       };
+
       try {
-        const response = await apiRequest(apiRoute, options);
         dispatch({
-          type: VET360_TRANSACTION_BEGUN,
+          type: VET360_TRANSACTION_REQUESTED,
+          fieldName
+        });
+
+        const response = isVet360Configured() ? await apiRequest(apiRoute, options) : localVet360.createTransaction();
+
+        if (apiRoute === '/profile/telephones') {
+          recordProfileTransaction(kebabCase(`${fieldValue.phoneType} phone`));
+        }
+
+        dispatch({
+          type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
           fieldName,
           response
         });
-      } catch (err) {
-        dispatch(mockedTransactionStore.create(fieldName));
+      } catch (error) {
+        dispatch({
+          type: VET360_TRANSACTION_REQUEST_FAILED,
+          error,
+          fieldName
+        });
       }
     };
   };
 }
 
 export const saveField = {
-  updateHomePhone: updateVet360Field('/profile/telephones', 'homePhone'),
-  updateMobilePhone: updateVet360Field('/profile/telephones', 'mobilePhone'),
-  updateWorkPhone: updateVet360Field('/profile/telephones', 'workPhone'),
-  updateTemporaryPhone: updateVet360Field('/profile/telephones', 'temporaryPhone'),
-  updateFaxNumber: updateVet360Field('/profile/telephones', 'faxNumber'),
-  updateEmailAddress: updateVet360Field('/profile/email', 'email'),
-  updateMailingAddress: updateVet360Field('/profile/mailing_address', 'mailingAddress')
-}
+  updateHomePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE),
+  updateMobilePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE),
+  updateWorkPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE),
+  updateTemporaryPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE),
+  updateFaxNumber: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER),
+  updateEmailAddress: updateVet360Field('/profile/email', VET360_CONSTANTS.FIELD_NAMES.EMAIL),
+  updateMailingAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS)
+};
