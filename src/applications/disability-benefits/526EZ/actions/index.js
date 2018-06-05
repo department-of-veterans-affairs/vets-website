@@ -19,7 +19,7 @@ export function checkITFRequest(dispatch) {
         if (activeList.length === 0) {
           status = PRESTART_STATUSES.inactive;
         } else {
-          status = PRESTART_STATUSES.success;
+          status = PRESTART_STATUSES.retrieved;
           expirationDate = activeList[0].expirationDate;
         }
       }
@@ -35,13 +35,13 @@ export function checkITFRequest(dispatch) {
   );
 }
 
-export function submitITFRequest(dispatch) {
+export function submitITFRequest(dispatch, successStatus) {
 
   return apiRequest(
     '/intent_to_file/compensation',
     { method: 'POST' },
     ({ data }) => {
-      dispatch(setPrestartStatus(PRESTART_STATUSES.success, data.attributes.intent_to_file.expirationDate));
+      dispatch(setPrestartStatus(successStatus, data.attributes.intent_to_file.expirationDate));
       return PRESTART_STATUSES.success;
     },
     ({ errors }) => {
@@ -64,10 +64,10 @@ function fakeITFRequest(x, cb) {
 
 export function verifyIntentToFile() {
   return async (dispatch) => {
-
+    let newSuccessStatus;
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
     // const existingITF = await checkITFRequest(dispatch);
-    const existingITFStatus = await fakeITFRequest('pending', () => dispatch(setPrestartStatus(PRESTART_STATUSES.pending)));
+    const existingITFStatus = await fakeITFRequest('retrieved', () => dispatch(setPrestartStatus(PRESTART_STATUSES.retrieved)));
 
     if (existingITFStatus === PRESTART_STATUSES.failure) {
       return false;
@@ -75,8 +75,13 @@ export function verifyIntentToFile() {
       return true;
     }
 
-    // const newITF = await submitITFRequest(dispatch);
-    const newITFStatus = await fakeITFRequest('success', () => dispatch(setPrestartStatus(PRESTART_STATUSES.success, '2018-12-12')));
+    if (existingITFStatus === PRESTART_STATUSES.none) {
+      newSuccessStatus === PRESTART_STATUSES.created;
+    } else if (existingITFStatus === PRESTART_STATUSES.none) {
+      newSuccessStatus === PRESTART_STATUSES.renewed;      
+    }
+    // const newITF = await submitITFRequest(dispatch, newSuccessStatus);
+    const newITFStatus = await fakeITFRequest('created', () => dispatch(setPrestartStatus(PRESTART_STATUSES.created, '2018-12-12')));
 
     if (newITFStatus === PRESTART_STATUSES.failure) {
       return false;

@@ -417,10 +417,16 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
 export const PRESTART_STATUSES = {
   none: 'none',
   inactive: 'inactive',
+  created: 'created',
+  retrieved: 'retrieved',
+  renewed: 'renewed',
   ...commonPrestartStatuses
 };
 
 export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART_STATUSES.inactive, PRESTART_STATUSES.pending]);
+
+export const prestartSuccessStatuses = new Set([PRESTART_STATUSES.created, PRESTART_STATUSES.retrieved, PRESTART_STATUSES.renewed]);
+
 
 export const ITFErrorAlert = (
   <div className="usa-alert usa-alert-warning">

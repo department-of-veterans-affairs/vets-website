@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
+import moment from 'moment';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
@@ -42,11 +43,13 @@ class RoutedSavablePage extends React.Component {
 
   render() {
     const { user, form } = this.props;
-    const prestartStatus = 'success';
+    const prestartStatus = 'retrieved';
+    const expirationDate = '2017-08-17T21:59:53.327Z';
+    const expiredDate = moment(expirationDate).format('M/D/YYYY');
     const contentBeforeForm = (
       <AlertBox status="success"
-        isVisible={prestartStatus === 'success'}
-        content={<div><h3>Intent to File Submitted</h3><p>Your intent to file has been submitted and will expire 1 year from today.</p></div>}/>
+        isVisible={prestartStatus === 'retrieved'}
+        content={<div><h3>Intent to File {prestartStatus}</h3><p>Your intent to file has been {prestartStatus} and will expire on {expiredDate}.</p></div>}/>
     );
     const contentAfterButtons = (
       <div>
