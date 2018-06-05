@@ -52,7 +52,12 @@ describe('Schemaform <FormSaved>', () => {
 
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
-      <FormSaved formId={formId} lastSavedDate={lastSavedDate} expirationDate={expirationDate} route={route} user={user()}/>
+      <FormSaved
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={route}
+        user={user()}/>
     );
     expect(tree.subTree('withRouter(Connect(FormStartControls))')).not.to.be.false;
     expect(tree.subTree('withRouter(Connect(FormStartControls))').props.startPage).to.equal('testing');

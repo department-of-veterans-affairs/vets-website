@@ -15,6 +15,7 @@ export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
 export const SET_START_OVER = 'SET_START_OVER';
 export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
 export const SET_PRESTART_STATUS = 'SET_PRESTART_STATUS';
+export const UNSET_PRESTART_STATUS = 'UNSET_PRESTART_STATUS';
 
 export const PRESTART_STATUSES = Object.freeze({
   failure: 'failure',
@@ -108,6 +109,12 @@ export function setPrestartStatus(status, data) {
     type: SET_PRESTART_STATUS,
     status,
     data
+  };
+}
+
+export function unsetPrestartStatus() {
+  return {
+    type: UNSET_PRESTART_STATUS
   };
 }
 

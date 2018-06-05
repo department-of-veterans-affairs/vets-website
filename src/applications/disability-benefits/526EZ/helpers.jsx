@@ -1,4 +1,7 @@
 import React from 'react';
+import moment from 'moment';
+
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
@@ -416,24 +419,47 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
 
 export const PRESTART_STATUSES = {
   none: 'none',
-  inactive: 'inactive',
+  expired: 'expired',
   created: 'created',
   retrieved: 'retrieved',
   renewed: 'renewed',
   ...commonPrestartStatuses
 };
 
-export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART_STATUSES.inactive, PRESTART_STATUSES.pending]);
+export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART_STATUSES.expired, PRESTART_STATUSES.pending]);
 
-export const prestartSuccessStatuses = new Set([PRESTART_STATUSES.created, PRESTART_STATUSES.retrieved, PRESTART_STATUSES.renewed]);
+const successHeading = {
+  created: 'We’ve verified your Intent to File',
+  retrieved: 'We’ve retrieved your existing Intent to File',
+  renewed: 'We’ve verified your Intent to File'
+};
 
+function successMessage(status, data, expiredData) {
+  const messages = {
+    created: (expirationDateString) => `Thank you for submitting your Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
+    retrieved: (expirationDateString) => `Our records show that you’ve already submitted an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
+    renewed: (expirationDateString, expiredDateString) => `Your existing Intent to File expired on ${expiredDateString}, so we’ve created a new one for you. This new Intent to File request will expire on ${expirationDateString}.`
+  };
+  return messages[status](moment(data).format('M/D/YYYY'), moment(expiredData).format('M/D/YYYY'));
+}
+
+export function ITFSuccessAlert(status, data) {
+  let expiredExpirationData;
+  let activeExpirationData = data;
+  if (data.expiredData) {
+    activeExpirationData = data.previous;
+    expiredExpirationData = data.current;
+  }
+  return (<AlertBox
+    status="success"
+    isVisible
+    content={<div><h3>{successHeading[status]}</h3><p>{successMessage(status, activeExpirationData, expiredExpirationData)}</p></div>}/>);
+}
 
 export const ITFErrorAlert = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h3>We’re sorry. Your intent to file request didn’t go through. Please try again.</h3>
-    </div>
-  </div>
+  <AlertBox status="error"
+    isVisible
+    content={<div><h3>We couldn’t verify your Intent to File</h3><p>We’re sorry. We aren’t able to process your Intent to File request at this time. Please try again tomorrow.</p></div>}/>
 );
 
 

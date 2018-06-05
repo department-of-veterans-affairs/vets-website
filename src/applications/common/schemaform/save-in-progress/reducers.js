@@ -9,10 +9,10 @@ import {
   SET_START_OVER,
   SET_PREFILL_UNFILLED,
   SET_PRESTART_STATUS,
+  UNSET_PRESTART_STATUS,
   SAVE_STATUSES,
   LOAD_STATUSES,
   PREFILL_STATUSES,
-  PRESTART_STATUSES,
   saveErrors
 } from '../save-in-progress/actions';
 
@@ -102,9 +102,18 @@ export const saveInProgressReducers = {
   [SET_PRESTART_STATUS]: (state, action) => {
     const newState = _.set('prestartStatus', action.status, state);
 
-    if (action.status === PRESTART_STATUSES.success) {
+    if (action.data && state.prestartData) {
+      newState.prestartData.previous = state.prestartData;
+      newState.prestartData.current = action.data;
+    } else if (action.data) {
       newState.prestartData = action.data;
     }
+
+    return newState;
+  },
+  [UNSET_PRESTART_STATUS]: (state) => {
+    let newState = _.unset('prestartStatus', state);
+    newState = _.unset('prestartData', newState);
 
     return newState;
   },

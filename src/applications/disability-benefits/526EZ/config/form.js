@@ -69,7 +69,8 @@ import {
   ITFErrorAlert,
   queryForFacilities,
   getEvidenceTypesDescription,
-  prestartPendingStatuses
+  prestartPendingStatuses,
+  ITFSuccessAlert
 } from '../helpers';
 
 import {
@@ -140,6 +141,7 @@ const formConfig = {
   verifyRequiredPrefill: true,
   savedFormMessages: {
     prestartError: ITFErrorAlert,
+    prestartSuccess: ITFSuccessAlert,
     notFound: 'Please start over to apply for disability claims increase.',
     noAuth: 'Please sign in again to resume your application for disability claims increase.'
   },

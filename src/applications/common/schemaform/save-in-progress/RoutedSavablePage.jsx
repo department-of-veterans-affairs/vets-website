@@ -3,9 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
-import moment from 'moment';
-
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
@@ -13,7 +10,8 @@ import { setData, uploadFile } from '../actions';
 import {
   saveErrors,
   autoSaveForm,
-  saveAndRedirectToReturnUrl
+  saveAndRedirectToReturnUrl,
+  unsetPrestartStatus
 } from './actions';
 import { getFormContext } from './selectors';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
@@ -23,6 +21,14 @@ class RoutedSavablePage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const { form: { prestartStatus }, location: { pathname } } = this.props;
+    if (prestartStatus && pathname !== newProps.location.pathname) {
+      this.props.unsetPrestartStatus();
+    }
+    return false;
   }
 
   onChange = (formData) => {
@@ -42,15 +48,14 @@ class RoutedSavablePage extends React.Component {
   }
 
   render() {
-    const { user, form } = this.props;
-    const prestartStatus = 'retrieved';
-    const expirationDate = '2017-08-17T21:59:53.327Z';
-    const expiredDate = moment(expirationDate).format('M/D/YYYY');
-    const contentBeforeForm = (
-      <AlertBox status="success"
-        isVisible={prestartStatus === 'retrieved'}
-        content={<div><h3>Intent to File {prestartStatus}</h3><p>Your intent to file has been {prestartStatus} and will expire on {expiredDate}.</p></div>}/>
-    );
+    const { user, form, route: { formConfig } } = this.props;
+    const { prestartStatus, prestartData } = form;
+    let contentBeforeForm;
+    if (prestartStatus) {
+      const { prestartSuccess } = formConfig.savedFormMessages;
+      contentBeforeForm = prestartSuccess(prestartStatus, prestartData);
+    }
+
     const contentAfterButtons = (
       <div>
         <SaveStatus
@@ -94,7 +99,8 @@ const mapDispatchToProps = {
   saveAndRedirectToReturnUrl,
   autoSaveForm,
   toggleLoginModal,
-  uploadFile
+  uploadFile,
+  unsetPrestartStatus
 };
 
 RoutedSavablePage.propTypes = {
