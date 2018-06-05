@@ -96,5 +96,21 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('test');
     expect(formData).to.be.an('object');
   });
+  it('should set url to address page if zip is bad', () => {
+    const { formData, metadata } = migrations[1]({
+      formData: {
+        veteranAddress: {
+          country: 'USA',
+          postalCode: '234444'
+        }
+      },
+      metadata: {
+        returnUrl: 'asdf'
+      }
+    });
+
+    expect(metadata.returnUrl).to.equal('/additional-information/contact');
+    expect(formData).to.be.an('object');
+  });
 });
 
