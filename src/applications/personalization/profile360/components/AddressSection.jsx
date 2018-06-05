@@ -6,6 +6,7 @@ import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import Address from './Address';
 import LoadingButton from './LoadingButton';
+import Transaction from './Transaction';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { fieldFailureMessage } from './LoadFail';
 import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from '../../../../platform/forms/address/helpers';
@@ -84,11 +85,13 @@ function AddressView({ address }) {
   );
 }
 
-export default function AddressSection({ addressData, addressConstants, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd,  onCancel, onSubmit }) {
+export default function AddressSection({ addressData, addressConstants, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd,  onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
-  if (!addressData) {
+  if (transaction && !transaction.isPending && !transaction.isFailed) {
+    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus}/>;
+  } else if (!addressData) {
     content = fieldFailureMessage;
   } else {
     if (!isEmptyAddress(addressData)) {
@@ -111,10 +114,10 @@ export default function AddressSection({ addressData, addressConstants, title, f
         addressConstants={addressConstants}
         onChange={onChange}
         field={field}
-        error={error}
+        error={transaction && transaction.error}
         clearErrors={clearErrors}
         onSubmit={onSubmit}
-        isLoading={isLoading}
+        isLoading={transaction && transaction.isPending}
         onCancel={onCancel}/>
     );
   }

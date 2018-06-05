@@ -96,6 +96,8 @@ class ContactInformationContent extends React.Component {
         <AddressSection
           title="Mailing Address"
           addressData={mailingAddress}
+          transaction={transactions.mailingAddress}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'mailingAddress')}
           field={formFields.mailingAddress}
           error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
           clearErrors={clearErrors}
@@ -111,6 +113,8 @@ class ContactInformationContent extends React.Component {
         <AddressSection
           title="Residential Address"
           addressData={residentialAddress}
+          transaction={transactions.residentialAddress}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'residentialAddress')}
           field={formFields.residentialAddress}
           error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
           clearErrors={clearErrors}
