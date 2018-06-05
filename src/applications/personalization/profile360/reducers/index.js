@@ -33,9 +33,9 @@ const initialState = {
   errors: [] // @todo remove this - transactions hold error information now
 };
 
-// const MESSAGES = {
-//   updatedInformation: 'We saved your updated information.'
-// };
+const MESSAGES = {
+  updatedInformation: 'We saved your updated information.'
+};
 
 function vaProfile(state = initialState, action) {
   switch (action.type) {
@@ -92,7 +92,7 @@ function vaProfile(state = initialState, action) {
     case VET360_TRANSACTION_FINISHED: {
       const transactions = { ...state.transactions };
       delete transactions[action.fieldName];
-      return { ...state, transactions };
+      return { ...state, transactions, message: MESSAGES.updatedInformation };
     }
 
     // Miscellaneous

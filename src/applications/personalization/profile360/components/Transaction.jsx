@@ -13,7 +13,9 @@ export default class Transaction extends React.Component {
   onInterval = () => {
     /* eslint-disable no-console */
     console.log(this.props.transaction);
-    this.props.getTransactionStatus(this.props.transaction);
+    if (this.getCurrentTransactionStatus() !== TRANSACTION_STATUS.COMPLETED_SUCCESS) {
+      this.props.getTransactionStatus(this.props.transaction);
+    }
   }
 
   getCurrentTransactionStatus() {

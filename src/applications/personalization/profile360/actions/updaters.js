@@ -95,13 +95,13 @@ export function getTransactionStatus(transaction, fieldName) {
 }
 
 function updateVet360Field(apiRoute, fieldName) {
-  return fieldValue => {
+  return nextFieldValue => {
     return async (dispatch, getState) => {
       const currentState = getState();
       const currentFieldValue = currentState.user.profile.vet360[fieldName];
-      const method = currentFieldValue === null ? 'POST' : 'PUT';
+      const method = currentFieldValue === null ? 'POST' : 'PUT'; // @todo Is this what an uninitialized Vet360 field looks like?
       const options = {
-        body: JSON.stringify(fieldValue),
+        body: JSON.stringify(nextFieldValue),
         method,
         headers: {
           'Content-Type': 'application/json'
@@ -117,7 +117,7 @@ function updateVet360Field(apiRoute, fieldName) {
         const response = isVet360Configured() ? await apiRequest(apiRoute, options) : localVet360.createTransaction();
 
         if (apiRoute === '/profile/telephones') {
-          recordProfileTransaction(kebabCase(`${fieldValue.phoneType} phone`));
+          recordProfileTransaction(kebabCase(`${nextFieldValue.phoneType} phone`));
         }
 
         dispatch({
