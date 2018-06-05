@@ -58,4 +58,3 @@ export default function PersonalInformation(props) {
     </div>
   );
 }
-

@@ -14,19 +14,17 @@ import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from
 class EditAddressModal extends React.Component {
 
   componentDidMount() {
-    const defaultFieldValue = { address: {} };
+    let defaultFieldValue = {};
     if (this.props.addressData) {
-      defaultFieldValue.address = consolidateAddress(this.props.addressData);
+      defaultFieldValue = consolidateAddress(this.props.addressData);
     }
     this.props.onChange(defaultFieldValue);
   }
 
   onInput = (field, value) => {
     const newFieldValue = {
-      address: {
-        ...this.props.field.value.address,
-        [field]: value
-      }
+      ...this.props.field.value,
+      [field]: value
     };
     this.props.onChange(newFieldValue);
   }
@@ -37,7 +35,7 @@ class EditAddressModal extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     // @todo Refactor this...
-    this.props.onSubmit(expandAddress(this.props.field.value.address));
+    this.props.onSubmit(expandAddress(this.props.field.value));
   }
 
   render() {
@@ -52,7 +50,7 @@ class EditAddressModal extends React.Component {
         <form onSubmit={this.onSubmit}>
           {this.props.field && (
             <Address
-              address={this.props.field.value.address}
+              address={this.props.field.value}
               onInput={this.onInput}
               onBlur={this.onBlur}
               errorMessages={{}}

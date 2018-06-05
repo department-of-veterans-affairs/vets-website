@@ -25,6 +25,18 @@ function validateTelephone({ number }) {
   return isValidPhone(number) ? '' : 'Please enter a valid phone.';
 }
 
+function cleanEmailDataForUpdate(value) {
+  const {
+    id,
+    emailAddress,
+  } = value;
+
+  return {
+    id,
+    emailAddress,
+  };
+}
+
 function cleanPhoneDataForUpdate(value) {
   const {
     areaCode,
@@ -44,14 +56,58 @@ function cleanPhoneDataForUpdate(value) {
   };
 }
 
-function updateProfileFormField(field, validator) {
+function cleanAddressDataForUpdate(value) {
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    addressPou,
+    addressType,
+    city,
+    countryName,
+    stateCode,
+    zipCode,
+  } = value;
+
+  return {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    addressPou,
+    addressType,
+    city,
+    countryName,
+    stateCode,
+    zipCode,
+  };
+}
+
+
+function updateProfileFormField(field, validator, type) {
   return (value, dirty) => {
     const errorMessage = validator && dirty ? validator(value) : '';
+
+    let cleanValue = value;
+
+    switch (type) {
+      case 'email':
+        cleanValue = cleanEmailDataForUpdate(value);
+        break;
+      case 'phone':
+        cleanValue = cleanPhoneDataForUpdate(value);
+        break;
+      case 'address':
+        cleanValue = cleanAddressDataForUpdate(value);
+        break;
+      default:
+    }
+
+
     return {
       type: UPDATE_PROFILE_FORM_FIELD,
       field,
       newState: {
-        value: cleanPhoneDataForUpdate(value),
+        value: cleanValue,
         errorMessage
       }
     };
@@ -59,12 +115,12 @@ function updateProfileFormField(field, validator) {
 }
 
 export const updateFormField = {
-  email: updateProfileFormField('email', validateEmail),
-  faxNumber: updateProfileFormField('faxNumber', validateTelephone),
-  homePhone: updateProfileFormField('homePhone', validateTelephone),
-  mailingAddress: updateProfileFormField('mailingAddress'),
-  mobilePhone: updateProfileFormField('mobilePhone', validateTelephone),
-  residentialAddress: updateProfileFormField('residentialAddress'),
-  temporaryPhone: updateProfileFormField('temporaryPhone', validateTelephone),
-  workPhone: updateProfileFormField('workPhone', validateTelephone),
+  email: updateProfileFormField('email', validateEmail, 'email'),
+  faxNumber: updateProfileFormField('faxNumber', validateTelephone, 'phone'),
+  homePhone: updateProfileFormField('homePhone', validateTelephone, 'phone'),
+  mailingAddress: updateProfileFormField('mailingAddress', null, 'address'),
+  mobilePhone: updateProfileFormField('mobilePhone', validateTelephone, 'phone'),
+  residentialAddress: updateProfileFormField('residentialAddress', null, 'address'),
+  temporaryPhone: updateProfileFormField('temporaryPhone', validateTelephone, 'phone'),
+  workPhone: updateProfileFormField('workPhone', validateTelephone, 'phone'),
 };
