@@ -8,7 +8,7 @@ function validatePostalCodes(errors, address) {
 
   // Checks if postal code is valid
   if (address.country === 'USA') {
-    isValidPostalCode = isValidPostalCode && isValidUSZipCode(address.postalCode);
+    isValidPostalCode = isValidUSZipCode(address.postalCode);
   }
   if (address.country === 'CAN') {
     isValidPostalCode = isValidPostalCode && isValidCanPostalCode(address.postalCode);
@@ -115,7 +115,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
   const addressChangeSelector = createSelector(
     ({ formData, path }) => _.get(path.concat('country'), formData),
     ({ formData, path }) => _.get(path.concat('city'), formData),
-    _.get('addressSchema'),
+    ({ addressSchema }) => addressSchema,
     (currentCountry, city, addressSchema) => {
       const schemaUpdate = {
         properties: addressSchema.properties,
