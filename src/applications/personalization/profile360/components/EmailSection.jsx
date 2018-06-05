@@ -65,7 +65,7 @@ export default function EmailSection({ emailData, transaction, getTransactionSta
   let modal = null;
 
   if (transaction && !transaction.isPending && !transaction.isFailed) {
-    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus}/>;
+    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="email"/>;
   } else if (emailData) {
     if (emailData.emailAddress) {
       content = emailData.emailAddress;

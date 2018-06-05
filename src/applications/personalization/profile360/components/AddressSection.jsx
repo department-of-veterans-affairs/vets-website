@@ -90,7 +90,7 @@ export default function AddressSection({ addressData, addressConstants, transact
   let modal = null;
 
   if (transaction && !transaction.isPending && !transaction.isFailed) {
-    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus}/>;
+    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="address"/>;
   } else if (!addressData) {
     content = fieldFailureMessage;
   } else {

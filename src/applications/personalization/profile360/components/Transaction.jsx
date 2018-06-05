@@ -28,7 +28,7 @@ export default class Transaction extends React.Component {
     let content = null;
 
     if (transactionStatus === TRANSACTION_STATUS.RECEIVED) {
-      content = 'We’re working on saving your new address. We’ll show it here once it’s saved.';
+      content = `We’re working on saving your new ${this.props.fieldType}. We’ll show it here once it’s saved.`;
     } else {
       content = `Transaction status: ${transactionStatus}`;
     }

@@ -85,7 +85,7 @@ export default function PhoneSection({ phoneData, transaction, getTransactionSta
   let modal = null;
 
   if (transaction && !transaction.isPending && !transaction.isFailed) {
-    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus}/>;
+    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="phone number"/>;
   } else if (!phoneData) {
     content = fieldFailureMessage;
   } else {
