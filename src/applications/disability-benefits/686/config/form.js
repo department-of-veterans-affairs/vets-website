@@ -27,13 +27,12 @@ import {
   getMarriageTitleWithCurrent,
   isMarried,
   transform,
-  fullMaidenNameUI,
   spouseRelationshipDescription,
   childRelationshipDescription,
   otherRelationshipDescription,
   // isVeteran,
   // VAFileNumberDescription
-} from '../helpers';
+} from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
 
@@ -44,6 +43,7 @@ const {
   liveWithSpouse,
   spouseIsVeteran,
   claimantSocialSecurityNumber,
+  claimantFullName,
   // veteranSocialSecurityNumber,
   dependents
 } = fullSchema686.properties;
@@ -128,69 +128,56 @@ const formConfig = {
       title: 'Applicant Information',
       pages: {
         applicantInformation: {
-          title: 'Applicant information',
+          title: 'Applicant Information',
           path: 'applicant-information',
           uiSchema: {
             'ui:description': applicantDescription,
-            application: {
-              claimant: {
-                claimantFullName: fullMaidenNameUI,
-                claimantSocialSecurityNumber: ssnUI,
-                dateOfBirth: currentOrPastDateUI('Date of birth'),
-                relationshipToVet: {
-                  'ui:title': 'Relationship to Veteran',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      1: 'I am the Veteran',
-                      2: 'Spouse or surviving spouse',
-                      3: 'Unmarried adult child',
-                      4: 'Other'
-                    },
-                    nestedContent: {
-                      2: spouseRelationshipDescription,
-                      3: childRelationshipDescription,
-                      4: otherRelationshipDescription
-                    }
+            claimant: {
+              claimantFullName: fullNameUI,
+              claimantSocialSecurityNumber: ssnUI,
+              dateOfBirth: currentOrPastDateUI('Date of birth'),
+              relationshipToVet: {
+                'ui:title': 'Relationship to Veteran',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: {
+                    1: 'I am the Veteran',
+                    2: 'Spouse or surviving spouse',
+                    3: 'Unmarried adult child',
+                    4: 'Other'
+                  },
+                  nestedContent: {
+                    2: spouseRelationshipDescription,
+                    3: childRelationshipDescription,
+                    4: otherRelationshipDescription
                   }
-                },
-              }
+                }
+              },
             }
           },
           schema: {
             type: 'object',
             properties: {
-              application: {
+              claimant: {
                 type: 'object',
+                required: [
+                  'claimantFullName',
+                  'claimantSocialSecurityNumber',
+                  'dateOfBirth',
+                  'relationshipToVet'
+                ],
                 properties: {
-                  claimant: {
-                    type: 'object',
-                    required: [
-                      'claimantFullName',
-                      'claimantSocialSecurityNumber',
-                      'dateOfBirth',
-                      'relationshipToVet'
-                    ],
-                    properties: {
-                      claimantFullName: _.merge(fullName, {
-                        properties: {
-                          maiden: {
-                            type: 'string'
-                          }
-                        }
-                      }),
-                      claimantSocialSecurityNumber,
-                      dateOfBirth: date,
-                      relationshipToVet: {
-                        type: 'string',
-                        'enum': [
-                          '1',
-                          '2',
-                          '3',
-                          '4'
-                        ]
-                      }
-                    }
+                  claimantFullName,
+                  claimantSocialSecurityNumber,
+                  dateOfBirth: date,
+                  relationshipToVet: {
+                    type: 'string',
+                    'enum': [
+                      '1',
+                      '2',
+                      '3',
+                      '4'
+                    ]
                   }
                 }
               }
