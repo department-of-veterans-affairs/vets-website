@@ -26,16 +26,23 @@ const initialState = {
   militaryInformation: null,
   addressConstants: null,
   modal: null,
-  pendingSaves: [],
   formFields: {},
   message: null,
-  transactions: {},
-  errors: [] // @todo remove this - transactions hold error information now
+  transactions: {}
 };
 
 const MESSAGES = {
   updatedInformation: 'We saved your updated information.'
 };
+
+function removeFailedTransactions(state) {
+  const transactions = { ...state.transactions };
+  for (const transactionName of Object.keys(transactions)) {
+    const transaction = transactions[transactionName];
+    if (transaction.isFailed) delete transactions[transactionName];
+  }
+  return transactions;
+}
 
 function vaProfile(state = initialState, action) {
   switch (action.type) {
@@ -105,13 +112,13 @@ function vaProfile(state = initialState, action) {
       const modal = action.modal;
       let transactions = state.transactions;
       if (!modal) {
-        transactions = state.transactions.filter(t => !t.isFailed);
+        transactions = removeFailedTransactions(state);
       }
       return { ...state, transactions, modal };
     }
 
     case CLEAR_PROFILE_ERRORS: {
-      const transactions = state.transactions.filter(t => !t.isFailed);
+      const transactions = removeFailedTransactions(state);
       return { ...state, transactions };
     }
 

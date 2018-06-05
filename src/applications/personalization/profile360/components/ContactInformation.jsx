@@ -1,20 +1,3 @@
-import {
-  SAVE_EMAIL_ADDRESS_FAIL,
-  SAVE_EMAIL_ADDRESS,
-  SAVE_FAX_NUMBER_FAIL,
-  SAVE_FAX_NUMBER,
-  SAVE_HOME_PHONE_FAIL,
-  SAVE_HOME_PHONE,
-  SAVE_MAILING_ADDRESS_FAIL,
-  SAVE_MAILING_ADDRESS,
-  SAVE_MOBILE_PHONE_FAIL,
-  SAVE_MOBILE_PHONE,
-  SAVE_TEMPORARY_PHONE_FAIL,
-  SAVE_TEMPORARY_PHONE,
-  SAVE_WORK_PHONE_FAIL,
-  SAVE_WORK_PHONE,
-} from '../actions';
-
 import { every } from 'lodash';
 
 import React from 'react';
@@ -22,6 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
+import { FIELD_NAMES } from '../constants/vet360';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
 import EmailSection from './EmailSection';
@@ -59,23 +43,12 @@ class ContactInformationContent extends React.Component {
     const {
       user: {
         profile: {
-          vet360: {
-            email,
-            homePhone,
-            mailingAddress,
-            mobilePhone,
-            faxNumber,
-            residentialAddress,
-            temporaryPhone,
-            workPhone,
-          }
+          vet360
         },
       },
       modal: {
         currentlyOpen: currentlyOpenModal,
-        pendingSaves,
         formFields,
-        errors,
         clearErrors
       },
       profile: {
@@ -95,124 +68,114 @@ class ContactInformationContent extends React.Component {
       <div>
         <AddressSection
           title="Mailing Address"
-          addressData={mailingAddress}
-          field={formFields.mailingAddress}
-          error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
+          addressData={vet360[FIELD_NAMES.MAILING_ADDRESS]}
+          transaction={transactions[FIELD_NAMES.MAILING_ADDRESS]}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.MAILING_ADDRESS)}
+          field={formFields[FIELD_NAMES.MAILING_ADDRESS]}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.mailingAddress}
-          isEditing={currentlyOpenModal === 'mailingAddress'}
-          isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
-          onEdit={recordedAction('edit-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
-          onAdd={recordedAction('add-link', 'mailing-address', this.openModalHandler('mailingAddress'))}
+          onChange={updateFormFieldActions[FIELD_NAMES.MAILING_ADDRESS]}
+          isEditing={currentlyOpenModal === FIELD_NAMES.MAILING_ADDRESS}
+          onEdit={recordedAction('edit-link', 'mailing-address', this.openModalHandler(FIELD_NAMES.MAILING_ADDRESS))}
+          onAdd={recordedAction('add-link', 'mailing-address', this.openModalHandler(FIELD_NAMES.MAILING_ADDRESS))}
           onSubmit={recordedAction('update-button', 'mailing-address', updateActions.updateMailingAddress)}
           onCancel={recordedAction('cancel-button', 'mailing-address', this.closeModal)}
           addressConstants={addressConstants}/>
 
         <AddressSection
           title="Residential Address"
-          addressData={residentialAddress}
-          field={formFields.residentialAddress}
-          error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
+          addressData={vet360[FIELD_NAMES.RESIDENTIAL_ADDRESS]}
+          transaction={transactions[FIELD_NAMES.RESIDENTIAL_ADDRESS]}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.RESIDENTIAL_ADDRESS)}
+          field={formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS]}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.residentialAddress}
-          isEditing={currentlyOpenModal === 'residentialAddress'}
-          isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
-          onEdit={recordedAction('edit-link', 'residential-address', this.openModalHandler('residentialAddress'))}
-          onAdd={recordedAction('add-link', 'residential-address', this.openModalHandler('residentialAddress'))}
+          onChange={updateFormFieldActions[FIELD_NAMES.RESIDENTIAL_ADDRESS]}
+          isEditing={currentlyOpenModal === FIELD_NAMES.RESIDENTIAL_ADDRESS}
+          onEdit={recordedAction('edit-link', 'residential-address', this.openModalHandler(FIELD_NAMES.RESIDENTIAL_ADDRESS))}
+          onAdd={recordedAction('add-link', 'residential-address', this.openModalHandler(FIELD_NAMES.RESIDENTIAL_ADDRESS))}
           onSubmit={recordedAction('update-button', 'residential-address', updateActions.updateMailingAddress)}
           onCancel={recordedAction('cancel-button', 'residential-address', this.closeModal)}
           addressConstants={addressConstants}/>
 
         <PhoneSection
           title="Home Phone"
-          phoneData={homePhone}
-          transaction={transactions.homePhone}
-          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'homePhone')}
-          field={formFields.homePhone}
-          error={errors.includes(SAVE_HOME_PHONE_FAIL)}
+          phoneData={vet360[FIELD_NAMES.HOME_PHONE]}
+          transaction={transactions[FIELD_NAMES.HOME_PHONE]}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.HOME_PHONE)}
+          field={formFields[FIELD_NAMES.HOME_PHONE]}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.homePhone}
-          isEditing={currentlyOpenModal === 'homePhone'}
-          isLoading={pendingSaves.includes(SAVE_HOME_PHONE)}
-          onEdit={recordedAction('edit-link', 'home-telephone', this.openModalHandler('homePhone'))}
-          onAdd={recordedAction('add-link', 'home-telephone', this.openModalHandler('homePhone'))}
+          onChange={updateFormFieldActions[FIELD_NAMES.HOME_PHONE]}
+          isEditing={currentlyOpenModal === FIELD_NAMES.HOME_PHONE}
+          onEdit={recordedAction('edit-link', 'home-telephone', this.openModalHandler(FIELD_NAMES.HOME_PHONE))}
+          onAdd={recordedAction('add-link', 'home-telephone', this.openModalHandler(FIELD_NAMES.HOME_PHONE))}
           onSubmit={recordedAction('update-button', 'home-telephone', updateActions.updateHomePhone)}
           onCancel={recordedAction('cancel-button', 'home-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Mobile Phone"
-          phoneData={mobilePhone}
-          transaction={transactions.mobilePhone}
-          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'mobilePhone')}
-          field={formFields.mobilePhone}
-          error={errors.includes(SAVE_MOBILE_PHONE_FAIL)}
+          phoneData={vet360[FIELD_NAMES.MOBILE_PHONE]}
+          transaction={transactions[FIELD_NAMES.MOBILE_PHONE]}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.MOBILE_PHONE)}
+          field={formFields[FIELD_NAMES.MOBILE_PHONE]}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.mobilePhone}
-          isEditing={currentlyOpenModal === 'mobilePhone'}
-          isLoading={pendingSaves.includes(SAVE_MOBILE_PHONE)}
-          onEdit={recordedAction('edit-link', 'mobile-telephone', this.openModalHandler('mobilePhone'))}
-          onAdd={recordedAction('add-link', 'mobile-telephone', this.openModalHandler('mobilePhone'))}
+          onChange={updateFormFieldActions[FIELD_NAMES.MOBILE_PHONE]}
+          isEditing={currentlyOpenModal === FIELD_NAMES.MOBILE_PHONE}
+          onEdit={recordedAction('edit-link', 'mobile-telephone', this.openModalHandler(FIELD_NAMES.MOBILE_PHONE))}
+          onAdd={recordedAction('add-link', 'mobile-telephone', this.openModalHandler(FIELD_NAMES.MOBILE_PHONE))}
           onSubmit={recordedAction('update-button', 'mobile-telephone', updateActions.updateMobilePhone)}
           onCancel={recordedAction('cancel-button', 'mobile-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Work Phone"
-          phoneData={workPhone}
-          transaction={transactions.workPhone}
-          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'workPhone')}
-          field={formFields.workPhone}
-          error={errors.includes(SAVE_WORK_PHONE_FAIL)}
+          phoneData={vet360[FIELD_NAMES.WORK_PHONE]}
+          transaction={transactions[FIELD_NAMES.WORK_PHONE]}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.WORK_PHONE)}
+          field={formFields[FIELD_NAMES.WORK_PHONE]}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.workPhone}
-          isEditing={currentlyOpenModal === 'workPhone'}
-          isLoading={pendingSaves.includes(SAVE_WORK_PHONE)}
-          onEdit={recordedAction('edit-link', 'work-telephone', this.openModalHandler('workPhone'))}
-          onAdd={recordedAction('add-link', 'work-telephone', this.openModalHandler('workPhone'))}
+          onChange={updateFormFieldActions[FIELD_NAMES.WORK_PHONE]}
+          isEditing={currentlyOpenModal === FIELD_NAMES.WORK_PHONE}
+          onEdit={recordedAction('edit-link', 'work-telephone', this.openModalHandler(FIELD_NAMES.WORK_PHONE))}
+          onAdd={recordedAction('add-link', 'work-telephone', this.openModalHandler(FIELD_NAMES.WORK_PHONE))}
           onSubmit={recordedAction('update-button', 'work-telephone', updateActions.updateWorkPhone)}
           onCancel={recordedAction('cancel-button', 'work-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Temporary Phone"
-          phoneData={temporaryPhone}
-          transaction={transactions.tempPhone}
-          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'tempPhone')}
-          field={formFields.temporaryTelephone}
-          error={errors.includes(SAVE_TEMPORARY_PHONE_FAIL)}
+          phoneData={vet360[FIELD_NAMES.TEMP_PHONE]}
+          transaction={transactions[FIELD_NAMES.TEMP_PHONE]}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.TEMP_PHONE)}
+          field={formFields[FIELD_NAMES.TEMP_PHONE]}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.temporaryPhone}
-          isEditing={currentlyOpenModal === 'tempPhone'}
-          isLoading={pendingSaves.includes(SAVE_TEMPORARY_PHONE)}
-          onEdit={recordedAction('edit-link', 'temporary-telephone', this.openModalHandler('tempPhone'))}
-          onAdd={recordedAction('add-link', 'temporary-telephone', this.openModalHandler('tempPhone'))}
+          onChange={updateFormFieldActions[FIELD_NAMES.TEMP_PHONE]}
+          isEditing={currentlyOpenModal === FIELD_NAMES.TEMP_PHONE}
+          onEdit={recordedAction('edit-link', 'temporary-telephone', this.openModalHandler(FIELD_NAMES.TEMP_PHONE))}
+          onAdd={recordedAction('add-link', 'temporary-telephone', this.openModalHandler(FIELD_NAMES.TEMP_PHONE))}
           onSubmit={recordedAction('update-button', 'temporary-telephone', updateActions.updateTemporaryPhone)}
           onCancel={recordedAction('cancel-button', 'temporary-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Fax Number"
-          phoneData={faxNumber}
-          transaction={transactions.faxNumber}
-          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'faxNumber')}
-          field={formFields.faxNumber}
-          error={errors.includes(SAVE_FAX_NUMBER_FAIL)}
+          phoneData={vet360[FIELD_NAMES.FAX_NUMBER]}
+          transaction={transactions[FIELD_NAMES.FAX_NUMBER]}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.FAX_NUMBER)}
+          field={formFields[FIELD_NAMES.FAX_NUMBER]}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.faxNumber}
-          isEditing={currentlyOpenModal === 'faxNumber'}
-          isLoading={pendingSaves.includes(SAVE_FAX_NUMBER)}
-          onEdit={recordedAction('edit-link', 'fax-number', this.openModalHandler('faxNumber'))}
-          onAdd={recordedAction('add-link', 'fax-number', this.openModalHandler('faxNumber'))}
+          onChange={updateFormFieldActions[FIELD_NAMES.FAX_NUMBER]}
+          isEditing={currentlyOpenModal === FIELD_NAMES.FAX_NUMBER}
+          onEdit={recordedAction('edit-link', 'fax-number', this.openModalHandler(FIELD_NAMES.FAX_NUMBER))}
+          onAdd={recordedAction('add-link', 'fax-number', this.openModalHandler(FIELD_NAMES.FAX_NUMBER))}
           onSubmit={recordedAction('update-button', 'fax-number', updateActions.updateFaxNumber)}
           onCancel={recordedAction('cancel-button', 'fax-number', this.closeModal)}/>
 
         <EmailSection
-          emailResponseData={email}
-          field={formFields.email}
-          error={errors.includes(SAVE_EMAIL_ADDRESS_FAIL)}
+          emailData={vet360[FIELD_NAMES.EMAIL]}
+          transaction={transactions[FIELD_NAMES.EMAIL]}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.EMAIL)}
+          field={formFields[FIELD_NAMES.EMAIL]}
           clearErrors={clearErrors}
-          onChange={updateFormFieldActions.email}
-          isEditing={currentlyOpenModal === 'email'}
-          isLoading={pendingSaves.includes(SAVE_EMAIL_ADDRESS)}
-          onEdit={recordedAction('edit-link', 'email', this.openModalHandler('email'))}
-          onAdd={recordedAction('add-link', 'email', this.openModalHandler('email'))}
+          onChange={updateFormFieldActions[FIELD_NAMES.EMAIL]}
+          isEditing={currentlyOpenModal === FIELD_NAMES.EMAIL}
+          onEdit={recordedAction('edit-link', 'email', this.openModalHandler(FIELD_NAMES.EMAIL))}
+          onAdd={recordedAction('add-link', 'email', this.openModalHandler(FIELD_NAMES.EMAIL))}
           onSubmit={recordedAction('update-button', 'email', updateActions.updateEmailAddress)}
           onCancel={recordedAction('cancel-button', 'email', this.closeModal)}/>
       </div>
