@@ -357,17 +357,31 @@ export const evidenceSummaryView = ({ formData }) => {
   );
 };
 
-// TODO: For the masked numbers, have screen readers say "ending in" instead of reading out the bullets
+/**
+ * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
+ *                                                           but ignored by screen readers
+ * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
+ */
+const srSubstitute = (srIgnored, substitutionText) => {
+  return (
+    <div style={{ display: 'inline' }}>
+      <span aria-hidden>{srIgnored}</span>
+      <span className="sr-only">{substitutionText}</span>
+    </div>
+  );
+};
+
 export const veteranInformationViewField = (data) => {
   const { ssn, vaFileNumber, dateOfBirth, gender } = data;
   const { first, middle, last, suffix } = data.fullName;
+  const mask = srSubstitute('●●●–●●–', 'ending with');
   return (
     <div>
       <p>This is the personal information we have on file for you.</p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
-        <p>Social Security number: ●●●–●●–{ssn.slice(5)}</p>
-        <p>VA file number: ●●●–●●–{vaFileNumber.slice(5)}</p>
+        <p>Social Security number: {mask}{ssn.slice(5)}</p>
+        <p>VA file number: {mask}{vaFileNumber.slice(5)}</p>
         <p>Date of birth: <DateWidget value={dateOfBirth} options={{ monthYear: false }}/></p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
