@@ -68,6 +68,12 @@ const {
 
 const nonRequiredFullName = _.omit('required', fullName);
 
+function currentlyBuriedPersonsMinItem() {
+  const copy = Object.assign({}, currentlyBuriedPersons);
+  copy.minItems = 1;
+  return _.set('items.properties.cemeteryNumber', autosuggest.schema, copy);
+}
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
@@ -348,7 +354,20 @@ const formConfig = {
         applicantMilitaryName: {
           path: 'applicant-military-name',
           depends: isVeteran,
-          uiSchema: militaryNameUI,
+          uiSchema: _.merge(militaryNameUI, {
+            application: {
+              veteran: {
+                serviceName: {
+                  first: {
+                    'ui:required': (form) => _.get('application.veteran.view:hasServiceName', form) === true,
+                  },
+                  last: {
+                    'ui:required': (form) => _.get('application.veteran.view:hasServiceName', form) === true,
+                  }
+                }
+              }
+            }
+          }),
           schema: {
             type: 'object',
             properties: {
@@ -430,10 +449,12 @@ const formConfig = {
                 },
                 serviceName: _.merge(fullNameUI, {
                   first: {
-                    'ui:title': 'Sponsor’s first name'
+                    'ui:title': 'Sponsor’s first name',
+                    'ui:required': (form) => _.get('application.veteran.view:hasServiceName', form) === true,
                   },
                   last: {
-                    'ui:title': 'Sponsor’s last name'
+                    'ui:title': 'Sponsor’s last name',
+                    'ui:required': (form) => _.get('application.veteran.view:hasServiceName', form) === true,
                   },
                   middle: {
                     'ui:title': 'Sponsor’s middle name'
@@ -541,11 +562,7 @@ const formConfig = {
                     }
                   },
                   hasCurrentlyBuried,
-                  currentlyBuriedPersons: _.set(
-                    'items.properties.cemeteryNumber',
-                    autosuggest.schema,
-                    currentlyBuriedPersons
-                  )
+                  currentlyBuriedPersons: currentlyBuriedPersonsMinItem()
                 }
               }
             }
