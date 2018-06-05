@@ -1,6 +1,6 @@
 import React from 'react';
 
-module.exports = {
+const config = {
   messages: {
     VIC002: (<p>We're sorry. We're having trouble finding your records in our system right now. Please go to <a href="https://access.va.gov/accessva/">AccessVA</a> to request a Veteran ID Card.</p>),
     VIC003: "We're sorry. We can't proceed with your request for a Veteran ID card because we can't confirm your eligibility right now. Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).",
@@ -22,3 +22,5 @@ module.exports = {
     </p>)
   }
 };
+
+export default config;
