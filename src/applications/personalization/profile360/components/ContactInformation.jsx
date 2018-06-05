@@ -204,7 +204,9 @@ class ContactInformationContent extends React.Component {
           onCancel={recordedAction('cancel-button', 'fax-number', this.closeModal)}/>
 
         <EmailSection
-          emailResponseData={email}
+          emailData={email}
+          transaction={transactions.email}
+          getTransactionStatus={(transaction) => getTransactionStatus(transaction, 'email')}
           field={formFields.email}
           error={errors.includes(SAVE_EMAIL_ADDRESS_FAIL)}
           clearErrors={clearErrors}

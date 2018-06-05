@@ -4,12 +4,13 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation/Errora
 import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import Transaction from './Transaction';
 import { fieldFailureMessage } from './LoadFail';
 
 class EditEmailModal extends React.Component {
 
   componentDidMount() {
-    const defaultFieldValue = this.props.emailResponseData || { email: '' };
+    const defaultFieldValue = this.props.emailData || { email: '' };
     this.props.onChange(defaultFieldValue);
   }
 
@@ -19,8 +20,8 @@ class EditEmailModal extends React.Component {
     this.props.onSubmit(this.props.field.value);
   }
 
-  onChange = ({ value: email, dirty }) => {
-    const newFieldValue = { ...this.props.field.value, email };
+  onChange = ({ value: emailAddress, dirty }) => {
+    const newFieldValue = { ...this.props.field.value, emailAddress };
     this.props.onChange(newFieldValue, dirty);
   }
 
@@ -46,7 +47,7 @@ class EditEmailModal extends React.Component {
             <ErrorableTextInput
               autoFocus
               label="Email Address"
-              field={{ value: field.value.email, dirty: false }}
+              field={{ value: field.value.emailAddress, dirty: false }}
               errorMessage={field.errorMessage}
               onValueChange={this.onChange}/>
             <LoadingButton isLoading={isLoading}>Update</LoadingButton>
@@ -59,13 +60,15 @@ class EditEmailModal extends React.Component {
 }
 
 
-export default function EmailSection({ emailResponseData, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onAdd, onCancel, onSubmit }) {
+export default function EmailSection({ emailData, transaction, getTransactionStatus, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
-  if (emailResponseData) {
-    if (emailResponseData.email) {
-      content = emailResponseData.email;
+  if (transaction && !transaction.isPending && !transaction.isFailed) {
+    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus}/>;
+  } else if (emailData) {
+    if (emailData.emailAddress) {
+      content = emailData.emailAddress;
     } else {
       content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your email address</button>;
     }
@@ -77,13 +80,13 @@ export default function EmailSection({ emailResponseData, field, error, clearErr
     modal = (
       <EditEmailModal
         title="Edit email address"
-        emailResponseData={emailResponseData}
+        emailData={emailData}
         field={field}
-        error={error}
+        error={transaction && transaction.error}
         clearErrors={clearErrors}
         onChange={onChange}
         onSubmit={onSubmit}
-        isLoading={isLoading}
+        isLoading={transaction && transaction.isPending}
         onCancel={onCancel}/>
     );
   }
@@ -91,7 +94,7 @@ export default function EmailSection({ emailResponseData, field, error, clearErr
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={emailResponseData && emailResponseData.email && onEdit}>Email Address</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={emailData && emailData.emailAddress && !transaction && onEdit}>Email Address</HeadingWithEdit>
       <div>{content}</div>
     </div>
   );
