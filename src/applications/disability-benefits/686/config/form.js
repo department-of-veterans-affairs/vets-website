@@ -132,54 +132,47 @@ const formConfig = {
           path: 'applicant-information',
           uiSchema: {
             'ui:description': applicantDescription,
-            claimant: {
-              claimantFullName: fullNameUI,
-              claimantSocialSecurityNumber: ssnUI,
-              dateOfBirth: currentOrPastDateUI('Date of birth'),
-              relationshipToVet: {
-                'ui:title': 'Relationship to Veteran',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    1: 'I am the Veteran',
-                    2: 'Spouse or surviving spouse',
-                    3: 'Unmarried adult child',
-                    4: 'Other'
-                  },
-                  nestedContent: {
-                    2: spouseRelationshipDescription,
-                    3: childRelationshipDescription,
-                    4: otherRelationshipDescription
-                  }
+            claimantFullName: fullNameUI,
+            claimantSocialSecurityNumber: ssnUI,
+            dateOfBirth: currentOrPastDateUI('Date of birth'),
+            relationshipToVet: {
+              'ui:title': 'Relationship to Veteran',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  1: 'I am the Veteran',
+                  2: 'Spouse or surviving spouse',
+                  3: 'Unmarried adult child',
+                  4: 'Other'
+                },
+                nestedContent: {
+                  2: spouseRelationshipDescription,
+                  3: childRelationshipDescription,
+                  4: otherRelationshipDescription
                 }
-              },
-            }
+              }
+            },
           },
           schema: {
             type: 'object',
+            required: [
+              'claimantFullName',
+              'claimantSocialSecurityNumber',
+              'dateOfBirth',
+              'relationshipToVet'
+            ],
             properties: {
-              claimant: {
-                type: 'object',
-                required: [
-                  'claimantFullName',
-                  'claimantSocialSecurityNumber',
-                  'dateOfBirth',
-                  'relationshipToVet'
-                ],
-                properties: {
-                  claimantFullName,
-                  claimantSocialSecurityNumber,
-                  dateOfBirth: date,
-                  relationshipToVet: {
-                    type: 'string',
-                    'enum': [
-                      '1',
-                      '2',
-                      '3',
-                      '4'
-                    ]
-                  }
-                }
+              claimantFullName,
+              claimantSocialSecurityNumber,
+              dateOfBirth: date,
+              relationshipToVet: {
+                type: 'string',
+                'enum': [
+                  '1',
+                  '2',
+                  '3',
+                  '4'
+                ]
               }
             }
           }
