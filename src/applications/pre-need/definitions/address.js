@@ -24,7 +24,7 @@ export const countriesWithStateCodes = new Set(['USA', 'CAN']);
 
 function validateAddress(errors, address, formData, currentSchema) {
   // Adds error message for state if it is blank and one of the following countries:
-  // USA, Canada, or Mexico
+  // USA, Canada
   if (countriesWithStateCodes.has(address.country)
     && address.state === undefined
     && currentSchema.required.length) {
