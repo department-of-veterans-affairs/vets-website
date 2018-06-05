@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
-describe.only('Disability benefits 526EZ special circumstances', () => {
+describe('Disability benefits 526EZ special circumstances', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.specialCircumstances;
 
   const defaultFormData = {
