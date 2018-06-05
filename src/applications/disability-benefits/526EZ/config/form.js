@@ -8,9 +8,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import {
-  uiSchema as autoSuggestUiSchema
-} from '../../../common/schemaform/definitions/autosuggest';
+import { uiSchema as autoSuggestUiSchema } from '../../../common/schemaform/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -68,9 +66,7 @@ import {
   getEvidenceTypesDescription
 } from '../helpers';
 
-import {
-  requireOneSelected,
-} from '../validations';
+import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 const {

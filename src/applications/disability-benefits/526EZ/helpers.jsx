@@ -380,7 +380,7 @@ const DateOfBirthViewField = ({ formData }) => {
 
 const GenderViewField = ({ formData }) => <p>Gender: {genderLabels[formData]}</p>;
 
-export const veteranInformationViewField = ({ formData }) => {
+export const veteranInformationViewField = (formData) => {
   return (
     <div>
       <FullNameViewField formData={formData.fullName}/>
@@ -654,4 +654,3 @@ export const get4142Selection = (disabilities) => {
     return false;
   }, false);
 };
-
