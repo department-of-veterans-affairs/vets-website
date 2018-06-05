@@ -66,7 +66,7 @@ export class Main extends React.Component {
   bindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.addEventListener('click', e => {
-        if (!this.props.login.currentlyLoggedIn) {
+        if (!this.props.currentlyLoggedIn) {
           e.preventDefault();
           const nextQuery = { next: el.getAttribute('href') };
           const nextPath = appendQuery('/', nextQuery);
