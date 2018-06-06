@@ -1,6 +1,6 @@
 import { apiRequest } from '../../../../platform/utilities/api';
-import recordEvent from '../../../../platform/monitoring/record-event';
-import { kebabCase } from 'lodash';
+// import recordEvent from '../../../../platform/monitoring/record-event';
+// import { kebabCase } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
@@ -13,20 +13,20 @@ export const VET360_TRANSACTION_REQUEST_SUCCEEDED = 'VET360_TRANSACTION_REQUEST_
 export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
 export const VET360_TRANSACTION_FINISHED = 'VET360_TRANSACTION_FINISHED';
 
-function recordProfileTransaction(fieldName) {
-  const names = [
-    'mobile-phone',
-    'primary-telephone',
-    'mailing-address',
-  ];
-
-  if (names.includes(fieldName)) {
-    recordEvent({
-      event: 'profile-transaction',
-      'profile-section': fieldName
-    });
-  }
-}
+// function recordProfileTransaction(fieldName) {
+//   const names = [
+//     'mobile-phone',
+//     'primary-telephone',
+//     'mailing-address',
+//   ];
+//
+//   if (names.includes(fieldName)) {
+//     recordEvent({
+//       event: 'profile-transaction',
+//       'profile-section': fieldName
+//     });
+//   }
+// }
 
 export function getTransactionStatus(transaction, fieldName) {
   return async (dispatch, getState) => {
@@ -66,14 +66,16 @@ export function getTransactionStatus(transaction, fieldName) {
   };
 }
 
+// TODO: reconcile this with data object cleaning in misc/form update reducer
+// inputPhoneNumber is stripped here because it is only used for display in the form
 function createPhoneObject(phoneFormData, fieldName) {
-  const strippedPhone = phoneFormData.phoneNumber.replace(/[^\d]/g, '');
-  const strippedExtension = phoneFormData.extension.replace(/[^a-zA-Z0-9]/g, '');
   return {
-    ...phoneFormData,
-    extension: strippedExtension === '' ? null : phoneFormData.extension,
-    phoneNumber: strippedPhone.substring(3),
-    areaCode: strippedPhone.substring(0, 3),
+    id: phoneFormData.id,
+    areaCode: phoneFormData.areaCode,
+    countryCode: phoneFormData.countryCode,
+    extension: phoneFormData.extension,
+    phoneNumber: phoneFormData.phoneNumber,
+    isInternational: phoneFormData.isInternational,
     phoneType: VET360_CONSTANTS.PHONE_TYPE[fieldName],
   };
 }
@@ -122,9 +124,10 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
 
         const response = isVet360Configured() ? await apiRequest(apiRoute, options) : localVet360.createTransaction();
 
-        if (apiRoute === '/profile/telephones') {
-          recordProfileTransaction(kebabCase(`${nextFieldValue.phoneType} phone`));
-        }
+        // TODO turn analytics back on later
+        // if (apiRoute === '/profile/telephones') {
+        //   recordProfileTransaction(kebabCase(`${nextFieldValue.phoneType} phone`));
+        // }
 
         dispatch({
           type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
@@ -148,7 +151,7 @@ export const saveField = {
   updateWorkPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE, 'phone'),
   updateTemporaryPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE, 'phone'),
   updateFaxNumber: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER, 'phone'),
-  updateEmailAddress: updateVet360Field('/profile/email', VET360_CONSTANTS.FIELD_NAMES.EMAIL, 'email'),
-  updateMailingAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS, 'address'),
-  updateResidentialAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address')
+  updateEmailAddress: updateVet360Field('/profile/email_addresses', VET360_CONSTANTS.FIELD_NAMES.EMAIL, 'email'),
+  updateMailingAddress: updateVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS, 'address'),
+  updateResidentialAddress: updateVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address')
 };

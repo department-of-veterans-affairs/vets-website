@@ -14,13 +14,14 @@ import { handleDowntimeForSection } from './DowntimeBanner';
 
 function recordedAction(actionName, sectionName, callback) {
   return (...args) => {
-    if (sectionName && actionName) {
-      recordEvent({
-        event: 'profile-navigation',
-        'profile-action': actionName,
-        'profile-section': sectionName,
-      });
-    }
+    // TODO turn analytics back on later
+    // if (sectionName && actionName) {
+    //   recordEvent({
+    //     event: 'profile-navigation',
+    //     'profile-action': actionName,
+    //     'profile-section': sectionName,
+    //   });
+    // }
     callback(...args);
   };
 }
