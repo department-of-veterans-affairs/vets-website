@@ -139,20 +139,6 @@ class ContactInformationContent extends React.Component {
           onCancel={recordedAction('cancel-button', 'work-telephone', this.closeModal)}/>
 
         <PhoneSection
-          title="Temporary Phone"
-          phoneData={vet360[FIELD_NAMES.TEMP_PHONE]}
-          transaction={transactions[FIELD_NAMES.TEMP_PHONE]}
-          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.TEMP_PHONE)}
-          field={formFields[FIELD_NAMES.TEMP_PHONE]}
-          clearErrors={clearErrors}
-          onChange={updateFormFieldActions[FIELD_NAMES.TEMP_PHONE]}
-          isEditing={currentlyOpenModal === FIELD_NAMES.TEMP_PHONE}
-          onEdit={recordedAction('edit-link', 'temporary-telephone', this.openModalHandler(FIELD_NAMES.TEMP_PHONE))}
-          onAdd={recordedAction('add-link', 'temporary-telephone', this.openModalHandler(FIELD_NAMES.TEMP_PHONE))}
-          onSubmit={recordedAction('update-button', 'temporary-telephone', updateActions.updateTemporaryPhone)}
-          onCancel={recordedAction('cancel-button', 'temporary-telephone', this.closeModal)}/>
-
-        <PhoneSection
           title="Fax Number"
           phoneData={vet360[FIELD_NAMES.FAX_NUMBER]}
           transaction={transactions[FIELD_NAMES.FAX_NUMBER]}
