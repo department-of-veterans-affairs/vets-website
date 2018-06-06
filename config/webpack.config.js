@@ -175,7 +175,7 @@ const configGenerator = (options, apps) => {
     ],
   };
 
-  if (options.buildtype === 'production' || options.buildtype === 'staging') {
+  if (options.buildtype === 'production' || options.buildtype === 'staging' || options.buildtype === 'preview') {
     let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
     if (options.buildtype === 'production') {
       sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
