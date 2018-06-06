@@ -18,7 +18,7 @@ const diagnosticCodeMap = {
   130: 'Adhesions',
   140: 'Aging',
   150: 'Agoraphobia',
-  160: 'Aids',
+  160: 'AIDS',
   170: 'Alcohol Abuse',
   180: 'Allergies',
   190: 'ALS',
@@ -529,7 +529,7 @@ const diagnosticCodeMap = {
   5390: 'Pneumonia',
   5400: 'Polymyositis',
   5410: 'Porphyria Cutanea Tarda  (PCT) (A Skin Condition)',
-  5420: 'Ptsd (Post Traumatic Stress Disorder)',
+  5420: 'PTSD (Post Traumatic Stress Disorder)',
   5430: 'Posterior Subcapsular Cataracts',
   5440: 'Pregnancy, Surgical Complications of',
   5450: 'Primary Anemia',
@@ -716,7 +716,7 @@ const diagnosticCodeMap = {
   7260: 'Yaws',
   7270: 'Yellow Fever',
   7280: 'Hepatitis B',
-  7290: 'Ptsd Personal Trauma',
+  7290: 'PTSD Personal Trauma',
   7300: 'Hepatitis C',
   8917: 'Miscellaneous',
   8918: 'Hip Replacement',
@@ -810,8 +810,8 @@ const diagnosticCodeMap = {
   9007: 'Neurological Other System',
   9008: 'Pension',
   9009: 'Pension - Aid And Attendance/Housebound',
-  9010: 'Post Traumatic Stress Disorder (Ptsd) Combat - Mental Disorders',
-  9011: 'Post Traumatic Stress Disorder (Ptsd) Personal Trauma - Mental Disorders',
+  9010: 'Post Traumatic Stress Disorder (PTSD) Combat - Mental Disorders',
+  9011: 'Post Traumatic Stress Disorder (PTSD) Personal Trauma - Mental Disorders',
   9012: 'Respiratory',
   9013: 'Scars (Extremities and Trunk)',
   9014: 'Scars (Head, Face, or Neck)',
@@ -846,10 +846,4 @@ export function getDiagnosticCodeName(code) {
   }
 
   return text || 'Unknown Condition';
-}
-
-
-// TODO: This should return the text from a list, but that list is...nowhere to be found right now
-export function getDiagnosticText(text) {
-  return text;
 }
