@@ -40,6 +40,7 @@ function cleanEmailDataForUpdate(value) {
 
 function cleanPhoneDataForUpdate(value) {
   const {
+    id,
     areaCode,
     countryCode,
     extension,
@@ -48,6 +49,7 @@ function cleanPhoneDataForUpdate(value) {
   } = value;
 
   return {
+    id,
     areaCode,
     countryCode,
     extension,
@@ -59,6 +61,7 @@ function cleanPhoneDataForUpdate(value) {
 
 function cleanAddressDataForUpdate(value) {
   const {
+    id,
     addressLine1,
     addressLine2,
     addressLine3,
@@ -71,6 +74,7 @@ function cleanAddressDataForUpdate(value) {
   } = value;
 
   return {
+    id,
     addressLine1,
     addressLine2,
     addressLine3,
