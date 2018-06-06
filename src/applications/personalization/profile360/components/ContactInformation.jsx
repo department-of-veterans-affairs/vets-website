@@ -92,7 +92,7 @@ class ContactInformationContent extends React.Component {
           isEditing={currentlyOpenModal === FIELD_NAMES.RESIDENTIAL_ADDRESS}
           onEdit={recordedAction('edit-link', 'residential-address', this.openModalHandler(FIELD_NAMES.RESIDENTIAL_ADDRESS))}
           onAdd={recordedAction('add-link', 'residential-address', this.openModalHandler(FIELD_NAMES.RESIDENTIAL_ADDRESS))}
-          onSubmit={recordedAction('update-button', 'residential-address', updateActions.updateMailingAddress)}
+          onSubmit={recordedAction('update-button', 'residential-address', updateActions.updateResidentialAddress)}
           onCancel={recordedAction('cancel-button', 'residential-address', this.closeModal)}
           addressConstants={addressConstants}/>
 

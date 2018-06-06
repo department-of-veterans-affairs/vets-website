@@ -138,5 +138,6 @@ export const saveField = {
   updateTemporaryPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE, 'phone'),
   updateFaxNumber: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER, 'phone'),
   updateEmailAddress: updateVet360Field('/profile/email', VET360_CONSTANTS.FIELD_NAMES.EMAIL, 'email'),
-  updateMailingAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS, 'address')
+  updateMailingAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS, 'address'),
+  updateResidentialAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address')
 };
