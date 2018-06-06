@@ -1,14 +1,24 @@
 export function overrideSmoothFormsScrolling(client) {
   client.execute(() => {
-    const current = window.Forms || {};
-    window.Forms = Object.assign({}, current, {
+    const currentFormsScroll = window.Forms || {};
+    window.Forms = Object.assign({}, currentFormsScroll, {
       scroll: {
         duration: 0,
         delay: 0,
         smooth: false
       }
     });
-    return window.Forms;
+
+    const currentVetsGovScroll = window.VetsGov || {};
+    window.VetsGov = Object.assign({}, currentVetsGovScroll, {
+      scroll: {
+        duration: 0,
+        delay: 0,
+        smooth: false
+      }
+    });
+
+    return window;
   });
 }
 

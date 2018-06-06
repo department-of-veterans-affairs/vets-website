@@ -17,7 +17,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.usa-button-primary');
 
     E2eHelpers.overrideVetsGovApi(client);
-    FormsTestHelpers.overrideSmoothFormsScrolling(client);
+    FormsTestHelpers.overrideFormsScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
