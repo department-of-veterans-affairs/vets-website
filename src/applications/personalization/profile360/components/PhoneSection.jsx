@@ -6,11 +6,21 @@ import Modal from '@department-of-veterans-affairs/formation/Modal';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Transaction from './Transaction';
+import { merge } from 'lodash';
 
 class EditPhoneModal extends React.Component {
 
   componentDidMount() {
-    const defaultFieldValue = this.props.phoneData || { countryCode: '', extension: '', phoneNumber: '' };
+    let defaultFieldValue;
+
+    if (this.props.phoneData) {
+      defaultFieldValue = merge(this.props.phoneData, {
+        inputPhoneNumber: this.props.phoneData && [this.props.phoneData.areaCode, this.props.phoneData.phoneNumber].join('')
+      });
+    } else {
+      defaultFieldValue = { countryCode: '', extension: '', phoneNumber: '' };
+    }
+
     this.props.onChange(defaultFieldValue);
   }
 
