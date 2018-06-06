@@ -82,7 +82,7 @@ function cleanAddressDataForUpdate(value) {
     addressLine2,
     addressLine3,
     addressPou,
-    addressType,
+    addressType: addressType || (countryName === 'United States' ? 'domestic' : 'international'),
     city,
     countryName,
     stateCode,
