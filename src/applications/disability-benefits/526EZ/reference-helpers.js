@@ -838,7 +838,7 @@ const diagnosticCodeMap = {
   249481: 'Dental and Oral - Musculoskeletal',
 };
 
-Export function getDiagnosticCodeName(code) {
+export function getDiagnosticCodeName(code) {
   const text = diagnosticCodeMap[code];
 
   if (!text) {
