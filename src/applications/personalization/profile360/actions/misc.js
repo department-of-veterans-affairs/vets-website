@@ -1,4 +1,5 @@
 import { isValidEmail, isValidPhone } from '../../../../platform/forms/validations';
+import { MILITARY_STATES } from '../../../letters/utils/constants';
 
 export const UPDATE_PROFILE_FORM_FIELD = 'UPDATE_PROFILE_FORM_FIELD';
 export const OPEN_MODAL = 'OPEN_MODAL';
@@ -62,6 +63,17 @@ function cleanPhoneDataForUpdate(value) {
   };
 }
 
+function inferAddressType(countryName, stateCode) {
+  let addressType = 'domestic';
+  if (countryName !== 'United States') {
+    addressType = 'international';
+  } else if (MILITARY_STATES.has(stateCode)) {
+    addressType = 'military overseas';
+  }
+
+  return addressType;
+}
+
 function cleanAddressDataForUpdate(value) {
   const {
     id,
@@ -69,7 +81,6 @@ function cleanAddressDataForUpdate(value) {
     addressLine2,
     addressLine3,
     addressPou,
-    addressType,
     city,
     countryName,
     stateCode,
@@ -82,7 +93,7 @@ function cleanAddressDataForUpdate(value) {
     addressLine2,
     addressLine3,
     addressPou,
-    addressType: addressType || (countryName === 'United States' ? 'domestic' : 'international'),
+    addressType: inferAddressType(countryName, stateCode),
     city,
     countryName,
     stateCode,

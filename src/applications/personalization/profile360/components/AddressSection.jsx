@@ -25,6 +25,7 @@ class EditAddressModal extends React.Component {
       ...this.props.field.value,
       [field]: value
     };
+
     this.props.onChange(newFieldValue);
   }
 
