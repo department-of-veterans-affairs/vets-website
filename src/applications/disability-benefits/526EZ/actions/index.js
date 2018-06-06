@@ -1,7 +1,7 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import Raven from 'raven-js';
 import { setPrestartStatus } from '../../../common/schemaform/save-in-progress/actions';
-import { PRESTART_STATUSES } from '../helpers';
+import { PRESTART_STATUSES, prestartSuccessStatuses, prestartFailureStatuses } from '../helpers';
 
 export function checkITFRequest(dispatch) {
 
@@ -36,20 +36,20 @@ export function checkITFRequest(dispatch) {
   );
 }
 
-export function submitITFRequest(dispatch, successStatus) {
+export function submitITFRequest(dispatch, successStatus, errorStatus) {
 
   return apiRequest(
     '/intent_to_file/compensation',
     { method: 'POST' },
     ({ data }) => {
       dispatch(setPrestartStatus(successStatus, data.attributes.intent_to_file.expirationDate));
-      return PRESTART_STATUSES.success;
+      return successStatus;
     },
     ({ errors }) => {
       const errorMessage = 'Network request failed';
       Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
-      dispatch(setPrestartStatus(PRESTART_STATUSES.failure, errors));
-      return PRESTART_STATUSES.failure;
+      dispatch(setPrestartStatus(errorStatus, errors));
+      return errorStatus;
     }
   );
 }
@@ -70,7 +70,7 @@ export function verifyIntentToFile() {
     // const existingITF = await checkITFRequest(dispatch);
     const existingITFStatus = await fakeITFRequest('retrieved', () => dispatch(setPrestartStatus(PRESTART_STATUSES.retrieved, '2017-08-17T21:59:53.327Z')));
 
-    if (existingITFStatus === PRESTART_STATUSES.failure) {
+    if (prestartFailureStatuses.has(existingITFStatus)) {
       return false;
     } else if (prestartSuccessStatuses.has(existingITFStatus)) {
       return true;

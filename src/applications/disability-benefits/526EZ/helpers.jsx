@@ -423,18 +423,37 @@ export const PRESTART_STATUSES = {
   created: 'created',
   retrieved: 'retrieved',
   renewed: 'renewed',
+  notRetrievedSaved: 'notRetrievedSaved',
+  notRetrievedNew: 'notRetrievedNew',
+  notCreated: 'notCreated',
+  notRenewed: 'notRenewed',
   ...commonPrestartStatuses
 };
 
+export const prestartSuccessStatuses = new Set([PRESTART_STATUSES.created, PRESTART_STATUSES.retrieved, PRESTART_STATUSES.renewed]);
+
+export const prestartFailureStatuses = new Set([PRESTART_STATUSES.notCreated, PRESTART_STATUSES.notRenewed, PRESTART_STATUSES.notRetrievedNew, PRESTART_STATUSES.notRetrievedSaved]);
+
 export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART_STATUSES.expired, PRESTART_STATUSES.pending]);
 
-const successHeading = {
-  created: 'We’ve verified your Intent to File',
-  retrieved: 'We’ve retrieved your existing Intent to File',
-  renewed: 'We’ve verified your Intent to File'
+const prestartAlertHeadings = {
+  created: 'Your Intent to File request has been submitted',
+  retrieved: 'We found your existing Intent to File',
+  renewed: 'Your Intent to File request has been submitted',
+  notRetrievedSaved: 'Your Intent to File request didn’t go through',
+  notRetrievedNew: 'We couldn’t process your Intent to File request',
+  notRenewed: 'Your Intent to File request didn’t go through',
+  notCreated: 'We’re sorry. Something went wrong on our end',
 };
 
-function successMessage(status, data, expiredData) {
+const prestartErrorMessages = {
+  notRetrievedSaved: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
+  notRetrievedNew: 'We’re sorry. We aren’t able to process your Intent to File request at this time. Please try applying again tomorrow.',
+  notRenewed: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
+  notCreated: 'We can’t access your Intent to File request right now. Please try applying again tomorrow.',
+};
+
+function getPrestartSuccessMessage(status, data, expiredData) {
   const messages = {
     created: (expirationDateString) => `Thank you for submitting your Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
     retrieved: (expirationDateString) => `Our records show that you’ve already submitted an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
@@ -443,24 +462,34 @@ function successMessage(status, data, expiredData) {
   return messages[status](moment(data).format('M/D/YYYY'), moment(expiredData).format('M/D/YYYY'));
 }
 
-export function ITFSuccessAlert(status, data) {
+export function prestartAlert(status, data) {
   let expiredExpirationData;
   let activeExpirationData = data;
+  let alertType;
+  const alertHeading = prestartAlertHeadings[status];
+  let alertMessage;
+  if (prestartSuccessStatuses.has(status)) {
+    alertType = 'success';
+    alertMessage = getPrestartSuccessMessage(status, activeExpirationData, expiredExpirationData);
+  } else if (prestartFailureStatuses.has(status)) {
+    alertType = 'error';
+    alertMessage = prestartErrorMessages[status];
+  }
   if (data.expiredData) {
     activeExpirationData = data.previous;
     expiredExpirationData = data.current;
   }
   return (<AlertBox
-    status="success"
+    status={alertType}
     isVisible
-    content={<div><h3>{successHeading[status]}</h3><p>{successMessage(status, activeExpirationData, expiredExpirationData)}</p></div>}/>);
+    content={<div>
+      <h3>{alertHeading}</h3>
+      <p>{alertMessage}</p>
+      <AdditionalInfo triggerText="What is an Intent to File request?">
+        <p>An Intent to File request lets you set an effective date, or the day you can start getting your benefits, while you prepare your application and gather supporting evidence or documents for your disability claim. If you submit an Intent to File before you file your claim, you may be able to get retroactive payments starting from your effective date.</p>
+      </AdditionalInfo>
+    </div>}/>);
 }
-
-export const ITFErrorAlert = (
-  <AlertBox status="error"
-    isVisible
-    content={<div><h3>We couldn’t verify your Intent to File</h3><p>We’re sorry. We aren’t able to process your Intent to File request at this time. Please try again tomorrow.</p></div>}/>
-);
 
 
 export const UnauthenticatedAlert = (

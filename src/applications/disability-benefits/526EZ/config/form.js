@@ -70,7 +70,7 @@ import {
   queryForFacilities,
   getEvidenceTypesDescription,
   prestartPendingStatuses,
-  ITFSuccessAlert
+  prestartAlert
 } from '../helpers';
 
 import {
@@ -130,7 +130,7 @@ const formConfig = {
   // submitUrl: `${environment.API_URL}/v0/21-526EZ`,
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   prestartCheck: verifyIntentToFile,
-  prestartMessage: 'Verifying your intent to file...',
+  prestartMessage: 'Please wait while we verify your Intent to File request.',
   prestartPendingStatuses,
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
@@ -141,7 +141,7 @@ const formConfig = {
   verifyRequiredPrefill: true,
   savedFormMessages: {
     prestartError: ITFErrorAlert,
-    prestartSuccess: ITFSuccessAlert,
+    prestartSuccess: prestartAlert,
     notFound: 'Please start over to apply for disability claims increase.',
     noAuth: 'Please sign in again to resume your application for disability claims increase.'
   },
