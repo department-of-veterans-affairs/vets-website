@@ -76,6 +76,13 @@ function createPhoneObject(phoneFormData, fieldName) {
   };
 }
 
+function createAddressObject(addressFormData, fieldName) {
+  return {
+    ...addressFormData,
+    addressPou: fieldName === 'mailingAddress' ? 'CORRESPONDENCE' : 'RESIDENCE/CHOICE',
+  };
+}
+
 function updateVet360Field(apiRoute, fieldName, fieldType) {
   return nextFieldValue => {
     return async (dispatch, getState) => {
@@ -91,6 +98,7 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
         case 'email':
           break;
         case 'address':
+          fieldData = createAddressObject(nextFieldValue, fieldName);
           break;
         default:
       }
