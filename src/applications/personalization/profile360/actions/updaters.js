@@ -66,14 +66,45 @@ export function getTransactionStatus(transaction, fieldName) {
   };
 }
 
-function updateVet360Field(apiRoute, fieldName) {
+function createPhoneObject(phoneFormData, fieldName) {
+  const strippedPhone = phoneFormData.phoneNumber.replace(/[^\d]/g, '');
+  return {
+    ...phoneFormData,
+    phoneNumber: strippedPhone.substring(3),
+    areaCode: strippedPhone.substring(0, 3),
+    phoneType: VET360_CONSTANTS.PHONE_TYPE[fieldName],
+  };
+}
+
+function createAddressObject(addressFormData, fieldName) {
+  return {
+    ...addressFormData,
+    addressPou: fieldName === 'mailingAddress' ? 'CORRESPONDENCE' : 'RESIDENCE/CHOICE',
+  };
+}
+
+function updateVet360Field(apiRoute, fieldName, fieldType) {
   return nextFieldValue => {
     return async (dispatch, getState) => {
       const currentState = getState();
       const currentFieldValue = currentState.user.profile.vet360[fieldName];
-      const method = currentFieldValue === null ? 'POST' : 'PUT'; // @todo Is this what an uninitialized Vet360 field looks like?
+      const method = currentFieldValue ? 'PUT' : 'POST';
+      let fieldData = nextFieldValue;
+
+      switch (fieldType) {
+        case 'phone':
+          fieldData = createPhoneObject(nextFieldValue, fieldName);
+          break;
+        case 'email':
+          break;
+        case 'address':
+          fieldData = createAddressObject(nextFieldValue, fieldName);
+          break;
+        default:
+      }
+
       const options = {
-        body: JSON.stringify(nextFieldValue),
+        body: JSON.stringify(fieldData),
         method,
         headers: {
           'Content-Type': 'application/json'
@@ -109,11 +140,12 @@ function updateVet360Field(apiRoute, fieldName) {
 }
 
 export const saveField = {
-  updateHomePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE),
-  updateMobilePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE),
-  updateWorkPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE),
-  updateTemporaryPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE),
-  updateFaxNumber: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER),
-  updateEmailAddress: updateVet360Field('/profile/email', VET360_CONSTANTS.FIELD_NAMES.EMAIL),
-  updateMailingAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS)
+  updateHomePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE, 'phone'),
+  updateMobilePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE, 'phone'),
+  updateWorkPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE, 'phone'),
+  updateTemporaryPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE, 'phone'),
+  updateFaxNumber: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER, 'phone'),
+  updateEmailAddress: updateVet360Field('/profile/email', VET360_CONSTANTS.FIELD_NAMES.EMAIL, 'email'),
+  updateMailingAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS, 'address'),
+  updateResidentialAddress: updateVet360Field('/profile/mailing_address', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address')
 };

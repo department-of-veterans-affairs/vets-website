@@ -86,7 +86,6 @@ function cleanAddressDataForUpdate(value) {
 function updateProfileFormField(field, validator, type) {
   return (value, dirty) => {
     const errorMessage = validator && dirty ? validator(value) : '';
-
     let cleanValue = value;
 
     switch (type) {

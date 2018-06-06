@@ -8,7 +8,6 @@ import Address from './Address';
 import LoadingButton from './LoadingButton';
 import Transaction from './Transaction';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import { fieldFailureMessage } from './LoadFail';
 import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from '../../../../platform/forms/address/helpers';
 
 class EditAddressModal extends React.Component {
@@ -89,8 +88,6 @@ export default function AddressSection({ addressData, addressConstants, transact
 
   if (transaction && !transaction.isPending && !transaction.isFailed) {
     content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="address"/>;
-  } else if (!addressData) {
-    content = fieldFailureMessage;
   } else {
     if (!isEmptyAddress(addressData)) {
       content = <AddressView address={addressData}/>;
