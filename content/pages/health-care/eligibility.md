@@ -26,10 +26,11 @@ Find out if you can get VA health care as a Veteran.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may be able to get VA health care benefits if you served in the active military, naval, or air service and didn't receive a dishonorable discharge. 
+You may be able to get VA health care benefits if you served in the active military, naval, or air service and didn't receive a dishonorable discharge.
 
-- **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
-
+- **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty, unless any of the descriptions below are true for you.</br>
+</br>
+**This minimum duty requirement may not apply if any of these are true. You:**
   - Were discharged for a disability that was caused—or made worse—by your active-duty service, **or**
   - Were discharged for a hardship or “early out,” **or**
   - Served prior to September 7, 1980
@@ -40,8 +41,6 @@ You may be able to get VA health care benefits if you served in the active milit
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits.
 
-<br>
-
 **There are 2 ways you can try to qualify:**
 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
@@ -51,29 +50,30 @@ If you've received one of these discharge statuses, you may not be eligible for 
 </div>
 </div>
 
-<div markdown="0"><br></div>
-
 <div class="feature" markdown=“1” itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">Is there anything that will make me more likely to get these benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
-  Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
 
-- You receive financial compensation (payments) from VA for a service-connected disability
-- You were discharged for a disability resulting from something that happened to you in the line of duty
-- You were discharged for a disability that got worse in the line of duty
-- You’re a recently discharged Combat Veteran
-- You get a VA pension
-- You’re a former Prisoner of War (POW)
-- You’ve received a Purple Heart
-- You get (or qualify for) Medicaid benefits
-- You served in Vietnam between January 9, 1962, and May 7, 1975
-- You served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
-- You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
+Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if you meet at least one of the requirements listed below.
 
-If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
+**At least one of these must be true. You:** 
+
+- Receive financial compensation (payments) from VA for a service-connected disability
+- Were discharged for a disability resulting from something that happened to you in the line of duty
+- Were discharged for a disability that got worse in the line of duty
+- Are a recently discharged Combat Veteran
+- Get a VA pension
+- Are a former Prisoner of War (POW)
+- Have received a Purple Heart
+- Get (or qualify for) Medicaid benefits
+- Served in Vietnam between January 9, 1962, and May 7, 1975
+- Served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
+- Served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
+
+**If none of the above apply to you**, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. <br>
+[Learn more about income limits](http://nationalincomelimits.vaftl.us/).
 
 </div>
 </div>
@@ -93,7 +93,8 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
+[Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
 Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
@@ -129,7 +130,7 @@ When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. 
 Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care.<br/>
 [Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
 
-Your priority group will be based on:
+**Your priority group will be based on:**
 
 - Your military service history, **and**
 - Your disability rating, **and**
@@ -184,7 +185,9 @@ Visit healthcare.gov to find out if you qualify for health insurance.<br/>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Yes. Find out how you may still be able to get care for:
+Yes. 
+
+**Find out how you may still be able to get care for:**
 
 - [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/#no-benefits)
 - [Other mental health problems (like depression or substance abuse)](/health-care/health-conditions/mental-health/#no-benefits)

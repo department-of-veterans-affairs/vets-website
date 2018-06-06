@@ -35,13 +35,15 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 
 ### Can I apply for one of these memorial items?
 
-You can apply for this benefit if you’re:
-- A family member of the deceased, **or**
+You can apply for this benefit if you're representing the deceased Veteran in any of the below relationships or professional roles.
+
+**One of these must describe your relationship or role:**
+- A family member of the deceased Veteran, **or**
 - A personal representative (someone who officially represents the deceased), **or**
 - A representative of an accredited Veterans Service Organization, **or**
 - An employee of a state or local government whose official responsibilities include serving Veterans, **or**
 - Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the deceased’s interment or memorialization, **or**
-- Any individual, if the Veteran’s service ended before April 6, 1917
+- Any individual representing the deceased, if their service ended before April 6, 1917
 
 **Note:** For memorial headstones and markers that honor the memory of the deceased, the person who applies must be a member of the deceased’s family.
 
@@ -49,9 +51,11 @@ You can apply for this benefit if you’re:
 
 ### How do I apply for a memorial item?
 
-**For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). [Download VA Form 40-1330](https://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
+**For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
+[Download VA Form 40-1330](https://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
 
-**For a medallion** to be placed on a privately purchased headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). [Download VA Form 40-1330M](https://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
+**For a medallion** to be placed on a privately purchased headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). <br>
+[Download VA Form 40-1330M](https://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
 
 - Make a copy of the Veteran’s discharge documents. Don’t send the originals, because we can’t return them.
 

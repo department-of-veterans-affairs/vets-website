@@ -92,6 +92,13 @@
     'lines-around-directive': 0,
     'jsx-a11y/href-no-hash': 0,
   },
+  'overrides': [{
+    'files': ["**/*.spec.jsx", "**/*.spec.js", "src/platform/testing/**/*.js", "src/platform/testing/**/*.jsx"],
+    'rules': {
+      'react/no-find-dom-node': 0,
+      'no-unused-expressions': 0
+    }
+  }],
   'parserOptions': {
     'ecmaVersion': 6,
     'sourceType': 'module'

@@ -12,9 +12,9 @@ import {
   SAVE_STATUSES,
   LOAD_STATUSES,
   PREFILL_STATUSES
-} from '../../../../src/js/common/schemaform/save-in-progress/actions';
+} from '../../../../src/applications/common/schemaform/save-in-progress/actions';
 
-import createSchemaFormReducer from '../../../../src/js/common/schemaform/state';
+import { createSaveInProgressFormReducer } from '../../../../src/applications/common/schemaform/save-in-progress/reducers';
 
 describe('schemaform createSaveInProgressInitialState', () => {
   it('creates a reducer with initial state for each page', () => {
@@ -42,7 +42,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
         }
       }
     };
-    const reducer = createSchemaFormReducer(formConfig, { data: {} });
+    const reducer = createSaveInProgressFormReducer(formConfig, { data: {} });
     const state = reducer(undefined, {});
 
     expect(state.isStartingOver).to.be.false;
@@ -68,7 +68,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
         }
       }
     };
-    const reducer = createSchemaFormReducer(formConfig, { data: {} });
+    const reducer = createSaveInProgressFormReducer(formConfig, { data: {} });
 
     const data = {
       formData: {
@@ -163,6 +163,19 @@ describe('schemaform createSaveInProgressInitialState', () => {
       }, {
         type: SET_IN_PROGRESS_FORM,
         data: _.set('formData', {}, data),
+        pages: {}
+      });
+
+      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.unfilled);
+    });
+    it('should handle undefined formData', () => {
+      const state = reducer({
+        data: {},
+        prefillStatus: PREFILL_STATUSES.pending,
+        pages: {}
+      }, {
+        type: SET_IN_PROGRESS_FORM,
+        data: { formData: undefined },
         pages: {}
       });
 

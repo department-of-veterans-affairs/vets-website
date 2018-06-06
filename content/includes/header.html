@@ -70,7 +70,7 @@
 <link rel="stylesheet" href="/generated/{{ entryname }}.css">
 
 {% else %}
-<link rel="stylesheet" href="/generated/no-react.css">
+<link rel="stylesheet" href="/generated/static-pages.css">
 {% endif %}
 
 <!-- Old IE -->
@@ -79,13 +79,14 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
+<script src="/js/record-event.js"></script>
 <script src="/js/settings.js"></script>
 
 <script defer src="/generated/vendor.entry.js"></script>
 {% if entryname %}
 <script defer src="/generated/{{ entryname }}.entry.js"></script>
 {% else %}
-<script defer src="/generated/no-react.entry.js"></script>
+<script defer src="/generated/static-pages.entry.js"></script>
 {% endif %}
 
 <!-- We participate in the US government’s analytics program. See the data at analytics.usa.gov. -->

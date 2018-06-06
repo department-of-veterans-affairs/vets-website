@@ -73,6 +73,7 @@ For all disability claims, please provide:
 </div>
 </div>
 <div markdown="0"><br></div>
+<div id="react-applicationStatus"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
@@ -118,8 +119,8 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">101.5 days</span>
-<span class="description">Average number of days to complete disability-related claims in February 2018</span>
+<span class="number">97.4 days</span>
+<span class="description">Average number of days to complete disability-related claims in May 2018</span>
 </div>
 </div>
 </div>

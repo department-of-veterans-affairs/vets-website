@@ -111,6 +111,6 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
 If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You’ll need to hire a VA-accredited attorney to represent you, or you may represent yourself. You’ll need to file your Court appeal within 120 days of the Board’s decision.
 [Learn how to file a Court appeal](https://www.uscourts.cavc.gov/appeal.php).
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->

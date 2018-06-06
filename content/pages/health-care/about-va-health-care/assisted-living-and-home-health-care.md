@@ -33,7 +33,7 @@ As a Veteran, you may be able to get assisted living, residential (live-in), or 
 
 ### What kinds of long-term care services does VA offer for sick or disabled Veterans?
 
-Our long-term care services include:
+**Our long-term care services include:**
 
 - 24/7 nursing and medical care
 - Physical therapy
@@ -41,7 +41,9 @@ Our long-term care services include:
 - Comfort care and help with managing pain
 - Support for caregivers who may need skilled help or a break so they can work, travel, or run errands
 
-You can get this care in many different settings—some run by VA and others run by state or community organizations that we inspect and approve, including:
+You can get this care in many different settings—some run by VA and others run by state or community organizations that we inspect and approve.
+
+**Care settings may include:**
 
 - Nursing homes
 - Assisted-living centers
@@ -49,7 +51,8 @@ You can get this care in many different settings—some run by VA and others run
 - Adult day health centers
 - Veterans’ own homes
 
-You can learn more about the different types of care below or on our va.gov website. [See our guide to long-term services and supports](https://www.va.gov/GERIATRICS/Guide/LongTermCare/index.asp).
+You can learn more about the different types of care below or on our va.gov website. <br>
+[See our guide to long-term services and supports](https://www.va.gov/GERIATRICS/Guide/LongTermCare/index.asp).
 
 </div>
 
@@ -57,7 +60,9 @@ You can learn more about the different types of care below or on our va.gov webs
 
 ### How do I access these services?
 
-You may be able to use one or more of these services if:
+You may be able to use one or more of these services if you meet all of the requirements listed below.
+
+**All of these must be true:**
 
 - You’re signed up for VA health care, **and**
 - We conclude that you need a specific service to help with your ongoing treatment and personal care, **and**
@@ -67,15 +72,17 @@ We may also consider other factors, like your service-connected disability statu
 
 To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-If you’re not currently in the VA health care program, you can apply for benefits now. [Apply now](/health-care/apply/).
+If you’re not currently in the VA health care program, you can apply for benefits now. <br>
+[Apply now](/health-care/apply/).
 
 <br>
 
 ### Does VA pay for these services?
 
-We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services. [Apply for VA health care](/health-care/apply/).
+We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services. <br>
+[Apply for VA health care](/health-care/apply/).
 
-Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.
+Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.</br>
 
 [Learn more about paying for long-term care](https://www.va.gov/geriatrics/guide/longtermcare/Paying_for_Long_Term_Care.asp#).
 
@@ -83,9 +90,12 @@ Other services aren’t covered under VA health care benefits. For these service
 
 ### Where can I get more information and support?
 
-- Get help setting goals and priorities and making tough decisions about things like long-term care. [Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
-- Find services and resources to help with geriatric (elder) and long-term care. [Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).
-- Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia. [Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
+- Get help setting goals and priorities and making tough decisions about things like long-term care. <br>
+[Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
+- Find services and resources to help with geriatric (elder) and long-term care. <br>
+[Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).
+- Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia. <br>
+[Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
 
 ------
 
@@ -105,11 +115,11 @@ Other services aren’t covered under VA health care benefits. For these service
 
 #### What are my options for nursing home care through VA?
 
-You can get nursing home care in 1 of the 3 different nursing home settings listed below. In each, you’d live there full time and have access to nursing and medical care as well as help with daily tasks 24 hours a day.
+You can get nursing home care in 1 of the 3 different nursing home settings listed below. In each, you’d live there full time and have access to nursing and medical care, as well as help with daily tasks 24 hours a day.
 
 You may be able to get VA benefits to help pay for nursing home care. It depends on your income and the level of your service-connected disability (a disability that resulted from your military service).
 
-Learn more about:
+**Learn more about:**
 
 [Community Living Centers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/VA_Community_Living_Centers.asp)
 VA nursing centers that are designed to feel like home
@@ -130,7 +140,7 @@ You may be able to get community residential (live-in) care in settings such as 
 
 These places are not run, staffed, or paid for by VA, but we do inspect and approve each one. And you may be able to use VA benefits to help pay for extra services (like visits from a VA health care provider).
 
-Learn more about:
+**Learn more about:**
 
 [Medical foster homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Medical_Foster_Homes.asp)
 Private homes where a few people live together and get care
@@ -149,7 +159,7 @@ Centers where Veterans can live in a rented room or apartment, and have access t
 
 If you’re signed up for VA health care, you can get help managing your disability or health condition while living at home. The services you qualify for will depend on your needs and whether a service is available in your area. If you need to, you may be able to use more than one service at the same time.
 
-Learn more about:
+**Learn more about:**
 
 [Home-based primary care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Home_Based_Primary_Care.asp)
 A VA health care team, led by a VA doctor, who provides services (like nursing care, physical therapy, and help with daily tasks) in your home
@@ -174,7 +184,7 @@ Skilled caregivers who come into your home to provide comfort care to help ease 
 
 If you’re signed up for VA health care, you can get home-based health care as part of your benefits. The services that you qualify for will depend on your needs.
 
-Learn more about:
+**Learn more about:**
 
 [Skilled home health care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp)
 Health care providers from a community-based home health agency who come to your house to provide care such as wound care, physical therapy, social work support, and help with daily tasks
@@ -188,6 +198,7 @@ A VA care coordinator who keeps track of your health remotely using special equi
 
 #### What if I have a family caregiver, but they need support to help care for me at home?
 
-You may be able to get a service called respite care as part of your VA health care benefits. This service pays for a person to come into your home—or for you to go to a program outside your home—while your family caregiver takes a break. [Learn more about respite care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Respite_Care.asp#).
+You may be able to get a service called respite care as part of your VA health care benefits. This service pays for a person to come into your home—or for you to go to a program outside your home—while your family caregiver takes a break. <br>
+[Learn more about respite care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Respite_Care.asp#).
 
 Other services for home health care (like adult day health care or skilled health aide services) listed above can also help to support caregivers.

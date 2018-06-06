@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { RoutedSavableApp } from '../../../../src/js/common/schemaform/save-in-progress/RoutedSavableApp';
-import { LOAD_STATUSES, PREFILL_STATUSES } from '../../../../src/js/common/schemaform/save-in-progress/actions';
+import { RoutedSavableApp } from '../../../../src/applications/common/schemaform/save-in-progress/RoutedSavableApp';
+import { LOAD_STATUSES, PREFILL_STATUSES } from '../../../../src/applications/common/schemaform/save-in-progress/actions';
 
 let oldWindow;
 
@@ -51,53 +51,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     expect(tree.everySubTree('.child')).not.to.be.empty;
     expect(tree.everySubTree('FormNav')).to.be.empty;
     expect(tree.everySubTree('FormTitle')).to.be.empty;
-  });
-  it('should render nav and children', () => {
-    const formConfig = {};
-    const currentLocation = {
-      pathname: 'test',
-      search: ''
-    };
-    const routes = [{
-      pageList: [{ path: currentLocation.pathname }]
-    }];
-
-    const tree = SkinDeep.shallowRender(
-      <RoutedSavableApp
-        formConfig={formConfig}
-        routes={routes}
-        currentLocation={currentLocation}
-        loadedStatus={LOAD_STATUSES.notAttempted}>
-        <div className="child"/>
-      </RoutedSavableApp>
-    );
-
-    expect(tree.everySubTree('.child')).not.to.be.empty;
-    expect(tree.everySubTree('FormNav')).not.to.be.empty;
-  });
-  it('should render form title', () => {
-    const formConfig = {
-      title: 'Testing'
-    };
-    const currentLocation = {
-      pathname: 'test',
-      search: ''
-    };
-    const routes = [{
-      pageList: [{ path: currentLocation.pathname }]
-    }];
-
-    const tree = SkinDeep.shallowRender(
-      <RoutedSavableApp
-        formConfig={formConfig}
-        routes={routes}
-        currentLocation={currentLocation}
-        loadedStatus={LOAD_STATUSES.notAttempted}>
-        <div className="child"/>
-      </RoutedSavableApp>
-    );
-
-    expect(tree.everySubTree('FormTitle')).not.to.be.empty;
   });
   it('should render the loading screen', () => {
     const formConfig = {

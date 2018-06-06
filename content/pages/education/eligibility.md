@@ -45,14 +45,23 @@ You can check to see if you have Post-9/11 GI Bill benefits. <br>
 
 You may be able to get benefits through 1 of our 2 Montgomery GI Bill programs: the Montgomery GI Bill Active Duty (MGIB-AD) or the Montgomery GI Bill Selected Reserve (MGIB-SR).
 
-You can get benefits through MGIB-AD if you served at least 2 years on active duty, and you:
+<br>
+
+**You can get benefits through MGIB-AD** if you served at least 2 years on active duty and you meet all of the requirements listed below.
+
+**All of these must be true. You:**
+
 - Were honorably discharged, **and**
 - Have a high school diploma, GED, or 12 hours of college credit, **and**
 - Meet other requirements
 
 [Learn more about MGIB-AD](/education/gi-bill/montgomery-active-duty/).
 
-You can get benefits through MGIB-SR if you’re a member of the Army, Navy, Air Force, Marine Corps or Cost Guard Reserves, Army National Guard, or Air National Guard, and you:
+<br>
+
+**You can get benefits through MGIB-SR** if you’re a member of the Army, Navy, Air Force, Marine Corps or Cost Guard Reserves, Army National Guard, or Air National Guard, and you meet all of the requirements listed below.
+
+**All of these must be true. You:**
 - Have either a 6-year service obligation (you agreed to serve 6 years) in the Selected Service, **or**
 - Are an officer in the Selected Reserve who agreed to serve 6 years in addition to your initial service obligation, **and**
 - Meet other requirements
@@ -107,9 +116,11 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 In some cases, the dependent or surviving spouse and children of a Veteran can get educational assistance through a GI Bill program. <br> [Learn more about Survivors’ and Dependents’ Assistance](/education/gi-bill/survivors-dependent-assistance/).
 
-Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. <br> [Learn more about transferring benefits](/education/gi-bill/transfer/).
+Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. <br> 
+[Learn more about transferring benefits](/education/gi-bill/transfer/).
 
-If you have a service-connected disability that limits your ability to work or prevents you from working, your dependent family members may be eligible for career and educational counseling—and other support—through the VR&E program. [Learn more about VR&E services for dependent family members](/employment/vocational-rehab-and-employment/family-members/).
+If you have a service-connected disability that limits your ability to work or prevents you from working, your dependent family members may be eligible for career and educational counseling—and other support—through the VR&E program. <br>
+[Learn more about VR&E services for dependent family members](/employment/vocational-rehab-and-employment/family-members/).
 
 </div>
 </div>

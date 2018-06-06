@@ -4,6 +4,7 @@ permalink: /faq.html
 title: Frequently Asked Questions about Signing In to Vets.gov
 display_title: Frequently Asked Questions
 ---
+
 <main itemscope itemtype="http://schema.org/FAQPage">
   <div class="row">
     <article class="usa-content columns faq-page">
@@ -20,7 +21,7 @@ display_title: Frequently Asked Questions
               <div class="feature">
                 <h4>Need help?</h4>
                 <p>
-                  Please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+                  Please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339"> 1-800-877-8339</a>). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
                 </p>
               </div>
             </div>
@@ -40,13 +41,14 @@ display_title: Frequently Asked Questions
                           <li>With your existing <strong>DS Logon</strong> account, <strong>or</strong></li>
                           <li>By creating an account through ID.me (a trusted partner)</li>
                         </ul>
-                        <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all Vets.gov tools. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on Vets.gov, like checking your claims status or sending a secure message to your health care team.</p> 
+                        <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all Vets.gov tools. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on Vets.gov, like checking your claims status or sending a secure message to your health care team.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
                   </li>
                 </ul>
                 <br/>
+                <a name="verifying-your-identity"></a>
                 <h4>Verifying your identity on Vets.gov</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -195,7 +197,7 @@ display_title: Frequently Asked Questions
                         </ul>
                       </div>
                     </div>
-                  </li> 
+                  </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-2" itemprop="name">What should I do if my credit is frozen and I’m trying to verify my identity? </button>
                     <div id="faq-trouble-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -320,8 +322,7 @@ display_title: Frequently Asked Questions
   </div>
 </main>
 
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
 
 <script type="text/javascript">
 (function() {
@@ -340,6 +341,5 @@ display_title: Frequently Asked Questions
   }
 })();
 </script>
-
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->

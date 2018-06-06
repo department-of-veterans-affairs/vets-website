@@ -4,9 +4,9 @@
 require('babel-core/register');
 
 module.exports = {
-  src_folders: ['./test'],
+  src_folders: ['./src', './test'],
   output_folder: './logs/nightwatch',
-  custom_commands_path: './test/util/nightwatch-commands',
+  custom_commands_path: './src/platform/testing/e2e/nightwatch-commands',
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: process.env.BUILDTYPE === 'production',
@@ -15,7 +15,7 @@ module.exports = {
   test_settings: {
     'default': {
       launch_url: 'http://ondemand.saucelabs.com:80',
-      filter: './test/**/*.e2e.spec.js',
+      filter: '**/*.e2e.spec.js',
       selenium_host: 'ondemand.saucelabs.com',
       selenium_port: 80,
       username: 'vetsdotgov',

@@ -1,52 +1,12 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import ReviewCollapsibleChapter from '../../../../src/js/common/schemaform/review/ReviewCollapsibleChapter';
+import ReviewCollapsibleChapter from '../../../../src/applications/common/schemaform/review/ReviewCollapsibleChapter';
 
 describe('<ReviewCollapsibleChapter>', () => {
-  it('should handle toggling chapter', () => {
-    const onEdit = sinon.spy();
-    const pages = [{
-      pageKey: 'test',
-      title: '',
-      schema: {
-        properties: {}
-      }
-    }];
-    const chapterKey = 'test';
-    const chapter = {};
-    const form = {
-      pages: {
-        test: {
-          title: '',
-          editMode: false,
-          schema: {
-            properties: {}
-          }
-        }
-      },
-      data: {}
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <ReviewCollapsibleChapter
-        viewedPages={new Set()}
-        onEdit={onEdit}
-        pages={pages}
-        chapterKey={chapterKey}
-        chapter={chapter}
-        form={form}/>
-    );
-
-    expect(tree.everySubTree('.form-review-panel-page')).to.be.empty;
-
-    tree.getMountedInstance().toggleChapter();
-
-    expect(tree.everySubTree('.form-review-panel-page')).not.to.be.empty;
-  });
-
   it('should handle editing', () => {
     const onEdit = sinon.spy();
     const pages = [{
@@ -73,9 +33,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={onEdit}
-        pages={pages}
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
@@ -86,10 +46,6 @@ describe('<ReviewCollapsibleChapter>', () => {
 
   it('should handle editing array page', () => {
     const onEdit = sinon.spy();
-    const pages = [{
-      title: '',
-      pageKey: 'test'
-    }];
     const chapterKey = 'test';
     const chapter = {};
     const form = {
@@ -113,9 +69,8 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={onEdit}
-        pages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
@@ -127,6 +82,12 @@ describe('<ReviewCollapsibleChapter>', () => {
   it('should display a page for each item for an array page', () => {
     const onEdit = sinon.spy();
     const pages = [{
+      title: '',
+      pageKey: 'test',
+      showPagePerItem: true,
+      arrayPath: 'testing',
+      path: 'path/:index'
+    }, {
       title: '',
       pageKey: 'test',
       showPagePerItem: true,
@@ -165,13 +126,13 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={onEdit}
-        pages={pages}
+        open
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
-    tree.getMountedInstance().toggleChapter();
     expect(tree.everySubTree('.form-review-panel-page').length).to.equal(2);
   });
 
@@ -222,15 +183,15 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={() => {}}
-        pages={pages}
+        open
+        pageKeys={['test1', 'test2', 'test3']}
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 
-    tree.getMountedInstance().toggleChapter();
-
-    expect(tree.everySubTree('.form-review-panel-page')).to.have.length(1);
+    expect(tree.everySubTree('.form-review-panel-page')).to.have.length(2);
   });
 
   it('should display condition pages with fulfilled conditions', () => {
@@ -279,13 +240,12 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={() => {}}
-        pages={pages}
+        open
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
-
-    tree.getMountedInstance().toggleChapter();
 
     expect(tree.everySubTree('.form-review-panel-page')).to.have.length(2);
   });
@@ -314,24 +274,21 @@ describe('<ReviewCollapsibleChapter>', () => {
     };
     const setPagesViewed = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
+    const wrapper = mount(
       <ReviewCollapsibleChapter
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
         onEdit={onEdit}
-        pages={pages}
+        open
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
+        showUnviewedPageWarning
         form={form}/>
     );
 
-    tree.getMountedInstance().toggleChapter();
-    expect(tree.everySubTree('.schemaform-review-chapter-warning').length).to.equal(1);
-    expect(tree.everySubTree('.schemaform-review-page-warning').length).to.equal(1);
-
-    // Closing chapter should mark as viewed
-    tree.getMountedInstance().toggleChapter();
-    expect(setPagesViewed.firstCall.args[0]).to.eql(['test']);
+    expect(wrapper.find('.schemaform-review-chapter-warning').length).to.equal(1);
+    expect(wrapper.find('.schemaform-review-page-warning').length).to.equal(1);
   });
   it('should handle submitting array page', () => {
     const onEdit = sinon.spy();
@@ -364,9 +321,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         viewedPages={new Set()}
         onEdit={onEdit}
         setData={setData}
-        pages={pages}
+        expandedPages={pages}
         chapterKey={chapterKey}
-        chapter={chapter}
+        chapterFormConfig={chapter}
         form={form}/>
     );
 

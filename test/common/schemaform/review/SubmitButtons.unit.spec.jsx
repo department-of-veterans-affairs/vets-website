@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import SubmitButtons from '../../../../src/js/common/schemaform/review/SubmitButtons';
+import SubmitButtons from '../../../../src/applications/common/schemaform/review/SubmitButtons';
 
 describe('Schemaform review: <SubmitButtons>', () => {
   it('should render', () => {
