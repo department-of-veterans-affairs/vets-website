@@ -1,7 +1,7 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import Raven from 'raven-js';
 import { setPrestartStatus } from '../../../common/schemaform/save-in-progress/actions';
-import { PRESTART_STATUSES, prestartSuccessStatuses } from '../helpers';
+import { PRESTART_STATUSES } from '../helpers';
 
 export function checkITFRequest(dispatch) {
 
