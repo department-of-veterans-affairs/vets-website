@@ -92,7 +92,7 @@ class ContactInformationContent extends React.Component {
           isEditing={currentlyOpenModal === FIELD_NAMES.RESIDENTIAL_ADDRESS}
           onEdit={recordedAction('edit-link', 'residential-address', this.openModalHandler(FIELD_NAMES.RESIDENTIAL_ADDRESS))}
           onAdd={recordedAction('add-link', 'residential-address', this.openModalHandler(FIELD_NAMES.RESIDENTIAL_ADDRESS))}
-          onSubmit={recordedAction('update-button', 'residential-address', updateActions.updateMailingAddress)}
+          onSubmit={recordedAction('update-button', 'residential-address', updateActions.updateResidentialAddress)}
           onCancel={recordedAction('cancel-button', 'residential-address', this.closeModal)}
           addressConstants={addressConstants}/>
 
@@ -137,20 +137,6 @@ class ContactInformationContent extends React.Component {
           onAdd={recordedAction('add-link', 'work-telephone', this.openModalHandler(FIELD_NAMES.WORK_PHONE))}
           onSubmit={recordedAction('update-button', 'work-telephone', updateActions.updateWorkPhone)}
           onCancel={recordedAction('cancel-button', 'work-telephone', this.closeModal)}/>
-
-        <PhoneSection
-          title="Temporary Phone"
-          phoneData={vet360[FIELD_NAMES.TEMP_PHONE]}
-          transaction={transactions[FIELD_NAMES.TEMP_PHONE]}
-          getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.TEMP_PHONE)}
-          field={formFields[FIELD_NAMES.TEMP_PHONE]}
-          clearErrors={clearErrors}
-          onChange={updateFormFieldActions[FIELD_NAMES.TEMP_PHONE]}
-          isEditing={currentlyOpenModal === FIELD_NAMES.TEMP_PHONE}
-          onEdit={recordedAction('edit-link', 'temporary-telephone', this.openModalHandler(FIELD_NAMES.TEMP_PHONE))}
-          onAdd={recordedAction('add-link', 'temporary-telephone', this.openModalHandler(FIELD_NAMES.TEMP_PHONE))}
-          onSubmit={recordedAction('update-button', 'temporary-telephone', updateActions.updateTemporaryPhone)}
-          onCancel={recordedAction('cancel-button', 'temporary-telephone', this.closeModal)}/>
 
         <PhoneSection
           title="Fax Number"

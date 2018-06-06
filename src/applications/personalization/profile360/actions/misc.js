@@ -17,10 +17,11 @@ export function clearMessage() {
   return { type: CLEAR_MESSAGE };
 }
 
-function validateEmail({ email }) {
+function validateEmail({ emailAddress: email }) {
   return isValidEmail(email) ? '' : 'Please enter a valid email.';
 }
 
+// TODO ensure field names are valid and function is called
 function validateTelephone({ number }) {
   return isValidPhone(number) ? '' : 'Please enter a valid phone.';
 }
@@ -39,6 +40,7 @@ function cleanEmailDataForUpdate(value) {
 
 function cleanPhoneDataForUpdate(value) {
   const {
+    id,
     areaCode,
     countryCode,
     extension,
@@ -47,6 +49,7 @@ function cleanPhoneDataForUpdate(value) {
   } = value;
 
   return {
+    id,
     areaCode,
     countryCode,
     extension,
@@ -58,6 +61,7 @@ function cleanPhoneDataForUpdate(value) {
 
 function cleanAddressDataForUpdate(value) {
   const {
+    id,
     addressLine1,
     addressLine2,
     addressLine3,
@@ -70,6 +74,7 @@ function cleanAddressDataForUpdate(value) {
   } = value;
 
   return {
+    id,
     addressLine1,
     addressLine2,
     addressLine3,
@@ -86,7 +91,6 @@ function cleanAddressDataForUpdate(value) {
 function updateProfileFormField(field, validator, type) {
   return (value, dirty) => {
     const errorMessage = validator && dirty ? validator(value) : '';
-
     let cleanValue = value;
 
     switch (type) {

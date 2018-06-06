@@ -5,7 +5,6 @@ import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Transaction from './Transaction';
-import { fieldFailureMessage } from './LoadFail';
 
 class EditEmailModal extends React.Component {
 
@@ -66,14 +65,12 @@ export default function EmailSection({ emailData, transaction, getTransactionSta
 
   if (transaction && !transaction.isPending && !transaction.isFailed) {
     content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="email"/>;
-  } else if (emailData) {
-    if (emailData.emailAddress) {
+  } else {
+    if (emailData && emailData.emailAddress) {
       content = emailData.emailAddress;
     } else {
       content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your email address</button>;
     }
-  } else {
-    content = fieldFailureMessage;
   }
 
   if (isEditing) {

@@ -59,8 +59,8 @@ function vaProfile(state = initialState, action) {
 
     case FETCH_ADDRESS_CONSTANTS_SUCCESS: {
       const flattened = {
-        states: action.addressConstants.states.states,
-        countries: action.addressConstants.countries.countries,
+        states: action.addressConstants.states,
+        countries: action.addressConstants.countries,
       };
       return { ...state, addressConstants: flattened };
     }

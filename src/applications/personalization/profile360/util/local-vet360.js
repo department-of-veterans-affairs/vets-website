@@ -6,6 +6,10 @@ export function isVet360Configured() {
 }
 
 export const mockContactInformation = {
+  email: {
+    id: 100,
+    emailAddress: 'asdf@asdf.com'
+  },
   mobilePhone: {
     areaCode: '503',
     countryCode: '1',
@@ -40,7 +44,8 @@ export const mockContactInformation = {
     sourceDate: '2018-04-21T20:09:50Z',
     updatedAt: '2018-04-21T20:09:50Z'
   },
-  faxNumber: {},
+  workPhone: null,
+  faxNumber: null,
   temporaryPhone: {
     areaCode: '503',
     countryCode: '1',
@@ -65,7 +70,7 @@ export const mockContactInformation = {
     addressPou: 'CORRESPONDENCE',
     addressType: 'domestic',
     city: 'Fulton',
-    countryName: 'USA',
+    countryName: 'United States',
     countryCodeFips: 'US',
     countryCodeIso2: 'US',
     countryCodeIso3: 'USA',

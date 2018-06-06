@@ -59,7 +59,7 @@ export function getProfile() {
           middle: userData.middle_name,
           last: userData.last_name,
         },
-        vet360: isVet360Configured() ? camelCaseObjectKeys(json.data.attributes.vet360_contact_information) : mockContactInformation,
+        vet360: isVet360Configured() ? camelCaseObjectKeys(json.data.attributes.vet360_contact_information) : camelCaseObjectKeys(mockContactInformation),
         authnContext: userData.authn_context,
         loa: userData.loa,
         multifactor: userData.multifactor,
