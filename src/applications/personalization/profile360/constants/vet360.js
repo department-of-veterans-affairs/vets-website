@@ -18,3 +18,11 @@ export const FIELD_NAMES = {
   MAILING_ADDRESS: 'mailingAddress',
   RESIDENTIAL_ADDRESS: 'residentialAddress'
 };
+
+export const PHONE_TYPE = {
+  mobilePhone: 'MOBILE',
+  workPhone: 'WORK',
+  temporaryPhone: 'TEMPORARY',
+  faxNumber: 'FAX',
+  homePhone: 'HOME',
+};

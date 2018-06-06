@@ -41,7 +41,8 @@ export const mockContactInformation = {
     sourceDate: '2018-04-21T20:09:50Z',
     updatedAt: '2018-04-21T20:09:50Z'
   },
-  faxNumber: {},
+  workPhone: null,
+  faxNumber: null,
   temporaryPhone: {
     areaCode: '503',
     countryCode: '1',
