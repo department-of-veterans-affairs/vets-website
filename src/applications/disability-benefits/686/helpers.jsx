@@ -104,7 +104,7 @@ export const otherRelationshipDescription = (
   <div className="usa-alert usa-alert-info no-background-image">You’re applying on <strong>behalf</strong> of the Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for the Veteran's information as the sponsor.</div>
 );
 
-export function isVeteran(item) {
+export function isNotVeteran(item) {
   return get('view:relationshipToVet', item) !== '1';
 }
 

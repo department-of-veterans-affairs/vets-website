@@ -7,7 +7,7 @@ import { DefinitionTester, fillData } from '../../../../../platform/testing/unit
 import formConfig from '../../config/form';
 
 describe('686 applicant information', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformationConditional;
+  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.claimantInformation;
   const notVeteranCondition = () => {
     return {
       'view:relationshipToVet': '2'

@@ -30,7 +30,7 @@ import {
   spouseRelationshipDescription,
   childRelationshipDescription,
   otherRelationshipDescription,
-  isVeteran
+  isNotVeteran
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -169,10 +169,10 @@ const formConfig = {
             }
           }
         },
-        applicantInformationConditional: {
-          path: 'applicant-information-part-2',
+        claimantInformation: {
+          path: 'claimant-information',
           title: 'Applicant Information',
-          depends: isVeteran,
+          depends: isNotVeteran,
           uiSchema: {
             claimantSocialSecurityNumber: ssnUI,
             claimantAddress: address.uiSchema('Address'),
