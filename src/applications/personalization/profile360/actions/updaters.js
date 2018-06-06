@@ -68,8 +68,10 @@ export function getTransactionStatus(transaction, fieldName) {
 
 function createPhoneObject(phoneFormData, fieldName) {
   const strippedPhone = phoneFormData.phoneNumber.replace(/[^\d]/g, '');
+  const strippedExtension = phoneFormData.extension.replace(/[^a-zA-Z0-9]/g, '');
   return {
     ...phoneFormData,
+    extension: strippedExtension === '' ? null : phoneFormData.extension,
     phoneNumber: strippedPhone.substring(3),
     areaCode: strippedPhone.substring(0, 3),
     phoneType: VET360_CONSTANTS.PHONE_TYPE[fieldName],
@@ -89,6 +91,7 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
       const currentState = getState();
       const currentFieldValue = currentState.user.profile.vet360[fieldName];
       const method = currentFieldValue ? 'PUT' : 'POST';
+
       let fieldData = nextFieldValue;
 
       switch (fieldType) {
