@@ -30,8 +30,7 @@ import {
   spouseRelationshipDescription,
   childRelationshipDescription,
   otherRelationshipDescription,
-  // isVeteran,
-  // VAFileNumberDescription
+  isVeteran
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -44,7 +43,6 @@ const {
   spouseIsVeteran,
   claimantSocialSecurityNumber,
   claimantFullName,
-  // veteranSocialSecurityNumber,
   dependents
 } = fullSchema686.properties;
 
@@ -133,7 +131,6 @@ const formConfig = {
           uiSchema: {
             'ui:description': applicantDescription,
             claimantFullName: fullNameUI,
-            claimantSocialSecurityNumber: ssnUI,
             'view:relationshipToVet': {
               'ui:title': 'Relationship to Veteran',
               'ui:widget': 'radio',
@@ -156,12 +153,10 @@ const formConfig = {
             type: 'object',
             required: [
               'claimantFullName',
-              'claimantSocialSecurityNumber',
               'view:relationshipToVet'
             ],
             properties: {
               claimantFullName,
-              claimantSocialSecurityNumber,
               'view:relationshipToVet': {
                 type: 'string',
                 'enum': [
@@ -171,6 +166,23 @@ const formConfig = {
                   '4'
                 ]
               }
+            }
+          }
+        },
+        applicantInformationConditional: {
+          path: 'applicant-information-part-2',
+          title: 'Applicant Information',
+          depends: isVeteran,
+          uiSchema: {
+            claimantSocialSecurityNumber: ssnUI,
+            claimantAddress: address.uiSchema('Address'),
+          },
+          schema: {
+            type: 'object',
+            required: ['claimantSocialSecurityNumber'],
+            properties: {
+              claimantSocialSecurityNumber,
+              claimantAddress: address.schema(fullSchema686, true),
             }
           }
         }

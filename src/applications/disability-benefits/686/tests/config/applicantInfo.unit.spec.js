@@ -17,7 +17,7 @@ describe('686 applicant information', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(1);
   });
 
@@ -31,7 +31,7 @@ describe('686 applicant information', () => {
         uiSchema={uiSchema}/>
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -48,7 +48,6 @@ describe('686 applicant information', () => {
 
     fillData(form, 'input#root_claimantFullName_first', 'test');
     fillData(form, 'input#root_claimantFullName_last', 'test');
-    fillData(form, 'input#root_claimantSocialSecurityNumber', '222-23-2425');
     selectRadio(form, 'root_view:relationshipToVet', '1');
 
     form.find('form').simulate('submit');

@@ -105,7 +105,7 @@ export const otherRelationshipDescription = (
 );
 
 export function isVeteran(item) {
-  return get('application.claimant.relationshipToVet', item) === '1';
+  return get('view:relationshipToVet', item) !== '1';
 }
 
 export function isSpouse(item) {
