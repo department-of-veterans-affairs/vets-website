@@ -76,6 +76,9 @@ switch (options.buildtype) {
     }
     break;
 
+  case 'devpreview':
+    break;
+
   default:
     throw new Error(`Unknown buildtype: '${options.buildtype}'`);
 }
