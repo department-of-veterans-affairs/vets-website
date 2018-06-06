@@ -87,7 +87,7 @@ export default function PhoneSection({ phoneData, transaction, getTransactionSta
     content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="phone number"/>;
   } else {
     if (phoneData && phoneData.phoneNumber) {
-      const phoneNumber = <PhoneNumberWidget value={`${phoneData.areaCode}${phoneData.phoneNumber}`}/>;
+      const phoneNumber = <PhoneNumberWidget value={phoneData.phoneNumber}/>;
       const countryCode = phoneData.countryCode && <span>+ {phoneData.countryCode}</span>;
       const extension = phoneData.extension && <span>x{phoneData.extension}</span>;
       content = <div>{countryCode} {phoneNumber} {extension}</div>;

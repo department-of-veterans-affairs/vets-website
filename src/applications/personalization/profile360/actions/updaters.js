@@ -91,6 +91,7 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
       const currentState = getState();
       const currentFieldValue = currentState.user.profile.vet360[fieldName];
       const method = currentFieldValue ? 'PUT' : 'POST';
+
       let fieldData = nextFieldValue;
 
       switch (fieldType) {

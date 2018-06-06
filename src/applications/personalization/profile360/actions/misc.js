@@ -17,10 +17,11 @@ export function clearMessage() {
   return { type: CLEAR_MESSAGE };
 }
 
-function validateEmail({ email }) {
+function validateEmail({ emailAddress: email }) {
   return isValidEmail(email) ? '' : 'Please enter a valid email.';
 }
 
+// TODO ensure field names are valid and function is called
 function validateTelephone({ number }) {
   return isValidPhone(number) ? '' : 'Please enter a valid phone.';
 }
