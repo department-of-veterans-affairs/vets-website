@@ -1,6 +1,7 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 // import recordEvent from '../../../../platform/monitoring/record-event';
 // import { kebabCase } from 'lodash';
+import { pickBy } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
@@ -69,7 +70,8 @@ export function getTransactionStatus(transaction, fieldName) {
 // TODO: reconcile this with data object cleaning in misc/form update reducer
 // inputPhoneNumber is stripped here because it is only used for display in the form
 function createPhoneObject(phoneFormData, fieldName) {
-  return {
+  // strip falsy values like '', null so vet360 does not reject
+  return pickBy({
     id: phoneFormData.id,
     areaCode: phoneFormData.areaCode,
     countryCode: phoneFormData.countryCode,
@@ -77,7 +79,7 @@ function createPhoneObject(phoneFormData, fieldName) {
     phoneNumber: phoneFormData.phoneNumber,
     isInternational: phoneFormData.isInternational,
     phoneType: VET360_CONSTANTS.PHONE_TYPE[fieldName],
-  };
+  }, e => !!e);
 }
 
 function createAddressObject(addressFormData, fieldName) {
