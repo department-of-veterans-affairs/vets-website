@@ -66,14 +66,16 @@ export function getTransactionStatus(transaction, fieldName) {
   };
 }
 
+// TODO: reconcile this with data object cleaning in misc/form update reducer
+// inputPhoneNumber is stripped here because it is only used for display in the form
 function createPhoneObject(phoneFormData, fieldName) {
-  const strippedPhone = phoneFormData.phoneNumber.replace(/[^\d]/g, '');
-  const strippedExtension = phoneFormData.extension.replace(/[^a-zA-Z0-9]/g, '');
   return {
-    ...phoneFormData,
-    extension: strippedExtension === '' ? null : phoneFormData.extension,
-    phoneNumber: strippedPhone.substring(3),
-    areaCode: strippedPhone.substring(0, 3),
+    id: phoneFormData.id,
+    areaCode: phoneFormData.areaCode,
+    countryCode: phoneFormData.countryCode,
+    extension: phoneFormData.extension,
+    phoneNumber: phoneFormData.phoneNumber,
+    isInternational: phoneFormData.isInternational,
     phoneType: VET360_CONSTANTS.PHONE_TYPE[fieldName],
   };
 }

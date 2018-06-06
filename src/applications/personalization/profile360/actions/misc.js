@@ -41,21 +41,24 @@ function cleanEmailDataForUpdate(value) {
 function cleanPhoneDataForUpdate(value) {
   const {
     id,
-    areaCode,
     countryCode,
     extension,
     phoneType,
-    phoneNumber,
+    inputPhoneNumber,
   } = value;
+
+  const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
+  const strippedExtension = extension.replace(/[^a-zA-Z0-9]/g, '');
 
   return {
     id,
-    areaCode,
+    areaCode: strippedPhone.substring(0, 3),
     countryCode,
-    extension,
+    extension: strippedExtension,
     phoneType,
-    phoneNumber,
+    phoneNumber: strippedPhone.substring(3),
     isInternational: countryCode !== '1',
+    inputPhoneNumber,
   };
 }
 
