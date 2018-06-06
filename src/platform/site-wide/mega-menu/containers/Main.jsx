@@ -102,6 +102,81 @@ export class Main extends React.Component {
             ]
           },
         ]
+      },
+      {
+        title: 'Doing all the stuff',
+        menuSections: [
+          {
+            title: 'Disabilty',
+            links: [
+              {
+                text: 'Disability Benefits Overview',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Eligibility',
+                href: '/disability-benefits/eligibility/',
+              },
+              {
+                text: 'Application Process',
+                href: '/disability-benefits/apply/',
+              },
+              {
+                text: 'Conditions',
+                href: '/disability-benefits/conditions/',
+              },
+              {
+                text: 'Track Your Claims and Appeals',
+                href: '/track-claims/',
+                className: 'login-required',
+              },
+              {
+                text: 'Appeals Process',
+                href: '/disability-benefits/claims-appeal/',
+              },
+              {
+                text: 'Go to eBenefits to Apply include "assets/img/icons/exit-icon-white.svg"',
+                href: 'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
+                className: 'usa-button va-button-primary va-external--light',
+              },
+            ]
+          },
+          {
+            title: 'New Disabilty',
+            links: [
+              {
+                text: 'Disability Benefits Overview',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Eligibility',
+                href: '/disability-benefits/eligibility/',
+              },
+              {
+                text: 'Application Process',
+                href: '/disability-benefits/apply/',
+              },
+              {
+                text: 'Conditions',
+                href: '/disability-benefits/conditions/',
+              },
+              {
+                text: 'Track Your Claims and Appeals',
+                href: '/track-claims/',
+                className: 'login-required',
+              },
+              {
+                text: 'Appeals Process',
+                href: '/disability-benefits/claims-appeal/',
+              },
+              {
+                text: 'Go to eBenefits to Apply include "assets/img/icons/exit-icon-white.svg"',
+                href: 'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
+                className: 'usa-button va-button-primary va-external--light',
+              },
+            ]
+          },
+        ]
       }
     ];
 
@@ -115,8 +190,8 @@ export class Main extends React.Component {
               {
                 data.map((item, i) => (
                   <MainDropDown
-                    key="{i}-stuff"
-                    title="Explore and Apply for Benefits">
+                    key={i + 'stuff'}
+                    title={item.title}>
                     {
                       item.menuSections.map((section, i) => (
                         <MenuSection
