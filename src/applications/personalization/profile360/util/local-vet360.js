@@ -6,6 +6,7 @@ export function isVet360Configured() {
 }
 
 export const mockContactInformation = {
+  email: null,
   mobilePhone: {
     areaCode: '503',
     countryCode: '1',

@@ -6,7 +6,6 @@ import Modal from '@department-of-veterans-affairs/formation/Modal';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Transaction from './Transaction';
-import { fieldFailureMessage } from './LoadFail';
 
 class EditPhoneModal extends React.Component {
 
@@ -86,10 +85,8 @@ export default function PhoneSection({ phoneData, transaction, getTransactionSta
 
   if (transaction && !transaction.isPending && !transaction.isFailed) {
     content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="phone number"/>;
-  } else if (!phoneData) {
-    content = fieldFailureMessage;
   } else {
-    if (phoneData.phoneNumber) {
+    if (phoneData && phoneData.phoneNumber) {
       const phoneNumber = <PhoneNumberWidget value={`${phoneData.areaCode}${phoneData.phoneNumber}`}/>;
       const countryCode = phoneData.countryCode && <span>+ {phoneData.countryCode}</span>;
       const extension = phoneData.extension && <span>x{phoneData.extension}</span>;

@@ -71,7 +71,7 @@ function updateVet360Field(apiRoute, fieldName) {
     return async (dispatch, getState) => {
       const currentState = getState();
       const currentFieldValue = currentState.user.profile.vet360[fieldName];
-      const method = currentFieldValue === null ? 'POST' : 'PUT'; // @todo Is this what an uninitialized Vet360 field looks like?
+      const method = currentFieldValue === null ? 'POST' : 'PUT';
       const options = {
         body: JSON.stringify(nextFieldValue),
         method,
