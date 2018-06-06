@@ -48,7 +48,7 @@ function cleanPhoneDataForUpdate(value) {
   } = value;
 
   const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
-  const strippedExtension = extension.replace(/[^a-zA-Z0-9]/g, '');
+  const strippedExtension = (extension || '').replace(/[^a-zA-Z0-9]/g, '');
 
   return {
     id,
