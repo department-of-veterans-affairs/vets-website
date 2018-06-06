@@ -39,7 +39,7 @@ export default {
   ],
   disabilities: [
     {
-      diagnosticCode: 1234,
+      diagnosticCode: 5420,
       name: 'Post traumatic stress disorder',
       ratedDisabilityId: '9459392',
       ratingDecisionId: '63655',
