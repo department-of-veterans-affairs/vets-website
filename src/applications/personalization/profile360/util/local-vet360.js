@@ -67,7 +67,7 @@ export const mockContactInformation = {
     addressPou: 'CORRESPONDENCE',
     addressType: 'domestic',
     city: 'Fulton',
-    countryName: 'USA',
+    countryName: 'United States',
     countryCodeFips: 'US',
     countryCodeIso2: 'US',
     countryCodeIso3: 'USA',

@@ -65,7 +65,7 @@ class Address extends React.Component {
 
   render() {
     const errorMessages = this.props.errorMessages;
-    const isUSA = this.props.address.countryName === 'USA';
+    const isUSA = this.props.address.countryName === 'United States';
     const adjustedStateNames = this.getAdjustedStateNames();
 
     return (
