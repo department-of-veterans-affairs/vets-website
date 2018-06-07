@@ -255,12 +255,15 @@ const formConfig = {
                       if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
-                      return !!homelessness.pointOfContact.primaryPhone;
+                      return !!homelessOrAtRisk.pointOfContact.primaryPhone;
                     }
                   },
                   primaryPhone: {
                     'ui:title': 'Phone number',
                     'ui:widget': PhoneNumberWidget,
+                    'ui:options': {
+                      widgetClassNames: 'va-input-medium-large'
+                    },
                     'ui:errorMessages': {
                       pattern: 'Phone numbers must be 10 digits (dashes allowed)'
                     },
@@ -269,7 +272,7 @@ const formConfig = {
                       if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
-                      return !!homelessness.pointOfContact.pointOfContactName;
+                      return !!homelessOrAtRisk.pointOfContact.pointOfContactName;
                     }
                   }
                 }
