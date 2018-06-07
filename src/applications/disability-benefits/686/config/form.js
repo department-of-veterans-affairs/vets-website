@@ -174,8 +174,10 @@ const formConfig = {
           title: 'Applicant Information',
           depends: isNotVeteran,
           uiSchema: {
-            claimantSocialSecurityNumber: ssnUI,
-            claimantAddress: address.uiSchema('Address'),
+            claimantSocialSecurityNumber: _.merge(ssnUI, {
+              'ui:title': 'Your Social Security number'
+            }),
+            claimantAddress: address.uiSchema('Your address'),
           },
           schema: {
             type: 'object',
