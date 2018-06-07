@@ -92,6 +92,7 @@ function createAddressObject(addressFormData, fieldName) {
     city: addressFormData.city,
     countryName: addressFormData.countryName,
     stateCode: addressFormData.stateCode,
+    internationalPostalCode: addressFormData.internationalPostalCode,
     zipCode: addressFormData.zipCode,
     addressPou: fieldName === 'mailingAddress' ? 'CORRESPONDENCE' : 'RESIDENCE/CHOICE',
   }, e => !!e);

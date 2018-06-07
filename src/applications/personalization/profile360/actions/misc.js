@@ -85,7 +85,10 @@ function cleanAddressDataForUpdate(value) {
     countryName,
     stateCode,
     zipCode,
+    internationalPostalCode,
   } = value;
+
+  const addressType = inferAddressType(countryName, stateCode);
 
   return {
     id,
@@ -93,11 +96,12 @@ function cleanAddressDataForUpdate(value) {
     addressLine2,
     addressLine3,
     addressPou,
-    addressType: inferAddressType(countryName, stateCode),
+    addressType,
     city,
     countryName,
     stateCode,
-    zipCode,
+    zipCode: addressType !== 'INTERNATIONAL' ? zipCode : null,
+    internationalPostalCode: addressType === 'INTERNATIONAL' ? internationalPostalCode : null,
   };
 }
 
