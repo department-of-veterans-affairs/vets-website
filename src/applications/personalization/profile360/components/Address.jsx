@@ -133,6 +133,16 @@ class Address extends React.Component {
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('zipCode', update)}
           onBlur={() => this.props.onBlur('zipCode')}/>}
+
+        {!isUSA && <ErrorableTextInput errorMessage={errorMessages.internationalPostalCode}
+          additionalClass="usa-input-medium"
+          label={'International postal code'}
+          name="internationalPostalCode"
+          autocomplete="international-postal-code"
+          value={this.props.address.internationalPostalCode}
+          required={this.props.required}
+          onValueChange={(update) => this.props.onInput('internationalPostalCode', update)}
+          onBlur={() => this.props.onBlur('internationalPostalCode')}/>}
       </div>
     );
   }
@@ -145,7 +155,8 @@ const addressShape = PropTypes.shape({
   city: PropTypes.string,
   stateCode: PropTypes.string,
   countryName: PropTypes.string,
-  zipCode: PropTypes.string
+  zipCode: PropTypes.string,
+  internationalPostalCode: PropTypes.string
 });
 
 Address.propTypes = {
