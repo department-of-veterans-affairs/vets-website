@@ -8,6 +8,7 @@ import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWid
 import ReviewCardField from '../components/ReviewCardField';
 
 import { PrimaryAddressViewField } from '../helpers';
+import { omitRequired } from '../../../common/schemaform/helpers.js';
 
 // Used in our validations
 const MILITARY_STATES = ['AA', 'AE', 'AP'];
@@ -56,6 +57,8 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
 }
+
+const hasForwardingAddress = (veteran) => (veteran['view:hasForwardingAddress'] === true);
 
 const states = [
   'AL',
@@ -556,23 +559,27 @@ export const uiSchema = {
         ],
         effectiveDate: dateUI('Effective date'),
         country: {
-          'ui:required': ({ veteran }) => (veteran['view:hasForwardingAddress'] === true),
+          'ui:required': ({ veteran }) => (hasForwardingAddress(veteran)),
 
         },
         addressLine1: {
-          'ui:required': ({ veteran }) => (veteran['view:hasForwardingAddress'] === true)
+          'ui:required': ({ veteran }) => (hasForwardingAddress(veteran))
         },
         city: {
-          'ui:required': ({ veteran }) => (veteran['view:hasForwardingAddress'] === true)
+          'ui:required': ({ veteran }) => (hasForwardingAddress(veteran))
         },
         state: {
-          'ui:required': ({ veteran }) => (veteran.forwardingAddress.country === 'USA'),
+          'ui:required': ({ veteran }) => (
+            hasForwardingAddress(veteran)
+            && veteran.forwardingAddress.country === 'USA'),
           'ui:options': {
             hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== 'USA')
           }
         },
         zipCode: {
-          'ui:required': ({ veteran }) => (veteran.forwardingAddress.country === 'USA'),
+          'ui:required': ({ veteran }) => (
+            hasForwardingAddress(veteran)
+            && veteran.forwardingAddress.country === 'USA'),
           'ui:options': {
             hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== 'USA')
           }
@@ -599,7 +606,7 @@ export const primaryAddressSchema = {
         'view:hasForwardingAddress': {
           type: 'boolean'
         },
-        forwardingAddress: _.merge({}, addressSchema, {
+        forwardingAddress: _.merge({}, omitRequired(addressSchema), {
           type: 'object',
           properties: {
             effectiveDate: fullSchema526EZ.definitions.date
