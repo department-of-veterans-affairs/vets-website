@@ -4,17 +4,18 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
+
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
-class IntroductionPage extends React.Component {
+export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for education benefits under the National Call to Service program"/>
-        <p>Equal to VA Form 22-1990N (Application for VA Education Benefits Under the National Call to Service (NCS) Program).</p>
+        <FormTitle title="Apply for education benefits as an eligible dependent"/>
+        <p>Equal to VA Form 22-5490 (Dependents’ Application for VA Education Benefits).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
@@ -22,7 +23,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Education Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Please complete the 22-1990N form to apply for education benefits.
+          Please complete the 22-5490 form to apply for education benefits.
         </SaveInProgressIntro>
         <h4>Follow the steps below to apply for education benefits.</h4>
         <div className="process schemaform-process">
@@ -32,6 +33,7 @@ class IntroductionPage extends React.Component {
               <div><h6>To fill out this application, you’ll need your:</h6></div>
               <ul>
                 <li>Social Security number (required)</li>
+                <li>Sponsor’s Social Security number (required)</li>
                 <li>Basic information about the school or training facility you want to attend</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
@@ -52,7 +54,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <p>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we've approved your application.</p>
+              <p>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we’ve approved your application.</p>
               <p>If your application wasn’t approved, you’ll get a denial letter in the mail.</p>
             </li>
           </ol>
@@ -65,7 +67,7 @@ class IntroductionPage extends React.Component {
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019"/>
+          <OMBInfo resBurden={45} ombNumber="2900-0098" expDate="09/30/2018"/>
         </div>
       </div>
     );
