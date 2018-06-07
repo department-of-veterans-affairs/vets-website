@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Pension Benefits Application Process
+title: How to Apply for Pension Benefits
 display_title: Application Process
 concurrence: ""
 order: 2
@@ -15,13 +15,13 @@ widgets:
 
 <div class="va-introtext">
 
-You can apply online, by mail, or in person for a Veterans pension. Follow these steps to apply for this tax-free benefit.
+You can apply online, by mail, or in person for a tax-free Veterans pension. 
 
 </div>
 
-### Prepare
+### How do I prepare before starting my application?
 
-- Find out if you qualify. [Check your eligibility](/pension/eligibility/).
+- Find out if you qualify. [Find out if you're eligible for VA pension benefits](/pension/eligibility/).
 - Gather the information listed below that you’ll need to fill out your pension application.
 
 <div class="feature">
@@ -36,14 +36,14 @@ You can apply online, by mail, or in person for a Veterans pension. Follow these
 - Medical information
 
 </div>
-
+#### How do I apply?
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for Veterans Pension Benefits</a>
 </div>
 
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">Other ways to apply</h4>
+<h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
   
 **By mail** <br>
