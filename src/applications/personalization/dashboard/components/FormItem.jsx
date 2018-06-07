@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
-import { formTitles, formLinks, disabledForms } from '../helpers';
+import { formTitles, formLinks } from '../helpers';
 
 class FormItem extends React.Component {
   recordDashboardClick = (formId, actionType = 'continue-button') => {
@@ -32,11 +32,10 @@ class FormItem extends React.Component {
             <p><strong>Expires on:</strong> {expirationDate}</p>
           </div>}
         </div>
-        {!!disabledForms[formId] && <div>{disabledForms[formId]}</div>}
         <div className="row small-collapse">
           <div className="small-12 medium-8 large-8 columns">
             <div className="application-route-container resume">
-              {!disabledForms[formId] && <a className="usa-button-primary application-route" href={`${formLinks[formId]}resume`} onClick={this.recordDashboardClick(formId)}>Continue Your Application</a>}
+              <a className="usa-button-primary application-route" href={`${formLinks[formId]}resume`} onClick={this.recordDashboardClick(formId)}>Continue Your Application</a>
             </div>
           </div>
           <div className="small-12 medium-4 large-4 columns">
