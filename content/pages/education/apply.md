@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Education Benefits Application Process
-display_title: Application Process
+title: How to Apply for Education Benefits
+display_title: How to Apply for Education Benefits
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 2
@@ -31,7 +31,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 <h3 itemprop="name">Prepare</h3>
 <div itemprop="itemListElement">
 
-- [Check your eligibility](/education/eligibility/).
+- [Find out if you're eligible for VA education benefits](/education/eligibility/).
 - Gather the documents and information listed below that you’ll need to apply for education benefits.
 - See what benefits you’ll get at the school you want to attend. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 - Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program and file a claim for VA education benefits. [Get help filing your claim](/disability-benefits/apply/help/index.html).
