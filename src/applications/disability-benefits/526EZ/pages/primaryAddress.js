@@ -44,14 +44,14 @@ function validateZIP(errors, zip) {
 
 function validateMilitaryCity(errors, city, formData, schema, messages, options) {
   const isMilitaryState = MILITARY_STATES.includes(formData.veteran[options.addressName].state);
-  const isMilitaryCity = MILITARY_CITIES.includes(city.toUpperCase());
+  const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
     errors.addError('City must match APO, DPO, or FPO when using a military state code');
   }
 }
 
 function validateMilitaryState(errors, state, formData, schema, messages, options) {
-  const isMilitaryCity = MILITARY_CITIES.includes(formData.veteran[options.addressName].city.toUpperCase());
+  const isMilitaryCity = MILITARY_CITIES.includes(formData.veteran[options.addressName].city.trim().toUpperCase());
   const isMilitaryState = MILITARY_STATES.includes(state);
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
