@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: VR&amp;E Application Process
+title: How to Apply for VR&E
 display_title: Application Process
 order: 2
 template: detail-page
@@ -56,7 +56,7 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 </li>
 </ol>
 
-### Ready to apply?
+### How do I apply?
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
