@@ -21,7 +21,7 @@ import currentOrPastMonthYearUI from '../../../common/schemaform/definitions/cur
 import yearUI from '../../../common/schemaform/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
