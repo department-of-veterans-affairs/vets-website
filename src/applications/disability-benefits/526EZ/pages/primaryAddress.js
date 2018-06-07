@@ -3,11 +3,15 @@ import _ from 'lodash';
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import dateUI from '../../../common/schemaform/definitions/date';
-import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
+import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
 import { PrimaryAddressViewField } from '../helpers';
+
+// Used in our validations
+const MILITARY_STATES = ['AA', 'AE', 'AP'];
+const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 
 function isValidZIP(value) {
   if (value !== null) {
@@ -37,11 +41,21 @@ function validateZIP(errors, zip) {
   }
 }
 
-const typeLabels = {
-  DOMESTIC: 'Domestic',
-  MILITARY: 'Military',
-  INTERNATIONAL: 'International'
-};
+function validateMilitaryCity(errors, city, formData, schema, messages, options) {
+  const isMilitaryState = MILITARY_STATES.includes(formData.veteran[options.addressName].state);
+  const isMilitaryCity = MILITARY_CITIES.includes(city.toUpperCase());
+  if (isMilitaryState && !isMilitaryCity) {
+    errors.addError('City must match APO, DPO, or FPO when using a military state code');
+  }
+}
+
+function validateMilitaryState(errors, state, formData, schema, messages, options) {
+  const isMilitaryCity = MILITARY_CITIES.includes(formData.veteran[options.addressName].city.toUpperCase());
+  const isMilitaryState = MILITARY_STATES.includes(state);
+  if (isMilitaryCity && !isMilitaryState) {
+    errors.addError('State must be AA, AE, or AP when using a military city');
+  }
+}
 
 const states = [
   'AL',
@@ -392,91 +406,71 @@ const countries = [
   'Zimbabwe'
 ];
 
-export const militaryPostOfficeTypeLabels = { // TODO: determine whether these are necessary
-  APO: 'Army Post Office',
-  FPO: 'Fleet Post Office',
-  DPO: 'Diplomatic Post Office'
-};
-
 const addressUISchema = (addressName, title) => {
   return {
+    'ui:order': [
+      'country',
+      'addressLine1',
+      'addressLine2',
+      'addressLine3',
+      'city',
+      'state',
+      'zipCode'
+    ],
     'ui:title': title,
-    type: {
-      'ui:title': 'Type',
-      'ui:options': {
-        labels: typeLabels
-      }
-    },
     country: {
       'ui:title': 'Country'
     },
-    state: {
-      'ui:title': 'State',
-      'ui:options': {
-        labels: stateLabels,
-        hideIf: formData => {
-          return (
-            _.get(formData, `veteran[${addressName}].country`) !== 'USA'
-          );
-        }
-      }
-    },
     addressLine1: {
-      'ui:title': 'Street'
+      'ui:title': 'Street address'
     },
     addressLine2: {
-      'ui:title': 'Line 2'
+      'ui:title': 'Street address (optional)'
     },
     addressLine3: {
-      'ui:title': 'Line 3'
+      'ui:title': 'Street address (optional)'
     },
     city: {
-      'ui:title': 'City'
+      'ui:title': 'City',
+      'ui:validations': [{
+        options: { addressName },
+        validator: validateMilitaryCity
+      }]
     },
-    militaryStateCode: {
-      'ui:title': 'Military State Code',
+    state: {
+      'ui:title': 'State',
+      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === 'USA'),
       'ui:options': {
         labels: stateLabels,
-        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
-      }
+        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== 'USA'),
+      },
+      'ui:validations': [{
+        options: { addressName },
+        validator: validateMilitaryState
+      }]
     },
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
+      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === 'USA'),
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 9 digit ZIP code (dashes allowed)'
+        pattern: 'Please enter a valid 5- or 9- digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: formData =>
-          _.get(formData, `veteran[${addressName}].type`) !== 'DOMESTIC'
+        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== 'USA')
       }
     },
-    militaryPostOfficeTypeCode: {
-      'ui:title': 'Military Post Office Type Code',
-      'ui:options': {
-        labels: militaryPostOfficeTypeLabels,
-        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
-      }
-    }
   };
 };
 
 const addressSchema = {
   type: 'object',
-  required: ['country', 'addressLine1'],
+  required: ['country', 'city', 'addressLine1'],
   properties: {
-    type: {
-      type: 'string',
-      'enum': ['MILITARY', 'DOMESTIC', 'INTERNATIONAL']
-    },
     country: {
       type: 'string',
       'enum': countries
-    },
-    state: {
-      type: 'string',
-      'enum': states
     },
     addressLine1: {
       type: 'string',
@@ -498,16 +492,12 @@ const addressSchema = {
       maxLength: 35,
       pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
     },
+    state: {
+      type: 'string',
+      'enum': states
+    },
     zipCode: {
       type: 'string'
-    },
-    militaryPostOfficeTypeCode: {
-      type: 'string',
-      'enum': ['APO', 'DPO', 'FPO']
-    },
-    militaryStateCode: {
-      type: 'string',
-      'enum': ['AA', 'AE', 'AP']
     }
   }
 };
@@ -519,21 +509,17 @@ export const uiSchema = {
     'ui:options': {
       viewComponent: PrimaryAddressViewField
     },
+    'ui:order': [
+      'mailingAddress',
+      'primaryPhone',
+      'emailAddress',
+      'view:hasForwardingAddress',
+      'forwardingAddress'
+    ],
     mailingAddress: addressUISchema('mailingAddress'),
     primaryPhone: {
       'ui:title': 'Primary telephone number',
-      'ui:widget': SSNWidget, // TODO: determine whether to rename widget
-      'ui:validations': [validatePhone],
-      'ui:errorMessages': {
-        pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
-      },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large'
-      }
-    },
-    secondaryPhone: {
-      'ui:title': 'Secondary telephone number',
-      'ui:widget': SSNWidget,
+      'ui:widget': PhoneNumberWidget, // TODO: determine whether to rename widget
       'ui:validations': [validatePhone],
       'ui:errorMessages': {
         pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
@@ -558,13 +544,39 @@ export const uiSchema = {
         'ui:options': {
           expandUnder: 'view:hasForwardingAddress'
         },
+        'ui:order': [
+          'effectiveDate',
+          'country',
+          'addressLine1',
+          'addressLine2',
+          'addressLine3',
+          'city',
+          'state',
+          'zipCode'
+        ],
+        effectiveDate: dateUI('Effective date'),
         country: {
-          'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
+          'ui:required': ({ veteran }) => (veteran['view:hasForwardingAddress'] === true),
+
         },
         addressLine1: {
-          'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
+          'ui:required': ({ veteran }) => (veteran['view:hasForwardingAddress'] === true)
         },
-        effectiveDate: dateUI('Effective date')
+        city: {
+          'ui:required': ({ veteran }) => (veteran['view:hasForwardingAddress'] === true)
+        },
+        state: {
+          'ui:required': ({ veteran }) => (veteran.forwardingAddress.country === 'USA'),
+          'ui:options': {
+            hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== 'USA')
+          }
+        },
+        zipCode: {
+          'ui:required': ({ veteran }) => (veteran.forwardingAddress.country === 'USA'),
+          'ui:options': {
+            hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== 'USA')
+          }
+        }
       }
     )
   }
@@ -578,9 +590,6 @@ export const primaryAddressSchema = {
       properties: {
         mailingAddress: addressSchema,
         primaryPhone: {
-          type: 'string'
-        },
-        secondaryPhone: {
           type: 'string'
         },
         emailAddress: {
