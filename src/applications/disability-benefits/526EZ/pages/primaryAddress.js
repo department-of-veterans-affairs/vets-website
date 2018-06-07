@@ -553,7 +553,11 @@ export const uiSchema = {
           'state',
           'zipCode'
         ],
-        effectiveDate: dateUI('Effective date'),
+        effectiveDate: _.merge(
+          {},
+          dateUI('Effective date'),
+          { 'ui:required': ({ veteran }) => (hasForwardingAddress(veteran)) }
+        ),
         country: {
           'ui:required': ({ veteran }) => (hasForwardingAddress(veteran)),
 
