@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Burial Allowance Application Process
+title: How to Apply for Burial Allowance
 display_title: Burial Allowance Application Process
 order: 1
 widgets:
@@ -73,7 +73,7 @@ You may need a copy of:
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">Other ways to apply</h4>
+<h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
 
 
