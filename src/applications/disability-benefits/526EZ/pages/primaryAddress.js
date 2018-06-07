@@ -17,21 +17,6 @@ function isValidZIP(value) {
   return true;
 }
 
-function isValidPhone(value) {
-  if (value !== null) {
-    return /^\d{10}$/.test(value) || /^\d{11}$/.test(value);
-  }
-  return true;
-}
-
-function validatePhone(errors, phone) {
-  if (phone && !isValidPhone(phone)) {
-    errors.addError(
-      'Phone numbers must be at least 10 digits (dashes allowed)'
-    );
-  }
-}
-
 function validateZIP(errors, zip) {
   if (zip && !isValidZIP(zip)) {
     errors.addError('Please enter a valid 9 digit ZIP (dashes allowed)');
@@ -518,10 +503,9 @@ export const uiSchema = {
     mailingAddress: addressUISchema('mailingAddress'),
     primaryPhone: {
       'ui:title': 'Primary telephone number',
-      'ui:widget': PhoneNumberWidget, // TODO: determine whether to rename widget
-      'ui:validations': [validatePhone],
+      'ui:widget': PhoneNumberWidget,
       'ui:errorMessages': {
-        pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
+        pattern: 'Phone numbers must be 10 digits (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large'
@@ -597,7 +581,8 @@ export const primaryAddressSchema = {
       properties: {
         mailingAddress: addressSchema,
         primaryPhone: {
-          type: 'string'
+          type: 'string',
+          pattern: '^\\d{10}$'
         },
         emailAddress: {
           type: 'string',
