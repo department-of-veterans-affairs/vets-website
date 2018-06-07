@@ -14,14 +14,6 @@ export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
 export const SET_START_OVER = 'SET_START_OVER';
 export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
-export const SET_PRESTART_STATUS = 'SET_PRESTART_STATUS';
-export const UNSET_PRESTART_STATUS = 'UNSET_PRESTART_STATUS';
-
-export const PRESTART_STATUSES = Object.freeze({
-  failure: 'failure',
-  success: 'success',
-  pending: 'pending'
-});
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -103,21 +95,6 @@ export function setPrefillComplete() {
     type: SET_PREFILL_UNFILLED,
   };
 }
-
-export function setPrestartStatus(status, data) {
-  return {
-    type: SET_PRESTART_STATUS,
-    status,
-    data
-  };
-}
-
-export function unsetPrestartStatus() {
-  return {
-    type: UNSET_PRESTART_STATUS
-  };
-}
-
 /**
  * Transforms the data from an old version of a form to be used in the latest
  *  version.
@@ -219,26 +196,16 @@ export function saveAndRedirectToReturnUrl(...args) {
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
-export function fetchInProgressForm(formId, migrations, prefill = false, prefillTransformer = null, prestartForm = null) {
-
+export function fetchInProgressForm(formId, migrations, prefill = false, prefillTransformer = null) {
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
-  return async (dispatch, getState) => {
-
-    // If the form has any gating logic that may prevent a user from entering, we perform this here
-    if (prestartForm) {
-      const shouldEnterForm = await prestartForm();
-      if (shouldEnterForm === false) {
-        return false;
-      }
-    }
-
+  return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
     const userToken = sessionStorage.userToken;
     // If we don’t have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
-      return false;
+      return Promise.resolve();
     }
 
     // Update UI while we’re waiting for the API
@@ -263,18 +230,18 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
       } else if (res.status === 404) {
         status = LOAD_STATUSES.notFound;
       }
-      throw Error(status);
+      return Promise.reject(status);
     }).then((resBody) => {
       // Just in case something funny happens where the json returned isn’t an object as expected
       // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
       if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
-        throw Error(LOAD_STATUSES.invalidData);
+        return Promise.reject(LOAD_STATUSES.invalidData);
       }
 
       // If an empty object is returned, throw a not-found
       // TODO: When / if we return a 404 for applications that don’t exist, remove this
       if (Object.keys(resBody).length === 0) {
-        throw Error(LOAD_STATUSES.notFound);
+        return Promise.reject(LOAD_STATUSES.notFound);
       }
 
       // If we’ve made it this far, we’ve got valid form
@@ -312,7 +279,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
             metadata: resBody.metadata
           }
         });
-        throw Error(LOAD_STATUSES.invalidData);
+        return Promise.reject(LOAD_STATUSES.invalidData);
       }
     }).catch((status) => {
       let loadedStatus = status;

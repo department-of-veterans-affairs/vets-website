@@ -6,6 +6,7 @@ import dateUI from '../../../common/schemaform/definitions/date';
 import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
+import PrestartMessage from '../components/PrestartMessage';
 
 import { PrimaryAddressViewField } from '../helpers';
 
@@ -516,6 +517,7 @@ export const uiSchema = {
   veteran: {
     'ui:title': 'Contact information',
     'ui:field': ReviewCardField,
+    'ui:description': PrestartMessage,
     'ui:options': {
       viewComponent: PrimaryAddressViewField
     },

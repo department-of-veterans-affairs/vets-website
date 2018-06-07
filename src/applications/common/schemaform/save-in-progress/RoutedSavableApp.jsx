@@ -8,7 +8,6 @@ import FormApp from '../containers/FormApp';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
-  PRESTART_STATUSES,
   SAVE_STATUSES,
   setFetchFormStatus,
   fetchInProgressForm
@@ -94,7 +93,6 @@ class RoutedSavableApp extends React.Component {
     }
 
     const status = newProps.loadedStatus;
-    const prestartStatus = newProps.prestartStatus;
     if (status === LOAD_STATUSES.success && newProps.currentLocation && newProps.currentLocation.pathname.endsWith('resume')) {
       newProps.router.replace(newProps.returnUrl);
     } else if (status === LOAD_STATUSES.success) {
@@ -108,7 +106,6 @@ class RoutedSavableApp extends React.Component {
       && status !== LOAD_STATUSES.pending
       && status !== this.props.loadedStatus
       && !window.location.pathname.endsWith('/error')
-      || ((prestartStatus === PRESTART_STATUSES.failure) && (prestartStatus !== this.props.prestartStatus))
     ) {
       let action = 'push';
       if (window.location.pathname.endsWith('resume')) {
@@ -151,14 +148,6 @@ class RoutedSavableApp extends React.Component {
     return message;
   }
 
-  getPrestartForm = () => {
-    const { formConfig: { prestartCheck }, prestartForm } = this.props;
-    if (!prestartCheck) {
-      return null;
-    }
-    return () => prestartForm(prestartCheck);
-  }
-
   redirectOrLoad(props) {
     // Stop a user that's been redirected to be redirected again after logging in
     this.shouldRedirectOrLoad = false;
@@ -171,8 +160,7 @@ class RoutedSavableApp extends React.Component {
       const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
       const hasPrefillData = props.prefillsAvailable.includes(currentForm);
       if (isSaved || hasPrefillData) {
-        const prestartForm = this.getPrestartForm();
-        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData, prestartForm);
+        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData);
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break
@@ -183,7 +171,6 @@ class RoutedSavableApp extends React.Component {
       // If the first page is not the intro and uses `depends`, this will probably break
       props.router.replace(firstPagePath);
     }
-    return false;
   }
 
   removeOnbeforeunload = () => {
@@ -191,15 +178,12 @@ class RoutedSavableApp extends React.Component {
   }
 
   render() {
-    const { currentLocation, formConfig, children, loadedStatus, prestartStatus } = this.props;
-    const { prestartMessage, prestartPendingStatuses } = formConfig;
+    const { currentLocation, formConfig, children, loadedStatus } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     let content;
     const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
     if (!formConfig.disableSave && loadingForm && this.props.prefillStatus === LOAD_STATUSES.pending) {
       content = <LoadingIndicator message="Retrieving your profile information..."/>;
-    } else if (formConfig.prestartCheck && prestartPendingStatuses.has(prestartStatus)) {
-      content = <LoadingIndicator message={prestartMessage}/>;
     } else if (!formConfig.disableSave && loadingForm) {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
@@ -223,19 +207,10 @@ class RoutedSavableApp extends React.Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setFetchFormStatus: (...args) => {
-      dispatch(setFetchFormStatus(...args));
-    },
-    fetchInProgressForm: (...args) => {
-      dispatch(fetchInProgressForm(...args));
-    },
-    prestartForm: (prestartCheck) => {
-      dispatch(prestartCheck());
-    }
-  };
-}
+const mapDispatchToProps = {
+  setFetchFormStatus,
+  fetchInProgressForm
+};
 
 export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(RoutedSavableApp));
 

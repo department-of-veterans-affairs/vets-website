@@ -10,8 +10,7 @@ import { setData, uploadFile } from '../actions';
 import {
   saveErrors,
   autoSaveForm,
-  saveAndRedirectToReturnUrl,
-  unsetPrestartStatus
+  saveAndRedirectToReturnUrl
 } from './actions';
 import { getFormContext } from './selectors';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
@@ -21,14 +20,6 @@ class RoutedSavablePage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
-  }
-
-  componentWillReceiveProps(newProps) {
-    const { form: { prestartStatus }, location: { pathname } } = this.props;
-    if (prestartStatus && pathname !== newProps.location.pathname) {
-      this.props.unsetPrestartStatus();
-    }
-    return false;
   }
 
   onChange = (formData) => {
@@ -48,14 +39,7 @@ class RoutedSavablePage extends React.Component {
   }
 
   render() {
-    const { user, form, route: { formConfig } } = this.props;
-    const { prestartStatus, prestartData } = form;
-    let contentBeforeForm;
-    if (prestartStatus) {
-      const { prestartSuccess } = formConfig.savedFormMessages;
-      contentBeforeForm = prestartSuccess(prestartStatus, prestartData);
-    }
-
+    const { user, form } = this.props;
     const contentAfterButtons = (
       <div>
         <SaveStatus
@@ -80,7 +64,6 @@ class RoutedSavablePage extends React.Component {
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}
         formContext={getFormContext({ user, form })}
-        contentBeforeForm={contentBeforeForm}
         contentAfterButtons={contentAfterButtons}/>
     );
   }
@@ -99,8 +82,7 @@ const mapDispatchToProps = {
   saveAndRedirectToReturnUrl,
   autoSaveForm,
   toggleLoginModal,
-  uploadFile,
-  unsetPrestartStatus
+  uploadFile
 };
 
 RoutedSavablePage.propTypes = {

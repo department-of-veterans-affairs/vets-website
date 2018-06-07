@@ -8,7 +8,7 @@ import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { genderLabels } from '../../../../platform/static-data/labels';
 
 import ReviewCardField from '../components/ReviewCardField';
-
+import PrestartMessage from '../components/PrestartMessage';
 import {
   veteranInformationViewField,
   VAFileNumberDescription
@@ -17,6 +17,7 @@ import {
 export const uiSchema = {
   'ui:field': ReviewCardField,
   'ui:title': 'Veteran information',
+  'ui:description': PrestartMessage,
   'ui:options': {
     viewComponent: veteranInformationViewField
   },

@@ -1,7 +1,23 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import Raven from 'raven-js';
-import { setPrestartStatus } from '../../../common/schemaform/save-in-progress/actions';
 import { PRESTART_STATUSES, prestartSuccessStatuses, prestartFailureStatuses } from '../helpers';
+
+export const SET_PRESTART_STATUS = 'SET_PRESTART_STATUS';
+export const UNSET_PRESTART_STATUS = 'UNSET_PRESTART_STATUS';
+
+export function setPrestartStatus(status, data) {
+  return {
+    type: SET_PRESTART_STATUS,
+    status,
+    data
+  };
+}
+
+export function unsetPrestartStatus() {
+  return {
+    type: UNSET_PRESTART_STATUS
+  };
+}
 
 export function checkITFRequest(dispatch) {
 
