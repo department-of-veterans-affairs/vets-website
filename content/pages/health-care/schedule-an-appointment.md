@@ -85,7 +85,7 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 [Sign up for a DS Logon account](https://mobile.va.gov/dslogon).
 
 <div>
-  <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/">Schedule a VA Appointment Online</a>.
+  <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/">Schedule a VA Appointment Online</a>
 </div>
 </div>
 </div>
