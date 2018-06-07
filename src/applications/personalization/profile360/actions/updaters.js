@@ -83,10 +83,18 @@ function createPhoneObject(phoneFormData, fieldName) {
 }
 
 function createAddressObject(addressFormData, fieldName) {
-  return {
-    ...addressFormData,
+  return pickBy({
+    id: addressFormData.id,
+    addressLine1: addressFormData.addressLine1,
+    addressLine2: addressFormData.addressLine2,
+    addressLine3: addressFormData.addressLine3,
+    addressType: addressFormData.addressType,
+    city: addressFormData.city,
+    countryName: addressFormData.countryName,
+    stateCode: addressFormData.stateCode,
+    zipCode: addressFormData.zipCode,
     addressPou: fieldName === 'mailingAddress' ? 'CORRESPONDENCE' : 'RESIDENCE/CHOICE',
-  };
+  }, e => !!e);
 }
 
 function updateVet360Field(apiRoute, fieldName, fieldType) {

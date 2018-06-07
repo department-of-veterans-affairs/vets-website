@@ -64,11 +64,11 @@ function cleanPhoneDataForUpdate(value) {
 }
 
 function inferAddressType(countryName, stateCode) {
-  let addressType = 'domestic';
+  let addressType = 'DOMESTIC';
   if (countryName !== 'United States') {
-    addressType = 'international';
+    addressType = 'INTERNATIONAL';
   } else if (MILITARY_STATES.has(stateCode)) {
-    addressType = 'military overseas';
+    addressType = 'MILITARY OVERSEAS';
   }
 
   return addressType;
