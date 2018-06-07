@@ -99,7 +99,7 @@ function cleanAddressDataForUpdate(value) {
     addressType,
     city,
     countryName,
-    stateCode,
+    stateCode: addressType === 'INTERNATIONAL' ? null : stateCode,
     zipCode: addressType !== 'INTERNATIONAL' ? zipCode : null,
     internationalPostalCode: addressType === 'INTERNATIONAL' ? internationalPostalCode : null,
   };
