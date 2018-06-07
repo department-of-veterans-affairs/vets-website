@@ -18,7 +18,7 @@ const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'addi
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
-
+import { prestartFailureStatuses, prestartSuccessStatuses } from './actions';
 /*
  * Flatten nested array form data into sibling properties
  *
@@ -439,25 +439,6 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
     </div>
   );
 };
-
-export const PRESTART_STATUSES = {
-  pending: 'pending',
-  none: 'none',
-  expired: 'expired',
-  created: 'created',
-  retrieved: 'retrieved',
-  renewed: 'renewed',
-  notRetrievedSaved: 'notRetrievedSaved',
-  notRetrievedNew: 'notRetrievedNew',
-  notCreated: 'notCreated',
-  notRenewed: 'notRenewed',
-};
-
-export const prestartSuccessStatuses = new Set([PRESTART_STATUSES.created, PRESTART_STATUSES.retrieved, PRESTART_STATUSES.renewed]);
-
-export const prestartFailureStatuses = new Set([PRESTART_STATUSES.notCreated, PRESTART_STATUSES.notRenewed, PRESTART_STATUSES.notRetrievedNew, PRESTART_STATUSES.notRetrievedSaved]);
-
-export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART_STATUSES.expired, PRESTART_STATUSES.pending]);
 
 const prestartAlertHeadings = {
   created: 'Your Intent to File request has been submitted',

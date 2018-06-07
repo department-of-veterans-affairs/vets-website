@@ -1,9 +1,29 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import Raven from 'raven-js';
-import { PRESTART_STATUSES, prestartSuccessStatuses, prestartFailureStatuses } from '../helpers';
 
 export const SET_PRESTART_STATUS = 'SET_PRESTART_STATUS';
 export const UNSET_PRESTART_STATUS = 'UNSET_PRESTART_STATUS';
+export const UNSET_PRESTART_DISPLAY = 'UNSET_PRESTART_DISPLAY';
+
+export const PRESTART_STATUSES = {
+  notAttempted: 'not-attempted',
+  pending: 'pending',
+  none: 'none',
+  expired: 'expired',
+  created: 'created',
+  retrieved: 'retrieved',
+  renewed: 'renewed',
+  notRetrievedSaved: 'not-retrieved-saved',
+  notRetrievedNew: 'not-retrieved-new',
+  notCreated: 'not-created',
+  notRenewed: 'not-renewed',
+};
+
+export const prestartSuccessStatuses = new Set([PRESTART_STATUSES.created, PRESTART_STATUSES.retrieved, PRESTART_STATUSES.renewed]);
+
+export const prestartFailureStatuses = new Set([PRESTART_STATUSES.notCreated, PRESTART_STATUSES.notRenewed, PRESTART_STATUSES.notRetrievedNew, PRESTART_STATUSES.notRetrievedSaved]);
+
+export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART_STATUSES.expired, PRESTART_STATUSES.pending]);
 
 export function setPrestartStatus(status, data) {
   return {
@@ -16,6 +36,12 @@ export function setPrestartStatus(status, data) {
 export function unsetPrestartStatus() {
   return {
     type: UNSET_PRESTART_STATUS
+  };
+}
+
+export function unsetPrestartDisplay() {
+  return {
+    type: UNSET_PRESTART_DISPLAY
   };
 }
 

@@ -83,6 +83,7 @@ export const saveInProgressReducers = {
       newState = _.set('loadedData', action.data, state);
       newState.prefillStatus = PREFILL_STATUSES.notAttempted;
     }
+
     newState.loadedStatus = LOAD_STATUSES.success;
     newState.data = newState.loadedData.formData;
     newState.pages = action.pages;
@@ -95,27 +96,6 @@ export const saveInProgressReducers = {
       data: state.initialData,
       loadedStatus: LOAD_STATUSES.pending
     });
-  },
-  'SET_PRESTART_STATUS': (state, action) => {
-    const newState = _.set('prestartStatus', action.status, state);
-    newState.displayPrestartMessage = true;
-
-    if (action.data && state.prestartData) {
-      const previousData = state.prestartData;
-      newState.prestartData = {};
-      newState.prestartData.previous = previousData;
-      newState.prestartData.current = action.data;
-    } else if (action.data) {
-      newState.prestartData = action.data;
-    }
-
-    return newState;
-  },
-  'UNSET_PRESTART_STATUS': (state) => {
-    let newState = _.unset('prestartStatus', state);
-    newState = _.unset('prestartData', newState);
-
-    return newState;
   },
   [SET_PREFILL_UNFILLED]: (state) => {
     return _.assign(state, {
