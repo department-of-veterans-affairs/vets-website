@@ -1,4 +1,4 @@
-export function overrideSmoothFormsScrolling(client) {
+function overrideSmoothFormsScrolling(client) {
   client.execute(() => {
     const currentFormsScroll = window.Forms || {};
     window.Forms = Object.assign({}, currentFormsScroll, {
@@ -18,13 +18,18 @@ export function overrideSmoothFormsScrolling(client) {
       }
     });
 
-    return window;
+    return window.VetsGov;
   });
 }
 
-export function overrideFormsScrolling(client) {
+function overrideFormsScrolling(client) {
   overrideSmoothFormsScrolling(client);
   client.execute(() => {
     window.scrollTo = () => null;
   });
 }
+
+module.exports = {
+  overrideFormsScrolling,
+  overrideSmoothFormsScrolling
+};
