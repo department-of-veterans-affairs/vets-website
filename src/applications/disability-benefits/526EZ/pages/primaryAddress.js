@@ -7,12 +7,8 @@ import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWid
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import { PrimaryAddressViewField } from '../helpers';
+import { PrimaryAddressViewField, MILITARY_STATES, MILITARY_CITIES, USA } from '../helpers';
 import { omitRequired } from '../../../common/schemaform/helpers.js';
-
-// Used in our validations
-const MILITARY_STATES = ['AA', 'AE', 'AP'];
-const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 
 function isValidZIP(value) {
   if (value !== null) {
@@ -442,10 +438,10 @@ const addressUISchema = (addressName, title) => {
     },
     state: {
       'ui:title': 'State',
-      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === 'USA'),
+      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === USA),
       'ui:options': {
         labels: stateLabels,
-        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== 'USA'),
+        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== USA),
       },
       'ui:validations': [{
         options: { addressName },
@@ -455,13 +451,13 @@ const addressUISchema = (addressName, title) => {
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
-      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === 'USA'),
+      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === USA),
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5- or 9- digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== 'USA')
+        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== USA)
       }
     },
   };
@@ -571,17 +567,17 @@ export const uiSchema = {
         state: {
           'ui:required': ({ veteran }) => (
             hasForwardingAddress(veteran)
-            && veteran.forwardingAddress.country === 'USA'),
+            && veteran.forwardingAddress.country === USA),
           'ui:options': {
-            hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== 'USA')
+            hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== USA)
           }
         },
         zipCode: {
           'ui:required': ({ veteran }) => (
             hasForwardingAddress(veteran)
-            && veteran.forwardingAddress.country === 'USA'),
+            && veteran.forwardingAddress.country === USA),
           'ui:options': {
-            hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== 'USA')
+            hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== USA)
           }
         }
       }
