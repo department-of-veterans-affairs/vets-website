@@ -4,7 +4,7 @@ import _ from '../../../../platform/utilities/data';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
-// import fullSchema526EZ from '/your/local/path/vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
@@ -251,8 +251,8 @@ const formConfig = {
                       pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
                     },
                     'ui:required': (formData) => {
-                      const { homelessness } = formData.veteran;
-                      if (homelessness.isHomeless !== true) {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
                       return !!homelessness.pointOfContact.primaryPhone;
@@ -265,8 +265,8 @@ const formConfig = {
                       pattern: 'Phone numbers must be 10 digits (dashes allowed)'
                     },
                     'ui:required': (formData) => {
-                      const { homelessness } = formData.veteran;
-                      if (homelessness.isHomeless !== true) {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
                       return !!homelessness.pointOfContact.pointOfContactName;
