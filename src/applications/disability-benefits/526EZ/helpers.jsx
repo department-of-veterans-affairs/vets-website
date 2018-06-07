@@ -15,6 +15,9 @@ const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'addi
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
+export const USA = 'USA';
+export const MILITARY_STATES = ['AA', 'AE', 'AP'];
+export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 
 /*
  * Flatten nested array form data into sibling properties
@@ -508,47 +511,38 @@ const EffectiveDateViewField = ({ formData }) => {
 };
 
 const AddressViewField = ({ formData }) => {
-  const {
-    addressLine1, addressLine2, addressLine3, city, state,
-    zipCode, militaryStateCode, militaryPostOfficeTypeCode
-  } = formData;
+  const { addressLine1, addressLine2, addressLine3, city, state, country, zipCode } = formData;
   let zipString;
-  let stateString;
-  let cityString;
   if (zipCode) {
     const firstFive = zipCode.slice(0, 5);
     const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
     zipString = `${firstFive}${lastChunk}`;
   }
-  if (city || militaryPostOfficeTypeCode) {
-    cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
-  }
-  if (state || militaryStateCode) {
-    stateString = `${state}` || `${militaryStateCode}`;
+
+  let lastLine;
+  if (country === USA) {
+    lastLine = `${city}, ${state} ${zipString}`;
+  } else {
+    lastLine = `${city}, ${country}`;
   }
   return (
     <div>
       {addressLine1 && <p>{addressLine1}</p>}
       {addressLine2 && <p>{addressLine2}</p>}
       {addressLine3 && <p>{addressLine3}</p>}
-      <p>{cityString} {stateString} {zipString}</p>
+      <p>{lastLine}</p>
     </div>
   );
 };
 
 export const PrimaryAddressViewField = ({ formData }) => {
   const {
-    mailingAddress, primaryPhone, secondaryPhone,
-    emailAddress, forwardingAddress
-  } = formData;
+    mailingAddress, primaryPhone, emailAddress, forwardingAddress } = formData;
   return (
     <div>
       <AddressViewField formData={mailingAddress}/>
       {primaryPhone && (
         <PhoneViewField formData={primaryPhone} name="Primary phone"/>
-      )}
-      {secondaryPhone && (
-        <PhoneViewField formData={secondaryPhone} name="Secondary phone"/>
       )}
       {emailAddress && (
         <EmailViewField formData={emailAddress} name="Email address"/>
