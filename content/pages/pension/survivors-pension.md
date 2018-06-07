@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Survivors Pension
+title: How to Apply for a Survivors Pension
 concurrence: "" 
 children: pensionSurvivors
 order: 4
@@ -9,7 +9,7 @@ order: 4
 
 <div class="va-introtext">
 
-Survivors pension is a tax-free monetary benefit. If you’re a surviving spouse or child of a deceased Veteran with wartime service, and your income and net worth meet certain limits set by Congress, you may be able to get this benefit. Find out if you qualify. 
+If you’re a surviving spouse or child of a deceased Veteran with wartime service, and your income and net worth meet certain limits set by Congress, you may be able to get this tax-free monetary benefit. Find out if you qualify. 
 
 </div>
 
@@ -45,7 +45,7 @@ You may be able to get this benefit if you’re unmarried and you meet at least 
 
 </div>
 
-### Ready to apply? 
+### How do I apply? 
 
 You can apply in 1 of 3 ways:
 
