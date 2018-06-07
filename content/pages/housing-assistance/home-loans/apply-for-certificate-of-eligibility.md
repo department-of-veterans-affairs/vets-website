@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Apply for Your COE
+title: How to Apply for Your COE
 concurrence: 
 order: 3
 relatedlinks:
