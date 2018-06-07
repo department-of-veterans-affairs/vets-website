@@ -76,13 +76,11 @@ function completeAdditionalInformation(client) {
 }
 
 function completeVaBenefits(client, data) {
-  // client.pause(1000);
   client
     .selectRadio('root_vaCompensationType', data.vaCompensationType);
 }
 
 function completeFinancialDisclosure(client) {
-  // client.pause(1000);
   client
     .click('input#root_discloseFinancialInformationYes');
 }
@@ -157,7 +155,6 @@ function completeDeductibleExpenses(client, data) {
 
 function completeMedicareAndMedicaid(client, data) {
   client
-    // .pause(2000)
     .click('input#root_isMedicaidEligibleYes')
     .click('input#root_isEnrolledMedicarePartAYes')
     .fillDate('root_medicarePartAEffectiveDate', data.medicarePartAEffectiveDate);
@@ -165,7 +162,6 @@ function completeMedicareAndMedicaid(client, data) {
 
 function completeInsuranceInformation(client, data) {
   client
-    // .pause(2000)
     .click('input#root_isCoveredByHealthInsuranceYes')
     .setValue('input[name="root_providers_0_insuranceName"]', data.providers[0].insuranceName)
     .setValue('input[name="root_providers_0_insurancePolicyHolderName"]', data.providers[0].insurancePolicyHolderName)

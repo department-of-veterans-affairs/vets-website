@@ -97,7 +97,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Dependent Information Page
     client.expect.element('label[for="root_view:reportDependentsYes"]').to.be.visible;
-    // client.pause(2000);
     HcaHelpers.completeDependentInformation(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
