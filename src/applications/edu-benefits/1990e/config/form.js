@@ -18,7 +18,7 @@ import monthYearUI from '../../../common/schemaform/definitions/monthYear';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 import * as personId from '../../../common/schemaform/definitions/personId';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {

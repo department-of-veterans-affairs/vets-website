@@ -94,8 +94,10 @@ node('vetsgov-general-purpose') {
 
       dockerImage = docker.build("vets-website:${imageTag}")
       args = "-v ${pwd()}:/application"
-      dockerImage.inside(args) {
-        sh "cd /application && yarn install --production=false"
+      retry(5) {
+        dockerImage.inside(args) {
+          sh "cd /application && yarn install --production=false"
+        }
       }
     } catch (error) {
       notify()

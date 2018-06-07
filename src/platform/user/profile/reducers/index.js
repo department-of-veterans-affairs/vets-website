@@ -11,7 +11,8 @@ import {
   CREATING_MHV_ACCOUNT,
   CREATE_MHV_ACCOUNT_FAILURE,
   CREATE_MHV_ACCOUNT_SUCCESS,
-  REMOVING_SAVED_FORM_SUCCESS
+  REMOVING_SAVED_FORM_SUCCESS,
+  UPDATE_VET360_PROFILE_FIELD,
 } from '../actions';
 
 const MAX_POLL_TIMES = 10;
@@ -46,6 +47,7 @@ const initialState = {
       loading: false
     }
   },
+  vet360: {},
   savedForms: [],
   prefillsAvailable: [],
   loading: true,
@@ -56,6 +58,13 @@ function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS:
       return merge(state, action.newState);
+
+    case UPDATE_VET360_PROFILE_FIELD:
+      return set(
+        ['vet360', action.fieldName],
+        merge(state.vet360[action.fieldName], action.newValue),
+        state,
+      );
 
     case PROFILE_LOADING_FINISHED:
     case UPDATE_LOGGEDIN_STATUS:

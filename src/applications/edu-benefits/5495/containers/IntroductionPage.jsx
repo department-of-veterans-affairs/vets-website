@@ -7,7 +7,7 @@ import FormTitle from '../../../common/schemaform/components/FormTitle';
 
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
-class IntroductionPage extends React.Component {
+export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
@@ -87,5 +87,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
-
-export { IntroductionPage };
