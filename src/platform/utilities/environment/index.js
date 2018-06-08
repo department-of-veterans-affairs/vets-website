@@ -16,7 +16,7 @@ function getEnvironment() {
   } else if (location.port === `${process.env.WEB_PORT || 3333}`) {
     platform = 'e2e';
   } else {
-    platform = __BUILDTYPE__;
+    platform = window.settings.build.type;
   }
 
   return _Environments[platform];
