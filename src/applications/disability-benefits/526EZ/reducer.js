@@ -12,7 +12,9 @@ import {
 } from './actions';
 
 const initialState = {
-  status: PRESTART_STATUSES.notAttempted
+  status: PRESTART_STATUSES.notAttempted,
+  data: {},
+  display: false
 };
 
 const prestart = (state = initialState, action) => {

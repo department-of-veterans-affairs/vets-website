@@ -60,12 +60,16 @@ class PrestartWrapper extends React.Component {
 }
 
 PrestartWrapper.propTypes = {
-  route: PropTypes.shape({
-    pageList: PropTypes.arrayOf(PropTypes.shape({
-      path: PropTypes.string
-    })),
-    formConfig: PropTypes.object.isRequired
-  }),
+  formConfig: PropTypes.object.isRequired,
+  displayPrestartMessage: PropTypes.bool.isRequired,
+  location: PropTypes.object.isRequired,
+  prestartData: PropTypes.object.isRequired,
+  prestartStatus: PropTypes.string.isRequired,
+  router: PropTypes.object.isRequired,
+  routes: PropTypes.array.isRequired,
+  setPrestartStatus: PropTypes.func.isRequired,
+  unsetPrestartDisplay: PropTypes.func.isRequired,
+  unsetPrestartStatus: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {

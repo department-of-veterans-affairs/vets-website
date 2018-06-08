@@ -170,13 +170,13 @@ export default class ReviewCardField extends React.Component {
 
   render() {
     let content = this.getReviewView();
-    const PrestartMessage = this.props.uiSchema['ui:description'];
+    const Description = this.props.uiSchema['ui:description'];
     if (this.state.editing) {
       content = this.getEditView();
     }
     return (
       <div>
-        <PrestartMessage/>
+        {<Description/>}
         {content}
       </div>
     );
