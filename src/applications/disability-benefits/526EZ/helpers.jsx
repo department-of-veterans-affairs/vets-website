@@ -465,7 +465,7 @@ function getPrestartSuccessMessage(status, data, expiredData) {
     [retrieved]: (expirationDateString) => `Our records show that you already have an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
     [renewed]: (expirationDateString, expiredDateString) => `Your existing Intent to File expired on ${expiredDateString}, so we’ve created a new one for you. This new Intent to File request will expire on ${expirationDateString}.`
   };
-  return messages[status](moment(data).format('M/D/YYYY'), moment(expiredData).format('M/D/YYYY'));
+  return messages[status](moment(data).format('MMM, D YYYY'), moment(expiredData).format('MMM, D YYYY'));
 }
 
 export function PrestartAlert({ status, data }) {
