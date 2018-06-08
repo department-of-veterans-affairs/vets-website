@@ -39,7 +39,7 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
   }
 }
 
-const hasForwardingAddress = (veteran) => (veteran['view:hasForwardingAddress'] === true);
+const hasForwardingAddress = (veteran) => (_.get(veteran, 'view:hasForwardingAddress', false));
 
 const states = [
   'AL',
@@ -555,17 +555,23 @@ export const uiSchema = {
         state: {
           'ui:required': ({ veteran }) => (
             hasForwardingAddress(veteran)
-            && veteran.forwardingAddress.country === USA),
+            && veteran.forwardingAddress.country === USA
+          ),
           'ui:options': {
-            hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== USA)
+            hideIf: ({ veteran }) => (
+              hasForwardingAddress(veteran)
+              && veteran.forwardingAddress.country !== USA)
           }
         },
         zipCode: {
           'ui:required': ({ veteran }) => (
             hasForwardingAddress(veteran)
-            && veteran.forwardingAddress.country === USA),
+            && veteran.forwardingAddress.country === USA
+          ),
           'ui:options': {
-            hideIf: ({ veteran }) => (veteran.forwardingAddress.country !== USA)
+            hideIf: ({ veteran }) => (
+              hasForwardingAddress(veteran)
+              && veteran.forwardingAddress.country !== USA)
           }
         }
       }
