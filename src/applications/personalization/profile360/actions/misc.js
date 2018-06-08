@@ -1,4 +1,5 @@
 import { isValidEmail, isValidPhone } from '../../../../platform/forms/validations';
+import { MILITARY_STATES } from '../../../letters/utils/constants';
 
 export const UPDATE_PROFILE_FORM_FIELD = 'UPDATE_PROFILE_FORM_FIELD';
 export const OPEN_MODAL = 'OPEN_MODAL';
@@ -41,22 +42,36 @@ function cleanEmailDataForUpdate(value) {
 function cleanPhoneDataForUpdate(value) {
   const {
     id,
-    areaCode,
     countryCode,
     extension,
     phoneType,
-    phoneNumber,
+    inputPhoneNumber,
   } = value;
+
+  const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
+  const strippedExtension = (extension || '').replace(/[^a-zA-Z0-9]/g, '');
 
   return {
     id,
-    areaCode,
+    areaCode: strippedPhone.substring(0, 3),
     countryCode,
-    extension,
+    extension: strippedExtension,
     phoneType,
-    phoneNumber,
+    phoneNumber: strippedPhone.substring(3),
     isInternational: countryCode !== '1',
+    inputPhoneNumber,
   };
+}
+
+function inferAddressType(countryName, stateCode) {
+  let addressType = 'DOMESTIC';
+  if (countryName !== 'United States') {
+    addressType = 'INTERNATIONAL';
+  } else if (MILITARY_STATES.has(stateCode)) {
+    addressType = 'MILITARY OVERSEAS';
+  }
+
+  return addressType;
 }
 
 function cleanAddressDataForUpdate(value) {
@@ -66,12 +81,14 @@ function cleanAddressDataForUpdate(value) {
     addressLine2,
     addressLine3,
     addressPou,
-    addressType,
     city,
     countryName,
     stateCode,
     zipCode,
+    internationalPostalCode,
   } = value;
+
+  const addressType = inferAddressType(countryName, stateCode);
 
   return {
     id,
@@ -82,8 +99,9 @@ function cleanAddressDataForUpdate(value) {
     addressType,
     city,
     countryName,
-    stateCode,
-    zipCode,
+    stateCode: addressType === 'INTERNATIONAL' ? null : stateCode,
+    zipCode: addressType !== 'INTERNATIONAL' ? zipCode : null,
+    internationalPostalCode: addressType === 'INTERNATIONAL' ? internationalPostalCode : null,
   };
 }
 

@@ -1,7 +1,6 @@
 import { every } from 'lodash';
 
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
@@ -14,13 +13,14 @@ import { handleDowntimeForSection } from './DowntimeBanner';
 
 function recordedAction(actionName, sectionName, callback) {
   return (...args) => {
-    if (sectionName && actionName) {
-      recordEvent({
-        event: 'profile-navigation',
-        'profile-action': actionName,
-        'profile-section': sectionName,
-      });
-    }
+    // TODO turn analytics back on later
+    // if (sectionName && actionName) {
+    //   recordEvent({
+    //     event: 'profile-navigation',
+    //     'profile-action': actionName,
+    //     'profile-section': sectionName,
+    //   });
+    // }
     callback(...args);
   };
 }
@@ -171,10 +171,6 @@ class ContactInformationContent extends React.Component {
   render() {
     return (
       <div>
-        <AlertBox
-          isVisible
-          status="info"
-          content={<p>We’ll use this information to communicate with you about your VA <strong>Compensation &amp; Pension benefits.</strong></p>}/>
         {this.renderContent()}
         <div>
           <h3>Want to update the email you use to sign in to Vets.gov?</h3>

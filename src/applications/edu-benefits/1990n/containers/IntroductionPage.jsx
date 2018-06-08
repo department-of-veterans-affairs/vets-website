@@ -6,15 +6,15 @@ import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
-class IntroductionPage extends React.Component {
+export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for education benefits"/>
-        <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
+        <FormTitle title="Apply for education benefits under the National Call to Service program"/>
+        <p>Equal to VA Form 22-1990N (Application for VA Education Benefits Under the National Call to Service (NCS) Program).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
@@ -22,7 +22,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Education Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Please complete the 22-1990 form to apply for education benefits.
+          Please complete the 22-1990N form to apply for education benefits.
         </SaveInProgressIntro>
         <h4>Follow the steps below to apply for education benefits.</h4>
         <div className="process schemaform-process">
@@ -32,12 +32,11 @@ class IntroductionPage extends React.Component {
               <div><h6>To fill out this application, you’ll need your:</h6></div>
               <ul>
                 <li>Social Security number (required)</li>
-                <li>Military history (required)</li>
-                <li>Basic information about the school or training facility you want to attend (required)</li>
+                <li>Basic information about the school or training facility you want to attend</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-              <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
               <h6>Learn about educational programs</h6>
               <p>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</p>
             </li>

@@ -102,3 +102,7 @@ export function isVeteran(item) {
   return get('view:relationshipToVet', item) === '1';
 }
 
+export function isNotVeteran(item) {
+  return get('view:relationshipToVet', item) !== '1';
+}
+

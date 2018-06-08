@@ -6,7 +6,7 @@ import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
-class IntroductionPage extends React.Component {
+export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
