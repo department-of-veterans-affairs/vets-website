@@ -20,7 +20,6 @@ export default {
     secondaryPhone: '3242342342',
     emailAddress: 'test@test.com',
     mailingAddress: {
-      type: 'DOMESTIC',
       country: 'USA',
       city: 'Detroit',
       state: 'MI',
