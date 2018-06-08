@@ -445,14 +445,14 @@ const prestartAlertHeadings = {
   retrieved: 'We found your existing Intent to File',
   renewed: 'Your Intent to File request has been submitted',
   notRetrievedSaved: 'Your Intent to File request didn’t go through',
-  notRetrievedNew: 'We couldn’t process your Intent to File request',
+  notRetrievedNew: 'We can’t process your Intent to File request',
   notRenewed: 'Your Intent to File request didn’t go through',
   notCreated: 'We’re sorry. Something went wrong on our end',
 };
 
 const prestartErrorMessages = {
   notRetrievedSaved: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
-  notRetrievedNew: 'We’re sorry. We aren’t able to process your Intent to File request at this time. Please try applying again tomorrow.',
+  notRetrievedNew: 'We’re sorry. We can’t process your Intent to File request at this time. Please try applying again tomorrow.',
   notRenewed: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
   notCreated: 'We can’t access your Intent to File request right now. Please try applying again tomorrow.',
 };
@@ -460,7 +460,7 @@ const prestartErrorMessages = {
 function getPrestartSuccessMessage(status, data, expiredData) {
   const messages = {
     created: (expirationDateString) => `Thank you for submitting your Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
-    retrieved: (expirationDateString) => `Our records show that you’ve already submitted an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
+    retrieved: (expirationDateString) => `Our records show that you already have an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
     renewed: (expirationDateString, expiredDateString) => `Your existing Intent to File expired on ${expiredDateString}, so we’ve created a new one for you. This new Intent to File request will expire on ${expirationDateString}.`
   };
   return messages[status](moment(data).format('M/D/YYYY'), moment(expiredData).format('M/D/YYYY'));
@@ -491,7 +491,7 @@ export function PrestartAlert({ status, data }) {
       <h3>{alertHeading}</h3>
       <p>{alertMessage}</p>
       <AdditionalInfo triggerText="What is an Intent to File request?">
-        <p>An Intent to File request lets you set an effective date, or the day you can start getting your benefits, while you prepare your application and gather supporting evidence or documents for your disability claim. If you submit an Intent to File before you file your claim, you may be able to get retroactive payments starting from your effective date.</p>
+        <p>An Intent to File request lets you set an effective date, or the day you can start getting your benefits, while you prepare your application and gather supporting documents for your disability claim. If you submit an Intent to File before you file your claim, you may be able to get retroactive payments starting from your effective date.</p>
       </AdditionalInfo>
     </div>}/>);
 }
