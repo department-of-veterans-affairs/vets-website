@@ -464,7 +464,7 @@ export function createInitialState(formConfig) {
       openChapters: [],
       viewedPages: new Set()
     },
-    trackingPrefix: formConfig.trackingPrefix,
+    trackingPrefix: formConfig.trackingPrefix
   };
 
   const pageAndDataState = createFormPageList(formConfig)

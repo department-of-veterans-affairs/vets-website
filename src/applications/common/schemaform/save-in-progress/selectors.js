@@ -4,7 +4,6 @@ import { isLoggedIn } from '../../../../platform/user/selectors';
 import { PREFILL_STATUSES } from './actions';
 
 export const getSaveInProgressState = createStructuredSelector({
-  prestartStatus: state => state.form.prestartStatus,
   loadedStatus: state => state.form.loadedStatus,
   savedStatus: state => state.form.savedStatus,
   autoSavedStatus: state => state.form.autoSavedStatus,

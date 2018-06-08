@@ -128,6 +128,7 @@ class SaveInProgressIntro extends React.Component {
       .filter(f => moment.unix(f.metadata.expires_at).isAfter())
       .find(f => f.form === this.props.formId);
     const prefillAvailable = this.props.prefillAvailable ||
+      // TODO: remove 1st clause once 526 added to list
       !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
     if (profile.loading && !this.props.resumeOnly) {

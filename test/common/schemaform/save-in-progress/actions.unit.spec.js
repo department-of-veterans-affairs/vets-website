@@ -243,36 +243,13 @@ describe('Schemaform save / load actions:', () => {
     beforeEach(setup);
     afterEach(teardown);
 
-    it('calls prestart, if provided', () => {
-      const prestart = sinon.stub();
-      prestart.resolves(true);
-      const thunk = fetchInProgressForm('1010ez', {}, false, null, prestart);
-      const dispatch = sinon.spy();
-      delete sessionStorage.userToken;
-
-      return thunk(dispatch, getState).then(() => {
-        expect(dispatch.called).to.be.true;
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
-      });
-    });
-    it('gates on prestart, if provided', () => {
-      const prestart = sinon.stub();
-      prestart.resolves(false);
-      const thunk = fetchInProgressForm('1010ez', {}, false, null, prestart);
-      const dispatch = sinon.spy();
-      delete sessionStorage.userToken;
-
-      return thunk(dispatch, getState).then(() => {
-        expect(dispatch.called).to.be.false;
-      });
-    });
     it('dispatches a no-auth if the user has no session token', () => {
       const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.called).to.be.true;
+        expect(dispatch.calledOnce).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
       });
     });
@@ -322,10 +299,8 @@ describe('Schemaform save / load actions:', () => {
       }));
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(logOut())).to.be.true;
-        expect(dispatch.calledWith(setFetchFormPending(false))).to.be.true;
-      }).catch(() => {
         expect(dispatch.calledThrice).to.be.true;
+        expect(dispatch.calledWith(logOut())).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
       });
     });
@@ -337,7 +312,7 @@ describe('Schemaform save / load actions:', () => {
         status: 404
       }));
 
-      return thunk(dispatch, getState).catch(() => {
+      return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound))).to.be.true;
       });
@@ -350,7 +325,7 @@ describe('Schemaform save / load actions:', () => {
         json: () => ({}) // Return an empty object
       }));
 
-      return thunk(dispatch, getState).catch(() => {
+      return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound))).to.be.true;
       });
@@ -363,7 +338,7 @@ describe('Schemaform save / load actions:', () => {
         json: () => ([]) // Return not an object
       }));
 
-      return thunk(dispatch, getState).catch(() => {
+      return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData))).to.be.true;
       });
@@ -377,7 +352,7 @@ describe('Schemaform save / load actions:', () => {
         json: () => (Promise.reject(new SyntaxError('Error parsing json')))
       }));
 
-      return thunk(dispatch, getState).catch(() => {
+      return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData))).to.be.true;
       });
@@ -390,7 +365,7 @@ describe('Schemaform save / load actions:', () => {
         status: 500
       }));
 
-      return thunk(dispatch, getState).catch(() => {
+      return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.failure))).to.be.true;
       });
@@ -400,7 +375,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
-      return thunk(dispatch, getState).catch(() => {
+      return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.clientFailure))).to.be.true;
       });
@@ -414,7 +389,7 @@ describe('Schemaform save / load actions:', () => {
           status: 401
         }));
 
-        return thunk(dispatch, getState).catch(() => {
+        return thunk(dispatch, getState).then(() => {
           expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
         });
       });
@@ -426,7 +401,7 @@ describe('Schemaform save / load actions:', () => {
           status: 404
         }));
 
-        return thunk(dispatch, getState).catch(() => {
+        return thunk(dispatch, getState).then(() => {
           expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
         });
       });
@@ -438,7 +413,7 @@ describe('Schemaform save / load actions:', () => {
           json: () => ({}) // Return an empty object
         }));
 
-        return thunk(dispatch, getState).catch(() => {
+        return thunk(dispatch, getState).then(() => {
           expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
         });
       });
@@ -456,7 +431,7 @@ describe('Schemaform save / load actions:', () => {
           })
         }));
 
-        return thunk(dispatch, getState).catch(() => {
+        return thunk(dispatch, getState).then(() => {
           expect(prefillTransformer.called).to.be.true;
           expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
         });

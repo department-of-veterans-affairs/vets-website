@@ -12,10 +12,6 @@ import { PrestartAlert } from '../helpers';
 const formEntryPointPaths = new Set(['introduction', 'confirmation', 'form-saved', 'error', 'resume']);
 
 class PrestartWrapper extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
   componentWillReceiveProps(newProps) {
     const { location: { pathname }, displayPrestartMessage, formConfig: { formId }, savedForms } = this.props;
@@ -30,20 +26,12 @@ class PrestartWrapper extends React.Component {
     if (leavingFormPage && displayPrestartMessage) {
       this.props.unsetPrestartDisplay();
     }
-    if (prestartStatus === PRESTART_STATUSES.notAttempted || prestartStatus !== 'pending') {
-      this.setPending(false);
-    }
     if ((prestartStatus === PRESTART_STATUSES.notAttempted || prestartFailureStatuses.has(prestartStatus)) && enteringForm) {
       this.props.setPrestartStatus(hasSavedForm);
-      this.setPending(true);
     }
     if (prestartStatus && exitingForm) {
       this.props.unsetPrestartStatus();
     }
-  }
-
-  setPending = (pending) => {
-    this.setState({ pending });
   }
 
   render() {
@@ -54,7 +42,7 @@ class PrestartWrapper extends React.Component {
       </div>
     );
 
-    if (prestartPendingStatuses.has(prestartStatus) || this.state.pending) {
+    if (prestartPendingStatuses.has(prestartStatus)) {
       content = (<LoadingIndicator message="Please wait while we verify your Intent to File request."/>);
     }
     if (prestartFailureStatuses.has(prestartStatus)) {

@@ -19,10 +19,7 @@ export function createRoutesWithSaveInProgress(formConfig) {
 
     // rewrite page component
     if (!protectedRoutes.has(route.path)) {
-      newRoute = Object.assign({}, route, {
-        component: RoutedSavablePage,
-        formConfig
-      });
+      newRoute = Object.assign({}, route, { component: RoutedSavablePage });
       newRoutes[index] = newRoute;
     }
 

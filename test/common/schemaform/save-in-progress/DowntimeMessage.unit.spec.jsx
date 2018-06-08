@@ -10,8 +10,8 @@ describe('<DowntimeMessage>', () => {
     const tree = shallow(
       <DowntimeMessage downtime={{}}/>
     );
-    expect(tree.find('AlertBox').dive().text()).to.contain('This form is down for maintenance.');
-    expect(tree.find('p').text()).to.contain('We’re sorry it’s not working right now.');
+
+    expect(tree.find('AlertBox').dive().text()).to.contain('We’re sorry it’s not working right now.');
   });
 
   it('should render with window message', () => {
@@ -19,7 +19,7 @@ describe('<DowntimeMessage>', () => {
     const tree = shallow(
       <DowntimeMessage downtime={{ endTime }}/>
     );
-    expect(tree.find('AlertBox').dive().text()).to.contain('This form is down for maintenance.');
-    expect(tree.find('p').text()).to.contain(`We’re sorry it’s not working right now, and we hope to be finished by ${endTime.format('MMMM Do, LT')}`);
+
+    expect(tree.find('AlertBox').dive().text()).to.contain(`We’re sorry it’s not working right now, and we hope to be finished by ${endTime.format('MMMM Do, LT')}`);
   });
 });

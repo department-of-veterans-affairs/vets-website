@@ -52,15 +52,10 @@ describe('Schemaform <FormSaved>', () => {
 
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
-      <FormSaved
-        formId={formId}
-        lastSavedDate={lastSavedDate}
-        expirationDate={expirationDate}
-        route={route}
-        user={user()}/>
+      <FormSaved formId={formId} lastSavedDate={lastSavedDate} expirationDate={expirationDate} route={route} user={user()}/>
     );
-    expect(tree.subTree('withRouter(Connect(FormStartControls))')).not.to.be.false;
-    expect(tree.subTree('withRouter(Connect(FormStartControls))').props.startPage).to.equal('testing');
+    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+    expect(tree.subTree('withRouter(FormStartControls)').props.startPage).to.equal('testing');
     expect(tree.subTree('.usa-alert').text()).to.contain('6/12/2017 at');
     expect(tree.subTree('.usa-alert').text()).to.contain('will expire on');
   });
