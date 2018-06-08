@@ -48,7 +48,7 @@ export function unsetPrestartDisplay() {
 export function checkITFRequest(dispatch, hasSavedForm) {
 
   return apiRequest(
-    '/intent_to_file/compensation',
+    '/intent_to_file',
     null,
     ({ data }) => {
       let status;
@@ -111,7 +111,7 @@ export function verifyIntentToFile(hasSavedForm) {
     let newSuccessStatus; // eslint-disable-line no-unused-vars
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
     
-    // const existingITF = await checkITFRequest(dispatch, hasSavedForm);
+    // const existingITFStatus = await checkITFRequest(dispatch, hasSavedForm);
     const existingITFStatus = await fakeITFRequest('none', () => dispatch(setPrestartStatus(PRESTART_STATUSES.none, '2017-08-17T21:59:53.327Z')));
 
     if (prestartFailureStatuses.has(existingITFStatus)) {
@@ -125,7 +125,7 @@ export function verifyIntentToFile(hasSavedForm) {
     } else if (existingITFStatus === PRESTART_STATUSES.expired) {
       newSuccessStatus = PRESTART_STATUSES.renewed;
     }
-    // const newITF = await submitITFRequest(dispatch, newSuccessStatus);
+    // const newITFStatus = await submitITFRequest(dispatch, newSuccessStatus);
     const newITFStatus = await fakeITFRequest('created', () => dispatch(setPrestartStatus(PRESTART_STATUSES.created, '2017-08-17T21:59:53.327Z')));
 
     if (newITFStatus === PRESTART_STATUSES.failure) {
