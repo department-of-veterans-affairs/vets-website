@@ -18,13 +18,14 @@ class PrestartWrapper extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { location: { pathname }, displayPrestartMessage } = this.props;
+    const { location: { pathname }, displayPrestartMessage, formConfig: { formId }, savedForms } = this.props;
     const currentPath = pathname.slice(1);
     const { prestartStatus, location: { pathname: newPathname } } = newProps;
     const newPath = newPathname.slice(1);
     const enteringForm = !formEntryPointPaths.has(newPath) && formEntryPointPaths.has(currentPath);
     const exitingForm = formEntryPointPaths.has(newPath) && !formEntryPointPaths.has(currentPath);
     const leavingFormPage = !formEntryPointPaths.has(currentPath) && currentPath !== newPath;
+    const hasSavedForm = savedForms.find(({ form }) => form === formId);
 
     if (leavingFormPage && displayPrestartMessage) {
       this.props.unsetPrestartDisplay();
@@ -33,7 +34,7 @@ class PrestartWrapper extends React.Component {
       this.setPending(false);
     }
     if ((prestartStatus === PRESTART_STATUSES.notAttempted || prestartFailureStatuses.has(prestartStatus)) && enteringForm) {
-      this.props.setPrestartStatus();
+      this.props.setPrestartStatus(hasSavedForm);
       this.setPending(true);
     }
     if (prestartStatus && exitingForm) {
@@ -84,6 +85,7 @@ function mapStateToProps(state) {
     prestartStatus: state.prestart.status,
     prestartData: state.prestart.data,
     displayPrestartMessage: state.prestart.display,
+    savedForms: state.user.profile.savedForms
   };
 }
 

@@ -1,6 +1,7 @@
 import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
-import { veteranInformationViewField, PrestartMessage } from '../helpers';
+import { veteranInformationViewField } from '../helpers';
+import PrestartMessage from '../components/PrestartMessage';
 
 export const uiSchema = {
   'ui:field': 'StringField',

@@ -8,7 +8,7 @@ import formConfig from './config/form';
 export default function Form526Entry({ location, children }) {
 
   return (
-    <PrestartWrapper>
+    <PrestartWrapper formConfig={formConfig}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>

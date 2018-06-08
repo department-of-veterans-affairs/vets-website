@@ -45,7 +45,7 @@ export function unsetPrestartDisplay() {
   };
 }
 
-export function checkITFRequest(dispatch) {
+export function checkITFRequest(dispatch, hasSavedForm) {
 
   return apiRequest(
     '/intent_to_file/compensation',
@@ -71,9 +71,10 @@ export function checkITFRequest(dispatch) {
     },
     ({ errors }) => {
       const errorMessage = 'Network request failed';
+      const status = hasSavedForm ? PRESTART_STATUSES.notRetrievedSaved : PRESTART_STATUSES.notRetrievedNew;
       Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
-      dispatch(setPrestartStatus(PRESTART_STATUSES.failure, errors));
-      return PRESTART_STATUSES.failure;
+      dispatch(setPrestartStatus(status, errors));
+      return status;
     }
   );
 }
@@ -105,12 +106,13 @@ function fakeITFRequest(x, cb) {
   });
 }
 
-export function verifyIntentToFile() {
+export function verifyIntentToFile(hasSavedForm) {
   return async (dispatch) => {
     let newSuccessStatus; // eslint-disable-line no-unused-vars
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
-    // const existingITF = await checkITFRequest(dispatch);
-    const existingITFStatus = await fakeITFRequest('retrieved', () => dispatch(setPrestartStatus(PRESTART_STATUSES.retrieved, '2017-08-17T21:59:53.327Z')));
+    
+    // const existingITF = await checkITFRequest(dispatch, hasSavedForm);
+    const existingITFStatus = await fakeITFRequest('none', () => dispatch(setPrestartStatus(PRESTART_STATUSES.none, '2017-08-17T21:59:53.327Z')));
 
     if (prestartFailureStatuses.has(existingITFStatus)) {
       return false;
