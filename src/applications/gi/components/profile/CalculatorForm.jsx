@@ -116,25 +116,7 @@ class CalculatorForm extends React.Component {
   }
 
   renderYellowRibbon() {
-    if (!this.props.displayedInputs.yellowRibbon) return null;
-
-    let amountInput;
-
-    if (this.props.inputs.yellowRibbonRecipient === 'yes') {
-      amountInput = (
-        <div>
-          <label htmlFor="yellowRibbonAmount">
-            Yellow Ribbon Amount From School per year
-          </label>
-          <input
-            type="text"
-            name="yellowRibbonAmount"
-            value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
-            onChange={this.handleInputChange}/>
-        </div>
-      );
-    }
-
+    // if (!this.props.displayedInputs.yellowRibbon) return null;
     return (
       <div>
         <RadioButtons
@@ -149,8 +131,43 @@ class CalculatorForm extends React.Component {
           ]}
           value={this.props.inputs.yellowRibbonRecipient}
           onChange={this.handleInputChange}/>
-        {amountInput}
-      </div>
+        { this.props.inputs.yellowRibbonRecipient === 'yes' ?
+            <div>
+              <div>
+                <Dropdown
+                  label={this.renderLearnMoreLabel({
+                    text: 'Degree level',
+                    modal: 'calcEnrolled'
+                  })}
+                  name={'degreeLevel'}
+                  alt="Degree Level"
+                  options={[
+                    {
+                      value: 'Undergraduate',
+                      label: 'Undergraduate',
+                    },
+                    {
+                      value: 'Graduate',
+                      label: 'Graduate',
+                    }
+                  ]}
+                  visible
+                  value={'Undergraduate'}
+                  onChange={this.handleInputChange}/>
+              </div>
+              <div>
+                <label htmlFor="yellowRibbonAmount">
+                  Yellow Ribbon amount from school per year
+                </label>
+                <input
+                  type="text"
+                  name="yellowRibbonAmount"
+                  value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
+                  onChange={this.handleInputChange}/>
+              </div>
+            </div>
+            : null }
+          </div>
     );
   }
 
