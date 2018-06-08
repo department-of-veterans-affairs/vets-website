@@ -28,7 +28,7 @@ description: Find the right VA education benefits for you, and apply to start ge
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-+Find out how to apply for VA education benefits as a Veteran, Servicemember, or qualified family memer. Access tools to manage your current benefits.
+Find out how to apply for VA education benefits as a Veteran, Servicemember, or qualified family member. Access tools to manage your current benefits.
 
 </div>
 
