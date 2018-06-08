@@ -12,12 +12,12 @@ relatedlinks:
     - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
-+    - url: /employment/job-seekers/register-your-business/
-+      title: Register Your Veteran-Owned Small Business
-+      description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
-+    - url: /employment/job-seekers/family-members/
-+      title: Explore Resources for Military and Veteran Family Members
-+      description: Find out how the Veterans Employment Center can help spouses and other family members access valuable career resources.
+    - url: /employment/job-seekers/register-your-business/
+      title: Register Your Veteran-Owned Small Business
+      description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
+    - url: /employment/job-seekers/family-members/
+      title: Explore Resources for Military and Veteran Family Members
+      description: Find out how the Veterans Employment Center can help spouses and other family members access valuable career resources.
 widgets:
   - root: react-applicationStatus
     timeout: 20
