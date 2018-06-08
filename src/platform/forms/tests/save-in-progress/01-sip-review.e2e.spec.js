@@ -8,6 +8,9 @@ module.exports = E2eHelpers.createE2eTest(
     const reviewUrl = `${url}/review-and-submit?skip`;
     const token = HcaHelpers.initSaveInProgressMock(url, client);
 
+    // Prevent announcements from interfering with browser focus
+    E2eHelpers.disableAnnouncements(client);
+
     // Ensure introduction page renders.
     client
       .url(reviewUrl)

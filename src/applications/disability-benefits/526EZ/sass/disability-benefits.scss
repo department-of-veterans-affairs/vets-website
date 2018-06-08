@@ -138,16 +138,12 @@
   }
 }
 
-.disability-increase-wizard {
+.disability-increase-wizard .fieldset-input .legend-label {
+  max-width: 100%;
+}
 
-  .fieldset-input {
-
-    .legend-label {
-      max-width: 100%;
-    }
-
-  }
-
+.async-display-widget-alert-box {
+  margin-bottom: 1em;
 }
 
 .prestart-alert-error {

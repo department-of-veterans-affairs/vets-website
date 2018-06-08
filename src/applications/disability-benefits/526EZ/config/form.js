@@ -8,9 +8,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import {
-  uiSchema as autoSuggestUiSchema
-} from '../../../common/schemaform/definitions/autosuggest';
+import { uiSchema as autoSuggestUiSchema } from '../../../common/schemaform/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -63,7 +61,6 @@ import {
   // releaseView, // Where was this used before?
   disabilityOption,
   GetFormHelp,
-  specialCircumstancesDescription,
   FDCDescription,
   FDCWarning,
   noFDCWarning,
@@ -73,10 +70,9 @@ import {
   selectDisabilityDescription
 } from '../helpers';
 
-import {
-  requireOneSelected,
-} from '../validations';
+import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
+import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWidget';
 
 const {
   treatments: treatmentsSchema,
@@ -235,36 +231,82 @@ const formConfig = {
           title: 'Special Circumstances',
           path: 'special-circumstances',
           uiSchema: {
-            'ui:description': ({ formData, formContext }) => {
-              return descriptionWrapper(formData, formContext, PrestartMessage, specialCircumstancesDescription);
-            },
-            'view:suicidal': {
-              'ui:title': 'In crisis or thinking of suicide?'
-            },
-            'view:homeless': {
-              'ui:title': 'Homeless or at risk of becoming homeless?'
-            },
-            'view:extremeFinancialHardship': {
-              'ui:title': 'Suffering from extreme financial hardship?'
-            },
-            'view:blindOrSightImpaired': {
-              'ui:title': 'Blind or sight-impaired?'
+            'ui:description': PrestartMessage,
+            veteran: {
+              'ui:title': 'Homelessness',
+              homelessness: {
+                isHomeless: {
+                  'ui:title': 'Are you homeless or at risk of becoming homeless?',
+                  'ui:widget': 'yesNo',
+                },
+                pointOfContact: {
+                  'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
+                  'ui:options': {
+                    expandUnder: 'isHomeless',
+                  },
+                  pointOfContactName: {
+                    'ui:title': 'Name of person we should contact',
+                    'ui:errorMessages': {
+                      pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
+                    },
+                    'ui:required': (formData) => {
+                      const { homelessness } = formData.veteran;
+                      if (homelessness.isHomeless !== true) {
+                        return false;
+                      }
+                      return !!homelessness.pointOfContact.primaryPhone;
+                    }
+                  },
+                  primaryPhone: {
+                    'ui:title': 'Phone number',
+                    'ui:widget': PhoneNumberWidget,
+                    'ui:errorMessages': {
+                      pattern: 'Phone numbers must be 10 digits (dashes allowed)'
+                    },
+                    'ui:required': (formData) => {
+                      const { homelessness } = formData.veteran;
+                      if (homelessness.isHomeless !== true) {
+                        return false;
+                      }
+                      return !!homelessness.pointOfContact.pointOfContactName;
+                    }
+                  }
+                }
+              }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              // 'view:suicidal': { // TODO: re-enable after user testing
-              // type: 'boolean'
-              // },
-              'view:homeless': {
-                type: 'boolean'
-              },
-              'view:extremeFinancialHardship': {
-                type: 'boolean'
-              },
-              'view:blindOrSightImpaired': {
-                type: 'boolean'
+              veteran: {
+                type: 'object',
+                properties: {
+                  // TODO: Update to use 526 homelessness schema once in vets-json-schema
+                  homelessness: {
+                    type: 'object',
+                    required: ['isHomeless'],
+                    properties: {
+                      isHomeless: {
+                        type: 'boolean'
+                      },
+                      pointOfContact: {
+                        type: 'object',
+                        properties: {
+                          pointOfContactName: {
+                            type: 'string',
+                            minLength: 1,
+                            maxLength: 100,
+                            pattern: '^([a-zA-Z0-9-/]+( ?))*$'
+                          },
+                          primaryPhone: { // common: definitions.usaPhone
+                            type: 'string',
+                            pattern: '^\\d{10}$'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -565,6 +607,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['view:uploadPrivateRecords'],
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
@@ -745,13 +788,13 @@ const formConfig = {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     itemDescription: 'Adding additional evidence:',
-                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },
@@ -779,6 +822,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['privateRecords'],
                   properties: {
                     privateRecords: {
                       type: 'array',
@@ -817,13 +861,13 @@ const formConfig = {
                 additionalDocuments: Object.assign({},
                   fileUploadUI('Lay statements or other evidence', {
                     itemDescription: 'Adding additional evidence:',
-                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },
@@ -851,6 +895,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['additionalDocuments'],
                   properties: {
                     additionalDocuments: {
                       type: 'array',

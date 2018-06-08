@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
-import TrackPackageLink from '../../../rx/components/TrackPackageLink';
 import { formatDate } from '../../../rx/utils/helpers';
 
 function recordDashboardClick(product) {
@@ -34,12 +33,13 @@ export default function PrescriptionCard({ prescription }) {
       }</p>
       <p>
         {isTrackable ? (
-          <TrackPackageLink
+          <Link
             key={`rx-${prescription.id}-track`}
-            className="usa-button"
-            text="Track Your Package"
-            url={`/${prescription.id}/track`}
-            onClick={recordDashboardClick('track-your-package')}/>
+            className="rx-track-package-link usa-button"
+            href={`/health-care/prescriptions/${prescription.id}/track`}
+            onClick={recordDashboardClick('track-your-package')}>
+              Track Your Package
+          </Link>
         ) : (
           <Link
             className="usa-button usa-button-primary"

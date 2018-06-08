@@ -9,7 +9,7 @@ export const FETCH_ADDRESS_CONSTANTS_SUCCESS = 'FETCH_ADDRESS_CONSTANTS_SUCCESS'
 export * from './updaters';
 export * from './misc';
 
-export function fetchHero() {
+function fetchHero() {
   return async (dispatch) => {
     const hero = await sendAndMergeApiRequests({
       userFullName: '/profile/full_name'
@@ -21,7 +21,7 @@ export function fetchHero() {
   };
 }
 
-export function fetchContactInformation() {
+function fetchContactInformation() {
   return async (dispatch) => {
     const contactInformation = await sendAndMergeApiRequests({
       email: '/profile/email',
@@ -36,7 +36,7 @@ export function fetchContactInformation() {
   };
 }
 
-export function fetchPersonalInformation() {
+function fetchPersonalInformation() {
   return async (dispatch) => {
     const result = await sendAndMergeApiRequests({
       personalInformation: '/profile/personal_information'
@@ -48,7 +48,7 @@ export function fetchPersonalInformation() {
   };
 }
 
-export function fetchMilitaryInformation() {
+function fetchMilitaryInformation() {
   return async (dispatch) => {
     const militaryInformation = await sendAndMergeApiRequests({
       serviceHistory: '/profile/service_history'
@@ -60,7 +60,7 @@ export function fetchMilitaryInformation() {
   };
 }
 
-export function fetchAddressConstants() {
+function fetchAddressConstants() {
   return async (dispatch) => {
     const addressConstants = await sendAndMergeApiRequests({
       countries: '/address/countries',
@@ -73,12 +73,10 @@ export function fetchAddressConstants() {
   };
 }
 
-export function startup() {
-  return async (dispatch) => {
-    dispatch(fetchHero());
-    dispatch(fetchAddressConstants());
-    dispatch(fetchContactInformation());
-    dispatch(fetchPersonalInformation());
-    dispatch(fetchMilitaryInformation());
-  };
-}
+export const fetchInformation = {
+  fetchHero,
+  fetchContactInformation,
+  fetchPersonalInformation,
+  fetchMilitaryInformation,
+  fetchAddressConstants
+};

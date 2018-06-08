@@ -5,7 +5,7 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 
-import * as address from '../../common/schemaform/definitions/address';
+import * as address from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fileUploadUI from '../../common/schemaform/definitions/file';
@@ -67,6 +67,12 @@ const {
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = _.omit('required', fullName);
+
+function currentlyBuriedPersonsMinItem() {
+  const copy = Object.assign({}, currentlyBuriedPersons);
+  copy.minItems = 1;
+  return _.set('items.properties.cemeteryNumber', autosuggest.schema, copy);
+}
 
 const formConfig = {
   urlPrefix: '/',
@@ -348,7 +354,20 @@ const formConfig = {
         applicantMilitaryName: {
           path: 'applicant-military-name',
           depends: isVeteran,
-          uiSchema: militaryNameUI,
+          uiSchema: _.merge(militaryNameUI, {
+            application: {
+              veteran: {
+                serviceName: {
+                  first: {
+                    'ui:required': (form) => _.get('application.veteran.view:hasServiceName', form) === true,
+                  },
+                  last: {
+                    'ui:required': (form) => _.get('application.veteran.view:hasServiceName', form) === true,
+                  }
+                }
+              }
+            }
+          }),
           schema: {
             type: 'object',
             properties: {
@@ -430,10 +449,12 @@ const formConfig = {
                 },
                 serviceName: _.merge(fullNameUI, {
                   first: {
-                    'ui:title': 'Sponsor’s first name'
+                    'ui:title': 'Sponsor’s first name',
+                    'ui:required': (form) => _.get('application.veteran.view:hasServiceName', form) === true,
                   },
                   last: {
-                    'ui:title': 'Sponsor’s last name'
+                    'ui:title': 'Sponsor’s last name',
+                    'ui:required': (form) => _.get('application.veteran.view:hasServiceName', form) === true,
                   },
                   middle: {
                     'ui:title': 'Sponsor’s middle name'
@@ -541,11 +562,7 @@ const formConfig = {
                     }
                   },
                   hasCurrentlyBuried,
-                  currentlyBuriedPersons: _.set(
-                    'items.properties.cemeteryNumber',
-                    autosuggest.schema,
-                    currentlyBuriedPersons
-                  )
+                  currentlyBuriedPersons: currentlyBuriedPersonsMinItem()
                 }
               }
             }

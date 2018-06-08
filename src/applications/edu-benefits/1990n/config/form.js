@@ -13,7 +13,7 @@ import createDirectDepositPage from '../../pages/directDeposit';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {

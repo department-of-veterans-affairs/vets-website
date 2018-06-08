@@ -22,7 +22,7 @@ import LoadFail from './LoadFail';
 import { handleDowntimeForSection } from './DowntimeBanner';
 
 function recordedAction(actionName, sectionName, callback) {
-  return () => {
+  return (...args) => {
     if (sectionName && actionName) {
       recordEvent({
         event: 'profile-navigation',
@@ -30,7 +30,7 @@ function recordedAction(actionName, sectionName, callback) {
         'profile-section': sectionName,
       });
     }
-    callback();
+    callback(...args);
   };
 }
 
@@ -54,7 +54,7 @@ function ContactError({ error }) {
   return <LoadFail information="contact"/>;
 }
 
-class ContactInformationContent extends React.Component {
+export class ContactInformationContent extends React.Component {
 
   componentDidMount() {
     this.props.fetchContactInformation();

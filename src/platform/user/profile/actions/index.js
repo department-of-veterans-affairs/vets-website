@@ -2,12 +2,16 @@ import recordEvent from '../../../monitoring/record-event';
 import { removeFormApi } from '../../../../applications/common/schemaform/save-in-progress/api';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import environment from '../../../utilities/environment';
+import camelCaseObjectKeys from '../../../utilities/data/camelCaseObjectKeys';
+
+import { isVet360Configured, mockContactInformation } from '../../../../applications/personalization/profile360/util/local-vet360';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
 export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
+export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
 export * from './mhv';
 
@@ -55,6 +59,7 @@ export function getProfile() {
           middle: userData.middle_name,
           last: userData.last_name,
         },
+        vet360: isVet360Configured() ? camelCaseObjectKeys(json.data.attributes.vet360_contact_information) : camelCaseObjectKeys(mockContactInformation),
         authnContext: userData.authn_context,
         loa: userData.loa,
         multifactor: userData.multifactor,

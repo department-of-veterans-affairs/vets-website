@@ -12,7 +12,7 @@ export default function DashboardIntro({ dismiss }) {
       </div>
       <h3 className="announcement-title">Welcome to your new personalized homepage</h3>
       <p>Now, see all your latest updates in one place—like the status of your prescription refills or disability claims and new secure messages from your health care team.</p>
-      <button type="button" onClick={dismiss}>Continue</button>
+      <button type="button" aria-label="Dismiss this announcement" onClick={dismiss}>Continue</button>
     </Modal>
   );
 }

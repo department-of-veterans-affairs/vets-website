@@ -15,7 +15,7 @@ import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 import * as personId from '../../../common/schemaform/definitions/personId';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {

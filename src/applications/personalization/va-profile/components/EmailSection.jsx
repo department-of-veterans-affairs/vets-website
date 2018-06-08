@@ -63,14 +63,14 @@ export default function EmailSection({ emailResponseData, field, error, clearErr
   let content = null;
   let modal = null;
 
-  if (emailResponseData) {
+  if (emailResponseData.error) {
+    content = fieldFailureMessage;
+  } else {
     if (emailResponseData.email) {
       content = emailResponseData.email;
     } else {
       content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your email address</button>;
     }
-  } else {
-    content = fieldFailureMessage;
   }
 
   if (isEditing) {
