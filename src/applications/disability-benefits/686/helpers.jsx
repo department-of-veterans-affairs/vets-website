@@ -99,10 +99,12 @@ export const otherRelationshipDescription = (
 );
 
 export function isVeteran(item) {
-  return get('view:relationshipToVet', item) === '1';
+  const relationship = get('view:relationshipToVet', item);
+  return relationship && relationship === '1';
 }
 
 export function isNotVeteran(item) {
-  return get('view:relationshipToVet', item) !== '1';
+  const relationship = get('view:relationshipToVet', item);
+  return relationship && relationship !== '1';
 }
 

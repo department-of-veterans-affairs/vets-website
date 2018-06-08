@@ -202,13 +202,17 @@ const formConfig = {
           uiSchema: {
             veteranFullName: _.merge(fullNameUI, {
               'ui:options': {
-                hideIf: (formData) => {
-                  return formData['view:relationshipToVet'] === '1';
-                }
+                hideIf: formData => isVeteran(formData)
               },
-              first: { 'ui:title': 'Veteran’s first name' },
+              first: {
+                'ui:title': 'Veteran’s first name',
+                'ui:required': formData => isNotVeteran(formData)
+              },
               middle: { 'ui:title': 'Veteran’s middle name' },
-              last: { 'ui:title': 'Veteran’s last name' },
+              last: {
+                'ui:title': 'Veteran’s last name',
+                'ui:required': formData => isNotVeteran(formData)
+              },
               suffix: { 'ui:title': 'Veteran’s suffix' }
             }),
             veteranSocialSecurityNumber: {
@@ -283,6 +287,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['dateOfBirth'],
             properties: {
               veteranFullName,
               veteranSocialSecurityNumber,
