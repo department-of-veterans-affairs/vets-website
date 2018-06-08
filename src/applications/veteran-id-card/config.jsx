@@ -14,7 +14,7 @@ const config = {
         <li>You separated under honorable conditions or general (under honorable conditions)</li>
       </ul>
     </p>),
-    VICV3: (<p>We’re sorry. We can’t confirm your eligibility for a Veteran ID card right now. To qualify for a Veteran ID Card, both of these must be true:
+    VICV4: (<p>We’re sorry. We can’t confirm your eligibility for a Veteran ID card right now. To qualify for a Veteran ID Card, both of these must be true:
       <ul>
         <li>You served on active duty, in the military reserves, or in the National Guard, and </li>
         <li>You separated under honorable conditions or general (under honorable conditions)</li>
