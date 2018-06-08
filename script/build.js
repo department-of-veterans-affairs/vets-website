@@ -615,7 +615,6 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/health-care/apply/application',
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
-        '/disability-benefits/apply-for-increase',
         '/download-va-letters/letters'].join('|'))
   }));
 }
