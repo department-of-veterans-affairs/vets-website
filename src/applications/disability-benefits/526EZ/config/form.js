@@ -75,11 +75,17 @@ const {
   privateRecordReleases,
   serviceInformation,
   standardClaim,
+  veteran: {
+    properties: {
+      homelessness
+    }
+  }
 } = fullSchema526EZ.properties;
 
 const {
   date,
   fullName,
+  phone,
   // files
   dateRange,
   dateRangeFromRequired,
@@ -140,6 +146,7 @@ const formConfig = {
   defaultDefinitions: {
     date,
     fullName,
+    phone,
     // files
     dateRange,
     dateRangeFromRequired,
@@ -244,25 +251,28 @@ const formConfig = {
                       pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
                     },
                     'ui:required': (formData) => {
-                      const { homelessness } = formData.veteran;
-                      if (homelessness.isHomeless !== true) {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
-                      return !!homelessness.pointOfContact.primaryPhone;
+                      return !!homelessOrAtRisk.pointOfContact.primaryPhone;
                     }
                   },
                   primaryPhone: {
                     'ui:title': 'Phone number',
                     'ui:widget': PhoneNumberWidget,
+                    'ui:options': {
+                      widgetClassNames: 'va-input-medium-large'
+                    },
                     'ui:errorMessages': {
                       pattern: 'Phone numbers must be 10 digits (dashes allowed)'
                     },
                     'ui:required': (formData) => {
-                      const { homelessness } = formData.veteran;
-                      if (homelessness.isHomeless !== true) {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
-                      return !!homelessness.pointOfContact.pointOfContactName;
+                      return !!homelessOrAtRisk.pointOfContact.pointOfContactName;
                     }
                   }
                 }
@@ -275,31 +285,7 @@ const formConfig = {
               veteran: {
                 type: 'object',
                 properties: {
-                  // TODO: Update to use 526 homelessness schema once in vets-json-schema
-                  homelessness: {
-                    type: 'object',
-                    required: ['isHomeless'],
-                    properties: {
-                      isHomeless: {
-                        type: 'boolean'
-                      },
-                      pointOfContact: {
-                        type: 'object',
-                        properties: {
-                          pointOfContactName: {
-                            type: 'string',
-                            minLength: 1,
-                            maxLength: 100,
-                            pattern: '^([a-zA-Z0-9-/]+( ?))*$'
-                          },
-                          primaryPhone: { // common: definitions.usaPhone
-                            type: 'string',
-                            pattern: '^\\d{10}$'
-                          }
-                        }
-                      }
-                    }
-                  }
+                  homelessness
                 }
               }
             }
