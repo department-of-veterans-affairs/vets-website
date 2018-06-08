@@ -9,7 +9,7 @@ import { DefinitionTester, // selectCheckbox
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
-describe('Disability benefits 526EZ primary address', () => {
+describe.only('Disability benefits 526EZ primary address', () => {
   const {
     schema,
     uiSchema
@@ -19,64 +19,284 @@ describe('Disability benefits 526EZ primary address', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{}}
+        data={{
+          veteran: {
+            mailingAddress: {}
+          }
+        }}
         formData={{}}
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('select').length).to.equal(2);
-    expect(form.find('input').length).to.equal(8);
+    // country
+    expect(form.find('select').length).to.equal(1);
+    // street 1, 2, 3, city, phone, email, fwding address checkbox
+    expect(form.find('input').length).to.equal(7);
   });
-  it('adds a forwarding address', () => {
+
+  it('shows state and zip when country is USA', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{ veteran: {
-          'view:hasForwardingAddress': true
-        }
+        data={{
+          veteran: {
+            mailingAddress: {
+              country: 'USA'
+            }
+          }
         }}
-        formData={{ veteran: {
-          'view:hasForwardingAddress': true
-        }
-        }}
+        formData={{}}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('select').length).to.equal(6);
-    expect(form.find('input').length).to.equal(13);
+
+    // country, state
+    expect(form.find('select').length).to.equal(2);
+    // street 1, 2, 3, city, zip, phone, email, fwding address checkbox
+    expect(form.find('input').length).to.equal(8);
   });
+
+  it('hides state and zip when country is not USA', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          veteran: {
+            mailingAddress: {
+              country: 'Afghanistan'
+            }
+          }
+        }}
+        formData={{}}
+        uiSchema={uiSchema}/>
+    );
+
+    // country
+    expect(form.find('select').length).to.equal(1);
+    // street 1, 2, 3, city, phone, email, fwding address checkbox
+    expect(form.find('input').length).to.equal(7);
+  });
+
+  it('validates that state is military type if city is military type', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          veteran: {
+            mailingAddress: {
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'APO',
+              state: 'TX',
+              zipCode: '12345'
+            }
+          }
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}/>
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('validates that city is military type if state is military type', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          veteran: {
+            mailingAddress: {
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'Anytown',
+              state: 'AA',
+              zipCode: '12345'
+            }
+          }
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}/>
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('expands forwarding address fields when forwarding address checked', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          veteran: {
+            'view:hasForwardingAddress': true,
+            mailingAddress: {
+              country: '',
+              addressLine1: ''
+            },
+            forwardingAddress: {
+              country: '',
+              addressLine1: ''
+            }
+          }
+        }}
+        formData={{}}
+        uiSchema={uiSchema}/>
+    );
+
+    // (2 x country), date month, date day, country
+    expect(form.find('select').length).to.equal(4);
+    // (2 x (street 1, 2, 3, city)), phone, email, fwding address checkbox, date year
+    expect(form.find('input').length).to.equal(12);
+  });
+
+  it('validates that forwarding state is military type if forwarding city is military type', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          veteran: {
+            'view:hasForwardingAddress': true,
+            mailingAddress: {
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'Anytown',
+              state: 'MI',
+              zipCode: '12345'
+            },
+            forwardingAddress: {
+              effectiveDate: '2019-01-01',
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'APO',
+              state: 'TX',
+              zipCode: '12345'
+            }
+          }
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}/>
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('validates that forwarding city is military type if forwarding state is military type', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          veteran: {
+            'view:hasForwardingAddress': true,
+            mailingAddress: {
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'Anytown',
+              state: 'MI',
+              zipCode: '12345'
+            },
+            forwardingAddress: {
+              effectiveDate: '2019-01-01',
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'Anytown',
+              state: 'AA',
+              zipCode: '12345'
+            }
+          }
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}/>
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
   it('does not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{}}
+        data={{
+          veteran: {
+            'view:hasForwardingAddress': true,
+            mailingAddress: {
+              country: '',
+              addressLine1: '',
+              city: ''
+            },
+            forwardingAddress: {
+              effectiveDate: '',
+              country: '',
+              addressLine1: '',
+              city: ''
+            }
+          }
+        }}
         formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('select').length).to.equal(2);
-    expect(form.find('input').length).to.equal(8);
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error-message').length).to.equal(7);
     expect(onSubmit.called).to.be.false;
   });
+
   it('does submit with required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={initialData}
+        data={{
+          veteran: {
+            'view:hasForwardingAddress': true,
+            mailingAddress: {
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'Anytown',
+              state: 'MI',
+              zipCode: '12345'
+            },
+            forwardingAddress: {
+              effectiveDate: '2019-01-01',
+              country: 'USA',
+              city: 'Detroit',
+              state: 'MI',
+              zipCode: '234563453',
+              addressLine1: '234 Maple St.'
+            }
+          }
+        }}
         formData={initialData}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });
