@@ -17,7 +17,6 @@ import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import applicantDescription from '../../../common/schemaform/components/ApplicantDescription';
-
 import {
   getSpouseMarriageTitle,
   dependentsMinItem,
@@ -30,8 +29,8 @@ import {
   spouseRelationshipDescription,
   childRelationshipDescription,
   otherRelationshipDescription,
-  // isVeteran,
-  // VAFileNumberDescription
+  isVeteran,
+  VAFileNumberDescription,
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -44,8 +43,9 @@ const {
   spouseIsVeteran,
   claimantSocialSecurityNumber,
   claimantFullName,
-  // veteranSocialSecurityNumber,
-  dependents
+  veteranSocialSecurityNumber,
+  dependents,
+  veteranFullName
 } = fullSchema686.properties;
 
 const {
@@ -171,6 +171,109 @@ const formConfig = {
                   '4'
                 ]
               }
+            }
+          }
+        }
+      }
+    },
+    veteranInformation: {
+      title: 'Veteran Information',
+      pages: {
+        veteranInformation: {
+          title: 'Veteran Information',
+          path: 'veteran-information',
+          uiSchema: {
+            veteranFullName: _.merge(fullNameUI, {
+              'ui:options': {
+                hideIf: (formData) => {
+                  return formData['view:relationshipToVet'] === '1';
+                }
+              },
+              first: { 'ui:title': 'Veteran’s first name' },
+              middle: { 'ui:title': 'Veteran’s middle name' },
+              last: { 'ui:title': 'Veteran’s last name' },
+              suffix: { 'ui:title': 'Veteran’s suffix' }
+            }),
+            veteranSocialSecurityNumber: {
+              'ui:options': {
+                updateSchema: (form, schema) => {
+                  if (isVeteran(form)) {
+                    return _.merge(schema, {
+                      title: 'Your Social Security number'
+                    });
+                  }
+                  return _.merge(schema, {
+                    title: 'Veteran’s Social Security number'
+                  });
+                }
+              },
+              'ui:widget': ssnUI['ui:widget'],
+              'ui:reviewWidget': ssnUI['ui:reviewWidget'],
+              'ui:validations': ssnUI['ui:validations'],
+              'ui:errorMessages': ssnUI['ui:errorMessages'],
+              'ui:required': formData => !formData['view:noSSN'],
+            },
+            'view:noSSN': {
+              'ui:options': {
+                updateSchema: (form, schema) => {
+                  if (isVeteran(form)) {
+                    return _.merge(schema, {
+                      title: 'I don’t have a Social Security number'
+                    });
+                  }
+                  return _.merge(schema, {
+                    title: 'I don’t have the Veteran’s Social Security number'
+                  });
+                }
+              },
+            },
+            veteranVAfileNumber: {
+              'ui:options': {
+                updateSchema: (form, schema) => {
+                  if (isVeteran(form)) {
+                    return _.merge(schema, {
+                      title: 'Your VA file number'
+                    });
+                  }
+                  return _.merge(schema, {
+                    title: 'Veteran’s VA file number'
+                  });
+                }
+              },
+              'ui:required': formData => formData['view:noSSN'],
+              'ui:help': VAFileNumberDescription,
+              'ui:errorMessages': {
+                pattern: 'Your VA file number must be between 7 to 9 digits'
+              }
+            },
+            dateOfBirth: {
+              'ui:options': {
+                updateSchema: (form, schema) => {
+                  if (isVeteran(form)) {
+                    return _.merge(schema, {
+                      title: 'Your date of birth'
+                    });
+                  }
+                  return _.merge(schema, {
+                    title: 'Veteran’s date of birth'
+                  });
+                }
+              },
+              'ui:widget': 'date',
+              'ui:validations': currentOrPastDateUI()['ui:validations'],
+              'ui:errorMessages': currentOrPastDateUI()['ui:errorMessages']
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranFullName,
+              veteranSocialSecurityNumber,
+              'view:noSSN': {
+                type: 'boolean'
+              },
+              veteranVAfileNumber: vaFileNumber,
+              dateOfBirth: date,
             }
           }
         }
