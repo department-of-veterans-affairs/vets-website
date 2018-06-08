@@ -385,7 +385,7 @@ export const veteranInformationViewField = (data) => {
         <p>Date of birth: <DateWidget value={dateOfBirth} options={{ monthYear: false }}/></p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
-      <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+      <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
     </div>
   );
 };
