@@ -622,7 +622,7 @@ export function queryForFacilities(input = '') {
 
   return apiRequest(url, {},
     (response) => {
-      return response.data.map(f => ({ id: f.id, label: f.attributes.name }));
+      return response.data.map(facility => ({ id: facility.id, label: facility.attributes.name }));
     },
     (error) => {
       Raven.captureMessage('Error querying for facilities', { input, error });
