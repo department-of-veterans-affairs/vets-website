@@ -33,7 +33,7 @@ const prestart = (state = initialState, action) => {
       return newState;
     }
     case UNSET_PRESTART_STATUS: {
-      let newState = _.unset('status', state);
+      let newState = _.set('status', PRESTART_STATUSES.notAttempted, state);
       newState = _.unset('data', newState);
 
       return newState;

@@ -18,7 +18,9 @@ const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'addi
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
-import { prestartFailureStatuses, prestartSuccessStatuses } from './actions';
+import { prestartFailureStatuses, prestartSuccessStatuses, PRESTART_STATUSES } from './actions';
+
+const { created, retrieved, renewed, notRetrievedNew, notRetrievedSaved, notCreated, notRenewed } = PRESTART_STATUSES;
 /*
  * Flatten nested array form data into sibling properties
  *
@@ -441,27 +443,27 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
 };
 
 const prestartAlertHeadings = {
-  created: 'Your Intent to File request has been submitted',
-  retrieved: 'We found your existing Intent to File',
-  renewed: 'Your Intent to File request has been submitted',
-  notRetrievedSaved: 'Your Intent to File request didn’t go through',
-  notRetrievedNew: 'We can’t process your Intent to File request',
-  notRenewed: 'Your Intent to File request didn’t go through',
-  notCreated: 'We’re sorry. Something went wrong on our end',
+  [created]: 'Your Intent to File request has been submitted',
+  [retrieved]: 'We found your existing Intent to File',
+  [renewed]: 'Your Intent to File request has been submitted',
+  [notRetrievedSaved]: 'Your Intent to File request didn’t go through',
+  [notCreated]: 'We can’t process your Intent to File request',
+  [notRenewed]: 'Your Intent to File request didn’t go through',
+  [notRetrievedNew]: 'We’re sorry. Something went wrong on our end',
 };
 
 const prestartErrorMessages = {
-  notRetrievedSaved: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
-  notRetrievedNew: 'We’re sorry. We can’t process your Intent to File request at this time. Please try applying again tomorrow.',
-  notRenewed: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
-  notCreated: 'We can’t access your Intent to File request right now. Please try applying again tomorrow.',
+  [notRetrievedSaved]: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
+  [notCreated]: 'We’re sorry. We can’t process your Intent to File request at this time. Please try applying again tomorrow.',
+  [notRenewed]: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
+  [notRetrievedNew]: 'We can’t access your Intent to File request right now. Please try applying again tomorrow.',
 };
 
 function getPrestartSuccessMessage(status, data, expiredData) {
   const messages = {
-    created: (expirationDateString) => `Thank you for submitting your Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
-    retrieved: (expirationDateString) => `Our records show that you already have an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
-    renewed: (expirationDateString, expiredDateString) => `Your existing Intent to File expired on ${expiredDateString}, so we’ve created a new one for you. This new Intent to File request will expire on ${expirationDateString}.`
+    [created]: (expirationDateString) => `Thank you for submitting your Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
+    [retrieved]: (expirationDateString) => `Our records show that you already have an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
+    [renewed]: (expirationDateString, expiredDateString) => `Your existing Intent to File expired on ${expiredDateString}, so we’ve created a new one for you. This new Intent to File request will expire on ${expirationDateString}.`
   };
   return messages[status](moment(data).format('M/D/YYYY'), moment(expiredData).format('M/D/YYYY'));
 }

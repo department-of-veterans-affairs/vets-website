@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import { verifyIntentToFile as setPrestartStatus, unsetPrestartStatus, unsetPrestartDisplay, prestartPendingStatuses, prestartFailureStatuses } from '../actions';
+import { verifyIntentToFile as setPrestartStatus, unsetPrestartStatus, unsetPrestartDisplay, prestartPendingStatuses, prestartFailureStatuses, PRESTART_STATUSES } from '../actions';
 
 import { PrestartAlert } from '../helpers';
 
@@ -25,13 +25,14 @@ class PrestartWrapper extends React.Component {
     const enteringForm = !formEntryPointPaths.has(newPath) && formEntryPointPaths.has(currentPath);
     const exitingForm = formEntryPointPaths.has(newPath) && !formEntryPointPaths.has(currentPath);
     const leavingFormPage = !formEntryPointPaths.has(currentPath) && currentPath !== newPath;
+
     if (leavingFormPage && displayPrestartMessage) {
       this.props.unsetPrestartDisplay();
     }
-    if (!prestartStatus || prestartStatus !== 'pending') {
+    if (prestartStatus === PRESTART_STATUSES.notAttempted || prestartStatus !== 'pending') {
       this.setPending(false);
     }
-    if ((!prestartStatus || prestartFailureStatuses.has(prestartStatus)) && enteringForm) {
+    if ((prestartStatus === PRESTART_STATUSES.notAttempted || prestartFailureStatuses.has(prestartStatus)) && enteringForm) {
       this.props.setPrestartStatus();
       this.setPending(true);
     }

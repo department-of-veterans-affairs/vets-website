@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { PrestartAlert } from '../helpers';
 
 const messageWrapper = ({ formContext, prestartStatus, prestartData, displayPrestartMessage }) => {
-  if (!displayPrestartMessage || (formContext && !formContext.reviewMode)) {
+  if (!displayPrestartMessage || (formContext && formContext.reviewMode)) {
     return null;
   }
   return (
