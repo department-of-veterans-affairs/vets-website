@@ -61,11 +61,13 @@ With VA health care, you’re covered for regular checkups with your primary car
 </div>
 
 <div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
-
-<div class="usa-alert-body">
-
-#### How do I get help if I'm homeless or at risk of becoming homeless?
   
+<div class="usa-alert usa-alert-warning">
+  <div class="usa-alert-body">
+    <h4 class="usa-alert-title">How do I get help if I'm homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">We may be able to help</a>.</h4>
+    <div id="crisis-expander-content" class="expander-content expander-content-closed">
+      <div class="expander-content-inner usa-alert-text">
+
 We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.
   
 **Find the support you need:**
@@ -79,7 +81,9 @@ We offer many programs and services that may help—including free health care a
 Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
 [Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
 
-</div>
+   </div>
+  </div>
+ </div>
 </div>
 
 <script type="text/javascript">
