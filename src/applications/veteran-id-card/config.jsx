@@ -23,4 +23,8 @@ const config = {
   }
 };
 
+if (__BUILDTYPE__ === 'production') {
+  config.messages.VIC002 = "We can't proceed with your request for a Veteran ID card because we can't find your DoD ID number in our system. Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).";
+}
+
 export default config;
