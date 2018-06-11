@@ -5,21 +5,8 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityClaimTypesPredischarge
-order: 9
-relatedlinks:
-  - heading: Other benefits you can apply for while in pre-discharge status
-    links:
-    - url: /education/
-      title: Education Benefits
-      description: Apply for and manage education benefits (like Post-9/11 GI Bill benefits) that you can use to pay for college and training programs.
-    - url: /housing-assistance/
-      title: Housing Assistance
-      description: Find out if you qualify for a VA home loan or a housing grant to help you live more independently with your service-connected disability.
-    - url: /employment/vocational-rehab-and-employment/
-      title: Vocational Rehabilitation and Employment (VR&E)
-      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
+order: 2
 ---
-
 <div class="va-introtext">
 
 If you have an illness or injury that you believe was caused—or made worse—by your active-duty service, you can file a claim for disability benefits 180 to 90 days before you leave the military. This may help speed up the claim decision process so you can get your benefits sooner. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program—and what to do if you have less than 90 days left on active duty.

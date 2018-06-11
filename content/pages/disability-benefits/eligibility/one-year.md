@@ -5,13 +5,13 @@ display_title: Disabilities Within 1 Year After Discharge
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 4
+order: 3
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-      title: Fully Developed Claim
-      description: "File a fully developed claim and get a faster decision on your disability benefits claim."
+    - url: /disability-benefits/apply/evidence/
+      title: How can I get my claim processed faster with a fully developed claim?
+      description: ""
     - url: /disability-benefits/apply/
       title: Disability Benefits Application Process
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
@@ -22,7 +22,7 @@ relatedlinks:
       title: Pre-discharge Claim
       description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
     - url: /disability-benefits/after-you-apply/date/
-      title: Effective Date of Disability 
+      title: Effective Date of Disability
       description: "Learn how VA decides the date you can start getting your disability benefits."
 ---
 
@@ -65,7 +65,7 @@ You’ll need to apply for benefits. When you apply, you’ll have to show that 
 [Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
 **Exception:**<br>
-The following diseases are covered, even if they appear more than 1 year after you separated: 
+The following diseases are covered, even if they appear more than 1 year after you separated:
 
 
 -	Hansen&#8217;s disease (a long-lasting infection that affects your skin, nerves, and mucous membranes) can appear within 3 years after discharge.
