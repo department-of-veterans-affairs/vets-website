@@ -189,12 +189,11 @@ export const privateRecordsChoiceHelp = (
   </AdditionalInfo>
 );
 
-const firstOrNextString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'next' : 'first');
+const firstOrNextString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
 
 export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
-    Ok, {firstOrNextString(formData['view:selectableEvidenceTypes'])} we’ll ask about your private
-    medical records related to your {getDiagnosticCodeName(formData.diagnosticCode)}.
+    {firstOrNextString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.
   </p>
 );
 
