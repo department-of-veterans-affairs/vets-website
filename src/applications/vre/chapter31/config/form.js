@@ -2,17 +2,17 @@ import _ from 'lodash/fp';
 
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
-import * as address from '../../../common/schemaform/definitions/address';
-import currencyUI from '../../../common/schemaform/definitions/currency';
-import phoneUI from '../../../common/schemaform/definitions/phone';
+import * as address from 'us-forms-system/lib/js/definitions/address';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import DD214Description from '../components/DD214Description';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EducationPeriodView from '../components/EducationPeriodView';
 
-import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
-import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import fileUploadUI from '../../../common/schemaform/definitions/file';
+import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import yearUI from '../../../common/schemaform/definitions/year';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
@@ -21,7 +21,7 @@ import environment from '../../../../platform/utilities/environment';
 import { disabilityRatingLabels, dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
-import { validateMatch } from '../../../common/schemaform/validation';
+import { validateMatch } from 'us-forms-system/lib/js/validation';
 import { validateYearRange } from '../validations';
 
 const {

@@ -4,20 +4,20 @@ import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
 import { genderLabels } from '../../../../platform/static-data/labels.jsx';
 
-import * as address from '../../../common/schemaform/definitions/address';
+import * as address from 'us-forms-system/lib/js/definitions/address';
 import { benefitsLabels, dischargeTypeLabels } from '../../utils/labels.jsx';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { transform } from '../helpers';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 
-import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
-import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
-import phoneUI from '../../../common/schemaform/definitions/phone';
-import ssnUI from '../../../common/schemaform/definitions/ssn';
-import { validateMatch } from '../../../common/schemaform/validation';
+import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import { validateMatch } from 'us-forms-system/lib/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 // import environment from '../../../../platform/utilities/environment';
