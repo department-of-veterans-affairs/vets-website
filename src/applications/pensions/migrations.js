@@ -74,13 +74,13 @@ export default [
     const fileNumbeRegex = /^\d{8,9}$/;
     let newMetadata = metadata;
 
-    if (formData.vaFileNumber && !fileNumbeRegex.test(formData.vaFileNumber)) {
-      newMetadata = Object.assign({}, metadata, {
-        returnUrl: '/veteran-information'
-      });
-    } else if (formData.spouseVaFileNumber && !fileNumbeRegex.test(formData.spouseVaFileNumber)) {
+    if (formData.spouseVaFileNumber && !fileNumbeRegex.test(formData.spouseVaFileNumber)) {
       newMetadata = Object.assign({}, metadata, {
         returnUrl: '/household/spouse-info'
+      });
+    } else if (formData.vaFileNumber && !fileNumbeRegex.test(formData.vaFileNumber)) {
+      newMetadata = Object.assign({}, metadata, {
+        returnUrl: '/applicant/information'
       });
     }
 
