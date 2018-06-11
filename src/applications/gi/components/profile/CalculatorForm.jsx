@@ -116,7 +116,7 @@ class CalculatorForm extends React.Component {
   }
 
   renderYellowRibbon() {
-    // if (!this.props.displayedInputs.yellowRibbon) return null;
+    // if (__BUILDTYPE__ === 'production' || !this.props.displayedInputs.yellowRibbon) return null;
     return (
       <div>
         <RadioButtons
