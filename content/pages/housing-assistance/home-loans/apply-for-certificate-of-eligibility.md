@@ -27,7 +27,7 @@ The first step in getting a VA direct or VA-backed home loan is to apply for a C
 
 </div>
 
-### Get your COE
+### How do I get my COE?
 
 #### Gather the information you’ll need to apply for your COE
 
@@ -139,7 +139,7 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 
 <br>
 
-#### Apply for your COE
+#### How do I apply for my COE?
 
 **You can apply in 1 of 3 ways:**
 
