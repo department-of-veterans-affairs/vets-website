@@ -122,7 +122,7 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Will you be a Yellow Ribbon recipient?',
-            modal: 'calcYr'
+            modal: 'calcYellowRibbon'
           })}
           name="yellowRibbonRecipient"
           options={[
@@ -133,13 +133,9 @@ class CalculatorForm extends React.Component {
           onChange={this.handleInputChange}/>
         { this.props.inputs.yellowRibbonRecipient === 'yes' ?
             <div>
-              <div>
                 <Dropdown
-                  label={this.renderLearnMoreLabel({
-                    text: 'Degree level',
-                    modal: 'calcEnrolled'
-                  })}
-                  name={'degreeLevel'}
+                  label="Degree Level"
+                  name={'yellowRibbonDegreeLevel'}
                   alt="Degree Level"
                   options={[
                     {
@@ -152,9 +148,25 @@ class CalculatorForm extends React.Component {
                     }
                   ]}
                   visible
-                  value={'Undergraduate'}
+                  value={this.props.inputs.yellowRibbonDegreeLevel}
                   onChange={this.handleInputChange}/>
-              </div>
+                <Dropdown
+                  label="Division or school"
+                  name={'yellowRibbonDivision'}
+                  alt="Division or school"
+                  options={[
+                    {
+                      value: 'Some College',
+                      label: 'Some College',
+                    },
+                    {
+                      value: 'Some University',
+                      label: 'Some University',
+                    }
+                  ]}
+                  visible
+                  value={this.props.inputs.yellowRibbonDivision}
+                  onChange={this.handleInputChange}/>
               <div>
                 <label htmlFor="yellowRibbonAmount">
                   Yellow Ribbon amount from school per year
