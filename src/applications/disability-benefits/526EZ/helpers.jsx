@@ -15,6 +15,8 @@ const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'addi
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
+const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+
 
 /*
  * Flatten nested array form data into sibling properties
@@ -156,8 +158,8 @@ export const privateRecordsChoice = ({ formData }) => {
       <h4>About private medical records</h4>
       <p>
         You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private
-        doctor. If you have those records, you can upload them here, or we can get them for you. If
-        you want us to get your records, you’ll need to authorize their release.
+        doctor. If you have your private medical records, you can upload them to your application.
+        If you want us to get them for you, you’ll need to authorize their release.
       </p>
     </div>
   );
@@ -173,16 +175,16 @@ export const privateRecordsChoiceHelp = (
       a computer with a fast Internet connection. The digital file could be
       uploaded as a .pdf or other photo file format, like a .jpeg or .png.
     </p>
-    <h4>We get your medical records from your doctor</h4>
+    <h4>We get your medical records for you</h4>
     <p>
-      We can get your medical records for you, but you’ll first need to fill
-      out an Authorization to Disclose Information to VA (VA Form 21-4142) so
-      we can request your records. Getting your records might take us some
-      time, and this could mean it’ll take us longer to make a decision on
-      your claim.
+      If you tell us which VA medical center treated you for your condition, we
+      can get your medical records for you. Getting your records may take us some
+      time, and this could mean that it’ll take us longer to make a decision on
+      your claim. You’ll need to first fill out an Authorization to Disclose
+      Information to the VA (VA Form 21-4142) so we can request your records.
     </p>
     <p>
-      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+      <a href={vaForm4142URL} target="_blank">
         Download VA Form 21-4142
       </a>.
     </p>
@@ -239,14 +241,24 @@ export function validateAddress(errors, formData) {
 export const download4142Notice = (
   <div className="usa-alert usa-alert-warning no-background-image">
     <p>
-      Since your doctor has your private medical records, you’ll need to fill
+      Since your doctor has your private medical records, you'll need to fill
       out an Authorization to Disclose Information to the VA (VA Form 21-4142) so
-      we can request your records. You’ll need to fill out a form for each doctor.
+      we can request your records.
     </p>
     <p>
-      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+      <a href={vaForm4142URL} target="_blank">
         Download VA Form 21-4142
       </a>.
+      <p>
+        Please print the form, fill it out, and send it to:
+      </p>
+      <p className="va-address-block">
+        Department of Veterans Affairs<br/>
+        Claims Intake Center<br/>
+        PO Box 4444<br/>
+        Janesville, WI 53547-4444
+      </p>
+      <p>Or you can upload a completed VA Form 21-4142 to your online application.</p>
     </p>
   </div>
 );
@@ -257,7 +269,7 @@ export const authorizationToDisclose = (
     Information to the VA (VA Form 21-4142) so we can request your records. You’ll need to fill out a form for
     each doctor.</p>
     <p>
-      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+      <a href={vaForm4142URL} target="_blank">
         Download VA Form 21-4142
       </a>.
     </p>
