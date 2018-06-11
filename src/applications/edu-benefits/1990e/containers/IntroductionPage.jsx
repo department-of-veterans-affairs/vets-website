@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
-import FormTitle from '../../../common/schemaform/components/FormTitle';
-import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import SaveInProgressIntro, { introActions, introSelector } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
