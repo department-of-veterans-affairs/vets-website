@@ -9,7 +9,7 @@ import { DefinitionTester, // selectCheckbox
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
-describe.only('Disability benefits 526EZ primary address', () => {
+describe('Disability benefits 526EZ primary address', () => {
   const {
     schema,
     uiSchema
