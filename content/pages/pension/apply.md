@@ -37,6 +37,7 @@ You can apply online, by mail, or in person for a tax-free Veterans pension.
 </div>
 
 #### Ready to apply?
+
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for Veterans Pension Benefits</a>
 </div>
