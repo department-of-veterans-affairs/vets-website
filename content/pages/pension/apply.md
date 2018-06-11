@@ -36,6 +36,7 @@ You can apply online, by mail, or in person for a tax-free Veterans pension.
 - Medical information
 </div>
 
+
 #### How do I apply?
 
 <div id="react-applicationStatus" class="static-page-widget">
