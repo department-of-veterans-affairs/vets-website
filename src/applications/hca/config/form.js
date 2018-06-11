@@ -23,10 +23,10 @@ import { genderLabels } from '../../../platform/static-data/labels';
 import { services } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
+import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
+import PrefillMessage from '../../../platform/forms/save-in-progress/PrefillMessage';
+import MilitaryPrefillMessage from '../../../platform/forms/save-in-progress/MilitaryPrefillMessage';
 
-import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
-import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
-import MilitaryPrefillMessage from '../../common/schemaform/save-in-progress/MilitaryPrefillMessage';
 import DowntimeMessage from '../components/DowntimeMessage';
 
 import GetFormHelp from '../components/GetFormHelp';
