@@ -36,7 +36,6 @@ You can apply online, by mail, or in person for a tax-free Veterans pension.
 - Medical information
 </div>
 
-
 #### How do I apply?
 
 <div id="react-applicationStatus" class="static-page-widget">
@@ -49,8 +48,7 @@ You can apply online, by mail, or in person for a tax-free Veterans pension.
 <div itemprop="itemListElement">
   
 
-  
-**By mail** <br>
+  **By mail** <br>
 Apply by mail using an Application for Pension (VA Form 21P-527EZ). <br>
 [Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
