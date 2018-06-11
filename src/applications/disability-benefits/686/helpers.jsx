@@ -103,8 +103,3 @@ export function isVeteran(item) {
   return relationship && relationship === '1';
 }
 
-export function isNotVeteran(item) {
-  const relationship = get('view:relationshipToVet', item);
-  return relationship && relationship !== '1';
-}
-

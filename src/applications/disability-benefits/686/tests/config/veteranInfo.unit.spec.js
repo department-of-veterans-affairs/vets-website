@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, fillData, selectCheckbox } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 veteran information', () => {
@@ -26,7 +26,7 @@ describe('686 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(2);
   });
 
@@ -38,8 +38,20 @@ describe('686 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(3);
+  });
+
+  it('should expand VA file number if noSSN is checked', () => {
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={notVeteranCondition()}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
+    );
+    selectCheckbox(form, 'root_view:noSSN', true);
+    expect(form.find('input').length).to.equal(7);
   });
 
   it('should not submit empty form if applicant is veteran', () => {

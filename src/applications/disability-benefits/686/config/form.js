@@ -30,7 +30,6 @@ import {
   childRelationshipDescription,
   otherRelationshipDescription,
   isVeteran,
-  isNotVeteran,
   VAFileNumberDescription,
 } from '../helpers.jsx';
 
@@ -69,6 +68,12 @@ const spouseSelector = createSelector(form => {
     ? form.marriages[0].spouseFullName
     : null;
 }, spouse => spouse);
+
+function ssnUICopy() {
+  const copy = Object.assign({}, ssnUI);
+  delete copy['ui:title'];
+  return copy;
+}
 
 function createSpouseLabelSelector(nameTemplate) {
   return createSelector(spouseSelector, spouseFullName => {
@@ -175,7 +180,7 @@ const formConfig = {
         claimantInformation: {
           path: 'claimant-information',
           title: 'Applicant Information',
-          depends: isNotVeteran,
+          depends: (formData) => !isVeteran(formData),
           uiSchema: {
             claimantSocialSecurityNumber: _.merge(ssnUI, {
               'ui:title': 'Your Social Security number'
@@ -206,59 +211,56 @@ const formConfig = {
               },
               first: {
                 'ui:title': 'Veteran’s first name',
-                'ui:required': formData => isNotVeteran(formData)
+                'ui:required': formData => !isVeteran(formData)
               },
               middle: { 'ui:title': 'Veteran’s middle name' },
               last: {
                 'ui:title': 'Veteran’s last name',
-                'ui:required': formData => isNotVeteran(formData)
+                'ui:required': formData => !isVeteran(formData)
               },
               suffix: { 'ui:title': 'Veteran’s suffix' }
             }),
-            veteranSocialSecurityNumber: {
+            veteranSocialSecurityNumber: _.merge(ssnUICopy(), {
               'ui:options': {
-                updateSchema: (form, schema) => {
+                updateSchema: (form) => {
                   if (isVeteran(form)) {
-                    return _.merge(schema, {
+                    return {
                       title: 'Your Social Security number'
-                    });
+                    };
                   }
-                  return _.merge(schema, {
+                  return  {
                     title: 'Veteran’s Social Security number'
-                  });
+                  };
                 }
               },
-              'ui:widget': ssnUI['ui:widget'],
-              'ui:reviewWidget': ssnUI['ui:reviewWidget'],
-              'ui:validations': ssnUI['ui:validations'],
-              'ui:errorMessages': ssnUI['ui:errorMessages'],
               'ui:required': formData => !formData['view:noSSN'],
-            },
+            }),
             'view:noSSN': {
               'ui:options': {
-                updateSchema: (form, schema) => {
+                updateSchema: (form) => {
                   if (isVeteran(form)) {
-                    return _.merge(schema, {
+                    return {
                       title: 'I don’t have a Social Security number'
-                    });
+                    };
                   }
-                  return _.merge(schema, {
-                    title: 'I don’t have the Veteran’s Social Security number'
-                  });
+                  return {
+                    title: 'I don’t know the Veteran’s Social Security number'
+                  };
                 }
               },
             },
             veteranVAfileNumber: {
               'ui:options': {
-                updateSchema: (form, schema) => {
+                expandUnder: 'view:noSSN',
+                updateSchema: (form) => {
                   if (isVeteran(form)) {
-                    return _.merge(schema, {
+                    return  {
                       title: 'Your VA file number'
-                    });
+                    };
                   }
-                  return _.merge(schema, {
+                  return {
                     title: 'Veteran’s VA file number'
-                  });
+                  };
                 }
               },
               'ui:required': formData => formData['view:noSSN'],
@@ -269,15 +271,15 @@ const formConfig = {
             },
             dateOfBirth: {
               'ui:options': {
-                updateSchema: (form, schema) => {
+                updateSchema: (form) => {
                   if (isVeteran(form)) {
-                    return _.merge(schema, {
+                    return {
                       title: 'Your date of birth'
-                    });
+                    };
                   }
-                  return _.merge(schema, {
+                  return {
                     title: 'Veteran’s date of birth'
-                  });
+                  };
                 }
               },
               'ui:widget': 'date',
