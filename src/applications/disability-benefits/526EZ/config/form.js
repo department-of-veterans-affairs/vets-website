@@ -477,8 +477,8 @@ const formConfig = {
                       }
                     ),
                     treatmentDateRange: dateRangeUI(
-                      'Approximate date of first treatment',
-                      'Approximate date of last treatment',
+                      'Date of first treatment (This date doesn’t have to be exact.)',
+                      'Date of last treatment (This date doesn’t have to be exact.)',
                       'Date of last treatment must be after date of first treatment'
                     ),
                     // TODO: Put these back as hidden in the UI once typeahead fills this out
