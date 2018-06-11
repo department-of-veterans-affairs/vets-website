@@ -114,7 +114,7 @@ Get help from an accredited representative (a trained professional trusted to he
 
 <div markdown="0"><br></div>
 
-### Ready to apply?
+### How do I apply?
 
 Fill out an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <br>
 [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
