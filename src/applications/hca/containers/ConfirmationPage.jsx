@@ -30,10 +30,15 @@ export class ConfirmationPage extends React.Component {
     let emailMessage;
 
     if (__BUILDTYPE__ !== 'production') {
-      title = 'Your claim has been submitted.';
+      title = 'Your claim is pending';
       dateTitle = 'Date submitted';
       if (data.email) {
-        emailMessage = <p>We’ll send you an email when we successfully receive your application. If your application didn’t successfully go through, we’ll also send you an email letting you know.</p>;
+        emailMessage = (
+          <div>
+            <p>Please look for an email from us letting you know when we successfully receive and process your application. If your application doesn’t go through for any reason, we'll also send you an email letting you know.</p>
+            <p>If more than a week has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>).</p>
+          </div>
+        );
       }
     }
 

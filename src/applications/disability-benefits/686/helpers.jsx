@@ -1,6 +1,8 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import React from 'react';
 import { transformForSubmit } from '../../common/schemaform/helpers';
+import { merge, get } from 'lodash/fp';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
 
 export const relationshipLabels = {
   veteran: 'I am the Veteran',
@@ -84,4 +86,32 @@ export function transform(formConfig, form) {
   return JSON.stringify({
     form: formData
   });
+}
+
+export const fullMaidenNameUI = merge(fullNameUI, {
+  maiden: { 'ui:title': 'Maiden name' },
+});
+
+export const spouseRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>legally married spouse or surviving spouse</strong> of the Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information.</div>
+);
+
+export const childRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>unmarried adult child</strong> of the Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information. You’ll also need to provide supporting documents with information about your disability.</div>
+);
+
+export const otherRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying on <strong>behalf</strong> of the Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for the Veteran's information as the sponsor.</div>
+);
+
+export function isNotVeteran(item) {
+  return get('view:relationshipToVet', item) !== '1';
+}
+
+export function isSpouse(item) {
+  return get('application.claimant.relationshipToVet', item) === '2';
+}
+
+export function isUnmarriedChild(item) {
+  return get('application.claimant.relationshipToVet', item) === '3';
 }

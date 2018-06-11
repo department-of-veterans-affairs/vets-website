@@ -18,6 +18,5 @@ export default {
   debounce,
   get,
   omit,
-  set
+  set,
 };
-
