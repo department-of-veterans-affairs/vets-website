@@ -7,7 +7,7 @@ export const selectUserGreeting = createSelector(
   state => selectProfile(state).email,
   () => window.sessionStorage.userFirstName,
   (name, email, sessionFirstName) => {
-    if (name || sessionFirstName) {
+    if (name.first || sessionFirstName) {
       return _.startCase(_.toLower(
         name.first || sessionFirstName
       ));

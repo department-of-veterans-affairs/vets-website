@@ -10,7 +10,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   if (process.env.BUILDTYPE !== 'production') {
     // Ensure introduction page renders.
     client
-      .url(`${E2eHelpers.baseUrl}/disability-benefits/526/apply-for-increase`)
+      .url(`${E2eHelpers.baseUrl}/disability-benefits/apply/form-526-disability-claim`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
