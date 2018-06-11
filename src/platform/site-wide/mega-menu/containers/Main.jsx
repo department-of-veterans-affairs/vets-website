@@ -29,8 +29,61 @@ export class Main extends React.Component {
   render() {
     const data = [
       {
-        title: 'Explore and Apply for Benefits',
+        title: 'Health and Benefits',
         menuSections: [
+          {
+            title: 'Health Care',
+            links: [
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+              {
+                text: 'Health Care',
+                href: '/disability-benefits/',
+              },
+            ]
+          },
           {
             title: 'Disabilty',
             links: [
@@ -38,66 +91,68 @@ export class Main extends React.Component {
                 text: 'Disability Benefits Overview',
                 href: '/disability-benefits/',
               },
-              {
-                text: 'Eligibility',
-                href: '/disability-benefits/eligibility/',
-              },
-              {
-                text: 'Application Process',
-                href: '/disability-benefits/apply/',
-              },
-              {
-                text: 'Conditions',
-                href: '/disability-benefits/conditions/',
-              },
-              {
-                text: 'Track Your Claims and Appeals',
-                href: '/track-claims/',
-                className: 'login-required',
-              },
-              {
-                text: 'Appeals Process',
-                href: '/disability-benefits/claims-appeal/',
-              },
-              {
-                text: 'Go to eBenefits to Apply include "assets/img/icons/exit-icon-white.svg"',
-                href: 'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
-                className: 'usa-button va-button-primary va-external--light',
-              },
             ]
           },
           {
-            title: 'New Disabilty',
+            title: 'Education and Training',
             links: [
               {
                 text: 'Disability Benefits Overview',
                 href: '/disability-benefits/',
               },
+            ]
+          },
+          {
+            title: 'Careers and Employment',
+            links: [
               {
-                text: 'Eligibility',
-                href: '/disability-benefits/eligibility/',
+                text: 'Disability Benefits Overview',
+                href: '/disability-benefits/',
               },
+            ]
+          },
+          {
+            title: 'Pension',
+            links: [
               {
-                text: 'Application Process',
-                href: '/disability-benefits/apply/',
+                text: 'Disability Benefits Overview',
+                href: '/disability-benefits/',
               },
+            ]
+          },
+          {
+            title: 'Burials and Memorials',
+            links: [
               {
-                text: 'Conditions',
-                href: '/disability-benefits/conditions/',
+                text: 'Disability Benefits Overview',
+                href: '/disability-benefits/',
               },
+            ]
+          },
+          {
+            title: 'Housing Assistance',
+            links: [
               {
-                text: 'Track Your Claims and Appeals',
-                href: '/track-claims/',
-                className: 'login-required',
+                text: 'Disability Benefits Overview',
+                href: '/disability-benefits/',
               },
+            ]
+          },
+          {
+            title: 'Life Insurance',
+            links: [
               {
-                text: 'Appeals Process',
-                href: '/disability-benefits/claims-appeal/',
+                text: 'Disability Benefits Overview',
+                href: '/disability-benefits/',
               },
+            ]
+          },
+          {
+            title: 'Records',
+            links: [
               {
-                text: 'Go to eBenefits to Apply include "assets/img/icons/exit-icon-white.svg"',
-                href: 'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
-                className: 'usa-button va-button-primary va-external--light',
+                text: 'Disability Benefits Overview',
+                href: '/disability-benefits/',
               },
             ]
           },

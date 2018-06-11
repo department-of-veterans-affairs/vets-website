@@ -1,4 +1,47 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 #mega-menu {
   flex: 1 0 100%;
+  color: $color-primary;
+
+  @include media($medium-large-screen) {
+    .vetnav-panel--submenu:not([hidden]) {
+      width: 26rem;
+      padding: 28px;
+    }
+
+    .panel-1 {
+      left: 10px;
+    }
+
+    .panel-2 {
+      border-left: none;
+      left: 270px;
+    }
+
+    .panel-3 {
+      border-left: none;
+      color: $color-black;
+      left: 530px;
+      white-space: normal;
+
+      &.vetnav-panel--submenu:not([hidden]) {
+        padding: 28px 20px 20px 5px;
+        width: 25rem;
+      }
+
+      a {
+        font-weight: bold;
+        padding: 14px 0px 0px 0px;
+      }
+    }
+  }
+
+  .panel-title {
+    font-weight: bold;
+    color: $color-black;
+  }
+
+  .vetnav-level2 {
+    width: 22.3rem;
+  }
 }

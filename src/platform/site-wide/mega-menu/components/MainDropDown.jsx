@@ -22,8 +22,6 @@ class MainDropDown extends React.Component {
         },
         panelOpen: true,
       });
-
-      debugger
     }
   }
 
@@ -42,12 +40,12 @@ class MainDropDown extends React.Component {
           className="vetnav-level1"
           onClick={() => this.handleOnClick()}>{this.props.title}</button>
         {
-            this.state.panelOpen && <div id="vetnav-explore" className="vetnav-panel" role="none">
+          this.state.panelOpen && <div id="vetnav-explore" className="vetnav-panel" role="none">
             <ul role="menu" aria-label="Explore benefits">
               {this.props.children}
             </ul>
-            </div>
-          }
+          </div>
+        }
       </li>
     );
   }
