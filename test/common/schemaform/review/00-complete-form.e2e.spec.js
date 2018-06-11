@@ -57,7 +57,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.usa-accordion-bordered.form-review-panel:nth-child(2)')
       .click('.edit-btn')
       .clearValue('#root_lastEntryDateYear')
-      .setValue('#root_lastEntryDateYear', '98')
+      .setValue('#root_lastEntryDateYear', '98');
 
     client
       .click('.usa-button-primary.null')
