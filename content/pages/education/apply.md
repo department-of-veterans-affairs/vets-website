@@ -58,7 +58,7 @@ Find out how to apply for VA education benefits as a Veteran, Servicemember, or 
 </div>
 </div>
 </div>
-#### How do I apply?
+
 <div id="react-applicationStatus" class="static-page-widget"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
