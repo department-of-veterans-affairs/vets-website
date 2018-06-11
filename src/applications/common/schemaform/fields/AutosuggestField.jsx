@@ -14,6 +14,13 @@ function getInput(input, uiSchema, schema) {
 
   if (typeof input !== 'object' && input) {
     const uiOptions = uiSchema['ui:options'];
+    // When using this field in an array item, editing the item will throw an error
+    //  if there uiOptions.label is undefined (as when we queryForResults), so we
+    //  have to have this safety valve
+    if (!uiOptions.labels) {
+      return input;
+    }
+
     if (uiOptions.labels[input]) {
       return uiOptions.labels[input];
     }
