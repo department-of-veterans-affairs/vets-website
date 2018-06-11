@@ -43,7 +43,7 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
   }
 }
 
-const hasForwardingAddress = (veteran) => (_.get(veteran, 'view:hasForwardingAddress', false));
+const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
 
 const states = [
   'AL',
@@ -544,38 +544,38 @@ export const uiSchema = {
         effectiveDate: _.merge(
           {},
           dateUI('Effective date'),
-          { 'ui:required': ({ veteran }) => (hasForwardingAddress(veteran)) }
+          { 'ui:required': hasForwardingAddress }
         ),
         country: {
-          'ui:required': ({ veteran }) => (hasForwardingAddress(veteran)),
+          'ui:required': hasForwardingAddress,
 
         },
         addressLine1: {
-          'ui:required': ({ veteran }) => (hasForwardingAddress(veteran))
+          'ui:required': hasForwardingAddress
         },
         city: {
-          'ui:required': ({ veteran }) => (hasForwardingAddress(veteran))
+          'ui:required': hasForwardingAddress
         },
         state: {
-          'ui:required': ({ veteran }) => (
-            hasForwardingAddress(veteran)
-            && veteran.forwardingAddress.country === USA
+          'ui:required': (formData) => (
+            hasForwardingAddress(formData)
+            && formData.veteran.forwardingAddress.country === USA
           ),
           'ui:options': {
-            hideIf: ({ veteran }) => (
-              hasForwardingAddress(veteran)
-              && veteran.forwardingAddress.country !== USA)
+            hideIf: (formData) => (
+              hasForwardingAddress(formData)
+              && formData.veteran.forwardingAddress.country !== USA)
           }
         },
         zipCode: {
-          'ui:required': ({ veteran }) => (
-            hasForwardingAddress(veteran)
-            && veteran.forwardingAddress.country === USA
+          'ui:required': (formData) => (
+            hasForwardingAddress(formData)
+            && formData.veteran.forwardingAddress.country === USA
           ),
           'ui:options': {
-            hideIf: ({ veteran }) => (
-              hasForwardingAddress(veteran)
-              && veteran.forwardingAddress.country !== USA)
+            hideIf: (formData) => (
+              hasForwardingAddress(formData)
+              && formData.veteran.forwardingAddress.country !== USA)
           }
         }
       }
