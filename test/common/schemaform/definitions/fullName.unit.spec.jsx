@@ -3,8 +3,8 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import uiSchema from '../../../../src/js/common/schemaform/definitions/fullName';
+import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
+import uiSchema from '../../../../src/applications/common/schemaform/definitions/fullName';
 import { fullName as schema } from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition fullName', () => {

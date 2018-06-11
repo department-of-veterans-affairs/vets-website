@@ -7,8 +7,8 @@ process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
 // use babel-register to compile files on the fly
 require('babel-register');
 // require mocha setup files
-require('../test/util/mocha-setup.js');
-require('../test/util/enzyme-setup.js');
+require('../src/platform/testing/unit/mocha-setup.js');
+require('../src/platform/testing/unit/enzyme-setup.js');
 
 let showErrors = false;
 // keys for current require.cache

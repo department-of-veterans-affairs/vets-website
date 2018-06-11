@@ -3,7 +3,7 @@
 ### Production
 The production deployment of the vet-website front end consists of static HTML, CSS, and JS assets deployed to an Amazon S3 bucket. We have an nginx server that serves those static assets and does some extra route handling for our single page React apps.
 
-React applications have a single entry page in the `content/pages` folder and a special nginx [config entry](https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/roles/revproxy-configure/defaults/main.yml#L91). Each of the React applications listed in that config are standalone single page apps, and for each of the urls listed in that section of the config, the nginx server routes anything that starts with that url to the static page at that url, instead of trying to find a content page at that spot in the `content/pages` folder structure. See the example below for a step by step view of that process.
+React applications have a single entry page in the `content/pages` folder and a special nginx [config entry](https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/deployment/config/revproxy-vetsgov/vars/react_routes.yml). Each of the React applications listed in that config are standalone single page apps, and for each of the urls listed in that section of the config, the nginx server routes anything that starts with that url to the static page at that url, instead of trying to find a content page at that spot in the `content/pages` folder structure. See the example below for a step by step view of that process.
 
 When that page is loaded and the JS bundle is downloaded and parsed, React Router sees the original route, removes the base url specified in the entry page from it, and routes to the page configured in the routes for the React app.
 
@@ -25,6 +25,6 @@ One other thing to note is that links that use the `Link` component or the `rout
 Locally, we've configured the webpack dev server to do the same redirects as nginx, however they are duplicated in a couple places:
 
 - [script/build.js](https://github.com/department-of-veterans-affairs/vets-website/blob/master/script/build.js)
-- [src/test-support/test-server.js](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/test-support/test-server.js) (for e2e tests)
+- [src/platform/testing/e2e/test-server.js](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/platform/testing/e2e/test-server.js) (for e2e tests)
 
 You will need to update these locations as well as the nginx config when creating a new React application.
