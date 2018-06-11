@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
 export default function ProfileIntro({ dismiss, profile }) {
-  if (profile.loading) return <div/>;
+  if (!profile.loading) return <div/>;
   if (profile.loa.current !== 3) return <div/>;
 
   return (
@@ -15,7 +15,7 @@ export default function ProfileIntro({ dismiss, profile }) {
       </div>
       <h3 className="announcement-title">Welcome to your new Vets.gov profile</h3>
       <p>Review your contact, personal, and military service information—and find out how to update it as needed.</p>
-      <button type="button" aria-label="Dismiss this announcement" onClick={dismiss}>Continue</button>
+      <button type="button" onClick={dismiss}>Continue</button>
     </Modal>
   );
 }

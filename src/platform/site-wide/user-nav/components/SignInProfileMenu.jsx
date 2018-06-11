@@ -20,7 +20,7 @@ class SignInProfileMenu extends React.Component {
         icon={icon}
         isOpen={this.props.isOpen}
         disabled={this.props.disabled}>
-        {isPersonalizationEnabled() ? <PersonalizationDropdown/> : <LegacyDropdown/>}
+        {isPersonalizationEnabled() && this.props.isLOA3 ? <PersonalizationDropdown/> : <LegacyDropdown/>}
       </DropDownPanel>
     );
   }
