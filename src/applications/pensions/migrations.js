@@ -68,5 +68,22 @@ export default [
     }
 
     return { formData, metadata: newMetadata };
+  },
+  // 2 > 3, move user back to file number if incorrect
+  ({ formData, metadata }) => {
+    const fileNumbeRegex = /^\d{8,9}$/;
+    let newMetadata = metadata;
+
+    if (formData.vaFileNumber && !fileNumbeRegex.test(formData.vaFileNumber)) {
+      newMetadata = Object.assign({}, metadata, {
+        returnUrl: '/veteran-information'
+      });
+    } else if (formData.spouseVaFileNumber && !fileNumbeRegex.test(formData.spouseVaFileNumber)) {
+      newMetadata = Object.assign({}, metadata, {
+        returnUrl: '/household/spouse-info'
+      });
+    }
+
+    return { formData, metadata: newMetadata };
   }
 ];
