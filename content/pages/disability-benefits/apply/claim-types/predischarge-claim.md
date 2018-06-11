@@ -5,8 +5,21 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityClaimTypesPredischarge
-order: 2
+order: 9
+relatedlinks:
+  - heading: Other benefits you can apply for while in pre-discharge status
+    links:
+    - url: /education/
+      title: Education Benefits
+      description: Apply for and manage education benefits (like Post-9/11 GI Bill benefits) that you can use to pay for college and training programs.
+    - url: /housing-assistance/
+      title: Housing Assistance
+      description: Find out if you qualify for a VA home loan or a housing grant to help you live more independently with your service-connected disability.
+    - url: /employment/vocational-rehab-and-employment/
+      title: Vocational Rehabilitation and Employment (VR&E)
+      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 ---
+
 <div class="va-introtext">
 
 If you have an illness or injury that you believe was caused—or made worse—by your active-duty service, you can file a claim for disability benefits 180 to 90 days before you leave the military. This may help speed up the claim decision process so you can get your benefits sooner. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program—and what to do if you have less than 90 days left on active duty.
@@ -17,13 +30,11 @@ If you have an illness or injury that you believe was caused—or made worse—b
 
 ### Can I use the BDD program to get my disability benefits sooner?
 
-You can use the BDD program if you meet all of the requirements listed below.
+**You can use the BDD program if all of these are true for you:**
 
-**All of these must be true:**
-
--	You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserves, or Coast Guard), **and**
-- You have a known separation date, **and**
--	Your separation date is in the next 180 to 90 days
+* You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
+* You have a known separation date, **and**
+* Your separation date is in the next 180 to 90 days
 
 <br>
 
@@ -38,7 +49,7 @@ You can't file a BDD claim or add more medical conditions to your initial claim.
 
 You can't use the BDD program if your claim requires special handling—even if you're on full-time active duty, with more than 90 days left of service.
 
-**You can't use the BDD program if any of these are true. You:**
+**You can't use the BDD program if you:**
 
 * Need case management for a serious injury or illness, **or**
 * Have suffered the loss of a body part, **or**
@@ -101,7 +112,7 @@ If you’re on a military base or other installation, contact your local Transit
 Apply through the Decision Ready Claim (DRC) program or file a fully developed or standard claim</button>
 <div id="drc-program" class="usa-accordion-content">
 
-If you have less than 90 days left on active duty, you have 3 options for filing a disability claim:
+If you have less than 90 days left on active duty, you have 2 options for filing a disability claim:
 
 ### Go through the Decision Ready Claim (DRC) program
 
@@ -115,22 +126,23 @@ This is the fastest way to get your claim processed. You'll work with an accredi
 
 **Note:** You can't use the DRC program if you're enrolled in the Integrated Disability Evaluation System (IDES) or if you have more than 90 days left on active duty. There are also other factors that may exclude you from this program.<br>
 [Learn about the IDES program](/employment/vocational-rehab-and-employment/ides/). <br>
-[See the full list of DRC program exclusions](/disability-benefits/apply/evidence/decision-ready-claims/#exclusions).
+[See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp).
 
-<br>
-[Find out how to file a decision-ready claim](/disability-benefits/apply/evidence/decision-ready-claims/#how-to-file)
+**For more information on the DRC program:**
 
-### File a fully developed disability claim
+Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. <br>
 
-With the Fully Developed Claims (FDC) program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim to speed up the decision process. Find out how you can use this program to get a faster decision on your disability benefits claim.<br>
+Watch a video and download fact sheets at VA.gov. <br>
+[Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp). <br>
 
-[Find out how to file a fully developed claim](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
+Or contact your local VSO.<br>
+[Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
 
-### File a standard disability claim
+### File a fully developed or standard claim
 
-Find out how to submit a standard disability claim if you'd like us to take more responsibility for gathering the evidence (supporting documents) we need to make a decision on your claim.<br>
-
-[Find out how to file a standard claim](/disability-benefits/apply/evidence/standard-disability-claims/).
+The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
+[Learn about the application process](/disability-benefits/apply/).<br>
+[Find out what evidence you need for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 </div>
 </li>
