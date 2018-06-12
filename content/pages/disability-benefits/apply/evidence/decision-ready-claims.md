@@ -41,7 +41,7 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 - **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
 - **[Dependency and Indemnity Compensation (DIC) claim](/burials-and-memorials/survivor-and-dependent-benefits/compensation/)** as the eligible surviving spouse of a Veteran 
-- **Pre-discharge claim** for disability compensation less than 90 days before your separation from military service
+- **Pre-discharge claim** for disability compensation as a Servicemember who has less than 90 days before your separation from military service
 
 **Note:** We're working to expand the DRC program to include more types of claims. Come back soon, or check with your VSO, to find out about updates.
 
@@ -110,12 +110,12 @@ You can't file your claim through the Decision Ready Claims program if any of th
 
 You can't file your pre-discharge claim through the DRC program if any of the below factors are true for you.
 
-**None of these can be true. You can't file a claim:**
-- Involving one or more of the factors in the lists above, **or**
-- In which the Servicemember has more than 90 days left on active duty, unless there's a pending BDD claim, **or**
-- In which the Servicemember is currently enrolled in IDES, awaiting discharge while hospitalized in a VA or military treatment facility, or pregnant, **or**
-- Requiring a character of discharge determination, **or**
-- For aggravation of a condition that pre-existed service or was noted at the time of entry into service (unless evidence of pre-service baseline severity is provided)
+**None of these can be true. You can't file a claim if:**
+- Your claim involves one or more of the exclusions in the lists above, **or**
+- You have more than 90 days left on active duty (unless you already have a pending BDD claim), **or**
+- You're currently enrolled in IDES, waiting to be discharged from a VA hospital or military treatment facility, or pregnant, **or**
+- You need a character of discharge determination, **or**
+- You're filing a claim for a condition you had before you entered military service that got worse during your service or was noted when you entered (unless you provide baseline evidence of the severity of the condition before you entered service)
 
 </div>
 </li>
@@ -139,21 +139,21 @@ You can't file your DIC claim through the DRC program if any of the below factor
 <span id="how-to-file"></span>
 ### How do I file a DRC?
 
-You'll need to follow the steps below. When you work with an accredited VSO and provide all the necessary evidence with your application, you can get a decision on your claim in 30 days or less.
+You'll need to follow the steps below. When you work with an accredited VSO and provide all the needed evidence with your application, you can get a decision on your claim in 30 days or less.
 
 <ol class="process">
   <li class="process-step list-one"><strong>Appoint and work with an accredited VSO</strong><br>
     Accredited VSOs are fully trained on the DRC program. They can help you determine if a DRC is right for you.<br>
     <a href="https://www.ebenefits.va.gov/ebenefits/vso-search">Go to eBenefits to find a VSO near you</a>.
     </li>  
-  <li class="process-step list-two"><strong>Gather all relevant and required evidence to support your claim</strong><br>
-    This includes your federal and medical records as well as any needed Disability Benefits Questionnaires (DBQs). Your VSO will help you gather everything you need.
+  <li class="process-step list-two"><strong>Gather all relevant evidence needed to support your claim</strong><br>
+    This includes your federal and medical records as well as any related Disability Benefits Questionnaires (DBQs). Your VSO will help you gather everything you need.
     </li>
   <li class="process-step list-three"><strong>Attend a VA claim exam if needed</strong><br>
-    Your VSO can request a VA claim exam for you. This exam is sometimes called a compensation & pension (C&P) exam. You'll then work with a VA partner to quickly schedule an exam at a time that works best for you. The results of your exam can be included along with your application.
+    Your VSO can request a VA claim exam for you. This exam is sometimes called a compensation and pension (C&P) exam. You'll then work with a VA partner to quickly schedule an exam at a time that works best for you. The results of your exam can be included along with your application.
     </li>
   <li class="process-step list-four"><strong>Submit your claim</strong><br>
-    Your VSO will check to make sure your application includes all the needed information and help you electronically submit your claim. Giving us all the relevant evidence when you submit your DRC allows us to send your claim directly to a VA Rating Specialist for a decision.
+    Your VSO will check to make sure your application includes all the needed information and will help you submit your claim online. Giving us all the relevant evidence when you submit your DRC allows us to send your claim directly to a VA Rating Specialist for a decision.
     </li>  
 </ol>
 
@@ -169,10 +169,10 @@ You can expect a decision within 30 days or less from the time you submit your c
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="more-vso">How do I find an accredited VSO?</button>
 <div id="more-vso" class="usa-accordion-content">
  
-**You can find an accredited VSO in 1 of 2 ways:**
+**You can find an accredited VSO in couple ways:**
 - Go to eBenefits to find a local VSO by state/territory, zip code, or the organization’s name.<br>
 <a href="https://www.ebenefits.va.gov/ebenefits/vso-search">Go to eBenefits</a>.
-- Or search the VA Office of the General Counsel’s list to find a VSO representative name, city, state, or zip code.<br>
+- Or search the VA Office of the General Counsel’s list to find a VSO representative by name, city, state, or zip code.<br>
 <a href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search the VA Office of the General Counsel’s list</a>.
 
 </div>
