@@ -25,17 +25,12 @@ class MainDropDown extends React.Component {
     }
   }
 
-  panelOpen() {
-    return 'hidden';
-  }
-
   render() {
     return (
       <li>
         <button
           {...this.state.arias}
           aria-controls="vetnav-explore"
-          role="button"
           aria-haspopup="true"
           className="vetnav-level1"
           onClick={() => this.handleOnClick()}>{this.props.title}</button>

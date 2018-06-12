@@ -6,27 +6,46 @@
   @include media($medium-large-screen) {
     .vetnav-panel--submenu:not([hidden]) {
       width: 26rem;
-      padding: 28px;
+      padding: 28px 0px 0px 28px;
+      white-space: normal;
+    }
+
+    .vetnav-level1[aria-expanded="true"] {
+      border-top-color: $color-gold-light;
+    }
+
+    .vetnav-level2[aria-expanded="true"] {
+      box-shadow: -3px 0 $color-gold-light;
+    }
+
+    .vetnav-panel {
+      a {
+        padding: 0.8rem 0;
+      }
+
+      li {
+        margin-bottom: 0;
+      }
     }
 
     .panel-1 {
-      left: 10px;
+      left: 20px;
     }
 
     .panel-2 {
       border-left: none;
-      left: 270px;
+      left: 280px;
     }
 
     .panel-3 {
       border-left: none;
       color: $color-black;
-      left: 530px;
+      left: 540px;
       white-space: normal;
 
       &.vetnav-panel--submenu:not([hidden]) {
-        padding: 28px 20px 20px 5px;
-        width: 25rem;
+        padding: 28px 20px 20px 14px;
+        width: 26rem;
       }
 
       a {
@@ -42,6 +61,6 @@
   }
 
   .vetnav-level2 {
-    width: 22.3rem;
+    width: 24.3rem;
   }
 }

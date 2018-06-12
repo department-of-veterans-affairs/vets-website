@@ -6,6 +6,7 @@ import addMenuListeners from '../../accessible-menus';
 import MenuSection from '../components/MenuSection';
 
 import recordEvent from '../../../monitoring/record-event';
+import data from '../data.json';
 
 import MainDropDown from '../components/MainDropDown';
 import {
@@ -26,238 +27,41 @@ import { selectUserGreeting } from '../selectors';
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 export class Main extends React.Component {
-  render() {
-    const data = [
-      {
-        title: 'Health and Benefits',
-        menuSections: [
-          {
-            title: 'Health Care',
-            links: [
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Health Care',
-                href: '/disability-benefits/',
-              },
-            ]
-          },
-          {
-            title: 'Disabilty',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-            ]
-          },
-          {
-            title: 'Education and Training',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-            ]
-          },
-          {
-            title: 'Careers and Employment',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-            ]
-          },
-          {
-            title: 'Pension',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-            ]
-          },
-          {
-            title: 'Burials and Memorials',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-            ]
-          },
-          {
-            title: 'Housing Assistance',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-            ]
-          },
-          {
-            title: 'Life Insurance',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-            ]
-          },
-          {
-            title: 'Records',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-            ]
-          },
-        ]
-      },
-      {
-        title: 'Doing all the stuff',
-        menuSections: [
-          {
-            title: 'Disabilty',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Eligibility',
-                href: '/disability-benefits/eligibility/',
-              },
-              {
-                text: 'Application Process',
-                href: '/disability-benefits/apply/',
-              },
-              {
-                text: 'Conditions',
-                href: '/disability-benefits/conditions/',
-              },
-              {
-                text: 'Track Your Claims and Appeals',
-                href: '/track-claims/',
-                className: 'login-required',
-              },
-              {
-                text: 'Appeals Process',
-                href: '/disability-benefits/claims-appeal/',
-              },
-              {
-                text: 'Go to eBenefits to Apply include "assets/img/icons/exit-icon-white.svg"',
-                href: 'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
-                className: 'usa-button va-button-primary va-external--light',
-              },
-            ]
-          },
-          {
-            title: 'New Disabilty',
-            links: [
-              {
-                text: 'Disability Benefits Overview',
-                href: '/disability-benefits/',
-              },
-              {
-                text: 'Eligibility',
-                href: '/disability-benefits/eligibility/',
-              },
-              {
-                text: 'Application Process',
-                href: '/disability-benefits/apply/',
-              },
-              {
-                text: 'Conditions',
-                href: '/disability-benefits/conditions/',
-              },
-              {
-                text: 'Track Your Claims and Appeals',
-                href: '/track-claims/',
-                className: 'login-required',
-              },
-              {
-                text: 'Appeals Process',
-                href: '/disability-benefits/claims-appeal/',
-              },
-              {
-                text: 'Go to eBenefits to Apply include "assets/img/icons/exit-icon-white.svg"',
-                href: 'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
-                className: 'usa-button va-button-primary va-external--light',
-              },
-            ]
-          },
-        ]
-      }
-    ];
+  constructor() {
+    super();
 
+    this.state = {
+      currentSection: 'Health Care',
+    };
+
+    this.updateCurrentSection = this.updateCurrentSection.bind(this);
+  }
+
+  updateCurrentSection(currentSection) {
+    this.setState({ currentSection });
+  }
+
+  render() {
     return (
       <div className="login-container">
         <div className="row va-flex">
           <div id="vetnav" role="navigation">
             <ul id="vetnav-menu" role="menubar">
               <li><a href="/" className="vetnav-level1" role="menuitem">Home</a></li>
-
               {
                 data.map((item, i) => (
                   <MainDropDown
+                    {...this.state}
                     key={i + 'stuff'}
                     title={item.title}>
                     {
                       item.menuSections.map((section, i) => (
                         <MenuSection
+                          {...this.state}
                           key={section + i}
-                          title={section.title}>
-                          {
-                            section.links.map((link, i) => (
-                              <li key={i}><a {...link}>{link.text}</a></li>
-                            ))
-                          }
-                        </MenuSection>
+                          title={section.title}
+                          updateCurrentSection={this.updateCurrentSection}
+                          links={section.links}></MenuSection>
                       ))
                     }
                   </MainDropDown>
