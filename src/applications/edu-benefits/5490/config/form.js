@@ -47,7 +47,7 @@ import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../page
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
 import createNonRequiredFullName from '../../../common/schemaform/definitions/nonRequiredFullName';

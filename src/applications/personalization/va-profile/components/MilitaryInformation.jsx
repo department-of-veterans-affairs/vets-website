@@ -4,6 +4,7 @@ import moment from '../../../../platform/startup/moment-setup';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
+import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 class MilitaryInformationContent extends React.Component {
   componentDidMount() {
@@ -35,7 +36,11 @@ class MilitaryInformationContent extends React.Component {
   render() {
     return (
       <div>
-        <p>If you need to make any updates or corrections, call the Vets.gov Help Desk at  <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We're here Monday-Friday, 8 a.m. - 8 p.m. (ET).</p>
+        <AdditionalInfo triggerText="How do I update my military service information?">
+          <p>You'll need to file a request to change or correct your DD214 or other military records.<br/>
+            <a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/478/~/amend-or-change-dd-214-or-other-military-records">Find out how to request a change to your military records</a>
+          </p>
+        </AdditionalInfo>
         <LoadingSection
           isLoading={!this.props.militaryInformation}
           message="Loading military information..."

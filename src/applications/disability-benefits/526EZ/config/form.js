@@ -8,9 +8,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import {
-  uiSchema as autoSuggestUiSchema
-} from '../../../common/schemaform/definitions/autosuggest';
+import { uiSchema as autoSuggestUiSchema } from '../../../common/schemaform/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -68,21 +66,26 @@ import {
   getEvidenceTypesDescription
 } from '../helpers';
 
-import {
-  requireOneSelected,
-} from '../validations';
+import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
+import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWidget';
 
 const {
   treatments: treatmentsSchema,
   privateRecordReleases,
   serviceInformation,
   standardClaim,
+  veteran: {
+    properties: {
+      homelessness
+    }
+  }
 } = fullSchema526EZ.properties;
 
 const {
   date,
   fullName,
+  phone,
   // files
   dateRange,
   dateRangeFromRequired,
@@ -122,8 +125,8 @@ const initialData = {
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  // submitUrl: `${environment.API_URL}/v0/21-526EZ`,
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
+  // submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
@@ -143,6 +146,7 @@ const formConfig = {
   defaultDefinitions: {
     date,
     fullName,
+    phone,
     // files
     dateRange,
     dateRangeFromRequired,
@@ -229,18 +233,61 @@ const formConfig = {
           title: 'Special Circumstances',
           path: 'special-circumstances',
           uiSchema: {
-            'ui:title': 'Homelessness',
-            'view:homelessness': {
-              'ui:title': 'Are you homeless or at risk of becoming homeless?',
-              'ui:widget': 'yesNo',
-            },
+            veteran: {
+              'ui:title': 'Homelessness',
+              homelessness: {
+                isHomeless: {
+                  'ui:title': 'Are you homeless or at risk of becoming homeless?',
+                  'ui:widget': 'yesNo',
+                },
+                pointOfContact: {
+                  'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
+                  'ui:options': {
+                    expandUnder: 'isHomeless',
+                  },
+                  pointOfContactName: {
+                    'ui:title': 'Name of person we should contact',
+                    'ui:errorMessages': {
+                      pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
+                    },
+                    'ui:required': (formData) => {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
+                        return false;
+                      }
+                      return !!homelessOrAtRisk.pointOfContact.primaryPhone;
+                    }
+                  },
+                  primaryPhone: {
+                    'ui:title': 'Phone number',
+                    'ui:widget': PhoneNumberWidget,
+                    'ui:options': {
+                      widgetClassNames: 'va-input-medium-large'
+                    },
+                    'ui:errorMessages': {
+                      pattern: 'Phone numbers must be 10 digits (dashes allowed)'
+                    },
+                    'ui:required': (formData) => {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
+                        return false;
+                      }
+                      return !!homelessOrAtRisk.pointOfContact.pointOfContactName;
+                    }
+                  }
+                }
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
-              'view:homelessness': {
-                type: 'boolean'
-              },
+              veteran: {
+                type: 'object',
+                properties: {
+                  homelessness
+                }
+              }
             }
           }
         }
@@ -704,13 +751,13 @@ const formConfig = {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     itemDescription: 'Adding additional evidence:',
-                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },
@@ -775,13 +822,13 @@ const formConfig = {
                 additionalDocuments: Object.assign({},
                   fileUploadUI('Lay statements or other evidence', {
                     itemDescription: 'Adding additional evidence:',
-                    fileUploadUrl: `${environment.API_URL}/v0/preneeds/preneed_attachments`, // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },

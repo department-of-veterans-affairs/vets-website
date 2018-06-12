@@ -4,6 +4,7 @@ import moment from '../../../../platform/startup/moment-setup';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
+import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 function Gender({ gender }) {
   return <span className="va-profile-gender">{gender === 'M' ? 'Male' : 'Female'}</span>;
@@ -38,7 +39,16 @@ class PersonalInformationContent extends React.Component {
   render() {
     return (
       <div>
-        <p>If you need to make any updates or corrections, call the Vets.gov Help Desk at  <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We're here Monday-Friday, 8 a.m. - 8 p.m. (ET).</p>
+        <AdditionalInfo triggerText="How do I update my personal information?">
+          <p><strong>If you're enrolled in the VA health care program</strong>
+            <br/>Please contact your nearest VA medical center to update your personal information.<br/>
+            <a href="/facilities/?facilityType=health">Find your nearest VA medical center</a>
+          </p>
+          <p><strong>If you receive VA benefits, but aren't enrolled in VA health care</strong>
+            <br/>Please contact your nearest VA regional benefit office to update your personal information.<br/>
+            <a href="/facilities/?facilityType=benefits">Find your nearest VA regional benefit office</a>
+          </p>
+        </AdditionalInfo>
         <LoadingSection
           isLoading={!this.props.personalInformation}
           message="Loading personal information..."
@@ -58,4 +68,3 @@ export default function PersonalInformation(props) {
     </div>
   );
 }
-
