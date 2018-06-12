@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: How to Apply for VR&amp;E
-display_title: Application Process
+display_title: How to Apply
 order: 2
 template: detail-page
 relatedlinks:
