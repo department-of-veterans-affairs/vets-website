@@ -69,12 +69,6 @@ const spouseSelector = createSelector(form => {
     : null;
 }, spouse => spouse);
 
-function ssnUICopy() {
-  const copy = Object.assign({}, ssnUI);
-  delete copy['ui:title'];
-  return copy;
-}
-
 function createSpouseLabelSelector(nameTemplate) {
   return createSelector(spouseSelector, spouseFullName => {
     if (spouseFullName) {
@@ -220,7 +214,7 @@ const formConfig = {
               },
               suffix: { 'ui:title': 'Veteran’s suffix' }
             }),
-            veteranSocialSecurityNumber: _.merge(ssnUICopy(), {
+            veteranSocialSecurityNumber: _.merge(_.unset('ui:title', ssnUI), {
               'ui:options': {
                 updateSchema: (form) => {
                   if (isVeteran(form)) {
@@ -269,7 +263,7 @@ const formConfig = {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
-            dateOfBirth: {
+            dateOfBirth: _.merge(currentOrPastDateUI(''), {
               'ui:options': {
                 updateSchema: (form) => {
                   if (isVeteran(form)) {
@@ -281,11 +275,8 @@ const formConfig = {
                     title: 'Veteran’s date of birth'
                   };
                 }
-              },
-              'ui:widget': 'date',
-              'ui:validations': currentOrPastDateUI()['ui:validations'],
-              'ui:errorMessages': currentOrPastDateUI()['ui:errorMessages']
-            }
+              }
+            })
           },
           schema: {
             type: 'object',
