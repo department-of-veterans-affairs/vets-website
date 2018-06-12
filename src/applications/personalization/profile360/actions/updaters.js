@@ -6,6 +6,7 @@ import { pickBy } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
+import { isTransactionCompletedSuccessfully } from '../util';
 
 export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
@@ -43,7 +44,7 @@ export function getTransactionStatus(transaction, fieldName) {
       });
 
       // Check to see if the transaction is finished
-      if (response.data.attributes.transactionStatus === VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_SUCCESS) {
+      if (isTransactionCompletedSuccessfully(response)) {
 
         // Refresh the profile object
         await dispatch(refreshProfile());
