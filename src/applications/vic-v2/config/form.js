@@ -13,14 +13,14 @@ import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
 
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import ssnUI from '../../common/schemaform/definitions/ssn';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import * as addressDefinition from '../definitions/address';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import phoneUI from '../../common/schemaform/definitions/phone';
-import fileUploadUI from '../../common/schemaform/definitions/file';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { validateMatch } from '../../common/schemaform/validation';
+import { validateMatch } from 'us-forms-system/lib/js/validation';
 import validateFile from '../validation';
 
 const {

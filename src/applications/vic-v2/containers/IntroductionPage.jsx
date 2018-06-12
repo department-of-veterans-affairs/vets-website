@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../platform/utilities/ui';
-import FormTitle from '../../common/schemaform/components/FormTitle';
-import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import SaveInProgressIntro, { introActions, introSelector } from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { hasSavedForm } from '../helpers';
 
 const { animateScroll: scroll } = Scroll;
