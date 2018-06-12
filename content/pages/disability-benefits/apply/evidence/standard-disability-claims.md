@@ -37,7 +37,7 @@ Find out how to submit a standard disability claim if you’d like us to take mo
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**We need any records related to your claim from sources like:**
+**We need any records related to your claim from sources like these:**
   - State or local governments
   - Any private (non-VA) doctors who’ve treated you
   - Any private (non-VA) hospitals or other health facilities where you've been treated
