@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: How to Apply for Burial Allowance
-display_title: Burial Allowance Application Process
+title: How to Apply for a Burial Allowance
+display_title: How to Apply for a Burial Allowance 
 order: 1
 widgets:
   - root: react-applicationStatus
