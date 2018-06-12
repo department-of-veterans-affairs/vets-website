@@ -818,11 +818,17 @@ const formConfig = {
                 },
                 insurancePolicyNumber: {
                   'ui:title': 'Policy number (either this or the group code is required)',
-                  'ui:required': (formData, index) => !_.get(`providers[${index}].insuranceGroupCode`, formData)
+                  'ui:required': (formData, index) => !_.get(`providers[${index}].insuranceGroupCode`, formData),
+                  'ui:errorMessages': {
+                    pattern: 'Please provide a valid policy number.'
+                  }
                 },
                 insuranceGroupCode: {
                   'ui:title': 'Group code (either this or policy number is required)',
-                  'ui:required': (formData, index) => !_.get(`providers[${index}].insurancePolicyNumber`, formData)
+                  'ui:required': (formData, index) => !_.get(`providers[${index}].insurancePolicyNumber`, formData),
+                  'ui:errorMessages': {
+                    pattern: 'Please provide a valid policy number.'
+                  }
                 }
               }
             }
