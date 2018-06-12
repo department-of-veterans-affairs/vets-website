@@ -182,7 +182,6 @@ export const privateRecordsChoiceHelp = (
       time, and this could mean that it’ll take us longer to make a decision on
       your claim. You’ll need to first fill out an Authorization to Disclose
       Information to the VA (VA Form 21-4142) so we can request your records.
-      You’ll need to fill out a form for each doctor.
     </p>
     <p>
       <a href={vaForm4142URL} target="_blank">
@@ -242,9 +241,9 @@ export function validateAddress(errors, formData) {
 export const download4142Notice = (
   <div className="usa-alert usa-alert-warning no-background-image">
     <p>
-      Since your doctor has your private medical records, you'll need to fill
+      Since your doctor has your private medical records, you’ll need to fill
       out an Authorization to Disclose Information to the VA (VA Form 21-4142) so
-      we can request your records.
+      we can request your records. You’ll need to fill out a form for each doctor.
     </p>
     <p>
       <a href={vaForm4142URL} target="_blank">
