@@ -60,7 +60,7 @@ export function checkITFRequest(dispatch, hasSavedForm) {
         const activeList = itfList.filter(itf => itf.status === PRESTART_STATUSES.active);
         if (activeList.length === 0) {
           status = PRESTART_STATUSES.expired;
-          expirationDate = itfList.sort((a, b) => a.expirationDate - b.expirationDate)[0].expirationDate;
+          expirationDate = itfList.sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate))[0].expirationDate;
         } else {
           status = PRESTART_STATUSES.retrieved;
           expirationDate = activeList[0].expirationDate;
