@@ -6,7 +6,7 @@ import { pickBy } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
-import { isTransactionCompletedSuccessfully } from '../util';
+import { isTransactionCompletedSuccessfully } from '../util/transactions';
 
 export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
