@@ -66,10 +66,13 @@ export class KeywordSearch extends React.Component {
           inputValue={searchTerm}
           onSelect={(item) => this.handleSuggestionSelected(item)}
           itemToString={item => {
-            if (typeof item === 'string') {
-              return item;
+            if (item) {
+              if (typeof item === 'string') {
+                return item;
+              }
+              return item.label;
             }
-            return item.label;
+            return item;
           }}>
           {({
             getInputProps,
