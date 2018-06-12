@@ -528,7 +528,7 @@ const diagnosticCodeMap = {
   5380: 'Pneumocystis Carini Pneumonia',
   5390: 'Pneumonia',
   5400: 'Polymyositis',
-  5410: 'Porphyria Cutanea Tarda  (PCT) (a Skin Condition)',
+  5410: 'Porphyria Cutanea Tarda (PCT) (a Skin Condition)',
   5420: 'PTSD (Post Traumatic Stress Disorder)',
   5430: 'Posterior Subcapsular Cataracts',
   5440: 'Pregnancy, Surgical Complications of',
