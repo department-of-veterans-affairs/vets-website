@@ -15,13 +15,13 @@ majorlinks:
       title: Eligibility
       description: Find out if you can get monthly payments through our Veterans Pension program.
     - url: /pension/apply/
-      title: Application Process
+      title: How to Apply for a Veterans Pension
       description: You can apply online, by mail, or in person.
     - url: /pension/aid-attendance-housebound/
       title: Aid and Attendance or Housebound Allowance
       description: Find out if you can get added pension benefits as a Veteran or survivor.
     - url: /pension/survivors-pension/
-      title: Survivors Pension
+      title: How to Apply for a Survivors Pension
       description: Find out if you can get monthly payments as an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service. 
     - url: /pension/rates/
       title: Veterans Pension Rates
