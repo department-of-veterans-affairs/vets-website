@@ -1,69 +1,47 @@
 ---
 layout: page-breadcrumbs.html
-title: Evidence 
-description: Find out which evidence you’ll need to include when you file your VA claim for disability benefits, and which documents we’ll gather ourselves.
+title: How to Gather Evidence for Your Claim
+display_title: How to Gather Evidence for Your Claim
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 3
+children: disabilityEvidence
+order: 2
+majorlinks:
+  - heading: Explore your options for gathering evidence
+    links:
+    - url: /disability-benefits/apply/evidence/decision-ready-claims/
+      title: Decision Ready Claims Program
+      description: For certain types of claims, you may be able to get a decision on your claim within 30 days or less by working with an accredited Veterans Service Organization (VSO). Find out if you qualify for the Decision Ready Claims program.
+    - url: /disability-benefits/apply/evidence/fully-developed-disability-claims/
+      title: Fully Developed Disability Claims
+      description: With the Fully Developed Claims program, you send in all the evidence you have—or can easily get—when you file your claim. Find out how you can use this program to get a faster decision on your disability benefits claim.
+    - url: /disability-benefits/apply/evidence/standard-disability-claims/
+      title: Standard Disability Claims
+      description: With standard claims, we take more responsibility for gathering the evidence we need to make a decision on your claim. Find out how to file a standard disability claim.
+      
 ---
 
 <div class="va-introtext">
 
-When you file a claim for disability benefits, you’ll need to gather all related evidence (supporting documents like a doctor’s report or medical test results) so we can decide on your claim. You may have some of these documents—or be able to easily get them—but we’ll need your permission to get others. [File a claim now](/disability-benefits/apply/).
+When you file a disability claim, we review all available evidence (supporting documents) to determine if you qualify for benefits. Find out what evidence we'll need—and what your options are for gathering documents to support your claim.
 
 </div>
 
 <div class="feature" markdown="1">
 
-### The documents you’ll need to provide include:
+### What evidence will VA look for to support my claim?
 
--	Your DD214 or other separation documents
--	Service treatment records (if you have them)
--	Medical evidence related to your illness or injury
+**We'll look for evidence that shows you have:**
+- A current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work), **and**
+- An event, injury, or illness that happened while you were serving in the military to cause this disability
+
 </div>
 
+### What documents will I need to support my claim?
 
-### We’re responsible for:
+We require certain documents to support all claims for disability benefits. 
 
-- Getting related records from:
-
-  -	Any federal agency (including the military)
-  -	VA medical centers (including private facilities where VA has authorized treatment)
-  -	The Social Security Administration
-
-- Providing a medical exam or getting a doctor’s opinion, if needed to decide the claim
-
-### You’re responsible for:
-
-- Getting related records not held by a federal agency. These may include records from:
-
-  -	State or local governments
-  -	Private (non-VA) doctors and hospitals
-  -	Current or former employers
-
-- Giving us any information we may need in order to get other records
-
-**Example**<br>
-A Veteran filed a disability claim that included prior treatment from a private doctor and a prior Social Security disability award. In this case, we were responsible for getting the Social Security records. We also helped to get the private doctor’s records, but the Veteran was responsible for making sure we got those.
-
------
-
-### Evidence Procedures for Fully Developed Claims and Standard Claims
-
-#### Fully Developed Claims
-
-The Fully Developed Claims (FDC) program lets you resolve your claim faster. You’ll need to send these items when you file your formal claim:
-
--	All related service-treatment and personnel records
--	Any related private medical records
-
-We consider disability claims to be fully developed when you have no more evidence to send and the only help you need from us is getting federal records and providing—or helping to provide—added medical exams or doctors' opinions. If we discover that there are other private records we need to decide your claim, we’ll remove your claim from the FDC program and review it through the traditional claims process. [Learn more about the FDC program](/disability-benefits/apply/claim-types/fully-developed-claim/).
-
-#### Standard Claims
-
-With standard claims, we take more responsibility for gathering related records from both federal and nonfederal sources that you identify and authorize. These may include:
-
-- Privately held evidence and information that you tell us about (such as records from a private doctor or hospital), and
-- Records from state or local governments or current or former employers
-
-We’ll provide a medical exam for you, or will get a doctor’s opinion, if it’s needed to make a claims decision. [Learn more about standard claims](/disability-benefits/apply/claim-types/standard-claim/).
+**You'll need to submit (or give us permission to gather) these:**
+-	Your DD214 or other separation documents
+-	Your service treatment records
+-	Any medical evidence related to your illness or injury (like doctor's reports, X-rays, and medical test results)
