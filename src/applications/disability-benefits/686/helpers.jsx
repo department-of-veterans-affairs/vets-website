@@ -1,8 +1,8 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import React from 'react';
-import { transformForSubmit } from '../../common/schemaform/helpers';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { merge, get } from 'lodash/fp';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 
 export const relationshipLabels = {
   veteran: 'I am the Veteran',
