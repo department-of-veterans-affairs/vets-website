@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import React from 'react';
-import { transformForSubmit } from '../../common/schemaform/helpers';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function transform(formConfig, form) {
   // Clone the form in so we don’t modify the original...because of reasons FP
