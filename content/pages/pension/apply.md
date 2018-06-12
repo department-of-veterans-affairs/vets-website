@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: How to Apply for Pension Benefits
-display_title: How to Apply
+title: How to Apply for a Veterans Pension
+display_title: How to Apply for a Veterans Pension
 concurrence: ""
 order: 2
 children: pensionApplication
