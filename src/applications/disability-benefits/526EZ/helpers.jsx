@@ -11,7 +11,7 @@ import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
+import { getDiagnosticCodeName } from './reference-helpers';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
@@ -404,7 +404,7 @@ export const veteranInformationViewField = (data) => {
  *
  * @param {Disability} disability
  */
-export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => {
+export const disabilityOption = ({ diagnosticCode, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showRatingPercentage = Number.isInteger(ratingPercentage);
@@ -412,7 +412,6 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
   return (
     <div>
       {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
-      {name && <p className="diagnostic-text">{getDiagnosticText(name)}</p>}
       {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
