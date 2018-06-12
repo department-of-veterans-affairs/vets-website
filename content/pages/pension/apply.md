@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Apply for Pension Benefits
-display_title: Application Process
+display_title: How to Apply
 concurrence: ""
 order: 2
 children: pensionApplication
