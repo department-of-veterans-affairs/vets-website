@@ -74,7 +74,7 @@ You have up to 1 year from the date we receive your claim to turn in any informa
 ### How do I get started filing my standard claim?
 
 You can start your online application right now, or find out how to apply by mail, in person, or with the help of a trained professional. <br>
-[Find out how to apply for disability benefits](/disability-benefits/apply/).
+[Find out how to file a disability claim](/disability-benefits/apply/).
 
 <br>
 
