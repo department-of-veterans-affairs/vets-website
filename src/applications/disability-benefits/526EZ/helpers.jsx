@@ -238,6 +238,15 @@ export function validateAddress(errors, formData) {
   validatePostalCodes(errors, formData);
 }
 
+const claimsIntakeAddress = (
+  <p className="va-address-block">
+    Department of Veterans Affairs<br/>
+    Claims Intake Center<br/>
+    PO Box 4444<br/>
+    Janesville, WI 53547-4444
+  </p>
+);
+
 export const download4142Notice = (
   <div className="usa-alert usa-alert-warning no-background-image">
     <p>
@@ -252,12 +261,7 @@ export const download4142Notice = (
       <p>
         Please print the form, fill it out, and send it to:
       </p>
-      <p className="va-address-block">
-        Department of Veterans Affairs<br/>
-        Claims Intake Center<br/>
-        PO Box 4444<br/>
-        Janesville, WI 53547-4444
-      </p>
+      {claimsIntakeAddress}
       <p>Or you can upload a completed VA Form 21-4142 to your online application.</p>
     </p>
   </div>
@@ -274,12 +278,7 @@ export const authorizationToDisclose = (
       </a>.
     </p>
     <p>Please print the form, fill it out, and send it to:</p>
-    <p className="va-address-block">
-      Department of Veterans Affairs<br/>
-      Claims Intake Center<br/>
-      PO Box 4444<br/>
-      Janesville, WI 53547-4444
-    </p>
+    {claimsIntakeAddress}
   </div>
 );
 
