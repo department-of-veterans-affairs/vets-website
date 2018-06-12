@@ -1,5 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import Raven from 'raven-js';
+import appendQuery from 'append-query';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
@@ -7,6 +9,7 @@ import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
+import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
 
@@ -15,6 +18,9 @@ const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'addi
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
+export const USA = 'USA';
+export const MILITARY_STATES = ['AA', 'AE', 'AP'];
+export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 
 /*
  * Flatten nested array form data into sibling properties
@@ -508,47 +514,38 @@ const EffectiveDateViewField = ({ formData }) => {
 };
 
 const AddressViewField = ({ formData }) => {
-  const {
-    addressLine1, addressLine2, addressLine3, city, state,
-    zipCode, militaryStateCode, militaryPostOfficeTypeCode
-  } = formData;
+  const { addressLine1, addressLine2, addressLine3, city, state, country, zipCode } = formData;
   let zipString;
-  let stateString;
-  let cityString;
   if (zipCode) {
     const firstFive = zipCode.slice(0, 5);
     const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
     zipString = `${firstFive}${lastChunk}`;
   }
-  if (city || militaryPostOfficeTypeCode) {
-    cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
-  }
-  if (state || militaryStateCode) {
-    stateString = `${state}` || `${militaryStateCode}`;
+
+  let lastLine;
+  if (country === USA) {
+    lastLine = `${city}, ${state} ${zipString}`;
+  } else {
+    lastLine = `${city}, ${country}`;
   }
   return (
     <div>
       {addressLine1 && <p>{addressLine1}</p>}
       {addressLine2 && <p>{addressLine2}</p>}
       {addressLine3 && <p>{addressLine3}</p>}
-      <p>{cityString} {stateString} {zipString}</p>
+      <p>{lastLine}</p>
     </div>
   );
 };
 
 export const PrimaryAddressViewField = ({ formData }) => {
   const {
-    mailingAddress, primaryPhone, secondaryPhone,
-    emailAddress, forwardingAddress
-  } = formData;
+    mailingAddress, primaryPhone, emailAddress, forwardingAddress } = formData;
   return (
     <div>
       <AddressViewField formData={mailingAddress}/>
       {primaryPhone && (
         <PhoneViewField formData={primaryPhone} name="Primary phone"/>
-      )}
-      {secondaryPhone && (
-        <PhoneViewField formData={secondaryPhone} name="Secondary phone"/>
       )}
       {emailAddress && (
         <EmailViewField formData={emailAddress} name="Email address"/>
@@ -606,18 +603,26 @@ export const noFDCWarning = (
 );
 
 
-const options = [
-  { id: 1, label: 'first' },
-  { id: 2, label: 'second' },
-  { id: 3, label: 'third' },
-  { id: 4, label: 'fourth' },
-];
-
-
-// Mimic querying the api for options
 export function queryForFacilities(input = '') {
-  // Emulate a fast api call
-  return Promise.resolve(options.filter(o => o.label.includes(input)));
+  // Only search if the input has a length >= 3, otherwise, return an empty array
+  if (input.length < 3) {
+    return Promise.resolve([]);
+  }
+
+  const url = appendQuery('/facilities/suggested', {
+    type: ['health', 'dod_health'],
+    name_part: input // eslint-disable-line camelcase
+  });
+
+  return apiRequest(url, {},
+    (response) => {
+      return response.data.map(facility => ({ id: facility.id, label: facility.attributes.name }));
+    },
+    (error) => {
+      Raven.captureMessage('Error querying for facilities', { input, error });
+      return [];
+    }
+  );
 }
 
 

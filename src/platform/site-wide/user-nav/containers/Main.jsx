@@ -84,28 +84,11 @@ export class Main extends React.Component {
   }
 
   checkTokenStatus = () => {
-    if (sessionStorage.userToken) {
-      // @todo once we have time to replace the confirm dialog with an actual modal we should uncomment this code.
-      // if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
-      //   if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
-      //     login();
-      //   } else {
-      //     logout();
-      //   }
-      // } else {
-      //   if (this.props.getProfile()) {
-      //     this.props.updateLoggedInStatus(true);
-      //   }
-      // }
-
-      // @todo after doing the above, remove this code.
-      if (this.props.getProfile()) {
-        recordEvent({ event: 'login-user-logged-in' });
-        this.props.updateLoggedInStatus(true);
-      }
-    } else {
+    if (!sessionStorage.userToken) {
       this.props.updateLoggedInStatus(false);
       if (this.getRedirectUrl()) { this.props.toggleLoginModal(true); }
+    } else {
+      this.props.getProfile();
     }
   }
 
