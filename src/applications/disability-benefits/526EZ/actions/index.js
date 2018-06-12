@@ -7,6 +7,7 @@ export const RESET_PRESTART_DISPLAY = 'RESET_PRESTART_DISPLAY';
 
 export const PRESTART_STATUSES = {
   notAttempted: 'not-attempted',
+  active: 'active',
   pending: 'pending',
   none: 'none',
   expired: 'expired',
@@ -56,7 +57,7 @@ export function checkITFRequest(dispatch, hasSavedForm) {
       if (!itfList || (Array.isArray(itfList) && itfList.length === 0)) {
         status = PRESTART_STATUSES.none;
       } else {
-        const activeList = itfList.filter(itf => itf.status === 'active');
+        const activeList = itfList.filter(itf => itf.status === PRESTART_STATUSES.active);
         if (activeList.length === 0) {
           status = PRESTART_STATUSES.expired;
           expirationDate = itfList.sort((a, b) => a.expirationDate - b.expirationDate)[0].expirationDate;
