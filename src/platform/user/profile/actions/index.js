@@ -1,7 +1,8 @@
-import recordEvent from '../../../monitoring/record-event';
 import { removeFormApi } from '../../../../applications/common/schemaform/save-in-progress/api';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import environment from '../../../utilities/environment';
+
+import { setupProfileSession, teardownProfileSession } from '../utilities';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
@@ -25,37 +26,37 @@ export function profileLoadingFinished() {
   };
 }
 
-export function getProfile() {
-  return (dispatch) => {
-    return fetch(`${environment.API_URL}/v0/user`, {
+export function refreshProfile() {
+  return async (dispatch) => {
+    const response = await fetch(`${environment.API_URL}/v0/user`, {
       method: 'GET',
       headers: new Headers({
         Authorization: `Token token=${sessionStorage.userToken}`
       })
-    }).then(response => {
-      if (response.ok) return response.json();
+    });
+
+    if (!response.ok) {
       const error = new Error(response.statusText);
       error.status = response.status;
       throw error;
-    }).then(payload => {
-      const userData = payload.data.attributes.profile;
-      // sessionStorage coerces everything into String. this if-statement
-      // is to prevent the firstname being set to the string 'Null'
-      if (userData.first_name) {
-        sessionStorage.setItem('userFirstName', userData.first_name);
-      }
-      // Report out the current level of assurance for the user
-      recordEvent({ event: `login-loa-current-${userData.loa.current}` });
-      dispatch(updateProfileFields(payload));
+    }
+
+    const payload = await response.json();
+    dispatch(updateProfileFields(payload));
+    return payload;
+  };
+}
+
+export function restoreProfile() {
+  return async (dispatch) => {
+    try {
+      const payload = await dispatch(refreshProfile());
+      setupProfileSession(payload);
       dispatch(updateLoggedInStatus(true));
-    }).catch(error => {
-      if (error.status === 401) {
-        for (const key of ['entryTime', 'userToken', 'userFirstName']) {
-          sessionStorage.removeItem(key);
-        }
-      }
+    } catch (error) {
+      if (error.status === 401) teardownProfileSession();
       dispatch(profileLoadingFinished());
-    });
+    }
   };
 }
 
@@ -83,7 +84,7 @@ export function removeSavedForm(formId) {
     return removeFormApi(formId)
       .then(() => {
         dispatch({ type: REMOVING_SAVED_FORM_SUCCESS, formId });
-        dispatch(getProfile());
+        dispatch(refreshProfile());
       })
       .catch(() => dispatch(removingSavedFormFailure()));
   };

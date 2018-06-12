@@ -11,7 +11,7 @@ import {
   isProfileLoading,
   isLOA3
 } from '../../../user/selectors';
-import { getProfile } from '../../../user/profile/actions';
+import { restoreProfile } from '../../../user/profile/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
 
 import {
@@ -58,7 +58,7 @@ export class Main extends React.Component {
   }
 
   setToken = (event) => {
-    if (event.data === sessionStorage.userToken) { this.props.getProfile(); }
+    if (event.data === sessionStorage.userToken) { this.props.restoreProfile(); }
   }
 
   getRedirectUrl = () => (new URLSearchParams(window.location.search)).get('next');
@@ -88,7 +88,7 @@ export class Main extends React.Component {
       this.props.updateLoggedInStatus(false);
       if (this.getRedirectUrl()) { this.props.toggleLoginModal(true); }
     } else {
-      this.props.getProfile();
+      this.props.restoreProfile();
     }
   }
 
@@ -130,7 +130,7 @@ const mapDispatchToProps = {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
-  getProfile
+  restoreProfile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
