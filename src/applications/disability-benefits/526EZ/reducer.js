@@ -5,9 +5,9 @@ import formConfig from './config/form';
 import { createSaveInProgressFormReducer } from '../../common/schemaform/save-in-progress/reducers';
 
 import {
-  SET_PRESTART_STATUS,
-  RESET_PRESTART_STATUS,
-  RESET_PRESTART_DISPLAY,
+  PRESTART_STATUS_SET,
+  PRESTART_STATUS_RESET,
+  PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES
 } from './actions';
 
@@ -19,7 +19,7 @@ const initialState = {
 
 export const prestart = (state = initialState, action) => {
   switch (action.type) {
-    case SET_PRESTART_STATUS: {
+    case PRESTART_STATUS_SET: {
       const newState = _.set('status', action.status, state);
       if (!state.display) {
         newState.display = true;
@@ -36,13 +36,13 @@ export const prestart = (state = initialState, action) => {
 
       return newState;
     }
-    case RESET_PRESTART_STATUS: {
+    case PRESTART_STATUS_RESET: {
       let newState = _.set('status', PRESTART_STATUSES.notAttempted, state);
       newState = _.unset('data', newState);
 
       return newState;
     }
-    case RESET_PRESTART_DISPLAY: {
+    case PRESTART_DISPLAY_RESET: {
       const newState = _.set('display', false, state);
 
       return newState;

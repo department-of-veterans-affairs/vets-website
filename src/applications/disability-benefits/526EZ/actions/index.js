@@ -1,9 +1,9 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import Raven from 'raven-js';
 
-export const SET_PRESTART_STATUS = 'SET_PRESTART_STATUS';
-export const RESET_PRESTART_STATUS = 'RESET_PRESTART_STATUS';
-export const RESET_PRESTART_DISPLAY = 'RESET_PRESTART_DISPLAY';
+export const PRESTART_STATUS_SET = 'PRESTART_STATUS_SET';
+export const PRESTART_STATUS_RESET = 'PRESTART_STATUS_RESET';
+export const PRESTART_DISPLAY_RESET = 'PRESTART_DISPLAY_RESET';
 
 export const PRESTART_STATUSES = {
   notAttempted: 'not-attempted',
@@ -28,7 +28,7 @@ export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART
 
 export function setPrestartStatus(status, data) {
   return {
-    type: SET_PRESTART_STATUS,
+    type: PRESTART_STATUS_SET,
     status,
     data
   };
@@ -36,13 +36,13 @@ export function setPrestartStatus(status, data) {
 
 export function resetPrestartStatus() {
   return {
-    type: RESET_PRESTART_STATUS
+    type: PRESTART_STATUS_RESET
   };
 }
 
 export function resetPrestartDisplay() {
   return {
-    type: RESET_PRESTART_DISPLAY
+    type: PRESTART_DISPLAY_RESET
   };
 }
 

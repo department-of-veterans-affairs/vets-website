@@ -4,9 +4,9 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
 
 import {
-  SET_PRESTART_STATUS,
-  RESET_PRESTART_STATUS,
-  RESET_PRESTART_DISPLAY,
+  PRESTART_STATUS_SET,
+  PRESTART_STATUS_RESET,
+  PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES,
   setPrestartStatus,
   resetPrestartStatus,
@@ -76,7 +76,7 @@ describe('ITF retrieve / submit actions:', () => {
       const data = '2019-04-10T15:12:34.000+00:00';
       const action = setPrestartStatus(status, data);
 
-      expect(action.type).to.equal(SET_PRESTART_STATUS);
+      expect(action.type).to.equal(PRESTART_STATUS_SET);
       expect(action.status).to.equal(status);
       expect(action.data).to.equal('2019-04-10T15:12:34.000+00:00');
     });
@@ -85,14 +85,14 @@ describe('ITF retrieve / submit actions:', () => {
     it('should unset status', () => {
       const action = resetPrestartStatus();
 
-      expect(action.type).to.equal(RESET_PRESTART_STATUS);
+      expect(action.type).to.equal(PRESTART_STATUS_RESET);
     });
   });
   describe('resetPrestartDisplay', () => {
     it('should unset display', () => {
       const action = resetPrestartDisplay();
 
-      expect(action.type).to.equal(RESET_PRESTART_DISPLAY);
+      expect(action.type).to.equal(PRESTART_DISPLAY_RESET);
     });
   });
   describe('checkITFRequest', () => {
