@@ -2,8 +2,8 @@ import { apiRequest } from '../../../../platform/utilities/api';
 import Raven from 'raven-js';
 
 export const SET_PRESTART_STATUS = 'SET_PRESTART_STATUS';
-export const UNSET_PRESTART_STATUS = 'UNSET_PRESTART_STATUS';
-export const UNSET_PRESTART_DISPLAY = 'UNSET_PRESTART_DISPLAY';
+export const RESET_PRESTART_STATUS = 'RESET_PRESTART_STATUS';
+export const RESET_PRESTART_DISPLAY = 'RESET_PRESTART_DISPLAY';
 
 export const PRESTART_STATUSES = {
   notAttempted: 'not-attempted',
@@ -33,34 +33,33 @@ export function setPrestartStatus(status, data) {
   };
 }
 
-export function unsetPrestartStatus() {
+export function resetPrestartStatus() {
   return {
-    type: UNSET_PRESTART_STATUS
+    type: RESET_PRESTART_STATUS
   };
 }
 
-export function unsetPrestartDisplay() {
+export function resetPrestartDisplay() {
   return {
-    type: UNSET_PRESTART_DISPLAY
+    type: RESET_PRESTART_DISPLAY
   };
 }
 
 export function checkITFRequest(dispatch, hasSavedForm) {
-
   return apiRequest(
     '/intent_to_file',
     null,
     ({ data }) => {
       let status;
       let expirationDate;
-      const itfList = data.attributes.intent_to_file;
-      if (itfList.length === 0) {
+      const itfList = data.attributes.intentToFile;
+      if (!itfList || (Array.isArray(itfList) && itfList.length === 0)) {
         status = PRESTART_STATUSES.none;
       } else {
         const activeList = itfList.filter(itf => itf.status === 'active');
         if (activeList.length === 0) {
           status = PRESTART_STATUSES.expired;
-          expirationDate = itfList.sort((a, b) => a.expirationDate - b.expirationDate)[0];
+          expirationDate = itfList.sort((a, b) => a.expirationDate - b.expirationDate)[0].expirationDate;
         } else {
           status = PRESTART_STATUSES.retrieved;
           expirationDate = activeList[0].expirationDate;
@@ -85,7 +84,7 @@ export function submitITFRequest(dispatch, successStatus, errorStatus) {
     '/intent_to_file/compensation',
     { method: 'POST' },
     ({ data }) => {
-      dispatch(setPrestartStatus(successStatus, data.attributes.intent_to_file.expirationDate));
+      dispatch(setPrestartStatus(successStatus, data.attributes.intentToFile.expirationDate));
       return successStatus;
     },
     ({ errors }) => {
@@ -97,22 +96,23 @@ export function submitITFRequest(dispatch, successStatus, errorStatus) {
   );
 }
 
-function fakeITFRequest(x, cb) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      cb();
-      resolve(x);
-    }, 2000);
-  });
-}
+// function fakeITFRequest(x, cb) { // remove once local testing complete
+//   return new Promise(resolve => {
+//     setTimeout(() => {
+//       cb();
+//       resolve(x);
+//     }, 2000);
+//   });
+// }
 
 export function verifyIntentToFile(hasSavedForm) {
   return async (dispatch) => {
-    let newSuccessStatus; // eslint-disable-line no-unused-vars
+    let submitSuccessStatus; // eslint-disable-line no-unused-vars
+    let submitErrorStatus;
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
-    
-    // const existingITFStatus = await checkITFRequest(dispatch, hasSavedForm);
-    const existingITFStatus = await fakeITFRequest('none', () => dispatch(setPrestartStatus(PRESTART_STATUSES.none, '2017-08-17T21:59:53.327Z')));
+
+    const existingITFStatus = await checkITFRequest(dispatch, hasSavedForm);
+    // const existingITFStatus = await fakeITFRequest('none', () => dispatch(setPrestartStatus(PRESTART_STATUSES.none, '2017-08-17T21:59:53.327Z')));  // remove once local testing complete
 
     if (prestartFailureStatuses.has(existingITFStatus)) {
       return false;
@@ -121,14 +121,16 @@ export function verifyIntentToFile(hasSavedForm) {
     }
 
     if (existingITFStatus === PRESTART_STATUSES.none) {
-      newSuccessStatus = PRESTART_STATUSES.created;
+      submitSuccessStatus = PRESTART_STATUSES.created;
+      submitErrorStatus = PRESTART_STATUSES.notCreated;
     } else if (existingITFStatus === PRESTART_STATUSES.expired) {
-      newSuccessStatus = PRESTART_STATUSES.renewed;
+      submitSuccessStatus = PRESTART_STATUSES.renewed;
+      submitErrorStatus = PRESTART_STATUSES.notRenewed;
     }
-    // const newITFStatus = await submitITFRequest(dispatch, newSuccessStatus);
-    const newITFStatus = await fakeITFRequest('created', () => dispatch(setPrestartStatus(PRESTART_STATUSES.created, '2017-08-17T21:59:53.327Z')));
+    const newITFStatus = await submitITFRequest(dispatch, submitSuccessStatus, submitErrorStatus);
+    // const newITFStatus = await fakeITFRequest('created', () => dispatch(setPrestartStatus(PRESTART_STATUSES.created, '2017-08-17T21:59:53.327Z'))); // remove once local testing complete
 
-    if (newITFStatus === PRESTART_STATUSES.failure) {
+    if (prestartFailureStatuses.has(newITFStatus)) {
       return false;
     }
     return true;
