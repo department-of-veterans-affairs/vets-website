@@ -47,7 +47,7 @@ export function refreshProfile() {
   };
 }
 
-export function restoreProfile() {
+export function initializeProfile() {
   return async (dispatch) => {
     try {
       const payload = await dispatch(refreshProfile());
