@@ -63,7 +63,7 @@ const {
   email,
   phone,
   files,
-  vaFileNumber
+  centralMailVaFile
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = _.omit('required', fullName);
@@ -100,7 +100,7 @@ const formConfig = {
     email,
     phone,
     files,
-    vaFileNumber
+    centralMailVaFile
   },
   chapters: {
     applicantInformation: {
