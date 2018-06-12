@@ -182,6 +182,7 @@ export const privateRecordsChoiceHelp = (
       time, and this could mean that it’ll take us longer to make a decision on
       your claim. You’ll need to first fill out an Authorization to Disclose
       Information to the VA (VA Form 21-4142) so we can request your records.
+      You’ll need to fill out a form for each doctor.
     </p>
     <p>
       <a href={vaForm4142URL} target="_blank">
