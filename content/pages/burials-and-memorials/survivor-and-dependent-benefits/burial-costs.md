@@ -76,7 +76,7 @@ You may need a copy of:
 <h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
 
-
+**By mail**<br>
 Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br>
 [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
