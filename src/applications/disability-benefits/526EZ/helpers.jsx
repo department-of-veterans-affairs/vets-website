@@ -363,37 +363,35 @@ export const evidenceSummaryView = ({ formData }) => {
   );
 };
 
-const FullNameViewField = ({ formData }) => {
-  const { first, middle, last, suffix } = formData;
-  return <strong>{first} {middle} {last} {suffix}</strong>;
+/**
+ * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
+ *                                                           but ignored by screen readers
+ * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
+ */
+const srSubstitute = (srIgnored, substitutionText) => {
+  return (
+    <div style={{ display: 'inline' }}>
+      <span aria-hidden>{srIgnored}</span>
+      <span className="sr-only">{substitutionText}</span>
+    </div>
+  );
 };
 
-const SsnViewField = ({ formData }) => {
-  const ssn = formData.slice(5);
-  const mask = <span>•••-••-</span>;
-  return <p>Social Security number: {mask}{ssn}</p>;
-};
-
-const VAFileNumberViewField = ({ formData }) => {
-  const vaFileNumber = formData.slice(5);
-  const mask = <span>•••-••-</span>;
-  return <p>VA file number: {mask}{vaFileNumber}</p>;
-};
-
-const DateOfBirthViewField = ({ formData }) => {
-  return <p>Date of birth: <DateWidget value={formData} options={{ monthYear: false }}/></p>;
-};
-
-const GenderViewField = ({ formData }) => <p>Gender: {genderLabels[formData]}</p>;
-
-export const veteranInformationViewField = (formData) => {
+export const veteranInformationViewField = (data) => {
+  const { ssn, vaFileNumber, dateOfBirth, gender } = data;
+  const { first, middle, last, suffix } = data.fullName;
+  const mask = srSubstitute('●●●–●●–', 'ending with');
   return (
     <div>
-      <FullNameViewField formData={formData.fullName}/>
-      <SsnViewField formData={formData.socialSecurityNumber}/>
-      <VAFileNumberViewField formData={formData.vaFileNumber}/>
-      <GenderViewField formData={formData.gender}/>
-      <DateOfBirthViewField formData={formData.dateOfBirth}/>
+      <p>This is the personal information we have on file for you.</p>
+      <div className="blue-bar-block">
+        <strong>{first} {middle} {last} {suffix}</strong>
+        <p>Social Security number: {mask}{ssn.slice(5)}</p>
+        <p>VA file number: {mask}{vaFileNumber.slice(5)}</p>
+        <p>Date of birth: <DateWidget value={dateOfBirth} options={{ monthYear: false }}/></p>
+        <p>Gender: {genderLabels[gender]}</p>
+      </div>
+      <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
     </div>
   );
 };
