@@ -98,7 +98,8 @@ const {
   veteranDateOfBirth,
   veteranSocialSecurityNumber,
   vamcTreatmentCenters,
-  noRapidProcessing
+  noRapidProcessing,
+  vaFileNumber
 } = fullSchemaPensions.properties;
 
 const {
@@ -112,7 +113,7 @@ const {
   marriages,
   expectedIncome,
   ssn,
-  vaFileNumber,
+  centralMailVaFile,
   files,
   otherExpenses,
   bankAccount
@@ -188,7 +189,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',
-  version: 2,
+  version: 3,
   migrations,
   prefillEnabled: true,
   downtime: {
@@ -210,7 +211,7 @@ const formConfig = {
     usaPhone,
     fullName,
     ssn,
-    vaFileNumber,
+    centralMailVaFile,
     monthlyIncome,
     expectedIncome,
     netWorth
@@ -236,7 +237,7 @@ const formConfig = {
                 widgetClassNames: 'usa-input-medium'
               },
               'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
+                pattern: 'Your VA file number must be 8 or 9 digits'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth')
@@ -791,7 +792,7 @@ const formConfig = {
                 expandUnder: 'spouseIsVeteran'
               },
               'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
+                pattern: 'Your VA file number must be 8 or 9 digits'
               }
             },
             liveWithSpouse: {
