@@ -9,14 +9,14 @@ order: 3
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/evidence/
+    - url: /disability-benefits/apply/evidence/fully-developed-disability-claims/
       title: How can I get my claim processed faster with a fully developed claim?
       description: ""
     - url: /disability-benefits/apply/
       title: Disability Benefits Application Process
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
     - url: /disability-benefits/apply/help/
-      title: Get Help Filing a Claim
+      title: Get Help Filing Your Claim
       description: "Learn how an accredited representative with a Veterans Service Organization can help you file a disability claim."
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Pre-discharge Claim
