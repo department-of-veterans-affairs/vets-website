@@ -75,7 +75,7 @@ Once you start your fully developed claim, you'll have up to 1 year to complete 
 
 ### What should the evidence show to support my claim?
 
-This depends on the type of claim you're filing.
+This depends on the type of claim you’re filing.
 
 <br>
 
@@ -89,8 +89,8 @@ This depends on the type of claim you're filing.
 
 **You'll need to submit:**
 - Medical evidence of a current physical or mental disability, **and**
-- Evidence of an event, injury, or disease that happened during your active-dutry service, **and**
-- Evidence of a link between your current disability and the event, injury, or disease that happened during your service. Usually, we need medical records or medical opinions from health care providers to support this link.
+- Evidence of an event, injury, or disease that happened during your active-duty service, **and**
+- Evidence of a link between your current disability and the event, injury, or disease that happened during your service. Usually we need medical records or medical opinions from health care providers to support this link.
 
 </div>
 </li>
@@ -113,7 +113,7 @@ You'll need to submit new evidence that we've never considered before and that's
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased claim—a claim for more compensation for a disability that we've already determined to be service connected and that's gotten worse</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased claim—a claim for more compensation for a disability that we’ve already determined to be service connected and that’s gotten worse</button>
 <div id="claim-increased" class="usa-accordion-content">
 
 You'll need to submit current medical evidence that shows your disability has gotten worse.
@@ -121,12 +121,12 @@ You'll need to submit current medical evidence that shows your disability has go
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary claim—a claim for a new disability that's linked to a service-connected disability you already have</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary claim—a claim for a new disability that’s linked to a service-connected disability you already have</button>
 <div id="claim-secondary" class="usa-accordion-content">
 
 **You'll need to submit:**
 - Medical evidence of the new physical or mental disability, **and**
-- Evidence of a link between the new disability and the disability we've already determined is service-connected. Usually, we need medical records or medical opinions from health care providers to support this link.
+- Evidence of a link between the new disability and the disability we've already determined is service connected. Usually we need medical records or medical opinions from health care providers to support this link.
 
 </div>
 </li>
