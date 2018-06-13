@@ -99,7 +99,7 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 </div>
 </div>
 
-### What if I need help filling out my application?"
+### What if I need help filling out my application?
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
