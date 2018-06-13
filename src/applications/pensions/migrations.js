@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import { isValidDateRange } from '../../platform/forms/validations';
 import { convertToDateField } from '../common/schemaform/validation';
+import { isValidCentralMailPostalCode } from '../../platform/forms/address/validations';
 
 export default [
   // 0 -> 1, we've added some date validation and need to move users back to particular pages
@@ -55,5 +56,34 @@ export default [
       }
     }
     return { formData, metadata };
+  },
+  // 1 > 2, move user back to address page if zip code is bad
+  ({ formData, metadata }) => {
+    let newMetadata = metadata;
+
+    if (formData.veteranAddress && !isValidCentralMailPostalCode(formData.veteranAddress)) {
+      newMetadata = Object.assign({}, metadata, {
+        returnUrl: '/additional-information/contact'
+      });
+    }
+
+    return { formData, metadata: newMetadata };
+  },
+  // 2 > 3, move user back to file number if incorrect
+  ({ formData, metadata }) => {
+    const fileNumbeRegex = /^\d{8,9}$/;
+    let newMetadata = metadata;
+
+    if (formData.spouseVaFileNumber && !fileNumbeRegex.test(formData.spouseVaFileNumber)) {
+      newMetadata = Object.assign({}, metadata, {
+        returnUrl: '/household/spouse-info'
+      });
+    } else if (formData.vaFileNumber && !fileNumbeRegex.test(formData.vaFileNumber)) {
+      newMetadata = Object.assign({}, metadata, {
+        returnUrl: '/applicant/information'
+      });
+    }
+
+    return { formData, metadata: newMetadata };
   }
 ];

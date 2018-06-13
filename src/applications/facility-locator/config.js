@@ -35,6 +35,7 @@ export const benefitsServices = {
   VAHomeLoanAssistance: 'VA Home Loan help',
   InsuranceClaimAssistanceAndFinancialCounseling: 'Insurance claim help and financial counseling',
   IntegratedDisabilityEvaluationSystemAssistance: 'Integrated Disability Evaluation System Assistance (IDES)',
+  Pensions: 'Pensions',
   PreDischargeClaimAssistance: 'Pre-discharge claim help',
   TransitionAssistance: 'Transition help',
   UpdatingDirectDepositInformation: 'Updating direct deposit information',

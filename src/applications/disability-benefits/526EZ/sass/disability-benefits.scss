@@ -137,3 +137,21 @@
     }
   }
 }
+
+.disability-increase-wizard .fieldset-input .legend-label {
+  max-width: 100%;
+}
+
+.async-display-widget-alert-box {
+  margin-bottom: 1em;
+}
+
+// This seems duplicative
+.blue-bar-block {
+  border-left: 7px solid $color-primary;
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
+  }
+}

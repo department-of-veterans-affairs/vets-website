@@ -9,6 +9,8 @@ import {
 import { urlMigration } from '../../config/migrations';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 
 import educationTypeUISchema from '../../definitions/educationType';
@@ -22,7 +24,7 @@ import createApplicantInformationPage from '../../../common/schemaform/pages/app
 
 import { showSchoolAddress } from '../../utils/helpers';
 import { benefitsLabels } from '../../utils/labels';
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
@@ -42,11 +44,12 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/1995',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
   trackingPrefix: 'edu-1995-',
   formId: '22-1995',
   version: 1,
   migrations: [urlMigration('/1995')],
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
@@ -62,6 +65,7 @@ const formConfig = {
   },
   title: 'Update your education benefits',
   subTitle: 'Form 22-1995',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {

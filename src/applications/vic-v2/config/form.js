@@ -2,6 +2,9 @@
 import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
+import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
@@ -10,14 +13,14 @@ import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
 
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import ssnUI from '../../common/schemaform/definitions/ssn';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import * as addressDefinition from '../definitions/address';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import phoneUI from '../../common/schemaform/definitions/phone';
-import fileUploadUI from '../../common/schemaform/definitions/file';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { validateMatch } from '../../common/schemaform/validation';
+import { validateMatch } from 'us-forms-system/lib/js/validation';
 import validateFile from '../validation';
 
 const {
@@ -51,6 +54,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  footerContent: FormFooter,
   savedFormMessages: {
     notFound: 'Please start over to apply for a Veteran ID Card.',
     noAuth: 'Please sign in again to continue your application for a Veteran ID Card.'
@@ -177,7 +181,7 @@ const formConfig = {
             'ui:title': 'Upload Your Photo',
             'ui:description': PhotoDescription,
             photo: _.assign(fileUploadUI('Upload a digital photo', {
-              endpoint: '/v0/vic/profile_photo_attachments',
+              fileUploadUrl: `${environment.API_URL}/v0/vic/profile_photo_attachments`,
               fileTypes: [
                 'png',
                 'tiff',
@@ -224,7 +228,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
-              endpoint: '/v0/vic/supporting_documentation_attachments',
+              fileUploadUrl: `${environment.API_URL}/v0/vic/supporting_documentation_attachments`,
               fileTypes: [
                 'pdf',
                 'png',

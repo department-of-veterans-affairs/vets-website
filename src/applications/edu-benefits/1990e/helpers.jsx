@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { transformForSubmit } from '../../common/schemaform/helpers';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);

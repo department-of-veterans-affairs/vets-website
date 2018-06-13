@@ -3,20 +3,22 @@ import _ from 'lodash/fp';
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 import additionalBenefits from '../../pages/additionalBenefits';
-import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import createDirectDepositPage from '../../pages/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
-import * as address from '../../../common/schemaform/definitions/address';
-import fullNameUISchema from '../../../common/schemaform/definitions/fullName';
-import monthYearUI from '../../../common/schemaform/definitions/monthYear';
+import * as address from 'us-forms-system/lib/js/definitions/address';
+import fullNameUISchema from 'us-forms-system/lib/js/definitions/fullName';
+import monthYearUI from 'us-forms-system/lib/js/definitions/monthYear';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-import * as personId from '../../../common/schemaform/definitions/personId';
+import * as personId from 'us-forms-system/lib/js/definitions/personId';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
@@ -43,11 +45,12 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/1990e',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990e`,
   trackingPrefix: 'edu-1990e-',
   formId: '22-1990E',
   version: 1,
   migrations: [urlMigration('/1990e')],
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply to use transferred education benefits.',
     noAuth: 'Please sign in again to resume your application for transferred education benefits.'
@@ -62,6 +65,7 @@ const formConfig = {
   },
   title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990E',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {

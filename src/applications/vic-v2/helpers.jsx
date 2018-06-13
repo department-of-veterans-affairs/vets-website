@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import Raven from 'raven-js';
 import recordEvent from '../../platform/monitoring/record-event';
 import environment from '../../platform/utilities/environment';
-import { transformForSubmit } from '../common/schemaform/helpers';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata, state) {
   let newPages = pages;

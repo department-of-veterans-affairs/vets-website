@@ -5,21 +5,23 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
-import recordEvent from '../../../platform/monitoring/record-event';
 
-import {
-  loadPrescriptions,
-  sortPrescriptions
-} from '../actions/prescriptions';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/formation/Pagination';
+
+import recordEvent from '../../../platform/monitoring/record-event';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 
 import {
   openGlossaryModal,
   openRefillModal
 } from '../actions/modals';
 
-import Pagination from '@department-of-veterans-affairs/formation/Pagination';
-import { getScrollOptions } from '../../../platform/utilities/ui';
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import {
+  loadPrescriptions,
+  sortPrescriptions
+} from '../actions/prescriptions';
 
 import PrescriptionList from '../components/PrescriptionList';
 import PrescriptionTable from '../components/PrescriptionTable';
@@ -179,50 +181,15 @@ class Active extends React.Component {
     );
   }
 
-  render() {
-    let content;
-
+  renderContent = () => {
     if (this.props.loading) {
-      content = <LoadingIndicator message="Loading your prescriptions..."/>;
-    } else if (this.props.prescriptions) {
-      const currentSort = this.props.sort;
-      let prescriptionsView;
+      return <LoadingIndicator message="Loading your prescriptions..."/>;
+    }
 
-      if (this.state.view === 'list') {
-        prescriptionsView = (
-          <PrescriptionTable
-            handleSort={this.handleSort}
-            currentSort={currentSort}
-            items={this.props.prescriptions}
-            refillModalHandler={this.props.openRefillModal}
-            glossaryModalHandler={this.props.openGlossaryModal}/>
-        );
-      } else {
-        prescriptionsView = (
-          <PrescriptionList
-            items={this.props.prescriptions}
-            // If we’re sorting by facility, tell PrescriptionList to group them.
-            grouped={currentSort.value === 'facilityName'}
-            handleSort={this.handleSort}
-            currentSort={currentSort}
-            refillModalHandler={this.props.openRefillModal}
-            glossaryModalHandler={this.props.openGlossaryModal}/>
-        );
-      }
+    const items = this.props.prescriptions;
 
-      content = (
-        <div>
-          <p className="rx-tab-explainer">Your active VA prescriptions</p>
-          {this.renderViewSwitch()}
-          {prescriptionsView}
-          <Pagination
-            onPageSelect={this.handlePageSelect}
-            page={this.props.page}
-            pages={this.props.pages}/>
-        </div>
-      );
-    } else {
-      content = (
+    if (!items) {
+      return (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn’t retrieve your prescriptions.
           Please refresh this page or try again later. If this problem persists, please call the Vets.gov Help Desk
@@ -231,12 +198,62 @@ class Active extends React.Component {
       );
     }
 
+    if (!items.length) {
+      const content = (
+        <p>It looks like you don’t have any VA prescriptions to refill right now. If you think this is a mistake, please contact your VA health care team and ask them to check your prescription records. If you need more help, please call the Vets.gov Help Desk at <a href="tel:8555747286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>
+      );
+
+      return (
+        <AlertBox
+          isVisible
+          status="warning"
+          headline="No refills available"
+          content={content}/>
+      );
+    }
+
+    const currentSort = this.props.sort;
+    let prescriptionsView;
+
+    if (this.state.view === 'list') {
+      prescriptionsView = (
+        <PrescriptionTable
+          handleSort={this.handleSort}
+          currentSort={currentSort}
+          items={items}
+          refillModalHandler={this.props.openRefillModal}
+          glossaryModalHandler={this.props.openGlossaryModal}/>
+      );
+    } else {
+      prescriptionsView = (
+        <PrescriptionList
+          items={items}
+          // If we’re sorting by facility, tell PrescriptionList to group them.
+          grouped={currentSort.value === 'facilityName'}
+          handleSort={this.handleSort}
+          currentSort={currentSort}
+          refillModalHandler={this.props.openRefillModal}
+          glossaryModalHandler={this.props.openGlossaryModal}/>
+      );
+    }
+
     return (
-      <ScrollElement
-        id="rx-active"
-        name="active"
-        className="va-tab-content">
-        {content}
+      <div>
+        <p className="rx-tab-explainer">Your active VA prescriptions</p>
+        {this.renderViewSwitch()}
+        {prescriptionsView}
+        <Pagination
+          onPageSelect={this.handlePageSelect}
+          page={this.props.page}
+          pages={this.props.pages}/>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <ScrollElement id="rx-active" name="active" className="va-tab-content">
+        {this.renderContent()}
       </ScrollElement>
     );
   }

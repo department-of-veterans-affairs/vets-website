@@ -11,12 +11,12 @@ majorlinks:
   - heading: More information about filing disability claims
     links:
     - url: /disability-benefits/apply/claim-types/
-      title: Types of Disability Claims 
+      title: Claim Types and When to File 
       description: Learn about standard claims, reopened claims, secondary claims, and more. 
     - url: /disability-benefits/apply/evidence/
-      title: Evidence (Supporting Documents)
-      description: Find out which supporting documents you’ll need to give us so we can decide your claim.    
-    - url: /disability-benefits/apply/one-year/
+      title: How to Gather Evidence for Your Claim
+      description: Find out your options for gathering documents to support your disability claim.
+    - url: /disability-benefits/eligibility/one-year/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
     - url: /disability-benefits/apply/help/
@@ -40,7 +40,7 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/evidence/).
 
 <div markdown="0"><br></div>
 
@@ -73,6 +73,7 @@ For all disability claims, please provide:
 </div>
 </div>
 <div markdown="0"><br></div>
+<div id="react-applicationStatus"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
@@ -118,8 +119,8 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">99 days</span>
-<span class="description">Average number of days to complete disability-related claims in April 2018</span>
+<span class="number">97.4 days</span>
+<span class="description">Average number of days to complete disability-related claims in May 2018</span>
 </div>
 </div>
 </div>

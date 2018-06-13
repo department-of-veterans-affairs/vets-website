@@ -22,6 +22,7 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
+          downtime={this.props.route.formConfig.downtime}
           startText="Start the Burial Benefits Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
@@ -75,6 +76,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           pageList={this.props.route.pageList}
           startText="Start the Burial Benefits Application"
+          downtime={this.props.route.formConfig.downtime}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

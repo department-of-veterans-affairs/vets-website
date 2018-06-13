@@ -48,7 +48,16 @@ function initUserMock(token, level) {
             metadata: {}
           }],
           prefills_available: [],
-          services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
+          services: [
+            'facilities',
+            'hca',
+            'edu-benefits',
+            'evss-claims',
+            'user-profile',
+            'health-records',
+            'rx',
+            'messaging'
+          ],
           mhv_account_state: 'upgraded',
           health_terms_current: true,
           va_profile: {
@@ -90,6 +99,7 @@ function logIn(token, client, url, level) {
     .url(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
+  E2eHelpers.disableAnnouncements(client);
   setUserToken(token, client);
 
   client

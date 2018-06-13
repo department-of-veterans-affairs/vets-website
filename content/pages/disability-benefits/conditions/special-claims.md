@@ -10,7 +10,7 @@ majorlinks:
   - heading:
     links:
     - url: /disability-benefits/conditions/special-claims/automobile/
-      title: Disabilities That Prevent You from Driving (Automobile Allowance and Adaptive Equipment)
+      title: Automobile Allowance and Adaptive Equipment
       description: If your service-connected disability prevents you from driving, find out if you can get money to help buy a specially equipped vehicle or make needed changes to your existing vehicle.
     - url: /disability-benefits/conditions/special-claims/clothing/
       title: Replacing Damaged Clothing

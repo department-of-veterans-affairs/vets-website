@@ -20,6 +20,10 @@ import {
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 import { isFullDate } from '../../../platform/forms/validations';
+import { services } from '../../../platform/monitoring/DowntimeNotification';
+import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
+import FormFooter from '../../../platform/forms/components/FormFooter';
+import environment from '../../../platform/utilities/environment';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -30,8 +34,11 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import currencyUI from '../../common/schemaform/definitions/currency';
-import { validateBurialAndDeathDates } from '../validation';
-import GetFormHelp from '../../common/schemaform/components/GetPensionOrBurialFormHelp';
+import {
+  validateBurialAndDeathDates,
+  validateCentralMailPostalCode
+} from '../validation';
+import migrations from '../migrations';
 
 const {
   relationship,
@@ -61,12 +68,13 @@ const {
   veteranDateOfBirth,
   placeOfBirth,
   officialPosition,
-  firmName
+  firmName,
+  vaFileNumber
 } = fullSchemaBurials.properties;
 
 const {
   fullName,
-  vaFileNumber,
+  centralMailVaFile,
   ssn,
   date,
   usaPhone,
@@ -86,18 +94,23 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-530',
-  version: 0,
+  version: 2,
+  migrations,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [services.icmhs]
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for burial benefits.',
     noAuth: 'Please sign in again to resume your application for burial benefits.'
   },
   title: 'Apply for burial benefits',
   subTitle: 'Form 21P-530',
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
-    vaFileNumber,
+    centralMailVaFile,
     ssn,
     date,
     usaPhone,
@@ -169,7 +182,7 @@ const formConfig = {
                 widgetClassNames: 'usa-input-medium'
               },
               'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
+                pattern: 'Your VA file number must be 8 or 9 digits'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
@@ -499,7 +512,11 @@ const formConfig = {
                 hideIf: form => _.get('relationship.isEntity', form) !== true
               }
             },
-            claimantAddress: address.uiSchema('Address'),
+            claimantAddress: _.set(
+              'ui:validations[1]',
+              validateCentralMailPostalCode,
+              address.uiSchema('Address')
+            ),
             claimantEmail: {
               'ui:title': 'Email address'
             },
@@ -511,7 +528,7 @@ const formConfig = {
             properties: {
               firmName,
               officialPosition,
-              claimantAddress: address.schema(fullSchemaBurials, true),
+              claimantAddress: address.schema(fullSchemaBurials, true, 'centralMailAddress'),
               claimantEmail,
               claimantPhone
             }
@@ -525,12 +542,14 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             deathCertificate: _.assign(fileUploadUI('Veteran’s death certificate', {
-              hideIf: form => form.burialAllowanceRequested !== 'service'
+              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+              hideIf: form => form.burialAllowanceRequested !== 'service',
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
             transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains or other supporting evidence', {
-              addAnotherLabel: 'Add Another Document'
+              addAnotherLabel: 'Add Another Document',
+              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
             }),

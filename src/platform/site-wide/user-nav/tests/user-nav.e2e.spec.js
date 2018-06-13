@@ -4,7 +4,7 @@ const Auth = require('../../../testing/e2e/auth');
 
 const selectors = {
   menu: '#login-root button[aria-controls="account-menu"]',
-  signOut: '#account-menu > ul > li:nth-child(2) > a'
+  signOut: '#account-menu > ul > li:nth-child(3) > a'
 };
 
 module.exports = E2eHelpers.createE2eTest(
@@ -13,8 +13,8 @@ module.exports = E2eHelpers.createE2eTest(
     const logoutUrl = Auth.getLogoutUrl();
 
     // log in & wait for little person icon to appear next to the username
-    Auth.logIn(token, client, '/', 3)
-      .assert.title('Vets.gov')
+    Auth.logIn(token, client, '/dashboard', 3)
+      .assert.title('Your Vets.gov Dashboard: Vets.gov')
       .waitForElementVisible(selectors.menu, Timeouts.slow);
 
     // click dropdown on username
