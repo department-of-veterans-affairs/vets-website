@@ -1,4 +1,5 @@
 import { apiRequest } from '../../../../platform/utilities/api';
+import { refreshProfile } from '../../../../platform/user/profile/actions';
 // import recordEvent from '../../../../platform/monitoring/record-event';
 // import { kebabCase } from 'lodash';
 import { pickBy } from 'lodash';
@@ -30,7 +31,7 @@ export const VET360_TRANSACTION_FINISHED = 'VET360_TRANSACTION_FINISHED';
 // }
 
 export function getTransactionStatus(transaction, fieldName) {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
       const { transactionId } = transaction.data.attributes;
       const response = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : localVet360.updateTransaction(transactionId);
@@ -43,22 +44,14 @@ export function getTransactionStatus(transaction, fieldName) {
 
       // Check to see if the transaction is finished
       if (response.data.attributes.transactionStatus === VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_SUCCESS) {
-        const currentState = getState();
-        const newValue = currentState.vaProfile.formFields[fieldName].value;
 
-        // Remove the transaction with a delay for effect
-        setTimeout(() => {
-          dispatch({
-            type: VET360_TRANSACTION_FINISHED,
-            fieldName
-          });
-        }, 3000);
+        // Refresh the profile object
+        await dispatch(refreshProfile());
 
-        // Update the property on the FE
+        // Remove the transaction from the VA Profile
         dispatch({
-          type: UPDATE_VET360_PROFILE_FIELD,
-          fieldName,
-          newValue
+          type: VET360_TRANSACTION_FINISHED,
+          fieldName
         });
       }
     } catch (err) {
