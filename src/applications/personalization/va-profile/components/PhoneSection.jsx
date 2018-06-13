@@ -1,5 +1,5 @@
 import React from 'react';
-import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
+import PhoneNumberWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/formation/Modal';

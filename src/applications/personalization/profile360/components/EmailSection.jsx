@@ -91,7 +91,7 @@ export default function EmailSection({ emailData, transaction, getTransactionSta
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={emailData && emailData.emailAddress && !transaction && onEdit}>Email Address</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={emailData && emailData.emailAddress && !transaction && onEdit}>Email address</HeadingWithEdit>
       <div>{content}</div>
     </div>
   );

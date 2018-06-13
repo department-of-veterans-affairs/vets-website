@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { transformForSubmit } from '../../common/schemaform/helpers';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function transform(formConfig, form) {
   let updatedFormData = _.unset('veteranServiceHistory', form);

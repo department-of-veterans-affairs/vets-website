@@ -1,5 +1,5 @@
-import { removeFormApi } from '../../../common/schemaform/save-in-progress/api';
-import { getProfile } from '../../../../platform/user/profile/actions';
+import { removeFormApi } from '../../../../platform/forms/save-in-progress/api';
+import { refreshProfile } from '../../../../platform/user/profile/actions';
 
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
 export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
@@ -37,7 +37,7 @@ export function removeSavedForm(formId) {
     return removeFormApi(formId)
       .then(() => {
         dispatch(removingSavedFormSuccess(formId));
-        dispatch(getProfile());
+        dispatch(refreshProfile());
       })
       .catch(() => dispatch(removingSavedFormFailure()));
   };
