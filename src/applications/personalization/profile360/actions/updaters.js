@@ -35,16 +35,16 @@ export function getTransactionStatus(transaction, fieldName) {
   return async (dispatch) => {
     try {
       const { transactionId } = transaction.data.attributes;
-      const response = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : localVet360.updateTransaction(transactionId);
+      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : localVet360.updateTransaction(transactionId);
 
       dispatch({
         type: VET360_TRANSACTION_UPDATED,
-        response,
+        transaction: transactionRefreshed,
         fieldName
       });
 
       // Check to see if the transaction is finished
-      if (isSuccessfulTransaction(response)) {
+      if (isSuccessfulTransaction(transactionRefreshed)) {
 
         // Refresh the profile object
         await dispatch(refreshProfile());
@@ -52,11 +52,12 @@ export function getTransactionStatus(transaction, fieldName) {
         // Remove the transaction from the VA Profile
         dispatch({
           type: VET360_TRANSACTION_FINISHED,
+          transaction: transactionRefreshed,
           fieldName
         });
-      } else if (isErroredTransaction(transaction)) {
+      } else if (isErroredTransaction(transactionRefreshed)) {
 
-        // Generate
+        // Generate a new
       }
     } catch (err) {
       // Just allow the former transaction status to remain in the store in the event of an error.
@@ -130,7 +131,7 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
           fieldName
         });
 
-        const response = isVet360Configured() ? await apiRequest(apiRoute, options) : localVet360.createTransaction();
+        const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : localVet360.createTransaction();
 
         // TODO turn analytics back on later
         // if (apiRoute === '/profile/telephones') {
@@ -140,7 +141,7 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
         dispatch({
           type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
           fieldName,
-          response
+          transaction
         });
       } catch (error) {
         dispatch({
