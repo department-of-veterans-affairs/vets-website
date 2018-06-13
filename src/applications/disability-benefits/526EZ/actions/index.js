@@ -1,5 +1,4 @@
 import { apiRequest } from '../../../../platform/utilities/api';
-import Raven from 'raven-js';
 
 import existingITFData from '../tests/itfData';
 
@@ -87,10 +86,9 @@ export const handleCheckSuccess = (data, dispatch) => {
   return status;
 };
 
-export const handleCheckFailure = (errors, hasSavedForm, dispatch) => {
+export const handleCheckFailure = (error, hasSavedForm, dispatch) => {
   const status = hasSavedForm ? PRESTART_STATUSES.notRetrievedSaved : PRESTART_STATUSES.notRetrievedNew;
-  Raven.captureMessage('vets_itf_check_failure');
-  dispatch(setPrestartStatus(status, errors));
+  dispatch(setPrestartStatus(status));
   return status;
 };
 
@@ -119,13 +117,10 @@ export const handleSubmitSuccess = (data, successStatus, dispatch) => {
   const expirationDate = data.attributes.intentToFile.expirationDate;
   dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
   dispatch(setPrestartStatus(successStatus));
-  return successStatus;
 };
 
-export const handleSubmitFailure = (errors, errorStatus, dispatch) => {
-  Raven.captureMessage('vets_itf_submission_error');
-  dispatch(setPrestartStatus(errorStatus, errors));
-  return errorStatus;
+export const handleSubmitFailure = (error, errorStatus, dispatch) => {
+  dispatch(setPrestartStatus(errorStatus));
 };
 
 export function submitITFRequest(dispatch, successStatus, errorStatus) {

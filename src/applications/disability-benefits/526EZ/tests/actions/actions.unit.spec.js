@@ -177,19 +177,19 @@ describe('ITF retrieve / submit actions:', () => {
     });
   });
   describe('handleSubmitSuccess', () => {
-    it('should return successStatus', () => {
+    it('should dispatch successStatus and prestartData', () => {
       const dispatch = sinon.spy();
 
-      expect(handleSubmitSuccess(createdData, PRESTART_STATUSES.created, dispatch)).to.equal(PRESTART_STATUSES.created);
+      handleSubmitSuccess(createdData, PRESTART_STATUSES.created, dispatch);
       expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.created))).to.be.true;
       expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }));
     });
   });
   describe('handleSubmitFailure', () => {
-    it('should return errorStatus', () => {
+    it('should dispatch errorStatus', () => {
       const dispatch = sinon.spy();
 
-      expect(handleSubmitFailure(createdData, PRESTART_STATUSES.notCreated, dispatch)).to.equal(PRESTART_STATUSES.notCreated);
+      handleSubmitFailure(createdData, PRESTART_STATUSES.notCreated, dispatch);
       expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notCreated))).to.be.true;
     });
   });
@@ -275,7 +275,7 @@ describe('ITF retrieve / submit actions:', () => {
   });
   describe('submitITFRequest', () => {
     afterEach(() => resetFetch());
-    it('should return "created" ITF status and data with a successful ITF submission', (done) => {
+    it('should dispatch "created" ITF status and data with a successful ITF submission', (done) => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), {
         data: createdData
@@ -283,22 +283,20 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
 
-      thunk(dispatch, PRESTART_STATUSES.created, PRESTART_STATUSES.notCreated).then((result) => {
+      thunk(dispatch, PRESTART_STATUSES.created, PRESTART_STATUSES.notCreated).then(() => {
         expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.created, '2019-04-10T15:12:34.000+00:00'))).to.be.true;
-        expect(result).to.equal(PRESTART_STATUSES.created);
         done();
       }).catch((err) => {
         done(err);
       });
     });
-    it('should return "notCreated" ITF status and with a failed ITF submission', (done) => {
+    it('should dispatch "notCreated" ITF status and with a failed ITF submission', (done) => {
       mockFetch(new Error('No network connection'), false);
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
 
-      thunk(dispatch, PRESTART_STATUSES.renewed, PRESTART_STATUSES.notRenewed).then((result) => {
+      thunk(dispatch, PRESTART_STATUSES.renewed, PRESTART_STATUSES.notRenewed).then(() => {
         expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRenewed))).to.be.true;
-        expect(result).to.equal(PRESTART_STATUSES.notRenewed);
         done();
       }).catch((err) => {
         done(err);
