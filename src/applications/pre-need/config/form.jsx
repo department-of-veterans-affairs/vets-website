@@ -6,15 +6,15 @@ import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 
 import * as address from '../definitions/address';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import fileUploadUI from '../../common/schemaform/definitions/file';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import phoneUI from '../../common/schemaform/definitions/phone';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
-import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
+import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
 
-import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
+import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
