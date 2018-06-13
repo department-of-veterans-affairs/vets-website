@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { kebabCase } from 'lodash';
+import { kebabCase, toLower } from 'lodash';
 
 import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
@@ -11,6 +11,14 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from '../../../../platform/forms/address/helpers';
 
 class EditAddressModal extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      deleteInitiated: false,
+    };
+  }
 
   componentDidMount() {
     let defaultFieldValue = {};
@@ -38,10 +46,53 @@ class EditAddressModal extends React.Component {
     this.props.onSubmit(expandAddress(this.props.field.value));
   }
 
+  renderActionButtons() {
+    const cancelDeleteAction = () => {
+      this.setState({ deleteInitiated: false });
+    };
+
+    const confirmDeleteAction = (e) => {
+      e.preventDefault();
+    };
+
+    const alertContent = (
+      <div>
+        <h3>Are you sure?</h3>
+        <p>This will delete your {toLower(this.props.title)} across many VA records. You can always come back to your profile later if you'd like to add this information back in.</p>
+        <div>
+          <LoadingButton isLoading={this.props.isLoading} onClick={confirmDeleteAction}>Confirm</LoadingButton>
+          <button type="button" className="usa-button-secondary" onClick={cancelDeleteAction}>Cancel</button>
+        </div>
+      </div>
+    );
+
+    if (this.state.deleteInitiated) {
+      return (
+        <AlertBox
+          isVisible
+          status="warning"
+          content={alertContent}/>
+      );
+    }
+
+    return (
+      <div>
+        <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
+        <button type="button" className="usa-button-secondary" onClick={this.props.onCancel}>Cancel</button>
+        <div className="right">
+          <button className="usa-button-secondary button-link"
+            onClick={() => this.setState({ deleteInitiated: true })}>
+            <i className="fa fa-trash"></i> <span>Delete</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <Modal id={kebabCase(this.props.title)} onClose={this.props.onCancel} visible>
-        <h3>{this.props.title}</h3>
+        <h3>Edit {this.props.title}</h3>
         <AlertBox
           isVisible={!!this.props.error}
           status="error"
@@ -57,8 +108,7 @@ class EditAddressModal extends React.Component {
               states={this.props.addressConstants.states}
               countries={this.props.addressConstants.countries}/>
           )}
-          <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
-          <button type="button" className="usa-button-secondary" onClick={this.props.onCancel}>Cancel</button>
+          {this.renderActionButtons()}
         </form>
       </Modal>
     );
@@ -105,7 +155,7 @@ export default function AddressSection({ addressData, addressConstants, transact
   if (isEditing) {
     modal = (
       <EditAddressModal
-        title="Edit address"
+        title={title}
         addressData={addressData}
         addressConstants={addressConstants}
         onChange={onChange}
