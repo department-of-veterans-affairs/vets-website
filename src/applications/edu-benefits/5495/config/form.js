@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
-import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
@@ -11,9 +11,9 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 
-import * as personId from '../../../common/schemaform/definitions/personId';
+import * as personId from 'us-forms-system/lib/js/definitions/personId';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
