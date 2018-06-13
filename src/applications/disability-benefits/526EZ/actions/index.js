@@ -97,15 +97,6 @@ export function submitITFRequest(dispatch, successStatus, errorStatus) {
   );
 }
 
-// function fakeITFRequest(x, cb) { // remove once local testing complete
-//   return new Promise(resolve => {
-//     setTimeout(() => {
-//       cb();
-//       resolve(x);
-//     }, 2000);
-//   });
-// }
-
 export function verifyIntentToFile(hasSavedForm) {
   return async (dispatch) => {
     let submitSuccessStatus; // eslint-disable-line no-unused-vars
@@ -113,7 +104,6 @@ export function verifyIntentToFile(hasSavedForm) {
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
 
     const existingITFStatus = await checkITFRequest(dispatch, hasSavedForm);
-    // const existingITFStatus = await fakeITFRequest('none', () => dispatch(setPrestartStatus(PRESTART_STATUSES.none, '2017-08-17T21:59:53.327Z')));  // remove once local testing complete
 
     if (prestartFailureStatuses.has(existingITFStatus)) {
       return false;
@@ -129,7 +119,6 @@ export function verifyIntentToFile(hasSavedForm) {
       submitErrorStatus = PRESTART_STATUSES.notRenewed;
     }
     const newITFStatus = await submitITFRequest(dispatch, submitSuccessStatus, submitErrorStatus);
-    // const newITFStatus = await fakeITFRequest('created', () => dispatch(setPrestartStatus(PRESTART_STATUSES.created, '2017-08-17T21:59:53.327Z'))); // remove once local testing complete
 
     if (prestartFailureStatuses.has(newITFStatus)) {
       return false;
