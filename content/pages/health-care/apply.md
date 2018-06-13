@@ -45,7 +45,7 @@ Find out how to apply for VA health care benefits.
 </div>
 </div>
 
-
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
