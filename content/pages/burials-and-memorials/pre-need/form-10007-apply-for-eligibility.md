@@ -4,11 +4,12 @@ entryname: pre-need
 layout: page-react.html
 ---
 <div id="main">
-  <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
+  <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
+  id="va-breadcrumbs">
+    <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>
       <li><a href="/burials-and-memorials/">Burials and Memorials</a></li>
-      <li><a href="/burials-and-memorials/pre-need/">Pre-need Eligibility Determination</a></li>
+      <li><a aria-current="page" href="/burials-and-memorials/pre-need/">Pre-need Eligibility Determination</a></li>
     </ul>
   </nav>
 

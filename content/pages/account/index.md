@@ -7,6 +7,7 @@ entryname: account
   <nav class="va-nav-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
       <li><a href="/" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">Home</a></li>
+      <li><a aria-current="page" href="/account/">Your Account Settings</a></li>
     </ul>
   </nav>
 

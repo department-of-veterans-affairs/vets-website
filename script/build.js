@@ -25,6 +25,7 @@ const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createSettings = require('../config/create-settings');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
+const breadcrumbTransformer = require('./metalsmith/breadcrumbTransformer');
 const {
   getRoutes,
   getWebpackEntryPoints,
@@ -681,6 +682,11 @@ Add nonce attribute with substition string to all inline script tags
 Convert onclick event handles into nonced script tags
 */
 smith.use(nonceTransformer);
+
+/*
+Add breadcrumb script to all content pages that have a breadcrumb
+*/
+smith.use(breadcrumbTransformer);
 
 function generateStaticSettings() {
   const settings = createSettings(options);
