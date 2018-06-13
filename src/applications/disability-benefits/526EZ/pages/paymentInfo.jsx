@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import React from 'react';
+import _ from 'lodash';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
@@ -118,4 +118,3 @@ export const schema = {
     })
   }
 };
-
