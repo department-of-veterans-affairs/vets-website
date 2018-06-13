@@ -45,6 +45,7 @@ Find out how to apply for VA health care benefits.
 </div>
 </div>
 
+
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
@@ -92,13 +93,19 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 </div>
 </div>
 
-### What if I need help filling out my application?
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">What if I need help filling out my application?</h4>
+<div itemprop="itemListElement">
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Get help filing your claim](/disability-benefits/apply/help/).
 
 Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+
+</div>
+</div>
+</div>
 
 <div <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
