@@ -70,9 +70,8 @@ export function checkITFRequest(dispatch, hasSavedForm) {
       return status;
     },
     ({ errors }) => {
-      const errorMessage = 'Network request failed';
       const status = hasSavedForm ? PRESTART_STATUSES.notRetrievedSaved : PRESTART_STATUSES.notRetrievedNew;
-      Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
+      Raven.captureMessage('vets_itf_check_failure');
       dispatch(setPrestartStatus(status, errors));
       return status;
     }
@@ -89,8 +88,7 @@ export function submitITFRequest(dispatch, successStatus, errorStatus) {
       return successStatus;
     },
     ({ errors }) => {
-      const errorMessage = 'Network request failed';
-      Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
+      Raven.captureMessage('vets_itf_submission_error');
       dispatch(setPrestartStatus(errorStatus, errors));
       return errorStatus;
     }
