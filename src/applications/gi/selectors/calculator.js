@@ -789,14 +789,11 @@ export const getCalculatedBenefits = createSelector(
     const isOJT = institutionType === 'ojt';
 
     const {
+      yellowRibbonDegreeLevel,
       yellowRibbonDegreeLevelOptions,
+      yellowRibbonDivision,
       yellowRibbonDivisionOptions,
       yellowRibbonPrograms
-    } = institution;
-
-    const {
-      yellowRibbonDegreeLevel,
-      yellowRibbonDivision
     } = form;
 
     const yellowRibbonProgram = yellowRibbonPrograms

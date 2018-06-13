@@ -51,9 +51,22 @@ export default function (state = INITIAL_STATE, action) {
         convertedValue = +value.replace(/[^0-9.]+/g, '');
       }
 
-      const newState = {
+      let newState = {
         [field]: convertedValue,
       };
+
+      if (field === 'yellowRibbonDegreeLevel') {
+        const yellowRibbonDivisionOptions = state.yellowRibbonPrograms.length > 0 ?
+          [...new Set(state.yellowRibbonPrograms
+            .filter(program => program.degreeLevel === value)
+            .map(program => program.divisionProfessionalSchool))] :
+          [];
+        newState = {
+          ...newState,
+          yellowRibbonDivisionOptions,
+          yellowRibbonDivision: { value: yellowRibbonDivisionOptions, label: yellowRibbonDivisionOptions }
+        };
+      }
 
       if (field === 'inState') {
         newState.tuitionFees =
@@ -77,18 +90,31 @@ export default function (state = INITIAL_STATE, action) {
           divisionProfessionalSchool: 'division1',
           numberOfStudents: 5,
           degreeLevel: 'graduate',
+          contributionAmount: 5000
         },
         {
           divisionProfessionalSchool: 'division2',
           numberOfStudents: 3000,
           degreeLevel: 'undergraduate',
+          contributionAmount: 5
         },
         {
           divisionProfessionalSchool: 'division3',
           numberOfStudents: 20,
           degreeLevel: 'undergraduate',
+          contributionAmount: 25
         }
       ];
+
+      const yellowRibbonDegreeLevelOptions = yellowRibbonPrograms.length > 0 ?
+        [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))] :
+        [];
+      // first value of degree level is selected by default; only display division options associated with this degree level
+      const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
+        [...new Set(yellowRibbonPrograms
+          .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
+          .map(program => program.divisionProfessionalSchool))] :
+        [];
 
       const {
         tuitionInState,
@@ -109,6 +135,9 @@ export default function (state = INITIAL_STATE, action) {
         calendar: calendar || 'semesters',
         yellowRibbonDegreeLevel: yellowRibbonPrograms[0].degreeLevel,
         yellowRibbonDivision: yellowRibbonPrograms[0].divisionProfessionalSchool,
+        yellowRibbonDegreeLevelOptions,
+        yellowRibbonDivisionOptions,
+        yellowRibbonPrograms
       };
     }
 
