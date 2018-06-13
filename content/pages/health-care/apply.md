@@ -16,6 +16,7 @@ widgets:
 ---
 
 <div itemscope itemtype ="http://schema.org/HowTo">
+
 <div itemprop="description" class="va-introtext">
 
 Find out how to apply for VA health care benefits.
@@ -23,27 +24,28 @@ Find out how to apply for VA health care benefits.
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h3 itemprop="name">How do I prepare before starting my application?</h3>
-<div itemprop="itemListElement">
+  <h3 itemprop="name">How do I prepare before starting my application?</h3>
+  <div itemprop="itemListElement">
 
-- If you haven’t done so already, check to see if you qualify. [Find out if you're eligible for VA health care benefits](/health-care/eligibility/).
-- Gather the documents listed below that you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ).
+    - If you haven’t done so already, check to see if you qualify. [Find out if you're eligible for VA health care benefits](/health-care/eligibility/).
+    - Gather the documents listed below that you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ).
 
-</div>
+  </div>
 </div>
 
 <div class="feature" markdown=“1”>
 
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">What documents and information do I need to apply?</h4>
-<div itemprop="itemListElement">
+  <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+    <h4 itemprop="name">What documents and information do I need to apply?</h4>
+    <div itemprop="itemListElement">
 
-- Your most recent tax return
-- Social Security numbers for yourself and your qualified dependents
-- Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
+      - Your most recent tax return
+      - Social Security numbers for yourself and your qualified dependents
+      - Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
 
-</div>
-</div>
+    </div>
+  </div>
+</div> 
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <div id="react-applicationStatus" class="static-page-widget">
