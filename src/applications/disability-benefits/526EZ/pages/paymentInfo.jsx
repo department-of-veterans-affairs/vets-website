@@ -1,9 +1,8 @@
 import React from 'react';
-import _ from 'lodash';
 
-import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
-import ReviewCardField from '../components/ReviewCardField';
+import { srSubstitute } from '../helpers';
 
 export const accountLabels = {
   CHECKING: 'Checking account',
@@ -19,29 +18,30 @@ const accountTitleLabels = {
 
 const NOBANK = 'NOBANK';
 
-const paymentInformationViewField = ({ formData }) => {
+export const paymentInformationViewField = (response) => {
   const {
     accountType,
     accountNumber,
-    routingNumber,
-    bankName
-  } = formData.directDeposit;
+    financialInstitutionRoutingNumber: routingNumber,
+    financialInstitutionName: bankName,
+  } = response;
   let accountNumberString;
   let routingNumberString;
   let bankNameString;
-  const mask = <span>•••••-</span>;
+  const mask = (string, unmaskedLength) => {
+    const maskedString = srSubstitute(`${'●'.repeat(string.length - unmaskedLength)}-`, 'ending with');
+    return <span>{maskedString}{string.slice(unmaskedLength * -1)}</span>;
+  };
 
   if (accountType !== NOBANK) {
     accountNumberString = (
       <p>
-        Account number: {mask}
-        {accountNumber.slice(5)}
+        Account number: {mask(accountNumber, 4)}
       </p>
     );
     routingNumberString = (
       <p>
-        Routing number: {mask}
-        {routingNumber.slice(5)}
+        Routing number: {mask(routingNumber, 4)}
       </p>
     );
     bankNameString = <p>Bank name: {bankName}</p>;
@@ -58,63 +58,69 @@ const paymentInformationViewField = ({ formData }) => {
   );
 };
 
+function fetchPaymentInformation() {
+  return Promise.resolve({
+    // Act like we get this from the api
+    data: {
+      attributes: {
+        responses: [
+          {
+            controlInformation: {
+              canUpdateAddress: true,
+              corpAvailIndicator: true,
+              corpRecFoundIndicator: true,
+              hasNoBdnPaymentsIndicator: true,
+              identityIndicator: true,
+              indexIndicator: true,
+              isCompetentIndicator: true,
+              noFiduciaryAssignedIndicator: true,
+              notDeceasedIndicator: true
+            },
+            paymentAccount: {
+              accountNumber: '9876543211234',
+              accountType: 'Checking',
+              financialInstitutionName: 'Comerica',
+              financialInstitutionRoutingNumber: '042102115'
+            },
+            paymentAddress: {
+              addressEffectiveDate: '2018-06-07T22:47:21.873Z',
+              addressOne: 'First street address line',
+              addressTwo: 'Second street address line',
+              addressThree: 'Third street address line',
+              city: 'AdHocville',
+              stateCode: 'OR',
+              countryName: 'USA',
+              militaryPostOfficeTypeCode: 'Military PO',
+              militaryStateCode: 'AP',
+              zipCode: '12345',
+              zipSuffix: '6789',
+              type: 'Domestic'
+            },
+            paymentType: 'CNP'
+          }
+        ]
+      },
+      id: {},
+      type: 'evss_ppiu_payment_information_responses'
+    }
+  }).then(response => {
+    // Return only the bit the UI cares about
+    return response.data.attributes.responses[0].paymentAccount;
+  });
+}
+
 export const uiSchema = {
   'ui:title': 'Payment information',
-  'ui:field': ReviewCardField,
+  'ui:field': 'StringField',
+  'ui:widget': AsyncDisplayWidget,
   'ui:options': {
-    viewComponent: paymentInformationViewField
-  },
-  directDeposit: {
-    accountType: {
-      'ui:title':
-      'Please tell us where we should deposit your disability payment.',
-      'ui:widget': 'radio',
-      'ui:options': {
-        hideTitle: true,
-        labels: accountLabels
-      }
-    },
-    accountNumber: {
-      'ui:title': 'Account number',
-      'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType === NOBANK
-      }
-    },
-    routingNumber: {
-      'ui:title': 'Routing number',
-      'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType === NOBANK
-      }
-    },
-    bankName: {
-      'ui:title': 'Bank name',
-      'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType === NOBANK
-      }
-    },
-    'view:noBank': {
-      'ui:description': (<p>The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="https://www.usdirectexpress.com">www.usdirectexpress.com</a> or by telephone at <a href="tel:1-800-333-1795">1-800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at 1-888-224-2950. They’ll address any questions or concerns you may have and encourage your participation in EFT.</p>),
-      'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType !== NOBANK
-      }
-    },
-    'ui:options': {
-      hideTitle: true
-    }
+    callback: fetchPaymentInformation,
+    viewComponent: paymentInformationViewField,
+    failureComponent: () => <div>Woops</div>
   }
 };
 
 export const schema = {
   type: 'object',
-  properties: {
-    directDeposit: _.merge(fullSchema526EZ.definitions.directDeposit, {
-      type: 'object',
-      properties: {
-        'view:noBank': {
-          type: 'object',
-          properties: {}
-        }
-      }
-    })
-  }
+  properties: {}
 };

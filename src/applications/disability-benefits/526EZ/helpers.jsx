@@ -390,7 +390,7 @@ export const evidenceSummaryView = ({ formData }) => {
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
-const srSubstitute = (srIgnored, substitutionText) => {
+export const srSubstitute = (srIgnored, substitutionText) => {
   return (
     <div style={{ display: 'inline' }}>
       <span aria-hidden>{srIgnored}</span>
