@@ -7,6 +7,7 @@ import appendQuery from 'append-query';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import { mhvAccessError } from '../../../static-data/error-messages';
+import { selectProfile } from '../../selectors';
 import {
   createMHVAccount,
   fetchMHVAccount
@@ -252,7 +253,7 @@ MHVApp.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { profile } = state.user;
+  const profile = selectProfile(state);
   const { account } = profile.mhv;
   const availableServices = profile.services;
   return { account, availableServices };
