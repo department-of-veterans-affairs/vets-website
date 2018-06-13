@@ -68,12 +68,13 @@ const {
   veteranDateOfBirth,
   placeOfBirth,
   officialPosition,
-  firmName
+  firmName,
+  vaFileNumber
 } = fullSchemaBurials.properties;
 
 const {
   fullName,
-  vaFileNumber,
+  centralMailVaFile,
   ssn,
   date,
   usaPhone,
@@ -93,7 +94,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-530',
-  version: 1,
+  version: 2,
   migrations,
   prefillEnabled: true,
   downtime: {
@@ -109,7 +110,7 @@ const formConfig = {
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
-    vaFileNumber,
+    centralMailVaFile,
     ssn,
     date,
     usaPhone,
@@ -181,7 +182,7 @@ const formConfig = {
                 widgetClassNames: 'usa-input-medium'
               },
               'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
+                pattern: 'Your VA file number must be 8 or 9 digits'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),

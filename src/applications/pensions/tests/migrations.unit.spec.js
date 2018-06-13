@@ -112,5 +112,32 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('/additional-information/contact');
     expect(formData).to.be.an('object');
   });
+  it('should set url to applicant info page if file number is bad', () => {
+    const { formData, metadata } = migrations[2]({
+      formData: {
+        vaFileNumber: '2312311'
+      },
+      metadata: {
+        returnUrl: 'asdf'
+      }
+    });
+
+    expect(metadata.returnUrl).to.equal('/applicant/information');
+    expect(formData).to.be.an('object');
+  });
+  it('should set url to spouse info page if file number is bad', () => {
+    const { formData, metadata } = migrations[2]({
+      formData: {
+        vaFileNumber: '2312311',
+        spouseVaFileNumber: '2312312'
+      },
+      metadata: {
+        returnUrl: 'asdf'
+      }
+    });
+
+    expect(metadata.returnUrl).to.equal('/household/spouse-info');
+    expect(formData).to.be.an('object');
+  });
 });
 

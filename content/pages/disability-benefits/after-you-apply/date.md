@@ -1,16 +1,16 @@
 ---
 layout: page-breadcrumbs.html
 title: Effective Date of Disability
-description: Learn how we decide the effective date, or the date you'll start getting VA disability compensation (sometimes called "VA disability back pay"). 
+description: Learn how we decide the effective date, or the date you'll start getting VA disability compensation (sometimes called "VA disability back pay").
 concurrence: complete
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
-relatedlinks:
+relatedlinks: 
   - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-      title: Fully Developed Claim
-      description: "File a fully developed claim and get a faster decision on your disability benefits claim."
+    - url: /disability-benefits/apply/evidence/
+      title: How can I get my claim processed faster with a fully developed claim?
+      description: ""
     - url: /disability-benefits/apply/
       title: Disability Benefits Application Process
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
@@ -18,11 +18,11 @@ relatedlinks:
       title: Get Help Filing a Claim
       description: "Learn how an accredited representative with a Veterans Service Organization can help you file a disability claim."
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
-      title: Pre-discharge Claim
-      description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
-    - url: /disability-benefits/apply/one-year/
-      title: Disabilities That Appear Within 1 Year After Discharge
-      description: "You may be able to get disability benefits if you have an illness that started within a year after you were discharged from service."
+      title: How do I file while on active duty?
+      description: ""
+    - url: /disability-benefits/eligibility/one-year/
+      title: How do I file for an illness that started after I was discharged from active duty?
+      description: ""
 ---
 
 <div class="va-introtext">
@@ -45,14 +45,14 @@ Learn how we decide effective dates in different cases. It’s complex. Hang in 
 
 The effective date for a disability that was caused—or made worse—by military service is whichever of these comes later:
 
--	The date we get your claim, 
+-	The date we get your claim,
 **or**
 -	The date you first got your illness or injury (also known as the date your entitlement arose)
 
 If we get your claim within 1 year of the day you left active service, the effective date can be as early as the day following separation.
 
 **Example 1**<br>
-Shaun is a Veteran who ended his active service on September 30, 2013, with a hearing disability. He filed a claim for his hearing problem more than a year later. 
+Shaun is a Veteran who ended his active service on September 30, 2013, with a hearing disability. He filed a claim for his hearing problem more than a year later.
 
 We got Shaun’s claim on November 15, 2014. On March 10, 2015, we awarded Shaun a 30% disability rating with an effective date of November 15, 2014—the date we got the claim.
 
@@ -74,7 +74,7 @@ Beth is a Veteran who separated from active service on September 30, 2013. Medic
 Less than 3 months later, Beth filed a claim that we got on July 1, 2014. We concluded that her high blood pressure was related to her service. Because we got the claim less than 1 year after Beth separated from active service, the effective date was April 15, 2014—the date when she first got her illness.
 
 **Example 2**<br>
-Susan is a Veteran who ended her active service on September 30, 2013. Medical tests from April 15, 2014, showed she had hypertension (high blood pressure). 
+Susan is a Veteran who ended her active service on September 30, 2013. Medical tests from April 15, 2014, showed she had hypertension (high blood pressure).
 
 More than a year later, Susan filed a claim that we got on October 2, 2014. We concluded that her high blood pressure was related to her service. Because we got the claim more than 1 year after Susan separated from active service, the effective date was October 2, 2014—the date we got the claim.
 

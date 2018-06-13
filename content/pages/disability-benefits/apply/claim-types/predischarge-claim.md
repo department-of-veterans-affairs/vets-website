@@ -30,9 +30,11 @@ If you have an illness or injury that you believe was caused—or made worse—b
 
 ### Can I use the BDD program to get my disability benefits sooner?
 
-**You can use the BDD program if all of these are true for you:**
+You can use the BDD program if you meet all of the requirements listed below.
 
-* You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
+**All of these must be true:**
+
+* You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserves, or Coast Guard), **and**
 * You have a known separation date, **and**
 * Your separation date is in the next 180 to 90 days
 
@@ -49,7 +51,7 @@ You can't file a BDD claim or add more medical conditions to your initial claim.
 
 You can't use the BDD program if your claim requires special handling—even if you're on full-time active duty, with more than 90 days left of service.
 
-**You can't use the BDD program if you:**
+**You can't use the BDD program if any of these are true. You:**
 
 * Need case management for a serious injury or illness, **or**
 * Have suffered the loss of a body part, **or**
@@ -112,7 +114,7 @@ If you’re on a military base or other installation, contact your local Transit
 Apply through the Decision Ready Claim (DRC) program or file a fully developed or standard claim</button>
 <div id="drc-program" class="usa-accordion-content">
 
-If you have less than 90 days left on active duty, you have 2 options for filing a disability claim:
+If you have less than 90 days left on active duty, you have a few options for filing a disability claim:
 
 ### Go through the Decision Ready Claim (DRC) program
 
