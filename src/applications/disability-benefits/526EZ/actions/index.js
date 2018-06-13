@@ -59,13 +59,17 @@ export function checkITFRequest(dispatch, hasSavedForm) {
       // If the user does not have any existing ITFs, set none status
       if (!itfList || (Array.isArray(itfList) && itfList.length === 0)) {
         status = PRESTART_STATUSES.none;
-      // If the user has existing ITFs, check for active ITFs
+      // If the user has existing ITFs, check for expired and active ITFs
       } else {
+        const expiredList = itfList.filter(itf => itf.status === PRESTART_STATUSES.expired);
         const activeList = itfList.filter(itf => itf.status === PRESTART_STATUSES.active);
+        // If the user doesn't have any active or expired ITFs, set none status        
+        if (expiredList.length === 0 && activeList.length === 0) {
+          status = PRESTART_STATUSES.none;
         // If the user doesn't have any active ITFs, set expired status
-        if (activeList.length === 0) {
+        } else if (activeList.length === 0) {
           status = PRESTART_STATUSES.expired;
-          expirationDate = getLatestTimestamp(itfList.map(itf => itf.expirationDate));
+          expirationDate = getLatestTimestamp(expiredList.map(itf => itf.expirationDate));
           // If the user has an active ITF, set retrieved status
         } else {
           status = PRESTART_STATUSES.retrieved;
