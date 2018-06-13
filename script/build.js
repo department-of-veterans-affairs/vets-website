@@ -248,6 +248,13 @@ smith.use(collections({
       name: 'Eligibility'
     }
   },
+  disabilityEvidence: {
+    pattern: 'disability-benefits/apply/evidence/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'How to Gather Evidence For Your Claim'
+    }
+  },
   education: {
     pattern: '',
     sortBy: 'order',

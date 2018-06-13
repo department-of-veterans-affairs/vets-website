@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
 
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import ssnUI from '../../common/schemaform/definitions/ssn';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 
 export default function createVeteranInfoPage(formSchema, extra) {
   const schema = extra ? extra.schema : {};
