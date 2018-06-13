@@ -146,10 +146,8 @@ export function verifyIntentToFile(hasSavedForm) {
 
     const existingITFStatus = await checkITFRequest(dispatch, hasSavedForm);
 
-    if (prestartFailureStatuses.has(existingITFStatus)) {
-      return false;
-    } else if (prestartSuccessStatuses.has(existingITFStatus)) {
-      return true;
+    if (!prestartPendingStatuses.has(existingITFStatus)) {
+      return;
     }
 
     if (existingITFStatus === PRESTART_STATUSES.none) {
@@ -159,11 +157,6 @@ export function verifyIntentToFile(hasSavedForm) {
       submitSuccessStatus = PRESTART_STATUSES.renewed;
       submitErrorStatus = PRESTART_STATUSES.notRenewed;
     }
-    const newITFStatus = await submitITFRequest(dispatch, submitSuccessStatus, submitErrorStatus);
-
-    if (prestartFailureStatuses.has(newITFStatus)) {
-      return false;
-    }
-    return true;
+    submitITFRequest(dispatch, submitSuccessStatus, submitErrorStatus);
   };
 }

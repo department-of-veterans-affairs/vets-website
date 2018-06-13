@@ -320,68 +320,6 @@ describe('ITF retrieve / submit actions:', () => {
         done(err);
       });
     });
-    it('returns true on "received" status', (done) => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: existingData
-      });
-      const thunk = verifyIntentToFile();
-      const dispatch = sinon.spy();
-
-      thunk(dispatch).then((result) => {
-        expect(result).to.be.true;
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
-    it('returns false on error', (done) => {
-      mockFetch(new Error('No network connection'), false);
-      const thunk = verifyIntentToFile();
-      const dispatch = sinon.spy();
-
-      thunk(dispatch).then((result) => {
-        expect(result).to.be.false;
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
-    it('returns true on "renewed" status', (done) => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: expiredData
-      });
-      setFetchResponse(global.fetch.onSecondCall(), {
-        data: createdData
-      });
-      const thunk = verifyIntentToFile();
-      const dispatch = sinon.spy();
-
-      thunk(dispatch).then((result) => {
-        expect(result).to.be.true;
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
-    it('returns false on error', (done) => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: expiredData
-      });
-      setFetchResponse(global.fetch.onSecondCall(), new Error('fake error'), false);
-      const hasSavedForm = true;
-      const thunk = verifyIntentToFile(hasSavedForm);
-      const dispatch = sinon.spy();
-
-      thunk(dispatch).then((result) => {
-        expect(result).to.be.false;
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
   });
 });
 
