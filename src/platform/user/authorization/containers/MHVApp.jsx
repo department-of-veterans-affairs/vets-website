@@ -172,7 +172,7 @@ export class MHVApp extends React.Component {
       headline: <span>We can’t confirm your My Health<em>e</em>Vet account level</span>,
       content: (
         <p>
-          We’re sorry. Something went wrong on our end. We can’t confirm your My HealtheVet account level right now. You can use most of the tools on Vets.gov, but you won’t be able to send secure messages or refill prescriptions at this time. We’re working to fix this. Please check back later.
+          We’re sorry. Something went wrong on our end. We can’t confirm your My Health<em>e</em>Vet account level right now. You can use most of the tools on Vets.gov, but you won’t be able to send secure messages or refill prescriptions at this time. We’re working to fix this. Please check back later.
         </p>
       )
     };
@@ -182,10 +182,10 @@ export class MHVApp extends React.Component {
 
   renderRegisterFailedMessage() {
     const alertProps = {
-      headline: <span>We can’t create your premium My Health<em>e</em>Vet account right now</span>,
+      headline: 'We can’t give you access to the Vets.gov health tools right now',
       content: (
         <p>
-          We’re sorry. Something went wrong on our end, and we can’t create your premium My HealtheVet account right now. We’ve verified all your information, and the next time you sign in to Vets.gov to use tools like secure messaging or prescription refills, we’ll automatically create your account for you. Please check back later.
+          We’re sorry. Something went wrong on our end that’s preventing you from using the health tools right now. We’ve verified your information so you’ll be able to use tools like prescription refills and secure messaging the next time you sign in. Please try signing in later.
         </p>
       )
     };
@@ -195,10 +195,10 @@ export class MHVApp extends React.Component {
 
   renderUpgradeFailedMessage() {
     const alertProps = {
-      headline: <span>We can’t upgrade your My Health<em>e</em>Vet account to premium</span>,
+      headline: 'We can’t give you access to Vets.gov health tools right now',
       content: (
         <p>
-          We’re sorry. Something went wrong on our end. We’ve created your My HealtheVet account, but we can’t upgrade it to a premium account right now. You can use most of the tools on Vets.gov, but you won’t be able to send secure messages or refill prescriptions at this time. We’re working to fix this. Please try again later.
+          We’re sorry. We started the process of creating the MyHealth<em>e</em>Vet account you’ll need to access the Vets.gov health tools, but something went wrong on our end before we could complete it. We’ve created your MyHealth<em>e</em>Vet account, but we still need to upgrade it to the security level needed to use tools that access your health-related information. We’re working to fix this so you can use the tools as soon as possible. Please try signing in again later.
         </p>
       )
     };
