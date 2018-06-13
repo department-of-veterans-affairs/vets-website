@@ -30,6 +30,7 @@ Find out how to apply for VA health care benefits.
 - If you haven’t done so already, check to see if you qualify. [Find out if you're eligible for VA health care benefits](/health-care/eligibility/).
 - Gather the documents listed below that you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ).
 
+<div markdown="0"><br></div>
 </div>
 
 <div class="feature" markdown=“1”>
