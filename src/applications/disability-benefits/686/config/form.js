@@ -147,7 +147,7 @@ const formConfig = {
               }
             }),
             'view:relationshipToVet': {
-              'ui:title': 'Your Relationship to Veteran',
+              'ui:title': 'Your relationship to the Veteran',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
