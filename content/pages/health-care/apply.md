@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Health Care Application Process
-display_title: Application Process
+title: How to Apply for Health Care
+display_title: Apply for Health Care
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-08-28
 collection: healthCare
@@ -18,12 +18,12 @@ widgets:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div itemprop="description" class="va-introtext">
 
-Once you’ve figured out if you qualify, applying for VA health care benefits is easy. Find out how to apply.
+Find out how to apply for VA health care benefits.
 
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h3 itemprop="name">Prepare</h3>
+<h3 itemprop="name">How do I prepare before starting my application?</h3>
 <div itemprop="itemListElement">
 
 - If you haven’t done so already, check to see if you qualify. [Check your eligibility](/health-care/eligibility/).
@@ -45,15 +45,6 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 </div>
 </div>
 
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">What if I need help filling out my application?</h4>
-<div itemprop="itemListElement">
-
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
-
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Get help filing your claim](/disability-benefits/apply/help/).
-
-Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>
@@ -78,7 +69,7 @@ You may qualify for VA health care and other benefits. View the Application for 
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">Other ways to apply</h4>
+<h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
 
 ##### By phone
@@ -105,6 +96,14 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 
 </div>
 </div>
+
+### What if I need help filling out my application?"
+
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Get help filing your claim](/disability-benefits/apply/help/).
+
+Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <div <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
