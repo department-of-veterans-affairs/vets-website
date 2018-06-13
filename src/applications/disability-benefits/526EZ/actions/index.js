@@ -54,13 +54,17 @@ export function checkITFRequest(dispatch, hasSavedForm) {
       let status;
       let expirationDate;
       const itfList = data.attributes.intentToFile;
+      // If the user does not have any existing ITFs, set none status
       if (!itfList || (Array.isArray(itfList) && itfList.length === 0)) {
         status = PRESTART_STATUSES.none;
+      // If the user has existing ITFs, check for active ITFs
       } else {
         const activeList = itfList.filter(itf => itf.status === PRESTART_STATUSES.active);
+        // If the user doesn't have any active ITFs, set expired status
         if (activeList.length === 0) {
           status = PRESTART_STATUSES.expired;
           expirationDate = itfList.sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate))[0].expirationDate;
+          // If the user has an active ITF, set retrieved status
         } else {
           status = PRESTART_STATUSES.retrieved;
           expirationDate = activeList[0].expirationDate;
