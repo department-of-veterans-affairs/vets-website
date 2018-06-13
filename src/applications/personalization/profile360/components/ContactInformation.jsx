@@ -67,7 +67,7 @@ class ContactInformationContent extends React.Component {
     return (
       <div>
         <AddressSection
-          title="Mailing Address"
+          title="Mailing address"
           addressData={vet360[FIELD_NAMES.MAILING_ADDRESS]}
           transaction={transactions[FIELD_NAMES.MAILING_ADDRESS]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.MAILING_ADDRESS)}
@@ -82,7 +82,7 @@ class ContactInformationContent extends React.Component {
           addressConstants={addressConstants}/>
 
         <AddressSection
-          title="Residential Address"
+          title="Home address"
           addressData={vet360[FIELD_NAMES.RESIDENTIAL_ADDRESS]}
           transaction={transactions[FIELD_NAMES.RESIDENTIAL_ADDRESS]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.RESIDENTIAL_ADDRESS)}
@@ -97,7 +97,7 @@ class ContactInformationContent extends React.Component {
           addressConstants={addressConstants}/>
 
         <PhoneSection
-          title="Home Phone"
+          title="Home phone number"
           phoneData={vet360[FIELD_NAMES.HOME_PHONE]}
           transaction={transactions[FIELD_NAMES.HOME_PHONE]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.HOME_PHONE)}
@@ -111,7 +111,7 @@ class ContactInformationContent extends React.Component {
           onCancel={recordedAction('cancel-button', 'home-telephone', this.closeModal)}/>
 
         <PhoneSection
-          title="Mobile Phone"
+          title="Mobile phone number"
           phoneData={vet360[FIELD_NAMES.MOBILE_PHONE]}
           transaction={transactions[FIELD_NAMES.MOBILE_PHONE]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.MOBILE_PHONE)}
@@ -125,7 +125,7 @@ class ContactInformationContent extends React.Component {
           onCancel={recordedAction('cancel-button', 'mobile-telephone', this.closeModal)}/>
 
         <PhoneSection
-          title="Work Phone"
+          title="Work phone number"
           phoneData={vet360[FIELD_NAMES.WORK_PHONE]}
           transaction={transactions[FIELD_NAMES.WORK_PHONE]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.WORK_PHONE)}
@@ -139,7 +139,7 @@ class ContactInformationContent extends React.Component {
           onCancel={recordedAction('cancel-button', 'work-telephone', this.closeModal)}/>
 
         <PhoneSection
-          title="Fax Number"
+          title="Fax number"
           phoneData={vet360[FIELD_NAMES.FAX_NUMBER]}
           transaction={transactions[FIELD_NAMES.FAX_NUMBER]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.FAX_NUMBER)}
@@ -173,7 +173,7 @@ class ContactInformationContent extends React.Component {
       <div>
         {this.renderContent()}
         <div>
-          <h3>Want to update the email you use to sign in to Vets.gov?</h3>
+          <h3>How do I update the email I use to sign in to Vets.gov?</h3>
           <a href={accountManifest.rootUrl} onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'account-settings' }); }}>Go to your account settings</a>
         </div>
       </div>

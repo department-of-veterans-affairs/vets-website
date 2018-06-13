@@ -10,8 +10,8 @@ moment.updateLocale('en', {
   monthsShort: [
     'Jan.',
     'Feb.',
-    'Mar.',
-    'Apr.',
+    'March',
+    'April',
     'May',
     'June',
     'July',

@@ -17,7 +17,7 @@ export const uiSchema = {
           first: 'Sally',
           last: 'Alphonse'
         },
-        socialSecurityNumber: '234234234',
+        ssn: '234234234',
         vaFileNumber: '345345345',
         gender: 'F',
         dateOfBirth: '1990-04-02'

@@ -44,8 +44,12 @@ export function mapRawUserDataToState(json) {
     isVeteran,
     loa,
     mhv: {
-      account: mhvAccountState,
-      terms: healthTermsCurrent
+      account: {
+        state: mhvAccountState
+      },
+      terms: {
+        accepted: healthTermsCurrent
+      }
     },
     multifactor,
     prefillsAvailable,
