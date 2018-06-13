@@ -6,7 +6,7 @@ import { pickBy } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
-import { isTransactionCompletedSuccessfully } from '../util/transactions';
+import { isSuccessfulTransaction, isErroredTransaction } from '../util/transactions';
 
 export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
@@ -44,7 +44,7 @@ export function getTransactionStatus(transaction, fieldName) {
       });
 
       // Check to see if the transaction is finished
-      if (isTransactionCompletedSuccessfully(response)) {
+      if (isSuccessfulTransaction(response)) {
 
         // Refresh the profile object
         await dispatch(refreshProfile());
@@ -54,6 +54,9 @@ export function getTransactionStatus(transaction, fieldName) {
           type: VET360_TRANSACTION_FINISHED,
           fieldName
         });
+      } else if (isErroredTransaction(transaction)) {
+
+        // Generate
       }
     } catch (err) {
       // Just allow the former transaction status to remain in the store in the event of an error.
