@@ -23,14 +23,13 @@ Find out how to apply for VA health care benefits.
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-
 <h3 itemprop="name">How do I prepare before starting my application?</h3>
 <div itemprop="itemListElement">
 
 - If you haven’t done so already, check to see if you qualify. [Find out if you're eligible for VA health care benefits](/health-care/eligibility/).
 - Gather the documents listed below that you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ).
 
-<div markdown="0"><br></div>
+</div>
 </div>
 
 <div class="feature" markdown=“1”>
@@ -43,11 +42,6 @@ Find out how to apply for VA health care benefits.
 - Social Security numbers for yourself and your qualified dependents
 - Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
 
-</div>
-</div>
-
-
-</div>
 </div>
 </div>
 
