@@ -1,5 +1,5 @@
 import { apiRequest } from '../../../../platform/utilities/api';
-import { getProfile } from '../../../../platform/user/profile/actions';
+import { refreshProfile } from '../../../../platform/user/profile/actions';
 // import recordEvent from '../../../../platform/monitoring/record-event';
 // import { kebabCase } from 'lodash';
 import { pickBy } from 'lodash';
@@ -46,7 +46,7 @@ export function getTransactionStatus(transaction, fieldName) {
       if (response.data.attributes.transactionStatus === VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_SUCCESS) {
 
         // Refresh the profile object
-        await dispatch(getProfile());
+        await dispatch(refreshProfile());
 
         // Remove the transaction from the VA Profile
         dispatch({
