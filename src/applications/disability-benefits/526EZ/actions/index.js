@@ -1,6 +1,8 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import Raven from 'raven-js';
 
+import existingITFData from '../tests/itfData';
+
 import { getLatestTimestamp } from '../helpers';
 
 export const PRESTART_STATUS_SET = 'PRESTART_STATUS_SET';
@@ -55,66 +57,90 @@ export function resetPrestartDisplay() {
   };
 }
 
+export const handleCheckSuccess = (data, dispatch) => {
+  let status;
+  let expirationDate;
+  const itfList = data.attributes.intentToFile;
+  // If the user does not have any existing ITFs, set none status
+  if (!itfList || (Array.isArray(itfList) && itfList.length === 0)) {
+    status = PRESTART_STATUSES.none;
+    // If the user has existing ITFs, check for expired and active ITFs
+  } else {
+    const expiredList = itfList.filter(itf => itf.status === PRESTART_STATUSES.expired);
+    const activeList = itfList.filter(itf => itf.status === PRESTART_STATUSES.active);
+    // If the user doesn't have any active or expired ITFs, set none status        
+    if (expiredList.length === 0 && activeList.length === 0) {
+      status = PRESTART_STATUSES.none;
+      // If the user doesn't have any active ITFs, set expired status
+    } else if (activeList.length === 0) {
+      status = PRESTART_STATUSES.expired;
+      expirationDate = getLatestTimestamp(expiredList.map(itf => itf.expirationDate));
+      dispatch(setPrestartData({ previousExpirationDate: expirationDate }));
+      // If the user has an active ITF, set retrieved status
+    } else {
+      status = PRESTART_STATUSES.retrieved;
+      expirationDate = activeList[0].expirationDate;
+      dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
+    }
+  }
+  dispatch(setPrestartStatus(status));
+  return status;
+};
+
+export const handleCheckFailure = (errors, hasSavedForm, dispatch) => {
+  const status = hasSavedForm ? PRESTART_STATUSES.notRetrievedSaved : PRESTART_STATUSES.notRetrievedNew;
+  Raven.captureMessage('vets_itf_check_failure');
+  dispatch(setPrestartStatus(status, errors));
+  return status;
+};
+
 export function checkITFRequest(dispatch, hasSavedForm) {
   return apiRequest(
     '/intent_to_file',
     null,
-    ({ data }) => {
-      let status;
-      let expirationDate;
-      const itfList = data.attributes.intentToFile;
-      // If the user does not have any existing ITFs, set none status
-      if (!itfList || (Array.isArray(itfList) && itfList.length === 0)) {
-        status = PRESTART_STATUSES.none;
-      // If the user has existing ITFs, check for expired and active ITFs
-      } else {
-        const expiredList = itfList.filter(itf => itf.status === PRESTART_STATUSES.expired);
-        const activeList = itfList.filter(itf => itf.status === PRESTART_STATUSES.active);
-        // If the user doesn't have any active or expired ITFs, set none status        
-        if (expiredList.length === 0 && activeList.length === 0) {
-          status = PRESTART_STATUSES.none;
-        // If the user doesn't have any active ITFs, set expired status
-        } else if (activeList.length === 0) {
-          status = PRESTART_STATUSES.expired;
-          expirationDate = getLatestTimestamp(expiredList.map(itf => itf.expirationDate));
-          // If the user has an active ITF, set retrieved status
-        } else {
-          status = PRESTART_STATUSES.retrieved;
-          expirationDate = activeList[0].expirationDate;
-        }
-      }
-      dispatch(setPrestartStatus(status, expirationDate));
-      return status;
-    },
-    ({ errors }) => {
-      const status = hasSavedForm ? PRESTART_STATUSES.notRetrievedSaved : PRESTART_STATUSES.notRetrievedNew;
-      Raven.captureMessage('vets_itf_check_failure');
-      dispatch(setPrestartStatus(status, errors));
-      return status;
-    }
+    ({ data }) => handleCheckSuccess(data, dispatch),
+    ({ errors }) => handleCheckFailure(errors, hasSavedForm, dispatch)
   );
 }
+
+const delay = (func, wait, args) => setTimeout(() => func(args), wait);
+const fakeITFRequest = (url, options, success) => delay(success, 1000, existingITFData);
+
+export function mockCheckITFRequest(dispatch, hasSavedForm) {
+  return fakeITFRequest(
+    '/intent_to_file',
+    null,
+    ({ data }) => handleCheckSuccess(data, dispatch),
+    ({ errors }) => handleCheckFailure(errors, hasSavedForm, dispatch)
+  );
+}
+
+export const handleSubmitSuccess = (data, successStatus, dispatch) => {
+  const expirationDate = data.attributes.intentToFile.expirationDate;
+  dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
+  dispatch(setPrestartStatus(successStatus));
+  return successStatus;
+};
+
+export const handleSubmitFailure = (errors, errorStatus, dispatch) => {
+  Raven.captureMessage('vets_itf_submission_error');
+  dispatch(setPrestartStatus(errorStatus, errors));
+  return errorStatus;
+};
 
 export function submitITFRequest(dispatch, successStatus, errorStatus) {
 
   return apiRequest(
     '/intent_to_file/compensation',
     { method: 'POST' },
-    ({ data }) => {
-      dispatch(setPrestartStatus(successStatus, data.attributes.intentToFile.expirationDate));
-      return successStatus;
-    },
-    ({ errors }) => {
-      Raven.captureMessage('vets_itf_submission_error');
-      dispatch(setPrestartStatus(errorStatus, errors));
-      return errorStatus;
-    }
+    ({ data }) => handleSubmitSuccess(data, successStatus, dispatch),
+    ({ errors }) => handleSubmitFailure(errors, errorStatus, dispatch)
   );
 }
 
 export function verifyIntentToFile(hasSavedForm) {
   return async (dispatch) => {
-    let submitSuccessStatus; // eslint-disable-line no-unused-vars
+    let submitSuccessStatus;
     let submitErrorStatus;
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
 

@@ -472,7 +472,7 @@ export const GetFormHelp = () => {
   );
 };
 
-// Sorts timestamps in reverse chronological order
+// Returns most recent timestamp from a list of timestamps
 export const getLatestTimestamp = (timestamps) => timestamps.sort((a, b) => new Date(b) - new Date(a))[0];
 
 export const ITFDescription = (

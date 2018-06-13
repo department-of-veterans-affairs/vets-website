@@ -13,6 +13,10 @@ import {
   setPrestartData,
   resetPrestartStatus,
   resetPrestartDisplay,
+  handleCheckSuccess,
+  handleCheckFailure,
+  handleSubmitSuccess,
+  handleSubmitFailure,
   checkITFRequest,
   submitITFRequest,
   verifyIntentToFile
@@ -36,6 +40,32 @@ const noData = {
   type: 'evss_intent_to_file_intent_to_files_responses',
   attributes: {
     intentToFile: null
+  }
+};
+const incompleteData = {
+  id: '',
+  type: 'evss_intent_to_file_intent_to_files_responses',
+  attributes: {
+    intentToFile: [
+      {
+        id: '2510',
+        creationDate: '2015-03-30T16:19:09.000+00:00',
+        expirationDate: '2016-03-30T16:19:09.000+00:00',
+        participantId: 600043186,
+        source: 'EBN',
+        status: 'incomplete',
+        type: 'compensation'
+      },
+      {
+        id: '2510',
+        creationDate: '2015-03-30T16:19:09.000+00:00',
+        expirationDate: '2016-03-30T16:19:09.000+00:00',
+        participantId: 600043186,
+        source: 'EBN',
+        status: 'claim_recieved',
+        type: 'compensation'
+      }
+    ]
   }
 };
 const expiredData = {
@@ -75,26 +105,92 @@ describe('ITF retrieve / submit actions:', () => {
   describe('setPrestartStatus', () => {
     it('should return action', () => {
       const status = PRESTART_STATUSES.retrieved;
-      const data = '2019-04-10T15:12:34.000+00:00';
-      const action = setPrestartStatus(status, data);
+      const action = setPrestartStatus(status);
 
       expect(action.type).to.equal(PRESTART_STATUS_SET);
       expect(action.status).to.equal(status);
+    });
+  });
+  describe('setPrestartData', () => {
+    it('should return action', () => {
+      const data = '2019-04-10T15:12:34.000+00:00';
+      const action = setPrestartData(data);
+
+      expect(action.type).to.equal(PRESTART_DATA_SET);
       expect(action.data).to.equal('2019-04-10T15:12:34.000+00:00');
     });
   });
-  describe('resetPrestartStatus', () => {
-    it('should unset status', () => {
+  describe('resetPrestart', () => {
+    it('should return action', () => {
       const action = resetPrestartStatus();
 
-      expect(action.type).to.equal(PRESTART_STATUS_RESET);
+      expect(action.type).to.equal(PRESTART_RESET);
     });
   });
   describe('resetPrestartDisplay', () => {
-    it('should unset display', () => {
+    it('should return action', () => {
       const action = resetPrestartDisplay();
 
       expect(action.type).to.equal(PRESTART_DISPLAY_RESET);
+    });
+  });
+  describe('handleCheckSuccess', () => {
+    it('should return none if no existing ITFs are retrieved', () => {
+      const dispatch = sinon.spy();
+
+      expect(handleCheckSuccess(noData, dispatch)).to.equal(PRESTART_STATUSES.none);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.none))).to.be.true;
+    });
+    it('should return none if no expired or active ITFs are retrieved', () => {
+      const dispatch = sinon.spy();
+
+      expect(handleCheckSuccess(incompleteData, dispatch)).to.equal(PRESTART_STATUSES.none);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.none))).to.be.true;
+    });
+    it('should return expired if retrieved ITFs include expired but not active ITFs', () => {
+      const dispatch = sinon.spy();
+
+      expect(handleCheckSuccess(expiredData, dispatch)).to.equal(PRESTART_STATUSES.expired);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.expired))).to.be.true;
+      expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }));
+    });
+    it('should return retrieved if active ITFs are retrieved', () => {
+      const dispatch = sinon.spy();
+
+      expect(handleCheckSuccess(existingData, dispatch)).to.equal(PRESTART_STATUSES.retrieved);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.retrieved))).to.be.true;
+      expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }));
+    });
+  });
+  describe('handleCheckFailure', () => {
+    it('should return notRetrievedNew if check fails for a new form', () => {
+      const dispatch = sinon.spy();
+
+      expect(handleCheckFailure(new Error('fake error'), false, dispatch)).to.equal(PRESTART_STATUSES.notRetrievedNew);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedNew))).to.be.true;
+    });
+    it('should return notRetrievedSaved if check fails for a saved form', () => {
+      const dispatch = sinon.spy();
+
+      expect(handleCheckFailure(new Error('fake error'), true, dispatch)).to.equal(PRESTART_STATUSES.notRetrievedSaved);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedSaved))).to.be.true;
+    });
+  });
+  describe('handleSubmitSuccess', () => {
+    it('should return successStatus', () => {
+      const dispatch = sinon.spy();
+
+      expect(handleSubmitSuccess(createdData, PRESTART_STATUSES.created, dispatch)).to.equal(PRESTART_STATUSES.created);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.created))).to.be.true;
+      expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }));
+    });
+  });
+  describe('handleSubmitFailure', () => {
+    it('should return errorStatus', () => {
+      const dispatch = sinon.spy();
+
+      expect(handleSubmitFailure(createdData, PRESTART_STATUSES.notCreated, dispatch)).to.equal(PRESTART_STATUSES.notCreated);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notCreated))).to.be.true;
     });
   });
   describe('checkITFRequest', () => {
