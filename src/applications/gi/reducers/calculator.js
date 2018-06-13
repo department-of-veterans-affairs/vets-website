@@ -79,6 +79,7 @@ export default function (state = INITIAL_STATE, action) {
         books,
         calendar,
         type,
+        yellowRibbonPrograms
       } = camelPayload.data.attributes;
 
       return {
@@ -89,7 +90,8 @@ export default function (state = INITIAL_STATE, action) {
         tuitionFees: tuitionInState || 0,
         inStateTuitionFees: tuitionInState || 0,
         books: books || 0,
-        calendar: calendar || 'semesters'
+        calendar: calendar || 'semesters',
+        yellowRibbonAmount: yellowRibbonPrograms[0].contributionAmount
       };
     }
 

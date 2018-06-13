@@ -788,6 +788,9 @@ export const getCalculatedBenefits = createSelector(
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
 
+    const { yellowRibbonDegreeLevelOptions,
+        yellowRibbonDivisionOptions } = institution;
+
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
@@ -801,6 +804,8 @@ export const getCalculatedBenefits = createSelector(
       working: false,
       kicker: true,
       buyUp: false,
+      yellowRibbonDegreeLevelOptions: yellowRibbonDegreeLevelOptions.map(value => ({ value, label: value })),
+      yellowRibbonDivisionOptions: yellowRibbonDivisionOptions.map(value => ({ value, label: value }))
     };
 
     calculatedBenefits.outputs = {

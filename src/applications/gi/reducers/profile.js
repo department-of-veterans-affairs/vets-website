@@ -35,9 +35,23 @@ export default function (state = INITIAL_STATE, action) {
       };
     case FETCH_PROFILE_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
+      const { yellowRibbonPrograms } = camelPayload.data.attributes;
+
+      const yellowRibbonDegreeLevelOptions = yellowRibbonPrograms.length > 0 ?
+        [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))] :
+        [];
+      // first value of degree level is selected by default; only display division options associated with this degree level
+      const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
+        [...new Set(yellowRibbonPrograms
+        .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
+        .map(program => program.divisionProfessionalSchool))] :
+        [];;
+
       const attributes = normalizedAttributes({
         ...camelPayload.data.attributes,
-        ...camelPayload.data.links
+        ...camelPayload.data.links,
+        yellowRibbonDegreeLevelOptions,
+        yellowRibbonDivisionOptions
       });
       // delete attributes.self;
       const version = camelPayload.meta.version;
@@ -45,7 +59,7 @@ export default function (state = INITIAL_STATE, action) {
         ...state,
         attributes,
         version,
-        inProgress: false
+        inProgress: false,
       };
     default:
       return state;
