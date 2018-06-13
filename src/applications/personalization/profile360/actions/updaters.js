@@ -155,12 +155,12 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
 }
 
 export const saveField = {
-  updateHomePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE, 'phone'),
-  updateMobilePhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE, 'phone'),
-  updateWorkPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE, 'phone'),
-  updateTemporaryPhone: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE, 'phone'),
-  updateFaxNumber: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER, 'phone'),
-  updateEmailAddress: updateVet360Field('/profile/email_addresses', VET360_CONSTANTS.FIELD_NAMES.EMAIL, 'email'),
-  updateMailingAddress: updateVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS, 'address'),
-  updateResidentialAddress: updateVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address')
+  [VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE]: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE, 'phone'),
+  [VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE]: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE, 'phone'),
+  [VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE]: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE, 'phone'),
+  [VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE]: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE, 'phone'),
+  [VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER]: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER, 'phone'),
+  [VET360_CONSTANTS.FIELD_NAMES.EMAIL]: updateVet360Field('/profile/email_addresses', VET360_CONSTANTS.FIELD_NAMES.EMAIL, 'email'),
+  [VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS]: updateVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS, 'address'),
+  [VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS]: updateVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address')
 };

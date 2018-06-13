@@ -7,6 +7,7 @@ import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Transaction from './Transaction';
 import { merge } from 'lodash';
+import Vet360ProfileField from '../containers/Vet360ProfileField';
 
 class EditPhoneModal extends React.Component {
 
@@ -89,7 +90,7 @@ class EditPhoneModal extends React.Component {
 }
 
 
-export default function PhoneSection({ phoneData, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
+function PhoneSection({ data: phoneData, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
@@ -128,4 +129,8 @@ export default function PhoneSection({ phoneData, transaction, getTransactionSta
       {content}
     </div>
   );
+}
+
+export default function (props) {
+  return <Vet360ProfileField Component={PhoneSection} {...props}/>;
 }

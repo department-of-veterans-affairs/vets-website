@@ -9,6 +9,7 @@ import LoadingButton from './LoadingButton';
 import Transaction from './Transaction';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from '../../../../platform/forms/address/helpers';
+import Vet360ProfileField from '../containers/Vet360ProfileField';
 
 class EditAddressModal extends React.Component {
 
@@ -83,7 +84,7 @@ function AddressView({ address }) {
   );
 }
 
-export default function AddressSection({ addressData, addressConstants, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd,  onCancel, onSubmit }) {
+function AddressSection({ data: addressData, addressConstants, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd,  onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
@@ -127,4 +128,8 @@ export default function AddressSection({ addressData, addressConstants, transact
       {content}
     </div>
   );
+}
+
+export default function (props) {
+  return <Vet360ProfileField Component={AddressSection} {...props}/>;
 }

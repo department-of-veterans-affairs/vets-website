@@ -5,6 +5,7 @@ import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Transaction from './Transaction';
+import Vet360ProfileField from '../containers/Vet360ProfileField';
 
 class EditEmailModal extends React.Component {
 
@@ -59,7 +60,7 @@ class EditEmailModal extends React.Component {
 }
 
 
-export default function EmailSection({ emailData, transaction, getTransactionStatus, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
+function EmailSection({ data: emailData, transaction, getTransactionStatus, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
   let content = null;
   let modal = null;
 
@@ -95,4 +96,8 @@ export default function EmailSection({ emailData, transaction, getTransactionSta
       <div>{content}</div>
     </div>
   );
+}
+
+export default function (props) {
+  return <Vet360ProfileField Component={EmailSection} {...props}/>;
 }
