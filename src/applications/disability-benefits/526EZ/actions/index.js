@@ -1,6 +1,8 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import Raven from 'raven-js';
 
+import { getLatestTimestamp } from '../helpers';
+
 export const PRESTART_STATUS_SET = 'PRESTART_STATUS_SET';
 export const PRESTART_STATUS_RESET = 'PRESTART_STATUS_RESET';
 export const PRESTART_DISPLAY_RESET = 'PRESTART_DISPLAY_RESET';
@@ -63,7 +65,7 @@ export function checkITFRequest(dispatch, hasSavedForm) {
         // If the user doesn't have any active ITFs, set expired status
         if (activeList.length === 0) {
           status = PRESTART_STATUSES.expired;
-          expirationDate = itfList.sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate))[0].expirationDate;
+          expirationDate = getLatestTimestamp(itfList.map(itf => itf.expirationDate));
           // If the user has an active ITF, set retrieved status
         } else {
           status = PRESTART_STATUSES.retrieved;

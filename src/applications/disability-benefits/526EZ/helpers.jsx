@@ -472,6 +472,9 @@ export const GetFormHelp = () => {
   );
 };
 
+// Sorts timestamps in reverse chronological order
+export const getLatestTimestamp = (timestamps) => timestamps.sort((a, b) => new Date(b) - new Date(a))[0];
+
 export const ITFDescription = (
   <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
 );

@@ -3,7 +3,8 @@ import {
   flatten,
   isPrefillDataComplete,
   prefillTransformer,
-  get4142Selection
+  get4142Selection,
+  getLatestTimestamp
 } from '../helpers.jsx';
 import initialData from './schema/initialData.js';
 
@@ -45,7 +46,6 @@ describe('526 helpers', () => {
       expect(incompletePrefill.prefilled).to.be.undefined;
     });
   });
-
   describe('get4142Selection', () => {
     const fullDisabilities = [
       {
@@ -89,6 +89,13 @@ describe('526 helpers', () => {
     it('should return false when no disabilities have 4142 selected', () => {
       const disabilities = fullDisabilities.slice(1);
       expect(get4142Selection(disabilities)).to.equal(false);
+    });
+  });
+  describe('getLatestTimestamp', () => {
+    it('should return the most recent timestamp in a list of timestamps', () => {
+      const timestamps = ['2015-03-30T16:19:09.000+00:00', '2016-03-30T16:19:09.000+00:00'];
+      const latestTimestamp = getLatestTimestamp(timestamps);
+      expect(latestTimestamp).to.equal('2016-03-30T16:19:09.000+00:00');
     });
   });
 });
