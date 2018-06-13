@@ -6,14 +6,18 @@ import { createSaveInProgressFormReducer } from '../../common/schemaform/save-in
 
 import {
   PRESTART_STATUS_SET,
-  PRESTART_STATUS_RESET,
+  PRESTART_DATA_SET,
+  PRESTART_RESET,
   PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES
 } from './actions';
 
 const initialState = {
   status: PRESTART_STATUSES.notAttempted,
-  data: undefined,
+  data: {
+    currentExpirationDate: null,
+    previousExpirationDate: null
+  },
   display: false
 };
 
@@ -21,31 +25,17 @@ export const prestart = (state = initialState, action) => {
   switch (action.type) {
     case PRESTART_STATUS_SET: {
       const newState = _.set('status', action.status, state);
-      if (!state.display) {
-        newState.display = true;
-      }
-
-      if (action.data && state.data) {
-        const previousData = state.data;
-        newState.data = {};
-        newState.data.previous = previousData;
-        newState.data.current = action.data;
-      } else if (action.data) {
-        newState.data = action.data;
-      }
-
+      newState.display = true;
       return newState;
     }
-    case PRESTART_STATUS_RESET: {
-      let newState = _.set('status', PRESTART_STATUSES.notAttempted, state);
-      newState = _.unset('data', newState);
-
-      return newState;
+    case PRESTART_DATA_SET: {
+      return _.set('data', action.data, state);
+    }
+    case PRESTART_RESET: {
+      return initialState;
     }
     case PRESTART_DISPLAY_RESET: {
-      const newState = _.set('display', false, state);
-
-      return newState;
+      return _.set('display', false, state);
     }
     default:
       return state;

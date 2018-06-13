@@ -5,10 +5,12 @@ import { mockFetch, resetFetch } from '../../../../../platform/testing/unit/help
 
 import {
   PRESTART_STATUS_SET,
-  PRESTART_STATUS_RESET,
+  PRESTART_DATA_SET,
+  PRESTART_RESET,
   PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES,
   setPrestartStatus,
+  setPrestartData,
   resetPrestartStatus,
   resetPrestartDisplay,
   checkITFRequest,

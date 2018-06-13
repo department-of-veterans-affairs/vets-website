@@ -4,7 +4,8 @@ import Raven from 'raven-js';
 import { getLatestTimestamp } from '../helpers';
 
 export const PRESTART_STATUS_SET = 'PRESTART_STATUS_SET';
-export const PRESTART_STATUS_RESET = 'PRESTART_STATUS_RESET';
+export const PRESTART_DATA_SET = 'PRESTART_DATA_SET';
+export const PRESTART_RESET = 'PRESTART_STATUS_RESET';
 export const PRESTART_DISPLAY_RESET = 'PRESTART_DISPLAY_RESET';
 
 export const PRESTART_STATUSES = {
@@ -28,17 +29,23 @@ export const prestartFailureStatuses = new Set([PRESTART_STATUSES.notCreated, PR
 
 export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART_STATUSES.expired, PRESTART_STATUSES.pending]);
 
-export function setPrestartStatus(status, data) {
+export function setPrestartStatus(status) {
   return {
     type: PRESTART_STATUS_SET,
-    status,
+    status
+  };
+}
+
+export function setPrestartData(data) {
+  return {
+    type: PRESTART_DATA_SET,
     data
   };
 }
 
 export function resetPrestartStatus() {
   return {
-    type: PRESTART_STATUS_RESET
+    type: PRESTART_RESET
   };
 }
 
