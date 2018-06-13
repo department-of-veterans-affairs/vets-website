@@ -14,7 +14,6 @@ maintenance_line2: In the meantime, you can call 1-877-222-VETS (<a href="tel:+1
     <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>
       <li><a href="/health-care/">Health Care</a></li>
-      <li><a href="/health-care/apply/">Application Process</a></li>
       <li><a aria-current="page" href="/health-care/apply/application/">Apply for VA Health Care</a></li>
     </ul>
   </nav>
