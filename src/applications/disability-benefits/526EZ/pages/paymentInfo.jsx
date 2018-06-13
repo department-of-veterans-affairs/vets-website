@@ -1,5 +1,7 @@
 import React from 'react';
+import Raven from 'raven-js';
 
+import { apiRequest } from '../../../../platform/utilities/api';
 import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
 import { srSubstitute } from '../helpers';
@@ -68,54 +70,17 @@ export const paymentInformationViewField = (response) => {
 };
 
 function fetchPaymentInformation() {
-  return Promise.resolve({
-    // Act like we get this from the api
-    data: {
-      attributes: {
-        responses: [
-          {
-            controlInformation: {
-              canUpdateAddress: true,
-              corpAvailIndicator: true,
-              corpRecFoundIndicator: true,
-              hasNoBdnPaymentsIndicator: true,
-              identityIndicator: true,
-              indexIndicator: true,
-              isCompetentIndicator: true,
-              noFiduciaryAssignedIndicator: true,
-              notDeceasedIndicator: true
-            },
-            paymentAccount: {
-              accountNumber: '9876543211234',
-              accountType: 'Checking',
-              financialInstitutionName: 'Comerica',
-              financialInstitutionRoutingNumber: '042102115'
-            },
-            paymentAddress: {
-              addressEffectiveDate: '2018-06-07T22:47:21.873Z',
-              addressOne: 'First street address line',
-              addressTwo: 'Second street address line',
-              addressThree: 'Third street address line',
-              city: 'AdHocville',
-              stateCode: 'OR',
-              countryName: 'USA',
-              militaryPostOfficeTypeCode: 'Military PO',
-              militaryStateCode: 'AP',
-              zipCode: '12345',
-              zipSuffix: '6789',
-              type: 'Domestic'
-            },
-            paymentType: 'CNP'
-          }
-        ]
-      },
-      id: {},
-      type: 'evss_ppiu_payment_information_responses'
+  return apiRequest('/ppiu/payment_information',
+    {},
+    response => {
+      // Return only the bit the UI cares about
+      return response.data.attributes.responses[0].paymentAccount;
+    },
+    () => {
+      Raven.captureMessage('vets_payment_information_fetch_failure');
+      return Promise.reject();
     }
-  }).then(response => {
-    // Return only the bit the UI cares about
-    return response.data.attributes.responses[0].paymentAccount;
-  });
+  );
 }
 
 export const uiSchema = {
