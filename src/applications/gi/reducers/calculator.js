@@ -72,6 +72,23 @@ export default function (state = INITIAL_STATE, action) {
 
     case FETCH_PROFILE_SUCCEEDED: {
       const camelPayload = camelCaseKeysRecursive(action.payload);
+      const yellowRibbonPrograms = [
+        {
+          divisionProfessionalSchool: 'division1',
+          numberOfStudents: 5,
+          degreeLevel: 'graduate',
+        },
+        {
+          divisionProfessionalSchool: 'division2',
+          numberOfStudents: 3000,
+          degreeLevel: 'undergraduate',
+        },
+        {
+          divisionProfessionalSchool: 'division3',
+          numberOfStudents: 20,
+          degreeLevel: 'undergraduate',
+        }
+      ];
 
       const {
         tuitionInState,
@@ -79,7 +96,6 @@ export default function (state = INITIAL_STATE, action) {
         books,
         calendar,
         type,
-        yellowRibbonPrograms
       } = camelPayload.data.attributes;
 
       return {
@@ -91,7 +107,8 @@ export default function (state = INITIAL_STATE, action) {
         inStateTuitionFees: tuitionInState || 0,
         books: books || 0,
         calendar: calendar || 'semesters',
-        yellowRibbonAmount: yellowRibbonPrograms[0].contributionAmount
+        yellowRibbonDegreeLevel: yellowRibbonPrograms[0].degreeLevel,
+        yellowRibbonDivision: yellowRibbonPrograms[0].divisionProfessionalSchool,
       };
     }
 

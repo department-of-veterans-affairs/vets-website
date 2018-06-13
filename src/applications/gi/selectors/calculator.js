@@ -116,14 +116,14 @@ const getDerivedValues = createSelector(
     switch (giBillChapter) {
       case 30: {
         monthlyRate =
-          (enlistmentService === '3' ?
-            constant.MGIB3YRRATE :
-            constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
+        (enlistmentService === '3' ?
+          constant.MGIB3YRRATE :
+          constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
         break;
       }
       case 1607: {
         monthlyRate =
-          constant.MGIB3YRRATE * consecutiveService * (isOJT ? 0.75 : 1);
+        constant.MGIB3YRRATE * consecutiveService * (isOJT ? 0.75 : 1);
         break;
       }
       case 1606: {
@@ -149,7 +149,7 @@ const getDerivedValues = createSelector(
           monthlyRate =
             constant[`VRE2DEPRATE${OJT}`] +
             ((numberOfDependents - 2) *
-            constant[`VREINCRATE${OJT}`]);
+              constant[`VREINCRATE${OJT}`]);
         }
         break;
       }
@@ -183,7 +183,7 @@ const getDerivedValues = createSelector(
         ? +inputs.tuitionFees
         : +inputs.inStateTuitionFees;
     } else {
-      // Default cap for private, foreign, and for-profit institutions.
+      // Default cap for private, foreign, and for-profit institutions
       tuitionFeesCap = constant.TFCAP;
     }
 
@@ -788,8 +788,28 @@ export const getCalculatedBenefits = createSelector(
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
 
-    const { yellowRibbonDegreeLevelOptions,
-        yellowRibbonDivisionOptions } = institution;
+    const {
+      yellowRibbonDegreeLevelOptions,
+      yellowRibbonDivisionOptions,
+      yellowRibbonPrograms
+    } = institution;
+
+    const {
+      yellowRibbonDegreeLevel,
+      yellowRibbonDivision
+    } = form;
+
+    const yellowRibbonProgram = yellowRibbonPrograms
+      .filter(program => program.degreeLevel === yellowRibbonDegreeLevel)
+      .find(program => program.divisionProfessionalSchool === yellowRibbonDivision);
+
+    // if there's no matching program, then the options have updated and the inputs are invalid-
+    // use the contribution amount from the first program matching the degree if no matches found
+    const yellowRibbonAmount = yellowRibbonProgram ?
+      yellowRibbonProgram.contributionAmount :
+      yellowRibbonPrograms
+        .find(program => program.degreeLevel === yellowRibbonDegreeLevel)
+        .contributionAmount;
 
     calculatedBenefits.inputs = {
       inState: false,
@@ -804,6 +824,7 @@ export const getCalculatedBenefits = createSelector(
       working: false,
       kicker: true,
       buyUp: false,
+      yellowRibbonAmount,
       yellowRibbonDegreeLevelOptions: yellowRibbonDegreeLevelOptions.map(value => ({ value, label: value })),
       yellowRibbonDivisionOptions: yellowRibbonDivisionOptions.map(value => ({ value, label: value }))
     };
@@ -1041,7 +1062,7 @@ export const getCalculatedBenefits = createSelector(
     }
 
     if (derived.numberOfTerms === 1) {
-      // Hide all term 2 and 3 calculations.
+      // Hide all term 2 and 3 calculations
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[1].visible = false;
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[1].visible = false;
@@ -1055,7 +1076,7 @@ export const getCalculatedBenefits = createSelector(
     }
 
     if (derived.numberOfTerms < 3 && institutionType !== 'ojt') {
-      // Hide all term 3 calculations.
+      // Hide all term 3 calculations
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
