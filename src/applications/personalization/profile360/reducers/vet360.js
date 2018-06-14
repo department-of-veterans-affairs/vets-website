@@ -3,7 +3,7 @@ import {
   VET360_TRANSACTION_REQUEST_SUCCEEDED,
   VET360_TRANSACTION_REQUEST_FAILED,
   VET360_TRANSACTION_UPDATED,
-  VET360_TRANSACTION_FINISHED,
+  VET360_TRANSACTION_CLEARED,
 
   // OPEN_MODAL,
   // CLEAR_PROFILE_ERRORS
@@ -65,10 +65,16 @@ export default function vet360(state = initialState, action) {
       };
     }
 
-    case VET360_TRANSACTION_FINISHED: {
+    case VET360_TRANSACTION_CLEARED: {
       const finishedTransactionId =  action.transaction.data.attributes.transactionId;
       const fieldTransactionMap = { ...state.fieldTransactionMap };
-      delete fieldTransactionMap[action.fieldName];
+
+      Object.keys(fieldTransactionMap).forEach((field) => {
+        const transactionRequest = fieldTransactionMap[field];
+        if (transactionRequest && transactionRequest.transactionId === finishedTransactionId) {
+          delete fieldTransactionMap[field];
+        }
+      });
 
       return {
         ...state,

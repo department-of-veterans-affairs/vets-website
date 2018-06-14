@@ -108,7 +108,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     refreshTransaction(transaction) {
-      dispatch(refreshTransaction(transaction, fieldName));
+      dispatch(refreshTransaction(transaction));
     },
 
     onAdd() {

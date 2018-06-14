@@ -108,6 +108,12 @@ export default {
       }
     });
   },
+  updateTransactionRandom(...args) {
+    if (Math.random() > 0.5) {
+      return this.updateTransaction(...args);
+    }
+    return this.updateTransactionToFailure(...args);
+  },
   updateTransaction(transactionId) {
     return {
       data: {

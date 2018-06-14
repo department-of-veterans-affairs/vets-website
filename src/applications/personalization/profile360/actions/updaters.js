@@ -6,7 +6,7 @@ import { pickBy } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
-import { isSuccessfulTransaction, isErroredTransaction } from '../util/transactions';
+import { isSuccessfulTransaction } from '../util/transactions';
 
 export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
@@ -15,6 +15,7 @@ export const VET360_TRANSACTION_REQUEST_FAILED = 'VET360_TRANSACTION_REQUEST_FAI
 export const VET360_TRANSACTION_REQUEST_SUCCEEDED = 'VET360_TRANSACTION_REQUEST_SUCCEEDED';
 export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
 export const VET360_TRANSACTION_FINISHED = 'VET360_TRANSACTION_FINISHED';
+export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
 // function recordProfileTransaction(fieldName) {
 //   const names = [
@@ -31,39 +32,30 @@ export const VET360_TRANSACTION_FINISHED = 'VET360_TRANSACTION_FINISHED';
 //   }
 // }
 
-export function refreshTransaction(transaction, fieldName) {
+export function refreshTransaction(transaction) {
   return async (dispatch) => {
     try {
       const { transactionId } = transaction.data.attributes;
-      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : localVet360.updateTransaction(transactionId);
+      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : localVet360.updateTransactionRandom(transactionId);
 
       dispatch({
         type: VET360_TRANSACTION_UPDATED,
-        transaction: transactionRefreshed,
-        fieldName
+        transaction: transactionRefreshed
       });
 
-      // @todo Move this code into the Transaction component.
-
-      // Check to see if the transaction is finished
       if (isSuccessfulTransaction(transactionRefreshed)) {
-
-        // Refresh the profile object
         await dispatch(refreshProfile());
-
-        // Remove the transaction from the VA Profile
-        dispatch({
-          type: VET360_TRANSACTION_FINISHED,
-          transaction: transactionRefreshed,
-          fieldName
-        });
-      } else if (isErroredTransaction(transactionRefreshed)) {
-
-        // Generate a new
       }
     } catch (err) {
       // Just allow the former transaction status to remain in the store in the event of an error.
     }
+  };
+}
+
+export function clearTransaction(transaction) {
+  return {
+    type: VET360_TRANSACTION_CLEARED,
+    transaction
   };
 }
 

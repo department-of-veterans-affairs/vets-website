@@ -1,3 +1,8 @@
+import {
+  isSuccessfulTransaction,
+  isErroredTransaction
+} from './util/transactions';
+
 export function selectVet360Field(state, fieldName) {
   return state.user.profile.vet360[fieldName];
 }
@@ -24,10 +29,22 @@ export function selectVet360Transaction(state, fieldName) {
   };
 }
 
+export function selectVet360SuccessfulTransactions(state) {
+  return state.vet360.transactions.filter(isSuccessfulTransaction);
+}
+
+export function selectVet360ErroredTransactions(state) {
+  return state.vet360.transactions.filter(isErroredTransaction);
+}
+
 export function selectEditedFormField(state, fieldName) {
   return state.vaProfile.formFields[fieldName];
 }
 
 export function selectCurrentlyOpenEditModal(state) {
   return state.vaProfile.modal;
+}
+
+export function selectGenericError() {
+
 }
