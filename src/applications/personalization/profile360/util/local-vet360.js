@@ -88,16 +88,25 @@ export const mockContactInformation = {
   },
 };
 
+
+function asyncReturn(returnValue) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(returnValue);
+    }, 300);
+  });
+}
+
 export default {
   createTransaction() {
-    return {
+    return asyncReturn({
       data: {
         attributes: {
           transactionId: uniqueId('transaction_'),
           transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED
         }
       }
-    };
+    });
   },
   updateTransaction(transactionId) {
     return {

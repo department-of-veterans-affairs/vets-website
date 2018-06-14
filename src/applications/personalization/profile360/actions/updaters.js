@@ -131,7 +131,7 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
           fieldName
         });
 
-        const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : localVet360.createTransaction();
+        const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
 
         // TODO turn analytics back on later
         // if (apiRoute === '/profile/telephones') {

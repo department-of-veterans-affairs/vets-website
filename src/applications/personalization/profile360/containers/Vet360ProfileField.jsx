@@ -25,7 +25,7 @@ class Vet360ProfileField extends React.Component {
     return !this.isEmpty() && !this.props.transaction;
   }
 
-  renderEmptyState = () => {
+  renderEmptyState() {
     return (
       <button
         type="button"
@@ -36,7 +36,7 @@ class Vet360ProfileField extends React.Component {
     );
   }
 
-  renderTransaction = () => {
+  renderTransaction() {
     return (
       <Transaction
         transaction={this.props.transaction}
@@ -45,7 +45,15 @@ class Vet360ProfileField extends React.Component {
     );
   }
 
-  renderEditModal = () => {
+  renderRequestProcessing() {
+    return <span>Processing your request...</span>;
+  }
+
+  renderRequestFailed() {
+    return <span>Request failed!</span>;
+  }
+
+  renderEditModal() {
     const EditModal = this.props.renderEditModal;
     if (!EditModal) throw new Error('Missing prop: renderEditModal');
 
@@ -57,13 +65,20 @@ class Vet360ProfileField extends React.Component {
       isEditing,
       onEdit,
       title,
-      transaction
+      transaction,
+      transactionRequest
     } = this.props;
 
     let content = null;
 
     if (transaction) {
       content = this.renderTransaction();
+    } else if (transactionRequest) {
+      if (transactionRequest.isPending) {
+        content = this.renderRequestProcessing();
+      } else if (transactionRequest.isFailed) {
+        content = this.renderRequestFailed();
+      }
     } else if (this.isEmpty()) {
       content = this.renderEmptyState();
     } else {
@@ -114,7 +129,8 @@ const mapStateToProps = (state, ownProps) => {
     data: existingFieldData,
     field: existingFieldValue,
     isEditing: currentlyOpenEditModal === fieldName,
-    transaction
+    transaction,
+    transactionRequest: fieldTransactionData
   };
 };
 
