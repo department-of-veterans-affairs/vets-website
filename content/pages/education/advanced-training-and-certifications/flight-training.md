@@ -20,6 +20,9 @@ Want to become a pilot? Find out how your VA education benefits can help pay for
 <div itemprop="text">
 
 You can get benefits for flight training if you meet the requirements listed below.<br>
+
+<br>
+
 **Both of these must be true. You:**
 - Have a private pilot’s license, **and**
 - Have a second-class medical certificate valid for second-class privileges—or a first-class medical certificate if you want to pursue the Airline Transport Pilot (ATP) certificate.
