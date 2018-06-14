@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+// import recordEvent from '../../../../platform/monitoring/record-event';
+
 import {
   selectVet360Field,
   selectVet360Transaction,
@@ -9,7 +11,6 @@ import {
   selectEditedFormField
 } from '../selectors';
 
-// import recordEvent from '../../../../platform/monitoring/record-event';
 import HeadingWithEdit from '../components/HeadingWithEdit';
 import Transaction from '../components/Transaction';
 import * as VET360 from '../constants/vet360';
@@ -164,7 +165,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       captureEvent('update-button');
       dispatch(saveField[fieldName](...args));
     }
-
   };
 };
 
