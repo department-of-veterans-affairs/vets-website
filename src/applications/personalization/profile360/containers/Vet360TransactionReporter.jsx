@@ -39,7 +39,7 @@ class Vet360TransactionReporter extends React.Component {
               isVisible
               status="success"
               onCloseAlert={this.props.clearTransaction.bind(null, transaction)}
-              content={<h3>Your update finished!</h3>}/>
+              content={<h3>Your recent profile update finished.</h3>}/>
           );
         })}
         {erroredTransactions.map((transaction) => {
@@ -49,7 +49,10 @@ class Vet360TransactionReporter extends React.Component {
               isVisible
               status="error"
               onCloseAlert={this.props.clearTransaction.bind(null, transaction)}
-              content={<h3>Failed transaction!</h3>}/>
+              content={<div>
+                <h3>Your recent profile update didn’t save</h3>
+                <p>We’re sorry. Something went wrong on our end and we couldn’t save the recent updates you made to your profile. Please try again later.</p>
+              </div>}/>
           );
         })}
       </div>
