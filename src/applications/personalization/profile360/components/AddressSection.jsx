@@ -106,12 +106,13 @@ function renderEditModal({ data: addressData, addressConstants, onChange, field,
   );
 }
 
-export default function Vet360Address({ title, fieldName, analyticsSectionName }) {
+export default function Vet360Address({ title, fieldName, analyticsSectionName, addressConstants }) {
   return (
     <Vet360ProfileField
       title={title}
       fieldName={fieldName}
       analyticsSectionName={analyticsSectionName}
+      addressConstants={addressConstants}
       renderContent={renderContent}
       renderEditModal={renderEditModal}
       isEmpty={isEmpty}/>
