@@ -7,11 +7,6 @@ import { connect } from 'react-redux';
 import * as VET360 from '../constants/vet360';
 
 import {
-  isPendingTransaction,
-  isErroredTransaction
-} from '../util/transactions';
-
-import {
   clearErrors,
   getTransactionStatus,
   updateFormField,
@@ -27,48 +22,7 @@ import {
 } from '../selectors';
 
 import HeadingWithEdit from '../components/HeadingWithEdit';
-
-// Transaction component should:
-// Render a "request pending" message if transactionRequest.isPending
-// Render a "request failed" message if transactionRequest.isFailed
-// Dispatches refreshProfile when a transaction status is changed from pending to a success state.
-// Render an error message if there is a transaction error. Also, render the children.
-// Removes the transaction & request from state when the user clears the corresponding messaging.
-// Render the children if there is no transaction or transaction request.
-
-class Vet360TransactionPending extends React.Component {
-  componentDidMount() {
-    this.interval = window.setInterval(this.props.refreshTransaction, 1000);
-  }
-  componentWillUnmount() {
-    window.clearInterval(this.interval);
-  }
-  render() {
-    return <div>We’re working on saving your new {this.props.title.toLowerCase()}. We’ll show it here once it’s saved.</div>;
-  }
-}
-
-class Vet360Transaction extends React.Component {
-  render() {
-    const {
-      children,
-      refreshTransaction,
-      title,
-      transaction
-    } = this.props;
-
-    return (
-      <div className="vet360-profile-field-content">
-        {transaction && isErroredTransaction(transaction) && (
-          <div className="vet360-profile-field-content-error">We couldn’t save your recent {title} update. Please try again later.</div>
-        )}
-        {transaction && isPendingTransaction(transaction) ? (
-          <Vet360TransactionPending title={title} refreshTransaction={refreshTransaction}/>
-        ) : children}
-      </div>
-    );
-  }
-}
+import Vet360Transaction from '../components/Vet360Transaction';
 
 class Vet360ProfileField extends React.Component {
 
