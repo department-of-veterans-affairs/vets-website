@@ -51,6 +51,7 @@ class EditPhoneModal extends React.Component {
       field,
       clearErrors,
       onDelete,
+      phoneData,
     } = this.props;
 
     return (
@@ -81,7 +82,7 @@ class EditPhoneModal extends React.Component {
               field={{ value: field.value.extension, dirty: false }}
               onValueChange={this.onChange('extension')}/>
 
-            <FormActionButtons onCancel={onCancel} onDelete={onDelete} title={title}>
+            <FormActionButtons onCancel={onCancel} onDelete={onDelete} title={title} deleteEnabled={!!(phoneData && phoneData.phoneNumber)}>
               <LoadingButton isLoading={isLoading}>Update</LoadingButton>
               <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
             </FormActionButtons>

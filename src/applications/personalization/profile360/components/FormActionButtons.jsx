@@ -24,6 +24,21 @@ class FormActionButtons extends React.Component {
     this.props.onDelete();
   };
 
+  renderDeleteAction() {
+    if (this.props.deleteEnabled) {
+      return (
+        <div className="right">
+          <button className="usa-button-secondary button-link"
+            onClick={() => this.setState({ deleteInitiated: true })}>
+            <i className="fa fa-trash"></i> <span>Delete</span>
+          </button>
+        </div>
+      );
+    }
+
+    return null;
+  }
+
   render() {
     const alertContent = (
       <div>
@@ -48,21 +63,21 @@ class FormActionButtons extends React.Component {
     return (
       <div>
         {this.props.children}
-        <div className="right">
-          <button className="usa-button-secondary button-link"
-            onClick={() => this.setState({ deleteInitiated: true })}>
-            <i className="fa fa-trash"></i> <span>Delete</span>
-          </button>
-        </div>
+        {this.renderDeleteAction()}
       </div>
     );
   }
 }
 
 FormActionButtons.propTypes = {
+  deleteEnabled: PropTypes.bool,
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+};
+
+FormActionButtons.defaultProps = {
+  deleteEnabled: true,
 };
 
 export default FormActionButtons;

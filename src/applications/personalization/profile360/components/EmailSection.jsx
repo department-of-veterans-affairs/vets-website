@@ -33,6 +33,7 @@ class EditEmailModal extends React.Component {
       field,
       clearErrors,
       onDelete,
+      emailData,
     } = this.props;
 
     return (
@@ -51,7 +52,7 @@ class EditEmailModal extends React.Component {
               field={{ value: field.value.emailAddress, dirty: false }}
               errorMessage={field.errorMessage}
               onValueChange={this.onChange}/>
-            <FormActionButtons onCancel={onCancel} onDelete={onDelete} title={title}>
+            <FormActionButtons onCancel={onCancel} onDelete={onDelete} title={title} deleteEnabled={!!(emailData && emailData.emailAddress)}>
               <LoadingButton isLoading={isLoading}>Update</LoadingButton>
               <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
             </FormActionButtons>
