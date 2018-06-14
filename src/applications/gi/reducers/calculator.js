@@ -55,47 +55,50 @@ export default function (state = INITIAL_STATE, action) {
         [field]: convertedValue,
       };
 
-      if (field === 'yellowRibbonDegreeLevel') {
-        const {
-          yellowRibbonPrograms
-        } = state;
+      if (__BUILDTYPE__ !== 'production') {
 
-        const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
-          [...new Set(yellowRibbonPrograms
-            .filter(program => program.degreeLevel === value)
-            .map(program => program.divisionProfessionalSchool))] :
-          [];
+        if (field === 'yellowRibbonDegreeLevel') {
+          const {
+            yellowRibbonPrograms
+          } = state;
 
-        const yellowRibbonAmount = yellowRibbonPrograms
-          .find(program =>
-            program.degreeLevel === value &&
-            program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0])
-          .contributionAmount;
+          const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
+            [...new Set(yellowRibbonPrograms
+              .filter(program => program.degreeLevel === value)
+              .map(program => program.divisionProfessionalSchool))] :
+            [];
 
-        newState = {
-          ...newState,
-          yellowRibbonDivisionOptions,
-          yellowRibbonDivision: { value: yellowRibbonDivisionOptions, label: yellowRibbonDivisionOptions },
-          yellowRibbonAmount
-        };
-      }
+          const yellowRibbonAmount = yellowRibbonPrograms
+            .find(program =>
+              program.degreeLevel === value &&
+              program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0])
+            .contributionAmount;
 
-      if (field === 'yellowRibbonDivision') {
-        const {
-          yellowRibbonDegreeLevel,
-          yellowRibbonPrograms
-        } = state;
+          newState = {
+            ...newState,
+            yellowRibbonDivisionOptions,
+            yellowRibbonDivision: { value: yellowRibbonDivisionOptions, label: yellowRibbonDivisionOptions },
+            yellowRibbonAmount
+          };
+        }
 
-        const yellowRibbonAmount = yellowRibbonPrograms
-          .find(program =>
-            program.degreeLevel === yellowRibbonDegreeLevel &&
-            program.divisionProfessionalSchool === value)
-          .contributionAmount;
+        if (field === 'yellowRibbonDivision') {
+          const {
+            yellowRibbonDegreeLevel,
+            yellowRibbonPrograms
+          } = state;
 
-        newState = {
-          ...newState,
-          yellowRibbonAmount
-        };
+          const yellowRibbonAmount = yellowRibbonPrograms
+            .find(program =>
+              program.degreeLevel === yellowRibbonDegreeLevel &&
+              program.divisionProfessionalSchool === value)
+            .contributionAmount;
+
+          newState = {
+            ...newState,
+            yellowRibbonAmount
+          };
+        }
       }
 
       if (field === 'inState') {

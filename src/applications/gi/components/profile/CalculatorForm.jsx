@@ -116,14 +116,81 @@ class CalculatorForm extends React.Component {
   }
 
   renderYellowRibbon() {
-    // if (__BUILDTYPE__ === 'production' || !this.props.displayedInputs.yellowRibbon) return null;
-    let {
-      yellowRibbonDegreeLevelOptions,
-      yellowRibbonDivisionOptions,
-    } = this.props.inputs;
+    if (!this.props.displayedInputs.yellowRibbon) return null;
 
-    yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions.map(value => ({ value, label: value }));
-    yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
+    if (__BUILDTYPE__ !== 'production') {
+      let {
+        yellowRibbonDegreeLevelOptions,
+        yellowRibbonDivisionOptions,
+      } = this.props.inputs;
+
+      yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions.map(value => ({ value, label: value }));
+      yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
+
+      return (
+        <div>
+          <RadioButtons
+            label={this.renderLearnMoreLabel({
+              text: 'Will you be a Yellow Ribbon recipient?',
+              modal: 'calcYr'
+            })}
+            name="yellowRibbonRecipient"
+            options={[
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' }
+            ]}
+            value={this.props.inputs.yellowRibbonRecipient}
+            onChange={this.handleInputChange}/>
+          { this.props.inputs.yellowRibbonRecipient === 'yes' ?
+            <div>
+              <Dropdown
+                label="Degree Level"
+                name={'yellowRibbonDegreeLevel'}
+                alt="Degree Level"
+                options={yellowRibbonDegreeLevelOptions}
+                visible
+                value={this.props.displayedInputs.yellowRibbonDegreeLevel}
+                onChange={this.handleInputChange}/>
+              <Dropdown
+                label="Division or school"
+                name={'yellowRibbonDivision'}
+                alt="Division or school"
+                options={yellowRibbonDivisionOptions}
+                visible
+                value={this.props.displayedInputs.yellowRibbonDivision}
+                onChange={this.handleInputChange}/>
+              <div>
+                <label htmlFor="yellowRibbonAmount">
+                  Yellow Ribbon amount from school per year
+                </label>
+                <input
+                  type="text"
+                  name="yellowRibbonAmount"
+                  value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
+                  onChange={this.handleInputChange}/>
+              </div>
+            </div>
+            : null }
+        </div>
+      );
+    }
+
+    let amountInput;
+
+    if (this.props.inputs.yellowRibbonRecipient === 'yes') {
+      amountInput = (
+        <div>
+          <label htmlFor="yellowRibbonAmount">
+            Yellow Ribbon Amount From School per year
+          </label>
+          <input
+            type="text"
+            name="yellowRibbonAmount"
+            value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
+            onChange={this.handleInputChange}/>
+        </div>
+      );
+    }
 
     return (
       <div>
@@ -139,36 +206,7 @@ class CalculatorForm extends React.Component {
           ]}
           value={this.props.inputs.yellowRibbonRecipient}
           onChange={this.handleInputChange}/>
-        { this.props.inputs.yellowRibbonRecipient === 'yes' ?
-          <div>
-            <Dropdown
-              label="Degree Level"
-              name={'yellowRibbonDegreeLevel'}
-              alt="Degree Level"
-              options={yellowRibbonDegreeLevelOptions}
-              visible
-              value={this.props.displayedInputs.yellowRibbonDegreeLevel}
-              onChange={this.handleInputChange}/>
-            <Dropdown
-              label="Division or school"
-              name={'yellowRibbonDivision'}
-              alt="Division or school"
-              options={yellowRibbonDivisionOptions}
-              visible
-              value={this.props.displayedInputs.yellowRibbonDivision}
-              onChange={this.handleInputChange}/>
-            <div>
-              <label htmlFor="yellowRibbonAmount">
-                Yellow Ribbon amount from school per year
-              </label>
-              <input
-                type="text"
-                name="yellowRibbonAmount"
-                value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
-                onChange={this.handleInputChange}/>
-            </div>
-          </div>
-          : null }
+        {amountInput}
       </div>
     );
   }
