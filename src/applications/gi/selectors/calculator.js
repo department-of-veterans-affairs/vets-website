@@ -789,24 +789,9 @@ export const getCalculatedBenefits = createSelector(
     const isOJT = institutionType === 'ojt';
 
     const {
-      yellowRibbonDegreeLevel,
       yellowRibbonDegreeLevelOptions,
-      yellowRibbonDivision,
       yellowRibbonDivisionOptions,
-      yellowRibbonPrograms
     } = form;
-
-    const yellowRibbonProgram = yellowRibbonPrograms
-      .filter(program => program.degreeLevel === yellowRibbonDegreeLevel)
-      .find(program => program.divisionProfessionalSchool === yellowRibbonDivision);
-
-    // if there's no matching program, then the options have updated and the inputs are invalid-
-    // use the contribution amount from the first program matching the degree if no matches found
-    const yellowRibbonAmount = yellowRibbonProgram ?
-      yellowRibbonProgram.contributionAmount :
-      yellowRibbonPrograms
-        .find(program => program.degreeLevel === yellowRibbonDegreeLevel)
-        .contributionAmount;
 
     calculatedBenefits.inputs = {
       inState: false,
@@ -821,7 +806,6 @@ export const getCalculatedBenefits = createSelector(
       working: false,
       kicker: true,
       buyUp: false,
-      yellowRibbonAmount,
       yellowRibbonDegreeLevelOptions: yellowRibbonDegreeLevelOptions.map(value => ({ value, label: value })),
       yellowRibbonDivisionOptions: yellowRibbonDivisionOptions.map(value => ({ value, label: value }))
     };
