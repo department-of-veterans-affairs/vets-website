@@ -4,7 +4,8 @@
 const chromedriver = require('chromedriver');
 const seleniumServer = require('selenium-server');
 
-require('babel-core/register');
+require('babel-register');
+require('babel-polyfill');
 
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
 

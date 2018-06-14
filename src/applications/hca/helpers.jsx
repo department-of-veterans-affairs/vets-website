@@ -7,7 +7,7 @@ import {
   filterViewFields,
   filterInactivePages,
   createFormPageList
-} from '../common/schemaform/helpers';
+} from 'us-forms-system/lib/js/helpers';
 import { getInactivePages } from '../../platform/forms/helpers';
 
 export function transform(formConfig, form) {
@@ -29,7 +29,16 @@ export function transform(formConfig, form) {
     return stringifyFormReplacer(key, value);
   }) || '{}';
 
+  let gaClientId;
+  try {
+    // eslint-disable-next-line no-undef
+    gaClientId = ga.getAll()[0].get('clientId');
+  } catch (e) {
+    // don't want to break submitting because of a weird GA issue
+  }
+
   return JSON.stringify({
+    gaClientId,
     asyncCompatible: __BUILDTYPE__ !== 'production',
     form: formData
   });

@@ -69,6 +69,7 @@ const getDerivedValues = createSelector(
     const numberOfDependents = +eligibility.numberOfDependents;
     const spouseActiveDuty = eligibility.spouseActiveDuty === 'yes';
     const serviceDischarge = cumulativeService === 'service discharge';
+    const purpleHeart = cumulativeService === 'purple heart';
 
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
@@ -86,7 +87,7 @@ const getDerivedValues = createSelector(
     const onlyVRE = (giBillChapter === 31 && eligForPostGiBill === 'no');
 
     // Determines benefits tier
-    const tier = (vre911Eligible || serviceDischarge) ? 1 : +cumulativeService;
+    const tier = (vre911Eligible || serviceDischarge || purpleHeart) ? 1 : +cumulativeService;
 
     const oldGiBill = (
       giBillChapter === 30

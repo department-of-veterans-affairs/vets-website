@@ -14,6 +14,13 @@ function getInput(input, uiSchema, schema) {
 
   if (typeof input !== 'object' && input) {
     const uiOptions = uiSchema['ui:options'];
+    // When using this field in an array item, editing the item will throw an error
+    //  if there uiOptions.label is undefined (as when we queryForResults), so we
+    //  have to have this safety valve
+    if (!uiOptions.labels) {
+      return input;
+    }
+
     if (uiOptions.labels[input]) {
       return uiOptions.labels[input];
     }
@@ -121,7 +128,7 @@ export default class AutosuggestField extends React.Component {
         }
       }
 
-      this.props.onChange(this.props.uiSchema['ui:options'].freeInput ? inputValue : item);
+      this.props.onChange((this.props.uiSchema['ui:options'].freeInput || this.useEnum) ? inputValue : item);
       this.setState({
         input: inputValue,
         suggestions: this.getSuggestions(this.state.options, inputValue)
@@ -160,10 +167,18 @@ export default class AutosuggestField extends React.Component {
     const id = idSchema.$id;
 
     if (formContext.reviewMode) {
+      const readOnlyData = <span>{getInput(formData, uiSchema, schema)}</span>;
+
+      // If this is an non-object field then the label will
+      // be included by ReviewFieldTemplate
+      if (schema.type !== 'object') {
+        return readOnlyData;
+      }
+
       return (
         <div className="review-row">
           <dt>{this.props.uiSchema['ui:title']}</dt>
-          <dd><span>{getInput(formData, uiSchema, schema)}</span></dd>
+          <dd>{readOnlyData}</dd>
         </div>
       );
     }
@@ -193,6 +208,7 @@ export default class AutosuggestField extends React.Component {
             <input {...getInputProps({
               id,
               name: id,
+              className: 'autosuggest-input',
               onBlur: isOpen ? undefined : this.handleBlur,
               onKeyDown: this.handleKeyDown
             })}/>

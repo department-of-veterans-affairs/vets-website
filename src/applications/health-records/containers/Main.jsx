@@ -214,7 +214,7 @@ export class Main extends React.Component {
         { label: 'Last year', value: '1yr' },
         {
           label: (
-            <div aria-live="assertive" className={customDateOptionClass}>
+            <span aria-live="assertive" className={customDateOptionClass}>
               {
                 invalidFormatError && <p className="date-range-error">
                   {validationErrorMessages.invalidFormatError}</p>
@@ -229,14 +229,13 @@ export class Main extends React.Component {
               }
               <span id="vets-custom-date-range">Custom date range</span>
               <span className="usa-sr-only">You will be asked to enter a start and end date in two digit month, two digit day, four digit year format below.</span>
-            </div>
+            </span>
           ),
           value: 'custom',
           content: (
             <div className="date-range-fields">
+              <label className="usa-sr-only" htmlFor="custom-date-start">Health record start date</label>
               <DatePicker
-                aria-label="Health record start date"
-                aria-describedby="vets-custom-date-range"
                 id="custom-date-start"
                 onBlur={handleFormattedDate()}
                 onChange={this.handleStartDateChange}
@@ -248,9 +247,8 @@ export class Main extends React.Component {
                 tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
                 className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
               <span>&nbsp;to&nbsp;</span>
+              <label className="usa-sr-only" htmlFor="custom-date-end">Health record end date</label>
               <DatePicker
-                aria-label="Health record end date"
-                aria-describedby="vets-custom-date-range"
                 id="custom-date-end"
                 onBlur={handleFormattedDate(false)}
                 onChange={this.handleEndDateChange}

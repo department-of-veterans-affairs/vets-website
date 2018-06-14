@@ -34,7 +34,6 @@ export default function (state = INITIAL_STATE, action) {
     case AUTOCOMPLETE_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
       const suggestions = camelPayload.data;
-
       const { searchTerm } = state;
       const shouldIncludeSearchTerm =
         searchTerm &&

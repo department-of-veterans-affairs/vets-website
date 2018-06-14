@@ -22,39 +22,22 @@ describe('526EZ veteran information', () => {
       uiSchema={uiSchema}/>
     );
 
-    expect(form.find('select').length).to.equal(3);
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('AsyncDisplayWidget').length).to.equal(1);
   });
 
-  it('should not submit without required info', () => {
+  it('should submit without validation errors', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
       formData={{}}
       data={{}}
-      uiSchema={uiSchema}/>
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error-message').length).to.equal(6);
-    expect(onSubmit.called).to.be.false;
-  });
-
-  it('should submit with valid data', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      formData={initialData}
-      data={initialData}
       onSubmit={onSubmit}
       uiSchema={uiSchema}/>
     );
 
-
     form.find('form').simulate('submit');
+
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
