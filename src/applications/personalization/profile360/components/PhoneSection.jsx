@@ -1,13 +1,14 @@
 import React from 'react';
-import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
-import HeadingWithEdit from './HeadingWithEdit';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
-import LoadingButton from './LoadingButton';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import Transaction from './Transaction';
 import { merge } from 'lodash';
+
+import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
+import Modal from '@department-of-veterans-affairs/formation/Modal';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+
+import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
+
 import Vet360ProfileField from '../containers/Vet360ProfileField';
+import LoadingButton from './LoadingButton';
 
 class EditPhoneModal extends React.Component {
 
@@ -89,48 +90,35 @@ class EditPhoneModal extends React.Component {
   }
 }
 
+function renderContent({ data: phoneData }) {
+  const phoneNumber = <PhoneNumberWidget value={[phoneData.areaCode, phoneData.phoneNumber].join('')}/>;
+  const countryCode = phoneData.countryCode && <span>+ {phoneData.countryCode}</span>;
+  const extension = phoneData.extension && <span>x{phoneData.extension}</span>;
+  return <div>{countryCode} {phoneNumber} {extension}</div>;
+}
 
-function PhoneSection({ data: phoneData, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
-  let content = null;
-  let modal = null;
-
-  if (transaction && !transaction.isPending && !transaction.isFailed) {
-    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="phone number"/>;
-  } else {
-    if (phoneData && phoneData.phoneNumber) {
-      const phoneNumber = <PhoneNumberWidget value={[phoneData.areaCode, phoneData.phoneNumber].join('')}/>;
-      const countryCode = phoneData.countryCode && <span>+ {phoneData.countryCode}</span>;
-      const extension = phoneData.extension && <span>x{phoneData.extension}</span>;
-      content = <div>{countryCode} {phoneNumber} {extension}</div>;
-    } else {
-      content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>;
-    }
-  }
-
-  if (isEditing) {
-    modal = (
-      <EditPhoneModal
-        title={`Edit ${title.toLowerCase()}`}
-        field={field}
-        error={transaction && transaction.error}
-        clearErrors={clearErrors}
-        onChange={onChange}
-        phoneData={phoneData}
-        onSubmit={onSubmit}
-        isLoading={transaction && transaction.isPending}
-        onCancel={onCancel}/>
-    );
-  }
-
+function renderEditModal({ data: phoneData, title, field, transaction, clearErrors, onChange, onSubmit, onCancel }) {
   return (
-    <div>
-      {modal}
-      <HeadingWithEdit onEditClick={phoneData && phoneData.phoneNumber && !transaction && onEdit}>{title}</HeadingWithEdit>
-      {content}
-    </div>
+    <EditPhoneModal
+      title={`Edit ${title.toLowerCase()}`}
+      field={field}
+      error={transaction && transaction.error}
+      clearErrors={clearErrors}
+      onChange={onChange}
+      phoneData={phoneData}
+      onSubmit={onSubmit}
+      isLoading={transaction && transaction.isPending}
+      onCancel={onCancel}/>
   );
 }
 
-export default function (props) {
-  return <Vet360ProfileField Component={PhoneSection} {...props}/>;
+export default function Vet360Phone({ title, fieldName, analyticsSectionName }) {
+  return (
+    <Vet360ProfileField
+      title={title}
+      fieldName={fieldName}
+      analyticsSectionName={analyticsSectionName}
+      renderContent={renderContent}
+      renderEditModal={renderEditModal}/>
+  );
 }

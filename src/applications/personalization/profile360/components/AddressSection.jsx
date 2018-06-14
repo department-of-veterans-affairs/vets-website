@@ -1,15 +1,13 @@
 import React from 'react';
-
 import { kebabCase } from 'lodash';
 
-import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import Address from './Address';
-import LoadingButton from './LoadingButton';
-import Transaction from './Transaction';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from '../../../../platform/forms/address/helpers';
+
 import Vet360ProfileField from '../containers/Vet360ProfileField';
+import Address from './Address';
+import LoadingButton from './LoadingButton';
 
 class EditAddressModal extends React.Component {
 
@@ -84,52 +82,38 @@ function AddressView({ address }) {
   );
 }
 
-function AddressSection({ data: addressData, addressConstants, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd,  onCancel, onSubmit }) {
-  let content = null;
-  let modal = null;
+function isEmpty({ data: addressData }) {
+  return isEmptyAddress(addressData);
+}
 
-  if (transaction && !transaction.isPending && !transaction.isFailed) {
-    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="address"/>;
-  } else {
-    if (!isEmptyAddress(addressData)) {
-      content = <AddressView address={addressData}/>;
-    } else {
-      content = (
-        <button
-          type="button"
-          onClick={onAdd}
-          className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>
-      );
-    }
-  }
+function renderContent({ data: addressData }) {
+  return <AddressView address={addressData}/>;
+}
 
-  if (isEditing) {
-    modal = (
-      <EditAddressModal
-        title="Edit address"
-        addressData={addressData}
-        addressConstants={addressConstants}
-        onChange={onChange}
-        field={field}
-        error={transaction && transaction.error}
-        clearErrors={clearErrors}
-        onSubmit={onSubmit}
-        isLoading={transaction && transaction.isPending}
-        onCancel={onCancel}/>
-    );
-  }
-
+function renderEditModal({ data: addressData, addressConstants, onChange, field, transaction, clearErrors, onSubmit, onCancel }) {
   return (
-    <div>
-      {modal}
-      <HeadingWithEdit
-        onEditClick={!isEmptyAddress(addressData) && onEdit}>{title}
-      </HeadingWithEdit>
-      {content}
-    </div>
+    <EditAddressModal
+      title="Edit address"
+      addressData={addressData}
+      addressConstants={addressConstants}
+      onChange={onChange}
+      field={field}
+      error={transaction && transaction.error}
+      clearErrors={clearErrors}
+      onSubmit={onSubmit}
+      isLoading={transaction && transaction.isPending}
+      onCancel={onCancel}/>
   );
 }
 
-export default function (props) {
-  return <Vet360ProfileField Component={AddressSection} {...props}/>;
+export default function Vet360Address({ title, fieldName, analyticsSectionName }) {
+  return (
+    <Vet360ProfileField
+      title={title}
+      fieldName={fieldName}
+      analyticsSectionName={analyticsSectionName}
+      renderContent={renderContent}
+      renderEditModal={renderEditModal}
+      isEmpty={isEmpty}/>
+  );
 }

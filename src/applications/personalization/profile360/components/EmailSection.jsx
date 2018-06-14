@@ -1,11 +1,11 @@
 import React from 'react';
+
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
-import HeadingWithEdit from './HeadingWithEdit';
-import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import Transaction from './Transaction';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
+
 import Vet360ProfileField from '../containers/Vet360ProfileField';
+import LoadingButton from './LoadingButton';
 
 class EditEmailModal extends React.Component {
 
@@ -59,45 +59,32 @@ class EditEmailModal extends React.Component {
   }
 }
 
+function renderContent({ data: emailData }) {
+  return <span>{emailData.emailAddress}</span>;
+}
 
-function EmailSection({ data: emailData, transaction, getTransactionStatus, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
-  let content = null;
-  let modal = null;
-
-  if (transaction && !transaction.isPending && !transaction.isFailed) {
-    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="email"/>;
-  } else {
-    if (emailData && emailData.emailAddress) {
-      content = emailData.emailAddress;
-    } else {
-      content = <button type="button" onClick={onAdd} className="va-button-link va-profile-btn">Please add your email address</button>;
-    }
-  }
-
-  if (isEditing) {
-    modal = (
-      <EditEmailModal
-        title="Edit email address"
-        emailData={emailData}
-        field={field}
-        error={transaction && transaction.error}
-        clearErrors={clearErrors}
-        onChange={onChange}
-        onSubmit={onSubmit}
-        isLoading={transaction && transaction.isPending}
-        onCancel={onCancel}/>
-    );
-  }
-
+function renderEditModal({ data: emailData, field, transaction, clearErrors, onChange, onSubmit, onCancel }) {
   return (
-    <div>
-      {modal}
-      <HeadingWithEdit onEditClick={emailData && emailData.emailAddress && !transaction && onEdit}>Email address</HeadingWithEdit>
-      <div>{content}</div>
-    </div>
+    <EditEmailModal
+      title="Edit email address"
+      emailData={emailData}
+      field={field}
+      error={transaction && transaction.error}
+      clearErrors={clearErrors}
+      onChange={onChange}
+      onSubmit={onSubmit}
+      isLoading={transaction && transaction.isPending}
+      onCancel={onCancel}/>
   );
 }
 
-export default function (props) {
-  return <Vet360ProfileField Component={EmailSection} {...props}/>;
+export default function Vet360Email({ title = 'email address', fieldName = 'email', analyticsSectionName = 'email' }) {
+  return (
+    <Vet360ProfileField
+      title={title}
+      fieldName={fieldName}
+      analyticsSectionName={analyticsSectionName}
+      renderContent={renderContent}
+      renderEditModal={renderEditModal}/>
+  );
 }
