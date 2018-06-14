@@ -79,6 +79,7 @@ class ContactInformationContent extends React.Component {
           onAdd={recordedAction('add-link', 'mailing-address', this.openModalHandler(FIELD_NAMES.MAILING_ADDRESS))}
           onSubmit={recordedAction('update-button', 'mailing-address', updateActions.updateMailingAddress)}
           onCancel={recordedAction('cancel-button', 'mailing-address', this.closeModal)}
+          onDelete={updateActions.deleteMailingAddress}
           addressConstants={addressConstants}/>
 
         <AddressSection
@@ -94,6 +95,7 @@ class ContactInformationContent extends React.Component {
           onAdd={recordedAction('add-link', 'residential-address', this.openModalHandler(FIELD_NAMES.RESIDENTIAL_ADDRESS))}
           onSubmit={recordedAction('update-button', 'residential-address', updateActions.updateResidentialAddress)}
           onCancel={recordedAction('cancel-button', 'residential-address', this.closeModal)}
+          onDelete={updateActions.deleteResidentialAddress}
           addressConstants={addressConstants}/>
 
         <PhoneSection

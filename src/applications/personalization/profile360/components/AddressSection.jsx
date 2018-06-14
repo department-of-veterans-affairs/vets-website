@@ -53,6 +53,7 @@ class EditAddressModal extends React.Component {
 
     const confirmDeleteAction = (e) => {
       e.preventDefault();
+      this.props.onDelete();
     };
 
     const alertContent = (
@@ -133,7 +134,7 @@ function AddressView({ address }) {
   );
 }
 
-export default function AddressSection({ addressData, addressConstants, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd,  onCancel, onSubmit }) {
+export default function AddressSection({ addressData, addressConstants, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd,  onCancel, onSubmit, onDelete }) {
   let content = null;
   let modal = null;
 
@@ -162,6 +163,7 @@ export default function AddressSection({ addressData, addressConstants, transact
         field={field}
         error={transaction && transaction.error}
         clearErrors={clearErrors}
+        onDelete={onDelete}
         onSubmit={onSubmit}
         isLoading={transaction && transaction.isPending}
         onCancel={onCancel}/>
