@@ -122,7 +122,7 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Will you be a Yellow Ribbon recipient?',
-            modal: 'calcYellowRibbon'
+            modal: 'calcYr'
           })}
           name="yellowRibbonRecipient"
           options={[
