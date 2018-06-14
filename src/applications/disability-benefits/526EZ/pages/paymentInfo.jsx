@@ -34,7 +34,7 @@ export const viewComponent = (response) => {
   let bankNameString;
   const mask = (string, unmaskedLength) => {
     const maskedString = srSubstitute(`${'●'.repeat(string.length - unmaskedLength)}`, 'ending with');
-    return <span>{maskedString}{string.slice(unmaskedLength * -1)}</span>;
+    return <span>{maskedString}{string.slice(-unmaskedLength)}</span>;
   };
 
   if (accountType !== NOBANK) {
