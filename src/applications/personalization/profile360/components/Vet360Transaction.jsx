@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   isPendingTransaction,
@@ -16,10 +17,17 @@ export default class Vet360Transaction extends React.Component {
       transaction
     } = this.props;
 
+    const hasError = transaction && isErroredTransaction(transaction);
+    const classes = classNames('vet360-profile-field-content', {
+      'usa-input-error': hasError
+    });
+
     return (
-      <div className="vet360-profile-field-content">
-        {transaction && isErroredTransaction(transaction) && (
-          <div className="vet360-profile-field-content-error">We couldn’t save your recent {title} update. Please try again later.</div>
+      <div className={classes}>
+        {hasError && (
+          <div className="vet360-profile-field-content-error usa-input-error-message">
+            We couldn’t save your recent {title} update. Please try again later.
+          </div>
         )}
         {transaction && isPendingTransaction(transaction) ? (
           <Vet360TransactionPending title={title} refreshTransaction={refreshTransaction}/>

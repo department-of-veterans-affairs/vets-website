@@ -118,4 +118,23 @@ export default {
       }
     };
   },
+  updateTransactionToFailure(transactionId, code = 'VET360_CORE100') {
+    return {
+      data: {
+        attributes: {
+          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.REJECTED,
+          transactionId,
+          type: 'AsyncTransaction::Vet360::MockedTransaction',
+          metadata: [
+            {
+              code,
+              key: '_CUF_NOT_FOUND',
+              severity: 'ERROR',
+              text: 'The tx for id/criteria XZY could not be found.'
+            }
+          ]
+        }
+      }
+    };
+  }
 };
