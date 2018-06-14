@@ -48,7 +48,7 @@ class Vet360TransactionReporter extends React.Component {
               key={transaction.data.attributes.transactionId}
               isVisible
               status="error"
-              onCloseAlert={clearTransaction.bind(null, transaction)}
+              onCloseAlert={this.props.clearTransaction.bind(null, transaction)}
               content={<h3>Failed transaction!</h3>}/>
           );
         })}

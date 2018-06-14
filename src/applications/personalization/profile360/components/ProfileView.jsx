@@ -1,5 +1,4 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import DowntimeNotification, { services, serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
@@ -96,7 +95,6 @@ class ProfileView extends React.Component {
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
-      message,
       profile: {
         hero,
         personalInformation,
@@ -116,7 +114,6 @@ class ProfileView extends React.Component {
           <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
             <div>
               <Vet360TransactionReporter/>
-              <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
               <ContactInformation {...this.props}/>
               <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>

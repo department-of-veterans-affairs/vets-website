@@ -7,7 +7,6 @@ import {
 } from '../../../../platform/monitoring/DowntimeNotification/actions';
 
 import {
-  clearMessage,
   fetchAddressConstants,
   fetchHero,
   fetchMilitaryInformation,
@@ -34,10 +33,6 @@ class VAProfileApp extends React.Component {
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
             fetchPersonalInformation={this.props.fetchPersonalInformation}
-            message={{
-              content: this.props.profile.message,
-              clear: this.props.clearMessage
-            }}
             downtimeData={{
               appTitle: 'profile',
               isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,
@@ -63,7 +58,6 @@ const mapDispatchToProps = {
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation,
-  clearMessage,
   initializeDowntimeWarnings,
   dismissDowntimeWarning
 };

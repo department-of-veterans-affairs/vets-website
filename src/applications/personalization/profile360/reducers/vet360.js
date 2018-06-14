@@ -4,9 +4,7 @@ import {
   VET360_TRANSACTION_REQUEST_FAILED,
   VET360_TRANSACTION_UPDATED,
   VET360_TRANSACTION_CLEARED,
-
-  // OPEN_MODAL,
-  // CLEAR_PROFILE_ERRORS
+  VET360_TRANSACTION_REQUEST_CLEARED
 } from '../actions';
 
 const initialState = {
@@ -83,15 +81,15 @@ export default function vet360(state = initialState, action) {
       };
     }
 
-    // @todo Are these two action types even necessary anymore now that errors are in transactions?
-    // case OPEN_MODAL: {
-    //   if (!action.modal) return state.transactions.filter(t => !t.isFailed);
-    //   return state;
-    // }
+    case VET360_TRANSACTION_REQUEST_CLEARED: {
+      const fieldTransactionMap = { ...state.fieldTransactionMap };
+      delete fieldTransactionMap[action.fieldName];
 
-    // case CLEAR_PROFILE_ERRORS: {
-    //   return state.transactions.filter(t => !t.isFailed);
-    // }
+      return {
+        ...state,
+        fieldTransactionMap
+      };
+    }
 
     default:
       return state;

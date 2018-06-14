@@ -8,13 +8,14 @@ import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
 import { isSuccessfulTransaction } from '../util/transactions';
 
+// @todo get rid of this now that it uses refreshProfile
 export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
 export const VET360_TRANSACTION_REQUESTED = 'VET360_TRANSACTION_REQUESTED';
 export const VET360_TRANSACTION_REQUEST_FAILED = 'VET360_TRANSACTION_REQUEST_FAILED';
 export const VET360_TRANSACTION_REQUEST_SUCCEEDED = 'VET360_TRANSACTION_REQUEST_SUCCEEDED';
+export const VET360_TRANSACTION_REQUEST_CLEARED = 'VET360_TRANSACTION_REQUEST_CLEARED';
 export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
-export const VET360_TRANSACTION_FINISHED = 'VET360_TRANSACTION_FINISHED';
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
 // function recordProfileTransaction(fieldName) {
@@ -56,6 +57,13 @@ export function clearTransaction(transaction) {
   return {
     type: VET360_TRANSACTION_CLEARED,
     transaction
+  };
+}
+
+export function clearTransactionRequest(fieldName) {
+  return {
+    type: VET360_TRANSACTION_REQUEST_CLEARED,
+    fieldName
   };
 }
 

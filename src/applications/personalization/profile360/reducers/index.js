@@ -10,8 +10,7 @@ import {
   // Miscellaneous actions
   VET360_TRANSACTION_REQUEST_SUCCEEDED,
   UPDATE_PROFILE_FORM_FIELD,
-  OPEN_MODAL,
-  CLEAR_MESSAGE
+  OPEN_MODAL
 } from '../actions';
 
 const initialState = {
@@ -25,27 +24,6 @@ const initialState = {
   message: null,
   transactions: {}
 };
-
-// @todo
-// Should transaction information be used to populate an array of generic messages? ----------
-
-// Option 1,
-// When VET360_TRANSACTION_UPDATED comes down the pipe, check if completed/errored and generate
-// messages based on that. Closing the message just removes that message from state and the transaction hangs around just in case.
-// But do we even need that transaction anymore?
-
-// Option 2.
-// Don't change the reducers. The error/success messaging should reflect the transactions directly, and closing
-// the messages should directly remove the transaction from state.
-// We would lose all reference to that transaction - is that okay?
-
-// Leaning towards Option 2.
-// When the message renders, it is always because the transaction is in a finished state, whether successful or errored.
-// Once cleared it makes sense to also give up our reference to the transaction.
-// This way we can also check for the transaction request information and clear it from there too if it exists.
-// If we do this, we can simplify the getTransactionStatus message because the component itself will check for the completed state
-// of the transaction and decide whether it's successful or errored.
-// Once the user closes the messaging, we can dispatch an action to remove the transaction.
 
 function vaProfile(state = initialState, action) {
   switch (action.type) {
@@ -79,9 +57,6 @@ function vaProfile(state = initialState, action) {
 
     case VET360_TRANSACTION_REQUEST_SUCCEEDED:
       return { ...state, modal: null };
-
-    case CLEAR_MESSAGE:
-      return { ...state, message: null };
 
     default:
       return state;

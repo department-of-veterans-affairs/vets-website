@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import * as VET360 from '../constants/vet360';
 
 import {
-  clearErrors,
+  clearTransactionRequest,
   refreshTransaction,
   updateFormField,
   openModal,
@@ -104,7 +104,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     clearErrors() {
-      dispatch(clearErrors);
+      dispatch(clearTransactionRequest(fieldName));
     },
 
     refreshTransaction(transaction) {
