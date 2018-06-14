@@ -119,12 +119,23 @@ export default function (state = INITIAL_STATE, action) {
     case FETCH_PROFILE_SUCCEEDED: {
       const camelPayload = camelCaseKeysRecursive(action.payload);
 
-      let yellowRibbonPrograms;
-      let yellowRibbonDegreeLevelOptions;
-      let yellowRibbonDivisionOptions;
-      let yellowRibbonAmount;
+      const {
+        tuitionInState,
+        tuitionOutOfState,
+        books,
+        calendar,
+        type,
+        yellowRibbonPrograms
+      } = camelPayload.data.attributes;
+
+      let yellowRibbonDegreeLevelOptions = [];
+      let yellowRibbonDivisionOptions = [];
+      let yellowRibbonDegreeLevel = '';
+      let yellowRibbonDivision = '';
+      let yellowRibbonAmount = 0;
 
       if (__BUILDTYPE__ !== 'production') {
+        /*
         yellowRibbonPrograms = [
           {
             divisionProfessionalSchool: 'division1',
@@ -145,27 +156,20 @@ export default function (state = INITIAL_STATE, action) {
             contributionAmount: 25
           }
         ];
+        */
 
-        yellowRibbonDegreeLevelOptions = yellowRibbonPrograms.length > 0 ?
-          [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))] :
-          [];
-        // first value of degree level is selected by default; only display division options associated with this degree level
-        yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
-          [...new Set(yellowRibbonPrograms
+        if (yellowRibbonPrograms.length > 0) {
+          yellowRibbonDegreeLevelOptions = [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))];
+          // first value of degree level is selected by default; only display division options associated with this degree level
+          yellowRibbonDivisionOptions = [...new Set(yellowRibbonPrograms
             .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
-            .map(program => program.divisionProfessionalSchool))] :
-          [];
+            .map(program => program.divisionProfessionalSchool))];
 
-        yellowRibbonAmount = yellowRibbonPrograms[0].contributionAmount;
+          yellowRibbonAmount = yellowRibbonPrograms[0].contributionAmount;
+          yellowRibbonDegreeLevel = yellowRibbonPrograms[0].degreeLevel;
+          yellowRibbonDivision = yellowRibbonPrograms[0].divisionProfessionalSchool;
+        }
       }
-
-      const {
-        tuitionInState,
-        tuitionOutOfState,
-        books,
-        calendar,
-        type,
-      } = camelPayload.data.attributes;
 
       return {
         ...INITIAL_STATE,
@@ -177,8 +181,8 @@ export default function (state = INITIAL_STATE, action) {
         books: books || 0,
         calendar: calendar || 'semesters',
         yellowRibbonAmount,
-        yellowRibbonDegreeLevel: yellowRibbonPrograms[0].degreeLevel,
-        yellowRibbonDivision: yellowRibbonPrograms[0].divisionProfessionalSchool,
+        yellowRibbonDegreeLevel,
+        yellowRibbonDivision,
         yellowRibbonDegreeLevelOptions,
         yellowRibbonDivisionOptions,
         yellowRibbonPrograms
