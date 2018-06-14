@@ -1,8 +1,5 @@
 /* eslint-disable no-case-declarations */
-import {
-  FETCH_PROFILE_STARTED,
-  FETCH_PROFILE_FAILED,
-  FETCH_PROFILE_SUCCEEDED } from '../actions';
+import { FETCH_PROFILE_STARTED, FETCH_PROFILE_FAILED, FETCH_PROFILE_SUCCEEDED } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
@@ -38,10 +35,9 @@ export default function (state = INITIAL_STATE, action) {
       };
     case FETCH_PROFILE_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
-
       const attributes = normalizedAttributes({
         ...camelPayload.data.attributes,
-        ...camelPayload.data.links,
+        ...camelPayload.data.links
       });
       // delete attributes.self;
       const version = camelPayload.meta.version;
@@ -49,7 +45,7 @@ export default function (state = INITIAL_STATE, action) {
         ...state,
         attributes,
         version,
-        inProgress: false,
+        inProgress: false
       };
     default:
       return state;
