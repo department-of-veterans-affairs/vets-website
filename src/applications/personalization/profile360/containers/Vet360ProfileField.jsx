@@ -4,16 +4,12 @@ import { connect } from 'react-redux';
 
 // import recordEvent from '../../../../platform/monitoring/record-event';
 
-import {
-  selectVet360Field,
-  selectVet360Transaction,
-  selectCurrentlyOpenEditModal,
-  selectEditedFormField
-} from '../selectors';
-
-import HeadingWithEdit from '../components/HeadingWithEdit';
-import Transaction from '../components/Transaction';
 import * as VET360 from '../constants/vet360';
+
+import {
+  isPendingTransaction,
+  isErroredTransaction
+} from '../util/transactions';
 
 import {
   clearErrors,
@@ -22,6 +18,57 @@ import {
   openModal,
   saveField
 } from '../actions';
+
+import {
+  selectVet360Field,
+  selectVet360Transaction,
+  selectCurrentlyOpenEditModal,
+  selectEditedFormField
+} from '../selectors';
+
+import HeadingWithEdit from '../components/HeadingWithEdit';
+
+// Transaction component should:
+// Render a "request pending" message if transactionRequest.isPending
+// Render a "request failed" message if transactionRequest.isFailed
+// Dispatches refreshProfile when a transaction status is changed from pending to a success state.
+// Render an error message if there is a transaction error. Also, render the children.
+// Removes the transaction & request from state when the user clears the corresponding messaging.
+// Render the children if there is no transaction or transaction request.
+
+class Vet360TransactionPending extends React.Component {
+  componentDidMount() {
+    this.interval = window.setInterval(this.props.refreshTransaction, 1000);
+  }
+  componentWillUnmount() {
+    window.clearInterval(this.interval);
+  }
+  render() {
+    return <div>We’re working on saving your new {this.props.title.toLowerCase()}. We’ll show it here once it’s saved.</div>;
+  }
+}
+
+class Vet360Transaction extends React.Component {
+  render() {
+    const {
+      children,
+      refreshTransaction,
+      title,
+      transaction
+    } = this.props;
+
+    return (
+      <div className="vet360-profile-field-content">
+        {transaction && isErroredTransaction(transaction) && (
+          <div className="vet360-profile-field-content-error">We couldn’t save your recent {title} update. Please try again later.</div>
+        )}
+        {transaction && isPendingTransaction(transaction) ? (
+          <Vet360TransactionPending title={title} refreshTransaction={refreshTransaction}/>
+        ) : children}
+      </div>
+    );
+  }
+}
 
 class Vet360ProfileField extends React.Component {
 
@@ -33,66 +80,35 @@ class Vet360ProfileField extends React.Component {
     return !this.isEmpty() && !this.props.transaction;
   }
 
-  renderEmptyState() {
-    return (
-      <button
-        type="button"
-        onClick={this.props.onAdd}
-        className="va-button-link va-profile-btn">
-        Please add your {this.props.title.toLowerCase()}
-      </button>
-    );
-  }
-
-  renderTransaction() {
-    return (
-      <Transaction
-        transaction={this.props.transaction}
-        getTransactionStatus={this.props.getTransactionStatus}
-        fieldType={this.props.title.toLowerCase()}/>
-    );
-  }
-
-  renderRequestProcessing() {
-    return <span>Processing your request...</span>;
-  }
-
-  renderRequestFailed() {
-    return <span>Request failed!</span>;
-  }
-
   render() {
     const {
+      getTransactionStatus: refreshTransaction,
       isEditing,
+      onAdd,
       onEdit,
       renderContent,
       renderEditModal,
       title,
-      transaction,
-      transactionRequest
+      transaction
     } = this.props;
-
-    let content = null;
-
-    if (transaction) {
-      content = this.renderTransaction();
-    } else if (transactionRequest) {
-      if (transactionRequest.isPending) {
-        content = this.renderRequestProcessing();
-      } else if (transactionRequest.isFailed) {
-        content = this.renderRequestFailed();
-      }
-    } else if (this.isEmpty()) {
-      content = this.renderEmptyState();
-    } else {
-      content = renderContent(this.props);
-    }
 
     return (
       <div className="vet360-profile-field">
         <HeadingWithEdit onEditClick={this.isEditLinKVisible() && onEdit}>{title}</HeadingWithEdit>
         {isEditing && renderEditModal(this.props)}
-        {content}
+        <Vet360Transaction
+          title={title}
+          transaction={transaction}
+          refreshTransaction={refreshTransaction.bind(this, transaction)}>
+          {this.isEmpty() ? (
+            <button
+              type="button"
+              onClick={onAdd}
+              className="va-button-link va-profile-btn">
+              Please add your {title.toLowerCase()}
+            </button>
+          ) : renderContent(this.props)}
+        </Vet360Transaction>
       </div>
     );
   }

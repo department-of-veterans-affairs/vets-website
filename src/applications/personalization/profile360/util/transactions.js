@@ -1,5 +1,9 @@
 import * as VET360 from '../constants/vet360';
 
+const PENDING_STATUSES = new Set([
+  VET360.TRANSACTION_STATUS.RECEIVED
+]);
+
 const SUCCESS_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS,
   VET360.TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED
@@ -29,6 +33,10 @@ const GENERIC_ERROR_CODES = new Set([
   'VET360_CORE501',
   'VET360_CORE502'
 ]);
+
+export function isPendingTransaction(transaction) {
+  return PENDING_STATUSES.has(transaction.data.attributes.transactionStatus);
+}
 
 export function isSuccessfulTransaction(transaction) {
   return SUCCESS_STATUSES.has(transaction.data.attributes.transactionStatus);
