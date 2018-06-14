@@ -49,7 +49,8 @@ export function isFailedTransaction(transaction) {
 }
 
 export function isErroredTransaction(transaction) {
-  return transaction.data.attributes.metadata.some(error => {
+  const { metadata } = transaction.data.attributes;
+  return metadata && metadata.some(error => {
     return GENERIC_ERROR_CODES.has(error.code);
   });
 }

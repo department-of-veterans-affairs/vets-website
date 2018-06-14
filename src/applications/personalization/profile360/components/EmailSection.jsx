@@ -6,6 +6,7 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation/Errora
 
 import Vet360ProfileField from '../containers/Vet360ProfileField';
 import LoadingButton from './LoadingButton';
+import FormActionButtons from './FormActionButtons';
 
 class EditEmailModal extends React.Component {
 
@@ -31,12 +32,14 @@ class EditEmailModal extends React.Component {
       onCancel,
       isLoading,
       field,
-      clearErrors
+      clearErrors,
+      onDelete,
+      emailData,
     } = this.props;
 
     return (
       <Modal id="profile-email-modal" onClose={onCancel} visible>
-        <h3>{title}</h3>
+        <h3>Edit {title}</h3>
         <AlertBox
           isVisible={!!this.props.error}
           status="error"
@@ -50,8 +53,10 @@ class EditEmailModal extends React.Component {
               field={{ value: field.value.emailAddress, dirty: false }}
               errorMessage={field.errorMessage}
               onValueChange={this.onChange}/>
-            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
-            <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
+            <FormActionButtons onCancel={onCancel} onDelete={onDelete} title={title} deleteEnabled={!!(emailData && emailData.emailAddress)}>
+              <LoadingButton isLoading={isLoading}>Update</LoadingButton>
+              <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
+            </FormActionButtons>
           </form>
         )}
       </Modal>
@@ -63,10 +68,10 @@ function renderContent({ data: emailData }) {
   return <span>{emailData.emailAddress}</span>;
 }
 
-function renderEditModal({ data: emailData, field, transactionRequest, clearErrors, onChange, onSubmit, onCancel }) {
+function renderEditModal({ data: emailData, field, transactionRequest, clearErrors, onChange, onSubmit, onCancel, onDelete }) {
   return (
     <EditEmailModal
-      title="Edit email address"
+      title="email address"
       emailData={emailData}
       field={field}
       error={transactionRequest && transactionRequest.error}
@@ -74,7 +79,8 @@ function renderEditModal({ data: emailData, field, transactionRequest, clearErro
       onChange={onChange}
       onSubmit={onSubmit}
       isLoading={transactionRequest && transactionRequest.isPending}
-      onCancel={onCancel}/>
+      onCancel={onCancel}
+      onDelete={onDelete}/>
   );
 }
 

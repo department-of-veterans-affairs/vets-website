@@ -24,7 +24,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     expect(form.find('input').length).to.equal(3);
   });
 
-  it('should add a VA facility', () => {
+  xit('should add a VA facility', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -55,7 +55,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should validate the treatmentCenterName', () => {
+  xit('should validate the treatmentCenterName', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

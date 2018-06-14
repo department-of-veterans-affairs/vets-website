@@ -8,6 +8,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import Vet360ProfileField from '../containers/Vet360ProfileField';
 import LoadingButton from './LoadingButton';
+import FormActionButtons from './FormActionButtons';
 
 class EditPhoneModal extends React.Component {
 
@@ -49,12 +50,14 @@ class EditPhoneModal extends React.Component {
       onCancel,
       isLoading,
       field,
-      clearErrors
+      clearErrors,
+      onDelete,
+      phoneData,
     } = this.props;
 
     return (
       <Modal id="profile-phone-modal" onClose={onCancel} visible>
-        <h3>{title}</h3>
+        <h3>Edit {title}</h3>
         <AlertBox
           isVisible={!!this.props.error}
           status="error"
@@ -80,8 +83,10 @@ class EditPhoneModal extends React.Component {
               field={{ value: field.value.extension, dirty: false }}
               onValueChange={this.onChange('extension')}/>
 
-            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
-            <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
+            <FormActionButtons onCancel={onCancel} onDelete={onDelete} title={title} deleteEnabled={!!(phoneData && phoneData.phoneNumber)}>
+              <LoadingButton isLoading={isLoading}>Update</LoadingButton>
+              <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
+            </FormActionButtons>
           </form>
         )}
       </Modal>
@@ -96,10 +101,10 @@ function renderContent({ data: phoneData }) {
   return <div>{countryCode} {phoneNumber} {extension}</div>;
 }
 
-function renderEditModal({ data: phoneData, title, field, transactionRequest, clearErrors, onChange, onSubmit, onCancel }) {
+function renderEditModal({ data: phoneData, title, field, transactionRequest, clearErrors, onChange, onDelete, onSubmit, onCancel }) {
   return (
     <EditPhoneModal
-      title={`Edit ${title.toLowerCase()}`}
+      title={title.toLowerCase()}
       field={field}
       error={transactionRequest && transactionRequest.error}
       clearErrors={clearErrors}
@@ -107,7 +112,8 @@ function renderEditModal({ data: phoneData, title, field, transactionRequest, cl
       phoneData={phoneData}
       onSubmit={onSubmit}
       isLoading={transactionRequest && transactionRequest.isPending}
-      onCancel={onCancel}/>
+      onCancel={onCancel}
+      onDelete={onDelete}/>
   );
 }
 

@@ -8,9 +8,9 @@ import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from
 import Vet360ProfileField from '../containers/Vet360ProfileField';
 import Address from './Address';
 import LoadingButton from './LoadingButton';
+import FormActionButtons from './FormActionButtons';
 
 class EditAddressModal extends React.Component {
-
   componentDidMount() {
     let defaultFieldValue = {};
     if (this.props.addressData) {
@@ -37,10 +37,19 @@ class EditAddressModal extends React.Component {
     this.props.onSubmit(expandAddress(this.props.field.value));
   }
 
+  renderActionButtons() {
+    return (
+      <FormActionButtons onCancel={this.props.onCancel} onDelete={this.props.onDelete} title={this.props.title} deleteEnabled={!isEmptyAddress(this.props.addressData)}>
+        <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
+        <button type="button" className="usa-button-secondary" onClick={this.props.onCancel}>Cancel</button>
+      </FormActionButtons>
+    );
+  }
+
   render() {
     return (
       <Modal id={kebabCase(this.props.title)} onClose={this.props.onCancel} visible>
-        <h3>{this.props.title}</h3>
+        <h3>Edit {this.props.title}</h3>
         <AlertBox
           isVisible={!!this.props.error}
           status="error"
@@ -56,8 +65,7 @@ class EditAddressModal extends React.Component {
               states={this.props.addressConstants.states}
               countries={this.props.addressConstants.countries}/>
           )}
-          <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
-          <button type="button" className="usa-button-secondary" onClick={this.props.onCancel}>Cancel</button>
+          {this.renderActionButtons()}
         </form>
       </Modal>
     );
@@ -90,10 +98,10 @@ function renderContent({ data: addressData }) {
   return <AddressView address={addressData}/>;
 }
 
-function renderEditModal({ data: addressData, addressConstants, onChange, field, transactionRequest, clearErrors, onSubmit, onCancel }) {
+function renderEditModal({ title, data: addressData, addressConstants, onChange, field, transactionRequest, clearErrors, onSubmit, onCancel, onDelete }) {
   return (
     <EditAddressModal
-      title="Edit address"
+      title={title}
       addressData={addressData}
       addressConstants={addressConstants}
       onChange={onChange}
@@ -102,7 +110,8 @@ function renderEditModal({ data: addressData, addressConstants, onChange, field,
       clearErrors={clearErrors}
       onSubmit={onSubmit}
       isLoading={transactionRequest && transactionRequest.isPending}
-      onCancel={onCancel}/>
+      onCancel={onCancel}
+      onDelete={onDelete}/>
   );
 }
 

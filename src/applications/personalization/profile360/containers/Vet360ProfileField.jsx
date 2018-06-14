@@ -11,7 +11,7 @@ import {
   refreshTransaction,
   updateFormField,
   openModal,
-  saveField
+  fieldUpdaters
 } from '../actions';
 
 import {
@@ -99,6 +99,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     // }
   };
 
+  const {
+    [fieldName]: {
+      update: updateField,
+      destroy: deleteField
+    }
+  } = fieldUpdaters;
+
+  const updateFormState = updateFormField[fieldName];
+
   const closeEditModal = () => dispatch(openModal(null));
   const openEditModal = () => dispatch(openModal(fieldName));
 
@@ -122,7 +131,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     onChange(...args) {
-      dispatch(updateFormField[fieldName](...args));
+      dispatch(updateFormState(...args));
+    },
+
+    onDelete(...args) {
+      captureEvent('delete-button');
+      dispatch(deleteField(...args));
     },
 
     onEdit() {
@@ -132,7 +146,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     onSubmit(...args) {
       captureEvent('update-button');
-      dispatch(saveField[fieldName](...args));
+      dispatch(updateField(...args));
     }
   };
 };
