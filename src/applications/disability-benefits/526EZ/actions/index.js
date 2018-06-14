@@ -99,8 +99,14 @@ export function checkITFRequest(dispatch, hasSavedForm) {
   );
 }
 
-const delay = (func, wait, args) => setTimeout(() => func(args), wait);
-const fakeITFRequest = (url, options, success) => delay(success, 1000, existingITFData);
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const fakeITFRequest = async (url, options, success) => {
+  await delay(1000);
+  const response = new Response();
+  response.data = existingITFData;
+  return success(response);
+};
 
 export function mockCheckITFRequest(dispatch, hasSavedForm) {
   return fakeITFRequest(
