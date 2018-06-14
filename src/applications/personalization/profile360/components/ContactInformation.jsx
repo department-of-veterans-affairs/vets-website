@@ -52,7 +52,9 @@ class ContactInformationContent extends React.Component {
           title="Fax number"
           fieldName={FIELD_NAMES.FAX_NUMBER}
           analyticsSectionName="fax-number"/>
-        <EmailSection fieldName={FIELD_NAMES.EMAIL} analyticsSectionName="email"/>
+        <EmailSection
+          fieldName={FIELD_NAMES.EMAIL}
+          analyticsSectionName="email"/>
       </div>
     );
   }
