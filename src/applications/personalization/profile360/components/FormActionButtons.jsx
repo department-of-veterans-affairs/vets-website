@@ -60,6 +60,7 @@ class FormActionButtons extends React.Component {
 }
 
 FormActionButtons.propTypes = {
+  title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };

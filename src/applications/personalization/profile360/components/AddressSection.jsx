@@ -40,7 +40,7 @@ class EditAddressModal extends React.Component {
 
   renderActionButtons() {
     return (
-      <FormActionButtons onCancel={this.props.onCancel} onDelete={this.props.onDelete}>
+      <FormActionButtons onCancel={this.props.onCancel} onDelete={this.props.onDelete} title={this.props.title}>
         <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
         <button type="button" className="usa-button-secondary" onClick={this.props.onCancel}>Cancel</button>
       </FormActionButtons>
