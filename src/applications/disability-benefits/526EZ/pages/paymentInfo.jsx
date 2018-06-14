@@ -8,12 +8,6 @@ import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
 import { srSubstitute } from '../helpers';
 
-export const accountLabels = {
-  CHECKING: 'Checking account',
-  SAVINGS: 'Savings account',
-  NOBANK: 'I don’t have a bank account'
-};
-
 const accountTitleLabels = {
   CHECKING: 'Checking Account',
   SAVINGS: 'Savings Account',
