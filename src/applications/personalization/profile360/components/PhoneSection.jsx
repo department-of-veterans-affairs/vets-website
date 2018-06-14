@@ -6,6 +6,7 @@ import Modal from '@department-of-veterans-affairs/formation/Modal';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Transaction from './Transaction';
+import FormActionButtons from './FormActionButtons';
 import { merge } from 'lodash';
 
 class EditPhoneModal extends React.Component {
@@ -48,12 +49,13 @@ class EditPhoneModal extends React.Component {
       onCancel,
       isLoading,
       field,
-      clearErrors
+      clearErrors,
+      onDelete,
     } = this.props;
 
     return (
       <Modal id="profile-phone-modal" onClose={onCancel} visible>
-        <h3>{title}</h3>
+        <h3>Edit {title}</h3>
         <AlertBox
           isVisible={!!this.props.error}
           status="error"
@@ -79,8 +81,10 @@ class EditPhoneModal extends React.Component {
               field={{ value: field.value.extension, dirty: false }}
               onValueChange={this.onChange('extension')}/>
 
-            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
-            <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
+            <FormActionButtons onCancel={onCancel} onDelete={onDelete} title={title}>
+              <LoadingButton isLoading={isLoading}>Update</LoadingButton>
+              <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
+            </FormActionButtons>
           </form>
         )}
       </Modal>
@@ -89,7 +93,7 @@ class EditPhoneModal extends React.Component {
 }
 
 
-export default function PhoneSection({ phoneData, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
+export default function PhoneSection({ phoneData, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit, onDelete }) {
   let content = null;
   let modal = null;
 
@@ -109,13 +113,14 @@ export default function PhoneSection({ phoneData, transaction, getTransactionSta
   if (isEditing) {
     modal = (
       <EditPhoneModal
-        title={`Edit ${title.toLowerCase()}`}
+        title={title.toLowerCase()}
         field={field}
         error={transaction && transaction.error}
         clearErrors={clearErrors}
         onChange={onChange}
         phoneData={phoneData}
         onSubmit={onSubmit}
+        onDelete={onDelete}
         isLoading={transaction && transaction.isPending}
         onCancel={onCancel}/>
     );

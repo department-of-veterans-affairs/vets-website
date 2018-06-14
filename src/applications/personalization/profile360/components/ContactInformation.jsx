@@ -110,6 +110,7 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'home-telephone', this.openModalHandler(FIELD_NAMES.HOME_PHONE))}
           onAdd={recordedAction('add-link', 'home-telephone', this.openModalHandler(FIELD_NAMES.HOME_PHONE))}
           onSubmit={recordedAction('update-button', 'home-telephone', updateActions.updateHomePhone)}
+          onDelete={updateActions.deleteHomePhone}
           onCancel={recordedAction('cancel-button', 'home-telephone', this.closeModal)}/>
 
         <PhoneSection
@@ -124,6 +125,7 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'mobile-telephone', this.openModalHandler(FIELD_NAMES.MOBILE_PHONE))}
           onAdd={recordedAction('add-link', 'mobile-telephone', this.openModalHandler(FIELD_NAMES.MOBILE_PHONE))}
           onSubmit={recordedAction('update-button', 'mobile-telephone', updateActions.updateMobilePhone)}
+          onDelete={updateActions.deleteMobilePhone}
           onCancel={recordedAction('cancel-button', 'mobile-telephone', this.closeModal)}/>
 
         <PhoneSection
@@ -138,6 +140,7 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'work-telephone', this.openModalHandler(FIELD_NAMES.WORK_PHONE))}
           onAdd={recordedAction('add-link', 'work-telephone', this.openModalHandler(FIELD_NAMES.WORK_PHONE))}
           onSubmit={recordedAction('update-button', 'work-telephone', updateActions.updateWorkPhone)}
+          onDelete={updateActions.deleteWorkPhone}
           onCancel={recordedAction('cancel-button', 'work-telephone', this.closeModal)}/>
 
         <PhoneSection
@@ -152,6 +155,7 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'fax-number', this.openModalHandler(FIELD_NAMES.FAX_NUMBER))}
           onAdd={recordedAction('add-link', 'fax-number', this.openModalHandler(FIELD_NAMES.FAX_NUMBER))}
           onSubmit={recordedAction('update-button', 'fax-number', updateActions.updateFaxNumber)}
+          onDelete={updateActions.deleteFaxNumber}
           onCancel={recordedAction('cancel-button', 'fax-number', this.closeModal)}/>
 
         <EmailSection
@@ -165,6 +169,7 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'email', this.openModalHandler(FIELD_NAMES.EMAIL))}
           onAdd={recordedAction('add-link', 'email', this.openModalHandler(FIELD_NAMES.EMAIL))}
           onSubmit={recordedAction('update-button', 'email', updateActions.updateEmailAddress)}
+          onDelete={updateActions.deleteEmailAddress}
           onCancel={recordedAction('cancel-button', 'email', this.closeModal)}/>
       </div>
     );
