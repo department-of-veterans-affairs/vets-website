@@ -1,6 +1,8 @@
 import React from 'react';
 import Raven from 'raven-js';
 
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+
 import { apiRequest } from '../../../../platform/utilities/api';
 import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
@@ -20,7 +22,7 @@ const accountTitleLabels = {
 
 const NOBANK = 'NOBANK';
 
-export const paymentInformationViewField = (response) => {
+export const viewComponent = (response) => {
   const {
     accountType,
     accountNumber,
@@ -69,6 +71,15 @@ export const paymentInformationViewField = (response) => {
   );
 };
 
+const failureComponent = () => (
+  <AlertBox
+    headline="We can’t seem to find your information"
+    content="That’s on us. Sorry about that."
+    status="error"
+    className="async-display-widget-alert-box"
+    isVisible/>
+);
+
 function fetchPaymentInformation() {
   return apiRequest('/ppiu/payment_information',
     {},
@@ -89,8 +100,8 @@ export const uiSchema = {
   'ui:widget': AsyncDisplayWidget,
   'ui:options': {
     callback: fetchPaymentInformation,
-    viewComponent: paymentInformationViewField,
-    failureComponent: () => <div>Woops</div>
+    viewComponent,
+    failureComponent
   }
 };
 
