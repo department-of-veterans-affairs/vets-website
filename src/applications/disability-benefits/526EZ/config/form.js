@@ -15,6 +15,7 @@ import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrestartMessage from '../components/PrestartMessage';
 
 import {
   uiSchema as veteranInfoUiSchema,
@@ -56,6 +57,7 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
+  descriptionWrapper,
   // releaseView, // Where was this used before?
   disabilityOption,
   GetFormHelp,
@@ -63,7 +65,9 @@ import {
   FDCWarning,
   noFDCWarning,
   queryForFacilities,
-  getEvidenceTypesDescription
+  getEvidenceTypesDescription,
+  releaseDescription,
+  selectDisabilityDescription
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -75,17 +79,11 @@ const {
   privateRecordReleases,
   serviceInformation,
   standardClaim,
-  veteran: {
-    properties: {
-      homelessness
-    }
-  }
 } = fullSchema526EZ.properties;
 
 const {
   date,
   fullName,
-  phone,
   // files
   dateRange,
   dateRangeFromRequired,
@@ -125,8 +123,8 @@ const initialData = {
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
-  // submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submitUrl: `${environment.API_URL}/v0/21-526EZ`,
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
@@ -146,7 +144,6 @@ const formConfig = {
   defaultDefinitions: {
     date,
     fullName,
-    phone,
     // files
     dateRange,
     dateRangeFromRequired,
@@ -181,6 +178,7 @@ const formConfig = {
           path: 'review-veteran-details/military-service-history',
           initialData,
           uiSchema: {
+            'ui:description': PrestartMessage,
             servicePeriods: {
               'ui:title': 'Military service history',
               'ui:description':
@@ -233,6 +231,7 @@ const formConfig = {
           title: 'Special Circumstances',
           path: 'special-circumstances',
           uiSchema: {
+            'ui:description': PrestartMessage,
             veteran: {
               'ui:title': 'Homelessness',
               homelessness: {
@@ -251,28 +250,25 @@ const formConfig = {
                       pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
                     },
                     'ui:required': (formData) => {
-                      const { homelessness: homelessOrAtRisk } = formData.veteran;
-                      if (homelessOrAtRisk.isHomeless !== true) {
+                      const { homelessness } = formData.veteran;
+                      if (homelessness.isHomeless !== true) {
                         return false;
                       }
-                      return !!homelessOrAtRisk.pointOfContact.primaryPhone;
+                      return !!homelessness.pointOfContact.primaryPhone;
                     }
                   },
                   primaryPhone: {
                     'ui:title': 'Phone number',
                     'ui:widget': PhoneNumberWidget,
-                    'ui:options': {
-                      widgetClassNames: 'va-input-medium-large'
-                    },
                     'ui:errorMessages': {
                       pattern: 'Phone numbers must be 10 digits (dashes allowed)'
                     },
                     'ui:required': (formData) => {
-                      const { homelessness: homelessOrAtRisk } = formData.veteran;
-                      if (homelessOrAtRisk.isHomeless !== true) {
+                      const { homelessness } = formData.veteran;
+                      if (homelessness.isHomeless !== true) {
                         return false;
                       }
-                      return !!homelessOrAtRisk.pointOfContact.pointOfContactName;
+                      return !!homelessness.pointOfContact.pointOfContactName;
                     }
                   }
                 }
@@ -285,7 +281,31 @@ const formConfig = {
               veteran: {
                 type: 'object',
                 properties: {
-                  homelessness
+                  // TODO: Update to use 526 homelessness schema once in vets-json-schema
+                  homelessness: {
+                    type: 'object',
+                    required: ['isHomeless'],
+                    properties: {
+                      isHomeless: {
+                        type: 'boolean'
+                      },
+                      pointOfContact: {
+                        type: 'object',
+                        properties: {
+                          pointOfContactName: {
+                            type: 'string',
+                            minLength: 1,
+                            maxLength: 100,
+                            pattern: '^([a-zA-Z0-9-/]+( ?))*$'
+                          },
+                          primaryPhone: { // common: definitions.usaPhone
+                            type: 'string',
+                            pattern: '^\\d{10}$'
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -305,7 +325,9 @@ const formConfig = {
           title: 'Your Rated Disabilities',
           path: 'select-disabilities',
           uiSchema: {
-            'ui:description': 'Below are your rated disabilities. Please choose the disability that you’re filing for an increase because the condition has gotten worse.',
+            'ui:description': ({ formData, formContext }) => {
+              return descriptionWrapper(formData, formContext, PrestartMessage, selectDisabilityDescription);
+            },
             disabilities: {
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
@@ -340,7 +362,9 @@ const formConfig = {
           path: 'supporting-evidence/orientation',
           initialData,
           uiSchema: {
-            'ui:description': supportingEvidenceOrientation
+            'ui:description': ({ formData, formContext }) => {
+              return descriptionWrapper(formData, formContext, PrestartMessage, supportingEvidenceOrientation);
+            }
           },
           schema: {
             type: 'object',
@@ -357,6 +381,7 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
+                'ui:description': PrestartMessage,
                 'view:selectableEvidenceTypes': {
                   'ui:options': {
                     // Only way to get access to the disability info like 'name' within this nested schema
@@ -426,7 +451,9 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': vaMedicalRecordsIntro,
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, vaMedicalRecordsIntro);
+                }
               }
             }
           },
@@ -454,7 +481,9 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': facilityDescription,
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, facilityDescription);
+                },
                 treatments: {
                   'ui:options': {
                     itemName: 'Facility',
@@ -477,8 +506,8 @@ const formConfig = {
                       }
                     ),
                     treatmentDateRange: dateRangeUI(
-                      'Date of first treatment (This date doesn’t have to be exact.)',
-                      'Date of last treatment (This date doesn’t have to be exact.)',
+                      'Approximate date of first treatment',
+                      'Approximate date of last treatment',
                       'Date of last treatment must be after date of first treatment'
                     ),
                     // TODO: Put these back as hidden in the UI once typeahead fills this out
@@ -515,7 +544,9 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': privateMedicalRecordsIntro
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, privateMedicalRecordsIntro);
+                }
               }
             }
           },
@@ -543,14 +574,16 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': privateRecordsChoice,
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, privateRecordsChoice);
+                },
                 'view:uploadPrivateRecords': {
                   'ui:title': 'Do you want to upload your private medical records?',
                   'ui:widget': 'radio',
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, my doctor has my medical records'
+                      no: 'No, my doctor has my medical records.'
                     }
                   }
                 },
@@ -609,7 +642,9 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:description': authorizationToDisclose
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, authorizationToDisclose);
+                }
               }
             }
           },
@@ -642,7 +677,9 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, releaseDescription);
+                },
                 privateRecordReleases: {
                   'ui:options': {
                     itemName: 'Private Medical Record Release',
@@ -731,7 +768,7 @@ const formConfig = {
                   }
                 }
               }
-            },
+            }
           }
         },
         recordUpload: {
@@ -771,7 +808,9 @@ const formConfig = {
                       'ui:title': 'Document name'
                     }
                   }),
-                  { 'ui:description': documentDescription }
+                  { 'ui:description': ({ formData, formContext }) => {
+                    return descriptionWrapper(formData, formContext, PrestartMessage, documentDescription);
+                  } }
                 )
               }
             }
@@ -842,7 +881,9 @@ const formConfig = {
                       'ui:title': 'Document name'
                     }
                   }),
-                  { 'ui:description': additionalDocumentDescription }
+                  { 'ui:description': ({ formData, formContext }) => {
+                    return descriptionWrapper(formData, formContext, PrestartMessage, additionalDocumentDescription);
+                  } }
                 )
               }
             }
@@ -890,7 +931,9 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': 'Summary of evidence',
-                'ui:description': evidenceSummaryView
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, evidenceSummaryView);
+                }
               }
             }
           },
@@ -916,7 +959,9 @@ const formConfig = {
           title: 'Fully developed claim program',
           path: 'additional-information/fdc',
           uiSchema: {
-            'ui:description': FDCDescription,
+            'ui:description': ({ formData, formContext }) => {
+              return descriptionWrapper(formData, formContext, PrestartMessage, FDCDescription);
+            },
             standardClaim: {
               'ui:title':
                 'Do you want to apply using the Fully Developed Claim program?',
