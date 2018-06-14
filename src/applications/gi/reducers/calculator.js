@@ -134,29 +134,6 @@ export default function (state = INITIAL_STATE, action) {
       let yellowRibbonDivision = '';
       let yellowRibbonAmount = 0;
 
-      /*
-      const yellowRibbonPrograms = [
-          {
-            divisionProfessionalSchool: 'division1',
-            numberOfStudents: 5,
-            degreeLevel: 'graduate',
-            contributionAmount: 5000
-          },
-          {
-            divisionProfessionalSchool: 'division2',
-            numberOfStudents: 3000,
-            degreeLevel: 'undergraduate',
-            contributionAmount: 5
-          },
-          {
-            divisionProfessionalSchool: 'division3',
-            numberOfStudents: 20,
-            degreeLevel: 'undergraduate',
-            contributionAmount: 25
-          }
-        ];
-        */
-
       if (__BUILDTYPE__ !== 'production') {
 
         if (yellowRibbonPrograms.length > 0) {
