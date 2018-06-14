@@ -25,7 +25,7 @@ export default class Vet360Transaction extends React.Component {
     return (
       <div className={classes}>
         {hasError && (
-          <div className="vet360-profile-field-content-error usa-input-error-message">
+          <div className="usa-input-error-message">
             We couldn’t save your recent {title} update. Please try again later.
           </div>
         )}
