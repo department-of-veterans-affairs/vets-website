@@ -8,7 +8,7 @@ import * as VET360 from '../constants/vet360';
 
 import {
   clearErrors,
-  getTransactionStatus,
+  refreshTransaction,
   updateFormField,
   openModal,
   saveField
@@ -36,7 +36,6 @@ class Vet360ProfileField extends React.Component {
 
   render() {
     const {
-      getTransactionStatus: refreshTransaction,
       isEditing,
       onAdd,
       onEdit,
@@ -53,7 +52,7 @@ class Vet360ProfileField extends React.Component {
         <Vet360Transaction
           title={title}
           transaction={transaction}
-          refreshTransaction={refreshTransaction.bind(this, transaction)}>
+          refreshTransaction={this.props.refreshTransaction.bind(this, transaction)}>
           {this.isEmpty() ? (
             <button
               type="button"
@@ -108,8 +107,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(clearErrors);
     },
 
-    getTransactionStatus(transaction) {
-      dispatch(getTransactionStatus(transaction, fieldName));
+    refreshTransaction(transaction) {
+      dispatch(refreshTransaction(transaction, fieldName));
     },
 
     onAdd() {

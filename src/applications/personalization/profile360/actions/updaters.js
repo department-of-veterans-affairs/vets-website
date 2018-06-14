@@ -31,7 +31,7 @@ export const VET360_TRANSACTION_FINISHED = 'VET360_TRANSACTION_FINISHED';
 //   }
 // }
 
-export function getTransactionStatus(transaction, fieldName) {
+export function refreshTransaction(transaction, fieldName) {
   return async (dispatch) => {
     try {
       const { transactionId } = transaction.data.attributes;
@@ -42,6 +42,8 @@ export function getTransactionStatus(transaction, fieldName) {
         transaction: transactionRefreshed,
         fieldName
       });
+
+      // @todo Move this code into the Transaction component.
 
       // Check to see if the transaction is finished
       if (isSuccessfulTransaction(transactionRefreshed)) {
