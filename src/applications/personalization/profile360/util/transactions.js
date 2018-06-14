@@ -11,7 +11,7 @@ const SUCCESS_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED
 ]);
 
-const ERROR_STATUSES = new Set([
+const FAILURE_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.COMPLETED_FAILURE,
   VET360.TRANSACTION_STATUS.REJECTED
 ]);
@@ -44,11 +44,11 @@ export function isSuccessfulTransaction(transaction) {
   return SUCCESS_STATUSES.has(transaction.data.attributes.transactionStatus);
 }
 
-export function isErroredTransaction(transaction) {
-  return ERROR_STATUSES.has(transaction.data.attributes.transactionStatus);
+export function isFailedTransaction(transaction) {
+  return FAILURE_STATUSES.has(transaction.data.attributes.transactionStatus);
 }
 
-export function isGenericErroredTransaction(transaction) {
+export function isErroredTransaction(transaction) {
   return transaction.data.attributes.metadata.some(error => {
     return GENERIC_ERROR_CODES.has(error.code);
   });
