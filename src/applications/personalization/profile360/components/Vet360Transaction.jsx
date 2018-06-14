@@ -26,7 +26,7 @@ export default class Vet360Transaction extends React.Component {
       <div className={classes}>
         {hasError && (
           <div className="usa-input-error-message">
-            We couldn’t save your recent {title} update. Please try again later.
+            We couldn’t save your recent {title.toLowerCase()} update. Please try again later.
           </div>
         )}
         {transaction && isPendingTransaction(transaction) ? (
