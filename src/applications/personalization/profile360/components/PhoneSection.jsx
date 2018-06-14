@@ -96,17 +96,17 @@ function renderContent({ data: phoneData }) {
   return <div>{countryCode} {phoneNumber} {extension}</div>;
 }
 
-function renderEditModal({ data: phoneData, title, field, transaction, clearErrors, onChange, onSubmit, onCancel }) {
+function renderEditModal({ data: phoneData, title, field, transactionRequest, clearErrors, onChange, onSubmit, onCancel }) {
   return (
     <EditPhoneModal
       title={`Edit ${title.toLowerCase()}`}
       field={field}
-      error={transaction && transaction.error}
+      error={transactionRequest && transactionRequest.error}
       clearErrors={clearErrors}
       onChange={onChange}
       phoneData={phoneData}
       onSubmit={onSubmit}
-      isLoading={transaction && transaction.isPending}
+      isLoading={transactionRequest && transactionRequest.isPending}
       onCancel={onCancel}/>
   );
 }

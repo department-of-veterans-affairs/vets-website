@@ -63,17 +63,17 @@ function renderContent({ data: emailData }) {
   return <span>{emailData.emailAddress}</span>;
 }
 
-function renderEditModal({ data: emailData, field, transaction, clearErrors, onChange, onSubmit, onCancel }) {
+function renderEditModal({ data: emailData, field, transactionRequest, clearErrors, onChange, onSubmit, onCancel }) {
   return (
     <EditEmailModal
       title="Edit email address"
       emailData={emailData}
       field={field}
-      error={transaction && transaction.error}
+      error={transactionRequest && transactionRequest.error}
       clearErrors={clearErrors}
       onChange={onChange}
       onSubmit={onSubmit}
-      isLoading={transaction && transaction.isPending}
+      isLoading={transactionRequest && transactionRequest.isPending}
       onCancel={onCancel}/>
   );
 }

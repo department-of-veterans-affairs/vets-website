@@ -90,7 +90,7 @@ function renderContent({ data: addressData }) {
   return <AddressView address={addressData}/>;
 }
 
-function renderEditModal({ data: addressData, addressConstants, onChange, field, transaction, clearErrors, onSubmit, onCancel }) {
+function renderEditModal({ data: addressData, addressConstants, onChange, field, transactionRequest, clearErrors, onSubmit, onCancel }) {
   return (
     <EditAddressModal
       title="Edit address"
@@ -98,10 +98,10 @@ function renderEditModal({ data: addressData, addressConstants, onChange, field,
       addressConstants={addressConstants}
       onChange={onChange}
       field={field}
-      error={transaction && transaction.error}
+      error={transactionRequest && transactionRequest.error}
       clearErrors={clearErrors}
       onSubmit={onSubmit}
-      isLoading={transaction && transaction.isPending}
+      isLoading={transactionRequest && transactionRequest.isPending}
       onCancel={onCancel}/>
   );
 }
