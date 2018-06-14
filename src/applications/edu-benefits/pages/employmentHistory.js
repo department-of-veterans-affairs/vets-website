@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import nonMilitaryJobsUi from '../../common/schemaform/definitions/nonMilitaryJobs';
+import nonMilitaryJobsUi from '../../../platform/forms/definitions/nonMilitaryJobs';
 
 export default function employmentHistoryPage(schema, usePostMilitaryJob = true) {
   let nonMilitaryJobs = schema.definitions.nonMilitaryJobs;
