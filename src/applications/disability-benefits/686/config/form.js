@@ -2,21 +2,21 @@ import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 import moment from 'moment';
 
-import ArrayCountWidget from '../../../common/schemaform/widgets/ArrayCountWidget';
+import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
-import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
-import ssnUI from '../../../common/schemaform/definitions/ssn';
-import * as address from '../../../common/schemaform/definitions/address';
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import * as address from 'us-forms-system/lib/js/definitions/address';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
-import applicantDescription from '../../../common/schemaform/components/ApplicantDescription';
+import applicantDescription from '../../../../platform/forms/components/ApplicantDescription';
 import {
   getSpouseMarriageTitle,
   dependentsMinItem,
@@ -132,9 +132,22 @@ const formConfig = {
           path: 'applicant-information',
           uiSchema: {
             'ui:description': applicantDescription,
-            claimantFullName: fullNameUI,
+            claimantFullName: _.merge(fullNameUI, {
+              first: {
+                'ui:title': 'Your first name'
+              },
+              middle: {
+                'ui:title': 'Your middle name'
+              },
+              last: {
+                'ui:title': 'Your last name'
+              },
+              suffix: {
+                'ui:title': 'Your suffix'
+              }
+            }),
             'view:relationshipToVet': {
-              'ui:title': 'Relationship to Veteran',
+              'ui:title': 'Your relationship to the Veteran',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
