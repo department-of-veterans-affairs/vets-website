@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import schemaDefinitions from 'vets-json-schema/dist/definitions.json';
 
-import { validateMatch } from '../../common/schemaform/validation';
+import { validateMatch } from 'us-forms-system/lib/js/validation';
 
 import {
   preferredContactMethodLabels
@@ -12,8 +12,8 @@ const {
   preferredContactMethod
 } = schemaDefinitions;
 
-import phoneUI from '../../common/schemaform/definitions/phone';
-import * as address from '../../common/schemaform/definitions/address';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import * as address from 'us-forms-system/lib/js/definitions/address';
 
 export default function createContactInformationPage(schema, addressField = 'veteranAddress') {
   const { homePhone, mobilePhone } = schema.properties;
