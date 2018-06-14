@@ -13,7 +13,7 @@ export default class Transaction extends React.Component {
   onInterval = () => {
     /* eslint-disable no-console */
     console.log(this.props.transaction);
-    if (this.getCurrentTransactionStatus() !== TRANSACTION_STATUS.COMPLETED_SUCCESS) {
+    if (this.props.transaction && this.getCurrentTransactionStatus() !== TRANSACTION_STATUS.COMPLETED_SUCCESS) {
       this.props.getTransactionStatus(this.props.transaction);
     }
   }
@@ -24,6 +24,10 @@ export default class Transaction extends React.Component {
   }
 
   render() {
+    if (!this.props.transaction) {
+      return this.props.children;
+    }
+
     const transactionStatus = this.getCurrentTransactionStatus();
     let content = null;
 

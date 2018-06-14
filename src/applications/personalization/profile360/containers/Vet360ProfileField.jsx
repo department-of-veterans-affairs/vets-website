@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import {
+  selectVet360Field,
+  selectVet360Transaction,
+  selectCurrentlyOpenEditModal,
+  selectEditedFormField
+} from '../selectors';
+
 // import recordEvent from '../../../../platform/monitoring/record-event';
 import HeadingWithEdit from '../components/HeadingWithEdit';
 import Transaction from '../components/Transaction';
@@ -53,17 +60,12 @@ class Vet360ProfileField extends React.Component {
     return <span>Request failed!</span>;
   }
 
-  renderEditModal() {
-    const EditModal = this.props.renderEditModal;
-    if (!EditModal) throw new Error('Missing prop: renderEditModal');
-
-    return <EditModal {...this.props}/>;
-  }
-
   render() {
     const {
       isEditing,
       onEdit,
+      renderContent,
+      renderEditModal,
       title,
       transaction,
       transactionRequest
@@ -82,13 +84,13 @@ class Vet360ProfileField extends React.Component {
     } else if (this.isEmpty()) {
       content = this.renderEmptyState();
     } else {
-      content = this.props.renderContent(this.props);
+      content = renderContent(this.props);
     }
 
     return (
       <div className="vet360-profile-field">
         <HeadingWithEdit onEditClick={this.isEditLinKVisible() && onEdit}>{title}</HeadingWithEdit>
-        {isEditing && this.renderEditModal()}
+        {isEditing && renderEditModal(this.props)}
         {content}
       </div>
     );
@@ -97,40 +99,14 @@ class Vet360ProfileField extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
-  const {
-    user: {
-      profile: {
-        vet360: {
-          [fieldName]: existingFieldData
-        }
-      }
-    },
-    vaProfile: {
-      modal: currentlyOpenEditModal,
-      formFields: {
-        [fieldName]: existingFieldValue
-      }
-    },
-
-    vet360: {
-      transactions,
-      fieldTransactionMap
-    }
-  } = state;
-
-  const fieldTransactionData = fieldTransactionMap[fieldName];
-  let transaction = null;
-
-  if (fieldTransactionData && fieldTransactionData.transactionId) {
-    transaction = transactions.find(t => t.data.attributes.transactionId === fieldTransactionData.transactionId);
-  }
+  const { transaction, transactionRequest } = selectVet360Transaction(state, fieldName);
 
   return {
-    data: existingFieldData,
-    field: existingFieldValue,
-    isEditing: currentlyOpenEditModal === fieldName,
+    data: selectVet360Field(state, fieldName),
+    field: selectEditedFormField(state, fieldName),
+    isEditing: selectCurrentlyOpenEditModal(state) === fieldName,
     transaction,
-    transactionRequest: fieldTransactionData
+    transactionRequest
   };
 };
 
