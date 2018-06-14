@@ -13,7 +13,7 @@ import EducationPeriodView from '../components/EducationPeriodView';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import yearUI from '../../../common/schemaform/definitions/year';
+import yearUI from 'us-forms-system/lib/js/definitions/year';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
