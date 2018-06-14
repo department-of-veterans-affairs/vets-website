@@ -7,6 +7,7 @@ import {
 } from '../../../../platform/monitoring/DowntimeNotification/actions';
 
 import {
+  fetchTransactions,
   fetchAddressConstants,
   fetchHero,
   fetchMilitaryInformation,
@@ -17,6 +18,9 @@ import RequiredLoginView from '../../../../platform/user/authorization/component
 import ProfileView from '../components/ProfileView';
 
 class VAProfileApp extends React.Component {
+  componentDidMount() {
+    this.props.fetchTransactions();
+  }
   render() {
     return (
       <div>
@@ -54,6 +58,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  fetchTransactions,
   fetchAddressConstants,
   fetchHero,
   fetchMilitaryInformation,

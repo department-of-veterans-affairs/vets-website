@@ -1,4 +1,5 @@
 import {
+  VET360_TRANSACTIONS_FETCH_SUCCESS,
   VET360_TRANSACTION_REQUESTED,
   VET360_TRANSACTION_REQUEST_SUCCEEDED,
   VET360_TRANSACTION_REQUEST_FAILED,
@@ -14,6 +15,17 @@ const initialState = {
 
 export default function vet360(state = initialState, action) {
   switch (action.type) {
+
+    case VET360_TRANSACTIONS_FETCH_SUCCESS: {
+      const transactions = action.data.map((transactionData) => {
+        // Wrap in a "data" property to imitate the API response for a single transaction
+        return { data: transactionData };
+      });
+      return {
+        ...state,
+        transactions
+      };
+    }
 
     case VET360_TRANSACTION_REQUESTED:
       return {
