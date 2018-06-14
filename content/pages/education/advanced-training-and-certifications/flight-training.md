@@ -19,7 +19,7 @@ Want to become a pilot? Find out how your VA education benefits can help pay for
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get benefits for flight training if you meet the requirements listed below.<br>
+You can get benefits for flight training if you meet the requirements listed below.
 
 <br>
 
