@@ -3,15 +3,15 @@ import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
 import { scrollToFirstError, focusElement } from '../../../platform/utilities/ui';
-import { setArrayRecordTouched } from '../../common/schemaform/helpers';
-import currencyUI from '../../common/schemaform/definitions/currency';
+import { setArrayRecordTouched } from 'us-forms-system/lib/js/helpers';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 
 import {
   toIdSchema,
   deepEquals
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { errorSchemaIsValid } from '../../common/schemaform/validation';
+import { errorSchemaIsValid } from 'us-forms-system/lib/js/validation';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

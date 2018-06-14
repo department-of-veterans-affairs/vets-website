@@ -132,9 +132,22 @@ const formConfig = {
           path: 'applicant-information',
           uiSchema: {
             'ui:description': applicantDescription,
-            claimantFullName: fullNameUI,
+            claimantFullName: _.merge(fullNameUI, {
+              first: {
+                'ui:title': 'Your first name'
+              },
+              middle: {
+                'ui:title': 'Your middle name'
+              },
+              last: {
+                'ui:title': 'Your last name'
+              },
+              suffix: {
+                'ui:title': 'Your suffix'
+              }
+            }),
             'view:relationshipToVet': {
-              'ui:title': 'Relationship to Veteran',
+              'ui:title': 'Your relationship to the Veteran',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
