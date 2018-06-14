@@ -117,6 +117,14 @@ class CalculatorForm extends React.Component {
 
   renderYellowRibbon() {
     // if (__BUILDTYPE__ === 'production' || !this.props.displayedInputs.yellowRibbon) return null;
+    let {
+      yellowRibbonDegreeLevelOptions,
+      yellowRibbonDivisionOptions,
+    } = this.props.inputs;
+
+    yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions.map(value => ({ value, label: value }));
+    yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
+
     return (
       <div>
         <RadioButtons
@@ -137,7 +145,7 @@ class CalculatorForm extends React.Component {
               label="Degree Level"
               name={'yellowRibbonDegreeLevel'}
               alt="Degree Level"
-              options={this.props.displayedInputs.yellowRibbonDegreeLevelOptions}
+              options={yellowRibbonDegreeLevelOptions}
               visible
               value={this.props.displayedInputs.yellowRibbonDegreeLevel}
               onChange={this.handleInputChange}/>
@@ -145,7 +153,7 @@ class CalculatorForm extends React.Component {
               label="Division or school"
               name={'yellowRibbonDivision'}
               alt="Division or school"
-              options={this.props.displayedInputs.yellowRibbonDivisionOptions}
+              options={yellowRibbonDivisionOptions}
               visible
               value={this.props.displayedInputs.yellowRibbonDivision}
               onChange={this.handleInputChange}/>
