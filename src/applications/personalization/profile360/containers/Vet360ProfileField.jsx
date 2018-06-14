@@ -21,7 +21,7 @@ import {
   selectEditedFormField
 } from '../selectors';
 
-import HeadingWithEdit from '../components/HeadingWithEdit';
+import Vet360ProfileFieldHeading from '../components/Vet360ProfileFieldHeading';
 import Vet360Transaction from '../components/Vet360Transaction';
 
 class Vet360ProfileField extends React.Component {
@@ -47,7 +47,7 @@ class Vet360ProfileField extends React.Component {
 
     return (
       <div className="vet360-profile-field">
-        <HeadingWithEdit onEditClick={this.isEditLinKVisible() && onEdit}>{title}</HeadingWithEdit>
+        <Vet360ProfileFieldHeading onEditClick={this.isEditLinKVisible() && onEdit}>{title}</Vet360ProfileFieldHeading>
         {isEditing && renderEditModal(this.props)}
         <Vet360Transaction
           title={title}
