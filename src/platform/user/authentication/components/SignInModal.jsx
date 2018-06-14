@@ -51,8 +51,8 @@ class SignInModal extends React.Component {
               <div className="columns small-12">
                 <div className="form-warning-banner">
                   <AlertBox
-                    headline="DS Logon isn't working quite right"
-                    content="If you're having trouble signing in to Vets.gov using your DS Logon username and password, please try again later. Or, you can try signing in with your My HealtheVet username and password or through ID.me."
+                    headline="Some Vets.gov tools and features may not be working as expected"
+                    content="We’re sorry. We’re working to fix some problems with DS Logon right now. Please check back later or call the Vets.gov Help Desk for more information at 1-855-574-7286, TTY: 1-800-877-8339."
                     isVisible
                     status="warning"/>
                   <br/>

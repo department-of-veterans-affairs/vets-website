@@ -1,11 +1,10 @@
 import React from 'react';
 import { merge } from 'lodash';
+import PhoneNumberWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-
-import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
 
 import Vet360ProfileField from '../containers/Vet360ProfileField';
 import LoadingButton from './LoadingButton';

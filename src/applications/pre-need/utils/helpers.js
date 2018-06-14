@@ -2,15 +2,15 @@ import React from 'react';
 import { get, omit, merge } from 'lodash/fp';
 import Raven from 'raven-js';
 
-import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import ssnUI from '../../common/schemaform/definitions/ssn';
-import TextWidget from '../../common/schemaform/widgets/TextWidget';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import TextWidget from 'us-forms-system/lib/js/widgets/TextWidget';
 import ServicePeriodView from '../components/ServicePeriodView';
 import { serviceLabels } from './labels';
-import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
+import { stringifyFormReplacer, filterViewFields } from 'us-forms-system/lib/js/helpers';
 import environment from '../../../platform/utilities/environment';
-import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
+import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
