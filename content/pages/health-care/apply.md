@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Apply for Health Care
-display_title: Apply for Health Care
+display_title: How to Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-08-28
 collection: healthCare
@@ -27,7 +27,7 @@ Find out how to apply for VA health care benefits.
 <h3 itemprop="name">How do I prepare before starting my application?</h3>
 <div itemprop="itemListElement">
 
-- If you haven’t done so already, check to see if you qualify. [Find out if you're eligible for VA health care benefits](/health-care/eligibility/).
+- If you haven’t done so already, check to see if you qualify. <br>[Find out if you’re eligible for VA health care benefits](/health-care/eligibility/).
 - Gather the documents listed below that you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ).
 
 </div>
