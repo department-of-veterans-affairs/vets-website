@@ -1604,7 +1604,7 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             files: fileUploadUI('', {
-              fileUploadURL: `${environment.API_URL}/v0/claim_attachments`,
+              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
               hideLabelText: true
             }),
             'view:uploadMessage': {
