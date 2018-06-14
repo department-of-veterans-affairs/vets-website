@@ -77,7 +77,7 @@ export default function (state = INITIAL_STATE, action) {
           newState = {
             ...newState,
             yellowRibbonDivisionOptions,
-            yellowRibbonDivision: { value: yellowRibbonDivisionOptions, label: yellowRibbonDivisionOptions },
+            yellowRibbonDivision: yellowRibbonDivisionOptions[0],
             yellowRibbonAmount
           };
         }
@@ -134,9 +134,8 @@ export default function (state = INITIAL_STATE, action) {
       let yellowRibbonDivision = '';
       let yellowRibbonAmount = 0;
 
-      if (__BUILDTYPE__ !== 'production') {
-        /*
-        yellowRibbonPrograms = [
+      /*
+      const yellowRibbonPrograms = [
           {
             divisionProfessionalSchool: 'division1',
             numberOfStudents: 5,
@@ -157,6 +156,8 @@ export default function (state = INITIAL_STATE, action) {
           }
         ];
         */
+
+      if (__BUILDTYPE__ !== 'production') {
 
         if (yellowRibbonPrograms.length > 0) {
           yellowRibbonDegreeLevelOptions = [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))];

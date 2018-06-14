@@ -141,6 +141,7 @@ class CalculatorForm extends React.Component {
             ]}
             value={this.props.inputs.yellowRibbonRecipient}
             onChange={this.handleInputChange}/>
+
           { this.props.inputs.yellowRibbonRecipient === 'yes' ?
             <div>
               <Dropdown
@@ -149,7 +150,7 @@ class CalculatorForm extends React.Component {
                 alt="Degree Level"
                 options={yellowRibbonDegreeLevelOptions}
                 visible
-                value={this.props.displayedInputs.yellowRibbonDegreeLevel}
+                value={this.props.inputs.yellowRibbonDegreeLevel}
                 onChange={this.handleInputChange}/>
               <Dropdown
                 label="Division or school"
@@ -157,7 +158,7 @@ class CalculatorForm extends React.Component {
                 alt="Division or school"
                 options={yellowRibbonDivisionOptions}
                 visible
-                value={this.props.displayedInputs.yellowRibbonDivision}
+                value={this.props.inputs.yellowRibbonDivision}
                 onChange={this.handleInputChange}/>
               <div>
                 <label htmlFor="yellowRibbonAmount">
