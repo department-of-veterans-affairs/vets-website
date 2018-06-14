@@ -118,36 +118,46 @@ export default function (state = INITIAL_STATE, action) {
 
     case FETCH_PROFILE_SUCCEEDED: {
       const camelPayload = camelCaseKeysRecursive(action.payload);
-      const yellowRibbonPrograms = [
-        {
-          divisionProfessionalSchool: 'division1',
-          numberOfStudents: 5,
-          degreeLevel: 'graduate',
-          contributionAmount: 5000
-        },
-        {
-          divisionProfessionalSchool: 'division2',
-          numberOfStudents: 3000,
-          degreeLevel: 'undergraduate',
-          contributionAmount: 5
-        },
-        {
-          divisionProfessionalSchool: 'division3',
-          numberOfStudents: 20,
-          degreeLevel: 'undergraduate',
-          contributionAmount: 25
-        }
-      ];
 
-      const yellowRibbonDegreeLevelOptions = yellowRibbonPrograms.length > 0 ?
-        [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))] :
-        [];
-      // first value of degree level is selected by default; only display division options associated with this degree level
-      const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
-        [...new Set(yellowRibbonPrograms
-          .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
-          .map(program => program.divisionProfessionalSchool))] :
-        [];
+      let yellowRibbonPrograms;
+      let yellowRibbonDegreeLevelOptions;
+      let yellowRibbonDivisionOptions;
+      let yellowRibbonAmount;
+
+      if (__BUILDTYPE__ !== 'production') {
+        yellowRibbonPrograms = [
+          {
+            divisionProfessionalSchool: 'division1',
+            numberOfStudents: 5,
+            degreeLevel: 'graduate',
+            contributionAmount: 5000
+          },
+          {
+            divisionProfessionalSchool: 'division2',
+            numberOfStudents: 3000,
+            degreeLevel: 'undergraduate',
+            contributionAmount: 5
+          },
+          {
+            divisionProfessionalSchool: 'division3',
+            numberOfStudents: 20,
+            degreeLevel: 'undergraduate',
+            contributionAmount: 25
+          }
+        ];
+
+        yellowRibbonDegreeLevelOptions = yellowRibbonPrograms.length > 0 ?
+          [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))] :
+          [];
+        // first value of degree level is selected by default; only display division options associated with this degree level
+        yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
+          [...new Set(yellowRibbonPrograms
+            .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
+            .map(program => program.divisionProfessionalSchool))] :
+          [];
+
+        yellowRibbonAmount = yellowRibbonPrograms[0].contributionAmount;
+      }
 
       const {
         tuitionInState,
@@ -166,6 +176,7 @@ export default function (state = INITIAL_STATE, action) {
         inStateTuitionFees: tuitionInState || 0,
         books: books || 0,
         calendar: calendar || 'semesters',
+        yellowRibbonAmount,
         yellowRibbonDegreeLevel: yellowRibbonPrograms[0].degreeLevel,
         yellowRibbonDivision: yellowRibbonPrograms[0].divisionProfessionalSchool,
         yellowRibbonDegreeLevelOptions,
