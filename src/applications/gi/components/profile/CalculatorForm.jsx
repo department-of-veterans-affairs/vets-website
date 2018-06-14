@@ -156,7 +156,7 @@ class CalculatorForm extends React.Component {
               <input
                 type="text"
                 name="yellowRibbonAmount"
-                value={formatCurrency(this.props.displayedInputs.yellowRibbonAmount)}
+                value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
                 onChange={this.handleInputChange}/>
             </div>
           </div>

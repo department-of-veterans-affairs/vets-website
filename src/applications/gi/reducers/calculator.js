@@ -47,7 +47,7 @@ export default function (state = INITIAL_STATE, action) {
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {
-      // Strip all non-numeric characters.
+        // Strip all non-numeric characters.
         convertedValue = +value.replace(/[^0-9.]+/g, '');
       }
 
@@ -56,15 +56,45 @@ export default function (state = INITIAL_STATE, action) {
       };
 
       if (field === 'yellowRibbonDegreeLevel') {
-        const yellowRibbonDivisionOptions = state.yellowRibbonPrograms.length > 0 ?
-          [...new Set(state.yellowRibbonPrograms
+        const {
+          yellowRibbonPrograms
+        } = state;
+
+        const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
+          [...new Set(yellowRibbonPrograms
             .filter(program => program.degreeLevel === value)
             .map(program => program.divisionProfessionalSchool))] :
           [];
+
+        const yellowRibbonAmount = yellowRibbonPrograms
+          .find(program =>
+            program.degreeLevel === value &&
+            program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0])
+          .contributionAmount;
+
         newState = {
           ...newState,
           yellowRibbonDivisionOptions,
-          yellowRibbonDivision: { value: yellowRibbonDivisionOptions, label: yellowRibbonDivisionOptions }
+          yellowRibbonDivision: { value: yellowRibbonDivisionOptions, label: yellowRibbonDivisionOptions },
+          yellowRibbonAmount
+        };
+      }
+
+      if (field === 'yellowRibbonDivision') {
+        const {
+          yellowRibbonDegreeLevel,
+          yellowRibbonPrograms
+        } = state;
+
+        const yellowRibbonAmount = yellowRibbonPrograms
+          .find(program =>
+            program.degreeLevel === yellowRibbonDegreeLevel &&
+            program.divisionProfessionalSchool === value)
+          .contributionAmount;
+
+        newState = {
+          ...newState,
+          yellowRibbonAmount
         };
       }
 
