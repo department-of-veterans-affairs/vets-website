@@ -51,7 +51,7 @@ export const viewComponent = (response) => {
       </p>
       <div className="blue-bar-block">
         <p>
-          <strong>{accountTitleLabels[accountType]}</strong>
+          <strong>{accountTitleLabels[accountType.toUpperCase()]}</strong>
         </p>
         {accountNumberString}
         {routingNumberString}
