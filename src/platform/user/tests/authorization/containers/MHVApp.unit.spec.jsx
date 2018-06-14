@@ -171,13 +171,13 @@ describe('<MHVApp>', () => {
   it('should show error if failed to register MHV account', () => {
     const newProps = set('account.state', 'register_failed', props);
     const wrapper = shallow(<MHVApp {...newProps}/>);
-    expectAlert(wrapper, 'error', 'We can’t create your premium My HealtheVet account right now');
+    expectAlert(wrapper, 'error', 'We can’t give you access to Vets.gov health tools right now');
   });
 
   it('should show error if failed to upgrade MHV account', () => {
     const newProps = set('account.state', 'upgrade_failed', props);
     const wrapper = shallow(<MHVApp {...newProps}/>);
-    expectAlert(wrapper, 'error', 'We can’t upgrade your My HealtheVet account to premium');
+    expectAlert(wrapper, 'error', 'We can’t give you access to Vets.gov health tools right now');
   });
 
   it('should show error if the user has mismatched SSNs', () => {

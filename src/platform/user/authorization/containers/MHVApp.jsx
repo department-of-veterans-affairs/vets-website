@@ -183,7 +183,7 @@ export class MHVApp extends React.Component {
 
   renderRegisterFailedMessage() {
     const alertProps = {
-      headline: 'We can’t give you access to the Vets.gov health tools right now',
+      headline: 'We can’t give you access to Vets.gov health tools right now',
       content: (
         <p>
           We’re sorry. Something went wrong on our end that’s preventing you from using the health tools right now. We’ve verified your information so you’ll be able to use tools like prescription refills and secure messaging the next time you sign in. Please try signing in later.
