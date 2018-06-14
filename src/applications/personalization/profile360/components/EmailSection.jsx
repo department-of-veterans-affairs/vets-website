@@ -5,6 +5,7 @@ import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Transaction from './Transaction';
+import FormActionButtons from './FormActionButtons';
 
 class EditEmailModal extends React.Component {
 
@@ -30,12 +31,14 @@ class EditEmailModal extends React.Component {
       onCancel,
       isLoading,
       field,
-      clearErrors
+      clearErrors,
+      onDelete,
+      emailData,
     } = this.props;
 
     return (
       <Modal id="profile-email-modal" onClose={onCancel} visible>
-        <h3>{title}</h3>
+        <h3>Edit {title}</h3>
         <AlertBox
           isVisible={!!this.props.error}
           status="error"
@@ -49,8 +52,10 @@ class EditEmailModal extends React.Component {
               field={{ value: field.value.emailAddress, dirty: false }}
               errorMessage={field.errorMessage}
               onValueChange={this.onChange}/>
-            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
-            <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
+            <FormActionButtons onCancel={onCancel} onDelete={onDelete} title={title} deleteEnabled={!!(emailData && emailData.emailAddress)}>
+              <LoadingButton isLoading={isLoading}>Update</LoadingButton>
+              <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
+            </FormActionButtons>
           </form>
         )}
       </Modal>
@@ -59,7 +64,7 @@ class EditEmailModal extends React.Component {
 }
 
 
-export default function EmailSection({ emailData, transaction, getTransactionStatus, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit }) {
+export default function EmailSection({ emailData, transaction, getTransactionStatus, field, clearErrors, isEditing, onChange, onEdit, onAdd, onCancel, onSubmit, onDelete }) {
   let content = null;
   let modal = null;
 
@@ -76,13 +81,14 @@ export default function EmailSection({ emailData, transaction, getTransactionSta
   if (isEditing) {
     modal = (
       <EditEmailModal
-        title="Edit email address"
+        title="email address"
         emailData={emailData}
         field={field}
         error={transaction && transaction.error}
         clearErrors={clearErrors}
         onChange={onChange}
         onSubmit={onSubmit}
+        onDelete={onDelete}
         isLoading={transaction && transaction.isPending}
         onCancel={onCancel}/>
     );
