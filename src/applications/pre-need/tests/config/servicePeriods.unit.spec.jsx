@@ -55,11 +55,9 @@ describe('Pre-need service periods', () => {
           uiSchema={uiSchema}/>
       );
 
+      form.find('.va-growable-add-btn').simulate('click');
       expect(form.find('input').length).to.equal(inputCount);
       expect(form.find('select').length).to.equal(5);
-
-      form.find('.va-growable-add-btn').simulate('click');
-
       expect(form.find('.va-growable-background').first().text()).to.contain('Allied Forces');
     });
 
@@ -81,7 +79,7 @@ describe('Pre-need service periods', () => {
           }}
           uiSchema={uiSchema}/>
       );
-
+      form.find('.usa-button-secondary.float-right').simulate('click');
       fillDate(form, 'root_application_veteran_serviceRecords_0_dateRange_from', '2002-1-1');
       fillDate(form, 'root_application_veteran_serviceRecords_0_dateRange_to', '2003-1-1');
 

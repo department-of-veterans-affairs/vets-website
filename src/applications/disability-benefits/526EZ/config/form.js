@@ -188,7 +188,6 @@ const formConfig = {
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
-                reviewMode: true
               },
               items: {
                 serviceBranch: {

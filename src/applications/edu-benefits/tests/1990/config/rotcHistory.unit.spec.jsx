@@ -53,7 +53,7 @@ describe('Edu 1990 rotcHistory', () => {
     formDOM.fillData('#root_seniorRotc_rotcScholarshipAmounts_0_year', '2000');
     formDOM.fillData('#root_seniorRotc_rotcScholarshipAmounts_0_amount', '200');
     formDOM.click('.va-growable-add-btn');
-
-    expect(formDOM.querySelectorAll('.va-growable-background').length).to.equal(2);
+    expect(formDOM.querySelector('.va-growable-background').textContent)
+      .to.contain('2000');
   });
 });

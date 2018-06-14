@@ -36,7 +36,6 @@ describe('Edu postHighSchoolTrainings', () => {
       }
     });
     ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
-
     expect(formDOM.querySelector('.va-growable-background').textContent)
       .to.contain('A college name');
   });

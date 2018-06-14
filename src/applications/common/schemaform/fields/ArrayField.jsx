@@ -3,8 +3,10 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
+
 import { scrollToFirstError } from '../../../../platform/utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
+
 
 import {
   toIdSchema,
@@ -17,6 +19,24 @@ import { errorSchemaIsValid } from '../validation';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+function isEmpty(collection) {
+  if (collection === undefined) {
+    return true;
+  }
+  if (typeof collection !== 'object') {
+    return false;
+  }
+  return _.every(isEmpty, Object.values(collection));
+}
+
+function notYetAnswered(item, index, errorSchema) {
+  return isEmpty(item) || !errorSchemaIsValid(errorSchema);
+}
+
+function getItemModes(items, errorSchema) {
+  return items.map((item, index) => (notYetAnswered(item, index, errorSchema[index]) ? 'editing' : 'viewing'));
+}
+
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
   constructor(props) {
@@ -27,14 +47,13 @@ export default class ArrayField extends React.Component {
     }
 
     /*
-     * We’re keeping the editing state in local state because it’s easier to manage and
+     * We’re keeping the item modes state in local state because it’s easier to manage and
      * doesn’t need to persist from page to page
      */
 
     this.state = {
-      editing: props.formData ? props.formData.map(() => false) : [true]
+      itemModes: props.formData && props.formData.length ? getItemModes(props.formData, props.errorSchema) : ['adding']
     };
-
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
@@ -100,8 +119,8 @@ export default class ArrayField extends React.Component {
   /*
    * Clicking edit on an item that’s not last and so is in view mode
    */
-  handleEdit(index, status = true) {
-    this.setState(_.set(['editing', index], status, this.state), () => {
+  handleEdit(index) {
+    this.setState(_.set(['itemModes', index], 'editing', this.state), () => {
       this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
     });
   }
@@ -111,7 +130,7 @@ export default class ArrayField extends React.Component {
    */
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editing', index], false, this.state), () => {
+      this.setState(_.set(['itemModes', index], 'viewing', this.state), () => {
         this.scrollToTop();
       });
     } else {
@@ -129,16 +148,16 @@ export default class ArrayField extends React.Component {
   handleAdd() {
     const lastIndex = this.props.formData.length - 1;
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
-      // When we add another, we want to change the editing state of the currently
+      // When we add another, we want to change the item mode state of the currently
       // last item, but not ones above it
-      const newEditing = this.state.editing.map((val, index) => {
-        return (index + 1) === this.state.editing.length
-          ? false
+      const newItemModes = this.state.itemModes.map((val, index) => {
+        return (index + 1) === this.state.itemModes.length
+          ? 'viewing'
           : val;
       });
-      const editingState = this.props.uiSchema['ui:options'].reviewMode;
+      const itemState = this.props.uiSchema['ui:options'].reviewMode ? 'editing' : 'adding';
       const newState = _.assign(this.state, {
-        editing: newEditing.concat(!!editingState)
+        itemModes: newItemModes.concat(itemState)
       });
       this.setState(newState, () => {
         const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
@@ -159,7 +178,7 @@ export default class ArrayField extends React.Component {
   handleRemove(indexToRemove) {
     const newItems = this.props.formData.filter((val, index) => index !== indexToRemove);
     const newState = _.assign(this.state, {
-      editing: this.state.editing.filter((val, index) => index !== indexToRemove),
+      itemModes: this.state.itemModes.filter((val, index) => index !== indexToRemove),
     });
     this.props.onChange(newItems);
     this.setState(newState, () => {
@@ -180,9 +199,9 @@ export default class ArrayField extends React.Component {
       onBlur,
       schema
     } = this.props;
+
     const definitions = registry.definitions;
     const { TitleField, SchemaField } = registry.fields;
-
     const uiOptions = uiSchema['ui:options'] || {};
     const ViewField = uiOptions.viewField;
     const title = uiSchema['ui:title'] || schema.title;
@@ -192,9 +211,9 @@ export default class ArrayField extends React.Component {
     const DescriptionField = typeof description === 'function'
       ? uiSchema['ui:description']
       : null;
-    const isReviewMode = uiSchema['ui:options'].reviewMode;
+    const { reviewMode: isReviewMode } = uiOptions;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
-
+    const lastIndex = Math.max((formData && formData.length - 1), 0);
     // if we have form data, use that, otherwise use an array with a single default object
     const items = (formData && formData.length)
       ? formData
@@ -224,17 +243,17 @@ export default class ArrayField extends React.Component {
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
-            const isLast = items.length === (index + 1);
-            const isEditing = this.state.editing[index];
-            const notLastOrMultipleRows = !isLast || items.length > 1;
-
-            if (isReviewMode ? isEditing : isLast || isEditing) {
+            const isNotViewing = this.state.itemModes[index] !== 'viewing';
+            const isEditing = this.state.itemModes[index] === 'editing';
+            const isAdding = this.state.itemModes[index] === 'adding';
+            const isAddingFirst = isAdding && items.length === 1;
+            if (isReviewMode ? isEditing : isNotViewing) {
               return (
-                <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
+                <div key={index} className={!isAddingFirst ? 'va-growable-background' : null}>
                   <Element name={`table_${itemIdPrefix}`}/>
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && items.length > 1 && uiSchema['ui:options'].itemName
+                      {isAdding && items.length > 1 && uiSchema['ui:options'].itemName
                         ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                         : null}
                       <div className="input-section">
@@ -251,11 +270,11 @@ export default class ArrayField extends React.Component {
                           disabled={disabled}
                           readonly={readonly}/>
                       </div>
-                      {notLastOrMultipleRows &&
+                      {!isAddingFirst &&
                         <div className="row small-collapse">
-                          <div className="small-6 left columns">
-                            {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
-                          </div>
+                          {!isAdding && <div className="small-6 left columns">
+                            <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>
+                          </div>}
                           <div className="small-6 right columns">
                             <button className="usa-button-secondary float-right" type="button" onClick={() => this.handleRemove(index)}>Remove</button>
                           </div>
@@ -289,7 +308,7 @@ export default class ArrayField extends React.Component {
                 'usa-button-disabled': !this.props.formData
               }
             )}
-            disabled={!this.props.formData}
+            disabled={!this.props.formData || isEmpty(this.props.formData[lastIndex])}
             onClick={this.handleAdd}>
             Add Another {uiOptions.itemName}
           </button>
