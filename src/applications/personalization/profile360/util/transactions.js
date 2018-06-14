@@ -47,5 +47,7 @@ export function isErroredTransaction(transaction) {
 }
 
 export function isGenericErroredTransaction(transaction) {
-  return GENERIC_ERROR_CODES.has(transaction.data.attributes.metadata.code);
+  return transaction.data.attributes.metadata.some(error => {
+    return GENERIC_ERROR_CODES.has(error.code);
+  });
 }

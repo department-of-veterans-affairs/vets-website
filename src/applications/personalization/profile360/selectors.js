@@ -1,6 +1,7 @@
 import {
   isSuccessfulTransaction,
-  isErroredTransaction
+  isErroredTransaction,
+  isGenericErroredTransaction
 } from './util/transactions';
 
 export function selectVet360Field(state, fieldName) {
@@ -34,7 +35,7 @@ export function selectVet360SuccessfulTransactions(state) {
 }
 
 export function selectVet360ErroredTransactions(state) {
-  return state.vet360.transactions.filter(isErroredTransaction);
+  return state.vet360.transactions.filter(isErroredTransaction).filter(isGenericErroredTransaction);
 }
 
 export function selectEditedFormField(state, fieldName) {
@@ -43,8 +44,4 @@ export function selectEditedFormField(state, fieldName) {
 
 export function selectCurrentlyOpenEditModal(state) {
   return state.vaProfile.modal;
-}
-
-export function selectGenericError() {
-
 }
