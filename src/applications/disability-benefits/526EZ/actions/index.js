@@ -82,13 +82,11 @@ export const handleCheckSuccess = (data, dispatch) => {
       dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
     }
   }
-  dispatch(setPrestartStatus(status));
   return status;
 };
 
-export const handleCheckFailure = (error, hasSavedForm, dispatch) => {
+export const handleCheckFailure = (error, hasSavedForm) => {
   const status = hasSavedForm ? PRESTART_STATUSES.notRetrievedSaved : PRESTART_STATUSES.notRetrievedNew;
-  dispatch(setPrestartStatus(status));
   return status;
 };
 
@@ -140,6 +138,7 @@ export function verifyIntentToFile(hasSavedForm) {
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
 
     const existingITFStatus = await checkITFRequest(dispatch, hasSavedForm);
+    dispatch(setPrestartStatus(existingITFStatus));
 
     if (!prestartPendingStatuses.has(existingITFStatus)) {
       return;

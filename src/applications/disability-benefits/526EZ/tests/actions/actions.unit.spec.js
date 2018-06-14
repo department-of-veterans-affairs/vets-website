@@ -139,26 +139,22 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(noData, dispatch)).to.equal(PRESTART_STATUSES.none);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.none))).to.be.true;
     });
     it('should return none if no expired or active ITFs are retrieved', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(incompleteData, dispatch)).to.equal(PRESTART_STATUSES.none);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.none))).to.be.true;
     });
     it('should return expired if retrieved ITFs include expired but not active ITFs', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(expiredData, dispatch)).to.equal(PRESTART_STATUSES.expired);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.expired))).to.be.true;
       expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }));
     });
     it('should return retrieved if active ITFs are retrieved', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(existingData, dispatch)).to.equal(PRESTART_STATUSES.retrieved);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.retrieved))).to.be.true;
       expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }));
     });
   });
@@ -167,13 +163,11 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckFailure(new Error('fake error'), false, dispatch)).to.equal(PRESTART_STATUSES.notRetrievedNew);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedNew))).to.be.true;
     });
     it('should return notRetrievedSaved if check fails for a saved form', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckFailure(new Error('fake error'), true, dispatch)).to.equal(PRESTART_STATUSES.notRetrievedSaved);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedSaved))).to.be.true;
     });
   });
   describe('handleSubmitSuccess', () => {
@@ -203,7 +197,7 @@ describe('ITF retrieve / submit actions:', () => {
       });
       const thunk = checkITFRequest;
       thunk(dispatch).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.retrieved, '2019-04-10T15:12:34.000+00:00'))).to.be.true;
+        expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
         expect(result).to.equal(PRESTART_STATUSES.retrieved);
         done();
       }).catch((err) => {
@@ -220,7 +214,6 @@ describe('ITF retrieve / submit actions:', () => {
       const thunk = checkITFRequest;
 
       thunk(dispatch).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.none))).to.be.true;
         expect(result).to.equal(PRESTART_STATUSES.none);
         done();
       }).catch((err) => {
@@ -237,7 +230,7 @@ describe('ITF retrieve / submit actions:', () => {
       const thunk = checkITFRequest;
 
       thunk(dispatch).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.expired, '2016-03-30T16:19:09.000+00:00'))).to.be.true;
+        expect(dispatch.calledWith(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }))).to.be.true;
         expect(result).to.equal(PRESTART_STATUSES.expired);
         done();
       }).catch((err) => {
@@ -251,7 +244,6 @@ describe('ITF retrieve / submit actions:', () => {
       const thunk = checkITFRequest;
 
       thunk(dispatch, hasSavedForm).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedSaved))).to.be.true;
         expect(result).to.equal(PRESTART_STATUSES.notRetrievedSaved);
         done();
       }).catch((err) => {
@@ -265,7 +257,6 @@ describe('ITF retrieve / submit actions:', () => {
       const thunk = checkITFRequest;
 
       thunk(dispatch, hasSavedForm).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedNew))).to.be.true;
         expect(result).to.equal(PRESTART_STATUSES.notRetrievedNew);
         done();
       }).catch((err) => {
@@ -313,6 +304,8 @@ describe('ITF retrieve / submit actions:', () => {
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.pending))).to.be.true;
+        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedNew))).to.be.true;
+
         done();
       }).catch((err) => {
         done(err);
