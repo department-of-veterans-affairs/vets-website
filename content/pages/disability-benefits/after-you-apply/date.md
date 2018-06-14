@@ -8,7 +8,7 @@ template: detail-page
 relatedlinks: 
   - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/evidence/fully-developed-claim/
+    - url: /disability-benefits/apply/evidence/fully-developed-disability-claims/
       title: Fully Developed Claim
       description: "File a fully developed claim and get a faster decision on your disability benefits claim."
     - url: /disability-benefits/apply/
