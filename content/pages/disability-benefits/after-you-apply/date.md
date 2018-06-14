@@ -8,9 +8,9 @@ template: detail-page
 relatedlinks: 
   - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/evidence/
-      title: How can I get my claim processed faster with a fully developed claim?
-      description: ""
+    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
+      title: Fully Developed Claim
+      description: "File a fully developed claim and get a faster decision on your disability benefits claim."
     - url: /disability-benefits/apply/
       title: Disability Benefits Application Process
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
@@ -18,11 +18,11 @@ relatedlinks:
       title: Get Help Filing a Claim
       description: "Learn how an accredited representative with a Veterans Service Organization can help you file a disability claim."
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
-      title: How do I file while on active duty?
-      description: ""
-    - url: /disability-benefits/eligibility/one-year/
-      title: How do I file for an illness that started after I was discharged from active duty?
-      description: ""
+      title: Pre-discharge Claim
+      description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
+    - url: /disability-benefits/apply/one-year/
+      title: Disabilities That Appear Within 1 Year After Discharge
+      description: "You may be able to get disability benefits if you have an illness that started within a year after you were discharged from service."
 ---
 
 <div class="va-introtext">
