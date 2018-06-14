@@ -58,11 +58,8 @@ You may be eligible for educational and vocational counseling if you meet both o
 
 <hr>
 
-### How do I get these benefits?
 
-You'll need to apply for services.
-
-#### Follow these steps to apply for Chapter 36 services:
+### Follow these steps to apply for Chapter 36 services:
 
 <ol class="process">
 <li class="process-step list-one">
