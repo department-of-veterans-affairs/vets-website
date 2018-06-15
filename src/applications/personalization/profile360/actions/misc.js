@@ -76,6 +76,7 @@ function cleanAddressDataForUpdate(value) {
     stateCode,
     zipCode,
     internationalPostalCode,
+    province,
   } = value;
 
   const addressType = inferAddressType(countryName, stateCode);
@@ -89,6 +90,7 @@ function cleanAddressDataForUpdate(value) {
     addressType,
     city,
     countryName,
+    province: addressType === 'INTERNATIONAL' ? province : null,
     stateCode: addressType === 'INTERNATIONAL' ? null : stateCode,
     zipCode: addressType !== 'INTERNATIONAL' ? zipCode : null,
     internationalPostalCode: addressType === 'INTERNATIONAL' ? internationalPostalCode : null,

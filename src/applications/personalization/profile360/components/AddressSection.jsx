@@ -12,7 +12,9 @@ import FormActionButtons from './FormActionButtons';
 
 class EditAddressModal extends React.Component {
   componentDidMount() {
-    let defaultFieldValue = {};
+    let defaultFieldValue = {
+      countryName: 'United States',
+    };
     if (this.props.addressData) {
       defaultFieldValue = consolidateAddress(this.props.addressData);
     }
