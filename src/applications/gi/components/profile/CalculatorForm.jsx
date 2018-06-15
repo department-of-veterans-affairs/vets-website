@@ -175,7 +175,7 @@ class CalculatorForm extends React.Component {
                 key={this.props.inputs.yellowRibbonProgramIndex}
                 status="info">
                 <div>
-                  Maximum amount per student: <strong>${parseFloat(this.props.inputs.yellowRibbonMaxAmount).toFixed(2)}/yr</strong><br></br>
+                  Maximum amount per student: <strong>{formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}/yr</strong><br></br>
                   Number of students: <strong>{this.props.inputs.yellowRibbonMaxNumberOfStudents}</strong>
                 </div>
               </AlertBox>
