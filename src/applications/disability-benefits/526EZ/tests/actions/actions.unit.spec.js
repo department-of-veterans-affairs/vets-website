@@ -22,7 +22,7 @@ import {
   verifyIntentToFile
 } from '../../actions';
 
-function setFetchResponse(stub, data) {
+function setFetchResponse(data) {
   const response = {};
   response.ok = true;
   response.data = data;
@@ -30,7 +30,7 @@ function setFetchResponse(stub, data) {
     get: () => 'application/json' // for use by isJson in apiRequest
   };
   response.json = () => Promise.resolve(data);
-  stub.resolves(response);
+  mockFetch(response);
 }
 
 import existingData from '../itfData';
@@ -191,8 +191,7 @@ describe('ITF retrieve / submit actions:', () => {
     afterEach(() => resetFetch());
     it('should return "retrieved" ITF status and data with an existing ITF', (done) => {
       const dispatch = sinon.spy();
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
+      setFetchResponse({
         data: existingData
       });
       const thunk = checkITFRequest;
@@ -205,8 +204,7 @@ describe('ITF retrieve / submit actions:', () => {
       });
     });
     it('should return "none" ITF status and data without an existing ITF', (done) => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
+      setFetchResponse({
         data: noData
       });
       const dispatch = sinon.spy();
@@ -221,8 +219,7 @@ describe('ITF retrieve / submit actions:', () => {
       });
     });
     it('should return "expired" ITF status and data with an expired ITF', (done) => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
+      setFetchResponse({
         data: expiredData
       });
       const dispatch = sinon.spy();
@@ -267,8 +264,7 @@ describe('ITF retrieve / submit actions:', () => {
   describe('submitITFRequest', () => {
     afterEach(() => resetFetch());
     it('should dispatch "created" ITF status and data with a successful ITF submission', (done) => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
+      setFetchResponse({
         data: createdData
       });
       const dispatch = sinon.spy();

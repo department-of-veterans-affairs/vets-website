@@ -57,32 +57,31 @@ export function resetPrestartDisplay() {
 }
 
 export const handleCheckSuccess = (data, dispatch) => {
-  let status;
-  let expirationDate;
   const itfList = data.attributes.intentToFile;
+
   // If the user does not have any existing ITFs, set none status
   if (!itfList || (Array.isArray(itfList) && itfList.length === 0)) {
-    status = PRESTART_STATUSES.none;
-    // If the user has existing ITFs, check for expired and active ITFs
-  } else {
-    const expiredList = itfList.filter(itf => itf.status === PRESTART_STATUSES.expired);
-    const activeList = itfList.filter(itf => itf.status === PRESTART_STATUSES.active);
-    // If the user doesn't have any active or expired ITFs, set none status        
-    if (expiredList.length === 0 && activeList.length === 0) {
-      status = PRESTART_STATUSES.none;
-      // If the user doesn't have any active ITFs, set expired status
-    } else if (activeList.length === 0) {
-      status = PRESTART_STATUSES.expired;
-      expirationDate = getLatestTimestamp(expiredList.map(itf => itf.expirationDate));
-      dispatch(setPrestartData({ previousExpirationDate: expirationDate }));
-      // If the user has an active ITF, set retrieved status
-    } else {
-      status = PRESTART_STATUSES.retrieved;
-      expirationDate = activeList[0].expirationDate;
-      dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
-    }
+    return PRESTART_STATUSES.none;
   }
-  return status;
+
+  // Check for an active ITF, the user should only have one
+  const activeITF = itfList.filter(itf => itf.status === PRESTART_STATUSES.active)[0];
+  const expiredITFs = itfList.filter(itf => itf.status === PRESTART_STATUSES.expired);
+  // If the user has an active ITF, set retrieved status and currentExpirationDate
+  if (activeITF) {
+    dispatch(setPrestartData({ currentExpirationDate: activeITF.expirationDate }));
+    return PRESTART_STATUSES.retrieved;
+  }
+  // If the user doesn't have any active ITFs
+  // Check for expired ITFs, and if found, use the latest to set expired status and previousExpirationDate
+  if (expiredITFs.length > 0) {
+    const latestExpiredITFExpirationDate = getLatestTimestamp(expiredITFs.map(itf => itf.expirationDate));
+    dispatch(setPrestartData({ previousExpirationDate: latestExpiredITFExpirationDate }));
+    return PRESTART_STATUSES.expired;
+  }
+
+  // If the user does not have any expired or active ITFs, set none status
+  return PRESTART_STATUSES.none;
 };
 
 export const handleCheckFailure = (error, hasSavedForm) => {
