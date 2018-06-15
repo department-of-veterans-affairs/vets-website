@@ -29,7 +29,7 @@ Find out when you can first file a claim for service-connected benefits—and wh
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-active-duty">Original claim—File your first claim for disability benefits.</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-active-duty">Original Claim—File your first claim for disability benefits.</button>
 <div id="claim-active-duty" class="usa-accordion-content">
 
 We refer to the first claim you file for a disability as your original claim.
