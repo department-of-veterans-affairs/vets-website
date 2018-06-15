@@ -67,7 +67,7 @@ class ContactInformationContent extends React.Component {
     return (
       <div>
         <AddressSection
-          title="Mailing Address"
+          title="Mailing address"
           addressData={vet360[FIELD_NAMES.MAILING_ADDRESS]}
           transaction={transactions[FIELD_NAMES.MAILING_ADDRESS]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.MAILING_ADDRESS)}
@@ -79,10 +79,11 @@ class ContactInformationContent extends React.Component {
           onAdd={recordedAction('add-link', 'mailing-address', this.openModalHandler(FIELD_NAMES.MAILING_ADDRESS))}
           onSubmit={recordedAction('update-button', 'mailing-address', updateActions.updateMailingAddress)}
           onCancel={recordedAction('cancel-button', 'mailing-address', this.closeModal)}
+          onDelete={updateActions.deleteMailingAddress}
           addressConstants={addressConstants}/>
 
         <AddressSection
-          title="Residential Address"
+          title="Home address"
           addressData={vet360[FIELD_NAMES.RESIDENTIAL_ADDRESS]}
           transaction={transactions[FIELD_NAMES.RESIDENTIAL_ADDRESS]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.RESIDENTIAL_ADDRESS)}
@@ -94,10 +95,11 @@ class ContactInformationContent extends React.Component {
           onAdd={recordedAction('add-link', 'residential-address', this.openModalHandler(FIELD_NAMES.RESIDENTIAL_ADDRESS))}
           onSubmit={recordedAction('update-button', 'residential-address', updateActions.updateResidentialAddress)}
           onCancel={recordedAction('cancel-button', 'residential-address', this.closeModal)}
+          onDelete={updateActions.deleteResidentialAddress}
           addressConstants={addressConstants}/>
 
         <PhoneSection
-          title="Home Phone"
+          title="Home phone number"
           phoneData={vet360[FIELD_NAMES.HOME_PHONE]}
           transaction={transactions[FIELD_NAMES.HOME_PHONE]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.HOME_PHONE)}
@@ -108,10 +110,11 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'home-telephone', this.openModalHandler(FIELD_NAMES.HOME_PHONE))}
           onAdd={recordedAction('add-link', 'home-telephone', this.openModalHandler(FIELD_NAMES.HOME_PHONE))}
           onSubmit={recordedAction('update-button', 'home-telephone', updateActions.updateHomePhone)}
+          onDelete={updateActions.deleteHomePhone}
           onCancel={recordedAction('cancel-button', 'home-telephone', this.closeModal)}/>
 
         <PhoneSection
-          title="Mobile Phone"
+          title="Mobile phone number"
           phoneData={vet360[FIELD_NAMES.MOBILE_PHONE]}
           transaction={transactions[FIELD_NAMES.MOBILE_PHONE]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.MOBILE_PHONE)}
@@ -122,10 +125,11 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'mobile-telephone', this.openModalHandler(FIELD_NAMES.MOBILE_PHONE))}
           onAdd={recordedAction('add-link', 'mobile-telephone', this.openModalHandler(FIELD_NAMES.MOBILE_PHONE))}
           onSubmit={recordedAction('update-button', 'mobile-telephone', updateActions.updateMobilePhone)}
+          onDelete={updateActions.deleteMobilePhone}
           onCancel={recordedAction('cancel-button', 'mobile-telephone', this.closeModal)}/>
 
         <PhoneSection
-          title="Work Phone"
+          title="Work phone number"
           phoneData={vet360[FIELD_NAMES.WORK_PHONE]}
           transaction={transactions[FIELD_NAMES.WORK_PHONE]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.WORK_PHONE)}
@@ -136,10 +140,11 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'work-telephone', this.openModalHandler(FIELD_NAMES.WORK_PHONE))}
           onAdd={recordedAction('add-link', 'work-telephone', this.openModalHandler(FIELD_NAMES.WORK_PHONE))}
           onSubmit={recordedAction('update-button', 'work-telephone', updateActions.updateWorkPhone)}
+          onDelete={updateActions.deleteWorkPhone}
           onCancel={recordedAction('cancel-button', 'work-telephone', this.closeModal)}/>
 
         <PhoneSection
-          title="Fax Number"
+          title="Fax number"
           phoneData={vet360[FIELD_NAMES.FAX_NUMBER]}
           transaction={transactions[FIELD_NAMES.FAX_NUMBER]}
           getTransactionStatus={(transaction) => getTransactionStatus(transaction, FIELD_NAMES.FAX_NUMBER)}
@@ -150,6 +155,7 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'fax-number', this.openModalHandler(FIELD_NAMES.FAX_NUMBER))}
           onAdd={recordedAction('add-link', 'fax-number', this.openModalHandler(FIELD_NAMES.FAX_NUMBER))}
           onSubmit={recordedAction('update-button', 'fax-number', updateActions.updateFaxNumber)}
+          onDelete={updateActions.deleteFaxNumber}
           onCancel={recordedAction('cancel-button', 'fax-number', this.closeModal)}/>
 
         <EmailSection
@@ -163,6 +169,7 @@ class ContactInformationContent extends React.Component {
           onEdit={recordedAction('edit-link', 'email', this.openModalHandler(FIELD_NAMES.EMAIL))}
           onAdd={recordedAction('add-link', 'email', this.openModalHandler(FIELD_NAMES.EMAIL))}
           onSubmit={recordedAction('update-button', 'email', updateActions.updateEmailAddress)}
+          onDelete={updateActions.deleteEmailAddress}
           onCancel={recordedAction('cancel-button', 'email', this.closeModal)}/>
       </div>
     );
@@ -173,7 +180,7 @@ class ContactInformationContent extends React.Component {
       <div>
         {this.renderContent()}
         <div>
-          <h3>Want to update the email you use to sign in to Vets.gov?</h3>
+          <h3>How do I update the email I use to sign in to Vets.gov?</h3>
           <a href={accountManifest.rootUrl} onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'account-settings' }); }}>Go to your account settings</a>
         </div>
       </div>

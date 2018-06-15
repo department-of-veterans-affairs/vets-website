@@ -1,4 +1,4 @@
-import './sass/va-profile.scss';
+import './sass/profile-360.scss';
 import '../../../platform/polyfills';
 
 import startApp from '../../../platform/startup';
