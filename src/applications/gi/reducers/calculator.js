@@ -163,7 +163,6 @@ export default function (state = INITIAL_STATE, action) {
             .map(program => program.divisionProfessionalSchool))];
 
           yellowRibbonAmount = yellowRibbonPrograms[0].contributionAmount;
-          // yellowRibbonAmount = +yellowRibbonAmount.replace(/[^0-9.]+/g, '');
           yellowRibbonMaxAmount = yellowRibbonAmount;
           yellowRibbonDegreeLevel = yellowRibbonPrograms[0].degreeLevel;
           yellowRibbonDivision = yellowRibbonPrograms[0].divisionProfessionalSchool;
