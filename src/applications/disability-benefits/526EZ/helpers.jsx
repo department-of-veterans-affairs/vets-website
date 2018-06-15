@@ -1,4 +1,7 @@
 import React from 'react';
+import moment from 'moment';
+
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
@@ -9,7 +12,6 @@ import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
-import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
 
@@ -20,10 +22,9 @@ import { DateWidget } from '../../common/schemaform/review/widgets';
 
 const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
-export const USA = 'USA';
-export const MILITARY_STATES = ['AA', 'AE', 'AP'];
-export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
+import { prestartFailureStatuses, prestartSuccessStatuses, PRESTART_STATUSES } from './actions';
 
+const { created, retrieved, renewed, notRetrievedNew, notRetrievedSaved, notCreated, notRenewed } = PRESTART_STATUSES;
 /*
  * Flatten nested array form data into sibling properties
  *
@@ -172,30 +173,32 @@ export const privateRecordsChoice = ({ formData }) => {
 };
 
 
-export const privateRecordsChoiceHelp = (
-  <AdditionalInfo triggerText="Which should I choose?">
-    <h4>You upload your medical records</h4>
-    <p>
+export const privateRecordsChoiceHelp = () => {
+  return (
+    <AdditionalInfo triggerText="Which should I choose?">
+      <h4>You upload your medical records</h4>
+      <p>
       If you upload a digital copy of all your medical records, we can review
       your claim more quickly. Uploading a digital file works best if you have
       a computer with a fast Internet connection. The digital file could be
       uploaded as a .pdf or other photo file format, like a .jpeg or .png.
-    </p>
-    <h4>We get your medical records for you</h4>
-    <p>
+      </p>
+      <h4>We get your medical records for you</h4>
+      <p>
       If you tell us which VA medical center treated you for your condition, we
       can get your medical records for you. Getting your records may take us some
       time, and this could mean that it’ll take us longer to make a decision on
       your claim. You’ll need to first fill out an Authorization to Disclose
       Information to the VA (VA Form 21-4142) so we can request your records.
-    </p>
-    <p>
-      <a href={vaForm4142URL} target="_blank">
+      </p>
+      <p>
+        <a href={vaForm4142URL} target="_blank">
         Download VA Form 21-4142
-      </a>.
-    </p>
-  </AdditionalInfo>
-);
+        </a>.
+      </p>
+    </AdditionalInfo>
+  );
+};
 
 const firstOrNowString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
 
@@ -273,20 +276,22 @@ export const download4142Notice = (
   </div>
 );
 
-export const authorizationToDisclose = (
-  <div>
-    <p>Since your medical records are with your doctor, you’ll need to fill out an Authorization to Disclose
+export const authorizationToDisclose = () => {
+  return (
+    <div>
+      <p>Since your medical records are with your doctor, you’ll need to fill out an Authorization to Disclose
     Information to the VA (VA Form 21-4142) so we can request your records. You’ll need to fill out a form for
     each doctor.</p>
-    <p>
-      <a href={vaForm4142URL} target="_blank">
+      <p>
+        <a href={vaForm4142URL} target="_blank">
         Download VA Form 21-4142
-      </a>.
-    </p>
-    <p>Please print the form, fill it out, and send it to:</p>
-    {claimsIntakeAddress}
-  </div>
-);
+        </a>.
+      </p>
+      <p>Please print the form, fill it out, and send it to:</p>
+      {claimsIntakeAddress}
+    </div>
+  );
+};
 
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
@@ -333,6 +338,18 @@ export const additionalDocumentDescription = () => {
       </ul>
       <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
     </div>
+  );
+};
+
+export const selectDisabilityDescription = () => {
+  return (
+    <p>Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.</p>
+  );
+};
+
+export const releaseDescription = () => {
+  return (
+    <p>Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application</p>
   );
 };
 
@@ -439,14 +456,61 @@ export const disabilityOption = ({ diagnosticCode, ratingPercentage }) => {
   );
 };
 
+const prestartAlertHeadings = {
+  [created]: 'Your Intent to File request has been submitted',
+  [retrieved]: 'We found your existing Intent to File',
+  [renewed]: 'Your Intent to File request has been submitted',
+  [notRetrievedSaved]: 'Your Intent to File request didn’t go through',
+  [notCreated]: 'We can’t process your Intent to File request',
+  [notRenewed]: 'Your Intent to File request didn’t go through',
+  [notRetrievedNew]: 'We’re sorry. Something went wrong on our end',
+};
 
-export const ITFErrorAlert = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h3>We’re sorry. Your intent to file request didn’t go through. Please try again.</h3>
-    </div>
-  </div>
-);
+const prestartErrorMessages = {
+  [notRetrievedSaved]: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
+  [notCreated]: 'We’re sorry. We can’t process your Intent to File request at this time. Please try applying again tomorrow.',
+  [notRenewed]: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
+  [notRetrievedNew]: 'We can’t access your Intent to File request right now. Please try applying again tomorrow.',
+};
+
+function getPrestartSuccessMessage(status, data, expiredData) {
+  const messages = {
+    [created]: (expirationDateString) => `Thank you for submitting your Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
+    [retrieved]: (expirationDateString) => `Our records show that you already have an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
+    [renewed]: (expirationDateString, expiredDateString) => `Your existing Intent to File expired on ${expiredDateString}, so we’ve created a new one for you. This new Intent to File request will expire on ${expirationDateString}.`
+  };
+  return messages[status](moment(data).format('MMM D, YYYY'), moment(expiredData).format('MMM D, YYYY'));
+}
+
+export function PrestartAlert({ status, data }) {
+  let expiredExpirationData;
+  let activeExpirationData = data;
+  let alertType;
+  const alertHeading = prestartAlertHeadings[status];
+  let alertMessage;
+
+  if (prestartSuccessStatuses.has(status)) {
+    alertType = 'success';
+    alertMessage = getPrestartSuccessMessage(status, activeExpirationData, expiredExpirationData);
+  } else if (prestartFailureStatuses.has(status)) {
+    alertType = 'error';
+    alertMessage = prestartErrorMessages[status];
+  }
+  if (data.expiredData) {
+    activeExpirationData = data.previous;
+    expiredExpirationData = data.current;
+  }
+  return (<AlertBox
+    status={alertType}
+    isVisible
+    content={<div>
+      <h3>{alertHeading}</h3>
+      <p>{alertMessage}</p>
+      <AdditionalInfo triggerText="What is an Intent to File request?">
+        <p>An Intent to File request lets you set an effective date, or the day you can start getting your benefits, while you prepare your application and gather supporting documents for your disability claim. If you submit an Intent to File before you file your claim, you may be able to get retroactive payments starting from your effective date.</p>
+      </AdditionalInfo>
+    </div>}/>);
+}
 
 
 export const UnauthenticatedAlert = (
@@ -583,31 +647,35 @@ export const PrimaryAddressViewField = ({ formData }) => {
 };
 
 
-export const FDCDescription = (
-  <div>
-    <h5>Fully developed claim program</h5>
-    <p>
+export const FDCDescription = () => {
+  return (
+    <div>
+      <h5>Fully developed claim program</h5>
+      <p>
       You can apply using the Fully Developed Claim (FDC) program if
       you’ve uploaded all the supporting documents or supplemental
       forms needed to support your claim.
-    </p>
-    <a href="/pension/apply/fully-developed-claim/" target="_blank">
+      </p>
+      <a href="/pension/apply/fully-developed-claim/" target="_blank">
       Learn more about the FDC program
-    </a>.
-  </div>
-);
+      </a>.
+    </div>
+  );
+};
 
 
-export const FDCWarning = (
-  <div className="usa-alert usa-alert-info no-background-image">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Since you’ve uploaded all your supporting documents, your
-        claim will be submitted as a fully developed claim.
+export const FDCWarning = () => {
+  return (
+    <div className="usa-alert usa-alert-info no-background-image">
+      <div className="usa-alert-body">
+        <div className="usa-alert-text">
+          Since you’ve uploaded all your supporting documents, your
+          claim will be submitted as a fully developed claim.
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 
 export const noFDCWarning = (
