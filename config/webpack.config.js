@@ -34,8 +34,8 @@ const configGenerator = (options, apps) => {
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
-      filename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
+      filename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
+      chunkFilename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
     },
     module: {
       rules: [
@@ -169,7 +169,7 @@ const configGenerator = (options, apps) => {
       }),
 
       new ExtractTextPlugin({
-        filename: (options.buildtype === 'development') ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
+        filename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
