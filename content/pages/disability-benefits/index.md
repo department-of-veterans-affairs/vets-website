@@ -19,7 +19,7 @@ majorlinks:
       description: Find out if you can get disability benefits, like financial support and health care, from VA.
     - url: /disability-benefits/apply/
       title: Application Process
-      description: Apply online now, or find out how to apply in person or get help from a trained professional.
+      description: Find out how to apply online for all types of disability claims, including a claim for increased compensation.
     - url: /disability-benefits/conditions/
       title: Conditions
       description: Discover which illnesses or injuries qualify you for benefits.
@@ -41,7 +41,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-You may be able to get VA disability benefits if you got sick or injured, or developed a mental health condition (like PTSD) while serving in the military. You may also qualify if your service made a condition worse that you had before you began serving. Even when a condition doesn’t appear until years after your service ends, if it resulted from an injury or illness that happened during active military service (called “service connected”), you may qualify for monthly VA disability payments. Find out if you can get disability compensation and other benefits like health care.
+You may be able to get VA disability benefits if you got sick or injured, or developed a mental health condition (like PTSD) while serving in the military. You may also qualify if your service made a condition worse that you had before you began serving. Even when a condition doesn’t appear until years after your service ends, if it resulted from an injury or illness that happened during active military service (called “service connected”), you may qualify for monthly VA disability payments. Find out if you can get disability compensation.
 
 
 </div>
