@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -141,7 +142,6 @@ class CalculatorForm extends React.Component {
             ]}
             value={this.props.inputs.yellowRibbonRecipient}
             onChange={this.handleInputChange}/>
-
           { this.props.inputs.yellowRibbonRecipient === 'yes' ?
             <div>
               <Dropdown
@@ -170,6 +170,15 @@ class CalculatorForm extends React.Component {
                   value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
                   onChange={this.handleInputChange}/>
               </div>
+              <AlertBox
+                isVisible
+                key={this.props.inputs.yellowRibbonProgramIndex}
+                status="info">
+                <div>
+                  Maximum amount per student: <strong>${parseFloat(this.props.inputs.yellowRibbonMaxAmount).toFixed(2)}/yr</strong><br></br>
+                  Number of students: <strong>{this.props.inputs.yellowRibbonMaxNumberOfStudents}</strong>
+                </div>
+              </AlertBox>
             </div>
             : null }
         </div>

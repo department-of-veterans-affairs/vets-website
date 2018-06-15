@@ -72,17 +72,23 @@ describe('calculator reducer', () => {
         {
           divisionProfessionalSchool: 'division1',
           degreeLevel: 'graduate',
-          contributionAmount: 5000
+          contributionAmount: 5000,
+          index: 0,
+          numberOfStudents: 20
         },
         {
           divisionProfessionalSchool: 'division2',
           degreeLevel: 'undergraduate',
-          contributionAmount: 5
+          contributionAmount: 5,
+          index: 1,
+          numberOfStudents: 25
         },
         {
           divisionProfessionalSchool: 'division3',
           degreeLevel: 'undergraduate',
-          contributionAmount: 25
+          contributionAmount: 25,
+          index: 2,
+          numberOfStudents: 30
         }
       ]
     };
@@ -100,7 +106,10 @@ describe('calculator reducer', () => {
       yellowRibbonDegreeLevel: 'undergraduate',
       yellowRibbonDivisionOptions: ['division2', 'division3'],
       yellowRibbonDivision: 'division2',
-      yellowRibbonAmount: 5
+      yellowRibbonAmount: 5,
+      yellowRibbonProgramIndex: 1,
+      yellowRibbonMaxAmount: 5,
+      yellowRibbonMaxNumberOfStudents: 25
     });
   });
 
@@ -112,17 +121,23 @@ describe('calculator reducer', () => {
         {
           divisionProfessionalSchool: 'division1',
           degreeLevel: 'graduate',
-          contributionAmount: 5000
+          contributionAmount: 5000,
+          index: 0,
+          numberOfStudents: 20
         },
         {
           divisionProfessionalSchool: 'division2',
           degreeLevel: 'undergraduate',
-          contributionAmount: 5
+          contributionAmount: 5,
+          index: 1,
+          numberOfStudents: 25
         },
         {
           divisionProfessionalSchool: 'division3',
           degreeLevel: 'undergraduate',
-          contributionAmount: 25
+          contributionAmount: 25,
+          index: 2,
+          numberOfStudents: 30
         }
       ]
     };
@@ -139,7 +154,10 @@ describe('calculator reducer', () => {
       ...previousState,
       yellowRibbonDegreeLevel: 'undergraduate',
       yellowRibbonDivision: 'division3',
-      yellowRibbonAmount: 25
+      yellowRibbonAmount: 25,
+      yellowRibbonMaxAmount: 25,
+      yellowRibbonMaxNumberOfStudents: 30,
+      yellowRibbonProgramIndex: 2
     });
   });
 
@@ -156,17 +174,20 @@ describe('calculator reducer', () => {
                 {
                   divisionProfessionalSchool: 'division1',
                   degreeLevel: 'graduate',
-                  contributionAmount: 5000
+                  contributionAmount: 5000,
+                  numberOfStudents: 20
                 },
                 {
                   divisionProfessionalSchool: 'division2',
                   degreeLevel: 'undergraduate',
-                  contributionAmount: 5
+                  contributionAmount: 5,
+                  numberOfStudents: 25
                 },
                 {
                   divisionProfessionalSchool: 'division3',
                   degreeLevel: 'undergraduate',
-                  contributionAmount: 25
+                  contributionAmount: 25,
+                  numberOfStudents: 30
                 }
               ]
             }
@@ -179,6 +200,9 @@ describe('calculator reducer', () => {
       yellowRibbonDegreeLevel: 'graduate',
       yellowRibbonDivision: 'division1',
       yellowRibbonAmount: 5000,
+      yellowRibbonMaxNumberOfStudents: 20,
+      yellowRibbonMaxAmount: 5000,
+      yellowRibbonProgramIndex: 0
     });
     expect(state.yellowRibbonDivisionOptions).to.eql(['division1']);
     expect(state.yellowRibbonDegreeLevelOptions).to.eql(['graduate', 'undergraduate']);
@@ -186,17 +210,23 @@ describe('calculator reducer', () => {
       {
         divisionProfessionalSchool: 'division1',
         degreeLevel: 'graduate',
-        contributionAmount: 5000
+        contributionAmount: 5000,
+        index: 0,
+        numberOfStudents: 20
       },
       {
         divisionProfessionalSchool: 'division2',
         degreeLevel: 'undergraduate',
-        contributionAmount: 5
+        contributionAmount: 5,
+        index: 1,
+        numberOfStudents: 25
       },
       {
         divisionProfessionalSchool: 'division3',
         degreeLevel: 'undergraduate',
-        contributionAmount: 25
+        contributionAmount: 25,
+        index: 2,
+        numberOfStudents: 30
       }
     ]);
   });
