@@ -107,6 +107,7 @@ const fakeITFRequest = async (url, options, success) => {
   return success(response);
 };
 
+// TODO: remove this mock once user testing is complete
 export function mockCheckITFRequest(dispatch, hasSavedForm) {
   return fakeITFRequest(
     '/intent_to_file',
