@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Depending on what type of disability claim you’re filing, you can apply using either eBenefits or the online application. We’ve listed all the steps below. Find out how to apply for this tax-free monetary benefit. 
+Find out how to apply for disability benefits. We list all the steps below&mdash;whether you’re filing your first disability claim or if you’re filing a claim for increased disability compensation. 
 
 </div>
 
