@@ -21,14 +21,34 @@ const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'addi
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
-const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
-
 export const USA = 'USA';
 export const MILITARY_STATES = ['AA', 'AE', 'AP'];
 export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
-import { prestartFailureStatuses, prestartSuccessStatuses, PRESTART_STATUSES } from './actions';
+// import { PRESTART_STATUSES, prestartFailureStatuses, prestartSuccessStatuses } from './actions'; TODO: fix import bug
+
+const PRESTART_STATUSES = {
+  notAttempted: 'not-attempted',
+  active: 'active',
+  pending: 'pending',
+  none: 'none',
+  expired: 'expired',
+  created: 'created',
+  retrieved: 'retrieved',
+  renewed: 'renewed',
+  notRetrievedSaved: 'not-retrieved-saved',
+  notRetrievedNew: 'not-retrieved-new',
+  notCreated: 'not-created',
+  notRenewed: 'not-renewed',
+};
+
+const prestartSuccessStatuses = new Set([PRESTART_STATUSES.created, PRESTART_STATUSES.retrieved, PRESTART_STATUSES.renewed]);
+
+const prestartFailureStatuses = new Set([PRESTART_STATUSES.notCreated, PRESTART_STATUSES.notRenewed, PRESTART_STATUSES.notRetrievedNew, PRESTART_STATUSES.notRetrievedSaved]);
 
 const { created, retrieved, renewed, notRetrievedNew, notRetrievedSaved, notCreated, notRenewed } = PRESTART_STATUSES;
+
+const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+
 /*
  * Flatten nested array form data into sibling properties
  *
@@ -508,6 +528,7 @@ export function PrestartAlert({ status, data }) {
     alertType = 'error';
     alertMessage = prestartErrorMessages[status];
   }
+  debugger;
 
   return (<AlertBox
     status={alertType}

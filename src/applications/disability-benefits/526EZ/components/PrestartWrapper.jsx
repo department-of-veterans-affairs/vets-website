@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import { verifyIntentToFile as setPrestartStatus, unsetPrestartStatus, unsetPrestartDisplay, prestartPendingStatuses, prestartFailureStatuses, PRESTART_STATUSES } from '../actions';
+import { verifyIntentToFile as setPrestartStatus, resetPrestartStatus, resetPrestartDisplay, prestartPendingStatuses, prestartFailureStatuses, PRESTART_STATUSES } from '../actions';
 
 import { PrestartAlert } from '../helpers';
 
@@ -14,9 +14,10 @@ const formEntryPointPaths = new Set(['introduction', 'confirmation', 'form-saved
 class PrestartWrapper extends React.Component {
 
   componentWillReceiveProps(newProps) {
+    console.log('firing');
     const { location: { pathname }, displayPrestartMessage, formConfig: { formId }, savedForms } = this.props;
     const currentPath = pathname.slice(1);
-    const { prestartStatus, location: { pathname: newPathname } } = newProps;
+    const { location: { pathname: newPathname } } = newProps;
     const newPath = newPathname.slice(1);
     const enteringForm = !formEntryPointPaths.has(newPath) && formEntryPointPaths.has(currentPath);
     const exitingForm = formEntryPointPaths.has(newPath) && !formEntryPointPaths.has(currentPath);
@@ -24,13 +25,13 @@ class PrestartWrapper extends React.Component {
     const hasSavedForm = savedForms.find(({ form }) => form === formId);
 
     if (leavingFormPage && displayPrestartMessage) {
-      this.props.unsetPrestartDisplay();
+      this.props.resetPrestartDisplay();
     }
-    if ((prestartStatus === PRESTART_STATUSES.notAttempted || prestartFailureStatuses.has(prestartStatus)) && enteringForm) {
+    if (enteringForm) {
       this.props.setPrestartStatus(hasSavedForm);
     }
-    if (prestartStatus && exitingForm) {
-      this.props.unsetPrestartStatus();
+    if (exitingForm) {
+      this.props.resetPrestartStatus();
     }
   }
 
@@ -68,8 +69,8 @@ PrestartWrapper.propTypes = {
   router: PropTypes.object.isRequired,
   routes: PropTypes.array.isRequired,
   setPrestartStatus: PropTypes.func.isRequired,
-  unsetPrestartDisplay: PropTypes.func.isRequired,
-  unsetPrestartStatus: PropTypes.func.isRequired
+  resetPrestartDisplay: PropTypes.func.isRequired,
+  resetPrestartStatus: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -83,8 +84,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setPrestartStatus,
-  unsetPrestartStatus,
-  unsetPrestartDisplay
+  resetPrestartStatus,
+  resetPrestartDisplay
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PrestartWrapper));
