@@ -19,7 +19,7 @@ majorlinks:
       description: Find out if you can get disability benefits, like financial support and health care, from VA.
     - url: /disability-benefits/apply/
       title: Application Process
-      description: Find out how to apply online for all types of disability claims, including a claim for increased compensation.
+      description: Learn how to apply online for all types of disability claims, including a claim for increased compensation.
     - url: /disability-benefits/conditions/
       title: Conditions
       description: Discover which illnesses or injuries qualify you for benefits.
