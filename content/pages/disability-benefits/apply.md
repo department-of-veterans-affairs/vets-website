@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for disability benefits. We list all the steps below&mdash;whether you’re filing your first disability claim or if you’re filing a claim for increased disability compensation. 
+Find out how to apply for disability benefits. We list all the steps below&mdash;whether you’re filing your first disability claim or you’re filing a claim for increased disability compensation. 
 
 </div>
 
