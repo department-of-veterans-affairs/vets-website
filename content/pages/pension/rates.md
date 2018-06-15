@@ -26,20 +26,20 @@ Your VA pension = $15,525 for the year (or $1,293 paid each month)
 
 ### Find your Maximum Annual Pension Rate (MAPR) amount
 
-*Date of Cost-of-Living Increase: December 1, 2016* <br>
-*Increase Factor: .3%* <br>
+*Date of Cost-of-Living Increase: December 1, 2017* <br>
+*Increase Factor: 2%* <br>
 *Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.*
 
 #### For Veterans with no dependents:
 
 | **If you have no dependents and…** | **Your MAPR amount is:** | 
 | --- | --- | 
-| You don’t qualify for Housebound or Aid and Attendance benefits | $12,907 |
-| You qualify for Housebound benefits | $15,773 | 
-| You qualify for Aid and Attendance benefits | $21,531 | 
+| You don’t qualify for Housebound or Aid and Attendance benefits | $13,166 |
+| You qualify for Housebound benefits | $16,089 | 
+| You qualify for Aid and Attendance benefits | $21,962 | 
 
 **Note:** <br>
-If you have medical expenses, you may deduct only the amount that’s above 5% of your MAPR amount ($645 for a Veteran with no spouse or child).
+If you have medical expenses, you may deduct only the amount that’s above 5% of your MAPR amount ($659 for a Veteran with no spouse or child).
 
 #### For Veterans with at least 1 dependent spouse or child:
 
