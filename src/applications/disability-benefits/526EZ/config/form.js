@@ -2,9 +2,9 @@ import _ from '../../../../platform/utilities/data';
 
 // import { omitRequired } from '../../../common/schemaform/helpers';
 
-import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
-// import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema526EZ from '/Users/adhocteam/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
@@ -51,12 +51,10 @@ import {
   treatmentView,
   download4142Notice,
   authorizationToDisclose,
-  recordReleaseWarning,
-  // validateAddress, // TODO: This needs to be fleshed out
+  // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
-  // releaseView, // Where was this used before?
   disabilityOption,
   GetFormHelp,
   FDCDescription,
@@ -72,7 +70,7 @@ import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWid
 
 const {
   treatments: treatmentsSchema,
-  privateRecordReleases,
+  // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation,
   standardClaim,
   veteran: {
@@ -83,6 +81,7 @@ const {
 } = fullSchema526EZ.properties;
 
 const {
+  address,
   date,
   fullName,
   phone,
@@ -92,7 +91,6 @@ const {
   dateRangeAllRequired,
   disabilities,
   specialIssues,
-  privateTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -144,6 +142,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
+    address,
     date,
     fullName,
     phone,
@@ -153,7 +152,6 @@ const formConfig = {
     dateRangeAllRequired,
     disabilities,
     specialIssues,
-    privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
@@ -626,114 +624,113 @@ const formConfig = {
             }
           }
         },
-        privateMedicalRecordRelease: {
-          title: '',
-          path: 'supporting-evidence/:index/private-medical-records-release',
-          showPagePerItem: true,
-          itemFilter: (item) => _.get('view:selected', item),
-          arrayPath: 'disabilities',
-          // TODO: Re-enable actual depends logic for page once 4142 PDF generation is working through vets-api
-          depends: () => false,
-          // depends: (formData, index) => {
-          //   const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
-          //   const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
-          //   return hasRecords && requestsRecords;
-          // },
-          uiSchema: {
-            disabilities: {
-              items: {
-                'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
-                privateRecordReleases: {
-                  'ui:options': {
-                    itemName: 'Private Medical Record Release',
-                    viewField: treatmentView
-                  },
-                  items: {
-                    'ui:order': [
-                      'treatmentCenterName',
-                      'privateMedicalRecordsReleaseRestricted',
-                      'view:releaseRestrictedNotice',
-                      'treatmentDateRange',
-                      'treatmentCenterAddress'
-                    ],
-                    treatmentCenterName: {
-                      'ui:title': 'Name of private provider or hospital'
-                    },
-                    treatmentDateRange: dateRangeUI(
-                      'Approximate date of first treatment',
-                      'Approximate date of last treatment',
-                      'Date of last treatment must be after date of first treatment'
-                    ),
-                    privateMedicalRecordsReleaseRestricted: {
-                      'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
-                    },
-                    'view:releaseRestrictedNotice': {
-                      'ui:description': () => recordReleaseWarning,
-                      'ui:options': {
-                        expandUnder: 'privateMedicalRecordsReleaseRestricted'
-                      }
-                    },
-                    treatmentCenterAddress: {
-                      'ui:order': [
-                        'country',
-                        'addressLine1',
-                        'addressLine2',
-                        'city',
-                        'state',
-                        'zipCode'
-                      ],
-                      // TODO: confirm validation for PCIU address across all usage
-                      // 'ui:validations': [validateAddress],
-                      country: {
-                        'ui:title': 'Country'
-                      },
-                      addressLine1: {
-                        'ui:title': 'Street address'
-                      },
-                      addressLine2: {
-                        'ui:title': 'Street address'
-                      },
-                      city: {
-                        'ui:title': 'City'
-                      },
-                      state: {
-                        'ui:title': 'State'
-                      },
-                      zipCode: {
-                        'ui:title': 'Postal code',
-                        'ui:options': {
-                          widgetClassNames: 'usa-input-medium',
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              disabilities: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    privateRecordReleases: _.set(
-                      'items.properties.view:releaseRestrictedNotice',
-                      {
-                        type: 'object',
-                        'ui:collapsed': true,
-                        properties: {}
-                      },
-                      privateRecordReleases
-                    )
-                  }
-                }
-              }
-            },
-          }
-        },
+        // TODO: Re-enable after 4142 PDF integration
+        // privateMedicalRecordRelease: {
+        //   title: '',
+        //   path: 'supporting-evidence/:index/private-medical-records-release',
+        //   showPagePerItem: true,
+        //   itemFilter: (item) => _.get('view:selected', item),
+        //   arrayPath: 'disabilities',
+        //   depends: (formData, index) => {
+        //     const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+        //     const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+        //     return hasRecords && requestsRecords;
+        //   },
+        //   uiSchema: {
+        //     disabilities: {
+        //       items: {
+        //         'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
+        //         privateRecordReleases: {
+        //           'ui:options': {
+        //             itemName: 'Private Medical Record Release',
+        //             viewField: treatmentView
+        //           },
+        //           items: {
+        //             'ui:order': [
+        //               'treatmentCenterName',
+        //               'privateMedicalRecordsReleaseRestricted',
+        //               'view:releaseRestrictedNotice',
+        //               'treatmentDateRange',
+        //               'treatmentCenterAddress'
+        //             ],
+        //             treatmentCenterName: {
+        //               'ui:title': 'Name of private provider or hospital'
+        //             },
+        //             treatmentDateRange: dateRangeUI(
+        //               'Approximate date of first treatment',
+        //               'Approximate date of last treatment',
+        //               'Date of last treatment must be after date of first treatment'
+        //             ),
+        //             privateMedicalRecordsReleaseRestricted: {
+        //               'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
+        //             },
+        //             'view:releaseRestrictedNotice': {
+        //               'ui:description': () => recordReleaseWarning,
+        //               'ui:options': {
+        //                 expandUnder: 'privateMedicalRecordsReleaseRestricted'
+        //               }
+        //             },
+        //             treatmentCenterAddress: {
+        //               'ui:order': [
+        //                 'country',
+        //                 'addressLine1',
+        //                 'addressLine2',
+        //                 'city',
+        //                 'state',
+        //                 'zipCode'
+        //               ],
+        //               // TODO: confirm validation for PCIU address across all usage
+        //               // 'ui:validations': [validateAddress],
+        //               country: {
+        //                 'ui:title': 'Country'
+        //               },
+        //               addressLine1: {
+        //                 'ui:title': 'Street address'
+        //               },
+        //               addressLine2: {
+        //                 'ui:title': 'Street address'
+        //               },
+        //               city: {
+        //                 'ui:title': 'City'
+        //               },
+        //               state: {
+        //                 'ui:title': 'State'
+        //               },
+        //               zipCode: {
+        //                 'ui:title': 'Postal code',
+        //                 'ui:options': {
+        //                   widgetClassNames: 'usa-input-medium',
+        //                 }
+        //               }
+        //             }
+        //           }
+        //         }
+        //       }
+        //     }
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {
+        //       disabilities: {
+        //         type: 'array',
+        //         items: {
+        //           type: 'object',
+        //           properties: {
+        //             privateRecordReleases: _.set(
+        //               'items.properties.view:releaseRestrictedNotice',
+        //               {
+        //                 type: 'object',
+        //                 'ui:collapsed': true,
+        //                 properties: {}
+        //               },
+        //               privateRecordReleases
+        //             )
+        //           }
+        //         }
+        //       }
+        //     },
+        //   }
+        // },
         recordUpload: {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
