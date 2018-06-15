@@ -12,8 +12,6 @@ describe('<MHVApp>', () => {
     account: {
       errors: null,
       loading: false,
-      polling: false,
-      polledTimes: 0,
       state: null
     },
     availableServices: ['facilities', 'hca', 'user-profile'],
@@ -44,16 +42,6 @@ describe('<MHVApp>', () => {
     expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
   });
 
-  it('should show a loading indicator when polling and override generic loading', () => {
-    const newProps = merge(props, {
-      account: { loading: true, polling: true }
-    });
-    const wrapper = shallow(<MHVApp {...newProps}/>);
-    const loadingIndicator = wrapper.find('LoadingIndicator').dive();
-    expect(loadingIndicator.text()).to.equal('Creating your MHV account...');
-  });
-
-
   it('should create an account if the user does not have an account but is eligible', () => {
     const wrapper = shallow(<MHVApp {...props}/>);
     const account = set('state', 'no_account', props.account);
@@ -76,36 +64,6 @@ describe('<MHVApp>', () => {
     });
     const wrapper = shallow(<MHVApp {...newProps}/>);
     expectAlert(wrapper, 'success', 'Thank you for accepting the Terms and Conditions for using Vets.gov health tools');
-  });
-
-  it('should poll for account state while account is being created', () => {
-    const clock = sinon.useFakeTimers();
-    const wrapper = shallow(<MHVApp {...props}/>);
-    props.fetchMHVAccount.reset();
-
-    const initialAccount = set('state', 'no_account', props.account);
-    wrapper.setProps({ account: initialAccount });
-
-    const pollingAccount = set('polling', true, initialAccount);
-    wrapper.setProps({ account: pollingAccount });
-    expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
-
-    wrapper.setProps({ account: set('polledTimes', 1, pollingAccount) });
-    clock.tick(1000);
-    wrapper.setProps({ account: set('polledTimes', 2, pollingAccount) });
-    clock.tick(2000);
-    expect(props.fetchMHVAccount.calledThrice).to.be.true;
-
-    const upgradedAccount = {
-      ...props.account,
-      polling: false,
-      polledTimes: 0,
-      state: 'upgraded'
-    };
-
-    wrapper.setProps({ account: upgradedAccount });
-    expect(props.fetchMHVAccount.calledOnce).to.be.false;
-    clock.restore();
   });
 
   it('should show MHV access error if nothing is loading or processing', () => {
@@ -141,25 +99,6 @@ describe('<MHVApp>', () => {
     const newProps = set('account.errors', errors, props);
     const wrapper = shallow(<MHVApp {...newProps}/>);
     expectAlert(wrapper, 'error', 'We’re not able to process your My HealtheVet account');
-  });
-
-  it('should fetch account again if encountered an error', () => {
-    const newProps = set('account.state', 'no_account', props);
-    const wrapper = shallow(<MHVApp {...newProps}/>);
-    props.fetchMHVAccount.reset();
-
-    const errors = [
-      {
-        title: 'Account error',
-        detail: 'There was a problem with your account',
-        code: '500',
-        status: '500'
-      }
-    ];
-
-    const account = set('errors', errors, props.account);
-    wrapper.setProps({ account });
-    expect(props.fetchMHVAccount.calledOnce).to.be.true;
   });
 
   it('should show error if unable to determine MHV account level', () => {

@@ -7,7 +7,6 @@ export function mapRawUserDataToState(json) {
       attributes: {
         health_terms_current: healthTermsCurrent,
         in_progress_forms: savedForms,
-        mhv_account_state: mhvAccountState,
         prefills_available: prefillsAvailable,
         profile: {
           authn_context: authnContext,
@@ -43,8 +42,7 @@ export function mapRawUserDataToState(json) {
     isVeteran,
     loa,
     mhv: {
-      account: mhvAccountState,
-      terms: healthTermsCurrent
+      terms: { accepted: healthTermsCurrent }
     },
     multifactor,
     prefillsAvailable,

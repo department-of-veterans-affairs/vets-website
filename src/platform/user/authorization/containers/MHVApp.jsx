@@ -10,7 +10,8 @@ import { mhvAccessError } from '../../../static-data/error-messages';
 import { selectProfile } from '../../selectors';
 import {
   createMHVAccount,
-  fetchMHVAccount
+  fetchMHVAccount,
+  upgradeMHVAccount
 } from '../../../../platform/user/profile/actions';
 
 /* eslint-disable camelcase */
@@ -69,34 +70,19 @@ export class MHVApp extends React.Component {
 
     const accountStateChanged = prevProps.account.state !== account.state;
     if (accountStateChanged) { this.handleAccountState(); }
-
-    // Check the account state again if we just got an error.
-    // If it occurred from fetching the account, this is just a retry.
-    // If it occurred from account creation, we will get the corresponding
-    // failure state and handle it accordingly.
-    if (!prevProps.account.errors && account.errors) { this.props.fetchMHVAccount(); }
-
-    const shouldPollAccount = account.polling && !account.loading && !this.hasAccount();
-    if (shouldPollAccount) {
-      setTimeout(() => {
-        this.props.fetchMHVAccount();
-      }, 1000 * account.polledTimes);
-    }
   }
-
-  needsTermsAcceptance = () => this.props.account.state === 'needs_terms_acceptance';
-
-  hasAccount = () => ['existing', 'upgraded'].includes(this.props.account.state);
 
   hasService = () => this.props.availableServices.includes(this.props.serviceRequired);
 
   isIneligible = () => this.props.account.state in INELIGIBLE_MESSAGES;
 
   handleAccountState = () => {
+    const { account } = this.props;
+
     if (this.isIneligible()) {
       // Unverified accounts should have been handled before this component
       // rendered, but if it hasn't for some reason, we will redirect now.
-      if (this.props.account.state === 'needs_identity_verification') {
+      if (account.state === 'needs_identity_verification') {
         const nextQuery = { next: window.location.pathname };
         const verifyUrl = appendQuery('/verify', nextQuery);
         window.location.replace(verifyUrl);
@@ -105,12 +91,23 @@ export class MHVApp extends React.Component {
       return;
     }
 
-    if (this.needsTermsAcceptance()) {
-      const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
-      const termsConditionsUrl = appendQuery('/health-care/medical-information-terms-conditions', redirectQuery);
-      window.location.replace(termsConditionsUrl);
-    } else if (!this.hasAccount()) {
-      this.props.createMHVAccount();
+    switch (account.state) {
+      case 'needs_terms_acceptance': {
+        const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
+        const termsConditionsUrl = appendQuery('/health-care/medical-information-terms-conditions', redirectQuery);
+        window.location.replace(termsConditionsUrl);
+        break;
+      }
+
+      case 'no_account':
+        this.props.createMHVAccount();
+        break;
+
+      case 'registered':
+        this.props.upgradeMHVAccount();
+        break;
+
+      default: // Do nothing.
     }
   }
 
@@ -210,12 +207,12 @@ export class MHVApp extends React.Component {
   render() {
     const { account } = this.props;
 
-    if (account.polling) {
-      return <LoadingIndicator setFocus message="Creating your MHV account..."/>;
-    }
-
     if (account.loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
+    }
+
+    if (account.state === 'needs_terms_acceptance') {
+      return <LoadingIndicator setFocus message="Redirecting to terms and conditions..."/>;
     }
 
     if (account.errors) { return this.renderPlaceholderErrorMessage(); }
@@ -261,7 +258,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   createMHVAccount,
-  fetchMHVAccount
+  fetchMHVAccount,
+  upgradeMHVAccount
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MHVApp));
