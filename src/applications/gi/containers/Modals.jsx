@@ -228,7 +228,7 @@ export class Modals extends React.Component {
           <h3>Credit for Military Training</h3>
           <p>Does the school offer postsecondary credit for experiences and military training?</p>
         </Modal>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('STEM')}>
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('stemOffered')}>
           <h3>STEM</h3>
           <p>TODO!!!</p>
         </Modal>
