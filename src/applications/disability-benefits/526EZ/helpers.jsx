@@ -12,6 +12,7 @@ import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
+import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
 
@@ -22,6 +23,9 @@ import { DateWidget } from '../../common/schemaform/review/widgets';
 
 const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
+export const USA = 'USA';
+export const MILITARY_STATES = ['AA', 'AE', 'AP'];
+export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 import { prestartFailureStatuses, prestartSuccessStatuses, PRESTART_STATUSES } from './actions';
 
 const { created, retrieved, renewed, notRetrievedNew, notRetrievedSaved, notCreated, notRenewed } = PRESTART_STATUSES;
@@ -93,16 +97,25 @@ export function prefillTransformer(pages, formData, metadata, state) {
   };
 }
 
+export function descriptionWrapper(formData, formContext, ...messages) {
+  return (
+    <div>
+      {messages.map((Message, i) => <Message key={i} formData={formData} formContext={formContext}/>)}
+    </div>
+  );
+}
 
-export const supportingEvidenceOrientation = (
-  <p>
+export const supportingEvidenceOrientation = () => {
+  return (
+    <p>
     On the next few screens, we’ll ask you where we can find medical records or
     supporting evidence that show your rated condition has gotten worse. You don’t
     need to turn in any medical records that you already submitted with your original
     claim. <strong>We only need new medical records or evidence that show your rated
     condition has gotten worse.</strong>
-  </p>
-);
+    </p>
+  );
+};
 
 export const evidenceTypeHelp = (
   <AdditionalInfo triggerText="Which evidence type should I choose?">
