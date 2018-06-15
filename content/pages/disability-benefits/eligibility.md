@@ -30,7 +30,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description"  class="va-introtext">
 
-If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get VA disability benefits and compensation. Find out if you can get financial support and other benefits like health care.
+If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get VA disability benefits and compensation. 
 
 </div>
 
