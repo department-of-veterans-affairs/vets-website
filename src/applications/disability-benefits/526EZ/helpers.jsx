@@ -496,23 +496,19 @@ function getPrestartSuccessMessage(status, data, expiredData) {
 }
 
 export function PrestartAlert({ status, data }) {
-  let expiredExpirationData;
-  let activeExpirationData = data;
+  const { currentExpirationDate, previousExpirationDate } = data;
   let alertType;
   const alertHeading = prestartAlertHeadings[status];
   let alertMessage;
 
   if (prestartSuccessStatuses.has(status)) {
     alertType = 'success';
-    alertMessage = getPrestartSuccessMessage(status, activeExpirationData, expiredExpirationData);
+    alertMessage = getPrestartSuccessMessage(status, currentExpirationDate, previousExpirationDate);
   } else if (prestartFailureStatuses.has(status)) {
     alertType = 'error';
     alertMessage = prestartErrorMessages[status];
   }
-  if (data.expiredData) {
-    activeExpirationData = data.previous;
-    expiredExpirationData = data.current;
-  }
+
   return (<AlertBox
     status={alertType}
     isVisible
