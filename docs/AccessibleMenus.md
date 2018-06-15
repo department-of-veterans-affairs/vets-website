@@ -1,5 +1,5 @@
 ## DOM structure
-The idea behind `src/js/common/utils/accessible-menus.js` is to be able to pass the DOM tree for a menu to the helper function `addMenuListeners` to make the menu keyboard navigable.
+The idea behind `src/applications/common/utils/accessible-menus.js` is to be able to pass the DOM tree for a menu to the helper function `addMenuListeners` to make the menu keyboard navigable.
 
 The DOM structure needed on the menu for the helper function to work properly is as follows.
 

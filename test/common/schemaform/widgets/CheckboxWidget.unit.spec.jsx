@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import CheckboxWidget from '../../../../src/js/common/schemaform/widgets/CheckboxWidget';
+import CheckboxWidget from '../../../../src/applications/common/schemaform/widgets/CheckboxWidget';
 
 describe('Schemaform <CheckboxWidget>', () => {
   it('should render', () => {

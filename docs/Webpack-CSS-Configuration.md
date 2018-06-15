@@ -43,7 +43,7 @@
 ```js
 const entryFiles = {
   // ...
-  'my-application': './src/js/my-application/entry.jsx'
+  'my-application': './src/applications/my-application/entry.jsx'
   // ...
 ```
 
@@ -58,7 +58,7 @@ entryname: my-application
 <div id="react-entry"></div>
 ```
 
-##### src/js/my-application/entry.jsx
+##### src/applications/my-application/entry.jsx
 ```js
 // Our Webpack configuration will use the file extension to determine how to handle that import, which in our case is to compile it into a CSS file.
 import '../../sass/my-application.scss';

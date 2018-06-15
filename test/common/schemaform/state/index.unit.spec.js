@@ -8,9 +8,9 @@ import {
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
   SET_SUBMITTED
-} from '../../../../src/js/common/schemaform/actions';
+} from '../../../../src/applications/common/schemaform/actions';
 
-import createSchemaFormReducer from '../../../../src/js/common/schemaform/state';
+import createSchemaFormReducer from '../../../../src/applications/common/schemaform/state';
 
 describe('schemaform createSchemaFormReducer', () => {
   it('creates a reducer with initial state for each page', () => {
@@ -91,24 +91,29 @@ describe('schemaform createSchemaFormReducer', () => {
     });
 
     it('removes the chapter name from openChapters on CLOSE_REVIEW_CHAPTER', () => {
+      const viewedPages = new Set();
       const previousState = {
         reviewPageView: {
-          openChapters: ['chapter1', 'chapter2', 'chapter3']
-        }
+          openChapters: ['chapter1', 'chapter2', 'chapter3'],
+          viewedPages
+        },
       };
 
-      const expectedState = {
-        reviewPageView: {
-          openChapters: ['chapter1', 'chapter3']
-        }
-      };
 
       const action = {
         type: CLOSE_REVIEW_CHAPTER,
-        closedChapter: 'chapter2'
+        closedChapter: 'chapter2',
+        pageKeys: ['test']
       };
 
       const testState = reducer(previousState, action);
+
+      const expectedState = {
+        reviewPageView: {
+          openChapters: ['chapter1', 'chapter3'],
+          viewedPages: viewedPages.add('test')
+        }
+      };
 
       expect(testState).to.deep.equal(expectedState);
     });

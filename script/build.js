@@ -115,7 +115,6 @@ if (options.buildtype === 'production') {
   manifests.filter(m => !m.production).forEach(m => {
     ignoreList.push(m.contentPage);
   });
-  ignoreList.push('beta-enrollment/personalization.md');
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
 }
@@ -153,7 +152,7 @@ smith.use(collections({
     }
   },
   burialsPreNeed: {
-    pattern: 'burials-and-memorials/pre-need/*.md',
+    pattern: 'burials-and-memorials/pre-need/after*.md',
     sortBy: 'title',
     metadata: {
       name: 'Pre-need Determination'
@@ -247,6 +246,13 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'Eligibility'
+    }
+  },
+  disabilityEvidence: {
+    pattern: 'disability-benefits/apply/evidence/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'How to Gather Evidence For Your Claim'
     }
   },
   education: {
@@ -616,7 +622,6 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/health-care/apply/application',
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
-        '/disability-benefits/apply-for-increase',
         '/download-va-letters/letters'].join('|'))
   }));
 }

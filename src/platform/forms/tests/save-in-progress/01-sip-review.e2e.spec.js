@@ -1,12 +1,15 @@
 const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts.js');
-const HcaHelpers = require('../../../../js/hca/tests/hca-helpers.js');
+const HcaHelpers = require('../../../../applications/hca/tests/hca-helpers.js');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     const url = `${E2eHelpers.baseUrl}/health-care/apply/application`;
     const reviewUrl = `${url}/review-and-submit?skip`;
     const token = HcaHelpers.initSaveInProgressMock(url, client);
+
+    // Prevent announcements from interfering with browser focus
+    E2eHelpers.disableAnnouncements(client);
 
     // Ensure introduction page renders.
     client

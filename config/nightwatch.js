@@ -1,11 +1,11 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-const electron = require('electron');
 const chromedriver = require('chromedriver');
 const seleniumServer = require('selenium-server');
 
-require('babel-core/register');
+require('babel-register');
+require('babel-polyfill');
 
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
 
@@ -38,7 +38,6 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         chromeOptions: {
-          binary: electron,
           args: ['--window-size=1024,768']
         }
       },
@@ -59,6 +58,13 @@ module.exports = {
     },
     accessibility: {
       filter: './src/platform/site-wide/tests/sitemap/*.spec.js'
+    },
+    headless: {
+      desiredCapabilities: {
+        chromeOptions: {
+          args: ['--headless', '--window-size=1024,768']
+        }
+      },
     },
     bestpractice: {
       globals: {

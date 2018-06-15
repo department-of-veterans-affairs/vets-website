@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import SchemaForm from '../../../../src/js/common/schemaform/components/SchemaForm';
+import SchemaForm from '../../../../src/applications/common/schemaform/components/SchemaForm';
 
 describe('Schemaform <SchemaForm>', () => {
   it('should render', () => {

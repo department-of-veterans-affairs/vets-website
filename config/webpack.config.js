@@ -12,7 +12,7 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const globalEntryFiles = {
-  style: './src/sass/style.scss',
+  style: './src/platform/site-wide/sass/style.scss',
   vendor: [
     './src/platform/polyfills',
     'history',

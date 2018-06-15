@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import ArrayField from '../../../../src/js/common/schemaform/review/ArrayField';
+import ArrayField from '../../../../src/applications/common/schemaform/review/ArrayField';
 
 const registry = {
   definitions: {},

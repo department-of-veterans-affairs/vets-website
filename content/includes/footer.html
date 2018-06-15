@@ -1,3 +1,4 @@
+<div id="announcement-root"></div>
 <footer class="footer" role="contentinfo">
   <!--
     Uncomment this when the feedback tool is ready to go
@@ -140,7 +141,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 (function() {
   var widgets = {{ widgets | json }};
   var module = {};
-  {% include "src/js/static-pages/static-page-widgets.js" %}
+  {% include "src/applications/static-pages/static-page-widgets.js" %}
   mountWidgets(widgets);
 })();
 </script>
