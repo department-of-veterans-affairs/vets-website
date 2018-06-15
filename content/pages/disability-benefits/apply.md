@@ -40,7 +40,7 @@ Depending on what type of disability claim you’re filing, you can apply using 
 
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
 - Check to see if you’ll need to turn in any additional forms with your claim. For example, if you’re claiming a dependent or requesting aid and attendance benefits, you’ll need to fill out another form. <br>
 [Learn what supplemental forms you may need to file with your disability claim](/disability-benefits/apply/supplemental-forms/). 
 
@@ -93,7 +93,8 @@ Bring your application to a regional benefit office near you. <br>[Find a region
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim. <br> [Get help filing your claim](/disability-benefits/apply/help/index.html).
+You can work with a trained professional who can help you file a claim. <br> [Get help filing your claim](/disability-benefits/apply/help/index.html). <br>
+If you have a power of attorney and need to update their information, please call Veterans Benefits Assistance at 1-800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 </div>
 </div>
