@@ -16,8 +16,6 @@ import {
 
 /* eslint-disable camelcase */
 const INELIGIBLE_MESSAGES = {
-  needs_identity_verification: null,
-
   needs_ssn_resolution: {
     headline: 'We can’t give you access to the Vets.gov health tools',
     content: (
@@ -74,21 +72,19 @@ export class MHVApp extends React.Component {
 
   hasService = () => this.props.availableServices.includes(this.props.serviceRequired);
 
-  isIneligible = () => this.props.account.state in INELIGIBLE_MESSAGES;
+  shouldShowIneligibleMessage = () => this.props.account.state in INELIGIBLE_MESSAGES;
 
   handleAccountState = () => {
+    if (this.hasService() || this.shouldShowIneligibleMessage()) { return; }
+
     const { account } = this.props;
 
-    if (this.isIneligible()) {
-      // Unverified accounts should have been handled before this component
-      // rendered, but if it hasn't for some reason, we will redirect now.
-      if (account.state === 'needs_identity_verification') {
-        const nextQuery = { next: window.location.pathname };
-        const verifyUrl = appendQuery('/verify', nextQuery);
-        window.location.replace(verifyUrl);
-      }
-
-      return;
+    // Unverified accounts should have been handled before this component
+    // rendered, but if it hasn't for some reason, we will redirect now.
+    if (account.state === 'needs_identity_verification') {
+      const nextQuery = { next: window.location.pathname };
+      const verifyUrl = appendQuery('/verify', nextQuery);
+      window.location.replace(verifyUrl);
     }
 
     switch (account.state) {
@@ -211,10 +207,6 @@ export class MHVApp extends React.Component {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
-    if (account.state === 'needs_terms_acceptance') {
-      return <LoadingIndicator setFocus message="Redirecting to terms and conditions..."/>;
-    }
-
     if (account.errors) { return this.renderPlaceholderErrorMessage(); }
 
     if (account.level === 'Unknown') { return this.renderAccountUnknownMessage(); }
@@ -223,7 +215,13 @@ export class MHVApp extends React.Component {
 
     if (account.state === 'upgrade_failed') { return this.renderUpgradeFailedMessage(); }
 
-    if (this.isIneligible()) { return this.renderIneligibleMessage(this.props.account.state); }
+    if (account.state === 'needs_terms_acceptance') {
+      return <LoadingIndicator setFocus message="Redirecting to terms and conditions..."/>;
+    }
+
+    if (this.shouldShowIneligibleMessage()) {
+      return this.renderIneligibleMessage(this.props.account.state);
+    }
 
     if (!this.hasService()) { return mhvAccessError; }
 
