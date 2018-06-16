@@ -5,11 +5,14 @@ import { mockFetch, resetFetch } from '../../../../../platform/testing/unit/help
 
 import {
   PRESTART_STATUS_SET,
+  PRESTART_MESSAGE_SET,
   PRESTART_DATA_SET,
   PRESTART_RESET,
   PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES,
+  PRESTART_MESSAGES,
   setPrestartStatus,
+  setPrestartMessage,
   setPrestartData,
   resetPrestartStatus,
   resetPrestartDisplay,
@@ -21,17 +24,6 @@ import {
   submitITFRequest,
   verifyIntentToFile
 } from '../../actions';
-
-function setFetchResponse(data) {
-  const response = {};
-  response.ok = true;
-  response.data = data;
-  response.headers = {
-    get: () => 'application/json' // for use by isJson in apiRequest
-  };
-  response.json = () => Promise.resolve(data);
-  mockFetch(response);
-}
 
 import existingData from '../itfData';
 
@@ -101,14 +93,35 @@ const createdData = {
   }
 };
 
+function setFetchResponse(data) {
+  const response = {};
+  response.ok = true;
+  response.data = data;
+  response.headers = {
+    get: () => 'application/json' // for use by isJson in apiRequest
+  };
+  response.json = () => Promise.resolve(data);
+  mockFetch(response);
+}
+
+
 describe('ITF retrieve / submit actions:', () => {
   describe('setPrestartStatus', () => {
     it('should return action', () => {
-      const status = PRESTART_STATUSES.retrieved;
+      const status = PRESTART_STATUSES.succeeded;
       const action = setPrestartStatus(status);
 
       expect(action.type).to.equal(PRESTART_STATUS_SET);
       expect(action.status).to.equal(status);
+    });
+  });
+  describe('setPrestartMessage', () => {
+    it('should return action', () => {
+      const message = PRESTART_MESSAGES.retrieved;
+      const action = setPrestartMessage(message);
+
+      expect(action.type).to.equal(PRESTART_MESSAGE_SET);
+      expect(action.message).to.equal(message);
     });
   });
   describe('setPrestartData', () => {
@@ -138,123 +151,86 @@ describe('ITF retrieve / submit actions:', () => {
     it('should return none if no existing ITFs are retrieved', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckSuccess(noData, dispatch)).to.equal(PRESTART_STATUSES.none);
+      expect(handleCheckSuccess(noData, dispatch)).to.equal(PRESTART_MESSAGES.none);
     });
     it('should return none if no expired or active ITFs are retrieved', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckSuccess(incompleteData, dispatch)).to.equal(PRESTART_STATUSES.none);
+      expect(handleCheckSuccess(incompleteData, dispatch)).to.equal(PRESTART_MESSAGES.none);
     });
     it('should return expired if retrieved ITFs include expired but not active ITFs', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckSuccess(expiredData, dispatch)).to.equal(PRESTART_STATUSES.expired);
-      expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }));
+      expect(handleCheckSuccess(expiredData, dispatch)).to.equal(PRESTART_MESSAGES.expired);
+      expect(dispatch.calledWith(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }))).to.be.true;
     });
     it('should return retrieved if active ITFs are retrieved', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckSuccess(existingData, dispatch)).to.equal(PRESTART_STATUSES.retrieved);
-      expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }));
+      expect(handleCheckSuccess(existingData, dispatch)).to.equal(PRESTART_MESSAGES.retrieved);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.succeeded))).to.be.true;
+      expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
     });
   });
   describe('handleCheckFailure', () => {
     it('should return notRetrievedNew if check fails for a new form', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckFailure(new Error('fake error'), false, dispatch)).to.equal(PRESTART_STATUSES.notRetrievedNew);
+      expect(handleCheckFailure(new Error('fake error'), false, dispatch)).to.equal(PRESTART_MESSAGES.notRetrievedNew);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });
     it('should return notRetrievedSaved if check fails for a saved form', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckFailure(new Error('fake error'), true, dispatch)).to.equal(PRESTART_STATUSES.notRetrievedSaved);
+      expect(handleCheckFailure(new Error('fake error'), true, dispatch)).to.equal(PRESTART_MESSAGES.notRetrievedSaved);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });
   });
   describe('handleSubmitSuccess', () => {
-    it('should dispatch successStatus and prestartData', () => {
+    it('should dispatch status, message and prestartData', () => {
       const dispatch = sinon.spy();
 
-      handleSubmitSuccess(createdData, PRESTART_STATUSES.created, dispatch);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.created))).to.be.true;
-      expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }));
+      handleSubmitSuccess(createdData, PRESTART_MESSAGES.created, dispatch);
+      expect(dispatch.calledWith(setPrestartMessage(PRESTART_MESSAGES.created))).to.be.true;
+      expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.succeeded))).to.be.true;
     });
   });
   describe('handleSubmitFailure', () => {
-    it('should dispatch errorStatus', () => {
+    it('should dispatch error status and message', () => {
       const dispatch = sinon.spy();
 
-      handleSubmitFailure(createdData, PRESTART_STATUSES.notCreated, dispatch);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notCreated))).to.be.true;
+      handleSubmitFailure(createdData, PRESTART_MESSAGES.notCreated, dispatch);
+      expect(dispatch.calledWith(setPrestartMessage(PRESTART_MESSAGES.notCreated))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });
   });
   describe('checkITFRequest', () => {
     afterEach(() => resetFetch());
-    it('should return "retrieved" ITF status and data with an existing ITF', (done) => {
+    it('should handle success', (done) => {
       const dispatch = sinon.spy();
       setFetchResponse({
         data: existingData
       });
       const thunk = checkITFRequest;
+      const successMessage = PRESTART_MESSAGES.retrieved;
       thunk(dispatch).then((result) => {
         expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
-        expect(result).to.equal(PRESTART_STATUSES.retrieved);
+        expect(result).to.equal(successMessage);
         done();
       }).catch((err) => {
         done(err);
       });
     });
-    it('should return "none" ITF status and data without an existing ITF', (done) => {
-      setFetchResponse({
-        data: noData
-      });
-      const dispatch = sinon.spy();
-
-      const thunk = checkITFRequest;
-
-      thunk(dispatch).then((result) => {
-        expect(result).to.equal(PRESTART_STATUSES.none);
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
-    it('should return "expired" ITF status and data with an expired ITF', (done) => {
-      setFetchResponse({
-        data: expiredData
-      });
-      const dispatch = sinon.spy();
-
-      const thunk = checkITFRequest;
-
-      thunk(dispatch).then((result) => {
-        expect(dispatch.calledWith(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }))).to.be.true;
-        expect(result).to.equal(PRESTART_STATUSES.expired);
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
-    it('should return "notRetrievedSaved" ITF status when request fails for users resuming an existing form', (done) => {
+    it('should handle error', (done) => {
       mockFetch(new Error('No network connection'), false);
       const dispatch = sinon.spy();
       const hasSavedForm = true;
       const thunk = checkITFRequest;
+      const errorMessage = PRESTART_MESSAGES.notRetrievedSaved;
 
       thunk(dispatch, hasSavedForm).then((result) => {
-        expect(result).to.equal(PRESTART_STATUSES.notRetrievedSaved);
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
-    it('should return "notRetrievedNew" ITF status when request fails for users starting new forms', (done) => {
-      mockFetch(new Error('No network connection'), false);
-      const dispatch = sinon.spy();
-      const hasSavedForm = false;
-      const thunk = checkITFRequest;
-
-      thunk(dispatch, hasSavedForm).then((result) => {
-        expect(result).to.equal(PRESTART_STATUSES.notRetrievedNew);
+        expect(result).to.equal(errorMessage);
         done();
       }).catch((err) => {
         done(err);
@@ -263,27 +239,30 @@ describe('ITF retrieve / submit actions:', () => {
   });
   describe('submitITFRequest', () => {
     afterEach(() => resetFetch());
-    it('should dispatch "created" ITF status and data with a successful ITF submission', (done) => {
+    it('should handle success', (done) => {
       setFetchResponse({
         data: createdData
       });
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
-
-      thunk(dispatch, PRESTART_STATUSES.created, PRESTART_STATUSES.notCreated).then(() => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.created, '2019-04-10T15:12:34.000+00:00'))).to.be.true;
+      const successMessage = PRESTART_MESSAGES.created;
+      const errorMessage = PRESTART_MESSAGES.notCreated;
+      thunk(dispatch, successMessage, errorMessage).then(() => {
+        expect(dispatch.calledWith(setPrestartMessage(successMessage, '2019-04-10T15:12:34.000+00:00'))).to.be.true;
         done();
       }).catch((err) => {
         done(err);
       });
     });
-    it('should dispatch "notCreated" ITF status and with a failed ITF submission', (done) => {
+    it('should handle error', (done) => {
       mockFetch(new Error('No network connection'), false);
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
+      const successMessage = PRESTART_MESSAGES.renewed;
+      const errorMessage = PRESTART_MESSAGES.notRenewed;
 
-      thunk(dispatch, PRESTART_STATUSES.renewed, PRESTART_STATUSES.notRenewed).then(() => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRenewed))).to.be.true;
+      thunk(dispatch, successMessage, errorMessage).then(() => {
+        expect(dispatch.calledWith(setPrestartMessage(errorMessage))).to.be.true;
         done();
       }).catch((err) => {
         done(err);
@@ -300,8 +279,6 @@ describe('ITF retrieve / submit actions:', () => {
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.pending))).to.be.true;
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedNew))).to.be.true;
-
         done();
       }).catch((err) => {
         done(err);
@@ -309,4 +286,3 @@ describe('ITF retrieve / submit actions:', () => {
     });
   });
 });
-
