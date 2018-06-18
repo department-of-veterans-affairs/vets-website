@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: How to Apply for Disability Benefits
 display_title: How to Apply
-description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today. 
+description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today.
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
@@ -11,8 +11,8 @@ majorlinks:
   - heading: More information about filing disability claims
     links:
     - url: /disability-benefits/apply/claim-types/
-      title: Types of Disability Claims 
-      description: Learn about standard claims, reopened claims, secondary claims, and more. 
+      title: Types of Disability Claims
+      description: Learn about standard claims, reopened claims, secondary claims, and more.
     - url: /disability-benefits/apply/evidence/
       title: Evidence (Supporting Documents)
       description: Find out which supporting documents you’ll need to give us so we can decide your claim.    
@@ -27,12 +27,12 @@ relatedlinks:
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
-      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for VA disability benefits. 
+Find out how to apply for VA disability benefits.
 
 </div>
 
@@ -42,7 +42,6 @@ Find out how to apply for VA disability benefits.
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
-<div markdown="0"><br></div>
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
@@ -51,7 +50,7 @@ Find out how to apply for VA disability benefits.
 
 For the first disability claim you file, please provide:
 
-- Discharge papers (DD214 or other separation documents) 
+- Discharge papers (DD214 or other separation documents)
 - Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records)
 
 For all disability claims, please provide:
@@ -74,7 +73,9 @@ You can start your online application right now.
 
 </div>
 </div>
-<div markdown="0"><br></div>
+
+<br>
+
 <div id="react-applicationStatus"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
@@ -102,7 +103,7 @@ Bring your application to a regional benefit office near you. <br>
 
 #### With the help of a trained professional
 
-You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br> 
+You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
 [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
@@ -129,4 +130,4 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 </div>
 </div>
 
-<div markdown="0"><br></div>
+<br>
