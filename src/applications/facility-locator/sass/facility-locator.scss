@@ -485,8 +485,9 @@
 
   .dropdown-toggle {
     color: $color-black;
+    margin: 0;
     position: absolute;
-    right: 0;
+    right: 1rem;
     top: 33%;
   }
 }
