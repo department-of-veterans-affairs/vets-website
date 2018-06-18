@@ -88,7 +88,7 @@ class Wrapper extends Component {
         itemToString={itemToString}
         onChange={this.props.onChange}
         selectedItem={facilityType || 'all'}>
-        <FacilityTypeDropdown/>
+        {FacilityTypeDropdown}
       </Downshift>
     );
   }
