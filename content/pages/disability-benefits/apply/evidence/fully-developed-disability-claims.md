@@ -84,7 +84,7 @@ This depends on the type of claim you’re filing.
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-original">Original disability claim—the first claim you file for disability benefits</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-original">Original Claim—the first claim you file for disability benefits</button>
 <div id="claim-original" class="usa-accordion-content">
 
 **You'll need to submit:**
@@ -95,7 +95,7 @@ This depends on the type of claim you’re filing.
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new">New claim—a claim for added benefits or other benefit requests related to an existing service-connected disability</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new">New Claim—a claim for added benefits or other benefit requests related to an existing service-connected disability</button>
 <div id="claim-new" class="usa-accordion-content">
 
 **You'll need to submit:**
@@ -105,7 +105,7 @@ This depends on the type of claim you’re filing.
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-reopened">Reopened claim—a claim providing new evidence to support a disability claim that was denied at least 1 year ago</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-reopened">Reopened Claim—a claim providing new evidence to support a disability claim that was denied at least 1 year ago</button>
 <div id="claim-reopened" class="usa-accordion-content">
 
 You'll need to submit new evidence that we've never considered before and that's related to the issue you're claiming.
@@ -113,7 +113,7 @@ You'll need to submit new evidence that we've never considered before and that's
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased claim—a claim for more compensation for a disability that we’ve already determined to be service connected and that’s gotten worse</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased Claim—a claim for more compensation for a disability that we’ve already determined to be service connected and that’s gotten worse</button>
 <div id="claim-increased" class="usa-accordion-content">
 
 You'll need to submit current medical evidence that shows your disability has gotten worse.
@@ -121,7 +121,7 @@ You'll need to submit current medical evidence that shows your disability has go
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary claim—a claim for a new disability that’s linked to a service-connected disability you already have</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary Claim—a claim for a new disability that’s linked to a service-connected disability you already have</button>
 <div id="claim-secondary" class="usa-accordion-content">
 
 **You'll need to submit:**
