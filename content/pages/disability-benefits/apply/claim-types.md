@@ -58,6 +58,16 @@ Learn more about disabilities that may be related to your active-duty service bu
 
 </div>
 </li>
+
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased Claim—File a claim for more compensation for a disability that we’ve already determined to be service connected and that’s gotten worse.</button>
+<div id="claim-increased" class="usa-accordion-content">
+
+You'll need to submit current medical evidence that shows your disability has gotten worse.
+
+</div>
+</li>
+
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-special">Special Claim—File a claim for special needs linked to your service-connected disability.</button>
 <div id="claim-special" class="usa-accordion-content">
