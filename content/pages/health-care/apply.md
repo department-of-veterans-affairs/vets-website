@@ -76,7 +76,8 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 
 ##### By mail
 
-Apply by mail using an Application for Health Benefits (VA Form 10-10EZ). [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+Apply by mail using an Application for Health Benefits (VA Form 10-10EZ). <br>
+[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -92,18 +93,10 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 [Find a VA medical center or clinic near you](/facilities/).<br />
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
-</div>
-</div>
+##### With the help of a trained professional
 
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">What if I need help filling out my application?</h4>
-<div itemprop="itemListElement">
-
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
-
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Get help filing your claim](/disability-benefits/apply/help/).
-
-Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br> 
+[Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
