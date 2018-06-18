@@ -134,6 +134,14 @@ class Address extends React.Component {
           onValueChange={(update) => this.props.onInput('zipCode', update)}
           onBlur={() => this.props.onBlur('zipCode')}/>}
 
+        {!isUSA && <ErrorableTextInput errorMessage={errorMessages.province}
+          label={'State/Province/Region'}
+          name="province"
+          autocomplete="international-postal-code"
+          value={this.props.address.province}
+          onValueChange={(update) => this.props.onInput('province', update)}
+          onBlur={() => this.props.onBlur('province')}/>}
+
         {!isUSA && <ErrorableTextInput errorMessage={errorMessages.internationalPostalCode}
           additionalClass="usa-input-medium"
           label={'International postal code'}

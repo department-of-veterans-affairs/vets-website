@@ -10,6 +10,12 @@
   overflow-y: auto;
 }
 
+.vet360-profile-field-content {
+  &.usa-input-error {
+    margin-top: 0;
+  }
+}
+
 .button-link {
   background: $color-white;
   box-shadow: none !important;
