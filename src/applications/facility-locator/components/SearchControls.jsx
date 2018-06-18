@@ -5,27 +5,20 @@ import classNames from 'classnames';
 import Downshift from 'downshift';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { updateSearchQuery } from '../actions';
 import { facilityTypes } from '../config';
 import SelectComponent from './Select';
 
 class SearchControls extends Component {
-
   handleEditSearch = () => {
-    this.props.updateSearchQuery({
-      active: false,
-    });
+    this.props.onChange({ active: false });
   }
 
   // TODO (bshyong): generalize to be able to handle Select box changes
   handleQueryChange = (e) => {
-    this.props.onChange({
-      searchString: e.target.value,
-    });
+    this.props.onChange({ searchString: e.target.value });
   }
 
-  handleSearch = (e) => {
-    const { onSearch } = this.props;
+  handleSubmit = (e) => {
     e.preventDefault();
 
     const { facilityType } = this.props.currentQuery;
@@ -35,7 +28,7 @@ class SearchControls extends Component {
       'fl-search-fac-type': facilityType
     });
 
-    onSearch();
+    this.props.onSubmit();
   }
 
   renderFacilityTypeDropdown = ({
@@ -112,7 +105,7 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div className="columns usa-width-one-third medium-4">
             <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
               Enter Street, City, State or Zip
@@ -134,11 +127,11 @@ class SearchControls extends Component {
           <SelectComponent
             optionType="service"
             currentQuery={currentQuery}
-            updateSearchQuery={this.props.updateSearchQuery}
+            updateSearchQuery={this.props.onChange}
             onChange={onChange}
             isMobile={isMobile}/>
           <div className="columns usa-width-one-sixth medium-2">
-            <input type="submit" value="Search" onClick={this.handleSearch}/>
+            <input type="submit" value="Search"/>
           </div>
         </form>
       </div>
@@ -146,8 +139,4 @@ class SearchControls extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  updateSearchQuery
-};
-
-export default connect(null, mapDispatchToProps)(SearchControls);
+export default SearchControls;
