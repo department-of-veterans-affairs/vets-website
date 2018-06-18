@@ -13,9 +13,9 @@ export class Programs extends React.Component {
         modal: 'yribbon',
         text: 'Yellow Ribbon',
         link: __BUILDTYPE__ !== 'production' ? false : {
-            href: `http://www.benefits.va.gov/gibill/yellow_ribbon/2016/states/${institution.state}.asp`,
-            text: 'See rates',
-          }
+          href: `http://www.benefits.va.gov/gibill/yellow_ribbon/2016/states/${institution.state}.asp`,
+          text: 'See rates',
+        }
       },
 
       studentVeteran: {
