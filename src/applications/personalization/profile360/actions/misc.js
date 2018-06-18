@@ -3,19 +3,9 @@ import { MILITARY_STATES } from '../../../letters/utils/constants';
 
 export const UPDATE_PROFILE_FORM_FIELD = 'UPDATE_PROFILE_FORM_FIELD';
 export const OPEN_MODAL = 'OPEN_MODAL';
-export const CLEAR_PROFILE_ERRORS = 'CLEAR_PROFILE_ERRORS';
-export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 
 export function openModal(modal) {
   return { type: OPEN_MODAL, modal };
-}
-
-export function clearErrors() {
-  return { type: CLEAR_PROFILE_ERRORS };
-}
-
-export function clearMessage() {
-  return { type: CLEAR_MESSAGE };
 }
 
 function validateEmail({ emailAddress: email }) {

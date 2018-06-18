@@ -1,11 +1,11 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import DowntimeNotification, { services, serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
-import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 import recordEvent from '../../../../platform/monitoring/record-event';
+
+import Vet360TransactionReporter from '../containers/Vet360TransactionReporter';
 
 import Hero from './Hero';
 import ContactInformation from './ContactInformation';
@@ -18,9 +18,6 @@ class ProfileView extends React.Component {
     if (this.props.profile !== oldProps.profile && this.props.profile.hero && this.props.profile.hero.userFullName) {
       const { first, last } = this.props.profile.hero.userFullName;
       document.title = `Profile: ${first} ${last}`;
-    }
-    if (this.props.message.content && !oldProps.message.content) {
-      scrollToTop();
     }
   }
 
@@ -98,7 +95,6 @@ class ProfileView extends React.Component {
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
-      message,
       profile: {
         hero,
         personalInformation,
@@ -113,10 +109,11 @@ class ProfileView extends React.Component {
 
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
+        // @todo Render a component that renders the messaging for errored/successful transactions from state
         content = (
           <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
             <div>
-              <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
+              <Vet360TransactionReporter/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
               <ContactInformation {...this.props}/>
               <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>

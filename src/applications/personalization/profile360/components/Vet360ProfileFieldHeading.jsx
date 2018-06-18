@@ -1,6 +1,6 @@
 import React from 'react';
 
-function HeadingWithEdit({ children, onEditClick }) {
+function Vet360ProfileFieldHeading({ children, onEditClick }) {
   return (
     <div>
       <h3 style={{ display: 'inline-block' }}>{ children }</h3> {onEditClick && <button onClick={onEditClick} className="va-button-link va-profile-btn">Edit</button>}
@@ -8,4 +8,4 @@ function HeadingWithEdit({ children, onEditClick }) {
   );
 }
 
-export default HeadingWithEdit;
+export default Vet360ProfileFieldHeading;
