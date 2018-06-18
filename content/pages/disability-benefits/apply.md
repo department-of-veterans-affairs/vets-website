@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for disability benefits. 
+Find out how to apply for VA disability benefits. 
 
 </div>
 
@@ -68,6 +68,8 @@ For all disability claims, please provide:
 <h4 itemprop="name">How do I apply?</h4>
 <div itemprop="itemListElement">
 
+You can start your online application right now.
+
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
 </div>
@@ -79,13 +81,6 @@ For all disability claims, please provide:
 
 <h3 itemprop="name">You can also apply:</h3>
 <div itemprop="itemListElement">
-
-#### With the help of a trained professional
-
-You can work with a trained professional called an accredited representative to get help applying for health care benefits. [Get help filing your claim](/disability-benefits/apply/help/index.html).
-
-</div>
-</div>
 
 #### By mail
 
@@ -102,7 +97,15 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
+Bring your application to a regional benefit office near you. <br>
+[Find a regional benefit office](/facilities/).
+
+#### With the help of a trained professional
+
+You can work with a trained professional called an accredited representative to get help applying for health care benefits. [Get help filing your claim](/disability-benefits/apply/help/index.html).
+
+</div>
+</div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
