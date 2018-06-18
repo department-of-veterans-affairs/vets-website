@@ -47,9 +47,9 @@ You may be able to get this benefit if you’re unmarried and you meet at least 
 
 ### How do I apply? 
 
-You can apply in 1 of 3 ways:
+You can apply in any of these ways:
 
-#### Apply by mail
+#### By mail
 
 Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21-534EZ). <br>
 [Download VA Form 21-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
@@ -57,15 +57,16 @@ Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form
 Mail it to the Pension Management Center (PMC) for your state. <br>
 [Find your PMC](/pension/pension-management-center/). 
 
-#### Work with a trained professional
-
-You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/).
-
-#### Apply in person
+#### In person
 
 Bring your application to a regional benefit office near you. <br>
 [Find a regional benefit office](/facilities/). 
+
+
+#### With the help of a trained professional
+
+You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. <br>
+[Get help filing your claim](/disability-benefits/apply/help/).
 
 ### How long does it take VA to make a decision?
 
