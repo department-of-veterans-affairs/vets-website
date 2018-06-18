@@ -130,10 +130,9 @@ Fax your form to: 1-855-840-8299.
 
 #### With the help of a trained professional
 
-You can work with a trained professional called an accredited representative to get help applying for health care benefits. 
-Get help filing your claim.
+You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
+[Get help filing your claim](/disability-benefits/apply/help/).
 
-<br>
 
 ### What happens after I apply?
 
