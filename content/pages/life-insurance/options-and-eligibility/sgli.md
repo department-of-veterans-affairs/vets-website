@@ -82,7 +82,7 @@ Yes. You can choose your level of coverage or even refuse coverage completely. Y
 
 **To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage:** 
 
-**If your branch of service has started using the new SGLI Online Enrollment System (SOES),** submit your changes online. To access SOES:
+**If you are a member of the Army, Navy, Air Force, or Marines,** <br> Submit your changes online through the SGLI Online Enrollment System (SOES). To access SOES:
 
 <ol class="process" markdown="1">
   <li class="process-step list-one">
@@ -114,7 +114,7 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 
 <br>
 
-**If your branch of service hasn’t yet started using SOES,** If you are in the Coast Guard or National Oceanic and Atmospheric Administration, you'll need to fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
+**If you are in the Coast Guard or National Oceanic and Atmospheric Administration,** <br> You'll need to fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
 [Download the Servicemembers' Group Life Insurance Election and Certificate](https://www.benefits.va.gov/insurance/forms/SGLV_8286_ed2017-10.pdf).
 <br>
 [Learn more about SOES and find out if your branch is using this new system](https://www.benefits.va.gov/INSURANCE/SOES.asp).
