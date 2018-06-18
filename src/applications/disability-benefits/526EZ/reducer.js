@@ -8,7 +8,7 @@ import {
   PRESTART_STATUS_SET,
   PRESTART_MESSAGE_SET,
   PRESTART_DATA_SET,
-  PRESTART_RESET,
+  PRESTART_STATE_RESET,
   PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES
 } from './actions';
@@ -36,7 +36,7 @@ export const prestart = (state = initialState, action) => {
     case PRESTART_DATA_SET: {
       return _.set('data', action.data, state);
     }
-    case PRESTART_RESET: {
+    case PRESTART_STATE_RESET: {
       return initialState;
     }
     case PRESTART_DISPLAY_RESET: {

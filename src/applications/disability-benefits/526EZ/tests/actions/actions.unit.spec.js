@@ -4,17 +4,20 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
 
 import {
+  getLatestTimestamp,
+  isNotEmptyObject,
+  getITFsByStatus,
   PRESTART_STATUS_SET,
   PRESTART_MESSAGE_SET,
   PRESTART_DATA_SET,
-  PRESTART_RESET,
+  PRESTART_STATE_RESET,
   PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES,
   PRESTART_MESSAGES,
   setPrestartStatus,
   setPrestartMessage,
   setPrestartData,
-  resetPrestartStatus,
+  resetPrestartState,
   resetPrestartDisplay,
   handleCheckSuccess,
   handleCheckFailure,
@@ -100,6 +103,25 @@ function setFetchResponse(data) {
 
 
 describe('ITF retrieve / submit actions:', () => {
+  describe('getLatestTimestamp', () => {
+    it('should return the most recent timestamp in a list of timestamps', () => {
+      const timestamps = ['2015-03-30T16:19:09.000+00:00', '2016-03-30T16:19:09.000+00:00'];
+      const latestTimestamp = getLatestTimestamp(timestamps);
+      expect(latestTimestamp).to.equal('2016-03-30T16:19:09.000+00:00');
+    });
+  });
+  describe('isNotEmptyObject', () => {
+    it('identify non-empty objects', () => {
+      const data = { attributes: {} };
+
+      expect(isNotEmptyObject(data)).to.be.true;
+    });
+  });
+  describe('getITFsByStatus', () => {
+    it('should return a list of ITFs filtered by a given status', () => {
+      expect(getITFsByStatus(existingData.attributes.intentToFile, PRESTART_MESSAGES.active).length).to.equal(1);
+    });
+  });
   describe('setPrestartStatus', () => {
     it('should return action', () => {
       const status = PRESTART_STATUSES.succeeded;
@@ -127,11 +149,11 @@ describe('ITF retrieve / submit actions:', () => {
       expect(action.data).to.equal('2019-04-10T15:12:34.000+00:00');
     });
   });
-  describe('resetPrestart', () => {
+  describe('resetPrestartState', () => {
     it('should return action', () => {
-      const action = resetPrestartStatus();
+      const action = resetPrestartState();
 
-      expect(action.type).to.equal(PRESTART_RESET);
+      expect(action.type).to.equal(PRESTART_STATE_RESET);
     });
   });
   describe('resetPrestartDisplay', () => {
@@ -170,13 +192,13 @@ describe('ITF retrieve / submit actions:', () => {
     it('should return notRetrievedNew if check fails for a new form', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckFailure(new Error('fake error'), false, dispatch)).to.equal(PRESTART_MESSAGES.notRetrievedNew);
+      expect(handleCheckFailure(false, dispatch)).to.equal(PRESTART_MESSAGES.notRetrievedNew);
       expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });
     it('should return notRetrievedSaved if check fails for a saved form', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckFailure(new Error('fake error'), true, dispatch)).to.equal(PRESTART_MESSAGES.notRetrievedSaved);
+      expect(handleCheckFailure(true, dispatch)).to.equal(PRESTART_MESSAGES.notRetrievedSaved);
       expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });
   });
@@ -194,7 +216,7 @@ describe('ITF retrieve / submit actions:', () => {
     it('should dispatch error status and message', () => {
       const dispatch = sinon.spy();
 
-      handleSubmitFailure(createdData, PRESTART_MESSAGES.notCreated, dispatch);
+      handleSubmitFailure(PRESTART_MESSAGES.notCreated, dispatch);
       expect(dispatch.calledWith(setPrestartMessage(PRESTART_MESSAGES.notCreated))).to.be.true;
       expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });

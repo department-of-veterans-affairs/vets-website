@@ -5,7 +5,7 @@ import {
   PRESTART_STATUS_SET,
   PRESTART_MESSAGE_SET,
   PRESTART_DATA_SET,
-  PRESTART_RESET,
+  PRESTART_STATE_RESET,
   PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES,
   PRESTART_MESSAGES
@@ -65,7 +65,7 @@ describe('prestart', () => {
           previousExpirationDate: '2019-04-10T15:12:34.000+00:00'
         }
       }, {
-        type: PRESTART_RESET,
+        type: PRESTART_STATE_RESET,
       });
 
       expect(state.status).to.equal(PRESTART_STATUSES.notAttempted);

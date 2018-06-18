@@ -2,12 +2,10 @@ import { apiRequest } from '../../../../platform/utilities/api';
 
 import existingITFData from '../tests/itfData';
 
-import { getLatestTimestamp } from '../helpers';
-
 export const PRESTART_STATUS_SET = 'PRESTART_STATUS_SET';
 export const PRESTART_MESSAGE_SET = 'PRESTART_MESSAGE_SET';
 export const PRESTART_DATA_SET = 'PRESTART_DATA_SET';
-export const PRESTART_RESET = 'PRESTART_STATUS_RESET';
+export const PRESTART_STATE_RESET = 'PRESTART_STATE_RESET';
 export const PRESTART_DISPLAY_RESET = 'PRESTART_DISPLAY_RESET';
 
 export const PRESTART_STATUSES = {
@@ -18,7 +16,6 @@ export const PRESTART_STATUSES = {
 };
 
 export const PRESTART_MESSAGES = {
-  notAttempted: 'not-attempted',
   active: 'active',
   none: 'none',
   expired: 'expired',
@@ -58,9 +55,9 @@ export function setPrestartData(data) {
   };
 }
 
-export function resetPrestartStatus() {
+export function resetPrestartState() {
   return {
-    type: PRESTART_RESET
+    type: PRESTART_STATE_RESET
   };
 }
 
@@ -69,8 +66,10 @@ export function resetPrestartDisplay() {
     type: PRESTART_DISPLAY_RESET
   };
 }
-
-const isNotEmptyObject = (object) => !(Object.keys(object).length === 0 && object.constructor === Object);
+// Returns most recent timestamp from a list of timestamps
+export const getLatestTimestamp = (timestamps) => timestamps.sort((a, b) => new Date(b) - new Date(a))[0];
+export const isNotEmptyObject = (object) => !(Object.keys(object).length === 0 && object.constructor === Object);
+export const getITFsByStatus = (itfs, status) => itfs.filter(itf => itf.status === status);
 
 export const handleCheckSuccess = (data, dispatch) => {
   // If no existing ITF(s) are found, we will receive an empty {} response
@@ -82,8 +81,8 @@ export const handleCheckSuccess = (data, dispatch) => {
   }
 
   // Check for an active ITF, the user should only have one
-  const activeITF = itfList.filter(itf => itf.status === PRESTART_MESSAGES.active)[0];
-  const expiredITFs = itfList.filter(itf => itf.status === PRESTART_MESSAGES.expired);
+  const activeITF = getITFsByStatus(itfList, PRESTART_MESSAGES.active)[0];
+  const expiredITFs = getITFsByStatus(itfList, PRESTART_MESSAGES.expired);
   // If the user has an active ITF, set retrieved status and currentExpirationDate
   if (activeITF) {
     dispatch(setPrestartData({ currentExpirationDate: activeITF.expirationDate }));
@@ -102,7 +101,7 @@ export const handleCheckSuccess = (data, dispatch) => {
   return PRESTART_MESSAGES.none;
 };
 
-export const handleCheckFailure = (error, hasSavedForm, dispatch) => {
+export const handleCheckFailure = (hasSavedForm, dispatch) => {
   const status = hasSavedForm ? PRESTART_MESSAGES.notRetrievedSaved : PRESTART_MESSAGES.notRetrievedNew;
   dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
   return status;
@@ -113,7 +112,7 @@ export function checkITFRequest(dispatch, hasSavedForm) {
     '/intent_to_file',
     null,
     ({ data }) => handleCheckSuccess(data, dispatch),
-    ({ errors }) => handleCheckFailure(errors, hasSavedForm, dispatch)
+    () => handleCheckFailure(hasSavedForm, dispatch)
   );
 }
 
@@ -126,13 +125,13 @@ const fakeITFRequest = async (url, options, success) => {
   return success(response);
 };
 
-// TODO: remove this mock once user testing is complete
+// TODO: remove this mock and its helpers once user testing is complete
 export function mockCheckITFRequest(dispatch, hasSavedForm) {
   return fakeITFRequest(
     '/intent_to_file',
     null,
     ({ data }) => handleCheckSuccess(data, dispatch),
-    ({ errors }) => handleCheckFailure(errors, hasSavedForm, dispatch)
+    () => handleCheckFailure(hasSavedForm, dispatch)
   );
 }
 
@@ -143,7 +142,7 @@ export const handleSubmitSuccess = (data, successMessage, dispatch) => {
   dispatch(setPrestartMessage(successMessage));
 };
 
-export const handleSubmitFailure = (error, errorMessage, dispatch) => {
+export const handleSubmitFailure = (errorMessage, dispatch) => {
   dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
   dispatch(setPrestartMessage(errorMessage));
 };
@@ -154,7 +153,7 @@ export function submitITFRequest(dispatch, successMessage, errorMessage) {
     '/intent_to_file/compensation',
     { method: 'POST' },
     ({ data }) => handleSubmitSuccess(data, successMessage, dispatch),
-    ({ errors }) => handleSubmitFailure(errors, errorMessage, dispatch)
+    () => handleSubmitFailure(errorMessage, dispatch)
   );
 }
 
