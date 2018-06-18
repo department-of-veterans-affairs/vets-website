@@ -84,7 +84,7 @@ You can start your online application right now.
 
 #### By mail
 
-Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). [Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
+Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). <br>[Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -102,7 +102,8 @@ Bring your application to a regional benefit office near you. <br>
 
 #### With the help of a trained professional
 
-You can work with a trained professional called an accredited representative to get help applying for health care benefits. [Get help filing your claim](/disability-benefits/apply/help/index.html).
+You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br> 
+[Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
