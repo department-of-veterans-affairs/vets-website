@@ -357,10 +357,18 @@ const getDerivedValues = createSelector(
     // Calculate the name of Tuition Fees Total - getTuitionFeesTotal
     const tuitionFeesTotal = tuitionFeesTerm1 + tuitionFeesTerm2 + tuitionFeesTerm3;
 
+
+    let yellowRibbonAmount;
+    if (__BUILDTYPE__ !== 'production') {
+      yellowRibbonAmount = inputs.yellowRibbonRecipient === 'yes' ? +inputs.yellowRibbonAmount : 0;
+    } else {
+      yellowRibbonAmount = +inputs.yellowRibbonAmount;
+    }
+
     // Calculate Yellow Ribbon for Term #1 - getYrBenTerm1
     const shouldHaveNoYrBenTerm1 =
       !yellowRibbonElig ||
-      +inputs.yellowRibbonAmount === 0 ||
+      yellowRibbonAmount === 0 ||
       oldGiBill ||
       giBillChapter === 31 ||
       tuitionFeesPerTerm === tuitionFeesTerm1;
@@ -371,14 +379,14 @@ const getDerivedValues = createSelector(
       yrBenTerm1 = Math.max(0, Math.min(
         tuitionFeesPerTerm - tuitionFeesTerm1,
         tuitionNetPrice - tuitionFeesTerm1,
-        +inputs.yellowRibbonAmount * 2
+        yellowRibbonAmount * 2
       ));
     }
 
     // getYrBenTerm2
     const shouldHaveNoYrBenTerm2 =
       !yellowRibbonElig ||
-      +inputs.yellowRibbonAmount === 0 ||
+      yellowRibbonAmount === 0 ||
       oldGiBill ||
       giBillChapter === 31 ||
       inputs.calendar === 'nontraditional' && numberOfTerms === 1 ||
@@ -390,14 +398,14 @@ const getDerivedValues = createSelector(
       yrBenTerm2 = Math.max(0, Math.min(
         tuitionFeesPerTerm - tuitionFeesTerm2,
         tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2 - yrBenTerm1,
-        +inputs.yellowRibbonAmount * 2 - yrBenTerm1
+        yellowRibbonAmount * 2 - yrBenTerm1
       ));
     }
 
     // getYrBenTerm3
     const shouldHaveNoYrBenTerm3 =
       !yellowRibbonElig ||
-      +inputs.yellowRibbonAmount === 0 ||
+      yellowRibbonAmount === 0 ||
       oldGiBill ||
       giBillChapter === 31 ||
       inputs.calendar === 'semesters' ||
@@ -410,12 +418,12 @@ const getDerivedValues = createSelector(
       yrBenTerm3 = Math.max(0, Math.min(
         tuitionFeesPerTerm - tuitionFeesTerm3,
         tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2 - tuitionFeesTerm3 - yrBenTerm1 - yrBenTerm1,
-        +inputs.yellowRibbonAmount * 2 - yrBenTerm1 - yrBenTerm2
+        yellowRibbonAmount * 2 - yrBenTerm1 - yrBenTerm2
       ));
     }
 
     // Calculate Yellow Ribbon for the Year - getYrBenTotal
-    if (!yellowRibbonElig || +inputs.yellowRibbonAmount === 0) {
+    if (!yellowRibbonElig || yellowRibbonAmount === 0) {
       yrBenTotal = 0;
     } else {
       yrBenTotal = yrBenTerm1 + yrBenTerm2 + yrBenTerm3;
