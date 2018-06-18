@@ -37,7 +37,6 @@ class SearchControls extends Component {
     this.props.onSubmit();
   }
 
-
   renderFacilityTypeDropdown = () => {
     return (
       <div className="columns usa-width-one-fourth medium-3">
