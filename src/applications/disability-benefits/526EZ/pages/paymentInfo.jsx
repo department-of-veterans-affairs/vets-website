@@ -39,7 +39,7 @@ export const viewComponent = (response) => {
     );
     routingNumberString = (
       <p>
-        Routing number: {mask(routingNumber, 4)}
+        Bank routing number: {mask(routingNumber, 4)}
       </p>
     );
     bankNameString = <p>Bank name: {bankName}</p>;
@@ -47,7 +47,7 @@ export const viewComponent = (response) => {
   return (
     <div>
       <p>
-        This is the bank account that we have on file for you. It’s used to pay both Disability and Pension benefits.
+        This is the bank account information we have on file for you. We pay your disability and pension benefits to this account.
       </p>
       <div className="blue-bar-block">
         <p>
@@ -67,8 +67,8 @@ export const viewComponent = (response) => {
 
 const failureComponent = () => (
   <AlertBox
-    headline="We can’t seem to find your information"
-    content="That’s on us. Sorry about that."
+    headline="We can’t access your information"
+    content="We’re sorry. We can’t access your payment information right now. You can continue to fill out the form and we’ll try again later."
     status="error"
     className="async-display-widget-alert-box"
     isVisible/>
