@@ -4,34 +4,26 @@ import classNames from 'classnames';
 import Downshift from 'downshift';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { facilityTypes } from '../config';
+import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
 import { keyMap } from '../utils/helpers';
-import SelectComponent from './Select';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
     this.props.onChange({ active: false });
   }
 
-  /*
-  handleFacilityChange = () => {
-      if (newOption === 'AllFacilities') {
-        this.props.onChange({
-          facilityType: null,
-          serviceType: null
-        });
-      } else {
-        this.props.onChange({
-          facilityType: newOption,
-          serviceType: null
-        });
-      }
-  }
-  */
-
-  // TODO (bshyong): generalize to be able to handle Select box changes
   handleQueryChange = (e) => {
     this.props.onChange({ searchString: e.target.value });
+  }
+
+  handleFacilityTypeChange = (option) => {
+    const facilityType = (option === 'all') ? null : option;
+    this.props.onChange({ facilityType, serviceType: null });
+  }
+
+  handleServiceTypeChange = (option) => {
+    const serviceType = (option === 'All') ? null : option;
+    this.props.onChange({ serviceType });
   }
 
   handleSubmit = (e) => {
@@ -120,8 +112,48 @@ class SearchControls extends Component {
     );
   }
 
+  renderServiceTypeDropdown = () => {
+    const { facilityType } = this.props.currentQuery;
+    const disabled = !['benefits', 'vet_center'].includes(facilityType);
+    let services;
+
+    // Determine what service types to display for the facility type.
+    switch (facilityType) {
+      case 'benefits':
+        services = Object.keys(benefitsServices);
+        break;
+      case 'vet_center':
+        services = ['All', ...vetCenterServices];
+        break;
+      default:
+        services = [];
+    }
+
+    // Create option elements for each service type.
+    const options = services.map((service) => (
+      <option key={service} value={service}>
+        {benefitsServices[service] || service}
+      </option>
+    ));
+
+    return (
+      <div className="columns usa-width-one-fourth medium-3">
+        <label htmlFor="service-type-dropdown">
+          Select Service Type
+        </label>
+        <select
+          id="service-type-dropdown"
+          disabled={disabled}
+          onChange={this.handleServiceTypeChange}>
+          {options}
+        </select>
+      </div>
+    );
+  }
+
   render() {
-    const { currentQuery, isMobile, onChange } = this.props;
+    const { currentQuery, isMobile } = this.props;
+
     if (currentQuery.active && isMobile) {
       return (
         <div className="search-controls-container">
@@ -148,17 +180,12 @@ class SearchControls extends Component {
               aria-label="Street, City, State or Zip"
               title="Street, City, State or Zip"/>
           </div>
-          <div className="columns usa-width-one-third medium-3">
-            <Downshift defaultSelectedItem="all">
+          <div className="columns usa-width-one-fourth medium-3">
+            <Downshift defaultSelectedItem="all" onChange={this.handleFacilityTypeChange}>
               {this.renderFacilityTypeDropdown}
             </Downshift>
           </div>
-          <SelectComponent
-            optionType="service"
-            currentQuery={currentQuery}
-            updateSearchQuery={this.props.onChange}
-            onChange={onChange}
-            isMobile={isMobile}/>
+          {this.renderServiceTypeDropdown()}
           <div className="columns usa-width-one-sixth medium-2">
             <input type="submit" value="Search"/>
           </div>
