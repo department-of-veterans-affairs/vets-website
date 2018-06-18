@@ -17,8 +17,6 @@ const facilityOptionClasses = (item, selected) => classNames(
 
 const itemToString = (item) => facilityTypes[item] || 'All Facilities';
 
-const focusDropdown = () => document.querySelector('#facility-dropdown-toggle').focus();
-
 const FacilityTypeDropdown = ({
   getButtonProps,
   getItemProps,
@@ -29,13 +27,15 @@ const FacilityTypeDropdown = ({
 }) => {
   const handleKeyDown = (e) => {
     switch (e.keyCode) {
-      // Allow blurring focus (with TAB) to close dropdown.
+      // Allow (1) ENTER with nothing highlighted or
+      // (2) blurring focus (with TAB) to close dropdown.
+      case keyMap.ENTER:
       case keyMap.TAB:
         if (isOpen) { toggleMenu(); }
         break;
 
-      // Allow ENTER to toggle state of menu without making a selection.
-      case keyMap.ENTER:
+      // Allow SPACE to toggle state of menu without making a selection.
+      case keyMap.SPACE:
         toggleMenu();
         break;
 
@@ -54,28 +54,27 @@ const FacilityTypeDropdown = ({
     </li>
   ));
 
-  /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
   return (
     <div>
-      <label htmlFor="facility-dropdown-toggle" onClick={focusDropdown}>
+      <label htmlFor="facility-dropdown-toggle">
         Select Facility Type
       </label>
       <div id="facility-dropdown">
-        <div {...getButtonProps({
+        <button {...getButtonProps({
           id: 'facility-dropdown-toggle',
           className: facilityOptionClasses(selectedItem),
           onKeyDown: handleKeyDown,
           tabIndex: 0,
+          type: 'button',
           'aria-expanded': isOpen
         })}>
           {itemToString(selectedItem)}
           <i className="fa fa-chevron-down dropdown-toggle"/>
-        </div>
+        </button>
         {isOpen && (<ul className="dropdown" role="listbox">{options}</ul>)}
       </div>
     </div>
   );
-  /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
 };
 
 class Wrapper extends Component {
