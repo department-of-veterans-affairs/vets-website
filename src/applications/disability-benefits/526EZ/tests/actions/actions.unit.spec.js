@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
+import { mockFetch, mockApiRequest, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
 
 import {
   getLatestTimestamp,
@@ -87,18 +87,6 @@ const createdData = {
     }
   }
 };
-
-function setFetchResponse(data) {
-  const response = {};
-  response.ok = true;
-  response.data = data;
-  response.headers = {
-    get: () => 'application/json' // for use by isJson in apiRequest
-  };
-  response.json = () => Promise.resolve(data);
-  mockFetch(response);
-}
-
 
 describe('ITF retrieve / submit actions:', () => {
   describe('getLatestTimestamp', () => {
@@ -206,9 +194,7 @@ describe('ITF retrieve / submit actions:', () => {
     afterEach(() => resetFetch());
     it('should handle success', (done) => {
       const dispatch = sinon.spy();
-      setFetchResponse({
-        data: existingData
-      });
+      mockApiRequest({ data: existingData });
       const thunk = checkITFRequest;
       thunk(dispatch).then((result) => {
         expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
@@ -235,9 +221,7 @@ describe('ITF retrieve / submit actions:', () => {
   describe('submitITFRequest', () => {
     afterEach(() => resetFetch());
     it('should handle success', (done) => {
-      setFetchResponse({
-        data: createdData
-      });
+      mockApiRequest({ data: createdData });
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
       const successStatus = PRESTART_STATUSES.succeeded;
