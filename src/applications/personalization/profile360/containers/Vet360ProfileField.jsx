@@ -39,8 +39,8 @@ class Vet360ProfileField extends React.Component {
       isEditing,
       onAdd,
       onEdit,
-      renderContent,
-      renderEditModal,
+      Content,
+      EditModal,
       title,
       transaction
     } = this.props;
@@ -48,7 +48,7 @@ class Vet360ProfileField extends React.Component {
     return (
       <div className="vet360-profile-field">
         <Vet360ProfileFieldHeading onEditClick={this.isEditLinKVisible() && onEdit}>{title}</Vet360ProfileFieldHeading>
-        {isEditing && renderEditModal(this.props)}
+        {isEditing && <EditModal {...this.props}/>}
         <Vet360Transaction
           title={title}
           transaction={transaction}
@@ -60,7 +60,7 @@ class Vet360ProfileField extends React.Component {
               className="va-button-link va-profile-btn">
               Please add your {title.toLowerCase()}
             </button>
-          ) : renderContent(this.props)}
+          ) : <Content {...this.props}/>}
         </Vet360Transaction>
       </div>
     );
@@ -156,8 +156,8 @@ const Vet360ProfileFieldContainer = connect(mapStateToProps, mapDispatchToProps)
 Vet360ProfileFieldContainer.propTypes = {
   analyticsSectionName: PropTypes.string.isRequired,
   fieldName: PropTypes.oneOf(Object.values(VET360.FIELD_NAMES)).isRequired,
-  renderContent: PropTypes.func.isRequired,
-  renderEditModal: PropTypes.func.isRequired,
+  Content: PropTypes.func.isRequired,
+  EditModal: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired
 };
 
