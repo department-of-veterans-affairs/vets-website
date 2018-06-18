@@ -5,16 +5,16 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 
-import * as address from '../../common/schemaform/definitions/address';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import fileUploadUI from '../../common/schemaform/definitions/file';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import phoneUI from '../../common/schemaform/definitions/phone';
+import * as address from '../definitions/address';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
-import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
+import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
 
-import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
+import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -63,7 +63,7 @@ const {
   email,
   phone,
   files,
-  vaFileNumber
+  centralMailVaFile
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = _.omit('required', fullName);
@@ -100,7 +100,7 @@ const formConfig = {
     email,
     phone,
     files,
-    vaFileNumber
+    centralMailVaFile
   },
   chapters: {
     applicantInformation: {
@@ -234,7 +234,7 @@ const formConfig = {
                 vaClaimNumber: {
                   'ui:title': 'Sponsor’s VA claim number (if known)',
                   'ui:errorMessages': {
-                    pattern: 'Your VA claim number must be between 7 to 9 digits'
+                    pattern: 'Your VA claim number must be 8 or 9 digits'
                   }
                 },
                 ssn: {

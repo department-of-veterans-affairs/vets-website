@@ -17,11 +17,12 @@ export default function DowntimeBanner({ appTitle, dependencies, children }) {
       appTitle={appTitle}
       render={(downtime) => {
         if (downtime.status === serviceStatus.down) {
+          if (children) return children;
           return (
             <AlertBox
               status="info"
               isVisible
-              content={children || <DownMessaging appTitle={appTitle} {...downtime}/>}/>
+              content={<DownMessaging appTitle={appTitle} {...downtime}/>}/>
           );
         }
         return <div/>;

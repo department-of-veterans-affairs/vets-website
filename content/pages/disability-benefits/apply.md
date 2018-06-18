@@ -11,12 +11,12 @@ majorlinks:
   - heading: More information about filing disability claims
     links:
     - url: /disability-benefits/apply/claim-types/
-      title: Types of Disability Claims
-      description: Learn about standard claims, reopened claims, secondary claims, and more.
+      title: Claim Types and When to File 
+      description: Learn about standard claims, reopened claims, secondary claims, and more. 
     - url: /disability-benefits/apply/evidence/
-      title: Evidence (Supporting Documents)
-      description: Find out which supporting documents you’ll need to give us so we can decide your claim.    
-    - url: /disability-benefits/apply/one-year/
+      title: How to Gather Evidence for Your Claim
+      description: Find out your options for gathering documents to support your disability claim.
+    - url: /disability-benefits/eligibility/one-year/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
     - url: /disability-benefits/apply/help/
@@ -40,7 +40,7 @@ Find out how to apply for VA disability benefits.
 
 - [Find out if you're eligible for VA disability benefits](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/evidence/).
 
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">

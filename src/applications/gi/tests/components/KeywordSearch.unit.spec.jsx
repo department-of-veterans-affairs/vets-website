@@ -10,6 +10,7 @@ describe('<KeywordSearch>', () => {
     const tree = mount(
       <KeywordSearch
         label="test"
+        location={{ query: 'test' }}
         autocomplete={{
           searchTerm: 'hello',
           suggestions: [{ a: 1 }, { b: 2 }]
@@ -29,6 +30,7 @@ describe('<KeywordSearch>', () => {
     const tree = mount(
       <KeywordSearch
         label="test"
+        location={{ query: 'test' }}
         autocomplete={{
           searchTerm: '',
           suggestions: [{ label: 'item1' }, { label: 'item2' }]
@@ -55,6 +57,7 @@ describe('<KeywordSearch>', () => {
     const tree = mount(
       <KeywordSearch
         label="test"
+        location={{ query: 'test' }}
         autocomplete={{
           searchTerm: '',
           suggestions: [{ label: 'item1' }, { label: 'item2' }]

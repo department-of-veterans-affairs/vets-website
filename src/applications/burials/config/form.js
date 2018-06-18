@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
-import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
+import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -18,23 +18,27 @@ import {
   submit
 } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
-import { validateBooleanGroup } from '../../common/schemaform/validation';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import { isFullDate } from '../../../platform/forms/validations';
 import { services } from '../../../platform/monitoring/DowntimeNotification';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 
-import * as address from '../../common/schemaform/definitions/address';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import FullNameField from '../../common/schemaform/fields/FullNameField';
-import phoneUI from '../../common/schemaform/definitions/phone';
-import ssnUI from '../../common/schemaform/definitions/ssn';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import * as address from 'us-forms-system/lib/js/definitions/address';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import toursOfDutyUI from '../definitions/toursOfDuty';
-import fileUploadUI from '../../common/schemaform/definitions/file';
-import currencyUI from '../../common/schemaform/definitions/currency';
-import { validateBurialAndDeathDates } from '../validation';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import {
+  validateBurialAndDeathDates,
+  validateCentralMailPostalCode
+} from '../validation';
+import migrations from '../migrations';
 
 const {
   relationship,
@@ -64,12 +68,13 @@ const {
   veteranDateOfBirth,
   placeOfBirth,
   officialPosition,
-  firmName
+  firmName,
+  vaFileNumber
 } = fullSchemaBurials.properties;
 
 const {
   fullName,
-  vaFileNumber,
+  centralMailVaFile,
   ssn,
   date,
   usaPhone,
@@ -89,7 +94,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-530',
-  version: 0,
+  version: 2,
+  migrations,
   prefillEnabled: true,
   downtime: {
     dependencies: [services.icmhs]
@@ -104,7 +110,7 @@ const formConfig = {
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
-    vaFileNumber,
+    centralMailVaFile,
     ssn,
     date,
     usaPhone,
@@ -176,7 +182,7 @@ const formConfig = {
                 widgetClassNames: 'usa-input-medium'
               },
               'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
+                pattern: 'Your VA file number must be 8 or 9 digits'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
@@ -506,7 +512,11 @@ const formConfig = {
                 hideIf: form => _.get('relationship.isEntity', form) !== true
               }
             },
-            claimantAddress: address.uiSchema('Address'),
+            claimantAddress: _.set(
+              'ui:validations[1]',
+              validateCentralMailPostalCode,
+              address.uiSchema('Address')
+            ),
             claimantEmail: {
               'ui:title': 'Email address'
             },
@@ -518,7 +528,7 @@ const formConfig = {
             properties: {
               firmName,
               officialPosition,
-              claimantAddress: address.schema(fullSchemaBurials, true),
+              claimantAddress: address.schema(fullSchemaBurials, true, 'centralMailAddress'),
               claimantEmail,
               claimantPhone
             }

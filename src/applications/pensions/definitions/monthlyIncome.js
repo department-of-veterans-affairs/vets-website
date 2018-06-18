@@ -1,5 +1,5 @@
 import { additionalSourcesUI } from './additionalSources';
-import currencyUI from '../../common/schemaform/definitions/currency';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 
 export default {
   'ui:order': [

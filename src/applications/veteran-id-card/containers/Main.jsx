@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { has, head } from 'lodash';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
-import { messages } from '../config';
+import config from '../config';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 class Main extends React.Component {
@@ -71,12 +71,12 @@ class Main extends React.Component {
   renderErrors() {
     const { errors } = this.props;
     const code = head(errors).code;
-    const detail = has(messages, code) ? messages[code] : messages.default;
+    const detail = has(config.messages, code) ? config.messages[code] : config.messages.default;
     const content = (
       <div>
         <h4>We can't process your request</h4>
         <div>
-          <p>{detail}</p>
+          {detail}
         </div>
       </div>
     );
