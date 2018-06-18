@@ -32,7 +32,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     client
       .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
-      .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
       .assert.attributeContains('.health-icon', 'aria-selected', true);
 
     client
