@@ -30,7 +30,7 @@ export class SearchResult extends React.Component {
     const cautionFlagClass = __BUILDTYPE__ !== 'production' ? 'caution-flag-new' : 'caution-flag';
     const innerClass = __BUILDTYPE__ !== 'production' ? 'inner-new' : 'inner';
     const SchoolClosingFlag = () => {
-      // if (!this.props.cautionFlag) return null;
+      if (__BUILDTYPE__ === 'production' || !this.props.schoolClosing) return null;
       return (
         <div className={cautionFlagClass}>
           <i className="fa fa-warning"></i>
