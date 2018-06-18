@@ -79,15 +79,16 @@ const FacilityTypeDropdown = ({
 
 class Wrapper extends Component {
   render() {
-    const { facilityType } = this.props;
+    const facilityType = this.props.facilityType || 'all';
     const highlightedIndex = FACILITY_OPTIONS.indexOf(facilityType);
 
     return (
       <Downshift
+        defaultSelectedItem="all"
         defaultHighlightedIndex={highlightedIndex}
         itemToString={itemToString}
         onChange={this.props.onChange}
-        selectedItem={facilityType || 'all'}>
+        selectedItem={facilityType}>
         {FacilityTypeDropdown}
       </Downshift>
     );
