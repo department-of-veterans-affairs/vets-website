@@ -9,7 +9,14 @@ import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWid
 import ReviewCardField from '../components/ReviewCardField';
 
 import { PrimaryAddressViewField } from '../helpers';
-import  { MILITARY_STATE_VALUES, MILITARY_CITIES, USA } from '../constants';
+import  {
+  MILITARY_CITIES,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  STATE_LABELS,
+  STATE_VALUES,
+  USA
+} from '../constants';
 
 function isValidZIP(value) {
   if (value !== null) {
@@ -47,6 +54,21 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
 const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
 
 const addressUISchema = (addressName, title) => {
+  const updateStates = (form) => {
+    const currentCity = _.get(form, `veteran.${addressName}.city`, '').trim().toUpperCase();
+    if (MILITARY_CITIES.includes(currentCity)) {
+      return {
+        'enum': MILITARY_STATE_VALUES,
+        enumNames: MILITARY_STATE_LABELS
+      };
+    }
+
+    return {
+      'enum': STATE_VALUES,
+      enumNames: STATE_LABELS
+    };
+  };
+
   return {
     'ui:order': [
       'country',
@@ -82,7 +104,7 @@ const addressUISchema = (addressName, title) => {
       'ui:required': ({ veteran }) => (veteran.mailingAddress.country === USA),
       'ui:options': {
         hideIf: ({ veteran }) => (veteran.mailingAddress.country !== USA),
-        updateSchema: () => {}
+        updateSchema: updateStates
       },
       'ui:validations': [{
         options: { addressName },
