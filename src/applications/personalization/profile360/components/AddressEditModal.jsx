@@ -2,8 +2,7 @@ import React from 'react';
 
 import {
   consolidateAddress,
-  expandAddress,
-  isEmptyAddress
+  expandAddress
 } from '../../../../platform/forms/address/helpers';
 
 import Vet360EditModal from './Vet360EditModal';
@@ -33,10 +32,6 @@ export default class AddressEditModal extends React.Component {
     return {
       countryName: 'United States',
     };
-  }
-
-  isEmpty = () => {
-    return isEmptyAddress(this.props.data);
   }
 
   renderForm = () => {
