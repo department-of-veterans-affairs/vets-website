@@ -18,7 +18,6 @@ const IconWithInfo = ({ icon, children, present }) => {
 class HeadingSummary extends React.Component {
 
   render() {
-    const closingSoon = true;
     const it = this.props.institution;
     it.type = it.type && it.type.toLowerCase();
 
@@ -36,7 +35,7 @@ class HeadingSummary extends React.Component {
       <div className="heading row">
         <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1>{it.name}</h1>
-          {__BUILDTYPE__ !== 'production' && closingSoon ? (<AlertBox
+          {__BUILDTYPE__ !== 'production' && it.closingSoon ? (<AlertBox
             content={(<p>Are you enrolled in this school? <a href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp" onClick={this.props.onViewWarnings}>Find out how the VA can restore your benefits</a></p>)}
             headline={__BUILDTYPE__ !== 'production' ? 'This school is closing soon' : null}
             isVisible={!!it.cautionFlag}
