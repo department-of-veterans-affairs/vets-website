@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
 import Downshift from 'downshift';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import { facilityTypes } from '../config';
+import { keyMap } from '../utils/helpers';
 import SelectComponent from './Select';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
     this.props.onChange({ active: false });
   }
+
+  /*
+  handleFacilityChange = () => {
+      if (newOption === 'AllFacilities') {
+        this.props.onChange({
+          facilityType: null,
+          serviceType: null
+        });
+      } else {
+        this.props.onChange({
+          facilityType: newOption,
+          serviceType: null
+        });
+      }
+  }
+  */
 
   // TODO (bshyong): generalize to be able to handle Select box changes
   handleQueryChange = (e) => {
@@ -32,10 +48,8 @@ class SearchControls extends Component {
   }
 
   renderFacilityTypeDropdown = ({
-    closeMenu,
     getButtonProps,
     getItemProps,
-    getLabelProps,
     highlightedIndex,
     isOpen,
     selectedItem,
@@ -51,25 +65,40 @@ class SearchControls extends Component {
     );
 
     const handleKeyDown = (e) => {
-      if (e.keyCode === 13) { toggleMenu(); }
+      switch (e.keyCode) {
+        // Allow (1) ENTER with nothing highlighted or
+        // (2) blurring focus (with TAB) to close dropdown.
+        case keyMap.ENTER:
+        case keyMap.TAB:
+          if (isOpen) { toggleMenu(); }
+          break;
+
+        // Allow SPACE to toggle state of menu without making a selection.
+        case keyMap.SPACE:
+          toggleMenu();
+          break;
+
+        default: // Do nothing.
+      }
     };
 
     return (
       <div>
-        <label htmlFor="facility-dropdown" {...getLabelProps()}>
+        <label htmlFor="facility-dropdown-toggle">
           Select Facility Type
         </label>
         <div id="facility-dropdown">
-          <div {...getButtonProps({
+          <button {...getButtonProps({
+            id: 'facility-dropdown-toggle',
             className: optionClasses(selectedItem),
-            onBlur: closeMenu,
             onKeyDown: handleKeyDown,
             tabIndex: 0,
+            type: 'button',
             'aria-expanded': isOpen
           })}>
             {facilityTypes[selectedItem] || 'All Facilities'}
             <i className="fa fa-chevron-down dropdown-toggle"/>
-          </div>
+          </button>
           {isOpen && (
             <ul
               className="dropdown"
@@ -77,9 +106,9 @@ class SearchControls extends Component {
               {facilityOptions.map((item, index) => (
                 <li key={item} {...getItemProps({
                   item,
+                  className: optionClasses(item, index === highlightedIndex),
                   role: 'option',
-                  'aria-selected': index === highlightedIndex,
-                  className: optionClasses(item, index === highlightedIndex)
+                  'aria-selected': index === highlightedIndex
                 })}>
                   {facilityTypes[item] || 'All Facilities'}
                 </li>
@@ -111,7 +140,7 @@ class SearchControls extends Component {
               Enter Street, City, State or Zip
             </label>
             <input
-              ref="searchField"
+              id="street-city-state-zip"
               name="street-city-state-zip"
               type="text"
               onChange={this.handleQueryChange}

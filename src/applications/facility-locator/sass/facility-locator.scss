@@ -296,7 +296,6 @@
     input[type=submit] {
       margin-top: 2.5rem;
     }
-
   }
 
   .mb2 {
@@ -417,12 +416,11 @@
 }
 
 #facility-dropdown {
-  position: relative;
   background: $color-white;
-  cursor: pointer;
   border: 1px solid $color-black;
   border-radius: 0;
   box-sizing: border-box;
+  cursor: pointer;
   color: $color-base;
   display: block;
   font-size: 1.6rem;
@@ -430,6 +428,7 @@
   line-height: 1.3;
   margin: 0.2em 0;
   max-width: 46rem;
+  position: relative;
   width: 100%;
 
   &.disabled {
@@ -437,23 +436,9 @@
     background-color: $color-gray-lightest;
   }
 
-  span {
-    text-align: left;
-  }
-
-  span.legend {
-    border-radius: 1em;
-    margin-right: 0.5em;
-    width: 2.4rem;
-    height: 2.4rem;
-    text-align: center;
-    color: $color-white;
-  }
-
   .dropdown {
     background: $color-white;
     border: solid 1px $color-black;
-    border-top: none;
     box-sizing: content-box;
     font-size: 1.6rem;
     left: -1px;
@@ -500,4 +485,12 @@
     right: 0;
     top: 33%;
   }
+}
+
+#facility-dropdown-toggle {
+  background-color: transparent;
+  color: inherit;
+  height: 100%;
+  text-align: left;
+  width: 100%;
 }
