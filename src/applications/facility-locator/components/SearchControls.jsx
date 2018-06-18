@@ -1,8 +1,12 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import classNames from 'classnames';
+import Downshift from 'downshift';
+
 import recordEvent from '../../../platform/monitoring/record-event';
+import { updateSearchQuery } from '../actions';
+import { facilityTypes } from '../config';
 import SelectComponent from './Select';
 
 class SearchControls extends Component {
@@ -34,6 +38,66 @@ class SearchControls extends Component {
     onSearch();
   }
 
+  renderFacilityTypeDropdown = ({
+    closeMenu,
+    getButtonProps,
+    getItemProps,
+    getLabelProps,
+    highlightedIndex,
+    isOpen,
+    selectedItem,
+    toggleMenu
+  }) => {
+    const facilityOptions = ['all', 'health', 'benefits', 'cemetery', 'vet_center'];
+
+    const optionClasses = (item, selected) => classNames(
+      'dropdown-option',
+      { selected },
+      { 'icon-option': item !== 'all' },
+      { [`${_.kebabCase(item)}-icon`]: item !== 'all' }
+    );
+
+    const handleKeyDown = (e) => {
+      if (e.keyCode === 13) { toggleMenu(); }
+    };
+
+    return (
+      <div>
+        <label htmlFor="facility-dropdown" {...getLabelProps()}>
+          Select Facility Type
+        </label>
+        <div id="facility-dropdown">
+          <div {...getButtonProps({
+            className: optionClasses(selectedItem),
+            onBlur: closeMenu,
+            onKeyDown: handleKeyDown,
+            tabIndex: 0,
+            'aria-expanded': isOpen
+          })}>
+            {facilityTypes[selectedItem] || 'All Facilities'}
+            <i className="fa fa-chevron-down dropdown-toggle"/>
+          </div>
+          {isOpen && (
+            <ul
+              className="dropdown"
+              role="listbox">
+              {facilityOptions.map((item, index) => (
+                <li key={item} {...getItemProps({
+                  item,
+                  role: 'option',
+                  'aria-selected': index === highlightedIndex,
+                  className: optionClasses(item, index === highlightedIndex)
+                })}>
+                  {facilityTypes[item] || 'All Facilities'}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { currentQuery, isMobile, onChange } = this.props;
     if (currentQuery.active && isMobile) {
@@ -50,15 +114,23 @@ class SearchControls extends Component {
       <div className="search-controls-container clearfix">
         <form>
           <div className="columns usa-width-one-third medium-4">
-            <label htmlFor="streetCityStateZip" id="streetCityStateZip-label">Enter Street, City, State or Zip</label>
-            <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
+            <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
+              Enter Street, City, State or Zip
+            </label>
+            <input
+              ref="searchField"
+              name="street-city-state-zip"
+              type="text"
+              onChange={this.handleQueryChange}
+              value={currentQuery.searchString}
+              aria-label="Street, City, State or Zip"
+              title="Street, City, State or Zip"/>
           </div>
-          <SelectComponent
-            optionType="facility"
-            currentQuery={currentQuery}
-            updateSearchQuery={this.props.updateSearchQuery}
-            onChange={onChange}
-            isMobile={this.props.isMobile}/>
+          <div className="columns usa-width-one-third medium-3">
+            <Downshift defaultSelectedItem="all">
+              {this.renderFacilityTypeDropdown}
+            </Downshift>
+          </div>
           <SelectComponent
             optionType="service"
             currentQuery={currentQuery}
@@ -74,10 +146,8 @@ class SearchControls extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updateSearchQuery,
-  }, dispatch);
-}
+const mapDispatchToProps = {
+  updateSearchQuery
+};
 
 export default connect(null, mapDispatchToProps)(SearchControls);
