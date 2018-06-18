@@ -3,7 +3,6 @@ import { apiRequest } from '../../../../platform/utilities/api';
 import existingITFData from '../tests/itfData';
 
 export const PRESTART_STATUS_SET = 'PRESTART_STATUS_SET';
-export const PRESTART_MESSAGE_SET = 'PRESTART_MESSAGE_SET';
 export const PRESTART_DATA_SET = 'PRESTART_DATA_SET';
 export const PRESTART_STATE_RESET = 'PRESTART_STATE_RESET';
 export const PRESTART_DISPLAY_RESET = 'PRESTART_DISPLAY_RESET';
@@ -11,40 +10,19 @@ export const PRESTART_DISPLAY_RESET = 'PRESTART_DISPLAY_RESET';
 export const PRESTART_STATUSES = {
   notAttempted: 'not-attempted',
   pending: 'pending',
-  succeeded: 'suceeded',
+  succeeded: 'succeeded',
   failed: 'failed'
 };
 
-export const PRESTART_MESSAGES = {
-  active: 'active',
-  none: 'none',
+export const ITF_STATUSES = {
   expired: 'expired',
-  created: 'created',
-  retrieved: 'retrieved',
-  renewed: 'renewed',
-  notRetrievedSaved: 'not-retrieved-saved',
-  notRetrievedNew: 'not-retrieved-new',
-  notCreated: 'not-created',
-  notRenewed: 'not-renewed',
+  active: 'active'
 };
-
-export const prestartSuccessMessages = new Set([PRESTART_MESSAGES.created, PRESTART_MESSAGES.retrieved, PRESTART_MESSAGES.renewed]);
-
-export const prestartFailureMessages = new Set([PRESTART_MESSAGES.notCreated, PRESTART_MESSAGES.notRenewed, PRESTART_MESSAGES.notRetrievedNew, PRESTART_MESSAGES.notRetrievedSaved]);
-
-export const prestartPendingMessages = new Set([PRESTART_MESSAGES.none, PRESTART_MESSAGES.expired]);
 
 export function setPrestartStatus(status) {
   return {
     type: PRESTART_STATUS_SET,
     status
-  };
-}
-
-export function setPrestartMessage(message) {
-  return {
-    type: PRESTART_MESSAGE_SET,
-    message
   };
 }
 
@@ -66,6 +44,7 @@ export function resetPrestartDisplay() {
     type: PRESTART_DISPLAY_RESET
   };
 }
+
 // Returns most recent timestamp from a list of timestamps
 export const getLatestTimestamp = (timestamps) => timestamps.sort((a, b) => new Date(b) - new Date(a))[0];
 export const isNotEmptyObject = (object) => !(Object.keys(object).length === 0 && object.constructor === Object);
@@ -75,44 +54,44 @@ export const handleCheckSuccess = (data, dispatch) => {
   // If no existing ITF(s) are found, we will receive an empty {} response
   const itfList = isNotEmptyObject(data) && data.attributes.intentToFile;
 
-  // If the user does not have any existing ITFs, set none status
+  // If the user does not have any existing ITFs, create one
   if (!itfList) {
-    return PRESTART_MESSAGES.none;
+    return true;
   }
 
   // Check for an active ITF, the user should only have one
-  const activeITF = getITFsByStatus(itfList, PRESTART_MESSAGES.active)[0];
-  const expiredITFs = getITFsByStatus(itfList, PRESTART_MESSAGES.expired);
-  // If the user has an active ITF, set retrieved status and currentExpirationDate
+  const activeITF = getITFsByStatus(itfList, ITF_STATUSES.active)[0];
+  const expiredITFs = getITFsByStatus(itfList, ITF_STATUSES.expired);
+  // If the user has an active ITF, set currentExpirationDate
   if (activeITF) {
     dispatch(setPrestartData({ currentExpirationDate: activeITF.expirationDate }));
     dispatch(setPrestartStatus(PRESTART_STATUSES.succeeded));
-    return PRESTART_MESSAGES.retrieved;
+    return false;
   }
   // If the user doesn't have any active ITFs
-  // Check for expired ITFs, and if found, use the latest to set expired status and previousExpirationDate
+  // Check for expired ITFs, and if found, use the latest to set previousExpirationDate
+  // and create a new ITF
   if (expiredITFs.length > 0) {
     const latestExpiredITFExpirationDate = getLatestTimestamp(expiredITFs.map(itf => itf.expirationDate));
     dispatch(setPrestartData({ previousExpirationDate: latestExpiredITFExpirationDate }));
-    return PRESTART_MESSAGES.expired;
+    return true;
   }
 
-  // If the user does not have any expired or active ITFs, set none status
-  return PRESTART_MESSAGES.none;
+  // If the user does not have any expired or active ITFs, create one
+  return true;
 };
 
-export const handleCheckFailure = (hasSavedForm, dispatch) => {
-  const status = hasSavedForm ? PRESTART_MESSAGES.notRetrievedSaved : PRESTART_MESSAGES.notRetrievedNew;
+export const handleCheckFailure = (dispatch) => {
   dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
-  return status;
+  return false;
 };
 
-export function checkITFRequest(dispatch, hasSavedForm) {
+export function checkITFRequest(dispatch) {
   return apiRequest(
     '/intent_to_file',
     null,
     ({ data }) => handleCheckSuccess(data, dispatch),
-    () => handleCheckFailure(hasSavedForm, dispatch)
+    () => handleCheckFailure(dispatch)
   );
 }
 
@@ -126,57 +105,44 @@ const fakeITFRequest = async (url, options, success) => {
 };
 
 // TODO: remove this mock and its helpers once user testing is complete
-export function mockCheckITFRequest(dispatch, hasSavedForm) {
+export function mockCheckITFRequest(dispatch) {
   return fakeITFRequest(
     '/intent_to_file',
     null,
     ({ data }) => handleCheckSuccess(data, dispatch),
-    () => handleCheckFailure(hasSavedForm, dispatch)
+    () => handleCheckFailure(dispatch)
   );
 }
 
-export const handleSubmitSuccess = (data, successMessage, dispatch) => {
+export const handleSubmitSuccess = (data, dispatch) => {
   const expirationDate = data.attributes.intentToFile.expirationDate;
   dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
   dispatch(setPrestartStatus(PRESTART_STATUSES.succeeded));
-  dispatch(setPrestartMessage(successMessage));
 };
 
-export const handleSubmitFailure = (errorMessage, dispatch) => {
+export const handleSubmitFailure = (dispatch) => {
   dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
-  dispatch(setPrestartMessage(errorMessage));
 };
 
-export function submitITFRequest(dispatch, successMessage, errorMessage) {
+export function submitITFRequest(dispatch) {
 
   return apiRequest(
     '/intent_to_file/compensation',
     { method: 'POST' },
-    ({ data }) => handleSubmitSuccess(data, successMessage, dispatch),
-    () => handleSubmitFailure(errorMessage, dispatch)
+    ({ data }) => handleSubmitSuccess(data, dispatch),
+    () => handleSubmitFailure(dispatch)
   );
 }
 
-export function verifyIntentToFile(hasSavedForm) {
+export function verifyIntentToFile() {
   return async (dispatch) => {
-    let submitSuccessMessage;
-    let submitErrorMessage;
+
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
 
-    const existingITFMessage = await checkITFRequest(dispatch, hasSavedForm);
+    const shouldCreateITF = await checkITFRequest(dispatch);
 
-    if (!prestartPendingMessages.has(existingITFMessage)) {
-      dispatch(setPrestartMessage(existingITFMessage));
-      return;
+    if (shouldCreateITF) {
+      submitITFRequest(dispatch);
     }
-
-    if (existingITFMessage === PRESTART_MESSAGES.none) {
-      submitSuccessMessage = PRESTART_MESSAGES.created;
-      submitErrorMessage = PRESTART_MESSAGES.notCreated;
-    } else if (existingITFMessage === PRESTART_MESSAGES.expired) {
-      submitSuccessMessage = PRESTART_MESSAGES.renewed;
-      submitErrorMessage = PRESTART_MESSAGES.notRenewed;
-    }
-    submitITFRequest(dispatch, submitSuccessMessage, submitErrorMessage);
   };
 }

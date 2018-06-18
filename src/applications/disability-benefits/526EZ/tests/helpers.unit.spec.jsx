@@ -47,6 +47,7 @@ describe('526 helpers', () => {
       expect(incompletePrefill.prefilled).to.be.undefined;
     });
   });
+
   describe('get4142Selection', () => {
     const fullDisabilities = [
       {
@@ -92,6 +93,7 @@ describe('526 helpers', () => {
       expect(get4142Selection(disabilities)).to.equal(false);
     });
   });
+
   describe('queryForFacilities', () => {
     const originalFetch = global.fetch;
     beforeEach(() => {
