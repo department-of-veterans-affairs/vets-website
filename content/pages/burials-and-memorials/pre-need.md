@@ -102,16 +102,6 @@ To apply, you’ll need your (or your sponsor's):
 
 </div>
 
-### What if I need help filling out my application forms?
-
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
-
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
-[Get help filing your claim](/disability-benefits/apply/help/).
-
-
-[Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
-
 <div markdown="0"><br></div>
 
 ### How do I apply?
@@ -119,9 +109,12 @@ Get help from an accredited representative (a trained professional trusted to he
 Fill out an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <br>
 [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
-Print the form, fill it out, and send it to us along with copies of your supporting documents in 1 of 2 ways:
+You can apply in any of these ways:
 
-#### By mail to:
+#### By phone
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>) to get help with your application.
+
+#### By mail
 
 <p class="va-address-block">
 	    National Cemetery Scheduling Office<br>
@@ -132,7 +125,13 @@ Print the form, fill it out, and send it to us along with copies of your support
 **Please note:** Don't send us the originals of your DD214 and other supporting documents. Send copies only.
 
 
-#### By fax to 1-855-840-8299.
+#### By fax
+Fax your form to: 1-855-840-8299.
+
+#### With the help of a trained professional
+
+You can work with a trained professional called an accredited representative to get help applying for health care benefits. 
+Get help filing your claim.
 
 <br>
 
