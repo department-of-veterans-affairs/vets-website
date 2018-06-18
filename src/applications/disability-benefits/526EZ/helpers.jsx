@@ -583,7 +583,7 @@ export const FDCDescription = (
     <h5>Fully developed claim program</h5>
     <p>
       You can apply using the Fully Developed Claim (FDC) program if
-      you’ve uploaded all the supporting documents or supplemental
+      you’ve uploaded all the supporting documents or additional
       forms needed to support your claim.
     </p>
     <a href="/pension/apply/fully-developed-claim/" target="_blank">
