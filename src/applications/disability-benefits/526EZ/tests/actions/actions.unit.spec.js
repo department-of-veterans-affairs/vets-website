@@ -27,13 +27,7 @@ import {
 
 import existingData from '../itfData';
 
-const noData = {
-  id: '',
-  type: 'evss_intent_to_file_intent_to_files_responses',
-  attributes: {
-    intentToFile: null
-  }
-};
+const noData = {};
 const incompleteData = {
   id: '',
   type: 'evss_intent_to_file_intent_to_files_responses',

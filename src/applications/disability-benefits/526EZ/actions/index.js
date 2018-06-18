@@ -70,12 +70,15 @@ export function resetPrestartDisplay() {
   };
 }
 
+const isNotEmptyObject = (object) => !(Object.keys(object).length === 0 && object.constructor === Object);
+
 export const handleCheckSuccess = (data, dispatch) => {
-  const itfList = data.attributes.intentToFile;
+  // If no existing ITF(s) are found, we will receive an empty {} response
+  const itfList = isNotEmptyObject(data) && data.attributes.intentToFile;
 
   // If the user does not have any existing ITFs, set none status
-  if (!itfList || (Array.isArray(itfList) && itfList.length === 0)) {
-    return PRESTART_STATUSES.none;
+  if (!itfList) {
+    return PRESTART_MESSAGES.none;
   }
 
   // Check for an active ITF, the user should only have one
