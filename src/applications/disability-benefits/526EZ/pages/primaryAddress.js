@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
-import fullSchema526EZ from '/Users/adhocteam/Sites/vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from '/path/vets-json-schema/dist/21-526EZ-schema.json';
 
 import dateUI from '../../../common/schemaform/definitions/date';
 import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWidget';
