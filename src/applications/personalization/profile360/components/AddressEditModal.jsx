@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { consolidateAddress, expandAddress, isEmptyAddress } from '../../../../platform/forms/address/helpers';
+import {
+  consolidateAddress,
+  expandAddress,
+  isEmptyAddress
+} from '../../../../platform/forms/address/helpers';
 
 import Vet360EditModal from './Vet360EditModal';
 import Address from './Address';

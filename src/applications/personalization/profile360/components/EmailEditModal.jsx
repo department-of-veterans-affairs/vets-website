@@ -10,6 +10,9 @@ export default class EditEmailModal extends React.Component {
   }
 
   getInitialFormValues = () => {
+    if (this.props.data) {
+      return { ...this.props.data };
+    }
     return {
       email: ''
     };

@@ -34,28 +34,44 @@ export default class Vet360EditModal extends React.Component {
   }
 
   render() {
-    const isFormReady = this.isInitialized();
+    const {
+      onSubmit,
+      isEmpty,
+      isInitialized,
+      props: {
+        onCancel,
+        title,
+        clearErrors,
+        render,
+        onDelete,
+        transactionRequest
+      }
+    } = this;
+
+    const isFormReady = isInitialized();
+    const isLoading = transactionRequest && transactionRequest.isPending;
+    const error = transactionRequest && transactionRequest.error;
 
     return (
       <Modal
         id="profile-phone-modal"
-        onClose={this.props.onCancel}
+        onClose={onCancel}
         visible={isFormReady}>
-        <h3>Edit {this.props.title}</h3>
-        <form onSubmit={this.onSubmit}>
+        <h3>Edit {title}</h3>
+        <form onSubmit={onSubmit}>
           <AlertBox
-            content={<p>We’re sorry. We couldn’t update your {this.props.title.toLowerCase()}. Please try again.</p>}
-            isVisible={!!this.props.error}
+            content={<p>We’re sorry. We couldn’t update your {title.toLowerCase()}. Please try again.</p>}
+            isVisible={!!error}
             status="error"
-            onCloseAlert={this.props.clearErrors}/>
-          {isFormReady && this.props.render()}
+            onCloseAlert={clearErrors}/>
+          {isFormReady && render()}
           <FormActionButtons
-            onCancel={this.props.onCancel}
-            onDelete={this.props.onDelete}
-            title={this.props.title}
-            deleteEnabled={!this.isEmpty()}>
-            <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
-            <button type="button" className="usa-button-secondary" onClick={this.props.onCancel}>Cancel</button>
+            onCancel={onCancel}
+            onDelete={onDelete}
+            title={title}
+            deleteEnabled={!isEmpty()}>
+            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
+            <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
           </FormActionButtons>
         </form>
       </Modal>
