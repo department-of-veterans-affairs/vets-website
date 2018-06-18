@@ -117,9 +117,10 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 **If you are in the Coast Guard or National Oceanic and Atmospheric Administration,** <br> You'll need to fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
 [Download the Servicemembers' Group Life Insurance Election and Certificate](https://www.benefits.va.gov/insurance/forms/SGLV_8286_ed2017-10.pdf).
 <br>
-[Learn more about SOES and find out if your branch is using this new system](https://www.benefits.va.gov/INSURANCE/SOES.asp).
-
+[Learn more about SOES](https://www.benefits.va.gov/INSURANCE/SOES.asp).
 <br>
+SOES is planned for the Coast Guard and National Oceanic and Atmospheric Administration later in 2018. 
+
 
 ### How much will I pay for these benefits?
 
