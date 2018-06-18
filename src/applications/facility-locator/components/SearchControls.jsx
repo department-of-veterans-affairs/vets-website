@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
-import classNames from 'classnames';
-import Downshift from 'downshift';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
-import { keyMap } from '../utils/helpers';
+import { benefitsServices, vetCenterServices } from '../config';
+import FacilityTypeDropdown from './FacilityTypeDropdown';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
@@ -21,7 +18,8 @@ class SearchControls extends Component {
     this.props.onChange({ facilityType, serviceType: null });
   }
 
-  handleServiceTypeChange = (option) => {
+  handleServiceTypeChange = (e) => {
+    const option = e.target.value;
     const serviceType = (option === 'All') ? null : option;
     this.props.onChange({ serviceType });
   }
@@ -39,81 +37,19 @@ class SearchControls extends Component {
     this.props.onSubmit();
   }
 
-  renderFacilityTypeDropdown = ({
-    getButtonProps,
-    getItemProps,
-    highlightedIndex,
-    isOpen,
-    selectedItem,
-    toggleMenu
-  }) => {
-    const facilityOptions = ['all', 'health', 'benefits', 'cemetery', 'vet_center'];
 
-    const optionClasses = (item, selected) => classNames(
-      'dropdown-option',
-      { selected },
-      { 'icon-option': item !== 'all' },
-      { [`${_.kebabCase(item)}-icon`]: item !== 'all' }
-    );
-
-    const handleKeyDown = (e) => {
-      switch (e.keyCode) {
-        // Allow (1) ENTER with nothing highlighted or
-        // (2) blurring focus (with TAB) to close dropdown.
-        case keyMap.ENTER:
-        case keyMap.TAB:
-          if (isOpen) { toggleMenu(); }
-          break;
-
-        // Allow SPACE to toggle state of menu without making a selection.
-        case keyMap.SPACE:
-          toggleMenu();
-          break;
-
-        default: // Do nothing.
-      }
-    };
-
+  renderFacilityTypeDropdown = () => {
     return (
-      <div>
-        <label htmlFor="facility-dropdown-toggle">
-          Select Facility Type
-        </label>
-        <div id="facility-dropdown">
-          <button {...getButtonProps({
-            id: 'facility-dropdown-toggle',
-            className: optionClasses(selectedItem),
-            onKeyDown: handleKeyDown,
-            tabIndex: 0,
-            type: 'button',
-            'aria-expanded': isOpen
-          })}>
-            {facilityTypes[selectedItem] || 'All Facilities'}
-            <i className="fa fa-chevron-down dropdown-toggle"/>
-          </button>
-          {isOpen && (
-            <ul
-              className="dropdown"
-              role="listbox">
-              {facilityOptions.map((item, index) => (
-                <li key={item} {...getItemProps({
-                  item,
-                  className: optionClasses(item, index === highlightedIndex),
-                  role: 'option',
-                  'aria-selected': index === highlightedIndex
-                })}>
-                  {facilityTypes[item] || 'All Facilities'}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+      <div className="columns usa-width-one-fourth medium-3">
+        <FacilityTypeDropdown
+          facilityType={this.props.currentQuery.facilityType}
+          onChange={this.handleFacilityTypeChange}/>
       </div>
     );
   }
 
   renderServiceTypeDropdown = () => {
-    const { facilityType } = this.props.currentQuery;
+    const { facilityType, serviceType } = this.props.currentQuery;
     const disabled = !['benefits', 'vet_center'].includes(facilityType);
     let services;
 
@@ -144,6 +80,7 @@ class SearchControls extends Component {
         <select
           id="service-type-dropdown"
           disabled={disabled}
+          value={serviceType || ''}
           onChange={this.handleServiceTypeChange}>
           {options}
         </select>
@@ -180,11 +117,7 @@ class SearchControls extends Component {
               aria-label="Street, City, State or Zip"
               title="Street, City, State or Zip"/>
           </div>
-          <div className="columns usa-width-one-fourth medium-3">
-            <Downshift defaultSelectedItem="all" onChange={this.handleFacilityTypeChange}>
-              {this.renderFacilityTypeDropdown}
-            </Downshift>
-          </div>
+          {this.renderFacilityTypeDropdown()}
           {this.renderServiceTypeDropdown()}
           <div className="columns usa-width-one-sixth medium-2">
             <input type="submit" value="Search"/>
