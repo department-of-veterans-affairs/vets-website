@@ -10,7 +10,14 @@ import FormActionButtons from '../components/FormActionButtons';
 export default class Vet360EditModal extends React.Component {
 
   static propTypes = {
-    getInitialFormValues: PropTypes.func.isRequired
+    clearErrors: PropTypes.func.isRequired,
+    getInitialFormValues: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    render: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    transactionRequest: PropTypes.object
   };
 
   componentDidMount() {
