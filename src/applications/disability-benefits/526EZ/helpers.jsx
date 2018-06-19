@@ -26,42 +26,70 @@ export const MILITARY_STATES = ['AA', 'AE', 'AP'];
 export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 // import { PRESTART_STATUSES, prestartFailureStatuses, prestartSuccessStatuses } from './actions'; TODO: fix import bug
 
-const PRESTART_MESSAGES = {
+const PRESTART_STATUSES = {
+  succeeded: 'succeeded',
+  failed: 'failed'
+};
+
+const PRESTART_VERIFICATION_TYPES = {
+  create: 'create',
+  retrieve: 'retrieve'
+};
+
+const PRESTART_MESSAGE_TYPES = {
   created: 'created',
-  retrieved: 'retrieved',
   renewed: 'renewed',
-  notRetrievedSaved: 'not-retrieved-saved',
-  notRetrievedNew: 'not-retrieved-new',
-  notCreated: 'not-created',
-  notRenewed: 'not-renewed',
+  retrieved: 'retrieved',
+  notCreated: 'notCreated',
+  notRenewed: 'notRenewed',
+  notRetrievedNewUser: 'notRetrievedNewUser',
+  notRetrievedReturningUser: 'notRetrievedReturningUser'
 };
 
-const prestartSuccessStatuses = new Set([PRESTART_MESSAGES.created, PRESTART_MESSAGES.retrieved, PRESTART_MESSAGES.renewed]);
+const { created, renewed, retrieved, notCreated, notRenewed, notRetrievedNewUser, notRetrievedReturningUser } = PRESTART_MESSAGE_TYPES;
 
-const prestartFailureStatuses = new Set([PRESTART_MESSAGES.notCreated, PRESTART_MESSAGES.notRenewed, PRESTART_MESSAGES.notRetrievedNew, PRESTART_MESSAGES.notRetrievedSaved]);
+const prestartSuccessMessages = new Set([retrieved, created, renewed]);
 
-const { created, retrieved, renewed, notRetrievedNew, notRetrievedSaved, notCreated, notRenewed } = PRESTART_MESSAGES;
+const prestartErrorMessages = new Set([notRetrievedNewUser, notRetrievedReturningUser, notCreated, notRenewed]);
 
-export const getCreatedMessage = (data) => {
-  if (data.currentExpirationDate && data.previousExpirationDate) {
-    return 'renewed';
-  } else if (data.currentExpirationDate && !data.previousExpirationDate) {
-    return 'created';
+export const getSuccessMessage = ({ verificationType, currentExpirationDate, previousExpirationDate }) => {
+  // If we retrieved the user's current active ITF, use "retrieved" message
+  if (verificationType === PRESTART_VERIFICATION_TYPES.retrieve) {
+    return retrieved;
   }
+  // If we created the user's current active ITF, check whether it was renewed or created 
+  if (currentExpirationDate && previousExpirationDate) {
+    // If the user had an expired ITF, use "renewed" message
+    return renewed;
+  }
+  // If the user didn't have an expired ITF, use "created" message
+  return created;
 };
 
-export const getFailedMessage = (data) => { 
-  
-}
+export const getErrorMessage = ({ verificationType, currentExpirationDate, previousExpirationDate }, hasSavedForms) => {
+  // If failed to retrieve the user's current active ITF, check whether the user is new or returning
+  if (verificationType === PRESTART_VERIFICATION_TYPES.retrieve) {
+    // If the user has saved forms, use the "notRetrievedReturningUser" message
+    if (hasSavedForms) {
+      return notRetrievedReturningUser;
+    }
+    // If the user doesn't have saved forms, use the "notRetrievedNewUser" message
+    return notRetrievedNewUser;
+  }
+  // If we failed to create the user's ITF, check whether the user had an expired ITF
+  if (currentExpirationDate && previousExpirationDate) {
+    // If the user had an expired ITF, use the "notRenewed" message
+    return notRenewed;
+  }
+  // If the user didn't have an expired ITF, use the "notCreated" message  
+  return notCreated;
+};
 
 export const getPrestartMessage = (status, data) => {
-  if (status === 'retrieved') { // TODO: use const 
-    return 'retrieved'
-  } else if (status === 'created') {
-    return getCreatedMessage(data);
-  } else if (status === 'failed') {
-    return getFailedMessage(data);
+  if (status === PRESTART_STATUSES.succeeded) {
+    return getSuccessMessage(data);
   }
+  return getErrorMessage(data);
 };
 
 const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
@@ -510,17 +538,17 @@ const prestartAlertHeadings = {
   [created]: 'Your Intent to File request has been submitted',
   [retrieved]: 'We found your existing Intent to File',
   [renewed]: 'Your Intent to File request has been submitted',
-  [notRetrievedSaved]: 'Your Intent to File request didn’t go through',
+  [notRetrievedReturningUser]: 'Your Intent to File request didn’t go through',
   [notCreated]: 'We can’t process your Intent to File request',
   [notRenewed]: 'Your Intent to File request didn’t go through',
-  [notRetrievedNew]: 'We’re sorry. Something went wrong on our end',
+  [notRetrievedNewUser]: 'We’re sorry. Something went wrong on our end',
 };
 
 const prestartErrorMessages = {
-  [notRetrievedSaved]: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
+  [notRetrievedReturningUser]: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
   [notCreated]: 'We’re sorry. We can’t process your Intent to File request at this time. Please try applying again tomorrow.',
   [notRenewed]: 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.',
-  [notRetrievedNew]: 'We can’t access your Intent to File request right now. Please try applying again tomorrow.',
+  [notRetrievedNewUser]: 'We can’t access your Intent to File request right now. Please try applying again tomorrow.',
 };
 
 function getPrestartSuccessMessage(status, data, expiredData) {
@@ -538,14 +566,14 @@ export function PrestartAlert({ status, data }) {
   const alertHeading = prestartAlertHeadings[status];
   let alertMessage;
 
-  if (prestartSuccessStatuses.has(status)) {
+  if (prestartSuccessMessages.has(status)) {
     alertType = 'success';
     alertMessage = getPrestartSuccessMessage(status, currentExpirationDate, previousExpirationDate);
-  } else if (prestartFailureStatuses.has(status)) {
+  } else if (prestartFailureMessages.has(status)) {
     alertType = 'error';
     alertMessage = prestartErrorMessages[status];
   }
-  debugger;
+  
 
   return (<AlertBox
     status={alertType}

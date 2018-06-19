@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 
 import { PrestartAlert } from '../helpers';
 
-const messageWrapper = ({ formContext, prestartStatus, prestartData, displayPrestartMessage }) => {
+const messageWrapper = ({ formContext, prestartStatus, prestartData, displayPrestartMessage, savedForms }) => {
+  const hasSavedForms = savedForms.length > 0;
   if (!displayPrestartMessage || (formContext && formContext.reviewMode)) {
     return null;
   }
   return (
-    <PrestartAlert status={prestartStatus} data={prestartData}/>
+    <PrestartAlert status={prestartStatus} data={prestartData} hasSavedForms={hasSavedForms}/>
   );
 };
 
@@ -17,6 +18,7 @@ const mapStateToProps = state => {
     prestartStatus: state.prestart.status,
     prestartData: state.prestart.data,
     displayPrestartMessage: state.prestart.display,
+    savedForms: state.user.profile.savedForms
   };
 };
 
