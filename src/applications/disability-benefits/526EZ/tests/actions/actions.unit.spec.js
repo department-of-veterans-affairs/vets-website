@@ -170,7 +170,7 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckFailure(dispatch)).to.be.false;
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrieved))).to.be.true;
     });
   });
   describe('handleSubmitSuccess', () => {
@@ -187,7 +187,7 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
 
       handleSubmitFailure(dispatch);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notCreated))).to.be.true;
     });
   });
   describe('checkITFRequest', () => {
@@ -237,7 +237,7 @@ describe('ITF retrieve / submit actions:', () => {
       mockFetch(new Error('No network connection'), false);
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
-      const errorStatus = PRESTART_STATUSES.failed;
+      const errorStatus = PRESTART_STATUSES.notCreated;
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setPrestartStatus(errorStatus))).to.be.true;

@@ -12,7 +12,8 @@ export const PRESTART_STATUSES = {
   pending: 'pending',
   retrieved: 'retrieved',
   created: 'created',
-  failed: 'failed'
+  notRetrieved: 'notRetrieved',
+  notCreated: 'notCreated'
 };
 
 export const ITF_STATUSES = {
@@ -83,7 +84,7 @@ export const handleCheckSuccess = (data, dispatch) => {
 };
 
 export const handleCheckFailure = (dispatch) => {
-  dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
+  dispatch(setPrestartStatus(PRESTART_STATUSES.notRetrieved));
   return false;
 };
 
@@ -122,7 +123,7 @@ export const handleSubmitSuccess = (data, dispatch) => {
 };
 
 export const handleSubmitFailure = (dispatch) => {
-  dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
+  dispatch(setPrestartStatus(PRESTART_STATUSES.notCreated));
 };
 
 export function submitITFRequest(dispatch) {
