@@ -1,16 +1,9 @@
 {% comment %}
 =====================
- Level 2 Index (Merger)
+Level 2 Index (Merger)
 =====================
 
 Used for index pages in top-level paths (e.g. /healthcare/index.html)
-
--== Maintenance notes ==-
-
-As of 2017-04-13:
-
-  - Replace the `row` class with `usa-grid` when Foundation gets replaced by USWDS
-    when the time comes.
 
 {% endcomment %}
 
@@ -23,16 +16,16 @@ As of 2017-04-13:
 
     <div class="usa-width-one-third">
 
-      {% if photocallout != empty %}
-        {% include "content/components/merger-photocallout.html" %}
+      {% if promo != empty %}
+        {% include "content/components/merger-promo.html" %}
       {% endif %}
 
-      {% if relatedlinks != empty %}
-        {% include "content/components/merger-links-list.html" %}
+      {% if crosslinks != empty %}
+        {% include "content/components/merger-crosslinks.html" %}
       {% endif %}
 
-      {% if phonetree != empty %}
-        {% include "content/components/merger-phone-tree.html" %}
+      {% if contact != empty %}
+        {% include "content/components/merger-contact.html" %}
 
       {% endif %}
 

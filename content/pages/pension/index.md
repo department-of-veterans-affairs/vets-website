@@ -3,15 +3,14 @@ layout: page-breadcrumbs.html
 template: level2-merger
 title: Pension
 display_title: Pension
-concurrence: complete
 lastupdate:
 order: 1
-photocallout:
+promo:
   - image: /img/megamenu/pension-illustration.png
     heading: Learn About the Veterans Choice Program
     url: "#"
     description: If you are already enrolled in VA health care, the Veterans Choice Program allows you to receive health care within your community.
-relatedlinks:
+crosslinks:
   - heading: Related Resources
     links:
     - url: ""
@@ -41,7 +40,7 @@ relatedlinks:
     - url: ""
       title: Veterans Health Administration
       description:
-phonetree:
+contact:
   - heading: Need Help? Call Us
     links:
     - url: 1-877-222-8387
