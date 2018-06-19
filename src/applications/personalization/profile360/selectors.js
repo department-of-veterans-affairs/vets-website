@@ -1,7 +1,7 @@
 import {
   isSuccessfulTransaction,
   isFailedTransaction,
-  isErroredTransaction
+  isErroredUpdateTransaction
 } from './util/transactions';
 
 export function selectVet360Field(state, fieldName) {
@@ -36,7 +36,7 @@ export function selectVet360SuccessfulTransactions(state) {
 
 export function selectVet360ErroredTransactions(state) {
   return state.vet360.transactions.filter(transaction => {
-    return isFailedTransaction(transaction) || isErroredTransaction(transaction);
+    return isFailedTransaction(transaction) || isErroredUpdateTransaction(transaction);
   });
 }
 

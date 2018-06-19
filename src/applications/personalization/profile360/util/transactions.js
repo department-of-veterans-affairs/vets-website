@@ -16,7 +16,7 @@ const FAILURE_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.REJECTED
 ]);
 
-const GENERIC_ERROR_CODES = new Set([
+const UPDATE_ERROR_CODES = new Set([
   'VET360_ADDR200',
   'VET360_ADDR201',
   'VET360_EMAIL200',
@@ -36,6 +36,26 @@ const GENERIC_ERROR_CODES = new Set([
   'VET360_CORE502'
 ]);
 
+const MVI_NOT_FOUND_ERROR_CODES = new Set([
+  'VET360_MVI201'
+]);
+
+const MVI_ERROR_CODES = new Set([
+  'VET360_MVI100',
+  'VET360_MVI101',
+  'VET360_MVI200',
+  'VET360_MVI202',
+  'VET360_MVI203'
+]);
+
+const LOW_CONFIDENCE_ERROR_CODES = new Set([
+  'ADDR306'
+]);
+
+const DECEASED_ERROR_CODES = new Set([
+  'VET360_MVI300'
+]);
+
 export function isPendingTransaction(transaction) {
   return PENDING_STATUSES.has(transaction.data.attributes.transactionStatus);
 }
@@ -48,9 +68,29 @@ export function isFailedTransaction(transaction) {
   return FAILURE_STATUSES.has(transaction.data.attributes.transactionStatus);
 }
 
-export function isErroredTransaction(transaction) {
+function matchErrorCode(codeSet, transaction) {
   const { metadata } = transaction.data.attributes;
   return metadata && metadata.some(error => {
-    return GENERIC_ERROR_CODES.has(error.code);
+    return codeSet.has(error.code);
   });
+}
+
+export function isErroredUpdateTransaction(transaction) {
+  return matchErrorCode(UPDATE_ERROR_CODES, transaction);
+}
+
+export function isNotFoundInMVIError(transaction) {
+  return matchErrorCode(MVI_NOT_FOUND_ERROR_CODES, transaction);
+}
+
+export function isMVIError(transaction) {
+  return matchErrorCode(MVI_ERROR_CODES, transaction);
+}
+
+export function isLowCondidenceError(transaction) {
+  return matchErrorCode(LOW_CONFIDENCE_ERROR_CODES, transaction);
+}
+
+export function isUserIsDeceasedError(transaction) {
+  return matchErrorCode(DECEASED_ERROR_CODES, transaction);
 }
