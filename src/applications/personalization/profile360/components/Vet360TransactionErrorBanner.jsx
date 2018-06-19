@@ -3,7 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import {
   hasGenericUpdateError,
-  hasLowCondidenceError,
+  hasLowCondidenceAddressError,
   hasMVIError,
   hasMVINotFoundError,
   hasUserIsDeceasedError
@@ -92,7 +92,7 @@ export default function Vet360TransactionErrorBanner({ transaction, clearTransac
       TransactionError = MVIError;
       break;
 
-    case hasLowCondidenceError(transaction):
+    case hasLowCondidenceAddressError(transaction):
       TransactionError = LowConfidenceError;
       break;
 

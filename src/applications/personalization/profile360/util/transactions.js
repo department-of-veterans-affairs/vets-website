@@ -48,7 +48,7 @@ const MVI_ERROR_CODES = new Set([
   'VET360_MVI203'
 ]);
 
-const LOW_CONFIDENCE_ERROR_CODES = new Set([
+const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
   'ADDR306'
 ]);
 
@@ -87,8 +87,8 @@ export function hasMVIError(transaction) {
   return matchErrorCode(MVI_ERROR_CODES, transaction);
 }
 
-export function hasLowCondidenceError(transaction) {
-  return matchErrorCode(LOW_CONFIDENCE_ERROR_CODES, transaction);
+export function hasLowCondidenceAddressError(transaction) {
+  return matchErrorCode(LOW_CONFIDENCE_ADDRESS_ERROR_CODES, transaction);
 }
 
 export function hasUserIsDeceasedError(transaction) {
