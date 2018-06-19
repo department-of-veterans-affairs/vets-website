@@ -41,7 +41,7 @@ Find out how to apply for VA disability benefits. After you gather your supporti
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
-- [Find out if you’ll need to turn in any additional forms—sometimes called supplemental forms—with your claim](/disability-benefits/apply/supplemental-forms/). 
+- [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability-benefits/apply/supplemental-forms/). 
 
 <div markdown="0"><br></div>
 
