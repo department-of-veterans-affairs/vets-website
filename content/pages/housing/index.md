@@ -6,12 +6,15 @@ display_title: Housing
 concurrence: complete
 lastupdate:
 order: 1
-photocallout:
-  - image: /img/megamenu/housing-illustration.png
+administration:
+  - heading: Administration
+    description: What goes here?
+promo:
+  - image: /img/megamenu/pension-illustration.png
     heading: Learn About the Veterans Choice Program
     url: "#"
     description: If you are already enrolled in VA health care, the Veterans Choice Program allows you to receive health care within your community.
-relatedlinks:
+crosslinks:
   - heading: Related Resources
     links:
     - url: ""
@@ -41,7 +44,7 @@ relatedlinks:
     - url: ""
       title: Veterans Health Administration
       description:
-phonetree:
+contact:
   - heading: Need Help? Call Us
     links:
     - url: 1-877-222-8387
@@ -58,6 +61,42 @@ phonetree:
       title: Foreign Medical Program (FMP)
     - url: 1-877-345-8179
       title: Spina Bifida Health Care Program
+social:
+  - heading: Social Media
+    links:
+    - url: "https://twitter.com"
+      label: Twitter
+    - url: "https://facebook.com"
+      label: Facebook
+    - url: "https://youtube.com"
+      label: Youtube
+    - url: "https://instagram.com"
+      label: Instagram
+    - url: "https://flickr.com"
+      label: Flickr
+    - url: "https://www.blogs.va.gov/"
+      label: VAntage Point Blog
+    - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
+      label: E-mail Directory
+mobile:
+  - heading: Mobile Apps
+    links:
+    - url: "#"
+      label: What
+      icon:
+    - url: "#"
+      label: Should
+      icon:
+    - url: "#"
+      label: This
+      icon:
+    - url: "#"
+      label: Look
+      icon:
+    - url: "#"
+      label: Like
+      icon:
+
 ---
 
 <p class="va-introtext">
