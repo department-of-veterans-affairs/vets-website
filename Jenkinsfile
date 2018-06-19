@@ -74,7 +74,7 @@ def comment_broken_links = {
              "\n\n _Note: Long file names or URLs may be cut-off_")
 }
 
-node('xxlarge') {
+node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
   def dockerImage, args, ref, imageTag
 
