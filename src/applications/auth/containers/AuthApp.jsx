@@ -120,7 +120,13 @@ export class AuthApp extends React.Component {
         };
     }
 
-    return <AlertBox {...alertProps} onCloseAlert={window.close}/>;
+    return (
+      <AlertBox
+        {...alertProps}
+        isVisible
+        status="error"
+        onCloseAlert={window.close}/>
+    );
   }
 
   render() {
@@ -131,9 +137,7 @@ export class AuthApp extends React.Component {
     return (
       <div className="row">
         <div className="small-12 columns">
-          <div>
-            {view}
-          </div>
+          {view}
         </div>
       </div>
     );
