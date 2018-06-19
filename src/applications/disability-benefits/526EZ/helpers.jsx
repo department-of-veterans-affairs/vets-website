@@ -42,13 +42,27 @@ const prestartFailureStatuses = new Set([PRESTART_MESSAGES.notCreated, PRESTART_
 
 const { created, retrieved, renewed, notRetrievedNew, notRetrievedSaved, notCreated, notRenewed } = PRESTART_MESSAGES;
 
-export const getPrestartMessage = (status, data) => {
-  if (status === 'succeeded') { // TODO: use const 
-    if (data.previousExpirationDate && data.currentExpirationDate) {
-      return renewed;
-    }
+export const getCreatedMessage = (data) => {
+  if (data.currentExpirationDate && data.previousExpirationDate) {
+    return 'renewed';
+  } else if (data.currentExpirationDate && !data.previousExpirationDate) {
+    return 'created';
   }
+};
+
+export const getFailedMessage = (data) => { 
+  
 }
+
+export const getPrestartMessage = (status, data) => {
+  if (status === 'retrieved') { // TODO: use const 
+    return 'retrieved'
+  } else if (status === 'created') {
+    return getCreatedMessage(data);
+  } else if (status === 'failed') {
+    return getFailedMessage(data);
+  }
+};
 
 const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
