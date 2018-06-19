@@ -49,7 +49,7 @@ const MVI_ERROR_CODES = new Set([
 ]);
 
 const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
-  'ADDR306'
+  'VET360_ADDR306'
 ]);
 
 const DECEASED_ERROR_CODES = new Set([
