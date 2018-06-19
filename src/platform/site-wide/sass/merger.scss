@@ -253,6 +253,10 @@ h3, h4 {
 
 .merger-r-rail {
 
+  &:last-child {
+    margin-bottom: 3em !important;
+  }
+
   background-color: $color-grey-lightest;
   padding: 1em;
   margin-bottom: 1.5em;

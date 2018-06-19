@@ -7,7 +7,7 @@ lastupdate:
 order: 1
 administration:
   - heading: Administration
-    description: What goes here? 
+    description: What goes here?
 promo:
   - image: /img/megamenu/pension-illustration.png
     heading: Learn About the Veterans Choice Program
@@ -81,16 +81,19 @@ mobile:
   - heading: Mobile Apps
     links:
     - url: "#"
-      label: App
+      label: What
       icon:
     - url: "#"
-      label: App
+      label: Should
       icon:
     - url: "#"
-      label: App
+      label: This
       icon:
     - url: "#"
-      label: App
+      label: Look
+      icon:
+    - url: "#"
+      label: Like
       icon:
 
 ---
