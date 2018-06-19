@@ -66,6 +66,7 @@ const FacilityTypeDropdown = ({
           onKeyDown: handleKeyDown,
           tabIndex: 0,
           type: 'button',
+          'aria-label': null, // Remove in favor of HTML label above.
           'aria-expanded': isOpen
         })}>
           {itemToString(selectedItem)}

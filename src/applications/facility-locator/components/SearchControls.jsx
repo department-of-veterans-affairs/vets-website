@@ -113,7 +113,6 @@ class SearchControls extends Component {
               type="text"
               onChange={this.handleQueryChange}
               value={currentQuery.searchString}
-              aria-label="Street, City, State or Zip"
               title="Street, City, State or Zip"/>
           </div>
           {this.renderFacilityTypeDropdown()}
