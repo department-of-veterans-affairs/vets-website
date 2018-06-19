@@ -75,22 +75,22 @@ function matchErrorCode(codeSet, transaction) {
   });
 }
 
-export function isErroredUpdateTransaction(transaction) {
+export function hasGenericUpdateError(transaction) {
   return matchErrorCode(UPDATE_ERROR_CODES, transaction);
 }
 
-export function isNotFoundInMVIError(transaction) {
+export function hasMVINotFoundError(transaction) {
   return matchErrorCode(MVI_NOT_FOUND_ERROR_CODES, transaction);
 }
 
-export function isMVIError(transaction) {
+export function hasMVIError(transaction) {
   return matchErrorCode(MVI_ERROR_CODES, transaction);
 }
 
-export function isLowCondidenceError(transaction) {
+export function hasLowCondidenceError(transaction) {
   return matchErrorCode(LOW_CONFIDENCE_ERROR_CODES, transaction);
 }
 
-export function isUserIsDeceasedError(transaction) {
+export function hasUserIsDeceasedError(transaction) {
   return matchErrorCode(DECEASED_ERROR_CODES, transaction);
 }
