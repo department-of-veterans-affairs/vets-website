@@ -18,7 +18,7 @@ if (!Modernizr.dataset) {
 }
 
 if (!Modernizr.localstorage) {
-  window.localStorage = require('local-storage-fallback'); // localStorage support.
+  window.localStorage = require('local-storage-fallback'); // localStorage support, usually for private browsing or IE10 protected mode.
 }
 
 // Edge 14's fetch implementation throws TypeMismatchErrors seemingly without
