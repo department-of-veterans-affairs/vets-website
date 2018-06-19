@@ -41,7 +41,7 @@ class Vet360TransactionReporter extends React.Component {
               isVisible
               status="success"
               onCloseAlert={this.props.clearTransaction.bind(null, transaction)}
-              content={<h3>Your recent profile update finished.</h3>}/>
+              content={<h4>We saved your updated information.</h4>}/>
           );
         })}
         {erroredTransactions.map((transaction) => {
