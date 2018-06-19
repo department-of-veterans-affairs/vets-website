@@ -7,8 +7,8 @@ concurrence: complete
 lastupdate:
 order: 1
 photocallout:
-  - image: /img/megamenu/healthcare.png
-    heading: Learn About the Veterans Choice Program
+  - image: /img/megamenu/life-insurance-illustration.png
+    heading: Learn About the Something Here
     url: "#"
     description: If you are already enrolled in VA health care, the Veterans Choice Program allows you to receive health care within your community.
 relatedlinks:
