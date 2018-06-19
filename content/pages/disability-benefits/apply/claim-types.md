@@ -63,7 +63,12 @@ Learn more about disabilities that may be related to your active-duty service bu
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased Claim—File a claim for more compensation for a disability that we’ve already determined to be service connected and that’s gotten worse.</button>
 <div id="claim-increased" class="usa-accordion-content">
 
-You'll need to submit current medical evidence that shows your disability has gotten worse.
+If you have a rated service-connected disability that has gotten worse, you’ll file an increased disability claim. You’ll need to submit current medical evidence that shows your disability has gotten worse. 
+
+**You can file an increased claim to request:**
+- Increased financial support for a rated disability that has gotten worse
+
+[Find out how to apply for an increased disability claim](/disability-benefits/apply/).
 
 </div>
 </li>
@@ -103,11 +108,11 @@ For example, you might file a reopened claim if you were treated for pain in you
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-more-benefits">New Claim—File a claim for added benefits, including increased disability compensation, or other benefit requests related to an existing service-connected disability.</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-more-benefits">New Claim—File a claim for added benefits or other benefit requests related to an existing service-connected disability.</button>
 <div id="claim-more-benefits" class="usa-accordion-content">
 
 **You can file a new claim to request:**
-- Increased financial support for a rated disability that has gotten worse
+- More financial support
 - Special monthly payments
 - A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability)<br>
 [Learn more about Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
