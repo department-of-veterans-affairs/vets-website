@@ -5,6 +5,9 @@ title: Pension
 display_title: Pension
 lastupdate:
 order: 1
+administration:
+  - heading: Administration
+    description: What goes here? 
 promo:
   - image: /img/megamenu/pension-illustration.png
     heading: Learn About the Veterans Choice Program
@@ -57,6 +60,39 @@ contact:
       title: Foreign Medical Program (FMP)
     - url: 1-877-345-8179
       title: Spina Bifida Health Care Program
+social:
+  - heading: Social Media
+    links:
+    - url: "https://twitter.com"
+      label: Twitter
+    - url: "https://facebook.com"
+      label: Facebook
+    - url: "https://youtube.com"
+      label: Youtube
+    - url: "https://instagram.com"
+      label: Instagram
+    - url: "https://flickr.com"
+      label: Flickr
+    - url: "https://www.blogs.va.gov/"
+      label: VAntage Point Blog
+    - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
+      label: E-mail Directory
+mobile:
+  - heading: Mobile Apps
+    links:
+    - url: "#"
+      label: App
+      icon:
+    - url: "#"
+      label: App
+      icon:
+    - url: "#"
+      label: App
+      icon:
+    - url: "#"
+      label: App
+      icon:
+
 ---
 
 <p class="va-introtext">
