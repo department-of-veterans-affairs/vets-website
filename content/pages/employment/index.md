@@ -60,7 +60,7 @@ We offer many programs and services that may help—including free health care a
 - **Get job-placement help.**<br>
             <a href="https://www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li>
 
-**If you need to talk with someone right now:**
+**Talk with someone right now:**
  
 Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
 [Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
