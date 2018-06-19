@@ -65,6 +65,8 @@ For all disability claims, please provide:
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
+<span id="disability-wizard"></span>
+
 <div id="react-applicationStatus"></div>
 
 </div>
