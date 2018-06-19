@@ -25,7 +25,7 @@ export default class Vet360Transaction extends React.Component {
 
     return (
       <div className={classes}>
-        {hasError && <Vet360TransactionInlineErrorMessage transaction={transaction}/>}
+        {hasError && <Vet360TransactionInlineErrorMessage {...this.props}/>}
         {transaction && isPendingTransaction(transaction) ? (
           <Vet360TransactionPending title={title} refreshTransaction={refreshTransaction}/>
         ) : children}
