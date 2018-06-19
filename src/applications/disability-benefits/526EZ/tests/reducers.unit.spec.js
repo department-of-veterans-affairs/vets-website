@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import {
   PRESTART_STATUS_SET,
   PRESTART_DATA_SET,
-  PRESTART_RESET,
+  PRESTART_STATE_RESET,
   PRESTART_DISPLAY_RESET,
-  PRESTART_STATUSES,
+  PRESTART_STATUSES
 } from '../actions';
 
 import { prestart } from '../reducer';
@@ -28,13 +28,12 @@ describe('prestart', () => {
     it('should set prestart status', () => {
       const state = reducer(undefined, {
         type: PRESTART_STATUS_SET,
-        status: PRESTART_STATUSES.none
+        status: PRESTART_STATUSES.succeeded
       });
 
-      expect(state.status).to.equal(PRESTART_STATUSES.none);
+      expect(state.status).to.equal(PRESTART_STATUSES.succeeded);
       expect(state.display).to.be.true;
     });
-
     it('should set prestart data', () => {
       const state = reducer(undefined, {
         type: PRESTART_DATA_SET,
@@ -54,7 +53,7 @@ describe('prestart', () => {
           previousExpirationDate: '2019-04-10T15:12:34.000+00:00'
         }
       }, {
-        type: PRESTART_RESET,
+        type: PRESTART_STATE_RESET,
       });
 
       expect(state.status).to.equal(PRESTART_STATUSES.notAttempted);

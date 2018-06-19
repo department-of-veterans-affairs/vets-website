@@ -591,9 +591,6 @@ export const GetFormHelp = () => {
   );
 };
 
-// Returns most recent timestamp from a list of timestamps
-export const getLatestTimestamp = (timestamps) => timestamps.sort((a, b) => new Date(b) - new Date(a))[0];
-
 export const ITFDescription = (
   <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
 );
@@ -683,7 +680,7 @@ export const FDCDescription = () => {
       <h5>Fully developed claim program</h5>
       <p>
       You can apply using the Fully Developed Claim (FDC) program if
-      you’ve uploaded all the supporting documents or supplemental
+      you’ve uploaded all the supporting documents or additional
       forms needed to support your claim.
       </p>
       <a href="/pension/apply/fully-developed-claim/" target="_blank">

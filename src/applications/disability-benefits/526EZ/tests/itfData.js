@@ -38,7 +38,7 @@ export default {
         expirationDate: '2016-04-08T14:43:07.000+00:00',
         participantId: 600043186,
         source: 'EBN',
-        status: 'duplicate',
+        status: 'expired',
         type: 'compensation'
       },
       {

@@ -1,17 +1,21 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
+import { mockFetch, mockApiRequest, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
 
 import {
+  getLatestTimestamp,
+  isNotEmptyObject,
+  getITFsByStatus,
   PRESTART_STATUS_SET,
   PRESTART_DATA_SET,
-  PRESTART_RESET,
+  PRESTART_STATE_RESET,
   PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES,
+  ITF_STATUSES,
   setPrestartStatus,
   setPrestartData,
-  resetPrestartStatus,
+  resetPrestartState,
   resetPrestartDisplay,
   handleCheckSuccess,
   handleCheckFailure,
@@ -22,26 +26,9 @@ import {
   verifyIntentToFile
 } from '../../actions';
 
-function setFetchResponse(stub, data) {
-  const response = {};
-  response.ok = true;
-  response.data = data;
-  response.headers = {
-    get: () => 'application/json' // for use by isJson in apiRequest
-  };
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
-
 import existingData from '../itfData';
 
-const noData = {
-  id: '',
-  type: 'evss_intent_to_file_intent_to_files_responses',
-  attributes: {
-    intentToFile: null
-  }
-};
+const noData = {};
 const incompleteData = {
   id: '',
   type: 'evss_intent_to_file_intent_to_files_responses',
@@ -102,9 +89,28 @@ const createdData = {
 };
 
 describe('ITF retrieve / submit actions:', () => {
+  describe('getLatestTimestamp', () => {
+    it('should return the most recent timestamp in a list of timestamps', () => {
+      const timestamps = ['2015-03-30T16:19:09.000+00:00', '2016-03-30T16:19:09.000+00:00'];
+      const latestTimestamp = getLatestTimestamp(timestamps);
+      expect(latestTimestamp).to.equal('2016-03-30T16:19:09.000+00:00');
+    });
+  });
+  describe('isNotEmptyObject', () => {
+    it('identify non-empty objects', () => {
+      const data = { attributes: {} };
+
+      expect(isNotEmptyObject(data)).to.be.true;
+    });
+  });
+  describe('getITFsByStatus', () => {
+    it('should return a list of ITFs filtered by a given status', () => {
+      expect(getITFsByStatus(existingData.attributes.intentToFile, ITF_STATUSES.active).length).to.equal(1);
+    });
+  });
   describe('setPrestartStatus', () => {
     it('should return action', () => {
-      const status = PRESTART_STATUSES.retrieved;
+      const status = PRESTART_STATUSES.succeeded;
       const action = setPrestartStatus(status);
 
       expect(action.type).to.equal(PRESTART_STATUS_SET);
@@ -120,11 +126,11 @@ describe('ITF retrieve / submit actions:', () => {
       expect(action.data).to.equal('2019-04-10T15:12:34.000+00:00');
     });
   });
-  describe('resetPrestart', () => {
+  describe('resetPrestartState', () => {
     it('should return action', () => {
-      const action = resetPrestartStatus();
+      const action = resetPrestartState();
 
-      expect(action.type).to.equal(PRESTART_RESET);
+      expect(action.type).to.equal(PRESTART_STATE_RESET);
     });
   });
   describe('resetPrestartDisplay', () => {
@@ -138,135 +144,74 @@ describe('ITF retrieve / submit actions:', () => {
     it('should return none if no existing ITFs are retrieved', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckSuccess(noData, dispatch)).to.equal(PRESTART_STATUSES.none);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.none))).to.be.true;
+      expect(handleCheckSuccess(noData, dispatch)).to.be.true;
     });
     it('should return none if no expired or active ITFs are retrieved', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckSuccess(incompleteData, dispatch)).to.equal(PRESTART_STATUSES.none);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.none))).to.be.true;
+      expect(handleCheckSuccess(incompleteData, dispatch)).to.be.true;
     });
     it('should return expired if retrieved ITFs include expired but not active ITFs', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckSuccess(expiredData, dispatch)).to.equal(PRESTART_STATUSES.expired);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.expired))).to.be.true;
-      expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }));
+      expect(handleCheckSuccess(expiredData, dispatch)).to.be.true;
+      expect(dispatch.calledWith(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }))).to.be.true;
     });
     it('should return retrieved if active ITFs are retrieved', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckSuccess(existingData, dispatch)).to.equal(PRESTART_STATUSES.retrieved);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.retrieved))).to.be.true;
-      expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }));
+      expect(handleCheckSuccess(existingData, dispatch)).to.be.false;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.succeeded))).to.be.true;
+      expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
     });
   });
   describe('handleCheckFailure', () => {
-    it('should return notRetrievedNew if check fails for a new form', () => {
+    it('should set failed status and return false', () => {
       const dispatch = sinon.spy();
 
-      expect(handleCheckFailure(new Error('fake error'), false, dispatch)).to.equal(PRESTART_STATUSES.notRetrievedNew);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedNew))).to.be.true;
-    });
-    it('should return notRetrievedSaved if check fails for a saved form', () => {
-      const dispatch = sinon.spy();
-
-      expect(handleCheckFailure(new Error('fake error'), true, dispatch)).to.equal(PRESTART_STATUSES.notRetrievedSaved);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedSaved))).to.be.true;
+      expect(handleCheckFailure(dispatch)).to.be.false;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });
   });
   describe('handleSubmitSuccess', () => {
-    it('should dispatch successStatus and prestartData', () => {
+    it('should dispatch status, and data', () => {
       const dispatch = sinon.spy();
 
-      handleSubmitSuccess(createdData, PRESTART_STATUSES.created, dispatch);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.created))).to.be.true;
-      expect(dispatch.args[0][0]).to.deep.equal(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }));
+      handleSubmitSuccess(createdData, dispatch);
+      expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.succeeded))).to.be.true;
     });
   });
   describe('handleSubmitFailure', () => {
-    it('should dispatch errorStatus', () => {
+    it('should dispatch error status', () => {
       const dispatch = sinon.spy();
 
-      handleSubmitFailure(createdData, PRESTART_STATUSES.notCreated, dispatch);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notCreated))).to.be.true;
+      handleSubmitFailure(dispatch);
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });
   });
   describe('checkITFRequest', () => {
     afterEach(() => resetFetch());
-    it('should return "retrieved" ITF status and data with an existing ITF', (done) => {
+    it('should handle success', (done) => {
       const dispatch = sinon.spy();
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: existingData
-      });
+      mockApiRequest({ data: existingData });
       const thunk = checkITFRequest;
       thunk(dispatch).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.retrieved, '2019-04-10T15:12:34.000+00:00'))).to.be.true;
-        expect(result).to.equal(PRESTART_STATUSES.retrieved);
+        expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
+        expect(result).to.be.false;
         done();
       }).catch((err) => {
         done(err);
       });
     });
-    it('should return "none" ITF status and data without an existing ITF', (done) => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: noData
-      });
-      const dispatch = sinon.spy();
-
-      const thunk = checkITFRequest;
-
-      thunk(dispatch).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.none))).to.be.true;
-        expect(result).to.equal(PRESTART_STATUSES.none);
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
-    it('should return "expired" ITF status and data with an expired ITF', (done) => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: expiredData
-      });
-      const dispatch = sinon.spy();
-
-      const thunk = checkITFRequest;
-
-      thunk(dispatch).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.expired, '2016-03-30T16:19:09.000+00:00'))).to.be.true;
-        expect(result).to.equal(PRESTART_STATUSES.expired);
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
-    it('should return "notRetrievedSaved" ITF status when request fails for users resuming an existing form', (done) => {
+    it('should handle error', (done) => {
       mockFetch(new Error('No network connection'), false);
       const dispatch = sinon.spy();
       const hasSavedForm = true;
       const thunk = checkITFRequest;
 
       thunk(dispatch, hasSavedForm).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedSaved))).to.be.true;
-        expect(result).to.equal(PRESTART_STATUSES.notRetrievedSaved);
-        done();
-      }).catch((err) => {
-        done(err);
-      });
-    });
-    it('should return "notRetrievedNew" ITF status when request fails for users starting new forms', (done) => {
-      mockFetch(new Error('No network connection'), false);
-      const dispatch = sinon.spy();
-      const hasSavedForm = false;
-      const thunk = checkITFRequest;
-
-      thunk(dispatch, hasSavedForm).then((result) => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrievedNew))).to.be.true;
-        expect(result).to.equal(PRESTART_STATUSES.notRetrievedNew);
+        expect(result).to.equal(false);
         done();
       }).catch((err) => {
         done(err);
@@ -275,28 +220,27 @@ describe('ITF retrieve / submit actions:', () => {
   });
   describe('submitITFRequest', () => {
     afterEach(() => resetFetch());
-    it('should dispatch "created" ITF status and data with a successful ITF submission', (done) => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: createdData
-      });
+    it('should handle success', (done) => {
+      mockApiRequest({ data: createdData });
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
+      const successStatus = PRESTART_STATUSES.succeeded;
 
-      thunk(dispatch, PRESTART_STATUSES.created, PRESTART_STATUSES.notCreated).then(() => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.created, '2019-04-10T15:12:34.000+00:00'))).to.be.true;
+      thunk(dispatch).then(() => {
+        expect(dispatch.calledWith(setPrestartStatus(successStatus))).to.be.true;
         done();
       }).catch((err) => {
         done(err);
       });
     });
-    it('should dispatch "notCreated" ITF status and with a failed ITF submission', (done) => {
+    it('should handle error', (done) => {
       mockFetch(new Error('No network connection'), false);
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
+      const errorStatus = PRESTART_STATUSES.failed;
 
-      thunk(dispatch, PRESTART_STATUSES.renewed, PRESTART_STATUSES.notRenewed).then(() => {
-        expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRenewed))).to.be.true;
+      thunk(dispatch).then(() => {
+        expect(dispatch.calledWith(setPrestartStatus(errorStatus))).to.be.true;
         done();
       }).catch((err) => {
         done(err);
@@ -320,4 +264,3 @@ describe('ITF retrieve / submit actions:', () => {
     });
   });
 });
-

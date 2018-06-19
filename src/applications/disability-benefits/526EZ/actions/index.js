@@ -2,33 +2,22 @@ import { apiRequest } from '../../../../platform/utilities/api';
 
 import existingITFData from '../tests/itfData';
 
-import { getLatestTimestamp } from '../helpers';
-
 export const PRESTART_STATUS_SET = 'PRESTART_STATUS_SET';
 export const PRESTART_DATA_SET = 'PRESTART_DATA_SET';
-export const PRESTART_RESET = 'PRESTART_STATUS_RESET';
+export const PRESTART_STATE_RESET = 'PRESTART_STATE_RESET';
 export const PRESTART_DISPLAY_RESET = 'PRESTART_DISPLAY_RESET';
 
 export const PRESTART_STATUSES = {
   notAttempted: 'not-attempted',
-  active: 'active',
   pending: 'pending',
-  none: 'none',
-  expired: 'expired',
-  created: 'created',
-  retrieved: 'retrieved',
-  renewed: 'renewed',
-  notRetrievedSaved: 'not-retrieved-saved',
-  notRetrievedNew: 'not-retrieved-new',
-  notCreated: 'not-created',
-  notRenewed: 'not-renewed',
+  succeeded: 'succeeded',
+  failed: 'failed'
 };
 
-export const prestartSuccessStatuses = new Set([PRESTART_STATUSES.created, PRESTART_STATUSES.retrieved, PRESTART_STATUSES.renewed]);
-
-export const prestartFailureStatuses = new Set([PRESTART_STATUSES.notCreated, PRESTART_STATUSES.notRenewed, PRESTART_STATUSES.notRetrievedNew, PRESTART_STATUSES.notRetrievedSaved]);
-
-export const prestartPendingStatuses = new Set([PRESTART_STATUSES.none, PRESTART_STATUSES.expired, PRESTART_STATUSES.pending]);
+export const ITF_STATUSES = {
+  expired: 'expired',
+  active: 'active'
+};
 
 export function setPrestartStatus(status) {
   return {
@@ -44,9 +33,9 @@ export function setPrestartData(data) {
   };
 }
 
-export function resetPrestartStatus() {
+export function resetPrestartState() {
   return {
-    type: PRESTART_RESET
+    type: PRESTART_STATE_RESET
   };
 }
 
@@ -56,48 +45,53 @@ export function resetPrestartDisplay() {
   };
 }
 
+// Returns most recent timestamp from a list of timestamps
+export const getLatestTimestamp = (timestamps) => timestamps.sort((a, b) => new Date(b) - new Date(a))[0];
+export const isNotEmptyObject = (object) => !(Object.keys(object).length === 0 && object.constructor === Object);
+export const getITFsByStatus = (itfs, status) => itfs.filter(itf => itf.status === status);
+
 export const handleCheckSuccess = (data, dispatch) => {
-  let status;
-  let expirationDate;
-  const itfList = data.attributes.intentToFile;
-  // If the user does not have any existing ITFs, set none status
-  if (!itfList || (Array.isArray(itfList) && itfList.length === 0)) {
-    status = PRESTART_STATUSES.none;
-    // If the user has existing ITFs, check for expired and active ITFs
-  } else {
-    const expiredList = itfList.filter(itf => itf.status === PRESTART_STATUSES.expired);
-    const activeList = itfList.filter(itf => itf.status === PRESTART_STATUSES.active);
-    // If the user doesn't have any active or expired ITFs, set none status        
-    if (expiredList.length === 0 && activeList.length === 0) {
-      status = PRESTART_STATUSES.none;
-      // If the user doesn't have any active ITFs, set expired status
-    } else if (activeList.length === 0) {
-      status = PRESTART_STATUSES.expired;
-      expirationDate = getLatestTimestamp(expiredList.map(itf => itf.expirationDate));
-      dispatch(setPrestartData({ previousExpirationDate: expirationDate }));
-      // If the user has an active ITF, set retrieved status
-    } else {
-      status = PRESTART_STATUSES.retrieved;
-      expirationDate = activeList[0].expirationDate;
-      dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
-    }
+  // If no existing ITF(s) are found, we will receive an empty {} response
+  const itfList = isNotEmptyObject(data) && data.attributes.intentToFile;
+
+  // If the user does not have any existing ITFs, create one
+  if (!itfList) {
+    return true;
   }
-  dispatch(setPrestartStatus(status));
-  return status;
+
+  // Check for an active ITF, the user should only have one
+  const activeITF = getITFsByStatus(itfList, ITF_STATUSES.active)[0];
+  const expiredITFs = getITFsByStatus(itfList, ITF_STATUSES.expired);
+  // If the user has an active ITF, set currentExpirationDate
+  if (activeITF) {
+    dispatch(setPrestartData({ currentExpirationDate: activeITF.expirationDate }));
+    dispatch(setPrestartStatus(PRESTART_STATUSES.succeeded));
+    return false;
+  }
+  // If the user doesn't have any active ITFs
+  // Check for expired ITFs, and if found, use the latest to set previousExpirationDate
+  // and create a new ITF
+  if (expiredITFs.length > 0) {
+    const latestExpiredITFExpirationDate = getLatestTimestamp(expiredITFs.map(itf => itf.expirationDate));
+    dispatch(setPrestartData({ previousExpirationDate: latestExpiredITFExpirationDate }));
+    return true;
+  }
+
+  // If the user does not have any expired or active ITFs, create one
+  return true;
 };
 
-export const handleCheckFailure = (error, hasSavedForm, dispatch) => {
-  const status = hasSavedForm ? PRESTART_STATUSES.notRetrievedSaved : PRESTART_STATUSES.notRetrievedNew;
-  dispatch(setPrestartStatus(status));
-  return status;
+export const handleCheckFailure = (dispatch) => {
+  dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
+  return false;
 };
 
-export function checkITFRequest(dispatch, hasSavedForm) {
+export function checkITFRequest(dispatch) {
   return apiRequest(
     '/intent_to_file',
     null,
     ({ data }) => handleCheckSuccess(data, dispatch),
-    ({ errors }) => handleCheckFailure(errors, hasSavedForm, dispatch)
+    () => handleCheckFailure(dispatch)
   );
 }
 
@@ -110,54 +104,45 @@ const fakeITFRequest = async (url, options, success) => {
   return success(response);
 };
 
-export function mockCheckITFRequest(dispatch, hasSavedForm) {
+// TODO: remove this mock and its helpers once user testing is complete
+export function mockCheckITFRequest(dispatch) {
   return fakeITFRequest(
     '/intent_to_file',
     null,
     ({ data }) => handleCheckSuccess(data, dispatch),
-    ({ errors }) => handleCheckFailure(errors, hasSavedForm, dispatch)
+    () => handleCheckFailure(dispatch)
   );
 }
 
-export const handleSubmitSuccess = (data, successStatus, dispatch) => {
+export const handleSubmitSuccess = (data, dispatch) => {
   const expirationDate = data.attributes.intentToFile.expirationDate;
   dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
-  dispatch(setPrestartStatus(successStatus));
+  dispatch(setPrestartStatus(PRESTART_STATUSES.succeeded));
 };
 
-export const handleSubmitFailure = (error, errorStatus, dispatch) => {
-  dispatch(setPrestartStatus(errorStatus));
+export const handleSubmitFailure = (dispatch) => {
+  dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
 };
 
-export function submitITFRequest(dispatch, successStatus, errorStatus) {
+export function submitITFRequest(dispatch) {
 
   return apiRequest(
     '/intent_to_file/compensation',
     { method: 'POST' },
-    ({ data }) => handleSubmitSuccess(data, successStatus, dispatch),
-    ({ errors }) => handleSubmitFailure(errors, errorStatus, dispatch)
+    ({ data }) => handleSubmitSuccess(data, dispatch),
+    () => handleSubmitFailure(dispatch)
   );
 }
 
-export function verifyIntentToFile(hasSavedForm) {
+export function verifyIntentToFile() {
   return async (dispatch) => {
-    let submitSuccessStatus;
-    let submitErrorStatus;
+
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
 
-    const existingITFStatus = await mockCheckITFRequest(dispatch, hasSavedForm);
+    const shouldCreateITF = await checkITFRequest(dispatch);
 
-    if (!prestartPendingStatuses.has(existingITFStatus)) {
-      return;
+    if (shouldCreateITF) {
+      submitITFRequest(dispatch);
     }
-
-    if (existingITFStatus === PRESTART_STATUSES.none) {
-      submitSuccessStatus = PRESTART_STATUSES.created;
-      submitErrorStatus = PRESTART_STATUSES.notCreated;
-    } else if (existingITFStatus === PRESTART_STATUSES.expired) {
-      submitSuccessStatus = PRESTART_STATUSES.renewed;
-      submitErrorStatus = PRESTART_STATUSES.notRenewed;
-    }
-    submitITFRequest(dispatch, submitSuccessStatus, submitErrorStatus);
   };
 }

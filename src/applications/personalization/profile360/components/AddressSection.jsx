@@ -1,79 +1,9 @@
 import React from 'react';
 
-import { kebabCase } from 'lodash';
+import { isEmptyAddress, formatAddress } from '../../../../platform/forms/address/helpers';
 
-import HeadingWithEdit from './HeadingWithEdit';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
-import Address from './Address';
-import LoadingButton from './LoadingButton';
-import Transaction from './Transaction';
-import FormActionButtons from './FormActionButtons';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import { consolidateAddress, expandAddress, isEmptyAddress, formatAddress } from '../../../../platform/forms/address/helpers';
-
-class EditAddressModal extends React.Component {
-  componentDidMount() {
-    let defaultFieldValue = {
-      countryName: 'United States',
-    };
-    if (this.props.addressData) {
-      defaultFieldValue = consolidateAddress(this.props.addressData);
-    }
-    this.props.onChange(defaultFieldValue);
-  }
-
-  onInput = (field, value) => {
-    const newFieldValue = {
-      ...this.props.field.value,
-      [field]: value
-    };
-
-    this.props.onChange(newFieldValue);
-  }
-
-  // Receives the field name as its first arg but that fails the linter
-  onBlur = () => {}
-
-  onSubmit = (event) => {
-    event.preventDefault();
-    // @todo Refactor this...
-    this.props.onSubmit(expandAddress(this.props.field.value));
-  }
-
-  renderActionButtons() {
-    return (
-      <FormActionButtons onCancel={this.props.onCancel} onDelete={this.props.onDelete} title={this.props.title} deleteEnabled={!isEmptyAddress(this.props.addressData)}>
-        <LoadingButton isLoading={this.props.isLoading}>Update</LoadingButton>
-        <button type="button" className="usa-button-secondary" onClick={this.props.onCancel}>Cancel</button>
-      </FormActionButtons>
-    );
-  }
-
-  render() {
-    return (
-      <Modal id={kebabCase(this.props.title)} onClose={this.props.onCancel} visible>
-        <h3>Edit {this.props.title}</h3>
-        <AlertBox
-          isVisible={!!this.props.error}
-          status="error"
-          content={<p>We’re sorry. We couldn’t update your address. Please try again.</p>}
-          onCloseAlert={this.props.clearErrors}/>
-        <form onSubmit={this.onSubmit}>
-          {this.props.field && (
-            <Address
-              address={this.props.field.value}
-              onInput={this.onInput}
-              onBlur={this.onBlur}
-              errorMessages={{}}
-              states={this.props.addressConstants.states}
-              countries={this.props.addressConstants.countries}/>
-          )}
-          {this.renderActionButtons()}
-        </form>
-      </Modal>
-    );
-  }
-}
+import Vet360ProfileField from '../containers/Vet360ProfileField';
+import AddressEditModal from './AddressEditModal';
 
 function AddressView({ address }) {
   const { street, cityStateZip, country } = formatAddress({
@@ -93,49 +23,40 @@ function AddressView({ address }) {
   );
 }
 
-export default function AddressSection({ addressData, addressConstants, transaction, getTransactionStatus, title, field, clearErrors, isEditing, onChange, onEdit, onAdd,  onCancel, onSubmit, onDelete }) {
-  let content = null;
-  let modal = null;
+function isEmpty({ data: addressData }) {
+  return isEmptyAddress(addressData);
+}
 
-  if (transaction && !transaction.isPending && !transaction.isFailed) {
-    content = <Transaction transaction={transaction} getTransactionStatus={getTransactionStatus} fieldType="address"/>;
-  } else {
-    if (!isEmptyAddress(addressData)) {
-      content = <AddressView address={addressData}/>;
-    } else {
-      content = (
-        <button
-          type="button"
-          onClick={onAdd}
-          className="va-button-link va-profile-btn">Please add your {title.toLowerCase()}</button>
-      );
-    }
-  }
+function renderContent({ data: addressData }) {
+  return <AddressView address={addressData}/>;
+}
 
-  if (isEditing) {
-    modal = (
-      <EditAddressModal
-        title={title}
-        addressData={addressData}
-        addressConstants={addressConstants}
-        onChange={onChange}
-        field={field}
-        error={transaction && transaction.error}
-        clearErrors={clearErrors}
-        onDelete={onDelete}
-        onSubmit={onSubmit}
-        isLoading={transaction && transaction.isPending}
-        onCancel={onCancel}/>
-    );
-  }
-
+function renderEditModal({ title, data: addressData, addressConstants, onChange, field, transactionRequest, clearErrors, onSubmit, onCancel, onDelete }) {
   return (
-    <div>
-      {modal}
-      <HeadingWithEdit
-        onEditClick={!isEmptyAddress(addressData) && onEdit}>{title}
-      </HeadingWithEdit>
-      {content}
-    </div>
+    <AddressEditModal
+      title={title}
+      addressData={addressData}
+      addressConstants={addressConstants}
+      onChange={onChange}
+      field={field}
+      error={transactionRequest && transactionRequest.error}
+      clearErrors={clearErrors}
+      onSubmit={onSubmit}
+      isLoading={transactionRequest && transactionRequest.isPending}
+      onCancel={onCancel}
+      onDelete={onDelete}/>
+  );
+}
+
+export default function Vet360Address({ title, fieldName, analyticsSectionName, addressConstants }) {
+  return (
+    <Vet360ProfileField
+      title={title}
+      fieldName={fieldName}
+      analyticsSectionName={analyticsSectionName}
+      addressConstants={addressConstants}
+      renderContent={renderContent}
+      renderEditModal={renderEditModal}
+      isEmpty={isEmpty}/>
   );
 }
