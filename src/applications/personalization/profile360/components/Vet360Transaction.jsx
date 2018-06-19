@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import {
@@ -10,6 +11,13 @@ import Vet360TransactionInlineErrorMessage from './Vet360TransactionInlineErrorM
 import Vet360TransactionPending from './Vet360TransactionPending';
 
 export default class Vet360Transaction extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    refreshTransaction: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    transaction: PropTypes.object
+  };
+
   render() {
     const {
       children,
