@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for disability benefits. We list all the steps below&mdash;whether you’re filing your first disability claim or you’re filing a claim for increased disability compensation. 
+Find out how to apply for VA disability benefits. After you gather your supporting documents, we'll guide you to the specific disability claim form you'll need to fill out. We can show you how to file a new claim, a claim for increased disability compensation, or any other type of claim.
 
 </div>
 
@@ -41,8 +41,8 @@ Find out how to apply for disability benefits. We list all the steps below&mdash
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
-- Check to see if you’ll need to turn in any additional forms with your claim. For example, if you’re claiming a dependent or requesting aid and attendance benefits, you’ll need to fill out another form. <br>
-[Learn what supplemental forms you may need to file with your disability claim](/disability-benefits/apply/supplemental-forms/). 
+- [Find out if you’ll need to turn in any additional forms (sometimes called supplemental forms) with your claim]
+(/disability-benefits/apply/supplemental-forms/). 
 
 <div markdown="0"><br></div>
 
@@ -93,7 +93,10 @@ Bring your application to a regional benefit office near you. <br>[Find a region
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim. <br> [Get help filing your claim](/disability-benefits/apply/help/index.html). <br>
+You can work with a trained professional who can help you file a claim. <br> [Get help filing your claim](/disability-benefits/apply/help/index.html). 
+
+<br>
+
 If you have a power of attorney and need to update their information, please call Veterans Benefits Assistance at 1-800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 </div>
