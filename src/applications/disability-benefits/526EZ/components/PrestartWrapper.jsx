@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import { verifyIntentToFile as setPrestartStatus, resetPrestartStatus, resetPrestartDisplay, prestartPendingStatuses, prestartFailureStatuses, PRESTART_STATUSES } from '../actions';
+import { verifyIntentToFile as setPrestartStatus, resetPrestartState, resetPrestartDisplay, prestartPendingStatuses, prestartFailureStatuses } from '../actions';
 
 import { PrestartAlert } from '../helpers';
 
@@ -15,7 +15,7 @@ class PrestartWrapper extends React.Component {
 
   componentWillReceiveProps(newProps) {
     console.log('firing');
-    const { location: { pathname }, displayPrestartMessage, formConfig: { formId }, savedForms } = this.props;
+    const { location: { pathname }, formConfig: { formId }, savedForms } = this.props;
     const currentPath = pathname.slice(1);
     const { location: { pathname: newPathname } } = newProps;
     const newPath = newPathname.slice(1);
@@ -24,14 +24,14 @@ class PrestartWrapper extends React.Component {
     const leavingFormPage = !formEntryPointPaths.has(currentPath) && currentPath !== newPath;
     const hasSavedForm = savedForms.find(({ form }) => form === formId);
 
-    if (leavingFormPage && displayPrestartMessage) {
+    if (leavingFormPage) {
       this.props.resetPrestartDisplay();
     }
     if (enteringForm) {
       this.props.setPrestartStatus(hasSavedForm);
     }
     if (exitingForm) {
-      this.props.resetPrestartStatus();
+      this.props.resetPrestartState();
     }
   }
 
@@ -77,14 +77,13 @@ function mapStateToProps(state) {
   return {
     prestartStatus: state.prestart.status,
     prestartData: state.prestart.data,
-    displayPrestartMessage: state.prestart.display,
     savedForms: state.user.profile.savedForms
   };
 }
 
 const mapDispatchToProps = {
   setPrestartStatus,
-  resetPrestartStatus,
+  resetPrestartState,
   resetPrestartDisplay
 };
 

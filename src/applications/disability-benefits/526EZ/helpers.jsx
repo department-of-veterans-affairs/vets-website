@@ -26,12 +26,7 @@ export const MILITARY_STATES = ['AA', 'AE', 'AP'];
 export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 // import { PRESTART_STATUSES, prestartFailureStatuses, prestartSuccessStatuses } from './actions'; TODO: fix import bug
 
-const PRESTART_STATUSES = {
-  notAttempted: 'not-attempted',
-  active: 'active',
-  pending: 'pending',
-  none: 'none',
-  expired: 'expired',
+const PRESTART_MESSAGES = {
   created: 'created',
   retrieved: 'retrieved',
   renewed: 'renewed',
@@ -41,11 +36,19 @@ const PRESTART_STATUSES = {
   notRenewed: 'not-renewed',
 };
 
-const prestartSuccessStatuses = new Set([PRESTART_STATUSES.created, PRESTART_STATUSES.retrieved, PRESTART_STATUSES.renewed]);
+const prestartSuccessStatuses = new Set([PRESTART_MESSAGES.created, PRESTART_MESSAGES.retrieved, PRESTART_MESSAGES.renewed]);
 
-const prestartFailureStatuses = new Set([PRESTART_STATUSES.notCreated, PRESTART_STATUSES.notRenewed, PRESTART_STATUSES.notRetrievedNew, PRESTART_STATUSES.notRetrievedSaved]);
+const prestartFailureStatuses = new Set([PRESTART_MESSAGES.notCreated, PRESTART_MESSAGES.notRenewed, PRESTART_MESSAGES.notRetrievedNew, PRESTART_MESSAGES.notRetrievedSaved]);
 
-const { created, retrieved, renewed, notRetrievedNew, notRetrievedSaved, notCreated, notRenewed } = PRESTART_STATUSES;
+const { created, retrieved, renewed, notRetrievedNew, notRetrievedSaved, notCreated, notRenewed } = PRESTART_MESSAGES;
+
+export const getPrestartMessage = (status, data) => {
+  if (status === 'succeeded') { // TODO: use const 
+    if (data.previousExpirationDate && data.currentExpirationDate) {
+      return renewed;
+    }
+  }
+}
 
 const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
