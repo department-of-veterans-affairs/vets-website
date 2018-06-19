@@ -1,6 +1,6 @@
 import org.kohsuke.github.GitHub
 
-def envNames = ['development', 'staging', 'production']
+def envNames = ['development', 'staging', 'production', 'devpreview', 'preview']
 
 def devBranch = 'master'
 def stagingBranch = 'master'
@@ -74,7 +74,7 @@ def comment_broken_links = {
              "\n\n _Note: Long file names or URLs may be cut-off_")
 }
 
-node('vetsgov-general-purpose') {
+node('xxlarge') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
   def dockerImage, args, ref, imageTag
 
@@ -195,14 +195,12 @@ node('vetsgov-general-purpose') {
     if (shouldBail()) { return }
 
     try {
-      def builds = [ 'development', 'staging', 'production' ]
-
       dockerImage.inside(args) {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                           usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          for (int i=0; i<builds.size(); i++) {
-            sh "tar -C /application/build/${builds.get(i)} -cf /application/build/${builds.get(i)}.tar.bz2 ."
-            sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${builds.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${builds.get(i)}.tar.bz2"
+          for (int i=0; i<envNames.size(); i++) {
+            sh "tar -C /application/build/${envNames.get(i)} -cf /application/build/${envNames.get(i)}.tar.bz2 ."
+            sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envNames.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envNames.get(i)}.tar.bz2"
           }
         }
       }
