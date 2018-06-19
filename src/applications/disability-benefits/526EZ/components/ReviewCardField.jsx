@@ -6,7 +6,7 @@ import {
   getDefaultRegistry
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { errorSchemaIsValid } from '../../../common/schemaform/validation';
+import { errorSchemaIsValid } from 'us-forms-system/lib/js/validation';
 
 import set from '../../../../platform/utilities/data/set';
 import get from '../../../../platform/utilities/data/get';
@@ -201,4 +201,3 @@ ReviewCardField.propTypes = {
     onError: PropTypes.func.isRequired
   }).isRequired
 };
-

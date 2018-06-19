@@ -1,5 +1,5 @@
 import DisabilityWizard from './components/DisabilityWizard';
-import ApplicationStatus from '../../common/schemaform/save-in-progress/ApplicationStatus';
+import ApplicationStatus from '../../../platform/forms/save-in-progress/ApplicationStatus';
 import './sass/disability-benefits.scss';
 
 

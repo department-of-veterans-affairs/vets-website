@@ -2,13 +2,13 @@ import _ from 'lodash';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
-import dateUI from '../../../common/schemaform/definitions/date';
-import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWidget';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
+import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
 import { PrimaryAddressViewField, MILITARY_STATES, MILITARY_CITIES, USA } from '../helpers';
-import { omitRequired } from '../../../common/schemaform/helpers.js';
+import { omitRequired } from 'us-forms-system/lib/js/helpers.js';
 
 function isValidZIP(value) {
   if (value !== null) {
@@ -611,4 +611,3 @@ export const primaryAddressSchema = {
     }
   }
 };
-
