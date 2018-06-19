@@ -33,7 +33,7 @@ We offer many programs and services that may help—including free health care a
 - **Contact your nearest VA medical center**. Ask to talk with the VA social worker. If you’re a female Veteran, ask for the Women Veterans Program Manager.<br>
 [Find the nearest VA medical center](/facilities/).
 
-**Are you in crisis right now?** <br>
+**Talk with someone right now if you feel like you're in a crisis:** <br>
 Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night. <br>
 [Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
 </div>
