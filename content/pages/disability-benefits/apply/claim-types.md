@@ -63,10 +63,11 @@ Learn more about disabilities that may be related to your active-duty service bu
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased Claim—File a claim for more compensation for a disability that we’ve already determined to be service connected and that’s gotten worse.</button>
 <div id="claim-increased" class="usa-accordion-content">
 
-If you have a rated service-connected disability that has gotten worse, you’ll file an increased disability claim. You’ll need to submit current medical evidence that shows your disability has gotten worse. 
+You can file an increased disabilty claim if you have a rated service-connected disability that’s gotten worse. You’ll need to submit current medical evidence that shows your disability has gotten worse. 
 
 **You can file an increased claim to request:**
-- Increased financial support for a rated disability that has gotten worse
+- An increase in your disability rating
+- More financial support
 
 [Find out how to apply for an increased disability claim](/disability-benefits/apply/).
 
