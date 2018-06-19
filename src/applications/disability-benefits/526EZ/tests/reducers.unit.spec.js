@@ -6,7 +6,8 @@ import {
   PRESTART_DATA_SET,
   PRESTART_STATE_RESET,
   PRESTART_DISPLAY_RESET,
-  PRESTART_STATUSES
+  PRESTART_STATUSES,
+  PRESTART_VERIFICATION_TYPES
 } from '../actions';
 
 import { prestart } from '../reducer';
@@ -17,6 +18,7 @@ describe('prestart', () => {
     const state = reducer(undefined, { type: PRESTART_DISPLAY_RESET });
     expect(state.status).to.equal(PRESTART_STATUSES.notAttempted);
     expect(state.data).to.deep.equal({
+      verificationType: null,
       currentExpirationDate: null,
       previousExpirationDate: null
     });
@@ -38,6 +40,7 @@ describe('prestart', () => {
       const state = reducer(undefined, {
         type: PRESTART_DATA_SET,
         data: {
+          verificationType: PRESTART_VERIFICATION_TYPES.retrieve,
           currentExpirationDate: '2019-04-10T15:12:34.000+00:00'
         }
       });
@@ -47,8 +50,9 @@ describe('prestart', () => {
     it('reinitialize state', () => {
       const state = reducer({
         display: true,
-        status: PRESTART_STATUSES.retrieved,
+        status: PRESTART_STATUSES.succeeded,
         data: {
+          verificationType: PRESTART_VERIFICATION_TYPES.create,
           currentExpirationDate: '2019-04-10T15:12:34.000+00:00',
           previousExpirationDate: '2019-04-10T15:12:34.000+00:00'
         }
@@ -58,6 +62,7 @@ describe('prestart', () => {
 
       expect(state.status).to.equal(PRESTART_STATUSES.notAttempted);
       expect(state.data).to.deep.equal({
+        verificationType: null,
         currentExpirationDate: null,
         previousExpirationDate: null
       });
@@ -66,8 +71,9 @@ describe('prestart', () => {
     it('reset prestart display', () => {
       const state = reducer({
         display: true,
-        status: PRESTART_STATUSES.retrieved,
+        status: PRESTART_STATUSES.succeeded,
         data: {
+          verificationType: PRESTART_VERIFICATION_TYPES.create,
           currentExpirationDate: '2019-04-10T15:12:34.000+00:00',
           previousExpirationDate: '2019-04-10T15:12:34.000+00:00'
         }

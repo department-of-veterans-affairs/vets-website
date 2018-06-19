@@ -14,9 +14,9 @@ export const PRESTART_STATUSES = {
   failed: 'failed'
 };
 
-export const PRESTART_TYPES = {
-  create: 'create',
+export const PRESTART_VERIFICATION_TYPES = {
   retrieve: 'retrieve',
+  create: 'create'
 };
 
 export const ITF_STATUSES = {
@@ -92,7 +92,7 @@ export const handleCheckFailure = (dispatch) => {
 };
 
 export function checkITFRequest(dispatch) {
-  dispatch(setPrestartData({ type: PRESTART_TYPES.retrieve }));
+  dispatch(setPrestartData({ verificationType: PRESTART_VERIFICATION_TYPES.retrieve }));
 
   return apiRequest(
     '/intent_to_file',
@@ -113,6 +113,8 @@ const fakeITFRequest = async (url, options, success) => {
 
 // TODO: remove this mock and its helpers once user testing is complete
 export function mockCheckITFRequest(dispatch) {
+  dispatch(setPrestartData({ verificationType: PRESTART_VERIFICATION_TYPES.retrieve }));
+
   return fakeITFRequest(
     '/intent_to_file',
     null,
@@ -132,7 +134,7 @@ export const handleSubmitFailure = (dispatch) => {
 };
 
 export function submitITFRequest(dispatch) {
-  dispatch(setPrestartData({ type: PRESTART_TYPES.create }));
+  dispatch(setPrestartData({ verificationType: PRESTART_VERIFICATION_TYPES.create }));
 
   return apiRequest(
     '/intent_to_file/compensation',
