@@ -82,7 +82,7 @@ Yes. You can choose your level of coverage or even refuse coverage completely. Y
 
 **To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage:** 
 
-**If you are a member of the Army, Navy, Air Force, or Marines,** <br> Submit your changes online through the SGLI Online Enrollment System (SOES). To access SOES:
+**If you’re a member of the Army, Navy, Air Force, or Marines,** <br> please submit your changes online through the SGLI Online Enrollment System (SOES). To access SOES:
 
 <ol class="process" markdown="1">
   <li class="process-step list-one">
@@ -99,22 +99,22 @@ Yes. You can choose your level of coverage or even refuse coverage completely. Y
   
   <li class="process-step list-three">
   
-  Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
+  Go to Benefits, Life Insurance SOES-SGLI Online Enrollment System.
   
   </li>
   
   <li class="process-step list-four">
   
-  Check your coverage and beneficiary info and make any needed updates.
+  Check your coverage and beneficiary information and make any needed updates.
   
  </li>
  </ol>
 
-You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES. 
+You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive a notice that you can start using SOES. 
 
 <br>
 
-**If you are in the Coast Guard or National Oceanic and Atmospheric Administration,** <br> You'll need to fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
+**If you’re a member of the Coast Guard or National Oceanic and Atmospheric Administration,** <br> you'll need to fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
 [Download the Servicemembers' Group Life Insurance Election and Certificate](https://www.benefits.va.gov/insurance/forms/SGLV_8286_ed2017-10.pdf).
 <br>
 [Learn more about SOES](https://www.benefits.va.gov/INSURANCE/SOES.asp).
