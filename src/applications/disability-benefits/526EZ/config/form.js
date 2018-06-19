@@ -924,9 +924,8 @@ const formConfig = {
               'ui:options': {
                 yesNoReverse: true,
                 labels: {
-                  Y: 'Yes, I have uploaded all my supporting documents.',
-                  N:
-                    'No, I have some extra information that I will submit to VA later.'
+                  Y: 'Yes, I’ve uploaded all my supporting documents.',
+                  N: 'No, I have some extra information that I will submit to VA later.'
                 }
               }
             },
