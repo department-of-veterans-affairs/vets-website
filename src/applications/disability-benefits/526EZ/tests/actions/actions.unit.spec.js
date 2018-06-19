@@ -12,7 +12,7 @@ import {
   PRESTART_STATE_RESET,
   PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES,
-  PRESTART_TYPES,
+  PRESTART_VERIFICATION_TYPES,
   ITF_STATUSES,
   setPrestartStatus,
   setPrestartData,
@@ -197,7 +197,7 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
       mockApiRequest({ data: existingData });
       const thunk = checkITFRequest;
-      const verificationType = PRESTART_TYPES.retrieve;
+      const verificationType = PRESTART_VERIFICATION_TYPES.retrieve;
 
       thunk(dispatch).then((result) => {
         expect(dispatch.calledWith(setPrestartData({ verificationType }))).to.be.true;
@@ -212,7 +212,7 @@ describe('ITF retrieve / submit actions:', () => {
       mockFetch(new Error('No network connection'), false);
       const dispatch = sinon.spy();
       const thunk = checkITFRequest;
-      const verificationType = PRESTART_TYPES.retrieve;
+      const verificationType = PRESTART_VERIFICATION_TYPES.retrieve;
 
       thunk(dispatch).then((result) => {
         expect(dispatch.calledWith(setPrestartData({ verificationType }))).to.be.true;
@@ -230,7 +230,7 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
       const successStatus = PRESTART_STATUSES.succeeded;
-      const verificationType = PRESTART_TYPES.create;
+      const verificationType = PRESTART_VERIFICATION_TYPES.create;
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setPrestartData({ verificationType }))).to.be.true;
@@ -245,7 +245,7 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
       const errorStatus = PRESTART_STATUSES.failed;
-      const verificationType = PRESTART_TYPES.create;
+      const verificationType = PRESTART_VERIFICATION_TYPES.create;
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setPrestartData({ verificationType }))).to.be.true;

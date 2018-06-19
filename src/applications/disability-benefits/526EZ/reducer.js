@@ -15,6 +15,7 @@ import {
 const initialState = {
   status: PRESTART_STATUSES.notAttempted,
   data: {
+    verificationType: null,
     currentExpirationDate: null,
     previousExpirationDate: null
   },
