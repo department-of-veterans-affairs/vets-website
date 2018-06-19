@@ -13,6 +13,7 @@ module.exports = {
     'css/transitions',
     'dom/classlist',
     'dom/dataset',
-    'ie8compat'
+    'ie8compat',
+    'storage/localstorage'
   ]
 };
