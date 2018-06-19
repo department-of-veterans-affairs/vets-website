@@ -69,7 +69,7 @@ You can file an increased disabilty claim if you have a rated service-connected 
 - An increase in your disability rating
 - More financial support
 
-[Find out how to apply for an increased disability claim](/disability-benefits/apply/).
+[Find out how to apply for disability benefits](/disability-benefits/apply/).
 
 </div>
 </li>
