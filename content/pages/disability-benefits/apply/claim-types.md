@@ -29,7 +29,7 @@ Find out when you can first file a claim for service-connected benefits—and wh
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-active-duty">Original claim—File your first claim for disability benefits.</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-active-duty">Original Claim—File your first claim for disability benefits.</button>
 <div id="claim-active-duty" class="usa-accordion-content">
 
 We refer to the first claim you file for a disability as your original claim.
@@ -63,13 +63,13 @@ Learn more about disabilities that may be related to your active-duty service bu
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased Claim—File a claim for more compensation for a disability that we’ve already determined to be service connected and that’s gotten worse.</button>
 <div id="claim-increased" class="usa-accordion-content">
 
-You can file an increased disabilty claim if you have a rated service-connected disability that’s gotten worse. You’ll need to submit current medical evidence that shows your disability has gotten worse. 
+You can file an increased disability claim if you have a rated service-connected disability that’s gotten worse. You’ll need to submit up-to-date medical evidence that shows your disability has gotten worse. 
 
 **You can file an increased claim to request:**
 - An increase in your disability rating
 - More financial support
 
-[Find out how to apply for disability benefits](/disability-benefits/apply/).
+[Find out how to file an increased claim](/disability-benefits/apply/#disability-wizard).
 
 </div>
 </li>
