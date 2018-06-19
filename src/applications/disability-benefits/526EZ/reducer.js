@@ -16,7 +16,8 @@ const initialState = {
   status: PRESTART_STATUSES.notAttempted,
   data: {
     currentExpirationDate: null,
-    previousExpirationDate: null
+    previousExpirationDate: null,
+    type: null
   },
   display: false
 };

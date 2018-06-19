@@ -12,6 +12,7 @@ import {
   PRESTART_STATE_RESET,
   PRESTART_DISPLAY_RESET,
   PRESTART_STATUSES,
+  PRESTART_TYPES,
   ITF_STATUSES,
   setPrestartStatus,
   setPrestartData,
@@ -23,7 +24,7 @@ import {
   handleSubmitFailure,
   checkITFRequest,
   submitITFRequest,
-  verifyIntentToFile
+  verifyIntentToFile,
 } from '../../actions';
 
 import existingData from '../itfData';
@@ -161,7 +162,7 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(existingData, dispatch)).to.be.false;
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.retrieved))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.succeeded))).to.be.true;
       expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
     });
   });
@@ -170,7 +171,7 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckFailure(dispatch)).to.be.false;
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notRetrieved))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });
   });
   describe('handleSubmitSuccess', () => {
@@ -179,7 +180,7 @@ describe('ITF retrieve / submit actions:', () => {
 
       handleSubmitSuccess(createdData, dispatch);
       expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.created))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.succeeded))).to.be.true;
     });
   });
   describe('handleSubmitFailure', () => {
@@ -187,7 +188,7 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
 
       handleSubmitFailure(dispatch);
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.notCreated))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.failed))).to.be.true;
     });
   });
   describe('checkITFRequest', () => {
@@ -196,8 +197,11 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
       mockApiRequest({ data: existingData });
       const thunk = checkITFRequest;
+      const type = PRESTART_TYPES.retrieve;
+
       thunk(dispatch).then((result) => {
         expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
+        expect(dispatch.calledWith(setPrestartData({ type }))).to.be.true;
         expect(result).to.be.false;
         done();
       }).catch((err) => {
@@ -209,9 +213,12 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
       const hasSavedForm = true;
       const thunk = checkITFRequest;
+      const type = PRESTART_TYPES.retrieve;
+
 
       thunk(dispatch, hasSavedForm).then((result) => {
         expect(result).to.equal(false);
+        expect(dispatch.calledWith(setPrestartData({ type }))).to.be.true;
         done();
       }).catch((err) => {
         done(err);
@@ -224,9 +231,12 @@ describe('ITF retrieve / submit actions:', () => {
       mockApiRequest({ data: createdData });
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
-      const successStatus = PRESTART_STATUSES.created;
+      const successStatus = PRESTART_STATUSES.succeeded;
+      const type = PRESTART_TYPES.create;
+
 
       thunk(dispatch).then(() => {
+        expect(dispatch.calledWith(setPrestartData({ type }))).to.be.true;
         expect(dispatch.calledWith(setPrestartStatus(successStatus))).to.be.true;
         done();
       }).catch((err) => {
@@ -237,9 +247,12 @@ describe('ITF retrieve / submit actions:', () => {
       mockFetch(new Error('No network connection'), false);
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
-      const errorStatus = PRESTART_STATUSES.notCreated;
+      const errorStatus = PRESTART_STATUSES.failed;
+      const type = PRESTART_TYPES.create;
+
 
       thunk(dispatch).then(() => {
+        expect(dispatch.calledWith(setPrestartData({ type }))).to.be.true;
         expect(dispatch.calledWith(setPrestartStatus(errorStatus))).to.be.true;
         done();
       }).catch((err) => {

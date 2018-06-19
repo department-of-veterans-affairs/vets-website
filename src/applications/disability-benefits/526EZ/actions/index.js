@@ -10,10 +10,13 @@ export const PRESTART_DISPLAY_RESET = 'PRESTART_DISPLAY_RESET';
 export const PRESTART_STATUSES = {
   notAttempted: 'not-attempted',
   pending: 'pending',
-  retrieved: 'retrieved',
-  created: 'created',
-  notRetrieved: 'notRetrieved',
-  notCreated: 'notCreated'
+  succeeded: 'succeeded',
+  failed: 'failed'
+};
+
+export const PRESTART_TYPES = {
+  create: 'create',
+  retrieve: 'retrieve',
 };
 
 export const ITF_STATUSES = {
@@ -67,7 +70,7 @@ export const handleCheckSuccess = (data, dispatch) => {
   // If the user has an active ITF, set currentExpirationDate
   if (activeITF) {
     dispatch(setPrestartData({ currentExpirationDate: activeITF.expirationDate }));
-    dispatch(setPrestartStatus(PRESTART_STATUSES.retrieved));
+    dispatch(setPrestartStatus(PRESTART_STATUSES.succeeded));
     return false;
   }
   // If the user doesn't have any active ITFs
@@ -84,11 +87,13 @@ export const handleCheckSuccess = (data, dispatch) => {
 };
 
 export const handleCheckFailure = (dispatch) => {
-  dispatch(setPrestartStatus(PRESTART_STATUSES.notRetrieved));
+  dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
   return false;
 };
 
 export function checkITFRequest(dispatch) {
+  dispatch(setPrestartData({ type: PRESTART_TYPES.retrieve }));
+
   return apiRequest(
     '/intent_to_file',
     null,
@@ -119,14 +124,15 @@ export function mockCheckITFRequest(dispatch) {
 export const handleSubmitSuccess = (data, dispatch) => {
   const expirationDate = data.attributes.intentToFile.expirationDate;
   dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
-  dispatch(setPrestartStatus(PRESTART_STATUSES.created));
+  dispatch(setPrestartStatus(PRESTART_STATUSES.succeeded));
 };
 
 export const handleSubmitFailure = (dispatch) => {
-  dispatch(setPrestartStatus(PRESTART_STATUSES.notCreated));
+  dispatch(setPrestartStatus(PRESTART_STATUSES.failed));
 };
 
 export function submitITFRequest(dispatch) {
+  dispatch(setPrestartData({ type: PRESTART_TYPES.create }));
 
   return apiRequest(
     '/intent_to_file/compensation',
