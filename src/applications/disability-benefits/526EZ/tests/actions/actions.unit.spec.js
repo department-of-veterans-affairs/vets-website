@@ -161,7 +161,7 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(existingData, dispatch)).to.be.false;
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.succeeded))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.retrieved))).to.be.true;
       expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
     });
   });
@@ -179,7 +179,7 @@ describe('ITF retrieve / submit actions:', () => {
 
       handleSubmitSuccess(createdData, dispatch);
       expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
-      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.succeeded))).to.be.true;
+      expect(dispatch.calledWith(setPrestartStatus(PRESTART_STATUSES.created))).to.be.true;
     });
   });
   describe('handleSubmitFailure', () => {
@@ -224,7 +224,7 @@ describe('ITF retrieve / submit actions:', () => {
       mockApiRequest({ data: createdData });
       const dispatch = sinon.spy();
       const thunk = submitITFRequest;
-      const successStatus = PRESTART_STATUSES.succeeded;
+      const successStatus = PRESTART_STATUSES.created;
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setPrestartStatus(successStatus))).to.be.true;

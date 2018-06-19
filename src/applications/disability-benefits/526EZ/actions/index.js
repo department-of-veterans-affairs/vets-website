@@ -10,7 +10,8 @@ export const PRESTART_DISPLAY_RESET = 'PRESTART_DISPLAY_RESET';
 export const PRESTART_STATUSES = {
   notAttempted: 'not-attempted',
   pending: 'pending',
-  succeeded: 'succeeded',
+  retrieved: 'retrieved',
+  created: 'created',
   failed: 'failed'
 };
 
@@ -65,7 +66,7 @@ export const handleCheckSuccess = (data, dispatch) => {
   // If the user has an active ITF, set currentExpirationDate
   if (activeITF) {
     dispatch(setPrestartData({ currentExpirationDate: activeITF.expirationDate }));
-    dispatch(setPrestartStatus(PRESTART_STATUSES.succeeded));
+    dispatch(setPrestartStatus(PRESTART_STATUSES.retrieved));
     return false;
   }
   // If the user doesn't have any active ITFs
@@ -117,7 +118,7 @@ export function mockCheckITFRequest(dispatch) {
 export const handleSubmitSuccess = (data, dispatch) => {
   const expirationDate = data.attributes.intentToFile.expirationDate;
   dispatch(setPrestartData({ currentExpirationDate: expirationDate }));
-  dispatch(setPrestartStatus(PRESTART_STATUSES.succeeded));
+  dispatch(setPrestartStatus(PRESTART_STATUSES.created));
 };
 
 export const handleSubmitFailure = (dispatch) => {
