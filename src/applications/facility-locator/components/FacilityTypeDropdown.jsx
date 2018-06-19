@@ -18,29 +18,16 @@ const facilityOptionClasses = (item, selected) => classNames(
 const itemToString = (item) => facilityTypes[item] || 'All Facilities';
 
 const FacilityTypeDropdown = ({
+  closeMenu,
   getButtonProps,
   getItemProps,
   highlightedIndex,
   isOpen,
-  selectedItem,
-  toggleMenu
+  selectedItem
 }) => {
   const handleKeyDown = (e) => {
-    switch (e.keyCode) {
-      // Allow (1) ENTER with nothing highlighted or
-      // (2) blurring focus (with TAB) to close dropdown.
-      case keyMap.ENTER:
-      case keyMap.TAB:
-        if (isOpen) { toggleMenu(); }
-        break;
-
-      // Allow SPACE to toggle state of menu without making a selection.
-      case keyMap.SPACE:
-        toggleMenu();
-        break;
-
-      default: // Do nothing.
-    }
+    // Allow blurring focus (with TAB) to close dropdown.
+    if (e.keyCode === keyMap.TAB && isOpen) { closeMenu(); }
   };
 
   const options = FACILITY_OPTIONS.map((item, index) => (
