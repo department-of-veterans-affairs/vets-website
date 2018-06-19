@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import SubMenu from './SubMenu';
 
 class MenuSection extends React.Component {
+  getCurrentSection(props) {
+    return props.currentSection ? props.currentSection : props.defaultSection;
+  }
+
   render() {
-    const show = this.props.currentSection === this.props.title;
+    const show = this.getCurrentSection(this.props) === this.props.title;
 
     return (
       <li>
@@ -23,7 +26,6 @@ class MenuSection extends React.Component {
 
 MenuSection.propTypes = {
   title: PropTypes.string.isRequired,
-  updateCurrentSection: PropTypes.func.isRequired
 };
 
 MenuSection.defaultProps = {

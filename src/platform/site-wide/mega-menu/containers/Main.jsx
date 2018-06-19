@@ -1,38 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import appendQuery from 'append-query';
-import URLSearchParams from 'url-search-params';
-import addMenuListeners from '../../accessible-menus';
-import MenuSection from '../components/MenuSection';
-
-import recordEvent from '../../../monitoring/record-event';
 import data from '../data.json';
 
 import MainDropDown from '../components/MainDropDown';
-import {
-  isLoggedIn,
-  isProfileLoading,
-  isLOA3
-} from '../../../user/selectors';
-import { getProfile } from '../../../user/profile/actions';
-import { updateLoggedInStatus } from '../../../user/authentication/actions';
-
-import {
-  toggleLoginModal,
-  toggleSearchHelpUserMenu
-} from '../../../site-wide/user-nav/actions';
-
-import { selectUserGreeting } from '../selectors';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 export class Main extends React.Component {
   constructor() {
     super();
-
-    this.state = {
-      currentSection: 'Health Care',
-    };
 
     this.updateCurrentSection = this.updateCurrentSection.bind(this);
   }
@@ -51,19 +27,10 @@ export class Main extends React.Component {
               {
                 data.map((item, i) => (
                   <MainDropDown
-                    {...this.state}
-                    key={i + 'stuff'}
-                    title={item.title}>
-                    {
-                      item.menuSections.map((section, i) => (
-                        <MenuSection
-                          {...this.state}
-                          key={section + i}
-                          title={section.title}
-                          updateCurrentSection={this.updateCurrentSection}
-                          links={section.links}></MenuSection>
-                      ))
-                    }
+                    {...this.props}
+                    key={`${i}-main-dropdown`}
+                    title={item.title}
+                    data={item}>
                   </MainDropDown>
                 ))
               }
@@ -75,21 +42,8 @@ export class Main extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentlyLoggedIn: isLoggedIn(state),
-    isProfileLoading: isProfileLoading(state),
-    isLOA3: isLOA3(state),
-    userGreeting: selectUserGreeting(state),
-    ...state.navigation
-  };
-};
+const mapStateToProps = ({ megaMenu }) => ({ ...megaMenu });
 
-const mapDispatchToProps = {
-  toggleLoginModal,
-  toggleSearchHelpUserMenu,
-  updateLoggedInStatus,
-  getProfile
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

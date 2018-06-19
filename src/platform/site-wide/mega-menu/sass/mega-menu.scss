@@ -19,6 +19,8 @@
     }
 
     .vetnav-panel {
+      left: 0;
+
       a {
         padding: 0.8rem 0;
       }
@@ -30,11 +32,21 @@
 
     .panel-1 {
       left: 20px;
+
+      &.panel-white {
+        background-color: $color-white;
+        border-left: none;
+      }
     }
 
     .panel-2 {
       border-left: none;
       left: 280px;
+
+      &.panel-white {
+        background-color: $color-white;
+        border-left: none;
+      }
     }
 
     .panel-3 {
@@ -62,5 +74,14 @@
 
   .vetnav-level2 {
     width: 24.3rem;
+  }
+
+  a.vetnav-level1 {
+    color: $color-white;
+  }
+
+  .panel-main {
+    left: -230px;
+    background-color: $color-white;
   }
 }

@@ -1,35 +1,22 @@
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 
 import {
-  TOGGLE_LOGIN_MODAL,
-  UPDATE_SEARCH_HELP_USER_MENU,
+  TOGGLE_PANEL_OPEN,
+  UPDATE_CURRENT_SECTION,
 } from '../actions';
 
 const initialState = {
-  showLoginModal: false,
-  utilitiesMenuIsOpen: {
-    search: false,
-    help: false,
-    account: false
-  }
+  currentDropdown: '',
+  currentSection: '',
 };
 
-function closeAllMenus(menuState) {
-  const menus = menuState.utilitiesMenuIsOpen;
-
-  Object.keys(menus).forEach(menu => {
-    menus[menu] = false;
-  });
-}
-
-export default function userNavReducer(state = initialState, action) {
+export default function megaMenuReducer(state = initialState, action) {
   switch (action.type) {
-    case TOGGLE_LOGIN_MODAL:
-      return _.set('showLoginModal', action.isOpen, state);
+    case TOGGLE_PANEL_OPEN:
+      return { ...state, ...action.megaMenu };
 
-    case UPDATE_SEARCH_HELP_USER_MENU:
-      closeAllMenus(state);
-      return _.set(`utilitiesMenuIsOpen.${action.menu}`, action.isOpen, state);
+    case UPDATE_CURRENT_SECTION:
+      return { ...state, currentSection: action.currentSection };
 
     default:
       return state;

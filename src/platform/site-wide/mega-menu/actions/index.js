@@ -1,17 +1,32 @@
-export const TOGGLE_LOGIN_MODAL = 'TOGGLE_LOGIN_MODAL';
-export const UPDATE_SEARCH_HELP_USER_MENU = 'UPDATE_SEARCH_HELP_USER_MENU';
+export const UPDATE_CURRENT_SECTION = 'UPDATE_CURRENT_SECTION';
+export const TOGGLE_PANEL_OPEN = 'TOGGLE_PANEL_OPEN';
 
-export function toggleSearchHelpUserMenu(menu, isOpen) {
+export const togglePanel = (megaMenu) => ({
+  type: 'TOGGLE_PANEL_OPEN',
+  megaMenu,
+});
+
+export function updateCurrentSection(currentSection) {
   return {
-    type: UPDATE_SEARCH_HELP_USER_MENU,
-    menu,
-    isOpen
+    type: UPDATE_CURRENT_SECTION,
+    currentSection,
   };
 }
 
-export function toggleLoginModal(isOpen) {
-  return {
-    type: TOGGLE_LOGIN_MODAL,
-    isOpen,
+export function togglePanelOpen(currentDropdown) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const shouldUpdateDropdown = !state.megaMenu.currentDropdown ||
+      state.megaMenu.currentDropdown !== currentDropdown;
+
+    if (shouldUpdateDropdown) {
+      dispatch(togglePanel({
+        currentDropdown,
+      }));
+    } else {
+      dispatch(togglePanel({
+        currentDropdown: '',
+      }));
+    }
   };
 }

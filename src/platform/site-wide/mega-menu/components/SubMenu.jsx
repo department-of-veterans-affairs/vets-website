@@ -2,27 +2,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SubMenu = ({ data, show }) => {
-  const { rowOne, rowTwo, rowThree } = data;
+  debugger
+  const { mainColumn, columnOne, columnTwo, columnThree } = data;
   if (show) {
     return (
       <div>
+        {
+          mainColumn && <ul
+            className="vetnav-panel vetnav-panel--submenu panel-main"
+            id="vetnav-disability"
+            role="menu"
+            aria-label="Disability">
+            <li className="panel-title">{mainColumn.title}</li>
+            { mainColumn.links.map((link, i) => (
+              <li key={`${link.href}-${i}`}><a href={link.href}>{link.text}</a></li>
+            ))}
+          </ul>
+        }
         <ul
-          className="vetnav-panel vetnav-panel--submenu panel-1"
+          className={`vetnav-panel vetnav-panel--submenu panel-1 ${mainColumn && 'panel-white'}`}
           id="vetnav-disability"
           role="menu"
           aria-label="Disability">
-          <li className="panel-title">{rowOne.title}</li>
-          { rowOne.links.map((link, i) => (
+          <li className="panel-title">{columnOne.title}</li>
+          { columnOne.links.map((link, i) => (
             <li key={`${link.href}-${i}`}><a href={link.href}>{link.text}</a></li>
           ))}
         </ul>
         <ul
-          className="vetnav-panel vetnav-panel--submenu panel-2"
+          className={`vetnav-panel vetnav-panel--submenu panel-2 ${mainColumn && 'panel-white'}`}
           id="vetnav-disability"
           role="menu"
           aria-label="Disability">
-          <li className="panel-title">{rowTwo.title}</li>
-          { rowTwo.links.map((link, i) => (
+          <li className="panel-title">{columnTwo.title}</li>
+          { columnTwo.links.map((link, i) => (
             <li key={`${link.href}-${i}`}><a href={link.href}>{link.text}</a></li>
           ))}
         </ul>
@@ -31,9 +44,9 @@ const SubMenu = ({ data, show }) => {
           id="vetnav-disability"
           role="menu"
           aria-label="Disability">
-          <img src={rowThree.img.src} alt={rowThree.img.alt}></img>
-          <a href={rowThree.link.href}>{rowThree.link.text}</a>
-          <p>{rowThree.description}</p>
+          <img src={columnThree.img.src} alt={columnThree.img.alt}></img>
+          <a href={columnThree.link.href}>{columnThree.link.text}</a>
+          <p>{columnThree.description}</p>
         </div>
       </div>
     );
