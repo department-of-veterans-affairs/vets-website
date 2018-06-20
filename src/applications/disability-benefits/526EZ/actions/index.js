@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { apiRequest } from '../../../../platform/utilities/api';
-import { fetchInProgressForm } from '../../../common/schemaform/save-in-progress/actions';
+import { fetchInProgressForm } from '../../../../platform/forms/save-in-progress/actions';
 
 export const ITFStatuses = Object.freeze({
   active: 'active',

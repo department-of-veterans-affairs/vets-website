@@ -4,8 +4,8 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
-import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
-import { transformForSubmit } from '../../common/schemaform/helpers';
+import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
@@ -14,7 +14,7 @@ import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
 
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
-import { DateWidget } from '../../common/schemaform/review/widgets';
+import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
