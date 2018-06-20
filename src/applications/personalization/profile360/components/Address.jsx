@@ -6,7 +6,7 @@ import { focusElement } from '../../../../platform/utilities/ui';
 
 import ErrorableSelect from '../../../letters/components/ErrorableSelect';
 import ErrorableTextInput from '../../../letters/components/ErrorableTextInput';
-import { STATE_CODE_TO_NAME, MILITARY_CITIES } from '../../../letters/utils/constants';
+import { STATE_CODE_TO_NAME, MILITARY_CITIES, MILITARY_STATES } from '../../../letters/utils/constants';
 import { militaryStateNames } from '../../../letters/utils/helpers';
 
 /**
@@ -67,6 +67,7 @@ class Address extends React.Component {
     const errorMessages = this.props.errorMessages;
     const isUSA = this.props.address.countryName === 'United States';
     const adjustedStateNames = this.getAdjustedStateNames();
+    const isMilitaryState = MILITARY_STATES.has(this.props.address.stateCode);
 
     return (
       <div>
@@ -84,7 +85,7 @@ class Address extends React.Component {
           autocomplete="address-line1"
           charMax={100}
           value={this.props.address.addressLine1}
-          required={this.props.required}
+          required
           onValueChange={(update) => this.props.onInput('addressLine1', update)}
           onBlur={() => this.props.onBlur('addressLine1')}/>
         <ErrorableTextInput
@@ -103,7 +104,8 @@ class Address extends React.Component {
           value={this.props.address.addressLine3}
           onValueChange={(update) => this.props.onInput('addressLine3', update)}
           onBlur={() => this.props.onBlur('addressLine3')}/>
-        <ErrorableTextInput errorMessage={errorMessages.city}
+
+        {!isMilitaryState && <ErrorableTextInput errorMessage={errorMessages.city}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
           autocomplete="address-level2"
@@ -111,7 +113,17 @@ class Address extends React.Component {
           value={this.props.address.city}
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('city', update)}
-          onBlur={() => this.props.onBlur('city')}/>
+          onBlur={() => this.props.onBlur('city')}/>}
+
+        {/* Hide the state for addresses that aren't in the US */}
+        {isMilitaryState && <ErrorableSelect errorMessage={errorMessages.city}
+          label={<span>City <em>(or APO/FPO/DPO)</em></span>}
+          name="city"
+          autocomplete="address-level2"
+          options={Array.from(MILITARY_CITIES)}
+          value={this.props.address.city}
+          required
+          onValueChange={(update) => this.props.onInput('city', update, true)}/>}
 
         {/* Hide the state for addresses that aren't in the US */}
         {isUSA && <ErrorableSelect errorMessage={errorMessages.stateCode}
@@ -131,7 +143,7 @@ class Address extends React.Component {
           charMax={5}
           autocomplete="postal-code"
           value={this.props.address.zipCode}
-          required={this.props.required}
+          required
           onValueChange={(update) => this.props.onInput('zipCode', update)}
           onBlur={() => this.props.onBlur('zipCode')}/>}
 
