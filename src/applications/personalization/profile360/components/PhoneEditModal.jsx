@@ -2,8 +2,26 @@ import React from 'react';
 import { merge } from 'lodash';
 
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import Vet360EditModal from './Vet360EditModal';
+
+class PhoneTextInput extends ErrorableTextInput {
+  componentDidMount() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'usa-only-phone-wrapper';
+
+    const inputField = document.querySelector('input.usa-only-phone');
+
+    inputField.parentNode.insertBefore(wrapper, inputField);
+    wrapper.appendChild(inputField);
+
+    const prefixEl = document.createElement('span');
+    prefixEl.innerText = '+1';
+    prefixEl.className = 'usa-only-phone-prefix';
+    inputField.insertAdjacentElement('beforebegin', prefixEl);
+  }
+}
 
 export default class PhoneEditModal extends React.Component {
   onChange = (field) => {
@@ -27,7 +45,7 @@ export default class PhoneEditModal extends React.Component {
       });
     } else {
       defaultFieldValue = {
-        countryCode: '',
+        countryCode: '1',
         extension: '',
         phoneNumber: ''
       };
@@ -43,13 +61,14 @@ export default class PhoneEditModal extends React.Component {
   renderForm = () => {
     return (
       <div>
-        <ErrorableTextInput
-          autoFocus
-          label="Country Code"
-          field={{ value: this.props.field.value.countryCode, dirty: false }}
-          onValueChange={this.onChange('countryCode')}/>
+        <AlertBox
+          isVisible
+          status="info">
+          <p>We can only support U.S. phone numbers right now. If you have an international number, please check back later.</p>
+        </AlertBox>
 
-        <ErrorableTextInput
+        <PhoneTextInput
+          additionalClass="usa-only-phone"
           label="Number"
           field={{ value: this.props.field.value.inputPhoneNumber, dirty: false }}
           onValueChange={this.onChange('inputPhoneNumber')}

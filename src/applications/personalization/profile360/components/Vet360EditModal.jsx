@@ -72,6 +72,7 @@ export default class Vet360EditModal extends React.Component {
             status="error"
             onCloseAlert={clearErrors}/>
           {isFormReady && render()}
+          <br/>
           <FormActionButtons
             onCancel={onCancel}
             onDelete={onDelete}

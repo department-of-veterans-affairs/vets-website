@@ -20,3 +20,36 @@
   background: $color-white;
   box-shadow: none !important;
 }
+
+input.usa-only-phone {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+  display: table-cell;
+  padding: 6px 12px;
+  margin: 0;
+}
+
+.usa-only-phone-prefix {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: $color-black;
+  text-align: center;
+  background-color: #eee;
+  border: solid thin $color-black;
+  border-right: none;
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.usa-only-phone-wrapper {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+}
