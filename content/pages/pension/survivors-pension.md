@@ -9,7 +9,7 @@ order: 4
 
 <div class="va-introtext">
 
-Find out if you're eligible and how to apply for a survivors pension as a surviving spouse or child of a deceased Veteran with wartime service.
+Find out if you're eligible for a survivors pension as a surviving spouse or child of a deceased Veteran with wartime service.
 
 </div>
 
