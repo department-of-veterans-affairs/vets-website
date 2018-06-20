@@ -82,7 +82,7 @@ class Address extends React.Component {
           label="Street address"
           name="addressLine1"
           autocomplete="address-line1"
-          charMax={35}
+          charMax={100}
           value={this.props.address.addressLine1}
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('addressLine1', update)}
@@ -91,7 +91,7 @@ class Address extends React.Component {
           label="Street address (optional)"
           name="addressLine2"
           autocomplete="address-line2"
-          charMax={35}
+          charMax={100}
           value={this.props.address.addressLine2}
           onValueChange={(update) => this.props.onInput('addressLine2', update)}
           onBlur={() => this.props.onBlur('addressLine2')}/>
@@ -99,7 +99,7 @@ class Address extends React.Component {
           label="Street address (optional)"
           name="addressLine3"
           autocomplete="address-line3"
-          charMax={35}
+          charMax={100}
           value={this.props.address.addressLine3}
           onValueChange={(update) => this.props.onInput('addressLine3', update)}
           onBlur={() => this.props.onBlur('addressLine3')}/>
@@ -107,7 +107,7 @@ class Address extends React.Component {
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
           autocomplete="address-level2"
-          charMax={30}
+          charMax={100}
           value={this.props.address.city}
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('city', update)}
@@ -128,6 +128,7 @@ class Address extends React.Component {
           additionalClass="usa-input-medium"
           label={'Zip code'}
           name="postalCode"
+          charMax={5}
           autocomplete="postal-code"
           value={this.props.address.zipCode}
           required={this.props.required}
@@ -138,6 +139,7 @@ class Address extends React.Component {
           label={'State/Province/Region'}
           name="province"
           autocomplete="international-postal-code"
+          charMax={100}
           value={this.props.address.province}
           onValueChange={(update) => this.props.onInput('province', update)}
           onBlur={() => this.props.onBlur('province')}/>}
