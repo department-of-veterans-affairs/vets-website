@@ -17,23 +17,14 @@ function validateTelephone({ number }) {
   return isValidPhone(number) ? '' : 'Please enter a valid phone.';
 }
 
-function validateAddress({
-  addressLine1,
-  addressLine2,
-  addressLine3,
-  city,
-  province
-}) {
-  return [
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    city,
-    province
-  ].reduce(e => {
-    return e ? e.length < 10 : true;
-  });
-}
+// function validateAddress({
+//   addressLine1,
+//   addressLine2,
+//   addressLine3,
+//   city,
+//   province
+// }) {
+// }
 
 function cleanEmailDataForUpdate(value) {
   const {
@@ -150,9 +141,9 @@ export const updateFormField = {
   email: updateProfileFormField('email', validateEmail, 'email'),
   faxNumber: updateProfileFormField('faxNumber', validateTelephone, 'phone'),
   homePhone: updateProfileFormField('homePhone', validateTelephone, 'phone'),
-  mailingAddress: updateProfileFormField('mailingAddress', validateAddress, 'address'),
+  mailingAddress: updateProfileFormField('mailingAddress', null, 'address'),
   mobilePhone: updateProfileFormField('mobilePhone', validateTelephone, 'phone'),
-  residentialAddress: updateProfileFormField('residentialAddress', validateAddress, 'address'),
+  residentialAddress: updateProfileFormField('residentialAddress', null, 'address'),
   temporaryPhone: updateProfileFormField('temporaryPhone', validateTelephone, 'phone'),
   workPhone: updateProfileFormField('workPhone', validateTelephone, 'phone'),
 };
