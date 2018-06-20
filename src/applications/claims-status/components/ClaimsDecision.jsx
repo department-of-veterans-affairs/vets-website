@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
+import moment from '../../../platform/startup/moment-setup';
 
 class ClaimsDecision extends React.Component {
   render() {

@@ -7,12 +7,14 @@ import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 
 import {
   selectVet360SuccessfulTransactions,
-  selectVet360ErroredTransactions
+  selectVet360FailedTransactions
 } from '../selectors';
 
 import {
   clearTransaction
 } from '../actions';
+
+import Vet360TransactionErrorBanner from '../components/Vet360TransactionErrorBanner';
 
 class Vet360TransactionReporter extends React.Component {
   componentDidUpdate(prevProps) {
@@ -39,20 +41,15 @@ class Vet360TransactionReporter extends React.Component {
               isVisible
               status="success"
               onCloseAlert={this.props.clearTransaction.bind(null, transaction)}
-              content={<h3>Your recent profile update finished.</h3>}/>
+              content={<h4>We saved your updated information.</h4>}/>
           );
         })}
         {erroredTransactions.map((transaction) => {
           return (
-            <AlertBox
+            <Vet360TransactionErrorBanner
               key={transaction.data.attributes.transactionId}
-              isVisible
-              status="error"
-              onCloseAlert={this.props.clearTransaction.bind(null, transaction)}
-              content={<div>
-                <h3>Your recent profile update didn’t save</h3>
-                <p>We’re sorry. Something went wrong on our end and we couldn’t save the recent updates you made to your profile. Please try again later.</p>
-              </div>}/>
+              transaction={transaction}
+              clearTransaction={this.props.clearTransaction.bind(null, transaction)}/>
           );
         })}
       </div>
@@ -63,7 +60,7 @@ class Vet360TransactionReporter extends React.Component {
 const mapStateToProps = (state) => {
   return {
     successfulTransactions: selectVet360SuccessfulTransactions(state),
-    erroredTransactions: selectVet360ErroredTransactions(state)
+    erroredTransactions: selectVet360FailedTransactions(state)
   };
 };
 

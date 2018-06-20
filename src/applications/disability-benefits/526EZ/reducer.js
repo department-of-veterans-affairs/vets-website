@@ -2,7 +2,7 @@
 import _ from 'lodash/fp';
 
 import formConfig from './config/form';
-import { createSaveInProgressFormReducer } from '../../common/schemaform/save-in-progress/reducers';
+import { createSaveInProgressFormReducer } from '../../../platform/forms/save-in-progress/reducers';
 
 import {
   PRESTART_STATUS_SET,

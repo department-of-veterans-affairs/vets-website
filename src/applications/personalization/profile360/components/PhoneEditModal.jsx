@@ -2,34 +2,28 @@ import React from 'react';
 import { merge } from 'lodash';
 
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import LoadingButton from './LoadingButton';
-import FormActionButtons from './FormActionButtons';
+import Vet360EditModal from './Vet360EditModal';
+
+class PhoneTextInput extends ErrorableTextInput {
+  componentDidMount() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'usa-only-phone-wrapper';
+
+    const inputField = document.querySelector('input.usa-only-phone');
+
+    inputField.parentNode.insertBefore(wrapper, inputField);
+    wrapper.appendChild(inputField);
+
+    const prefixEl = document.createElement('span');
+    prefixEl.innerText = '+1';
+    prefixEl.className = 'usa-only-phone-prefix';
+    inputField.insertAdjacentElement('beforebegin', prefixEl);
+  }
+}
 
 export default class PhoneEditModal extends React.Component {
-
-  componentDidMount() {
-    let defaultFieldValue;
-
-    if (this.props.phoneData) {
-      defaultFieldValue = merge(this.props.phoneData, {
-        inputPhoneNumber: this.props.phoneData && [this.props.phoneData.areaCode, this.props.phoneData.phoneNumber].join('')
-      });
-    } else {
-      defaultFieldValue = { countryCode: '', extension: '', phoneNumber: '' };
-    }
-
-    this.props.onChange(defaultFieldValue);
-  }
-
-  onSubmit = (event) => {
-    event.preventDefault();
-    if (this.props.field.errorMessage) return;
-    this.props.onSubmit(this.props.field.value);
-  }
-
   onChange = (field) => {
     return ({ value, dirty }) => {
       const newFieldValue = {
@@ -42,52 +36,61 @@ export default class PhoneEditModal extends React.Component {
     };
   }
 
-  render() {
-    const {
-      title,
-      onCancel,
-      isLoading,
-      field,
-      clearErrors,
-      onDelete,
-      phoneData,
-    } = this.props;
+  getInitialFormValues = () => {
+    let defaultFieldValue;
 
+    if (this.props.data) {
+      defaultFieldValue = merge(this.props.data, {
+        inputPhoneNumber: this.props.data && [this.props.data.areaCode, this.props.data.phoneNumber].join('')
+      });
+    } else {
+      defaultFieldValue = {
+        countryCode: '1',
+        extension: '',
+        phoneNumber: ''
+      };
+    }
+
+    return defaultFieldValue;
+  }
+
+  isEmpty = () => {
+    return !(this.props.data && this.props.data.phoneNumber);
+  }
+
+  renderForm = () => {
     return (
-      <Modal id="profile-phone-modal" onClose={onCancel} visible>
-        <h3>Edit {title}</h3>
+      <div>
         <AlertBox
-          isVisible={!!this.props.error}
-          status="error"
-          content={<p>We’re sorry. We couldn’t update your phone number. Please try again.</p>}
-          onCloseAlert={clearErrors}/>
-        {field && (
-          <form onSubmit={this.onSubmit}>
+          isVisible
+          status="info">
+          <p>We can only support U.S. phone numbers right now. If you have an international number, please check back later.</p>
+        </AlertBox>
 
-            <ErrorableTextInput
-              autoFocus
-              label="Country Code"
-              field={{ value: field.value.countryCode, dirty: false }}
-              onValueChange={this.onChange('countryCode')}/>
+        <PhoneTextInput
+          additionalClass="usa-only-phone"
+          label="Number"
+          charMax={14}
+          required
+          field={{ value: this.props.field.value.inputPhoneNumber, dirty: false }}
+          onValueChange={this.onChange('inputPhoneNumber')}
+          errorMessage={this.props.field.errorMessage}/>
 
-            <ErrorableTextInput
-              label="Number"
-              field={{ value: field.value.inputPhoneNumber, dirty: false }}
-              onValueChange={this.onChange('inputPhoneNumber')}
-              errorMessage={field.errorMessage}/>
+        <ErrorableTextInput
+          label="Extension"
+          charMax={10}
+          field={{ value: this.props.field.value.extension, dirty: false }}
+          onValueChange={this.onChange('extension')}/>
+      </div>
+    );
+  }
 
-            <ErrorableTextInput
-              label="Extension"
-              field={{ value: field.value.extension, dirty: false }}
-              onValueChange={this.onChange('extension')}/>
-
-            <FormActionButtons onCancel={onCancel} onDelete={onDelete} title={title} deleteEnabled={!!(phoneData && phoneData.phoneNumber)}>
-              <LoadingButton isLoading={isLoading}>Update</LoadingButton>
-              <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
-            </FormActionButtons>
-          </form>
-        )}
-      </Modal>
+  render() {
+    return (
+      <Vet360EditModal
+        getInitialFormValues={this.getInitialFormValues}
+        render={this.renderForm}
+        {...this.props}/>
     );
   }
 }
