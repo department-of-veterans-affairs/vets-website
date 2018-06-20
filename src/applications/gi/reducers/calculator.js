@@ -62,6 +62,7 @@ export default function (state = INITIAL_STATE, action) {
             yellowRibbonPrograms
           } = state;
 
+          // make an array of unique values
           const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
             [...new Set(yellowRibbonPrograms
               .filter(program => program.degreeLevel === value)

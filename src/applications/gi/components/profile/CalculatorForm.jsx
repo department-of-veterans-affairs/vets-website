@@ -146,7 +146,7 @@ class CalculatorForm extends React.Component {
             <div>
               <Dropdown
                 label="Degree Level"
-                name={'yellowRibbonDegreeLevel'}
+                name="yellowRibbonDegreeLevel"
                 alt="Degree Level"
                 options={yellowRibbonDegreeLevelOptions}
                 visible
