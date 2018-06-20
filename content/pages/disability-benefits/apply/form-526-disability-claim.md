@@ -21,7 +21,7 @@ description: Learn how to apply online for increased disability compensation.
       </div>
     </div>
   </div>
-  <!-- Edu Benefits Application End -->
+  <!-- Disability Benefits Application End -->
 
   <!-- Maintenance Page Start -->
 
