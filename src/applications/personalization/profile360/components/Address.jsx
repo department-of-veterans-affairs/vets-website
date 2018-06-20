@@ -115,7 +115,7 @@ class Address extends React.Component {
           onValueChange={(update) => this.props.onInput('city', update)}
           onBlur={() => this.props.onBlur('city')}/>}
 
-        {/* Hide the state for addresses that aren't in the US */}
+        {/* Enforce city selection for Military States */}
         {isMilitaryState && <ErrorableSelect errorMessage={errorMessages.city}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
