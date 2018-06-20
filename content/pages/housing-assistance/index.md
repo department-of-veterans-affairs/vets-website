@@ -26,14 +26,10 @@ If you’re a Veteran, Servicemember, or surviving spouse, we may be able to hel
 #### How do I get help if I'm homeless or at risk of becoming homeless?
 
 We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.
-
-<a id="crisis-expander-link">
   
 **Find the support you need:**
   
   </a>
-
-<div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner usa-alert-text">
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
