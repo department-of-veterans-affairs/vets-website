@@ -15,7 +15,7 @@ widgets:
 
 <div class="va-introtext">
 
-Find out to apply for a tax-free Veterans pension. 
+Find out how to apply for a tax-free Veterans pension. 
 
 </div>
 
