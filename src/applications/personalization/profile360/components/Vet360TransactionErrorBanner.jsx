@@ -3,7 +3,6 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import {
   hasGenericUpdateError,
-  hasLowCondidenceAddressError,
   hasMVIError,
   hasMVINotFoundError,
   hasUserIsDeceasedError
@@ -17,19 +16,6 @@ export function GenericUpdateError(props) {
         <div>
           <h4>Your recent profile update didn’t save</h4>
           <p>We’re sorry. Something went wrong on our end and we couldn’t save the recent updates you made to your profile. Please try again later.</p>
-        </div>
-      )}/>
-  );
-}
-
-export function LowConfidenceError(props) {
-  return (
-    <AlertBox {...props}
-      status="error"
-      content={(
-        <div>
-          <h4>Your address didn’t save</h4>
-          <p>We’re sorry. We looked up the address you entered, and we’re not sure mail can be delivered there. Please try entering your address again.</p>
         </div>
       )}/>
   );
@@ -90,10 +76,6 @@ export default function Vet360TransactionErrorBanner({ transaction, clearTransac
 
     case hasMVIError(transaction):
       TransactionError = MVIError;
-      break;
-
-    case hasLowCondidenceAddressError(transaction):
-      TransactionError = LowConfidenceError;
       break;
 
     case hasGenericUpdateError(transaction):

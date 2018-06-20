@@ -1,22 +1,22 @@
 import * as VET360 from '../constants/vet360';
 
-const PENDING_STATUSES = new Set([
+export const PENDING_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.RECEIVED,
   VET360.TRANSACTION_STATUS.RECEIVED_DEAD_LETTER_QUEUE,
   VET360.TRANSACTION_STATUS.RECEIVED_ERROR_QUEUE
 ]);
 
-const SUCCESS_STATUSES = new Set([
+export const SUCCESS_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS,
   VET360.TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED
 ]);
 
-const FAILURE_STATUSES = new Set([
+export const FAILURE_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.COMPLETED_FAILURE,
   VET360.TRANSACTION_STATUS.REJECTED
 ]);
 
-const UPDATE_ERROR_CODES = new Set([
+export const UPDATE_ERROR_CODES = new Set([
   'VET360_ADDR200',
   'VET360_ADDR201',
   'VET360_EMAIL200',
@@ -36,11 +36,11 @@ const UPDATE_ERROR_CODES = new Set([
   'VET360_CORE502'
 ]);
 
-const MVI_NOT_FOUND_ERROR_CODES = new Set([
+export const MVI_NOT_FOUND_ERROR_CODES = new Set([
   'VET360_MVI201'
 ]);
 
-const MVI_ERROR_CODES = new Set([
+export const MVI_ERROR_CODES = new Set([
   'VET360_MVI100',
   'VET360_MVI101',
   'VET360_MVI200',
@@ -48,11 +48,12 @@ const MVI_ERROR_CODES = new Set([
   'VET360_MVI203'
 ]);
 
-const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
+// This results as a direct error response from the API, and prior to a transaction being created.
+export const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
   'VET360_ADDR306'
 ]);
 
-const DECEASED_ERROR_CODES = new Set([
+export const DECEASED_ERROR_CODES = new Set([
   'VET360_MVI300'
 ]);
 
@@ -85,10 +86,6 @@ export function hasMVINotFoundError(transaction) {
 
 export function hasMVIError(transaction) {
   return matchErrorCode(MVI_ERROR_CODES, transaction);
-}
-
-export function hasLowCondidenceAddressError(transaction) {
-  return matchErrorCode(LOW_CONFIDENCE_ADDRESS_ERROR_CODES, transaction);
 }
 
 export function hasUserIsDeceasedError(transaction) {
