@@ -33,7 +33,7 @@ export default class Vet360EditModal extends React.Component {
   }
 
   isEmpty = () => {
-    return this.props.isEmpty ? this.props.isEmpty() : !this.props.data;
+    return this.props.isEmpty ? this.props.isEmpty(this.props) : !this.props.data;
   }
 
   isInitialized = () => {
