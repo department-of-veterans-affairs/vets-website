@@ -409,9 +409,7 @@ export const veteranInformationViewField = (data) => {
         right and you need to update your details, please go to eBenefits.
       </p>
       <p>
-        <a target="_blank" href={E_BENEFITS_URL}>
-          Go to eBenefits
-        </a>.
+        <a target="_blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
       </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
@@ -689,14 +687,16 @@ export const get4142Selection = (disabilities) => {
 export const AddressDescription = () => (
   <div>
     <p>
-      This is the contact information we have on file for you. We’ll mail any important
-      information about your disability claim to the address below. If you need to update
-      your contact information, please go to eBenefits.
+      This is the contact information we have on file for you. We’ll send any important
+      information about your disability claim to the address listed here. Any updates
+      you make here to your contact information will only apply to this application.
     </p>
     <p>
-      <a target="_blank" href={E_BENEFITS_URL}>
-        Go to eBenefits
-      </a>.
+      If you want to update your contact information for all your VA accounts, please go
+      to your profile page.
+    </p>
+    <p>
+      <a href="/profile">Go to my profile</a>.
     </p>
   </div>
 );
@@ -709,9 +709,7 @@ export const PaymentDescription = () => (
     please go to eBenefits.
     </p>
     <p>
-      <a target="blank" href={E_BENEFITS_URL}>
-        Go to eBenefits
-      </a>.
+      <a target="blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
     </p>
   </div>
 );
