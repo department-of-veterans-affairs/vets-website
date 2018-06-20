@@ -53,7 +53,6 @@ const FacilityTypeDropdown = ({
           onKeyDown: handleKeyDown,
           tabIndex: 0,
           type: 'button',
-          'aria-haspopup': null, // https://github.com/nvaccess/nvda/issues/7836
           'aria-label': null, // Remove in favor of HTML label above.
           'aria-expanded': isOpen
         })}>
