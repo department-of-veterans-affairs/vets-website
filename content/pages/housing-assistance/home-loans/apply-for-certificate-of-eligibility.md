@@ -27,11 +27,9 @@ The first step in getting a VA direct or VA-backed home loan is to apply for a C
 
 </div>
 
-### How do I get my COE?
+### How do I prepare before starting my application?
 
-#### Gather the information you’ll need to apply for your COE
-
-Click on the description that matches you best to find out what information you’ll need:
+Gather the information you'll need to apply for your COE. Click on the description below that matches you best to find out what you'll need:
 
 <br>
 
