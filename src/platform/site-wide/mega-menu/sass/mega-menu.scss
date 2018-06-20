@@ -2,6 +2,7 @@
 #mega-menu {
   flex: 1 0 100%;
   color: $color-primary;
+  z-index: 2;
 
   @include media($medium-large-screen) {
     #vetnav-explore {
