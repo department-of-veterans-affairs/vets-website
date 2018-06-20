@@ -1,8 +1,8 @@
 ---
-title: Apply for education benefits
+title: Apply for increased disability benefits
 entryname: 526EZ-claims-increase
 layout: page-react.html
-description: Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.
+description: Learn how to apply online for increased disability compensation. 
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
@@ -21,7 +21,7 @@ description: Use your VA education benefits to pay for college or training progr
       </div>
     </div>
   </div>
-  <!-- Edu Benefits Application End -->
+  <!-- Disability Benefits Application End -->
 
   <!-- Maintenance Page Start -->
 
@@ -30,7 +30,7 @@ description: Use your VA education benefits to pay for college or training progr
       <div class="row">
         <div class="small-12 columns">
           <div class="csp-inline-patch-application">
-          <h3>We’re sorry. The education benefits application is currently down while we fix a few things. We’ll be back up as soon as we can.</h3>
+          <h3>We’re sorry. The disability benefits application is down right now while we fix a few things. We’ll be back up as soon as we can.</h3>
           <h4>In the meantime, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>) and press 2 to complete this application over the phone.</h4>
           <a href="/"><button>Go back to Vets.gov</button></a>
           </div>

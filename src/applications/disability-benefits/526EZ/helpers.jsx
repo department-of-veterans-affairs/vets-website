@@ -13,17 +13,15 @@ import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
 
-const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
-
-import { PREFILL_STATUSES } from '../../../platform/forms/save-in-progress/actions';
+import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
-const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+import {
+  USA,
+  VA_FORM4142_URL
+} from './constants';
 
-export const USA = 'USA';
-export const MILITARY_STATES = ['AA', 'AE', 'AP'];
-export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
-
+const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 /*
  * Flatten nested array form data into sibling properties
  *
@@ -190,7 +188,7 @@ export const privateRecordsChoiceHelp = (
       Information to the VA (VA Form 21-4142) so we can request your records.
     </p>
     <p>
-      <a href={vaForm4142URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
       </a>.
     </p>
@@ -261,7 +259,7 @@ export const download4142Notice = (
       we can request your records. You’ll need to fill out a form for each doctor.
     </p>
     <p>
-      <a href={vaForm4142URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
       </a>.
       <p>
@@ -279,7 +277,7 @@ export const authorizationToDisclose = (
     Information to the VA (VA Form 21-4142) so we can request your records. You’ll need to fill out a form for
     each doctor.</p>
     <p>
-      <a href={vaForm4142URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
       </a>.
     </p>

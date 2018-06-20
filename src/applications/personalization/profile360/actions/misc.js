@@ -17,6 +17,15 @@ function validateTelephone({ number }) {
   return isValidPhone(number) ? '' : 'Please enter a valid phone.';
 }
 
+// function validateAddress({
+//   addressLine1,
+//   addressLine2,
+//   addressLine3,
+//   city,
+//   province
+// }) {
+// }
+
 function cleanEmailDataForUpdate(value) {
   const {
     id,
