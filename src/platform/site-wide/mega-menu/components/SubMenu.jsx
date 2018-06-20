@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SubMenu = ({ data, show }) => {
-  debugger
   const { mainColumn, columnOne, columnTwo, columnThree } = data;
+
   if (show) {
     return (
       <div>
@@ -28,17 +28,30 @@ const SubMenu = ({ data, show }) => {
           { columnOne.links.map((link, i) => (
             <li key={`${link.href}-${i}`}><a href={link.href}>{link.text}</a></li>
           ))}
+
+          {
+            !mainColumn && <div className="panel-bottom-link">
+              <a href="#">View All in Health Care</a>
+            </div>
+          }
         </ul>
-        <ul
-          className={`vetnav-panel vetnav-panel--submenu panel-2 ${mainColumn && 'panel-white'}`}
-          id="vetnav-disability"
-          role="menu"
-          aria-label="Disability">
-          <li className="panel-title">{columnTwo.title}</li>
-          { columnTwo.links.map((link, i) => (
-            <li key={`${link.href}-${i}`}><a href={link.href}>{link.text}</a></li>
-          ))}
-        </ul>
+        {
+          columnTwo ? <ul
+            className={`vetnav-panel vetnav-panel--submenu panel-2 ${mainColumn && 'panel-white'}`}
+            id="vetnav-disability"
+            role="menu"
+            aria-label="Disability">
+            <li className="panel-title">{columnTwo.title}</li>
+            { columnTwo.links.map((link, i) => (
+              <li key={`${link.href}-${i}`}><a href={link.href}>{link.text}</a></li>
+            ))}
+          </ul> : <ul
+            className={`vetnav-panel vetnav-panel--submenu panel-2 ${mainColumn && 'panel-white'}`}
+            id="vetnav-disability"
+            role="menu"
+            aria-label="Disability">
+          </ul>
+        }
         <div
           className="vetnav-panel vetnav-panel--submenu panel-3"
           id="vetnav-disability"

@@ -4,6 +4,11 @@
   color: $color-primary;
 
   @include media($medium-large-screen) {
+    #vetnav-explore {
+        height: 565px;
+        width: 1028px;
+    }
+
     .vetnav-panel--submenu:not([hidden]) {
       width: 26rem;
       padding: 28px 0px 0px 28px;
@@ -26,6 +31,7 @@
       }
 
       li {
+        width: 225px;
         margin-bottom: 0;
       }
     }
@@ -83,5 +89,19 @@
   .panel-main {
     left: -230px;
     background-color: $color-white;
+  }
+
+  .panel-bottom-link {
+    position: absolute;
+    bottom: 0px;
+    width: 750px;
+    left: 0;
+    margin-left: 14px;
+    border-top: 1px solid #d0d0d0;
+    z-index: 3;
+
+    a {
+      padding: 20px 0px;
+    }
   }
 }
