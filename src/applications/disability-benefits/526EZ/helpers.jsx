@@ -684,3 +684,18 @@ export const get4142Selection = (disabilities) => {
     return false;
   }, false);
 };
+
+export const AddressDescription = () => (
+  <div>
+    <p>
+      This is the contact information we have on file for you. We’ll mail any important
+      information about your disability claim to the address below. If you need to update
+      your contact information, please go to eBenefits.
+    </p>
+    <p>
+      <a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/homepage">
+        Go to eBenefits
+      </a>.
+    </p>
+  </div>
+);
