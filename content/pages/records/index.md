@@ -13,7 +13,7 @@ promo:
   - image: /img/megamenu/pension-illustration.png
     heading: Learn About the Veterans Choice Program
     url: "#"
-    description: If you are already enrolled in VA health care, the Veterans Choice Program allows you to receive health care within your community.
+    description: If you are already enrolled in VA Records, the Veterans Choice Program allows you to receive Records within your community.
 crosslinks:
   - heading: Related Resources
     links:
@@ -48,7 +48,7 @@ contact:
   - heading: Need Help? Call Us
     links:
     - url: 1-877-222-8387
-      title: General Health Care Help
+      title: General Records Help
     - url: 1-888-492-7844
       title: Mammography Hotline
     - url: 1-855-829-6636
@@ -60,7 +60,7 @@ contact:
     - url: 1-877-345-8179
       title: Foreign Medical Program (FMP)
     - url: 1-877-345-8179
-      title: Spina Bifida Health Care Program
+      title: Spina Bifida Records Program
 social:
   - heading: Social Media
     links:
@@ -100,14 +100,14 @@ mobile:
 ---
 
 <p class="va-introtext">
-With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
+With VA Records, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
 </p>
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Health Care Benefits](#get)<br>
-[Manage Your Health Benefits](#manage)<br>
-[More Health Care Information and Resources](#more)<br>
+[Get Records](#get)<br>
+[Manage Your Records](#manage)<br>
+[More Records Information and Resources](#more)<br>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
@@ -123,7 +123,7 @@ With VA health care, you’re covered for regular checkups with your primary car
         <p>We can also connect you with other non-VA resources in your area.</p>
         <p><b>Are you in crisis right now?</b> <br>
         <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
-        <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
+        <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, Records, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
       </div>
     </div>
   </div>
@@ -140,35 +140,35 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Health Care Benefits</h2>
+  <h2 class="highlight">Get Your Records</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Health Care Coverage</b></a>
-    <p>Learn more about your VA health care benefits, your health care team, and where you’ll go.</p>
+    <a href="#"><b>About VA Records Coverage</b></a>
+    <p>Learn more about your VA Records benefits, your Records team, and where you’ll go.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Eligibility</b></a>
-    <p>Find out if you can get VA health care benefits.
+    <p>Find out if you can get VA Records benefits.
   </div>
 
   <div class="link">
     <a href="#"><b>Application Process</b></a>
-    <p>Once you’ve figured out if you qualify, applying for VA  health care benefits is easy. Find out how to apply.</p>
+    <p>Once you’ve figured out if you qualify, applying for VA  Records benefits is easy. Find out how to apply.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>After You Apply</b></a>
-    <p>After you’ve applied for VA health care, find out when to expect your letter—and what to do next.</p>
+    <p>After you’ve applied for VA Records, find out when to expect your letter—and what to do next.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Family and Caregiver Health Benefits</b></a>
-    <p>If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.</p>
+    <p>If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for Records benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Apply for Health Care</b></a>
+    <a href="#"><b>Apply for Records</b></a>
     <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
   </div>
 
@@ -176,7 +176,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Health Benefits</h2>
+  <h2 class='highlight'>Manage Your Records</h2>
 
   <div class="link">
     <a href="#"><b>Refill or Track Your Prescriptions</b></a>
@@ -184,13 +184,13 @@ With VA health care, you’re covered for regular checkups with your primary car
     </div>
 
   <div class="link">
-    <a href="#"><b>Message Your Health Care Team</b></a>
-    <p>Send a secure note to your primary care provider or other members of your VA health care team.</p>
+    <a href="#"><b>Message Your Records Team</b></a>
+    <p>Send a secure note to your primary care provider or other members of your VA Records team.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Schedule or Manage a VA Appointment</b></a>
-    <p>Find out how to make a doctor's appointment with a member of your VA health care team online or by phone.</p>
+    <p>Find out how to make a doctor's appointment with a member of your VA Records team online or by phone.</p>
   </div>
 
   <div class="link">
@@ -217,11 +217,11 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Health Care Information and Resources</h2>
+  <h2 class='highlight'>More Records Information and Resources</h2>
 
   <div class="link">
     <a href="#"><b>Determine Costs of Care</b></a>
-    <p>Figure out how much your monthly health care costs will add up to.</p>
+    <p>Figure out how much your monthly Records costs will add up to.</p>
   </div>
 
   <div class="link">
