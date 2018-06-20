@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
+import Vet360EditModalErrorMessage from '../components/Vet360EditModalErrorMessage';
 import LoadingButton from '../components/LoadingButton';
 import FormActionButtons from '../components/FormActionButtons';
 
@@ -66,11 +66,7 @@ export default class Vet360EditModal extends React.Component {
         visible={isFormReady}>
         <h3>Edit {title}</h3>
         <form onSubmit={onSubmit}>
-          <AlertBox
-            content={<p>We’re sorry. We couldn’t update your {title.toLowerCase()}. Please try again.</p>}
-            isVisible={!!error}
-            status="error"
-            onCloseAlert={clearErrors}/>
+          {error && <Vet360EditModalErrorMessage title={title} error={error} clearErrors={clearErrors}/>}
           {isFormReady && render()}
           <br/>
           <FormActionButtons
