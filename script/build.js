@@ -37,6 +37,7 @@ const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
+  { name: 'mergedbuild', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
@@ -76,6 +77,14 @@ switch (options.buildtype) {
     }
     break;
 
+  case 'devpreview':
+    options.mergedbuild = true;
+    break;
+
+  case 'preview':
+    options.mergedbuild = true;
+    break;
+
   default:
     throw new Error(`Unknown buildtype: '${options.buildtype}'`);
 }
@@ -105,6 +114,7 @@ smith.destination(`../build/${options.buildtype}`);
 
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: options.buildtype });
+smith.metadata({ mergedbuild: options.mergedbuild });
 
 // To block an app from production add the following to the below list:
 //  ignoreList.push('<path-to-content-file>');
@@ -626,7 +636,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   }));
 }
 
-if (options.buildtype !== 'development') {
+if (options.buildtype !== 'development' && options.buildtype !== 'devpreview') {
 
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML

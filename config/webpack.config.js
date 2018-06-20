@@ -34,8 +34,8 @@ const configGenerator = (options, apps) => {
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
-      filename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
+      filename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
+      chunkFilename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
     },
     module: {
       rules: [
@@ -142,7 +142,7 @@ const configGenerator = (options, apps) => {
           compress: { warnings: false }
         },
         // cache: true,
-        parallel: 2,
+        parallel: 3,
         sourceMap: true,
       })],
       splitChunks: {
@@ -169,13 +169,13 @@ const configGenerator = (options, apps) => {
       }),
 
       new ExtractTextPlugin({
-        filename: (options.buildtype === 'development') ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
+        filename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
   };
 
-  if (options.buildtype === 'production' || options.buildtype === 'staging') {
+  if (['production', 'staging', 'preview'].includes(options.buildtype)) {
     let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
     if (options.buildtype === 'production') {
       sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
