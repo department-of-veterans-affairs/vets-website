@@ -37,7 +37,7 @@ Find out how to apply for VA education benefits as a Veteran, Servicemember, or 
 <h3 itemprop="name">How do I prepare before starting my application?</h3>
 <div itemprop="itemListElement">
 
-- [Check to see if you're eligible for VA education benefits](/education/eligibility/).
+- [Find out if you're eligible for VA education benefits](/education/eligibility/).
 - Gather the documents and information listed below that you’ll need to apply for education benefits.
 - See what benefits you’ll get at the school you want to attend.<br/> [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
