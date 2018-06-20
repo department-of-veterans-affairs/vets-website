@@ -53,6 +53,7 @@ class ContactInformationContent extends React.Component {
           fieldName={FIELD_NAMES.FAX_NUMBER}
           analyticsSectionName="fax-number"/>
         <EmailSection
+          title="Email address"
           fieldName={FIELD_NAMES.EMAIL}
           analyticsSectionName="email"/>
       </div>
