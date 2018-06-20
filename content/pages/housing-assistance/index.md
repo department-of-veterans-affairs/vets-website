@@ -46,12 +46,4 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 </div>
 </div>
 
-<script type="text/javascript">
-
-  // Toggle the expandable crisis info
-  document.getElementById('crisis-expander-link')
-    .addEventListener('click', function () {
-      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
-    });
-</script>
 
