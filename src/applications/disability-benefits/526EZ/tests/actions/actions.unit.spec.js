@@ -151,13 +151,13 @@ describe('ITF retrieve / submit actions:', () => {
 
       expect(handleCheckSuccess(incompleteData, dispatch)).to.be.true;
     });
-    it('should return true if retrieved ITFs include expired but not active ITFs', () => {
+    it('should set previousExpirationDate and return true if retrieved ITFs include expired but not active ITFs', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(expiredData, dispatch)).to.be.true;
       expect(dispatch.calledWith(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }))).to.be.true;
     });
-    it('should return false if active ITFs are retrieved', () => {
+    it('should set succeeded status and return false if active ITFs are retrieved', () => {
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(existingData, dispatch)).to.be.false;
@@ -191,16 +191,18 @@ describe('ITF retrieve / submit actions:', () => {
     });
   });
   describe('checkITFRequest', () => {
-    afterEach(() => resetFetch());
+    afterEach(resetFetch);
     it('should handle success', (done) => {
       const dispatch = sinon.spy();
       mockApiRequest({ data: existingData });
       const thunk = checkITFRequest;
       const verificationType = PRESTART_VERIFICATION_TYPES.retrieve;
+      const status = PRESTART_STATUSES.succeeded;
 
       thunk(dispatch).then((result) => {
         expect(dispatch.calledWith(setPrestartData({ verificationType }))).to.be.true;
         expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
+        expect(dispatch.calledWith(setPrestartStatus(status))).to.be.true;
         expect(result).to.be.false;
         done();
       }).catch((err) => {
@@ -212,9 +214,12 @@ describe('ITF retrieve / submit actions:', () => {
       const dispatch = sinon.spy();
       const thunk = checkITFRequest;
       const verificationType = PRESTART_VERIFICATION_TYPES.retrieve;
+      const status = PRESTART_STATUSES.failed;
+
 
       thunk(dispatch).then((result) => {
         expect(dispatch.calledWith(setPrestartData({ verificationType }))).to.be.true;
+        expect(dispatch.calledWith(setPrestartStatus(status))).to.be.true;
         expect(result).to.equal(false);
         done();
       }).catch((err) => {
@@ -223,7 +228,7 @@ describe('ITF retrieve / submit actions:', () => {
     });
   });
   describe('submitITFRequest', () => {
-    afterEach(() => resetFetch());
+    afterEach(resetFetch);
     it('should handle success', (done) => {
       mockApiRequest({ data: createdData });
       const dispatch = sinon.spy();
@@ -233,6 +238,7 @@ describe('ITF retrieve / submit actions:', () => {
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setPrestartData({ verificationType }))).to.be.true;
+        expect(dispatch.calledWith(setPrestartData({ currentExpirationDate: '2019-04-10T15:12:34.000+00:00' }))).to.be.true;
         expect(dispatch.calledWith(setPrestartStatus(successStatus))).to.be.true;
         done();
       }).catch((err) => {

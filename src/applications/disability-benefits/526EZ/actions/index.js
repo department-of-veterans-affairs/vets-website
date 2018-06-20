@@ -55,7 +55,7 @@ export const getLatestTimestamp = (timestamps) => timestamps.sort((a, b) => new 
 export const getITFsByStatus = (itfs, status) => itfs.filter(itf => itf.status === status);
 
 export const handleCheckSuccess = (data, dispatch) => {
-  // If no existing ITF(s) are found, we will receive an empty {} response
+
   const itfList = get('attributes.intentToFile', data);
 
   // If the user does not have any existing ITFs, create one
