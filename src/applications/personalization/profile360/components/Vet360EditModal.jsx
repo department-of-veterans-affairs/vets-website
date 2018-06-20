@@ -32,10 +32,6 @@ export default class Vet360EditModal extends React.Component {
     this.props.onSubmit(this.props.field.value);
   }
 
-  isEmpty = () => {
-    return this.props.isEmpty ? this.props.isEmpty(this.props) : !this.props.data;
-  }
-
   isInitialized = () => {
     return this.props.isInitialized ? this.props.isInitialized() : !!this.props.field;
   }
@@ -43,9 +39,9 @@ export default class Vet360EditModal extends React.Component {
   render() {
     const {
       onSubmit,
-      isEmpty,
       isInitialized,
       props: {
+        isEmpty,
         onCancel,
         title,
         clearErrors,
@@ -64,7 +60,7 @@ export default class Vet360EditModal extends React.Component {
         id="profile-phone-modal"
         onClose={onCancel}
         visible={isFormReady}>
-        <h3>Edit {title}</h3>
+        <h3>Edit {title.toLowerCase()}</h3>
         <form onSubmit={onSubmit}>
           {error && <Vet360EditModalErrorMessage title={title} error={error} clearErrors={clearErrors}/>}
           {isFormReady && render()}
