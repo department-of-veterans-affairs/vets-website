@@ -79,7 +79,7 @@ const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 const USA = 'USA';
 const VA_FORM4142_URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
-module.exports = {
+export {
   PCIU_STATES,
   STATE_LABELS,
   STATE_VALUES,
