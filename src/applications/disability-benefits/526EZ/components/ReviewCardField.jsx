@@ -75,7 +75,7 @@ export default class ReviewCardField extends React.Component {
 
     return (typeof description === 'function')
       ? description(formData)
-      : <p>description</p>;
+      : <p>{description}</p>;
   };
 
 
@@ -99,7 +99,7 @@ export default class ReviewCardField extends React.Component {
     } = this.props;
     const { SchemaField } = registry.fields;
     // We've already used the ui:field and ui:title
-    const uiSchema = omit(['ui:field', 'ui:title'], this.props.uiSchema);
+    const uiSchema = omit(['ui:field', 'ui:title', 'ui:description'], this.props.uiSchema);
 
     const title = this.getTitle();
     const description = this.getDescription();
