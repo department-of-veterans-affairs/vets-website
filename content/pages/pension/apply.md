@@ -21,7 +21,7 @@ You can apply online, by mail, or in person for a tax-free Veterans pension.
 
 ### How do I prepare before starting my application?
 
-- Find out if you qualify. [Find out if you're eligible for VA pension benefits](/pension/eligibility/).
+- [Find out if you're eligible for VA pension benefits](/pension/eligibility/).
 - Gather the information listed below that you’ll need to fill out your pension application.
 
 <div class="feature">
