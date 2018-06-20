@@ -13,7 +13,7 @@ widgets:
 
 <div class="va-introtext">
 
-If you’re the legally recognized spouse or a designated (legally chosen) family member of a Veteran who died, we may pay you a set amount for burial and funeral costs. This is called an allowance. We may also help with transportation costs. Find out how to get allowances.
+Find out how to get allowances to help cover burial, funeral, and transportation costs.
 
 </div>
 
