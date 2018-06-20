@@ -403,7 +403,13 @@ export const veteranInformationViewField = (data) => {
   const mask = srSubstitute('●●●–●●–', 'ending with');
   return (
     <div>
-      <p>This is the personal information we have on file for you.</p>
+      <p>
+        This is the personal information we have on file for you. If something doesn’t look
+        right and you need to update your details, please go to eBenefits.<br/>
+        <a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/homepage">
+          Go to eBenefits
+        </a>.
+      </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
         <p>Social Security number: {mask}{ssn.slice(5)}</p>
