@@ -18,7 +18,8 @@ import { DateWidget } from '../../common/schemaform/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL
+  VA_FORM4142_URL,
+  E_BENEFITS_URL
 } from './constants';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
@@ -408,7 +409,7 @@ export const veteranInformationViewField = (data) => {
         right and you need to update your details, please go to eBenefits.
       </p>
       <p>
-        <a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/homepage">
+        <a target="_blank" href={E_BENEFITS_URL}>
           Go to eBenefits
         </a>.
       </p>
@@ -693,7 +694,22 @@ export const AddressDescription = () => (
       your contact information, please go to eBenefits.
     </p>
     <p>
-      <a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/homepage">
+      <a target="_blank" href={E_BENEFITS_URL}>
+        Go to eBenefits
+      </a>.
+    </p>
+  </div>
+);
+
+export const PaymentDescription = () => (
+  <div>
+    <p>
+    This is the bank account information we have on file for you. We’ll pay your
+    disability benefit to this account. If you need to update your bank information,
+    please go to eBenefits.
+    </p>
+    <p>
+      <a target="blank" href={E_BENEFITS_URL}>
         Go to eBenefits
       </a>.
     </p>

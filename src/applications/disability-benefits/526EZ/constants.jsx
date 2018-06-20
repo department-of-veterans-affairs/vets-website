@@ -78,6 +78,7 @@ const MILITARY_STATE_LABELS = [
 const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 const USA = 'USA';
 const VA_FORM4142_URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+const E_BENEFITS_URL = 'https://www.ebenefits.va.gov/ebenefits/homepage';
 
 export {
   PCIU_STATES,
@@ -87,5 +88,6 @@ export {
   MILITARY_STATE_LABELS,
   MILITARY_CITIES,
   USA,
-  VA_FORM4142_URL
+  VA_FORM4142_URL,
+  E_BENEFITS_URL
 };
