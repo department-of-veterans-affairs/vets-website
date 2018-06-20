@@ -96,6 +96,8 @@ const createdData = {
 };
 
 describe('ITF retrieve / submit actions:', () => {
+  const originalFetch = global.fetch;
+
   describe('getLatestTimestamp', () => {
     it('should return the most recent timestamp in a list of timestamps', () => {
       const timestamps = ['2015-03-30T16:19:09.000+00:00', '2016-03-30T16:19:09.000+00:00'];
@@ -191,7 +193,7 @@ describe('ITF retrieve / submit actions:', () => {
     });
   });
   describe('checkITFRequest', () => {
-    afterEach(resetFetch);
+    afterEach(() => { global.fetch = originalFetch; });
     it('should handle success', (done) => {
       const dispatch = sinon.spy();
       mockApiRequest({ data: existingData });
@@ -228,7 +230,7 @@ describe('ITF retrieve / submit actions:', () => {
     });
   });
   describe('submitITFRequest', () => {
-    afterEach(resetFetch);
+    afterEach(() => { global.fetch = originalFetch; });
     it('should handle success', (done) => {
       mockApiRequest({ data: createdData });
       const dispatch = sinon.spy();
@@ -262,7 +264,7 @@ describe('ITF retrieve / submit actions:', () => {
     });
   });
   xdescribe('verifyIntentToFile', () => { // TODO: enable once user testing mocks are removed
-    afterEach(() => resetFetch());
+    afterEach(() => { global.fetch = originalFetch; });
 
     it('dispatches a pending status', (done) => {
       mockFetch();
