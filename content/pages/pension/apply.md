@@ -15,7 +15,7 @@ widgets:
 
 <div class="va-introtext">
 
-You can apply online, by mail, or in person for a tax-free Veterans pension. 
+Find out to apply for a tax-free Veterans pension. 
 
 </div>
 
