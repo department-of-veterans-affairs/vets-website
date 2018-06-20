@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch, mockApiRequest, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
+import { mockFetch, mockApiRequest } from '../../../../../platform/testing/unit/helpers.js';
 
 import {
   getLatestTimestamp,
