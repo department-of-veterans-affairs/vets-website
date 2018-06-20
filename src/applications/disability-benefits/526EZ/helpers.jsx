@@ -405,7 +405,9 @@ export const veteranInformationViewField = (data) => {
     <div>
       <p>
         This is the personal information we have on file for you. If something doesn’t look
-        right and you need to update your details, please go to eBenefits.<br/>
+        right and you need to update your details, please go to eBenefits.
+      </p>
+      <p>
         <a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/homepage">
           Go to eBenefits
         </a>.
