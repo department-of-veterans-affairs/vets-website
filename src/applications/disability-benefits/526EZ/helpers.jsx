@@ -40,17 +40,13 @@ const PRESTART_MESSAGE_TYPES = {
   created: 'created',
   renewed: 'renewed',
   retrieved: 'retrieved',
-  notCreated: 'notCreated',
-  notRenewed: 'notRenewed',
-  notRetrievedNewUser: 'notRetrievedNewUser',
-  notRetrievedReturningUser: 'notRetrievedReturningUser'
+  notCreated: 'not-created',
+  notRenewed: 'not-renewed',
+  notRetrievedNewUser: 'not-retrieved-new-user',
+  notRetrievedReturningUser: 'not-retrieved-returning-user'
 };
 
 const { created, renewed, retrieved, notCreated, notRenewed, notRetrievedNewUser, notRetrievedReturningUser } = PRESTART_MESSAGE_TYPES;
-
-const prestartSuccessMessages = new Set([retrieved, created, renewed]);
-
-const prestartErrorMessages = new Set([notRetrievedNewUser, notRetrievedReturningUser, notCreated, notRenewed]);
 
 export const getSuccessMessage = ({ verificationType, currentExpirationDate, previousExpirationDate }) => {
   // If we retrieved the user's current active ITF, use "retrieved" message
@@ -565,15 +561,19 @@ export function PrestartAlert({ status, data }) {
   let alertType;
   const alertHeading = prestartAlertHeadings[status];
   let alertMessage;
-
-  if (prestartSuccessMessages.has(status)) {
+  // const messageType = getPrestartMessage(status, data);
+  const messageType = 'not-retrieved-returning-user';
+  // if (status === PRESTART_STATUSES.succeeded) {
+    if (false) {
     alertType = 'success';
-    alertMessage = getPrestartSuccessMessage(status, currentExpirationDate, previousExpirationDate);
-  } else if (prestartFailureMessages.has(status)) {
+    // alertMessage = getPrestartSuccessMessage(messageType, currentExpirationDate, previousExpirationDate);
+    alertMessage = getPrestartSuccessMessage(messageType, currentExpirationDate, currentExpirationDate);
+  // } else if (status === PRESTART_STATUSES.failed) {
+    } else if (true) {
     alertType = 'error';
-    alertMessage = prestartErrorMessages[status];
+    alertMessage = prestartErrorMessages[messageType];
   }
-  
+
 
   return (<AlertBox
     status={alertType}

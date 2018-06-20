@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import { verifyIntentToFile as setPrestartStatus, resetPrestartState, resetPrestartDisplay, prestartPendingStatuses, prestartFailureStatuses } from '../actions';
+import { verifyIntentToFile as setPrestartStatus, resetPrestartState, resetPrestartDisplay, PRESTART_STATUSES } from '../actions';
 
 import { PrestartAlert } from '../helpers';
 
@@ -41,10 +41,11 @@ class PrestartWrapper extends React.Component {
       </div>
     );
 
-    if (prestartPendingStatuses.has(prestartStatus)) {
+    // if (prestartStatus === PRESTART_STATUSES.pending) {
+    if (true) {
       content = (<LoadingIndicator message="Please wait while we verify your Intent to File request."/>);
     }
-    if (prestartFailureStatuses.has(prestartStatus)) {
+    if (prestartStatus === PRESTART_STATUSES.failure) {
       content = (
         <div className="usa-grid-full prestart-alert-error">
           <PrestartAlert status={prestartStatus} data={prestartData}/>
@@ -60,7 +61,6 @@ class PrestartWrapper extends React.Component {
 
 PrestartWrapper.propTypes = {
   formConfig: PropTypes.object.isRequired,
-  displayPrestartMessage: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   prestartData: PropTypes.object.isRequired,
   prestartStatus: PropTypes.string.isRequired,
@@ -68,7 +68,7 @@ PrestartWrapper.propTypes = {
   routes: PropTypes.array.isRequired,
   setPrestartStatus: PropTypes.func.isRequired,
   resetPrestartDisplay: PropTypes.func.isRequired,
-  resetPrestartStatus: PropTypes.func.isRequired
+  resetPrestartState: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
