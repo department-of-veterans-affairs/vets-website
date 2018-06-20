@@ -1,5 +1,5 @@
 import { apiRequest } from '../../../../platform/utilities/api';
-
+import get from '../../../../platform/utilities/data/get';
 import existingITFData from '../tests/itfData';
 
 export const PRESTART_STATUS_SET = 'PRESTART_STATUS_SET';
@@ -52,15 +52,14 @@ export function resetPrestartDisplay() {
 
 // Returns most recent timestamp from a list of timestamps
 export const getLatestTimestamp = (timestamps) => timestamps.sort((a, b) => new Date(b) - new Date(a))[0];
-export const isNotEmptyObject = (object) => !(Object.keys(object).length === 0 && object.constructor === Object);
 export const getITFsByStatus = (itfs, status) => itfs.filter(itf => itf.status === status);
 
 export const handleCheckSuccess = (data, dispatch) => {
   // If no existing ITF(s) are found, we will receive an empty {} response
-  const itfList = isNotEmptyObject(data) && data.attributes.intentToFile;
+  const itfList = get('attributes.intentToFile', data);
 
   // If the user does not have any existing ITFs, create one
-  if (!itfList) {
+  if (itfList.length === 0) {
     return true;
   }
 
@@ -149,9 +148,9 @@ export function verifyIntentToFile() {
 
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
 
-    const shouldCreateITF = await checkITFRequest(dispatch);
+    const existingITFNotFound = await mockCheckITFRequest(dispatch);
 
-    if (shouldCreateITF) {
+    if (existingITFNotFound) {
       submitITFRequest(dispatch);
     }
   };
