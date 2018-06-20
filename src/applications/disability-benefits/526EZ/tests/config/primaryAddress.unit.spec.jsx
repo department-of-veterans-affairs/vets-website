@@ -8,6 +8,7 @@ import { DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
+import { STATE_VALUES, MILITARY_STATE_VALUES } from '../../constants';
 
 describe('Disability benefits 526EZ primary address', () => {
   const {
@@ -76,6 +77,50 @@ describe('Disability benefits 526EZ primary address', () => {
     expect(form.find('select').length).to.equal(1);
     // street 1, 2, 3, city, phone, email, fwding address checkbox
     expect(form.find('input').length).to.equal(7);
+  });
+
+  it('restricts state options to military state codes when city is a military city code', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          veteran: {
+            mailingAddress: {
+              country: 'USA',
+              city: 'APO'
+            }
+          }
+        }}
+        formData={{}}
+        uiSchema={uiSchema}/>
+    );
+
+    const stateDropdownOptions = form.find('#root_veteran_mailingAddress_state > option');
+    // The `+1` is for the empty option in the dropdown
+    expect(stateDropdownOptions.length).to.equal(MILITARY_STATE_VALUES.length + 1);
+  });
+
+  it('does not restrict state options  when city is not a military city code', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          veteran: {
+            mailingAddress: {
+              country: 'USA',
+              city: 'Detroit'
+            }
+          }
+        }}
+        formData={{}}
+        uiSchema={uiSchema}/>
+    );
+
+    const stateDropdownOptions = form.find('#root_veteran_mailingAddress_state > option');
+    // The `+1` is for the empty option in the dropdown 
+    expect(stateDropdownOptions.length).to.equal(STATE_VALUES.length + 1);
   });
 
   it('validates that state is military type if city is military type', () => {
