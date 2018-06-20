@@ -14,7 +14,7 @@ export default class EditEmailModal extends React.Component {
       return { ...this.props.data };
     }
     return {
-      email: ''
+      emailAddress: ''
     };
   }
 
