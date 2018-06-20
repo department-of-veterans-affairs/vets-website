@@ -70,12 +70,15 @@ export default class PhoneEditModal extends React.Component {
         <PhoneTextInput
           additionalClass="usa-only-phone"
           label="Number"
+          charMax={14}
+          required
           field={{ value: this.props.field.value.inputPhoneNumber, dirty: false }}
           onValueChange={this.onChange('inputPhoneNumber')}
           errorMessage={this.props.field.errorMessage}/>
 
         <ErrorableTextInput
           label="Extension"
+          charMax={10}
           field={{ value: this.props.field.value.extension, dirty: false }}
           onValueChange={this.onChange('extension')}/>
       </div>
