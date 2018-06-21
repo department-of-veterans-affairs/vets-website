@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Mental Health
 display_title:
+description: Find out if you qualify for VA benefits for mental health, or how to get care for certain mental health conditions if you don't have VA health care.   
 concurrence: complete
 lastupdate: 2017-06-28
 order: 2
