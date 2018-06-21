@@ -6,7 +6,7 @@ require('babel-core/register');
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
 
 module.exports = {
-  src_folders: ['./src', './test'],
+  src_folders: ['./src'],
   output_folder: './logs/nightwatch',
   custom_commands_path: './src/platform/testing/e2e/nightwatch-commands',
   custom_assertions_path: './src/platform/testing/e2e/nightwatch-assertions',
