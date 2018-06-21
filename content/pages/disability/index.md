@@ -102,9 +102,9 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Disability Benefits](https://get)<br>
-[Manage Your Disability Benefits](https://manage)<br>
-[More Disability Information and Resources](https://more)<br>
+[Get Disability Benefits](#get)<br>
+[Manage Your Disability Benefits](#manage)<br>
+[More Disability Information and Resources](#more)<br>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">

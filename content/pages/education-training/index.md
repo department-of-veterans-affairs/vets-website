@@ -10,39 +10,27 @@ administration:
   - heading: Administration
     description: What goes here?
 promo:
-  - image: /img/megamenu/pension-illustration.png
+  - image: /img/megamenu/education-training-illustration.png
     heading: Learn About the Veterans Choice Program
-    url: "#"
+    url: "https://"
     description: If you are already enrolled in VA health care, the Veterans Choice Program allows you to receive health care within your community.
 crosslinks:
-  - heading: Related Resources
+  - heading: Related VA Benefits and Services
     links:
-    - url: ""
-      title: Social Work Services
+    - url: https://benefits.va.gov/TAP/index.asp
+      title: Transition Assistance
       description:
-    - url: ""
-      title: Disability Benefits
+    - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
+      title: Vocational Rehabilitation & Employment
       description:
-    - url: ""
-      title: Life Insurance Benefits
+    - url: https://www.vets.gov/housing-assistance/home-loans/
+      title: VA Back Home Loans
       description:
-    - url: ""
-      title: Aid and Attendance or Household Allowance
+    - url: https://www.vets.gov/employment/job-seekers/register-your-business/
+      title: Small Business Support
       description:
-    - url: ""
-      title: National Center for PTSD
-      description:
-    - url: ""
-      title: Adaptive Sports Program
-      description:
-    - url: ""
-      title: Center for Women Veterans (CWV)
-      description:
-    - url: ""
-      title: Center for Minority Veterans (CMV)
-      description:
-    - url: ""
-      title: Veterans Health Administration
+    - url: https://www.dol.gov/veterans/findajob/
+      title: Search for Jobs
       description:
 contact:
   - heading: Need Help? Call Us
@@ -81,19 +69,19 @@ social:
 mobile:
   - heading: Mobile Apps
     links:
-    - url: "#"
+    - url: "https://"
       label: What
       icon:
-    - url: "#"
+    - url: "https://"
       label: Should
       icon:
-    - url: "#"
+    - url: "https://"
       label: This
       icon:
-    - url: "#"
+    - url: "https://"
       label: Look
       icon:
-    - url: "#"
+    - url: "https://"
       label: Like
       icon:
 
@@ -105,9 +93,9 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Health Care Benefits](#get)<br>
-[Manage Your Health Benefits](#manage)<br>
-[More Health Care Information and Resources](#more)<br>
+[Get Education Benefits](#get)<br>
+[Manage Your Education Benefits](#manage)<br>
+[More Education Information and Resources](#more)<br>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
@@ -140,76 +128,85 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Health Care Benefits</h2>
+  <h2 class="highlight">Get Education Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Health Care Coverage</b></a>
+    <a href="https://vets.gov/education/gi-bill/"><b>About GI Bill Benefits</b></a>
     <p>Learn more about your VA health care benefits, your health care team, and where you’ll go.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Eligibility</b></a>
+    <a href="https://vets.gov/education/eligibility/"><b>Eligibility</b></a>
     <p>Find out if you can get VA health care benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>Application Process</b></a>
+    <a href="https://vets.gov/education/apply/"><b>Application Process</b></a>
     <p>Once you’ve figured out if you qualify, applying for VA  health care benefits is easy. Find out how to apply.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>After You Apply</b></a>
+    <a href="https://vets.gov/education/after-you-apply/"><b>After You Apply</b></a>
     <p>After you’ve applied for VA health care, find out when to expect your letter—and what to do next.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Family and Caregiver Health Benefits</b></a>
+    <a href="https://https://www.vets.gov/employment/vocational-rehab-and-employment/"><b>Vocational Rehabilitation & Employment</b></a>
     <p>If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Apply for Health Care</b></a>
+    <a href="https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/"><b>Survivor and Dependent Benefits</b></a>
     <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
   </div>
 
+  <div class="link">
+    <a href="https://vets.gov/education/other-educational-assistance-programs/"><b>Other Education Assistance Programs</b></a>
+    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://vets.gov/education/apply/"><b>Apply for GI Bill Benefits</b></a>
+    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+  </div>
 </section>
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Health Benefits</h2>
+  <h2 class='highlight'>Manage Your Education Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>Refill or Track Your Prescriptions</b></a>
-    <p>Refill prescriptions online, and track the status of your refills.</p>
-    </div>
-
-  <div class="link">
-    <a href="#"><b>Message Your Health Care Team</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
     <p>Send a secure note to your primary care provider or other members of your VA health care team.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Schedule or Manage a VA Appointment</b></a>
+    <a href="https://vets.gov/education/gi-bill/post-9-11/ch-33-benefit"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
     <p>Find out how to make a doctor's appointment with a member of your VA health care team online or by phone.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your Lab and Test Results</b></a>
+    <a href="https://vets.gov/education/gi-bill/transfer/"><b>Transfer Your Post-9/11 GI Bill Benefits</b></a>
     <p>A few days after your appointment, sign in to your account to see results of your medical tests.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Order Hearing Aid Batteries</b></a>
+    <a href="https://vets.gov/education/apply/"><b>Make a Change to Your Current GI Bill Benefits</b></a>
     <p>Order new btteries online and get them mailed directly to you.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Get Your VA Health Records (Blue Button)</b></a>
+    <a href="https://"><b>Update Your Direct Deposit Information</b></a>
     <p>View, download, and print your VA health records.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Update Your Health Benefits</b></a>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Track Your Education Benefits Eligibility Appeal Status</b></a>
+    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://"><b>File an Appeal</b></a>
     <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
   </div>
 
@@ -217,30 +214,40 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Health Care Information and Resources</h2>
+  <h2 class='highlight'>More Education Information and Resources</h2>
 
   <div class="link">
-    <a href="#"><b>Determine Costs of Care</b></a>
+    <a href="https://vets.gov/gi-bill-comparison-tool"><b>Compare GI Bill Benefits</b></a>
     <p>Figure out how much your monthly health care costs will add up to.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Health Needs and Conditions</b></a>
+    <a href="https://benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp"><b>Education Benefit Payment Rate Tables</b></a>
     <p>Find out how to access VA services for mental health, women’s health, and other specific needs.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Conditions Related to When and Where You Served</b></a>
+    <a href="https://www.benefits.va.gov/gibill/school_decision.asp"><b>Choosing a School</b></a>
     <p>Find out which service-connected health concerns you should be aware of, based on when and where you served.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Wellness Programs</b></a>
+    <a href="https://www.vets.gov/education/tools-programs/careerscope/"><b>CareerScope</b></a>
     <p>Learn about special programs that focus on increasing your wellness.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Affordable Care Act (ACA)</b></a>
+    <a href="https://"><b>Overpayments and Debts</b></a>
+    <p>Find out what you need to know about the ACA and your health coverage.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://"><b>Handouts and Forms</b></a>
+    <p>Find out what you need to know about the ACA and your health coverage.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://"><b>GI Bill Customer Help</b></a>
     <p>Find out what you need to know about the ACA and your health coverage.</p>
   </div>
 
