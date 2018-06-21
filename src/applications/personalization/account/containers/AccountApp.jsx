@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../../../../platform/startup/moment-setup';
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import { selectUser, isLOA3 } from '../../../../platform/user/selectors';
 
 import AccountMain from '../components/AccountMain';
@@ -24,7 +25,7 @@ class AccountApp extends React.Component {
       <div>
         <RequiredLoginView
           authRequired={1}
-          serviceRequired="user-profile"
+          serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}>
           {isPersonalizationEnabled() ? (
             <DowntimeNotification appTitle="user account page" dependencies={[services.mvi, services.emis]}>

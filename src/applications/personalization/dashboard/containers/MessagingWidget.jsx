@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
 import { formattedDate } from '../../../messaging/utils/helpers';
 
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import {
   fetchFolder,
@@ -101,7 +102,7 @@ const mapStateToProps = (state) => {
   const msgState = state.health.msg;
   const folder = msgState.folders.data.currentItem;
   const profileState = state.user.profile;
-  const canAccessMessaging = profileState.services.includes('messaging');
+  const canAccessMessaging = profileState.services.includes(backendServices.MESSAGING);
 
   const { attributes, messages, pagination, sort } = folder;
 

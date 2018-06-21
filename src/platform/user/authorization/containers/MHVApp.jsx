@@ -7,6 +7,7 @@ import appendQuery from 'append-query';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import { mhvAccessError } from '../../../static-data/error-messages';
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import {
   createMHVAccount,
   fetchMHVAccount
@@ -120,9 +121,9 @@ export class MHVApp extends React.Component {
 MHVApp.propTypes = {
   children: PropTypes.node,
   serviceRequired: PropTypes.oneOf([
-    'health-records',
-    'messaging',
-    'rx'
+    backendServices.HEALTH_RECORDS,
+    backendServices.MESSAGING,
+    backendServices.RX
   ])
 };
 

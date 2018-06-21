@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -11,7 +12,7 @@ import { refillPrescription } from '../actions/prescriptions';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
 
-const SERVICE_REQUIRED = 'rx';
+const SERVICE_REQUIRED = backendServices.RX;
 
 const AppContent = ({ children }) => (
   <div className="rx-app">
