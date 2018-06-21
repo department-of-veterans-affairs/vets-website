@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SubMenu = ({ data, show }) => {
-  const { mainColumn, columnOne, columnTwo, columnThree } = data;
+  const { mainColumn, columnOne, columnTwo, columnThree, seeAllLink } = data;
 
   if (show) {
     return (
@@ -31,7 +31,9 @@ const SubMenu = ({ data, show }) => {
 
           {
             !mainColumn && <div className="panel-bottom-link">
-              <a href="/health-care/">View All in Health Care</a>
+              {
+                seeAllLink && <a href={seeAllLink.href}>View All in {seeAllLink.text}</a>
+              }
             </div>
           }
         </ul>
