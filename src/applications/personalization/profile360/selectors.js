@@ -1,11 +1,16 @@
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 
 import {
+  isVet360Configured
+} from './util/local-vet360';
+
+import {
   isSuccessfulTransaction,
   isFailedTransaction
 } from './util/transactions';
 
 export function selectIsVet360AvailableForUser(state) {
+  if (!isVet360Configured()) return true;
   return state.user.profile.services.includes(backendServices.VET360);
 }
 
