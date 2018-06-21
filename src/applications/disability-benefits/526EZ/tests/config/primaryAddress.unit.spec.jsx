@@ -1,10 +1,10 @@
-import React from 'react';
+/*  */import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 
-import { DefinitionTester, // selectCheckbox 
+import { DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
@@ -15,6 +15,11 @@ describe('Disability benefits 526EZ primary address', () => {
     schema,
     uiSchema
   } = formConfig.chapters.veteranDetails.pages.primaryAddress;
+
+  const primaryPhone = '1231231234';
+  const emailAddress = 'test@testing.com';
+
+
   it('renders primary address form', () => {
     const form = mount(
       <DefinitionTester
@@ -119,7 +124,7 @@ describe('Disability benefits 526EZ primary address', () => {
     );
 
     const stateDropdownOptions = form.find('#root_veteran_mailingAddress_state > option');
-    // The `+1` is for the empty option in the dropdown 
+    // The `+1` is for the empty option in the dropdown
     expect(stateDropdownOptions.length).to.equal(STATE_VALUES.length + 1);
   });
 
@@ -131,6 +136,8 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
+            primaryPhone,
+            emailAddress,
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -158,6 +165,8 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
+            primaryPhone,
+            emailAddress,
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -213,6 +222,8 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
+            primaryPhone,
+            emailAddress,
             'view:hasForwardingAddress': true,
             mailingAddress: {
               country: 'USA',
@@ -249,6 +260,8 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
+            primaryPhone,
+            emailAddress,
             'view:hasForwardingAddress': true,
             mailingAddress: {
               country: 'USA',
@@ -305,7 +318,7 @@ describe('Disability benefits 526EZ primary address', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(7);
+    expect(form.find('.usa-input-error-message').length).to.equal(9);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -317,6 +330,8 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
+            primaryPhone,
+            emailAddress,
             'view:hasForwardingAddress': true,
             mailingAddress: {
               country: 'USA',
