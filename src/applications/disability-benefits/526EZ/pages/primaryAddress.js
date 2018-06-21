@@ -226,6 +226,7 @@ export const primaryAddressSchema = {
   properties: {
     veteran: {
       type: 'object',
+      required: ['primaryPhone', 'emailAddress'],
       properties: {
         mailingAddress,
         primaryPhone: {
