@@ -1,15 +1,14 @@
-import _config from './config';
+import config from './config';
 
-export function selectAnnouncement(state, config = _config, path = document.location.pathname) {
+export function selectAnnouncement(state) {
   const announcements = state.announcements;
-  let announcement;
+  let announcement = null;
 
   if (announcements.isInitialized) {
-    announcement = config.announcements
-      .filter(a => !a.disabled)
-      .find(a => a.paths.test(path));
+    const path = document.location.pathname;
+    announcement = config.announcements.find(a => a.paths.test(path));
 
-    if (announcement && announcements.dismissed.includes(announcement.name)) {
+    if (announcements.dismissed.includes(announcement.name) || announcement.disabled) {
       announcement = null;
     }
   }

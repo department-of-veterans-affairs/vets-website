@@ -3,8 +3,8 @@
 {% endif %}
 
 <nav class="va-nav-breadcrumbs {{gatePageClassName}}">
-  <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
-    <li><a href="/" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">Home</a></li>
+  <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+    <li><a href="/" onClick="recordEvent({ event: 'nav-breadcrumb' });">Home</a></li>
       {% assign current_page = breadcrumb_path | last %}
       {% for crumb in breadcrumb_path %}
         {% if current_page.name != crumb.name %}

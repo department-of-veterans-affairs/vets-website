@@ -26,32 +26,26 @@
 
   <div class="row va-flex" id="va-header-logo-menu">
     <div role="banner" class="va-header-logo-wrapper">
-      <a href="/" class="va-header-logo" onClick="recordEvent({ event: 'nav-header-logo' });">
-      {% include "assets/img/svglogo.svg" %}
+      <a href="https://www.va.gov" class="va-header-logo" title="Go to VA.gov">
+      <img src="/img/header-logo.png"/>
       </a>
     </div>
-    {% if body_class != 'page-playbook' %}
-      <div id="vetnav-controls">
-        <button aria-controls="vetnav" aria-expanded="false" hidden type="button" class="vetnav-controller-close">
-          <span class="va-flex">
-            {% include "assets/img/icons/close.svg" %}
-            Close
-          </span>
-        </button>
-        <button aria-controls="vetnav" type="button" aria-expanded="false" class="vetnav-controller-open">
-          <span class="va-flex">
-            {% include "assets/img/arrow-down.svg" %}
-            Menu
-          </span>
-        </button>
-      </div>
-    {% endif %}
+    <div id="vetnav-controls">
+      <button aria-controls="vetnav" aria-expanded="false" hidden type="button" class="vetnav-controller-close">
+        <span class="va-flex">
+          {% include "assets/img/icons/close.svg" %}
+          Close
+        </span>
+      </button>
+      <button aria-controls="vetnav" type="button" aria-expanded="false" class="vetnav-controller-open">
+        <span class="va-flex">
+          {% include "assets/img/arrow-down.svg" %}
+          Menu
+        </span>
+      </button>
+    </div>
 
     <div id="login-root" class="vet-toolbar"></div>
-
-
-    {% if body_class != 'page-playbook' %}
-      <div id="mega-menu"></div>
-    {% endif %}
+    <div id="mega-menu"></div>
   </div>
 </header>

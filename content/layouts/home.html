@@ -1,15 +1,230 @@
 {% include "content/includes/header.html" %}
 <main>
-  {% if enablewarning %}
-    {% include "content/includes/homepage-warning.html" %}
-  {% endif %}
-  <div id="content">
-  {{ contents }}
-  </div>
 
-  <div class="va-h-ruled--stars"></div>
-  <div class="va-homepage-benefits">
-    {% include "content/components/navigation-links-list.html" %}
-  </div>
+  <!-- the hub -->
+  <section id="homepage-hub">
+
+    <!-- background, white -->
+    <div class="usa-grid" id="hub-internal">
+
+      <!-- top row -->
+      <div class="usa-grid">
+
+        <div class="usa-width-one-half">
+
+          <h3><i class="fa fa-medkit"></i>Healthcare</h3>
+          <ul>
+            <li><a href=#>Refill and track your prescriptions</a></li>
+            <li><a href=#>Message your health care team</a></li>
+            <li><a href=#>Schedule or manage a VA appointment</a></li>
+            <li><a href=#>View your lab and test results</a></li>
+            <li><a href=#>Apply for health care</a></li>
+          </ul>
+
+        </div>
+
+        <div class="usa-width-one-half">
+
+          <h3><i class="fa fa-handshake"></i>Disability</h3>
+          <ul>
+            <li><a href=#>Track your claims and appeals</a></li>
+            <li><a href=#>View your VA payment history</a></li>
+            <li><a href=#>Upload documents for a submitted claim</a></li>
+            <li><a href=#>Add or remove a dependent</a></li>
+            <li><a href=#>Apply for disability benefits</a></li>
+          </ul>
+
+        </div>
+
+      </div>
+
+      <!-- bottom row -->
+      <div class="usa-grid">
+
+        <div class="usa-width-one-half">
+
+          <h3><i class="fa fa-graduation-cap"></i>Education</h3>
+          <ul>
+            <li><a href=#>Check your post-9/11 GI Bill benefits</a></li>
+            <li><a href=#>View your VA payment history</a></li>
+            <li><a href=#>Change your current education benefits</a></li>
+            <li><a href=#>Compare GI Bill benefits</a></li>
+            <li><a href=#>Apply for education benefits</a></li>
+          </ul>
+
+        </div>
+
+        <div class="usa-width-one-half">
+
+          <h3><i class="fa far fa-id-card"></i>Records</h3>
+          <ul>
+            <li><a href=#>Get your VA health records (Blue Button)</a></li>
+            <li><a href=#>Request your military personnel file (DD-214)</a></li>
+            <li><a href=#>Request a home loan COE</a></li>
+            <li><a href=#>Download your VA letters</a></li>
+            <li><a href=#>Apply for a Veteran ID card</a></li>
+          </ul>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- /background, white -->
+
+  </section>
+  <!-- /the hub -->
+
+  <section id="homepage-popular">
+
+    <div class="usa-grid">
+      <!-- check these against Trevor's accessibility rules -->
+      <div class="usa-width-one-third">
+        <button class="homepage-button primary-darker">
+          <i class="fa far fa-map-marker"></i>
+          <!-- div required for alignment -->
+          <div><a href=#>Find a VA hospital, benefit center, or cemetary</a></div>
+        </button>
+      </div>
+
+      <div class="usa-width-one-third">
+        <button class="homepage-button secondary-dark">
+          <span class="vcl"></span>
+          <div id="vcl"><a href=#>Are you in crisis? Get help now from the Veterans Crisis Line</a></div>
+        </button>
+      </div>
+
+      <div class="usa-width-one-third">
+        <button class="homepage-button primary">
+          <i class="fa fa-user-circle"></i>
+          <div><a href=#>Sign in or create an account for a personalized experience</a></div>
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
+  <div id="content">
+
+    <section class="usa-grid" id="homepage-benefits">
+
+      <div class="usa-grid">
+
+        <div class="usa-width-one-third">
+          <h4><i class="fa fa-medkit"></i>Health Care</h4>
+          <div class="va-content-block three-lines">
+            <p>Apply for VA health care, find out how to access services, and manage your health and benefits online.</p>
+            <a href="/healthcare">View all</a>
+          </div>
+        </div>
+
+        <div class="usa-width-one-third">
+          <h4><i class="fa fa-handshake"></i>Disability</h4>
+          <div class="va-content-block three-lines">
+            <p>Apply for disability compensation and other benefits for conditions related to your military service.</p>
+            <a href="/disability">View all</a>
+          </div>
+        </div>
+
+        <div class="usa-width-one-third">
+          <h4><i class="fa fa-graduation-cap"></i>Education and Training</h4>
+          <div class="va-content-block three-lines">
+            <p>Apply for and manage benefits that help you pay for college and training programs.</p>
+            <a href="/education-training">View all</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="usa-grid">
+
+        <div class="usa-width-one-third">
+          <h4><i class="fa fa-id-card"></i>Records</h4>
+          <div class="va-content-block four-lines">
+            <p>Apply for a printed Veteran ID card, download your VA letters and health records, and learn how to apply for a discharge upgrade.</p>
+            <a href="/records">View all</a>
+          </div>
+        </div>
+
+        <div class="usa-width-one-third">
+          <h4><i class="fa fa-briefcase"></i>Careers and Employment</h4>
+          <div class="va-content-block four-lines">
+            <p>Find out if you're eligible for Voc Rehab (VR&amp;E) services, get support for your Veteran-owned small business, and more to help find a job.</p>
+            <a href="/careers-employment">View all</a>
+          </div>
+        </div>
+
+        <div class="usa-width-one-third">
+          <h4><i class="fa fa-money"></i>Pension</h4>
+          <div class="va-content-block four-lines">
+            <p>Apply for monthly pension benefits for wartime Veterans and survivors.</p>
+            <a href="/pension">View all</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="usa-grid">
+
+        <div class="usa-width-one-third">
+          <h4><i class="fa fa-heart"></i>Burials and Memorials</h4>
+          <div class="va-content-block five-lines">
+            <p>Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.</p>
+            <a href="/burials">View all</a>
+          </div>
+        </div>
+
+        <div class="usa-width-one-third">
+          <h4><i class="fa fa-home"></i>Housing Assistance</h4>
+          <div class="va-content-block five-lines">
+            <p>Find out if you qualify for a VA home loan. If you have a service-connected disability, find out if you qualify for a housing grant to help you live more independently.</p>
+            <a href="/housing">View all</a>
+          </div>
+        </div>
+
+        <div class="usa-width-one-third">
+          <h4><i class="fa fa-list-alt"></i>Life Insurance</h4>
+          <div class="va-content-block five-lines">
+            <p>Explore VA life insurance options, manage your policy online, and file claims.</p>
+            <a href="/life-insurance">View all</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- end triple column -->
+
+  </div> <!-- end #content -->
+
+  <section id="homepage-news">
+
+    <div class="usa-grid">
+      <div class="usa-width-one-third">
+        <img src="/img/homepage/home-1.jpg"/>
+        <h4><a href=#>At 60, Chicago Veteran Proves It’s Never Too Late to Start Again</a></h4>
+        <p>Chicago Army Veteran Johnnie Mims, 60, has a steel–trap mind capable of rattling off to the day—and maybe the hour—the length of time since he left the military.</p>
+      </div>
+
+      <div class="usa-width-one-third">
+        <img src="/img/homepage/home-2.jpg"/>
+        <h4><a href=#>VA Prescription Refill Now Available in VA.gov Account</a></h4>
+        <p>Veterans receiving health care from VA, we heard you.</p>
+      </div>
+
+      <div class="usa-width-one-third">
+        <img src="/img/homepage/home-3.jpg"/>
+        <h4><a href=#>Improving the Veteran Experience Through VBA Process Improvements and Modernization</a></h4>
+        <p>VBA strives to deliver Veterans compensation benefit decisions and services within a timely manner.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="homepage-hero">
+    <div class="usa-grid">
+      <img src="/img/homepage/veterans-single.png"/>
+    </div>
+  </section>
+
 </main>
 {% include "content/includes/footer.html" %}

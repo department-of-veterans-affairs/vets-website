@@ -1,27 +1,29 @@
 export const INIT_DISMISSED_ANNOUNCEMENTS = 'INIT_DISMISSED_ANNOUNCEMENTS';
 export const DISMISS_ANNOUNCEMENT = 'DISMISS_ANNOUNCEMENT';
 
-export const ANNOUNCEMENTS_LOCAL_STORAGE = 'DISMISSED_ANNOUNCEMENTS';
+const localAnnouncements = (() => {
+  const DISMISSED_ANNOUNCEMENTS = 'DISMISSED_ANNOUNCEMENTS';
 
-function localAnnouncements(dismissedAnnouncementName) {
-  const fromLocalStorage = window.localStorage[ANNOUNCEMENTS_LOCAL_STORAGE];
-  let parsed = [];
+  return (appTitle) => {
+    const fromLocalStorage = window.localStorage[DISMISSED_ANNOUNCEMENTS];
+    let parsed = [];
 
-  if (fromLocalStorage) {
-    try {
-      parsed = JSON.parse(fromLocalStorage);
-    } catch (err) {
-      // Value will default to an empty array
+    if (fromLocalStorage) {
+      try {
+        parsed = JSON.parse(fromLocalStorage);
+      } catch (err) {
+        // Value will default to an empty array
+      }
     }
-  }
 
-  if (dismissedAnnouncementName) {
-    parsed.push(dismissedAnnouncementName);
-    window.localStorage[ANNOUNCEMENTS_LOCAL_STORAGE] = JSON.stringify(parsed);
-  }
+    if (appTitle) {
+      parsed.push(appTitle);
+      window.localStorage[DISMISSED_ANNOUNCEMENTS] = JSON.stringify(parsed);
+    }
 
-  return parsed;
-}
+    return parsed;
+  };
+})();
 
 export function initDismissedAnnouncements() {
   return {

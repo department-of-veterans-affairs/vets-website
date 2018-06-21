@@ -1,0 +1,63 @@
+{% comment %}
+=====================
+Crosslinks
+=====================
+
+Used for:
+- lists of links to content within a particular channel or section.
+- lists of Related Links when the `isRelated` property is set in the
+include tag, e.g.:
+{% include "content/components/navigation-links-list.html" with isRelated = true %}
+
+NOTE: Can also pass majorlinks or relatedlinks in as a variable on the include
+tag, e.g.:
+
+  {% include "content/components/navigation-links-list.html" with majorlinks = anothergroupofmajorlinks %}
+
+In this example, `anothergroupofmajorlinks` is a group of links that uses the
+same YAML structure as `majorlinks`, but with a different group name. Pass the
+different group name as the value for the `majorlinks` variable of the include.
+
+See https://help.shopify.com/themes/liquid/tags/theme-tags#include
+{% endcomment %}
+
+<div class='merger-r-rail'>
+
+  {% for group in crosslinks %}
+
+    {% comment %}
+      Only add <section> if there are heading titles.
+    {% endcomment %}
+
+    {% if group.heading != empty %}
+      <section>
+        <p class="heading va-nav-linkslist-heading">{{ group.heading }}</p>
+    {% endif %}
+
+    {% if group.links.length > 0 %}
+      <ul class="va-nav-linkslist-list">
+      {% for link in group.links %}
+        {% if link.url != empty %}
+          <li>
+            <a href="{{link.url}}">
+            {% if link.title != empty %}
+              <p>{{ link.title }}</p>
+            {% endif %}
+
+            {% if link.description != empty %}
+              <p class="va-nav-linkslist-description">{{ link.description }}</p>
+            {% endif %}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    {% endif %}
+
+  {% endfor %}
+
+  {% if link.heading != empty %}
+    </section>
+  {% endif %}
+
+</div>
