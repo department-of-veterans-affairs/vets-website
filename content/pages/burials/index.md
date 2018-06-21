@@ -16,21 +16,21 @@ promo:
 crosslinks:
   - heading: Related VA Benefits and Services
     links:
-  - url: https://vets.gov/pension/survivors-pension/
-    title: Survivor's Pension
-    description:
-  - url: https://benefits.va.gov/insurance/bfcs.asp
-    title: Beneficiary Financial Counseling
-    description:
-  - url: https://benefits.va.gov/fiduciary/
-    title: Fudiciary Services
-    description:
-  - url: https://vets.gov/social-work
-    title: Social Work Services
-    description:
-  - url: https://www.archives.gov/veterans
-    title: National Archives
-    description:
+    - url: "https://vets.gov/pension/survivors-pension/"
+      title: Survivor's Pension
+      description:
+    - url: "https://benefits.va.gov/insurance/bfcs.asp"
+      title: Beneficiary Financial Counseling
+      description:
+    - url: "https://benefits.va.gov/fiduciary/"
+      title: Fudiciary Services
+      description:
+    - url: "https://vets.gov/social-work"
+      title: Social Work Services
+      description:
+    - url: "https://www.archives.gov/veterans"
+      title: National Archives
+      description:
 contact:
   - heading: Need Help? Call Us
     links:
