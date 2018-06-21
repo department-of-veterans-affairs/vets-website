@@ -31,7 +31,7 @@ const SubMenu = ({ data, show }) => {
 
           {
             !mainColumn && <div className="panel-bottom-link">
-              <a href="#">View All in Health Care</a>
+              <a href="/health-care/">View All in Health Care</a>
             </div>
           }
         </ul>

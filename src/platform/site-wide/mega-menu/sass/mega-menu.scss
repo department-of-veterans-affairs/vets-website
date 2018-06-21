@@ -102,7 +102,11 @@
     z-index: 3;
 
     a {
+      background: transparent url(/img/arrow-right-blue.svg) right 1rem center no-repeat;
+      background-size: 13px;
+      font-weight: bold;
       padding: 20px 0px;
+      width: 183px;
     }
   }
 }
