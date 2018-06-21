@@ -14,34 +14,22 @@ promo:
     url: "#"
     description: If you are already enrolled in VA health care, the Veterans Choice Program allows you to receive health care within your community.
 crosslinks:
-  - heading: Related Resources
+  - heading: Related VA Benefits and Services
     links:
-    - url: ""
+    - url: https://vets.gov/pension/survivors-pension/
+      title: Survivor's Pension
+      description:
+    - url: https://benefits.va.gov/insurance/bfcs.asp
+      title: Beneficiary Financial Counseling
+      description:
+    - url: https://benefits.va.gov/fiduciary/
+      title: Fudiciary Services
+      description:
+    - url: https://vets.gov/social-work
       title: Social Work Services
       description:
-    - url: ""
-      title: Disability Benefits
-      description:
-    - url: ""
-      title: Life Insurance Benefits
-      description:
-    - url: ""
-      title: Aid and Attendance or Household Allowance
-      description:
-    - url: ""
-      title: National Center for PTSD
-      description:
-    - url: ""
-      title: Adaptive Sports Program
-      description:
-    - url: ""
-      title: Center for Women Veterans (CWV)
-      description:
-    - url: ""
-      title: Center for Minority Veterans (CMV)
-      description:
-    - url: ""
-      title: Veterans Health Administration
+    - url: https://www.archives.gov/veterans
+      title: National Archives
       description:
 contact:
   - heading: Need Help? Call Us
@@ -104,9 +92,9 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Health Care Benefits](#get)<br>
-[Manage Your Health Benefits](#manage)<br>
-[More Health Care Information and Resources](#more)<br>
+[Get Burials and Memorial Benefits](#get)<br>
+[Plan a Burial](#manage)<br>
+[More Burials and Memorial Information and Resources](#more)<br>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
@@ -139,108 +127,108 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Health Care Benefits</h2>
+  <h2 class="highlight">Get Burial and Memorial Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Health Care Coverage</b></a>
-    <p>Learn more about your VA health care benefits, your health care team, and where you’ll go.</p>
+    <a href="https://vets.gov/burials-and-memorials/eligibility/"><b>Eligibility</b></a>
+    <p>Find out if you can get VA burial and memorial benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>Eligibility</b></a>
-    <p>Find out if you can get VA health care benefits.
+    <a href="https://vets.gov/burials-and-memorials/pre-need/"><b>Pre-Need Burial Eligibility Determination</b></a>
+    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Application Process</b></a>
-    <p>Once you’ve figured out if you qualify, applying for VA  health care benefits is easy. Find out how to apply.</p>
+    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"><b>Burial Allowances</b></a>
+    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>After You Apply</b></a>
-    <p>After you’ve applied for VA health care, find out when to expect your letter—and what to do next.</p>
+    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Survivor and Dependent Compensation (DIC)</b></a>
+    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Family and Caregiver Health Benefits</b></a>
-    <p>If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.</p>
+    <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Headstones, Markers and Medallions</b></a>
+    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Apply for Health Care</b></a>
-    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+    <a href="https://www.vets.gov/burials-and-memorials/honor/flags-and-memorial-certificates/"><b>Burial Flags</b></a>
+    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.vets.gov/burials-and-memorials/honor/flags-and-memorial-certificates/"><b>Presidential Memorial Certificates</b></a>
+    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://vets.gov/burials-and-memorials/bereavement-counseling/"><b>Headstones, Markers and Medallions</b></a>
+    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
   </div>
 
 </section>
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Health Benefits</h2>
+  <h2 class='highlight'>Plan a Burial</h2>
 
   <div class="link">
-    <a href="#"><b>Refill or Track Your Prescriptions</b></a>
-    <p>Refill prescriptions online, and track the status of your refills.</p>
+    <a href="https://vets.gov/burials-and-memorials/burial-planning/"><b>Plan a Burial for a Family Member</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
     </div>
 
   <div class="link">
-    <a href="#"><b>Message Your Health Care Team</b></a>
-    <p>Send a secure note to your primary care provider or other members of your VA health care team.</p>
+    <a href="https://www.cem.va.gov/cem/burial_benefits/need.asp"><b>Schedule a Burial in a VA National Cemetery</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Schedule or Manage a VA Appointment</b></a>
-    <p>Find out how to make a doctor's appointment with a member of your VA health care team online or by phone.</p>
+    <a href="https://www.cem.va.gov/recmed_records.asp"><b>Replace Medals and Awards</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your Lab and Test Results</b></a>
-    <p>A few days after your appointment, sign in to your account to see results of your medical tests.</p>
+    <a href="#"><b>Find Historical Military Records</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Order Hearing Aid Batteries</b></a>
-    <p>Order new btteries online and get them mailed directly to you.</p>
+    <a href="https://vets.gov/facilities"><b>Find a Cemetery</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Get Your VA Health Records (Blue Button)</b></a>
-    <p>View, download, and print your VA health records.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Update Your Health Benefits</b></a>
-    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+    <a href="https://m.va.gov/gravelocator/index.cfm"><b>Find a Gravesite</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
   </div>
 
 </section>
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Health Care Information and Resources</h2>
+  <h2 class='highlight'>More Burials and Memorials Information and Resources</h2>
 
   <div class="link">
-    <a href="#"><b>Determine Costs of Care</b></a>
-    <p>Figure out how much your monthly health care costs will add up to.</p>
+    <a href="https://cem.va.gov/cem/dailyburialschedule/"><b>Daily Burial Schedule</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Health Needs and Conditions</b></a>
-    <p>Find out how to access VA services for mental health, women’s health, and other specific needs.</p>
+    <a href="https://www.cem.va.gov/cem/faq.asp"><b>Frequently Asked Questions</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Conditions Related to When and Where You Served</b></a>
-    <p>Find out which service-connected health concerns you should be aware of, based on when and where you served.</p>
+    <a href="https://vets.gov/burials-and-memorials/what-to-expect-at-a-funeral/"><b>What to Expect at a Funeral</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Wellness Programs</b></a>
-    <p>Learn about special programs that focus on increasing your wellness.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Affordable Care Act (ACA)</b></a>
-    <p>Find out what you need to know about the ACA and your health coverage.</p>
+    <a href="https://www.cem.va.gov/cem/legacy/index.asp"><b>Veterans Legacy Program</b></a>
+    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
   </div>
 
 </section>
