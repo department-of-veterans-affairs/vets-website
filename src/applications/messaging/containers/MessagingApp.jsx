@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
@@ -10,7 +11,7 @@ import { closeAlert } from '../actions';
 import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';
 
-const SERVICE_REQUIRED = 'messaging';
+const SERVICE_REQUIRED = backendServices.MESSAGING;
 
 const AppContent = ({ children }) => (
   <div id="messaging-app" className="row">{children}</div>
