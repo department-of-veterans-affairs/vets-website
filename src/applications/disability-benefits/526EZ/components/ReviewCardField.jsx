@@ -199,7 +199,10 @@ ReviewCardField.propTypes = {
       viewComponent: PropTypes.oneOfType(
         [PropTypes.element, PropTypes.func]
       ).isRequired
-    }).isRequired
+    }).isRequired,
+    'ui:description': PropTypes.oneOfType(
+      [PropTypes.element, PropTypes.func]
+    )
   }).isRequired,
   schema: PropTypes.object.isRequired,
   errorSchema: PropTypes.object.isRequired,
