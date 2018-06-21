@@ -10,39 +10,21 @@ administration:
   - heading: Administration
     description: What goes here?
 promo:
-  - image: /img/megamenu/pension-illustration.png
+  - image: /img/megamenu/life-insurance-illustration.png
     heading: Learn About the Veterans Choice Program
-    url: "#"
+    url: "https://"
     description: If you are already enrolled in VA health care, the Veterans Choice Program allows you to receive health care within your community.
 crosslinks:
-  - heading: Related Resources
+  - heading: Related VA Benefits and Services
     links:
-    - url: ""
-      title: Social Work Services
+    - url: https://va.gov/pension
+      title: Pension Benefits
       description:
-    - url: ""
-      title: Disability Benefits
+    - url: https://va.gov/families-caregivers
+      title: Family and Caregiver Benefits and Services
       description:
-    - url: ""
-      title: Life Insurance Benefits
-      description:
-    - url: ""
-      title: Aid and Attendance or Household Allowance
-      description:
-    - url: ""
-      title: National Center for PTSD
-      description:
-    - url: ""
-      title: Adaptive Sports Program
-      description:
-    - url: ""
-      title: Center for Women Veterans (CWV)
-      description:
-    - url: ""
-      title: Center for Minority Veterans (CMV)
-      description:
-    - url: ""
-      title: Veterans Health Administration
+    - url: https://www.vets.gov/health-care/
+      title: Health Care
       description:
 contact:
   - heading: Need Help? Call Us
@@ -81,19 +63,19 @@ social:
 mobile:
   - heading: Mobile Apps
     links:
-    - url: "#"
+    - url: "https://"
       label: What
       icon:
-    - url: "#"
+    - url: "https://"
       label: Should
       icon:
-    - url: "#"
+    - url: "https://"
       label: This
       icon:
-    - url: "#"
+    - url: "https://"
       label: Look
       icon:
-    - url: "#"
+    - url: "https://"
       label: Like
       icon:
 
@@ -104,9 +86,9 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Health Care Benefits](#get)<br>
-[Manage Your Health Benefits](#manage)<br>
-[More Health Care Information and Resources](#more)<br>
+[Get Life Insurance](#get)<br>
+[Manage Your Life Insurance](#manage)<br>
+[More Life Insurance Information and Resources](#more)<br>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
@@ -139,108 +121,63 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Health Care Benefits</h2>
+  <h2 class="highlight">Get Life Insurance</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Health Care Coverage</b></a>
+    <a href="https://vets.gov/life-insurance/options-and-eligibility/"><b>Life Insurance Options and Eligibility</b></a>
     <p>Learn more about your VA health care benefits, your health care team, and where you’ll go.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Eligibility</b></a>
+    <a href="https://vets.gov/life-insurance/disabled-and-terminally-ill/"><b>Benefits for Totally Disabled or Terminally Ill Policyholders</b></a>
     <p>Find out if you can get VA health care benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>Application Process</b></a>
+    <a href="https://benefits.va.gov/insurance/bfcs.asp"><b>Beneficiary Financial Counseling and Online Will Preparation</b></a>
     <p>Once you’ve figured out if you qualify, applying for VA  health care benefits is easy. Find out how to apply.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>After You Apply</b></a>
-    <p>After you’ve applied for VA health care, find out when to expect your letter—and what to do next.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Family and Caregiver Health Benefits</b></a>
-    <p>If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Apply for Health Care</b></a>
-    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
   </div>
 
 </section>
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Health Benefits</h2>
+  <h2 class='highlight'>Manage Your Life Insurance</h2>
 
   <div class="link">
-    <a href="#"><b>Refill or Track Your Prescriptions</b></a>
+    <a href="https://www.vets.gov/life-insurance/manage-your-policy/"><b>Mange Your Policy</b></a>
     <p>Refill prescriptions online, and track the status of your refills.</p>
     </div>
 
   <div class="link">
-    <a href="#"><b>Message Your Health Care Team</b></a>
+    <a href="https://benefits.va.gov/INSURANCE/updatebene.asp"><b>Update Your Beneficiaries</b></a>
     <p>Send a secure note to your primary care provider or other members of your VA health care team.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Schedule or Manage a VA Appointment</b></a>
+    <a href="https://benefits.va.gov/INSURANCE/sglivgli.asp"><b>File a Claim</b></a>
     <p>Find out how to make a doctor's appointment with a member of your VA health care team online or by phone.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your Lab and Test Results</b></a>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Track Your Life Insurance Eligibility Appeal Status</b></a>
     <p>A few days after your appointment, sign in to your account to see results of your medical tests.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Order Hearing Aid Batteries</b></a>
-    <p>Order new btteries online and get them mailed directly to you.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Get Your VA Health Records (Blue Button)</b></a>
-    <p>View, download, and print your VA health records.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Update Your Health Benefits</b></a>
-    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
   </div>
 
 </section>
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Health Care Information and Resources</h2>
+  <h2 class='highlight'>More Life Insurance Information and Resources</h2>
 
   <div class="link">
-    <a href="#"><b>Determine Costs of Care</b></a>
+    <a href="https://benefits.va.gov/insurance/lifeins101.asp"><b>Assessing Your Life Insurance Needs</b></a>
     <p>Figure out how much your monthly health care costs will add up to.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Health Needs and Conditions</b></a>
+    <a href="https://"><b>Closed and Reopened Life Insurance Information</b></a>
     <p>Find out how to access VA services for mental health, women’s health, and other specific needs.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Conditions Related to When and Where You Served</b></a>
-    <p>Find out which service-connected health concerns you should be aware of, based on when and where you served.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Wellness Programs</b></a>
-    <p>Learn about special programs that focus on increasing your wellness.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Affordable Care Act (ACA)</b></a>
-    <p>Find out what you need to know about the ACA and your health coverage.</p>
   </div>
 
 </section>
