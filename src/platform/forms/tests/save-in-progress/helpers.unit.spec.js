@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { createRoutesWithSaveInProgress } from '../../../../src/applications/common/schemaform/save-in-progress/helpers';
+import { createRoutesWithSaveInProgress } from '../../save-in-progress/helpers';
 
 describe('createRoutes', () => {
   it('should create routes with save enabled', () => {

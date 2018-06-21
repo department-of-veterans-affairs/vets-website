@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { SaveInProgressIntro } from '../../../../src/applications/common/schemaform/save-in-progress/SaveInProgressIntro';
+import { SaveInProgressIntro } from '../../save-in-progress/SaveInProgressIntro';
 
 describe('Schemaform <SaveInProgressIntro>', () => {
   const pageList = [{

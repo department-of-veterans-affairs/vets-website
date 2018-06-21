@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import DowntimeMessage from '../../../../src/applications/common/schemaform/save-in-progress/DowntimeMessage';
+import DowntimeMessage from '../../save-in-progress/DowntimeMessage';
 
 describe('<DowntimeMessage>', () => {
   it('should render with generic message', () => {

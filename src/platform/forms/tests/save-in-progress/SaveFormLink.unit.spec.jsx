@@ -6,8 +6,8 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import SaveFormLink from '../../../../src/applications/common/schemaform/save-in-progress/SaveFormLink';
-import { SAVE_STATUSES } from '../../../../src/applications/common/schemaform/save-in-progress/actions';
+import SaveFormLink from '../../save-in-progress/SaveFormLink';
+import { SAVE_STATUSES } from '../../save-in-progress/actions';
 
 describe('Schemaform <SaveFormLink>', () => {
   const user = {
