@@ -12,12 +12,11 @@ export default function FormStartControls(props) {
   const somethingWentWrong = props.ITFStatus && props.ITFStatus === 'expired' || // This may not be possible
                              props.errors && props.errors.length;
   const hasEVSSClaimsService = !!(services.find((service) => service === 'evss-claims'));
-  const gateUnauthenticatedUser = !currentlyLoggedIn;
   const gateAuthenticatedUser = (!verified ||  !hasEVSSClaimsService) && currentlyLoggedIn;
   const permitAuthenticatedUser = verified && hasEVSSClaimsService && currentlyLoggedIn;
   return (
     <div>
-      {gateUnauthenticatedUser && <div>
+      {!currentlyLoggedIn && <div>
         {UnauthenticatedAlert}
         <button className="usa-button-primary" onClick={props.authenticate}>Sign In and Verify Your Identity</button>
       </div>}
