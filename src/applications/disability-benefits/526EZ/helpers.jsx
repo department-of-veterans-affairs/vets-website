@@ -13,7 +13,7 @@ import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
 
-import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
+import { PREFILL_STATUSES } from '../../../platform/forms/save-in-progress/actions';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
