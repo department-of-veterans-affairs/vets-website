@@ -1,60 +1,20 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import { shallow } from 'enzyme';
 
-import Main from '../../containers/Main';
-import createCommonStore from '../../../../startup/store';
+import { Main } from '../../containers/Main';
 
-const store = createCommonStore();
-
-let fetchMock;
-let windowOpen;
-let windowOnload;
-let oldFetch;
-let oldWindow;
-
-const setup = () => {
-  global.sessionStorage = { userToken: '1234' };
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-
-  oldWindow = global.window;
-  windowOpen = sinon.stub();
-  global.window = {
-    open: windowOpen,
-    onload: windowOnload,
-    dataLayer: []
-  };
-};
-
-const teardown = () => {
-  global.fetch = oldFetch;
-  global.window = oldWindow;
-};
 
 describe('<Main>', () => {
-  beforeEach(setup);
-  const tree = SkinDeep.shallowRender(<Main store={store} location={{ pathname: '/blah' }}/>);
-
   it('should render', () => {
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
-  });
+    const sectionTitles = ['Health and Benefits', 'About VA', 'Find a VA Location'];
+    const wrapper = shallow(<Main/>);
 
-  it('should fetch urls', () => {
-    // TODO: make this return something so that the loginUrl fields are assigned
-    fetchMock.returns({
-      then: (fn) => fn({ json: () => Promise.resolve() })
+    expect(wrapper.find('Connect(Component)').length).to.equal(3);
+    expect(wrapper.find('.login-container').exists()).to.be.true;
+
+    wrapper.find('Connect(Component)').forEach((component, i) => {
+      expect(component.props().title).to.equal(sectionTitles[i]);
     });
-    // TODO: check that it's called twice and that props are updated
-    /*
-    expect(fetchMock.called).to.be.true;
-    expect(tree.props.loginUrl).to.be.defined; // put in the value here
-    expect(tree.props.verifyUrl).to.be.defined; // put in the value hereb
-     */
   });
-
-  afterEach(teardown);
 });

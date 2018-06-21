@@ -9,7 +9,7 @@ const defaultSection = (sections) => {
   return sections[0].title;
 };
 
-const MainDropDown = ({
+export const MainDropDown = ({
   handleOnClick,
   title,
   currentDropdown,
