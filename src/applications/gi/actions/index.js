@@ -207,6 +207,7 @@ export function toggleFilter() {
 const beneficiaryZipRegExTester = /\b\d{5}\b/;
 
 export function beneficiaryZipCodeChanged(beneficiaryZip) {
+  // pass input through to reducers if not five digits
   if (!beneficiaryZipRegExTester.exec(beneficiaryZip)) {
     return {
       type: BENEFICIARY_ZIP_CODE_CHANGED,
