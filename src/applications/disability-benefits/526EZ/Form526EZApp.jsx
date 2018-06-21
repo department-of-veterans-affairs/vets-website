@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RoutedSavableApp from '../../common/schemaform/save-in-progress/RoutedSavableApp';
+import RoutedSavableApp from '../../../platform/forms/save-in-progress/RoutedSavableApp';
 
 import PrestartWrapper from './components/PrestartWrapper';
 import formConfig from './config/form';

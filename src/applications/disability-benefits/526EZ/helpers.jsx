@@ -7,8 +7,8 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
-import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
-import { transformForSubmit } from '../../common/schemaform/helpers';
+import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
@@ -16,14 +16,9 @@ import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
 
-const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
-
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
-import { DateWidget } from '../../common/schemaform/review/widgets';
+import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
-export const USA = 'USA';
-export const MILITARY_STATES = ['AA', 'AE', 'AP'];
-export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 // import { PRESTART_STATUSES, prestartFailureStatuses, prestartSuccessStatuses } from './actions'; TODO: fix import bug
 
 const PRESTART_STATUSES = {
@@ -88,8 +83,12 @@ export const getPrestartMessage = (status, data) => {
   return getErrorMessage(data);
 };
 
-const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+import {
+  USA,
+  VA_FORM4142_URL
+} from './constants';
 
+const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 /*
  * Flatten nested array form data into sibling properties
  *
@@ -266,7 +265,7 @@ export const privateRecordsChoiceHelp = () => {
       Information to the VA (VA Form 21-4142) so we can request your records.
       </p>
       <p>
-        <a href={vaForm4142URL} target="_blank">
+        <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
         </a>.
       </p>
@@ -338,7 +337,7 @@ export const download4142Notice = (
       we can request your records. You’ll need to fill out a form for each doctor.
     </p>
     <p>
-      <a href={vaForm4142URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
       </a>.
       <p>
@@ -357,7 +356,7 @@ export const authorizationToDisclose = () => {
     Information to the VA (VA Form 21-4142) so we can request your records. You’ll need to fill out a form for
     each doctor.</p>
       <p>
-        <a href={vaForm4142URL} target="_blank">
+        <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
         </a>.
       </p>
@@ -561,15 +560,11 @@ export function PrestartAlert({ status, data }) {
   let alertType;
   const alertHeading = prestartAlertHeadings[status];
   let alertMessage;
-  // const messageType = getPrestartMessage(status, data);
-  const messageType = 'not-retrieved-returning-user';
-  // if (status === PRESTART_STATUSES.succeeded) {
-    if (false) {
+  const messageType = getPrestartMessage(status, data);
+  if (status === PRESTART_STATUSES.succeeded) {
     alertType = 'success';
-    // alertMessage = getPrestartSuccessMessage(messageType, currentExpirationDate, previousExpirationDate);
-    alertMessage = getPrestartSuccessMessage(messageType, currentExpirationDate, currentExpirationDate);
-  // } else if (status === PRESTART_STATUSES.failed) {
-    } else if (true) {
+    alertMessage = getPrestartSuccessMessage(messageType, currentExpirationDate, previousExpirationDate);
+  } else if (status === PRESTART_STATUSES.failed) {
     alertType = 'error';
     alertMessage = prestartErrorMessages[messageType];
   }

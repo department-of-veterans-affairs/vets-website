@@ -74,10 +74,10 @@ function createPhoneObject(phoneFormData, fieldName) {
   return pickBy({
     id: phoneFormData.id,
     areaCode: phoneFormData.areaCode,
-    countryCode: phoneFormData.countryCode,
+    countryCode: '1', // currently no international phone number support
     extension: phoneFormData.extension,
     phoneNumber: phoneFormData.phoneNumber,
-    isInternational: phoneFormData.isInternational,
+    isInternational: false, // currently no international phone number support
     phoneType: VET360_CONSTANTS.PHONE_TYPE[fieldName],
   }, e => !!e);
 }

@@ -45,9 +45,10 @@ describe('prestart', () => {
         }
       });
 
+      expect(state.data.verificationType).to.equal(PRESTART_VERIFICATION_TYPES.retrieve);
       expect(state.data.currentExpirationDate).to.equal('2019-04-10T15:12:34.000+00:00');
     });
-    it('reinitialize state', () => {
+    it('should reinitialize state', () => {
       const state = reducer({
         display: true,
         status: PRESTART_STATUSES.succeeded,
@@ -68,7 +69,7 @@ describe('prestart', () => {
       });
       expect(state.display).to.be.false;
     });
-    it('reset prestart display', () => {
+    it('should reset prestart display', () => {
       const state = reducer({
         display: true,
         status: PRESTART_STATUSES.succeeded,

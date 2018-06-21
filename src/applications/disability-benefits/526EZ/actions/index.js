@@ -55,7 +55,6 @@ export const getLatestTimestamp = (timestamps) => timestamps.sort((a, b) => new 
 export const getITFsByStatus = (itfs, status) => itfs.filter(itf => itf.status === status);
 
 export const handleCheckSuccess = (data, dispatch) => {
-  // If no existing ITF(s) are found, we will receive an empty {} response
   const itfList = get('attributes.intentToFile', data);
 
   // If the user does not have any existing ITFs, create one
@@ -148,10 +147,16 @@ export function verifyIntentToFile() {
 
     dispatch(setPrestartStatus(PRESTART_STATUSES.pending));
 
-    const activeITFNotFound = await mockCheckITFRequest(dispatch);
+    const existingITFNotFound = await mockCheckITFRequest(dispatch);
 
-    if (activeITFNotFound) {
+    if (existingITFNotFound) {
       submitITFRequest(dispatch);
     }
+  };
+}
+
+export function submitIntentToFile(formConfig, onChange) { // TODO: replace with ITF react work
+  return () => {
+    onChange('active');
   };
 }

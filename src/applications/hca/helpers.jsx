@@ -39,7 +39,7 @@ export function transform(formConfig, form) {
 
   return JSON.stringify({
     gaClientId,
-    asyncCompatible: __BUILDTYPE__ !== 'production',
+    asyncCompatible: true,
     form: formData
   });
 }
