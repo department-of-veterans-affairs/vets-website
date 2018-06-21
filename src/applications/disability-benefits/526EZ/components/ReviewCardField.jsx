@@ -84,7 +84,7 @@ export default class ReviewCardField extends React.Component {
    *
    * Renders a SchemaField for each property it wraps.
    */
-  getEditView = () => {
+  getEditView = (title) => {
     const {
       disabled,
       errorSchema,
@@ -101,44 +101,35 @@ export default class ReviewCardField extends React.Component {
     // We've already used the ui:field and ui:title
     const uiSchema = omit(['ui:field', 'ui:title', 'ui:description'], this.props.uiSchema);
 
-    const title = this.getTitle();
-    const description = this.getDescription();
-
     return (
-      <div>
-        {description}
-        <div className="review-card">
-          <div className="review-card--body input-section va-growable-background">
-            <h4 className="review-card--title">{title}</h4>
-            <SchemaField
-              name={idSchema.$id}
-              required={required}
-              schema={schema}
-              uiSchema={uiSchema}
-              errorSchema={errorSchema}
-              idSchema={idSchema}
-              formData={formData}
-              onChange={onChange}
-              onBlur={onBlur}
-              registry={registry}
-              disabled={disabled}
-              readonly={readonly}/>
-            <button className="usa-button-primary update-button" onClick={this.update}>Done</button>
-          </div>
+      <div className="review-card">
+        <div className="review-card--body input-section va-growable-background">
+          <h4 className="review-card--title">{title}</h4>
+          <SchemaField
+            name={idSchema.$id}
+            required={required}
+            schema={schema}
+            uiSchema={uiSchema}
+            errorSchema={errorSchema}
+            idSchema={idSchema}
+            formData={formData}
+            onChange={onChange}
+            onBlur={onBlur}
+            registry={registry}
+            disabled={disabled}
+            readonly={readonly}/>
+          <button className="usa-button-primary update-button" onClick={this.update}>Done</button>
         </div>
       </div>
     );
   }
 
 
-  getReviewView = () => {
+  getReviewView = (title) => {
     const ViewComponent = this.props.uiSchema['ui:options'].viewComponent;
-    const title = this.getTitle();
-    const description = this.getDescription();
 
     return (
       <div>
-        {description}
         <div className="review-card">
           <div className="review-card--header">
             <h4 className="review-card--title">{title}</h4>
@@ -188,11 +179,18 @@ export default class ReviewCardField extends React.Component {
 
 
   render() {
-    if (this.state.editing) {
-      return this.getEditView();
-    }
+    const title = this.getTitle();
+    const description = this.getDescription();
+    const viewOrEditCard = (this.state.editing)
+      ? this.getEditView(title)
+      : this.getReviewView(title);
 
-    return this.getReviewView();
+    return (
+      <div>
+        {description}
+        {viewOrEditCard}
+      </div>
+    );
   }
 }
 
@@ -220,4 +218,3 @@ ReviewCardField.propTypes = {
     onError: PropTypes.func.isRequired
   }).isRequired
 };
-
