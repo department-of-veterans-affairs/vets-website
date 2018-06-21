@@ -685,15 +685,15 @@ smith.use(redirect({
 }));
 
 /*
+Add breadcrumb script to all content pages that have a breadcrumb
+*/
+smith.use(breadcrumbTransformer);
+
+/*
 Add nonce attribute with substition string to all inline script tags
 Convert onclick event handles into nonced script tags
 */
 smith.use(nonceTransformer);
-
-/*
-Add breadcrumb script to all content pages that have a breadcrumb
-*/
-smith.use(breadcrumbTransformer);
 
 function generateStaticSettings() {
   const settings = createSettings(options);
