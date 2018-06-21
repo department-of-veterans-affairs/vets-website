@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Health Care Benefits Eligibility
 display_title: Eligibility
+description: If you served on active duty and didn’t receive a dishonorable discharge, you may qualify for VA health care benefits. Find out if you're eligible for VA health care.
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2018-01-02
 collection: healthCare
