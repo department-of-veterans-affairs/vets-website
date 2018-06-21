@@ -696,7 +696,7 @@ export const AddressDescription = () => (
       to your profile page.
     </p>
     <p>
-      <a href="/profile">Go to my profile</a>.
+      <a href="/profile">Go to my profile page</a>.
     </p>
   </div>
 );
