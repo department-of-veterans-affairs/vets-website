@@ -1,13 +1,11 @@
 import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
 import { veteranInformationViewField } from '../helpers';
-import PrestartMessage from '../components/PrestartMessage';
 
 export const uiSchema = {
   'ui:field': 'StringField',
   'ui:widget': AsyncDisplayWidget,
   'ui:title': 'Veteran information',
-  'ui:description': PrestartMessage,
   'ui:options': {
     viewComponent: veteranInformationViewField,
     errorHeadline: '',
@@ -19,7 +17,7 @@ export const uiSchema = {
           first: 'Sally',
           last: 'Alphonse'
         },
-        socialSecurityNumber: '234234234',
+        ssn: '234234234',
         vaFileNumber: '345345345',
         gender: 'F',
         dateOfBirth: '1990-04-02'

@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-<<<<<<< HEAD
-import SaveInProgressIntro from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
-=======
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
->>>>>>> 526-itf-redux
 
 import { VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert, ITFDescription } from '../helpers';
 

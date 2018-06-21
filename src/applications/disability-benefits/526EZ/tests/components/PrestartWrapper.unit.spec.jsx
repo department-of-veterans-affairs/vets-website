@@ -27,9 +27,6 @@ describe('PrestartWrapper', () => {
   const shallowWrapper = shallow(
     <PrestartWrapper {...defaultProps}/>
   );
-  const mountedWrapper = shallow(
-    <PrestartWrapper {...defaultProps}/>
-  );
 
   it('render wrapped content', () => {
     expect(() => shallowWrapper.find(WrappedContent)).to.exist;
@@ -42,28 +39,4 @@ describe('PrestartWrapper', () => {
     shallowWrapper.setProps({ prestartStatus: PRESTART_STATUSES.notRetrievedNew });
     expect(() => shallowWrapper.find('LoadingIndicator')).to.exist;
   });
-  it('set prestart status when form is entered', () => {
-    mountedWrapper.instance().componentWillReceiveProps({
-      location: { pathname: 'form-page' }
-    });
-    expect(setPrestartStatus.called).to.be.true;
-  });
-  // it('reset prestart status when form is exited', () => {
-  //   shallowWrapper.setProps({
-  //     location: { pathname: 'form-page' }
-  //   });
-  //   shallowWrapper.setProps({
-  //     location: { pathname: 'introduction' }
-  //   });
-  //   expect(resetPrestartStatus.called).to.be.true;
-  // });
-  // it('reset display when the form is navigated through', () => {
-  //   shallowWrapper.setProps({
-  //     location: { pathname: 'form-page' }
-  //   });
-  //   shallowWrapper.setProps({
-  //     location: { pathname: 'introduction' }
-  //   });
-  //   expect(resetPrestartStatus.called).to.be.true;
-  // });
 });

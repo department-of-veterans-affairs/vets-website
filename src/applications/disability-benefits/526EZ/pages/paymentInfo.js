@@ -4,7 +4,6 @@ import React from 'react';
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import ReviewCardField from '../components/ReviewCardField';
-import PrestartMessage from '../components/PrestartMessage';
 
 export const accountLabels = {
   CHECKING: 'Checking account',
@@ -62,7 +61,6 @@ const paymentInformationViewField = ({ formData }) => {
 export const uiSchema = {
   'ui:title': 'Payment information',
   'ui:field': ReviewCardField,
-  'ui:description': PrestartMessage,
   'ui:options': {
     viewComponent: paymentInformationViewField
   },

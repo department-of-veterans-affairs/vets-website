@@ -19,12 +19,7 @@ import { getDiagnosticCodeName } from './reference-helpers';
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
-// import { PRESTART_STATUSES, prestartFailureStatuses, prestartSuccessStatuses } from './actions'; TODO: fix import bug
-
-const PRESTART_STATUSES = {
-  succeeded: 'succeeded',
-  failed: 'failed'
-};
+import { PRESTART_STATUSES } from './actions';
 
 const PRESTART_VERIFICATION_TYPES = {
   create: 'create',
@@ -416,7 +411,7 @@ export const additionalDocumentDescription = () => {
 
 export const selectDisabilityDescription = () => {
   return (
-    <p>Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.</p>
+    <p>Below are your rated disabilities. Please choose the disability that you’re filing for an increase because the condition has gotten worse.</p>
   );
 };
 

@@ -79,12 +79,18 @@ const {
   // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation,
   standardClaim,
+  veteran: {
+    properties: {
+      homelessness
+    }
+  }
 } = fullSchema526EZ.properties;
 
 const {
   address,
   date,
   fullName,
+  phone,
   // files
   dateRange,
   dateRangeFromRequired,
@@ -123,8 +129,8 @@ const initialData = {
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  // submitUrl: `${environment.API_URL}/v0/21-526EZ`,
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
+  // submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
@@ -145,6 +151,7 @@ const formConfig = {
     address,
     date,
     fullName,
+    phone,
     // files
     dateRange,
     dateRangeFromRequired,
@@ -231,7 +238,6 @@ const formConfig = {
           title: 'Special Circumstances',
           path: 'special-circumstances',
           uiSchema: {
-            'ui:description': PrestartMessage,
             veteran: {
               'ui:title': 'Homelessness',
               homelessness: {
@@ -250,25 +256,28 @@ const formConfig = {
                       pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
                     },
                     'ui:required': (formData) => {
-                      const { homelessness } = formData.veteran;
-                      if (homelessness.isHomeless !== true) {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
-                      return !!homelessness.pointOfContact.primaryPhone;
+                      return !!homelessOrAtRisk.pointOfContact.primaryPhone;
                     }
                   },
                   primaryPhone: {
                     'ui:title': 'Phone number',
                     'ui:widget': PhoneNumberWidget,
+                    'ui:options': {
+                      widgetClassNames: 'va-input-medium-large'
+                    },
                     'ui:errorMessages': {
                       pattern: 'Phone numbers must be 10 digits (dashes allowed)'
                     },
                     'ui:required': (formData) => {
-                      const { homelessness } = formData.veteran;
-                      if (homelessness.isHomeless !== true) {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
-                      return !!homelessness.pointOfContact.pointOfContactName;
+                      return !!homelessOrAtRisk.pointOfContact.pointOfContactName;
                     }
                   }
                 }
@@ -281,31 +290,7 @@ const formConfig = {
               veteran: {
                 type: 'object',
                 properties: {
-                  // TODO: Update to use 526 homelessness schema once in vets-json-schema
-                  homelessness: {
-                    type: 'object',
-                    required: ['isHomeless'],
-                    properties: {
-                      isHomeless: {
-                        type: 'boolean'
-                      },
-                      pointOfContact: {
-                        type: 'object',
-                        properties: {
-                          pointOfContactName: {
-                            type: 'string',
-                            minLength: 1,
-                            maxLength: 100,
-                            pattern: '^([a-zA-Z0-9-/]+( ?))*$'
-                          },
-                          primaryPhone: { // common: definitions.usaPhone
-                            type: 'string',
-                            pattern: '^\\d{10}$'
-                          }
-                        }
-                      }
-                    }
-                  }
+                  homelessness
                 }
               }
             }
@@ -325,9 +310,7 @@ const formConfig = {
           title: 'Your Rated Disabilities',
           path: 'select-disabilities',
           uiSchema: {
-            'ui:description': ({ formData, formContext }) => {
-              return descriptionWrapper(formData, formContext, PrestartMessage, selectDisabilityDescription);
-            },
+            'ui:description': selectDisabilityDescription,
             disabilities: {
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
@@ -381,7 +364,6 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': PrestartMessage,
                 'view:selectableEvidenceTypes': {
                   'ui:options': {
                     // Only way to get access to the disability info like 'name' within this nested schema
@@ -481,9 +463,7 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': ({ formData, formContext }) => {
-                  return descriptionWrapper(formData, formContext, PrestartMessage, facilityDescription);
-                },
+                'ui:description': facilityDescription,
                 treatments: {
                   'ui:options': {
                     itemName: 'Facility',
@@ -506,8 +486,8 @@ const formConfig = {
                       }
                     ),
                     treatmentDateRange: dateRangeUI(
-                      'Approximate date of first treatment',
-                      'Approximate date of last treatment',
+                      'Date of first treatment (This date doesn’t have to be exact.)',
+                      'Date of last treatment (This date doesn’t have to be exact.)',
                       'Date of last treatment must be after date of first treatment'
                     ),
                     // TODO: Put these back as hidden in the UI once typeahead fills this out
@@ -574,16 +554,14 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': ({ formData, formContext }) => {
-                  return descriptionWrapper(formData, formContext, PrestartMessage, privateRecordsChoice);
-                },
+                'ui:description': privateRecordsChoice,
                 'view:uploadPrivateRecords': {
                   'ui:title': 'Do you want to upload your private medical records?',
                   'ui:widget': 'radio',
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, my doctor has my medical records.'
+                      no: 'No, my doctor has my medical records'
                     }
                   }
                 },
@@ -807,9 +785,7 @@ const formConfig = {
                       'ui:title': 'Document name'
                     }
                   }),
-                  { 'ui:description': ({ formData, formContext }) => {
-                    return descriptionWrapper(formData, formContext, PrestartMessage, documentDescription);
-                  } }
+                  { 'ui:description': documentDescription }
                 )
               }
             }
@@ -880,9 +856,7 @@ const formConfig = {
                       'ui:title': 'Document name'
                     }
                   }),
-                  { 'ui:description': ({ formData, formContext }) => {
-                    return descriptionWrapper(formData, formContext, PrestartMessage, additionalDocumentDescription);
-                  } }
+                  { 'ui:description': additionalDocumentDescription }
                 )
               }
             }

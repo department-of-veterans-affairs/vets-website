@@ -23,7 +23,7 @@ import {
   handleSubmitFailure,
   checkITFRequest,
   submitITFRequest,
-  verifyIntentToFile,
+  verifyIntentToFile
 } from '../../actions';
 
 import existingData from '../itfData';
@@ -35,10 +35,7 @@ const noData = {
     intentToFile: []
   }
 };
-<<<<<<< HEAD
-=======
 
->>>>>>> 526-itf-redux
 const incompleteData = {
   id: '',
   type: 'evss_intent_to_file_intent_to_files_responses',
@@ -156,21 +153,13 @@ describe('ITF retrieve / submit actions:', () => {
 
       expect(handleCheckSuccess(incompleteData, dispatch)).to.be.true;
     });
-<<<<<<< HEAD
-    it('should return true if retrieved ITFs include expired but not active ITFs', () => {
-=======
     it('should set previousExpirationDate and return true if retrieved ITFs include expired but not active ITFs', () => {
->>>>>>> 526-itf-redux
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(expiredData, dispatch)).to.be.true;
       expect(dispatch.calledWith(setPrestartData({ previousExpirationDate: '2016-03-30T16:19:09.000+00:00' }))).to.be.true;
     });
-<<<<<<< HEAD
-    it('should return false if active ITFs are retrieved', () => {
-=======
     it('should set succeeded status and return false if active ITFs are retrieved', () => {
->>>>>>> 526-itf-redux
       const dispatch = sinon.spy();
 
       expect(handleCheckSuccess(existingData, dispatch)).to.be.false;
@@ -274,13 +263,8 @@ describe('ITF retrieve / submit actions:', () => {
       });
     });
   });
-<<<<<<< HEAD
-  xdescribe('verifyIntentToFile', () => { // TODO: enable once mocks removed after user testing
-    afterEach(() => resetFetch());
-=======
   xdescribe('verifyIntentToFile', () => { // TODO: enable once user testing mocks are removed
     afterEach(() => { global.fetch = originalFetch; });
->>>>>>> 526-itf-redux
 
     it('dispatches a pending status', (done) => {
       mockFetch();

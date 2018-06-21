@@ -17,8 +17,7 @@ const initialState = {
   data: {
     verificationType: null,
     currentExpirationDate: null,
-    previousExpirationDate: null,
-    type: null
+    previousExpirationDate: null
   },
   display: false
 };

@@ -41,8 +41,7 @@ class PrestartWrapper extends React.Component {
       </div>
     );
 
-    // if (prestartStatus === PRESTART_STATUSES.pending) {
-    if (true) {
+    if (prestartStatus === PRESTART_STATUSES.pending) {
       content = (<LoadingIndicator message="Please wait while we verify your Intent to File request."/>);
     }
     if (prestartStatus === PRESTART_STATUSES.failure) {
