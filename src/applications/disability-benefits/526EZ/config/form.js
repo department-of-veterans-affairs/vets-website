@@ -181,8 +181,7 @@ const formConfig = {
           uiSchema: {
             servicePeriods: {
               'ui:title': 'Military service history',
-              'ui:description':
-                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:description': 'This is the military service history we have on file for you.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
