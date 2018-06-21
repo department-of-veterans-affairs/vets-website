@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
+import { EVSS_CLAIMS } from '../../../../../platform/user/profile/constants/backendServices';
+
 import FormStartControls from '../../components/FormStartControls';
 
 describe('526 <FormStartControls>', () => {
@@ -86,7 +88,7 @@ describe('526 <FormStartControls>', () => {
           profile: {
             verified: true,
             savedForms: [],
-            services: ['evss-claims']
+            services: [EVSS_CLAIMS]
           }
         }}/>
     );
@@ -122,7 +124,7 @@ describe('526 <FormStartControls>', () => {
           profile: {
             verified: true,
             savedForms: [],
-            services: ['evss-claims']
+            services: [EVSS_CLAIMS]
           }
         }}/>
     );

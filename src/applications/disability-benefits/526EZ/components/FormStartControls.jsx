@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import { EVSS_CLAIMS } from '../../../../platform/user/profile/constants/backendServices';
 
 import { ITFErrorAlert, VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert, ITFDescription } from '../helpers';
 
@@ -11,7 +12,7 @@ export default function FormStartControls(props) {
 
   const somethingWentWrong = props.ITFStatus && props.ITFStatus === 'expired' || // This may not be possible
                              props.errors && props.errors.length;
-  const hasEVSSClaimsService = !!(services.find((service) => service === 'evss-claims'));
+  const hasEVSSClaimsService = !!(services.find((service) => service === EVSS_CLAIMS));
   const gateAuthenticatedUser = (!verified ||  !hasEVSSClaimsService) && currentlyLoggedIn;
   const permitAuthenticatedUser = verified && hasEVSSClaimsService && currentlyLoggedIn;
   return (
