@@ -704,9 +704,9 @@ export const AddressDescription = () => (
 export const PaymentDescription = () => (
   <div>
     <p>
-    This is the bank account information we have on file for you. We’ll pay your
-    disability benefit to this account. If you need to update your bank information,
-    please go to eBenefits.
+      This is the bank account information we have on file for you. We’ll pay your
+      disability benefit to this account. If you need to update your bank information,
+      please go to eBenefits.
     </p>
     <p>
       <a target="blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
