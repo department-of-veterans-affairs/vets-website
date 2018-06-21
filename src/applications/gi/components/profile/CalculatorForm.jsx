@@ -31,8 +31,8 @@ class CalculatorForm extends React.Component {
     this.props.onInputChange({ field, value });
   }
 
-  handleCampusZipCodeChange = (event) => {
-    this.props.onCampusZipCodeChange(event.value);
+  handleBeneficiaryZipCodeChanged = (event) => {
+    this.props.onBeneficiaryZipCodeChanged(event.value);
   }
 
   resetBuyUp(event) {
@@ -349,19 +349,19 @@ class CalculatorForm extends React.Component {
     );
   }
 
-  renderCampusZip() {
-    if (!this.props.displayedInputs.campusLocationQuestion) return null;
+  renderBeneficiaryZip() {
+    if (!this.props.displayedInputs.beneficiaryLocationQuestion) return null;
 
     let amountInput;
 
-    if (this.props.inputs.campusLocationQuestion === 'no') {
+    if (this.props.inputs.beneficiaryLocationQuestion === 'no') {
       amountInput = (
         <div>
-          <ErrorableTextInput errorMessage={this.props.inputs.campusZipError}
+          <ErrorableTextInput errorMessage={this.props.inputs.beneficiaryZipError}
             label={<span>At what ZIP Code will you be taking classes?</span>}
-            name="campusZipCode"
-            field={{ value: this.props.inputs.campusZip }}
-            onValueChange={this.handleCampusZipCodeChange}/>
+            name="beneficiaryZipCode"
+            field={{ value: this.props.inputs.beneficiaryZip }}
+            onValueChange={this.handleBeneficiaryZipCodeChanged}/>
           <p><strong>{this.props.inputs.housingAllowanceCity}</strong></p>
         </div>
       );
@@ -372,14 +372,14 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Will the majority of your classes be on campus?',
-            modal: 'calcCampusLocationQuestion'
+            modal: 'calcBeneficiaryLocationQuestion'
           })}
-          name="campusLocationQuestion"
+          name="beneficiaryLocationQuestion"
           options={[
             { value: 'yes', label: 'Yes' },
             { value: 'no', label: 'No' }
           ]}
-          value={this.props.inputs.campusLocationQuestion}
+          value={this.props.inputs.beneficiaryLocationQuestion}
           onChange={this.handleInputChange}/>
         {amountInput}
       </div>
@@ -469,7 +469,7 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderKicker()}
-        {this.renderCampusZip()}
+        {this.renderBeneficiaryZip()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>

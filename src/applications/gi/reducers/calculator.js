@@ -3,13 +3,17 @@ import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import {
   CALCULATOR_INPUTS_CHANGED,
-  CAMPUS_ZIP_CODE_CHANGE,
+  BENEFICIARY_ZIP_CODE_CHANGED,
+  FETCH_BAH_FAILED,
+  FETCH_BAH_STARTED,
+  FETCH_BAH_SUCCEEDED,
   FETCH_PROFILE_SUCCEEDED
 } from '../actions';
 
-const campusZipRegExTester = /\b\d{5}\b/;
+const beneficiaryZipRegExTester = /\b\d{5}\b/;
 const INITIAL_STATE = {
-  campusZip: '0000',
+  beneficiaryLocationQuestion: 'yes',
+  beneficiaryZip: '',
   inState: 'yes',
   tuitionInState: 0,
   tuitionOutOfState: 0,
@@ -50,7 +54,7 @@ export default function (state = INITIAL_STATE, action) {
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {
-      // Strip all non-numeric characters.
+        // Strip all non-numeric characters
         convertedValue = +value.replace(/[^0-9.]+/g, '');
       }
 
@@ -72,21 +76,84 @@ export default function (state = INITIAL_STATE, action) {
         ...newState
       };
     }
-    case CAMPUS_ZIP_CODE_CHANGE: {
-      const { campusZip } = action;
+    case FETCH_BAH_FAILED: {
+      const { beneficiaryZipFetched } = action;
+      const { error } = action.payload;
 
-      let campusZipError = state.campusZipError || '';
-
-      if (campusZip.length >= 5 && !campusZipRegExTester.exec(campusZip)) {
-        campusZipError = 'Zip Code must be a five digit number';
-      } else {
-        campusZipError = '';
+      // response mismatch - do nothing
+      if (beneficiaryZipFetched !== state.beneficiaryZipFetched) {
+        return state;
       }
 
       const newState = {
-        campusZip,
-        campusZipError,
-        housingAllowanceCity: 'New York, NY'
+        beneficiaryZipError: error,
+        beneficiaryZipFetched: '',
+        beneficiaryLocationBah: null,
+        housingAllowanceCity: ''
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+
+    case FETCH_BAH_STARTED: {
+      const { beneficiaryZipFetched } = action;
+
+      const newState = {
+        beneficiaryZipError: '',
+        beneficiaryZip: beneficiaryZipFetched,
+        beneficiaryZipFetched,
+        housingAllowanceCity: 'Loading...'
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+
+    case FETCH_BAH_SUCCEEDED: {
+      const { beneficiaryZipFetched } = action;
+      const {
+        bah: beneficiaryLocationBah,
+        city: housingAllowanceCity } = action.payload;
+
+      // response mismatch - do nothing
+      if (beneficiaryZipFetched !== state.beneficiaryZipFetched) {
+        return state;
+      }
+
+      const newState = {
+        beneficiaryZipError: '',
+        beneficiaryZipFetched: '',
+        beneficiaryLocationBah,
+        housingAllowanceCity
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+    case BENEFICIARY_ZIP_CODE_CHANGED: {
+      const { beneficiaryZip } = action;
+
+      let beneficiaryZipError = state.beneficiaryZipError || '';
+
+      if (beneficiaryZip.length >= 5 && !beneficiaryZipRegExTester.exec(beneficiaryZip)) {
+        beneficiaryZipError = 'Zip Code must be a five digit number';
+      } else {
+        beneficiaryZipError = '';
+      }
+
+      const newState = {
+        beneficiaryZip,
+        beneficiaryZipError,
+        beneficiaryZipFetched: '',
+        beneficiaryLocationBah: null,
+        housingAllowanceCity: ''
       };
 
       return {
@@ -109,6 +176,7 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...INITIAL_STATE,
         type,
+        beneficiaryLocationBah: null,
         tuitionInState: tuitionInState || 0,
         tuitionOutOfState: tuitionOutOfState || 0,
         tuitionFees: tuitionInState || 0,

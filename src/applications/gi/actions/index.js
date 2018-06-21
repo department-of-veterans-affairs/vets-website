@@ -4,7 +4,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import { api } from '../config';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
-export const CAMPUS_ZIP_CODE_CHANGE = 'CAMPUS_ZIP_CODE_CHANGE';
+export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
@@ -22,6 +22,9 @@ export const ELIGIBILITY_CHANGED = 'ELIGIBILITY_CHANGED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
+export const FETCH_BAH_STARTED = 'FETCH_BAH_STARTED';
+export const FETCH_BAH_FAILED = 'FETCH_BAH_FAILED';
+export const FETCH_BAH_SUCCEEDED = 'FETCH_BAH_SUCCEEDED';
 export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
@@ -201,9 +204,68 @@ export function toggleFilter() {
   return { type: FILTER_TOGGLED };
 }
 
-export function campusZipCodeChange(campusZip) {
-  return {
-    type: CAMPUS_ZIP_CODE_CHANGE,
-    campusZip
+const beneficiaryZipRegExTester = /\b\d{5}\b/;
+
+export function beneficiaryZipCodeChanged(beneficiaryZip) {
+  if (!beneficiaryZipRegExTester.exec(beneficiaryZip)) {
+    return {
+      type: BENEFICIARY_ZIP_CODE_CHANGED,
+      beneficiaryZip
+    };
+  }
+
+  // const queryString = version ? `?version=${version}` : '';
+  // const url = `${api.url}/institutions/${facilityCode}${queryString}`;
+
+
+  if (beneficiaryZip === '11111') {
+    return dispatch => {
+      dispatch({ type: FETCH_BAH_STARTED, beneficiaryZipFetched: beneficiaryZip });
+
+      return new Promise(resolve => setTimeout(() => {
+        dispatch({
+          beneficiaryZipFetched: beneficiaryZip,
+          payload: { bah: 5000, city: 'Los Angeles, CA' },
+          type: FETCH_BAH_SUCCEEDED,
+        });
+        resolve();
+      }, 1000));
+    };
+  }
+
+  if (beneficiaryZip === '11112') {
+    return dispatch => {
+      dispatch({ type: FETCH_BAH_STARTED, beneficiaryZipFetched: beneficiaryZip });
+
+      return new Promise(resolve => setTimeout(() => {
+        dispatch({
+          beneficiaryZipFetched: beneficiaryZip,
+          payload: { bah: 1, city: 'New York, NY' },
+          type: FETCH_BAH_SUCCEEDED,
+        });
+        resolve();
+      }, 1000));
+    };
+  }
+
+  /*
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        payload => { type: FETCH_BAH_SUCCEEDED, payload },
+        err => dispatch({ type: FETCH_BAH_FAILED, err })
+      );
+      */
+  return dispatch => {
+    dispatch({ type: FETCH_BAH_STARTED, beneficiaryZipFetched: beneficiaryZip });
+
+    return new Promise(resolve => setTimeout(() => {
+      dispatch({
+        beneficiaryZipFetched: beneficiaryZip,
+        payload: { error: 'Invalid Zipcode' },
+        type: FETCH_BAH_FAILED,
+      });
+      resolve();
+    }, 1000));
   };
 }
