@@ -4,7 +4,11 @@ import { isEmpty } from 'lodash';
 import classNames from 'classnames';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import { calculatorInputChange, showModal } from '../../actions';
+import {
+  calculatorInputChange,
+  campusZipCodeChange,
+  showModal
+} from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
@@ -79,7 +83,8 @@ export class Calculator extends React.Component {
               inputs={inputs}
               displayedInputs={displayed}
               onShowModal={this.props.showModal}
-              onInputChange={this.props.calculatorInputChange}/>
+              onInputChange={this.props.calculatorInputChange}
+              onCampusZipCodeChange={this.props.campusZipCodeChange}/>
           </div> : null}
       </div>
     );
@@ -192,6 +197,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   calculatorInputChange,
+  campusZipCodeChange,
   showModal,
 };
 

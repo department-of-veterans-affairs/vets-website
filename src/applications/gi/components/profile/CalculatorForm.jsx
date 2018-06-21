@@ -4,6 +4,7 @@ import React from 'react';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 
 class CalculatorForm extends React.Component {
 
@@ -28,6 +29,10 @@ class CalculatorForm extends React.Component {
   handleInputChange(event) {
     const { name: field, value } = event.target;
     this.props.onInputChange({ field, value });
+  }
+
+  handleCampusZipCodeChange = (event) => {
+    this.props.onCampusZipCodeChange(event.value);
   }
 
   resetBuyUp(event) {
@@ -344,6 +349,43 @@ class CalculatorForm extends React.Component {
     );
   }
 
+  renderCampusZip() {
+    if (!this.props.displayedInputs.campusLocationQuestion) return null;
+
+    let amountInput;
+
+    if (this.props.inputs.campusLocationQuestion === 'no') {
+      amountInput = (
+        <div>
+          <ErrorableTextInput errorMessage={this.props.inputs.campusZipError}
+            label={<span>At what ZIP Code will you be taking classes?</span>}
+            name="campusZipCode"
+            field={{ value: this.props.inputs.campusZip }}
+            onValueChange={this.handleCampusZipCodeChange}/>
+          <p><strong>{this.props.inputs.housingAllowanceCity}</strong></p>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text: 'Will the majority of your classes be on campus?',
+            modal: 'calcCampusLocationQuestion'
+          })}
+          name="campusLocationQuestion"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ]}
+          value={this.props.inputs.campusLocationQuestion}
+          onChange={this.handleInputChange}/>
+        {amountInput}
+      </div>
+    );
+  }
+
   renderBuyUp() {
     if (!this.props.displayedInputs.buyUp) return null;
 
@@ -427,6 +469,7 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderKicker()}
+        {this.renderCampusZip()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>

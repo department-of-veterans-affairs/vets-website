@@ -366,6 +366,11 @@ export class Modals extends React.Component {
               target="_blank">this page</a>.</p>
         </Modal>
 
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcCampusLocationQuestion')}>
+          <h3>Housing Allowance</h3>
+          <p>TODO</p>
+        </Modal>
+
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcWorking')}>
           <h3>Will be working</h3>
           <p>

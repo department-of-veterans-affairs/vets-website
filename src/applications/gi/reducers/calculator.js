@@ -3,10 +3,13 @@ import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import {
   CALCULATOR_INPUTS_CHANGED,
+  CAMPUS_ZIP_CODE_CHANGE,
   FETCH_PROFILE_SUCCEEDED
 } from '../actions';
 
+const campusZipRegExTester = /\b\d{5}\b/;
 const INITIAL_STATE = {
+  campusZip: '0000',
   inState: 'yes',
   tuitionInState: 0,
   tuitionOutOfState: 0,
@@ -63,6 +66,28 @@ export default function (state = INITIAL_STATE, action) {
 
         newState.inStateTuitionFees = state.tuitionInState;
       }
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+    case CAMPUS_ZIP_CODE_CHANGE: {
+      const { campusZip } = action;
+
+      let campusZipError = state.campusZipError || '';
+
+      if (campusZip.length >= 5 && !campusZipRegExTester.exec(campusZip)) {
+        campusZipError = 'Zip Code must be a five digit number';
+      } else {
+        campusZipError = '';
+      }
+
+      const newState = {
+        campusZip,
+        campusZipError,
+        housingAllowanceCity: 'New York, NY'
+      };
 
       return {
         ...state,

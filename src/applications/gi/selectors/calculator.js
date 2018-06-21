@@ -791,6 +791,7 @@ export const getCalculatedBenefits = createSelector(
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
+      campusLocationQuestion: true,
       books: false,
       yellowRibbon: false,
       scholarships: true,

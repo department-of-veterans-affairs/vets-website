@@ -4,6 +4,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import { api } from '../config';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
+export const CAMPUS_ZIP_CODE_CHANGE = 'CAMPUS_ZIP_CODE_CHANGE';
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
@@ -198,4 +199,11 @@ export function calculatorInputChange({ field, value }) {
 
 export function toggleFilter() {
   return { type: FILTER_TOGGLED };
+}
+
+export function campusZipCodeChange(campusZip) {
+  return {
+    type: CAMPUS_ZIP_CODE_CHANGE,
+    campusZip
+  };
 }
