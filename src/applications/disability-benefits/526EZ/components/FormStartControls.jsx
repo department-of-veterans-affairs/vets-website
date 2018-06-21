@@ -7,23 +7,27 @@ import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/Sav
 import { ITFErrorAlert, VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert, ITFDescription } from '../helpers';
 
 export default function FormStartControls(props) {
-  const { user } = props;
+  const { user: { login: { currentlyLoggedIn }, profile: { verified, services } } } = props;
 
   const somethingWentWrong = props.ITFStatus && props.ITFStatus === 'expired' || // This may not be possible
                              props.errors && props.errors.length;
+  const hasEVSSClaimsService = !!(services.find((service) => service === 'evss-claims'));
+  const gateUnauthenticatedUser = !currentlyLoggedIn;
+  const gateAuthenticatedUser = (!verified ||  !hasEVSSClaimsService) && currentlyLoggedIn;
+  const permitAuthenticatedUser = verified && hasEVSSClaimsService && currentlyLoggedIn;
   return (
     <div>
-      {!user.login.currentlyLoggedIn && <div>
+      {gateUnauthenticatedUser && <div>
         {UnauthenticatedAlert}
         <button className="usa-button-primary" onClick={props.authenticate}>Sign In and Verify Your Identity</button>
       </div>}
-      {!user.profile.verified && user.login.currentlyLoggedIn && <div>
+      {gateAuthenticatedUser && <div>
         {UnverifiedAlert}
         <a href={`/verify?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
       </div>}
       {somethingWentWrong && ITFErrorAlert}
       {props.ITFStatus === 'pending' && <LoadingIndicator message="Please wait while we check that your intent to file has been submitted."/>}
-      {!props.ITFStatus && user.profile.verified && <SaveInProgressIntro
+      {!props.ITFStatus && permitAuthenticatedUser && <SaveInProgressIntro
         {...props}
         buttonOnly={props.buttonOnly}
         prefillAvailable
