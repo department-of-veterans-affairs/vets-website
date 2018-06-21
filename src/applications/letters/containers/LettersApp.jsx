@@ -2,6 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import { connect } from 'react-redux';
 
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { services } from '../../../platform/monitoring/DowntimeNotification';
 import DowntimeBanner from '../../../platform/monitoring/DowntimeNotification/components/Banner';
@@ -57,7 +58,7 @@ export class LettersApp extends React.Component {
     return (
       <RequiredLoginView
         verify
-        serviceRequired="evss-claims"
+        serviceRequired={backendServices.EVSS_CLAIMS}
         user={this.props.user}>
         <AppContent>
           <DowntimeBanner appTitle="Letters Generator" dependencies={[services.evss]}/>

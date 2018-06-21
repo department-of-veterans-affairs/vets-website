@@ -4,6 +4,7 @@ import moment from 'moment';
 import React from 'react';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import {
   APPEAL_V2_TYPE,
   claimsAvailability,
@@ -170,8 +171,8 @@ const mapStateToProps = (state) => {
   const claimsRoot = claimsState.claims;
   const claimsV2Root = claimsState.claimsV2;
   const profileState = state.user.profile;
-  const canAccessAppeals = profileState.services.includes('appeals-status');
-  const canAccessClaims = profileState.services.includes('evss-claims');
+  const canAccessAppeals = profileState.services.includes(backendServices.APPEALS_STATUS);
+  const canAccessClaims = profileState.services.includes(backendServices.EVSS_CLAIMS);
 
   const claimsAppealsCount = claimsV2Root.appeals
     .concat(claimsV2Root.claims).length;

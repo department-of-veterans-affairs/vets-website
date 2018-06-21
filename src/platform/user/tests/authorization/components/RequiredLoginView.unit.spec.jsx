@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 import RequiredLoginView from '../../../authorization/components/RequiredLoginView.jsx';
+import backendServices from '../../../profile/constants/backendServices';
 
 describe('<RequiredLoginView>', () => {
   const redirectFunc = sinon.spy();
@@ -79,7 +80,7 @@ describe('<RequiredLoginView>', () => {
       email: 'fake@aol.com',
       gender: 'M',
       // TODO: use services that actually require LOA3 for clarity?
-      services: ['facilities', 'hca', 'user-profile', 'edu-benefits'],
+      services: [backendServices.FACILITIES, backendServices.HCA, backendServices.USER_PROFILE, backendServices.EDUCATION_BENEFITS],
       status: 'OK',
       userFullName: {
         first: 'WILLIAM',
@@ -93,7 +94,7 @@ describe('<RequiredLoginView>', () => {
 
   const defaultProps = {
     verify: true,
-    serviceRequired: 'hca',
+    serviceRequired: backendServices.HCA,
     user: loa1User,
     loginUrl: 'http://fake-login-url',
     verifyUrl: 'http://fake-verify-url'
@@ -148,7 +149,7 @@ describe('<RequiredLoginView>', () => {
   });
 
   it('should display children and pass prop when service is not available', () => {
-    const props = _.merge({}, defaultProps, { user: loa3User, serviceRequired: 'messaging' });
+    const props = _.merge({}, defaultProps, { user: loa3User, serviceRequired: backendServices.MESSAGING });
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...props}>
         <TestChildComponent name="one"/>
@@ -174,7 +175,7 @@ describe('<RequiredLoginView>', () => {
 
     describe('does not need verification', () => {
       it('should display children elements', () => {
-        const { tree } = setup({ verify: false, serviceRequired: 'user-profile' });
+        const { tree } = setup({ verify: false, serviceRequired: backendServices.USER_PROFILE });
         expect(tree.subTree('div').subTree('div').text()).to.equal('Test Child');
       });
     });

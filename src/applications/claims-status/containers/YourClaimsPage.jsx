@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import recordEvent from '../../../platform/monitoring/record-event';
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
@@ -244,8 +245,8 @@ function mapStateToProps(state) {
   const claimsState = state.disability.status;
   const claimsRoot = claimsState.claims;
   const profileState = state.user.profile;
-  const canAccessAppeals = profileState.services.includes('appeals-status');
-  const canAccessClaims = profileState.services.includes('evss-claims');
+  const canAccessAppeals = profileState.services.includes(backendServices.APPEALS_STATUS);
+  const canAccessClaims = profileState.services.includes(backendServices.EVSS_CLAIMS);
 
   return {
     appealsAvailable: claimsState.appeals.available,
