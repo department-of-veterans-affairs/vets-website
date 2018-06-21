@@ -10,39 +10,36 @@ administration:
   - heading: Administration
     description: What goes here?
 promo:
-  - image: /img/megamenu/pension-illustration.png
+  - image: /img/megamenu/disability-illustration.png
     heading: Learn About the Veterans Choice Program
-    url: "#"
+    url: "https://"
     description: If you are already enrolled in VA health care, the Veterans Choice Program allows you to receive health care within your community.
 crosslinks:
-  - heading: Related Resources
+  - heading: Related VA Benefits and Services
     links:
-    - url: ""
-      title: Social Work Services
+    - url: https://vets.gov/housing-assistance/adaptive-housing-grants/
+      title: Adaptive Housing Grants
       description:
-    - url: ""
-      title: Disability Benefits
+    - url:  https://benefits.va.gov/fiduciary/index.asp
+      title: Fiduciary Services
       description:
-    - url: ""
-      title: Life Insurance Benefits
+    - url:  https://vets.gov/employment/vocational-rehab-and-employment/service-disabled/independent-living/
+      title: Independent Living Services
       description:
-    - url: ""
-      title: Aid and Attendance or Household Allowance
+    - url:  https://vets.gov/health-care/about-va-health-care/assisted-living-and-home-health-care/
+      title: Assisted Living and Home Health Care
       description:
-    - url: ""
-      title: National Center for PTSD
+    - url:  https://vets.gov/employment/vocational-rehab-and-employment/
+      title: Voc Rehab (VR&E)
       description:
-    - url: ""
-      title: Adaptive Sports Program
+    - url:  https://vets.gov/employment/vocational-rehab-and-employment/
+      title: Aid and Attendance or Housebound Allowance
       description:
-    - url: ""
-      title: Center for Women Veterans (CWV)
+    - url: https://vets.gov/life-insurance/options-and-eligibility/s-dvi/
+      title: Service-Disabled Veteran's Insurance
       description:
-    - url: ""
-      title: Center for Minority Veterans (CMV)
-      description:
-    - url: ""
-      title: Veterans Health Administration
+    - url: https://vets.gov/life-insurance/options-and-eligibility/sgli/#extension
+      title: Servicemembers' Group Life Insurance Extension
       description:
 contact:
   - heading: Need Help? Call Us
@@ -81,19 +78,19 @@ social:
 mobile:
   - heading: Mobile Apps
     links:
-    - url: "#"
+    - url: "https://"
       label: What
       icon:
-    - url: "#"
+    - url: "https://"
       label: Should
       icon:
-    - url: "#"
+    - url: "https://"
       label: This
       icon:
-    - url: "#"
+    - url: "https://"
       label: Look
       icon:
-    - url: "#"
+    - url: "https://"
       label: Like
       icon:
 
@@ -105,9 +102,9 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Health Care Benefits](#get)<br>
-[Manage Your Health Benefits](#manage)<br>
-[More Health Care Information and Resources](#more)<br>
+[Get Disability Benefits](https://get)<br>
+[Manage Your Disability Benefits](https://manage)<br>
+[More Disability Information and Resources](https://more)<br>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
@@ -140,107 +137,117 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Health Care Benefits</h2>
+  <h2 class="highlight">Get Disability Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Health Care Coverage</b></a>
-    <p>Learn more about your VA health care benefits, your health care team, and where you’ll go.</p>
+    <a href="https://vets.gov/disability-benefits/eligibility/"><b>Eligibility</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Eligibility</b></a>
-    <p>Find out if you can get VA health care benefits.
+    <a href="https://vets.gov/disability-benefits/apply/"><b>Application Process</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Application Process</b></a>
-    <p>Once you’ve figured out if you qualify, applying for VA  health care benefits is easy. Find out how to apply.</p>
+    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You Apply</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>After You Apply</b></a>
-    <p>After you’ve applied for VA health care, find out when to expect your letter—and what to do next.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Family and Caregiver Health Benefits</b></a>
-    <p>If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Apply for Health Care</b></a>
-    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><b>Apply for Disability Compensation</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
   </div>
 
 </section>
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Health Benefits</h2>
+  <h2 class='highlight'>Manage Your Disability Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>Refill or Track Your Prescriptions</b></a>
-    <p>Refill prescriptions online, and track the status of your refills.</p>
+    <a href="https://vets.gov/track-claims"><b>Track Your Claims and Appeals</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
     </div>
 
   <div class="link">
-    <a href="#"><b>Message Your Health Care Team</b></a>
+    <a href="https://vets.gov/disability-benefits/claims-appeal/"><b>File an Appeal</b></a>
     <p>Send a secure note to your primary care provider or other members of your VA health care team.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Schedule or Manage a VA Appointment</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"><b>Add or Remove a Dependent</b></a>
     <p>Find out how to make a doctor's appointment with a member of your VA health care team online or by phone.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your Lab and Test Results</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Upload Documents for a Submitted Claim</b></a>
     <p>A few days after your appointment, sign in to your account to see results of your medical tests.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Order Hearing Aid Batteries</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Update Your Direct Deposit and Contact Information</b></a>
     <p>Order new btteries online and get them mailed directly to you.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Get Your VA Health Records (Blue Button)</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative"><b>Request a Representative for VA Claims</b></a>
     <p>View, download, and print your VA health records.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Update Your Health Benefits</b></a>
-    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+    <a href="https://ebenefits.va.gov/ebenefits/vapii"><b>Share Your VA Health Records</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://vets.gov/download-va-letters/"><b>Print Your Benefit Summary Letter</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://vets.gov/download-va-letters/"><b>Print Your Commissary Eligibility Letter</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
   </div>
 
 </section>
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Health Care Information and Resources</h2>
+  <h2 class='highlight'>More Disability Information and Resources</h2>
 
   <div class="link">
-    <a href="#"><b>Determine Costs of Care</b></a>
-    <p>Figure out how much your monthly health care costs will add up to.</p>
+    <a href="https://vets.gov/disability-benefits/eligibility/ratings/"><b>How VA Assigns Disability Ratings</b></a>
+    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Health Needs and Conditions</b></a>
+    <a href="https://benefits.va.gov/compensation/claimexam.asp"><b>Compensation and Pension Exam</b></a>
     <p>Find out how to access VA services for mental health, women’s health, and other specific needs.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Conditions Related to When and Where You Served</b></a>
+    <a href="https://benefits.va.gov/compensation/resources_comp01.asp"><b>Compensation Rates</b></a>
     <p>Find out which service-connected health concerns you should be aware of, based on when and where you served.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Wellness Programs</b></a>
+    <a href="https://vets.gov/disability-benefits/conditions/"><b>Conditions Linked to Military Service</b></a>
     <p>Learn about special programs that focus on increasing your wellness.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Affordable Care Act (ACA)</b></a>
+    <a href="https://vets.gov/disability-benefits/conditions/special-claims/"><b>Special Claims</b></a>
+    <p>Find out what you need to know about the ACA and your health coverage.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://benefits.va.gov/compensation/dbq_disabilityexams.asp"><b>Disability Evaluation Forms</b></a>
     <p>Find out what you need to know about the ACA and your health coverage.</p>
   </div>
 
