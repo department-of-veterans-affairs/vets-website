@@ -10,40 +10,10 @@ administration:
   - heading: Administration
     description: What goes here?
 promo:
-  - image: /img/megamenu/pension-illustration.png
+  - image: /img/megamenu/records-illustration.png
     heading: Learn About the Veterans Choice Program
-    url: "#"
+    url: "https://"
     description: If you are already enrolled in VA Records, the Veterans Choice Program allows you to receive Records within your community.
-crosslinks:
-  - heading: Related Resources
-    links:
-    - url: ""
-      title: Social Work Services
-      description:
-    - url: ""
-      title: Disability Benefits
-      description:
-    - url: ""
-      title: Life Insurance Benefits
-      description:
-    - url: ""
-      title: Aid and Attendance or Household Allowance
-      description:
-    - url: ""
-      title: National Center for PTSD
-      description:
-    - url: ""
-      title: Adaptive Sports Program
-      description:
-    - url: ""
-      title: Center for Women Veterans (CWV)
-      description:
-    - url: ""
-      title: Center for Minority Veterans (CMV)
-      description:
-    - url: ""
-      title: Veterans Health Administration
-      description:
 contact:
   - heading: Need Help? Call Us
     links:
@@ -81,19 +51,19 @@ social:
 mobile:
   - heading: Mobile Apps
     links:
-    - url: "#"
+    - url: "https://"
       label: What
       icon:
-    - url: "#"
+    - url: "https://"
       label: Should
       icon:
-    - url: "#"
+    - url: "https://"
       label: This
       icon:
-    - url: "#"
+    - url: "https://"
       label: Look
       icon:
-    - url: "#"
+    - url: "https://"
       label: Like
       icon:
 
@@ -106,8 +76,6 @@ With VA Records, you’re covered for regular checkups with your primary care pr
 <h3 class="highlight">Page Content</h3>
 
 [Get Records](#get)<br>
-[Manage Your Records](#manage)<br>
-[More Records Information and Resources](#more)<br>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
@@ -143,105 +111,43 @@ With VA Records, you’re covered for regular checkups with your primary care pr
   <h2 class="highlight">Get Your Records</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Records Coverage</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Request Your Military Personnel File (DD-214)</b></a>
     <p>Learn more about your VA Records benefits, your Records team, and where you’ll go.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Eligibility</b></a>
+    <a href="https://www.myhealth.va.gov/mhv-portal-web/download-my-data"><b>Get Your VA Health Records (Blue Button)</b></a>
     <p>Find out if you can get VA Records benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>Application Process</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/vapii"><b>Share Your VA Health Records</b></a>
     <p>Once you’ve figured out if you qualify, applying for VA  Records benefits is easy. Find out how to apply.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>After You Apply</b></a>
+    <a href="https://www.vets.gov/download-va-letters/"><b>Download Your VA Letters</b></a>
     <p>After you’ve applied for VA Records, find out when to expect your letter—and what to do next.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Family and Caregiver Health Benefits</b></a>
+    <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>Request a Home Loan COE</b></a>
     <p>If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for Records benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Apply for Records</b></a>
+    <a href="https://www.vets.gov/discharge-upgrade-instructions/"><b>How to Apply for a Discharge Upgrade</b></a>
     <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
   </div>
 
-</section>
-
-<section id="manage" class="merger-majorlinks">
-
-  <h2 class='highlight'>Manage Your Records</h2>
-
   <div class="link">
-    <a href="#"><b>Refill or Track Your Prescriptions</b></a>
-    <p>Refill prescriptions online, and track the status of your refills.</p>
-    </div>
-
-  <div class="link">
-    <a href="#"><b>Message Your Records Team</b></a>
-    <p>Send a secure note to your primary care provider or other members of your VA Records team.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Schedule or Manage a VA Appointment</b></a>
-    <p>Find out how to make a doctor's appointment with a member of your VA Records team online or by phone.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>View Your Lab and Test Results</b></a>
-    <p>A few days after your appointment, sign in to your account to see results of your medical tests.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Order Hearing Aid Batteries</b></a>
-    <p>Order new btteries online and get them mailed directly to you.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Get Your VA Health Records (Blue Button)</b></a>
-    <p>View, download, and print your VA health records.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Update Your Health Benefits</b></a>
+    <a href="https://cem.va.gov/recmed_records.asp"><b>Find Historical Records (National Archives)</b></a>
     <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
   </div>
 
-</section>
-
-<section id="more" class="merger-majorlinks">
-
-  <h2 class='highlight'>More Records Information and Resources</h2>
-
   <div class="link">
-    <a href="#"><b>Determine Costs of Care</b></a>
-    <p>Figure out how much your monthly Records costs will add up to.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Health Needs and Conditions</b></a>
-    <p>Find out how to access VA services for mental health, women’s health, and other specific needs.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Conditions Related to When and Where You Served</b></a>
-    <p>Find out which service-connected health concerns you should be aware of, based on when and where you served.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Wellness Programs</b></a>
-    <p>Learn about special programs that focus on increasing your wellness.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Affordable Care Act (ACA)</b></a>
-    <p>Find out what you need to know about the ACA and your health coverage.</p>
+    <a href="https://www.vets.gov/veteran-id-card/"><b>Apply for a Veteran ID Card</b></a>
+    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
   </div>
 
 </section>
