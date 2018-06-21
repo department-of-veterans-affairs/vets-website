@@ -20,5 +20,7 @@ export default {
   // Veteran ID Card v1
   vic: 'vic',
   // Intake, conversion, and mail handling services (central mail)
-  icmhs: 'icmhs'
+  icmhs: 'icmhs',
+  // Vet360 - data source for centralized veteran contact information
+  vet360: 'vet360'
 };

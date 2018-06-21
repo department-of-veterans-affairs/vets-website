@@ -10,8 +10,9 @@ import AddressSection from './AddressSection';
 import EmailSection from './EmailSection';
 import LoadFail from './LoadFail';
 import { handleDowntimeForSection } from './DowntimeBanner';
+import MissingVet360IDError from './MissingVet360IDError';
 
-class ContactInformationContent extends React.Component {
+export default class ContactInformation extends React.Component {
 
   componentDidMount() {
     this.props.fetchAddressConstants();
@@ -22,7 +23,14 @@ class ContactInformationContent extends React.Component {
       return <LoadFail information="contact"/>;
     }
 
-    const { addressConstants } = this.props.profile;
+    const {
+      addressConstants,
+      isVet360AvailableForUser,
+    } =  this.props;
+
+    if (!isVet360AvailableForUser) {
+      return <MissingVet360IDError/>;
+    }
 
     return (
       <div>
@@ -63,23 +71,17 @@ class ContactInformationContent extends React.Component {
   render() {
     return (
       <div>
-        {this.renderContent()}
-        <div>
-          <h3>How do I update the email I use to sign in to Vets.gov?</h3>
-          <a href={accountManifest.rootUrl} onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'account-settings' }); }}>Go to your account settings</a>
-        </div>
+        <h2 className="va-profile-heading">Contact Information</h2>
+        <DowntimeNotification render={handleDowntimeForSection('contact')} dependencies={[services.vet360]}>
+          <div>
+            {this.renderContent()}
+            <div>
+              <h3>How do I update the email I use to sign in to Vets.gov?</h3>
+              <a href={accountManifest.rootUrl} onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'account-settings' }); }}>Go to your account settings</a>
+            </div>
+          </div>
+        </DowntimeNotification>
       </div>
     );
   }
-}
-
-export default function ContactInformation(props) {
-  return (
-    <div>
-      <h2 className="va-profile-heading">Contact Information</h2>
-      <DowntimeNotification render={handleDowntimeForSection('contact')} dependencies={[services.evss, services.mvi]}>
-        <ContactInformationContent {...props}/>
-      </DowntimeNotification>
-    </div>
-  );
 }

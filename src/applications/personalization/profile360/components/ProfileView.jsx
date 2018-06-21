@@ -11,8 +11,8 @@ import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
 
-import MVIError from './MVIError';
 import IdentityVerification from './IdentityVerification';
+import MVIError from './MVIError';
 
 class ProfileView extends React.Component {
 
@@ -41,10 +41,13 @@ class ProfileView extends React.Component {
   render() {
     const {
       user,
+      isVet360AvailableForUser,
+      fetchAddressConstants,
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
       profile: {
+        addressConstants,
         hero,
         personalInformation,
         militaryInformation
@@ -58,13 +61,12 @@ class ProfileView extends React.Component {
 
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
-        // @todo Render a component that renders the messaging for errored/successful transactions from state
         content = (
           <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
             <div>
               <Vet360TransactionReporter/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
-              <ContactInformation {...this.props}/>
+              <ContactInformation fetchAddressConstants={fetchAddressConstants} addressConstants={addressConstants} isVet360AvailableForUser={isVet360AvailableForUser} user={user}/>
               <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
               <MilitaryInformation fetchMilitaryInformation={fetchMilitaryInformation} militaryInformation={militaryInformation}/>
             </div>

@@ -1,7 +1,13 @@
+import backendServices from '../../../platform/user/profile/constants/backendServices';
+
 import {
   isSuccessfulTransaction,
   isFailedTransaction
 } from './util/transactions';
+
+export function selectIsVet360AvailableForUser(state) {
+  return state.user.profile.services.includes(backendServices.VET360);
+}
 
 export function selectVet360Field(state, fieldName) {
   return state.user.profile.vet360[fieldName];
