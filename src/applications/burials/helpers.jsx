@@ -2,7 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import moment from 'moment';
 import environment from '../../platform/utilities/environment';
-import { transformForSubmit } from '../common/schemaform/helpers';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 function checkStatus(guid) {
   const userToken = window.sessionStorage.userToken;

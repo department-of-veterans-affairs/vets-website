@@ -1,63 +1,51 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import {
   initializeDowntimeWarnings,
   dismissDowntimeWarning
 } from '../../../../platform/monitoring/DowntimeNotification/actions';
 
 import {
-  saveField,
-  updateFormField,
-  openModal,
-  clearErrors,
-  clearMessage,
+  fetchTransactions,
   fetchAddressConstants,
   fetchHero,
   fetchMilitaryInformation,
-  fetchPersonalInformation,
-  getTransactionStatus
+  fetchPersonalInformation
 } from '../actions';
+
+import { selectIsVet360AvailableForUser } from '../selectors';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import ProfileView from '../components/ProfileView';
 
 class VAProfileApp extends React.Component {
+  componentDidMount() {
+    this.props.fetchTransactions();
+  }
   render() {
     return (
       <div>
         <RequiredLoginView
           authRequired={1}
-          serviceRequired="user-profile"
+          serviceRequired={backendServices.USER_PROFILE}
           user={this.props.account}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <ProfileView
+            isVet360AvailableForUser={this.props.isVet360AvailableForUser}
+            profile={this.props.profile}
             user={this.props.account}
-            getTransactionStatus={this.props.getTransactionStatus}
             fetchAddressConstants={this.props.fetchAddressConstants}
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
             fetchPersonalInformation={this.props.fetchPersonalInformation}
-            profile={this.props.profile}
-            message={{
-              content: this.props.profile.message,
-              clear: this.props.clearMessage
-            }}
-            updateActions={this.props.updateActions}
-            updateFormFieldActions={this.props.updateFormFieldActions}
             downtimeData={{
-              ...this.props.downtimeData,
-              ...this.props.downtimeActions
-            }}
-            modal={{
-              open: this.props.openModal,
-              currentlyOpen: this.props.profile.modal,
-              formFields: this.props.profile.formFields,
-              pendingSaves: this.props.profile.pendingSaves,
-              errors: this.props.profile.errors,
-              clearErrors: this.props.clearErrors
+              appTitle: 'profile',
+              isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,
+              initializeDowntimeWarnings: this.props.initializeDowntimeWarnings,
+              dismissDowntimeWarning: this.props.dismissDowntimeWarning
             }}/>
         </RequiredLoginView>
       </div>
@@ -69,33 +57,19 @@ const mapStateToProps = (state) => {
   return {
     account: state.user,
     profile: state.vaProfile,
-    downtimeData: {
-      appTitle: 'profile',
-      isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile')
-    }
+    isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile'),
+    isVet360AvailableForUser: selectIsVet360AvailableForUser(state)
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  const actions = bindActionCreators({
-    fetchAddressConstants,
-    fetchHero,
-    fetchMilitaryInformation,
-    fetchPersonalInformation,
-    getTransactionStatus,
-    openModal,
-    clearErrors,
-    clearMessage
-  }, dispatch);
-
-  actions.updateActions = bindActionCreators(saveField, dispatch);
-  actions.updateFormFieldActions = bindActionCreators(updateFormField, dispatch);
-  actions.downtimeActions = bindActionCreators({
-    initializeDowntimeWarnings,
-    dismissDowntimeWarning
-  }, dispatch);
-
-  return actions;
+const mapDispatchToProps = {
+  fetchTransactions,
+  fetchAddressConstants,
+  fetchHero,
+  fetchMilitaryInformation,
+  fetchPersonalInformation,
+  initializeDowntimeWarnings,
+  dismissDowntimeWarning
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VAProfileApp);

@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { transformForSubmit } from '../../common/schemaform/helpers';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function transform(formConfig, form) {
   // All the king’s horses and all the king’s men

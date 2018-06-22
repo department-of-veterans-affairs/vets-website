@@ -2,6 +2,7 @@ const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./disability-benefits-helpers');
 const testData = require('./schema/maximal-test.json');
+const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initDocumentUploadMock();
@@ -19,7 +20,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // Gets hung up at the login screen
 
     E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
+    FormsTestHelpers.overrideFormsScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Review Veteran Information

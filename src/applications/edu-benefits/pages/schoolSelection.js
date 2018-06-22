@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import * as educationProgram from '../definitions/educationProgram';
-import dateUI from '../../common/schemaform/definitions/date';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
 import { civilianBenefitsLabel } from '../utils/labels';
 
 

@@ -138,5 +138,30 @@ export default [
       formData: newFormData,
       metadata: newMetaData
     };
+  },
+  // 5 > 6, move user back to fields with only spaces
+  ({ formData, metadata }) => {
+    let newFormData = formData;
+    let newMetaData = metadata;
+    const notBlankStringPattern = /^.*\S.*/;
+
+    if (newFormData.providers) {
+      newFormData.providers.forEach((provider, index) => {
+        if (!notBlankStringPattern.test(provider.insuranceGroupCode)) {
+          newFormData = _.unset(['providers', index, 'insuranceGroupCode'], newFormData);
+          newMetaData = _.set('returnUrl', 'insurance-information/general', newMetaData);
+        }
+
+        if (!notBlankStringPattern.test(provider.insurancePolicyNumber)) {
+          newFormData = _.unset(['providers', index, 'insurancePolicyNumber'], newFormData);
+          newMetaData = _.set('returnUrl', 'insurance-information/general', newMetaData);
+        }
+      });
+    }
+
+    return {
+      formData: newFormData,
+      metadata: newMetaData
+    };
   }
 ];

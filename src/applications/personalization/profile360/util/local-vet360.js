@@ -39,7 +39,7 @@ export const mockContactInformation = {
     isTextable: true,
     isTty: true,
     isVoicemailable: true,
-    phoneNumber: '222222',
+    phoneNumber: '2222222',
     phoneType: 'HOME',
     sourceDate: '2018-04-21T20:09:50Z',
     updatedAt: '2018-04-21T20:09:50Z'
@@ -88,16 +88,31 @@ export const mockContactInformation = {
   },
 };
 
+
+function asyncReturn(returnValue) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(returnValue);
+    }, 300);
+  });
+}
+
 export default {
   createTransaction() {
-    return {
+    return asyncReturn({
       data: {
         attributes: {
           transactionId: uniqueId('transaction_'),
           transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED
         }
       }
-    };
+    });
+  },
+  updateTransactionRandom(...args) {
+    if (Math.random() > 0.5) {
+      return this.updateTransaction(...args);
+    }
+    return this.updateTransactionToFailure(...args);
   },
   updateTransaction(transactionId) {
     return {
@@ -109,4 +124,23 @@ export default {
       }
     };
   },
+  updateTransactionToFailure(transactionId, code = 'VET360_CORE100') {
+    return {
+      data: {
+        attributes: {
+          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.REJECTED,
+          transactionId,
+          type: 'AsyncTransaction::Vet360::MockedTransaction',
+          metadata: [
+            {
+              code,
+              key: '_CUF_NOT_FOUND',
+              severity: 'ERROR',
+              text: 'The tx for id/criteria XZY could not be found.'
+            }
+          ]
+        }
+      }
+    };
+  }
 };

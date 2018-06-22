@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import { removeSavedForm } from '../../../platform/user/profile/actions';
 import UserDataSection from './UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
@@ -55,7 +56,7 @@ class UserProfileApp extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          serviceRequired="user-profile"
+          serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}>
           <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
             {view}
