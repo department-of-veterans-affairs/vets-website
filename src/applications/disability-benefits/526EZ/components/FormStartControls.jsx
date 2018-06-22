@@ -15,40 +15,47 @@ export default function FormStartControls(props) {
 
   const somethingWentWrong = props.ITFStatus && props.ITFStatus === 'expired' || // This may not be possible
                              props.errors && props.errors.length;
+  const loadingITF = props.ITFStatus === 'pending';
   const hasEVSSClaimsService = !!(services.find(service => service === EVSS_CLAIMS));
   const gateAuthenticatedUser = !verified && currentlyLoggedIn;
   const gateVerifiedUser = !hasEVSSClaimsService && verified;
   const permitVerifiedUser = verified && hasEVSSClaimsService;
-  return (
-    <div>
-      {!currentlyLoggedIn && <div>
-        {UnauthenticatedAlert}
-        <button className="usa-button-primary" onClick={props.authenticate}>Sign In and Verify Your Identity</button>
-      </div>}
-      {gateAuthenticatedUser && <div>
-        {UnverifiedAlert}
-        <a href={`/verify?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
-      </div>}
-      {gateVerifiedUser && <div className="usa-alert usa-alert-error no-background-image">Sorry, our system is temporarily down while we fix a few things. Please try again later.</div>}
-      {somethingWentWrong && ITFErrorAlert}
-      {props.ITFStatus === 'pending' && <LoadingIndicator message="Please wait while we check that your intent to file has been submitted."/>}
-      {!props.ITFStatus && permitVerifiedUser && <SaveInProgressIntro
-        {...props}
-        buttonOnly={props.buttonOnly}
-        prefillAvailable
-        afterButtonContent={ITFDescription}
-        verifiedPrefillAlert={VerifiedAlert}
-        unverifiedPrefillAlert={UnauthenticatedAlert}
-        verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
-        prefillEnabled={props.route.formConfig.prefillEnabled}
-        messages={props.route.formConfig.savedFormMessages}
-        pageList={props.route.pageList}
-        beforeStartForm={props.beforeStartForm}
-        startText="Start the Disability Compensation Application"
-        {...props.saveInProgressActions}
-        {...props.saveInProgress}/>}
-    </div>
-  );
+  let content;
+
+  if (somethingWentWrong) {
+    content = ITFErrorAlert;
+  } else if (loadingITF) {
+    content = <LoadingIndicator message="Please wait while we check that your intent to file has been submitted."/>;
+  } else if (!currentlyLoggedIn) {
+    content = (<div>
+      {UnauthenticatedAlert}
+      <button className="usa-button-primary" onClick={props.authenticate}>Sign In and Verify Your Identity</button>
+    </div>);
+  } else if (gateAuthenticatedUser) {
+    content = (<div>
+      {UnverifiedAlert}
+      <a href={`/verify?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
+    </div>);
+  } else if (gateVerifiedUser) {
+    content = (<div className="usa-alert usa-alert-error no-background-image">Sorry, our system is temporarily down while we fix a few things. Please try again later.</div>);
+  } else if (permitVerifiedUser) {
+    content = (<SaveInProgressIntro
+      {...props}
+      buttonOnly={props.buttonOnly}
+      prefillAvailable
+      afterButtonContent={ITFDescription}
+      verifiedPrefillAlert={VerifiedAlert}
+      unverifiedPrefillAlert={UnauthenticatedAlert}
+      verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
+      prefillEnabled={props.route.formConfig.prefillEnabled}
+      messages={props.route.formConfig.savedFormMessages}
+      pageList={props.route.pageList}
+      beforeStartForm={props.beforeStartForm}
+      startText="Start the Disability Compensation Application"
+      {...props.saveInProgressActions}
+      {...props.saveInProgress}/>);
+  }
+  return (content);
 }
 
 FormStartControls.PropTypes = {
