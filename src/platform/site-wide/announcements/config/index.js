@@ -1,4 +1,5 @@
 import DashboardIntro from '../components/DashboardIntro';
+import ProfileIntro from '../components/ProfileIntro';
 import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
 import isPersonalizationEnabled from '../../../../applications/personalization/dashboard/isPersonalizationEnabled';
@@ -11,6 +12,13 @@ const config = {
       name: 'dashboard-intro',
       paths: /^(\/dashboard\/)$/,
       component: DashboardIntro,
+      relatedAnnouncements: ['personalization'],
+      disabled: personalizationDisabled
+    },
+    {
+      name: 'profile-intro',
+      paths: /^(\/profile\/)$/,
+      component: ProfileIntro,
       relatedAnnouncements: ['personalization'],
       disabled: personalizationDisabled
     },
