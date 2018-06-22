@@ -10,7 +10,7 @@ import {
 } from './util/transactions';
 
 export function selectIsVet360AvailableForUser(state) {
-  if (!isVet360Configured()) return true;
+  if (!isVet360Configured()) return true; // returns true if on localhost
   return state.user.profile.services.includes(backendServices.VET360);
 }
 

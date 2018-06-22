@@ -12,6 +12,11 @@ export default class Vet360EditModal extends React.Component {
   static propTypes = {
     clearErrors: PropTypes.func.isRequired,
     getInitialFormValues: PropTypes.func.isRequired,
+    field: PropTypes.shape({
+      value: PropTypes.object,
+      validations: PropTypes.object
+    }),
+    hasValidationError: PropTypes.func,
     isEmpty: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -29,8 +34,18 @@ export default class Vet360EditModal extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    if (this.props.field.errorMessage) return;
+    if (this.hasValidationError()) return;
     this.props.onSubmit(this.props.field.value);
+  }
+
+  hasValidationError() {
+    if (this.props.hasValidationError) return this.props.hasValidationError();
+
+    const validations = this.props.field.validations;
+    return Object.values(validations).some(fieldName => {
+      const validationError = validations[fieldName];
+      return !!validationError;
+    });
   }
 
   isInitialized = () => {
