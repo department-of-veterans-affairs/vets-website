@@ -1,5 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
+import _ from 'lodash';
+
 import {
   flatten,
   validateDisability,
@@ -11,22 +13,20 @@ import {
 import initialData from './schema/initialData.js';
 
 describe('526 helpers', () => {
-  const treatments = [
-    {
-      treatment: {
-        treatmentCenterName: 'local VA center'
-      }
-    }
-  ];
-  const prefilledData = Object.assign({}, initialData);
-  prefilledData.disabilities[0] = {}; // Disabled for prefill transformer test
-  prefilledData.disabilities[0].treatments = treatments;
-  const flattened = flatten(prefilledData);
+  const prefilledData = _.cloneDeep(initialData);
   const invalidDisability = prefilledData.disabilities[1];
   const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
-  const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
   describe('flatten', () => {
     it('should flatten sibling arrays', () => {
+      const treatments = [
+        {
+          treatment: {
+            treatmentCenterName: 'local VA center'
+          }
+        }
+      ];
+      prefilledData.disabilities[0].treatments = treatments;
+      const flattened = flatten(prefilledData);
       expect(flattened.treatments).to.exist;
       expect(flattened.disabilities[0].treatments).to.not.exist;
     });
@@ -46,6 +46,7 @@ describe('526 helpers', () => {
   });
   describe('prefillTransformer', () => {
     it('should transform prefilled disabilities', () => {
+      const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
       expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal('INCREASE');
     });
   });
