@@ -10,7 +10,7 @@ import {
   FETCH_PROFILE_SUCCEEDED
 } from '../actions';
 
-const beneficiaryZIPRegExTester = /\b\d{5}\b/;
+const beneficiaryZIPRegExTester = /\b\d{1,5}\b/;
 const INITIAL_STATE = {
   beneficiaryLocationQuestion: 'yes',
   beneficiaryZIP: '',
@@ -142,7 +142,7 @@ export default function (state = INITIAL_STATE, action) {
 
       let beneficiaryZIPError = state.beneficiaryZIPError || '';
 
-      if (beneficiaryZIP.length >= 5 && !beneficiaryZIPRegExTester.exec(beneficiaryZIP)) {
+      if (!beneficiaryZIPRegExTester.exec(beneficiaryZIP)) {
         beneficiaryZIPError = 'ZIP Code must be a five digit number';
       } else {
         beneficiaryZIPError = '';
