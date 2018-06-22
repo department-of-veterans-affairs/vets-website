@@ -37,7 +37,7 @@ export default function FormStartControls(props) {
       <a href={`/verify?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
     </div>);
   } else if (gateVerifiedUser) {
-    content = (<div className="usa-alert usa-alert-error no-background-image">Sorry, our system is temporarily down while we fix a few things. Please try again later.</div>);
+    content = <div className="usa-alert usa-alert-error no-background-image">Sorry, our system is temporarily down while we fix a few things. Please try again later.</div>;
   } else if (permitVerifiedUser) {
     content = (<SaveInProgressIntro
       {...props}
@@ -55,7 +55,7 @@ export default function FormStartControls(props) {
       {...props.saveInProgressActions}
       {...props.saveInProgress}/>);
   }
-  return (content);
+  return content;
 }
 
 FormStartControls.PropTypes = {
