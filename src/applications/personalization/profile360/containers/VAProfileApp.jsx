@@ -15,6 +15,8 @@ import {
   fetchPersonalInformation
 } from '../actions';
 
+import { selectIsVet360AvailableForUser } from '../selectors';
+
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import ProfileView from '../components/ProfileView';
 
@@ -32,6 +34,7 @@ class VAProfileApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <ProfileView
+            isVet360AvailableForUser={this.props.isVet360AvailableForUser}
             profile={this.props.profile}
             user={this.props.account}
             fetchAddressConstants={this.props.fetchAddressConstants}
@@ -54,7 +57,8 @@ const mapStateToProps = (state) => {
   return {
     account: state.user,
     profile: state.vaProfile,
-    isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile')
+    isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile'),
+    isVet360AvailableForUser: selectIsVet360AvailableForUser(state)
   };
 };
 
