@@ -57,10 +57,6 @@ if (options.unexpected && options.unexpected.length !== 0) {
   throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
-if (process.env.HEROKU_BRANCH.match(/^ww-.*/)) {
-  options.buildtype = 'devpreview';
-}
-
 if (options.buildtype === undefined) {
   options.buildtype = 'development';
 }
