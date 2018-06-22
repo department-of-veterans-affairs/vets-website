@@ -6,7 +6,7 @@
     "YARN_PRODUCTION":{
       "required": true
     },
-    "BUILDTYPE": "development"
+    "BUILDTYPE": "devpreview"
   },
   "addons":[],
   "buildpacks": [
