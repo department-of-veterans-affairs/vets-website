@@ -61,7 +61,7 @@ export function validateDisability(disability) {
   );
 
   if (result.errors.find(invalidDisabilityError)) {
-    Raven.captureMessage(`Invalid-disability-prefilled: ${disability}`);
+    Raven.captureMessage(`vets-disability-increase-invalid-disability-prefilled: ${disability}`);
     return false;
   }
   return true;
