@@ -20,7 +20,7 @@ import {
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import { isFullDate } from '../../../platform/forms/validations';
-import { services } from '../../../platform/monitoring/DowntimeNotification';
+import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
@@ -98,7 +98,7 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   downtime: {
-    dependencies: [services.icmhs]
+    dependencies: [externalServices.icmhs]
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for burial benefits.',

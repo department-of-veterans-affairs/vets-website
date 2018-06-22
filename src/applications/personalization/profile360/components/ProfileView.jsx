@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DowntimeNotification, { services, serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices, externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
@@ -24,7 +24,7 @@ class ProfileView extends React.Component {
   }
 
   handleDowntime = (downtime, children) => {
-    if (downtime.status === serviceStatus.downtimeApproaching) {
+    if (downtime.status === externalServiceStatus.downtimeApproaching) {
       return (
         <DowntimeApproaching
           {...downtime}
@@ -62,7 +62,7 @@ class ProfileView extends React.Component {
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
         content = (
-          <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
+          <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[externalServices.emis, externalServices.evss, externalServices.mvi]}>
             <div>
               <Vet360TransactionReporter/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>

@@ -1,5 +1,5 @@
 import React from 'react';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import moment from '../../../../platform/startup/moment-setup';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
@@ -62,7 +62,7 @@ export default function PersonalInformation(props) {
   return (
     <div>
       <h2 className="va-profile-heading">Personal Information</h2>
-      <DowntimeNotification render={handleDowntimeForSection('personal')} dependencies={[services.mvi]}>
+      <DowntimeNotification render={handleDowntimeForSection('personal')} dependencies={[externalServices.mvi]}>
         <PersonalInformationContent {...props}/>
       </DowntimeNotification>
     </div>

@@ -13,7 +13,7 @@ import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
@@ -234,11 +234,11 @@ class DashboardApp extends React.Component {
 
             <ClaimsAppealsWidget/>
 
-            <DowntimeNotification appTitle="messaging" dependencies={[services.mvi, services.mhv]} render={this.renderWidgetDowntimeNotification('Secure messaging', 'Track Secure Messages')}>
+            <DowntimeNotification appTitle="messaging" dependencies={[externalServices.mvi, externalServices.mhv]} render={this.renderWidgetDowntimeNotification('Secure messaging', 'Track Secure Messages')}>
               <MessagingWidget/>
             </DowntimeNotification>
 
-            <DowntimeNotification appTitle="rx" dependencies={[services.mvi, services.mhv]} render={this.renderWidgetDowntimeNotification('prescription refill', 'Refill Prescriptions')}>
+            <DowntimeNotification appTitle="rx" dependencies={[externalServices.mvi, externalServices.mhv]} render={this.renderWidgetDowntimeNotification('prescription refill', 'Refill Prescriptions')}>
               <PrescriptionsWidget/>
             </DowntimeNotification>
           </div>
@@ -305,7 +305,7 @@ class DashboardApp extends React.Component {
         <RequiredLoginView
           serviceRequired={[backendServices.USER_PROFILE]}
           user={this.props.user}>
-          <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.mhv, services.appeals]} render={this.renderDowntimeNotification}>
+          <DowntimeNotification appTitle="user dashboard" dependencies={[externalServices.mvi, externalServices.mhv, externalServices.appeals]} render={this.renderDowntimeNotification}>
             {view}
           </DowntimeNotification>
         </RequiredLoginView>
