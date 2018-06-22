@@ -22,7 +22,7 @@ import ClaimsUnavailable from '../../../claims-status/components/ClaimsUnavailab
 import AppealsUnavailable from '../../../claims-status/components/AppealsUnavailable';
 import ClaimsAppealsUnavailable from '../../../claims-status/components/ClaimsAppealsUnavailable';
 
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
@@ -151,10 +151,10 @@ class ClaimsAppealsWidget extends React.Component {
       <div id="claims-widget">
         <h2>Track Claims</h2>
         <div>
-          <DowntimeNotification appTitle="claims" dependencies={[services.mhv]} render={this.renderWidgetDowntimeNotification('Claims tracking')}>
+          <DowntimeNotification appTitle="claims" dependencies={[externalServices.mhv]} render={this.renderWidgetDowntimeNotification('Claims tracking')}>
             <div/>
           </DowntimeNotification>
-          <DowntimeNotification appTitle="appeals" dependencies={[services.appeals]} render={this.renderWidgetDowntimeNotification('Appeals tracking')}>
+          <DowntimeNotification appTitle="appeals" dependencies={[externalServices.appeals]} render={this.renderWidgetDowntimeNotification('Appeals tracking')}>
             <div/>
           </DowntimeNotification>
           {this.renderErrorMessages()}

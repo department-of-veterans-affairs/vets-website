@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import backendServices from '../../../platform/user/profile/constants/backendServices';
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
@@ -49,7 +49,7 @@ class MessagingApp extends React.Component {
         verify
         serviceRequired={SERVICE_REQUIRED}
         user={this.props.user}>
-        <DowntimeNotification appTitle="secure messaging tool" dependencies={[services.mhv]}>
+        <DowntimeNotification appTitle="secure messaging tool" dependencies={[externalServices.mhv]}>
           <AppContent>
             <MHVApp serviceRequired={SERVICE_REQUIRED}>
               <div id="messaging-app-header">
