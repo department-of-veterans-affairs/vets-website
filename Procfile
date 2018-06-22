@@ -1,1 +1,1 @@
-web: npm run heroku-serve -- build/devpreview -p $PORT
+web: npm run heroku-serve -- build/$BUILDTYPE -p $PORT
