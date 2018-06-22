@@ -702,14 +702,10 @@ export const AddressDescription = () => (
 );
 
 export const PaymentDescription = () => (
-  <div>
-    <p>
-      This is the bank account information we have on file for you. We’ll pay your
-      disability benefit to this account. If you need to update your bank information,
-      please go to eBenefits.
-    </p>
-    <p>
-      <a target="blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
-    </p>
-  </div>
+  <p>
+    This is the bank account information we have on file for you. We’ll pay your
+    disability benefit to this account. If you need to update your bank information,
+    please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
+    Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+  </p>
 );
