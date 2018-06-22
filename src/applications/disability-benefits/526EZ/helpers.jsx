@@ -74,7 +74,7 @@ export function transformDisabilities(disabilities) {
 
 export function prefillTransformer(pages, formData, metadata) {
   const newData = set('disabilities', transformDisabilities(formData.disabilities), formData);
-  newData.disabilities.forEach(disability => validateDisability(disability));
+  newData.disabilities.forEach(validateDisability);
 
   return {
     metadata,
