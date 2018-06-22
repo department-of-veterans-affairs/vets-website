@@ -57,8 +57,8 @@ if (options.unexpected && options.unexpected.length !== 0) {
   throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
-if (options.buildtype === undefined) {
-  options.buildtype = 'development';
+if (process.env.BUILDTYPE) {
+  options.buildtype = process.env.BUILDTYPE;
 }
 
 switch (options.buildtype) {

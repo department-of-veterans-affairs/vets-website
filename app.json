@@ -5,7 +5,8 @@
     "CHECK_BROKEN_LINKS": "no",
     "YARN_PRODUCTION":{
       "required": true
-    }
+    },
+    "BUILDTYPE": "devpreview"
   },
   "addons":[],
   "buildpacks": [
