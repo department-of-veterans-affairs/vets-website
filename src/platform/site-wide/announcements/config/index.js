@@ -2,9 +2,6 @@ import DashboardIntro from '../components/DashboardIntro';
 import ProfileIntro from '../components/ProfileIntro';
 import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
-import isPersonalizationEnabled from '../../../../applications/personalization/dashboard/isPersonalizationEnabled';
-
-const personalizationDisabled = !isPersonalizationEnabled();
 
 const config = {
   announcements: [
@@ -12,28 +9,24 @@ const config = {
       name: 'dashboard-intro',
       paths: /^(\/dashboard\/)$/,
       component: DashboardIntro,
-      relatedAnnouncements: ['personalization'],
-      disabled: personalizationDisabled
+      relatedAnnouncements: ['personalization']
     },
     {
       name: 'profile-intro',
       paths: /^(\/profile\/)$/,
       component: ProfileIntro,
-      relatedAnnouncements: ['personalization'],
-      disabled: personalizationDisabled
+      relatedAnnouncements: ['personalization']
     },
     {
       name: 'profile-360-intro',
       paths: /^(\/profile360\/)$/,
       component: Profile360Intro,
-      relatedAnnouncements: ['personalization'],
-      disabled: personalizationDisabled
+      relatedAnnouncements: ['personalization']
     },
     {
       name: 'personalization',
       paths: /(.)/,
-      component: PersonalizationBanner,
-      disabled: personalizationDisabled
+      component: PersonalizationBanner
     }
   ]
 };
