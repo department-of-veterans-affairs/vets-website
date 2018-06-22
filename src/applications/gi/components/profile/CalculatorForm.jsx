@@ -31,8 +31,8 @@ class CalculatorForm extends React.Component {
     this.props.onInputChange({ field, value });
   }
 
-  handleBeneficiaryZipCodeChanged = (event) => {
-    this.props.onBeneficiaryZipCodeChanged(event.value);
+  handleBeneficiaryZIPCodeChanged = (event) => {
+    this.props.onBeneficiaryZIPCodeChanged(event.value);
   }
 
   resetBuyUp(event) {
@@ -349,7 +349,7 @@ class CalculatorForm extends React.Component {
     );
   }
 
-  renderBeneficiaryZip() {
+  renderBeneficiaryZIP() {
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) return null;
 
     let amountInput;
@@ -357,11 +357,11 @@ class CalculatorForm extends React.Component {
     if (this.props.inputs.beneficiaryLocationQuestion === 'no') {
       amountInput = (
         <div>
-          <ErrorableTextInput errorMessage={this.props.inputs.beneficiaryZipError}
+          <ErrorableTextInput errorMessage={this.props.inputs.beneficiaryZIPError}
             label={<span>At what ZIP Code will you be taking classes?</span>}
-            name="beneficiaryZipCode"
-            field={{ value: this.props.inputs.beneficiaryZip }}
-            onValueChange={this.handleBeneficiaryZipCodeChanged}/>
+            name="beneficiaryZIPCode"
+            field={{ value: this.props.inputs.beneficiaryZIP }}
+            onValueChange={this.handleBeneficiaryZIPCodeChanged}/>
           <p><strong>{this.props.inputs.housingAllowanceCity}</strong></p>
         </div>
       );
@@ -469,7 +469,7 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderKicker()}
-        {__BUILDTYPE__ !== 'production' && this.renderBeneficiaryZip()}
+        {__BUILDTYPE__ !== 'production' && this.renderBeneficiaryZIP()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>
