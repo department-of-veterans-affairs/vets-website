@@ -1,16 +1,12 @@
-import _ from 'lodash';
 import React from 'react';
+import Raven from 'raven-js';
 
-import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import ReviewCardField from '../components/ReviewCardField';
-import { PaymentDescription } from '../helpers';
+import { apiRequest } from '../../../../platform/utilities/api';
+import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
-export const accountLabels = {
-  CHECKING: 'Checking account',
-  SAVINGS: 'Savings account',
-  NOBANK: 'I don’t have a bank account'
-};
+import { srSubstitute } from '../helpers';
 
 const accountTitleLabels = {
   CHECKING: 'Checking Account',
@@ -20,29 +16,30 @@ const accountTitleLabels = {
 
 const NOBANK = 'NOBANK';
 
-const paymentInformationViewField = ({ formData }) => {
+export const viewComponent = (response) => {
   const {
     accountType,
     accountNumber,
-    routingNumber,
-    bankName
-  } = formData.directDeposit;
+    financialInstitutionRoutingNumber: routingNumber,
+    financialInstitutionName: bankName,
+  } = response;
   let accountNumberString;
   let routingNumberString;
   let bankNameString;
-  const mask = <span>•••••-</span>;
+  const mask = (string, unmaskedLength) => {
+    const maskedString = srSubstitute(`${'●'.repeat(string.length - unmaskedLength)}`, 'ending with');
+    return <span>{maskedString}{string.slice(-unmaskedLength)}</span>;
+  };
 
   if (accountType !== NOBANK) {
     accountNumberString = (
       <p>
-        Account number: {mask}
-        {accountNumber.slice(5)}
+        Account number: {mask(accountNumber, 4)}
       </p>
     );
     routingNumberString = (
       <p>
-        Routing number: {mask}
-        {routingNumber.slice(5)}
+        Bank routing number: {mask(routingNumber, 4)}
       </p>
     );
     bankNameString = <p>Bank name: {bankName}</p>;
@@ -50,74 +47,59 @@ const paymentInformationViewField = ({ formData }) => {
   return (
     <div>
       <p>
-        <strong>{accountTitleLabels[accountType]}</strong>
+        This is the bank account information we have on file for you. We pay your disability and pension benefits to this account.
       </p>
-      {accountNumberString}
-      {routingNumberString}
-      {bankNameString}
+      <div className="blue-bar-block">
+        <p>
+          <strong>{accountTitleLabels[accountType.toUpperCase()]}</strong>
+        </p>
+        {accountNumberString}
+        {routingNumberString}
+        {bankNameString}
+      </div>
+      <p>
+        <strong>Note:</strong> If you need to update your bank information, please call Veterans Benefits Assistance
+        at <a href="tel:+18008271000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).
+      </p>
     </div>
   );
 };
 
+const failureComponent = () => (
+  <AlertBox
+    headline="We can’t access your information"
+    content="We’re sorry. We can’t access your payment information right now. You can continue to fill out the form and we’ll try again later."
+    status="error"
+    className="async-display-widget-alert-box"
+    isVisible/>
+);
+
+function fetchPaymentInformation() {
+  return apiRequest('/ppiu/payment_information',
+    {},
+    response => {
+      // Return only the bit the UI cares about
+      return response.data.attributes.responses[0].paymentAccount;
+    },
+    () => {
+      Raven.captureMessage('vets_payment_information_fetch_failure');
+      return Promise.reject();
+    }
+  );
+}
+
 export const uiSchema = {
   'ui:title': 'Payment information',
-  'ui:description': PaymentDescription,
-  'ui:field': ReviewCardField,
+  'ui:field': 'StringField',
+  'ui:widget': AsyncDisplayWidget,
   'ui:options': {
-    viewComponent: paymentInformationViewField
-  },
-  directDeposit: {
-    accountType: {
-      'ui:title':
-      'Please tell us where we should deposit your disability payment.',
-      'ui:widget': 'radio',
-      'ui:options': {
-        hideTitle: true,
-        labels: accountLabels
-      }
-    },
-    accountNumber: {
-      'ui:title': 'Account number',
-      'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType === NOBANK
-      }
-    },
-    routingNumber: {
-      'ui:title': 'Routing number',
-      'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType === NOBANK
-      }
-    },
-    bankName: {
-      'ui:title': 'Bank name',
-      'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType === NOBANK
-      }
-    },
-    'view:noBank': {
-      'ui:description': (<p>The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="https://www.usdirectexpress.com">www.usdirectexpress.com</a> or by telephone at <a href="tel:1-800-333-1795">1-800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at 1-888-224-2950. They’ll address any questions or concerns you may have and encourage your participation in EFT.</p>),
-      'ui:options': {
-        hideIf: formData => formData.directDeposit.accountType !== NOBANK
-      }
-    },
-    'ui:options': {
-      hideTitle: true
-    }
+    callback: fetchPaymentInformation,
+    viewComponent,
+    failureComponent
   }
 };
 
 export const schema = {
   type: 'object',
-  properties: {
-    directDeposit: _.merge(fullSchema526EZ.definitions.directDeposit, {
-      type: 'object',
-      properties: {
-        'view:noBank': {
-          type: 'object',
-          properties: {}
-        }
-      }
-    })
-  }
+  properties: {}
 };
-
