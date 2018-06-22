@@ -30,10 +30,6 @@ import {
   schema as paymentInfoSchema
 } from '../pages/paymentInfo';
 
-// TODO: Load live user prefill data from network
-// TODO: initialData for dev / testing purposes only and should be removed for production
-import prefillData from '../tests/schema/initialData'; // add `disabilityActionType` before using
-
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
 import {
@@ -112,13 +108,6 @@ const treatments = ((treatmentsCommonDef) => {
 
 })(treatmentsSchema);
 
-const initialData = {
-  ...prefillData,
-  disabilities: prefillData.disabilities.map((disability) => {
-    return _.set('disabilityActionType', 'INCREASE', disability);
-  })
-};
-
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -176,7 +165,6 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          initialData,
           uiSchema: {
             servicePeriods: {
               'ui:title': 'Military service history',
@@ -333,7 +321,6 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
-          initialData,
           uiSchema: {
             'ui:description': supportingEvidenceOrientation
           },
