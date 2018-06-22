@@ -11,21 +11,21 @@ import {
 } from '../helpers.jsx';
 import initialData from './schema/initialData.js';
 
-const treatments = [
-  {
-    treatment: {
-      treatmentCenterName: 'local VA center'
-    }
-  }
-];
-initialData.disabilities[0] = {}; // Disabled for prefill transformer test
-initialData.disabilities[0].treatments = treatments;
-const flattened = flatten(initialData);
-const invalidDisability = initialData.disabilities[1];
-const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
-const { formData: transformedPrefill } = prefillTransformer([], initialData, {}, { prefilStatus: 'success' });
-
 describe('526 helpers', () => {
+  const treatments = [
+    {
+      treatment: {
+        treatmentCenterName: 'local VA center'
+      }
+    }
+  ];
+  const prefilledData = Object.assign({}, initialData);
+  prefilledData.disabilities[0] = {}; // Disabled for prefill transformer test
+  prefilledData.disabilities[0].treatments = treatments;
+  const flattened = flatten(prefilledData);
+  const invalidDisability = prefilledData.disabilities[1];
+  const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
+  const { formData: transformedPrefill } = prefillTransformer([], prefilledData, {}, { prefilStatus: 'success' });
   describe('flatten', () => {
     it('should flatten sibling arrays', () => {
       expect(flattened.treatments).to.exist;
@@ -52,7 +52,7 @@ describe('526 helpers', () => {
   });
   describe('prefillTransformer', () => {
     it('validate transformed disabilities', () => {
-      expect(transformedPrefill.disabilities.length).to.equal(initialData.disabilities.length - 1);
+      expect(transformedPrefill.disabilities.length).to.equal(prefilledData.disabilities.length - 1);
     });
   });
   describe('get4142Selection', () => {
