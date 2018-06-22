@@ -3,9 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import { EVSS_CLAIMS } from '../../../../../platform/user/profile/constants/backendServices';
+import backendServices from '../../../../../platform/user/profile/constants/backendServices';
 
 import FormStartControls from '../../components/FormStartControls';
+
+const { EVSS_CLAIMS } = backendServices;
 
 describe('526 <FormStartControls>', () => {
   it('should render unauthenticated view', () => {
@@ -64,9 +66,9 @@ describe('526 <FormStartControls>', () => {
             currentlyLoggedIn: true
           },
           profile: {
-            verified: true,
+            verified: false,
             savedForms: [],
-            services: []
+            services: [EVSS_CLAIMS]
           }
         }}/>
     );

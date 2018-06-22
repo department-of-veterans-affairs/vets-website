@@ -6,17 +6,22 @@ import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/Sav
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
 import { ITFErrorAlert, VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert, ITFDescription } from '../helpers';
+import formConfig from '../config/form';
+
 
 export default function FormStartControls(props) {
-  const { user: { login: { currentlyLoggedIn }, profile: { verified, services } } } = props;
+  const { user: { login: { currentlyLoggedIn }, profile: { verified, services, savedForms } } } = props;
   const { EVSS_CLAIMS } = backendServices;
+
+  const { formId } = formConfig;
+  const hasSavedForm = !!(savedForms.find(form => form === formId));
 
   const somethingWentWrong = props.ITFStatus && props.ITFStatus === 'expired' || // This may not be possible
                              props.errors && props.errors.length;
   const hasEVSSClaimsService = !!(services.find(service => service === EVSS_CLAIMS));
   const gateAuthenticatedUser = !verified && currentlyLoggedIn;
-  const gateVerifiedUser = !hasEVSSClaimsService && currentlyLoggedIn;
-  const permitAuthenticatedUser = verified && hasEVSSClaimsService && currentlyLoggedIn;
+  const gateVerifiedUser = !hasEVSSClaimsService && verified;
+  const permitVerifiedUser = verified && hasEVSSClaimsService;
   return (
     <div>
       {!currentlyLoggedIn && <div>
@@ -27,10 +32,11 @@ export default function FormStartControls(props) {
         {UnverifiedAlert}
         <a href={`/verify?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
       </div>}
-      {gateVerifiedUser && <button disabled className="usa-button-primary verify-link">Start the Disability Compensation Application</button>}
+      {gateVerifiedUser && !hasSavedForm && <button disabled className="usa-button-primary verify-link">Start the Disability Compensation Application</button>}
+      {gateVerifiedUser && hasSavedForm && <button disabled className="usa-button-primary verify-link">Continue the Disability Compensation Application</button>}
       {somethingWentWrong && ITFErrorAlert}
       {props.ITFStatus === 'pending' && <LoadingIndicator message="Please wait while we check that your intent to file has been submitted."/>}
-      {!props.ITFStatus && permitAuthenticatedUser && <SaveInProgressIntro
+      {!props.ITFStatus && permitVerifiedUser && <SaveInProgressIntro
         {...props}
         buttonOnly={props.buttonOnly}
         prefillAvailable

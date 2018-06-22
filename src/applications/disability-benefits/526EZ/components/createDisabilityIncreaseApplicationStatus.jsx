@@ -17,7 +17,12 @@ export default function createDisabilityIncreaseApplicationStatus(store) {
   const hasSavedForm = !!(savedForms.find(form => form === formId));
   const shouldGateForm = !hasEVSSClaimsService && hasSavedForm;
   if (shouldGateForm) {
-    ReactDOM.render((<button disabled className="usa-button-primary verify-link">Continue the Disability Compensation Application</button>), root);
+    ReactDOM.render((<div itemProp="steps" itemScope itemType="http://schema.org/HowToSection">
+      <h3 itemProp="name">Ready to apply?</h3>
+      <div itemProp="itemListElement">
+        <button disabled className="usa-button-primary verify-link">Continue the Disability Compensation Application</button>
+      </div>
+    </div>), root);
   }
   if (root && !shouldGateForm) {
     import(
