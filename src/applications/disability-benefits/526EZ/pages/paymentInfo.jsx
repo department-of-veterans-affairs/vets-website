@@ -55,10 +55,6 @@ export const viewComponent = (response) => {
         {routingNumberString}
         {bankNameString}
       </div>
-      <p>
-        <strong>Note:</strong> If you need to update your bank information, please call Veterans Benefits Assistance
-        at <a href="tel:+18008271000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).
-      </p>
     </div>
   );
 };
