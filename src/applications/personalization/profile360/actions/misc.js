@@ -10,7 +10,7 @@ export function openModal(modal) {
 
 function validateEmail({ emailAddress: email }) {
   return {
-    emailAddress: isValidEmail(email) ? '' : 'Please enter a valid email.'
+    emailAddress: isValidEmail(email) ? '' : 'Please enter your email address again, following a standard format like name@domain.com.'
   };
 }
 
