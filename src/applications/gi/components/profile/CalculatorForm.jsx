@@ -469,7 +469,7 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderKicker()}
-        {this.renderBeneficiaryZip()}
+        {__BUILDTYPE__ !== 'production' && this.renderBeneficiaryZip()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>

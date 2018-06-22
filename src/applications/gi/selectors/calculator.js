@@ -443,7 +443,12 @@ const getDerivedValues = createSelector(
 
     const totalHousingAllowance = monthlyRateFinal * termLength;
 
-    const bah = inputs.beneficiaryLocationBah || institution.bah;
+    let bah;
+    if (__BUILDTYPE__ !== 'production') {
+      bah = inputs.beneficiaryLocationBah || institution.bah;
+    } else {
+      bah = institution.bah;
+    }
 
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
     if (isOJT && ((militaryStatus === 'active duty') || (giBillChapter === 33 && militaryStatus === 'spouse' && spouseActiveDuty))) {
