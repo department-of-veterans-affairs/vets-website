@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import {
   calculatorInputChange,
-  beneficiaryZipCodeChanged,
+  beneficiaryZIPCodeChanged,
   showModal
 } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
@@ -84,7 +84,7 @@ export class Calculator extends React.Component {
               displayedInputs={displayed}
               onShowModal={this.props.showModal}
               onInputChange={this.props.calculatorInputChange}
-              onBeneficiaryZipCodeChanged={this.props.beneficiaryZipCodeChanged}/>
+              onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}/>
           </div> : null}
       </div>
     );
@@ -197,7 +197,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   calculatorInputChange,
-  beneficiaryZipCodeChanged,
+  beneficiaryZIPCodeChanged,
   showModal,
 };
 

@@ -10,10 +10,10 @@ import {
   FETCH_PROFILE_SUCCEEDED
 } from '../actions';
 
-const beneficiaryZipRegExTester = /\b\d{5}\b/;
+const beneficiaryZIPRegExTester = /\b\d{5}\b/;
 const INITIAL_STATE = {
   beneficiaryLocationQuestion: 'yes',
-  beneficiaryZip: '',
+  beneficiaryZIP: '',
   inState: 'yes',
   tuitionInState: 0,
   tuitionOutOfState: 0,
@@ -77,17 +77,17 @@ export default function (state = INITIAL_STATE, action) {
       };
     }
     case FETCH_BAH_FAILED: {
-      const { beneficiaryZipFetched } = action;
+      const { beneficiaryZIPFetched } = action;
       const { error } = action.payload;
 
       // response mismatch - do nothing
-      if (beneficiaryZipFetched !== state.beneficiaryZipFetched) {
+      if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {
         return state;
       }
 
       const newState = {
-        beneficiaryZipError: error,
-        beneficiaryZipFetched: '',
+        beneficiaryZIPError: error,
+        beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         housingAllowanceCity: ''
       };
@@ -99,12 +99,12 @@ export default function (state = INITIAL_STATE, action) {
     }
 
     case FETCH_BAH_STARTED: {
-      const { beneficiaryZipFetched } = action;
+      const { beneficiaryZIPFetched } = action;
 
       const newState = {
-        beneficiaryZipError: '',
-        beneficiaryZip: beneficiaryZipFetched,
-        beneficiaryZipFetched,
+        beneficiaryZIPError: '',
+        beneficiaryZIP: beneficiaryZIPFetched,
+        beneficiaryZIPFetched,
         housingAllowanceCity: 'Loading...'
       };
 
@@ -115,19 +115,19 @@ export default function (state = INITIAL_STATE, action) {
     }
 
     case FETCH_BAH_SUCCEEDED: {
-      const { beneficiaryZipFetched } = action;
+      const { beneficiaryZIPFetched } = action;
       const {
         bah: beneficiaryLocationBah,
         city: housingAllowanceCity } = action.payload;
 
       // response mismatch - do nothing
-      if (beneficiaryZipFetched !== state.beneficiaryZipFetched) {
+      if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {
         return state;
       }
 
       const newState = {
-        beneficiaryZipError: '',
-        beneficiaryZipFetched: '',
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '',
         beneficiaryLocationBah,
         housingAllowanceCity
       };
@@ -138,20 +138,20 @@ export default function (state = INITIAL_STATE, action) {
       };
     }
     case BENEFICIARY_ZIP_CODE_CHANGED: {
-      const { beneficiaryZip } = action;
+      const { beneficiaryZIP } = action;
 
-      let beneficiaryZipError = state.beneficiaryZipError || '';
+      let beneficiaryZIPError = state.beneficiaryZIPError || '';
 
-      if (beneficiaryZip.length >= 5 && !beneficiaryZipRegExTester.exec(beneficiaryZip)) {
-        beneficiaryZipError = 'Zip Code must be a five digit number';
+      if (beneficiaryZIP.length >= 5 && !beneficiaryZIPRegExTester.exec(beneficiaryZIP)) {
+        beneficiaryZIPError = 'ZIP Code must be a five digit number';
       } else {
-        beneficiaryZipError = '';
+        beneficiaryZIPError = '';
       }
 
       const newState = {
-        beneficiaryZip,
-        beneficiaryZipError,
-        beneficiaryZipFetched: '',
+        beneficiaryZIP,
+        beneficiaryZIPError,
+        beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         housingAllowanceCity: ''
       };

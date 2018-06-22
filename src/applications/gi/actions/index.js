@@ -204,14 +204,14 @@ export function toggleFilter() {
   return { type: FILTER_TOGGLED };
 }
 
-const beneficiaryZipRegExTester = /\b\d{5}\b/;
+const beneficiaryZIPRegExTester = /\b\d{5}\b/;
 
-export function beneficiaryZipCodeChanged(beneficiaryZip) {
+export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
   // pass input through to reducers if not five digits
-  if (!beneficiaryZipRegExTester.exec(beneficiaryZip)) {
+  if (!beneficiaryZIPRegExTester.exec(beneficiaryZIP)) {
     return {
       type: BENEFICIARY_ZIP_CODE_CHANGED,
-      beneficiaryZip
+      beneficiaryZIP
     };
   }
 
@@ -219,13 +219,13 @@ export function beneficiaryZipCodeChanged(beneficiaryZip) {
   // const url = `${api.url}/institutions/${facilityCode}${queryString}`;
 
 
-  if (beneficiaryZip === '11111') {
+  if (beneficiaryZIP === '11111') {
     return dispatch => {
-      dispatch({ type: FETCH_BAH_STARTED, beneficiaryZipFetched: beneficiaryZip });
+      dispatch({ type: FETCH_BAH_STARTED, beneficiaryZIPFetched: beneficiaryZIP });
 
       return new Promise(resolve => setTimeout(() => {
         dispatch({
-          beneficiaryZipFetched: beneficiaryZip,
+          beneficiaryZIPFetched: beneficiaryZIP,
           payload: { bah: 5000, city: 'Los Angeles, CA' },
           type: FETCH_BAH_SUCCEEDED,
         });
@@ -234,13 +234,13 @@ export function beneficiaryZipCodeChanged(beneficiaryZip) {
     };
   }
 
-  if (beneficiaryZip === '11112') {
+  if (beneficiaryZIP === '11112') {
     return dispatch => {
-      dispatch({ type: FETCH_BAH_STARTED, beneficiaryZipFetched: beneficiaryZip });
+      dispatch({ type: FETCH_BAH_STARTED, beneficiaryZIPFetched: beneficiaryZIP });
 
       return new Promise(resolve => setTimeout(() => {
         dispatch({
-          beneficiaryZipFetched: beneficiaryZip,
+          beneficiaryZIPFetched: beneficiaryZIP,
           payload: { bah: 1, city: 'New York, NY' },
           type: FETCH_BAH_SUCCEEDED,
         });
@@ -258,12 +258,12 @@ export function beneficiaryZipCodeChanged(beneficiaryZip) {
       );
       */
   return dispatch => {
-    dispatch({ type: FETCH_BAH_STARTED, beneficiaryZipFetched: beneficiaryZip });
+    dispatch({ type: FETCH_BAH_STARTED, beneficiaryZIPFetched: beneficiaryZIP });
 
     return new Promise(resolve => setTimeout(() => {
       dispatch({
-        beneficiaryZipFetched: beneficiaryZip,
-        payload: { error: 'Invalid Zipcode' },
+        beneficiaryZIPFetched: beneficiaryZIP,
+        payload: { error: 'Invalid ZIPcode' },
         type: FETCH_BAH_FAILED,
       });
       resolve();
