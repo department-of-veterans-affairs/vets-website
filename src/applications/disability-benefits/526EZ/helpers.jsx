@@ -2,18 +2,18 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import { Validator } from 'jsonschema';
+import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
-import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
 
-import { PREFILL_STATUSES } from '../../../platform/forms/save-in-progress/actions';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
@@ -22,13 +22,13 @@ import {
   E_BENEFITS_URL
 } from './constants';
 
-const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 /*
  * Flatten nested array form data into sibling properties
  *
  * @param {object} data - Form data for a full form, including nested array properties
  */
 export function flatten(data) {
+  const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
   const formData = cloneDeep(data);
   formData.disabilities.forEach((disability, idx) => {
     siblings.forEach(sibling => {
@@ -53,36 +53,28 @@ export function transform(formConfig, form) {
   });
 }
 
+export function validateDisability(disability) {
+  const invalidDisabilityError = (error => /^instance.disabilities\[/.test(error.property));
+  const v = new Validator();
+  const result = v.validate(
+    { disabilities: [disability] },
+    fullSchemaIncrease
+  );
 
-export const isPrefillDataComplete = (formData) => {
-  const { socialSecurityNumber, vaFileNumber, gender,
-    dateOfBirth, servicePeriods } = formData;
-  const first = get('fullName.first', formData);
-  const last = get('fullName.last', formData);
-  const country = get('veteran.mailingAddress.country', formData);
-  const addressLine1 = get('veteran.mailingAddress.addressLine1', formData);
-  const emailAddress = get('veteran.emailAddress', formData);
-  const primaryPhone = get('veteran.primaryPhone', formData);
-  const accountType = get('directDeposit.accountType', formData);
-  const routingNumber = get('directDeposit.routingNumber', formData);
-  const bankName = get('directDeposit.bankName', formData);
-  const noBank = get('directDeposit.noBank', formData);
-  const hasVeteranDetails = first && last && gender && dateOfBirth && (socialSecurityNumber || vaFileNumber);
-  const hasPrimaryAddressInfo = country && addressLine1 && emailAddress && primaryPhone;
-  const hasPaymentInfo = noBank || (accountType && routingNumber && bankName);
-  const hasMilitaryHistoryInfo = servicePeriods && servicePeriods.length > 0;
-  return !!(hasVeteranDetails && hasPrimaryAddressInfo && hasPaymentInfo && hasMilitaryHistoryInfo);
-};
-
-
-export function prefillTransformer(pages, formData, metadata, state) {
-  let newData = formData;
-  const isPrefilled = state.prefilStatus === PREFILL_STATUSES.success;
-  const hasRequiredInformation = isPrefillDataComplete(formData);
-
-  if (isPrefilled && hasRequiredInformation) {
-    newData = set('prefilled', true, newData);
+  if (result.errors.find(invalidDisabilityError)) {
+    Raven.captureMessage(`vets-disability-increase-invalid-disability-prefilled: ${disability}`);
+    return false;
   }
+  return true;
+}
+
+export function transformDisabilities(disabilities) {
+  return disabilities.map(disability => set('disabilityActionType', 'INCREASE', disability));
+}
+
+export function prefillTransformer(pages, formData, metadata) {
+  const newData = set('disabilities', transformDisabilities(formData.disabilities), formData);
+  newData.disabilities.forEach(validateDisability);
 
   return {
     metadata,
