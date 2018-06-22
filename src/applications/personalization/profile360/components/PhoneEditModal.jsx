@@ -2,19 +2,38 @@ import React from 'react';
 import { merge } from 'lodash';
 
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import Vet360EditModal from './Vet360EditModal';
 
+class PhoneTextInput extends ErrorableTextInput {
+  componentDidMount() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'usa-only-phone-wrapper';
+
+    const inputField = document.querySelector('input.usa-only-phone');
+
+    inputField.parentNode.insertBefore(wrapper, inputField);
+    wrapper.appendChild(inputField);
+
+    const prefixEl = document.createElement('span');
+    prefixEl.innerText = '+1';
+    prefixEl.className = 'usa-only-phone-prefix';
+    inputField.insertAdjacentElement('beforebegin', prefixEl);
+  }
+}
+
 export default class PhoneEditModal extends React.Component {
+  // @todo Add propTypes
+
   onChange = (field) => {
     return ({ value, dirty }) => {
       const newFieldValue = {
         ...this.props.field.value,
         [field]: value
       };
-      // The `dirty` flag triggers validation to run. We only validate
-      // the number at this point in time, so we only run it if that's the field changing.
-      this.props.onChange(newFieldValue, field === 'number' ? dirty : false);
+
+      this.props.onChange(newFieldValue, dirty);
     };
   }
 
@@ -27,7 +46,7 @@ export default class PhoneEditModal extends React.Component {
       });
     } else {
       defaultFieldValue = {
-        countryCode: '',
+        countryCode: '1',
         extension: '',
         phoneNumber: ''
       };
@@ -43,20 +62,24 @@ export default class PhoneEditModal extends React.Component {
   renderForm = () => {
     return (
       <div>
-        <ErrorableTextInput
-          autoFocus
-          label="Country Code"
-          field={{ value: this.props.field.value.countryCode, dirty: false }}
-          onValueChange={this.onChange('countryCode')}/>
+        <AlertBox
+          isVisible
+          status="info">
+          <p>We can only support U.S. phone numbers right now. If you have an international number, please check back later.</p>
+        </AlertBox>
 
-        <ErrorableTextInput
+        <PhoneTextInput
+          additionalClass="usa-only-phone"
           label="Number"
+          charMax={14}
+          required
           field={{ value: this.props.field.value.inputPhoneNumber, dirty: false }}
           onValueChange={this.onChange('inputPhoneNumber')}
-          errorMessage={this.props.field.errorMessage}/>
+          errorMessage={this.props.field.validations.inputPhoneNumber}/>
 
         <ErrorableTextInput
           label="Extension"
+          charMax={10}
           field={{ value: this.props.field.value.extension, dirty: false }}
           onValueChange={this.onChange('extension')}/>
       </div>

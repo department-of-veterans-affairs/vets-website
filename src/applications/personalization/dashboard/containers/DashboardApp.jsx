@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import Scroll from 'react-scroll';
 
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { removeSavedForm } from '../actions';
 
@@ -302,7 +303,7 @@ class DashboardApp extends React.Component {
     return (
       <div name="topScrollElement">
         <RequiredLoginView
-          serviceRequired={['user-profile']}
+          serviceRequired={[backendServices.USER_PROFILE]}
           user={this.props.user}>
           <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.mhv, services.appeals]} render={this.renderDowntimeNotification}>
             {view}
@@ -316,10 +317,10 @@ class DashboardApp extends React.Component {
 const mapStateToProps = (state) => {
   const userState = state.user;
   const profileState = userState.profile;
-  const canAccessRx = profileState.services.includes('rx');
-  const canAccessMessaging = profileState.services.includes('messaging');
-  const canAccessAppeals = profileState.services.includes('appeals-status');
-  const canAccessClaims = profileState.services.includes('evss-claims');
+  const canAccessRx = profileState.services.includes(backendServices.RX);
+  const canAccessMessaging = profileState.services.includes(backendServices.MESSAGING);
+  const canAccessAppeals = profileState.services.includes(backendServices.APPEALS_STATUS);
+  const canAccessClaims = profileState.services.includes(backendServices.EVSS_CLAIMS);
 
   return {
     canAccessRx,

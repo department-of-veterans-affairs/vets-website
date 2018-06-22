@@ -1,14 +1,13 @@
 import _ from '../../../../platform/utilities/data';
 
-// import { omitRequired } from '../../../common/schemaform/helpers';
-
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
-// import fullSchema526EZ from '/path/vets-json-schema/dist/21-526EZ-schema.json';
-import fileUploadUI from '../../../common/schemaform/definitions/file';
-import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
-import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import { uiSchema as autoSuggestUiSchema } from '../../../common/schemaform/definitions/autosuggest';
+
+// import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -65,8 +64,8 @@ import {
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
-import { validateBooleanGroup } from '../../../common/schemaform/validation';
-import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWidget';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
 const {
   treatments: treatmentsSchema,

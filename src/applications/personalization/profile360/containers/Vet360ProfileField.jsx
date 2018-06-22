@@ -26,7 +26,7 @@ import Vet360Transaction from '../components/Vet360Transaction';
 
 class Vet360ProfileField extends React.Component {
 
-  isEmpty() {
+  isEmpty = () => {
     return this.props.isEmpty ? this.props.isEmpty(this.props) : !this.props.data;
   }
 
@@ -48,7 +48,7 @@ class Vet360ProfileField extends React.Component {
     return (
       <div className="vet360-profile-field">
         <Vet360ProfileFieldHeading onEditClick={this.isEditLinKVisible() && onEdit}>{title}</Vet360ProfileFieldHeading>
-        {isEditing && <EditModal {...this.props}/>}
+        {isEditing && <EditModal {...this.props} isEmpty={this.isEmpty}/>}
         <Vet360Transaction
           title={title}
           transaction={transaction}
