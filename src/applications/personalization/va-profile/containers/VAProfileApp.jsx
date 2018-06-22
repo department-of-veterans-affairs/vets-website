@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import {
   initializeDowntimeWarnings,
   dismissDowntimeWarning
@@ -25,7 +26,7 @@ class VAProfileApp extends React.Component {
       <div>
         <RequiredLoginView
           authRequired={1}
-          serviceRequired="user-profile"
+          serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>

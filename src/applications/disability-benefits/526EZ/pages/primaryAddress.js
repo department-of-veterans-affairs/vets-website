@@ -1,14 +1,22 @@
 import _ from 'lodash';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from '/path/vets-json-schema/dist/21-526EZ-schema.json';
 
-import dateUI from '../../../common/schemaform/definitions/date';
-import PhoneNumberWidget from '../../../common/schemaform/widgets/PhoneNumberWidget';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
+import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import { PrimaryAddressViewField, MILITARY_STATES, MILITARY_CITIES, USA } from '../helpers';
-import { omitRequired } from '../../../common/schemaform/helpers.js';
+import { PrimaryAddressViewField } from '../helpers';
+import  {
+  MILITARY_CITIES,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  STATE_LABELS,
+  STATE_VALUES,
+  USA
+} from '../constants';
 
 function isValidZIP(value) {
   if (value !== null) {
@@ -24,7 +32,7 @@ function validateZIP(errors, zip) {
 }
 
 function validateMilitaryCity(errors, city, formData, schema, messages, options) {
-  const isMilitaryState = MILITARY_STATES.includes(
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(
     _.get(formData, `veteran[${options.addressName}].state`, '')
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
@@ -37,7 +45,7 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
   const isMilitaryCity = MILITARY_CITIES.includes(
     _.get(formData, `veteran[${options.addressName}].city`, '').trim().toUpperCase()
   );
-  const isMilitaryState = MILITARY_STATES.includes(state);
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
@@ -45,356 +53,22 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
 
 const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
 
-const states = [
-  'AL',
-  'AK',
-  'AS',
-  'AZ',
-  'AR',
-  'AA',
-  'AE',
-  'AP',
-  'CA',
-  'CO',
-  'CT',
-  'DE',
-  'DC',
-  'FM',
-  'FL',
-  'GA',
-  'GU',
-  'HI',
-  'ID',
-  'IL',
-  'IN',
-  'IA',
-  'KS',
-  'KY',
-  'LA',
-  'ME',
-  'MH',
-  'MD',
-  'MA',
-  'MI',
-  'MN',
-  'MS',
-  'MO',
-  'MT',
-  'NE',
-  'NV',
-  'NH',
-  'NJ',
-  'NM',
-  'NY',
-  'NC',
-  'ND',
-  'MP',
-  'OH',
-  'OK',
-  'OR',
-  'PW',
-  'PA',
-  'PR',
-  'RI',
-  'SC',
-  'SD',
-  'TN',
-  'TX',
-  'UT',
-  'VT',
-  'VI',
-  'VA',
-  'WA',
-  'WV',
-  'WI',
-  'WY',
-  'PI',
-  'UM'
-];
-
-const stateLabels = {
-  AL: 'Alabama',
-  AK: 'Alaska',
-  AS: 'American Samoa',
-  AZ: 'Arizona',
-  AR: 'Arkansas',
-  AA: 'Armed Forces Americas (AA)',
-  AE: 'Armed Forces Europe (AE)',
-  AP: 'Armed Forces Pacific (AP)',
-  CA: 'California',
-  CO: 'Colorado',
-  CT: 'Connecticut',
-  DE: 'Delaware',
-  DC: 'District Of Columbia',
-  FM: 'Federated States Of Micronesia',
-  FL: 'Florida',
-  GA: 'Georgia',
-  GU: 'Guam',
-  HI: 'Hawaii',
-  ID: 'Idaho',
-  IL: 'Illinois',
-  IN: 'Indiana',
-  IA: 'Iowa',
-  KS: 'Kansas',
-  KY: 'Kentucky',
-  LA: 'Louisiana',
-  ME: 'Maine',
-  MH: 'Marshall Islands',
-  MD: 'Maryland',
-  MA: 'Massachusetts',
-  MI: 'Michigan',
-  MN: 'Minnesota',
-  MS: 'Mississippi',
-  MO: 'Missouri',
-  MT: 'Montana',
-  NE: 'Nebraska',
-  NV: 'Nevada',
-  NH: 'New Hampshire',
-  NJ: 'New Jersey',
-  NM: 'New Mexico',
-  NY: 'New York',
-  NC: 'North Carolina',
-  ND: 'North Dakota',
-  MP: 'Northern Mariana Islands',
-  OH: 'Ohio',
-  OK: 'Oklahoma',
-  OR: 'Oregon',
-  PW: 'Palau',
-  PA: 'Pennsylvania',
-  PR: 'Puerto Rico',
-  RI: 'Rhode Island',
-  SC: 'South Carolina',
-  SD: 'South Dakota',
-  TN: 'Tennessee',
-  TX: 'Texas',
-  UT: 'Utah',
-  VT: 'Vermont',
-  VI: 'Virgin Islands',
-  VA: 'Virginia',
-  WA: 'Washington',
-  WV: 'West Virginia',
-  WI: 'Wisconsin',
-  WY: 'Wyoming',
-  PI: 'Rizal state',
-  UM: 'United States Minor Outlying Islands'
-};
-
-const countries = [
-  'USA',
-  'Afghanistan',
-  'Albania',
-  'Algeria',
-  'Angola',
-  'Anguilla',
-  'Antigua',
-  'Antigua and Barbuda',
-  'Argentina',
-  'Armenia',
-  'Australia',
-  'Austria',
-  'Azerbaijan',
-  'Azores',
-  'Bahamas',
-  'Bahrain',
-  'Bangladesh',
-  'Barbados',
-  'Barbuda',
-  'Belarus',
-  'Belgium',
-  'Belize',
-  'Benin',
-  'Bermuda',
-  'Bhutan',
-  'Bolivia',
-  'Bosnia-Herzegovina',
-  'Botswana',
-  'Brazil',
-  'Brunei',
-  'Bulgaria',
-  'Burkina Faso',
-  'Burma',
-  'Burundi',
-  'Cambodia',
-  'Cameroon',
-  'Canada',
-  'Cape Verde',
-  'Cayman Islands',
-  'Central African Republic',
-  'Chad',
-  'Chile',
-  'China',
-  'Colombia',
-  'Comoros',
-  'Congo, Democratic Republic of',
-  "Congo, People's Republic of",
-  'Costa Rica',
-  "Cote d'Ivoire",
-  'Croatia',
-  'Cuba',
-  'Cyprus',
-  'Czech Republic',
-  'Denmark',
-  'Djibouti',
-  'Dominica',
-  'Dominican Republic',
-  'Ecuador',
-  'Egypt',
-  'El Salvador',
-  'England',
-  'Equatorial Guinea',
-  'Eritrea',
-  'Estonia',
-  'Ethiopia',
-  'Fiji',
-  'Finland',
-  'France',
-  'French Guiana',
-  'Gabon',
-  'Gambia',
-  'Georgia',
-  'Germany',
-  'Ghana',
-  'Gibraltar',
-  'Great Britain',
-  'Great Britain and Gibraltar',
-  'Greece',
-  'Greenland',
-  'Grenada',
-  'Guadeloupe',
-  'Guatemala',
-  'Guinea',
-  'Guinea, Republic of Guinea',
-  'Guinea-Bissau',
-  'Guyana',
-  'Haiti',
-  'Honduras',
-  'Hong Kong',
-  'Hungary',
-  'Iceland',
-  'India',
-  'Indonesia',
-  'Iran',
-  'Iraq',
-  'Ireland',
-  'Israel (Jerusalem)',
-  'Israel (Tel Aviv)',
-  'Italy',
-  'Jamaica',
-  'Japan',
-  'Jordan',
-  'Kazakhstan',
-  'Kenya',
-  'Kosovo',
-  'Kuwait',
-  'Kyrgyzstan',
-  'Laos',
-  'Latvia',
-  'Lebanon',
-  'Leeward Islands',
-  'Lesotho',
-  'Liberia',
-  'Libya',
-  'Liechtenstein',
-  'Lithuania',
-  'Luxembourg',
-  'Macao',
-  'Macedonia',
-  'Madagascar',
-  'Malawi',
-  'Malaysia',
-  'Mali',
-  'Malta',
-  'Martinique',
-  'Mauritania',
-  'Mauritius',
-  'Mexico',
-  'Moldavia',
-  'Mongolia',
-  'Montenegro',
-  'Montserrat',
-  'Morocco',
-  'Mozambique',
-  'Namibia',
-  'Nepal',
-  'Netherlands',
-  'Netherlands Antilles',
-  'Nevis',
-  'New Caledonia',
-  'New Zealand',
-  'Nicaragua',
-  'Niger',
-  'Nigeria',
-  'North Korea',
-  'Northern Ireland',
-  'Norway',
-  'Oman',
-  'Pakistan',
-  'Panama',
-  'Papua New Guinea',
-  'Paraguay',
-  'Peru',
-  'Philippines',
-  'Philippines (restricted payments)',
-  'Poland',
-  'Portugal',
-  'Qatar',
-  'Republic of Yemen',
-  'Romania',
-  'Russia',
-  'Rwanda',
-  'Sao-Tome/Principe',
-  'Saudi Arabia',
-  'Scotland',
-  'Senegal',
-  'Serbia',
-  'Serbia/Montenegro',
-  'Seychelles',
-  'Sicily',
-  'Sierra Leone',
-  'Singapore',
-  'Slovakia',
-  'Slovenia',
-  'Somalia',
-  'South Africa',
-  'South Korea',
-  'Spain',
-  'Sri Lanka',
-  'St. Kitts',
-  'St. Lucia',
-  'St. Vincent',
-  'Sudan',
-  'Suriname',
-  'Swaziland',
-  'Sweden',
-  'Switzerland',
-  'Syria',
-  'Taiwan',
-  'Tajikistan',
-  'Tanzania',
-  'Thailand',
-  'Togo',
-  'Trinidad and Tobago',
-  'Tunisia',
-  'Turkey (Adana only)',
-  'Turkey (except Adana)',
-  'Turkmenistan',
-  'Uganda',
-  'Ukraine',
-  'United Arab Emirates',
-  'United Kingdom',
-  'Uruguay',
-  'Uzbekistan',
-  'Vanuatu',
-  'Venezuela',
-  'Vietnam',
-  'Wales',
-  'Western Samoa',
-  'Yemen Arab Republic',
-  'Zambia',
-  'Zimbabwe'
-];
-
 const addressUISchema = (addressName, title) => {
+  const updateStates = (form) => {
+    const currentCity = _.get(form, `veteran.${addressName}.city`, '').trim().toUpperCase();
+    if (MILITARY_CITIES.includes(currentCity)) {
+      return {
+        'enum': MILITARY_STATE_VALUES,
+        enumNames: MILITARY_STATE_LABELS
+      };
+    }
+
+    return {
+      'enum': STATE_VALUES,
+      enumNames: STATE_LABELS
+    };
+  };
+
   return {
     'ui:order': [
       'country',
@@ -429,8 +103,8 @@ const addressUISchema = (addressName, title) => {
       'ui:title': 'State',
       'ui:required': ({ veteran }) => (veteran.mailingAddress.country === USA),
       'ui:options': {
-        labels: stateLabels,
         hideIf: ({ veteran }) => (veteran.mailingAddress.country !== USA),
+        updateSchema: updateStates
       },
       'ui:validations': [{
         options: { addressName },
@@ -452,43 +126,7 @@ const addressUISchema = (addressName, title) => {
   };
 };
 
-const addressSchema = {
-  type: 'object',
-  required: ['country', 'city', 'addressLine1'],
-  properties: {
-    country: {
-      type: 'string',
-      'enum': countries
-    },
-    addressLine1: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-    },
-    addressLine2: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-    },
-    addressLine3: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-    },
-    city: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
-    },
-    state: {
-      type: 'string',
-      'enum': states
-    },
-    zipCode: {
-      type: 'string'
-    }
-  }
-};
+const { mailingAddress, forwardingAddress } = fullSchema526EZ.properties.veteran.properties;
 
 export const uiSchema = {
   veteran: {
@@ -589,7 +227,7 @@ export const primaryAddressSchema = {
     veteran: {
       type: 'object',
       properties: {
-        mailingAddress: addressSchema,
+        mailingAddress,
         primaryPhone: {
           type: 'string',
           pattern: '^\\d{10}$'
@@ -601,14 +239,8 @@ export const primaryAddressSchema = {
         'view:hasForwardingAddress': {
           type: 'boolean'
         },
-        forwardingAddress: _.merge({}, omitRequired(addressSchema), {
-          type: 'object',
-          properties: {
-            effectiveDate: fullSchema526EZ.definitions.date
-          }
-        })
+        forwardingAddress
       }
     }
   }
 };
-
