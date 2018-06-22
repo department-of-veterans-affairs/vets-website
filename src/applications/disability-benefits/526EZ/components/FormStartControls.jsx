@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
-import { EVSS_CLAIMS } from '../../../../platform/user/profile/constants/backendServices';
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
 import { ITFErrorAlert, VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert, ITFDescription } from '../helpers';
 
 export default function FormStartControls(props) {
   const { user: { login: { currentlyLoggedIn }, profile: { verified, services } } } = props;
+  const { EVSS_CLAIMS } = backendServices;
 
   const somethingWentWrong = props.ITFStatus && props.ITFStatus === 'expired' || // This may not be possible
                              props.errors && props.errors.length;
-  const hasEVSSClaimsService = !!(services.find((service) => service === EVSS_CLAIMS));
-  const gateAuthenticatedUser = (!verified ||  !hasEVSSClaimsService) && currentlyLoggedIn;
+  const hasEVSSClaimsService = !!(services.find(service => service === EVSS_CLAIMS));
+  const gateAuthenticatedUser = !verified && currentlyLoggedIn;
+  const gateVerifiedUser = !hasEVSSClaimsService && currentlyLoggedIn;
   const permitAuthenticatedUser = verified && hasEVSSClaimsService && currentlyLoggedIn;
   return (
     <div>
@@ -25,6 +27,7 @@ export default function FormStartControls(props) {
         {UnverifiedAlert}
         <a href={`/verify?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
       </div>}
+      {gateVerifiedUser && <button disabled className="usa-button-primary verify-link">Start the Disability Compensation Application</button>}
       {somethingWentWrong && ITFErrorAlert}
       {props.ITFStatus === 'pending' && <LoadingIndicator message="Please wait while we check that your intent to file has been submitted."/>}
       {!props.ITFStatus && permitAuthenticatedUser && <SaveInProgressIntro

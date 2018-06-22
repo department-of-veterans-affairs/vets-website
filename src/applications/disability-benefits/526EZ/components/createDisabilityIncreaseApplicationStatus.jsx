@@ -2,11 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-const disabilityForms = new Set(['21-526EZ']);
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import formConfig from '../config/form';
+
+const { formId } = formConfig;
+const { EVSS_CLAIMS } = backendServices;
+const disabilityForms = new Set([formId]);
 
 export default function createDisabilityIncreaseApplicationStatus(store) {
   const root = document.getElementById('react-applicationStatus');
-  if (root) {
+  const state = store.getState();
+  const { user: { profile: { savedForms, services } } } = state;
+  const hasEVSSClaimsService = !!(services.find(service => service === EVSS_CLAIMS));
+  const hasSavedForm = !!(savedForms.find(form => form === formId));
+  const shouldGateForm = !hasEVSSClaimsService && hasSavedForm;
+  if (shouldGateForm) {
+    ReactDOM.render((<button disabled className="usa-button-primary verify-link">Continue the Disability Compensation Application</button>), root);
+  }
+  if (root && !shouldGateForm) {
     import(
       /* webpackChunkName: "disability-application-status" */
       '../disabilityIncreaseEntry').then(module => {
