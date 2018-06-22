@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { apiRequest } from '../../../../platform/utilities/api';
 import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
-import { srSubstitute } from '../helpers';
+import { srSubstitute, PaymentDescription } from '../helpers';
 
 const accountTitleLabels = {
   CHECKING: 'Checking Account',
@@ -46,9 +46,7 @@ export const viewComponent = (response) => {
   }
   return (
     <div>
-      <p>
-        This is the bank account information we have on file for you. We pay your disability and pension benefits to this account.
-      </p>
+      <PaymentDescription/>
       <div className="blue-bar-block">
         <p>
           <strong>{accountTitleLabels[accountType.toUpperCase()]}</strong>
