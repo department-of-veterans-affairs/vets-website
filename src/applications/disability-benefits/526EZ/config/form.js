@@ -180,8 +180,7 @@ const formConfig = {
           uiSchema: {
             servicePeriods: {
               'ui:title': 'Military service history',
-              'ui:description':
-                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:description': 'This is the military service history we have on file for you.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
@@ -222,7 +221,6 @@ const formConfig = {
         paymentInformation: {
           title: 'Payment Information',
           path: 'payment-information',
-          description: 'This is the bank account information we have on file for you. We’ll pay your benefit to this account. If you need to make changes to your bank information, you can click the Edit button.',
           uiSchema: paymentInfoUiSchema,
           schema: paymentInfoSchema
         },
