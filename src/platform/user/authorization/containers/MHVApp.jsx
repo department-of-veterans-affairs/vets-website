@@ -217,15 +217,15 @@ export class MHVApp extends React.Component {
 
     if (account.state === 'upgrade_failed') { return this.renderUpgradeFailedMessage(); }
 
-    if (account.state === 'needs_terms_acceptance') {
-      return <LoadingIndicator setFocus message="Redirecting to terms and conditions..."/>;
-    }
-
     if (this.shouldShowIneligibleMessage()) {
       return this.renderIneligibleMessage(this.props.account.state);
     }
 
-    if (!this.hasService()) { return mhvAccessError; }
+    if (!this.hasService()) {
+      return (account.state === 'needs_terms_acceptance') ?
+        <LoadingIndicator setFocus message="Redirecting to terms and conditions..."/> :
+        mhvAccessError;
+    }
 
     return (
       <div>
