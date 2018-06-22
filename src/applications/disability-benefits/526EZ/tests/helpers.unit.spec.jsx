@@ -2,14 +2,15 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import {
   flatten,
-  isPrefillDataComplete,
+  isValidDisability,
+  filterInvalidDisabilities,
+  transformDisabilities,
   prefillTransformer,
   get4142Selection,
   queryForFacilities
 } from '../helpers.jsx';
 import initialData from './schema/initialData.js';
 
-delete initialData.prefilled;
 const treatments = [
   {
     treatment: {
@@ -17,12 +18,12 @@ const treatments = [
     }
   }
 ];
+initialData.disabilities[0] = {}; // Disabled for prefill transformer test
 initialData.disabilities[0].treatments = treatments;
 const flattened = flatten(initialData);
-const completeData = initialData;
-const incompleteData = {};
+const invalidDisability = initialData.disabilities[1];
+const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
 const { formData: transformedPrefill } = prefillTransformer([], initialData, {}, { prefilStatus: 'success' });
-const { formData: incompletePrefill } = prefillTransformer([], {}, {}, { prefilStatus: 'success' });
 
 describe('526 helpers', () => {
   describe('flatten', () => {
@@ -31,23 +32,29 @@ describe('526 helpers', () => {
       expect(flattened.disabilities[0].treatments).to.not.exist;
     });
   });
-  describe('isPrefillDataComplete', () => {
-    it('should reject incomplete prefilled data', () => {
-      expect(isPrefillDataComplete(incompleteData)).to.equal(false);
+  describe('isValidDisability', () => {
+    it('should reject invalid disability data', () => {
+      expect(isValidDisability(invalidDisability)).to.equal(false);
     });
-    it('should accept complete prefilled data', () => {
-      expect(isPrefillDataComplete(completeData)).to.equal(true);
+    it('should accept valid disability data', () => {
+      expect(isValidDisability(validDisability)).to.equal(true);
+    });
+  });
+  describe('transformDisabilities', () => {
+    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
+      expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
+    });
+  });
+  describe('validateDisabilities', () => {
+    it('filter invalid disabilities', () => {
+      expect(filterInvalidDisabilities([invalidDisability, validDisability])).to.deep.equal([validDisability]);
     });
   });
   describe('prefillTransformer', () => {
-    it('should record if the form was prefilled', () => {
-      expect(transformedPrefill.prefilled).to.be.true;
-    });
-    it('should not record if the form was not completely prefilled', () => {
-      expect(incompletePrefill.prefilled).to.be.undefined;
+    it('validate transformed disabilities', () => {
+      expect(transformedPrefill.disabilities.length).to.equal(initialData.disabilities.length - 1);
     });
   });
-
   describe('get4142Selection', () => {
     const fullDisabilities = [
       {
