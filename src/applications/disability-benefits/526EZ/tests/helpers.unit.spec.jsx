@@ -2,8 +2,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import {
   flatten,
-  isValidDisability,
-  filterInvalidDisabilities,
+  validateDisability,
   transformDisabilities,
   prefillTransformer,
   get4142Selection,
@@ -25,19 +24,19 @@ describe('526 helpers', () => {
   const flattened = flatten(prefilledData);
   const invalidDisability = prefilledData.disabilities[1];
   const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
-  const { formData: transformedPrefill } = prefillTransformer([], prefilledData, {}, { prefilStatus: 'success' });
+  const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
   describe('flatten', () => {
     it('should flatten sibling arrays', () => {
       expect(flattened.treatments).to.exist;
       expect(flattened.disabilities[0].treatments).to.not.exist;
     });
   });
-  describe('isValidDisability', () => {
+  describe('validateDisability', () => {
     it('should reject invalid disability data', () => {
-      expect(isValidDisability(invalidDisability)).to.equal(false);
+      expect(validateDisability(invalidDisability)).to.equal(false);
     });
     it('should accept valid disability data', () => {
-      expect(isValidDisability(validDisability)).to.equal(true);
+      expect(validateDisability(validDisability)).to.equal(true);
     });
   });
   describe('transformDisabilities', () => {
@@ -45,14 +44,9 @@ describe('526 helpers', () => {
       expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
     });
   });
-  describe('validateDisabilities', () => {
-    it('filter invalid disabilities', () => {
-      expect(filterInvalidDisabilities([invalidDisability, validDisability])).to.deep.equal([validDisability]);
-    });
-  });
   describe('prefillTransformer', () => {
-    it('validate transformed disabilities', () => {
-      expect(transformedPrefill.disabilities.length).to.equal(prefilledData.disabilities.length - 1);
+    it('should transform prefilled disabilities', () => {
+      expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal('INCREASE');
     });
   });
   describe('get4142Selection', () => {

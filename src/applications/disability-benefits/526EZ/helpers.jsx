@@ -52,7 +52,7 @@ export function transform(formConfig, form) {
   });
 }
 
-export function isValidDisability(disability) {
+export function validateDisability(disability) {
   const invalidDisabilityError = (error => /^instance.disabilities\[/.test(error.property));
   const v = new Validator();
   const result = v.validate(
@@ -67,16 +67,13 @@ export function isValidDisability(disability) {
   return true;
 }
 
-export function filterInvalidDisabilities(disabilities) {
-  return disabilities.filter(disability => isValidDisability(disability));
-}
-
 export function transformDisabilities(disabilities) {
   return disabilities.map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
 export function prefillTransformer(pages, formData, metadata) {
-  const newData = set('disabilities', filterInvalidDisabilities(transformDisabilities(formData.disabilities)), formData);
+  const newData = set('disabilities', transformDisabilities(formData.disabilities), formData);
+  newData.disabilities.forEach(disability => validateDisability(disability));
 
   return {
     metadata,
