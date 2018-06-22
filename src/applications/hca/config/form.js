@@ -20,7 +20,7 @@ import {
   states
 } from '../../../platform/forms/address';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { services } from '../../../platform/monitoring/DowntimeNotification';
+import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
@@ -149,7 +149,7 @@ const formConfig = {
     noAuth: 'Please sign in again to resume your application for health care.'
   },
   downtime: {
-    dependencies: [services.es],
+    dependencies: [externalServices.es],
     message: DowntimeMessage
   },
   transformForSubmit: transform,

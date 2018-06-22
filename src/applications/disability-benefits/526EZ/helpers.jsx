@@ -18,7 +18,8 @@ import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL
+  VA_FORM4142_URL,
+  E_BENEFITS_URL
 } from './constants';
 
 /*
@@ -395,7 +396,13 @@ export const veteranInformationViewField = (data) => {
   const mask = srSubstitute('●●●–●●–', 'ending with');
   return (
     <div>
-      <p>This is the personal information we have on file for you.</p>
+      <p>
+        This is the personal information we have on file for you. If something doesn’t look
+        right and you need to update your details, please go to eBenefits.
+      </p>
+      <p>
+        <a target="_blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
+      </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
         <p>Social Security number: {mask}{ssn.slice(5)}</p>
@@ -668,3 +675,29 @@ export const get4142Selection = (disabilities) => {
     return false;
   }, false);
 };
+
+export const AddressDescription = () => (
+  <div>
+    <p>
+      This is the contact information we have on file for you. We’ll send any important
+      information about your disability claim to the address listed here. Any updates
+      you make here to your contact information will only apply to this application.
+    </p>
+    <p>
+      If you want to update your contact information for all your VA accounts, please go
+      to your profile page.
+    </p>
+    <p>
+      <a href="/profile">Go to my profile page</a>.
+    </p>
+  </div>
+);
+
+export const PaymentDescription = () => (
+  <p>
+    This is the bank account information we have on file for you. We’ll pay your
+    disability benefit to this account. If you need to update your bank information,
+    please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
+    Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+  </p>
+);

@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import { serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import { externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 
 function DowntimeBanner({ downtime, section }) {
   return (
@@ -18,7 +18,7 @@ function DowntimeBanner({ downtime, section }) {
 
 function handleDowntimeForSection(section) {
   return (downtime, children) => {
-    if (downtime.status === serviceStatus.down) {
+    if (downtime.status === externalServiceStatus.down) {
       return <DowntimeBanner section={section} downtime={downtime}/>;
     }
     return children;

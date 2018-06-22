@@ -1,7 +1,7 @@
 import { every } from 'lodash';
 
 import React from 'react';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
 import { FIELD_NAMES } from '../constants/vet360';
@@ -72,7 +72,7 @@ export default class ContactInformation extends React.Component {
     return (
       <div>
         <h2 className="va-profile-heading">Contact Information</h2>
-        <DowntimeNotification render={handleDowntimeForSection('contact')} dependencies={[services.vet360]}>
+        <DowntimeNotification render={handleDowntimeForSection('contact')} dependencies={[externalServices.vet360]}>
           <div>
             {this.renderContent()}
             <div>
