@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: How to Apply for Health Care
+title: How to Apply for Health Care Benefits
 display_title: How to Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-08-28
@@ -19,7 +19,7 @@ widgets:
 
 <div itemprop="description" class="va-introtext">
 
-Find out how to apply for VA health care benefits.
+Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 
 </div>
 
@@ -93,6 +93,9 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 [Find a VA medical center or clinic near you](/facilities/).<br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
+Or get help through your state's Department of Veterans Affairs. <br>
+[Find your state’s Department of Veterans Affairs](https://www.va.gov/statedva.htm).
+
 ##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br> 
@@ -101,19 +104,34 @@ You can work with a trained professional called an accredited representative to 
 </div>
 </div>
 
-<div <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<div class="feature">
+
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">What if I'm the caregiver of a post-9/11 Veteran or Servicemember?</h4>
+<div itemprop="itemListElement">
+
+You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG). <br>
+
+[Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
+
+</div>
+</div>
+</div>
+
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 <h3 itemprop="name">What happens after I apply?</h3>
 <div itemprop="itemListElement">
 
 [Find out what happens after you apply](/health-care/after-you-apply/).
 
-If you’ve also applied for a VA pension or disability benefits, you can check the status of those claims online. [Check the status of your claim](/track-claims/).
+If you’ve also applied for a VA pension or disability benefits, you can check the status of those claims online. <br>
+[Check the status of your claim](/track-claims/).
 
 </div>
 </div>
 
-<div <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name">How long does it take VA to make a decision?</h3>
 <div itemprop="itemListElement">
 
@@ -130,7 +148,9 @@ If you’ve also applied for a VA pension or disability benefits, you can check 
 <h3 itemprop="name">How do I update my information if I’m already signed up?</h3>
 <div itemprop="itemListElement">
 
-To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
+To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). <br>
+
+[Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
 </div>
 </div>
