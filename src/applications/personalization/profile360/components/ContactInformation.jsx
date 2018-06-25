@@ -4,8 +4,8 @@ import React from 'react';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
-import { FIELD_NAMES } from '../constants/vet360';
-import Vet360PendingTransactionCategory, { transactionCategoryTypes } from '../containers/Vet360PendingTransactionCategory';
+import { FIELD_NAMES, TRANSACTION_CATEGORY_TYPES } from '../constants/vet360';
+import Vet360PendingTransactionCategory from '../containers/Vet360PendingTransactionCategory';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
 import EmailSection from './EmailSection';
@@ -38,7 +38,7 @@ export default class ContactInformation extends React.Component {
       <div>
         <ContactInformationExplanation/>
 
-        <Vet360PendingTransactionCategory categoryType={transactionCategoryTypes.ADDRESS}>
+        <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}>
           <AddressSection
             title="Mailing address"
             fieldName={FIELD_NAMES.MAILING_ADDRESS}
@@ -51,7 +51,7 @@ export default class ContactInformation extends React.Component {
             addressConstants={addressConstants}/>
         </Vet360PendingTransactionCategory>
 
-        <Vet360PendingTransactionCategory categoryType={transactionCategoryTypes.PHONE}>
+        <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}>
           <PhoneSection
             title="Home phone number"
             fieldName={FIELD_NAMES.HOME_PHONE}
@@ -70,7 +70,7 @@ export default class ContactInformation extends React.Component {
             analyticsSectionName="fax-number"/>
         </Vet360PendingTransactionCategory>
 
-        <Vet360PendingTransactionCategory categoryType={transactionCategoryTypes.EMAIL}>
+        <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.EMAIL}>
           <EmailSection
             title="Email address"
             fieldName={FIELD_NAMES.EMAIL}

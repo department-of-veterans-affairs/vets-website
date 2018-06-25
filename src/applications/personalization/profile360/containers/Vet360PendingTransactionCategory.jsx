@@ -2,21 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
+import { TRANSACTION_CATEGORY_TYPES } from '../constants/vet360';
 import { selectVet360PendingCategoryTransactions } from '../selectors';
-
-export const transactionCategoryTypes = {
-  PHONE: 'AsyncTransaction::Vet360::PhoneTransaction',
-  EMAIL: 'AsyncTransaction::Vet360::EmailTransaction',
-  ADDRESS: 'AsyncTransaction::Vet360::AddressTransaction'
-};
 
 function Vet360PendingTransactionCategory({ hasPendingCategoryTransaction, categoryType, children }) {
   if (!hasPendingCategoryTransaction) return <div>{children}</div>;
 
   let plural = 'email';
-  if (categoryType === transactionCategoryTypes.PHONE) {
+  if (categoryType === TRANSACTION_CATEGORY_TYPES.PHONE) {
     plural = 'phone numbers';
-  } else if (categoryType === transactionCategoryTypes.ADDRESS) {
+  } else if (categoryType === TRANSACTION_CATEGORY_TYPES.ADDRESS) {
     plural = 'addresses';
   }
 

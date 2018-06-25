@@ -98,6 +98,30 @@ function asyncReturn(returnValue) {
 }
 
 export default {
+  getUserTransactions() {
+    const data = [
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.ADDRESS,
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.EMAIL,
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.PHONE
+    ]
+      .filter(() => {
+        return Math.random() > 0.5;
+      })
+      .map(transactionType => {
+        return {
+          attributes: {
+            transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED,
+            transactionType
+          }
+        };
+      });
+
+    // console.log(data);
+
+    return {
+      data
+    };
+  },
   createTransaction() {
     return asyncReturn({
       data: {
