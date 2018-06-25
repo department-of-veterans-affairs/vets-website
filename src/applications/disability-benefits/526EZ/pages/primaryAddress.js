@@ -130,95 +130,98 @@ const { mailingAddress, forwardingAddress } = fullSchema526EZ.properties.veteran
 
 export const uiSchema = {
   veteran: {
-    'ui:title': 'Contact information',
-    'ui:description': AddressDescription,
-    'ui:field': ReviewCardField,
-    'ui:options': {
-      viewComponent: PrimaryAddressViewField
-    },
-    // 'ui:order': [
-    //   'mailingAddress',
-    //   'primaryPhone',
-    //   'emailAddress',
-    //   'view:hasForwardingAddress',
-    //   'forwardingAddress'
-    // ],
-    mailingAddress: addressUISchema('mailingAddress'),
-    primaryPhone: {
-      'ui:title': 'Primary telephone number',
-      'ui:widget': PhoneNumberWidget,
-      'ui:errorMessages': {
-        pattern: 'Phone numbers must be 10 digits (dashes allowed)'
-      },
+    addressCard: {
+      'ui:title': 'Mailing address',
+      'ui:description': AddressDescription,
+      'ui:field': ReviewCardField,
       'ui:options': {
-        widgetClassNames: 'va-input-medium-large'
-      }
+        viewComponent: PrimaryAddressViewField
+      },
+      mailingAddress: addressUISchema('mailingAddress')
     },
-    emailAddress: {
-      'ui:title': 'Email address',
-      'ui:errorMessages': {
-        pattern: 'Please put your email in this format x@x.xxx'
-      }
-    },
-    'view:hasForwardingAddress': {
-      'ui:title':
-        'I want to provide a forwarding address since my address will be changing soon.'
-    },
-    forwardingAddress: _.merge(
-      addressUISchema('forwardingAddress', 'Forwarding address'),
-      {
+    phoneEmailCard: {
+      'ui:title': 'Phone & email',
+      'ui:description': AddressDescription,
+      'ui:field': ReviewCardField,
+      'ui:options': {
+        viewComponent: PrimaryAddressViewField
+      },
+      primaryPhone: {
+        'ui:title': 'Primary telephone number',
+        'ui:widget': PhoneNumberWidget,
+        'ui:errorMessages': {
+          pattern: 'Phone numbers must be 10 digits (dashes allowed)'
+        },
         'ui:options': {
-          expandUnder: 'view:hasForwardingAddress'
-        },
-        'ui:order': [
-          'effectiveDate',
-          'country',
-          'addressLine1',
-          'addressLine2',
-          'addressLine3',
-          'city',
-          'state',
-          'zipCode'
-        ],
-        effectiveDate: _.merge(
-          {},
-          dateUI('Effective date'),
-          { 'ui:required': hasForwardingAddress }
-        ),
-        country: {
-          'ui:required': hasForwardingAddress,
-
-        },
-        addressLine1: {
-          'ui:required': hasForwardingAddress
-        },
-        city: {
-          'ui:required': hasForwardingAddress
-        },
-        state: {
-          'ui:required': (formData) => (
-            hasForwardingAddress(formData)
-            && formData.veteran.forwardingAddress.country === USA
-          ),
-          'ui:options': {
-            hideIf: (formData) => (
-              hasForwardingAddress(formData)
-              && formData.veteran.forwardingAddress.country !== USA)
-          }
-        },
-        zipCode: {
-          'ui:required': (formData) => (
-            hasForwardingAddress(formData)
-            && formData.veteran.forwardingAddress.country === USA
-          ),
-          'ui:options': {
-            hideIf: (formData) => (
-              hasForwardingAddress(formData)
-              && formData.veteran.forwardingAddress.country !== USA)
-          }
+          widgetClassNames: 'va-input-medium-large'
         }
-      }
-    )
+      },
+      emailAddress: {
+        'ui:title': 'Email address',
+        'ui:errorMessages': {
+          pattern: 'Please put your email in this format x@x.xxx'
+        }
+      },
+    },
+    // 'view:hasForwardingAddress': {
+    //   'ui:title':
+    //     'I want to provide a forwarding address since my address will be changing soon.'
+    // },
+    // forwardingAddress: _.merge(
+    //   addressUISchema('forwardingAddress', 'Forwarding address'),
+    //   {
+    //     'ui:options': {
+    //       expandUnder: 'view:hasForwardingAddress'
+    //     },
+    //     'ui:order': [
+    //       'effectiveDate',
+    //       'country',
+    //       'addressLine1',
+    //       'addressLine2',
+    //       'addressLine3',
+    //       'city',
+    //       'state',
+    //       'zipCode'
+    //     ],
+    //     effectiveDate: _.merge(
+    //       {},
+    //       dateUI('Effective date'),
+    //       { 'ui:required': hasForwardingAddress }
+    //     ),
+    //     country: {
+    //       'ui:required': hasForwardingAddress,
+
+    //     },
+    //     addressLine1: {
+    //       'ui:required': hasForwardingAddress
+    //     },
+    //     city: {
+    //       'ui:required': hasForwardingAddress
+    //     },
+    //     state: {
+    //       'ui:required': (formData) => (
+    //         hasForwardingAddress(formData)
+    //         && formData.veteran.forwardingAddress.country === USA
+    //       ),
+    //       'ui:options': {
+    //         hideIf: (formData) => (
+    //           hasForwardingAddress(formData)
+    //           && formData.veteran.forwardingAddress.country !== USA)
+    //       }
+    //     },
+    //     zipCode: {
+    //       'ui:required': (formData) => (
+    //         hasForwardingAddress(formData)
+    //         && formData.veteran.forwardingAddress.country === USA
+    //       ),
+    //       'ui:options': {
+    //         hideIf: (formData) => (
+    //           hasForwardingAddress(formData)
+    //           && formData.veteran.forwardingAddress.country !== USA)
+    //       }
+    //     }
+    //   }
+    // )
   }
 };
 
