@@ -80,6 +80,11 @@ const USA = 'USA';
 const VA_FORM4142_URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 const E_BENEFITS_URL = 'https://www.ebenefits.va.gov/ebenefits/homepage';
 
+const ADDRESS_PATHS = {
+  mailingAddress: 'addressCard.mailingAddress',
+  forwardingAddress: 'addressCard.forwardingAddress'
+};
+
 export {
   PCIU_STATES,
   STATE_LABELS,
@@ -89,5 +94,6 @@ export {
   MILITARY_CITIES,
   USA,
   VA_FORM4142_URL,
-  E_BENEFITS_URL
+  E_BENEFITS_URL,
+  ADDRESS_PATHS
 };

@@ -15,7 +15,8 @@ import  {
   MILITARY_STATE_VALUES,
   STATE_LABELS,
   STATE_VALUES,
-  USA
+  USA,
+  ADDRESS_PATHS
 } from '../constants';
 
 function isValidZIP(value) {
@@ -33,7 +34,7 @@ function validateZIP(errors, zip) {
 
 function validateMilitaryCity(errors, city, formData, schema, messages, options) {
   const isMilitaryState = MILITARY_STATE_VALUES.includes(
-    _.get(formData, `veteran[${options.addressName}].state`, '')
+    _.get(formData, `veteran.${options.addressPath}.state`, '')
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
@@ -43,7 +44,7 @@ function validateMilitaryCity(errors, city, formData, schema, messages, options)
 
 function validateMilitaryState(errors, state, formData, schema, messages, options) {
   const isMilitaryCity = MILITARY_CITIES.includes(
-    _.get(formData, `veteran[${options.addressName}].city`, '').trim().toUpperCase()
+    _.get(formData, `veteran.${options.addressPath}.city`, '').trim().toUpperCase()
   );
   const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
   if (isMilitaryCity && !isMilitaryState) {
@@ -55,16 +56,13 @@ const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasFor
 
 /**
  * 
- * @param {('mailingAddress' | 'forwardingAddress')} addressName used for path lookups
+ * @param {('addressCard.mailingAddress' | 'forwardingCard.forwardingAddress')} addressPath used for path lookups
  * @param {string} [title] Displayed as the card title in the card's header
  * @returns {object} UI schema for an address card's content
  */
-const addressUISchema = (addressName, title) => {
-  const path = addressName === 'mailingAddress'
-    ? 'addressCard.mailingAddress'
-    : 'forwardingCard.forwardingAddress'; // TODO: Fix magic string, finalize fwding schema
+const addressUISchema = (addressPath, title) => {
   const updateStates = (form) => {
-    const currentCity = _.get(form, `veteran.${path}.city`, '').trim().toUpperCase();
+    const currentCity = _.get(form, `veteran.${addressPath}.city`, '').trim().toUpperCase();
     if (MILITARY_CITIES.includes(currentCity)) {
       return {
         'enum': MILITARY_STATE_VALUES,
@@ -104,32 +102,32 @@ const addressUISchema = (addressName, title) => {
     city: {
       'ui:title': 'City',
       'ui:validations': [{
-        options: { addressName },
+        options: { addressPath },
         validator: validateMilitaryCity
       }]
     },
     state: {
       'ui:title': 'State',
-      'ui:required': ({ veteran }) => (_.get(veteran, `veteran.${path}.country`, '') === USA),
+      'ui:required': ({ veteran }) => (_.get(veteran, `${addressPath}.country`, '') === USA),
       'ui:options': {
-        hideIf: ({ veteran }) => (_.get(veteran, `veteran.${path}.country`, '') !== USA),
+        hideIf: ({ veteran }) => (_.get(veteran, `${addressPath}.country`, '') !== USA),
         updateSchema: updateStates
       },
       'ui:validations': [{
-        options: { addressName },
+        options: { addressPath },
         validator: validateMilitaryState
       }]
     },
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
-      'ui:required': ({ veteran }) => (_.get(veteran, `veteran.${path}.country`, '') === USA),
+      'ui:required': ({ veteran }) => (_.get(veteran, `${addressPath}.country`, '') === USA),
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5- or 9- digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: ({ veteran }) => (_.get(veteran, `veteran.${path}.country`, '') !== USA)
+        hideIf: ({ veteran }) => (_.get(veteran, `${addressPath}.country`, '') !== USA)
       }
     },
   };
@@ -146,7 +144,7 @@ export const uiSchema = {
       'ui:options': {
         viewComponent: PrimaryAddressViewField
       },
-      mailingAddress: addressUISchema('mailingAddress')
+      mailingAddress: addressUISchema(ADDRESS_PATHS.mailingAddress)
     },
     phoneEmailCard: {
       'ui:title': 'Phone & email',
