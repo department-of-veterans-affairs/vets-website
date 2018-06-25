@@ -1,5 +1,5 @@
 import moment from 'moment';
-import serviceStatus from '../config/serviceStatus';
+import externalServiceStatus from '../config/externalServiceStatus';
 
 /**
  * Derives downtime status based on a time range
@@ -14,16 +14,16 @@ export function getStatusForTimeframe(startTime, endTime) {
   if (hasStarted) {
     // Check for indefinite downtime (null endTime) or that the endTime is in the future
     if (!endTime || now.isBefore(endTime)) {
-      return serviceStatus.down;
+      return externalServiceStatus.down;
     }
     // The downtime must be old and outdated. The API should filter these so this shouldn't happen.
-    return serviceStatus.ok;
+    return externalServiceStatus.ok;
   }
 
   const startsWithinHour = now.add(1, 'hour').isSameOrAfter(startTime);
-  if (startsWithinHour) return serviceStatus.downtimeApproaching;
+  if (startsWithinHour) return externalServiceStatus.downtimeApproaching;
 
-  return serviceStatus.ok;
+  return externalServiceStatus.ok;
 }
 
 /**
@@ -68,7 +68,7 @@ export function getSoonestDowntime(serviceMap, serviceNames) {
   return serviceNames
     .map(serviceName => serviceMap.get(serviceName))
     .filter(service => !!service)
-    .filter(service => service.status !== serviceStatus.ok)
+    .filter(service => service.status !== externalServiceStatus.ok)
     .reduce((mostUrgentService, service) => {
       if (!mostUrgentService) return service;
       return mostUrgentService.startTime.isBefore(service.startTime) ? mostUrgentService : service;

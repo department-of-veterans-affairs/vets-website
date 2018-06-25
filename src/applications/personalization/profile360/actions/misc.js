@@ -9,14 +9,24 @@ export function openModal(modal) {
 }
 
 function validateEmail({ emailAddress: email }) {
-  return isValidEmail(email) ? '' : 'Please enter a valid email.';
+  return {
+    emailAddress: isValidEmail(email) ? '' : 'Please enter your email address again, following a standard format like name@domain.com.'
+  };
 }
 
-// TODO ensure field names are valid and function is called
-function validateTelephone({ number }) {
-  return isValidPhone(number) ? '' : 'Please enter a valid phone.';
+function validateTelephone({ inputPhoneNumber }) {
+  return {
+    inputPhoneNumber: isValidPhone(inputPhoneNumber) ? '' : 'Please enter a valid phone.'
+  };
 }
 
+function validateAddress({ addressLine1 }) {
+  return {
+    addressLine1: addressLine1 ? '' : 'Street address is required'
+  };
+}
+
+// @todo It might be cleaner to have this in the edit-modals themselves rather than here.
 function cleanEmailDataForUpdate(value) {
   const {
     id,
@@ -100,7 +110,7 @@ function cleanAddressDataForUpdate(value) {
 
 function updateProfileFormField(field, validator, type) {
   return (value, dirty) => {
-    const errorMessage = validator && dirty ? validator(value) : '';
+    const validations = validator && dirty ? validator(value) : {};
     let cleanValue = value;
 
     switch (type) {
@@ -122,7 +132,7 @@ function updateProfileFormField(field, validator, type) {
       field,
       newState: {
         value: cleanValue,
-        errorMessage
+        validations
       }
     };
   };
@@ -132,9 +142,9 @@ export const updateFormField = {
   email: updateProfileFormField('email', validateEmail, 'email'),
   faxNumber: updateProfileFormField('faxNumber', validateTelephone, 'phone'),
   homePhone: updateProfileFormField('homePhone', validateTelephone, 'phone'),
-  mailingAddress: updateProfileFormField('mailingAddress', null, 'address'),
+  mailingAddress: updateProfileFormField('mailingAddress', validateAddress, 'address'),
   mobilePhone: updateProfileFormField('mobilePhone', validateTelephone, 'phone'),
-  residentialAddress: updateProfileFormField('residentialAddress', null, 'address'),
+  residentialAddress: updateProfileFormField('residentialAddress', validateAddress, 'address'),
   temporaryPhone: updateProfileFormField('temporaryPhone', validateTelephone, 'phone'),
   workPhone: updateProfileFormField('workPhone', validateTelephone, 'phone'),
 };

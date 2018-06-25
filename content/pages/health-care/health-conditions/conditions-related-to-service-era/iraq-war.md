@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Iraq War—Operation Iraqi Freedom and Operation New Dawn
 display_title: Iraq War
+description: Learn what health conditions you might be at risk of developing if you served in the Iraq War during Operation Iraqi Freedom or Operation New Dawn. Find out what to do next to take care of your health.
 concurrence: complete
 lastupdate: 2017-06-28
 order: 2

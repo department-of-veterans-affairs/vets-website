@@ -39,7 +39,7 @@ export const mockContactInformation = {
     isTextable: true,
     isTty: true,
     isVoicemailable: true,
-    phoneNumber: '222222',
+    phoneNumber: '2222222',
     phoneType: 'HOME',
     sourceDate: '2018-04-21T20:09:50Z',
     updatedAt: '2018-04-21T20:09:50Z'

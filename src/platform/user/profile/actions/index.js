@@ -1,4 +1,4 @@
-import { removeFormApi } from '../../../../applications/common/schemaform/save-in-progress/api';
+import { removeFormApi } from '../../../../platform/forms/save-in-progress/api';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import environment from '../../../utilities/environment';
 

@@ -40,6 +40,14 @@ export default function setupJSDom() {
     }
   };
 
+  win.Forms = {
+    scroll: {
+      duration: 0,
+      delay: 0,
+      smooth: false
+    }
+  };
+
   win.dataLayer = [];
   win.scrollTo = () => {};
   win.sessionStorage = {};
