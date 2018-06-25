@@ -1,6 +1,6 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import { refreshProfile } from '../../../../platform/user/profile/actions';
-// import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from '../../../../platform/monitoring/record-event';
 // import { kebabCase } from 'lodash';
 import { pickBy } from 'lodash';
 
@@ -18,20 +18,24 @@ export const VET360_TRANSACTION_REQUEST_CLEARED = 'VET360_TRANSACTION_REQUEST_CL
 export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
-// function recordProfileTransaction(fieldName) {
-//   const names = [
-//     'mobile-phone',
-//     'primary-telephone',
-//     'mailing-address',
-//   ];
-//
-//   if (names.includes(fieldName)) {
-//     recordEvent({
-//       event: 'profile-transaction',
-//       'profile-section': fieldName
-//     });
-//   }
-// }
+function recordProfileTransaction(fieldName) {
+  const analyticsMap = {
+    homePhone: 'home-telephone',
+    mobilePhone: 'mobile-telephone',
+    workPhone: 'work-telephone',
+    mailingAddress: 'mailing-address',
+    residentialAddress: 'home-address',
+    faxNumber: 'fax-telephone',
+    email: 'email',
+  };
+
+  if (analyticsMap[fieldName]) {
+    recordEvent({
+      event: 'profile-transaction',
+      'profile-section': fieldName
+    });
+  }
+}
 
 export function refreshTransaction(transaction) {
   return async (dispatch) => {
@@ -136,10 +140,7 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
 
         const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
 
-        // TODO turn analytics back on later
-        // if (apiRoute === '/profile/telephones') {
-        //   recordProfileTransaction(kebabCase(`${nextFieldValue.phoneType} phone`));
-        // }
+        recordProfileTransaction(fieldName);
 
         dispatch({
           type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
