@@ -680,7 +680,7 @@ export const get4142Selection = (disabilities) => {
   }, false);
 };
 
-export const AddressDescription = () => (
+export const contactInfoDescription = () => (
   <div>
     <p>
       This is the contact information we have on file for you. We’ll send any important

@@ -8,7 +8,7 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import { PrimaryAddressViewField, AddressDescription, phoneEmailViewField } from '../helpers';
+import { PrimaryAddressViewField, contactInfoDescription, phoneEmailViewField } from '../helpers';
 import  {
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
@@ -137,18 +137,9 @@ const { mailingAddress, forwardingAddress } = fullSchema526EZ.properties.veteran
 
 export const uiSchema = {
   veteran: {
-    addressCard: {
-      'ui:title': 'Mailing address',
-      'ui:description': AddressDescription,
-      'ui:field': ReviewCardField,
-      'ui:options': {
-        viewComponent: PrimaryAddressViewField
-      },
-      mailingAddress: addressUISchema(ADDRESS_PATHS.mailingAddress)
-    },
+    'ui:description': contactInfoDescription,
     phoneEmailCard: {
       'ui:title': 'Phone & email',
-      'ui:description': '',
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: phoneEmailViewField
@@ -169,6 +160,14 @@ export const uiSchema = {
           pattern: 'Please put your email in this format x@x.xxx'
         }
       },
+    },
+    addressCard: {
+      'ui:title': 'Mailing address',
+      'ui:field': ReviewCardField,
+      'ui:options': {
+        viewComponent: PrimaryAddressViewField
+      },
+      mailingAddress: addressUISchema(ADDRESS_PATHS.mailingAddress)
     },
     // 'view:hasForwardingAddress': {
     //   'ui:title':
@@ -238,12 +237,6 @@ export const primaryAddressSchema = {
     veteran: {
       type: 'object',
       properties: {
-        addressCard: {
-          type: 'object',
-          properties: {
-            mailingAddress,
-          }
-        },
         phoneEmailCard: {
           type: 'object',
           properties: {
@@ -255,6 +248,12 @@ export const primaryAddressSchema = {
               type: 'string',
               format: 'email'
             }
+          }
+        },
+        addressCard: {
+          type: 'object',
+          properties: {
+            mailingAddress,
           }
         },
         // Possibly a reviewCard with a checkbox in the review mode that expands it?
