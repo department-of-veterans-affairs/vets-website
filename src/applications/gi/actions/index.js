@@ -232,7 +232,7 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
       return new Promise(resolve => setTimeout(() => {
         dispatch({
           beneficiaryZIPFetched: beneficiaryZIP,
-          payload: { mha_rate: 5000, mha_name: 'Los Angeles, CA' },
+          payload: { data: { mha_rate: 5000, mha_name: 'Los Angeles, CA' }},
           type: FETCH_BAH_SUCCEEDED,
         });
         resolve();
@@ -247,7 +247,7 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
       return new Promise(resolve => setTimeout(() => {
         dispatch({
           beneficiaryZIPFetched: beneficiaryZIP,
-          payload: { mha_rate: 1, mha_name: 'New York, NY' },
+          payload: { data: { mha_rate: 1, mha_name: 'New York, NY' }},
           type: FETCH_BAH_SUCCEEDED,
         });
         resolve();

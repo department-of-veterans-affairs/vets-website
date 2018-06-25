@@ -445,7 +445,12 @@ const getDerivedValues = createSelector(
 
     let bah;
     if (__BUILDTYPE__ !== 'production') {
-      bah = inputs.beneficiaryLocationBah || institution.bah;
+      if (inputs.beneficiaryLocationQuestion === 'no' &&
+        inputs.beneficiaryLocationBah) {
+        bah = inputs.beneficiaryLocationBah;
+      } else {
+        bah = institution.bah
+      }
     } else {
       bah = institution.bah;
     }
@@ -794,12 +799,13 @@ export const getCalculatedBenefits = createSelector(
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
+    const beneficiaryLocationQuestion = giBillChapter === 33;
 
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
       // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
-      beneficiaryLocationQuestion: giBillChapter === '33',
+      beneficiaryLocationQuestion,
       books: false,
       yellowRibbon: false,
       scholarships: true,
