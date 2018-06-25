@@ -102,6 +102,7 @@ export default function (state = INITIAL_STATE, action) {
       const { beneficiaryZIPFetched } = action;
 
       const newState = {
+        beneficiaryLocationBah: null,
         beneficiaryZIPError: '',
         beneficiaryZIP: beneficiaryZIPFetched,
         beneficiaryZIPFetched,
@@ -140,7 +141,7 @@ export default function (state = INITIAL_STATE, action) {
     case BENEFICIARY_ZIP_CODE_CHANGED: {
       const { beneficiaryZIP } = action;
 
-      let beneficiaryZIPError = state.beneficiaryZIPError || '';
+      let beneficiaryZIPError;
 
       if (!beneficiaryZIPRegExTester.exec(beneficiaryZIP)) {
         beneficiaryZIPError = 'ZIP Code must be a five digit number';
