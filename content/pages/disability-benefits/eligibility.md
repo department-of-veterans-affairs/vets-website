@@ -83,6 +83,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 </div>
 </div>
 
+<p>You can apply online right now. Just answer a few questions, and we'll help you get started with the disability benefits form that's right for you.</p>
+
 <div id="react-applicationStatus"></div>
 <div itemscope itemtype="http://schema.org/Question">
 
