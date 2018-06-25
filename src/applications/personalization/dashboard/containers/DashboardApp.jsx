@@ -4,6 +4,7 @@ import moment from 'moment';
 import Scroll from 'react-scroll';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
+import localStorage from '../../../../platform/utilities/storage/localStorage';
 import { removeSavedForm } from '../actions';
 
 import FormList from '../components/FormList';
@@ -87,7 +88,7 @@ class DashboardApp extends React.Component {
       this.setState({
         [`show-${name}-alert`]: false,
       });
-      window.localStorage.setItem(`hide-${name}-alert`, true);
+      localStorage.setItem(`hide-${name}-alert`, true);
     };
   }
 
@@ -183,7 +184,7 @@ class DashboardApp extends React.Component {
           <p><a href="/faq#verifying-your-identity" onClick={recordDashboardClick('learn-more-identity')}>Learn about how to verify your identity</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('loa')}
-        isVisible={this.state['show-loa-alert'] && !window.localStorage.getItem('hide-loa-alert')}
+        isVisible={this.state['show-loa-alert'] && !localStorage.getItem('hide-loa-alert')}
         status="info"/>
     );
   }
@@ -202,7 +203,7 @@ class DashboardApp extends React.Component {
           <p><a href="/facilities" onClick={() => { recordEvent({ event: 'dashboard-navigation', 'dashboard-action': 'view-link', 'dashboard-product': 'find-center' }); }}>Find your nearest VA Medical Center</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('mvi')}
-        isVisible={this.state['show-mvi-alert'] && !window.localStorage.getItem('hide-mvi-alert')}
+        isVisible={this.state['show-mvi-alert'] && !localStorage.getItem('hide-mvi-alert')}
         status="warning"/>
     );
   }

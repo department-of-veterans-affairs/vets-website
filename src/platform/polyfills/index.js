@@ -17,10 +17,6 @@ if (!Modernizr.dataset) {
   require('dataset');  // dataSet accessor support.
 }
 
-if (!Modernizr.localstorage) {
-  window.localStorage = require('local-storage-fallback'); // localStorage support, usually for private browsing or IE10 protected mode.
-}
-
 // Edge 14's fetch implementation throws TypeMismatchErrors seemingly without
 // reason. This is fixed in fetch 15, but we should use the (xhr based) polyfill
 // for 14.
