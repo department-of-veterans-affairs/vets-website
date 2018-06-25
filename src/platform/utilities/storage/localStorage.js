@@ -10,7 +10,7 @@ try {
   localStorage.removeItem(testItem);
   _storage = localStorage;
 } catch (err) {
-  _storage = require('local-storage-fallback');
+  _storage = require('local-storage-fallback').storage;
 }
 
 const storage = _storage;
