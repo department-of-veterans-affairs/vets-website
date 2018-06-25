@@ -1,0 +1,180 @@
+[
+  {
+    "path": "/v0/address/countries",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "countries": [
+            "USA"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/address/states",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "states": [
+            "Alabama",
+            "Kentucky"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/full_name",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "first": "First",
+          "middle": "Middle",
+          "last": "Last"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/email",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "email": "old_email@va.gov"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/email",
+    "verb": "post",
+    "value": {
+      "data": {
+        "attributes": {
+          "email": "new_email@va.gov"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/mailing_address",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "address": {
+            "addressEffectiveDate": "2012-04-03T04:00:00.000+00:00",
+            "addressOne": "123 OLD ST",
+            "addressThree": "",
+            "addressTwo": "BEN FRANKLIN VILLAGE",
+            "militaryPostOfficeTypeCode": "APO",
+            "militaryStateCode": "AE",
+            "type": "MILITARY",
+            "zipCode": "09028",
+            "zipSuffix": ""
+          },
+          "controlInformation": {
+            "canUpdate": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/mailing_address",
+    "verb": "put",
+    "value": {
+      "data": {
+        "attributes": {
+          "address": {
+            "addressEffectiveDate": "2012-04-03T04:00:00.000+00:00",
+            "addressOne": "123 NEW ST",
+            "addressThree": "",
+            "addressTwo": "BEN FRANKLIN VILLAGE",
+            "militaryPostOfficeTypeCode": "APO",
+            "militaryStateCode": "AE",
+            "type": "MILITARY",
+            "zipCode": "09028",
+            "zipSuffix": ""
+          },
+          "controlInformation": {
+            "canUpdate": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/primary_phone",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "countryCode": "1",
+          "extension": null,
+          "number": "1234567890"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/primary_phone",
+    "verb": "put",
+    "value": {
+      "data": {
+        "attributes": {
+          "countryCode": "1",
+          "extension": null,
+          "number": "0987654321"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/alternate_phone",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "countryCode": "1",
+          "extension": null,
+          "number": "1234567890"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/personal_information",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "birthDate": "1972-03-21",
+          "gender": "M"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/service_history",
+    "verb": "get",
+    "value": {
+      "data": {
+        "attributes": {
+          "serviceHistory": [
+            {
+              "branchOfService": "Army",
+              "beginDate": "1951-09-04",
+              "endDate": "1957-01-04"
+            }
+          ]
+        }
+      }
+    }
+  }
+]
