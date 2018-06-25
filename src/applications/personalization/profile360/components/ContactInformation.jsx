@@ -11,6 +11,7 @@ import EmailSection from './EmailSection';
 import LoadFail from './LoadFail';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import MissingVet360IDError from './MissingVet360IDError';
+import ContactInformationExplanation from './ContactInformationExplanation';
 
 export default class ContactInformation extends React.Component {
 
@@ -34,6 +35,7 @@ export default class ContactInformation extends React.Component {
 
     return (
       <div>
+        <ContactInformationExplanation/>
         <AddressSection
           title="Mailing address"
           fieldName={FIELD_NAMES.MAILING_ADDRESS}
