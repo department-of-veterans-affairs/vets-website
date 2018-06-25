@@ -1,7 +1,6 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import { refreshProfile } from '../../../../platform/user/profile/actions';
 import recordEvent from '../../../../platform/monitoring/record-event';
-// import { kebabCase } from 'lodash';
 import { pickBy } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
