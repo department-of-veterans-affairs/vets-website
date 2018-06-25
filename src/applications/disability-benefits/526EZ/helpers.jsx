@@ -556,16 +556,10 @@ const AddressViewField = ({ formData }) => {
 
 export const PrimaryAddressViewField = ({ formData }) => {
   const {
-    mailingAddress, primaryPhone, emailAddress, forwardingAddress } = formData;
+    mailingAddress, forwardingAddress } = formData;
   return (
     <div>
       <AddressViewField formData={mailingAddress}/>
-      {primaryPhone && (
-        <PhoneViewField formData={primaryPhone} name="Primary phone"/>
-      )}
-      {emailAddress && (
-        <EmailViewField formData={emailAddress} name="Email address"/>
-      )}
       {formData['view:hasForwardingAddress'] && (
         <AddressViewField formData={forwardingAddress}/>
       )}
@@ -580,8 +574,8 @@ export const phoneEmailViewField = ({ formData }) => {
   const { primaryPhone, emailAddress } = formData;
   return (
     <div>
-      <strong>Phone number:</strong> {primaryPhone}<br/>
-      <strong>Email address:</strong> {emailAddress}
+      {primaryPhone && <PhoneViewField formData={primaryPhone} name="Primary phone"/>}
+      {emailAddress && <EmailViewField formData={emailAddress} name="Email address"/>}
     </div>
   );
 };
