@@ -108,6 +108,7 @@ export default {
     }).map(transactionType => {
       return {
         attributes: {
+          transactionId: uniqueId('transaction_'),
           transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED,
           type: transactionType
         }
