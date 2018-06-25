@@ -239,6 +239,7 @@ export const primaryAddressSchema = {
       properties: {
         phoneEmailCard: {
           type: 'object',
+          required: ['primaryPhone', 'emailAddress'],
           properties: {
             primaryPhone: {
               type: 'string',
