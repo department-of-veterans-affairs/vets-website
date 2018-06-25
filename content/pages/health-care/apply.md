@@ -52,20 +52,6 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
-<div class="feature">
-
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">What if I'm the caregiver of a post-9/11 Veteran or Servicemember?</h4>
-<div itemprop="itemListElement">
-
-You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
-
-[Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
-
-</div>
-</div>
-</div>
-
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
@@ -101,6 +87,20 @@ Or get help through your state's Department of Veterans Affairs. <br>
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br> 
 [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
+</div>
+</div>
+
+<div class="feature">
+
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">What if I'm the caregiver of a post-9/11 Veteran or Servicemember?</h4>
+<div itemprop="itemListElement">
+
+You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
+
+[Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
+
+</div>
 </div>
 </div>
 
