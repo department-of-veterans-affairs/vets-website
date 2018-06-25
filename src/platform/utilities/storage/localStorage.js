@@ -10,6 +10,9 @@
 // as a module rather than directly through the window is easier to enforce when we aren't making
 // exceptions in our test cases.
 
+// More info on browser errors in the Modernizr source -
+// https://github.com/Modernizr/Modernizr/blob/master/feature-detects/storage/localstorage.js
+
 function getLocalStorage() {
   try {
     const testItem = 'testItem';
