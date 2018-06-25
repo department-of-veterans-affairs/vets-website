@@ -4,7 +4,8 @@ import React from 'react';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
-import { FIELD_NAMES } from '../constants/vet360';
+import { FIELD_NAMES, TRANSACTION_CATEGORY_TYPES } from '../constants/vet360';
+import Vet360PendingTransactionCategory from '../containers/Vet360PendingTransactionCategory';
 import PhoneSection from './PhoneSection';
 import AddressSection from './AddressSection';
 import EmailSection from './EmailSection';
@@ -36,36 +37,45 @@ export default class ContactInformation extends React.Component {
     return (
       <div>
         <ContactInformationExplanation/>
-        <AddressSection
-          title="Mailing address"
-          fieldName={FIELD_NAMES.MAILING_ADDRESS}
-          analyticsSectionName="mailing-address"
-          addressConstants={addressConstants}/>
-        <AddressSection
-          title="Home address"
-          fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS}
-          analyticsSectionName="residential-address"
-          addressConstants={addressConstants}/>
-        <PhoneSection
-          title="Home phone number"
-          fieldName={FIELD_NAMES.HOME_PHONE}
-          analyticsSectionName="home-telephone"/>
-        <PhoneSection
-          title="Mobile phone number"
-          fieldName={FIELD_NAMES.MOBILE_PHONE}
-          analyticsSectionName="mobile-telephone"/>
-        <PhoneSection
-          title="Work phone number"
-          fieldName={FIELD_NAMES.WORK_PHONE}
-          analyticsSectionName="work-telephone"/>
-        <PhoneSection
-          title="Fax number"
-          fieldName={FIELD_NAMES.FAX_NUMBER}
-          analyticsSectionName="fax-number"/>
-        <EmailSection
-          title="Email address"
-          fieldName={FIELD_NAMES.EMAIL}
-          analyticsSectionName="email"/>
+
+        <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}>
+          <AddressSection
+            title="Mailing address"
+            fieldName={FIELD_NAMES.MAILING_ADDRESS}
+            analyticsSectionName="mailing-address"
+            addressConstants={addressConstants}/>
+          <AddressSection
+            title="Home address"
+            fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS}
+            analyticsSectionName="residential-address"
+            addressConstants={addressConstants}/>
+        </Vet360PendingTransactionCategory>
+
+        <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}>
+          <PhoneSection
+            title="Home phone number"
+            fieldName={FIELD_NAMES.HOME_PHONE}
+            analyticsSectionName="home-telephone"/>
+          <PhoneSection
+            title="Mobile phone number"
+            fieldName={FIELD_NAMES.MOBILE_PHONE}
+            analyticsSectionName="mobile-telephone"/>
+          <PhoneSection
+            title="Work phone number"
+            fieldName={FIELD_NAMES.WORK_PHONE}
+            analyticsSectionName="work-telephone"/>
+          <PhoneSection
+            title="Fax number"
+            fieldName={FIELD_NAMES.FAX_NUMBER}
+            analyticsSectionName="fax-number"/>
+        </Vet360PendingTransactionCategory>
+
+        <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.EMAIL}>
+          <EmailSection
+            title="Email address"
+            fieldName={FIELD_NAMES.EMAIL}
+            analyticsSectionName="email"/>
+        </Vet360PendingTransactionCategory>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import { apiRequest } from '../../../../platform/utilities/api';
+import localVet360, { isVet360Configured } from '../util/local-vet360';
 import sendAndMergeApiRequests from '../util/sendAndMergeApiRequests';
 import _ from 'lodash';
 import countries from '../constants/countries.json';
@@ -63,7 +64,7 @@ export function fetchAddressConstants() {
 export function fetchTransactions() {
   return async (dispatch) => {
     try {
-      const response = await apiRequest('/profile/status/');
+      const response = isVet360Configured() ? await apiRequest('/profile/status/') : localVet360.getUserTransactions();
       dispatch({
         type: VET360_TRANSACTIONS_FETCH_SUCCESS,
         data: response.data

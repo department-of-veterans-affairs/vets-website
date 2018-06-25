@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class Vet360TransactionPending extends React.Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     refreshTransaction: PropTypes.func.isRequired
   };
 
@@ -16,6 +16,10 @@ export default class Vet360TransactionPending extends React.Component {
   }
 
   render() {
+    if (this.props.children) {
+      return <div>{this.props.children}</div>;
+    }
+
     return (
       <div className="vet360-profile-field-transaction-pending">
         We’re working on saving your new {this.props.title.toLowerCase()}. We’ll show it here once it’s saved.
