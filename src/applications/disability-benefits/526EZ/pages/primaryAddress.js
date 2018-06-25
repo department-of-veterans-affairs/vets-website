@@ -136,13 +136,13 @@ export const uiSchema = {
     'ui:options': {
       viewComponent: PrimaryAddressViewField
     },
-    'ui:order': [
-      'mailingAddress',
-      'primaryPhone',
-      'emailAddress',
-      'view:hasForwardingAddress',
-      'forwardingAddress'
-    ],
+    // 'ui:order': [
+    //   'mailingAddress',
+    //   'primaryPhone',
+    //   'emailAddress',
+    //   'view:hasForwardingAddress',
+    //   'forwardingAddress'
+    // ],
     mailingAddress: addressUISchema('mailingAddress'),
     primaryPhone: {
       'ui:title': 'Primary telephone number',
@@ -228,19 +228,30 @@ export const primaryAddressSchema = {
     veteran: {
       type: 'object',
       properties: {
-        mailingAddress,
-        primaryPhone: {
-          type: 'string',
-          pattern: '^\\d{10}$'
+        addressCard: {
+          type: 'object',
+          properties: {
+            mailingAddress,
+          }
         },
-        emailAddress: {
-          type: 'string',
-          format: 'email'
+        phoneEmailCard: {
+          type: 'object',
+          properties: {
+            primaryPhone: {
+              type: 'string',
+              pattern: '^\\d{10}$'
+            },
+            emailAddress: {
+              type: 'string',
+              format: 'email'
+            }
+          }
         },
-        'view:hasForwardingAddress': {
-          type: 'boolean'
-        },
-        forwardingAddress
+        // Possibly a reviewCard with a checkbox in the review mode that expands it?
+        // 'view:hasForwardingAddress': {
+        //   type: 'boolean'
+        // },
+        // forwardingAddress
       }
     }
   }
