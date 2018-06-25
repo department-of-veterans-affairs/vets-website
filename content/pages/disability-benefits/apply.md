@@ -62,6 +62,7 @@ For all disability claims, please provide:
 
 </div>
 </div>
+<p>You can apply online right now. Just answer a few questions, and we’ll help you get started with the disability benefits form that’s right for you.</p>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
