@@ -33,7 +33,6 @@ export default class ReviewCardField extends React.Component {
 
   constructor(props) {
     super(props);
-
     // Throw an error if there’s no viewComponent (should be React component)
     if (typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function') {
       throw new Error(`No viewComponent found in uiSchema for ReviewCardField ${this.props.idSchema.$id}.`);

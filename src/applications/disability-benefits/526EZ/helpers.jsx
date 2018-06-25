@@ -576,6 +576,16 @@ export const PrimaryAddressViewField = ({ formData }) => {
   );
 };
 
+export const phoneEmailViewField = ({ formData }) => {
+  const { primaryPhone, emailAddress } = formData;
+  return (
+    <div>
+      <strong>Phone number:</strong> {primaryPhone}<br/>
+      <strong>Email address:</strong> {emailAddress}
+    </div>
+  );
+};
+
 
 export const FDCDescription = (
   <div>

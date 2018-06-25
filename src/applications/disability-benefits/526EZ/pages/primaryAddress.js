@@ -8,7 +8,7 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import { PrimaryAddressViewField, AddressDescription } from '../helpers';
+import { PrimaryAddressViewField, AddressDescription, phoneEmailViewField } from '../helpers';
 import  {
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
@@ -53,9 +53,18 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
 
 const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
 
+/**
+ * 
+ * @param {('mailingAddress' | 'forwardingAddress')} addressName used for path lookups
+ * @param {string} [title] Displayed as the card title in the card's header
+ * @returns {object} UI schema for an address card's content
+ */
 const addressUISchema = (addressName, title) => {
+  const path = addressName === 'mailingAddress'
+    ? 'addressCard.mailingAddress'
+    : 'forwardingCard.forwardingAddress'; // TODO: Fix magic string, finalize fwding schema
   const updateStates = (form) => {
-    const currentCity = _.get(form, `veteran.${addressName}.city`, '').trim().toUpperCase();
+    const currentCity = _.get(form, `veteran.${path}.city`, '').trim().toUpperCase();
     if (MILITARY_CITIES.includes(currentCity)) {
       return {
         'enum': MILITARY_STATE_VALUES,
@@ -101,9 +110,9 @@ const addressUISchema = (addressName, title) => {
     },
     state: {
       'ui:title': 'State',
-      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === USA),
+      'ui:required': ({ veteran }) => (_.get(veteran, `veteran.${path}.country`, '') === USA),
       'ui:options': {
-        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== USA),
+        hideIf: ({ veteran }) => (_.get(veteran, `veteran.${path}.country`, '') !== USA),
         updateSchema: updateStates
       },
       'ui:validations': [{
@@ -114,13 +123,13 @@ const addressUISchema = (addressName, title) => {
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
-      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === USA),
+      'ui:required': ({ veteran }) => (_.get(veteran, `veteran.${path}.country`, '') === USA),
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5- or 9- digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== USA)
+        hideIf: ({ veteran }) => (_.get(veteran, `veteran.${path}.country`, '') !== USA)
       }
     },
   };
@@ -141,13 +150,13 @@ export const uiSchema = {
     },
     phoneEmailCard: {
       'ui:title': 'Phone & email',
-      'ui:description': AddressDescription,
+      'ui:description': '',
       'ui:field': ReviewCardField,
       'ui:options': {
-        viewComponent: PrimaryAddressViewField
+        viewComponent: phoneEmailViewField
       },
       primaryPhone: {
-        'ui:title': 'Primary telephone number',
+        'ui:title': 'Phone number',
         'ui:widget': PhoneNumberWidget,
         'ui:errorMessages': {
           pattern: 'Phone numbers must be 10 digits (dashes allowed)'
