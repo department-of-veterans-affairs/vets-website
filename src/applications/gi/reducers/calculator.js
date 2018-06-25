@@ -117,8 +117,8 @@ export default function (state = INITIAL_STATE, action) {
     case FETCH_BAH_SUCCEEDED: {
       const { beneficiaryZIPFetched } = action;
       const {
-        bah: beneficiaryLocationBah,
-        city: housingAllowanceCity } = action.payload;
+        mha_rate: beneficiaryLocationBah,
+        mha_name: housingAllowanceCity } = action.payload.data;
 
       // response mismatch - do nothing
       if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {

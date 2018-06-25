@@ -215,9 +215,15 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
     };
   }
 
-  // const queryString = version ? `?version=${version}` : '';
-  // const url = `${api.url}/institutions/${facilityCode}${queryString}`;
-
+  // const url = `${api.url}/zipcode_rates/${beneficiaryZIP}`;
+  /*
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        payload => { type: FETCH_BAH_SUCCEEDED, payload },
+        err => dispatch({ type: FETCH_BAH_FAILED, err })
+      );
+      */
 
   if (beneficiaryZIP === '11111') {
     return dispatch => {
@@ -226,7 +232,7 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
       return new Promise(resolve => setTimeout(() => {
         dispatch({
           beneficiaryZIPFetched: beneficiaryZIP,
-          payload: { bah: 5000, city: 'Los Angeles, CA' },
+          payload: { mha_rate: 5000, mha_name: 'Los Angeles, CA' },
           type: FETCH_BAH_SUCCEEDED,
         });
         resolve();
@@ -241,7 +247,7 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
       return new Promise(resolve => setTimeout(() => {
         dispatch({
           beneficiaryZIPFetched: beneficiaryZIP,
-          payload: { bah: 1, city: 'New York, NY' },
+          payload: { mha_rate: 1, mha_name: 'New York, NY' },
           type: FETCH_BAH_SUCCEEDED,
         });
         resolve();
@@ -249,14 +255,6 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
     };
   }
 
-  /*
-    return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload => { type: FETCH_BAH_SUCCEEDED, payload },
-        err => dispatch({ type: FETCH_BAH_FAILED, err })
-      );
-      */
   return dispatch => {
     dispatch({ type: FETCH_BAH_STARTED, beneficiaryZIPFetched: beneficiaryZIP });
 

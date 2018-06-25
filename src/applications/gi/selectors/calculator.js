@@ -798,7 +798,8 @@ export const getCalculatedBenefits = createSelector(
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
-      beneficiaryLocationQuestion: true,
+      // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
+      beneficiaryLocationQuestion: giBillChapter === '33',
       books: false,
       yellowRibbon: false,
       scholarships: true,
