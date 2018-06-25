@@ -39,7 +39,7 @@
   }
   
   function cloneList(target, targetId) {
-    var clone = target.cloneNode();
+    var clone = target.cloneNode(false);
   
     clone.setAttribute('id', targetId + '-clone');
     clone.classList.add(config.jsHiddenClass);
