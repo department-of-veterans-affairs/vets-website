@@ -507,19 +507,19 @@ export const VAFileNumberDescription = (
 );
 
 const PhoneViewField = ({ formData: phoneNumber, name }) => {
-  const isDomestic = phoneNumber.length <= 10;
-  const midBreakpoint = isDomestic ? -7 : -8;
-  const lastPhoneString = `${phoneNumber.slice(-4)}`;
-  const middlePhoneString = `${phoneNumber.slice(midBreakpoint, -4)}-`;
-  const firstPhoneString = `${phoneNumber.slice(0, midBreakpoint)}-`;
+  const safePhone = phoneNumber || '';
+  const midBreakpoint = -7;
+  const lastPhoneString = `${safePhone.slice(-4)}`;
+  const middlePhoneString = `${safePhone.slice(midBreakpoint, -4)}-`;
+  const firstPhoneString = `${safePhone.slice(0, midBreakpoint)}-`;
 
   const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
   return (<p><strong>{name}</strong>: {phoneString}</p>);
 };
 
-const EmailViewField = ({ formData, name }) => {
-  return (<p><strong>{name}</strong>: {formData}</p>);
-};
+const EmailViewField = ({ formData, name }) => (
+  <p><strong>{name}</strong>: {formData || ''}</p>
+);
 
 const EffectiveDateViewField = ({ formData }) => {
   return (
@@ -545,7 +545,7 @@ const AddressViewField = ({ formData }) => {
     lastLine = `${city}, ${country}`;
   }
   return (
-    <div>
+    <div className="blue-bar-block">
       {addressLine1 && <p>{addressLine1}</p>}
       {addressLine2 && <p>{addressLine2}</p>}
       {addressLine3 && <p>{addressLine3}</p>}
@@ -574,8 +574,8 @@ export const phoneEmailViewField = ({ formData }) => {
   const { primaryPhone, emailAddress } = formData;
   return (
     <div>
-      {primaryPhone && <PhoneViewField formData={primaryPhone} name="Primary phone"/>}
-      {emailAddress && <EmailViewField formData={emailAddress} name="Email address"/>}
+      <PhoneViewField formData={primaryPhone} name="Primary phone"/>
+      <EmailViewField formData={emailAddress} name="Email address"/>
     </div>
   );
 };
