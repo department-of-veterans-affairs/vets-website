@@ -49,6 +49,8 @@ if (eduPages.has(location.pathname)) {
 if (burialPages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '21P-530',
+    applyHeading: 'How do I apply?',
+    additionalText: 'You can apply online right now.',
     applyText: 'Apply for Burial Benefits'
   });
 }
