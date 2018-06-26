@@ -8,7 +8,12 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import { PrimaryAddressViewField, contactInfoDescription, phoneEmailViewField } from '../helpers';
+import {
+  PrimaryAddressViewField,
+  ForwardingAddressViewField,
+  contactInfoDescription,
+  phoneEmailViewField
+} from '../helpers';
 import  {
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
@@ -169,65 +174,64 @@ export const uiSchema = {
       },
       mailingAddress: addressUISchema(ADDRESS_PATHS.mailingAddress)
     },
-    // 'view:hasForwardingAddress': {
-    //   'ui:title':
-    //     'I want to provide a forwarding address since my address will be changing soon.'
-    // },
-    // forwardingAddress: _.merge(
-    //   addressUISchema('forwardingAddress', 'Forwarding address'),
-    //   {
-    //     'ui:options': {
-    //       expandUnder: 'view:hasForwardingAddress'
-    //     },
-    //     'ui:order': [
-    //       'effectiveDate',
-    //       'country',
-    //       'addressLine1',
-    //       'addressLine2',
-    //       'addressLine3',
-    //       'city',
-    //       'state',
-    //       'zipCode'
-    //     ],
-    //     effectiveDate: _.merge(
-    //       {},
-    //       dateUI('Effective date'),
-    //       { 'ui:required': hasForwardingAddress }
-    //     ),
-    //     country: {
-    //       'ui:required': hasForwardingAddress,
-
-    //     },
-    //     addressLine1: {
-    //       'ui:required': hasForwardingAddress
-    //     },
-    //     city: {
-    //       'ui:required': hasForwardingAddress
-    //     },
-    //     state: {
-    //       'ui:required': (formData) => (
-    //         hasForwardingAddress(formData)
-    //         && formData.veteran.forwardingAddress.country === USA
-    //       ),
-    //       'ui:options': {
-    //         hideIf: (formData) => (
-    //           hasForwardingAddress(formData)
-    //           && formData.veteran.forwardingAddress.country !== USA)
-    //       }
-    //     },
-    //     zipCode: {
-    //       'ui:required': (formData) => (
-    //         hasForwardingAddress(formData)
-    //         && formData.veteran.forwardingAddress.country === USA
-    //       ),
-    //       'ui:options': {
-    //         hideIf: (formData) => (
-    //           hasForwardingAddress(formData)
-    //           && formData.veteran.forwardingAddress.country !== USA)
-    //       }
-    //     }
-    //   }
-    // )
+    'view:hasForwardingAddress': {
+      'ui:title':
+        'I want to provide a forwarding address since my address will be changing soon.'
+    },
+    forwardingCard: {
+      'ui:title': 'Forwarding address',
+      'ui:field': ReviewCardField,
+      'ui:options': {
+        viewComponent: ForwardingAddressViewField,
+        hideIf: (formData) => (!hasForwardingAddress(formData))
+      },
+      forwardingAddress: _.merge(
+        addressUISchema(ADDRESS_PATHS.forwardingAddress),
+        {
+          // 'ui:options': {
+          //   expandUnder: 'view:hasForwardingAddress'
+          // },
+          'ui:order': [
+            'effectiveDate',
+            'country',
+            'addressLine1',
+            'addressLine2',
+            'addressLine3',
+            'city',
+            'state',
+            'zipCode'
+          ],
+          // TODO: Move effectiveDate, country, addressLine1, city requireds to the schema
+          // They're not conditional assuming this is our final display format
+          effectiveDate: _.merge(
+            {},
+            dateUI('Effective date'),
+            { 'ui:required': () => (true) }
+          ),
+          country: {
+            'ui:required': () => (true)
+          },
+          addressLine1: {
+            'ui:required': () => (true)
+          },
+          city: {
+            'ui:required': () => (true)
+          },
+          state: {
+            'ui:required': (formData) => (formData.veteran.forwardingCard.forwardingAddress.country === USA),
+            'ui:options': {
+              hideIf: (formData) => (formData.veteran.forwardingCard.forwardingAddress.country !== USA)
+            }
+          },
+          zipCode: {
+            'ui:required': (formData) => (formData.veteran.forwardingCard.forwardingAddress.country === USA),
+            'ui:options': {
+              hideIf: (formData) => (formData.veteran.forwardingCard.forwardingAddress.country !== USA)
+            }
+          }
+        }
+      )
+    }
   }
 };
 
@@ -257,11 +261,15 @@ export const primaryAddressSchema = {
             mailingAddress,
           }
         },
-        // Possibly a reviewCard with a checkbox in the review mode that expands it?
-        // 'view:hasForwardingAddress': {
-        //   type: 'boolean'
-        // },
-        // forwardingAddress
+        'view:hasForwardingAddress': {
+          type: 'boolean'
+        },
+        forwardingCard: {
+          type: 'object',
+          properties: {
+            forwardingAddress
+          }
+        }
       }
     }
   }

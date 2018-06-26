@@ -524,7 +524,9 @@ const EmailViewField = ({ formData, name }) => (
 const EffectiveDateViewField = ({ formData }) => {
   return (
     <p>
-      Effective Date: <DateWidget value={formData} options={{ monthYear: false }}/>
+      <strong>Effective Date</strong>: <DateWidget
+        value={formData}
+        options={{ monthYear: false }}/>
     </p>
   );
 };
@@ -555,17 +557,20 @@ const AddressViewField = ({ formData }) => {
 };
 
 export const PrimaryAddressViewField = ({ formData }) => {
-  const {
-    mailingAddress, forwardingAddress } = formData;
+  const { mailingAddress } = formData;
   return (
     <div>
       <AddressViewField formData={mailingAddress}/>
-      {formData['view:hasForwardingAddress'] && (
-        <AddressViewField formData={forwardingAddress}/>
-      )}
-      {formData.effectiveDate && (
-        <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
-      )}
+    </div>
+  );
+};
+
+export const ForwardingAddressViewField = ({ formData }) => {
+  const { forwardingAddress } = formData;
+  return (
+    <div>
+      <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
+      <AddressViewField formData={forwardingAddress}/>
     </div>
   );
 };
