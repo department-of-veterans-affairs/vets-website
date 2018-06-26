@@ -87,6 +87,7 @@ export class MHVApp extends React.Component {
       const nextQuery = { next: window.location.pathname };
       const verifyUrl = appendQuery('/verify', nextQuery);
       window.location.replace(verifyUrl);
+      return;
     }
 
     switch (account.state) {
@@ -101,6 +102,7 @@ export class MHVApp extends React.Component {
         this.props.createMHVAccount();
         break;
 
+      case 'existing':
       case 'registered':
         this.props.upgradeMHVAccount();
         break;
