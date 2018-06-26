@@ -26,6 +26,10 @@ class PhoneTextInput extends ErrorableTextInput {
 export default class PhoneEditModal extends React.Component {
   // @todo Add propTypes
 
+  onBlur = (field) => {
+    this.props.onChange(this.props.field.value, field);
+  }
+
   onChange = (field) => {
     return ({ value, dirty }) => {
       const newFieldValue = {
@@ -91,6 +95,7 @@ export default class PhoneEditModal extends React.Component {
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
+        onBlur={this.onBlur}
         {...this.props}/>
     );
   }
