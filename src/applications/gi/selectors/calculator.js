@@ -116,14 +116,14 @@ const getDerivedValues = createSelector(
     switch (giBillChapter) {
       case 30: {
         monthlyRate =
-          (enlistmentService === '3' ?
-            constant.MGIB3YRRATE :
-            constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
+        (enlistmentService === '3' ?
+          constant.MGIB3YRRATE :
+          constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
         break;
       }
       case 1607: {
         monthlyRate =
-          constant.MGIB3YRRATE * consecutiveService * (isOJT ? 0.75 : 1);
+        constant.MGIB3YRRATE * consecutiveService * (isOJT ? 0.75 : 1);
         break;
       }
       case 1606: {
@@ -149,7 +149,7 @@ const getDerivedValues = createSelector(
           monthlyRate =
             constant[`VRE2DEPRATE${OJT}`] +
             ((numberOfDependents - 2) *
-            constant[`VREINCRATE${OJT}`]);
+              constant[`VREINCRATE${OJT}`]);
         }
         break;
       }
@@ -183,7 +183,7 @@ const getDerivedValues = createSelector(
         ? +inputs.tuitionFees
         : +inputs.inStateTuitionFees;
     } else {
-      // Default cap for private, foreign, and for-profit institutions.
+      // Default cap for private, foreign, and for-profit institutions
       tuitionFeesCap = constant.TFCAP;
     }
 
@@ -357,10 +357,18 @@ const getDerivedValues = createSelector(
     // Calculate the name of Tuition Fees Total - getTuitionFeesTotal
     const tuitionFeesTotal = tuitionFeesTerm1 + tuitionFeesTerm2 + tuitionFeesTerm3;
 
+
+    let yellowRibbonAmount;
+    if (__BUILDTYPE__ !== 'production') {
+      yellowRibbonAmount = inputs.yellowRibbonRecipient === 'yes' ? +inputs.yellowRibbonAmount : 0;
+    } else {
+      yellowRibbonAmount = +inputs.yellowRibbonAmount;
+    }
+
     // Calculate Yellow Ribbon for Term #1 - getYrBenTerm1
     const shouldHaveNoYrBenTerm1 =
       !yellowRibbonElig ||
-      +inputs.yellowRibbonAmount === 0 ||
+      yellowRibbonAmount === 0 ||
       oldGiBill ||
       giBillChapter === 31 ||
       tuitionFeesPerTerm === tuitionFeesTerm1;
@@ -371,14 +379,14 @@ const getDerivedValues = createSelector(
       yrBenTerm1 = Math.max(0, Math.min(
         tuitionFeesPerTerm - tuitionFeesTerm1,
         tuitionNetPrice - tuitionFeesTerm1,
-        +inputs.yellowRibbonAmount * 2
+        yellowRibbonAmount * 2
       ));
     }
 
     // getYrBenTerm2
     const shouldHaveNoYrBenTerm2 =
       !yellowRibbonElig ||
-      +inputs.yellowRibbonAmount === 0 ||
+      yellowRibbonAmount === 0 ||
       oldGiBill ||
       giBillChapter === 31 ||
       inputs.calendar === 'nontraditional' && numberOfTerms === 1 ||
@@ -390,14 +398,14 @@ const getDerivedValues = createSelector(
       yrBenTerm2 = Math.max(0, Math.min(
         tuitionFeesPerTerm - tuitionFeesTerm2,
         tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2 - yrBenTerm1,
-        +inputs.yellowRibbonAmount * 2 - yrBenTerm1
+        yellowRibbonAmount * 2 - yrBenTerm1
       ));
     }
 
     // getYrBenTerm3
     const shouldHaveNoYrBenTerm3 =
       !yellowRibbonElig ||
-      +inputs.yellowRibbonAmount === 0 ||
+      yellowRibbonAmount === 0 ||
       oldGiBill ||
       giBillChapter === 31 ||
       inputs.calendar === 'semesters' ||
@@ -410,12 +418,12 @@ const getDerivedValues = createSelector(
       yrBenTerm3 = Math.max(0, Math.min(
         tuitionFeesPerTerm - tuitionFeesTerm3,
         tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2 - tuitionFeesTerm3 - yrBenTerm1 - yrBenTerm1,
-        +inputs.yellowRibbonAmount * 2 - yrBenTerm1 - yrBenTerm2
+        yellowRibbonAmount * 2 - yrBenTerm1 - yrBenTerm2
       ));
     }
 
     // Calculate Yellow Ribbon for the Year - getYrBenTotal
-    if (!yellowRibbonElig || +inputs.yellowRibbonAmount === 0) {
+    if (!yellowRibbonElig || yellowRibbonAmount === 0) {
       yrBenTotal = 0;
     } else {
       yrBenTotal = yrBenTerm1 + yrBenTerm2 + yrBenTerm3;
@@ -990,7 +998,9 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (institution.yr && derived.tier === 1.0) {
+    if (institution.yr &&
+      derived.tier === 1.0 &&
+      institution.yellowRibbonPrograms.length > 0) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         yellowRibbon: true
@@ -1036,7 +1046,7 @@ export const getCalculatedBenefits = createSelector(
     }
 
     if (derived.numberOfTerms === 1) {
-      // Hide all term 2 and 3 calculations.
+      // Hide all term 2 and 3 calculations
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[1].visible = false;
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[1].visible = false;
@@ -1050,7 +1060,7 @@ export const getCalculatedBenefits = createSelector(
     }
 
     if (derived.numberOfTerms < 3 && institutionType !== 'ojt') {
-      // Hide all term 3 calculations.
+      // Hide all term 3 calculations
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;

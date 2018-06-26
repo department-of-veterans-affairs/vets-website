@@ -67,7 +67,8 @@ export default class Vet360EditModal extends React.Component {
         clearErrors,
         render,
         onDelete,
-        transactionRequest
+        transactionRequest,
+        analyticsSectionName,
       }
     } = this;
 
@@ -89,6 +90,7 @@ export default class Vet360EditModal extends React.Component {
             onCancel={onCancel}
             onDelete={onDelete}
             title={title}
+            analyticsSectionName={analyticsSectionName}
             deleteEnabled={!isEmpty()}>
             <LoadingButton isLoading={isLoading}>Update</LoadingButton>
             <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
