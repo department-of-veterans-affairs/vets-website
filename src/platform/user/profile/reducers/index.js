@@ -40,7 +40,8 @@ const initialState = {
       errors: null,
       level: null,
       loading: false,
-      state: null
+      state: null,
+      termsAndConditionsAccepted: false
     },
     terms: {
       accepted: false,
@@ -89,12 +90,18 @@ function profileInformation(state = initialState, action) {
       }, state);
 
     case FETCH_MHV_ACCOUNT_SUCCESS: {
-      const { accountState, accountLevel } = action.data.attributes;
+      const {
+        accountState,
+        accountLevel,
+        termsAndConditionsAccepted
+      } = action.data.attributes;
+
       return set('mhv.account', {
         errors: null,
+        level: accountLevel,
         loading: false,
         state: accountState,
-        level: accountLevel
+        termsAndConditionsAccepted
       }, state);
     }
 

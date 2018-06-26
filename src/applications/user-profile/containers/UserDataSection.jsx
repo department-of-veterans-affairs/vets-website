@@ -9,14 +9,15 @@ import PersonalizationBetaInvite from '../components/PersonalizationBetaInvite';
 
 class UserDataSection extends React.Component {
   renderTermsConditions = () => {
+    const { account: mhvAccount } = this.props.profile.mhv;
     const termsConditionsUrl = '/health-care/medical-information-terms-conditions';
     let content;
 
-    if (this.props.terms.accepted) {
+    if (mhvAccount.termsAndConditionsAccepted) {
       content = (
         <p>You’ve accepted the latest <a href={termsConditionsUrl}>Terms and Conditions for Medical Information</a>.</p>
       );
-    } else {
+    } else if (mhvAccount.state === 'needs_terms_acceptance') {
       content = (
         <div>
           <div className="usa-alert usa-alert-info no-background-image">
@@ -118,8 +119,7 @@ const mapStateToProps = (state) => {
   return {
     login: userState.login,
     name: userState.profile.userFullName,
-    profile: userState.profile,
-    terms: userState.profile.mhv.terms
+    profile: userState.profile
   };
 };
 
