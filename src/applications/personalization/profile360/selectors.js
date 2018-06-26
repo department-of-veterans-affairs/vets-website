@@ -6,7 +6,8 @@ import {
 
 import {
   isSuccessfulTransaction,
-  isFailedTransaction
+  isFailedTransaction,
+  isPendingTransaction
 } from './util/transactions';
 
 export function selectIsVet360AvailableForUser(state) {
@@ -46,6 +47,40 @@ export function selectVet360SuccessfulTransactions(state) {
 
 export function selectVet360FailedTransactions(state) {
   return state.vet360.transactions.filter(isFailedTransaction);
+}
+
+export function selectVet360PendingCategoryTransactions(state, type) {
+  const {
+    vet360: {
+      transactions,
+      fieldTransactionMap
+    }
+  } = state;
+
+  const existsWithinFieldTransactionMap = (transaction) => {
+    const transactionId = transaction.data.attributes.transactionId;
+
+    return Object
+      .keys(fieldTransactionMap)
+      .some(fieldName => {
+        const transactionRequest = fieldTransactionMap[fieldName];
+        return transactionRequest.transactionId === transactionId;
+      });
+  };
+
+  return transactions
+    .filter(transaction => {
+      // Do the actual category-type filter.
+      return transaction.data.attributes.type === type;
+    }).filter(transaction => {
+      // Filter to transaction with the pending status
+      return isPendingTransaction(transaction);
+    }).filter(transaction => {
+      // If the transaction has corresponding transaction information in the fieldTransactionMap,
+      // then we know which field that transaction belongs. In this case, we ignore it at the
+      // category-level.
+      return !existsWithinFieldTransactionMap(transaction);
+    });
 }
 
 export function selectEditedFormField(state, fieldName) {

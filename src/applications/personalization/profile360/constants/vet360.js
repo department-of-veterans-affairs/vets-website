@@ -1,3 +1,9 @@
+export const TRANSACTION_CATEGORY_TYPES = {
+  PHONE: 'AsyncTransaction::Vet360::PhoneTransaction',
+  EMAIL: 'AsyncTransaction::Vet360::EmailTransaction',
+  ADDRESS: 'AsyncTransaction::Vet360::AddressTransaction'
+};
+
 export const TRANSACTION_STATUS = {
   REJECTED: 'REJECTED',
   RECEIVED: 'RECEIVED',

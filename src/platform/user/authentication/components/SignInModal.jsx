@@ -5,7 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
-import { services } from '../../../../platform/monitoring/DowntimeNotification';
+import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
 
 const loginHandler = (loginType) => () => {
@@ -46,7 +46,7 @@ class SignInModal extends React.Component {
               <h2>One site. A lifetime of benefits and services at your fingertips.</h2>
             </div>
           </div>
-          <DowntimeBanner dependencies={[services.dslogon]}>
+          <DowntimeBanner dependencies={[externalServices.dslogon]}>
             <div className="downtime-notification row">
               <div className="columns small-12">
                 <div className="form-warning-banner">
