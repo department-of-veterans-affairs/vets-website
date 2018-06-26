@@ -107,6 +107,26 @@ defaultState.profile = {
     vetSuccessEmail: null,
     vetSuccessName: null,
     yr: true,
+    yellowRibbonPrograms: [
+      {
+        divisionProfessionalSchool: 'division1',
+        degreeLevel: 'graduate',
+        contributionAmount: 5000,
+        numberOfStudents: 20
+      },
+      {
+        divisionProfessionalSchool: 'division2',
+        degreeLevel: 'undergraduate',
+        contributionAmount: 5,
+        numberOfStudents: 25
+      },
+      {
+        divisionProfessionalSchool: 'division3',
+        degreeLevel: 'undergraduate',
+        contributionAmount: 25,
+        numberOfStudents: 30
+      }
+    ],
     zip: '98121'
   },
 
