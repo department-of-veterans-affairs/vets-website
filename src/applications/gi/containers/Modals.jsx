@@ -230,7 +230,7 @@ export class Modals extends React.Component {
         </Modal>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('stemOffered')}>
           <h3>STEM</h3>
-          <p>VA will provide up to nine months of additional Post-9/11 GI Bill benefits to eligible individuals who are enrolled in a Science, Technology, Engineering, or Math program of education.</p>
+          <p>VA will provide up to 9 months of additional Post-9/11 GI Bill benefits if you're eligible and enrolled in a Science, Technology, Engineering, or Math educational program.</p>
         </Modal>
       </span>
     );
