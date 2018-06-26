@@ -11,7 +11,7 @@ class UserDataSection extends React.Component {
   renderTermsConditions = () => {
     const { mhv } = this.props.profile;
     const termsConditionsUrl = '/health-care/medical-information-terms-conditions';
-    let content;
+    let content = null;
 
     if (mhv.account.termsAndConditionsAccepted) {
       content = (

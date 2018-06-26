@@ -3,7 +3,7 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 
 export default function TermsAndConditions({ mhv }) {
   const termsConditionsUrl = '/health-care/medical-information-terms-conditions';
-  let content;
+  let content = null;
 
   if (mhv.account.termsAndConditionsAccepted) {
     content = (
