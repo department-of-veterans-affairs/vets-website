@@ -166,7 +166,7 @@ export class Modals extends React.Component {
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('priEnroll')}>
           <h3>Priority Enrollment</h3>
           <p>
-            TODO!!!
+            If an Institution of Higher Learning (e.g., a college or university) administers a priority enrollment system that allows certain student Veterans to enroll in courses earlier than other students ( does not need to be earlier than ALL students), VA will display it with the school’s information here.
           </p>
         </Modal>
 
@@ -237,7 +237,7 @@ export class Modals extends React.Component {
         </Modal>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('iStudy')}>
           <h3>Independent Study</h3>
-          <p>TODO!!!</p>
+          <p>Beneficiaries may use their educational assistance to pursue accredited independent study (e.g., online learning) at non-Institutions of Higher Learning (IHLs). The non-IHLs must be area career and technical education schools that provide postsecondary level education or postsecondary vocational institutions. Note: This change does not apply to Dependents’ Educational Assistance program beneficiaries.</p>
         </Modal>
       </span>
     );
