@@ -58,6 +58,11 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
 }
 
 const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
+// const hasForwardingAddress = (formData) => {
+//   console.log(formData);
+//   console.log(_.get(formData, 'veteran[view:hasForwardingAddress]', false));
+//   return _.get(formData, 'veteran[view:hasForwardingAddress]', false);
+// }
 
 /**
  * 
@@ -183,14 +188,11 @@ export const uiSchema = {
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: ForwardingAddressViewField,
-        hideIf: (formData) => (!hasForwardingAddress(formData))
+        expandUnder: 'view:hasForwardingAddress'
       },
       forwardingAddress: _.merge(
         addressUISchema(ADDRESS_PATHS.forwardingAddress),
         {
-          // 'ui:options': {
-          //   expandUnder: 'view:hasForwardingAddress'
-          // },
           'ui:order': [
             'effectiveDate',
             'country',
@@ -201,30 +203,34 @@ export const uiSchema = {
             'state',
             'zipCode'
           ],
-          // TODO: Move effectiveDate, country, addressLine1, city requireds to the schema
-          // They're not conditional assuming this is our final display format
           effectiveDate: _.merge(
             {},
             dateUI('Effective date'),
-            { 'ui:required': () => (true) }
+            { 'ui:required': hasForwardingAddress }
           ),
           country: {
-            'ui:required': () => (true)
+            'ui:required': hasForwardingAddress
           },
           addressLine1: {
-            'ui:required': () => (true)
+            'ui:required': hasForwardingAddress
           },
           city: {
-            'ui:required': () => (true)
+            'ui:required': hasForwardingAddress
           },
           state: {
-            'ui:required': (formData) => (formData.veteran.forwardingCard.forwardingAddress.country === USA),
+            'ui:required': (formData) => (
+              hasForwardingAddress(formData)
+              && formData.veteran.forwardingCard.forwardingAddress.country === USA
+            ),
             'ui:options': {
               hideIf: (formData) => (formData.veteran.forwardingCard.forwardingAddress.country !== USA)
             }
           },
           zipCode: {
-            'ui:required': (formData) => (formData.veteran.forwardingCard.forwardingAddress.country === USA),
+            'ui:required': (formData) => (
+              formData.veteran.forwardingCard.forwardingAddress.country === USA
+              && formData.veteran.forwardingCard.forwardingAddress.country === USA
+            ),
             'ui:options': {
               hideIf: (formData) => (formData.veteran.forwardingCard.forwardingAddress.country !== USA)
             }
