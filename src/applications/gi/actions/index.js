@@ -215,16 +215,16 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
     };
   }
 
-  // const url = `${api.url}/zipcode_rates/${beneficiaryZIP}`;
-  /*
-    return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload => { type: FETCH_BAH_SUCCEEDED, payload },
-        err => dispatch({ type: FETCH_BAH_FAILED, err })
-      );
-      */
+  const url = `${api.url}/zipcode_rates/${beneficiaryZIP}`;
 
+  return fetch(url, api.settings)
+    .then(res => res.json())
+    .then(
+      payload => { type: FETCH_BAH_SUCCEEDED, payload },
+      err => dispatch({ type: FETCH_BAH_FAILED, err })
+    );
+
+  /*
   if (beneficiaryZIP === '11111') {
     return dispatch => {
       dispatch({ type: FETCH_BAH_STARTED, beneficiaryZIPFetched: beneficiaryZIP });
@@ -267,4 +267,5 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
       resolve();
     }, 1000));
   };
+  */
 }
