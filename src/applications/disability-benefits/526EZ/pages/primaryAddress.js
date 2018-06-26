@@ -116,7 +116,7 @@ const addressUISchema = (addressName, title) => {
       'ui:validations': [validateZIP],
       'ui:required': ({ veteran }) => (veteran.mailingAddress.country === USA),
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 5- or 9- digit ZIP code (dashes allowed)'
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',

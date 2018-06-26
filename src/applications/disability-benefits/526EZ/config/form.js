@@ -150,7 +150,7 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
-          description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
+          description: 'This is the personal information we have on file for you.',
           path: 'veteran-information',
           uiSchema: veteranInfoUiSchema,
           schema: veteranInfoSchema
