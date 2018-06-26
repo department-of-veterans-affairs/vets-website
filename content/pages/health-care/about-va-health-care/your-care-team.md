@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Your Care Team
 display_title:
+description: Learn  about the VA health care providers on your VA health care team. Find out how to change your primary care provider and how to schedule an appointment.
 concurrence: complete
 lastupdate: 2018-01-09
 order: 1

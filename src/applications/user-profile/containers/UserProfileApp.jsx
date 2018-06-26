@@ -2,12 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { removeSavedForm } from '../../../platform/user/profile/actions';
-import UserDataSection from './UserDataSection';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+
+import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
+import { fetchMHVAccount, removeSavedForm } from '../../../platform/user/profile/actions';
+import backendServices from '../../../platform/user/profile/constants/backendServices';
+import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
+
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
-import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import UserDataSection from './UserDataSection';
 
 moment.updateLocale('en', {
   meridiem: (hour) => {
@@ -33,31 +37,36 @@ moment.updateLocale('en', {
 });
 
 class UserProfileApp extends React.Component {
+  componentDidMount() {
+    // Get MHV account to determine what to render for Terms and Conditions.
+    this.props.fetchMHVAccount();
+  }
+
   render() {
-    const view = (
-      <div className="row user-profile-row">
+    const { profile } = this.props.user;
+
+    const view = profile.loading || profile.mhv.account.loading ?
+      <LoadingIndicator message="Loading your account information..."/> :
+      (<div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Your Account</h1>
           <div>
             <FormList
-              userProfile={this.props.user.profile}
+              userProfile={profile}
               removeSavedForm={this.props.removeSavedForm}
-              savedForms={this.props.user.profile.savedForms}/>
-            <AuthApplicationSection
-              userProfile={this.props.user.profile}
-              verifyUrl={this.props.verifyUrl}/>
+              savedForms={profile.savedForms}/>
+            <AuthApplicationSection userProfile={profile}/>
             <UserDataSection/>
           </div>
         </div>
-      </div>
-    );
+      </div>);
 
     return (
       <div>
         <RequiredLoginView
-          serviceRequired="user-profile"
+          serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}>
-          <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
+          <DowntimeNotification appTitle="user profile page" dependencies={[externalServices.mvi, externalServices.emis]}>
             {view}
           </DowntimeNotification>
         </RequiredLoginView>
@@ -71,7 +80,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  removeSavedForm,
+  fetchMHVAccount,
+  removeSavedForm
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);

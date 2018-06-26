@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-// import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import * as VET360 from '../constants/vet360';
 
@@ -26,7 +26,7 @@ import Vet360Transaction from '../components/Vet360Transaction';
 
 class Vet360ProfileField extends React.Component {
 
-  isEmpty() {
+  isEmpty = () => {
     return this.props.isEmpty ? this.props.isEmpty(this.props) : !this.props.data;
   }
 
@@ -48,7 +48,7 @@ class Vet360ProfileField extends React.Component {
     return (
       <div className="vet360-profile-field">
         <Vet360ProfileFieldHeading onEditClick={this.isEditLinKVisible() && onEdit}>{title}</Vet360ProfileFieldHeading>
-        {isEditing && <EditModal {...this.props}/>}
+        {isEditing && <EditModal {...this.props} isEmpty={this.isEmpty}/>}
         <Vet360Transaction
           title={title}
           transaction={transaction}
@@ -90,13 +90,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   } = ownProps;
 
   const captureEvent = (actionName) => {
-    // if (sectionName && actionName) {
-    //   recordEvent({
-    //     event: 'profile-navigation',
-    //     'profile-action': actionName,
-    //     'profile-section': sectionName,
-    //   });
-    // }
+    if (sectionName && actionName) {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': actionName,
+        'profile-section': sectionName,
+      });
+    }
   };
 
   const {
@@ -117,7 +117,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     refreshTransaction(transaction) {
-      dispatch(refreshTransaction(transaction));
+      dispatch(refreshTransaction(transaction, sectionName));
     },
 
     onAdd() {
@@ -135,7 +135,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     onDelete(...args) {
-      captureEvent('delete-button');
       dispatch(deleteField(...args));
     },
 

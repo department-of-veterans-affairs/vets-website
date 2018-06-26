@@ -6,7 +6,7 @@ import {
   getDefaultRegistry
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { errorSchemaIsValid } from '../../../common/schemaform/validation';
+import { errorSchemaIsValid } from 'us-forms-system/lib/js/validation';
 
 import set from '../../../../platform/utilities/data/set';
 import get from '../../../../platform/utilities/data/get';
@@ -67,13 +67,24 @@ export default class ReviewCardField extends React.Component {
       : uiSchema['ui:title'];
   }
 
+  getDescription = () => {
+    const { uiSchema: { 'ui:description': description }, formData } = this.props;
+    if (!description) {
+      return null;
+    }
+
+    return (typeof description === 'function')
+      ? description(formData)
+      : <p>{description}</p>;
+  };
+
 
   /**
    * Much of this is taken from ArrayField & ObjectField.
    *
    * Renders a SchemaField for each property it wraps.
    */
-  getEditView = () => {
+  getEditView = (title) => {
     const {
       disabled,
       errorSchema,
@@ -88,9 +99,7 @@ export default class ReviewCardField extends React.Component {
     } = this.props;
     const { SchemaField } = registry.fields;
     // We've already used the ui:field and ui:title
-    const uiSchema = omit(['ui:field', 'ui:title'], this.props.uiSchema);
-
-    const title = this.getTitle();
+    const uiSchema = omit(['ui:field', 'ui:title', 'ui:description'], this.props.uiSchema);
 
     return (
       <div className="review-card">
@@ -116,9 +125,8 @@ export default class ReviewCardField extends React.Component {
   }
 
 
-  getReviewView = () => {
+  getReviewView = (title) => {
     const ViewComponent = this.props.uiSchema['ui:options'].viewComponent;
-    const title = this.getTitle();
 
     return (
       <div className="review-card">
@@ -169,11 +177,18 @@ export default class ReviewCardField extends React.Component {
 
 
   render() {
-    if (this.state.editing) {
-      return this.getEditView();
-    }
+    const title = this.getTitle();
+    const description = this.getDescription();
+    const viewOrEditCard = (this.state.editing)
+      ? this.getEditView(title)
+      : this.getReviewView(title);
 
-    return this.getReviewView();
+    return (
+      <div>
+        {description}
+        {viewOrEditCard}
+      </div>
+    );
   }
 }
 
@@ -184,7 +199,10 @@ ReviewCardField.propTypes = {
       viewComponent: PropTypes.oneOfType(
         [PropTypes.element, PropTypes.func]
       ).isRequired
-    }).isRequired
+    }).isRequired,
+    'ui:description': PropTypes.oneOfType(
+      [PropTypes.element, PropTypes.func]
+    )
   }).isRequired,
   schema: PropTypes.object.isRequired,
   errorSchema: PropTypes.object.isRequired,
@@ -201,4 +219,3 @@ ReviewCardField.propTypes = {
     onError: PropTypes.func.isRequired
   }).isRequired
 };
-

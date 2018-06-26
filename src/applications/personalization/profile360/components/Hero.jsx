@@ -1,6 +1,6 @@
 import React from 'react';
 import LoadingSection from './LoadingSection';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import { handleDowntimeForSection } from './DowntimeBanner';
 
 class HeroContent extends React.Component {
@@ -54,7 +54,7 @@ class HeroContent extends React.Component {
 export default function Hero(props) {
   return (
     <div>
-      <DowntimeNotification render={handleDowntimeForSection('name')} dependencies={[services.mvi]}>
+      <DowntimeNotification render={handleDowntimeForSection('name')} dependencies={[externalServices.mvi]}>
         <HeroContent {...props}/>
       </DowntimeNotification>
     </div>

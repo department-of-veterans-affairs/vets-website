@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import moment from 'moment';
-import serviceStatus from '../config/serviceStatus';
+import externalServiceStatus from '../config/externalServiceStatus';
 import * as downtimeHelpers from '../util/helpers';
 
 const pastDowntime = {
@@ -55,19 +55,19 @@ describe('getStatusForTimeframe', () => {
   it('assigns a status according to timeframe', () => {
     expect(
       downtimeHelpers.getStatusForTimeframe(pastDowntime.attributes.startTime, pastDowntime.attributes.endTime)
-    ).to.equal(serviceStatus.ok);
+    ).to.equal(externalServiceStatus.ok);
     expect(
       downtimeHelpers.getStatusForTimeframe(activeDowntime.attributes.startTime, activeDowntime.attributes.endTime)
-    ).to.equal(serviceStatus.down);
+    ).to.equal(externalServiceStatus.down);
     expect(
       downtimeHelpers.getStatusForTimeframe(approachingDowntime.attributes.startTime, approachingDowntime.attributes.endTime)
-    ).to.equal(serviceStatus.downtimeApproaching);
+    ).to.equal(externalServiceStatus.downtimeApproaching);
     expect(
       downtimeHelpers.getStatusForTimeframe(lessUrgentApproachingDowntime.attributes.startTime, lessUrgentApproachingDowntime.attributes.endTime)
-    ).to.equal(serviceStatus.downtimeApproaching);
+    ).to.equal(externalServiceStatus.downtimeApproaching);
     expect(
       downtimeHelpers.getStatusForTimeframe(distantFutureDowntime.attributes.startTime, distantFutureDowntime.attributes.endTime)
-    ).to.equal(serviceStatus.ok);
+    ).to.equal(externalServiceStatus.ok);
   });
 });
 
@@ -79,10 +79,10 @@ describe('createServiceMap', () => {
     const mvi = serviceMap.get('mvi');
     const appeals = serviceMap.get('appeals');
 
-    expect(evss.status).to.equal(serviceStatus.down);
-    expect(vic.status).to.equal(serviceStatus.ok);
-    expect(mvi.status).to.equal(serviceStatus.downtimeApproaching);
-    expect(appeals.status).to.equal(serviceStatus.downtimeApproaching);
+    expect(evss.status).to.equal(externalServiceStatus.down);
+    expect(vic.status).to.equal(externalServiceStatus.ok);
+    expect(mvi.status).to.equal(externalServiceStatus.downtimeApproaching);
+    expect(appeals.status).to.equal(externalServiceStatus.downtimeApproaching);
   });
 });
 
@@ -102,15 +102,15 @@ describe('getMostUrgentDowntime', () => {
 
   it('returns the status with the soonest startTime and endTime that is not in the past', () => {
     const evss = downtimeHelpers.getSoonestDowntime(serviceMap, ['dslogon', 'evss', 'vic', 'mvi']);
-    expect(evss.status).to.equal(serviceStatus.down);
+    expect(evss.status).to.equal(externalServiceStatus.down);
     expect(evss.externalService).to.equal('evss');
 
     const mvi = downtimeHelpers.getSoonestDowntime(serviceMap, ['dslogon', 'vic', 'mvi', 'appeals']);
-    expect(mvi.status).to.equal(serviceStatus.downtimeApproaching);
+    expect(mvi.status).to.equal(externalServiceStatus.downtimeApproaching);
     expect(mvi.externalService).to.equal('mvi');
 
     const appeals = downtimeHelpers.getSoonestDowntime(serviceMap, ['dslogon', 'vic', 'appeals']);
-    expect(appeals.status).to.equal(serviceStatus.downtimeApproaching);
+    expect(appeals.status).to.equal(externalServiceStatus.downtimeApproaching);
     expect(appeals.externalService).to.equal('appeals');
   });
 });

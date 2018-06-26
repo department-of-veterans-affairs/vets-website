@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import { focusElement } from '../../../platform/utilities/ui';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
@@ -35,7 +36,7 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { user } = this.props.saveInProgress;
-    const idProofed = user.profile.services && user.profile.services.some(service => service === 'identity-proofed');
+    const idProofed = user.profile.services && user.profile.services.some(service => service === backendServices.IDENTITY_PROOFED);
     const signedIn = user.login.currentlyLoggedIn;
     const accountBenefits = (
       <ul>

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -122,6 +123,73 @@ class CalculatorForm extends React.Component {
 
   renderYellowRibbon() {
     if (!this.props.displayedInputs.yellowRibbon) return null;
+
+    if (__BUILDTYPE__ !== 'production') {
+      let {
+        yellowRibbonDegreeLevelOptions,
+        yellowRibbonDivisionOptions,
+      } = this.props.inputs;
+
+      yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions.map(value => ({ value, label: value }));
+      yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
+
+      return (
+        <div>
+          <RadioButtons
+            label={this.renderLearnMoreLabel({
+              text: 'Will you be a Yellow Ribbon recipient?',
+              modal: 'calcYr'
+            })}
+            name="yellowRibbonRecipient"
+            options={[
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' }
+            ]}
+            value={this.props.inputs.yellowRibbonRecipient}
+            onChange={this.handleInputChange}/>
+          { this.props.inputs.yellowRibbonRecipient === 'yes' ?
+            <div>
+              <Dropdown
+                label="Degree Level"
+                name="yellowRibbonDegreeLevel"
+                alt="Degree Level"
+                options={yellowRibbonDegreeLevelOptions}
+                visible
+                value={this.props.inputs.yellowRibbonDegreeLevel}
+                onChange={this.handleInputChange}/>
+              <Dropdown
+                label="Division or school"
+                name={'yellowRibbonDivision'}
+                alt="Division or school"
+                options={yellowRibbonDivisionOptions}
+                visible
+                value={this.props.inputs.yellowRibbonDivision}
+                onChange={this.handleInputChange}/>
+              <div>
+                <label htmlFor="yellowRibbonContributionAmount">
+                  Yellow Ribbon amount from school per year
+                </label>
+                <input
+                  id="yellowRibbonContributionAmount"
+                  type="text"
+                  name="yellowRibbonAmount"
+                  value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
+                  onChange={this.handleInputChange}/>
+              </div>
+              <AlertBox
+                isVisible
+                key={this.props.inputs.yellowRibbonProgramIndex}
+                status="info">
+                <div>
+                  Maximum amount per student: <strong>{formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}/yr</strong><br></br>
+                  Number of students: <strong>{this.props.inputs.yellowRibbonMaxNumberOfStudents}</strong>
+                </div>
+              </AlertBox>
+            </div>
+            : null }
+        </div>
+      );
+    }
 
     let amountInput;
 

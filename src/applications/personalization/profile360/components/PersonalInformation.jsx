@@ -1,5 +1,5 @@
 import React from 'react';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import moment from '../../../../platform/startup/moment-setup';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
@@ -7,7 +7,10 @@ import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 function Gender({ gender }) {
-  return <span>{gender === 'M' ? 'Male' : 'Female'}</span>;
+  let content = 'This information is not available right now.';
+  if (gender === 'M') content = 'Male';
+  else if (gender === 'F') content = 'Female';
+  return content;
 }
 
 function BirthDate({ birthDate }) {
@@ -62,7 +65,7 @@ export default function PersonalInformation(props) {
   return (
     <div>
       <h2 className="va-profile-heading">Personal Information</h2>
-      <DowntimeNotification render={handleDowntimeForSection('personal')} dependencies={[services.mvi]}>
+      <DowntimeNotification render={handleDowntimeForSection('personal')} dependencies={[externalServices.mvi]}>
         <PersonalInformationContent {...props}/>
       </DowntimeNotification>
     </div>
