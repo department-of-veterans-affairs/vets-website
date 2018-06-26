@@ -28,7 +28,11 @@ class PersonalizationDropdown extends React.Component {
 
   checkLink = (event) => {
     const target = event.target;
-    if (target.tagName.toLowerCase() === 'a' && target.pathname === '/' && event.which === LEFT_CLICK) {
+    if (
+      target.tagName.toLowerCase() === 'a' &&
+      target.hostname === document.location.hostname &&
+      target.pathname === '/' &&
+      event.which === LEFT_CLICK) {
       target.href = dashboardLink;
     }
   }
