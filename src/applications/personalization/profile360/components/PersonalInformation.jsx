@@ -29,8 +29,12 @@ class PersonalInformationContent extends React.Component {
 
     return (
       <div>
-        <h3>Gender</h3>
-        <Gender gender={gender}/>
+        {gender && (
+          <div>
+            <h3>Gender</h3>
+            <Gender gender={gender}/>
+          </div>
+        )}
         <h3>Birth date</h3>
         <BirthDate birthDate={birthDate}/>
       </div>
