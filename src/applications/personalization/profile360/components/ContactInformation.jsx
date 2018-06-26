@@ -47,7 +47,7 @@ export default class ContactInformation extends React.Component {
           <AddressSection
             title="Home address"
             fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS}
-            analyticsSectionName="residential-address"
+            analyticsSectionName="home-address"
             addressConstants={addressConstants}/>
         </Vet360PendingTransactionCategory>
 
@@ -67,7 +67,7 @@ export default class ContactInformation extends React.Component {
           <PhoneSection
             title="Fax number"
             fieldName={FIELD_NAMES.FAX_NUMBER}
-            analyticsSectionName="fax-number"/>
+            analyticsSectionName="fax-telephone"/>
         </Vet360PendingTransactionCategory>
 
         <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.EMAIL}>
