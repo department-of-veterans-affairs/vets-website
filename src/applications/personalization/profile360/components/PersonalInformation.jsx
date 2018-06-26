@@ -7,7 +7,10 @@ import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 function Gender({ gender }) {
-  return <span>{gender === 'M' ? 'Male' : 'Female'}</span>;
+  let content = 'This information is not available right now.';
+  if (gender === 'M') content = 'Male';
+  else if (gender === 'F') content = 'Female';
+  return content;
 }
 
 function BirthDate({ birthDate }) {
@@ -29,12 +32,8 @@ class PersonalInformationContent extends React.Component {
 
     return (
       <div>
-        {gender && (
-          <div>
-            <h3>Gender</h3>
-            <Gender gender={gender}/>
-          </div>
-        )}
+        <h3>Gender</h3>
+        <Gender gender={gender}/>
         <h3>Birth date</h3>
         <BirthDate birthDate={birthDate}/>
       </div>
