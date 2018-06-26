@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for VA disability benefits. After you gather your supporting documents, we'll help you get started  filling out the right form for your specific type of disability claim. We can show you how to file a new claim, a claim for increased disability compensation, or any other type of claim.
+Find out how to apply for VA disability benefits. We can show you how to file a new claim, a claim for increased disability compensation, or any other type of claim.
 
 </div>
 
