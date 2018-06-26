@@ -5,7 +5,7 @@ import { pickBy } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
-import { isSuccessfulTransaction } from '../util/transactions';
+import { isSuccessfulTransaction, isFailedTransaction } from '../util/transactions';
 
 // @todo get rid of this now that it uses refreshProfile
 export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
@@ -17,7 +17,7 @@ export const VET360_TRANSACTION_REQUEST_CLEARED = 'VET360_TRANSACTION_REQUEST_CL
 export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
-function recordProfileTransaction(fieldName) {
+function recordProfileTransaction(event, fieldName) {
   const analyticsMap = {
     homePhone: 'home-telephone',
     mobilePhone: 'mobile-telephone',
@@ -30,13 +30,13 @@ function recordProfileTransaction(fieldName) {
 
   if (analyticsMap[fieldName]) {
     recordEvent({
-      event: 'profile-transaction',
+      event,
       'profile-section': fieldName
     });
   }
 }
 
-export function refreshTransaction(transaction) {
+export function refreshTransaction(transaction, analyticsSectionName) {
   return async (dispatch) => {
     try {
       const { transactionId } = transaction.data.attributes;
@@ -49,6 +49,12 @@ export function refreshTransaction(transaction) {
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         await dispatch(refreshProfile());
+      } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
+        recordEvent({
+          event: 'profile-edit-failure',
+          'profile-action': 'save-failure',
+          'profile-section': analyticsSectionName,
+        });
       }
     } catch (err) {
       // Just allow the former transaction status to remain in the store in the event of an error.
@@ -139,7 +145,7 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
 
         const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
 
-        recordProfileTransaction(fieldName);
+        recordProfileTransaction('profile-transaction', fieldName);
 
         dispatch({
           type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
@@ -192,10 +198,7 @@ function deleteVet360Field(apiRoute, fieldName, fieldType) {
 
         const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
 
-        // TODO turn analytics back on later
-        // if (apiRoute === '/profile/telephones') {
-        //   recordProfileTransaction(kebabCase(`${nextFieldValue.phoneType} phone`));
-        // }
+        recordProfileTransaction('profile-deleted', fieldName);
 
         dispatch({
           type: VET360_TRANSACTION_REQUEST_SUCCEEDED,

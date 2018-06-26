@@ -117,7 +117,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     refreshTransaction(transaction) {
-      dispatch(refreshTransaction(transaction));
+      dispatch(refreshTransaction(transaction, sectionName));
     },
 
     onAdd() {
@@ -135,7 +135,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     onDelete(...args) {
-      captureEvent('delete-button');
       dispatch(deleteField(...args));
     },
 
