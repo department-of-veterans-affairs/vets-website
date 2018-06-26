@@ -10,13 +10,13 @@ export function openModal(modal) {
 
 function validateEmail({ emailAddress: email }) {
   return {
-    emailAddress: isValidEmail(email) ? '' : 'Please enter your email address again, following a standard format like name@domain.com.'
+    emailAddress: email && isValidEmail(email) ? '' : 'Please enter your email address again, following a standard format like name@domain.com.'
   };
 }
 
 function validateTelephone({ inputPhoneNumber }) {
   return {
-    inputPhoneNumber: isValidPhone(inputPhoneNumber) ? '' : 'Please enter a valid phone.'
+    inputPhoneNumber: inputPhoneNumber && isValidPhone(inputPhoneNumber) ? '' : 'Please enter a valid phone.'
   };
 }
 
