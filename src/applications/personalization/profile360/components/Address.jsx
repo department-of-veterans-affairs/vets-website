@@ -77,8 +77,8 @@ class Address extends React.Component {
           autocomplete="country"
           options={this.props.countries}
           value={this.props.address.countryName}
-          required={this.props.required}
-          onValueChange={(update) => this.props.onInput('countryName', update, true)}/>
+          required
+          onValueChange={(update) => this.props.onInput('countryName', update)}/>
         <ErrorableTextInput errorMessage={errorMessages.addressLine1}
           label="Street address"
           name="addressLine1"
@@ -111,7 +111,7 @@ class Address extends React.Component {
           autocomplete="address-level2"
           charMax={100}
           value={this.props.address.city}
-          required={this.props.required}
+          required
           onValueChange={(update) => this.props.onInput('city', update)}
           onBlur={() => this.props.onBlur('city')}/>}
 
@@ -132,7 +132,7 @@ class Address extends React.Component {
           autocomplete="address-level1"
           options={adjustedStateNames}
           value={this.props.address.stateCode}
-          required={this.props.required}
+          required
           onValueChange={(update) => this.props.onInput('stateCode', update, true)}/>}
 
         {/* Hide the zip code for addresseses that aren't in the US */}
@@ -162,7 +162,7 @@ class Address extends React.Component {
           name="internationalPostalCode"
           autocomplete="international-postal-code"
           value={this.props.address.internationalPostalCode}
-          required={this.props.required}
+          required
           onValueChange={(update) => this.props.onInput('internationalPostalCode', update)}
           onBlur={() => this.props.onBlur('internationalPostalCode')}/>}
       </div>
