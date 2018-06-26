@@ -20,9 +20,28 @@ function validateTelephone({ inputPhoneNumber }) {
   };
 }
 
-function validateAddress({ addressLine1 }) {
+function inferAddressType(countryName, stateCode) {
+  let addressType = 'DOMESTIC';
+  if (countryName !== 'United States') {
+    addressType = 'INTERNATIONAL';
+  } else if (MILITARY_STATES.has(stateCode)) {
+    addressType = 'MILITARY OVERSEAS';
+  }
+
+  return addressType;
+}
+
+function validateAddress({ addressLine1, city, stateCode, province, internationalPostalCode, zipCode, countryName }, fieldName) {
+  const isInternational = inferAddressType(countryName, stateCode) === 'INTERNATIONAL';
+  const validateAll = !fieldName;
+
   return {
-    addressLine1: addressLine1 ? '' : 'Street address is required'
+    addressLine1: (fieldName === 'addressLine1' || validateAll) && !addressLine1 ? 'Street address is required' : '',
+    city: (fieldName === 'city' || validateAll) && !city ? 'City is required' : '',
+    province: (fieldName === 'province' || validateAll) && isInternational && !province ? 'State/Province/Region is required' : '',
+    stateCode: (fieldName === 'stateCode' || validateAll) && !isInternational && !stateCode ? 'State is required' : '',
+    zipCode: (fieldName === 'zipCode' || validateAll) && !isInternational && !zipCode ? 'Zip code is required' : '',
+    internationalPostalCode: (fieldName === 'internationalPostalCode' || validateAll) && isInternational && !internationalPostalCode ? 'Postal code is required' : '',
   };
 }
 
@@ -63,17 +82,6 @@ function cleanPhoneDataForUpdate(value) {
   };
 }
 
-function inferAddressType(countryName, stateCode) {
-  let addressType = 'DOMESTIC';
-  if (countryName !== 'United States') {
-    addressType = 'INTERNATIONAL';
-  } else if (MILITARY_STATES.has(stateCode)) {
-    addressType = 'MILITARY OVERSEAS';
-  }
-
-  return addressType;
-}
-
 function cleanAddressDataForUpdate(value) {
   const {
     id,
@@ -107,10 +115,8 @@ function cleanAddressDataForUpdate(value) {
   };
 }
 
-
 function updateProfileFormField(field, validator, type) {
-  return (value, dirty) => {
-    const validations = validator && dirty ? validator(value) : {};
+  return (value, fieldName, skipValidation) => {
     let cleanValue = value;
 
     switch (type) {
@@ -126,6 +132,7 @@ function updateProfileFormField(field, validator, type) {
       default:
     }
 
+    const validations = validator && !skipValidation ? validator(cleanValue, fieldName) : {};
 
     return {
       type: UPDATE_PROFILE_FORM_FIELD,
