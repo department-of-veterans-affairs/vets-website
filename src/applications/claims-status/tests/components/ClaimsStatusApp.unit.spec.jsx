@@ -2,6 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
+
 import { ClaimsStatusApp, AppContent } from '../../containers/ClaimsStatusApp';
 
 describe('<ClaimsStatusApp>', () => {
@@ -16,7 +18,7 @@ describe('<ClaimsStatusApp>', () => {
 
     expect(tree.everySubTree('.test-child')).not.to.be.empty;
     expect(tree.everySubTree('RequiredLoginView')).not.to.be.empty;
-    expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.eql(['evss-claims', 'appeals-status']);
+    expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.eql([backendServices.EVSS_CLAIMS, backendServices.APPEALS_STATUS]);
     expect(tree.subTree('RequiredLoginView').props.verify).to.be.true;
   });
   it('should render children', () => {

@@ -1,7 +1,5 @@
 import _ from '../../../../platform/utilities/data';
 
-// import { omitRequired } from '../../../common/schemaform/helpers';
-
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 
@@ -26,10 +24,6 @@ import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema
 } from '../pages/paymentInfo';
-
-// TODO: Load live user prefill data from network
-// TODO: initialData for dev / testing purposes only and should be removed for production
-import prefillData from '../tests/schema/initialData'; // add `disabilityActionType` before using
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
@@ -110,13 +104,6 @@ const treatments = ((treatmentsCommonDef) => {
 
 })(treatmentsSchema);
 
-const initialData = {
-  ...prefillData,
-  disabilities: prefillData.disabilities.map((disability) => {
-    return _.set('disabilityActionType', 'INCREASE', disability);
-  })
-};
-
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -179,12 +166,10 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          initialData,
           uiSchema: {
             servicePeriods: {
               'ui:title': 'Military service history',
-              'ui:description':
-                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:description': 'This is the military service history we have on file for you.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
@@ -225,7 +210,6 @@ const formConfig = {
         paymentInformation: {
           title: 'Payment Information',
           path: 'payment-information',
-          description: 'This is the bank account information we have on file for you. We’ll pay your benefit to this account. If you need to make changes to your bank information, you can click the Edit button.',
           uiSchema: paymentInfoUiSchema,
           schema: paymentInfoSchema
         },
@@ -338,7 +322,6 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
-          initialData,
           uiSchema: {
             'ui:description': supportingEvidenceOrientation
           },

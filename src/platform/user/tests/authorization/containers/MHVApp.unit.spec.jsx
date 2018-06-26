@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 import { merge, set } from 'lodash/fp';
 import sinon from 'sinon';
 
+import backendServices from '../../../../user/profile/constants/backendServices';
 import { MHVApp } from '../../../authorization/containers/MHVApp';
 
 describe('<MHVApp>', () => {
@@ -16,8 +17,8 @@ describe('<MHVApp>', () => {
       polledTimes: 0,
       state: 'unknown'
     },
-    availableServices: ['facilities', 'hca', 'user-profile'],
-    serviceRequired: 'rx',
+    availableServices: [backendServices.FACILITIES, backendServices.HCA, backendServices.USER_PROFILE],
+    serviceRequired: backendServices.RX,
     createMHVAccount: sinon.spy(),
     fetchMHVAccount: sinon.spy()
   };

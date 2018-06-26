@@ -3,32 +3,33 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { connect } from 'react-redux';
+import { Validator } from 'jsonschema';
+import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
-import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
 
-import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL
+  VA_FORM4142_URL,
+  E_BENEFITS_URL
 } from './constants';
 
-const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 /*
  * Flatten nested array form data into sibling properties
  *
  * @param {object} data - Form data for a full form, including nested array properties
  */
 export function flatten(data) {
+  const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
   const formData = cloneDeep(data);
   formData.disabilities.forEach((disability, idx) => {
     siblings.forEach(sibling => {
@@ -53,36 +54,28 @@ export function transform(formConfig, form) {
   });
 }
 
+export function validateDisability(disability) {
+  const invalidDisabilityError = (error => /^instance.disabilities\[/.test(error.property));
+  const v = new Validator();
+  const result = v.validate(
+    { disabilities: [disability] },
+    fullSchemaIncrease
+  );
 
-export const isPrefillDataComplete = (formData) => {
-  const { socialSecurityNumber, vaFileNumber, gender,
-    dateOfBirth, servicePeriods } = formData;
-  const first = get('fullName.first', formData);
-  const last = get('fullName.last', formData);
-  const country = get('veteran.mailingAddress.country', formData);
-  const addressLine1 = get('veteran.mailingAddress.addressLine1', formData);
-  const emailAddress = get('veteran.emailAddress', formData);
-  const primaryPhone = get('veteran.primaryPhone', formData);
-  const accountType = get('directDeposit.accountType', formData);
-  const routingNumber = get('directDeposit.routingNumber', formData);
-  const bankName = get('directDeposit.bankName', formData);
-  const noBank = get('directDeposit.noBank', formData);
-  const hasVeteranDetails = first && last && gender && dateOfBirth && (socialSecurityNumber || vaFileNumber);
-  const hasPrimaryAddressInfo = country && addressLine1 && emailAddress && primaryPhone;
-  const hasPaymentInfo = noBank || (accountType && routingNumber && bankName);
-  const hasMilitaryHistoryInfo = servicePeriods && servicePeriods.length > 0;
-  return !!(hasVeteranDetails && hasPrimaryAddressInfo && hasPaymentInfo && hasMilitaryHistoryInfo);
-};
-
-
-export function prefillTransformer(pages, formData, metadata, state) {
-  let newData = formData;
-  const isPrefilled = state.prefilStatus === PREFILL_STATUSES.success;
-  const hasRequiredInformation = isPrefillDataComplete(formData);
-
-  if (isPrefilled && hasRequiredInformation) {
-    newData = set('prefilled', true, newData);
+  if (result.errors.find(invalidDisabilityError)) {
+    Raven.captureMessage(`vets-disability-increase-invalid-disability-prefilled: ${disability}`);
+    return false;
   }
+  return true;
+}
+
+export function transformDisabilities(disabilities) {
+  return disabilities.map(disability => set('disabilityActionType', 'INCREASE', disability));
+}
+
+export function prefillTransformer(pages, formData, metadata) {
+  const newData = set('disabilities', transformDisabilities(formData.disabilities), formData);
+  newData.disabilities.forEach(validateDisability);
 
   return {
     metadata,
@@ -389,7 +382,7 @@ export const evidenceSummaryView = ({ formData }) => {
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
-const srSubstitute = (srIgnored, substitutionText) => {
+export const srSubstitute = (srIgnored, substitutionText) => {
   return (
     <div style={{ display: 'inline' }}>
       <span aria-hidden>{srIgnored}</span>
@@ -405,7 +398,13 @@ const unconnectedVetInfoView = (profile) => {
   const mask = srSubstitute('●●●–●●–', 'ending with');
   return (
     <div>
-      <p>This is the personal information we have on file for you.</p>
+      <p>
+        This is the personal information we have on file for you. If something doesn’t look
+        right and you need to update your details, please go to eBenefits.
+      </p>
+      <p>
+        <a target="_blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
+      </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
         {ssn && <p>Social Security number: {mask}{ssn.slice(5)}</p>}
@@ -681,3 +680,29 @@ export const get4142Selection = (disabilities) => {
     return false;
   }, false);
 };
+
+export const AddressDescription = () => (
+  <div>
+    <p>
+      This is the contact information we have on file for you. We’ll send any important
+      information about your disability claim to the address listed here. Any updates
+      you make here to your contact information will only apply to this application.
+    </p>
+    <p>
+      If you want to update your contact information for all your VA accounts, please go
+      to your profile page.
+    </p>
+    <p>
+      <a href="/profile">Go to my profile page</a>.
+    </p>
+  </div>
+);
+
+export const PaymentDescription = () => (
+  <p>
+    This is the bank account information we have on file for you. We’ll pay your
+    disability benefit to this account. If you need to update your bank information,
+    please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
+    Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+  </p>
+);
