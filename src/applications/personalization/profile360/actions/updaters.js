@@ -48,7 +48,7 @@ export function refreshTransaction(transaction, analyticsSectionName) {
       });
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
-        await dispatch(refreshProfile());
+        setTimeout(() => dispatch(refreshProfile()), 1000);
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
           event: 'profile-edit-failure',
