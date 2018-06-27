@@ -71,12 +71,10 @@ You may be able to get compensation if both of these are true:
 First you’ll need to fill out an application for benefits. The application you fill out will depend on your survivor status.    
 
 **If you’re a surviving spouse or child,** fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). <br>
-
 [Download VA Form 21P-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf).
 
 
 **If you’re a surviving parent,** fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). <br>
-
 [Download VA Form 21-535](https://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
 
 #### You can apply for this benefit in any of these ways:
