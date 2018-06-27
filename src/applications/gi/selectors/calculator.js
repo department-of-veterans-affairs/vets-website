@@ -457,7 +457,7 @@ const getDerivedValues = createSelector(
         inputs.beneficiaryLocationBah) {
         bah = inputs.beneficiaryLocationBah;
       } else {
-        bah = institution.bah
+        bah = institution.bah;
       }
     } else {
       bah = institution.bah;
