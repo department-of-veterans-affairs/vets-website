@@ -18,7 +18,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 You can get compensation if one of the descriptions below is true of the deceased Servicemember or Veteran and if you qualify as a survivor or dependent. 
 
-**One of these must describe the deceased:
+**One of these must describe the deceased:**
 
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training
 - The Veteran died from a service-connected illness or injury
@@ -28,6 +28,8 @@ You can get compensation if one of the descriptions below is true of the decease
   - For at least 1 year before their death if the Veteran was a former Prisoner of War who died after September 30, 1999
 
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
+
+<br>
 
 **And you must be eligible. Click on the option below that describes you:**
 </div>
@@ -44,6 +46,7 @@ You can get compensation if you meet at least one of the requirements listed bel
 - Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran’s death or, if separated, weren’t at fault for the separation
 
 SECOND ACCORDION CODE GOES HERE
+
 Surviving child
 
 You can get compensation if you meet the requirements listed below.
@@ -57,6 +60,7 @@ You can get compensation if you meet the requirements listed below.
 - Were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
 THIRD ACCORDION CODE GOES HERE
+
 Surviving parent
 You may be able to get compensation if both of these are true:
 
