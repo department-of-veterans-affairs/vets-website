@@ -48,8 +48,7 @@ export function refreshTransaction(transaction, analyticsSectionName) {
       });
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
-        // 1000ms delay as temporary fix to ensure new info is available
-        setTimeout(() => dispatch(refreshProfile()), 1000);
+        dispatch(refreshProfile());
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
           event: 'profile-edit-failure',
