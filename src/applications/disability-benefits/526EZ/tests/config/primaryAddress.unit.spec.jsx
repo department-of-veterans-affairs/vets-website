@@ -16,10 +16,6 @@ describe('Disability benefits 526EZ primary address', () => {
     uiSchema
   } = formConfig.chapters.veteranDetails.pages.primaryAddress;
 
-  const primaryPhone = '1231231234';
-  const emailAddress = 'test@testing.com';
-
-
   it('renders primary address form', () => {
     const form = mount(
       <DefinitionTester
