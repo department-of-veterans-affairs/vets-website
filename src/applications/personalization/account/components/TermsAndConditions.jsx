@@ -1,15 +1,17 @@
 import React from 'react';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
-export default function TermsAndConditions({ mhv }) {
-  const termsConditionsUrl = '/health-care/medical-information-terms-conditions';
-  let content = null;
+export default function TermsAndConditions({ terms, verified }) {
+  if (!verified) { return null; }
 
-  if (mhv.account.termsAndConditionsAccepted) {
+  const termsConditionsUrl = '/health-care/medical-information-terms-conditions';
+  let content;
+
+  if (terms.accepted) {
     content = (
       <p><i className="fa fa-check-circle"/> You’ve accepted the latest <a href={termsConditionsUrl} onClick={() => recordEvent({ event: 'account-navigation', 'account-action': 'view-link', 'account-section': 'terms' })}>Terms and Conditions for Medical Information</a>.</p>
     );
-  } else if (mhv.account.state === 'needs_terms_acceptance') {
+  } else {
     content = (
       <div>
         <div className="usa-alert usa-alert-info no-background-image">
@@ -27,7 +29,7 @@ export default function TermsAndConditions({ mhv }) {
     );
   }
 
-  return content && (
+  return (
     <div>
       <h4>Terms and conditions</h4>
       {content}
