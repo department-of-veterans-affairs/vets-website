@@ -89,9 +89,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  // TODO turn analytics back on later
-  /* eslint-disable no-unused-vars */
-
   const {
     fieldName,
     analyticsSectionName: sectionName

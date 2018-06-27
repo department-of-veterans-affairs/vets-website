@@ -2,6 +2,7 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
+import { resetState } from '../store';
 import ProfileView from '../../components/ProfileView';
 
 describe('<ProfileView/>', () => {
