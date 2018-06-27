@@ -138,6 +138,7 @@ export default function (state = INITIAL_STATE, action) {
       const { beneficiaryZIPFetched } = action;
       const error = _.get(action, 'payload.errors[0].title');
 
+      // institution and zipcode_rates endpoints both return this generic error
       const errorMessage = error === 'Record not found' ?
         'No rates for this zip code found. Try another zip code' :
         'Something went wrong. Try again';
