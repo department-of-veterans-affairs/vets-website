@@ -228,7 +228,7 @@ export const uiSchema = {
           },
           zipCode: {
             'ui:required': (formData) => (
-              formData.veteran.forwardingCard.forwardingAddress.country === USA
+              hasForwardingAddress(formData)
               && formData.veteran.forwardingCard.forwardingAddress.country === USA
             ),
             'ui:options': {
