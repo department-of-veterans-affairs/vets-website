@@ -66,24 +66,20 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 -----
 
-### How do I get compensation? 
+### How do I apply for compensation? 
 
-You’ll need to fill out an application for benefits. The application you fill out will depend on your survivor status.    
+First you’ll need to fill out an application for benefits. The application you fill out will depend on your survivor status.    
 
-#### If you’re a surviving spouse or child, 
-
-Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). <br>
+**If you’re a surviving spouse or child,** fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). <br>
 
 [Download VA Form 21P-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf).
 
 
-#### If you’re a surviving parent, 
-
-Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). <br>
+**If you’re a surviving parent,** fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). <br>
 
 [Download VA Form 21-535](https://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
 
-**You can apply for this benefit in 1 of 3 ways:**
+#### You can apply for this benefit in any of these ways:
 
 - Mail the form to the Pension Management Center for your state <br>
 [Find your PMC](/pension/pension-management-center/).
