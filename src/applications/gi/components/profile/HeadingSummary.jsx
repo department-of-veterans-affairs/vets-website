@@ -36,7 +36,7 @@ class HeadingSummary extends React.Component {
         <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1>{it.name}</h1>
           {__BUILDTYPE__ !== 'production' && (<AlertBox
-            content={(<p>Are you enrolled in this school? <a href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp" onClick={this.props.onViewWarnings}>Find out how the VA can restore your benefits</a></p>)}
+            content={(<p>Are you enrolled in this school? <a href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp">Find out how the VA can restore your benefits</a></p>)}
             headline="This school is closing soon"
             isVisible={!!it.schoolClosing}
             status="warning"/>)}
