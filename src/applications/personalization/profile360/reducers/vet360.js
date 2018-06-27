@@ -5,12 +5,15 @@ import {
   VET360_TRANSACTION_REQUEST_FAILED,
   VET360_TRANSACTION_UPDATED,
   VET360_TRANSACTION_CLEARED,
-  VET360_TRANSACTION_REQUEST_CLEARED
+  VET360_TRANSACTION_REQUEST_CLEARED,
+  VET360_TRANSACTION_UPDATE_REQUESTED,
+  VET360_TRANSACTION_UPDATE_FAILED
 } from '../actions';
 
 const initialState = {
   transactions: [],
-  fieldTransactionMap: {}
+  fieldTransactionMap: {},
+  transactionsAwaitingUpdate: []
 };
 
 export default function vet360(state = initialState, action) {
@@ -63,15 +66,32 @@ export default function vet360(state = initialState, action) {
       };
     }
 
+    case VET360_TRANSACTION_UPDATE_REQUESTED: {
+      const { transactionId } = action.transaction.data.attributes;
+      return {
+        ...state,
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.concat(transactionId)
+      };
+    }
+
     case VET360_TRANSACTION_UPDATED: {
       const { transaction } = action;
       const { transactionId: updatedTransactionId } = transaction.data.attributes;
 
       return {
         ...state,
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(tid => tid !== updatedTransactionId),
         transactions: state.transactions.map(t => {
           return t.data.attributes.transactionId === updatedTransactionId ? transaction : t;
         })
+      };
+    }
+
+    case VET360_TRANSACTION_UPDATE_FAILED: {
+      const { transactionId } = action.transaction.data.attributes;
+      return {
+        ...state,
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(tid => tid !== transactionId)
       };
     }
 
