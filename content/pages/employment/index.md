@@ -55,7 +55,7 @@ We offer many programs and services that may help—including free health care a
 **Find the support you need:**
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
-- **Contact your nearest VA medical center.** Ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager. <br>
+- **Contact your nearest VA medical center** and ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager. <br>
 [Find the nearest VA medical center](/facilities/).
 - **Get job-placement help.**<br>
             <a href="https://www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li>
