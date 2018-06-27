@@ -33,7 +33,9 @@ class CalculatorForm extends React.Component {
   }
 
   handleBeneficiaryZIPCodeChanged = (event) => {
-    this.props.onBeneficiaryZIPCodeChanged(event.value);
+    if (!event.dirty) {
+      this.props.onBeneficiaryZIPCodeChanged(event.value);
+    }
   }
 
   resetBuyUp(event) {
