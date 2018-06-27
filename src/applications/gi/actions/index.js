@@ -185,8 +185,20 @@ export function fetchProfile(facilityCode, version) {
 
     return fetch(url, api.settings)
       .then(res => res.json())
-      .then(
-        payload => withPreview(dispatch, { type: FETCH_PROFILE_SUCCEEDED, payload }),
+      .then(payload => {
+        const institutionZIP = _.get(payload, 'data.attributes.zip');
+        const bahUrl = `${api.url}/zipcode_rates/${institutionZIP}`;
+
+        fetch(bahUrl, api.settings)
+          .then(res => res.json())
+          .then(zipRatesPayload => {
+            withPreview(dispatch, {
+              type: FETCH_PROFILE_SUCCEEDED,
+              payload,
+              zipRatesPayload
+            });
+          });
+      },
         err => dispatch({ type: FETCH_PROFILE_FAILED, err })
       );
   };

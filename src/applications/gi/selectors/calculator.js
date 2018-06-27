@@ -452,12 +452,22 @@ const getDerivedValues = createSelector(
     const totalHousingAllowance = monthlyRateFinal * termLength;
 
     let bah;
+    // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
+    const useBeneficiaryLocationRate = inputs.beneficiaryLocationQuestion === 'no' &&
+      inputs.beneficiaryLocationBah !== null;
+    // if beneficiary has indicated they are using the grandfathered rate, use it when available;
+    const useGrandfatheredBeneficiaryLocationRate = inputs.giBillBenefit === 'yes';
     if (__BUILDTYPE__ !== 'production') {
-      if (inputs.beneficiaryLocationQuestion === 'no' &&
-        inputs.beneficiaryLocationBah) {
-        bah = inputs.beneficiaryLocationBah;
+      if (useBeneficiaryLocationRate) {
+        // sometimes there's no grandfathered rate for a zip code
+        bah = useGrandfatheredBeneficiaryLocationRate && inputs.beneficiaryLocationGrandfatheredBah ?
+          inputs.beneficiaryLocationGrandfatheredBah :
+          inputs.beneficiaryLocationBah;
       } else {
-        bah = institution.bah;
+        // sometimes there's no grandfathered rate for a zip code
+        bah = useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered ?
+          institution.bahGrandfathered :
+          institution.bah;
       }
     } else {
       bah = institution.bah;
