@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
-describe('526EZ veteran information', () => {
+describe.skip('526EZ veteran information', () => {
   const page = formConfig.chapters.veteranDetails.pages.veteranInformation;
   const { schema, uiSchema } = page;
 
