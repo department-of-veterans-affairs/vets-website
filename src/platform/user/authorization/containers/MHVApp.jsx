@@ -66,31 +66,31 @@ export class MHVApp extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { account } = this.props;
+    const { accountState } = this.props.mhvAccount;
 
-    const accountStateChanged = prevProps.account.state !== account.state;
+    const accountStateChanged = prevProps.mhvAccount.accountState !== accountState;
     if (accountStateChanged) { this.handleAccountState(); }
   }
 
   hasService = () => this.props.availableServices.includes(this.props.serviceRequired);
 
-  shouldShowIneligibleMessage = () => this.props.account.state in INELIGIBLE_MESSAGES;
+  shouldShowIneligibleMessage = () => this.props.mhvAccount.accountState in INELIGIBLE_MESSAGES;
 
   handleAccountState = () => {
     if (this.hasService() || this.shouldShowIneligibleMessage()) { return; }
 
-    const { account } = this.props;
+    const { accountState } = this.props.mhvAccount;
 
     // Unverified accounts should have been handled before this component
     // rendered, but if it hasn't for some reason, we will redirect now.
-    if (account.state === 'needs_identity_verification') {
+    if (accountState === 'needs_identity_verification') {
       const nextQuery = { next: window.location.pathname };
       const verifyUrl = appendQuery('/verify', nextQuery);
       window.location.replace(verifyUrl);
       return;
     }
 
-    switch (account.state) {
+    switch (accountState) {
       case 'needs_terms_acceptance': {
         const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
         const termsConditionsUrl = appendQuery('/health-care/medical-information-terms-conditions', redirectQuery);
@@ -205,26 +205,31 @@ export class MHVApp extends React.Component {
   }
 
   render() {
-    const { account } = this.props;
+    const {
+      accountLevel,
+      accountState,
+      errors,
+      loading
+    } = this.props.mhvAccount;
 
-    if (account.loading) {
+    if (loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
-    if (account.errors) { return this.renderPlaceholderErrorMessage(); }
+    if (errors) { return this.renderPlaceholderErrorMessage(); }
 
-    if (account.level === 'Unknown') { return this.renderAccountUnknownMessage(); }
+    if (accountLevel === 'Unknown') { return this.renderAccountUnknownMessage(); }
 
-    if (account.state === 'register_failed') { return this.renderRegisterFailedMessage(); }
+    if (accountState === 'register_failed') { return this.renderRegisterFailedMessage(); }
 
-    if (account.state === 'upgrade_failed') { return this.renderUpgradeFailedMessage(); }
+    if (accountState === 'upgrade_failed') { return this.renderUpgradeFailedMessage(); }
 
     if (this.shouldShowIneligibleMessage()) {
-      return this.renderIneligibleMessage(this.props.account.state);
+      return this.renderIneligibleMessage(accountState);
     }
 
     if (!this.hasService()) {
-      return (account.state === 'needs_terms_acceptance') ?
+      return (accountState === 'needs_terms_acceptance') ?
         <LoadingIndicator setFocus message="Redirecting to terms and conditions..."/> :
         mhvAccessError;
     }
@@ -253,9 +258,9 @@ MHVApp.contextTypes = {
 
 const mapStateToProps = (state) => {
   const profile = selectProfile(state);
-  const { account } = profile.mhv;
+  const { mhvAccount } = profile;
   const availableServices = profile.services;
-  return { account, availableServices };
+  return { mhvAccount, availableServices };
 };
 
 const mapDispatchToProps = {

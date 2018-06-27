@@ -29,43 +29,39 @@ describe('Profile reducer', () => {
   });
 
   it('should be loading when creating MHV account', () => {
-    const state = reducer({ mhv: { account: {} } }, { type: CREATING_MHV_ACCOUNT });
-    expect(state.mhv.account.loading).to.be.true;
+    const state = reducer({ mhvAccount: {} }, { type: CREATING_MHV_ACCOUNT });
+    expect(state.mhvAccount.loading).to.be.true;
   });
 
   it('should be loading when upgrading MHV account', () => {
-    const state = reducer({ mhv: { account: {} } }, { type: UPGRADING_MHV_ACCOUNT });
-    expect(state.mhv.account.loading).to.be.true;
+    const state = reducer({ mhvAccount: {} }, { type: UPGRADING_MHV_ACCOUNT });
+    expect(state.mhvAccount.loading).to.be.true;
   });
 
   it('should be loading when fetching MHV account', () => {
-    const state = reducer({ mhv: { account: {} } }, { type: FETCHING_MHV_ACCOUNT });
-    expect(state.mhv.account.loading).to.be.true;
+    const state = reducer({ mhvAccount: {} }, { type: FETCHING_MHV_ACCOUNT });
+    expect(state.mhvAccount.loading).to.be.true;
   });
 
   it('should handle failed MHV account creation', () => {
     const state = reducer({
-      mhv: {
-        account: {
-          level: null,
-          state: 'no_account'
-        }
+      mhvAccount: {
+        accountLevel: null,
+        accountState: 'no_account'
       }
     }, {
       type: CREATE_MHV_ACCOUNT_FAILURE,
       errors: [{ title: 'error', code: 500 }]
     });
-    expect(state.mhv.account.loading).to.be.false;
-    expect(state.mhv.account.state).to.eq('register_failed');
+    expect(state.mhvAccount.loading).to.be.false;
+    expect(state.mhvAccount.accountState).to.eq('register_failed');
   });
 
   it('should handle successful MHV account creation', () => {
     const state = reducer({
-      mhv: {
-        account: {
-          level: null,
-          state: 'no_account'
-        }
+      mhvAccount: {
+        accountLevel: null,
+        accountState: 'no_account'
       }
     }, {
       type: CREATE_MHV_ACCOUNT_SUCCESS,
@@ -77,33 +73,29 @@ describe('Profile reducer', () => {
       }
     });
 
-    expect(state.mhv.account.level).to.eq('Advanced');
-    expect(state.mhv.account.state).to.eq('registered');
+    expect(state.mhvAccount.accountLevel).to.eq('Advanced');
+    expect(state.mhvAccount.accountState).to.eq('registered');
   });
 
   it('should handle failed MHV account upgrade', () => {
     const state = reducer({
-      mhv: {
-        account: {
-          level: 'Advanced',
-          state: 'registered'
-        }
+      mhvAccount: {
+        accountLevel: 'Advanced',
+        accountState: 'registered'
       }
     }, {
       type: UPGRADE_MHV_ACCOUNT_FAILURE,
       errors: [{ title: 'error', code: 500 }]
     });
-    expect(state.mhv.account.loading).to.be.false;
-    expect(state.mhv.account.state).to.eq('upgrade_failed');
+    expect(state.mhvAccount.loading).to.be.false;
+    expect(state.mhvAccount.accountState).to.eq('upgrade_failed');
   });
 
   it('should handle successful MHV account upgrade', () => {
     const state = reducer({
-      mhv: {
-        account: {
-          level: 'Advanced',
-          state: 'registered'
-        }
+      mhvAccount: {
+        accountLevel: 'Advanced',
+        accountState: 'registered'
       }
     }, {
       type: UPGRADE_MHV_ACCOUNT_SUCCESS,
@@ -115,28 +107,24 @@ describe('Profile reducer', () => {
       }
     });
 
-    expect(state.mhv.account.level).to.eq('Premium');
-    expect(state.mhv.account.state).to.eq('upgraded');
+    expect(state.mhvAccount.accountLevel).to.eq('Premium');
+    expect(state.mhvAccount.accountState).to.eq('upgraded');
   });
 
   it('should handle failure to fetch MHV account', () => {
-    const state = reducer({
-      mhv: { account: {} }
-    }, {
+    const state = reducer({ mhvAccount: {} }, {
       type: FETCH_MHV_ACCOUNT_FAILURE,
       errors: [{ title: 'error', code: 500 }]
     });
-    expect(state.mhv.account.errors).to.exist;
-    expect(state.mhv.account.loading).to.be.false;
+    expect(state.mhvAccount.errors).to.exist;
+    expect(state.mhvAccount.loading).to.be.false;
   });
 
   it('should set MHV account level and state after it is fetched', () => {
     const state = reducer({
-      mhv: {
-        account: {
-          level: null,
-          state: null
-        }
+      mhvAccount: {
+        accountLevel: null,
+        accountState: null
       }
     }, {
       type: FETCH_MHV_ACCOUNT_SUCCESS,
@@ -148,8 +136,8 @@ describe('Profile reducer', () => {
       }
     });
 
-    expect(state.mhv.account.level).to.eq('Premium');
-    expect(state.mhv.account.state).to.eq('upgraded');
+    expect(state.mhvAccount.accountLevel).to.eq('Premium');
+    expect(state.mhvAccount.accountState).to.eq('upgraded');
   });
 
   it('should remove the right form when deleting a form', () => {

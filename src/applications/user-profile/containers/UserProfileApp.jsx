@@ -45,7 +45,7 @@ class UserProfileApp extends React.Component {
   render() {
     const { profile } = this.props.user;
 
-    const view = profile.loading || profile.mhv.account.loading ?
+    const view = profile.loading || profile.mhvAccount.loading ?
       <LoadingIndicator message="Loading your account information..."/> :
       (<div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">

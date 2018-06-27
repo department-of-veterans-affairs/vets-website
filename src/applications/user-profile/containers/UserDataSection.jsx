@@ -9,15 +9,15 @@ import PersonalizationBetaInvite from '../components/PersonalizationBetaInvite';
 
 class UserDataSection extends React.Component {
   renderTermsConditions = () => {
-    const { mhv } = this.props.profile;
+    const { mhvAccount } = this.props.profile;
     const termsConditionsUrl = '/health-care/medical-information-terms-conditions';
     let content = null;
 
-    if (mhv.account.termsAndConditionsAccepted) {
+    if (mhvAccount.termsAndConditionsAccepted) {
       content = (
         <p>You’ve accepted the latest <a href={termsConditionsUrl}>Terms and Conditions for Medical Information</a>.</p>
       );
-    } else if (mhv.account.state === 'needs_terms_acceptance') {
+    } else if (mhvAccount.accountState === 'needs_terms_acceptance') {
       content = (
         <div>
           <div className="usa-alert usa-alert-info no-background-image">

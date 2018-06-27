@@ -35,19 +35,12 @@ const initialState = {
     highest: null
   },
   verified: false,
-  mhv: {
-    account: {
-      errors: null,
-      level: null,
-      loading: false,
-      state: null,
-      termsAndConditionsAccepted: false
-    },
-    terms: {
-      accepted: false,
-      errors: null,
-      loading: false
-    }
+  mhvAccount: {
+    accountLevel: null,
+    accountState: null,
+    errors: null,
+    loading: false,
+    termsAndConditionsAccepted: false
   },
   vet360: {},
   savedForms: [],
@@ -77,14 +70,14 @@ function profileInformation(state = initialState, action) {
     case FETCHING_MHV_ACCOUNT:
     case CREATING_MHV_ACCOUNT:
     case UPGRADING_MHV_ACCOUNT:
-      return set('mhv.account', {
-        ...state.mhv.account,
+      return set('mhvAccount', {
+        ...state.mhvAccount,
         loading: true
       }, state);
 
     case FETCH_MHV_ACCOUNT_FAILURE:
-      return set('mhv.account', {
-        ...state.mhv.account,
+      return set('mhvAccount', {
+        ...state.mhvAccount,
         errors: action.errors,
         loading: false
       }, state);
@@ -96,38 +89,38 @@ function profileInformation(state = initialState, action) {
         termsAndConditionsAccepted
       } = action.data.attributes;
 
-      return set('mhv.account', {
+      return set('mhvAccount', {
+        accountLevel,
+        accountState,
         errors: null,
-        level: accountLevel,
         loading: false,
-        state: accountState,
         termsAndConditionsAccepted
       }, state);
     }
 
     case CREATE_MHV_ACCOUNT_FAILURE:
-      return set('mhv.account', {
-        ...state.mhv.account,
-        loading: false,
-        state: 'register_failed'
+      return set('mhvAccount', {
+        ...state.mhvAccount,
+        accountState: 'register_failed',
+        loading: false
       }, state);
 
     case UPGRADE_MHV_ACCOUNT_FAILURE:
-      return set('mhv.account', {
-        ...state.mhv.account,
-        loading: false,
-        state: 'upgrade_failed'
+      return set('mhvAccount', {
+        ...state.mhvAccount,
+        accountState: 'upgrade_failed',
+        loading: false
       }, state);
 
     case CREATE_MHV_ACCOUNT_SUCCESS:
     case UPGRADE_MHV_ACCOUNT_SUCCESS: {
       const { accountLevel, accountState } = action.data.attributes;
-      return set('mhv.account', {
-        ...state.mhv.account,
+      return set('mhvAccount', {
+        ...state.mhvAccount,
+        accountLevel,
+        accountState,
         errors: null,
-        level: accountLevel,
-        loading: false,
-        state: accountState
+        loading: false
       }, state);
     }
 

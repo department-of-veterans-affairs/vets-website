@@ -54,12 +54,12 @@ class AccountMain extends React.Component {
     const {
       loa,
       loading,
-      mhv,
+      mhvAccount,
       multifactor,
       verified
     } = this.props.profile;
 
-    if (loading || mhv.account.loading) {
+    if (loading || mhvAccount.loading) {
       return <LoadingIndicator message="Loading your account information..."/>;
     }
 
@@ -69,7 +69,7 @@ class AccountMain extends React.Component {
         {this.renderMVIError()}
         <MultifactorMessage multifactor={multifactor}/>
         <LoginSettings/>
-        {verified && <TermsAndConditions mhv={mhv}/>}
+        {verified && <TermsAndConditions mhvAccount={mhvAccount}/>}
         <h4>Have questions about signing in to Vets.gov?</h4>
         <p>
           Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on Vets.gov.<br/>
