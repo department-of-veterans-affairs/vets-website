@@ -12,6 +12,11 @@ export default class Vet360EditModal extends React.Component {
   static propTypes = {
     clearErrors: PropTypes.func.isRequired,
     getInitialFormValues: PropTypes.func.isRequired,
+    field: PropTypes.shape({
+      value: PropTypes.object,
+      validations: PropTypes.object
+    }),
+    hasValidationError: PropTypes.func,
     isEmpty: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -23,14 +28,28 @@ export default class Vet360EditModal extends React.Component {
 
   componentDidMount() {
     if (!this.isInitialized()) {
-      this.props.onChange(this.props.getInitialFormValues());
+      // initialize form with no fieldName and skip validation
+      this.props.onChange(this.props.getInitialFormValues(), null, true);
     }
   }
 
   onSubmit = (event) => {
     event.preventDefault();
-    if (this.props.field.errorMessage) return;
-    this.props.onSubmit(this.props.field.value);
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+    // delay until next tick for onBlur to complete
+    setTimeout(() => {
+      if (this.hasValidationError()) return;
+      this.props.onSubmit(this.props.field.value);
+    }, 10);
+  }
+
+  hasValidationError() {
+    if (this.props.hasValidationError) return this.props.hasValidationError();
+
+    const validations = this.props.field.validations;
+    return Object.values(validations).some(e => !!e);
   }
 
   isInitialized = () => {
@@ -48,7 +67,8 @@ export default class Vet360EditModal extends React.Component {
         clearErrors,
         render,
         onDelete,
-        transactionRequest
+        transactionRequest,
+        analyticsSectionName,
       }
     } = this;
 
@@ -70,6 +90,7 @@ export default class Vet360EditModal extends React.Component {
             onCancel={onCancel}
             onDelete={onDelete}
             title={title}
+            analyticsSectionName={analyticsSectionName}
             deleteEnabled={!isEmpty()}>
             <LoadingButton isLoading={isLoading}>Update</LoadingButton>
             <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>

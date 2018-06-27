@@ -3,6 +3,6 @@
   "entryFile": "./profile-360-entry.jsx",
   "entryName": "profile-360",
   "rootUrl": "/profile360",
-  "production": false,
+  "production": true,
   "contentPage": "profile360/index.md"
 }

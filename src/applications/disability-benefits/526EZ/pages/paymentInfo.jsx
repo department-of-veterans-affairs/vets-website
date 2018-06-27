@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { apiRequest } from '../../../../platform/utilities/api';
 import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
-import { srSubstitute } from '../helpers';
+import { srSubstitute, PaymentDescription } from '../helpers';
 
 const accountTitleLabels = {
   CHECKING: 'Checking Account',
@@ -46,9 +46,7 @@ export const viewComponent = (response) => {
   }
   return (
     <div>
-      <p>
-        This is the bank account information we have on file for you. We pay your disability and pension benefits to this account.
-      </p>
+      <PaymentDescription/>
       <div className="blue-bar-block">
         <p>
           <strong>{accountTitleLabels[accountType.toUpperCase()]}</strong>
@@ -57,10 +55,6 @@ export const viewComponent = (response) => {
         {routingNumberString}
         {bankNameString}
       </div>
-      <p>
-        <strong>Note:</strong> If you need to update your bank information, please call Veterans Benefits Assistance
-        at <a href="tel:+18008271000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).
-      </p>
     </div>
   );
 };

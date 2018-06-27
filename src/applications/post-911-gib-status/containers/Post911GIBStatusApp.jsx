@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 
 import Main from './Main';
 
@@ -44,7 +44,7 @@ class Post911GIBStatusApp extends React.Component {
         verify
         serviceRequired={backendServices.EVSS_CLAIMS}
         user={this.props.user}>
-        <DowntimeNotification appTitle="Post-9/11 GI Bill benefits tracking tool" dependencies={[services.evss]}>
+        <DowntimeNotification appTitle="Post-9/11 GI Bill benefits tracking tool" dependencies={[externalServices.evss]}>
           <AppContent>
             <div className="row">
               <div className="small-12 columns">

@@ -7,7 +7,7 @@ import { selectUser, isLOA3 } from '../../../../platform/user/selectors';
 import AccountMain from '../components/AccountMain';
 import Announcement from '../components/Announcement';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 
 import LegacyProfile from '../../../user-profile/containers/UserProfileApp';
 import isPersonalizationEnabled from '../../dashboard/isPersonalizationEnabled';
@@ -28,7 +28,7 @@ class AccountApp extends React.Component {
           serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}>
           {isPersonalizationEnabled() ? (
-            <DowntimeNotification appTitle="user account page" dependencies={[services.mvi, services.emis]}>
+            <DowntimeNotification appTitle="user account page" dependencies={[externalServices.mvi, externalServices.emis]}>
               <div className="row user-profile-row">
                 <div className="usa-width-two-thirds medium-8 small-12 columns">
                   <h1>Your Vets.gov Account Settings</h1>

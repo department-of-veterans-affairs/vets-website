@@ -24,15 +24,20 @@ class PhoneTextInput extends ErrorableTextInput {
 }
 
 export default class PhoneEditModal extends React.Component {
+  // @todo Add propTypes
+
+  onBlur = (field) => {
+    this.props.onChange(this.props.field.value, field);
+  }
+
   onChange = (field) => {
     return ({ value, dirty }) => {
       const newFieldValue = {
         ...this.props.field.value,
         [field]: value
       };
-      // The `dirty` flag triggers validation to run. We only validate
-      // the number at this point in time, so we only run it if that's the field changing.
-      this.props.onChange(newFieldValue, field === 'number' ? dirty : false);
+
+      this.props.onChange(newFieldValue, dirty);
     };
   }
 
@@ -74,7 +79,7 @@ export default class PhoneEditModal extends React.Component {
           required
           field={{ value: this.props.field.value.inputPhoneNumber, dirty: false }}
           onValueChange={this.onChange('inputPhoneNumber')}
-          errorMessage={this.props.field.errorMessage}/>
+          errorMessage={this.props.field.validations.inputPhoneNumber}/>
 
         <ErrorableTextInput
           label="Extension"
@@ -90,6 +95,7 @@ export default class PhoneEditModal extends React.Component {
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
+        onBlur={this.onBlur}
         {...this.props}/>
     );
   }
