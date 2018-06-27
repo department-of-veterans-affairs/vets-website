@@ -14,9 +14,11 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 <div class="feature" markdown="0">
   
-#### To get compensation, one of the below descriptions must be true about the deceased Servicemember or Veteran:
+### Can I get compensation from VA?
 
-</div>
+You can get compensation if one of the descriptions below is true of the deceased Servicemember or Veteran and if you qualify as a survivor or dependent. 
+
+**One of these must describe the deceased:
 
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training
 - The Veteran died from a service-connected illness or injury
@@ -27,23 +29,24 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
 
-
-<div class="feature" markdown="0">
-
-<h4>If you’re a surviving spouse, you can get compensation if at least one of the below descriptions is true for you. <h4>
-
+**And you must be eligible. Click on the option below that describes you:**
 </div>
+
+FIRST ACCORDION CODE GOES HERE
+
+Surviving spouse
+
+You can get compensation if you meet at least one of the requirements listed below.
 
 **One of these must be true. You:**
 - Married the Veteran before January 1, 1957, or within 15 years of their leaving the military, **or**
 - Were married to the Veteran for at least 1 year, **or**
 - Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran’s death or, if separated, weren’t at fault for the separation
 
-<div class="feature" markdown="0">
+SECOND ACCORDION CODE GOES HERE
+Surviving child
 
-<h4>If you’re a surviving child, you can get compensation if the below descriptions are true for you. <h4>
-
-</div>
+You can get compensation if you meet the requirements listed below.
 
 **Both of these must be true. You:**
 - Aren’t married, **and**
@@ -53,12 +56,9 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 - Are under the age of 18 (or under the age of 23 if attending school), **or**
 - Were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
-<div class="feature" markdown="0">
-
-<h4>If you're a surviving parent, you may be able to get compensation if both of the below descriptions are true. <h4>
-
-
-</div>
+THIRD ACCORDION CODE GOES HERE
+Surviving parent
+You may be able to get compensation if both of these are true:
 
 - The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
 - Your income is below a certain amount <br>
