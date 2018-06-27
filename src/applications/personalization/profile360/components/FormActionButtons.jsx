@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { toLower } from 'lodash';
 
+import recordEvent from '../../../../platform/monitoring/record-event';
 import LoadingButton from './LoadingButton';
 
 class FormActionButtons extends React.Component {
@@ -17,19 +18,38 @@ class FormActionButtons extends React.Component {
 
   cancelDeleteAction = () => {
     this.setState({ deleteInitiated: false });
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'cancel-delete-button',
+      'profile-section': this.props.analyticsSectionName,
+    });
   };
 
   confirmDeleteAction = (e) => {
     e.preventDefault();
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'confirm-delete-button',
+      'profile-section': this.props.analyticsSectionName,
+    });
     this.props.onDelete();
   };
+
+  handleDeleteInitiated = () => {
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'delete-button',
+      'profile-section': this.props.analyticsSectionName,
+    });
+    this.setState({ deleteInitiated: true });
+  }
 
   renderDeleteAction() {
     if (this.props.deleteEnabled) {
       return (
         <div className="right">
           <button className="usa-button-secondary button-link"
-            onClick={() => this.setState({ deleteInitiated: true })}>
+            onClick={this.handleDeleteInitiated}>
             <i className="fa fa-trash"></i> <span>Delete</span>
           </button>
         </div>

@@ -1,23 +1,17 @@
 import { expect } from 'chai';
 
-import * as announcementActions from '../../actions';
+import localStorage from '../../../../utilities/storage/localStorage';
 
-const old = {
-  localStorage: global.window.localStorage
-};
+import * as announcementActions from '../../actions';
 
 const hooks = {
   beforeEach() {
-    global.window.localStorage = [];
-  },
-  after() {
-    window.localStorage = old.localStorage;
+    localStorage.removeItem(announcementActions.ANNOUNCEMENTS_LOCAL_STORAGE);
   }
 };
 
 describe('initDismissedAnnouncements', () => {
   beforeEach(hooks.beforeEach);
-  after(hooks.after);
 
   it('returns dismissed announcements from localStorage', () => {
     let result = announcementActions.initDismissedAnnouncements();
@@ -27,7 +21,7 @@ describe('initDismissedAnnouncements', () => {
     });
 
     // Repeat the test, with a value in localStorage.
-    global.window.localStorage[announcementActions.ANNOUNCEMENTS_LOCAL_STORAGE] = JSON.stringify(['dummy1']);
+    localStorage.setItem(announcementActions.ANNOUNCEMENTS_LOCAL_STORAGE, JSON.stringify(['dummy1']));
     result = announcementActions.initDismissedAnnouncements();
 
     expect(result).to.be.deep.equal({
@@ -39,7 +33,6 @@ describe('initDismissedAnnouncements', () => {
 
 describe('dismissAnnouncement', () => {
   beforeEach(hooks.beforeEach);
-  after(hooks.after);
 
   it('adds dismissed announcements into localStorage', () => {
     let result = announcementActions.dismissAnnouncement('dummy');
