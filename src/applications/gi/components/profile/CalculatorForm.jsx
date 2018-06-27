@@ -63,6 +63,25 @@ class CalculatorForm extends React.Component {
     );
   }
 
+  renderGbBenefit = () => {
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text: 'Did you use your Post-9/11 GI Bill benefit before January 1, 2018?',
+            modal: 'whenUsedGiBill'
+          })}
+          name="giBillBenefit"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ]}
+          value={this.props.inputs.giBillBenefit}
+          onChange={this.handleInputChange}/>
+      </div>
+    );
+  }
+
   renderTuition() {
     if (!this.props.displayedInputs.tuition) return null;
 
@@ -427,6 +446,7 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderKicker()}
+        {__BUILDTYPE__ !== 'production' && this.renderGbBenefit()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>
