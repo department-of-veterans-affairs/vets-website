@@ -16,11 +16,6 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  uiSchema as veteranInfoUiSchema,
-  schema as veteranInfoSchema
-} from '../pages/veteranInfo';
-
-import {
   uiSchema as primaryAddressUiSchema,
   primaryAddressSchema
 } from '../pages/primaryAddress';
@@ -56,7 +51,8 @@ import {
   FDCWarning,
   noFDCWarning,
   queryForFacilities,
-  getEvidenceTypesDescription
+  getEvidenceTypesDescription,
+  veteranInfoDescription
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -152,8 +148,13 @@ const formConfig = {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
           description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
           path: 'veteran-information',
-          uiSchema: veteranInfoUiSchema,
-          schema: veteranInfoSchema
+          uiSchema: {
+            'ui:description': veteranInfoDescription
+          },
+          schema: {
+            type: 'object',
+            properties: {}
+          }
         },
         primaryAddress: {
           title: 'Address information',
