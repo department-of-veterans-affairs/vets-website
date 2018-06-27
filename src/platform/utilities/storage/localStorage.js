@@ -13,6 +13,8 @@
 // More info on browser errors in the Modernizr source -
 // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/storage/localstorage.js
 
+import localStorageFallback from 'local-storage-fallback';
+
 function getLocalStorage() {
   try {
     const testItem = 'testItem';
@@ -22,7 +24,7 @@ function getLocalStorage() {
     return localStorage;
   } catch (err) {
     // Probably a SecurityError
-    return require('local-storage-fallback').storage;
+    return localStorageFallback;
   }
 }
 
