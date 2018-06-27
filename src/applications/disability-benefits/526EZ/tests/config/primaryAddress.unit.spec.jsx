@@ -10,7 +10,7 @@ import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 import { STATE_VALUES, MILITARY_STATE_VALUES } from '../../constants';
 
-describe.only('Disability benefits 526EZ primary address', () => {
+describe('Disability benefits 526EZ primary address', () => {
   const {
     schema,
     uiSchema
@@ -129,6 +129,10 @@ describe.only('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.c'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -156,6 +160,10 @@ describe.only('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.c'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -211,7 +219,10 @@ describe.only('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            'view:hasForwardingAddress': true,
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.c'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -219,6 +230,7 @@ describe.only('Disability benefits 526EZ primary address', () => {
               state: 'MI',
               zipCode: '12345'
             },
+            'view:hasForwardingAddress': true,
             forwardingAddress: {
               effectiveDate: '2019-01-01',
               country: 'USA',
@@ -247,7 +259,10 @@ describe.only('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            'view:hasForwardingAddress': true,
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.c'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -255,6 +270,7 @@ describe.only('Disability benefits 526EZ primary address', () => {
               state: 'MI',
               zipCode: '12345'
             },
+            'view:hasForwardingAddress': true,
             forwardingAddress: {
               effectiveDate: '2019-01-01',
               country: 'USA',
@@ -283,12 +299,16 @@ describe.only('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            'view:hasForwardingAddress': true,
+            phoneEmailCard: {
+              primaryPhone: '',
+              emailAddress: ''
+            },
             mailingAddress: {
               country: '',
               addressLine1: '',
               city: ''
             },
+            'view:hasForwardingAddress': true,
             forwardingAddress: {
               effectiveDate: '',
               country: '',
@@ -303,7 +323,7 @@ describe.only('Disability benefits 526EZ primary address', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(7);
+    expect(form.find('.usa-input-error-message').length).to.equal(9);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -315,7 +335,10 @@ describe.only('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            'view:hasForwardingAddress': true,
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.c'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -323,6 +346,7 @@ describe.only('Disability benefits 526EZ primary address', () => {
               state: 'MI',
               zipCode: '12345'
             },
+            'view:hasForwardingAddress': true,
             forwardingAddress: {
               effectiveDate: '2019-01-01',
               country: 'USA',
