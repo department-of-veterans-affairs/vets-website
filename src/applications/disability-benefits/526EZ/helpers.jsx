@@ -556,21 +556,14 @@ const AddressViewField = ({ formData }) => {
   );
 };
 
-export const PrimaryAddressViewField = ({ formData }) => {
-  const { mailingAddress } = formData;
-  return (
-    <div>
-      <AddressViewField formData={mailingAddress}/>
-    </div>
-  );
-};
+export const PrimaryAddressViewField = ({ formData }) => (<AddressViewField formData={formData}/>);
 
 export const ForwardingAddressViewField = ({ formData }) => {
-  const { forwardingAddress } = formData;
+  const { effectiveDate } = formData;
   return (
     <div>
-      <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
-      <AddressViewField formData={forwardingAddress}/>
+      <EffectiveDateViewField formData={effectiveDate}/>
+      <AddressViewField formData={formData}/>
     </div>
   );
 };

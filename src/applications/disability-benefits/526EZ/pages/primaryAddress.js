@@ -21,7 +21,7 @@ import  {
   STATE_LABELS,
   STATE_VALUES,
   USA,
-  ADDRESS_PATHS
+  ADDRESS_TYPES
 } from '../constants';
 
 function isValidZIP(value) {
@@ -65,9 +65,9 @@ const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasFor
  * @param {string} [title] Displayed as the card title in the card's header
  * @returns {object} UI schema for an address card's content
  */
-const addressUISchema = (addressPath, title) => {
+const addressUISchema = (addressType, title) => {
   const updateStates = (form) => {
-    const currentCity = _.get(form, `veteran.${addressPath}.city`, '').trim().toUpperCase();
+    const currentCity = _.get(form, `veteran.${addressType}.city`, '').trim().toUpperCase();
     if (MILITARY_CITIES.includes(currentCity)) {
       return {
         'enum': MILITARY_STATE_VALUES,
@@ -92,6 +92,10 @@ const addressUISchema = (addressPath, title) => {
       'zipCode'
     ],
     'ui:title': title,
+    'ui:field': ReviewCardField,
+    'ui:options': {
+      viewComponent: PrimaryAddressViewField
+    },
     country: {
       'ui:title': 'Country'
     },
@@ -107,32 +111,32 @@ const addressUISchema = (addressPath, title) => {
     city: {
       'ui:title': 'City',
       'ui:validations': [{
-        options: { addressPath },
+        options: { addressPath: addressType },
         validator: validateMilitaryCity
       }]
     },
     state: {
       'ui:title': 'State',
-      'ui:required': ({ veteran }) => (_.get(veteran, `${addressPath}.country`, '') === USA),
+      'ui:required': ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') === USA),
       'ui:options': {
-        hideIf: ({ veteran }) => (_.get(veteran, `${addressPath}.country`, '') !== USA),
+        hideIf: ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') !== USA),
         updateSchema: updateStates
       },
       'ui:validations': [{
-        options: { addressPath },
+        options: { addressPath: addressType },
         validator: validateMilitaryState
       }]
     },
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
-      'ui:required': ({ veteran }) => (_.get(veteran, `${addressPath}.country`, '') === USA),
+      'ui:required': ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') === USA),
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5- or 9- digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: ({ veteran }) => (_.get(veteran, `${addressPath}.country`, '') !== USA)
+        hideIf: ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') !== USA)
       }
     },
   };
@@ -166,73 +170,62 @@ export const uiSchema = {
         }
       },
     },
-    addressCard: {
-      'ui:title': 'Mailing address',
-      'ui:field': ReviewCardField,
-      'ui:options': {
-        viewComponent: PrimaryAddressViewField
-      },
-      mailingAddress: addressUISchema(ADDRESS_PATHS.mailingAddress)
-    },
+    mailingAddress: addressUISchema(ADDRESS_TYPES.mailingAddress, 'Mailing address'),
     'view:hasForwardingAddress': {
       'ui:title':
         'I want to provide a forwarding address since my address will be changing soon.'
     },
-    forwardingCard: {
-      'ui:title': 'Forwarding address',
-      'ui:field': ReviewCardField,
-      'ui:options': {
-        viewComponent: ForwardingAddressViewField,
-        expandUnder: 'view:hasForwardingAddress'
-      },
-      forwardingAddress: _.merge(
-        addressUISchema(ADDRESS_PATHS.forwardingAddress),
-        {
-          'ui:order': [
-            'effectiveDate',
-            'country',
-            'addressLine1',
-            'addressLine2',
-            'addressLine3',
-            'city',
-            'state',
-            'zipCode'
-          ],
-          effectiveDate: _.merge(
-            {},
-            dateUI('Effective date'),
-            { 'ui:required': hasForwardingAddress }
+    forwardingAddress: _.merge(
+      addressUISchema(ADDRESS_TYPES.forwardingAddress, 'Forwarding address'),
+      {
+        'ui:order': [
+          'effectiveDate',
+          'country',
+          'addressLine1',
+          'addressLine2',
+          'addressLine3',
+          'city',
+          'state',
+          'zipCode'
+        ],
+        'ui:options': {
+          viewComponent: ForwardingAddressViewField,
+          expandUnder: 'view:hasForwardingAddress'
+        },
+        effectiveDate: _.merge(
+          {},
+          dateUI('Effective date'),
+          { 'ui:required': hasForwardingAddress }
+        ),
+        country: {
+          'ui:required': hasForwardingAddress
+        },
+        addressLine1: {
+          'ui:required': hasForwardingAddress
+        },
+        city: {
+          'ui:required': hasForwardingAddress
+        },
+        state: {
+          'ui:required': (formData) => (
+            hasForwardingAddress(formData)
+            && formData.veteran.forwardingAddress.country === USA
           ),
-          country: {
-            'ui:required': hasForwardingAddress
-          },
-          addressLine1: {
-            'ui:required': hasForwardingAddress
-          },
-          city: {
-            'ui:required': hasForwardingAddress
-          },
-          state: {
-            'ui:required': (formData) => (
-              hasForwardingAddress(formData)
-              && formData.veteran.forwardingCard.forwardingAddress.country === USA
-            ),
-            'ui:options': {
-              hideIf: (formData) => (formData.veteran.forwardingCard.forwardingAddress.country !== USA)
-            }
-          },
-          zipCode: {
-            'ui:required': (formData) => (
-              hasForwardingAddress(formData)
-              && formData.veteran.forwardingCard.forwardingAddress.country === USA
-            ),
-            'ui:options': {
-              hideIf: (formData) => (formData.veteran.forwardingCard.forwardingAddress.country !== USA)
-            }
+          'ui:options': {
+            hideIf: (formData) => (formData.veteran.forwardingAddress.country !== USA)
+          }
+        },
+        zipCode: {
+          'ui:required': (formData) => (
+            hasForwardingAddress(formData)
+            && formData.veteran.forwardingAddress.country === USA
+          ),
+          'ui:options': {
+            hideIf: (formData) => (formData.veteran.forwardingAddress.country !== USA)
           }
         }
-      )
-    }
+      }
+    )
   }
 };
 
@@ -256,21 +249,11 @@ export const primaryAddressSchema = {
             }
           }
         },
-        addressCard: {
-          type: 'object',
-          properties: {
-            mailingAddress,
-          }
-        },
+        mailingAddress,
         'view:hasForwardingAddress': {
           type: 'boolean'
         },
-        forwardingCard: {
-          type: 'object',
-          properties: {
-            forwardingAddress
-          }
-        }
+        forwardingAddress
       }
     }
   }
