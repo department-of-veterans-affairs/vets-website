@@ -18,7 +18,7 @@ export default class AddressEditModal extends React.Component {
       ...this.props.field.value,
       [field]: value
     };
-    this.props.onChange(newFieldValue);
+    this.props.onChange(newFieldValue, field);
   }
 
   onSubmit = () => {

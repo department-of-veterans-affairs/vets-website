@@ -10,7 +10,7 @@ function Gender({ gender }) {
   let content = 'This information is not available right now.';
   if (gender === 'M') content = 'Male';
   else if (gender === 'F') content = 'Female';
-  return content;
+  return <span>{content}</span>;
 }
 
 function BirthDate({ birthDate }) {
