@@ -58,11 +58,6 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
 }
 
 const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
-// const hasForwardingAddress = (formData) => {
-//   console.log(formData);
-//   console.log(_.get(formData, 'veteran[view:hasForwardingAddress]', false));
-//   return _.get(formData, 'veteran[view:hasForwardingAddress]', false);
-// }
 
 /**
  * 
