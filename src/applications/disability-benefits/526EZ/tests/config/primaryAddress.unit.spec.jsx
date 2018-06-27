@@ -10,7 +10,7 @@ import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 import { STATE_VALUES, MILITARY_STATE_VALUES } from '../../constants';
 
-describe('Disability benefits 526EZ primary address', () => {
+describe.only('Disability benefits 526EZ primary address', () => {
   const {
     schema,
     uiSchema
@@ -63,10 +63,8 @@ describe('Disability benefits 526EZ primary address', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          veteran: {
-            mailingAddress: {
-              country: 'Afghanistan'
-            }
+          mailingAddress: {
+            country: 'Afghanistan'
           }
         }}
         formData={{}}
