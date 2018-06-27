@@ -62,6 +62,7 @@ You can get compensation if you meet the requirements listed below.
 THIRD ACCORDION CODE GOES HERE
 
 Surviving parent
+
 You may be able to get compensation if both of these are true:
 
 - The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
