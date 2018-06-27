@@ -1,4 +1,4 @@
-import { isFinite } from 'lodash';
+import _, { isFinite } from 'lodash';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import {
@@ -136,7 +136,11 @@ export default function (state = INITIAL_STATE, action) {
     }
     case FETCH_BAH_FAILED: {
       const { beneficiaryZIPFetched } = action;
-      const { error } = action.payload;
+      const error = _.get(action, 'payload.errors[0].title');
+
+      const errorMessage = error === 'Record not found' ?
+        'No rates for this zip code found. Try another zip code' :
+        'Something went wrong. Try again';
 
       // response mismatch - do nothing
       if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {
@@ -144,7 +148,7 @@ export default function (state = INITIAL_STATE, action) {
       }
 
       const newState = {
-        beneficiaryZIPError: error,
+        beneficiaryZIPError: errorMessage,
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         housingAllowanceCity: ''
@@ -176,8 +180,8 @@ export default function (state = INITIAL_STATE, action) {
     case FETCH_BAH_SUCCEEDED: {
       const { beneficiaryZIPFetched } = action;
       const {
-        mha_rate: beneficiaryLocationBah,
-        mha_name: housingAllowanceCity } = action.payload.data;
+        mhaRate: beneficiaryLocationBah,
+        mhaName: housingAllowanceCity } = action.payload.data.attributes;
 
       // response mismatch - do nothing
       if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {

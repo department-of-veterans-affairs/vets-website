@@ -67,7 +67,7 @@ describe('calculator reducer', () => {
   });
 
   describe('FETCH_BAH_FAILED', () => {
-    it('should add error and clear values', () => {
+    it('should add a zip code not found error and clear values', () => {
       const previousState = {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
@@ -79,12 +79,39 @@ describe('calculator reducer', () => {
         type: 'FETCH_BAH_FAILED',
         beneficiaryZIPFetched: '88888',
         payload: {
-          error: 'error'
+          errors: [{
+            title: 'Record not found'
+          }]
         }
       };
 
       const expectedState = {
-        beneficiaryZIPError: action.payload.error,
+        beneficiaryZIPError: 'No rates for this zip code found. Try another zip code',
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        housingAllowanceCity: ''
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(expectedState).to.eql(newState);
+    });
+
+    it('should add a generic error message and clear values', () => {
+      const previousState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: 5000,
+        housingAllowanceCity: 'New York, NY'
+      };
+
+      const action = {
+        type: 'FETCH_BAH_FAILED',
+        beneficiaryZIPFetched: '88888',
+      };
+
+      const expectedState = {
+        beneficiaryZIPError: 'Something went wrong. Try again',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         housingAllowanceCity: ''
@@ -160,8 +187,10 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '88888',
         payload: {
           data: {
-            mha_rate: 5000,
-            mha_name: 'Los Angeles, CA'
+            attributes: {
+              mhaRate: 5000,
+              mhaName: 'Los Angeles, CA'
+            }
           }
         }
       };
@@ -193,8 +222,10 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '11111',
         payload: {
           data: {
-            mha_rate: 5000,
-            mha_name: 'Los Angeles, CA'
+            attributes: {
+              mhaRate: 5000,
+              mhaName: 'Los Angeles, CA'
+            }
           }
         }
       };
@@ -205,7 +236,7 @@ describe('calculator reducer', () => {
     });
   });
   describe('BENEFICIARY_ZIP_CODE_CHANGED', () => {
-    it ('adds the input to the state and resets amounts and errors', () => {
+    it('adds the input to the state and resets amounts and errors', () => {
       const previousState = {
         beneficiaryZIP: '88888',
         beneficiaryZIPError: '',

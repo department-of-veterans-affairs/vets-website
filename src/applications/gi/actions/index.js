@@ -217,55 +217,32 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
 
   const url = `${api.url}/zipcode_rates/${beneficiaryZIP}`;
 
-  return fetch(url, api.settings)
-    .then(res => res.json())
-    .then(
-      payload => { type: FETCH_BAH_SUCCEEDED, payload },
-      err => dispatch({ type: FETCH_BAH_FAILED, err })
-    );
-
-  /*
-  if (beneficiaryZIP === '11111') {
-    return dispatch => {
-      dispatch({ type: FETCH_BAH_STARTED, beneficiaryZIPFetched: beneficiaryZIP });
-
-      return new Promise(resolve => setTimeout(() => {
-        dispatch({
-          beneficiaryZIPFetched: beneficiaryZIP,
-          payload: { data: { mha_rate: 5000, mha_name: 'Los Angeles, CA' }},
-          type: FETCH_BAH_SUCCEEDED,
-        });
-        resolve();
-      }, 1000));
-    };
-  }
-
-  if (beneficiaryZIP === '11112') {
-    return dispatch => {
-      dispatch({ type: FETCH_BAH_STARTED, beneficiaryZIPFetched: beneficiaryZIP });
-
-      return new Promise(resolve => setTimeout(() => {
-        dispatch({
-          beneficiaryZIPFetched: beneficiaryZIP,
-          payload: { data: { mha_rate: 1, mha_name: 'New York, NY' }},
-          type: FETCH_BAH_SUCCEEDED,
-        });
-        resolve();
-      }, 1000));
-    };
-  }
-
   return dispatch => {
-    dispatch({ type: FETCH_BAH_STARTED, beneficiaryZIPFetched: beneficiaryZIP });
-
-    return new Promise(resolve => setTimeout(() => {
-      dispatch({
-        beneficiaryZIPFetched: beneficiaryZIP,
-        payload: { error: 'Invalid ZIPcode' },
-        type: FETCH_BAH_FAILED,
+    fetch(url, api.settings)
+      .then(res => res.json())
+      .then(payload => {
+        if (payload.errors) {
+          dispatch({
+            beneficiaryZIPFetched: beneficiaryZIP,
+            type: FETCH_BAH_FAILED,
+            payload });
+        } else {
+          dispatch({
+            beneficiaryZIPFetched: beneficiaryZIP,
+            type: FETCH_BAH_SUCCEEDED,
+            payload });
+        }
+      })
+      .catch((error) => {
+        dispatch({
+          beneficiaryZIPFetched: beneficiaryZIP,
+          type: FETCH_BAH_FAILED,
+          payload: error });
       });
-      resolve();
-    }, 1000));
+
+    dispatch({
+      type: FETCH_BAH_STARTED,
+      beneficiaryZIPFetched: beneficiaryZIP
+    });
   };
-  */
 }

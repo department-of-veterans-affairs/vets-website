@@ -1,28 +1,23 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers.js';
 
 import {
   beneficiaryZIPCodeChanged,
   FETCH_BAH_FAILED,
-  FETCH_BAH_SUCCEEDED,
-  FETCH_PROFILE_STARTED
+  FETCH_BAH_STARTED,
+  FETCH_BAH_SUCCEEDED
 } from '../../actions/index';
 
-let fetchMock;
-let oldFetch;
+function setFetchResponse(stub, data) {
+  const response = new Response();
+  response.ok = true;
+  response.json = () => Promise.resolve(data);
+  stub.resolves(response);
+}
 
-const mockFetch = () => {
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-};
-
-const unMockFetch = () => {
-  global.fetch = oldFetch;
-};
-
-describe.only('beneficiaryZIPCodeChanged', () => {
-  beforeEach(mockFetch);
+describe('beneficiaryZIPCodeChanged', () => {
+  beforeEach(() => mockFetch());
   it('should return BENEFICIARY_ZIP_CODE_CHANGED when zip code is no valid for submission', () => {
     const actualAction = beneficiaryZIPCodeChanged('1111');
 
@@ -33,32 +28,60 @@ describe.only('beneficiaryZIPCodeChanged', () => {
     expect(expectedAction).to.eql(actualAction);
   });
 
-  it('should dispatch a success action', (done) => {
+  it('should dispatch started and success actions', (done) => {
     const payload = {
-      data: {}
-    };
-    fetchMock.returns({
-      'catch': () => ({
-        then: (fn) => fn({
-          ok: true,
-          json: () => Promise.resolve(payload) }) }),
-    });
-    const thunk = beneficiaryZIPCodeChanged('11111');
-    const dispatchSpy = sinon.spy();
-    const dispatch = (action) => {
-      dispatchSpy(action);
-      if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
-        expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS);
-        done();
+      data: {
+        attributes: {
+          mha_rate: 300, // eslint-disable-line camelcase
+          mha_name: 'New York, NY' // eslint-disable-line camelcase
+        }
       }
     };
+    setFetchResponse(global.fetch.onFirstCall(), payload);
 
-    thunk(dispatch);
+    const dispatch = sinon.spy();
+
+    beneficiaryZIPCodeChanged('12345')(dispatch);
+
+    expect(dispatch.firstCall.calledWith({
+      type: FETCH_BAH_STARTED,
+      beneficiaryZIPFetched: '12345'
+    })).to.be.true;
+
+    setTimeout(() => {
+      expect(dispatch.secondCall.calledWith({
+        type: FETCH_BAH_SUCCEEDED,
+        payload,
+        beneficiaryZIPFetched: '12345'
+      })).to.be.true;
+      done();
+    }, 0);
   });
 
-  it('should dispatch a failure action', () => {
-    expect(true);
+  it('should dispatch started and failed actions', (done) => {
+    const payload = {
+      errors: []
+    };
+    setFetchResponse(global.fetch.onFirstCall(), payload);
+
+    const dispatch = sinon.spy();
+
+    beneficiaryZIPCodeChanged('12345')(dispatch);
+
+    expect(dispatch.firstCall.calledWith({
+      type: FETCH_BAH_STARTED,
+      beneficiaryZIPFetched: '12345'
+    })).to.be.true;
+
+    setTimeout(() => {
+      expect(dispatch.secondCall.calledWith({
+        type: FETCH_BAH_FAILED,
+        payload,
+        beneficiaryZIPFetched: '12345'
+      })).to.be.true;
+      done();
+    }, 0);
   });
-  afterEach(unMockFetch);
+
+  afterEach(() => resetFetch());
 });
