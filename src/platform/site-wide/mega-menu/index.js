@@ -8,7 +8,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import './sass/mega-menu.scss';
 import startReactApp from '../../startup/react';
 import Main from './containers/Main';
 
