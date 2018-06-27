@@ -5,11 +5,12 @@ layout: page-react.html
 description: Learn how to apply online for increased disability compensation. 
 ---
 <div id="main">
-  <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
+  <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
+  id="va-breadcrumbs">
+    <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>
       <li><a href="/disability-benefits/">Disability Benefits</a></li>
-      <li class="parent"><a href="/disability-benefits/apply/form-526-disability-claim">Apply for Increase</a></li>
+      <li><a aria-current="page" href="/disability-benefits/apply/form-526-disability-claim/">Apply for Increase</a></li>
     </ul>
   </nav>
   <div class="section">

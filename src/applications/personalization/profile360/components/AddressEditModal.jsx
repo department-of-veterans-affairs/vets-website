@@ -9,9 +9,8 @@ import Vet360EditModal from './Vet360EditModal';
 import Address from './Address';
 
 export default class AddressEditModal extends React.Component {
-  onBlur = () => {
-    const dirty = true;
-    this.props.onChange(this.props.field.value, dirty);
+  onBlur = (field) => {
+    this.props.onChange(this.props.field.value, field);
   }
 
   onInput = (field, value) => {
@@ -19,8 +18,7 @@ export default class AddressEditModal extends React.Component {
       ...this.props.field.value,
       [field]: value
     };
-
-    this.props.onChange(newFieldValue);
+    this.props.onChange(newFieldValue, field);
   }
 
   onSubmit = () => {
@@ -52,6 +50,7 @@ export default class AddressEditModal extends React.Component {
     return (
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
+        onBlur={this.onBlur}
         onSubmit={this.onSubmit}
         render={this.renderForm}
         {...this.props}/>

@@ -2,6 +2,7 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
@@ -390,9 +391,10 @@ export const srSubstitute = (srIgnored, substitutionText) => {
   );
 };
 
-export const veteranInformationViewField = (data) => {
-  const { ssn, vaFileNumber, dateOfBirth, gender } = data;
-  const { first, middle, last, suffix } = data.fullName;
+const unconnectedVetInfoView = (profile) => {
+  // NOTE: ssn and vaFileNumber will be undefined for the foreseeable future; they're kept in here as a reminder.
+  const { ssn, vaFileNumber, dob, gender } = profile;
+  const { first, middle, last, suffix } = profile.userFullName;
   const mask = srSubstitute('●●●–●●–', 'ending with');
   return (
     <div>
@@ -405,15 +407,18 @@ export const veteranInformationViewField = (data) => {
       </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
-        <p>Social Security number: {mask}{ssn.slice(5)}</p>
-        <p>VA file number: {mask}{vaFileNumber.slice(5)}</p>
-        <p>Date of birth: <DateWidget value={dateOfBirth} options={{ monthYear: false }}/></p>
+        {ssn && <p>Social Security number: {mask}{ssn.slice(5)}</p>}
+        {vaFileNumber && <p>VA file number: {mask}{vaFileNumber.slice(5)}</p>}
+        <p>Date of birth: <DateWidget value={dob} options={{ monthYear: false }}/></p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
       <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
     </div>
   );
 };
+
+export const veteranInfoDescription = connect((state) => state.user.profile)(unconnectedVetInfoView);
+
 
 /**
  * @typedef {Object} Disability

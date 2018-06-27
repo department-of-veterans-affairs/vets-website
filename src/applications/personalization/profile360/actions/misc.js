@@ -10,19 +10,37 @@ export function openModal(modal) {
 
 function validateEmail({ emailAddress: email }) {
   return {
-    emailAddress: isValidEmail(email) ? '' : 'Please enter your email address again, following a standard format like name@domain.com.'
+    emailAddress: email && isValidEmail(email) ? '' : 'Please enter your email address again, following a standard format like name@domain.com.'
   };
 }
 
 function validateTelephone({ inputPhoneNumber }) {
   return {
-    inputPhoneNumber: isValidPhone(inputPhoneNumber) ? '' : 'Please enter a valid phone.'
+    inputPhoneNumber: inputPhoneNumber && isValidPhone(inputPhoneNumber) ? '' : 'Please enter a valid phone.'
   };
 }
 
-function validateAddress({ addressLine1 }) {
+function inferAddressType(countryName, stateCode) {
+  let addressType = 'DOMESTIC';
+  if (countryName !== 'United States') {
+    addressType = 'INTERNATIONAL';
+  } else if (MILITARY_STATES.has(stateCode)) {
+    addressType = 'MILITARY OVERSEAS';
+  }
+
+  return addressType;
+}
+
+function validateAddress({ addressLine1, city, stateCode,  internationalPostalCode, zipCode, countryName }, fieldName) {
+  const isInternational = inferAddressType(countryName, stateCode) === 'INTERNATIONAL';
+  const validateAll = !fieldName;
+
   return {
-    addressLine1: addressLine1 ? '' : 'Street address is required'
+    addressLine1: (fieldName === 'addressLine1' || validateAll) && !addressLine1 ? 'Street address is required' : '',
+    city: (fieldName === 'city' || validateAll) && !city ? 'City is required' : '',
+    stateCode: (fieldName === 'stateCode' || validateAll) && !isInternational && !stateCode ? 'State is required' : '',
+    zipCode: (fieldName === 'zipCode' || validateAll) && !isInternational && !zipCode ? 'Zip code is required' : '',
+    internationalPostalCode: (fieldName === 'internationalPostalCode' || validateAll) && isInternational && !internationalPostalCode ? 'Postal code is required' : '',
   };
 }
 
@@ -63,17 +81,6 @@ function cleanPhoneDataForUpdate(value) {
   };
 }
 
-function inferAddressType(countryName, stateCode) {
-  let addressType = 'DOMESTIC';
-  if (countryName !== 'United States') {
-    addressType = 'INTERNATIONAL';
-  } else if (MILITARY_STATES.has(stateCode)) {
-    addressType = 'MILITARY OVERSEAS';
-  }
-
-  return addressType;
-}
-
 function cleanAddressDataForUpdate(value) {
   const {
     id,
@@ -107,10 +114,8 @@ function cleanAddressDataForUpdate(value) {
   };
 }
 
-
 function updateProfileFormField(field, validator, type) {
-  return (value, dirty) => {
-    const validations = validator && dirty ? validator(value) : {};
+  return (value, fieldName, skipValidation) => {
     let cleanValue = value;
 
     switch (type) {
@@ -126,6 +131,7 @@ function updateProfileFormField(field, validator, type) {
       default:
     }
 
+    const validations = validator && !skipValidation ? validator(cleanValue, fieldName) : {};
 
     return {
       type: UPDATE_PROFILE_FORM_FIELD,

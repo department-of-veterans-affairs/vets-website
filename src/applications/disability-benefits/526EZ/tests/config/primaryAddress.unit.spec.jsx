@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 
-import { DefinitionTester, // selectCheckbox 
+import { DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
@@ -15,6 +15,11 @@ describe('Disability benefits 526EZ primary address', () => {
     schema,
     uiSchema
   } = formConfig.chapters.veteranDetails.pages.primaryAddress;
+
+  const primaryPhone = '1231231234';
+  const emailAddress = 'test@testing.com';
+
+
   it('renders primary address form', () => {
     const form = mount(
       <DefinitionTester
@@ -117,7 +122,7 @@ describe('Disability benefits 526EZ primary address', () => {
     );
 
     const stateDropdownOptions = form.find('#root_veteran_mailingAddress_state > option');
-    // The `+1` is for the empty option in the dropdown 
+    // The `+1` is for the empty option in the dropdown
     expect(stateDropdownOptions.length).to.equal(STATE_VALUES.length + 1);
   });
 
