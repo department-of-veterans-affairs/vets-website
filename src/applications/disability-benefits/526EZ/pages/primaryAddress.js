@@ -205,24 +205,6 @@ export const uiSchema = {
         },
         city: {
           'ui:required': hasForwardingAddress
-        },
-        state: {
-          'ui:required': (formData) => (
-            hasForwardingAddress(formData)
-            && formData.veteran.forwardingAddress.country === USA
-          ),
-          'ui:options': {
-            hideIf: (formData) => (formData.veteran.forwardingAddress.country !== USA)
-          }
-        },
-        zipCode: {
-          'ui:required': (formData) => (
-            hasForwardingAddress(formData)
-            && formData.veteran.forwardingAddress.country === USA
-          ),
-          'ui:options': {
-            hideIf: (formData) => (formData.veteran.forwardingAddress.country !== USA)
-          }
         }
       }
     )
