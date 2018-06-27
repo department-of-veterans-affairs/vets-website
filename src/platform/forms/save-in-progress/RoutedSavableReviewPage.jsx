@@ -8,7 +8,7 @@ import Scroll from 'react-scroll';
 import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
 import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
 
-import DowntimeNotification, { serviceStatus } from '../../monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServiceStatus } from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
 import { focusElement } from '../../utilities/ui';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
@@ -94,7 +94,7 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   renderDowntime = (downtime, children) => {
-    if (downtime.status === serviceStatus.down) {
+    if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.formConfig.downtime.message || DowntimeMessage;
 
       return (

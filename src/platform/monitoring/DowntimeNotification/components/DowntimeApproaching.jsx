@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import serviceStatus from '../config/serviceStatus';
+import externalServiceStatus from '../config/externalServiceStatus';
 import DowntimeNotificationWrapper from './Wrapper';
 
 class DowntimeApproaching extends React.Component {
@@ -20,7 +20,7 @@ class DowntimeApproaching extends React.Component {
     } = this.props;
     const close = () => dismissDowntimeWarning(appTitle);
     return (
-      <DowntimeNotificationWrapper status={serviceStatus.downtimeApproaching}>
+      <DowntimeNotificationWrapper status={externalServiceStatus.downtimeApproaching}>
         <Modal id="downtime-approaching-modal"
           onClose={close}
           visible={!isDowntimeWarningDismissed}>

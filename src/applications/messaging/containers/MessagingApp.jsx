@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import backendServices from '../../../platform/user/profile/constants/backendServices';
+import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
@@ -10,7 +11,7 @@ import { closeAlert } from '../actions';
 import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';
 
-const SERVICE_REQUIRED = 'messaging';
+const SERVICE_REQUIRED = backendServices.MESSAGING;
 
 const AppContent = ({ children }) => (
   <div id="messaging-app" className="row">{children}</div>
@@ -48,7 +49,7 @@ class MessagingApp extends React.Component {
         verify
         serviceRequired={SERVICE_REQUIRED}
         user={this.props.user}>
-        <DowntimeNotification appTitle="secure messaging tool" dependencies={[services.mhv]}>
+        <DowntimeNotification appTitle="secure messaging tool" dependencies={[externalServices.mhv]}>
           <AppContent>
             <MHVApp serviceRequired={SERVICE_REQUIRED}>
               <div id="messaging-app-header">

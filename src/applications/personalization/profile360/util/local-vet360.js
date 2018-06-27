@@ -39,7 +39,7 @@ export const mockContactInformation = {
     isTextable: true,
     isTty: true,
     isVoicemailable: true,
-    phoneNumber: '222222',
+    phoneNumber: '2222222',
     phoneType: 'HOME',
     sourceDate: '2018-04-21T20:09:50Z',
     updatedAt: '2018-04-21T20:09:50Z'
@@ -98,6 +98,27 @@ function asyncReturn(returnValue) {
 }
 
 export default {
+  getUserTransactions() {
+    const data = [
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.ADDRESS,
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.EMAIL,
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.PHONE
+    ].filter(() => {
+      return Math.random() > 0.5;
+    }).map(transactionType => {
+      return {
+        attributes: {
+          transactionId: uniqueId('transaction_'),
+          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED,
+          type: transactionType
+        }
+      };
+    });
+
+    return {
+      data
+    };
+  },
   createTransaction() {
     return asyncReturn({
       data: {

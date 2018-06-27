@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Posttraumatic Stress Disorder (PTSD)
 display_title: PTSD
+description: Find out how to get VA health care benefits and services for posttraumatic stress disorder (PTSD).
 concurrence: complete
 lastupdate: 2017-06-28
 order: 1
