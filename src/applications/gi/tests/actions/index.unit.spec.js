@@ -16,6 +16,13 @@ function setFetchResponse(stub, data) {
   stub.resolves(response);
 }
 
+function setFetchFailure(stub, data) {
+  const response = new Response();
+  response.ok = false;
+  response.json = () => Promise.resolve(data);
+  stub.resolves(response);
+}
+
 describe('beneficiaryZIPCodeChanged', () => {
   beforeEach(() => mockFetch());
   it('should return BENEFICIARY_ZIP_CODE_CHANGED when zip code is no valid for submission', () => {
@@ -60,9 +67,11 @@ describe('beneficiaryZIPCodeChanged', () => {
 
   it('should dispatch started and failed actions', (done) => {
     const payload = {
-      errors: []
+      errors: [{
+        title: 'error'
+      }]
     };
-    setFetchResponse(global.fetch.onFirstCall(), payload);
+    setFetchFailure(global.fetch.onFirstCall(), payload);
 
     const dispatch = sinon.spy();
 
@@ -74,11 +83,14 @@ describe('beneficiaryZIPCodeChanged', () => {
     })).to.be.true;
 
     setTimeout(() => {
-      expect(dispatch.secondCall.calledWith({
-        type: FETCH_BAH_FAILED,
-        payload,
-        beneficiaryZIPFetched: '12345'
-      })).to.be.true;
+      const {
+        beneficiaryZIPFetched,
+        type,
+        error
+      } = dispatch.secondCall.args[0];
+      expect(type).to.eql(FETCH_BAH_FAILED);
+      expect(error instanceof Error).to.be.true;
+      expect(beneficiaryZIPFetched).to.eql('12345');
       done();
     }, 0);
   });

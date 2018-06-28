@@ -78,10 +78,8 @@ describe('calculator reducer', () => {
       const action = {
         type: 'FETCH_BAH_FAILED',
         beneficiaryZIPFetched: '88888',
-        payload: {
-          errors: [{
-            title: 'Record not found'
-          }]
+        error: {
+          message: 'Record not found'
         }
       };
 
@@ -133,8 +131,8 @@ describe('calculator reducer', () => {
       const action = {
         type: 'FETCH_BAH_FAILED',
         beneficiaryZIPFetched: '88888',
-        payload: {
-          error: 'error'
+        error: {
+          message: 'error'
         }
       };
 
