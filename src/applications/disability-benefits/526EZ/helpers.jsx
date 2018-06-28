@@ -96,7 +96,6 @@ export function prefillTransformer(pages, formData, metadata) {
   const withDisabilityActionType = set('disabilities', transformDisabilities(formData.disabilities), formData);
   withDisabilityActionType.disabilities.forEach(validateDisability);
   const withPhoneEmailCard = addPhoneEmailToCard(withDisabilityActionType);
-  console.log(withPhoneEmailCard);
   return {
     metadata,
     formData: withPhoneEmailCard,
