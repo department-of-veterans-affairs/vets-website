@@ -62,14 +62,6 @@ export function refreshTransaction(transaction, analyticsSectionName) {
       });
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
-
-        // @todo This is just a test to see if this forces the Redis cache to clear
-        // after a transaction finishes successfully. We should remove this later if it
-        // doesn't work, or figure out a clearer solution with the BE folks.
-        if (isVet360Configured()) {
-          await apiRequest(`/profile/status/${transactionId}`);
-        }
-
         dispatch(refreshProfile());
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
