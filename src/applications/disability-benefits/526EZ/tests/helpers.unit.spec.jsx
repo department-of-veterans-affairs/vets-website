@@ -45,7 +45,7 @@ describe('526 helpers', () => {
       expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
     });
   });
-  describe.only('addPhoneEmailToCard', () => {
+  describe('addPhoneEmailToCard', () => {
     it('should return formData when veteran property does not exist', () => {
       const formData = { disabilities: {} };
       const newFormData = addPhoneEmailToCard(formData);
