@@ -231,25 +231,27 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
 
   return dispatch => {
     fetch(url, api.settings)
-      .then(res => res.json())
-      .then(payload => {
-        if (payload.errors) {
-          dispatch({
-            beneficiaryZIPFetched: beneficiaryZIP,
-            type: FETCH_BAH_FAILED,
-            payload });
-        } else {
-          dispatch({
-            beneficiaryZIPFetched: beneficiaryZIP,
-            type: FETCH_BAH_SUCCEEDED,
-            payload });
+      .then(res => {
+        if (res.ok) {
+          return res.json();
         }
+
+        return res.json()
+          .then(({ errors }) => {
+            throw new Error(errors[0].title);
+          });
+      })
+      .then(payload => {
+        dispatch({
+          beneficiaryZIPFetched: beneficiaryZIP,
+          type: FETCH_BAH_SUCCEEDED,
+          payload });
       })
       .catch((error) => {
         dispatch({
           beneficiaryZIPFetched: beneficiaryZIP,
           type: FETCH_BAH_FAILED,
-          payload: error });
+          error });
       });
 
     dispatch({

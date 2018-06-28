@@ -1,4 +1,4 @@
-import _, { isFinite } from 'lodash';
+import { isFinite } from 'lodash';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import {
@@ -136,11 +136,13 @@ export default function (state = INITIAL_STATE, action) {
       };
     }
     case FETCH_BAH_FAILED: {
-      const { beneficiaryZIPFetched } = action;
-      const error = _.get(action, 'payload.errors[0].title');
+      const {
+        beneficiaryZIPFetched,
+        error = {}
+      } = action;
 
       // institution and zipcode_rates endpoints both return this generic error
-      const errorMessage = error === 'Record not found' ?
+      const errorMessage = error.message === 'Record not found' ?
         'No rates for this zip code found. Try another zip code' :
         'Something went wrong. Try again';
 
