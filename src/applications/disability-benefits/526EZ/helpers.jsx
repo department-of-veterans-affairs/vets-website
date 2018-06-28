@@ -11,6 +11,7 @@ import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/addre
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
+import get from '../../../platform/utilities/data/get';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
@@ -73,13 +74,32 @@ export function transformDisabilities(disabilities) {
   return disabilities.map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
-export function prefillTransformer(pages, formData, metadata) {
-  const newData = set('disabilities', transformDisabilities(formData.disabilities), formData);
-  newData.disabilities.forEach(validateDisability);
+export function addPhoneEmailToCard(formData) {
+  const { veteran } = formData;
+  if (typeof veteran === 'undefined') {
+    return formData;
+  }
 
+  const phoneEmailCard = {
+    primaryPhone: get('primaryPhone', veteran, ''),
+    emailAddress: get('emailAddress', veteran, '')
+  };
+
+  const newFormData = set('veteran.phoneEmailCard', phoneEmailCard, formData);
+  delete newFormData.veteran.primaryPhone;
+  delete newFormData.veteran.emailAddress;
+
+  return newFormData;
+}
+
+export function prefillTransformer(pages, formData, metadata) {
+  const withDisabilityActionType = set('disabilities', transformDisabilities(formData.disabilities), formData);
+  withDisabilityActionType.disabilities.forEach(validateDisability);
+  const withPhoneEmailCard = addPhoneEmailToCard(withDisabilityActionType);
+  console.log(withPhoneEmailCard);
   return {
     metadata,
-    formData: newData,
+    formData: withPhoneEmailCard,
     pages
   };
 }

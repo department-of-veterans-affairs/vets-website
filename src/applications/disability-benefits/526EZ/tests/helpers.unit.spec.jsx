@@ -6,6 +6,7 @@ import {
   flatten,
   validateDisability,
   transformDisabilities,
+  addPhoneEmailToCard,
   prefillTransformer,
   get4142Selection,
   queryForFacilities
@@ -42,6 +43,25 @@ describe('526 helpers', () => {
   describe('transformDisabilities', () => {
     it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
       expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
+    });
+  });
+  describe.only('addPhoneEmailToCard', () => {
+    it('should return formData when veteran property does not exist', () => {
+      const formData = { disabilities: {} };
+      const newFormData = addPhoneEmailToCard(formData);
+      expect(newFormData).to.equal(formData);
+    });
+    it('should return a new object with correctly-modified formData', () => {
+      const formData = { disabilities: {}, veteran: { primaryPhone: '1234567890', emailAddress: 'a@b.c' } };
+      const newFormData = addPhoneEmailToCard(formData);
+      expect(newFormData).to.not.equal(formData);
+      expect(newFormData.veteran.primaryPhone).to.be.undefined;
+      expect(newFormData.veteran.emailAddress).to.be.undefined;
+      expect(newFormData.veteran.phoneEmailCard).to.exist;
+
+      const { primaryPhone, emailAddress } = newFormData.veteran.phoneEmailCard;
+      expect(primaryPhone).to.equal(formData.veteran.primaryPhone);
+      expect(emailAddress).to.equal(formData.veteran.emailAddress);
     });
   });
   describe('prefillTransformer', () => {

@@ -7,7 +7,6 @@ import { mount } from 'enzyme';
 import { DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
-import initialData from '../schema/initialData.js';
 import { STATE_VALUES, MILITARY_STATE_VALUES } from '../../constants';
 
 describe('Disability benefits 526EZ primary address', () => {
@@ -351,14 +350,14 @@ describe('Disability benefits 526EZ primary address', () => {
             forwardingAddress: {
               effectiveDate: '2019-01-01',
               country: 'USA',
+              addressLine1: '234 Maple St.',
               city: 'Detroit',
               state: 'MI',
               zipCode: '234563453',
-              addressLine1: '234 Maple St.'
             }
           }
         }}
-        formData={initialData}
+        formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
