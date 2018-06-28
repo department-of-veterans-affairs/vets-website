@@ -29,19 +29,28 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 
 </div>
 
-<div class="usa-alert usa-alert-warning va-alert">
-<div class="usa-alert-body">
-
-##### Are you in crisis? You have options.
-
-- Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
-- Text <a href="sms:838255">838255</a> to get help right away.
-- Call <a href="tel:911">911</a>.
-- Go to the nearest emergency room.
-
-</div>
-</div>
+<div class="usa-alert usa-alert-warning">
+  <div class="usa-alert-body">
+	<h4 class="usa-alert-title">How do I talk to someone right now?</h4>
+	<a id="crisis-expander-link">Find out how to get support any time day or night.</a></h4>
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner usa-alert-text">
+	    <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
+	    <ul>
+              <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+  	      <li>Text <a href="sms:838255">838255</a>.</li>
+            </ul>
+     	    <p><strong>You can also:</strong></p>	  
+            <ul>
+              <li>Call <a href="tel:911">911</a>.</li>
+	      <li>Go to the nearest emergency room.</li>
+	    </ul>
+	  </div>
+  	</div>
+      </div>
+    </div>
 
 <br>
 
@@ -111,3 +120,12 @@ Get tips for talking to children of different ages about suicide:
 - [School-age children](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto9to13.asp)
 - [Teenagers](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto14to18.asp)
 - [All ages](https://www.mirecc.va.gov/visn19/talk2kids/docs/Talk2Child_color.pdf)
+
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>
