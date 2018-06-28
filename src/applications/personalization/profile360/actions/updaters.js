@@ -14,7 +14,9 @@ export const VET360_TRANSACTION_REQUESTED = 'VET360_TRANSACTION_REQUESTED';
 export const VET360_TRANSACTION_REQUEST_FAILED = 'VET360_TRANSACTION_REQUEST_FAILED';
 export const VET360_TRANSACTION_REQUEST_SUCCEEDED = 'VET360_TRANSACTION_REQUEST_SUCCEEDED';
 export const VET360_TRANSACTION_REQUEST_CLEARED = 'VET360_TRANSACTION_REQUEST_CLEARED';
+export const VET360_TRANSACTION_UPDATE_REQUESTED = 'VET360_TRANSACTION_UPDATE_REQUESTED';
 export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
+export const VET360_TRANSACTION_UPDATE_FAILED = 'VET360_TRANSACTION_UPDATE_FAILED';
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
 function recordProfileTransaction(event, fieldName) {
@@ -37,10 +39,22 @@ function recordProfileTransaction(event, fieldName) {
 }
 
 export function refreshTransaction(transaction, analyticsSectionName) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       const { transactionId } = transaction.data.attributes;
-      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : localVet360.updateTransactionRandom(transactionId);
+      const state = getState();
+      const isAlreadyAwaitingUpdate = state.vet360.transactionsAwaitingUpdate.includes(transactionId);
+
+      if (isAlreadyAwaitingUpdate) {
+        return;
+      }
+
+      dispatch({
+        type: VET360_TRANSACTION_UPDATE_REQUESTED,
+        transaction
+      });
+
+      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : await localVet360.updateTransactionRandom(transactionId);
 
       dispatch({
         type: VET360_TRANSACTION_UPDATED,
@@ -57,7 +71,11 @@ export function refreshTransaction(transaction, analyticsSectionName) {
         });
       }
     } catch (err) {
-      // Just allow the former transaction status to remain in the store in the event of an error.
+      dispatch({
+        type: VET360_TRANSACTION_UPDATE_FAILED,
+        transaction,
+        err
+      });
     }
   };
 }

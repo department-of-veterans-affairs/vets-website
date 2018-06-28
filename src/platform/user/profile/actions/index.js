@@ -28,7 +28,8 @@ export function profileLoadingFinished() {
 
 export function refreshProfile() {
   return async (dispatch) => {
-    const response = await fetch(`${environment.API_URL}/v0/user`, {
+    const cacheBreaker = new Date().getTime();
+    const response = await fetch(`${environment.API_URL}/v0/user?now=${cacheBreaker}`, {
       method: 'GET',
       headers: new Headers({
         Authorization: `Token token=${sessionStorage.userToken}`
