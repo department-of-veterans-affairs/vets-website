@@ -39,9 +39,9 @@ export default function (state = INITIAL_STATE, action) {
       const bahGrandfathered = _.get(action, 'zipRatesPayload.data.attributes.mhaRateGrandfathered');
       const attributes = {
         ...normalizedAttributes({
-        ...camelPayload.data.attributes,
-        ...camelPayload.data.links
-      }),
+          ...camelPayload.data.attributes,
+          ...camelPayload.data.links
+        }),
         bahGrandfathered
       };
 
