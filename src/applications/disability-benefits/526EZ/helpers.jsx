@@ -547,9 +547,7 @@ const EmailViewField = ({ formData, name }) => (
 const EffectiveDateViewField = ({ formData }) => {
   return (
     <p>
-      <strong>Effective Date</strong>: <DateWidget
-        value={formData}
-        options={{ monthYear: false }}/>
+      We will use this address starting on <DateWidget value={formData} options={{ monthYear: false }}/>:
     </p>
   );
 };
@@ -570,7 +568,7 @@ const AddressViewField = ({ formData }) => {
     lastLine = `${city}, ${country}`;
   }
   return (
-    <div className="blue-bar-block">
+    <div>
       {addressLine1 && <p>{addressLine1}</p>}
       {addressLine2 && <p>{addressLine2}</p>}
       {addressLine3 && <p>{addressLine3}</p>}
