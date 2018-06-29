@@ -530,14 +530,13 @@ export const VAFileNumberDescription = (
   </div>
 );
 
-const PhoneViewField = ({ formData: phoneNumber, name }) => {
-  const safePhone = phoneNumber || '';
+const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;
-  const lastPhoneString = `${safePhone.slice(-4)}`;
-  const middlePhoneString = `${safePhone.slice(midBreakpoint, -4)}-`;
-  const firstPhoneString = `${safePhone.slice(0, midBreakpoint)}-`;
+  const lastPhoneString = phoneNumber.slice(-4);
+  const middlePhoneString = phoneNumber.slice(midBreakpoint, -4);
+  const firstPhoneString = phoneNumber.slice(0, midBreakpoint);
 
-  const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
+  const phoneString = `${firstPhoneString}-${middlePhoneString}-${lastPhoneString}`;
   return (<p><strong>{name}</strong>: {phoneString}</p>);
 };
 
