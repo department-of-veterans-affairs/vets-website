@@ -26,10 +26,14 @@ export function profileLoadingFinished() {
   };
 }
 
-export function refreshProfile() {
+export function refreshProfile(forceCacheClear = false) {
   return async (dispatch) => {
-    const cacheBreaker = new Date().getTime();
-    const response = await fetch(`${environment.API_URL}/v0/user?now=${cacheBreaker}`, {
+    let url = `${environment.API_URL}/v0/user`;
+    if (forceCacheClear) {
+      url += `?now=${new Date().getTime()}`;
+    }
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: new Headers({
         Authorization: `Token token=${sessionStorage.userToken}`
