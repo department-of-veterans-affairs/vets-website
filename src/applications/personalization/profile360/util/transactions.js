@@ -49,8 +49,11 @@ export const MVI_ERROR_CODES = new Set([
 ]);
 
 // This results as a direct error response from the API, and prior to a transaction being created.
+// For context - https://github.com/department-of-veterans-affairs/vets.gov-team/issues/11352
 export const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
-  'VET360_ADDR306'
+  'VET360_ADDR305',
+  'VET360_ADDR306',
+  'VET360_ADDR307'
 ]);
 
 export const DECEASED_ERROR_CODES = new Set([
