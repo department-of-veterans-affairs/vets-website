@@ -1,5 +1,5 @@
-import React from 'react';
 import '../../platform/polyfills';
+import React from 'react';
 import './sass/veteran-id-card.scss';
 
 import startApp from '../../platform/startup';
