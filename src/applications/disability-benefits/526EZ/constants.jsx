@@ -1,4 +1,4 @@
-const PCIU_STATES = [
+export const PCIU_STATES = [
   { label: 'Alabama', value: 'AL' },
   { label: 'Alaska', value: 'AK' },
   { label: 'American Samoa', value: 'AS' },
@@ -65,35 +65,22 @@ const PCIU_STATES = [
   { label: 'Wyoming', value: 'WY' }
 ];
 
-const STATE_LABELS = PCIU_STATES.map(state => state.label);
-const STATE_VALUES = PCIU_STATES.map(state => state.value);
+export const STATE_LABELS = PCIU_STATES.map(state => state.label);
+export const STATE_VALUES = PCIU_STATES.map(state => state.value);
 
-const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
-const MILITARY_STATE_LABELS = [
+export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
+export const MILITARY_STATE_LABELS = [
   'Armed Forces Americas (AA)',
   'Armed Forces Europe (AE)',
   'Armed Forces Pacific (AP)'
 ];
 
-const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
-const USA = 'USA';
-const VA_FORM4142_URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
-const E_BENEFITS_URL = 'https://www.ebenefits.va.gov/ebenefits/homepage';
+export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
+export const USA = 'USA';
+export const VA_FORM4142_URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+export const E_BENEFITS_URL = 'https://www.ebenefits.va.gov/ebenefits/homepage';
 
-const ADDRESS_TYPES = {
+export const ADDRESS_TYPES = {
   mailingAddress: 'mailingAddress',
   forwardingAddress: 'forwardingAddress'
-};
-
-export {
-  PCIU_STATES,
-  STATE_LABELS,
-  STATE_VALUES,
-  MILITARY_STATE_VALUES,
-  MILITARY_STATE_LABELS,
-  MILITARY_CITIES,
-  USA,
-  VA_FORM4142_URL,
-  E_BENEFITS_URL,
-  ADDRESS_TYPES
 };
