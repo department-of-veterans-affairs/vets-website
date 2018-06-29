@@ -80,12 +80,12 @@ export class GiBillApp extends React.Component {
             onClick={browserHistory.goBack}
             key="search-results">Search Results
           </a>,
-          <Link to={`/profile/${facilityCode}`} key="result-detail">Result Detail</Link>
+          <Link to={`/profile/${facilityCode}`} key="result-detail">School Details</Link>
         );
       // User hard refreshes profile page, or copy/pastes a URL
       } else {
         crumbs.push(
-          <Link to={`/profile/${facilityCode}`} key="result-detail">Result Detail</Link>
+          <Link to={`/profile/${facilityCode}`} key="result-detail">School Details</Link>
         );
       }
     }

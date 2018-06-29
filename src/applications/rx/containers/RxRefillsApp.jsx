@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
@@ -25,15 +27,49 @@ const AppContent = ({ children }) => (
 );
 
 class RxRefillsApp extends React.Component {
+  renderBreadcrumbs(prescription) {
+    const { location: { pathname } } = this.props;
+
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/health-care/" key="healthcare">Health Care</a>,
+      <Link to="/" key="prescriptions">Prescription Refills</Link>
+    ];
+
+    if (prescription) {
+      const prescriptionId = _.get(
+        prescription,
+        ['rx', 'attributes', 'prescriptionId']
+      );
+
+      const prescriptionName = _.get(
+        prescription,
+        ['rx', 'attributes', 'prescriptionName']
+      );
+
+      crumbs.push(<Link to={`/${prescriptionId}`} key="prescription-name">Prescription Details</Link>);
+    } else if (pathname.match(/\/glossary\/?$/)) {
+      crumbs.push(<Link to="/glossary" key="glossary">Glossary</Link>);
+    } else if (pathname.match(/\/settings\/?$/)) {
+      crumbs.push(<Link to="/settings" key="settings">Settings</Link>);
+    }
+
+    return crumbs;
+  }
+
   render() {
     return (
       <RequiredLoginView
         verify
         serviceRequired={SERVICE_REQUIRED}
         user={this.props.user}>
-        <DowntimeNotification appTitle="prescription refill tool" dependencies={[externalServices.mhv]}>
+        <DowntimeNotification
+          appTitle="prescription refill tool"
+          dependencies={[externalServices.mhv]}>
           <AppContent>
-            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
+            <Breadcrumbs location={this.props.location}>
+              {this.renderBreadcrumbs(this.props.prescription)}
+            </Breadcrumbs>
             <MHVApp serviceRequired={SERVICE_REQUIRED}>
               {this.props.children}
               <ConfirmRefillModal
