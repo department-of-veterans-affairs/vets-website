@@ -52,7 +52,7 @@ export default class PhoneEditModal extends React.Component {
       defaultFieldValue = {
         countryCode: '1',
         extension: '',
-        phoneNumber: ''
+        inputPhoneNumber: ''
       };
     }
 
