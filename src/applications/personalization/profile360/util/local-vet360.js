@@ -89,11 +89,11 @@ export const mockContactInformation = {
 };
 
 
-function asyncReturn(returnValue) {
+function asyncReturn(returnValue, delay = 300) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(returnValue);
-    }, 300);
+    }, delay);
   });
 }
 
@@ -130,10 +130,10 @@ export default {
     });
   },
   updateTransactionRandom(...args) {
-    if (Math.random() > 0.5) {
-      return this.updateTransaction(...args);
-    }
-    return this.updateTransactionToFailure(...args);
+    return asyncReturn(
+      Math.random() > 0.5 ? this.updateTransaction(...args) : this.updateTransactionToFailure(...args),
+      3000
+    );
   },
   updateTransaction(transactionId) {
     return {

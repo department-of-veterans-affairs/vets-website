@@ -135,6 +135,7 @@ export default function (state = INITIAL_STATE, action) {
         ...newState
       };
     }
+
     case FETCH_BAH_FAILED: {
       const {
         beneficiaryZIPFetched,

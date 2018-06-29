@@ -27,10 +27,8 @@ export default class Vet360EditModal extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.isInitialized()) {
-      // initialize form with no fieldName and skip validation
-      this.props.onChange(this.props.getInitialFormValues(), null, true);
-    }
+    // initialize form with no fieldName and skip validation
+    this.props.onChange(this.props.getInitialFormValues(), null, true);
   }
 
   onSubmit = (event) => {

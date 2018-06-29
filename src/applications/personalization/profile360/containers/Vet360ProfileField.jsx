@@ -7,6 +7,10 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 import * as VET360 from '../constants/vet360';
 
 import {
+  isPendingTransaction
+} from '../util/transactions';
+
+import {
   clearTransactionRequest,
   refreshTransaction,
   updateFormField,
@@ -31,7 +35,11 @@ class Vet360ProfileField extends React.Component {
   }
 
   isEditLinKVisible() {
-    return !this.isEmpty() && !this.props.transaction;
+    let transactionPending = false;
+    if (this.props.transaction) {
+      transactionPending = isPendingTransaction(this.props.transaction);
+    }
+    return !this.isEmpty() && !transactionPending;
   }
 
   render() {

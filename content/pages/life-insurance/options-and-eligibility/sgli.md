@@ -80,9 +80,9 @@ If you qualify for SGLI, we’ll automatically sign you up through your service 
 
 Yes. You can choose your level of coverage or even refuse coverage completely. You can also choose your beneficiaries (the people you pick to get the money from your life insurance policy if you die) and change them as needed.
 
-**To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage:** 
+#### How to change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
-**If your branch of service has started using the new SGLI Online Enrollment System (SOES),** submit your changes online. To access SOES:
+**If you’re a member of the Army, Navy, Air Force, or Marines,** please submit your changes online through the SGLI Online Enrollment System (SOES). To access SOES:
 
 <ol class="process" markdown="1">
   <li class="process-step list-one">
@@ -99,27 +99,30 @@ Yes. You can choose your level of coverage or even refuse coverage completely. Y
   
   <li class="process-step list-three">
   
-  Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
+  Go to Benefits, Life Insurance SOES-SGLI Online Enrollment System.
   
   </li>
   
   <li class="process-step list-four">
   
-  Check your coverage and beneficiary info and make any needed updates.
+  Check your coverage and beneficiary information and make any needed updates.
   
  </li>
  </ol>
 
-You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES. 
+You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive a notice that you can start using SOES. 
 
 <br>
 
-**If your branch of service hasn’t yet started using SOES,** fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit’s personnel officer. <br>
+**If you’re a member of the Coast Guard or National Oceanic and Atmospheric Administration,** you'll need to fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
 [Download the Servicemembers' Group Life Insurance Election and Certificate](https://www.benefits.va.gov/insurance/forms/SGLV_8286_ed2017-10.pdf).
 <br>
-[Learn more about SOES and find out if your branch is using this new system](https://www.benefits.va.gov/INSURANCE/SOES.asp).
+[Learn more about SOES](https://www.benefits.va.gov/INSURANCE/SOES.asp).
 
 <br>
+
+**Note:** SOES is planned for the Coast Guard and National Oceanic and Atmospheric Administration later in 2018. 
+
 
 ### How much will I pay for these benefits?
 
