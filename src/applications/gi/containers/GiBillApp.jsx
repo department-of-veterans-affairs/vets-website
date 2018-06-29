@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { Link, browserHistory, withRouter } from 'react-router';
 
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
-import Breadcrumbs from '../components/heading/Breadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
 
 const Disclaimer = () => {
@@ -58,6 +58,41 @@ export class GiBillApp extends React.Component {
     this.props.router.push({ ...location, query });
   }
 
+  renderBreadcrumbs(searchCount) {
+    const { pathname, search } = this.props.location;
+    const { facilityCode } = this.props.params;
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/education/" key="education">Education Benefits</a>,
+      <Link to="/" key="main">GI Bill® Comparison Tool</Link>
+    ];
+
+    if (pathname.match(/search/)) {
+      crumbs.push(<Link to={`/search/${search}`} key="search-results">Search Results</Link>);
+    }
+
+    if (pathname.match(/profile/)) {
+      // User is coming from the search results page
+      if (searchCount !== null) {
+        crumbs.push(
+          <a
+            href=""
+            onClick={browserHistory.goBack}
+            key="search-results">Search Results
+          </a>,
+          <Link to={`/profile/${facilityCode}`} key="result-detail">Result Detail</Link>
+        );
+      // User hard refreshes profile page, or copy/pastes a URL
+      } else {
+        crumbs.push(
+          <Link to={`/profile/${facilityCode}`} key="result-detail">Result Detail</Link>
+        );
+      }
+    }
+
+    return crumbs;
+  }
+
   render() {
     const { constants, preview, search } = this.props;
     let content;
@@ -78,9 +113,9 @@ export class GiBillApp extends React.Component {
                 version={preview.version}
                 onViewLiveVersion={this.exitPreviewMode}/>)
             }
-            <Breadcrumbs
-              location={this.props.location}
-              includeSearch={search.count !== null}/>
+            <Breadcrumbs>
+              {this.renderBreadcrumbs(search.count)}
+            </Breadcrumbs>
             {content}
             <AboutThisTool/>
             <Disclaimer/>
