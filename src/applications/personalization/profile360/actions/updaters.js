@@ -62,7 +62,8 @@ export function refreshTransaction(transaction, analyticsSectionName) {
       });
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
-        dispatch(refreshProfile());
+        const forceCacheClear = true;
+        dispatch(refreshProfile(forceCacheClear));
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
           event: 'profile-edit-failure',
