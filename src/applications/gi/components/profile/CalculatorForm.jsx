@@ -5,6 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 
 class CalculatorForm extends React.Component {
 
@@ -29,6 +30,12 @@ class CalculatorForm extends React.Component {
   handleInputChange(event) {
     const { name: field, value } = event.target;
     this.props.onInputChange({ field, value });
+  }
+
+  handleBeneficiaryZIPCodeChanged = (event) => {
+    if (!event.dirty) {
+      this.props.onBeneficiaryZIPCodeChanged(event.value);
+    }
   }
 
   resetBuyUp(event) {
@@ -412,6 +419,43 @@ class CalculatorForm extends React.Component {
     );
   }
 
+  renderBeneficiaryZIP() {
+    if (!this.props.displayedInputs.beneficiaryLocationQuestion) return null;
+
+    let amountInput;
+
+    if (this.props.inputs.beneficiaryLocationQuestion === 'no') {
+      amountInput = (
+        <div>
+          <ErrorableTextInput errorMessage={this.props.inputs.beneficiaryZIPError}
+            label={<span>At what ZIP Code will you be taking classes?</span>}
+            name="beneficiaryZIPCode"
+            field={{ value: this.props.inputs.beneficiaryZIP }}
+            onValueChange={this.handleBeneficiaryZIPCodeChanged}/>
+          <p><strong>{this.props.inputs.housingAllowanceCity}</strong></p>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text: 'Will the majority of your classes be on campus?',
+            modal: 'calcBeneficiaryLocationQuestion'
+          })}
+          name="beneficiaryLocationQuestion"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ]}
+          value={this.props.inputs.beneficiaryLocationQuestion}
+          onChange={this.handleInputChange}/>
+        {amountInput}
+      </div>
+    );
+  }
+
   renderBuyUp() {
     if (!this.props.displayedInputs.buyUp) return null;
 
@@ -495,6 +539,7 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderKicker()}
+        {__BUILDTYPE__ !== 'production' && this.renderBeneficiaryZIP()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>

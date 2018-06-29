@@ -3,10 +3,17 @@ import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import {
   CALCULATOR_INPUTS_CHANGED,
+  BENEFICIARY_ZIP_CODE_CHANGED,
+  FETCH_BAH_FAILED,
+  FETCH_BAH_STARTED,
+  FETCH_BAH_SUCCEEDED,
   FETCH_PROFILE_SUCCEEDED
 } from '../actions';
 
+const beneficiaryZIPRegExTester = /\b\d{1,5}\b/;
 const INITIAL_STATE = {
+  beneficiaryLocationQuestion: 'yes',
+  beneficiaryZIP: '',
   inState: 'yes',
   tuitionInState: 0,
   tuitionOutOfState: 0,
@@ -47,7 +54,6 @@ export default function (state = INITIAL_STATE, action) {
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {
-        // Strip all non-numeric characters.
         convertedValue = +value.replace(/[^0-9.]+/g, '');
       }
 
@@ -128,6 +134,99 @@ export default function (state = INITIAL_STATE, action) {
         ...newState
       };
     }
+    case FETCH_BAH_FAILED: {
+      const {
+        beneficiaryZIPFetched,
+        error = {}
+      } = action;
+
+      // institution and zipcode_rates endpoints both return this generic error
+      const errorMessage = error.message === 'Record not found' ?
+        'No rates for this zip code found. Try another zip code' :
+        'Something went wrong. Try again';
+
+      // response mismatch - do nothing
+      if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {
+        return state;
+      }
+
+      const newState = {
+        beneficiaryZIPError: errorMessage,
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        housingAllowanceCity: ''
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+
+    case FETCH_BAH_STARTED: {
+      const { beneficiaryZIPFetched } = action;
+
+      const newState = {
+        beneficiaryLocationBah: null,
+        beneficiaryZIPError: '',
+        beneficiaryZIP: beneficiaryZIPFetched,
+        beneficiaryZIPFetched,
+        housingAllowanceCity: 'Loading...'
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+
+    case FETCH_BAH_SUCCEEDED: {
+      const { beneficiaryZIPFetched } = action;
+      const {
+        mhaRate: beneficiaryLocationBah,
+        mhaName: housingAllowanceCity } = action.payload.data.attributes;
+
+      // response mismatch - do nothing
+      if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {
+        return state;
+      }
+
+      const newState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah,
+        housingAllowanceCity
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+    case BENEFICIARY_ZIP_CODE_CHANGED: {
+      const { beneficiaryZIP } = action;
+
+      let beneficiaryZIPError;
+
+      if (!beneficiaryZIPRegExTester.exec(beneficiaryZIP)) {
+        beneficiaryZIPError = 'ZIP Code must be a five digit number';
+      } else {
+        beneficiaryZIPError = '';
+      }
+
+      const newState = {
+        beneficiaryZIP,
+        beneficiaryZIPError,
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        housingAllowanceCity: ''
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
 
     case FETCH_PROFILE_SUCCEEDED: {
       const camelPayload = camelCaseKeysRecursive(action.payload);
@@ -175,6 +274,7 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...INITIAL_STATE,
         type,
+        beneficiaryLocationBah: null,
         tuitionInState: tuitionInState || 0,
         tuitionOutOfState: tuitionOutOfState || 0,
         tuitionFees: tuitionInState || 0,
