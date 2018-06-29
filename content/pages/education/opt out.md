@@ -15,7 +15,7 @@ The Harry W. Colmery Veterans Educational Assistance Act (also called the “For
 
 ### How do I tell VA I don’t want my information shared?  
 
-You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now:
+You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
 
 <a class="usa-button-primary va-button-primary" href="/education/opt out/form-0993/">Opt Out</a>
   
