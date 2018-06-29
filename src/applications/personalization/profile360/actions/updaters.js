@@ -158,7 +158,8 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
       try {
         dispatch({
           type: VET360_TRANSACTION_REQUESTED,
-          fieldName
+          fieldName,
+          method
         });
 
         const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
@@ -211,7 +212,8 @@ function deleteVet360Field(apiRoute, fieldName, fieldType) {
       try {
         dispatch({
           type: VET360_TRANSACTION_REQUESTED,
-          fieldName
+          fieldName,
+          method: 'DELETE'
         });
 
         const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
