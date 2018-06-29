@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: 
-display_title: 
+title: Opt Out of Sharing VA Education Benefits Information
+display_title: Opt Out of Information Sharing
 description: 
 concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18 
