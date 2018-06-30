@@ -12,9 +12,13 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 </div>
 
-<div class="feature" markdown="0">
+<h3>Can I get compensation as a</h3>
 
-### As a surviving spouse, can I get compensation from VA?
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-schedule">Surviving Spouse</button>
+<div id="VA-claim-exam-schedule" class="usa-accordion-content">
 
 If you’re a surviving spouse, you can get compensation if at least one of the below descriptions is true for you.
 
@@ -24,10 +28,10 @@ If you’re a surviving spouse, you can get compensation if at least one of the 
 - Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran’s death or, if separated, weren’t at fault for the separation
 
 </div>
-
-<div class="feature" markdown="0">
-
-### As a surviving child, can I get compensation from VA?
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-receive">Surviving Child</button>
+<div id="VA-claim-exam-receive" class="usa-accordion-content">
 
 If you’re a surviving child, you can get compensation if the below descriptions are true for you.
 
@@ -40,6 +44,23 @@ If you’re a surviving child, you can get compensation if the below description
 - You were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
 </div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-cant">Surviving Parent</button>
+<div id="VA-claim-exam-cant" class="usa-accordion-content">
+
+You may be able to get compensation as a surviving parent if both of these are true: 
+- The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
+- Your income is below a certain amount. <br>
+[View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
+
+</div>
+</div>
+</li>
+</ul>
+</div>
+
+<br>
 
 #### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
 
@@ -53,12 +74,6 @@ If you’re a surviving child, you can get compensation if the below description
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
 
 <div class="feature" markdown="0">
-
-### What kind of benefits can I get?
-
-Tax-free monetary benefits
-
-</div>
 
 ### As a surviving spouse or child, how do I get compensation? 
 
@@ -78,18 +93,6 @@ You’ll need to apply for compensation. Fill out an Application for DIC, Death 
 
 -----
 
-<div class="feature" markdown="0">
-  
-### As a surviving parent, can I get compensation from VA?
-
-You may be able to get compensation as a surviving parent if both of these are true: 
-- The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
-- Your income is below a certain amount. <br>
-[View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
-
-</div>
-
-
 ### As a surviving parent, how do I get compensation? 
 
 You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). <br>
@@ -106,7 +109,11 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/facilities/).
 
+### What kind of benefits can I get?
+
+Tax-free monetary benefits
+
+</div>
 
 
-
-
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
