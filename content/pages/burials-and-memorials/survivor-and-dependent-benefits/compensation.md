@@ -12,7 +12,18 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 </div>
 
-<h3>Can I get compensation as a</h3>
+### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
+
+- The Servicemember died while on active duty, active duty for training, or inactive-duty training.
+- The Veteran died from a service-connected illness or injury.
+- The Veteran didn’t die from a service-connected illness or injury, but was eligible to get VA compensation for a service-connected disability that VA rated as totally disabling: 
+  - For at least 10 years before their death, **or**
+  - Since the Veteran’s release from active duty and for at least 5 years immediately before their death, **or**
+  - For at least 1 year before their death if the Veteran was a former Prisoner of War who died after September 30, 1999
+
+**Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
+
+#### Can I get compensation as a surviving spouse, child, or parent of a deceased veteran?
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -108,10 +119,6 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/facilities/).
-
-### What kind of benefits can I get?
-
-Tax-free monetary benefits
 
 </div>
 
