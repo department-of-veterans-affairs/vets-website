@@ -22,7 +22,7 @@ import {
 
 import {
   uiSchema as primaryAddressUiSchema,
-  primaryAddressSchema
+  schema as primaryAddressSchema
 } from '../pages/primaryAddress';
 
 import {
@@ -158,7 +158,7 @@ const formConfig = {
         primaryAddress: {
           title: 'Address information',
           path: 'veteran-details/address-information',
-          description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
+          description: 'This is the contact information we have on file for you. We’ll send any important information about your disability claim to the address listed here. Any updates you make here to your contact information will only apply to this application.',
           uiSchema: primaryAddressUiSchema,
           schema: primaryAddressSchema
         },

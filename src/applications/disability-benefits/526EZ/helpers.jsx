@@ -381,6 +381,9 @@ const editNote = (name) => (
 );
 
 /**
+ * Show one thing, have a screen reader say another.
+ * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
+ *
  * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored

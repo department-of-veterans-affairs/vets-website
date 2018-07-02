@@ -141,7 +141,8 @@ export const uiSchema = {
       'primaryPhone',
       'emailAddress',
       'view:hasForwardingAddress',
-      'forwardingAddress'
+      'forwardingAddress',
+      'view:contactInfoDescription'
     ],
     mailingAddress: addressUISchema('mailingAddress'),
     primaryPhone: {
@@ -187,7 +188,6 @@ export const uiSchema = {
         ),
         country: {
           'ui:required': hasForwardingAddress,
-
         },
         addressLine1: {
           'ui:required': hasForwardingAddress
@@ -218,11 +218,14 @@ export const uiSchema = {
           }
         }
       }
-    )
+    ),
+    'view:contactInfoDescription': {
+      'ui:description': 'If you want to update your contact information for all your VA accounts, please go to your profile page. [[Go to my profile page.]]'
+    }
   }
 };
 
-export const primaryAddressSchema = {
+export const schema = {
   type: 'object',
   properties: {
     veteran: {
@@ -240,7 +243,11 @@ export const primaryAddressSchema = {
         'view:hasForwardingAddress': {
           type: 'boolean'
         },
-        forwardingAddress
+        forwardingAddress,
+        'view:contactInfoDescription': {
+          type: 'object',
+          properties: {}
+        }
       }
     }
   }
