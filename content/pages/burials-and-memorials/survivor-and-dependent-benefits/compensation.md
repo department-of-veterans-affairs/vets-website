@@ -32,8 +32,8 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-schedule">Surviving Spouse</button>
-<div id="VA-claim-exam-schedule" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">Surviving Spouse</button>
+<div id="VA-burials-survivor-spouse" class="usa-accordion-content">
 
 If you’re a surviving spouse, you can get compensation if at least one of the below descriptions is true for you.
 
@@ -45,8 +45,8 @@ If you’re a surviving spouse, you can get compensation if at least one of the 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-receive">Surviving Child</button>
-<div id="VA-claim-exam-receive" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-child">Surviving Child</button>
+<div id="VA-burials-survivor-child" class="usa-accordion-content">
 
 If you’re a surviving child, you can get compensation if the below descriptions are true for you.
 
@@ -61,20 +61,20 @@ If you’re a surviving child, you can get compensation if the below description
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-cant">Surviving Parent</button>
-<div id="VA-claim-exam-cant" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-parent">Surviving Parent</button>
+<div id="VA-burials-survivor-parent" class="usa-accordion-content">
 
 You may be able to get compensation as a surviving parent if both of these are true: 
 - The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
 - Your income is below a certain amount. <br>
 [View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
-
-  <br>
-       </div>
-      </div>
+     </div>
+     </div>
     </li>
   </ul>
 </div>
+
+<br>
 
 ### As a surviving spouse or child, how do I get compensation? 
 
@@ -109,6 +109,8 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/facilities/).
+
+</div>
 
 
 <script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
