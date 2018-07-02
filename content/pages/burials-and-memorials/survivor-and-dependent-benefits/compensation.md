@@ -12,6 +12,8 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 </div>
 
+<div class="feature" markdown="0">
+
 ### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
 
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training.
@@ -23,7 +25,9 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
 
-#### Can I get compensation as a surviving spouse, child, or parent of a deceased veteran?
+</div>
+
+#### As a surviving spouse, child, or parent of a deceased veteran, can I get compensation?
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -73,19 +77,6 @@ You may be able to get compensation as a surviving parent if both of these are t
 
 <br>
 
-#### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
-
-- The Servicemember died while on active duty, active duty for training, or inactive-duty training.
-- The Veteran died from a service-connected illness or injury.
-- The Veteran didn’t die from a service-connected illness or injury, but was eligible to get VA compensation for a service-connected disability that VA rated as totally disabling: 
-  - For at least 10 years before their death, **or**
-  - Since the Veteran’s release from active duty and for at least 5 years immediately before their death, **or**
-  - For at least 1 year before their death if the Veteran was a former Prisoner of War who died after September 30, 1999
-
-**Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
-
-<div class="feature" markdown="0">
-
 ### As a surviving spouse or child, how do I get compensation? 
 
 You’ll need to apply for compensation. Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). <br>
@@ -102,7 +93,7 @@ You’ll need to apply for compensation. Fill out an Application for DIC, Death 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/facilities/).
 
------
+<br>
 
 ### As a surviving parent, how do I get compensation? 
 
@@ -119,8 +110,6 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/facilities/).
-
-</div>
 
 
 <script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
