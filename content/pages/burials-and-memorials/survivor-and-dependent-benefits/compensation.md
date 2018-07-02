@@ -14,7 +14,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 <div class="feature" markdown="0">
 
-#### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
+### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
 
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training.
 - The Veteran died from a service-connected illness or injury.
@@ -27,7 +27,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 </div>
 
-#### As a surviving spouse, child, or parent of a deceased Veteran, can I get compensation?
+### As a surviving spouse, child, or parent of a deceased Veteran, can I get compensation?
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
