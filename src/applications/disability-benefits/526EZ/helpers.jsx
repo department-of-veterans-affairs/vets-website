@@ -29,28 +29,29 @@ import {
  *
  * @param {object} data - Form data for a full form, including nested array properties
  */
-export function flatten(data) {
-  const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
-  const formData = cloneDeep(data);
-  formData.disabilities.forEach((disability, idx) => {
-    siblings.forEach(sibling => {
-      if (disability[sibling]) {
-        formData[sibling] = [];
-        formData[sibling][idx] = disability[sibling];
-        delete disability[sibling]; // eslint-disable-line no-param-reassign
-      }
-    });
-  });
-  return formData;
-}
+// export function flatten(data) {
+//   const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+//   const formData = cloneDeep(data);
+//   formData.disabilities.forEach((disability, idx) => {
+//     siblings.forEach(sibling => {
+//       if (disability[sibling]) {
+//         formData[sibling] = [];
+//         formData[sibling][idx] = disability[sibling];
+//         delete disability[sibling]; // eslint-disable-line no-param-reassign
+//       }
+//     });
+//   });
+//   return formData;
+// }
 
 
 export function transform(formConfig, form) {
-  const formData = flatten(transformForSubmit(formConfig, form));
-  delete formData.prefilled;
+  console.log(form);
+  // const formData = fslatten(transformForSubmit(formConfig, form));
+  // delete formData.prefilled;
   return JSON.stringify({
     disabilityBenefitsClaim: {
-      form: formData
+      form
     }
   });
 }
