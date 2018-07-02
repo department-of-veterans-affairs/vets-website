@@ -2,6 +2,7 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const HcaHelpers = require('./hca-helpers.js');
 const testData = require('./schema/maximal-test.json');
+const FormsTestHelpers = require('../../../platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -16,7 +17,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.usa-button-primary');
 
     E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
+    FormsTestHelpers.overrideFormsScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.

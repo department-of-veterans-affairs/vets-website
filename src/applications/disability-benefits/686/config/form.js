@@ -2,22 +2,21 @@ import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 import moment from 'moment';
 
-import ArrayCountWidget from '../../../common/schemaform/widgets/ArrayCountWidget';
+import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
-import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
-import ssnUI from '../../../common/schemaform/definitions/ssn';
-import * as address from '../../../common/schemaform/definitions/address';
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import * as address from 'us-forms-system/lib/js/definitions/address';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
-import applicantDescription from '../../../common/schemaform/components/ApplicantDescription';
-
+import applicantDescription from '../../../../platform/forms/components/ApplicantDescription';
 import {
   getSpouseMarriageTitle,
   dependentsMinItem,
@@ -30,7 +29,8 @@ import {
   spouseRelationshipDescription,
   childRelationshipDescription,
   otherRelationshipDescription,
-  isNotVeteran
+  isVeteran,
+  VAFileNumberDescription,
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -43,7 +43,9 @@ const {
   spouseIsVeteran,
   claimantSocialSecurityNumber,
   claimantFullName,
-  dependents
+  veteranSocialSecurityNumber,
+  dependents,
+  veteranFullName
 } = fullSchema686.properties;
 
 const {
@@ -130,9 +132,22 @@ const formConfig = {
           path: 'applicant-information',
           uiSchema: {
             'ui:description': applicantDescription,
-            claimantFullName: fullNameUI,
+            claimantFullName: _.merge(fullNameUI, {
+              first: {
+                'ui:title': 'Your first name'
+              },
+              middle: {
+                'ui:title': 'Your middle name'
+              },
+              last: {
+                'ui:title': 'Your last name'
+              },
+              suffix: {
+                'ui:title': 'Your suffix'
+              }
+            }),
             'view:relationshipToVet': {
-              'ui:title': 'Relationship to Veteran',
+              'ui:title': 'Your relationship to the Veteran',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
@@ -172,7 +187,7 @@ const formConfig = {
         claimantInformation: {
           path: 'claimant-information',
           title: 'Applicant Information',
-          depends: isNotVeteran,
+          depends: (formData) => !isVeteran(formData),
           uiSchema: {
             claimantSocialSecurityNumber: _.merge(ssnUI, {
               'ui:title': 'Your Social Security number'
@@ -185,6 +200,92 @@ const formConfig = {
             properties: {
               claimantSocialSecurityNumber,
               claimantAddress: address.schema(fullSchema686, true),
+            }
+          }
+        }
+      }
+    },
+    veteranInformation: {
+      title: 'Veteran Information',
+      pages: {
+        veteranInformation: {
+          title: 'Veteran Information',
+          path: 'veteran-information',
+          uiSchema: {
+            veteranFullName: _.merge(fullNameUI, {
+              'ui:options': {
+                hideIf: formData => isVeteran(formData)
+              },
+              first: {
+                'ui:title': 'Veteran’s first name',
+                'ui:required': formData => !isVeteran(formData)
+              },
+              middle: { 'ui:title': 'Veteran’s middle name' },
+              last: {
+                'ui:title': 'Veteran’s last name',
+                'ui:required': formData => !isVeteran(formData)
+              },
+              suffix: { 'ui:title': 'Veteran’s suffix' }
+            }),
+            veteranSocialSecurityNumber: _.merge(_.unset('ui:title', ssnUI), {
+              'ui:options': {
+                updateSchema: (form) => {
+                  if (isVeteran(form)) {
+                    return {
+                      title: 'Your Social Security number'
+                    };
+                  }
+                  return  {
+                    title: 'Veteran’s Social Security number'
+                  };
+                }
+              },
+              'ui:required': formData => !formData['view:noSSN'],
+            }),
+            'view:noSSN': {
+              'ui:options': {
+                updateSchema: (form) => {
+                  if (isVeteran(form)) {
+                    return {
+                      title: 'I don’t have a Social Security number'
+                    };
+                  }
+                  return {
+                    title: 'I don’t know the Veteran’s Social Security number'
+                  };
+                }
+              },
+            },
+            veteranVAfileNumber: {
+              'ui:options': {
+                expandUnder: 'view:noSSN',
+                updateSchema: (form) => {
+                  if (isVeteran(form)) {
+                    return  {
+                      title: 'Your VA file number'
+                    };
+                  }
+                  return {
+                    title: 'Veteran’s VA file number'
+                  };
+                }
+              },
+              'ui:required': formData => formData['view:noSSN'],
+              'ui:help': VAFileNumberDescription,
+              'ui:errorMessages': {
+                pattern: 'Your VA file number must be between 7 to 9 digits'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranFullName,
+              veteranSocialSecurityNumber,
+              'view:noSSN': {
+                type: 'boolean'
+              },
+              veteranVAfileNumber: vaFileNumber
             }
           }
         }
@@ -495,7 +596,6 @@ const formConfig = {
             properties: {
               spouseMarriages: {
                 type: 'array',
-                minItems: 1,
                 items: {
                   type: 'object',
                   required: [

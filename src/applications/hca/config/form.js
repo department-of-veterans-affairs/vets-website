@@ -3,6 +3,16 @@ import moment from 'moment';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
+import { validateMatch } from 'us-forms-system/lib/js/validation';
+import { createUSAStateLabels } from 'us-forms-system/lib/js/helpers';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import { schema as addressSchema, uiSchema as addressUI } from 'us-forms-system/lib/js/definitions/address';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+
 import {
   maritalStatuses
 } from '../../../platform/static-data/options-for-select';
@@ -13,15 +23,13 @@ import { genderLabels } from '../../../platform/static-data/labels';
 import { services } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
+import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
+import PrefillMessage from '../../../platform/forms/save-in-progress/PrefillMessage';
+import MilitaryPrefillMessage from '../../../platform/forms/save-in-progress/MilitaryPrefillMessage';
 
-import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
-import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
-import MilitaryPrefillMessage from '../../common/schemaform/save-in-progress/MilitaryPrefillMessage';
 import DowntimeMessage from '../components/DowntimeMessage';
 
 import GetFormHelp from '../components/GetFormHelp';
-import { validateMatch } from '../../common/schemaform/validation';
-import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 import {
   transform,
@@ -50,15 +58,7 @@ import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';
 import DemographicField from '../components/DemographicField';
 
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import phoneUI from '../../common/schemaform/definitions/phone';
-import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
-
 import { createDependentSchema, uiSchema as dependentUI, createDependentIncomeSchema, dependentIncomeUiSchema } from '../definitions/dependent';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import dateUI from '../../common/schemaform/definitions/date';
-import ssnUI from '../../common/schemaform/definitions/ssn';
-import currencyUI from '../../common/schemaform/definitions/currency';
 
 import { validateServiceDates, validateMarriageDate } from '../validation';
 
@@ -141,7 +141,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/health_care_applications`,
   trackingPrefix: 'hca-',
   formId: '1010ez',
-  version: 5,
+  version: 6,
   migrations,
   prefillEnabled: true,
   savedFormMessages: {
@@ -818,11 +818,17 @@ const formConfig = {
                 },
                 insurancePolicyNumber: {
                   'ui:title': 'Policy number (either this or the group code is required)',
-                  'ui:required': (formData, index) => !_.get(`providers[${index}].insuranceGroupCode`, formData)
+                  'ui:required': (formData, index) => !_.get(`providers[${index}].insuranceGroupCode`, formData),
+                  'ui:errorMessages': {
+                    pattern: 'Please provide a valid policy number.'
+                  }
                 },
                 insuranceGroupCode: {
                   'ui:title': 'Group code (either this or policy number is required)',
-                  'ui:required': (formData, index) => !_.get(`providers[${index}].insurancePolicyNumber`, formData)
+                  'ui:required': (formData, index) => !_.get(`providers[${index}].insurancePolicyNumber`, formData),
+                  'ui:errorMessages': {
+                    pattern: 'Please provide a valid group code.'
+                  }
                 }
               }
             }

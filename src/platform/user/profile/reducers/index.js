@@ -1,6 +1,7 @@
 import { merge, set } from 'lodash/fp';
 
 import { UPDATE_LOGGEDIN_STATUS } from '../../authentication/actions';
+import { mapRawUserDataToState } from '../utilities';
 
 import {
   UPDATE_PROFILE_FIELDS,
@@ -56,8 +57,10 @@ const initialState = {
 
 function profileInformation(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_PROFILE_FIELDS:
-      return merge(state, action.newState);
+    case UPDATE_PROFILE_FIELDS: {
+      const newState = mapRawUserDataToState(action.payload);
+      return merge(state, newState);
+    }
 
     case UPDATE_VET360_PROFILE_FIELD:
       return set(

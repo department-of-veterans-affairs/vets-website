@@ -8,7 +8,7 @@ import {
 
 import { urlMigration } from '../../config/migrations';
 
-import * as address from '../../../common/schemaform/definitions/address';
+import * as address from 'us-forms-system/lib/js/definitions/address';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
@@ -20,7 +20,7 @@ import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
-import createApplicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
+import createApplicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
 import { benefitsLabels } from '../../utils/labels';

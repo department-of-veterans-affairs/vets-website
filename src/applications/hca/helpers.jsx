@@ -7,7 +7,7 @@ import {
   filterViewFields,
   filterInactivePages,
   createFormPageList
-} from '../common/schemaform/helpers';
+} from 'us-forms-system/lib/js/helpers';
 import { getInactivePages } from '../../platform/forms/helpers';
 
 export function transform(formConfig, form) {
@@ -39,7 +39,7 @@ export function transform(formConfig, form) {
 
   return JSON.stringify({
     gaClientId,
-    asyncCompatible: __BUILDTYPE__ !== 'production',
+    asyncCompatible: true,
     form: formData
   });
 }

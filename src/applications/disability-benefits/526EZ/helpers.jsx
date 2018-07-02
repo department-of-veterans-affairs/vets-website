@@ -1,5 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import Raven from 'raven-js';
+import appendQuery from 'append-query';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
@@ -7,14 +9,20 @@ import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
+import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
+import { getDiagnosticCodeName } from './reference-helpers';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
 import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
+const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+
+export const USA = 'USA';
+export const MILITARY_STATES = ['AA', 'AE', 'AP'];
+export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 
 /*
  * Flatten nested array form data into sibling properties
@@ -87,16 +95,16 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
 export const supportingEvidenceOrientation = (
   <p>
-    We’ll now ask you where we can find medical records or evidence about your
-    worsened conditions after they were rated. You don’t need to turn in any
-    medical records that you’ve already submitted with your original claim. <strong>
-      We only need new medical records or other evidence about your condition
-      after you got your disability rating.</strong>
+    On the next few screens, we’ll ask you where we can find medical records or
+    supporting evidence that show your rated condition has gotten worse. You don’t
+    need to turn in any medical records that you already submitted with your original
+    claim. <strong>We only need new medical records or evidence that show your rated
+    condition has gotten worse.</strong>
   </p>
 );
 
 export const evidenceTypeHelp = (
-  <AdditionalInfo triggerText="Which should I choose?">
+  <AdditionalInfo triggerText="Which evidence type should I choose?">
     <h3>Types of evidence</h3>
     <h4>VA medical records</h4>
     <p>If you were treated at a VA medical center or clinic, or by a doctor through the TRICARE health care program, you’ll have VA medical records.</p>
@@ -104,7 +112,7 @@ export const evidenceTypeHelp = (
     <p>If you were treated by a private doctor, including a Veteran’s Choice doctor, you’ll have private medical records.
       We’ll need to see those records to make a decision on your claim. A Disability Benefit Questionnaire is an example of a private medical record.</p>
     <h4>Lay statements or other evidence</h4>
-    <p>A lay statement is a written statement from family, friends, or coworkers to help support your claim. Lay statement are also called “buddy statements.” In most cases, you only need your medical records to support your disability claim. Some claims, for example, for Posttraumatic Stress Disorder or for military sexual trauma, could benefit from a lay or buddy statement.</p>
+    <p>A lay statement is a written statement from family, friends, or coworkers to help support your claim. Lay statements are also called “buddy statements.” In most cases, you’ll only need your medical records to support your disability claim. Some claims, for example, for Posttraumatic Stress Disorder or for military sexual trauma, could benefit from a lay or buddy statement.</p>
   </AdditionalInfo>
 );
 
@@ -118,7 +126,7 @@ export const disabilityNameTitle = ({ formData }) => {
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Tell us about facilities where VA treated you for {getDiagnosticCodeName(formData.diagnosticCode)}, <strong>after you got your disability rating</strong>.</p>
+    <p>Please tell us where VA treated you for {getDiagnosticCodeName(formData.diagnosticCode)} <strong>after you got your disability rating</strong>.</p>
   );
 };
 
@@ -145,7 +153,7 @@ export const treatmentView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your VA medical records related to your {getDiagnosticCodeName(formData.diagnosticCode)}.</p>
+    <p>First we’ll ask you about your VA medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.</p>
   );
 };
 
@@ -156,8 +164,8 @@ export const privateRecordsChoice = ({ formData }) => {
       <h4>About private medical records</h4>
       <p>
         You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private
-        doctor. If you have those records, you can upload them here, or we can get them for you. If
-        you want us to get your records, you’ll need to authorize their release.
+        doctor. If you have your private medical records, you can upload them to your application.
+        If you want us to get them for you, you’ll need to authorize their release.
       </p>
     </div>
   );
@@ -173,28 +181,27 @@ export const privateRecordsChoiceHelp = (
       a computer with a fast Internet connection. The digital file could be
       uploaded as a .pdf or other photo file format, like a .jpeg or .png.
     </p>
-    <h4>We get your medical records from your doctor</h4>
+    <h4>We get your medical records for you</h4>
     <p>
-      We can get your medical records for you, but you’ll first need to fill
-      out an Authorization to Disclose Information to VA (VA Form 21-4142) so
-      we can request your records. Getting your records might take us some
-      time, and this could mean it’ll take us longer to make a decision on
-      your claim.
+      If you tell us which VA medical center treated you for your condition, we
+      can get your medical records for you. Getting your records may take us some
+      time, and this could mean that it’ll take us longer to make a decision on
+      your claim. You’ll need to first fill out an Authorization to Disclose
+      Information to the VA (VA Form 21-4142) so we can request your records.
     </p>
     <p>
-      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+      <a href={vaForm4142URL} target="_blank">
         Download VA Form 21-4142
       </a>.
     </p>
   </AdditionalInfo>
 );
 
-const firstOrNextString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'next' : 'first');
+const firstOrNowString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
 
 export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
-    Ok, {firstOrNextString(formData['view:selectableEvidenceTypes'])} we’ll ask about your private
-    medical records related to your {getDiagnosticCodeName(formData.diagnosticCode)}.
+    {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.
   </p>
 );
 
@@ -237,6 +244,15 @@ export function validateAddress(errors, formData) {
   validatePostalCodes(errors, formData);
 }
 
+const claimsIntakeAddress = (
+  <p className="va-address-block">
+    Department of Veterans Affairs<br/>
+    Claims Intake Center<br/>
+    PO Box 4444<br/>
+    Janesville, WI 53547-4444
+  </p>
+);
+
 export const download4142Notice = (
   <div className="usa-alert usa-alert-warning no-background-image">
     <p>
@@ -245,9 +261,14 @@ export const download4142Notice = (
       we can request your records. You’ll need to fill out a form for each doctor.
     </p>
     <p>
-      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+      <a href={vaForm4142URL} target="_blank">
         Download VA Form 21-4142
       </a>.
+      <p>
+        Please print the form, fill it out, and send it to:
+      </p>
+      {claimsIntakeAddress}
+      <p>Or you can upload a completed VA Form 21-4142 to your online application.</p>
     </p>
   </div>
 );
@@ -258,17 +279,12 @@ export const authorizationToDisclose = (
     Information to the VA (VA Form 21-4142) so we can request your records. You’ll need to fill out a form for
     each doctor.</p>
     <p>
-      <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf" target="_blank">
+      <a href={vaForm4142URL} target="_blank">
         Download VA Form 21-4142
       </a>.
     </p>
     <p>Please print the form, fill it out, and send it to:</p>
-    <p className="va-address-block">
-      Department of Veterans Affairs<br/>
-      Claims Intake Center<br/>
-      PO Box 4444<br/>
-      Janesville, WI 53547-4444
-    </p>
+    {claimsIntakeAddress}
   </div>
 );
 
@@ -283,7 +299,13 @@ export const recordReleaseWarning = (
 export const documentDescription = () => {
   return (
     <div>
-      <p>File upload guidelines:</p>
+      <p>
+        You can upload your document in a pdf, .jpeg, or .png file format. You’ll
+        first need to scan a copy of your document onto your computer or mobile phone.
+        You can then upload the document from there. Please note that large files can
+        take longer to upload with a slow Internet connection. Guidelines for uploading
+        a file:
+      </p>
       <ul>
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
         <li>Maximum file size: 50 MB</li>
@@ -296,8 +318,14 @@ export const documentDescription = () => {
 export const additionalDocumentDescription = () => {
   return (
     <div>
-      <p>If you have other evidence, like lay or buddy statements, that you would
-        like to submit, you can upload them here.</p>
+      <p>
+        If you have other evidence, such as a lay or buddy statement to turn in,
+        you can upload them here. You can upload your document in a pdf, .jpeg, or
+        .png file format. You’ll first need to scan a copy of your document onto
+        your computer or mobile phone. You can then upload the document from there.
+        Please note that if you have a slow Internet connection, large files can
+        take longer to upload.
+      </p>
       <p>File upload guidelines:</p>
       <ul>
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
@@ -357,37 +385,35 @@ export const evidenceSummaryView = ({ formData }) => {
   );
 };
 
-const FullNameViewField = ({ formData }) => {
-  const { first, middle, last, suffix } = formData;
-  return <strong>{first} {middle} {last} {suffix}</strong>;
+/**
+ * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
+ *                                                           but ignored by screen readers
+ * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
+ */
+const srSubstitute = (srIgnored, substitutionText) => {
+  return (
+    <div style={{ display: 'inline' }}>
+      <span aria-hidden>{srIgnored}</span>
+      <span className="sr-only">{substitutionText}</span>
+    </div>
+  );
 };
 
-const SsnViewField = ({ formData }) => {
-  const ssn = formData.slice(5);
-  const mask = <span>•••-••-</span>;
-  return <p>Social Security number: {mask}{ssn}</p>;
-};
-
-const VAFileNumberViewField = ({ formData }) => {
-  const vaFileNumber = formData.slice(5);
-  const mask = <span>•••-••-</span>;
-  return <p>VA file number: {mask}{vaFileNumber}</p>;
-};
-
-const DateOfBirthViewField = ({ formData }) => {
-  return <p>Date of birth: <DateWidget value={formData} options={{ monthYear: false }}/></p>;
-};
-
-const GenderViewField = ({ formData }) => <p>Gender: {genderLabels[formData]}</p>;
-
-export const veteranInformationViewField = (formData) => {
+export const veteranInformationViewField = (data) => {
+  const { ssn, vaFileNumber, dateOfBirth, gender } = data;
+  const { first, middle, last, suffix } = data.fullName;
+  const mask = srSubstitute('●●●–●●–', 'ending with');
   return (
     <div>
-      <FullNameViewField formData={formData.fullName}/>
-      <SsnViewField formData={formData.socialSecurityNumber}/>
-      <VAFileNumberViewField formData={formData.vaFileNumber}/>
-      <GenderViewField formData={formData.gender}/>
-      <DateOfBirthViewField formData={formData.dateOfBirth}/>
+      <p>This is the personal information we have on file for you.</p>
+      <div className="blue-bar-block">
+        <strong>{first} {middle} {last} {suffix}</strong>
+        <p>Social Security number: {mask}{ssn.slice(5)}</p>
+        <p>VA file number: {mask}{vaFileNumber.slice(5)}</p>
+        <p>Date of birth: <DateWidget value={dateOfBirth} options={{ monthYear: false }}/></p>
+        <p>Gender: {genderLabels[gender]}</p>
+      </div>
+      <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
     </div>
   );
 };
@@ -400,7 +426,7 @@ export const veteranInformationViewField = (formData) => {
  *
  * @param {Disability} disability
  */
-export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => {
+export const disabilityOption = ({ diagnosticCode, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showRatingPercentage = Number.isInteger(ratingPercentage);
@@ -408,7 +434,6 @@ export const disabilityOption = ({ diagnosticCode, name, ratingPercentage }) => 
   return (
     <div>
       {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
-      {name && <p className="diagnostic-text">{getDiagnosticText(name)}</p>}
       {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
@@ -508,47 +533,38 @@ const EffectiveDateViewField = ({ formData }) => {
 };
 
 const AddressViewField = ({ formData }) => {
-  const {
-    addressLine1, addressLine2, addressLine3, city, state,
-    zipCode, militaryStateCode, militaryPostOfficeTypeCode
-  } = formData;
+  const { addressLine1, addressLine2, addressLine3, city, state, country, zipCode } = formData;
   let zipString;
-  let stateString;
-  let cityString;
   if (zipCode) {
     const firstFive = zipCode.slice(0, 5);
     const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
     zipString = `${firstFive}${lastChunk}`;
   }
-  if (city || militaryPostOfficeTypeCode) {
-    cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
-  }
-  if (state || militaryStateCode) {
-    stateString = `${state}` || `${militaryStateCode}`;
+
+  let lastLine;
+  if (country === USA) {
+    lastLine = `${city}, ${state} ${zipString}`;
+  } else {
+    lastLine = `${city}, ${country}`;
   }
   return (
     <div>
       {addressLine1 && <p>{addressLine1}</p>}
       {addressLine2 && <p>{addressLine2}</p>}
       {addressLine3 && <p>{addressLine3}</p>}
-      <p>{cityString} {stateString} {zipString}</p>
+      <p>{lastLine}</p>
     </div>
   );
 };
 
 export const PrimaryAddressViewField = ({ formData }) => {
   const {
-    mailingAddress, primaryPhone, secondaryPhone,
-    emailAddress, forwardingAddress
-  } = formData;
+    mailingAddress, primaryPhone, emailAddress, forwardingAddress } = formData;
   return (
     <div>
       <AddressViewField formData={mailingAddress}/>
       {primaryPhone && (
         <PhoneViewField formData={primaryPhone} name="Primary phone"/>
-      )}
-      {secondaryPhone && (
-        <PhoneViewField formData={secondaryPhone} name="Secondary phone"/>
       )}
       {emailAddress && (
         <EmailViewField formData={emailAddress} name="Email address"/>
@@ -569,7 +585,7 @@ export const FDCDescription = (
     <h5>Fully developed claim program</h5>
     <p>
       You can apply using the Fully Developed Claim (FDC) program if
-      you’ve uploaded all the supporting documents or supplemental
+      you’ve uploaded all the supporting documents or additional
       forms needed to support your claim.
     </p>
     <a href="/pension/apply/fully-developed-claim/" target="_blank">
@@ -606,24 +622,32 @@ export const noFDCWarning = (
 );
 
 
-const options = [
-  { id: 1, label: 'first' },
-  { id: 2, label: 'second' },
-  { id: 3, label: 'third' },
-  { id: 4, label: 'fourth' },
-];
-
-
-// Mimic querying the api for options
 export function queryForFacilities(input = '') {
-  // Emulate a fast api call
-  return Promise.resolve(options.filter(o => o.label.includes(input)));
+  // Only search if the input has a length >= 3, otherwise, return an empty array
+  if (input.length < 3) {
+    return Promise.resolve([]);
+  }
+
+  const url = appendQuery('/facilities/suggested', {
+    type: ['health', 'dod_health'],
+    name_part: input // eslint-disable-line camelcase
+  });
+
+  return apiRequest(url, {},
+    (response) => {
+      return response.data.map(facility => ({ id: facility.id, label: facility.attributes.name }));
+    },
+    (error) => {
+      Raven.captureMessage('Error querying for facilities', { input, error });
+      return [];
+    }
+  );
 }
 
 
 const evidenceTypesDescription = (disabilityName) => {
   return (
-    <p>What supporting evidence do you have that shows how your {disabilityName} <strong>has worsened since VA rated your disability</strong>?</p>
+    <p>What supporting evidence will you be turning in that shows your {disabilityName} <strong>has gotten worse since you received a VA rating</strong>?</p>
   );
 };
 

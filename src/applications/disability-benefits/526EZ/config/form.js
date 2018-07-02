@@ -305,7 +305,7 @@ const formConfig = {
           title: 'Your Rated Disabilities',
           path: 'select-disabilities',
           uiSchema: {
-            'ui:description': 'Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.',
+            'ui:description': 'Below are your rated disabilities. Please choose the disability that you’re filing for an increase because the condition has gotten worse.',
             disabilities: {
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
@@ -477,8 +477,8 @@ const formConfig = {
                       }
                     ),
                     treatmentDateRange: dateRangeUI(
-                      'Approximate date of first treatment',
-                      'Approximate date of last treatment',
+                      'Date of first treatment (This date doesn’t have to be exact.)',
+                      'Date of last treatment (This date doesn’t have to be exact.)',
                       'Date of last treatment must be after date of first treatment'
                     ),
                     // TODO: Put these back as hidden in the UI once typeahead fills this out
@@ -550,7 +550,7 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, my doctor has my medical records.'
+                      no: 'No, my doctor has my medical records'
                     }
                   }
                 },
@@ -924,9 +924,8 @@ const formConfig = {
               'ui:options': {
                 yesNoReverse: true,
                 labels: {
-                  Y: 'Yes, I have uploaded all my supporting documents.',
-                  N:
-                    'No, I have some extra information that I will submit to VA later.'
+                  Y: 'Yes, I’ve uploaded all my supporting documents.',
+                  N: 'No, I have some extra information that I will submit to VA later.'
                 }
               }
             },

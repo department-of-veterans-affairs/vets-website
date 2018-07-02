@@ -2,6 +2,7 @@ const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./vre-ch36-helpers');
 const testData = require('../chapter36/schema/maximal-test.json');
+const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 
 const runTest = E2eHelpers.createE2eTest(
   (client) => {
@@ -16,7 +17,7 @@ const runTest = E2eHelpers.createE2eTest(
       .click('.schemaform-start-button');
 
     E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
+    FormsTestHelpers.overrideFormsScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Applicant information page

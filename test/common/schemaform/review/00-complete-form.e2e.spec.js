@@ -2,6 +2,7 @@ const E2eHelpers = require('../../../../src/platform/testing/e2e/helpers');
 const Timeouts = require('../../../../src/platform/testing/e2e/timeouts.js');
 const HcaHelpers = require('../../../../src/applications/hca/tests/hca-helpers.js');
 const testData = require('../../../../src/applications/hca/tests/schema/maximal-test.json');
+const FormsTestHelpers = require('../../../../src/platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -16,7 +17,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.usa-button-primary');
 
     E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
+    FormsTestHelpers.overrideFormsScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Complete entire form
@@ -55,10 +56,8 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('.usa-accordion-bordered.form-review-panel:nth-child(2)')
       .click('.edit-btn')
-      .pause(1000)
       .clearValue('#root_lastEntryDateYear')
-      .setValue('#root_lastEntryDateYear', '98')
-      .pause(1000);
+      .setValue('#root_lastEntryDateYear', '98');
 
     client
       .click('.usa-button-primary.null')
