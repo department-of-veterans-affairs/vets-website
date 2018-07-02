@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Compensation for Survivors and Dependents
 display_title: Compensation
-order: 2
+order: 3
 ---
 
 <div class="va-introtext">
@@ -69,13 +69,12 @@ You may be able to get compensation as a surviving parent if both of these are t
 - Your income is below a certain amount. <br>
 [View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
 
+  <br>
+       </div>
+      </div>
+    </li>
+  </ul>
 </div>
-</div>
-</li>
-</ul>
-</div>
-
-<br>
 
 ### As a surviving spouse or child, how do I get compensation? 
 
