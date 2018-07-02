@@ -12,7 +12,7 @@ import { militaryStateNames } from '../../../letters/utils/helpers';
 /**
  * Input component for an address.
  *
- * No validation is provided through a currently stubbed isAddressValid function.
+ * Validation is managed in the vet360 reducer
  */
 class Address extends React.Component {
   componentWillMount() {

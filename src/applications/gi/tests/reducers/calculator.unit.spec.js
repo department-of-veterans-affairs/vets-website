@@ -66,6 +66,264 @@ describe('calculator reducer', () => {
     });
   });
 
+  describe('FETCH_BAH_FAILED', () => {
+    it('should add a zip code not found error and clear values', () => {
+      const previousState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: 5000,
+        housingAllowanceCity: 'New York, NY'
+      };
+
+      const action = {
+        type: 'FETCH_BAH_FAILED',
+        beneficiaryZIPFetched: '88888',
+        error: {
+          message: 'Record not found'
+        }
+      };
+
+      const expectedState = {
+        beneficiaryZIPError: 'No rates for this zip code found. Try another zip code',
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        housingAllowanceCity: ''
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(expectedState).to.eql(newState);
+    });
+
+    it('should add a generic error message and clear values', () => {
+      const previousState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: 5000,
+        housingAllowanceCity: 'New York, NY'
+      };
+
+      const action = {
+        type: 'FETCH_BAH_FAILED',
+        beneficiaryZIPFetched: '88888',
+      };
+
+      const expectedState = {
+        beneficiaryZIPError: 'Something went wrong. Try again',
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        housingAllowanceCity: ''
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(expectedState).to.eql(newState);
+    });
+
+    it('should not modify the state if beneficiaryZIPFetched on state does not match action', () => {
+      const previousState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '99999',
+        beneficiaryLocationBah: 5000,
+        housingAllowanceCity: 'New York, NY'
+      };
+
+      const action = {
+        type: 'FETCH_BAH_FAILED',
+        beneficiaryZIPFetched: '88888',
+        error: {
+          message: 'error'
+        }
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(previousState).to.eql(newState);
+    });
+  });
+
+  describe('FETCH_BAH_STARTED', () => {
+    it('should clear errors and fetch loading state', () => {
+      const previousState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: 5000,
+        housingAllowanceCity: 'New York, NY'
+      };
+
+      const action = {
+        type: 'FETCH_BAH_STARTED',
+        beneficiaryZIPFetched: '88888',
+      };
+
+      const expectedState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIP: '88888',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        housingAllowanceCity: 'Loading...'
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(expectedState).to.eql(newState);
+    });
+  });
+
+  describe('FETCH_BAH_SUCCEEDED', () => {
+    it('should clear errors and set retrieved state', () => {
+      const previousState = {
+        beneficiaryZIP: '88888',
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: null,
+        housingAllowanceCity: 'Loading...'
+      };
+
+      const action = {
+        type: 'FETCH_BAH_SUCCEEDED',
+        beneficiaryZIPFetched: '88888',
+        payload: {
+          data: {
+            attributes: {
+              mhaRate: 5000,
+              mhaName: 'Los Angeles, CA'
+            }
+          }
+        }
+      };
+
+      const expectedState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIP: '88888',
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: 5000,
+        beneficiaryLocationGrandfatheredBah: undefined,
+        housingAllowanceCity: 'Los Angeles, CA'
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(expectedState).to.eql(newState);
+    });
+
+    it('should not modify the state if beneficiaryZIPFetched on state does not match action', () => {
+      const previousState = {
+        beneficiaryZIP: '88888',
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        housingAllowanceCity: 'Loading...'
+      };
+
+      const action = {
+        type: 'FETCH_BAH_SUCCEEDED',
+        beneficiaryZIPFetched: '11111',
+        payload: {
+          data: {
+            attributes: {
+              mhaRate: 5000,
+              mhaName: 'Los Angeles, CA'
+            }
+          }
+        }
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(previousState).to.eql(newState);
+    });
+  });
+  describe('BENEFICIARY_ZIP_CODE_CHANGED', () => {
+    it('adds the input to the state and resets amounts and errors', () => {
+      const previousState = {
+        beneficiaryZIP: '88888',
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: null,
+        housingAllowanceCity: 'Loading...'
+      };
+
+      const action = {
+        type: 'BENEFICIARY_ZIP_CODE_CHANGED',
+        beneficiaryZIP: '1111'
+      };
+
+      const expectedState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIP: '1111',
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        housingAllowanceCity: ''
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(expectedState).to.eql(newState);
+    });
+
+    it('adds an error to the state when zip code has letters', () => {
+      const previousState = {
+        beneficiaryZIP: '88888',
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: null,
+        housingAllowanceCity: 'Loading...'
+      };
+
+      const action = {
+        type: 'BENEFICIARY_ZIP_CODE_CHANGED',
+        beneficiaryZIP: '1dd'
+      };
+
+      const expectedState = {
+        beneficiaryZIPError: 'ZIP Code must be a five digit number',
+        beneficiaryZIP: '1dd',
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        housingAllowanceCity: ''
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(expectedState).to.eql(newState);
+    });
+
+    it('adds and error to the state when zip code is too long', () => {
+      const previousState = {
+        beneficiaryZIP: '88888',
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '88888',
+        beneficiaryLocationBah: null,
+        housingAllowanceCity: 'Loading...'
+      };
+
+      const action = {
+        type: 'BENEFICIARY_ZIP_CODE_CHANGED',
+        beneficiaryZIP: '1111111'
+      };
+
+      const expectedState = {
+        beneficiaryZIPError: 'ZIP Code must be a five digit number',
+        beneficiaryZIP: '1111111',
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        housingAllowanceCity: ''
+      };
+
+      const newState = calculatorReducer(previousState, action);
+
+      expect(expectedState).to.eql(newState);
+    });
+  });
+
   it('should update yellowRibbonDivisionOptions, yellowRibbonDivison, and yellowRibbonAmount when yellowRibbonDegreeLevel is changed', () => {
     const previousState = {
       yellowRibbonPrograms: [

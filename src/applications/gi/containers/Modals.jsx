@@ -322,6 +322,18 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('whenUsedGiBill')}>
+          <h3>When you used GI Bill before?</h3>
+          <p>Effective August 1, 2018, the monthly housing under the Post-9/11 GI Bill program will be calculated based on the zip code of the “campus” where the student physically attends the majority of classes, rather than the location of the school where the student is enrolled. A campus may include:</p>
+          <ul>
+            <li>The individual campus of a school where the student is taking classes (i.e. the school’s science center, humanities building, or athletic center)</li>
+            <li>The physical location where a student is learning in a study abroad program</li>
+            <li>Any internship, externship, practicum or student teaching site</li>
+          </ul>
+
+          <p>Those who first use Post-9/11 GI Bill on or after January 1, 2018, will receive a monthly housing allowance based directly on the Department of Defense basic housing allowance (BAH) for monthly housing rates.</p>
+        </Modal>
+
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcScholarships')}>
           <h3>Scholarships (excluding Pell)</h3>
           <p>
@@ -368,6 +380,19 @@ export class Modals extends React.Component {
             is a bonus on top of any GI Bill payments paid directly to the Veteran. To learn more,
             visit <a href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
               target="_blank">this page</a>.</p>
+        </Modal>
+
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcCampusLocationQuestion')}>
+          <h3>Housing Allowance/BAH changes</h3>
+          <p>Starting August 1, 2018, we'll determine the monthly housing allowance under the Post-9/11 GI Bill based on the zip code of the campus where you physically attend the majority of your classes. The location of the school where you're enrolled won't be relevant.</p>
+
+          <p><strong>We define "campus" as any of these locations:</strong></p>
+          <ul>
+            <li>The specific campus of a school where you're taking classes (for example, in the school’s science center, humanities building, or athletic center)</li>
+            <li>The physical location where you're learning in a study-abroad program</li>
+            <li>The site of any internship, externship, practicum, or student teaching</li>
+          </ul>
+          <p>If you first use the Post-9/11 GI Bill on or after January 1, 2018, you'll receive a monthly housing allowance based directly on the Department of Defense Basic Allowance for Housing (BAH).</p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcWorking')}>
