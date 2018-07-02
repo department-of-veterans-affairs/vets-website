@@ -3,7 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
+import backendServices from '../../../../../platform/user/profile/constants/backendServices';
+
 import FormStartControls from '../../components/FormStartControls';
+
+const { EVSS_CLAIMS } = backendServices;
 
 describe('526 <FormStartControls>', () => {
   it('should render unauthenticated view', () => {
@@ -50,7 +54,29 @@ describe('526 <FormStartControls>', () => {
     expect(tree.find('.usa-alert').text()).to.contain('To apply for a disability increase, you’ll need to verify your account');
     expect(tree.find('a').text()).to.contain('Verify Your Identity');
   });
-  it('should render verified view', () => {
+  it('should render unverified and has evss-claims service view', () => {
+    const tree = shallow(
+      <FormStartControls
+        route={{
+          formConfig: {
+          }
+        }}
+        user={{
+          login: {
+            currentlyLoggedIn: true
+          },
+          profile: {
+            verified: false,
+            savedForms: [],
+            services: [EVSS_CLAIMS]
+          }
+        }}/>
+    );
+
+    expect(tree.find('.usa-alert').text()).to.contain('To apply for a disability increase, you’ll need to verify your account');
+    expect(tree.find('a').text()).to.contain('Verify Your Identity');
+  });
+  it('should render verified and has evss-claims service view', () => {
     const tree = shallow(
       <FormStartControls
         route={{
@@ -64,7 +90,7 @@ describe('526 <FormStartControls>', () => {
           profile: {
             verified: true,
             savedForms: [],
-            services: []
+            services: [EVSS_CLAIMS]
           }
         }}/>
     );
@@ -100,7 +126,7 @@ describe('526 <FormStartControls>', () => {
           profile: {
             verified: true,
             savedForms: [],
-            services: []
+            services: [EVSS_CLAIMS]
           }
         }}/>
     );
