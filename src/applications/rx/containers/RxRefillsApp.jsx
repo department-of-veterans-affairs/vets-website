@@ -7,12 +7,12 @@ import { Link } from 'react-router';
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
-import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
 const SERVICE_REQUIRED = backendServices.RX;
 
@@ -36,16 +36,16 @@ class RxRefillsApp extends React.Component {
       <Link to="/" key="prescriptions">Prescription Refills</Link>
     ];
 
-    if (prescription) {
+    if (pathname.match(/\/\d+\/?(track)?$/)) {
       const prescriptionId = _.get(
         prescription,
         ['rx', 'attributes', 'prescriptionId']
       );
 
-      const prescriptionName = _.get(
-        prescription,
-        ['rx', 'attributes', 'prescriptionName']
-      );
+      // const prescriptionName = _.get(
+      //   prescription,
+      //   ['rx', 'attributes', 'prescriptionName']
+      // );
 
       crumbs.push(<Link to={`/${prescriptionId}`} key="prescription-name">Prescription Details</Link>);
     } else if (pathname.match(/\/glossary\/?$/)) {
