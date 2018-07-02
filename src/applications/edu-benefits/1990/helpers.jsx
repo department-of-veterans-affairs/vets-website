@@ -2,6 +2,17 @@ import React from 'react';
 
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
+export function prefillTransformer(pages, formData, metadata, state) {
+
+  debugger;
+  console.log('blah');
+  return {
+    metadata,
+    formData,
+    pages
+  };
+}
+
 export function directDepositDescription() {
   return (
     <div>

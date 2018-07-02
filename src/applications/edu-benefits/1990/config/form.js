@@ -36,6 +36,7 @@ import {
   benefitsRelinquishmentLabels,
   benefitsRelinquishedDescription,
   directDepositDescription,
+  prefillTransformer,
   reserveKickerWarning
 } from '../helpers';
 
@@ -92,6 +93,7 @@ const formConfig = {
     noAuth: 'Please sign in again to resume your application for education benefits.'
   },
   prefillEnabled: true,
+  prefillTransformer,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -533,5 +535,6 @@ const formConfig = {
     }
   }
 };
+console.log(formConfig.prefillTransformer);
 
 export default formConfig;
