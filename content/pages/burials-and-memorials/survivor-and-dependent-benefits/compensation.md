@@ -14,7 +14,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 <div class="feature" markdown="0">
 
-### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
+#### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
 
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training.
 - The Veteran died from a service-connected illness or injury.
@@ -27,7 +27,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 </div>
 
-#### As a surviving spouse, child, or parent of a deceased veteran, can I get compensation?
+#### As a surviving spouse, child, or parent of a deceased Veteran, can I get compensation?
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -58,7 +58,6 @@ If you’re a surviving child, you can get compensation if the below description
 - You’re under the age of 18 (or under the age of 23 if attending school), **or**
 - You were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
-</div>
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-parent">Surviving Parent</button>
@@ -67,12 +66,12 @@ If you’re a surviving child, you can get compensation if the below description
 You may be able to get compensation as a surviving parent if both of these are true: 
 - The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
 - Your income is below a certain amount. <br>
-[View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
-     </div>
-     </div>
-    </li>
-  </ul>
-</div>
+[View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp).
+
+   </div>
+  </div>
+  </li>
+ </ul>
 
 <br>
 
@@ -109,8 +108,5 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/facilities/).
-
-</div>
-
 
 <script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
