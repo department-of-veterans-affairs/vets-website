@@ -230,6 +230,7 @@ export const schema = {
   properties: {
     veteran: {
       type: 'object',
+      required: ['primaryPhone', 'emailAddress'],
       properties: {
         mailingAddress,
         primaryPhone: {
