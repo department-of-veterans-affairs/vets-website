@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: VA Health Care and Other Insurance
 display_title:
+description: Find out how your VA health care benefits work with other health insurance, including private medical insurance, Medicare, Medicaid, or TRICARE plans.
 concurrence: complete
 lastupdate: 2017-06-28
 order: 3

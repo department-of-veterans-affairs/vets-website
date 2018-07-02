@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import Scroll from 'react-scroll';
 
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../../platform/monitoring/record-event';
+import localStorage from '../../../../platform/utilities/storage/localStorage';
 import { removeSavedForm } from '../actions';
 
 import FormList from '../components/FormList';
@@ -12,7 +14,7 @@ import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
@@ -87,7 +89,7 @@ class DashboardApp extends React.Component {
       this.setState({
         [`show-${name}-alert`]: false,
       });
-      window.localStorage.setItem(`hide-${name}-alert`, true);
+      localStorage.setItem(`hide-${name}-alert`, true);
     };
   }
 
@@ -183,7 +185,7 @@ class DashboardApp extends React.Component {
           <p><a href="/faq#verifying-your-identity" onClick={recordDashboardClick('learn-more-identity')}>Learn about how to verify your identity</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('loa')}
-        isVisible={this.state['show-loa-alert'] && !window.localStorage.getItem('hide-loa-alert')}
+        isVisible={this.state['show-loa-alert'] && !localStorage.getItem('hide-loa-alert')}
         status="info"/>
     );
   }
@@ -202,7 +204,7 @@ class DashboardApp extends React.Component {
           <p><a href="/facilities" onClick={() => { recordEvent({ event: 'dashboard-navigation', 'dashboard-action': 'view-link', 'dashboard-product': 'find-center' }); }}>Find your nearest VA Medical Center</a></p>
         </div>}
         onCloseAlert={this.dismissAlertBox('mvi')}
-        isVisible={this.state['show-mvi-alert'] && !window.localStorage.getItem('hide-mvi-alert')}
+        isVisible={this.state['show-mvi-alert'] && !localStorage.getItem('hide-mvi-alert')}
         status="warning"/>
     );
   }
@@ -233,11 +235,11 @@ class DashboardApp extends React.Component {
 
             <ClaimsAppealsWidget/>
 
-            <DowntimeNotification appTitle="messaging" dependencies={[services.mvi, services.mhv]} render={this.renderWidgetDowntimeNotification('Secure messaging', 'Track Secure Messages')}>
+            <DowntimeNotification appTitle="messaging" dependencies={[externalServices.mvi, externalServices.mhv]} render={this.renderWidgetDowntimeNotification('Secure messaging', 'Track Secure Messages')}>
               <MessagingWidget/>
             </DowntimeNotification>
 
-            <DowntimeNotification appTitle="rx" dependencies={[services.mvi, services.mhv]} render={this.renderWidgetDowntimeNotification('prescription refill', 'Refill Prescriptions')}>
+            <DowntimeNotification appTitle="rx" dependencies={[externalServices.mvi, externalServices.mhv]} render={this.renderWidgetDowntimeNotification('prescription refill', 'Refill Prescriptions')}>
               <PrescriptionsWidget/>
             </DowntimeNotification>
           </div>
@@ -302,9 +304,9 @@ class DashboardApp extends React.Component {
     return (
       <div name="topScrollElement">
         <RequiredLoginView
-          serviceRequired={['user-profile']}
+          serviceRequired={[backendServices.USER_PROFILE]}
           user={this.props.user}>
-          <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.mhv, services.appeals]} render={this.renderDowntimeNotification}>
+          <DowntimeNotification appTitle="user dashboard" dependencies={[externalServices.mvi, externalServices.mhv, externalServices.appeals]} render={this.renderDowntimeNotification}>
             {view}
           </DowntimeNotification>
         </RequiredLoginView>
@@ -316,10 +318,10 @@ class DashboardApp extends React.Component {
 const mapStateToProps = (state) => {
   const userState = state.user;
   const profileState = userState.profile;
-  const canAccessRx = profileState.services.includes('rx');
-  const canAccessMessaging = profileState.services.includes('messaging');
-  const canAccessAppeals = profileState.services.includes('appeals-status');
-  const canAccessClaims = profileState.services.includes('evss-claims');
+  const canAccessRx = profileState.services.includes(backendServices.RX);
+  const canAccessMessaging = profileState.services.includes(backendServices.MESSAGING);
+  const canAccessAppeals = profileState.services.includes(backendServices.APPEALS_STATUS);
+  const canAccessClaims = profileState.services.includes(backendServices.EVSS_CLAIMS);
 
   return {
     canAccessRx,

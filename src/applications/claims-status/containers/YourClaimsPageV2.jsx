@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../platform/monitoring/record-event';
 
 import Modal from '@department-of-veterans-affairs/formation/Modal';
@@ -209,8 +210,8 @@ function mapStateToProps(state) {
   const claimsRoot = claimsState.claims;
   const claimsV2Root = claimsState.claimsV2; // this is where all the meat is for v2
   const profileState = state.user.profile;
-  const canAccessAppeals = profileState.services.includes('appeals-status');
-  const canAccessClaims = profileState.services.includes('evss-claims');
+  const canAccessAppeals = profileState.services.includes(backendServices.APPEALS_STATUS);
+  const canAccessClaims = profileState.services.includes(backendServices.EVSS_CLAIMS);
   // TO-DO: Implement with reselect to save cycles
   const sortedList = claimsV2Root.appeals
     .concat(claimsV2Root.claims)

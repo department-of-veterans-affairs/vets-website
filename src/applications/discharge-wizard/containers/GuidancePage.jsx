@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import moment from 'moment';
 import recordEvent from '../../../platform/monitoring/record-event';
+import localStorage from '../../../platform/utilities/storage/localStorage';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';

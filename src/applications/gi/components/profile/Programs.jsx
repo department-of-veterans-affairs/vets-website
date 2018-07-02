@@ -12,7 +12,7 @@ export class Programs extends React.Component {
       yr: {
         modal: 'yribbon',
         text: 'Yellow Ribbon',
-        link: {
+        link: __BUILDTYPE__ !== 'production' ? false : {
           href: `http://www.benefits.va.gov/gibill/yellow_ribbon/2016/states/${institution.state}.asp`,
           text: 'See rates',
         }

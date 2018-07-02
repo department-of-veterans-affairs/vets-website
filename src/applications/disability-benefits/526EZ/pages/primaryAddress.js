@@ -8,7 +8,7 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import { PrimaryAddressViewField } from '../helpers';
+import { PrimaryAddressViewField, AddressDescription } from '../helpers';
 import  {
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
@@ -131,6 +131,7 @@ const { mailingAddress, forwardingAddress } = fullSchema526EZ.properties.veteran
 export const uiSchema = {
   veteran: {
     'ui:title': 'Contact information',
+    'ui:description': AddressDescription,
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: PrimaryAddressViewField
@@ -226,6 +227,7 @@ export const primaryAddressSchema = {
   properties: {
     veteran: {
       type: 'object',
+      required: ['primaryPhone', 'emailAddress'],
       properties: {
         mailingAddress,
         primaryPhone: {

@@ -9,6 +9,10 @@ export default class EditEmailModal extends React.Component {
     this.props.onChange(newFieldValue, dirty);
   }
 
+  onBlur = (field) => {
+    this.props.onChange(this.props.field.value, field);
+  }
+
   getInitialFormValues = () => {
     if (this.props.data) {
       return { ...this.props.data };
@@ -24,7 +28,7 @@ export default class EditEmailModal extends React.Component {
         autoFocus
         label="Email Address"
         field={{ value: this.props.field.value.emailAddress, dirty: false }}
-        errorMessage={this.props.field.errorMessage}
+        errorMessage={this.props.field.validations.emailAddress}
         onValueChange={this.onChange}/>
     );
   }
@@ -34,6 +38,7 @@ export default class EditEmailModal extends React.Component {
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
+        onBlur={this.onBlur}
         {...this.props}/>
     );
   }
