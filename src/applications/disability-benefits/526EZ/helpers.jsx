@@ -360,7 +360,16 @@ export const evidenceSummaryView = ({ formData }) => {
         <li>We’ll get your medical records from <span className="treatment-centers">{vaTreatments.map(listifyCenters)}</span>.</li>}
         {privateRecordReleases &&
         <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
-        {privateRecords && <li>We have received the private medical records you uploaded.</li>}
+        {privateRecords && <li>We have received the private medical records you uploaded:
+          <ul>
+            {privateRecords.map((document, id) => {
+              return (<li className="dashed-bullet" key={id}>
+                <strong>{document.name}</strong>
+              </li>);
+            })
+            }
+          </ul>
+        </li>}
         {additionalDocuments &&
         <li>We have received the additional evidence you uploaded:
           <ul>
