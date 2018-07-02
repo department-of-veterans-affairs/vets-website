@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 import moment from 'moment';
 
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
@@ -55,6 +55,17 @@ export class AppealInfo extends React.Component {
     return `Appeal of ${appealDate} Claim Decision`;
   }
 
+  renderBreadcrumbs(appealObj) {
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
+      <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
+      <Link to={`/appeals/${appealObj.id}`} key="claims-appeal">Appeal of Claim Decision</Link>
+    ];
+
+    return crumbs;
+  }
+
   render() {
     const { params, appeal, fullName, appealsLoading, appealsAvailability, children } = this.props;
     let appealContent;
@@ -72,8 +83,7 @@ export class AppealInfo extends React.Component {
         <div>
           <div>
             <Breadcrumbs>
-              <li><Link to="your-claims">Track Your Claims and Appeals</Link></li>
-              <li><strong>{claimHeading}</strong></li>
+              {this.renderBreadcrumbs(appeal)}
             </Breadcrumbs>
           </div>
           <div className="row">
