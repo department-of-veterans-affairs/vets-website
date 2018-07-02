@@ -5,7 +5,7 @@ import Modal from '@department-of-veterans-affairs/formation/Modal';
 
 import Vet360EditModalErrorMessage from '../components/Vet360EditModalErrorMessage';
 import LoadingButton from '../components/LoadingButton';
-import FormActionButtons from '../components/FormActionButtons';
+import Vet360EditModalActionButtons from '../components/Vet360EditModalActionButtons';
 
 export default class Vet360EditModal extends React.Component {
 
@@ -85,15 +85,16 @@ export default class Vet360EditModal extends React.Component {
           {error && <Vet360EditModalErrorMessage title={title} error={error} clearErrors={clearErrors}/>}
           {isFormReady && render()}
           <br/>
-          <FormActionButtons
+          <Vet360EditModalActionButtons
             onCancel={onCancel}
             onDelete={onDelete}
             title={title}
             analyticsSectionName={analyticsSectionName}
+            transactionRequest={transactionRequest}
             deleteEnabled={!isEmpty() && !deleteDisabled}>
             <LoadingButton isLoading={isLoading}>Update</LoadingButton>
             <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
-          </FormActionButtons>
+          </Vet360EditModalActionButtons>
         </form>
       </Modal>
     );
