@@ -22,6 +22,7 @@ const INITIAL_STATE = {
   books: 0,
   yellowRibbonRecipient: 'no',
   yellowRibbonAmount: 0,
+  giBillBenefit: 'no',
   scholarships: 0,
   tuitionAssist: 0,
   enrolled: 'full',
@@ -134,6 +135,7 @@ export default function (state = INITIAL_STATE, action) {
         ...newState
       };
     }
+
     case FETCH_BAH_FAILED: {
       const {
         beneficiaryZIPFetched,
@@ -154,6 +156,7 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPError: errorMessage,
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: ''
       };
 
@@ -168,6 +171,7 @@ export default function (state = INITIAL_STATE, action) {
 
       const newState = {
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         beneficiaryZIPError: '',
         beneficiaryZIP: beneficiaryZIPFetched,
         beneficiaryZIPFetched,
@@ -184,6 +188,7 @@ export default function (state = INITIAL_STATE, action) {
       const { beneficiaryZIPFetched } = action;
       const {
         mhaRate: beneficiaryLocationBah,
+        mhaRateGrandfathered: beneficiaryLocationGrandfatheredBah,
         mhaName: housingAllowanceCity } = action.payload.data.attributes;
 
       // response mismatch - do nothing
@@ -195,6 +200,7 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah,
+        beneficiaryLocationGrandfatheredBah,
         housingAllowanceCity
       };
 
@@ -219,6 +225,7 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPError,
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: ''
       };
 
@@ -275,6 +282,7 @@ export default function (state = INITIAL_STATE, action) {
         ...INITIAL_STATE,
         type,
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         tuitionInState: tuitionInState || 0,
         tuitionOutOfState: tuitionOutOfState || 0,
         tuitionFees: tuitionInState || 0,
