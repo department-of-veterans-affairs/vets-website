@@ -1,7 +1,5 @@
 import _ from '../../../../platform/utilities/data';
 
-// import { omitRequired } from '../../../common/schemaform/helpers';
-
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 
@@ -19,11 +17,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import PrestartMessage from '../components/PrestartMessage';
 
 import {
-  uiSchema as veteranInfoUiSchema,
-  schema as veteranInfoSchema
-} from '../pages/veteranInfo';
-
-import {
   uiSchema as primaryAddressUiSchema,
   primaryAddressSchema
 } from '../pages/primaryAddress';
@@ -32,10 +25,6 @@ import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema
 } from '../pages/paymentInfo';
-
-// TODO: Load live user prefill data from network
-// TODO: initialData for dev / testing purposes only and should be removed for production
-import prefillData from '../tests/schema/initialData'; // add `disabilityActionType` before using
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
@@ -67,7 +56,8 @@ import {
   queryForFacilities,
   getEvidenceTypesDescription,
   // releaseDescription,
-  selectDisabilityDescription
+  selectDisabilityDescription,
+  veteranInfoDescription
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -119,13 +109,6 @@ const treatments = ((treatmentsCommonDef) => {
 
 })(treatmentsSchema);
 
-const initialData = {
-  ...prefillData,
-  disabilities: prefillData.disabilities.map((disability) => {
-    return _.set('disabilityActionType', 'INCREASE', disability);
-  })
-};
-
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -170,8 +153,13 @@ const formConfig = {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
           description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
           path: 'veteran-information',
-          uiSchema: veteranInfoUiSchema,
-          schema: veteranInfoSchema
+          uiSchema: {
+            'ui:description': veteranInfoDescription
+          },
+          schema: {
+            type: 'object',
+            properties: {}
+          }
         },
         primaryAddress: {
           title: 'Address information',
@@ -183,13 +171,11 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          initialData,
           uiSchema: {
             'ui:description': PrestartMessage,
             servicePeriods: {
               'ui:title': 'Military service history',
-              'ui:description':
-                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:description': 'This is the military service history we have on file for you.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
@@ -230,7 +216,6 @@ const formConfig = {
         paymentInformation: {
           title: 'Payment Information',
           path: 'payment-information',
-          description: 'This is the bank account information we have on file for you. We’ll pay your benefit to this account. If you need to make changes to your bank information, you can click the Edit button.',
           uiSchema: paymentInfoUiSchema,
           schema: paymentInfoSchema
         },
@@ -343,7 +328,6 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
-          initialData,
           uiSchema: {
             'ui:description': ({ formData, formContext }) => {
               return descriptionWrapper(formData, formContext, PrestartMessage, supportingEvidenceOrientation);

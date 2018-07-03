@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import DowntimeNotification, { services, serviceStatus } from '../index';
+import DowntimeNotification, { externalServices, externalServiceStatus } from '../index';
 import { DownMessaging } from './Down';
 
 /**
@@ -16,7 +16,7 @@ export default function DowntimeBanner({ appTitle, dependencies, children }) {
     <DowntimeNotification
       appTitle={appTitle}
       render={(downtime) => {
-        if (downtime.status === serviceStatus.down) {
+        if (downtime.status === externalServiceStatus.down) {
           if (children) return children;
           return (
             <AlertBox
@@ -34,6 +34,6 @@ export default function DowntimeBanner({ appTitle, dependencies, children }) {
 
 DowntimeBanner.propTypes = {
   appTitle: PropTypes.string,
-  dependencies: PropTypes.arrayOf(PropTypes.oneOf(Object.values(services))).isRequired,
+  dependencies: PropTypes.arrayOf(PropTypes.oneOf(Object.values(externalServices))).isRequired,
   children: PropTypes.node
 };

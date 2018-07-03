@@ -16,7 +16,7 @@ export const GetStartedMessage = ({ checkDisabilityStatus, isVerified }) => {
     getStartedMessage = 'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.';
   }
   if (isAddAndIncrease) {
-    getStartedMessage = 'Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.';
+    getStartedMessage = 'Since you have a new condition and a condition that has gotten worse, you’ll need to file your disability claim on eBenefits.';
   }
   return <p>{getStartedMessage}</p>;
 };

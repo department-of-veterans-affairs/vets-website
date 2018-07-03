@@ -66,7 +66,8 @@ export class SearchPage extends React.Component {
       'studentVeteranGroup',
       'yellowRibbonScholarship',
       'principlesOfExcellence',
-      'eightKeysToVeteranSuccess'
+      'eightKeysToVeteranSuccess',
+      'stemOffered'
     ];
 
     const query = _.pick(this.props.location.query, [
@@ -178,6 +179,7 @@ export class SearchPage extends React.Component {
                   cautionFlag={result.cautionFlag}
                   studentCount={result.studentCount}
                   bah={result.bah}
+                  schoolClosing={result.schoolClosing}
                   tuitionInState={result.tuitionInState}
                   tuitionOutOfState={result.tuitionOutOfState}
                   books={result.books}

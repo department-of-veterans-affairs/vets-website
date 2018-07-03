@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 
 class HealthBetaEnrollment extends React.Component {
@@ -8,7 +9,7 @@ class HealthBetaEnrollment extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          serviceRequired="user-profile"
+          serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}>
           {this.props.children}
         </RequiredLoginView>

@@ -129,7 +129,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 -->
 <script type="text/javascript">
   function footerNavClick(elem) {
-    const eventLabel = 'nav-' + elem.parentElement.parentElement.id
+    var eventLabel = 'nav-' + elem.parentElement.parentElement.id;
     recordEvent({
       event: eventLabel,
       navlabel: elem.innerText

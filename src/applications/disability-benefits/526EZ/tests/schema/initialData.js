@@ -1,6 +1,4 @@
 export default {
-  // For testing purposes only
-  prefilled: true,
   fullName: {
     first: 'Sally',
     last: 'Alphonse'

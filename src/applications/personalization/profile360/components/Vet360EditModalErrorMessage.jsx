@@ -5,7 +5,7 @@ import {
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES
 } from  '../util/transactions';
 
-function hasError(errors, codes) {
+function hasError(codes, errors) {
   return errors.some(error => codes.has(error.code));
 }
 

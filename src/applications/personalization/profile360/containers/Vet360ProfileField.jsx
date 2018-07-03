@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-// import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import * as VET360 from '../constants/vet360';
+
+import {
+  isPendingTransaction
+} from '../util/transactions';
 
 import {
   clearTransactionRequest,
@@ -31,7 +35,11 @@ class Vet360ProfileField extends React.Component {
   }
 
   isEditLinKVisible() {
-    return !this.isEmpty() && !this.props.transaction;
+    let transactionPending = false;
+    if (this.props.transaction) {
+      transactionPending = isPendingTransaction(this.props.transaction);
+    }
+    return !this.isEmpty() && !transactionPending;
   }
 
   render() {
@@ -42,7 +50,8 @@ class Vet360ProfileField extends React.Component {
       Content,
       EditModal,
       title,
-      transaction
+      transaction,
+      transactionRequest
     } = this.props;
 
     return (
@@ -52,6 +61,7 @@ class Vet360ProfileField extends React.Component {
         <Vet360Transaction
           title={title}
           transaction={transaction}
+          transactionRequest={transactionRequest}
           refreshTransaction={this.props.refreshTransaction.bind(this, transaction)}>
           {this.isEmpty() ? (
             <button
@@ -90,13 +100,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   } = ownProps;
 
   const captureEvent = (actionName) => {
-    // if (sectionName && actionName) {
-    //   recordEvent({
-    //     event: 'profile-navigation',
-    //     'profile-action': actionName,
-    //     'profile-section': sectionName,
-    //   });
-    // }
+    if (sectionName && actionName) {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': actionName,
+        'profile-section': sectionName,
+      });
+    }
   };
 
   const {
@@ -117,7 +127,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     refreshTransaction(transaction) {
-      dispatch(refreshTransaction(transaction));
+      dispatch(refreshTransaction(transaction, sectionName));
     },
 
     onAdd() {
@@ -135,7 +145,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     onDelete(...args) {
-      captureEvent('delete-button');
       dispatch(deleteField(...args));
     },
 

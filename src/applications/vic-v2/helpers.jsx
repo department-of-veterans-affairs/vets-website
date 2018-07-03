@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 import Raven from 'raven-js';
 import recordEvent from '../../platform/monitoring/record-event';
 import environment from '../../platform/utilities/environment';
+import backendServices from '../../platform/user/profile/constants/backendServices';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata, state) {
@@ -20,7 +21,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     }
   }
 
-  if (state.user.profile.services.includes('identity-proofed')) {
+  if (state.user.profile.services.includes(backendServices.IDENTITY_PROOFED)) {
     newData = _.set('processAsIdProofed', true, newData);
     newData.originalUser = {
       veteranSocialSecurityNumber: newData.veteranSocialSecurityNumber,
