@@ -81,7 +81,7 @@ You can apply online right now.
 <h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
 
-#### By mail
+##### By mail
 
 Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). <br>[Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
 
@@ -94,12 +94,12 @@ PO Box 4444<br>
 Janesville, WI 53547-4444<br>
 </p>
 
-#### In person
+##### In person
 
 Bring your application to a regional benefit office near you. <br>
 [Find a regional benefit office](/facilities/).
 
-#### With the help of a trained professional
+##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
 [Get help filing your claim](/disability-benefits/apply/help/index.html).
