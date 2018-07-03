@@ -6,7 +6,7 @@ entryname: profile-360
 <div id="main">
   <nav class="va-nav-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
-      <li><a href="/" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">Home</a></li>
+      <li><a href="/" id="account-home">Home</a></li>
     </ul>
   </nav>
 
@@ -20,3 +20,12 @@ entryname: profile-360
   </div>
   <!-- Profile Beta End -->
 </div>
+
+<script>
+  (function() {
+    var accountHomeLink = document.getElementById('account-home');
+    accountHomeLink.addEventListener('click', function(ev) {
+      recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });
+    });
+  })();
+</script>

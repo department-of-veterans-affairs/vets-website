@@ -65,10 +65,10 @@
     breadcrumbList[0].classList.add(config.mobileClass);
     breadcrumbLink.innerText = breadcrumbLink.innerText.trim();
     breadcrumbLink.removeAttribute('aria-current');
-    breadcrumbLink.setAttribute(
-      'aria-label',
-      'Previous step: ' + breadcrumbLink.innerText
-    );
+    // breadcrumbLink.setAttribute(
+    //   'aria-label',
+    //   'Previous step: ' + breadcrumbLink.innerText
+    // );
   
     return breadcrumbList;
   }
