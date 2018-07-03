@@ -16,14 +16,14 @@ export function prefillTransformer(pages, formData, metadata) {
   if (formData && formData.homePhone) {
     newContactInfo = {
       ...newContactInfo,
-        homePhone: formData.homePhone
+      homePhone: formData.homePhone
     };
   }
 
   if (formData && formData.mobilePhone) {
     newContactInfo = {
       ...newContactInfo,
-        mobilePhone: formData.mobilePhone,
+      mobilePhone: formData.mobilePhone,
     };
   }
 
