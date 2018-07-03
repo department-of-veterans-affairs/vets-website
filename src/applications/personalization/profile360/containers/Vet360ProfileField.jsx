@@ -50,7 +50,8 @@ class Vet360ProfileField extends React.Component {
       Content,
       EditModal,
       title,
-      transaction
+      transaction,
+      transactionRequest
     } = this.props;
 
     return (
@@ -60,6 +61,7 @@ class Vet360ProfileField extends React.Component {
         <Vet360Transaction
           title={title}
           transaction={transaction}
+          transactionRequest={transactionRequest}
           refreshTransaction={this.props.refreshTransaction.bind(this, transaction)}>
           {this.isEmpty() ? (
             <button

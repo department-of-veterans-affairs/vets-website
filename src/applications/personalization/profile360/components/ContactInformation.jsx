@@ -43,6 +43,7 @@ export default class ContactInformation extends React.Component {
             title="Mailing address"
             fieldName={FIELD_NAMES.MAILING_ADDRESS}
             analyticsSectionName="mailing-address"
+            deleteDisabled
             addressConstants={addressConstants}/>
           <AddressSection
             title="Home address"

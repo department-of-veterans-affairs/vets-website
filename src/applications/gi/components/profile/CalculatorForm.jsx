@@ -5,6 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 
 class CalculatorForm extends React.Component {
 
@@ -29,6 +30,12 @@ class CalculatorForm extends React.Component {
   handleInputChange(event) {
     const { name: field, value } = event.target;
     this.props.onInputChange({ field, value });
+  }
+
+  handleBeneficiaryZIPCodeChanged = (event) => {
+    if (!event.dirty) {
+      this.props.onBeneficiaryZIPCodeChanged(event.value);
+    }
   }
 
   resetBuyUp(event) {
@@ -61,6 +68,25 @@ class CalculatorForm extends React.Component {
         ]}
         value={this.props.inputs.inState}
         onChange={this.handleInputChange}/>
+    );
+  }
+
+  renderGbBenefit = () => {
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text: 'Did you use your Post-9/11 GI Bill benefit before January 1, 2018?',
+            modal: 'whenUsedGiBill'
+          })}
+          name="giBillBenefit"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ]}
+          value={this.props.inputs.giBillBenefit}
+          onChange={this.handleInputChange}/>
+      </div>
     );
   }
 
@@ -125,8 +151,12 @@ class CalculatorForm extends React.Component {
         yellowRibbonDivisionOptions,
       } = this.props.inputs;
 
-      yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions.map(value => ({ value, label: value }));
+      yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions
+        .map(value => ({ value, label: value }));
+      yellowRibbonDegreeLevelOptions.unshift({ value: 'customAmount', label: 'Enter an amount' });
       yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
+      const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
+      const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
 
       return (
         <div>
@@ -148,16 +178,18 @@ class CalculatorForm extends React.Component {
                 label="Degree Level"
                 name="yellowRibbonDegreeLevel"
                 alt="Degree Level"
+                hideArrows={yellowRibbonDegreeLevelOptions.length <= 1}
                 options={yellowRibbonDegreeLevelOptions}
-                visible
+                visible={showYellowRibbonOptions}
                 value={this.props.inputs.yellowRibbonDegreeLevel}
                 onChange={this.handleInputChange}/>
               <Dropdown
                 label="Division or school"
                 name={'yellowRibbonDivision'}
                 alt="Division or school"
+                hideArrows={yellowRibbonDivisionOptions.length <= 1}
                 options={yellowRibbonDivisionOptions}
-                visible
+                visible={showYellowRibbonDetails}
                 value={this.props.inputs.yellowRibbonDivision}
                 onChange={this.handleInputChange}/>
               <div>
@@ -172,7 +204,7 @@ class CalculatorForm extends React.Component {
                   onChange={this.handleInputChange}/>
               </div>
               <AlertBox
-                isVisible
+                isVisible={showYellowRibbonDetails}
                 key={this.props.inputs.yellowRibbonProgramIndex}
                 status="info">
                 <div>
@@ -412,6 +444,43 @@ class CalculatorForm extends React.Component {
     );
   }
 
+  renderBeneficiaryZIP() {
+    if (!this.props.displayedInputs.beneficiaryLocationQuestion) return null;
+
+    let amountInput;
+
+    if (this.props.inputs.beneficiaryLocationQuestion === 'no') {
+      amountInput = (
+        <div>
+          <ErrorableTextInput errorMessage={this.props.inputs.beneficiaryZIPError}
+            label={<span>At what ZIP Code will you be taking classes?</span>}
+            name="beneficiaryZIPCode"
+            field={{ value: this.props.inputs.beneficiaryZIP }}
+            onValueChange={this.handleBeneficiaryZIPCodeChanged}/>
+          <p><strong>{this.props.inputs.housingAllowanceCity}</strong></p>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text: 'Will the majority of your classes be on campus?',
+            modal: 'calcBeneficiaryLocationQuestion'
+          })}
+          name="beneficiaryLocationQuestion"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ]}
+          value={this.props.inputs.beneficiaryLocationQuestion}
+          onChange={this.handleInputChange}/>
+        {amountInput}
+      </div>
+    );
+  }
+
   renderBuyUp() {
     if (!this.props.displayedInputs.buyUp) return null;
 
@@ -495,6 +564,8 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderKicker()}
+        {__BUILDTYPE__ !== 'production' && this.renderGbBenefit()}
+        {__BUILDTYPE__ !== 'production' && this.renderBeneficiaryZIP()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>

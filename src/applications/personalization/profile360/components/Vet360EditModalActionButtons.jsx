@@ -6,7 +6,7 @@ import { toLower } from 'lodash';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import LoadingButton from './LoadingButton';
 
-class FormActionButtons extends React.Component {
+class Vet360EditModalActionButtons extends React.Component {
 
   constructor(props) {
     super(props);
@@ -65,7 +65,11 @@ class FormActionButtons extends React.Component {
         <h3>Are you sure?</h3>
         <p>This will delete your {toLower(this.props.title)} across many VA records. You can always come back to your profile later if you'd like to add this information back in.</p>
         <div>
-          <LoadingButton isLoading={this.props.isLoading} onClick={this.confirmDeleteAction}>Confirm</LoadingButton>
+          <LoadingButton
+            isLoading={this.props.transactionRequest && this.props.transactionRequest.isPending}
+            onClick={this.confirmDeleteAction}>
+            Confirm
+          </LoadingButton>
           <button type="button" className="usa-button-secondary" onClick={this.cancelDeleteAction}>Cancel</button>
         </div>
       </div>
@@ -89,15 +93,16 @@ class FormActionButtons extends React.Component {
   }
 }
 
-FormActionButtons.propTypes = {
+Vet360EditModalActionButtons.propTypes = {
   deleteEnabled: PropTypes.bool,
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  transactionRequest: PropTypes.object
 };
 
-FormActionButtons.defaultProps = {
+Vet360EditModalActionButtons.defaultProps = {
   deleteEnabled: true,
 };
 
-export default FormActionButtons;
+export default Vet360EditModalActionButtons;

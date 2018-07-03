@@ -451,6 +451,28 @@ const getDerivedValues = createSelector(
 
     const totalHousingAllowance = monthlyRateFinal * termLength;
 
+    let bah;
+    // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
+    const useBeneficiaryLocationRate = inputs.beneficiaryLocationQuestion === 'no' &&
+      inputs.beneficiaryLocationBah !== null;
+    // if beneficiary has indicated they are using the grandfathered rate, use it when available;
+    const useGrandfatheredBeneficiaryLocationRate = inputs.giBillBenefit === 'yes';
+    if (__BUILDTYPE__ !== 'production') {
+      if (useBeneficiaryLocationRate) {
+        // sometimes there's no grandfathered rate for a zip code
+        bah = useGrandfatheredBeneficiaryLocationRate && inputs.beneficiaryLocationGrandfatheredBah ?
+          inputs.beneficiaryLocationGrandfatheredBah :
+          inputs.beneficiaryLocationBah;
+      } else {
+        // sometimes there's no grandfathered rate for a zip code
+        bah = useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered ?
+          institution.bahGrandfathered :
+          institution.bah;
+      }
+    } else {
+      bah = institution.bah;
+    }
+
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
     if (isOJT && ((militaryStatus === 'active duty') || (giBillChapter === 33 && militaryStatus === 'spouse' && spouseActiveDuty))) {
       housingAllowTerm1 = 0;
@@ -482,7 +504,7 @@ const getDerivedValues = createSelector(
       housingAllowTerm1 = 0;
     } else if (isOJT) {
       housingAllowTerm1 =
-        ropOjt * (tier * institution.bah + kickerBenefit);
+        ropOjt * (tier * bah + kickerBenefit);
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
@@ -491,7 +513,7 @@ const getDerivedValues = createSelector(
         termLength * rop * ((tier * constant.AVGBAH) + kickerBenefit);
     } else {
       housingAllowTerm1 =
-        termLength * rop * ((tier * institution.bah) + kickerBenefit);
+        termLength * rop * ((tier * bah) + kickerBenefit);
     }
 
     // getHousingAllowTerm2
@@ -505,7 +527,7 @@ const getDerivedValues = createSelector(
       housingAllowTerm2 = monthlyRateFinal;
     } else if (isOJT) {
       housingAllowTerm2 = 0.8 * ropOjt *
-        (tier * institution.bah + kickerBenefit);
+        (tier * bah + kickerBenefit);
     } else if (inputs.calendar === 'nontraditional' && numberOfTerms === 1) {
       housingAllowTerm2 = 0;
     } else if (giBillChapter === 31 && isFlightOrCorrespondence) {
@@ -540,7 +562,7 @@ const getDerivedValues = createSelector(
         termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
       housingAllowTerm2 =
-        termLength * rop * (tier * institution.bah + kickerBenefit);
+        termLength * rop * (tier * bah + kickerBenefit);
     }
 
     // getHousingAllowTerm3
@@ -554,7 +576,7 @@ const getDerivedValues = createSelector(
       housingAllowTerm3 = monthlyRateFinal;
     } else if (isOJT) {
       housingAllowTerm3 = 0.6 * ropOjt *
-        (tier * institution.bah + kickerBenefit);
+        (tier * bah + kickerBenefit);
     } else if (inputs.calendar === 'semesters') {
       housingAllowTerm3 = 0;
     } else if (inputs.calendar === 'nontraditional' && numberOfTerms < 3) {
@@ -591,7 +613,7 @@ const getDerivedValues = createSelector(
         termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
       housingAllowTerm3 =
-        termLength * rop * (tier * institution.bah + kickerBenefit);
+        termLength * rop * (tier * bah + kickerBenefit);
     }
 
     // Calculate Housing Allowance Total for year - getHousingAllowTotal
@@ -605,7 +627,7 @@ const getDerivedValues = createSelector(
       housingAllowTotal = monthlyRateFinal;
     } else if (isOJT) {
       housingAllowTotal = 0.4 * ropOjt *
-        (tier * institution.bah + kickerBenefit);
+        (tier * bah + kickerBenefit);
     } else if (onlyTuitionFees) {
       housingAllowTotal = Math.max(0, Math.min(
         monthlyRateFinal * acadYearLength,
@@ -795,10 +817,13 @@ export const getCalculatedBenefits = createSelector(
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
+    const beneficiaryLocationQuestion = giBillChapter === 33;
 
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
+      // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
+      beneficiaryLocationQuestion,
       books: false,
       yellowRibbon: false,
       scholarships: true,
@@ -998,9 +1023,7 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (institution.yr &&
-      derived.tier === 1.0 &&
-      institution.yellowRibbonPrograms.length > 0) {
+    if (institution.yr && derived.tier === 1.0) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         yellowRibbon: true

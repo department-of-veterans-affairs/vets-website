@@ -30,13 +30,14 @@ function isEmpty({ data: addressData } = {}) {
   return isEmptyAddress(addressData);
 }
 
-export default function Vet360Address({ title, fieldName, analyticsSectionName, addressConstants }) {
+export default function Vet360Address({ title, fieldName, analyticsSectionName, addressConstants, deleteDisabled }) {
   return (
     <Vet360ProfileField
       title={title}
       fieldName={fieldName}
       analyticsSectionName={analyticsSectionName}
       addressConstants={addressConstants}
+      deleteDisabled={deleteDisabled}
       isEmpty={isEmpty}
       Content={AddressView}
       EditModal={AddressEditModal}/>
