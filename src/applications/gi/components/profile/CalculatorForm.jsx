@@ -153,7 +153,7 @@ class CalculatorForm extends React.Component {
 
       yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions
         .map(value => ({ value, label: value }));
-      yellowRibbonDegreeLevelOptions.unshift({ value: 'Enter an amount', label: 'Enter an amount' });
+      yellowRibbonDegreeLevelOptions.unshift({ value: 'customAmount', label: 'Enter an amount' });
       yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
       const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
       const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;

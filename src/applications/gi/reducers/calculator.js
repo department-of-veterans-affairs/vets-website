@@ -65,7 +65,7 @@ export default function (state = INITIAL_STATE, action) {
       if (__BUILDTYPE__ !== 'production') {
 
         if (field === 'yellowRibbonDegreeLevel') {
-          if (value === 'Enter an amount') {
+          if (value === 'customAmount') {
             newState = {
               ...newState,
               yellowRibbonAmount: 0,
