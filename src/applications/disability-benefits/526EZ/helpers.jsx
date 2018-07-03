@@ -567,7 +567,7 @@ const prestartErrorMessages = {
 function getPrestartSuccessMessage(status, data, expiredData) {
   const messages = {
     [created]: (expirationDateString) => `Thank you for submitting your Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
-    [retrieved]: (expirationDateString) => `Our records show that you already have an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`,
+    [retrieved]: (expirationDateString) => <div><p>{`Our records show that you already have an Intent to File for disability compensation. Your Intent to File will expire on ${expirationDateString}.`}</p><p><strong>Note: </strong>This Intent to File request will be used for the application you’re submitting now. You won't be able to use this ITF for any other open applications you have.</p></div>,
     [renewed]: (expirationDateString, expiredDateString) => `Your existing Intent to File expired on ${expiredDateString}, so we’ve created a new one for you. This new Intent to File request will expire on ${expirationDateString}.`
   };
   return messages[status](moment(data).format('MMM D, YYYY'), moment(expiredData).format('MMM D, YYYY'));
