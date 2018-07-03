@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { benefitsServices, vetCenterServices } from '../config';
+
+import {
+  healthServices,
+  benefitsServices,
+  vetCenterServices
+} from '../config';
+
 import FacilityTypeDropdown from './FacilityTypeDropdown';
 
 class SearchControls extends Component {
@@ -49,25 +55,31 @@ class SearchControls extends Component {
 
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
-    const disabled = !['benefits', 'vet_center'].includes(facilityType);
+    const disabled = !['health', 'benefits', 'vet_center'].includes(facilityType);
     let services;
 
     // Determine what service types to display for the facility type.
     switch (facilityType) {
+      case 'health':
+        services = healthServices;
+        break;
       case 'benefits':
-        services = Object.keys(benefitsServices);
+        services = benefitsServices;
         break;
       case 'vet_center':
-        services = ['All', ...vetCenterServices];
+        services = vetCenterServices.reduce((result, service) => {
+          result[service] = service; // eslint-disable-line no-param-reassign
+          return result;
+        }, { All: 'Show all facilities' });
         break;
       default:
-        services = [];
+        services = {};
     }
 
     // Create option elements for each service type.
-    const options = services.map((service) => (
+    const options = Object.keys(services).map((service) => (
       <option key={service} value={service}>
-        {benefitsServices[service] || service}
+        {services[service]}
       </option>
     ));
 
