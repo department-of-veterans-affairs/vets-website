@@ -4,16 +4,45 @@ import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
 
-  const newData = formData;
+  let newContactInfo = {};
 
   if (formData && formData.email) {
-    newData['view:otherContactInfo'].email = formData.email;
-    newData['view:otherContactInfo']['view:confirmEmail'] = formData.email;
+    newContactInfo = {
+      email: formData.email,
+      'view:confirmEmail': formData.email
+    };
+  }
+
+  if (formData && formData.homePhone) {
+    newContactInfo = {
+      ...newContactInfo,
+        homePhone: formData.homePhone
+    };
+  }
+
+  if (formData && formData.mobilePhone) {
+    newContactInfo = {
+      ...newContactInfo,
+        mobilePhone: formData.mobilePhone,
+    };
+  }
+
+  let newFormData = formData;
+
+  if (Object.keys(newContactInfo).length > 0) {
+    newFormData = {
+      'view:otherContactInfo': {
+        ...newContactInfo
+      }
+    };
   }
 
   return {
     metadata,
-    formData: newData,
+    formData: {
+      ...formData,
+      ...newFormData
+    },
     pages
   };
 }

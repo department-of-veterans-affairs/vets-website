@@ -22,10 +22,6 @@ export default function createContactInformationPage(schema, addressField = 'vet
     title: 'Contact information',
     path: 'personal-information/contact-information',
     initialData: {},
-    depends: formData => {
-      console.log(formData);
-      return true
-    },
     uiSchema: {
       preferredContactMethod: {
         'ui:title': 'How would you like to be contacted if we have questions about your application?',
