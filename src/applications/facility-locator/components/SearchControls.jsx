@@ -74,7 +74,7 @@ class SearchControls extends Component {
     return (
       <div className="columns medium-3">
         <label htmlFor="service-type-dropdown">
-          Select Service Type
+          Filter by service
         </label>
         <select
           id="service-type-dropdown"

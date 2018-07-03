@@ -23,7 +23,7 @@ export const facilityTypes = {
 /* eslint-enable camelcase */
 
 export const benefitsServices = {
-  All: 'All',
+  All: 'Show all facilities',
   ApplyingForBenefits: 'Applying for benefits',
   BurialClaimAssistance: 'Burial claim help',
   DisabilityClaimAssistance: 'Disability claim help',
