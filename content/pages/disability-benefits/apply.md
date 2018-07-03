@@ -73,8 +73,6 @@ For all disability claims, please provide:
 </div>
 </div>
 
-<br>
-
 <div id="react-applicationStatus"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
