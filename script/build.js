@@ -189,7 +189,7 @@ smith.use(collections({
     pattern: 'disability-benefits/apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Application Process'
+      name: 'How to Apply'
     }
   },
   disabilityClaimsAppeal: {
@@ -252,7 +252,7 @@ smith.use(collections({
     pattern: 'disability-benefits/apply/evidence/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'How to Gather Evidence For Your Claim'
+      name: 'How to Gather Evidence for Your Claim'
     }
   },
   education: {
@@ -419,7 +419,7 @@ smith.use(collections({
     pattern: 'pension/apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Application Process'
+      name: 'How to Apply'
     }
   },
   vre: {
