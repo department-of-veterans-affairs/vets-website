@@ -26,7 +26,6 @@ export function prefillTransformer(pages, formData, metadata) {
       ...(mobilePhone && { mobilePhone })
     };
 
-    // if (Object.keys(newContactInfo).length > 0) {
     if (!_.isEmpty(newContactInfo)) {
       newFormData['view:otherContactInfo'] = newContactInfo;
     }
