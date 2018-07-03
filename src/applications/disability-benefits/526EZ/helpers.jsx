@@ -46,7 +46,10 @@ import {
 
 
 export function transform(formConfig, form) {
-  console.log(form);
+  console.log(form.data);
+  // 1. Remove unselected disabilities
+  const selectedDisabilities = form.data.disabilities.filter(disability => (disability['view:selected'] === true));
+  console.log('selectedDisabilities: ', selectedDisabilities);
   // const formData = fslatten(transformForSubmit(formConfig, form));
   // delete formData.prefilled;
   return JSON.stringify({
