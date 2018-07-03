@@ -9,11 +9,14 @@ import Vet360ProfileField from '../containers/Vet360ProfileField';
 import AddressEditModal from './AddressEditModal';
 
 function AddressView({ data: address }) {
+
+
   const { street, cityStateZip, country } = formatAddress({
     addressOne: address.addressLine1,
     addressTwo: address.addressLine2,
     addressThree: address.addressLine3,
-    type: address.addressType.toUpperCase(),
+    // force formatting of military addresses as domestic
+    type: address.addressType.match(/military/i) ? 'DOMESTIC' : address.addressType.toUpperCase(),
     ...address,
   });
 
