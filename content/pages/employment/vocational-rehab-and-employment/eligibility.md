@@ -82,7 +82,6 @@ You can apply online right now.
 [Learn more about how to apply for VR&E](/employment/vocational-rehab-and-employment/apply-vre/). <br>
 (And find out how to apply if you're a Servicemember without a disability rating yet.)
 
-<br>
 
 ### What kind of VR&E services can I get?
 
