@@ -396,7 +396,7 @@ export const evidenceSummaryView = ({ formData }) => {
   );
 };
 
-const editNote = (name) => (
+export const editNote = (name) => (
   <p><strong>Note:</strong> If you need to update your {name}, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
 );
 
@@ -707,12 +707,15 @@ export const get4142Selection = (disabilities) => {
 };
 
 export const contactInfoDescription = () => (
+  <p>
+    This is the contact information we have on file for you. We’ll send any important
+    information about your disability claim to the address listed here. Any updates
+    you make here to your contact information will only apply to this application.
+  </p>
+);
+
+export const contactInfoUpdateHelp = () => (
   <div>
-    <p>
-      This is the contact information we have on file for you. We’ll send any important
-      information about your disability claim to the address listed here. Any updates
-      you make here to your contact information will only apply to this application.
-    </p>
     <p>
       If you want to update your contact information for all your VA accounts, please go
       to your profile page.
@@ -726,8 +729,6 @@ export const contactInfoDescription = () => (
 export const PaymentDescription = () => (
   <p>
     This is the bank account information we have on file for you. We’ll pay your
-    disability benefit to this account. If you need to update your bank information,
-    please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
-    Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+    disability benefit to this account.
   </p>
 );

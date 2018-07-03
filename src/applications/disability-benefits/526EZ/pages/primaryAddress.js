@@ -12,6 +12,7 @@ import {
   PrimaryAddressViewField,
   ForwardingAddressViewField,
   contactInfoDescription,
+  contactInfoUpdateHelp,
   phoneEmailViewField
 } from '../helpers';
 import  {
@@ -222,7 +223,7 @@ export const uiSchema = {
       }
     ),
     'view:contactInfoDescription': {
-      'ui:description': 'If you want to update your contact information for all your VA accounts, please go to your profile page. [[Go to my profile page.]]'
+      'ui:description': contactInfoUpdateHelp
     }
   }
 };

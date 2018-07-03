@@ -52,7 +52,8 @@ import {
   noFDCWarning,
   queryForFacilities,
   getEvidenceTypesDescription,
-  veteranInfoDescription
+  veteranInfoDescription,
+  editNote
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -198,12 +199,19 @@ const formConfig = {
                   }
                 }
               }
+            },
+            'view:militaryHistoryNote': {
+              'ui:description': editNote('service history')
             }
           },
           schema: {
             type: 'object',
             properties: {
-              servicePeriods: serviceInformation.properties.servicePeriods
+              servicePeriods: serviceInformation.properties.servicePeriods,
+              'view:militaryHistoryNote': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         },
