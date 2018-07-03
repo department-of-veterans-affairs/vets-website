@@ -14,6 +14,7 @@ import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrestartMessage from '../components/PrestartMessage';
 
 import {
   uiSchema as primaryAddressUiSchema,
@@ -45,6 +46,8 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
+  descriptionWrapper,
+  // releaseView, // Where was this used before?
   disabilityOption,
   GetFormHelp,
   FDCDescription,
@@ -52,6 +55,8 @@ import {
   noFDCWarning,
   queryForFacilities,
   getEvidenceTypesDescription,
+  // releaseDescription,
+  selectDisabilityDescription,
   veteranInfoDescription
 } from '../helpers';
 
@@ -167,6 +172,7 @@ const formConfig = {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
           uiSchema: {
+            'ui:description': PrestartMessage,
             servicePeriods: {
               'ui:title': 'Military service history',
               'ui:description': 'This is the military service history we have on file for you.',
@@ -289,7 +295,7 @@ const formConfig = {
           title: 'Your Rated Disabilities',
           path: 'select-disabilities',
           uiSchema: {
-            'ui:description': 'Below are your rated disabilities. Please choose the disability that you’re filing for an increase because the condition has gotten worse.',
+            'ui:description': selectDisabilityDescription,
             disabilities: {
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
@@ -323,7 +329,9 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/orientation',
           uiSchema: {
-            'ui:description': supportingEvidenceOrientation
+            'ui:description': ({ formData, formContext }) => {
+              return descriptionWrapper(formData, formContext, PrestartMessage, supportingEvidenceOrientation);
+            }
           },
           schema: {
             type: 'object',
@@ -409,7 +417,9 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': vaMedicalRecordsIntro,
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, vaMedicalRecordsIntro);
+                }
               }
             }
           },
@@ -498,7 +508,9 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': privateMedicalRecordsIntro
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, privateMedicalRecordsIntro);
+                }
               }
             }
           },
@@ -592,7 +604,9 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:description': authorizationToDisclose
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, authorizationToDisclose);
+                }
               }
             }
           },
@@ -624,7 +638,9 @@ const formConfig = {
         //   uiSchema: {
         //     disabilities: {
         //       items: {
-        //         'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
+        //         'ui:description': ({ formData, formContext }) => {
+        //           return descriptionWrapper(formData, formContext, PrestartMessage, releaseDescription);
+        //         },
         //         privateRecordReleases: {
         //           'ui:options': {
         //             itemName: 'Private Medical Record Release',
@@ -872,7 +888,9 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': 'Summary of evidence',
-                'ui:description': evidenceSummaryView
+                'ui:description': ({ formData, formContext }) => {
+                  return descriptionWrapper(formData, formContext, PrestartMessage, evidenceSummaryView);
+                }
               }
             }
           },
@@ -898,7 +916,9 @@ const formConfig = {
           title: 'Fully developed claim program',
           path: 'additional-information/fdc',
           uiSchema: {
-            'ui:description': FDCDescription,
+            'ui:description': ({ formData, formContext }) => {
+              return descriptionWrapper(formData, formContext, PrestartMessage, FDCDescription);
+            },
             standardClaim: {
               'ui:title':
                 'Do you want to apply using the Fully Developed Claim program?',
