@@ -23,11 +23,6 @@ import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import { PRESTART_STATUSES } from './actions';
 
-const PRESTART_VERIFICATION_TYPES = {
-  create: 'create',
-  retrieve: 'retrieve'
-};
-
 const PRESTART_MESSAGE_TYPES = {
   created: 'created',
   renewed: 'renewed',
@@ -40,9 +35,9 @@ const PRESTART_MESSAGE_TYPES = {
 
 const { created, renewed, retrieved, notCreated, notRenewed, notRetrievedNewUser, notRetrievedReturningUser } = PRESTART_MESSAGE_TYPES;
 
-export const getSuccessMessage = ({ verificationType, currentExpirationDate, previousExpirationDate }) => {
+export const getSuccessMessage = ({ currentExpirationDate, previousExpirationDate }) => {
   // If we retrieved the user's current active ITF, use "retrieved" message
-  if (verificationType === PRESTART_VERIFICATION_TYPES.retrieve) {
+  if (currentExpirationDate && !previousExpirationDate) {
     return retrieved;
   }
   // If we created the user's current active ITF, check whether it was renewed or created 
@@ -54,9 +49,9 @@ export const getSuccessMessage = ({ verificationType, currentExpirationDate, pre
   return created;
 };
 
-export const getErrorMessage = ({ verificationType, currentExpirationDate, previousExpirationDate }, hasSavedForms) => {
+export const getErrorMessage = ({ currentExpirationDate, previousExpirationDate }, hasSavedForms) => {
   // If failed to retrieve the user's current active ITF, check whether the user is new or returning
-  if (verificationType === PRESTART_VERIFICATION_TYPES.retrieve) {
+  if (currentExpirationDate && !previousExpirationDate) {
     // If the user has saved forms, use the "notRetrievedReturningUser" message
     if (hasSavedForms) {
       return notRetrievedReturningUser;

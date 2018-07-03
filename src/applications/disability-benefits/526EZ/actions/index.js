@@ -155,9 +155,3 @@ export function verifyIntentToFile() {
     }
   };
 }
-
-export function submitIntentToFile(formConfig, onChange) { // TODO: replace with ITF react work
-  return () => {
-    onChange('active');
-  };
-}
