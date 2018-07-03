@@ -535,6 +535,5 @@ const formConfig = {
     }
   }
 };
-console.log(formConfig.prefillTransformer);
 
 export default formConfig;

@@ -2,13 +2,18 @@ import React from 'react';
 
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
-export function prefillTransformer(pages, formData, metadata, state) {
+export function prefillTransformer(pages, formData, metadata) {
 
-  debugger;
-  console.log('blah');
+  const newData = formData;
+
+  if (formData && formData.email) {
+    newData['view:otherContactInfo'].email = formData.email;
+    newData['view:otherContactInfo']['view:confirmEmail'] = formData.email;
+  }
+
   return {
     metadata,
-    formData,
+    formData: newData,
     pages
   };
 }

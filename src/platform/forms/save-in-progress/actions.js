@@ -219,7 +219,6 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
         Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
-      debugger;
       if (res.ok) {
         return res.json();
       }
@@ -259,7 +258,6 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
         ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
         let pages = getState().form.pages;
-        debugger;
         if (metadata.prefill && prefillTransformer) {
           ({ formData, pages, metadata } = prefillTransformer(pages, formData, metadata, getState()));
         }
