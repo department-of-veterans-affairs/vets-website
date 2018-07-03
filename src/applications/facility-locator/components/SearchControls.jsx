@@ -39,7 +39,7 @@ class SearchControls extends Component {
 
   renderFacilityTypeDropdown = () => {
     return (
-      <div className="columns usa-width-one-fourth medium-3">
+      <div className="columns medium-3">
         <FacilityTypeDropdown
           facilityType={this.props.currentQuery.facilityType}
           onChange={this.handleFacilityTypeChange}/>
@@ -72,7 +72,7 @@ class SearchControls extends Component {
     ));
 
     return (
-      <div className="columns usa-width-one-fourth medium-3">
+      <div className="columns medium-3">
         <label htmlFor="service-type-dropdown">
           Select Service Type
         </label>
@@ -102,8 +102,8 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
-        <form onSubmit={this.handleSubmit}>
-          <div className="columns usa-width-one-third medium-4">
+        <form className="row" onSubmit={this.handleSubmit}>
+          <div className="columns medium-4">
             <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
               Enter Street, City, State or Zip
             </label>
@@ -117,7 +117,7 @@ class SearchControls extends Component {
           </div>
           {this.renderFacilityTypeDropdown()}
           {this.renderServiceTypeDropdown()}
-          <div className="columns usa-width-one-sixth medium-2">
+          <div className="columns medium-2">
             <input type="submit" value="Search"/>
           </div>
         </form>
