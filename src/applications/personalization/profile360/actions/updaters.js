@@ -1,12 +1,11 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import { refreshProfile } from '../../../../platform/user/profile/actions';
-// import recordEvent from '../../../../platform/monitoring/record-event';
-// import { kebabCase } from 'lodash';
+import recordEvent from '../../../../platform/monitoring/record-event';
 import { pickBy } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants/vet360';
-import { isSuccessfulTransaction } from '../util/transactions';
+import { isSuccessfulTransaction, isFailedTransaction } from '../util/transactions';
 
 // @todo get rid of this now that it uses refreshProfile
 export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
@@ -15,29 +14,47 @@ export const VET360_TRANSACTION_REQUESTED = 'VET360_TRANSACTION_REQUESTED';
 export const VET360_TRANSACTION_REQUEST_FAILED = 'VET360_TRANSACTION_REQUEST_FAILED';
 export const VET360_TRANSACTION_REQUEST_SUCCEEDED = 'VET360_TRANSACTION_REQUEST_SUCCEEDED';
 export const VET360_TRANSACTION_REQUEST_CLEARED = 'VET360_TRANSACTION_REQUEST_CLEARED';
+export const VET360_TRANSACTION_UPDATE_REQUESTED = 'VET360_TRANSACTION_UPDATE_REQUESTED';
 export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
+export const VET360_TRANSACTION_UPDATE_FAILED = 'VET360_TRANSACTION_UPDATE_FAILED';
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
-// function recordProfileTransaction(fieldName) {
-//   const names = [
-//     'mobile-phone',
-//     'primary-telephone',
-//     'mailing-address',
-//   ];
-//
-//   if (names.includes(fieldName)) {
-//     recordEvent({
-//       event: 'profile-transaction',
-//       'profile-section': fieldName
-//     });
-//   }
-// }
+function recordProfileTransaction(event, fieldName) {
+  const analyticsMap = {
+    homePhone: 'home-telephone',
+    mobilePhone: 'mobile-telephone',
+    workPhone: 'work-telephone',
+    mailingAddress: 'mailing-address',
+    residentialAddress: 'home-address',
+    faxNumber: 'fax-telephone',
+    email: 'email',
+  };
 
-export function refreshTransaction(transaction) {
-  return async (dispatch) => {
+  if (analyticsMap[fieldName]) {
+    recordEvent({
+      event,
+      'profile-section': fieldName
+    });
+  }
+}
+
+export function refreshTransaction(transaction, analyticsSectionName) {
+  return async (dispatch, getState) => {
     try {
       const { transactionId } = transaction.data.attributes;
-      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : localVet360.updateTransactionRandom(transactionId);
+      const state = getState();
+      const isAlreadyAwaitingUpdate = state.vet360.transactionsAwaitingUpdate.includes(transactionId);
+
+      if (isAlreadyAwaitingUpdate) {
+        return;
+      }
+
+      dispatch({
+        type: VET360_TRANSACTION_UPDATE_REQUESTED,
+        transaction
+      });
+
+      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : await localVet360.updateTransactionRandom(transactionId);
 
       dispatch({
         type: VET360_TRANSACTION_UPDATED,
@@ -45,10 +62,21 @@ export function refreshTransaction(transaction) {
       });
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
-        await dispatch(refreshProfile());
+        const forceCacheClear = true;
+        dispatch(refreshProfile(forceCacheClear));
+      } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
+        recordEvent({
+          event: 'profile-edit-failure',
+          'profile-action': 'save-failure',
+          'profile-section': analyticsSectionName,
+        });
       }
     } catch (err) {
-      // Just allow the former transaction status to remain in the store in the event of an error.
+      dispatch({
+        type: VET360_TRANSACTION_UPDATE_FAILED,
+        transaction,
+        err
+      });
     }
   };
 }
@@ -74,10 +102,10 @@ function createPhoneObject(phoneFormData, fieldName) {
   return pickBy({
     id: phoneFormData.id,
     areaCode: phoneFormData.areaCode,
-    countryCode: phoneFormData.countryCode,
+    countryCode: '1', // currently no international phone number support
     extension: phoneFormData.extension,
     phoneNumber: phoneFormData.phoneNumber,
-    isInternational: phoneFormData.isInternational,
+    isInternational: false, // currently no international phone number support
     phoneType: VET360_CONSTANTS.PHONE_TYPE[fieldName],
   }, e => !!e);
 }
@@ -131,15 +159,13 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
       try {
         dispatch({
           type: VET360_TRANSACTION_REQUESTED,
-          fieldName
+          fieldName,
+          method
         });
 
         const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
 
-        // TODO turn analytics back on later
-        // if (apiRoute === '/profile/telephones') {
-        //   recordProfileTransaction(kebabCase(`${nextFieldValue.phoneType} phone`));
-        // }
+        recordProfileTransaction('profile-transaction', fieldName);
 
         dispatch({
           type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
@@ -187,15 +213,13 @@ function deleteVet360Field(apiRoute, fieldName, fieldType) {
       try {
         dispatch({
           type: VET360_TRANSACTION_REQUESTED,
-          fieldName
+          fieldName,
+          method: 'DELETE'
         });
 
         const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
 
-        // TODO turn analytics back on later
-        // if (apiRoute === '/profile/telephones') {
-        //   recordProfileTransaction(kebabCase(`${nextFieldValue.phoneType} phone`));
-        // }
+        recordProfileTransaction('profile-deleted', fieldName);
 
         dispatch({
           type: VET360_TRANSACTION_REQUEST_SUCCEEDED,

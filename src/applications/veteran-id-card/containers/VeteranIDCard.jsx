@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../platform/monitoring/record-event';
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
@@ -63,9 +64,9 @@ class VeteranIDCard extends React.Component {
       <div>
         <RequiredLoginView
           verify
-          serviceRequired="id-card"
+          serviceRequired={backendServices.ID_CARD}
           user={this.props.user}>
-          <DowntimeNotification appTitle="Veteran ID Card application" dependencies={[services.vic]}>
+          <DowntimeNotification appTitle="Veteran ID Card application" dependencies={[externalServices.vic]}>
             <RequiredVeteranView userProfile={this.props.user.profile}>
               {this.props.children}
             </RequiredVeteranView>

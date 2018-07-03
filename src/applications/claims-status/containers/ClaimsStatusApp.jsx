@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 
@@ -24,7 +25,7 @@ class ClaimsStatusApp extends React.Component {
     return (
       <RequiredLoginView
         verify
-        serviceRequired={['evss-claims', 'appeals-status']}
+        serviceRequired={[backendServices.EVSS_CLAIMS, backendServices.APPEALS_STATUS]}
         user={this.props.user}>
         <AppContent>
           {this.props.children}

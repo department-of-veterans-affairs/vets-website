@@ -2,7 +2,7 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-import DowntimeNotification, { services, serviceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices, externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 import recordEvent from '../../../../platform/monitoring/record-event';
@@ -78,7 +78,7 @@ class ProfileView extends React.Component {
   }
 
   handleDowntime = (downtime, children) => {
-    if (downtime.status === serviceStatus.downtimeApproaching) {
+    if (downtime.status === externalServiceStatus.downtimeApproaching) {
       return (
         <DowntimeApproaching
           {...downtime}
@@ -114,7 +114,7 @@ class ProfileView extends React.Component {
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
         content = (
-          <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[services.emis, services.evss, services.mvi]}>
+          <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[externalServices.emis, externalServices.evss, externalServices.mvi]}>
             <div>
               <AlertBox onCloseAlert={message.clear} isVisible={!!message.content} status="success" content={<h3>{message.content}</h3>}/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>

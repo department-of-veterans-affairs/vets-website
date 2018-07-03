@@ -1,10 +1,12 @@
+import localStorage from '../../../utilities/storage/localStorage';
+
 export const INIT_DISMISSED_ANNOUNCEMENTS = 'INIT_DISMISSED_ANNOUNCEMENTS';
 export const DISMISS_ANNOUNCEMENT = 'DISMISS_ANNOUNCEMENT';
 
 export const ANNOUNCEMENTS_LOCAL_STORAGE = 'DISMISSED_ANNOUNCEMENTS';
 
 function localAnnouncements(dismissedAnnouncementName) {
-  const fromLocalStorage = window.localStorage[ANNOUNCEMENTS_LOCAL_STORAGE];
+  const fromLocalStorage = localStorage.getItem(ANNOUNCEMENTS_LOCAL_STORAGE);
   let parsed = [];
 
   if (fromLocalStorage) {
@@ -17,7 +19,7 @@ function localAnnouncements(dismissedAnnouncementName) {
 
   if (dismissedAnnouncementName) {
     parsed.push(dismissedAnnouncementName);
-    window.localStorage[ANNOUNCEMENTS_LOCAL_STORAGE] = JSON.stringify(parsed);
+    localStorage.setItem(ANNOUNCEMENTS_LOCAL_STORAGE, JSON.stringify(parsed));
   }
 
   return parsed;

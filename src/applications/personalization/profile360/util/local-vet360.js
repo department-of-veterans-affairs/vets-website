@@ -39,7 +39,7 @@ export const mockContactInformation = {
     isTextable: true,
     isTty: true,
     isVoicemailable: true,
-    phoneNumber: '222222',
+    phoneNumber: '2222222',
     phoneType: 'HOME',
     sourceDate: '2018-04-21T20:09:50Z',
     updatedAt: '2018-04-21T20:09:50Z'
@@ -86,18 +86,62 @@ export const mockContactInformation = {
     zipCode: '97062',
     zipCodeSuffix: '1234'
   },
+  residentialAddress: {
+    addressLine1: '1493 Martin Luther King Rd',
+    addressLine2: '',
+    addressLine3: '',
+    addressPou: 'RESIDENCE/CHOICE',
+    addressType: 'domestic',
+    city: 'FPO',
+    countryName: 'United States',
+    countryCodeFips: 'US',
+    countryCodeIso2: 'US',
+    countryCodeIso3: 'USA',
+    createdAt: '2018-04-21T20:09:50Z',
+    effectiveEndDate: '2018-04-21T20:09:50Z',
+    effectiveStartDate: '2018-04-21T20:09:50Z',
+    id: 124,
+    internationalPostalCode: '54321',
+    province: 'string',
+    sourceDate: '2018-04-21T20:09:50Z',
+    stateCode: 'AE',
+    updatedAt: '2018-04-21T20:09:50Z',
+    zipCode: '09618',
+    zipCodeSuffix: '1234'
+  },
 };
 
 
-function asyncReturn(returnValue) {
+function asyncReturn(returnValue, delay = 300) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(returnValue);
-    }, 300);
+    }, delay);
   });
 }
 
 export default {
+  getUserTransactions() {
+    const data = [
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.ADDRESS,
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.EMAIL,
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.PHONE
+    ].filter(() => {
+      return Math.random() > 0.5;
+    }).map(transactionType => {
+      return {
+        attributes: {
+          transactionId: uniqueId('transaction_'),
+          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED,
+          type: transactionType
+        }
+      };
+    });
+
+    return {
+      data
+    };
+  },
   createTransaction() {
     return asyncReturn({
       data: {
@@ -109,10 +153,10 @@ export default {
     });
   },
   updateTransactionRandom(...args) {
-    if (Math.random() > 0.5) {
-      return this.updateTransaction(...args);
-    }
-    return this.updateTransactionToFailure(...args);
+    return asyncReturn(
+      Math.random() > 0.5 ? this.updateTransaction(...args) : this.updateTransactionToFailure(...args),
+      3000
+    );
   },
   updateTransaction(transactionId) {
     return {

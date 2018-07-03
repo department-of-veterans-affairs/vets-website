@@ -18,38 +18,36 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Traverse form controls via keyboard input
     client
-      .sendKeys('input[name="streetCityStateZip"]', client.Keys.TAB)
-      .assert.isActiveElement('div[class="facility-dropdown-wrapper"]');
+      .sendKeys('input[name="street-city-state-zip"]', client.Keys.TAB)
+      .assert.isActiveElement('#facility-dropdown-toggle');
 
     client
-      .sendKeys('div[class="facility-dropdown-wrapper"]', client.Keys.TAB)
-      .assert.isActiveElement('div[class="facility-dropdown-wrapper disabled"]');
-
-    client
-      .sendKeys('div[class="facility-dropdown-wrapper disabled"]', client.Keys.TAB)
+      .sendKeys('#facility-dropdown-toggle', client.Keys.TAB)
       .assert.isActiveElement('input[type="submit"]');
 
     // Enter and navigate custom select via keyboard input
     client
-      .sendKeys('div[class="facility-dropdown-wrapper"]', client.Keys.DOWN_ARROW)
-      .assert.isActiveElement('#AllFacilities');
-
-    client
+      .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
       .assert.visible('ul[class="dropdown"]');
 
     client
-      .sendKeys('#AllFacilities', client.Keys.DOWN_ARROW)
-      .assert.isActiveElement('#health');
+      .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
+      .assert.attributeContains('.health-icon', 'aria-selected', true);
 
     client
-      .sendKeys('#health', client.Keys.ENTER)
-      .assert.isActiveElement('div[class="facility-dropdown-wrapper"]');
+      .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
+      .assert.attributeContains('.benefits-icon', 'aria-selected', true);
 
     client
-      .assert.hidden('ul[class="dropdown"]');
+      .sendKeys('#facility-dropdown-toggle', client.Keys.ENTER)
+      .assert.isActiveElement('#facility-dropdown-toggle');
 
     client
-      .assert.attributeContains('#health', 'aria-selected', true);
+      .waitForElementNotPresent('ul[class="dropdown"]', Timeouts.normal);
+
+    client
+      .sendKeys('#facility-dropdown-toggle', client.Keys.TAB)
+      .assert.isActiveElement('#service-type-dropdown');
 
     client.end();
   });
