@@ -65,35 +65,48 @@ export default function (state = INITIAL_STATE, action) {
       if (__BUILDTYPE__ !== 'production') {
 
         if (field === 'yellowRibbonDegreeLevel') {
-          const {
-            yellowRibbonPrograms
-          } = state;
+          if (value === 'Enter an amount') {
+            newState = {
+              ...newState,
+              yellowRibbonAmount: 0,
+              yellowRibbonDivisionOptions: [],
+              yellowRibbonDivision: '',
+              yellowRibbonProgramIndex: -1,
+              yellowRibbonMaxAmount: 0,
+              yellowRibbonMaxNumberOfStudents: 0
+            };
 
-          // make an array of unique values
-          const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
-            [...new Set(yellowRibbonPrograms
-              .filter(program => program.degreeLevel === value)
-              .map(program => program.divisionProfessionalSchool))] :
-            [];
+          } else {
+            const {
+              yellowRibbonPrograms
+            } = state;
 
-          const {
-            contributionAmount: yellowRibbonAmount,
-            numberOfStudents: yellowRibbonMaxNumberOfStudents,
-            index: yellowRibbonProgramIndex
-          } = yellowRibbonPrograms
-            .find(program =>
-              program.degreeLevel === value &&
-              program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0]);
+            // make an array of unique values
+            const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
+              [...new Set(yellowRibbonPrograms
+                .filter(program => program.degreeLevel === value)
+                .map(program => program.divisionProfessionalSchool))] :
+              [];
 
-          newState = {
-            ...newState,
-            yellowRibbonAmount,
-            yellowRibbonDivisionOptions,
-            yellowRibbonDivision: yellowRibbonDivisionOptions[0],
-            yellowRibbonProgramIndex,
-            yellowRibbonMaxAmount: yellowRibbonAmount,
-            yellowRibbonMaxNumberOfStudents
-          };
+            const {
+              contributionAmount: yellowRibbonAmount,
+              numberOfStudents: yellowRibbonMaxNumberOfStudents,
+              index: yellowRibbonProgramIndex
+            } = yellowRibbonPrograms
+              .find(program =>
+                program.degreeLevel === value &&
+                program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0]);
+
+            newState = {
+              ...newState,
+              yellowRibbonAmount,
+              yellowRibbonDivisionOptions,
+              yellowRibbonDivision: yellowRibbonDivisionOptions[0],
+              yellowRibbonProgramIndex,
+              yellowRibbonMaxAmount: yellowRibbonAmount,
+              yellowRibbonMaxNumberOfStudents
+            };
+          }
         }
 
         if (field === 'yellowRibbonDivision') {

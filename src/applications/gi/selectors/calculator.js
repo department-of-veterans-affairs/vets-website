@@ -1023,9 +1023,7 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (institution.yr &&
-      derived.tier === 1.0 &&
-      institution.yellowRibbonPrograms.length > 0) {
+    if (institution.yr && derived.tier === 1.0) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         yellowRibbon: true
