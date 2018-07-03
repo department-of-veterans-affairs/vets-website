@@ -67,6 +67,7 @@ For all disability claims, please provide:
 <h3 itemprop="name">How do I apply?</h3>
 <div itemprop="itemListElement">
 
+You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
