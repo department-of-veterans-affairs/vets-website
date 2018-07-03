@@ -1,48 +1,40 @@
 import React from 'react';
+import _ from 'lodash';
 
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
 
-  let newContactInfo = {};
+  const newFormData = {
+    ...formData
+  };
 
-  if (formData && formData.email) {
-    newContactInfo = {
-      email: formData.email,
-      'view:confirmEmail': formData.email
+  if (formData) {
+    const {
+      email,
+      homePhone,
+      mobilePhone
+    } = formData;
+
+    delete newFormData.email;
+    delete newFormData.homePhone;
+    delete newFormData.mobilePhone;
+
+    const newContactInfo = {
+      ...(email && { email }),
+      ...(homePhone && { homePhone }),
+      ...(mobilePhone && { mobilePhone })
     };
-  }
 
-  if (formData && formData.homePhone) {
-    newContactInfo = {
-      ...newContactInfo,
-      homePhone: formData.homePhone
-    };
-  }
-
-  if (formData && formData.mobilePhone) {
-    newContactInfo = {
-      ...newContactInfo,
-      mobilePhone: formData.mobilePhone,
-    };
-  }
-
-  let newFormData = formData;
-
-  if (Object.keys(newContactInfo).length > 0) {
-    newFormData = {
-      'view:otherContactInfo': {
-        ...newContactInfo
-      }
-    };
+    // if (Object.keys(newContactInfo).length > 0) {
+    if (!_.isEmpty(newContactInfo)) {
+      newFormData['view:otherContactInfo'] = newContactInfo;
+    }
   }
 
   return {
     metadata,
-    formData: {
-      ...formData,
-      ...newFormData
-    },
+    formData: newFormData,
     pages
   };
 }

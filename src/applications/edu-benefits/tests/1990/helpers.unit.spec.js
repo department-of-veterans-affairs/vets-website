@@ -34,7 +34,6 @@ describe('1990 helpers', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
       expect(result.formData['view:otherContactInfo'].email).to.eql(formData.email);
-      expect(result.formData['view:otherContactInfo']['view:confirmEmail']).to.eql(formData.email);
     });
     it('should set the homePhone', () => {
       const formData = {
