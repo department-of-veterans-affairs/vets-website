@@ -60,7 +60,7 @@ Find out how to apply for VA education benefits as a Veteran, Servicemember, or 
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h3 itemprop="name">You can also apply:</h3>
+<h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
 
 #### By mail
