@@ -73,7 +73,7 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 
 <br>
 
-### Ready to apply?
+### How do I apply?
 
 [Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
