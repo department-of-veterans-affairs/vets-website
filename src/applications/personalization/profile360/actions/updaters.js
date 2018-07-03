@@ -56,6 +56,7 @@ export function refreshTransaction(transaction, analyticsSectionName) {
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
         dispatch(refreshProfile(forceCacheClear));
+        recordEvent({ event: 'profile-saved' });
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
           event: 'profile-edit-failure',
