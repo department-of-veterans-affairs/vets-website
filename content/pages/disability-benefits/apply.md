@@ -64,7 +64,7 @@ For all disability claims, please provide:
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h4 itemprop="name">How do I apply?</h4>
+<h3 itemprop="name">How do I apply?</h3>
 <div itemprop="itemListElement">
 
 
@@ -77,7 +77,7 @@ For all disability claims, please provide:
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h3 itemprop="name">You can also apply:</h3>
+<h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
 
 #### By mail
