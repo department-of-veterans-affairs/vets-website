@@ -57,10 +57,10 @@ export default function vet360(state = initialState, action) {
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
           [action.fieldName]: {
+            ...state.fieldTransactionMap[action.fieldName],
             isPending: false,
             isFailed: true,
-            error: action.error,
-            ...state.fieldTransactionMap[action.fieldName]
+            error: action.error
           }
         }
       };
@@ -72,9 +72,9 @@ export default function vet360(state = initialState, action) {
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
           [action.fieldName]: {
+            ...state.fieldTransactionMap[action.fieldName],
             isPending: false,
-            transactionId: action.transaction.data.attributes.transactionId,
-            ...state.fieldTransactionMap[action.fieldName]
+            transactionId: action.transaction.data.attributes.transactionId
           }
         }
       };

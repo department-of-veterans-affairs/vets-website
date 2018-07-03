@@ -11,6 +11,7 @@ import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/addre
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
+import get from '../../../platform/utilities/data/get';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
@@ -73,13 +74,31 @@ export function transformDisabilities(disabilities) {
   return disabilities.map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
-export function prefillTransformer(pages, formData, metadata) {
-  const newData = set('disabilities', transformDisabilities(formData.disabilities), formData);
-  newData.disabilities.forEach(validateDisability);
+export function addPhoneEmailToCard(formData) {
+  const { veteran } = formData;
+  if (typeof veteran === 'undefined') {
+    return formData;
+  }
 
+  const phoneEmailCard = {
+    primaryPhone: get('primaryPhone', veteran, ''),
+    emailAddress: get('emailAddress', veteran, '')
+  };
+
+  const newFormData = set('veteran.phoneEmailCard', phoneEmailCard, formData);
+  delete newFormData.veteran.primaryPhone;
+  delete newFormData.veteran.emailAddress;
+
+  return newFormData;
+}
+
+export function prefillTransformer(pages, formData, metadata) {
+  const withDisabilityActionType = set('disabilities', transformDisabilities(formData.disabilities), formData);
+  withDisabilityActionType.disabilities.forEach(validateDisability);
+  const withPhoneEmailCard = addPhoneEmailToCard(withDisabilityActionType);
   return {
     metadata,
-    formData: newData,
+    formData: withPhoneEmailCard,
     pages
   };
 }
@@ -518,25 +537,24 @@ export const VAFileNumberDescription = (
   </div>
 );
 
-const PhoneViewField = ({ formData: phoneNumber, name }) => {
-  const isDomestic = phoneNumber.length <= 10;
-  const midBreakpoint = isDomestic ? -7 : -8;
-  const lastPhoneString = `${phoneNumber.slice(-4)}`;
-  const middlePhoneString = `${phoneNumber.slice(midBreakpoint, -4)}-`;
-  const firstPhoneString = `${phoneNumber.slice(0, midBreakpoint)}-`;
+const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
+  const midBreakpoint = -7;
+  const lastPhoneString = phoneNumber.slice(-4);
+  const middlePhoneString = phoneNumber.slice(midBreakpoint, -4);
+  const firstPhoneString = phoneNumber.slice(0, midBreakpoint);
 
-  const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
+  const phoneString = `${firstPhoneString}-${middlePhoneString}-${lastPhoneString}`;
   return (<p><strong>{name}</strong>: {phoneString}</p>);
 };
 
-const EmailViewField = ({ formData, name }) => {
-  return (<p><strong>{name}</strong>: {formData}</p>);
-};
+const EmailViewField = ({ formData, name }) => (
+  <p><strong>{name}</strong>: {formData || ''}</p>
+);
 
 const EffectiveDateViewField = ({ formData }) => {
   return (
     <p>
-      Effective Date: <DateWidget value={formData} options={{ monthYear: false }}/>
+      We will use this address starting on <DateWidget value={formData} options={{ monthYear: false }}/>:
     </p>
   );
 };
@@ -566,24 +584,24 @@ const AddressViewField = ({ formData }) => {
   );
 };
 
-export const PrimaryAddressViewField = ({ formData }) => {
-  const {
-    mailingAddress, primaryPhone, emailAddress, forwardingAddress } = formData;
+export const PrimaryAddressViewField = ({ formData }) => (<AddressViewField formData={formData}/>);
+
+export const ForwardingAddressViewField = ({ formData }) => {
+  const { effectiveDate } = formData;
   return (
     <div>
-      <AddressViewField formData={mailingAddress}/>
-      {primaryPhone && (
-        <PhoneViewField formData={primaryPhone} name="Primary phone"/>
-      )}
-      {emailAddress && (
-        <EmailViewField formData={emailAddress} name="Email address"/>
-      )}
-      {formData['view:hasForwardingAddress'] && (
-        <AddressViewField formData={forwardingAddress}/>
-      )}
-      {formData.effectiveDate && (
-        <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
-      )}
+      <EffectiveDateViewField formData={effectiveDate}/>
+      <AddressViewField formData={formData}/>
+    </div>
+  );
+};
+
+export const phoneEmailViewField = ({ formData }) => {
+  const { primaryPhone, emailAddress } = formData;
+  return (
+    <div>
+      <PhoneViewField formData={primaryPhone} name="Primary phone"/>
+      <EmailViewField formData={emailAddress} name="Email address"/>
     </div>
   );
 };
@@ -688,7 +706,7 @@ export const get4142Selection = (disabilities) => {
   }, false);
 };
 
-export const AddressDescription = () => (
+export const contactInfoDescription = () => (
   <div>
     <p>
       This is the contact information we have on file for you. We’ll send any important
