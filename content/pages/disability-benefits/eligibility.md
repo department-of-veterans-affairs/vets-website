@@ -95,7 +95,7 @@ You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
-[Find out which documents you'll need and how to apply for disability benefits](/disability-benefits/apply/).
+[Learn more about how to apply for disability benefits](/disability-benefits/apply/).
 
 </div>
 </div>
