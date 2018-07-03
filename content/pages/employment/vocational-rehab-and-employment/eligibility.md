@@ -80,7 +80,7 @@ You can apply online right now.
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
 [Learn more about how to apply for VR&E](/employment/vocational-rehab-and-employment/apply-vre/). <br>
-(You can also find out how to apply if you're a Servicemember without a disability rating yet.)
+(And find out how to apply if you're a Servicemember without a disability rating yet.)
 
 <br>
 
