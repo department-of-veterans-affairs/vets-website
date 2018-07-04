@@ -12,6 +12,7 @@ import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
+import omit from '../../../platform/utilities/data/omit';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
@@ -24,37 +25,51 @@ import {
   E_BENEFITS_URL
 } from './constants';
 
-/*
- * Flatten nested array form data into sibling properties
- *
- * @param {object} data - Form data for a full form, including nested array properties
- */
-// export function flatten(data) {
-//   const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
-//   const formData = cloneDeep(data);
-//   formData.disabilities.forEach((disability, idx) => {
-//     siblings.forEach(sibling => {
-//       if (disability[sibling]) {
-//         formData[sibling] = [];
-//         formData[sibling][idx] = disability[sibling];
-//         delete disability[sibling]; // eslint-disable-line no-param-reassign
-//       }
-//     });
-//   });
-//   return formData;
-// }
 
+const aggregate = (dataArray, property) => {
+  const masterList = [];
+  dataArray.forEach(item => {
+    if (!item[property]) {
+      return [];
+    }
+
+    return item[property].forEach(listItem => masterList.push(listItem));
+  });
+
+  return masterList;
+};
+
+
+// Moves phone & email out of the phoneEmailCard up one level into `formData.veteran`
+const setPhoneEmailPaths = (veteran) => {
+  const newVeteran = cloneDeep(veteran);
+  const { primaryPhone, emailAddress } = newVeteran.phoneEmailCard;
+  newVeteran.primaryPhone = primaryPhone;
+  newVeteran.emailAddress = emailAddress;
+  delete newVeteran.phoneEmailCard;
+  return newVeteran;
+};
 
 export function transform(formConfig, form) {
-  console.log(form.data);
+  const { disabilities, privacyAgreementAccepted, servicePeriods, standardClaim, veteran  } = form.data;
   // 1. Remove unselected disabilities
-  const selectedDisabilities = form.data.disabilities.filter(disability => (disability['view:selected'] === true));
-  console.log('selectedDisabilities: ', selectedDisabilities);
-  // const formData = fslatten(transformForSubmit(formConfig, form));
+  // 2. Put email and phone back into veteran property
+  // 3. Extract treatments into own schema { treatmentCenter: { name, type, country, state?, city? }, startDate, endDate }
+  // const formData = flatten(transformForSubmit(formConfig, form));
   // delete formData.prefilled;
+  const testObj = {
+    veteran: setPhoneEmailPaths(veteran),
+    disabilities: disabilities.filter(disability => (disability['view:selected'] === true)),
+    treatments: aggregate(disabilities, 'treatments'),
+    privacyAgreementAccepted,
+    servicePeriods,
+    standardClaim,
+  };
+
+  console.log('testSubmit: ', testObj);
   return JSON.stringify({
     disabilityBenefitsClaim: {
-      form
+      form: testObj
     }
   });
 }
