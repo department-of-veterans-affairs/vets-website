@@ -12,7 +12,6 @@ import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
-import omit from '../../../platform/utilities/data/omit';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
@@ -25,7 +24,11 @@ import {
   E_BENEFITS_URL
 } from './constants';
 
-
+/**
+ * 
+ * @param {*} dataArray 
+ * @param {*} property 
+ */
 const aggregate = (dataArray, property) => {
   const masterList = [];
   dataArray.forEach(item => {
@@ -51,15 +54,21 @@ const setPhoneEmailPaths = (veteran) => {
 };
 
 export function transform(formConfig, form) {
-  const { disabilities, privacyAgreementAccepted, servicePeriods, standardClaim, veteran  } = form.data;
-  // 1. Remove unselected disabilities
-  // 2. Put email and phone back into veteran property
-  // 3. Extract treatments into own schema { treatmentCenter: { name, type, country, state?, city? }, startDate, endDate }
-  // const formData = flatten(transformForSubmit(formConfig, form));
-  // delete formData.prefilled;
+  // transformForSubmit removes all the disabilities. Why?
+  const {
+    disabilities,
+    privacyAgreementAccepted,
+    servicePeriods,
+    standardClaim,
+    veteran
+  } = form.data;
+
   const testObj = {
-    veteran: setPhoneEmailPaths(veteran),
+    // 1. Remove unselected disabilities
     disabilities: disabilities.filter(disability => (disability['view:selected'] === true)),
+    // 2. Put email and phone back into veteran property
+    veteran: setPhoneEmailPaths(veteran),
+    // 3. Extract treatments into one top-level array
     treatments: aggregate(disabilities, 'treatments'),
     privacyAgreementAccepted,
     servicePeriods,
