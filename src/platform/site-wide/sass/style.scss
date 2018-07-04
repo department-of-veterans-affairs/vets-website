@@ -8,6 +8,7 @@ $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
 @import "modules/m-crisis-line";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
 @import "modules/m-search";
@@ -26,3 +27,25 @@ $image-path: "~uswds/src/img";
 // ----- VA SHAME ---- //
 
 @import "~@department-of-veterans-affairs/formation/sass/shame";
+
+@media screen and (max-width: 481px) {
+  #va-breadcrumbs-list li {
+    display: none;
+  }
+
+  #va-breadcrumbs-list li:nth-last-child(2) {
+    display: inline-block;
+
+    &::before {
+      content: " \2039 ";
+      display: inline-block;
+      padding: 0 0.15em;
+    }
+
+    &::after {
+      content: "";
+      display: none;
+      padding: 0;
+    }
+  }
+}
