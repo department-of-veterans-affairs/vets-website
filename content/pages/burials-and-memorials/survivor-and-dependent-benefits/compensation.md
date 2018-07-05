@@ -32,8 +32,6 @@ You can get compensation if one of the descriptions below is true of the decease
 
 </div>
 
-**One of these must describe you:**
-
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
