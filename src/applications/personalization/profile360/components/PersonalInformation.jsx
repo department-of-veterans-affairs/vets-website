@@ -6,6 +6,8 @@ import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+import recordEvent from '../../../../platform/monitoring/record-event';
+
 function Gender({ gender }) {
   let content = 'This information is not available right now.';
   if (gender === 'M') content = 'Male';
@@ -42,7 +44,9 @@ class PersonalInformationContent extends React.Component {
   render() {
     return (
       <div>
-        <AdditionalInfo triggerText="How do I update my personal information?">
+        <AdditionalInfo
+          triggerText="How do I update my personal information?"
+          onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'learn-more-va-benefits' }); }}>
           <p><strong>If you're enrolled in the VA health care program</strong>
             <br/>Please contact your nearest VA medical center to update your personal information.<br/>
             <a href="/facilities/?facilityType=health">Find your nearest VA medical center</a>

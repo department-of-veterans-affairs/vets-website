@@ -151,8 +151,12 @@ class CalculatorForm extends React.Component {
         yellowRibbonDivisionOptions,
       } = this.props.inputs;
 
-      yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions.map(value => ({ value, label: value }));
+      yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions
+        .map(value => ({ value, label: value }));
+      yellowRibbonDegreeLevelOptions.unshift({ value: 'customAmount', label: 'Enter an amount' });
       yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
+      const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
+      const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
 
       return (
         <div>
@@ -174,16 +178,18 @@ class CalculatorForm extends React.Component {
                 label="Degree Level"
                 name="yellowRibbonDegreeLevel"
                 alt="Degree Level"
+                hideArrows={yellowRibbonDegreeLevelOptions.length <= 1}
                 options={yellowRibbonDegreeLevelOptions}
-                visible
+                visible={showYellowRibbonOptions}
                 value={this.props.inputs.yellowRibbonDegreeLevel}
                 onChange={this.handleInputChange}/>
               <Dropdown
                 label="Division or school"
                 name={'yellowRibbonDivision'}
                 alt="Division or school"
+                hideArrows={yellowRibbonDivisionOptions.length <= 1}
                 options={yellowRibbonDivisionOptions}
-                visible
+                visible={showYellowRibbonDetails}
                 value={this.props.inputs.yellowRibbonDivision}
                 onChange={this.handleInputChange}/>
               <div>
@@ -198,7 +204,7 @@ class CalculatorForm extends React.Component {
                   onChange={this.handleInputChange}/>
               </div>
               <AlertBox
-                isVisible
+                isVisible={showYellowRibbonDetails}
                 key={this.props.inputs.yellowRibbonProgramIndex}
                 status="info">
                 <div>

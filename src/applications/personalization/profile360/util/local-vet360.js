@@ -87,11 +87,11 @@ export const mockContactInformation = {
     zipCodeSuffix: '1234'
   },
   residentialAddress: {
-    addressLine1: '1493 Martin Luther King Rd',
+    addressLine1: 'PSC 808 Box 37',
     addressLine2: '',
     addressLine3: '',
     addressPou: 'RESIDENCE/CHOICE',
-    addressType: 'domestic',
+    addressType: 'MILITARY OVERSEAS',
     city: 'FPO',
     countryName: 'United States',
     countryCodeFips: 'US',
