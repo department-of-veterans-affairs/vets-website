@@ -17,7 +17,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you’re a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap, you can apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services online. Find out how to apply.  
+Find out how to apply for Vocational Rehabilitation and Employment (VR&E). 
 
 </div>
 
