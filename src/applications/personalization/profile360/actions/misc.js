@@ -25,7 +25,7 @@ function inferAddressType(countryName, stateCode) {
   if (countryName !== 'United States') {
     addressType = 'INTERNATIONAL';
   } else if (MILITARY_STATES.has(stateCode)) {
-    addressType = 'MILITARY OVERSEAS';
+    addressType = 'OVERSEAS MILITARY';
   }
 
   return addressType;

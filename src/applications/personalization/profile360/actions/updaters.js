@@ -20,15 +20,7 @@ export const VET360_TRANSACTION_UPDATE_FAILED = 'VET360_TRANSACTION_UPDATE_FAILE
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
 function recordProfileTransaction(event, fieldName) {
-  const analyticsMap = {
-    homePhone: 'home-telephone',
-    mobilePhone: 'mobile-telephone',
-    workPhone: 'work-telephone',
-    mailingAddress: 'mailing-address',
-    residentialAddress: 'home-address',
-    faxNumber: 'fax-telephone',
-    email: 'email',
-  };
+  const analyticsMap = VET360_CONSTANTS.ANALYTICS_FIELD_MAP;
 
   if (analyticsMap[fieldName]) {
     recordEvent({
@@ -64,6 +56,7 @@ export function refreshTransaction(transaction, analyticsSectionName) {
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
         dispatch(refreshProfile(forceCacheClear));
+        recordEvent({ event: 'profile-saved' });
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
           event: 'profile-edit-failure',
