@@ -28,7 +28,7 @@ You can get compensation if one of the descriptions below is true of the decease
 
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
 
-**You must be eligible.**
+**You must be eligible under your survivor status. See the descriptions below.**
 
 </div>
 
