@@ -13,6 +13,16 @@ section.usa-grid {
   height:auto;
 }
 
+#mega-menu {
+
+  border-top: 1px solid $color-white;
+  margin-top: 1em;
+
+  #vetnav-menu, #vetnav {
+    margin-top: 0;
+  }
+}
+
 /* new pattern? where we use old VA icons with h3 */
 .va-icon-header {
 
@@ -56,24 +66,37 @@ section.usa-grid {
 
 #homepage-hub {
 
-  background-color: $color-primary;
+  background: #0071bb; /* Old browsers */
+  background: -moz-linear-gradient(top, #0071bb 0%, #112e51 63%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #0071bb 0%,#112e51 63%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #0071bb 0%,#112e51 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0071bb', endColorstr='#112e51',GradientType=0 ); /* IE6-9 */
+
   padding-top: 3em;
   padding-bottom: 3em;
 
   #hub-internal {
 
-    background-color: $color-white;
-    padding: 1.5em 0 1.5em 1.5em;
     width: 53%;
 
+    h2 {
+      color: $color-white;
+      text-align: center;
+      margin-bottom: 2em;
+    }
+
     .usa-grid:first-of-type {
-      margin-bottom: 3em;
+      margin-bottom: 1.5rem;
     }
 
     ul {
       list-style: none;
-      border-left: 4px solid $color-gold-light;
-      padding-left: .7em;
+      padding-left: 1rem;
+    }
+
+    .usa-width-one-half {
+      background-color: $color-white;
+      padding: 1.5em 0 1.5em 1.5em;
     }
   }
 }
@@ -293,4 +316,66 @@ h3, h4 {
 
 .va-nav-breadcrumbs-list {
   padding-left: 0;
+}
+
+
+// iconography
+
+h3 {
+  i {
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+}
+
+.fa {
+
+  position: relative;
+  color: $color-white;
+  border-radius: 50%;
+
+  &::before {
+    position: absolute;
+    margin-top: 9.5px;
+    margin-left: 11.47px;
+  }
+
+  &.icon-large {
+    height: 40px;
+    width: 40px;
+  }
+
+  &.fa-medkit {
+    background-color: $color-primary;
+
+    &::before {
+      position: absolute;
+      margin-top: 9.25px;
+      margin-left: 10.5px;
+    }
+  }
+
+  &.fa-book {
+    background-color: $color-gold-light;
+  }
+
+  &.fa-id-card {
+    background-color: $color-green;
+
+    &::before {
+      position: absolute;
+      margin-top: 9.75px;
+      margin-left: 8.5px;
+    }
+  }
+
+  &.fa-handshake {
+    background-color: $color-visited;
+
+    &::before {
+      position: absolute;
+      margin-top: 9.75px;
+      margin-left: 7.75px;
+    }
+  }
 }
