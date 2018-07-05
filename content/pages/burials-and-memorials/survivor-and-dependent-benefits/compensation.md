@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Compensation for Survivors and Dependents
 display_title: Compensation
-order: 3
+order: 2
 ---
 
 <div class="va-introtext">
@@ -14,8 +14,11 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 <div class="feature" markdown="0">
 
-### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
+### Can I get compensation from VA?
 
+You can get compensation if one of the descriptions below is true of the deceased Servicemember or Veteran and if you're eligible as a survivor or dependent.
+
+**One of these must describe the deceased:**
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training.
 - The Veteran died from a service-connected illness or injury.
 - The Veteran didn’t die from a service-connected illness or injury, but was eligible to get VA compensation for a service-connected disability that VA rated as totally disabling: 
@@ -25,9 +28,11 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
 
+**Click on the option below that describes you to find out if you're eligible:**
+
 </div>
 
-### As a surviving spouse, child, or parent of a deceased Veteran, can I get compensation?
+**One of these must describe you:**
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -35,7 +40,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">Surviving Spouse</button>
 <div id="VA-burials-survivor-spouse" class="usa-accordion-content">
 
-If you’re a surviving spouse, you can get compensation if at least one of the below descriptions is true for you.
+You can get compensation if you meet at least one of the requirements listed below.
 
 **One of these must be true. You:**
 - Married the Veteran before January 1, 1957, or within 15 years of their leaving the military, **or**
@@ -48,13 +53,13 @@ If you’re a surviving spouse, you can get compensation if at least one of the 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-child">Surviving Child</button>
 <div id="VA-burials-survivor-child" class="usa-accordion-content">
 
-If you’re a surviving child, you can get compensation if the below descriptions are true for you.
+You can get compensation if you meet the requirements listed below.
 
-**Both of these must describe you:**
+**Both of these must be true:**
 - You aren’t married, **and**
 - You aren’t included on the surviving spouse’s compensation
 
-**And one of these must also describe you:**
+**And one of these must also be true:**
 - You’re under the age of 18 (or under the age of 23 if attending school), **or**
 - You were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
@@ -63,10 +68,8 @@ If you’re a surviving child, you can get compensation if the below description
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-parent">Surviving Parent</button>
 <div id="VA-burials-survivor-parent" class="usa-accordion-content">
 
-You may be able to get compensation as a surviving parent if both of these are true: 
-- The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
-- Your income is below a certain amount. <br>
-[View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp).
+You may be able to get compensation as a surviving parent if your income is below a certain amount. <br>
+[View the parents DIC rate table](https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp).
 
    </div>
   </div>
@@ -75,12 +78,19 @@ You may be able to get compensation as a surviving parent if both of these are t
 
 <br>
 
-### As a surviving spouse or child, how do I get compensation? 
+-------------------------------------
 
-You’ll need to apply for compensation. Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). <br>
+### How do I apply for compensation?
+
+First you’ll need to fill out an application for benefits. The application you fill out will depend on your survivor status.
+
+**If you’re a surviving spouse or child,** fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). <br>
 [Download VA Form 21P-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
 
-**You can apply for this benefit in 1 of 3 ways:**
+**If you’re a surviving parent,** fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). 
+[Download VA Form 21-535](https://www.vba.va.gov/pubs/forms/VBA-21P-535-ARE.pdf).
+
+**You can apply for this benefit in any of these ways:**
 
 - Mail the form to the Pension Management Center (PMC) for your state. <br>
 [Find your PMC](/pension/pension-management-center/).
@@ -91,22 +101,5 @@ You’ll need to apply for compensation. Fill out an Application for DIC, Death 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/facilities/).
 
-<br>
-
-### As a surviving parent, how do I get compensation? 
-
-You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). <br>
-[Download VA Form 21-535](https://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
-
-**You can apply for this benefit in 1 of 3 ways:**
-
-- Mail the form to the Pension Management Center for your state. <br>
-[Find your PMC](/pension/pension-management-center/).
-
-- Work with an accredited representative. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
-
-- Go to a VA regional benefit office and get help from a VA employee. <br>
-[Find a local VA office](/facilities/).
 
 <script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
