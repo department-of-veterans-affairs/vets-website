@@ -85,10 +85,10 @@ First you’ll need to fill out an application for benefits. The application you
 **If you’re a surviving spouse or child,** fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). <br>
 [Download VA Form 21P-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
 
-**If you’re a surviving parent,** fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). 
+**If you’re a surviving parent,** fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). <br>
 [Download VA Form 21-535](https://www.vba.va.gov/pubs/forms/VBA-21P-535-ARE.pdf).
 
-**You can apply for this benefit in any of these ways:**
+#### You can apply for this benefit in any of these ways:
 
 - Mail the form to the Pension Management Center (PMC) for your state. <br>
 [Find your PMC](/pension/pension-management-center/).
