@@ -7,5 +7,4 @@ import Vet360ProfileField from '../../containers/Vet360ProfileField';
 describe('<Vet360ProfileField/>', () => {
 
 
-
 });

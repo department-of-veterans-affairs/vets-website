@@ -1,16 +1,12 @@
-import React from 'react';
 import { expect } from 'chai';
-
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
 import {
-  FIELD_NAMES,
   TRANSACTION_STATUS,
   TRANSACTION_CATEGORY_TYPES
 } from '../constants/vet360';
 
 import * as selectors from '../selectors';
-import { exec } from 'child_process';
 
 let state = null;
 
@@ -27,7 +23,11 @@ const hooks = {
 
     const vet360 = {
       transactions: [],
-      fieldTransactionMap: {}
+      fieldTransactionMap: {},
+      metadata: {
+        mostRecentSuccessfulTransactionId: '',
+        mostRecentErroredTransactionId: ''
+      }
     };
 
     const vaProfile = {
@@ -41,7 +41,7 @@ const hooks = {
       vaProfile
     };
   }
-}
+};
 
 describe('selectors', () => {
 
@@ -66,7 +66,7 @@ describe('selectors', () => {
       result = selectors.selectIsVet360AvailableForUser(state);
       expect(result, 'returns false when the environment is not localhost and Vet360 is not in the services array').to.be.false;
 
-      global.document = old.document
+      global.document = old.document;
     });
   });
 
@@ -113,43 +113,111 @@ describe('selectors', () => {
     beforeEach(hooks.beforeEach);
     it('returns only successful transactions from a list of transactions', () => {
       const successful = [
-        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS }}},
-        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED }}}
+        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS } } },
+        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED } } }
       ];
 
       state.vet360.transactions = [
         ...successful,
-        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.RECEIVED }}},
-        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.REJECTED }}}
+        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.RECEIVED } } },
+        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.REJECTED } } }
       ];
 
-      expect(selectors.selectVet360SuccessfulTransactions(state)).to.include(successful[0]);
-      expect(selectors.selectVet360SuccessfulTransactions(state)).to.include(successful[1]);
+      const result = selectors.selectVet360SuccessfulTransactions(state);
+
+      expect(result).to.include(successful[0]);
+      expect(result).to.include(successful[1]);
     });
   });
 
   describe('selectVet360FailedTransactions', () => {
     beforeEach(hooks.beforeEach);
+    it('returns only failed transactions from a list of transactions', () => {
+      const failed = [
+        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.COMPLETED_FAILURE } } },
+        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.REJECTED } } }
+      ];
+
+      state.vet360.transactions = [
+        ...failed,
+        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.RECEIVED } } },
+        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS } } },
+        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED } } }
+      ];
+
+      const result = selectors.selectVet360FailedTransactions(state);
+
+      expect(result).to.include(failed[0]);
+      expect(result).to.include(failed[1]);
+    });
   });
 
   describe('selectMostRecentSuccessfulTransaction', () => {
     beforeEach(hooks.beforeEach);
+    it('selects the transaction stored of the ID stored in the metadata mostRecentSuccessfulTransactionId', () => {
+      const transactionId = 'transaction_id';
+      const transaction = { data: { attributes: { transactionId } } };
+      state.vet360.transactions = [transaction];
+      state.vet360.metadata.mostRecentSuccessfulTransactionId = transactionId;
+      expect(selectors.selectMostRecentSuccessfulTransaction(state)).to.be.equal(transaction);
+    });
   });
 
   describe('selectMostRecentErroredTransaction', () => {
     beforeEach(hooks.beforeEach);
+    it('selects the transaction of the ID stored in the metadata mostRecentErroredTransactionId', () => {
+      const transactionId = 'transaction_id';
+      const transaction = { data: { attributes: { transactionId } } };
+      state.vet360.transactions = [transaction];
+      state.vet360.metadata.mostRecentErroredTransactionId = transactionId;
+      expect(selectors.selectMostRecentErroredTransaction(state)).to.be.equal(transaction);
+    });
   });
 
   describe('selectVet360PendingCategoryTransactions', () => {
     beforeEach(hooks.beforeEach);
+    it('selects transactions of the passed transaction category type that is still pending and without field-level data', () => {
+      const type = TRANSACTION_CATEGORY_TYPES.ADDRESS;
+      const pendingAddressTransactions = [
+        { data: { attributes: { type, transactionId: 'transaction_1', transactionStatus: TRANSACTION_STATUS.RECEIVED } } },
+        { data: { attributes: { type, transactionId: 'transaction_2', transactionStatus: TRANSACTION_STATUS.RECEIVED } } }
+      ];
+
+      const transactions = [
+        ...pendingAddressTransactions,
+        { data: { attributes: { type: TRANSACTION_CATEGORY_TYPES.EMAIL, transactionId: 'transaction_3', transactionStatus: TRANSACTION_STATUS.RECEIVED } } },
+        { data: { attributes: { type: TRANSACTION_CATEGORY_TYPES.PHONE, transactionId: 'transaction_4', transactionStatus: TRANSACTION_STATUS.RECEIVED } } },
+        { data: { attributes: { type: TRANSACTION_CATEGORY_TYPES.ADDRESS, transactionId: 'transaction_5', transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS } } }
+      ];
+
+      state.vet360.transactions = transactions;
+
+      const result = selectors.selectVet360PendingCategoryTransactions(state, type);
+
+      expect(result).to.include(pendingAddressTransactions[0]);
+      expect(result).to.include(pendingAddressTransactions[1]);
+    });
   });
 
   describe('selectEditedFormField', () => {
     beforeEach(hooks.beforeEach);
+    it('looks up the form value in state for a given field name', () => {
+      const fieldName = 'someField';
+      const fieldValue = 'someFieldValue';
+      state.vaProfile.formFields[fieldName] = fieldValue;
+
+      expect(selectors.selectEditedFormField(state, fieldName)).to.be.equal(fieldValue);
+    });
   });
 
   describe('selectCurrentlyOpenEditModal', () => {
     beforeEach(hooks.beforeEach);
+    it('looks up the form value in state for a given field name', () => {
+      const currentlyOpenModal = 'someField';
+      state.vaProfile.modal = currentlyOpenModal;
+
+      expect(selectors.selectCurrentlyOpenEditModal(state)).to.be.equal(currentlyOpenModal);
+    });
   });
 
 });
