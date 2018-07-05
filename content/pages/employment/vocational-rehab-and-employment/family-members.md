@@ -93,6 +93,8 @@ If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Co
 
 ### How do I apply?
 
+You can apply online right now.
+
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
 **Note:** If the Servicemember or Veteran in your family isn’t yet using VR&E benefits and services, they may also apply online through eBenefits.
