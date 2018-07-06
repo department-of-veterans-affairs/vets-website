@@ -1,3 +1,4 @@
+debugger;
 import '../../platform/polyfills';
 
 import createCommonStore from '../../platform/startup/store';
@@ -5,6 +6,7 @@ import startSitewideComponents from '../../platform/site-wide';
 
 import createApplicationStatus from './createApplicationStatus';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
+import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
 
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
@@ -14,6 +16,7 @@ const burialPages = new Set([
   '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/'
 ]);
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
+const optOutPages = new Set(['/education/opt-out/']);
 const disabilityPages = new Set(['/disability-benefits/', '/disability-benefits/apply/', '/disability-benefits/eligibility/']);
 
 // No-react styles.
@@ -42,6 +45,9 @@ if (healthcarePages.has(location.pathname)) {
 }
 if (eduPages.has(location.pathname)) {
   createEducationApplicationStatus(store);
+}
+if (optOutPages.has(location.pathname)) {
+  createOptOutApplicationStatus(store);
 }
 if (burialPages.has(location.pathname)) {
   createApplicationStatus(store, {
