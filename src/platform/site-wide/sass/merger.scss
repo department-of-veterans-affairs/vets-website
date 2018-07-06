@@ -135,24 +135,6 @@ section.usa-grid {
   }
 }
 
-// new pattern
-.va-content-block {
-  border-left: 4px solid $color-primary;
-  padding-left: 1rem;
-
-  &.three-lines {
-    height: 120px;
-  }
-
-  &.four-lines {
-    height: 140px;
-  }
-
-  &.five-lines {
-    height: 160px;
-  }
-}
-
 h3, h4 {
   .fa {
     padding-right: .35em;
