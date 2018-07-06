@@ -14,7 +14,7 @@ promo:
   - image: /img/megamenu/pension-illustration.png
     heading: Learn About the Veterans Choice Program
     url: "#"
-    description: If you are already enrolled in VA health care, the Veterans Choice Program allows you to receive health care within your community.
+    description: If you're enrolled in VA health care, find out if you can receive care from a local community provider through the Veterans Choice Program.
 crosslinks:
   - heading: Related Resources
     links:
@@ -171,12 +171,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="link">
     <a href="#"><b>Family and Caregiver Health Benefits</b></a>
-    <p>If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Apply for Health Care</b></a>
-    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+    <p>Find out if you qualify for VA medical benefits (like CHAMPVA) as the spouse, surviving spouse, dependent child, or caregiver of a Veteran or Servicemember.</p>
   </div>
 
 </section>
@@ -186,8 +181,8 @@ With VA health care, you’re covered for regular checkups with your primary car
   <h2 class='highlight'>Manage Your Veterans Health Care Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>Order and Track Your VA Prescription Refill</b></a>
-    <p>Sign in to refill your VA prescriptions and track your orders online.</p>
+    <a href="#"><b>Refill and Track Your VA Prescriptions</b></a>
+    <p>Sign in to order a VA prescription refill and track your shipment online.</p>
     </div>
 
   <div class="link">
@@ -206,8 +201,8 @@ With VA health care, you’re covered for regular checkups with your primary car
   </div>
 
   <div class="link">
-    <a href="#"><b>Order Hearing Aid Batteries</b></a>
-    <p>Order new btteries online and get them mailed directly to you.</p>
+    <a href="#"><b>Order Hearing Aid Batteries or Prosthetic Socks</b></a>
+    <p>Sign in to order new hearing aid batteries or prosthetic socks from VA.</p>
   </div>
 
   <div class="link">
@@ -237,28 +232,49 @@ With VA health care, you’re covered for regular checkups with your primary car
   <h2 class='highlight'>More VA Health Care Information and Resources</h2>
 
   <div class="link">
-    <a href="#"><b>Determine Costs of Care</b></a>
-    <p>Figure out how much your monthly health care costs will add up to.</p>
+    <a href="#"><b>About Your VA Copay and Health Care Costs</b></a>
+    <p>Learn about your VA copay, financial assessment (also called a means test), and how VA health care works with private health insurance.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>VA Health Services for Specific Needs and Conditions</b></a>
-    <p>Find out how to get care for specific Veterans health issues, including mental health and women’s health needs.</p>
+    <p>Find out how to get care for specific needs (like mental health), and service-related health concerns you should be aware of (like Agent Orange-related diseases or Gulf War Syndrome).</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Conditions Related to When and Where You Served</b></a>
-    <p>Find out which service-connected health concerns you should be aware of, based on when and where you served.</p>
+    <a href="#"><b>Veterans Health Programs</b></a>
+  <p>Learn about VA programs to help you get and stay healthy in both body and mind.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Wellness Programs</b></a>
-    <p>Learn about special programs that focus on increasing your wellness.</p>
+    <a href="#"><b>Chemical or Hazardous Material Exposures</b></a>
+    <p>Learn about health concerns linked to exposures during military service and special VA health registries to track concerns related to Agent Orange, Gulf War/Operation Iraqi Freedom, depleted urianium, and ionizing radiation.</p>
+  </div>
+
+<div class="link">
+    <a href="#"><b>The Veterans Choice Program</b></a>
+    <p>If you're enrolled in VA health care, find out if you can receive care from a local community provider through the Veterans Choice Program.</p>
+  </div>
+
+<div class="link">
+    <a href="#"><b>The Affordable Care Act (ACA) and VA Health Care</b></a>
+    <p>Find out what you need to know the Affordable Care Act and Veterans.
+  </div>
+  
+  <div class="link">
+    <a href="#"><b>The Million Veteran Program</b></a>
+    <p>Find out if you can be part of this voluntary research study to better understand the role genes play in our health.
+  </div>
+  
+  <div class="link">
+    <a href="#"><b>Find VA Doctors and Other Providers</b></a>
+    <p>Search for VA doctors and other health care providers by state or VA health facility.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Affordable Care Act (ACA)</b></a>
-    <p>Find out what you need to know about the ACA and your health coverage.</p>
+    <a href="#"><b>Access and Quality in VA Health Care</b></a>
+    <p>Get information about your VA facility, like how quickly you can be seen and what other Veterans say about their experiences.</p>
   </div>
+
 
 </section>
