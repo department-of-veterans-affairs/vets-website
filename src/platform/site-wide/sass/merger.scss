@@ -162,22 +162,48 @@ h3, h4 {
 
   width:100%;
   height: 85px;
+  padding: 0;
 
   a {
+    width: 100%;
+    height: 100%;
     font-weight: bold;
     color: white;
     text-decoration: none;
   }
 
+  .icon-wrapper {
+    width: 55px;
+    height: 100%;
+    float: left;
+
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+
+  .button-inner {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
   .fa {
-    //padding-right: .5em;
-    font-size: 2.5em;
-  //  vertical-align: text-top;
+    font-size: 1.5em;
     display:inline-block;
 
     &.fa-user-circle {
-      font-size: 2em;
+      font-size: 1.5em;
       padding-right: .3em;
+    }
+
+    &::before {
+      position: absolute;
+      margin: 0;
+      top: 15px;
+      left: -7.75px;
     }
   }
 
@@ -190,32 +216,28 @@ h3, h4 {
     height: 2em;
     vertical-align: middle;
     margin-left: -1em;
-    //margin: .5em 0.1em -0em -0.6em
   }
 
   div {
     display:inline-block;
     width:80%;
-
-    // hacky hacky hacky
-    &#vcl {
-      width: 84%;
-      margin-left: .5em;
-      margin-top: .4em;
-    }
   }
 
   &.primary-darker {
-    background-color: $color-primary-darker;
-  }
 
-  &.primary {
+    .icon-wrapper {
+      background-color: $color-primary-darker;
+    }
+
     background-color: $color-primary;
   }
 
   &.secondary-dark {
+
+    .icon-wrapper {
+      background-color: $color-secondary-darkest;
+    }
     background-color: $color-secondary-dark;
-    padding-left: 1.6em;
   }
 }
 
