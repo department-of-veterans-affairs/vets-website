@@ -1,0 +1,65 @@
+// iconography
+
+h3 {
+  i {
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+}
+
+.fa {
+
+  position: relative;
+  color: $color-white;
+  border-radius: 50%;
+
+  &::before {
+    position: absolute;
+    margin-top: 9.5px;
+    margin-left: 11.47px;
+  }
+
+  &.icon-large {
+    height: 40px;
+    width: 40px;
+  }
+
+  &.icon-small {
+    height: 32px;
+    width: 32px;
+  }
+
+  &.fa-medkit {
+    background-color: $color-primary;
+
+    &::before {
+      position: absolute;
+      margin-top: 9.25px;
+      margin-left: 10.5px;
+    }
+  }
+
+  &.fa-book {
+    background-color: $color-gold-light;
+  }
+
+  &.fa-id-card {
+    background-color: $color-green;
+
+    &::before {
+      position: absolute;
+      margin-top: 9.75px;
+      margin-left: 8.5px;
+    }
+  }
+
+  &.fa-handshake {
+    background-color: $color-visited;
+
+    &::before {
+      position: absolute;
+      margin-top: 9.75px;
+      margin-left: 7.75px;
+    }
+  }
+}
