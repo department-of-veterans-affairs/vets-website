@@ -22,7 +22,7 @@ majorlinks:
       description: Find out if you can get added pension benefits as a Veteran or survivor.
     - url: /pension/survivors-pension/
       title: How to Apply for a Survivors Pension
-      description: Find out if you can get monthly payments as an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service.
+      description: Find out if you’re eligible and how to apply for a survivors pension as a surviving spouse or child of a deceased Veteran with wartime service.
     - url: /pension/rates/
       title: Veterans Pension Rates
       description: Find out how much you qualify for.
