@@ -84,13 +84,13 @@ describe('<Vet360ProfileField/>', () => {
     component = enzyme.shallow(<Vet360ProfileField {...props}/>);
 
     let onEditClick = component.find('Vet360ProfileFieldHeading').props().onEditClick;
-    expect(onEditClick).to.be.equal(props.onEdit);
+    expect(onEditClick, 'The resultant onEditClick prop passed to the heading should be the original onEdit prop').to.be.equal(props.onEdit);
 
     component.setProps({
       transaction: { data: { attributes: { transactionStatus: TRANSACTION_STATUS.RECEIVED } } }
     });
 
     onEditClick = component.find('Vet360ProfileFieldHeading').props().onEditClick;
-    expect(onEditClick).to.be.false;
+    expect(onEditClick, 'No onEditClick prop should be passed if there is a transaction processing').to.be.false;
   });
 });

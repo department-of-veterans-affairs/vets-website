@@ -10,6 +10,7 @@ import Vet360EditModalActionButtons from '../components/Vet360EditModalActionBut
 export default class Vet360EditModal extends React.Component {
 
   static propTypes = {
+    analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
     getInitialFormValues: PropTypes.func.isRequired,
     field: PropTypes.shape({
@@ -19,6 +20,7 @@ export default class Vet360EditModal extends React.Component {
     hasValidationError: PropTypes.func,
     isEmpty: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     render: PropTypes.func.isRequired,
