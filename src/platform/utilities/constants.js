@@ -10,7 +10,7 @@ export const constantHandler = {
 };
 
 
-export const fetchStates = new Proxy({
+export const requestStates = new Proxy({
   notCalled: 'not called',
   pending: 'pending',
   succeeded: 'succeeded',
