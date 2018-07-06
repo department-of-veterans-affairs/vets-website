@@ -351,45 +351,56 @@ const getVACenterName = (center) => center.treatmentCenterName;
 
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
 
-const listifyCenters = (center, idx, list) => {
-  const centerName = center.treatmentCenterName ? getVACenterName(center) : getPrivateCenterName(center);
-  const notLast = idx < (list.length - 1);
-  const justOne = list.length === 1;
-  const atLeastThree = list.length > 2;
+const listCenters = (centers) => {
   return (
-    <span key={idx}>
-      {!notLast && !justOne && <span className="unstyled-word"> and </span>}
-      {centerName}
-      {atLeastThree && notLast && ', '}
-    </span>
+    <span className="treatment-centers">{centers.map((center, idx, list) => {
+      const centerName = center.treatmentCenterName ? getVACenterName(center) : getPrivateCenterName(center);
+      const notLast = idx < (list.length - 1);
+      const justOne = list.length === 1;
+      const atLeastThree = list.length > 2;
+      return (
+        <span key={idx}>
+          {!notLast && !justOne && <span className="unstyled-word"> and </span>}
+          {centerName}
+          {atLeastThree && notLast && ', '}
+        </span>
+      );
+    }) }</span>
   );
+
+};
+
+const listDocuments = (documents) => {
+  return (<ul>
+    {documents.map((document, id) => {
+      return (<li className="dashed-bullet" key={id}>
+        <strong>{document.name}</strong>
+      </li>);
+    })}
+  </ul>);
 };
 
 export const evidenceSummaryView = ({ formData }) => {
   const {
-    vaTreatments,
+    treatments,
     privateRecordReleases,
     privateRecords,
     additionalDocuments
   } = formData;
+
   return (
     <div>
       <ul>
-        {vaTreatments &&
-        <li>We’ll get your medical records from <span className="treatment-centers">{vaTreatments.map(listifyCenters)}</span>.</li>}
+        {treatments &&
+        <li>We’ll get your medical records from {listCenters(treatments)}.</li>}
         {privateRecordReleases &&
-        <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
-        {privateRecords && <li>We have received the private medical records you uploaded.</li>}
+        <li>We’ll get your private medical records from {listCenters(privateRecordReleases)}.</li>}
+        {privateRecords && <li>We have received the private medical records you uploaded:
+          {listDocuments(privateRecords)}
+        </li>}
         {additionalDocuments &&
         <li>We have received the additional evidence you uploaded:
-          <ul>
-            {additionalDocuments.map((document, id) => {
-              return (<li className="dashed-bullet" key={id}>
-                <strong>{document.name}</strong>
-              </li>);
-            })
-            }
-          </ul>
+          {listDocuments(additionalDocuments)}
         </li>}
       </ul>
     </div>
