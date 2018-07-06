@@ -139,12 +139,11 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 
 ### How do I apply for my COE?
 
-#### You can apply in any of these ways:
-
-##### Online through eBenefits
-We recommend applying for your COE online.
+You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan">Go to eBenefits to Apply</a>
+
+#### You can also apply:
 
 ##### Through our Web LGY system
 In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
