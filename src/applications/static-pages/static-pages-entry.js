@@ -14,6 +14,7 @@ const burialPages = new Set([
   '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/'
 ]);
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
+const eduOptOutPage = '/education/opt-out/';
 const disabilityPages = new Set(['/disability-benefits/', '/disability-benefits/apply/', '/disability-benefits/eligibility/']);
 
 // No-react styles.
@@ -41,6 +42,9 @@ if (healthcarePages.has(location.pathname)) {
   });
 }
 if (eduPages.has(location.pathname)) {
+  createEducationApplicationStatus(store);
+}
+if (location.pathname === eduOptOutPage) {
   createEducationApplicationStatus(store);
 }
 if (burialPages.has(location.pathname)) {
