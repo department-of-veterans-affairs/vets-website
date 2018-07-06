@@ -1,9 +1,10 @@
 ---
 layout: page-breadcrumbs.html
 template: level2-merger
-title: Health Care
+title: VA Health Care
 display_title: Health Care
-concurrence: complete
+description: Learn about VA health care benefits that cover services like primary, mental health, home health, and geriatric care, prosthetics, and prescriptions. Find out if you’re eligible, how to apply, and how to manage your Veterans health care benefits.
+concurrence: 
 lastupdate:
 order: 1
 administration:
@@ -100,30 +101,31 @@ mobile:
 ---
 
 <p class="va-introtext">
-With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
+With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to Veterans health care services like home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
 </p>
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Health Care Benefits](#get)<br>
-[Manage Your Health Benefits](#manage)<br>
-[More Health Care Information and Resources](#more)<br>
+[Get VA Health Care Benefits](#get)<br>
+[Manage Your Veterans Health Care Benefits](#manage)<br>
+[More VA Health Care Information and Resources](#more)<br>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-title">Are you homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">VA may be able to help</a>.</h4>
+    <h4 class="usa-alert-title">How do I get help if I'm homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">We may be able to help</a>.</h4>
     <div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner usa-alert-text">
-        <p>We offer many programs and services to support you. Find the support you need: </p>
+        <p>We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.</p>
+        <p><strong>Find the support you need:</strong></p>
         <ul>
-          <li>Get help connecting with services you may qualify for in your community. <br>
+          <li><b>Call the National Call Center for Homeless Veterans</b> at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.</li>
+          <li><b>Contact your nearest VA medical center</b> and ask to talk with the VA social worker. If you’re a female Veteran, ask for the Women Veterans Program Manager.<br>            
             <a href="/facilities/">Find the nearest VA medical center</a>.</li>
-          <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week.</li>
+          <li></li>
         </ul>
-        <p>We can also connect you with other non-VA resources in your area.</p>
-        <p><b>Are you in crisis right now?</b> <br>
+        <p><b>Talk with someone right now:</b></p> <br>
+        <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>
         <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
-        <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
       </div>
     </div>
   </div>
@@ -140,26 +142,31 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Health Care Benefits</h2>
+  <h2 class="highlight">Get VA Health Care Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Health Care Coverage</b></a>
-    <p>Learn more about your VA health care benefits, your health care team, and where you’ll go.</p>
+    <a href="#"><b>About VA Health Benefits</b></a>
+    <p>Find out how VA health care works and which Veterans health care services we cover.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Eligibility</b></a>
-    <p>Find out if you can get VA health care benefits.
+    <p>Find out if you’re eligible for Veterans health care benefits and how priority groups may affect you.
   </div>
 
   <div class="link">
-    <a href="#"><b>Application Process</b></a>
-    <p>Once you’ve figured out if you qualify, applying for VA  health care benefits is easy. Find out how to apply.</p>
+    <a href="#"><b>How to Apply</b></a>
+    <p>Find out how to prepare and apply for VA health care online or by phone or mail.</p>
   </div>
-
+  
+  <div class="link">
+    <a href="#"><b>Apply Online (VA Form 10-10EZ)</b></a>
+    <p>Get step-by-step instructions and start your VA health care application right now online.</p>
+  </div>
+  
   <div class="link">
     <a href="#"><b>After You Apply</b></a>
-    <p>After you’ve applied for VA health care, find out when to expect your letter—and what to do next.</p>
+    <p>Find out when to expect to hear from us about your VA health care application, and what to do next.</p>
   </div>
 
   <div class="link">
@@ -176,26 +183,26 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Health Benefits</h2>
+  <h2 class='highlight'>Manage Your Veterans Health Care Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>Refill or Track Your Prescriptions</b></a>
-    <p>Refill prescriptions online, and track the status of your refills.</p>
+    <a href="#"><b>Order and Track Your VA Prescription Refill</b></a>
+    <p>Sign in to refill your VA prescriptions and track your orders online.</p>
     </div>
 
   <div class="link">
-    <a href="#"><b>Message Your Health Care Team</b></a>
-    <p>Send a secure note to your primary care provider or other members of your VA health care team.</p>
+    <a href="#"><b>Use VA Secure Messaging with Your Health Care Team</b></a>
+    <p>Sign in to communicate with your VA health care team through secure messaging.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Schedule or Manage a VA Appointment</b></a>
-    <p>Find out how to make a doctor's appointment with a member of your VA health care team online or by phone.</p>
+    <a href="#"><b>Schedule and Manage VA Appointments</b></a>
+    <p>Find out how to schedule a VA appointment by phone, online, or through secure messaging.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your Lab and Test Results</b></a>
-    <p>A few days after your appointment, sign in to your account to see results of your medical tests.</p>
+    <a href="#"><b>Access Your VA Labs and Test Results</b></a>
+    <p>Sign in to view, download, and print your VA labs and test results.</p>
   </div>
 
   <div class="link">
@@ -204,20 +211,30 @@ With VA health care, you’re covered for regular checkups with your primary car
   </div>
 
   <div class="link">
-    <a href="#"><b>Get Your VA Health Records (Blue Button)</b></a>
+    <a href="#"><b>Manage Your VA Medical Records (VA Blue Button)</b></a>
     <p>View, download, and print your VA health records.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Update Your Health Benefits</b></a>
-    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+    <a href="#"><b>Update Your VA Health Benefits (Form 10-10EZR)</b></a>
+    <p>Update your personal, insurance, or financial information after you’re enrolled in the VA health care program.</p>
+  </div>
+
+ <div class="link">
+    <a href="#"><b>Make a VA Payment Online</b></a>
+    <p>Pay your VA copay bill online through Pay.gov.</p>
+  </div>
+
+ <div class="link">
+    <a href="#"><b>Make a VA Payment Online</b></a>
+    <p>Pay your VA copay bill online through Pay.gov.</p>
   </div>
 
 </section>
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Health Care Information and Resources</h2>
+  <h2 class='highlight'>More VA Health Care Information and Resources</h2>
 
   <div class="link">
     <a href="#"><b>Determine Costs of Care</b></a>
@@ -225,8 +242,8 @@ With VA health care, you’re covered for regular checkups with your primary car
   </div>
 
   <div class="link">
-    <a href="#"><b>Health Needs and Conditions</b></a>
-    <p>Find out how to access VA services for mental health, women’s health, and other specific needs.</p>
+    <a href="#"><b>VA Health Services for Specific Needs and Conditions</b></a>
+    <p>Find out how to get care for specific Veterans health issues, including mental health and women’s health needs.</p>
   </div>
 
   <div class="link">
