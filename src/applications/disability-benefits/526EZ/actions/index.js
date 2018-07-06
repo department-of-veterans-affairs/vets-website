@@ -26,7 +26,7 @@ export function createITF() {
     dispatch({ type: ITF_CREATION_INITIATED });
 
     return apiRequest(
-      '/intent_to_file',
+      '/intent_to_file/compensation',
       { method: 'POST' },
       ({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }),
       () => dispatch({ type: ITF_CREATION_FAILED })
