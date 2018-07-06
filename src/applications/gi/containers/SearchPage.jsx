@@ -67,7 +67,9 @@ export class SearchPage extends React.Component {
       'yellowRibbonScholarship',
       'principlesOfExcellence',
       'eightKeysToVeteranSuccess',
-      'stemOffered'
+      'stemOffered',
+      'priorityEnrollment',
+      'independentStudy'
     ];
 
     const query = _.pick(this.props.location.query, [
