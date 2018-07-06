@@ -4,7 +4,7 @@ layout: page-react.html
 entryname: account
 ---
 <div id="main">
-  <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
+  <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs"
   id="va-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/" id="account-home">Home</a></li>
