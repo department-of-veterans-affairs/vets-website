@@ -77,7 +77,6 @@ export function transform(formConfig, form) {
     standardClaim,
   };
 
-  console.log({ form526: transformedData });
   return JSON.stringify({ form526: transformedData });
 }
 
