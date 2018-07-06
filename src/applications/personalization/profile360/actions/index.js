@@ -1,3 +1,5 @@
+import { apiRequest } from '../../../../platform/utilities/api';
+import localVet360, { isVet360Configured } from '../util/local-vet360';
 import sendAndMergeApiRequests from '../util/sendAndMergeApiRequests';
 import _ from 'lodash';
 import countries from '../constants/countries.json';
@@ -7,6 +9,8 @@ export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS = 'FETCH_PERSONAL_INFORMATION_SUCCESS';
 export const FETCH_MILITARY_INFORMATION_SUCCESS = 'FETCH_MILITARY_INFORMATION_SUCCESS';
 export const FETCH_ADDRESS_CONSTANTS_SUCCESS = 'FETCH_ADDRESS_CONSTANTS_SUCCESS';
+
+export const VET360_TRANSACTIONS_FETCH_SUCCESS = 'VET360_TRANSACTIONS_FETCH_SUCCESS';
 
 export * from './updaters';
 export * from './misc';
@@ -55,6 +59,20 @@ export function fetchAddressConstants() {
       countries: _.map(countries, 'countryName'),
     }
   });
+}
+
+export function fetchTransactions() {
+  return async (dispatch) => {
+    try {
+      const response = isVet360Configured() ? await apiRequest('/profile/status/') : localVet360.getUserTransactions();
+      dispatch({
+        type: VET360_TRANSACTIONS_FETCH_SUCCESS,
+        data: response.data
+      });
+    } catch (err) {
+      // If we sync transactions in the background and fail, is it worth telling the user?
+    }
+  };
 }
 
 export function startup() {

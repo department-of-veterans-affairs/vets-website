@@ -11,7 +11,7 @@ import {
 
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
 import PhoneSection from './PhoneSection';
@@ -180,7 +180,7 @@ export default function ContactInformation(props) {
   return (
     <div>
       <h2 className="va-profile-heading">Contact Information</h2>
-      <DowntimeNotification render={handleDowntimeForSection('contact')} dependencies={[services.evss, services.mvi]}>
+      <DowntimeNotification render={handleDowntimeForSection('contact')} dependencies={[externalServices.evss, externalServices.mvi]}>
         <ContactInformationContent {...props}/>
       </DowntimeNotification>
     </div>

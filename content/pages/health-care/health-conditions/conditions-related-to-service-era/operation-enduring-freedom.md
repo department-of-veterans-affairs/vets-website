@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Operation Enduring Freedom in Afghanistan
 display_title: Operation Enduring Freedom
+description: Learn what health conditions you might be at risk of developing if you served in Afghanistan during Operation Enduring Freedom.  Find out what to do next to take care of your health.
 concurrence: complete
 lastupdate: 2017-06-28
 order: 1

@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Vietnam War
 display_title: 
+description: Learn what health conditions you might be at risk of developing if you’re a Vietnam War Veteran.
 concurrence: complete
 lastupdate: 2017-06-28
 order: 5

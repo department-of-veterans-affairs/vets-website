@@ -5,9 +5,7 @@ import { mapboxClient } from '../components/MapboxClient';
 export function updateSearchQuery(query) {
   return {
     type: 'SEARCH_QUERY_UPDATED',
-    payload: {
-      ...query,
-    }
+    payload: { ...query }
   };
 }
 

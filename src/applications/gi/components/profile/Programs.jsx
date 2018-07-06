@@ -12,7 +12,7 @@ export class Programs extends React.Component {
       yr: {
         modal: 'yribbon',
         text: 'Yellow Ribbon',
-        link: {
+        link: __BUILDTYPE__ !== 'production' ? false : {
           href: `http://www.benefits.va.gov/gibill/yellow_ribbon/2016/states/${institution.state}.asp`,
           text: 'See rates',
         }
@@ -53,6 +53,12 @@ export class Programs extends React.Component {
         text: 'Military Tuition Assistance (TA)',
         link: false
       },
+
+      priorityEnrollment: {
+        modal: 'priEnroll',
+        text: 'Priority Enrollment',
+        link: false
+      }
     };
   }
 

@@ -4,9 +4,11 @@ layout: page-react.html
 entryname: va-profile
 ---
 <div id="main">
-  <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
-      <li><a href="/" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">Home</a></li>
+  <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
+  id="va-breadcrumbs">
+    <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
+      <li><a href="/" id="account-home">Home</a></li>
+      <li><a aria-current="page" href="/profile/">Your Profile</a></li>
     </ul>
   </nav>
 
@@ -20,3 +22,12 @@ entryname: va-profile
   </div>
   <!-- Profile Beta End -->
 </div>
+
+<script>
+  (function() {
+    var accountHomeLink = document.getElementById('account-home');
+    accountHomeLink.addEventListener('click', function(ev) {
+      recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });
+    });
+  })();
+</script>

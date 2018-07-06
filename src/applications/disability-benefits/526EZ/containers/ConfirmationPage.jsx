@@ -96,7 +96,7 @@ class ConfirmationPage extends React.Component {
               <strong>Confirmation number</strong>
               <br/>
               <span>V-DCCI-3986</span>
-              {/* <span>{response.confirmationNumber}</span> */}
+              {/* <span>{response.claimId}</span> */}
             </li>
             <li>
               <strong>Date submitted</strong>
