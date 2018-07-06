@@ -2,11 +2,15 @@ import { createRoutesWithSaveInProgress } from '../../../platform/forms/save-in-
 import formConfig from './config/form';
 import OptOutApp from './containers/OptOutApp.jsx';
 
+const filteredRoutes = new Set(['introduction', 'review-and-submit']);
+
+const childRoutes = createRoutesWithSaveInProgress(formConfig).filter(route => !filteredRoutes.has(route.path));
+
 const route = {
   path: '/',
   component: OptOutApp,
-  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-  childRoutes: createRoutesWithSaveInProgress(formConfig)
+  indexRoute: { onEnter: (nextState, replace) => replace('/form-page') },
+  childRoutes
 };
 
 export default route;
