@@ -8,7 +8,8 @@ import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+// import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { filterViewFields } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
@@ -57,13 +58,13 @@ export function transform(formConfig, form) {
   // transformForSubmit removes all the disabilities. Why?
   const {
     disabilities,
+    veteran,
     privacyAgreementAccepted,
     servicePeriods,
     standardClaim,
-    veteran
   } = form.data;
 
-  const testObj = {
+  const transformedData = {
     // 1. Remove unselected disabilities
     disabilities: disabilities.filter(disability => (disability['view:selected'] === true)),
     // 2. Put email and phone back into veteran property
@@ -71,16 +72,13 @@ export function transform(formConfig, form) {
     // 3. Extract treatments into one top-level array
     treatments: aggregate(disabilities, 'treatments'),
     privacyAgreementAccepted,
-    servicePeriods,
+    // 4. Pull service periods into service information
+    serviceInformation: { servicePeriods },
     standardClaim,
   };
 
-  console.log('testSubmit: ', testObj);
-  return JSON.stringify({
-    disabilityBenefitsClaim: {
-      form: testObj
-    }
-  });
+  console.log({ form526: transformedData });
+  return JSON.stringify({ form526: transformedData });
 }
 
 export function validateDisability(disability) {
