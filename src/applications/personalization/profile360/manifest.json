@@ -4,5 +4,5 @@
   "entryName": "profile-360",
   "rootUrl": "/profile360",
   "production": true,
-  "contentPage": "profile360/index.md"
+  "contentPage": "profile/index.md"
 }
