@@ -45,6 +45,7 @@ export const ITFWrapper = ({ location, children, itf, fetchITF, createITF }) => 
 
   // If we have an active ITF, we're good to go--render that form!
   if (itf.currentITF.status === itfStatuses.active) {
+    // TODO: Render a success alert box (only the first time)
     return children;
   }
 
