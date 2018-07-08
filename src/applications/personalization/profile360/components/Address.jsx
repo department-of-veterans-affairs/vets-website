@@ -7,7 +7,6 @@ import { focusElement } from '../../../../platform/utilities/ui';
 import ErrorableSelect from '../../../letters/components/ErrorableSelect';
 import ErrorableTextInput from '../../../letters/components/ErrorableTextInput';
 import { STATE_CODE_TO_NAME, MILITARY_CITIES, MILITARY_STATES } from '../../../letters/utils/constants';
-import { militaryStateNames } from '../../../letters/utils/helpers';
 
 /**
  * Input component for an address.
@@ -28,39 +27,13 @@ class Address extends React.Component {
     // accepted by ErrorableSelect,
     // e.g., from this: `IL: 'Illinois'`
     // to this: `{ value: 'Illinois', label: 'IL' }`
-    let statesList = [];
+    const statesList = [];
 
-    // If the city is a military city, just add the military statesList to the list
-    if (this.props.address.city && this.isMilitaryCity(this.props.address.city)) {
-      statesList = militaryStateNames;
-    } else {
-      // Add statesList to list in the correct format
-      _.mapKeys(STATE_CODE_TO_NAME, (value, key) => {
-        statesList.push({ label: value, value: key });
-      });
-      // Add military statesList to full state list
-      militaryStateNames.forEach((militaryState) => {
-        statesList.push(militaryState);
-      });
-      // Alphabetize the list
-      statesList.sort((a, b) => {
-        if (a.label < b.label) {
-          return -1;
-        }
-        if (a.label > b.label) {
-          return 1;
-        }
-        return 0;
-      });
-    }
+    _.mapKeys(STATE_CODE_TO_NAME, (value, key) => {
+      statesList.push({ label: value, value: key });
+    });
 
     return statesList;
-  }
-
-  isMilitaryCity = (city) => {
-    const upperCity = city.toUpperCase().trim();
-
-    return MILITARY_CITIES.has(upperCity);
   }
 
   render() {
