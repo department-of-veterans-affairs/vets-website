@@ -16,8 +16,8 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: ""
-      title: Disability Benefits
-      description: Find out if you're eligible and how to apply for VA disability pay for Veterans.
+      title: Disability Pay (Compensation)
+      description: Find out if you're eligible and how to apply for VA disability benefits.
     - url: ""
       title: Life Insurance 
       description: Explore your options for Servicemembers, Veterans, and family life insurance and find out how to apply.
@@ -111,7 +111,7 @@ With VA health care, you’re covered for regular checkups with your primary car
         </ul>
         <p><b>Talk with someone right now:</b></p> </br>
         <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>
-        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
+        <p><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
       </div>
     </div>
   </div>
@@ -168,12 +168,12 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="link">
     <a href="#"><b>Refill and Track Your VA Prescriptions</b></a>
-    <p>Order your VA prescription refill and track your shipment online.</p>
+    <p>Order a VA prescription refill and track your shipment online.</p>
     </div>
 
   <div class="link">
     <a href="#"><b>Use VA Secure Messaging with Your Health Care Team</b></a>
-    <p>Email privately with your VA health care team through secure messaging.</p>
+    <p>Communicate privately with your VA health care team through secure messaging.</p>
   </div>
 
   <div class="link">
@@ -193,22 +193,27 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="link">
     <a href="#"><b>Manage Your VA Medical Records (VA Blue Button)</b></a>
-    <p>Build your personal health record and dowload reports to share with your VA and non-VA doctors.</p>
+    <p>Build your personal health record and download reports to share with your VA and non-VA doctors.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Update Your VA Health Benefits (Form 10-10EZR)</b></a>
+    <a href="#"><b>Update Your VA Health Benefits Information (Form 10-10EZR)</b></a>
     <p>Update your personal, insurance, or financial information after you’re enrolled in the VA health care program.</p>
   </div>
 
  <div class="link">
     <a href="#"><b>Make a VA Payment Online</b></a>
-    <p>Pay your VA copay bill online through Pay.gov.</p>
+    <p>Pay your VA copay bill securely online through Pay.gov.</p>
   </div>
 
  <div class="link">
-    <a href="#"><b>Track Your VA Health Care Claim Status</b></a>
-    <p>Check the status of your open VA health care appeal.</p>
+    <a href="#"><b>Check Your VA Health Care Appeal Status</b></a>
+    <p>Track the status of an open VA health care claim.</p>
+  </div>
+
+<div class="link">
+    <a href="#"><b>Get VA Medical Travel Reimbursement</b></a>
+    <p>Find out how to apply for reimbursement for travel to a VA health facility.</p>
   </div>
 
 </section>
@@ -223,18 +228,18 @@ With VA health care, you’re covered for regular checkups with your primary car
   </div>
 
   <div class="link">
-    <a href="#"><b>VA Health Services for Specific Needs and Conditions</b></a>
+    <a href="#"><b>VA Health Services for Specific Veteran Health Needs</b></a>
     <p>Find out how to get care for specific needs (like mental health), and service-related health concerns you should be aware of (like Agent Orange-related diseases or Gulf War Syndrome).</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Veterans Health Programs</b></a>
+    <a href="#"><b>Veterans Programs for Health and Wellness</b></a>
   <p>Learn about VA programs to help you get and stay healthy in both body and mind.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Chemical or Hazardous Material Exposures</b></a>
-    <p>Learn about health concerns linked to exposures during military service and special VA health registries to track concerns related to Agent Orange, Gulf War/Operation Iraqi Freedom, depleted urianium, and ionizing radiation.</p>
+    <p>Learn about health concerns linked to exposures during military service and special VA health registries to track concerns related to Agent Orange, Gulf War/Operation Iraqi Freedom, depleted uranium, and ionizing radiation.</p>
   </div>
 
 <div class="link">
@@ -244,7 +249,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <div class="link">
     <a href="#"><b>The Affordable Care Act (ACA) and VA Health Care</b></a>
-    <p>Find out what you need to know the Affordable Care Act and Veterans.
+    <p>Find out what you need to know about the Affordable Care Act and Veterans.
   </div>
   
   <div class="link">
