@@ -19,20 +19,17 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: https://vets.gov/housing-assistance/adaptive-housing-grants/
-      title: Adaptive Housing Grants
-      description:
+      title: <b>Disability Housing Grants for Veterans</b>
+      description: Find out how to apply for housing grants for Veterans with service-connected disabilities.
     - url:  https://benefits.va.gov/fiduciary/index.asp
-      title: Fiduciary Services
-      description:
-    - url:  https://vets.gov/employment/vocational-rehab-and-employment/service-disabled/independent-living/
-      title: Independent Living Services
-      description:
+      title: <b>Fiduciary Services</b>
+      description: Find out how to become a fiduciary to handle the financial affairs of a Veteran in need.
     - url:  https://vets.gov/health-care/about-va-health-care/assisted-living-and-home-health-care/
-      title: Assisted Living and Home Health Care
-      description:
+      title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
+      description: Explore long-term care options for Veterans and caregivers.
     - url:  https://vets.gov/employment/vocational-rehab-and-employment/
-      title: Voc Rehab (VR&E)
-      description:
+      title: <b>Vocational Rehabilitation and Employment</b> 
+      description: Find out how to apply for voc rehab services like help exploring employment options and any required training needs.
     - url:  https://vets.gov/employment/vocational-rehab-and-employment/
       title: Aid and Attendance or Housebound Allowance
       description:
@@ -52,10 +49,8 @@ contact:
     - url: 1-877-222-VETS (8387)
       title: General Health Care Benefits Questions
     - url: 1-800-749-8387
-      title: Special Issues ( Gulf War/Agent Orange/Project Shad/Mustard Agents and Lewisite/Ionizing Radiation)
-    - url: 1-855-VA-WOMEN (1-855-829-6636)
-      title: Women Veterans Hotline
-    -	url: 1-877-4AID-VET (1-877-424-3838)
+      title: Special Issues (Gulf War/Agent Orange/Project Shad/Mustard Agents and Lewisite/Ionizing Radiation)
+    - url: 1-877-4AID-VET (1-877-424-3838)
       title: National Call Center for Homeless Veterans
 social:
   - heading: Social Media
@@ -95,7 +90,7 @@ mobile:
 ---
 
 <p class="va-introtext">
-VA disability pay (compensation) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military, or whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) or mental health conditions (like PTSD) that developed before, during, or after service. Learn more about Veterans disability benefits and how to apply.
+VA disability pay (compensation) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military, or whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) or mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you've earned.
 </p>
 
 <h3 class="highlight">Page Content</h3>
@@ -157,7 +152,7 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"><b>Add or Remove a Dependent</b></a>
-    <p>Find out how and when to add or remove a dependent spouse, child, or parent to your VA disability benefits.</p>
+    <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits.</p>
   </div>
 
   <div class="link">
@@ -171,22 +166,17 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Update Your Direct Deposit and Contact Information</b></a>
-    <p>To be added.</p>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <p>Find out how to change your VA disability direct deposit information online.</p>
   </div>
 
  <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/vapii"><b>Share Your VA Health Records</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/vapii"><b>Share Your VA Medical Records</b></a>
     <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/download-va-letters/"><b>Print Your Benefit Summary Letter</b></a>
-    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://vets.gov/download-va-letters/"><b>Print Your Commissary Eligibility Letter</b></a>
+    <a href="https://vets.gov/download-va-letters/"><b>Print Your Benefit and Eligibility Letters</b></a>
     <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
   </div>
 
