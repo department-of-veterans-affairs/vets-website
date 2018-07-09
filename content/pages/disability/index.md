@@ -46,18 +46,17 @@ contact:
   - heading: Call us for help with accessing health benefits or services
     links:
     - url: 1-800-827-1000
-     title: <b>Questions About Disability Compensation, Pension, and Direct Deposit:</b>
+      title: Questions About Disability Compensation, Pension, and Direct Deposit
     - url: 1-800-983-0937
-     title: <b>eBenefits Technical Support:</b>
+      title: eBenefits Technical Support
     - url: 1-877-222-VETS (8387)
-      title: <b>General Health Care Benefits Questions:</b>
+      title: General Health Care Benefits Questions
     - url: 1-800-749-8387
-      title: <b>Special Issues ( Gulf War/Agent Orange/Project Shad/Mustard Agents and Lewisite/Ionizing Radiation):</b>
+      title: Special Issues ( Gulf War/Agent Orange/Project Shad/Mustard Agents and Lewisite/Ionizing Radiation)
     - url: 1-855-VA-WOMEN (1-855-829-6636)
-      title: <b>Women Veterans Hotline:</b>
+      title: Women Veterans Hotline
     -	url: 1-877-4AID-VET (1-877-424-3838)
-      title: <b>National Call Center for Homeless Veterans:</b>
-
+      title: National Call Center for Homeless Veterans
 social:
   - heading: Social Media
     links:
@@ -93,7 +92,6 @@ mobile:
     - url: "https://"
       label: Like
       icon:
-
 ---
 
 <p class="va-introtext">
