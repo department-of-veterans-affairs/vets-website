@@ -145,95 +145,17 @@ class CalculatorForm extends React.Component {
   renderYellowRibbon() {
     if (!this.props.displayedInputs.yellowRibbon) return null;
 
-    if (__BUILDTYPE__ !== 'production') {
-      let {
-        yellowRibbonDegreeLevelOptions,
-        yellowRibbonDivisionOptions,
-      } = this.props.inputs;
+    let {
+      yellowRibbonDegreeLevelOptions,
+      yellowRibbonDivisionOptions,
+    } = this.props.inputs;
 
-      yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions
-        .map(value => ({ value, label: value }));
-      yellowRibbonDegreeLevelOptions.unshift({ value: 'customAmount', label: 'Enter an amount' });
-      yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
-      const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
-      const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
-
-      return (
-        <div>
-          <RadioButtons
-            label={this.renderLearnMoreLabel({
-              text: 'Will you be a Yellow Ribbon recipient?',
-              modal: 'calcYr'
-            })}
-            name="yellowRibbonRecipient"
-            options={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' }
-            ]}
-            value={this.props.inputs.yellowRibbonRecipient}
-            onChange={this.handleInputChange}/>
-          { this.props.inputs.yellowRibbonRecipient === 'yes' ?
-            <div>
-              <Dropdown
-                label="Degree Level"
-                name="yellowRibbonDegreeLevel"
-                alt="Degree Level"
-                hideArrows={yellowRibbonDegreeLevelOptions.length <= 1}
-                options={yellowRibbonDegreeLevelOptions}
-                visible={showYellowRibbonOptions}
-                value={this.props.inputs.yellowRibbonDegreeLevel}
-                onChange={this.handleInputChange}/>
-              <Dropdown
-                label="Division or school"
-                name={'yellowRibbonDivision'}
-                alt="Division or school"
-                hideArrows={yellowRibbonDivisionOptions.length <= 1}
-                options={yellowRibbonDivisionOptions}
-                visible={showYellowRibbonDetails}
-                value={this.props.inputs.yellowRibbonDivision}
-                onChange={this.handleInputChange}/>
-              <div>
-                <label htmlFor="yellowRibbonContributionAmount">
-                  Yellow Ribbon amount from school per year
-                </label>
-                <input
-                  id="yellowRibbonContributionAmount"
-                  type="text"
-                  name="yellowRibbonAmount"
-                  value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
-                  onChange={this.handleInputChange}/>
-              </div>
-              <AlertBox
-                isVisible={showYellowRibbonDetails}
-                key={this.props.inputs.yellowRibbonProgramIndex}
-                status="info">
-                <div>
-                  Maximum amount per student: <strong>{formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}/yr</strong><br></br>
-                  Number of students: <strong>{this.props.inputs.yellowRibbonMaxNumberOfStudents}</strong>
-                </div>
-              </AlertBox>
-            </div>
-            : null }
-        </div>
-      );
-    }
-
-    let amountInput;
-
-    if (this.props.inputs.yellowRibbonRecipient === 'yes') {
-      amountInput = (
-        <div>
-          <label htmlFor="yellowRibbonAmount">
-            Yellow Ribbon Amount From School per year
-          </label>
-          <input
-            type="text"
-            name="yellowRibbonAmount"
-            value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
-            onChange={this.handleInputChange}/>
-        </div>
-      );
-    }
+    yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions
+      .map(value => ({ value, label: value }));
+    yellowRibbonDegreeLevelOptions.unshift({ value: 'customAmount', label: 'Enter an amount' });
+    yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
+    const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
+    const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
 
     return (
       <div>
@@ -249,7 +171,48 @@ class CalculatorForm extends React.Component {
           ]}
           value={this.props.inputs.yellowRibbonRecipient}
           onChange={this.handleInputChange}/>
-        {amountInput}
+        { this.props.inputs.yellowRibbonRecipient === 'yes' ?
+          <div>
+            <Dropdown
+              label="Degree Level"
+              name="yellowRibbonDegreeLevel"
+              alt="Degree Level"
+              hideArrows={yellowRibbonDegreeLevelOptions.length <= 1}
+              options={yellowRibbonDegreeLevelOptions}
+              visible={showYellowRibbonOptions}
+              value={this.props.inputs.yellowRibbonDegreeLevel}
+              onChange={this.handleInputChange}/>
+            <Dropdown
+              label="Division or school"
+              name={'yellowRibbonDivision'}
+              alt="Division or school"
+              hideArrows={yellowRibbonDivisionOptions.length <= 1}
+              options={yellowRibbonDivisionOptions}
+              visible={showYellowRibbonDetails}
+              value={this.props.inputs.yellowRibbonDivision}
+              onChange={this.handleInputChange}/>
+            <div>
+              <label htmlFor="yellowRibbonContributionAmount">
+                Yellow Ribbon amount from school per year
+              </label>
+              <input
+                id="yellowRibbonContributionAmount"
+                type="text"
+                name="yellowRibbonAmount"
+                value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
+                onChange={this.handleInputChange}/>
+            </div>
+            <AlertBox
+              isVisible={showYellowRibbonDetails}
+              key={this.props.inputs.yellowRibbonProgramIndex}
+              status="info">
+              <div>
+                Maximum amount per student: <strong>{formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}/yr</strong><br></br>
+                Number of students: <strong>{this.props.inputs.yellowRibbonMaxNumberOfStudents}</strong>
+              </div>
+            </AlertBox>
+          </div>
+          : null }
       </div>
     );
   }
@@ -564,8 +527,8 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderKicker()}
-        {__BUILDTYPE__ !== 'production' && this.renderGbBenefit()}
-        {__BUILDTYPE__ !== 'production' && this.renderBeneficiaryZIP()}
+        {this.renderGbBenefit()}
+        {this.renderBeneficiaryZIP()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>
