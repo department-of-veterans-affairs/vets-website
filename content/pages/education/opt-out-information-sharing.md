@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Opt Out of Information Sharing
-display_title: Opt Out of Information Sharing
+title: Opt Out of Sharing VA Education Benefits Information
+display_title: Opt Out of Sharing VA Education Benefits Information
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 10
@@ -13,21 +13,14 @@ widgets:
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 description: Find the right VA education benefits for you, and apply to start getting help paying tuition. We can also help you find the right school or training program.
 ---
+<div itemscope itemtype ="http://schema.org/HowTo">
 The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with schools, unless you ask us not to.
 
 #### How do I tell VA I don’t want my information shared?
 You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
 
-<div markdown="0">
-
-<div id="react-applicationStatus" class="static-page-widget"></div>
-<br></div>
-
-<div markdown="1">
-
 #### Will opting out affect my education benefits?
 No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits.
-
 
 #### What kind of information does VA share with schools?
 Unless you opt out, we share basic information about your eligibility and benefits, including:
@@ -51,3 +44,4 @@ It makes it easy for schools to access information about your education benefits
 The Harry W. Colmery Veterans Educational Assistance Act, also called the “Forever GI Bill,” was signed into law August 2017 and expands education benefits for Veterans, Servicemembers, and their family members.
 
 [Learn more about the Colmery Veterans Educational Assistance Act](https://www.benefits.va.gov/GIBILL/ForeverGIBill.asp).
+</div>
