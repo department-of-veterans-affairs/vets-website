@@ -74,14 +74,14 @@ We may also consider other factors, like your service-connected disability statu
 To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 If you’re not currently in the VA health care program, you can apply for benefits now. <br>
-[Apply now](/health-care/apply/).
+[Apply for VA health care benefits](/health-care/apply/).
 
 <br>
 
 ### Does VA pay for these services?
 
 We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services. <br>
-[Apply for VA health care](/health-care/apply/).
+
 
 Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.</br>
 
