@@ -11,20 +11,79 @@ import { createITF as createITFAction, fetchITF as fetchITFAction } from '../act
 
 
 const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
+const fulfilledStates = [requestStates.succeeded, requestStates.failed];
+
+const noITFPages = ['/introduction', '/confirmation'];
 
 
 export class ITFWrapper extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasDisplayedSuccess: false
+    };
+  }
+
+
+  // When we first enter the form...
+  componentDidMount() {
+    // ...fetch the ITF if needed
+    if (!noITFPages.includes(this.props.location.pathname)) {
+      this.props.fetchITF();
+    }
+  }
+
+
+  // NOTE: This currently will stop the component from rendering, but that's not guaranteed
+  //  functionality in future versions of React. This will work for now, but if that behavior
+  //  changes later, we'll need to figure out another solution.
+  shouldComponentUpdate(nextProps, nextState) {
+    // Don't immediately blow away the success banner
+    if (!this.state.hasDisplayedSuccess && nextState.hasDisplayedSuccess) {
+      return false;
+    }
+
+    return true;
+  }
+
+
+  componentWillRecieveProps(nextProps) {
+    const { itf, location } = nextProps;
+
+    if (noITFPages.includes(location.pathname)) {
+      return;
+    }
+
+    // We now know we've navigated to a page that requires ITF logic
+
+    if (itf.fetchCallState === requestStates.notCalled) {
+      nextProps.fetchITF();
+    }
+
+    // If we've already fetched the ITFs, have none active, and haven't already called createITF, submit a new ITF
+    const fetchITFReturned = fulfilledStates.includes(itf.fetchCallState);
+    const hasActiveITF = itf.currentITF && itf.currentITF.status === itfStatuses.active;
+    const createITFCalled = itf.creationCallState !== requestStates.notCalled;
+    if (fetchITFReturned && !hasActiveITF && !createITFCalled) {
+      nextProps.createITF();
+    }
+
+    // If we've already displayed the itf success banner, toggle it off when the location changes
+    if (hasActiveITF && !this.state.hasDisplayedSuccess
+      && nextProps.location.pathname !== this.props.location.pathname) {
+      this.setState({ hasDisplayedSuccess: true });
+    }
+  }
+
+
   render() {
-    const { location, children, itf, fetchITF, createITF } = this.props;
+    const { location, children, itf } = this.props;
     // If the location is the intro or confirmation pages, don't fetch an ITF
-    if (['/introduction', '/confirmation'].includes(location.pathname)) {
+    if (noITFPages.includes(location.pathname)) {
       return children;
     }
 
-    // If we haven't checked the ITF status yet, do so
-    if (itf.fetchCallState === requestStates.notCalled) {
-      fetchITF();
-    }
+    // componentDidMount or componentWillRecieveProps called fetchITF
 
     // While we're waiting, show the loading indicator...
     if (fetchWaitingStates.includes(itf.fetchCallState)) {
@@ -50,13 +109,23 @@ export class ITFWrapper extends React.Component {
     if (itf.currentITF && itf.currentITF.status === itfStatuses.active) {
       // TODO: Render a success alert box (only the first time)
       //  Probably will have to use state for this
-      return children;
+      const content = `It worked! Current expiration date: ${itf.currentITF.expirationDate}. Previous expiration date: ${itf.previousITF.expirationDate}`;
+
+      return (
+        <div>
+          <div className="usa-grid" style={{ marginBottom: '2em' }}>
+            <AlertBox
+              isVisible={!this.state.hasDisplayedSuccess}
+              headline="ITF Success"
+              content={content}
+              status="success"/>
+          </div>
+          {children}
+        </div>
+      );
     }
 
-    // If not, try to submit a new ITF
-    if (itf.creationCallState === requestStates.notCalled) {
-      createITF();
-    }
+    // componentWillRecieveProps called createITF if there was no active ITF found
 
     // While we're waiting (again), show the loading indicator...again
     if (fetchWaitingStates.includes(itf.creationCallState)) {
@@ -65,7 +134,7 @@ export class ITFWrapper extends React.Component {
 
     // We'll get here after the createITF promise is fulfilled and we have no active ITF
     //  because of a failed creation call
-    // TODO: Get better content for this content
+    // TODO: Get better content for this
     return (
       <div className="usa-grid" style={{ marginBottom: '2em' }}>
         <AlertBox
@@ -79,7 +148,7 @@ export class ITFWrapper extends React.Component {
 }
 
 
-const requestStateEnum = Object.keys(requestStates);
+const requestStateEnum = Object.values(requestStates);
 
 const itfShape = {
   id: PropTypes.string,
