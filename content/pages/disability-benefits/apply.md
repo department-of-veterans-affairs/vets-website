@@ -118,7 +118,7 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 
 Sign in to find out the status of your application:
 
-<a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
+<a class="usa-button-primary" href="/track-claims">Track Your Claim</a>
 
 <span id="days-to-complete-claim"></span>
 #### How long does it take VA to make a decision?
