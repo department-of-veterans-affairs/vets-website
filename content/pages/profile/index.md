@@ -1,7 +1,7 @@
 ---
 title: Your Vets.gov Profile
 layout: page-react.html
-entryname: profile-360
+entryname: profile360
 ---
 <div id="main">
   <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
