@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import _ from 'lodash';
 
 import {
-  flatten,
   validateDisability,
   transformDisabilities,
   addPhoneEmailToCard,
   prefillTransformer,
   get4142Selection,
-  queryForFacilities
+  queryForFacilities,
+  transform
 } from '../helpers.jsx';
 import initialData from './schema/initialData.js';
 
@@ -17,19 +17,237 @@ describe('526 helpers', () => {
   const prefilledData = _.cloneDeep(initialData);
   const invalidDisability = prefilledData.disabilities[1];
   const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
-  describe('flatten', () => {
-    it('should flatten sibling arrays', () => {
-      const treatments = [
-        {
-          treatment: {
-            treatmentCenterName: 'local VA center'
+  describe('transform', () => {
+    const formData = {
+      data: {
+        disabilities: [
+          {
+            additionalDocuments: [
+              {
+                name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
+                confirmationCode: '9664f488-1243-4b25-805e-75ad7e4cf765'
+              },
+              {
+                name: 'Screen Shot 2018-07-09 at 11.24.39 AM.png',
+                confirmationCode: '66bfab89-6e2b-4361-a905-754dfbff7df7'
+              }
+            ],
+            privateRecords: [
+              {
+                name: 'Screen Shot 2018-07-09 at 3.29.08 PM.png',
+                confirmationCode: 'a58ae568-d190-49cd-aa04-b1b1da5eae35'
+              },
+              {
+                name: 'Screen Shot 2018-07-09 at 2.02.39 PM.png',
+                confirmationCode: 'f23194e4-c534-42c6-9e96-16c08d8230a5'
+              }
+            ],
+            'view:uploadPrivateRecords': 'yes',
+            'view:privateRecordsChoiceHelp': {},
+            treatments: [
+              {
+                treatmentCenterName: 'Somerset VA Clinic',
+                treatmentDateRange: {
+                  from: '2000-06-06',
+                  to: '2004-02-06'
+                }
+              },
+              {
+                treatmentCenterName: 'DC VA Regional Medical Center',
+                treatmentDateRange: {
+                  from: '2000-07-04',
+                  to: '2010-01-03'
+                }
+              }
+            ],
+            'view:selectableEvidenceTypes': {
+              'view:vaMedicalRecords': true,
+              'view:privateMedicalRecords': true,
+              'view:otherEvidence': true
+            },
+            'view:evidenceTypeHelp': {},
+            name: 'Diabetes mellitus0',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '0',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238,
+            ratingPercentage: 100,
+            disabilityActionType: 'INCREASE',
+            'view:selected': true
+          },
+          {
+            'view:uploadPrivateRecords': 'no',
+            'view:privateRecords4142Notice': {},
+            'view:privateRecordsChoiceHelp': {},
+            'view:selectableEvidenceTypes': {
+              'view:privateMedicalRecords': true,
+              'view:otherEvidence': false
+            },
+            'view:evidenceTypeHelp': {},
+            name: 'Diabetes mellitus1',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '1',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238,
+            ratingPercentage: 100,
+            disabilityActionType: 'INCREASE',
+            'view:selected': true
           }
-        }
-      ];
-      prefilledData.disabilities[0].treatments = treatments;
-      const flattened = flatten(prefilledData);
-      expect(flattened.treatments).to.exist;
-      expect(flattened.disabilities[0].treatments).to.not.exist;
+        ],
+        veteran: {
+          homelessness: {
+            isHomeless: false
+          },
+          phoneEmailCard: {
+            primaryPhone: '4445551212',
+            emailAddress: 'test2@test1.net'
+          },
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 MAIN ST',
+            addressLine2: 'BEN FRANKLIN VILLAGE',
+            city: 'APO',
+            state: 'AE',
+            zipCode: '09028'
+          },
+          'view:hasForwardingAddress': true,
+          forwardingAddress: {
+            country: 'USA',
+            addressLine1: '123 Anystreet',
+            addressLine2: 'Viking Drive',
+            addressLine3: 'Some Suite',
+            city: 'Anyville',
+            state: 'AK',
+            zipCode: '33492',
+            effectiveDate: '2019-04-04'
+          }
+        },
+        servicePeriods: [
+          {
+            serviceBranch: 'Air National Guard',
+            dateRange: {
+              from: '1980-03-06',
+              to: '1990-02-04'
+            }
+          },
+          {
+            serviceBranch: 'Army Reserve',
+            dateRange: {
+              from: '1990-07-05',
+              to: '2000-02-04'
+            }
+          }
+        ],
+        privacyAgreementAccepted: true,
+        standardClaim: false,
+        'view:fdcWarning': {}
+      }
+    };
+    const transformedData = {
+      form526: {
+        disabilities: [
+          {
+            name: 'Diabetes mellitus0',
+            disabilityActionType: 'INCREASE',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '0',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238
+          },
+          {
+            name: 'Diabetes mellitus1',
+            disabilityActionType: 'INCREASE',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '1',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238
+          }
+        ],
+        veteran: {
+          homelessness: {
+            isHomeless: false
+          },
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 MAIN ST',
+            addressLine2: 'BEN FRANKLIN VILLAGE',
+            city: 'APO',
+            state: 'AE',
+            zipCode: '09028'
+          },
+          forwardingAddress: {
+            country: 'USA',
+            addressLine1: '123 Anystreet',
+            addressLine2: 'Viking Drive',
+            addressLine3: 'Some Suite',
+            city: 'Anyville',
+            state: 'AK',
+            zipCode: '33492',
+            effectiveDate: '2019-04-04'
+          },
+          primaryPhone: '4445551212',
+          emailAddress: 'test2@test1.net'
+        },
+        treatments: [
+          {
+            treatmentCenterName: 'Somerset VA Clinic',
+            treatmentDateRange: {
+              from: '2000-06-06',
+              to: '2004-02-06'
+            }
+          },
+          {
+            treatmentCenterName: 'DC VA Regional Medical Center',
+            treatmentDateRange: {
+              from: '2000-07-04',
+              to: '2010-01-03'
+            }
+          }
+        ],
+        privacyAgreementAccepted: true,
+        serviceInformation: {
+          servicePeriods: [
+            {
+              serviceBranch: 'Air National Guard',
+              dateRange: {
+                from: '1980-03-06',
+                to: '1990-02-04'
+              }
+            },
+            {
+              serviceBranch: 'Army Reserve',
+              dateRange: {
+                from: '1990-07-05',
+                to: '2000-02-04'
+              }
+            }
+          ]
+        },
+        standardClaim: false
+      }
+    };
+    it('should return stringified, transformed data for submit', () => {
+      expect(transform(null, formData)).to.deep.equal(JSON.stringify(transformedData));
     });
   });
   describe('validateDisability', () => {

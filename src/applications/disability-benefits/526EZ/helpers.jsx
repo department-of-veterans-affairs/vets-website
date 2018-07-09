@@ -8,7 +8,6 @@ import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
-// import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { filterViewFields } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
@@ -54,7 +53,6 @@ const setPhoneEmailPaths = (veteran) => {
 };
 
 export function transform(formConfig, form) {
-  // transformForSubmit removes all the disabilities. Why?
   const {
     disabilities,
     veteran,
@@ -87,7 +85,6 @@ export function transform(formConfig, form) {
   };
 
   const withoutViewFields = filterViewFields(transformedData);
-  console.log(withoutViewFields);
   return JSON.stringify({ form526: withoutViewFields });
 }
 
