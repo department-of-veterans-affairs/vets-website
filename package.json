@@ -40,6 +40,7 @@
     "test:unit:rx": "BABEL_ENV=test mocha test/helper.js --opts src/platform/testing/unit/mocha.opts --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:gi": "BABEL_ENV=test mocha test/helper.js --opts src/platform/testing/unit/mocha.opts --recursive 'test/gibct/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'test/login/**/*.unit.spec.js?(x)' ",
+    "test:unit:profile": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/personalization/profile360/tests/**/*.unit.spec.js?(x)' ",
     "test:unit:db": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'test/disability-benefits/**/*.unit.spec.js?(x)' ",
     "test:watch": "node script/watch.js",
     "test:visual": "./script/run-nightwatch.sh --visual",

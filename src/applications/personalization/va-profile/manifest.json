@@ -3,6 +3,6 @@
   "entryFile": "./va-profile-entry.jsx",
   "entryName": "va-profile",
   "rootUrl": "/profile",
-  "production": true,
-  "contentPage": "profile/index.md"
+  "production": false,
+  "contentPage": "profile-legacy/index.md"
 }

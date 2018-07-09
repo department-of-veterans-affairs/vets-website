@@ -1,6 +1,42 @@
 import React from 'react';
+import _ from 'lodash';
 
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+
+export function prefillTransformer(pages, formData, metadata) {
+
+  const newFormData = {
+    ...formData
+  };
+
+  if (formData) {
+    const {
+      email,
+      homePhone,
+      mobilePhone
+    } = formData;
+
+    delete newFormData.email;
+    delete newFormData.homePhone;
+    delete newFormData.mobilePhone;
+
+    const newContactInfo = {
+      ...(email && { email }),
+      ...(homePhone && { homePhone }),
+      ...(mobilePhone && { mobilePhone })
+    };
+
+    if (!_.isEmpty(newContactInfo)) {
+      newFormData['view:otherContactInfo'] = newContactInfo;
+    }
+  }
+
+  return {
+    metadata,
+    formData: newFormData,
+    pages
+  };
+}
 
 export function directDepositDescription() {
   return (
