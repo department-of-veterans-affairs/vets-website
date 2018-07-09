@@ -17,7 +17,7 @@ The Harry W. Colmery Veterans Educational Assistance Act (also called the “For
 
 You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
 
-<a class="usa-button-primary va-button-primary" href="/education/opt out/form-0993/">Opt Out</a>
+<a class="usa-button-primary va-button-primary" href="/education/opt-out-information-sharing/opt-out-form-0993/">Opt Out</a>
   
 ### Will opting out affect my education benefits?
 
