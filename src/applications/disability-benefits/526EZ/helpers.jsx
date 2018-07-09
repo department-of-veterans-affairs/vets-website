@@ -13,6 +13,7 @@ import { filterViewFields } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
+import { pick } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
@@ -33,16 +34,14 @@ import {
 const aggregate = (dataArray, property) => {
   const masterList = [];
   dataArray.forEach(item => {
-    if (!item[property]) {
-      return [];
-    }
 
-    return item[property].forEach(listItem => masterList.push(listItem));
+    if (item[property]) {
+      item[property].forEach(listItem => masterList.push(listItem));
+    }
   });
 
   return masterList;
 };
-
 
 // Moves phone & email out of the phoneEmailCard up one level into `formData.veteran`
 const setPhoneEmailPaths = (veteran) => {
@@ -64,20 +63,32 @@ export function transform(formConfig, form) {
     standardClaim,
   } = form.data;
 
+  const disabilityProperties = [
+    'name',
+    'disabilityActionType',
+    'specialIssues',
+    'ratedDisabilityId',
+    'ratingDecisionId',
+    'diagnosticCode',
+    'classificationCode'
+  ];
+
   const transformedData = {
-    // 1. Remove unselected disabilities
-    disabilities: disabilities.filter(disability => (disability['view:selected'] === true)),
-    // 2. Put email and phone back into veteran property
+    disabilities: disabilities
+      .filter(disability => (disability['view:selected'] === true))
+      .map(filtered => pick(filtered, disabilityProperties)),
+    // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
-    // 3. Extract treatments into one top-level array
+    // Extract treatments into one top-level array
     treatments: aggregate(disabilities, 'treatments'),
     privacyAgreementAccepted,
-    // 4. Pull service periods into service information
     serviceInformation: { servicePeriods },
     standardClaim,
   };
 
-  return JSON.stringify({ form526: transformedData });
+  const withoutViewFields = filterViewFields(transformedData);
+  console.log(withoutViewFields);
+  return JSON.stringify({ form526: withoutViewFields });
 }
 
 export function validateDisability(disability) {
