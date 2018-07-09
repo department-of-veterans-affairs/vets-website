@@ -24,7 +24,7 @@ export function selectVet360Transaction(state, fieldName) {
     vet360: {
       transactions,
       fieldTransactionMap: {
-        [fieldName]: transactionRequest
+        [fieldName]: transactionRequest = null
       }
     }
   } = state;
