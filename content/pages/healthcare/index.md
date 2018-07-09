@@ -3,52 +3,52 @@ layout: page-breadcrumbs.html
 template: level2-merger
 title: VA Health Care
 display_title: Health Care
-description: Learn about VA health care benefits that cover services like primary, mental health, home health, and geriatric care, prosthetics, and prescriptions. Find out if you’re eligible, how to apply, and how to manage your Veterans health care benefits. 
+description: Learn about VA health care benefits that cover primary care, prescriptions, and prosthetics, as well as mental health, home health, and geriatric care. Find out if you’re eligible, how to apply, and how to manage your Veterans health care benefits. 
 concurrence: 
 lastupdate:
 order: 1
 promo:
   - image: /img/megamenu/pension-illustration.png
-    heading: Learn About the Veterans Choice Program
+    heading: Learn about the Veterans Choice Program
     url: "#"
     description: If you're enrolled in VA health care, find out if you can receive care from a local community provider.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: ""
-      title: Disability Pay (Compensation)
+      title: **Disability Pay (Compensation)**
       description: Find out how to apply for and manage your VA disability benefits.
     - url: ""
-      title: Life Insurance 
-      description: Explore your options for Servicemembers, Veterans, and family life insurance and find out how to apply.
+      title: **Life Insurance**
+      description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
     - url: ""
-      title: Aid and Attendance or Household Allowance
+      title: **Aid and Attendance or Household Allowance**
       description: Find out if you can get increased pension pay as a Veteran or surviving spouse.
     - url: ""
-      title: Burial and Memorial Benefits
-      description: Learn about Veterans burial benefits, how to plan a burial service for a family member, and compensation for survivors.
+      title: **Burial and Memorial Benefits**
+      description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
     - url: ""
-      title: National Center for PTSD
-      description: Get help to recognize and manage PTSD symptoms, and hear Veterans share their stories.
+      title: **National Center for PTSD**
+      description: Learn how to recognize and manage PTSD symptoms, and listen to Veterans share their stories.
 contact:
-  - heading: Call us for help with accessing health benefits or services
+  - heading: Call us for help getting health benefits or services
     links:
     - url: 1-877-222-VETS (8387)
-      title: <b>General Health Care Benefits Questions:</b>
+      title: <b>General Questions about Health Care Benefits</b>
     - url: 1-800-733-8387
-      title: <b>CHAMPVA and CHAMPVA In-House Treatment Initiative (CITI):</b>
+      title: <b>CHAMPVA and CHAMPVA In-House Treatment Initiative (CITI)</b>
     - url: 1-888-385-0235
-      title: <b>CHAMPVA Meds By Mail:</b>
+      title: <b>CHAMPVA Meds by Mail</b>
     - url: 1-855-VA-WOMEN (829-6636)
-      title: <b>Women Veterans Hotline:</b> 
+      title: <b>Women Veterans Hotline</b> 
     - url: 1-888-492-7844
-      title: <b>Mammography Hotline:</b>
+      title: <b>Mammography Hotline</b>
     - url: 1-855-QUIT-VET (784-8838)
-      title: <b>Smoking Cessation Counselors:</b>
+      title: <b>Counselors to Help You Quit Smoking</b>
     - url: 1-877-345-8179
-      title: <b>Foreign Medical Program (FMP):</b>
+      title: <b>Foreign Medical Program (FMP)</b>
     - url: 1-877-345-8179
-      title: <b>Spina Bifida Health Care Program:</b>
+      title: <b>Spina Bifida Health Care Program</b>
 social:
   - heading: Social Media
     links:
@@ -65,7 +65,7 @@ social:
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: E-mail Directory
+      label: Email Directory
 mobile:
   - heading: Mobile Apps
     links:
@@ -88,10 +88,10 @@ mobile:
 ---
 
 <p class="va-introtext">
-With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to Veterans health care services like home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you've earned.
+With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you've earned.
 </p>
 
-<h3 class="highlight">Page Content</h3>
+<h3 class="highlight">Content on This Page</h3>
 
 [Get VA Health Care Benefits](#get)<br>
 [Manage Your Veterans Health Care Benefits](#manage)<br>
@@ -137,22 +137,22 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="link">
     <a href="#"><b>Eligibility</b></a>
-    <p>Find out if you’re eligible for Veterans health care benefits and how priority groups may affect you.
+    <p>Find out if you’re eligible for Veterans health care benefits and how priority groups work.
   </div>
 
   <div class="link">
     <a href="#"><b>How to Apply</b></a>
-    <p>Find out how to prepare and apply for VA health care online or by phone or mail.</p>
+    <p>Find out how to prepare and apply for VA health care online, by phone, or by mail.</p>
   </div>
   
   <div class="link">
     <a href="#"><b>Apply Online (VA Form 10-10EZ)</b></a>
-    <p>Get step-by-step instructions and start your VA health care application right now online.</p>
+    <p>Get step-by-step instructions and start your VA health care application right now.</p>
   </div>
   
   <div class="link">
     <a href="#"><b>After You Apply</b></a>
-    <p>Find out when to expect a decision on your application, and what to do next.</p>
+    <p>Find out when to expect a decision on your application, and what to do after you apply.</p>
   </div>
 
   <div class="link">
@@ -188,22 +188,22 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="link">
     <a href="#"><b>Order Hearing Aid Batteries or Prosthetic Socks</b></a>
-    <p>Order the items you need online for home delivery.</p>
+    <p>Order these items online for home delivery.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Manage Your VA Medical Records (VA Blue Button)</b></a>
-    <p>Build your personal health record and download reports to share with your VA and non-VA doctors.</p>
+    <a href="#"><b>Manage Your VA Medical Records (called VA Blue Button)</b></a>
+    <p>Set up your personal health record and download reports to share with your VA and non-VA doctors.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Update Your VA Health Benefits Information (Form 10-10EZR)</b></a>
-    <p>Update your personal, insurance, or financial information after you’re enrolled in the VA health care program.</p>
+    <p>Update your personal, financial, or insurance information after you’re enrolled in the VA health care program.</p>
   </div>
 
  <div class="link">
     <a href="#"><b>Make a VA Payment Online</b></a>
-    <p>Pay your VA copay bill securely online through Pay.gov.</p>
+    <p>Pay your VA copay securely online through Pay.gov.</p>
   </div>
 
  <div class="link">
@@ -213,7 +213,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <div class="link">
     <a href="#"><b>Get VA Medical Travel Reimbursement</b></a>
-    <p>Find out how to apply for reimbursement for travel to a VA health facility.</p>
+    <p>Find out how to apply for reimbursement for your travel to a VA health facility.</p>
   </div>
 
 </section>
