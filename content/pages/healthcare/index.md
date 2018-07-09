@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: level2-merger
 title: VA Health Care
 display_title: Health Care
-description: Learn about VA health care benefits that cover services like primary, mental health, home health, and geriatric care, prosthetics, and prescriptions. Find out if you’re eligible, how to apply, and how to manage your Veterans health care benefits.
+description: Learn about VA health care benefits that cover services like primary, mental health, home health, and geriatric care, prosthetics, and prescriptions. Find out if you’re eligible, how to apply, and how to manage your Veterans health care benefits. 
 concurrence: 
 lastupdate:
 order: 1
@@ -17,7 +17,7 @@ crosslinks:
     links:
     - url: ""
       title: Disability Pay (Compensation)
-      description: Find out if you're eligible and how to apply for VA disability benefits.
+      description: Find out how to apply for and manage your VA disability benefits.
     - url: ""
       title: Life Insurance 
       description: Explore your options for Servicemembers, Veterans, and family life insurance and find out how to apply.
@@ -88,7 +88,7 @@ mobile:
 ---
 
 <p class="va-introtext">
-With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to Veterans health care services like home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
+With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to Veterans health care services like home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you've earned.
 </p>
 
 <h3 class="highlight">Page Content</h3>
@@ -152,12 +152,12 @@ With VA health care, you’re covered for regular checkups with your primary car
   
   <div class="link">
     <a href="#"><b>After You Apply</b></a>
-    <p>Find out when to expect to hear from us about your VA health care application, and what to do next.</p>
+    <p>Find out when to expect a decision on your application, and what to do next.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Family and Caregiver Health Benefits</b></a>
-    <p>Find out if you qualify for VA medical benefits (like CHAMPVA) as the spouse, surviving spouse, dependent child, or caregiver of a Veteran or Servicemember.</p>
+    <p>Find out if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.</p>
   </div>
 
 </section>
@@ -224,7 +224,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="link">
     <a href="#"><b>About Your VA Copay and Health Care Costs</b></a>
-    <p>Learn about your VA copay, financial assessment (also called a means test), and how VA health care works with private health insurance.</p>
+    <p>Learn about your VA copay, financial assessment, and how VA health care works with private health insurance.</p>
   </div>
 
   <div class="link">
