@@ -175,4 +175,44 @@ describe('vet360 reducer', () => {
 
     expect(state.transactionsAwaitingUpdate.length).to.eql(0);
   });
+
+  it('should set transaction cleared', () => {
+    const state = vet360({
+      transactions: [{
+        data: {
+          attributes: {
+            transactionId: 111,
+          }
+        }
+      }],
+      metadata: {
+        mostRecentSuccessfulTransactionId: 111,
+      }
+    }, {
+      type: 'VET360_TRANSACTION_CLEARED',
+      transaction: {
+        data: {
+          attributes: {
+            transactionId: 111,
+          }
+        }
+      }
+    });
+
+    expect(state.metadata.mostRecentSuccessfulTransactionId).to.eql(null);
+    expect(state.transactions.length).to.eql(0);
+  });
+
+  it('should set transaction request cleared', () => {
+    const state = vet360({
+      fieldTransactionMap: {
+        fieldName: 'name'
+      }
+    }, {
+      type: 'VET360_TRANSACTION_REQUEST_CLEARED',
+      fieldName: 'name'
+    });
+
+    expect(state.fieldTransactionMap.name).to.eql(undefined);
+  });
 });
