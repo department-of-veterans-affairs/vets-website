@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import vet360 from '../../reducers/vet360';
+import * as VET360 from '../../constants/vet360';
 
 describe('vet360 reducer', () => {
   it('should return array of transaction data', () => {
@@ -100,5 +101,78 @@ describe('vet360 reducer', () => {
 
     expect(state.transactionsAwaitingUpdate.length).to.eql(1);
     expect(state.transactionsAwaitingUpdate[0]).to.eql(111);
+  });
+
+  it('should set updated transaction request success', () => {
+    const state = vet360({
+      transactions: [{
+        data: {
+          attributes: {
+            transactionId: 111,
+            transactionStatus: 'COMPLETED_SUCCESS'
+          }
+        }
+      }],
+      transactionsAwaitingUpdate: [111],
+      metadata: {}
+    }, {
+      type: 'VET360_TRANSACTION_UPDATED',
+      transaction: {
+        data: {
+          attributes: {
+            transactionId: 111,
+            transactionStatus: VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS
+          }
+        }
+      }
+    });
+
+    expect(state.transactionsAwaitingUpdate.length).to.eql(0);
+    expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
+    expect(state.metadata.mostRecentSuccessfulTransactionId).to.eql(111);
+  });
+
+  it('should set updated transaction request failure', () => {
+    const state = vet360({
+      transactions: [{
+        data: {
+          attributes: {
+            transactionId: 111,
+            transactionStatus: 'COMPLETED_SUCCESS'
+          }
+        }
+      }],
+      transactionsAwaitingUpdate: [111],
+      metadata: {}
+    }, {
+      type: 'VET360_TRANSACTION_UPDATED',
+      transaction: {
+        data: {
+          attributes: {
+            transactionId: 111,
+            transactionStatus: VET360.TRANSACTION_STATUS.COMPLETED_FAILURE
+          }
+        }
+      }
+    });
+
+    expect(state.transactionsAwaitingUpdate.length).to.eql(0);
+    expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
+    expect(state.metadata.mostRecentErroredTransactionId).to.eql(111);
+  });
+
+  it('should set transaction update failed', () => {
+    const state = vet360({ transactionsAwaitingUpdate: [111] }, {
+      type: 'VET360_TRANSACTION_UPDATE_FAILED',
+      transaction: {
+        data: {
+          attributes: {
+            transactionId: 111,
+          }
+        }
+      }
+    });
+
+    expect(state.transactionsAwaitingUpdate.length).to.eql(0);
   });
 });
