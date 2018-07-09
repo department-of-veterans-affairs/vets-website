@@ -2,40 +2,31 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import React from 'react';
 import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
 class FacilityLocatorApp extends React.Component {
-  renderBreadcrumbs() {
-    const { location, selectedFacility } = this.props;
+  renderBreadcrumbs(location, selectedFacility) {
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <Link to="/" key="facility-locator">Facility Locator</Link>
+    ];
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedFacility) {
-      return (
-        <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-          <li><a href="/">Home</a></li>
-          <li>
-            <Link to="/">
-              Facility Locator
-            </Link>
-          </li>
-        </ul>
-      );
+      crumbs.push(<Link to={`/${selectedFacility.id}`}>Facility Details</Link>);
     }
 
-    return (
-      <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-        <li><a href="/">Home</a></li>
-      </ul>
-    );
+    return crumbs;
   }
 
   render() {
+    const { location, selectedFacility } = this.props;
+
     return (
       <div>
+        <Breadcrumbs selectedFacility={selectedFacility}>
+          {this.renderBreadcrumbs(location, selectedFacility)}
+        </Breadcrumbs>
         <div className="row">
-          <div className="title-section">
-            <nav className="va-nav-breadcrumbs">
-              {this.renderBreadcrumbs()}
-            </nav>
-          </div>
           <DowntimeNotification appTitle="facility locator tool" dependencies={[externalServices.arcgis]}>
             <div className="facility-locator">
               {this.props.children}
