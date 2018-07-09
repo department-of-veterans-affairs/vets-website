@@ -26,10 +26,12 @@ import {
 } from './constants';
 
 /**
- * 
- * @param {*} dataArray 
- * @param {*} property 
- */
+ * Inspects an array of objects, and attempts to aggregate subarrays at a given property
+ * of each object into one array
+ * @param {array} dataArray array of objects to inspect
+ * @param {string} property the property to inspect in each array item
+ * @returns {array} a list of aggregated items pulled from different arrays
+*/
 const aggregate = (dataArray, property) => {
   const masterList = [];
   dataArray.forEach(item => {
