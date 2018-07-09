@@ -4,8 +4,6 @@ template: detail-page
 title: Opt Out of Sharing VA Education Benefits Information
 display_title: Opt Out of Sharing VA Education Benefits Information
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-collection: education
-order: 10
 widgets:
   - root: react-applicationStatus
     timeout: 20
