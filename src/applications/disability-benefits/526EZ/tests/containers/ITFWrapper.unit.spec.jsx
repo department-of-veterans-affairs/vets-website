@@ -2,16 +2,34 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+import { merge } from 'lodash/fp';
 
-// import { mockMultipleApiRequest } from '../../../../../platform/testing/unit/helpers';
 import { ITFWrapper } from '../../containers/ITFWrapper';
+import { requestStates } from '../../../../../platform/utilities/constants';
 
-const originalFetch = global.fetch;
+const fetchITF = sinon.spy();
+const createITF = sinon.spy();
+
+const defaultProps = {
+  location: { pathname: '/middle' },
+  // Copied this from the reducer initial state
+  itf: {
+    fetchCallState: requestStates.notCalled,
+    creationCallState: requestStates.notCalled,
+    currentITF: null,
+    previousITF: null
+  },
+  fetchITF,
+  createITF
+};
+
 
 describe('526 ITFWrapper', () => {
   afterEach(() => {
-    global.fetch = originalFetch;
+    fetchITF.reset();
+    createITF.reset();
   });
+
 
   it('should not make an api call on the intro page', () => {
     global.fetch = sinon.spy();
@@ -20,26 +38,98 @@ describe('526 ITFWrapper', () => {
         <p>It worked!</p>
       </ITFWrapper>
     );
-    expect(fetch.called).to.be.false;
+    expect(fetchITF.called).to.be.false;
     expect(tree.text()).to.equal('It worked!');
   });
+
 
   it('should not make an api call on the confirmation page', () => {
     global.fetch = sinon.spy();
     const tree = shallow(
-      <ITFWrapper location={{ pathname: '/introduction' }}>
+      <ITFWrapper location={{ pathname: '/confirmation' }}>
         <p>It worked!</p>
       </ITFWrapper>
     );
-    expect(fetch.called).to.be.false;
+    expect(fetchITF.called).to.be.false;
     expect(tree.text()).to.equal('It worked!');
   });
 
-  it('should fetch the ITF if not on the intro or confirmation pages', () => {});
-  it('should render a loading indicator', () => {});
-  it('should render an error message if the ITF fetch failed', () => {});
-  it('should submit a new ITF if no active ITF is found', () => {});
-  it('should render an error message if the ITF creation failed', () => {});
-  it('should render an success message with the current expiration date', () => {});
-  it('should render an success message with the previous expiration date', () => {});
+
+  it('should fetch the ITF if not on the intro or confirmation pages', () => {
+    shallow(
+      <ITFWrapper {...defaultProps}>
+        <p>Shouldn't see me yet...</p>
+      </ITFWrapper>
+    );
+    expect(fetchITF.called).to.be.true;
+  });
+
+
+  it('should render a loading indicator', () => {
+    const tree = shallow(
+      <ITFWrapper {...defaultProps}>
+        <p>Shouldn't see me yet...</p>
+      </ITFWrapper>
+    );
+    expect(tree.find('LoadingIndicator').length).to.equal(1);
+    tree.setProps(merge(defaultProps, { itf: { fetchCallState: requestStates.pending } }));
+    expect(tree.find('LoadingIndicator').length).to.equal(1);
+  });
+
+
+  it('should render an error message if the ITF fetch failed', () => {
+    const props = merge(defaultProps, {
+      itf: {
+        fetchCallState: requestStates.failed
+      }
+    });
+    const tree = shallow(
+      <ITFWrapper {...props}>
+        <p>Shouldn't see me yet...</p>
+      </ITFWrapper>
+    );
+    expect(tree.find('AlertBox').length).to.equal(1);
+  });
+
+
+  it('should submit a new ITF if no active ITF is found', () => {
+    const props = merge(defaultProps, {
+      itf: {
+        fetchCallState: requestStates.succeeded
+        // But no ITF is found
+      }
+    });
+    shallow(
+      <ITFWrapper {...props}>
+        <p>Shouldn't see me yet...</p>
+      </ITFWrapper>
+    );
+    expect(createITF.called).to.be.true;
+  });
+
+
+  it('should render an error message if the ITF creation failed', () => {
+    const props = merge(defaultProps, {
+      itf: {
+        fetchCallState: requestStates.succeeded,
+        // But no ITF is found
+        creationCallState: requestStates.failed
+      }
+    });
+    const tree = shallow(
+      <ITFWrapper {...props}>
+        <p>Shouldn't see me</p>
+      </ITFWrapper>
+    );
+    expect(tree.find('AlertBox').length).to.equal(1);
+  });
+
+
+  it('should render a success message with the current expiration date', () => {});
+
+
+  it('should render a success message with the previous expiration date', () => {});
+
+
+  it('should not render a success message after the location changes', () => {});
 });

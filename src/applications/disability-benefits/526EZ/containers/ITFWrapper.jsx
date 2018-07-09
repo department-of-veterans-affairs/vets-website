@@ -31,7 +31,7 @@ export const ITFWrapper = ({ location, children, itf, fetchITF, createITF }) => 
   // We'll get here after the fetchITF promise is fulfilled
 
   if (itf.fetchCallState === requestStates.failed) {
-    // TODO: Get better content for this content
+    // TODO: Get better content for this
     return (
       <div className="usa-grid" style={{ marginBottom: '2em' }}>
         <AlertBox
@@ -44,8 +44,9 @@ export const ITFWrapper = ({ location, children, itf, fetchITF, createITF }) => 
   }
 
   // If we have an active ITF, we're good to go--render that form!
-  if (itf.currentITF.status === itfStatuses.active) {
+  if (itf.currentITF && itf.currentITF.status === itfStatuses.active) {
     // TODO: Render a success alert box (only the first time)
+    //  Probably will have to use state for this
     return children;
   }
 

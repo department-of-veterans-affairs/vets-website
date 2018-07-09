@@ -25,9 +25,10 @@ const initialState = {
 
 /**
  * Finds the last ITF with a given status
+ *
+ * Note: This can return undefined
  */
 function findLastITF(itfList) {
-  // The full list is potentially more than just compensation ITFs, but we don't need those
   return itfList.sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate))[0];
 }
 
@@ -39,6 +40,7 @@ export const itf = (state = initialState, action) => {
     case ITF_FETCH_SUCCEEDED: {
       const newState = set('fetchCallState', requestStates.succeeded, state);
 
+      // The full list is potentially more than just compensation ITFs, but we don't need those
       const itfList = get('attributes.intentToFile', action.data).filter(i => i.type === 'compensation');
       const activeITF = itfList.find(i => i.status === itfStatuses.active);
 
