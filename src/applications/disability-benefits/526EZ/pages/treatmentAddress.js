@@ -27,7 +27,7 @@ function validateMilitaryState(errors, state, formData, schema, messages, index)
 }
 
 const uiSchema = {
-  'ui:order': ['country', 'city', 'state'],
+  'ui:order': ['country', 'state', 'city'],
   country: {
     'ui:title': 'Country'
   },
