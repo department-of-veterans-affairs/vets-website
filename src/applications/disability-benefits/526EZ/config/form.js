@@ -20,6 +20,8 @@ import {
   primaryAddressSchema
 } from '../pages/primaryAddress';
 
+import treatmentAddressUiSchema from '../pages/treatmentAddress';
+
 import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema
@@ -76,12 +78,12 @@ const {
   date,
   fullName,
   phone,
-  // files
   dateRange,
   dateRangeFromRequired,
   dateRangeAllRequired,
   disabilities,
   specialIssues,
+  vaTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -98,7 +100,7 @@ const treatments = ((treatmentsCommonDef) => {
       // TODO: use standard required property once treatmentCenterType added
       // back in schema (because it's required)
       required: ['treatmentCenterName'],
-      properties: _.omit(['treatmentCenterAddress', 'treatmentCenterType'], items.properties)
+      properties: _.omit(['treatmentCenterType'], items.properties)
     }
   };
 
@@ -127,6 +129,7 @@ const formConfig = {
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address,
+    vaTreatmentCenterAddress,
     date,
     fullName,
     phone,
@@ -459,9 +462,7 @@ const formConfig = {
                       'Date of last treatment (This date doesn’t have to be exact.)',
                       'Date of last treatment must be after date of first treatment'
                     ),
-                    // TODO: Put these back as hidden in the UI once typeahead fills this out
-                    // treatmentCenterType: {},
-                    // treatmentCenterAddress: {}
+                    treatmentCenterAddress: treatmentAddressUiSchema
                   }
                 }
               }
