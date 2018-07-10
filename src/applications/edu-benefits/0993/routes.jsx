@@ -9,7 +9,7 @@ const childRoutes = createRoutesWithSaveInProgress(formConfig).filter(route => !
 const route = {
   path: '/',
   component: OptOutApp,
-  indexRoute: { onEnter: (nextState, replace) => replace('/form-page') },
+  indexRoute: { onEnter: (nextState, replace) => replace('/applicant/information') },
   childRoutes
 };
 
