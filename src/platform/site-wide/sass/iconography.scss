@@ -30,12 +30,11 @@ h3 {
   &.icon-small {
     height: 32px;
     width: 32px;
-    border:1px solid red;
 
     &::before {
       position: absolute;
-      margin-top: 7.5px;
-      margin-left: 9.47px;
+      margin-top: 6.5px;
+      margin-left: 8.47px;
     }
   }
 
@@ -43,15 +42,18 @@ h3 {
     background-color: $color-primary;
 
     &.icon-large {
-
       &::before {
-        position: absolute;
         margin-top: 9.25px;
         margin-left: 10.5px;
       }
-
     }
 
+    &.icon-small {
+      &::before {
+        margin-top: 6px;
+        margin-left: 8px;
+      }
+    }
   }
 
   &.fa-book {
@@ -62,9 +64,7 @@ h3 {
     background-color: $color-green;
 
     &.icon-large {
-
       &::before {
-        position: absolute;
         margin-top: 9.75px;
         margin-left: 8.5px;
       }
@@ -76,9 +76,15 @@ h3 {
 
     &.icon-large {
       &::before {
-        position: absolute;
         margin-top: 9.75px;
         margin-left: 7.75px;
+      }
+    }
+
+    &.icon-small {
+      &::before {
+        margin-top: 6.5px;
+        margin-left: 6px;
       }
     }
   }
@@ -89,6 +95,12 @@ h3 {
 
   &.fa-money {
     background-color: $color-green-darker;
+
+    &.icon-small {
+      &::before {
+        margin-left: 7.15px;
+      }
+    }
   }
 
   &.fa-home {
@@ -97,6 +109,12 @@ h3 {
 
   &.fa-users {
     background-color: $color-gold-darker;
+
+    &.icon-small {
+      &::before {
+        margin-left: 6.95px;
+      }
+    }
   }
 
   &.fa-star {
@@ -105,6 +123,12 @@ h3 {
 
   &.fa-id-card {
     background-color: $color-green;
+
+    &.icon-small {
+      &::before {
+        margin-left: 5.85px;
+      }
+    }
   }
 
 }
