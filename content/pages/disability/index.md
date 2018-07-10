@@ -23,7 +23,7 @@ crosslinks:
       description: Find out how to apply for housing grants for Veterans with service-connected disabilities.
     - url:  https://benefits.va.gov/fiduciary/index.asp
       title: <b>Fiduciary Services</b>
-      description: Learn how to become a fiduciary to handle the financial affairs of a Veteran in need.
+      description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
     - url:  https://vets.gov/health-care/about-va-health-care/assisted-living-and-home-health-care/
       title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
       description: Explore long-term care options for Veterans and their caregivers.
@@ -78,7 +78,7 @@ mobile:
   - heading: Mobile Apps
     links:
     - url: "https://mobile.va.gov/appstore"
-      label: Download mobile apps designed to help you manage your health.
+      label: Download apps to help manage your health
       icon:     
 ---
 
@@ -108,7 +108,7 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
   
   <div class="link">
     <a href="ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><b>Apply Online (VA Form 21-526EZ)</b></a>
-    <p>Find out what happens after you apply for VA disability benefits, how long it takes us to make a decision, and what to do if you disagree.</p>
+    <p>File your VA disability claim online now.</p>
   </div>
 
   <div class="link">
@@ -118,7 +118,7 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
   <div class="link">
     <a href="vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Dependency and Indemnity Compensation (VA DIC)</b></a>
-    <p>To be added.</p>
+    <p>Learn about getting VA disability benefits for a surviving spouse and dependent children.</p>
   </div>
 
 </section>
