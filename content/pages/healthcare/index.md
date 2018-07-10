@@ -34,21 +34,21 @@ contact:
   - heading: Call us for help getting health benefits or services
     links:
     - url: 1-877-222-VETS (8387)
-      title: <b>General Questions about Health Care Benefits</b>
+      title: <b>General Questions about Health Care Benefits:</b>
     - url: 1-800-733-8387
-      title: <b>CHAMPVA and CHAMPVA In-House Treatment Initiative (CITI)</b>
+      title: <b>CHAMPVA and CHAMPVA In-House Treatment Initiative (CITI):</b>
     - url: 1-888-385-0235
-      title: <b>CHAMPVA Meds by Mail</b>
+      title: <b>CHAMPVA Meds by Mail:</b>
     - url: 1-855-VA-WOMEN (829-6636)
-      title: <b>Women Veterans Hotline</b> 
+      title: <b>Women Veterans Hotline:</b> 
     - url: 1-888-492-7844
-      title: <b>Mammography Hotline</b>
+      title: <b>Mammography Hotline:</b>
     - url: 1-855-QUIT-VET (784-8838)
-      title: <b>Counselors to Help You Quit Smoking</b>
+      title: <b>Counselors to Help You Quit Smoking:</b>
     - url: 1-877-345-8179
-      title: <b>Foreign Medical Program (FMP)</b>
+      title: <b>Foreign Medical Program (FMP):</b>
     - url: 1-877-345-8179
-      title: <b>Spina Bifida Health Care Program</b>
+      title: <b>Spina Bifida Health Care Program:</b>
 social:
   - heading: Social Media
     links:
