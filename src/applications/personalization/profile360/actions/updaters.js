@@ -46,7 +46,7 @@ export function refreshTransaction(transaction, analyticsSectionName) {
         transaction
       });
 
-      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : await localVet360.updateTransactionRandom(transactionId);
+      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : await localVet360.updateTransaction(transactionId);
 
       dispatch({
         type: VET360_TRANSACTION_UPDATED,

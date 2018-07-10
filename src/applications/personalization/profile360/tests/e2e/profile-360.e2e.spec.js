@@ -5,7 +5,25 @@ const Auth = require('../../../../../platform/testing/e2e/auth');
 const routes = require('./routes.json');
 
 function runEmailTest(browser, fieldName = 'email', initialValue = 'veteran@gmail.com') {
-  browser.assert.containsText(`[data-field-name="${fieldName}"]`, initialValue);
+  const fieldWrapper = `[data-field-name="${fieldName}"]`;
+  const editButton = `${fieldWrapper} [data-action="edit"]`;
+  const editModal = `${fieldWrapper} #profile-edit-modal form[data-ready=true]`;
+  const emailInput = `${fieldWrapper} input[name=email]`;
+  const saveEditButton = `${fieldWrapper} button[data-action="save-edit"]`;
+  const transactionPending = `${fieldWrapper} [data-transaction-pending]`;
+  const transactionSuccess = '[data-transaction-success]';
+
+  browser.assert.containsText(fieldWrapper, initialValue);
+  browser.click(editButton);
+  browser.waitForElementVisible(editModal, Timeouts.normal);
+
+  browser.clearValue(emailInput);
+  browser.setValue(emailInput, 'anything@gmail.com');
+
+  browser.click(saveEditButton);
+  browser.waitForElementVisible(transactionPending, Timeouts.normal);
+
+  browser.waitForElementVisible(transactionSuccess, Timeouts.slow);
 }
 
 function runPhoneTest(browser, fieldName, initialValue) {

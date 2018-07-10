@@ -159,14 +159,14 @@ export default {
     );
   },
   updateTransaction(transactionId) {
-    return {
+    return asyncReturn({
       data: {
         attributes: {
           transactionId,
           transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_SUCCESS
         }
       }
-    };
+    });
   },
   updateTransactionToFailure(transactionId, code = 'VET360_CORE100') {
     return {

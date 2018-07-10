@@ -40,7 +40,7 @@ describe('<Vet360ProfileField/>', () => {
       <Vet360TransactionReporter {...props}/>
     );
 
-    const successBanner = component.find('AlertBox');
+    const successBanner = component.find('Vet360TransactionSuccessBanner');
     expect(successBanner, 'the successful transaction rendered a banner').to.have.lengthOf(1);
 
     const vet360TransactionErrorBanner  = component.find('Vet360TransactionErrorBanner');
@@ -60,8 +60,8 @@ describe('<Vet360ProfileField/>', () => {
       <Vet360TransactionReporter {...props}/>
     );
 
-    const successBanner = component.find('AlertBox');
-    successBanner.props().onCloseAlert();
+    const successBanner = component.find('Vet360TransactionSuccessBanner');
+    successBanner.props().clearTransaction();
 
     expect(props.clearTransaction.callCount,
       'Closing the success banner resulted in a call to clearTransaction for each successful transaction'

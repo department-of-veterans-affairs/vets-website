@@ -40,54 +40,6 @@
     }
   },
   {
-    "path": "/v0/profile/email",
-    "verb": "post",
-    "value": {
-      "data": {
-        "attributes": {
-          "email": "new_email@va.gov"
-        }
-      }
-    }
-  },
-  {
-    "path": "/v0/profile/mailing_address",
-    "verb": "put",
-    "value": {
-      "data": {
-        "attributes": {
-          "address": {
-            "addressEffectiveDate": "2012-04-03T04:00:00.000+00:00",
-            "addressOne": "123 NEW ST",
-            "addressThree": "",
-            "addressTwo": "BEN FRANKLIN VILLAGE",
-            "militaryPostOfficeTypeCode": "APO",
-            "militaryStateCode": "AE",
-            "type": "MILITARY",
-            "zipCode": "09028",
-            "zipSuffix": ""
-          },
-          "controlInformation": {
-            "canUpdate": true
-          }
-        }
-      }
-    }
-  },
-  {
-    "path": "/v0/profile/primary_phone",
-    "verb": "put",
-    "value": {
-      "data": {
-        "attributes": {
-          "countryCode": "1",
-          "extension": null,
-          "number": "0987654321"
-        }
-      }
-    }
-  },
-  {
     "path": "/v0/profile/personal_information",
     "verb": "get",
     "value": {
@@ -112,6 +64,30 @@
               "endDate": "1957-01-04"
             }
           ]
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/email",
+    "verb": "put",
+    "value": {
+      "data": {
+        "attributes": {
+          "transaction_id": "transaction_1",
+          "transaction_status": "RECEIVED"
+        }
+      }
+    }
+  },
+  {
+    "path": "/v0/profile/status/transaction_1",
+    "verb": "put",
+    "value": {
+      "data": {
+        "attributes": {
+          "transaction_id": "transaction_1",
+          "transaction_status": "COMPLETED_SUCCESS"
         }
       }
     }
