@@ -16,19 +16,19 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: ""
-      title: **Disability Pay (Compensation)**
+      title: <b>Disability Pay (Compensation)</b>
       description: Find out how to apply for and manage your VA disability benefits.
     - url: ""
-      title: **Life Insurance**
+      title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
     - url: ""
-      title: **Aid and Attendance or Household Allowance**
+      title: <b>Aid and Attendance or Household Allowance</b>
       description: Find out if you can get increased pension pay as a Veteran or surviving spouse.
     - url: ""
-      title: **Burial and Memorial Benefits**
+      title: <b>Burial and Memorial Benefits</b>
       description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
     - url: ""
-      title: **National Center for PTSD**
+      title: <b>National Center for PTSD</b>
       description: Learn how to recognize and manage PTSD symptoms, and listen to Veterans share their stories.
 contact:
   - heading: Call us for help getting health benefits or services
