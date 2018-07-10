@@ -1,10 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import { merge } from 'lodash/fp';
 
 import { ITFWrapper } from '../../containers/ITFWrapper';
+import { itfStatuses } from '../../constants';
 import { requestStates } from '../../../../../platform/utilities/constants';
 
 const fetchITF = sinon.spy();
@@ -55,12 +56,25 @@ describe('526 ITFWrapper', () => {
   });
 
 
-  it('should fetch the ITF if not on the intro or confirmation pages', () => {
+  it('should fetch the ITF if the form is loaded not on the intro or confirmation pages', () => {
     shallow(
       <ITFWrapper {...defaultProps}>
         <p>Shouldn't see me yet...</p>
       </ITFWrapper>
     );
+    expect(fetchITF.called).to.be.true;
+  });
+
+
+  it('should fetch the ITF if the form is loaded on the intro and navigated to the next page', () => {
+    const props = merge(defaultProps, { location: { pathname: '/introduction' } });
+    const tree = shallow(
+      <ITFWrapper {...props}>
+        <p>Shouldn't see me yet...</p>
+      </ITFWrapper>
+    );
+    expect(fetchITF.called).to.be.false;
+    tree.setProps(merge(props, { location: { pathname: '/middle' } }));
     expect(fetchITF.called).to.be.true;
   });
 
@@ -93,17 +107,13 @@ describe('526 ITFWrapper', () => {
 
 
   it('should submit a new ITF if no active ITF is found', () => {
-    const props = merge(defaultProps, {
-      itf: {
-        fetchCallState: requestStates.succeeded
-        // But no ITF is found
-      }
-    });
-    shallow(
-      <ITFWrapper {...props}>
+    const tree = shallow(
+      <ITFWrapper {...defaultProps}>
         <p>Shouldn't see me yet...</p>
       </ITFWrapper>
     );
+    // Fetch succeded, but no ITFs were returned
+    tree.setProps(merge(defaultProps, { itf: { fetchCallState: requestStates.succeeded } }));
     expect(createITF.called).to.be.true;
   });
 
@@ -118,18 +128,83 @@ describe('526 ITFWrapper', () => {
     });
     const tree = shallow(
       <ITFWrapper {...props}>
-        <p>Shouldn't see me</p>
+        <p>I'm a ninja; you can't see me!</p>
       </ITFWrapper>
     );
     expect(tree.find('AlertBox').length).to.equal(1);
   });
 
 
-  it('should render a success message with the current expiration date', () => {});
+  it('should render a success message with the current expiration date', () => {
+    const expirationDate = '2015-08-28T19:47:52.786+00:00';
+    const props = merge(defaultProps, {
+      itf: {
+        fetchCallState: requestStates.succeeded,
+        currentITF: {
+          status: itfStatuses.active,
+          expirationDate
+        }
+      }
+    });
+    const tree = mount(
+      <ITFWrapper {...props}>
+        <p>Hello, world.</p>
+      </ITFWrapper>
+    );
+    expect(tree.find('AlertBox').length).to.equal(1);
+    expect(tree.text()).to.contain(expirationDate);
+    expect(tree.find('AdditionalInfo').length).to.equal(0);
+  });
 
 
-  it('should render a success message with the previous expiration date', () => {});
+  it('should render a success message with the previous expiration date', () => {
+    const expirationDate = '2015-08-28T19:47:52.786+00:00';
+    const previousExpirationDate = '2014-08-28T19:47:52.786+00:00';
+    const props = merge(defaultProps, {
+      itf: {
+        fetchCallState: requestStates.succeeded,
+        currentITF: {
+          status: itfStatuses.active,
+          expirationDate
+        },
+        creationCallState: requestStates.succeeded,
+        previousITF: {
+          expirationDate: previousExpirationDate
+        }
+      }
+    });
+    const tree = mount(
+      <ITFWrapper {...props}>
+        <p>Hello, world.</p>
+      </ITFWrapper>
+    );
+    expect(tree.find('AlertBox').length).to.equal(1);
+    expect(tree.text()).to.contain(expirationDate);
+    const additionalInfo = tree.find('AdditionalInfo');
+    expect(additionalInfo.length).to.equal(1);
+    additionalInfo.find('button').simulate('click');
+    expect(additionalInfo.text()).to.contain(previousExpirationDate);
+  });
 
 
-  it('should not render a success message after the location changes', () => {});
+  it('should not render a success message after the location changes', () => {
+    const expirationDate = '2015-08-28T19:47:52.786+00:00';
+    const props = merge(defaultProps, {
+      itf: {
+        fetchCallState: requestStates.succeeded,
+        currentITF: {
+          status: itfStatuses.active,
+          expirationDate
+        }
+      }
+    });
+    const tree = mount(
+      <ITFWrapper {...props}>
+        <p>Hello, world.</p>
+      </ITFWrapper>
+    );
+    expect(tree.find('AlertBox').length).to.equal(1);
+    tree.setProps(merge(props, { location: { pathname: '/something-else' } }));
+    expect(tree.find('AlertBox').length).to.equal(0);
+  });
 });

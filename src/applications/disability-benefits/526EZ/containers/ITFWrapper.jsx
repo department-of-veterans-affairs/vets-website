@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import { requestStates } from '../../../../platform/utilities/constants';
 import { itfStatuses } from '../constants';
@@ -14,6 +15,32 @@ const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
 const fulfilledStates = [requestStates.succeeded, requestStates.failed];
 
 const noITFPages = ['/introduction', '/confirmation'];
+
+const itfMessage = (headline, content, status) => (
+  <div className="usa-grid" style={{ marginBottom: '2em' }}>
+    <AlertBox
+      isVisible
+      headline={headline}
+      content={content}
+      status={status}/>
+  </div>
+);
+
+const itfSuccessContent = (itf) => {
+  // TODO: Make this more better
+  // TODO: Format the date
+  const content = (
+    <div>
+      <p>Expiration date: {itf.currentITF.expirationDate}</p>
+      {itf.previousITF && <AdditionalInfo triggerText="Not what you expected?">
+        <p>
+          We found a previous ITF that expired on {itf.previousITF.expirationDate}. This might have been from an application that you started and did not finish before expiration, or from an earlier claim that you submitted.
+        </p>
+      </AdditionalInfo>}
+    </div>
+  );
+  return content;
+};
 
 
 export class ITFWrapper extends React.Component {
@@ -34,20 +61,7 @@ export class ITFWrapper extends React.Component {
   }
 
 
-  // NOTE: This currently will stop the component from rendering, but that's not guaranteed
-  //  functionality in future versions of React. This will work for now, but if that behavior
-  //  changes later, we'll need to figure out another solution.
-  shouldComponentUpdate(nextProps, nextState) {
-    // Don't immediately blow away the success banner
-    if (!this.state.hasDisplayedSuccess && nextState.hasDisplayedSuccess) {
-      return false;
-    }
-
-    return true;
-  }
-
-
-  componentWillRecieveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { itf, location } = nextProps;
 
     if (noITFPages.includes(location.pathname)) {
@@ -71,6 +85,7 @@ export class ITFWrapper extends React.Component {
     // If we've already displayed the itf success banner, toggle it off when the location changes
     if (hasActiveITF && !this.state.hasDisplayedSuccess
       && nextProps.location.pathname !== this.props.location.pathname) {
+      // This will take effect at the same time the re-render for the location change does
       this.setState({ hasDisplayedSuccess: true });
     }
   }
@@ -94,32 +109,14 @@ export class ITFWrapper extends React.Component {
 
     if (itf.fetchCallState === requestStates.failed) {
       // TODO: Get better content for this
-      return (
-        <div className="usa-grid" style={{ marginBottom: '2em' }}>
-          <AlertBox
-            isVisible
-            headline="Something went wrong"
-            content="Sorry, we’re unable to check your ITF status right now."
-            status="error"/>
-        </div>
-      );
+      return itfMessage('Looks like something went wrong', 'That\'s a real bummer.', 'error');
     }
 
     // If we have an active ITF, we're good to go--render that form!
     if (itf.currentITF && itf.currentITF.status === itfStatuses.active) {
-      // TODO: Render a success alert box (only the first time)
-      //  Probably will have to use state for this
-      const content = `It worked! Current expiration date: ${itf.currentITF.expirationDate}. Previous expiration date: ${itf.previousITF.expirationDate}`;
-
       return (
         <div>
-          <div className="usa-grid" style={{ marginBottom: '2em' }}>
-            <AlertBox
-              isVisible={!this.state.hasDisplayedSuccess}
-              headline="ITF Success"
-              content={content}
-              status="success"/>
-          </div>
+          {!this.state.hasDisplayedSuccess && itfMessage('ITF Success', itfSuccessContent(itf), 'success')}
           {children}
         </div>
       );
@@ -135,15 +132,7 @@ export class ITFWrapper extends React.Component {
     // We'll get here after the createITF promise is fulfilled and we have no active ITF
     //  because of a failed creation call
     // TODO: Get better content for this
-    return (
-      <div className="usa-grid" style={{ marginBottom: '2em' }}>
-        <AlertBox
-          isVisible
-          headline="Something went wrong"
-          content="We’re sorry, we couldn’t find an active ITF nor file a new one for you. Please try again later."
-          status="error"/>
-      </div>
-    );
+    return itfMessage('Something went wrong', 'We’re sorry, we couldn’t find an active ITF nor file a new one for you. Please try again later.', 'error');
   }
 }
 
