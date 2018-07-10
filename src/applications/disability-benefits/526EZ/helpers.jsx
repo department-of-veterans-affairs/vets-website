@@ -63,7 +63,9 @@ export function transform(formConfig, form) {
     standardClaim,
   } = form.data;
 
-  const disabilityProperties = fullSchemaIncrease.definitions.disabilities.items.properties;
+  const disabilityProperties = Object.keys(
+    fullSchemaIncrease.definitions.disabilities.items.properties
+  );
 
   const transformedData = {
     disabilities: disabilities
