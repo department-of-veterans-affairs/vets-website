@@ -63,15 +63,7 @@ export function transform(formConfig, form) {
     standardClaim,
   } = form.data;
 
-  const disabilityProperties = [
-    'name',
-    'disabilityActionType',
-    'specialIssues',
-    'ratedDisabilityId',
-    'ratingDecisionId',
-    'diagnosticCode',
-    'classificationCode'
-  ];
+  const disabilityProperties = fullSchemaIncrease.definitions.disabilities.items.properties;
 
   const transformedData = {
     disabilities: disabilities
