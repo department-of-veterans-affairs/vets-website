@@ -229,7 +229,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="link">
     <a href="#"><b>VA Health Services for Specific Veteran Health Needs</b></a>
-    <p>Find out how to get care for specific needs (like mental health), and service-related health concerns you should be aware of (like Agent Orange-related diseases or Gulf War Syndrome).</p>
+    <p>Find out how to get care for specific needs (like mental health), and learn about service-related health concerns you should be aware of (like Agent Orange-related diseases or Gulf War Syndrome).</p>
   </div>
 
   <div class="link">
@@ -239,7 +239,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="link">
     <a href="#"><b>Chemical or Hazardous Material Exposures</b></a>
-    <p>Learn about health concerns linked to exposures during military service and special VA health registries to track concerns related to Agent Orange, Gulf War/Operation Iraqi Freedom, depleted uranium, and ionizing radiation.</p>
+    <p>Find out about health concerns linked to exposures during military service. Learn about the special VA health registries you can join that document Veterans' exposure to Agent Orange, depleted uranium, ionizing radiation, and certain hazardous materials from the Gulf and Iraq Wars and Operation Enduring Freedom.</p>
   </div>
 
 <div class="link">
@@ -249,12 +249,12 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <div class="link">
     <a href="#"><b>The Affordable Care Act (ACA) and VA Health Care</b></a>
-    <p>Find out what you need to know about the Affordable Care Act and Veterans.
+    <p>Find out what you need to know about the Affordable Care Act and what it means for Veterans.
   </div>
   
   <div class="link">
     <a href="#"><b>The Million Veteran Program</b></a>
-    <p>Find out if you can be part of this voluntary research study to better understand the role genes play in our health.
+    <p>Find out if you can be a part of this voluntary research study to better understand the role genes play in our health.
   </div>
   
   <div class="link">
