@@ -5,6 +5,7 @@ import startSitewideComponents from '../../platform/site-wide';
 
 import createApplicationStatus from './createApplicationStatus';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
+import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
 
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
@@ -14,7 +15,7 @@ const burialPages = new Set([
   '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/'
 ]);
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
-const eduOptOutPage = '/education/opt-out/';
+const eduOptOutPage = '/education/opt-out-information-sharing/';
 const disabilityPages = new Set(['/disability-benefits/', '/disability-benefits/apply/', '/disability-benefits/eligibility/']);
 
 // No-react styles.
@@ -45,7 +46,7 @@ if (eduPages.has(location.pathname)) {
   createEducationApplicationStatus(store);
 }
 if (location.pathname === eduOptOutPage) {
-  createEducationApplicationStatus(store);
+  createOptOutApplicationStatus(store);
 }
 if (burialPages.has(location.pathname)) {
   createApplicationStatus(store, {

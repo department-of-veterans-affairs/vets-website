@@ -17,6 +17,13 @@ The Harry W. Colmery Veterans Educational Assistance Act (also called the “For
 #### How do I tell VA I don’t want my information shared?
 You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
 
+<div markdown="0">
+
+<div id="react-applicationStatus" class="static-page-widget"></div>
+<br></div>
+
+<div markdown="1">
+
 #### Will opting out affect my education benefits?
 No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits.
 
