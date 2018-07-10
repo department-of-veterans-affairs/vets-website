@@ -34,7 +34,7 @@ describe('526 ITFWrapper', () => {
 
   it('should not make an api call on the intro page', () => {
     global.fetch = sinon.spy();
-    const tree = shallow(
+    const tree = mount(
       <ITFWrapper location={{ pathname: '/introduction' }}>
         <p>It worked!</p>
       </ITFWrapper>
@@ -46,7 +46,7 @@ describe('526 ITFWrapper', () => {
 
   it('should not make an api call on the confirmation page', () => {
     global.fetch = sinon.spy();
-    const tree = shallow(
+    const tree = mount(
       <ITFWrapper location={{ pathname: '/confirmation' }}>
         <p>It worked!</p>
       </ITFWrapper>
@@ -57,7 +57,7 @@ describe('526 ITFWrapper', () => {
 
 
   it('should fetch the ITF if the form is loaded not on the intro or confirmation pages', () => {
-    shallow(
+    mount(
       <ITFWrapper {...defaultProps}>
         <p>Shouldn't see me yet...</p>
       </ITFWrapper>
@@ -103,6 +103,23 @@ describe('526 ITFWrapper', () => {
       </ITFWrapper>
     );
     expect(tree.find('AlertBox').length).to.equal(1);
+  });
+
+
+  it('should not submit a new ITF if the fetch failed', () => {
+    const props = merge(defaultProps, {
+      itf: {
+        fetchCallState: requestStates.pending
+      }
+    });
+    const tree = mount(
+      <ITFWrapper {...props}>
+        <p>Shouldn't see me yet...</p>
+      </ITFWrapper>
+    );
+    // The ITF call happens in componentWillReceiveProps, so trigger that function call
+    tree.setProps(merge(props, { itf: { fetchCallState: requestStates.failed } }));
+    expect(createITF.called).to.be.false;
   });
 
 

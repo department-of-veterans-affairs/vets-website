@@ -12,7 +12,6 @@ import { createITF as createITFAction, fetchITF as fetchITFAction } from '../act
 
 
 const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
-const fulfilledStates = [requestStates.succeeded, requestStates.failed];
 
 const noITFPages = ['/introduction', '/confirmation'];
 
@@ -75,10 +74,9 @@ export class ITFWrapper extends React.Component {
     }
 
     // If we've already fetched the ITFs, have none active, and haven't already called createITF, submit a new ITF
-    const fetchITFReturned = fulfilledStates.includes(itf.fetchCallState);
     const hasActiveITF = itf.currentITF && itf.currentITF.status === itfStatuses.active;
     const createITFCalled = itf.creationCallState !== requestStates.notCalled;
-    if (fetchITFReturned && !hasActiveITF && !createITFCalled) {
+    if (itf.fetchCallState === requestStates.succeeded && !hasActiveITF && !createITFCalled) {
       nextProps.createITF();
     }
 
