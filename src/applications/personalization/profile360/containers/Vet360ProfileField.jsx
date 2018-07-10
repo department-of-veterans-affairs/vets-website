@@ -66,6 +66,7 @@ class Vet360ProfileField extends React.Component {
 
   render() {
     const {
+      fieldName,
       isEditing,
       onAdd,
       onEdit,
@@ -77,7 +78,7 @@ class Vet360ProfileField extends React.Component {
     } = this.props;
 
     return (
-      <div className="vet360-profile-field">
+      <div className="vet360-profile-field" data-field-name={fieldName}>
         <Vet360ProfileFieldHeading onEditClick={this.isEditLinKVisible() && onEdit}>{title}</Vet360ProfileFieldHeading>
         {isEditing && <EditModal {...this.props} isEmpty={this.isEmpty}/>}
         <Vet360Transaction

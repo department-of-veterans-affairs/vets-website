@@ -23,7 +23,7 @@ class MilitaryInformationContent extends React.Component {
     if (error || serviceHistory.length === 0) return <LoadFail information="military"/>;
 
     return (
-      <div>
+      <div data-field-name="service-history">
         {serviceHistory.map((service, index) => {
           return (
             <div key={index}>
