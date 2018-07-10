@@ -201,7 +201,7 @@ With VA health care, you’re covered for regular checkups with your primary car
   </div>
 
 <div class="link">
-    <a href="#"><b>Get VA Medical Travel Reimbursement</b></a>
+    <a href="#"><b>Get VA Travel Pay (Reimbursement)</b></a>
     <p>Find out how to apply for reimbursement for your travel to a VA health facility.</p>
   </div>
 
