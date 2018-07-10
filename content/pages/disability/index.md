@@ -20,7 +20,7 @@ crosslinks:
     links:
     - url: https://vets.gov/housing-assistance/adaptive-housing-grants/
       title: <b>Disability Housing Grants for Veterans</b>
-      description: Find out how to apply for housing grants for Veterans with service-connected disabilities.
+      description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
     - url:  https://benefits.va.gov/fiduciary/index.asp
       title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
@@ -29,10 +29,10 @@ crosslinks:
       description: Explore long-term care options for Veterans and their caregivers.
     - url:  https://vets.gov/employment/vocational-rehab-and-employment/
       title: <b>Vocational Rehabilitation and Employment</b> 
-      description: Find out if you qualify for services like help exploring employment options and any required training needs.
+      description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url:  https://www.vets.gov/pension/aid-attendance-housebound/
       title: <b>Aid and Attendance or Housebound Allowance</b>
-      description: See if you're eligible for extra monthly pension payments to help with greater aid needs.
+      description: See if you're eligible for extra monthly pension payments if you need more aid than you're getting.
     - url: https://vets.gov/life-insurance/options-and-eligibility/s-dvi/
       title: <b>Service-Disabled Veteran's Insurance</b>
       description: Find out if you qualify for S-DVI life insurance and how to manage your coverage.
@@ -40,14 +40,14 @@ crosslinks:
       title: <b>Servicemembers' Group Life Insurance Disability Extension</b>
       description: Learn about SGLI extensions for Veterans with service-connected disabilities.
 contact:
-  - heading: Call us for help with accessing health benefits or services
+  - heading: Call us for help accessing health benefits or services
     links:
     - url: 1-800-827-1000
-      title: Questions About Disability Compensation, Pension, and Direct Deposit
+      title: Questions about Disability Compensation, Pension, and Direct Deposit
     - url: 1-800-983-0937
       title: eBenefits Technical Support
     - url: 1-877-222-VETS (8387)
-      title: General Health Care Benefits Questions
+      title: General Questions about Health Care Benefits
     - url: 1-800-749-8387
       title: Special Issues (Gulf War/Agent Orange/Project Shad/Mustard Agents and Lewisite/Ionizing Radiation)
     - url: 1-877-4AID-VET (1-877-424-3838)
@@ -55,7 +55,7 @@ contact:
     - url: 1-855-VA-WOMEN (1-855-829-6636)
       title: Women Veterans Hotline
     - url: Dial 711
-      title: Telecommunications Device for Veterans with Hearing Loss (TDD)
+      title: Telecommunications Device for Veterans with Hearing Loss (TTY or TDD)
       
 social:
   - heading: Social Media
@@ -73,7 +73,7 @@ social:
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: E-mail Directory
+      label: Email Directory
 mobile:
   - heading: Mobile Apps
     links:
@@ -83,7 +83,7 @@ mobile:
 ---
 
 <p class="va-introtext">
-VA disability pay (compensation) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military, or whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) or mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you've earned.
+VA disability pay (compensation) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you've earned.
 </p>
 
 <h3 class="highlight">Page Content</h3>
