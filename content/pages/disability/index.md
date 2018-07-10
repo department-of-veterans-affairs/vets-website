@@ -23,22 +23,22 @@ crosslinks:
       description: Find out how to apply for housing grants for Veterans with service-connected disabilities.
     - url:  https://benefits.va.gov/fiduciary/index.asp
       title: <b>Fiduciary Services</b>
-      description: Find out how to become a fiduciary to handle the financial affairs of a Veteran in need.
+      description: Learn how to become a fiduciary to handle the financial affairs of a Veteran in need.
     - url:  https://vets.gov/health-care/about-va-health-care/assisted-living-and-home-health-care/
       title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
-      description: Explore long-term care options for Veterans and caregivers.
+      description: Explore long-term care options for Veterans and their caregivers.
     - url:  https://vets.gov/employment/vocational-rehab-and-employment/
       title: <b>Vocational Rehabilitation and Employment</b> 
-      description: Find out how to apply for voc rehab services like help exploring employment options and any required training needs.
-    - url:  https://vets.gov/employment/vocational-rehab-and-employment/
-      title: Aid and Attendance or Housebound Allowance
-      description:
+      description: Find out if you qualify for services like help exploring employment options and any required training needs.
+    - url:  https://www.vets.gov/pension/aid-attendance-housebound/
+      title: <b>Aid and Attendance or Housebound Allowance</b>
+      description: See if you're eligible for extra monthly pension payments to help with greater aid needs.
     - url: https://vets.gov/life-insurance/options-and-eligibility/s-dvi/
-      title: Service-Disabled Veteran's Insurance
-      description:
+      title: <b>Service-Disabled Veteran's Insurance</b>
+      description: Find out if you qualify for S-DVI life insurance and how to manage your coverage.
     - url: https://vets.gov/life-insurance/options-and-eligibility/sgli/#extension
-      title: Servicemembers' Group Life Insurance Extension
-      description:
+      title: <b>Servicemembers' Group Life Insurance Disability Extension</b>
+      description: Learn about SGLI extensions for Veterans with service-connected disabilities.
 contact:
   - heading: Call us for help with accessing health benefits or services
     links:
@@ -52,6 +52,11 @@ contact:
       title: Special Issues (Gulf War/Agent Orange/Project Shad/Mustard Agents and Lewisite/Ionizing Radiation)
     - url: 1-877-4AID-VET (1-877-424-3838)
       title: National Call Center for Homeless Veterans
+    - url: 1-855-VA-WOMEN (1-855-829-6636)
+      title: Women Veterans Hotline
+    - url: Dial 711
+      title: Telecommunications Device for Veterans with Hearing Loss (TDD)
+      
 social:
   - heading: Social Media
     links:
@@ -72,21 +77,9 @@ social:
 mobile:
   - heading: Mobile Apps
     links:
-    - url: "https://"
-      label: What
-      icon:
-    - url: "https://"
-      label: Should
-      icon:
-    - url: "https://"
-      label: This
-      icon:
-    - url: "https://"
-      label: Look
-      icon:
-    - url: "https://"
-      label: Like
-      icon:
+    - url: "https://mobile.va.gov/appstore"
+      label: Download mobile apps designed to help you manage your health.
+      icon:     
 ---
 
 <p class="va-introtext">
@@ -147,22 +140,22 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
   <div class="link">
     <a href="https://vets.gov/disability-benefits/claims-appeal/"><b>File a Notice of Disagreement to Appeal a VA Decision</b></a>
-    <p>If you disagree with our decision on your claim, find out how to file a notice of disagreement and what to expect from the VA appeal process.</p>
+    <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
   </div>
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"><b>Add or Remove a Dependent</b></a>
-    <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits.</p>
+    <p>Find out how and when to add a dependent spouse, child, or parent to—or remove a dependent from—your VA disability benefits.</p>
   </div>
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>File Supplemental Forms</b></a>
-    <p>To be added.</p>
+    <p>TBD - need to know where this is going (referencing 21-526b?).</p>
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Upload Documents for a Submitted Claim</b></a>
-    <p>To be added.</p>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Upload Documents to Support Your VA Disability Claim</b></a>
+    <p>Send us evidence (like doctor's reports, medical test results, or service records) to help support your open disability claim.</p>
   </div>
 
   <div class="link">
@@ -171,18 +164,18 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
   </div>
 
  <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/vapii"><b>Share Your VA Medical Records</b></a>
-    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
+    <a href="https://ebenefits.va.gov/ebenefits/vapii"><b>Share Your VA Medical Records (called VA Blue Button)</b></a>
+    <p>Set up your personal health record and download reports to share with your VA and non-VA doctors.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/download-va-letters/"><b>Print Your Benefit and Eligibility Letters</b></a>
-    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
+    <a href="https://vets.gov/download-va-letters/"><b>Get a Copy of Your VA Benefits Award or Eligibility Letter</b></a>
+    <p>Download a copy of your VA eligibility or award letter for certain benefits.</p>
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
-    <p>Proin dignissim, leo varius eleifend vulputate, enim risus finibus sapien, vel sollicitudin enim leo et mauris.</p>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Disability Payments History</b></a>
+    <p>Check the status of your VA disability and pension payments and certain survivor benefits.</p>
   </div>
 
 </section>
@@ -193,26 +186,26 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
  <div class="link">
     <a href="#"><b>About VA Disability Ratings</b></a>
-    <p> </p>
+    <p>Learn how we assign disability ratings and effective dates, and what to do after you get your rating.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Compensation Rates</b></a>
-    <p></p>
+    <a href="#"><b>View VA Disability Compensation Rates</b></a>
+    <p>Read Veterans compensation benefits rates tables to find your rate based on your disability rating and dependents.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Get Help Filing a Claim</b></a>
-  <p> </p>
+  <p>Connect with a Veteran Service Organization (VSO) or accredited Veterans representative for help with applying for benefits.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Disability Evaluation Forms</b></a>
-    <p> </p>
+    <a href="#"><b>Download a VA Disability Benefits Questionnaire (DBQ)</b></a>
+    <p>Find and download the right questionnaire for your health care provider to complete to support your claim.</p>
   </div>
 
 <div class="link">
-    <a href="#"><b>Access Your Documents and Records</b></a>
-    <p> </p>
+    <a href="#"><b>Access Your VA Records and Documents</b></a>
+    <p>Manage records like your DD214, VA benefits award letter, and medical records.</p>
   </div>
 </section>
