@@ -49,6 +49,8 @@ contact:
       title: <b>Foreign Medical Program (FMP):</b>
     - url: 1-877-345-8179
       title: <b>Spina Bifida Health Care Program:</b>
+    - url: Dial 711
+      title: <b>Telecommunications Device for Veterans with Hearing Loss (TDD):</b>
 social:
   - heading: Social Media
     links:
@@ -69,22 +71,9 @@ social:
 mobile:
   - heading: Mobile Apps
     links:
-    - url: "#"
-      label: What
-      icon:
-    - url: "#"
-      label: Should
-      icon:
-    - url: "#"
-      label: This
-      icon:
-    - url: "#"
-      label: Look
-      icon:
-    - url: "#"
-      label: Like
-      icon:
-
+    - url: "https://mobile.va.gov/appstore"
+      label: Download apps to help manage your health
+      icon:  
 ---
 
 <p class="va-introtext">
