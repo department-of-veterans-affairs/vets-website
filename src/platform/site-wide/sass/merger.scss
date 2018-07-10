@@ -323,3 +323,22 @@ h3, h4 {
 .va-nav-breadcrumbs-list {
   padding-left: 0;
 }
+
+.footer-banner {
+
+  padding-top: 1.5em;
+  padding-bottom: 2em;
+
+  .va-footer-logo {
+    img {
+      width:200px;
+      height:auto;
+    }
+  }
+}
+
+.va-footer-linkgroup {
+  li {
+    margin-bottom: 0;
+  }
+}
