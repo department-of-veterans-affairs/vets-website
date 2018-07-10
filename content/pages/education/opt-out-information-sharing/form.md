@@ -10,7 +10,7 @@ description: Use your VA education benefits to pay for college or training progr
     <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>
       <li><a href="/education/">Education</a></li>
-      <li><a aria-current="page" href="/education/opt-out/">Opt Out of Information Sharing</a></li>
+      <li><a aria-current="page" href="/education/opt-out-information-sharing/">Opt Out of Information Sharing</a></li>
     </ul>
   </nav>
   <div class="section">
