@@ -1,9 +1,12 @@
+import _ from 'lodash/fp';
+
 import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
+
+import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
+import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
-import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 
 import { prefillTransformer } from '../helpers';
 
@@ -36,7 +39,8 @@ const formConfig = {
             'veteranFullName',
             'veteranSocialSecurityNumber',
             'view:noSSN',
-            'vaFileNumber'
+            'vaFileNumber',
+            'view:signature'
           ],
           required: [
             'veteranFullName'
@@ -74,6 +78,18 @@ const formConfig = {
             vaFileNumber: {
               'ui:options': {
                 hideIf: (formData) => formData.verified
+              }
+            },
+            'view:signature': {
+              'ui:title': 'By clicking this form you are electing to opt out of information sharing.',
+              'ui:description': 'Submitting this form serves as your signature.'
+            }
+          },
+          schema: {
+            properties: {
+              'view:signature': {
+                type: 'object',
+                properties: {}
               }
             }
           }

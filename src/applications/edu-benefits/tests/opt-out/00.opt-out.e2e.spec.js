@@ -1,5 +1,5 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const manifest = require('../../opt-out/manifest.json');
+const manifest = require('../../0993/manifest.json');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 
 module.exports = E2eHelpers.createE2eTest((client) => {
