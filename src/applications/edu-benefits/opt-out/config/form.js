@@ -21,6 +21,7 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'Opt Out of Sharing VA Education Benefits Information',
+  subTitle: 'VA Form 22-0993',
   defaultDefinitions: {
   },
   chapters: {

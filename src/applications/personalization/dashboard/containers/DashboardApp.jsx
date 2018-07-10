@@ -18,7 +18,7 @@ import DowntimeNotification, { externalServices } from '../../../../platform/mon
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import profileManifest from '../../va-profile/manifest.json';
+import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
 
 const scroller = Scroll.animateScroll;

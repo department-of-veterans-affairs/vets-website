@@ -13,7 +13,7 @@ relatedlinks:
       title: How to Gather Evidence for Your Claim
       description: "Find out what evidence we’ll need—and what your options are for gathering documents to support your claim."
     - url: /disability-benefits/apply/
-      title: Disability Benefits Application Process
+      title: How to Apply for Disability Benefits
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Pre-discharge Claim
