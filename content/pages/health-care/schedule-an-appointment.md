@@ -30,7 +30,6 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 <a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
-</div>
 
 <div class="usa-alert usa-alert-warning">
  <div class="usa-alert-body">
