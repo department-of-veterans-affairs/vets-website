@@ -30,6 +30,8 @@ startSitewideComponents(store);
 if (pensionPages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '21P-527EZ',
+    applyHeading: 'How do I apply?',
+    additionalText: 'You can apply online right now.',
     applyLink: '/pension/apply/',
     applyText: 'Apply for Veterans Pension Benefits'
   });
@@ -37,7 +39,8 @@ if (pensionPages.has(location.pathname)) {
 if (healthcarePages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '1010ez',
-    additionalText: 'You can start your online application right now.',
+    applyHeading: 'How do I apply?',
+    additionalText: 'You can apply online right now.',
     applyLink: '/health-care/apply/',
     applyText: 'Apply for Health Care Benefits'
   });
@@ -51,6 +54,8 @@ if (location.pathname === eduOptOutPage) {
 if (burialPages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '21P-530',
+    applyHeading: 'How do I apply?',
+    additionalText: 'You can apply online right now.',
     applyText: 'Apply for Burial Benefits'
   });
 }

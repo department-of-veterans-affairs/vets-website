@@ -2,6 +2,6 @@
     "appName": "Opt Out of Sharing VA Education Benefits Information",
     "entryFile": "./opt-out-entry.jsx",
     "entryName": "opt-out",
-    "rootUrl": "/education/opt-out/form",
+    "rootUrl": "/education/opt-out-information-sharing/form",
     "production": false
   }
