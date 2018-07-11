@@ -5,6 +5,9 @@ import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 
 import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+
+import GetFormHelp from '../../components/GetFormHelp';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -30,6 +33,8 @@ const formConfig = {
   },
   title: 'Opt Out of Sharing VA Education Benefits Information',
   subTitle: 'VA Form 22-0993',
+  getHelp: GetFormHelp,
+  footerContent: FormFooter,
   defaultDefinitions: {
     ...fullSchema0993.definitions
   },
@@ -41,7 +46,7 @@ const formConfig = {
           path: 'applicant/information',
           title: 'Applicant information',
           initialData: {
-            verified: true,
+            // verified: true,
             veteranFullName: {
               first: 'test',
               last: 'test'
@@ -62,12 +67,16 @@ const formConfig = {
               middle: {
                 'ui:title': 'Your middle name'
               },
+              suffix: {
+                'ui:title': 'Your suffix'
+              },
               'ui:options': {
                 hideIf: (formData) => formData.verified
               }
             }),
             veteranSocialSecurityNumber: _.assign(ssnUI, {
               'ui:required': (formData) => !formData.verified && !formData['view:noSSN'],
+              'ui:title': 'Your Social Security number',
               'ui:options': {
                 hideIf: (formData) => formData.verified
               }
@@ -81,11 +90,11 @@ const formConfig = {
             },
             vaFileNumber: {
               'ui:required': (formData) => !formData.verified && formData['view:noSSN'],
+              'ui:title': 'Your VA file number',
               'ui:options': {
                 hideIf: (formData) => formData.verified,
                 expandUnder: 'view:noSSN'
               },
-              'ui:title': 'VA file number',
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
