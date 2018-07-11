@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import AskVAQuestions from '../components/AskVAQuestions';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { setUpPage } from '../utils/page';
 import { getClaimType } from '../utils/helpers';
 
@@ -11,15 +11,29 @@ class ClaimEstimationPage extends React.Component {
     document.title = 'How We Come Up with Your Estimated Decision Date';
     setUpPage();
   }
+
+  renderBreadcrumbs(claim) {
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
+      <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
+      <Link to={`/your-claims/${claim.id}`} key="claim-id">Your {getClaimType(claim)} Claim</Link>,
+      <Link to={`/your-claims/${claim.id}/claim-estimate`} key="claim-id">Estimated Decision Date</Link>
+    ];
+
+    return crumbs;
+  }
+
+
   render() {
-    const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
+    // const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
+    const claim = this.props.claim;
     return (
       <div>
         <div className="row">
           <div className="medium-12 columns">
             <Breadcrumbs>
-              <li><Link to="your-claims">Your Claims</Link></li>
-              <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
+              {this.renderBreadcrumbs(claim)}
             </Breadcrumbs>
           </div>
         </div>

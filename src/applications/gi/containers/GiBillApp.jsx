@@ -76,7 +76,6 @@ export class GiBillApp extends React.Component {
       if (searchCount !== null) {
         crumbs.push(
           <a
-            href=""
             onClick={browserHistory.goBack}
             key="search-results">Search Results
           </a>,

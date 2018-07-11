@@ -41,11 +41,13 @@ class AdditionalEvidencePage extends React.Component {
       scrollToTop();
     }
   }
+
   componentWillReceiveProps(props) {
     if (props.uploadComplete) {
       this.goToFilesPage();
     }
   }
+
   componentDidUpdate(prevProps) {
     if (this.props.message && !prevProps.message) {
       scrollToError();
@@ -54,15 +56,30 @@ class AdditionalEvidencePage extends React.Component {
       setPageFocus();
     }
   }
+
   componentWillUnmount() {
     if (!this.props.uploadComplete) {
       this.props.clearNotification();
     }
   }
+
   goToFilesPage() {
     this.props.getClaimDetail(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
+
+  renderBreadcrumbs(claim) {
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
+      <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
+      <Link to={`/your-claims/${claim.id}`} key="claim-id">Your {getClaimType(claim)} Claim</Link>,
+      <Link to={`/your-claims/${claim.id}/additional-evidence`} key="additional-evidence">Additional Evidence</Link>
+    ];
+
+    return crumbs;
+  }
+
   render() {
     let content;
 
@@ -71,7 +88,7 @@ class AdditionalEvidencePage extends React.Component {
     } else {
       const claim = this.props.claim;
       const filesPath = `your-claims/${claim.id}/files`;
-      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
+      // const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
       const message = this.props.message;
 
       content = (
@@ -79,8 +96,7 @@ class AdditionalEvidencePage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                <li><Link to={claimsPath}>Your Claims</Link></li>
-                <li><Link to={filesPath}>Your {getClaimType(claim)} Claim</Link></li>
+                {this.renderBreadcrumbs(claim)}
               </Breadcrumbs>
             </div>
           </div>

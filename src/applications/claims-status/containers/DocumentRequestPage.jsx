@@ -8,7 +8,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
@@ -71,15 +71,29 @@ class DocumentRequestPage extends React.Component {
     this.props.getClaimDetail(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
+
+  renderBreadcrumbs(claim) {
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
+      <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
+      <Link to={`/your-claims/${claim.id}`} key="claim-id">Your {getClaimType(claim)} Claim</Link>,
+      <Link to={`/your-claims/${claim.id}/document-request/${this.props.params.trackedItemId}`} key="claim-id">Document Request</Link>
+    ];
+
+    return crumbs;
+  }
+
   render() {
     let content;
 
     if (this.props.loading) {
       content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
     } else {
+      const claim = this.props.claim;
       const trackedItem = this.props.trackedItem;
       const filesPath = `your-claims/${this.props.claim.id}/files`;
-      const claimsPath = `your-claims${this.props.claim.attributes.open ? '' : '/closed'}`;
+      // const claimsPath = `your-claims${this.props.claim.attributes.open ? '' : '/closed'}`;
       const message = this.props.message;
 
       content = (
@@ -87,8 +101,7 @@ class DocumentRequestPage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                <li><Link to={claimsPath}>Your Claims</Link></li>
-                <li><Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link></li>
+                {this.renderBreadcrumbs(claim)}
               </Breadcrumbs>
             </div>
           </div>

@@ -140,7 +140,7 @@ export function backendErrorMessage() {
           <li>The name on your Vets.gov account might not exactly match the name we have in our Post-9/11 GI Bill records. To check the name we have in our records, please call the number below.</li>
         </ul>
         <p>If you think your statement of benefits should be here, please call the Vets.gov Help Desk at <a href="tel:18555747285">1-855-574-7286</a>.</p>
-        <a className="usa-button usa-button-primary">Back to Post-9/11 GI Bill</a>
+        <a href="/education/gi-bill/post-9-11/" className="usa-button usa-button-primary">Back to Post-9/11 GI Bill</a>
         <br/>
         <br/>
         <br/>

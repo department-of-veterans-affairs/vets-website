@@ -5,7 +5,7 @@ import { submitRequest, getClaimDetail } from '../actions/index.jsx';
 import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
 
 class AskVAPage extends React.Component {
@@ -15,24 +15,42 @@ class AskVAPage extends React.Component {
     this.setSubmittedDocs = this.setSubmittedDocs.bind(this);
     this.state = { submittedDocs: false };
   }
+
   componentDidMount() {
     document.title = 'Ask for your Claim Decision';
     setUpPage();
   }
+
   componentWillReceiveProps(props) {
     if (props.decisionRequested) {
       props.getClaimDetail(this.props.params.id);
       this.goToStatusPage();
     }
   }
+
   setSubmittedDocs(val) {
     this.setState({ submittedDocs: val });
   }
+
   goToStatusPage() {
     this.props.router.push(`your-claims/${this.props.params.id}`);
   }
+
+  renderBreadcrumbs(claim) {
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
+      <Link to="your-claims" key="claims-home">Track Your Claims and Appeals</Link>,
+      <Link to={`your-claims/${claim.id}`} key="claim-id">Your Compensation Claim</Link>,
+      <Link to={`your-claims/${claim.id}/ask-va-to-decide`} key="ask-va">Ask for Claim Decision</Link>
+    ];
+
+    return crumbs;
+  }
+
   render() {
     const { loadingDecisionRequest, decisionRequestError } = this.props;
+    const claim = this.props.params.id;
     const submitDisabled = !this.state.submittedDocs || loadingDecisionRequest || decisionRequestError;
 
     let buttonMsg = 'Submit';
@@ -46,8 +64,7 @@ class AskVAPage extends React.Component {
         <div className="row">
           <div className="medium-12 columns">
             <Breadcrumbs>
-              <li><Link to="your-claims">Your Claims</Link></li>
-              <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
+              {this.renderBreadcrumbs(claim)}
             </Breadcrumbs>
           </div>
         </div>

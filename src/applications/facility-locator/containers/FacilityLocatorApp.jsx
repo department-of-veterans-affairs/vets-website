@@ -5,8 +5,7 @@ import DowntimeNotification, { externalServices } from '../../../platform/monito
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
 class FacilityLocatorApp extends React.Component {
-  render() {
-    const { location, selectedFacility } = this.props;
+  renderBreadcrumbs(location, selectedFacility) {
     const crumbs = [
       <a href="/" key="home">Home</a>,
       <Link to="/" key="facility-locator">Facility Locator</Link>
@@ -16,10 +15,16 @@ class FacilityLocatorApp extends React.Component {
       crumbs.push(<Link to={`/${selectedFacility.id}`}>Facility Details</Link>);
     }
 
+    return crumbs;
+  }
+
+  render() {
+    const { location, selectedFacility } = this.props;
+
     return (
       <div>
         <Breadcrumbs selectedFacility={selectedFacility}>
-          {crumbs}
+          {this.renderBreadcrumbs(location, selectedFacility)}
         </Breadcrumbs>
         <div className="row">
           <DowntimeNotification appTitle="facility locator tool" dependencies={[externalServices.arcgis]}>
