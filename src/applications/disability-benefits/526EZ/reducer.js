@@ -29,7 +29,7 @@ const initialState = {
  * Note: This can return undefined
  */
 function findLastITF(itfList) {
-  return itfList.sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate))[0];
+  return itfList.sort((a, b) => new Date(b.expirationDate) - new Date(a.expirationDate))[0];
 }
 
 

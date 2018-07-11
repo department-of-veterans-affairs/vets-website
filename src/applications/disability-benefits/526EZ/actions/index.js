@@ -1,3 +1,5 @@
+import Raven from 'raven-js';
+
 import { apiRequest } from '../../../../platform/utilities/api';
 
 export const ITF_FETCH_INITIATED = 'ITF_FETCH_INITIATED';
@@ -16,7 +18,10 @@ export function fetchITF() {
       '/intent_to_file',
       null,
       ({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }),
-      () => dispatch({ type: ITF_FETCH_FAILED })
+      () => {
+        Raven.captureMessage('itf_fetch_failed');
+        dispatch({ type: ITF_FETCH_FAILED });
+      }
     );
   };
 }
@@ -29,7 +34,10 @@ export function createITF() {
       '/intent_to_file/compensation',
       { method: 'POST' },
       ({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }),
-      () => dispatch({ type: ITF_CREATION_FAILED })
+      () => {
+        Raven.captureMessage('itf_creation_failed');
+        dispatch({ type: ITF_CREATION_FAILED });
+      }
     );
   };
 }
