@@ -36,16 +36,16 @@ function runAddressTest(browser, fieldName, initialLine1, initialLine2) {
 }
 
 function runHeroTests(browser) {
-  browser.assert.containsText('[data-field-name="full-name"]', 'First Middle Last');
+  browser.assert.containsText('[data-field-name="fullName"]', 'First Middle Last');
 }
 
 function runPersonalInformationTest(browser) {
   browser.assert.containsText('[data-field-name="gender"]', 'Male');
-  browser.assert.containsText('[data-field-name="birth-date"]', 'March 21, 1972');
+  browser.assert.containsText('[data-field-name="birthDate"]', 'March 21, 1972');
 }
 
 function runMilitaryInformationTests(browser) {
-  browser.assert.containsText('[data-field-name="service-history"]', 'Army');
+  browser.assert.containsText('[data-field-name="serviceHistory"]', 'Army');
 }
 
 function createMockRoutes(token) {

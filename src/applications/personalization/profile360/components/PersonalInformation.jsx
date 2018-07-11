@@ -22,7 +22,7 @@ function Gender({ gender }) {
 
 function BirthDate({ birthDate }) {
   return (
-    <div data-field-name="birth-date">
+    <div data-field-name="birthDate">
       <h3>Birth date</h3>
       <div>{moment(birthDate).format('MMM D, YYYY')}</div>
     </div>
