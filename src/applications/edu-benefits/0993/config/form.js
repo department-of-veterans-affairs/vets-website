@@ -1,14 +1,17 @@
 import _ from 'lodash/fp';
 
 import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 
-import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
 import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { prefillTransformer } from '../helpers';
+
+const { veteranSocialSecurityNumber, vaFileNumber } = fullSchema0993.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -34,30 +37,27 @@ const formConfig = {
     applicantInformation: {
       title: 'Form',
       pages: {
-        applicantInformation: _.merge(applicantInformation(fullSchema0993, {
-          isVeteran: true,
-          fields: [
-            'veteranFullName',
-            'veteranSocialSecurityNumber',
-            'view:noSSN',
-            'vaFileNumber',
-            'view:signature'
-          ],
-          required: [
-            'veteranFullName'
-          ]
-        }), {
+        applicantInformation: {
+          path: 'applicant/information',
+          title: 'Applicant information',
           initialData: {
-            // verified: true
+            verified: true,
+            veteranFullName: {
+              first: 'test',
+              last: 'test'
+            },
+            veteranSocialSecurityNumber: '234234234'
           },
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranFullName: {
+            veteranFullName: _.merge(fullNameUI, {
               first: {
-                'ui:title': 'Your first name'
+                'ui:title': 'Your first name',
+                'ui:required': (formData) => !formData.verified
               },
               last: {
-                'ui:title': 'Your last name'
+                'ui:title': 'Your last name',
+                'ui:required': (formData) => !formData.verified
               },
               middle: {
                 'ui:title': 'Your middle name'
@@ -65,35 +65,67 @@ const formConfig = {
               'ui:options': {
                 hideIf: (formData) => formData.verified
               }
-            },
-            veteranSocialSecurityNumber: {
+            }),
+            veteranSocialSecurityNumber: _.assign(ssnUI, {
+              'ui:required': (formData) => !formData.verified && !formData['view:noSSN'],
               'ui:options': {
                 hideIf: (formData) => formData.verified
               }
-            },
+            }),
             'view:noSSN': {
+              'ui:title': 'I don’t have a Social Security number',
               'ui:options': {
+                hideOnReview: true,
                 hideIf: (formData) => formData.verified
               }
             },
             vaFileNumber: {
+              'ui:required': (formData) => !formData.verified && formData['view:noSSN'],
               'ui:options': {
-                hideIf: (formData) => formData.verified
+                hideIf: (formData) => formData.verified,
+                expandUnder: 'view:noSSN'
+              },
+              'ui:title': 'VA file number',
+              'ui:errorMessages': {
+                pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
-            'view:signature': {
+            'view:optOutMessage': {
               'ui:title': 'By clicking this form you are electing to opt out of information sharing.'
             }
           },
           schema: {
+            type: 'object',
             properties: {
-              'view:signature': {
+              veteranFullName: {
+                type: 'object',
+                properties: {
+                  first: {
+                    type: 'string'
+                  },
+                  middle: {
+                    type: 'string'
+                  },
+                  last: {
+                    type: 'string'
+                  },
+                  suffix: {
+                    type: 'string'
+                  }
+                }
+              },
+              veteranSocialSecurityNumber,
+              'view:noSSN': {
+                type: 'boolean'
+              },
+              vaFileNumber,
+              'view:optOutMessage': {
                 type: 'object',
                 properties: {}
               }
             }
           }
-        })
+        }
       }
     }
   }

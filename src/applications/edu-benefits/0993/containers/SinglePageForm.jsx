@@ -56,7 +56,6 @@ class FormPage extends React.Component {
   }
 
   onSubmit = ({ formData }) => {
-    debugger;
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved

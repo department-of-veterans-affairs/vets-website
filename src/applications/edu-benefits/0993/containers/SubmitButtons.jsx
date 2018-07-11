@@ -17,7 +17,7 @@ export default function SubmitButtons(props) {
     submitButton = (
       <ProgressButton
         submitButton
-        onButtonClick={onSubmit}}
+        onButtonClick={onSubmit}
         buttonText="Submit Application"
         buttonClass="usa-button-primary"/>
     );

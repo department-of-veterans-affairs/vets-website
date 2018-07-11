@@ -1,5 +1,4 @@
 import React from 'react';
-import Raven from 'raven-js';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -11,7 +10,6 @@ import {
   createPageListByChapter,
   expandArrayPages,
   getActivePages,
-  recordEvent
 } from 'us-forms-system/lib/js/helpers';
 import {
   setPrivacyAgreement,
