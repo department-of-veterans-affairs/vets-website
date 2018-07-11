@@ -453,7 +453,7 @@ class CalculatorForm extends React.Component {
       amountInput = (
         <div>
           <ErrorableTextInput errorMessage={this.props.inputs.beneficiaryZIPError}
-            label={<span>At what ZIP Code will you be taking classes?</span>}
+            label={<span>At what ZIP Code will you be taking the majority of classes?</span>}
             name="beneficiaryZIPCode"
             field={{ value: this.props.inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}/>
@@ -466,7 +466,7 @@ class CalculatorForm extends React.Component {
       <div>
         <RadioButtons
           label={this.renderLearnMoreLabel({
-            text: 'Will the majority of your classes be on campus?',
+            text: 'Will the majority of your classes be on main campus?',
             modal: 'calcBeneficiaryLocationQuestion'
           })}
           name="beneficiaryLocationQuestion"
