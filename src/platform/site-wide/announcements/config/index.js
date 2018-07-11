@@ -1,5 +1,4 @@
 import DashboardIntro from '../components/DashboardIntro';
-import ProfileIntro from '../components/ProfileIntro';
 import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
 
@@ -12,14 +11,8 @@ const config = {
       relatedAnnouncements: ['personalization']
     },
     {
-      name: 'profile-intro',
-      paths: /^(\/profile\/)$/,
-      component: ProfileIntro,
-      relatedAnnouncements: ['personalization']
-    },
-    {
       name: 'profile-360-intro',
-      paths: /^(\/profile360\/)$/,
+      paths: /^(\/profile\/)$/,
       component: Profile360Intro,
       relatedAnnouncements: ['personalization']
     },

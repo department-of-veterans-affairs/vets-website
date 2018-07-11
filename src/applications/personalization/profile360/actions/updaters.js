@@ -20,15 +20,7 @@ export const VET360_TRANSACTION_UPDATE_FAILED = 'VET360_TRANSACTION_UPDATE_FAILE
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
 function recordProfileTransaction(event, fieldName) {
-  const analyticsMap = {
-    homePhone: 'home-telephone',
-    mobilePhone: 'mobile-telephone',
-    workPhone: 'work-telephone',
-    mailingAddress: 'mailing-address',
-    residentialAddress: 'home-address',
-    faxNumber: 'fax-telephone',
-    email: 'email',
-  };
+  const analyticsMap = VET360_CONSTANTS.ANALYTICS_FIELD_MAP;
 
   if (analyticsMap[fieldName]) {
     recordEvent({
@@ -62,7 +54,9 @@ export function refreshTransaction(transaction, analyticsSectionName) {
       });
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
-        dispatch(refreshProfile());
+        const forceCacheClear = true;
+        dispatch(refreshProfile(forceCacheClear));
+        recordEvent({ event: 'profile-saved' });
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
           event: 'profile-edit-failure',
@@ -158,7 +152,8 @@ function updateVet360Field(apiRoute, fieldName, fieldType) {
       try {
         dispatch({
           type: VET360_TRANSACTION_REQUESTED,
-          fieldName
+          fieldName,
+          method
         });
 
         const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
@@ -211,7 +206,8 @@ function deleteVet360Field(apiRoute, fieldName, fieldType) {
       try {
         dispatch({
           type: VET360_TRANSACTION_REQUESTED,
-          fieldName
+          fieldName,
+          method: 'DELETE'
         });
 
         const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();

@@ -32,3 +32,15 @@ export const PHONE_TYPE = {
   faxNumber: 'FAX',
   homePhone: 'HOME',
 };
+
+export const ANALYTICS_FIELD_MAP = {
+  primaryTelephone: 'primary-telephone',
+  alternateTelephone: 'alternative-telephone',
+  homePhone: 'home-telephone',
+  mobilePhone: 'mobile-telephone',
+  workPhone: 'work-telephone',
+  faxNumber: 'fax-telephone',
+  email: 'email',
+  mailingAddress: 'mailing-address',
+  residentialAddress: 'home-address'
+};

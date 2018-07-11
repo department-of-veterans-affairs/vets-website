@@ -1,4 +1,4 @@
-import { snakeCase } from 'lodash';
+import _, { snakeCase } from 'lodash';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import { api } from '../config';
@@ -184,11 +184,34 @@ export function fetchProfile(facilityCode, version) {
     dispatch({ type: FETCH_PROFILE_STARTED });
 
     return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload => withPreview(dispatch, { type: FETCH_PROFILE_SUCCEEDED, payload }),
-        err => dispatch({ type: FETCH_PROFILE_FAILED, err })
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return res.json()
+          .then((errors) => {
+            throw new Error(errors);
+          });
+      })
+      .then(payload => {
+        const institutionZIP = _.get(payload, 'data.attributes.zip');
+        const bahUrl = `${api.url}/zipcode_rates/${institutionZIP}`;
+
+        return fetch(bahUrl, api.settings)
+          .then(res => res.json())
+          // if there's an error from the zipRatesPayload the reducer will just use the values from the institution end point.
+          .then(zipRatesPayload => {
+            withPreview(dispatch, {
+              type: FETCH_PROFILE_SUCCEEDED,
+              payload,
+              zipRatesPayload
+            });
+          });
+      })
+      .catch(err => {
+        dispatch({ type: FETCH_PROFILE_FAILED, err });
+      });
   };
 }
 

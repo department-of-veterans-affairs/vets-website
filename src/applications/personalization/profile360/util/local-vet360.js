@@ -86,6 +86,29 @@ export const mockContactInformation = {
     zipCode: '97062',
     zipCodeSuffix: '1234'
   },
+  residentialAddress: {
+    addressLine1: 'PSC 808 Box 37',
+    addressLine2: '',
+    addressLine3: '',
+    addressPou: 'RESIDENCE/CHOICE',
+    addressType: 'MILITARY OVERSEAS',
+    city: 'FPO',
+    countryName: 'United States',
+    countryCodeFips: 'US',
+    countryCodeIso2: 'US',
+    countryCodeIso3: 'USA',
+    createdAt: '2018-04-21T20:09:50Z',
+    effectiveEndDate: '2018-04-21T20:09:50Z',
+    effectiveStartDate: '2018-04-21T20:09:50Z',
+    id: 124,
+    internationalPostalCode: '54321',
+    province: 'string',
+    sourceDate: '2018-04-21T20:09:50Z',
+    stateCode: 'AE',
+    updatedAt: '2018-04-21T20:09:50Z',
+    zipCode: '09618',
+    zipCodeSuffix: '1234'
+  },
 };
 
 

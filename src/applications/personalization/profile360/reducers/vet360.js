@@ -10,10 +10,19 @@ import {
   VET360_TRANSACTION_UPDATE_FAILED
 } from '../actions';
 
+import {
+  isFailedTransaction,
+  isSuccessfulTransaction
+} from '../util/transactions';
+
 const initialState = {
   transactions: [],
   fieldTransactionMap: {},
-  transactionsAwaitingUpdate: []
+  transactionsAwaitingUpdate: [],
+  metadata: {
+    mostRecentSuccessfulTransactionId: '',
+    mostRecentErroredTransactionId: '',
+  }
 };
 
 export default function vet360(state = initialState, action) {
@@ -36,7 +45,8 @@ export default function vet360(state = initialState, action) {
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
           [action.fieldName]: {
-            isPending: true
+            isPending: true,
+            method: action.method
           }
         }
       };
@@ -47,6 +57,8 @@ export default function vet360(state = initialState, action) {
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
           [action.fieldName]: {
+            ...state.fieldTransactionMap[action.fieldName],
+            isPending: false,
             isFailed: true,
             error: action.error
           }
@@ -60,6 +72,8 @@ export default function vet360(state = initialState, action) {
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
           [action.fieldName]: {
+            ...state.fieldTransactionMap[action.fieldName],
+            isPending: false,
             transactionId: action.transaction.data.attributes.transactionId
           }
         }
@@ -78,8 +92,16 @@ export default function vet360(state = initialState, action) {
       const { transaction } = action;
       const { transactionId: updatedTransactionId } = transaction.data.attributes;
 
+      const metadata = { ...state.metadata };
+      if (isFailedTransaction(transaction)) {
+        metadata.mostRecentErroredTransactionId = updatedTransactionId;
+      } else if (isSuccessfulTransaction(transaction)) {
+        metadata.mostRecentSuccessfulTransactionId = updatedTransactionId;
+      }
+
       return {
         ...state,
+        metadata,
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(tid => tid !== updatedTransactionId),
         transactions: state.transactions.map(t => {
           return t.data.attributes.transactionId === updatedTransactionId ? transaction : t;
@@ -106,8 +128,16 @@ export default function vet360(state = initialState, action) {
         }
       });
 
+      const metadata = { ...state.metadata };
+      if (metadata.mostRecentSuccessfulTransactionId === finishedTransactionId) {
+        metadata.mostRecentSuccessfulTransactionId = null;
+      } else if (metadata.mostRecentErroredTransactionId === finishedTransactionId) {
+        metadata.mostRecentErroredTransactionId = null;
+      }
+
       return {
         ...state,
+        metadata,
         transactions: state.transactions.filter(t => t.data.attributes.transactionId !== finishedTransactionId),
         fieldTransactionMap
       };

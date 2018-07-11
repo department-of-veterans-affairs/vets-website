@@ -20,10 +20,18 @@ export default class Vet360TransactionPending extends React.Component {
       return <div>{this.props.children}</div>;
     }
 
+    let content = (
+      <span>We’re working on saving your new {this.props.title.toLowerCase()}. We’ll show it here once it’s saved.</span>
+    );
+
+    if (this.props.method === 'DELETE') {
+      content = (
+        <span>We’re in the process of deleting your {this.props.title.toLowerCase()}. We’ll remove this information soon.</span>
+      );
+    }
+
     return (
-      <div className="vet360-profile-field-transaction-pending">
-        We’re working on saving your new {this.props.title.toLowerCase()}. We’ll show it here once it’s saved.
-      </div>
+      <div className="vet360-profile-field-transaction-pending">{content}</div>
     );
   }
 }

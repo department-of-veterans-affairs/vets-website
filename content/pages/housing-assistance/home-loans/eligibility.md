@@ -73,9 +73,13 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 
 <br>
 
-### Ready to apply?
+### How do I apply for my COE?
 
-[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
+You can apply online right now.
+
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan">Go to eBenefits to Apply</a>
+
+[Learn more about how to apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 <br>
 

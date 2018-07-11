@@ -278,12 +278,7 @@ const formConfig = {
       }
     },
     ratedDisabilities: {
-      title: (isReview) => {
-        if (isReview) {
-          return 'Rated Disabilities';
-        }
-        return 'Your Rated Disabilities';
-      },
+      title: 'Rated Disabilities',
       pages: {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',

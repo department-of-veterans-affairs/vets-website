@@ -30,6 +30,28 @@ import Vet360Transaction from '../components/Vet360Transaction';
 
 class Vet360ProfileField extends React.Component {
 
+  static propTypes = {
+    analyticsSectionName: PropTypes.string.isRequired,
+    clearErrors: PropTypes.func.isRequired,
+    Content: PropTypes.func.isRequired,
+    data: PropTypes.object,
+    EditModal: PropTypes.func.isRequired,
+    field: PropTypes.object,
+    fieldName: PropTypes.string.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    isEmpty: PropTypes.func,
+    onAdd: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    refreshTransaction: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    transaction: PropTypes.object,
+    transactionRequest: PropTypes.object
+  };
+
   isEmpty = () => {
     return this.props.isEmpty ? this.props.isEmpty(this.props) : !this.props.data;
   }
@@ -50,7 +72,8 @@ class Vet360ProfileField extends React.Component {
       Content,
       EditModal,
       title,
-      transaction
+      transaction,
+      transactionRequest
     } = this.props;
 
     return (
@@ -60,6 +83,7 @@ class Vet360ProfileField extends React.Component {
         <Vet360Transaction
           title={title}
           transaction={transaction}
+          transactionRequest={transactionRequest}
           refreshTransaction={this.props.refreshTransaction.bind(this, transaction)}>
           {this.isEmpty() ? (
             <button
@@ -89,9 +113,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  // TODO turn analytics back on later
-  /* eslint-disable no-unused-vars */
-
   const {
     fieldName,
     analyticsSectionName: sectionName

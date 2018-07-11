@@ -7,7 +7,9 @@ import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 
 import {
   selectVet360SuccessfulTransactions,
-  selectVet360FailedTransactions
+  selectVet360FailedTransactions,
+  selectMostRecentSuccessfulTransaction,
+  selectMostRecentErroredTransaction
 } from '../selectors';
 
 import {
@@ -26,32 +28,34 @@ class Vet360TransactionReporter extends React.Component {
     if (newMessageVisible) scrollToTop();
   }
 
+  clearAllSuccessfulTransactions = () => {
+    this.props.successfulTransactions.forEach(this.props.clearTransaction);
+  }
+
+  clearAllErroredTransactions = () => {
+    this.props.erroredTransactions.forEach(this.props.clearTransaction);
+  }
+
   render() {
     const {
-      successfulTransactions,
-      erroredTransactions
+      mostRecentSuccessfulTransaction,
+      mostRecentErroredTransaction
     } = this.props;
 
     return (
       <div className="vet360-transaction-reporter">
-        {successfulTransactions.map((transaction) => {
-          return (
-            <AlertBox
-              key={transaction.data.attributes.transactionId}
-              isVisible
-              status="success"
-              onCloseAlert={this.props.clearTransaction.bind(null, transaction)}
-              content={<h4>We saved your updated information.</h4>}/>
-          );
-        })}
-        {erroredTransactions.map((transaction) => {
-          return (
-            <Vet360TransactionErrorBanner
-              key={transaction.data.attributes.transactionId}
-              transaction={transaction}
-              clearTransaction={this.props.clearTransaction.bind(null, transaction)}/>
-          );
-        })}
+        {mostRecentSuccessfulTransaction && (
+          <AlertBox
+            isVisible
+            status="success"
+            onCloseAlert={this.clearAllSuccessfulTransactions}
+            content={<h4>We saved your updated information.</h4>}/>
+        )}
+        {mostRecentErroredTransaction && (
+          <Vet360TransactionErrorBanner
+            transaction={mostRecentErroredTransaction}
+            clearTransaction={this.clearAllErroredTransactions}/>
+        )}
       </div>
     );
   }
@@ -59,6 +63,8 @@ class Vet360TransactionReporter extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    mostRecentSuccessfulTransaction: selectMostRecentSuccessfulTransaction(state),
+    mostRecentErroredTransaction: selectMostRecentErroredTransaction(state),
     successfulTransactions: selectVet360SuccessfulTransactions(state),
     erroredTransactions: selectVet360FailedTransactions(state)
   };
