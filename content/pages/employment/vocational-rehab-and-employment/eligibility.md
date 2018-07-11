@@ -11,7 +11,7 @@ majorlinks:
       title: VR&E Programs for Servicemembers and Veterans
       description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
     - url: /employment/vocational-rehab-and-employment/apply-vre/
-      title: Application Process
+      title: How to Apply for VR&E
       description: Find out how to apply for VR&E benefits and services as a Servicemember or Veteran.
     - url: /employment/vocational-rehab-and-employment/family-members/
       title: Dependent Family Members
@@ -73,14 +73,15 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 </div>
 
-### Ready to apply?
+### How do I apply?
+
+You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
-Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet. <br>
-[Find out how to apply](/employment/vocational-rehab-and-employment/apply-vre/).
+[Learn more about how to apply for VR&E](/employment/vocational-rehab-and-employment/apply-vre/). <br>
+**Note:** You can apply even if you're a Servicemember without a disability rating yet.
 
-<br>
 
 ### What kind of VR&E services can I get?
 

@@ -4,14 +4,14 @@ import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isFullDate } from '../../../platform/forms/validations';
-import { services } from '../../../platform/monitoring/DowntimeNotification';
+import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 
-import * as address from '../../common/schemaform/definitions/address';
-import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
-import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
+import * as address from 'us-forms-system/lib/js/definitions/address';
+import bankAccountUI from 'us-forms-system/lib/js/definitions/bankAccount';
+import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
 
 import {
   employmentDescription,
@@ -43,7 +43,7 @@ import DisabilityField from '../components/DisabilityField';
 import MedicalCenterField from '../components/MedicalCenterField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FullNameField from '../../common/schemaform/fields/FullNameField';
+import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -53,16 +53,16 @@ import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import phoneUI from '../../common/schemaform/definitions/phone';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
-import ssnUI from '../../common/schemaform/definitions/ssn';
-import fileUploadUI from '../../common/schemaform/definitions/file';
-import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import createNonRequiredFullName from 'us-forms-system/lib/js/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
-import currencyUI from '../../common/schemaform/definitions/currency';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 
 import {
   validateServiceBirthDates,
@@ -193,7 +193,7 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   downtime: {
-    dependencies: [services.icmhs]
+    dependencies: [externalServices.icmhs]
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
@@ -1604,7 +1604,7 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             files: fileUploadUI('', {
-              fileUploadURL: `${environment.API_URL}/v0/claim_attachments`,
+              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
               hideLabelText: true
             }),
             'view:uploadMessage': {

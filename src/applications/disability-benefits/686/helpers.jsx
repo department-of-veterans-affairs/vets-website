@@ -1,6 +1,6 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import React from 'react';
-import { transformForSubmit } from '../../common/schemaform/helpers';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { get } from 'lodash/fp';
 
 export const relationshipLabels = {

@@ -3,11 +3,22 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, fillDate } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, fillData, fillDate } from '../../../../../platform/testing/unit/schemaform-utils';
+import { mockApiRequest } from '../../../../../platform/testing/unit/helpers';
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
+const originalFetch = global.fetch;
+
 describe('Disability benefits 526EZ VA facility', () => {
+  beforeEach(() => {
+    mockApiRequest({ data: [] });
+  });
+
+  after(() => {
+    global.fetch = originalFetch;
+  });
+
   const { schema, uiSchema, arrayPath } = formConfig.chapters.supportingEvidence.pages.vaFacilities;
   it('renders VA facility form', () => {
     const form = mount(<DefinitionTester

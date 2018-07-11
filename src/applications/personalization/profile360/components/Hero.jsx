@@ -1,6 +1,6 @@
 import React from 'react';
 import LoadingSection from './LoadingSection';
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import { handleDowntimeForSection } from './DowntimeBanner';
 
 class HeroContent extends React.Component {
@@ -19,7 +19,7 @@ class HeroContent extends React.Component {
     } = this.props;
     const fullName = [first, middle, last].join(' ');
     const ariaLabel = `Profile: ${fullName}`;
-    return <h1 aria-label={ariaLabel} className="page-header">{fullName}</h1>;
+    return <h1 data-field-name="fullName" aria-label={ariaLabel} className="page-header">{fullName}</h1>;
   }
   renderService = () => {
     const {
@@ -54,7 +54,7 @@ class HeroContent extends React.Component {
 export default function Hero(props) {
   return (
     <div>
-      <DowntimeNotification render={handleDowntimeForSection('name')} dependencies={[services.mvi]}>
+      <DowntimeNotification render={handleDowntimeForSection('name')} dependencies={[externalServices.mvi]}>
         <HeroContent {...props}/>
       </DowntimeNotification>
     </div>

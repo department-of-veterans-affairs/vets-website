@@ -15,25 +15,25 @@ majorlinks:
       title: Eligibility
       description: Find out if you can get monthly payments through our Veterans Pension program.
     - url: /pension/apply/
-      title: Application Process
+      title: How to Apply for a Veterans Pension
       description: You can apply online, by mail, or in person.
     - url: /pension/aid-attendance-housebound/
       title: Aid and Attendance or Housebound Allowance
       description: Find out if you can get added pension benefits as a Veteran or survivor.
     - url: /pension/survivors-pension/
-      title: Survivors Pension
-      description: Find out if you can get monthly payments as an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service. 
+      title: How to Apply for a Survivors Pension
+      description: Find out if you’re eligible and how to apply for a survivors pension as a surviving spouse or child of a deceased Veteran with wartime service.
     - url: /pension/rates/
       title: Veterans Pension Rates
-      description: Find out how much you qualify for. 
+      description: Find out how much you qualify for.
     - url: /pension/pension-management-center/
       title: Pension Management Centers
-      description: Find the location that serves you and your family. 
+      description: Find the location that serves you and your family.
 ---
 
 <div class="va-introtext">
 
-If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. If you’re a survivor of a wartime Veteran, you may also qualify for monthly payments if your income and net worth are within certain limits. Find out if you can get this tax-free benefit. 
+If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. If you’re a survivor of a wartime Veteran, you may also qualify for monthly payments if your income and net worth are within certain limits. Find out if you can get this tax-free benefit.
 
 </div>
 

@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Your Care Team
 display_title:
+description: Learn  about the VA health care providers on your VA health care team. Find out how to change your primary care provider and how to schedule an appointment.
 concurrence: complete
 lastupdate: 2018-01-09
 order: 1
@@ -13,7 +14,7 @@ relatedlinks:
       title: Health Care Benefits Eligibility
       description: Not sure if you qualify? Find out if you can get VA health care benefits.
     - url: /health-care/apply/
-      title: Health Care Application Process
+      title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
     - url: /health-care/health-conditions/
       title: Health Needs and Conditions

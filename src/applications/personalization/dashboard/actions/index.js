@@ -1,4 +1,4 @@
-import { removeFormApi } from '../../../common/schemaform/save-in-progress/api';
+import { removeFormApi } from '../../../../platform/forms/save-in-progress/api';
 import { refreshProfile } from '../../../../platform/user/profile/actions';
 
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';

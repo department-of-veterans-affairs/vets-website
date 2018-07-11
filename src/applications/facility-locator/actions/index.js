@@ -5,9 +5,7 @@ import { mapboxClient } from '../components/MapboxClient';
 export function updateSearchQuery(query) {
   return {
     type: 'SEARCH_QUERY_UPDATED',
-    payload: {
-      ...query,
-    }
+    payload: { ...query }
   };
 }
 
@@ -50,7 +48,7 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
   const params = compact([
     ...bounds.map(c => `bbox[]=${c}`),
     facilityType ? `type=${facilityType}` : null,
-    facilityType === 'benefits' && serviceType ? `services[]=${serviceType}` : null,
+    ['health', 'benefits'].includes(facilityType) && serviceType ? `services[]=${serviceType}` : null,
     `page=${page}`
   ]).join('&');
   const url = `${api.url}?${params}`;

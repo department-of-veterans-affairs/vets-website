@@ -1,3 +1,5 @@
+import vet360 from './vet360';
+
 import {
   // Fetch actions
   FETCH_HERO_SUCCESS,
@@ -5,18 +7,10 @@ import {
   FETCH_MILITARY_INFORMATION_SUCCESS,
   FETCH_ADDRESS_CONSTANTS_SUCCESS,
 
-  // Vet360 Request Actions
-  VET360_TRANSACTION_REQUESTED,
-  VET360_TRANSACTION_REQUEST_SUCCEEDED,
-  VET360_TRANSACTION_REQUEST_FAILED,
-  VET360_TRANSACTION_UPDATED,
-  VET360_TRANSACTION_FINISHED,
-
   // Miscellaneous actions
+  VET360_TRANSACTION_REQUEST_SUCCEEDED,
   UPDATE_PROFILE_FORM_FIELD,
-  OPEN_MODAL,
-  CLEAR_PROFILE_ERRORS,
-  CLEAR_MESSAGE
+  OPEN_MODAL
 } from '../actions';
 
 const initialState = {
@@ -30,19 +24,6 @@ const initialState = {
   message: null,
   transactions: {}
 };
-
-const MESSAGES = {
-  updatedInformation: 'We saved your updated information.'
-};
-
-function removeFailedTransactions(state) {
-  const transactions = { ...state.transactions };
-  for (const transactionName of Object.keys(transactions)) {
-    const transaction = transactions[transactionName];
-    if (transaction.isFailed) delete transactions[transactionName];
-  }
-  return transactions;
-}
 
 function vaProfile(state = initialState, action) {
   switch (action.type) {
@@ -65,69 +46,24 @@ function vaProfile(state = initialState, action) {
       return { ...state, addressConstants: flattened };
     }
 
-    // Vet360 Request Actions
-    case VET360_TRANSACTION_REQUESTED: {
-      const transactions = {
-        ...state.transactions,
-        [action.fieldName]: {
-          isPending: true
-        }
-      };
-      return { ...state, transactions, modal: null };
-    }
-
-    case VET360_TRANSACTION_REQUEST_FAILED: {
-      const transactions = {
-        ...state.transactions,
-        [action.fieldName]: {
-          isFailed: true,
-          error: action.error
-        }
-      };
-      return { ...state, transactions, modal: null };
-    }
-
-    case VET360_TRANSACTION_REQUEST_SUCCEEDED:
-    case VET360_TRANSACTION_UPDATED: {
-      const transactions = {
-        ...state.transactions,
-        [action.fieldName]: action.response
-      };
-      return { ...state, transactions };
-    }
-
-    case VET360_TRANSACTION_FINISHED: {
-      const transactions = { ...state.transactions };
-      delete transactions[action.fieldName];
-      return { ...state, transactions, message: MESSAGES.updatedInformation };
-    }
-
     // Miscellaneous
     case UPDATE_PROFILE_FORM_FIELD: {
       const formFields = { ...state.formFields, [action.field]: action.newState };
       return { ...state, formFields };
     }
 
-    case OPEN_MODAL: {
-      const modal = action.modal;
-      let transactions = state.transactions;
-      if (!modal) {
-        transactions = removeFailedTransactions(state);
-      }
-      return { ...state, transactions, modal };
-    }
+    case OPEN_MODAL:
+      return { ...state, modal: action.modal };
 
-    case CLEAR_PROFILE_ERRORS: {
-      const transactions = removeFailedTransactions(state);
-      return { ...state, transactions };
-    }
-
-    case CLEAR_MESSAGE:
-      return { ...state, message: null };
+    case VET360_TRANSACTION_REQUEST_SUCCEEDED:
+      return { ...state, modal: null };
 
     default:
       return state;
   }
 }
 
-export default { vaProfile };
+export default {
+  vaProfile,
+  vet360
+};

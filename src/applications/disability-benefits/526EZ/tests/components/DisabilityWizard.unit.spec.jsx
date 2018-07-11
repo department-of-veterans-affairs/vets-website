@@ -92,7 +92,7 @@ describe('<DisabilityWizard>', () => {
 
     tree.setState({ disabilityStatus: 'addAndIncrease', currentLayout: applyGuidance });
     expect(tree.find('a').text()).to.equal('Go to eBenefits »');
-    expect(tree.find('p').text()).to.equal('Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.');
+    expect(tree.find('p').text()).to.equal('Since you have a new condition and a condition that has gotten worse, you’ll need to file your disability claim on eBenefits.');
   });
   it('should show appeals guidance page', () => {
     // mount is used for find, shallow is used for setState    

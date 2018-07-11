@@ -1,3 +1,9 @@
+export const TRANSACTION_CATEGORY_TYPES = {
+  PHONE: 'AsyncTransaction::Vet360::PhoneTransaction',
+  EMAIL: 'AsyncTransaction::Vet360::EmailTransaction',
+  ADDRESS: 'AsyncTransaction::Vet360::AddressTransaction'
+};
+
 export const TRANSACTION_STATUS = {
   REJECTED: 'REJECTED',
   RECEIVED: 'RECEIVED',
@@ -25,4 +31,16 @@ export const PHONE_TYPE = {
   temporaryPhone: 'TEMPORARY',
   faxNumber: 'FAX',
   homePhone: 'HOME',
+};
+
+export const ANALYTICS_FIELD_MAP = {
+  primaryTelephone: 'primary-telephone',
+  alternateTelephone: 'alternative-telephone',
+  homePhone: 'home-telephone',
+  mobilePhone: 'mobile-telephone',
+  workPhone: 'work-telephone',
+  faxNumber: 'fax-telephone',
+  email: 'email',
+  mailingAddress: 'mailing-address',
+  residentialAddress: 'home-address'
 };

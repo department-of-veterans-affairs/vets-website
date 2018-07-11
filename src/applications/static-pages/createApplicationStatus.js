@@ -7,7 +7,7 @@ export default function createApplicationStatus(store, form) {
   if (root) {
     import(
       /* webpackChunkName: "application-status" */
-      '../common/schemaform/save-in-progress/ApplicationStatus').then(module => {
+      '../../platform/forms/save-in-progress/ApplicationStatus').then(module => {
       const ApplicationStatus = module.default;
       ReactDOM.render((
         <Provider store={store}>
@@ -15,6 +15,7 @@ export default function createApplicationStatus(store, form) {
             formId={form.formId}
             showApplyButton={root.getAttribute('data-hide-apply-button') === null}
             additionalText={form.additionalText}
+            applyHeading={form.applyHeading}
             applyLink={form.applyLink}
             applyText={form.applyText}/>
         </Provider>

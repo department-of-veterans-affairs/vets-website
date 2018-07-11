@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+import backendServices from '../../../platform/user/profile/constants/backendServices';
 import { removeSavedForm } from '../../../platform/user/profile/actions';
 import UserDataSection from './UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 
 moment.updateLocale('en', {
   meridiem: (hour) => {
@@ -55,9 +56,9 @@ class UserProfileApp extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          serviceRequired="user-profile"
+          serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}>
-          <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
+          <DowntimeNotification appTitle="user profile page" dependencies={[externalServices.mvi, externalServices.emis]}>
             {view}
           </DowntimeNotification>
         </RequiredLoginView>
