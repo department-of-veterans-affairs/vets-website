@@ -1,3 +1,5 @@
+require('babel-polyfill');
+
 module.exports = {
   waitForConditionTimeout: 10000,
 
