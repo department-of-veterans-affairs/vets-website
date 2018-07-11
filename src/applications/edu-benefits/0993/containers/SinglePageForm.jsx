@@ -29,7 +29,7 @@ const scrollToTop = () => {
   });
 };
 
-class FormPage extends React.Component {
+class SinglePageForm extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
       scrollToTop();
@@ -162,7 +162,7 @@ const mapDispatchToProps = {
   uploadFile
 };
 
-FormPage.propTypes = {
+SinglePageForm.propTypes = {
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
@@ -178,6 +178,6 @@ FormPage.propTypes = {
   setData: PropTypes.func
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SinglePageForm));
 
-export { FormPage };
+export { SinglePageForm };
