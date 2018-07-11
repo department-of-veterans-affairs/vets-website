@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import PropTypes from 'prop-types';
 
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 
@@ -16,9 +15,18 @@ import {
   clearTransaction
 } from '../actions';
 
+import Vet360TransactionSuccessBanner from '../components/Vet360TransactionSuccessBanner';
 import Vet360TransactionErrorBanner from '../components/Vet360TransactionErrorBanner';
 
 class Vet360TransactionReporter extends React.Component {
+  static propTypes = {
+    clearTransaction: PropTypes.func.isRequired,
+    mostRecentSuccessfulTransaction: PropTypes.object,
+    mostRecentErroredTransaction: PropTypes.object,
+    successfulTransactions: PropTypes.array.isRequired,
+    erroredTransactions: PropTypes.array.isRequired
+  };
+
   componentDidUpdate(prevProps) {
     const newMessageVisible = (
       prevProps.erroredTransactions.length < this.props.erroredTransactions.length ||
@@ -45,11 +53,8 @@ class Vet360TransactionReporter extends React.Component {
     return (
       <div className="vet360-transaction-reporter">
         {mostRecentSuccessfulTransaction && (
-          <AlertBox
-            isVisible
-            status="success"
-            onCloseAlert={this.clearAllSuccessfulTransactions}
-            content={<h4>We saved your updated information.</h4>}/>
+          <Vet360TransactionSuccessBanner
+            clearTransaction={this.clearAllSuccessfulTransactions}/>
         )}
         {mostRecentErroredTransaction && (
           <Vet360TransactionErrorBanner
