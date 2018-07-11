@@ -36,37 +36,19 @@ function runAddressTest(browser, fieldName, initialLine1, initialLine2) {
 }
 
 function runHeroTests(browser) {
-  browser.assert.containsText('[data-field-name="full-name"]', 'First Middle Last');
+  browser.assert.containsText('[data-field-name="fullName"]', 'First Middle Last');
 }
 
 function runPersonalInformationTest(browser) {
   browser.assert.containsText('[data-field-name="gender"]', 'Male');
-  browser.assert.containsText('[data-field-name="birth-date"]', 'March 21, 1972');
+  browser.assert.containsText('[data-field-name="birthDate"]', 'March 21, 1972');
 }
 
 function runMilitaryInformationTests(browser) {
-  browser.assert.containsText('[data-field-name="service-history"]', 'Army');
+  browser.assert.containsText('[data-field-name="serviceHistory"]', 'Army');
 }
 
-function createMockRoutes(token) {
-  const promises = [];
-  for (const route of routes) {
-    promises.push(createMockEndpoint(token, route));
-  }
-  return Promise.all(promises);
-}
-
-function beginTests(browser, token) {
-  // Login to access the Profile
-  Auth.logIn(token, browser, '/profile', 3)
-    .waitForElementVisible('.va-profile-wrapper', Timeouts.slow);
-
-  E2eHelpers.overrideSmoothScrolling(browser);
-
-  // There's so much data loading async that it's easiest to just do a slow timeout
-  // and not try to wait for all elements to finish loading.
-  browser.pause(Timeouts.slow);
-
+function beginTests(browser) {
   runHeroTests(browser);
   runPersonalInformationTest(browser);
   runMilitaryInformationTests(browser);
@@ -80,14 +62,32 @@ function beginTests(browser, token) {
   runEmailTest(browser);
 }
 
+function createMockRoutes(token) {
+  const promises = [];
+  for (const route of routes) {
+    promises.push(createMockEndpoint(token, route));
+  }
+  return Promise.all(promises);
+}
+
 function begin(browser) {
   browser.perform(done => {
     const token = Auth.getUserToken();
 
     createMockRoutes(token)
-      .then(() => beginTests(browser, token));
+      .then(() => {
+        // Login to access the Profile
+        Auth.logIn(token, browser, '/profile', 3)
+          .waitForElementVisible('.va-profile-wrapper', Timeouts.slow);
 
-    done();
+        E2eHelpers.overrideSmoothScrolling(browser);
+
+        // There's so much data loading async that it's easiest to just do a slow timeout
+        // and not try to wait for all elements to finish loading.
+        browser.pause(Timeouts.slow);
+        beginTests(browser, token);
+        done();
+      });
   });
 }
 

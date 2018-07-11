@@ -19,7 +19,7 @@ class HeroContent extends React.Component {
     } = this.props;
     const fullName = [first, middle, last].join(' ');
     const ariaLabel = `Profile: ${fullName}`;
-    return <h1 data-field-name="full-name" aria-label={ariaLabel} className="page-header">{fullName}</h1>;
+    return <h1 data-field-name="fullName" aria-label={ariaLabel} className="page-header">{fullName}</h1>;
   }
   renderService = () => {
     const {

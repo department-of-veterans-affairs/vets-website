@@ -2,7 +2,10 @@ import { uniqueId } from 'lodash';
 import * as VET360_CONSTANTS from '../constants/vet360';
 
 export function isVet360Configured() {
-  return document.location.hostname !== 'localhost';
+  return [
+    'staging.vets.gov',
+    'www.vets.gov'
+  ].includes(document.location.hostname);
 }
 
 export const mockContactInformation = {
