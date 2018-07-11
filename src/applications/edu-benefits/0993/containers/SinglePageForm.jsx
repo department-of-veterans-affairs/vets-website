@@ -6,9 +6,11 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 
-import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
+import SubmitController from './SubmitController';
 
 import DowntimeNotification, { externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeMessage from '../../../../platform/forms/save-in-progress/RoutedSavableReviewPage.jsx';
+
 import SchemaForm from 'us-forms-system/lib/js/components/SchemaForm';
 import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
 import { getNextPagePath, getPreviousPagePath } from 'us-forms-system/lib/js/routing';
@@ -54,6 +56,7 @@ class FormPage extends React.Component {
   }
 
   onSubmit = ({ formData }) => {
+    debugger;
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
@@ -90,14 +93,14 @@ class FormPage extends React.Component {
   render() {
     const {
       route,
-      params,
+      params, // add to proptypes
       form,
-      formContext,
+      formContext, // add to proptypes
       contentAfterButtons,
-      path
+      path // add to proptypes
     } = this.props;
 
-    const { formConfig } = route;
+    const { formConfig } = route; // add to proptypes
     let {
       schema,
       uiSchema

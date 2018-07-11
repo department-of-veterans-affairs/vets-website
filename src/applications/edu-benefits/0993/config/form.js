@@ -13,6 +13,7 @@ import { prefillTransformer } from '../helpers';
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/api',
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'edu-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -30,7 +31,7 @@ const formConfig = {
     ...fullSchema0993.definitions
   },
   chapters: {
-    form: {
+    applicantInformation: {
       title: 'Form',
       pages: {
         applicantInformation: _.merge(applicantInformation(fullSchema0993, {
