@@ -245,6 +245,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
       }
 
       // If we’ve made it this far, we’ve got valid form
+
       let formData;
       let metadata;
       try {
