@@ -5,7 +5,7 @@ layout: page-react.html
 description: Learn how to apply online for increased disability compensation. 
 ---
 <div id="main">
-  <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
+  <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"
   id="va-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>

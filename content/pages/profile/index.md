@@ -4,10 +4,9 @@ layout: page-react.html
 entryname: profile-360
 ---
 <div id="main">
-  <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
-  id="va-breadcrumbs">
+  <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
-      <li><a href="/" id="account-home">Home</a></li>
+      <li><a href="/" onClick="onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">Home</a></li>
       <li><a aria-current="page" href="/profile/">Your Profile</a></li>
     </ul>
   </nav>
@@ -22,12 +21,3 @@ entryname: profile-360
   </div>
   <!-- Profile Beta End -->
 </div>
-
-<script>
-  (function() {
-    var accountHomeLink = document.getElementById('account-home');
-    accountHomeLink.addEventListener('click', function(ev) {
-      recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });
-    });
-  })();
-</script>

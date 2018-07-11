@@ -25,7 +25,6 @@ const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createSettings = require('../config/create-settings');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
-const breadcrumbTransformer = require('./metalsmith/breadcrumbTransformer');
 const {
   getRoutes,
   getWebpackEntryPoints,
@@ -695,11 +694,6 @@ smith.use(redirect({
   '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
-
-/*
-Add breadcrumb script to all content pages that have a breadcrumb
-*/
-smith.use(breadcrumbTransformer);
 
 /*
 Add nonce attribute with substition string to all inline script tags
