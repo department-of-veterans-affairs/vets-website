@@ -13,7 +13,7 @@ relatedlinks:
       title: Fully Developed Claim
       description: "File a fully developed claim and get a faster decision on your disability benefits claim."
     - url: /disability-benefits/apply/
-      title: Disability Benefits Application Process
+      title: How to Apply for Disability Benefits
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
     - url: /disability-benefits/apply/help/
       title: Get Help Filing Your Claim

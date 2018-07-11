@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Burial Allowance Application Process
-display_title: Burial Allowance Application Process
+title: How to Apply for a Burial Allowance
+display_title: How to Apply for a Burial Allowance 
 order: 1
 widgets:
   - root: react-applicationStatus
@@ -13,7 +13,7 @@ widgets:
 
 <div class="va-introtext">
 
-If you’re the legally recognized spouse or a designated (legally chosen) family member of a Veteran who died, we may pay you a set amount for burial and funeral costs. This is called an allowance. We may also help with transportation costs. Find out how to get allowances.
+Find out how to get allowances to help cover burial, funeral, and transportation costs.
 
 </div>
 
@@ -73,10 +73,10 @@ You may need a copy of:
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">Other ways to apply</h4>
+<h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
 
-
+**By mail**<br>
 Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br>
 [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
