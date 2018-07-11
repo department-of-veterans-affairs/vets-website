@@ -8,10 +8,11 @@ import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { filterViewFields } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
+import { pick } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
@@ -24,35 +25,63 @@ import {
   E_BENEFITS_URL
 } from './constants';
 
-/*
- * Flatten nested array form data into sibling properties
- *
- * @param {object} data - Form data for a full form, including nested array properties
- */
-export function flatten(data) {
-  const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
-  const formData = cloneDeep(data);
-  formData.disabilities.forEach((disability, idx) => {
-    siblings.forEach(sibling => {
-      if (disability[sibling]) {
-        formData[sibling] = [];
-        formData[sibling][idx] = disability[sibling];
-        delete disability[sibling]; // eslint-disable-line no-param-reassign
-      }
-    });
-  });
-  return formData;
-}
+/**
+ * Inspects an array of objects, and attempts to aggregate subarrays at a given property
+ * of each object into one array
+ * @param {array} dataArray array of objects to inspect
+ * @param {string} property the property to inspect in each array item
+ * @returns {array} a list of aggregated items pulled from different arrays
+*/
+const aggregate = (dataArray, property) => {
+  const masterList = [];
+  dataArray.forEach(item => {
 
-
-export function transform(formConfig, form) {
-  const formData = flatten(transformForSubmit(formConfig, form));
-  delete formData.prefilled;
-  return JSON.stringify({
-    disabilityBenefitsClaim: {
-      form: formData
+    if (item[property]) {
+      item[property].forEach(listItem => masterList.push(listItem));
     }
   });
+
+  return masterList;
+};
+
+// Moves phone & email out of the phoneEmailCard up one level into `formData.veteran`
+const setPhoneEmailPaths = (veteran) => {
+  const newVeteran = cloneDeep(veteran);
+  const { primaryPhone, emailAddress } = newVeteran.phoneEmailCard;
+  newVeteran.primaryPhone = primaryPhone;
+  newVeteran.emailAddress = emailAddress;
+  delete newVeteran.phoneEmailCard;
+  return newVeteran;
+};
+
+export function transform(formConfig, form) {
+  const {
+    disabilities,
+    veteran,
+    privacyAgreementAccepted,
+    servicePeriods,
+    standardClaim,
+  } = form.data;
+
+  const disabilityProperties = Object.keys(
+    fullSchemaIncrease.definitions.disabilities.items.properties
+  );
+
+  const transformedData = {
+    disabilities: disabilities
+      .filter(disability => (disability['view:selected'] === true))
+      .map(filtered => pick(filtered, disabilityProperties)),
+    // Pull phone & email out of phoneEmailCard and into veteran property
+    veteran: setPhoneEmailPaths(veteran),
+    // Extract treatments into one top-level array
+    treatments: aggregate(disabilities, 'treatments'),
+    privacyAgreementAccepted,
+    serviceInformation: { servicePeriods },
+    standardClaim,
+  };
+
+  const withoutViewFields = filterViewFields(transformedData);
+  return JSON.stringify({ form526: withoutViewFields });
 }
 
 export function validateDisability(disability) {
