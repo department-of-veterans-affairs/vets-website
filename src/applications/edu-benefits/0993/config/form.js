@@ -82,8 +82,7 @@ const formConfig = {
               }
             },
             'view:signature': {
-              'ui:title': 'By clicking this form you are electing to opt out of information sharing.',
-              'ui:description': 'Submitting this form serves as your signature.'
+              'ui:title': 'By clicking this form you are electing to opt out of information sharing.'
             }
           },
           schema: {
