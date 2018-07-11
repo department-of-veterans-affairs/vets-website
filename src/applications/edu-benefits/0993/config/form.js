@@ -14,12 +14,13 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { prefillTransformer } from '../helpers';
 
-const { veteranSocialSecurityNumber, vaFileNumber } = fullSchema0993.properties;
+const { fullName } = fullSchema0993.definitions;
+const { claimantSocialSecurityNumber, vaFileNumber } = fullSchema0993.properties;
 
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123', timestamp: Date.now() } }),
   trackingPrefix: 'edu-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -47,15 +48,15 @@ const formConfig = {
           title: 'Applicant information',
           initialData: {
             // verified: true,
-            veteranFullName: {
+            claimantFullName: {
               first: 'test',
               last: 'test'
             },
-            veteranSocialSecurityNumber: '234234234'
+            claimantSocialSecurityNumber: '234234234'
           },
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranFullName: _.merge(fullNameUI, {
+            claimantFullName: _.merge(fullNameUI, {
               first: {
                 'ui:title': 'Your first name',
                 'ui:required': (formData) => !formData.verified
@@ -74,7 +75,7 @@ const formConfig = {
                 hideIf: (formData) => formData.verified
               }
             }),
-            veteranSocialSecurityNumber: _.assign(ssnUI, {
+            claimantSocialSecurityNumber: _.assign(ssnUI, {
               'ui:required': (formData) => !formData.verified && !formData['view:noSSN'],
               'ui:title': 'Your Social Security number',
               'ui:options': {
@@ -106,24 +107,11 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              veteranFullName: {
+              claimantFullName: {
                 type: 'object',
-                properties: {
-                  first: {
-                    type: 'string'
-                  },
-                  middle: {
-                    type: 'string'
-                  },
-                  last: {
-                    type: 'string'
-                  },
-                  suffix: {
-                    type: 'string'
-                  }
-                }
+                properties: fullName.properties
               },
-              veteranSocialSecurityNumber,
+              claimantSocialSecurityNumber,
               'view:noSSN': {
                 type: 'boolean'
               },
