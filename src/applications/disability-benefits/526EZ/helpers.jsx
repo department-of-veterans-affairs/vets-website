@@ -20,8 +20,7 @@ import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL,
-  E_BENEFITS_URL
+  VA_FORM4142_URL
 } from './constants';
 
 /*
@@ -425,11 +424,7 @@ const unconnectedVetInfoView = (profile) => {
   return (
     <div>
       <p>
-        This is the personal information we have on file for you. If something doesn’t look
-        right and you need to update your details, please go to eBenefits.
-      </p>
-      <p>
-        <a target="_blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
+        This is the personal information we have on file for you.
       </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
