@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
@@ -14,6 +15,10 @@ import { createITF as createITFAction, fetchITF as fetchITFAction } from '../act
 const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
 
 const noITFPages = ['/introduction', '/confirmation'];
+// EVSS returns dates like '2014-07-28T19:53:45.810+0000'
+const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
+const outputDateFormat = 'MMMM DD, YYYY';
+const displayDate = (dateString) => moment(dateString, evssDateFormat).format(outputDateFormat);
 
 const itfMessage = (headline, content, status) => (
   <div className="usa-grid" style={{ marginBottom: '2em' }}>
@@ -24,22 +29,6 @@ const itfMessage = (headline, content, status) => (
       status={status}/>
   </div>
 );
-
-const itfSuccessContent = (itf) => {
-  // TODO: Make this more better
-  // TODO: Format the date
-  const content = (
-    <div>
-      <p>Expiration date: {itf.currentITF.expirationDate}</p>
-      {itf.previousITF && <AdditionalInfo triggerText="Not what you expected?">
-        <p>
-          We found a previous ITF that expired on {itf.previousITF.expirationDate}. This might have been from an application that you started and did not finish before expiration, or from an earlier claim that you submitted.
-        </p>
-      </AdditionalInfo>}
-    </div>
-  );
-  return content;
-};
 
 
 export class ITFWrapper extends React.Component {
@@ -107,14 +96,39 @@ export class ITFWrapper extends React.Component {
 
     if (itf.fetchCallState === requestStates.failed) {
       // TODO: Get better content for this
-      return itfMessage('Looks like something went wrong', 'That\'s a real bummer.', 'error');
+      return itfMessage('We’re sorry. Something went wrong on our end', 'We can’t access your Intent to File request right now. Please try applying again tomorrow.', 'error');
     }
 
     // If we have an active ITF, we're good to go--render that form!
     if (itf.currentITF && itf.currentITF.status === itfStatuses.active) {
+      if (itf.previousITF) {
+        // If there was a previous ITF, we created one; show the creation success message
+        const submitSuccessContent = (
+          <div>
+            <p>Thank you for submitting your Intent to File request for disability compensation. Your Intent to File will expire on {displayDate(itf.currentITF.expirationDate)}.</p>
+            {itf.previousITF && <AdditionalInfo triggerText="Not what you expected?">
+              <p>
+                We found a previous ITF that expired on {displayDate(itf.previousITF.expirationDate)}. This might have been from an application that you started and did not finish before expiration, or from an earlier claim that you submitted.
+              </p>
+            </AdditionalInfo>}
+          </div>
+        );
+
+        return (
+          <div>
+            {!this.state.hasDisplayedSuccess && itfMessage('Your Intent to File request has been submitted', submitSuccessContent, 'success')}
+            {children}
+          </div>
+        );
+      }
+
+      // We fetched an active ITF
       return (
         <div>
-          {!this.state.hasDisplayedSuccess && itfMessage('ITF Success', itfSuccessContent(itf), 'success')}
+          {!this.state.hasDisplayedSuccess && itfMessage(
+            'You already have an Intent to File',
+            `Our records show that you already have an Intent to File for disability compensation. Your Intent to File will expire on ${displayDate(itf.currentITF.expirationDate)}.`,
+            'success')}
           {children}
         </div>
       );
@@ -130,7 +144,7 @@ export class ITFWrapper extends React.Component {
     // We'll get here after the createITF promise is fulfilled and we have no active ITF
     //  because of a failed creation call
     // TODO: Get better content for this
-    return itfMessage('Something went wrong', 'We’re sorry, we couldn’t find an active ITF nor file a new one for you. Please try again later.', 'error');
+    return itfMessage('Your Intent to File didn’t go through', 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.', 'error');
   }
 }
 
