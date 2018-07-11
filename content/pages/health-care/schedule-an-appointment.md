@@ -30,21 +30,28 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 <a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
+
 <div class="usa-alert usa-alert-warning">
-  <div class="usa-alert-body">
-	 <h4 class="usa-alert-title">Are you in crisis? <button class="va-button-link" aria-expanded="false" id="crisis-expander-link">You have options.</button></h4>
-	<div id="crisis-expander-content" class="expander-content expander-content-closed">
-	  <div class="expander-content-inner usa-alert-text">
-	    <ul>
-	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
-  		  <li>Call <a href="tel:911">911</a>.</li>
-  		  <li>Go to the nearest emergency room.</li>
-		  </ul>
-	  </div>
-  	</div>
-  </div>
+ <div class="usa-alert-body">
+    <h4 class="usa-alert-title">How do I talk to someone right now?</h4>
+    <a id="crisis-expander-link">Find out how to get support any time day or night.</a></h4>
+    <div id="crisis-expander-content" class="expander-content expander-content-closed">
+      <div class="expander-content-inner usa-alert-text">
+        <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+        <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>      
+        <ul>
+             <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+          <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+           <li>Text <a href="sms:838255">838255</a>.</li>
+           </ul>
+            <p><strong>You can also:</strong></p>      
+           <ul>
+             <li>Call <a href="tel:911">911</a>.</li>
+          <li>Go to the nearest emergency room.</li>
+        </ul>
+      </div>
+     </div>
+ </div>
 </div>
 
 <br>
