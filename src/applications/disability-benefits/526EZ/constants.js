@@ -88,7 +88,6 @@ export const ADDRESS_TYPES = {
 };
 
 export const itfStatuses = new Proxy({
-  noneFound: 'none found',
   active: 'active',
   expired: 'expired',
   claimRecieved: 'claim_recieved',

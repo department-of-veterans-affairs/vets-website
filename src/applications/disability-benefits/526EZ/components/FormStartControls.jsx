@@ -8,7 +8,6 @@ import { VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert } from '../helpers
 export default function FormStartControls(props) {
   const { user } = props;
 
-  const somethingWentWrong = props.errors && props.errors.length;
   return (
     <div>
       {!user.login.currentlyLoggedIn && <div>
@@ -19,7 +18,6 @@ export default function FormStartControls(props) {
         {UnverifiedAlert}
         <a href={`/verify?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
       </div>}
-      {somethingWentWrong}
       {user.profile.verified && <SaveInProgressIntro
         {...props}
         buttonOnly={props.buttonOnly}
@@ -45,5 +43,6 @@ FormStartControls.PropTypes = {
   messages: PropTypes.array.isRequired,
   pageList: PropTypes.array.isRequired,
   handleLoadPrefill: PropTypes.func.isRequired,
-  startText: PropTypes.string.isRequired
+  startText: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired
 };
