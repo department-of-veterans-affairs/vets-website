@@ -92,14 +92,14 @@ class SinglePageForm extends React.Component {
   render() {
     const {
       route,
-      params, // add to proptypes
+      params,
       form,
-      formContext, // add to proptypes
-      contentAfterButtons,
-      path // add to proptypes
+      formContext,
+      contentAfterButtons
     } = this.props;
 
-    const { formConfig } = route; // add to proptypes
+    const { formConfig, pageList } = route;
+    const { path } = pageList;
     let {
       schema,
       uiSchema
@@ -164,7 +164,10 @@ const mapDispatchToProps = {
 
 SinglePageForm.propTypes = {
   form: PropTypes.object.isRequired,
+  formContext: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
   route: PropTypes.shape({
+    formConfig: PropTypes.object.isRequired,
     pageConfig: PropTypes.shape({
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
