@@ -3,33 +3,122 @@ import { expect } from 'chai';
 import _ from 'lodash';
 
 import {
-  flatten,
   validateDisability,
   transformDisabilities,
   addPhoneEmailToCard,
   prefillTransformer,
   get4142Selection,
-  queryForFacilities
+  queryForFacilities,
+  transform
 } from '../helpers.jsx';
+import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
 
 describe('526 helpers', () => {
   const prefilledData = _.cloneDeep(initialData);
   const invalidDisability = prefilledData.disabilities[1];
   const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
-  describe('flatten', () => {
-    it('should flatten sibling arrays', () => {
-      const treatments = [
-        {
-          treatment: {
-            treatmentCenterName: 'local VA center'
+  describe('transform', () => {
+    const formData = maximalData;
+    const transformedData = {
+      form526: {
+        disabilities: [
+          {
+            name: 'Diabetes mellitus0',
+            disabilityActionType: 'INCREASE',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '0',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238
+          },
+          {
+            name: 'Diabetes mellitus1',
+            disabilityActionType: 'INCREASE',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '1',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238
           }
-        }
-      ];
-      prefilledData.disabilities[0].treatments = treatments;
-      const flattened = flatten(prefilledData);
-      expect(flattened.treatments).to.exist;
-      expect(flattened.disabilities[0].treatments).to.not.exist;
+        ],
+        veteran: {
+          homelessness: {
+            isHomeless: true,
+            pointOfContact: {
+              pointOfContactName: 'John',
+              primaryPhone: '1231231231'
+            }
+          },
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 MAIN ST',
+            addressLine2: 'BEN FRANKLIN VILLAGE',
+            city: 'APO',
+            state: 'AE',
+            zipCode: '09028'
+          },
+          forwardingAddress: {
+            country: 'USA',
+            addressLine1: '123 Anystreet',
+            addressLine2: 'Viking Drive',
+            addressLine3: 'Some Suite',
+            city: 'Anyville',
+            state: 'AK',
+            zipCode: '33492',
+            effectiveDate: '2019-04-04'
+          },
+          primaryPhone: '4445551212',
+          emailAddress: 'test2@test1.net'
+        },
+        treatments: [
+          {
+            treatmentCenterName: 'Somerset VA Clinic',
+            treatmentDateRange: {
+              from: '2000-06-06',
+              to: '2004-02-06'
+            }
+          },
+          {
+            treatmentCenterName: 'DC VA Regional Medical Center',
+            treatmentDateRange: {
+              from: '2000-07-04',
+              to: '2010-01-03'
+            }
+          }
+        ],
+        privacyAgreementAccepted: true,
+        serviceInformation: {
+          servicePeriods: [
+            {
+              serviceBranch: 'Air National Guard',
+              dateRange: {
+                from: '1980-03-06',
+                to: '1990-02-04'
+              }
+            },
+            {
+              serviceBranch: 'Army Reserve',
+              dateRange: {
+                from: '1990-07-05',
+                to: '2000-02-04'
+              }
+            }
+          ]
+        },
+        standardClaim: false
+      }
+    };
+    it('should return stringified, transformed data for submit', () => {
+      expect(transform(null, formData)).to.deep.equal(JSON.stringify(transformedData));
     });
   });
   describe('validateDisability', () => {
