@@ -3,10 +3,11 @@ layout: page-breadcrumbs.html
 template: level2-merger
 title: VA Health Care
 display_title: Health Care
-description: Learn about VA health care benefits that cover primary care, prescriptions, and prosthetics, as well as mental health, home health, and geriatric care. Find out if you’re eligible, how to apply, and how to manage your Veterans health care benefits. 
-concurrence: 
+description: Learn about VA health care benefits that cover primary care, prescriptions, and prosthetics, as well as mental health, home health, and geriatric care. Find out if you’re eligible, how to apply, and how to manage your Veterans health care benefits.
+concurrence:
 lastupdate:
 order: 1
+icon: medkit
 promo:
   - image: /img/megamenu/pension-illustration.png
     heading: Learn about the Veterans Choice Program
@@ -40,7 +41,7 @@ contact:
     - url: 1-888-385-0235
       title: <b>CHAMPVA Meds by Mail</b>
     - url: 1-855-VA-WOMEN (829-6636)
-      title: <b>Women Veterans Hotline</b> 
+      title: <b>Women Veterans Hotline</b>
     - url: 1-888-492-7844
       title: <b>Mammography Hotline</b>
     - url: 1-855-QUIT-VET (784-8838)
@@ -133,12 +134,12 @@ With VA health care, you’re covered for regular checkups with your primary car
     <a href="#"><b>How to Apply</b></a>
     <p>Find out how to prepare and apply for VA health care online, by phone, or by mail.</p>
   </div>
-  
+
   <div class="link">
     <a href="#"><b>Apply Online (VA Form 10-10EZ)</b></a>
     <p>Get step-by-step instructions and start your VA health care application right now.</p>
   </div>
-  
+
   <div class="link">
     <a href="#"><b>After You Apply</b></a>
     <p>Find out when to expect a decision on your application, and what to do after you apply.</p>
@@ -240,12 +241,12 @@ With VA health care, you’re covered for regular checkups with your primary car
     <a href="#"><b>The Affordable Care Act (ACA) and VA Health Care</b></a>
     <p>Find out what you need to know about the Affordable Care Act and what it means for Veterans.
   </div>
-  
+
   <div class="link">
     <a href="#"><b>The Million Veteran Program</b></a>
     <p>Find out if you can be a part of this voluntary research study to better understand the role genes play in our health.
   </div>
-  
+
   <div class="link">
     <a href="#"><b>Find VA Doctors and Other Providers</b></a>
     <p>Search for VA doctors and other health care providers by state or VA health facility.</p>

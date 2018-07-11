@@ -286,6 +286,10 @@ h3, h4 {
     margin-bottom: 3em !important;
   }
 
+  &:first-child {
+    background-color: $color-primary-lightest;
+  }
+
   background-color: $color-grey-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
@@ -301,6 +305,12 @@ h3, h4 {
 
   a {
     text-decoration: none;
+  }
+
+  h4 {
+    a{
+      text-decoration: underline;;
+    }
   }
 
   .va-nav-linkslist-list li {
