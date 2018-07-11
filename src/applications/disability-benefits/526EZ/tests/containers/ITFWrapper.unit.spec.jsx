@@ -169,7 +169,7 @@ describe('526 ITFWrapper', () => {
       </ITFWrapper>
     );
     expect(tree.find('AlertBox').length).to.equal(1);
-    expect(tree.text()).to.contain(expirationDate);
+    expect(tree.text()).to.contain('August 28, 2015');
     expect(tree.find('AdditionalInfo').length).to.equal(0);
   });
 
@@ -196,11 +196,11 @@ describe('526 ITFWrapper', () => {
       </ITFWrapper>
     );
     expect(tree.find('AlertBox').length).to.equal(1);
-    expect(tree.text()).to.contain(expirationDate);
+    expect(tree.text()).to.contain('August 28, 2015');
     const additionalInfo = tree.find('AdditionalInfo');
     expect(additionalInfo.length).to.equal(1);
     additionalInfo.find('button').simulate('click');
-    expect(additionalInfo.text()).to.contain(previousExpirationDate);
+    expect(additionalInfo.text()).to.contain('August 28, 2014');
   });
 
 
