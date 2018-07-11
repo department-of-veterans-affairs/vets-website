@@ -1,5 +1,3 @@
-require('babel-polyfill');
-
 const E2eHelpers = require('../../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../../platform/testing/e2e/timeouts');
 const createMockEndpoint = require('../../../../../platform/testing/e2e/mock-helpers');
@@ -58,32 +56,36 @@ function createMockRoutes(token) {
   return Promise.all(promises);
 }
 
+function beginTests(browser, token) {
+  // Login to access the Profile
+  Auth.logIn(token, browser, '/profile', 3)
+    .waitForElementVisible('.va-profile-wrapper', Timeouts.slow);
+
+  E2eHelpers.overrideSmoothScrolling(browser);
+
+  // There's so much data loading async that it's easiest to just do a slow timeout
+  // and not try to wait for all elements to finish loading.
+  browser.pause(Timeouts.slow);
+
+  runHeroTests(browser);
+  runPersonalInformationTest(browser);
+  runMilitaryInformationTests(browser);
+
+  runAddressTest(browser, 'mailingAddress', '1493 Martin Luther King Rd, string string', 'Fulton, New York 97062');
+  runAddressTest(browser, 'residentialAddress', 'PSC 808 Box 37', 'FPO, Armed Forces Europe (AE) 09618');
+
+  runPhoneTest(browser, 'homePhone', '+ 1 (503) 222-2222 x0000');
+  runPhoneTest(browser, 'mobilePhone', '+ 1 (503) 555-1234 x0000');
+
+  runEmailTest(browser);
+}
+
 function begin(browser) {
-  browser.perform(async done => {
+  browser.perform(done => {
     const token = Auth.getUserToken();
-    await createMockRoutes(token);
 
-    // Login to access the Profile
-    Auth.logIn(token, browser, '/profile', 3)
-      .waitForElementVisible('.va-profile-wrapper', Timeouts.slow);
-
-    E2eHelpers.overrideSmoothScrolling(browser);
-
-    // There's so much data loading async that it's easiest to just do a slow timeout
-    // and not try to wait for all elements to finish loading.
-    browser.pause(Timeouts.slow);
-
-    runHeroTests(browser);
-    runPersonalInformationTest(browser);
-    runMilitaryInformationTests(browser);
-
-    runAddressTest(browser, 'mailingAddress', '1493 Martin Luther King Rd, string string', 'Fulton, New York 97062');
-    runAddressTest(browser, 'residentialAddress', 'PSC 808 Box 37', 'FPO, Armed Forces Europe (AE) 09618');
-
-    runPhoneTest(browser, 'homePhone', '+ 1 (503) 222-2222 x0000');
-    runPhoneTest(browser, 'mobilePhone', '+ 1 (503) 555-1234 x0000');
-
-    runEmailTest(browser);
+    createMockRoutes(token)
+      .then(() => beginTests(browser, token));
 
     done();
   });
