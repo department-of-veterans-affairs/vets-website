@@ -22,7 +22,7 @@ import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
 const sortOptions = [
   {
@@ -119,6 +119,15 @@ class YourClaimsPage extends React.Component {
     return null;
   }
 
+  renderBreadcrumbs() {
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
+    ];
+
+    return crumbs;
+  }
+
   render() {
     const {
       unfilteredAppeals,
@@ -200,7 +209,10 @@ class YourClaimsPage extends React.Component {
 
     return (
       <div className="claims-container">
-        <Breadcrumbs/>
+        <Breadcrumbs>
+          {this.renderBreadcrumbs()}
+          {this.props.children}
+        </Breadcrumbs>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">

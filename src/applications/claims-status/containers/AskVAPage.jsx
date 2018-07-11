@@ -41,7 +41,7 @@ class AskVAPage extends React.Component {
       <a href="/" key="home">Home</a>,
       <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
       <Link to="your-claims" key="claims-home">Track Your Claims and Appeals</Link>,
-      <Link to={`your-claims/${claim.id}`} key="claim-id">Your Compensation Claim</Link>,
+      <Link to={`your-claims/${claim.id}`} key="claim-id">Status Details</Link>,
       <Link to={`your-claims/${claim.id}/ask-va-to-decide`} key="ask-va">Ask for Claim Decision</Link>
     ];
 

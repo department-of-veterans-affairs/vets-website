@@ -7,8 +7,7 @@ import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { getClaimType } from '../utils/helpers';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 
@@ -73,7 +72,7 @@ class AdditionalEvidencePage extends React.Component {
       <a href="/" key="home">Home</a>,
       <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
       <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
-      <Link to={`/your-claims/${claim.id}`} key="claim-id">Your {getClaimType(claim)} Claim</Link>,
+      <Link to={`/your-claims/${claim.id}`} key="claim-id">Status Details</Link>,
       <Link to={`/your-claims/${claim.id}/additional-evidence`} key="additional-evidence">Additional Evidence</Link>
     ];
 

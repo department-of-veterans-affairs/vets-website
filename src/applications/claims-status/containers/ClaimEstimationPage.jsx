@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import AskVAQuestions from '../components/AskVAQuestions';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { setUpPage } from '../utils/page';
-import { getClaimType } from '../utils/helpers';
 
 class ClaimEstimationPage extends React.Component {
   componentDidMount() {
@@ -17,7 +16,7 @@ class ClaimEstimationPage extends React.Component {
       <a href="/" key="home">Home</a>,
       <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
       <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
-      <Link to={`/your-claims/${claim.id}`} key="claim-id">Your {getClaimType(claim)} Claim</Link>,
+      <Link to={`/your-claims/${claim.id}`} key="claim-id">Status Details</Link>,
       <Link to={`/your-claims/${claim.id}/claim-estimate`} key="claim-id">Estimated Decision Date</Link>
     ];
 

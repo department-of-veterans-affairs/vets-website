@@ -9,7 +9,6 @@ import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
-import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
 import {
@@ -72,13 +71,13 @@ class DocumentRequestPage extends React.Component {
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
 
-  renderBreadcrumbs(claim) {
+  renderBreadcrumbs(claim, trackedItem) {
     const crumbs = [
       <a href="/" key="home">Home</a>,
       <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
       <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
-      <Link to={`/your-claims/${claim.id}`} key="claim-id">Your {getClaimType(claim)} Claim</Link>,
-      <Link to={`/your-claims/${claim.id}/document-request/${this.props.params.trackedItemId}`} key="claim-id">Document Request</Link>
+      <Link to={`/your-claims/${claim.id}`} key="claim-id">Status Details</Link>,
+      <Link to={`/your-claims/${claim.id}/document-request/${trackedItem}`} key="claim-id">Document Request</Link>
     ];
 
     return crumbs;
@@ -101,7 +100,7 @@ class DocumentRequestPage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                {this.renderBreadcrumbs(claim)}
+                {this.renderBreadcrumbs(claim, trackedItem)}
               </Breadcrumbs>
             </div>
           </div>

@@ -42,6 +42,7 @@ class RxRefillsApp extends React.Component {
         ['rx', 'attributes', 'prescriptionId']
       );
 
+      // TODO: Remove this Lodash get call if you feel it's unnecessary
       // const prescriptionName = _.get(
       //   prescription,
       //   ['rx', 'attributes', 'prescriptionName']
@@ -67,7 +68,7 @@ class RxRefillsApp extends React.Component {
           appTitle="prescription refill tool"
           dependencies={[externalServices.mhv]}>
           <AppContent>
-            <Breadcrumbs location={this.props.location}>
+            <Breadcrumbs>
               {this.renderBreadcrumbs(this.props.prescription)}
             </Breadcrumbs>
             <MHVApp serviceRequired={SERVICE_REQUIRED}>

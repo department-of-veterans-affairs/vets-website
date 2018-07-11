@@ -59,12 +59,13 @@ export class GiBillApp extends React.Component {
   }
 
   renderBreadcrumbs(searchCount) {
-    const { pathname, search } = this.props.location;
+    const { pathname, query: { version }, search } = this.props.location;
     const { facilityCode } = this.props.params;
+    const root = { pathname: '/', query: (version ? { version } : {}) };
     const crumbs = [
       <a href="/" key="home">Home</a>,
       <a href="/education/" key="education">Education Benefits</a>,
-      <Link to="/" key="main">GI Bill® Comparison Tool</Link>
+      <Link to={root} key="main">GI Bill® Comparison Tool</Link>
     ];
 
     if (pathname.match(/search/)) {
