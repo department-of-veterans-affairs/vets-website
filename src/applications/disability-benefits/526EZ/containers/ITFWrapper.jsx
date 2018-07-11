@@ -5,7 +5,6 @@ import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import { requestStates } from '../../../../platform/utilities/constants';
 import { itfStatuses } from '../constants';
@@ -106,11 +105,11 @@ export class ITFWrapper extends React.Component {
         const submitSuccessContent = (
           <div>
             <p>Thank you for submitting your Intent to File request for disability compensation. Your Intent to File will expire on {displayDate(itf.currentITF.expirationDate)}.</p>
-            {itf.previousITF && <AdditionalInfo triggerText="Not what you expected?">
+            {itf.previousITF &&
               <p>
-                We found a previous ITF that expired on {displayDate(itf.previousITF.expirationDate)}. This might have been from an application that you started and did not finish before expiration, or from an earlier claim that you submitted.
+                <strong>Please note:</strong> We found a previous Intent to File request in our records that expired on {displayDate(itf.previousITF.expirationDate)}. This ITF might have been from an application you started, but didn’t finish before the ITF expired. Or, it could have been from a claim you already submitted.
               </p>
-            </AdditionalInfo>}
+            }
           </div>
         );
 
