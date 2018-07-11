@@ -101,7 +101,7 @@ const formConfig = {
               }
             },
             'view:optOutMessage': {
-              'ui:title': 'By clicking this form you are electing to opt out of information sharing.'
+              'ui:title': 'By clicking the Submit button, you’re asking VA to not share your education benefits information.'
             }
           },
           schema: {
