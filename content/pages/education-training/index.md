@@ -175,8 +175,8 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp"><b>GI Bill and Other VA Education Benefits Rates</b></a>
-    <p>View rate tables for GI Bill and other Veterans education benefits programs.</p>
+    <a href="https://benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp"><b>Post-9/11 GI Bill and Other VA Education Benefits Rates</b></a>
+    <p>View rate tables for Post-9/11 GI Bill and other Veterans education benefits programs.</p>
   </div>
 
   <div class="link">
@@ -190,8 +190,8 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education Debt and Overpayments</b></a>
-    <p>Get answers to frequently asked questions about GI Bill overpayments and VA education debt.</p>
+    <a href="https://benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education (GI Bill) Debt and Overpayment</b></a>
+    <p>Get answers to frequently asked questions about GI Bill overpayments and VA education debt management.</p>
   </div>
 
   <div class="link">
@@ -201,7 +201,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
   <div class="link">
     <a href="https://"><b>Ask GI Bill Questions Online</b></a>
-    <p>Visit our GI Bill Customer Help site to search for answers to common questions and submit your own question to get an answer in 4 to 5 working days.
+    <p>Visit our GI Bill Customer Help site to ask a question and get an answer in 4 to 5 working days.
   </div>
 
   <div class="link">
