@@ -13,6 +13,9 @@ function createSettings(options) {
       API_URL: process.env.API_URL,
       BASE_URL: process.env.BASE_URL
     },
+    search: {
+      affiliate: options.searchaffiliate,
+    },
     vic: {
       rateLimitAuthed: 1,
       rateLimitUnauthed: 1

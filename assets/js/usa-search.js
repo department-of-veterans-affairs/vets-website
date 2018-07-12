@@ -1,4 +1,4 @@
-var usasearch_config = { siteHandle:"vets.gov_search" };
+var usasearch_config = { siteHandle:window.settings.search.affiliate };
 var script = document.createElement("script");
 script.src = "https://search.usa.gov/javascripts/remote.loader.js";
 script.async = true;
