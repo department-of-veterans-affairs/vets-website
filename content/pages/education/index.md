@@ -43,7 +43,7 @@ majorlinks:
   - heading: More Education Benefits and Information
     links:
     - url: /employment/vocational-rehab-and-employment/
-      title: Learn about Vocational Rehabilitation and Employment (VR&E)
+      title: Vocational Rehabilitation and Employment (VR&E)
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
     - url: education/opt-out-information-sharing/
       title: Opt Out of Sharing VA Education Benefits
