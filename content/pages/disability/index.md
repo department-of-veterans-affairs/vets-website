@@ -145,7 +145,7 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"><b>Add or Remove a Dependent</b></a>
-    <p>Find out how and when to add a dependent spouse, child, or parent to—or remove a dependent from—your VA disability benefits.</p>
+    <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits. Also learn how to remove a dependent from your benefits.</p>
   </div>
 
   <div class="link">
@@ -175,7 +175,7 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Disability Payments History</b></a>
-    <p>Check the status of your VA disability and pension payments and certain survivor benefits.</p>
+    <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
   </div>
 
 </section>
@@ -191,17 +191,17 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
   <div class="link">
     <a href="#"><b>View VA Disability Compensation Rates</b></a>
-    <p>Read Veterans compensation benefits rates tables to find your rate based on your disability rating and dependents.</p>
+    <p>See the Veterans compensation benefits rates tables to find your rate based on your disability rating and dependents.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Get Help Filing a Claim</b></a>
-  <p>Connect with a Veteran Service Organization (VSO) or accredited Veterans representative for help with applying for benefits.</p>
+  <p>Connect with a Veterans Service Organization (VSO) or accredited Veterans representative for help applying for benefits.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Download a VA Disability Benefits Questionnaire (DBQ)</b></a>
-    <p>Find and download the right questionnaire for your health care provider to complete to support your claim.</p>
+    <p>Find and download the right questionnaire for your health care provider to complete in support of your claim.</p>
   </div>
 
 <div class="link">
