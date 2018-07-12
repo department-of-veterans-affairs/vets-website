@@ -31,7 +31,7 @@ export default class Vet360TransactionPending extends React.Component {
     }
 
     return (
-      <div className="vet360-profile-field-transaction-pending">{content}</div>
+      <div data-transaction-pending className="vet360-profile-field-transaction-pending">{content}</div>
     );
   }
 }
