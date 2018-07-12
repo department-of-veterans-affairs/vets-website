@@ -43,6 +43,7 @@ const formConfig = {
     claimantInformation: {
       pages: {
         claimantInformation: {
+          title: 'Applicant Information',
           path: 'claimant-information',
           initialData: {
             // verified: true,
