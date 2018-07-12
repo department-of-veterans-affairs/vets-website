@@ -7,7 +7,11 @@ concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18
 template: detail-page
 order: 5
-
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 
@@ -16,8 +20,6 @@ The Harry W. Colmery Veterans Educational Assistance Act (also called the “For
 ### How do I tell VA I don’t want my information shared?
 
 You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
-
-<a class="usa-button-primary va-button-primary" href="/education/opt-out-information-sharing/opt-out-form-0993/">Opt Out</a>
 
 ### Will opting out affect my education benefits?
 
@@ -43,3 +45,10 @@ It makes it easy for schools to access information about your education benefits
 The Harry W. Colmery Veterans Educational Assistance Act, also called the “Forever GI Bill,” was signed into law August 2017 and expands education benefits for Veterans, Servicemembers, and their family members.
 
 [Learn more about the Colmery Veterans Educational Assistance Act](https://www.benefits.va.gov/GIBILL/ForeverGIBill.asp).
+
+<div markdown="0">
+
+<div id="react-applicationStatus" class="static-page-widget"></div>
+<br></div>
+
+<div markdown="1">
