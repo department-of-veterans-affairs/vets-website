@@ -1,6 +1,6 @@
 import React from 'react';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
-import moment from '../../../../platform/startup/moment-setup';
+import moment from 'moment';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
@@ -12,11 +12,21 @@ function Gender({ gender }) {
   let content = 'This information is not available right now.';
   if (gender === 'M') content = 'Male';
   else if (gender === 'F') content = 'Female';
-  return <span>{content}</span>;
+  return (
+    <div data-field-name="gender">
+      <h3>Gender</h3>
+      <div>{content}</div>
+    </div>
+  );
 }
 
 function BirthDate({ birthDate }) {
-  return <span>{moment(birthDate).format('MMM D, YYYY')}</span>;
+  return (
+    <div data-field-name="birthDate">
+      <h3>Birth date</h3>
+      <div>{moment(birthDate).format('MMM D, YYYY')}</div>
+    </div>
+  );
 }
 
 class PersonalInformationContent extends React.Component {
@@ -34,9 +44,7 @@ class PersonalInformationContent extends React.Component {
 
     return (
       <div>
-        <h3>Gender</h3>
         <Gender gender={gender}/>
-        <h3>Birth date</h3>
         <BirthDate birthDate={birthDate}/>
       </div>
     );

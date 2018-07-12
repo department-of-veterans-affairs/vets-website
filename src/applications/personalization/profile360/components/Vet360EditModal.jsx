@@ -79,11 +79,11 @@ export default class Vet360EditModal extends React.Component {
 
     return (
       <Modal
-        id="profile-phone-modal"
+        id="profile-edit-modal"
         onClose={onCancel}
         visible={isFormReady}>
         <h3>Edit {title.toLowerCase()}</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} data-ready={isFormReady}>
           {error && <Vet360EditModalErrorMessage title={title} error={error} clearErrors={clearErrors}/>}
           {isFormReady && render()}
           <br/>
@@ -94,7 +94,7 @@ export default class Vet360EditModal extends React.Component {
             analyticsSectionName={analyticsSectionName}
             transactionRequest={transactionRequest}
             deleteEnabled={!isEmpty() && !deleteDisabled}>
-            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
+            <LoadingButton data-action="save-edit" isLoading={isLoading}>Update</LoadingButton>
             <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
           </Vet360EditModalActionButtons>
         </form>

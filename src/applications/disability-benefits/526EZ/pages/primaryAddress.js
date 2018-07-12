@@ -12,6 +12,7 @@ import {
   PrimaryAddressViewField,
   ForwardingAddressViewField,
   contactInfoDescription,
+  contactInfoUpdateHelp,
   phoneEmailViewField
 } from '../helpers';
 import  {
@@ -61,7 +62,7 @@ const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasFor
 const forwardingCountryIsUSA = (formData) => (_.get(formData, 'veteran.forwardingAddress.country', '') === USA);
 
 /**
- * 
+ *
  * @param {('addressCard.mailingAddress' | 'forwardingCard.forwardingAddress')} addressPath used for path lookups
  * @param {string} [title] Displayed as the card title in the card's header
  * @returns {object} UI schema for an address card's content
@@ -133,7 +134,7 @@ const addressUISchema = (addressType, title) => {
       'ui:validations': [validateZIP],
       'ui:required': ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') === USA),
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 5- or 9- digit ZIP code (dashes allowed)'
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
@@ -220,11 +221,14 @@ export const uiSchema = {
           )
         }
       }
-    )
+    ),
+    'view:contactInfoDescription': {
+      'ui:description': contactInfoUpdateHelp
+    }
   }
 };
 
-export const primaryAddressSchema = {
+export const schema = {
   type: 'object',
   properties: {
     veteran: {
@@ -248,7 +252,11 @@ export const primaryAddressSchema = {
         'view:hasForwardingAddress': {
           type: 'boolean'
         },
-        forwardingAddress
+        forwardingAddress,
+        'view:contactInfoDescription': {
+          type: 'object',
+          properties: {}
+        }
       }
     }
   }

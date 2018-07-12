@@ -8,10 +8,11 @@ import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { filterViewFields } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
+import { pick } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
@@ -20,39 +21,66 @@ import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL,
-  E_BENEFITS_URL
+  VA_FORM4142_URL
 } from './constants';
 
-/*
- * Flatten nested array form data into sibling properties
- *
- * @param {object} data - Form data for a full form, including nested array properties
- */
-export function flatten(data) {
-  const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
-  const formData = cloneDeep(data);
-  formData.disabilities.forEach((disability, idx) => {
-    siblings.forEach(sibling => {
-      if (disability[sibling]) {
-        formData[sibling] = [];
-        formData[sibling][idx] = disability[sibling];
-        delete disability[sibling]; // eslint-disable-line no-param-reassign
-      }
-    });
-  });
-  return formData;
-}
+/**
+ * Inspects an array of objects, and attempts to aggregate subarrays at a given property
+ * of each object into one array
+ * @param {array} dataArray array of objects to inspect
+ * @param {string} property the property to inspect in each array item
+ * @returns {array} a list of aggregated items pulled from different arrays
+*/
+const aggregate = (dataArray, property) => {
+  const masterList = [];
+  dataArray.forEach(item => {
 
-
-export function transform(formConfig, form) {
-  const formData = flatten(transformForSubmit(formConfig, form));
-  delete formData.prefilled;
-  return JSON.stringify({
-    disabilityBenefitsClaim: {
-      form: formData
+    if (item[property]) {
+      item[property].forEach(listItem => masterList.push(listItem));
     }
   });
+
+  return masterList;
+};
+
+// Moves phone & email out of the phoneEmailCard up one level into `formData.veteran`
+const setPhoneEmailPaths = (veteran) => {
+  const newVeteran = cloneDeep(veteran);
+  const { primaryPhone, emailAddress } = newVeteran.phoneEmailCard;
+  newVeteran.primaryPhone = primaryPhone;
+  newVeteran.emailAddress = emailAddress;
+  delete newVeteran.phoneEmailCard;
+  return newVeteran;
+};
+
+export function transform(formConfig, form) {
+  const {
+    disabilities,
+    veteran,
+    privacyAgreementAccepted,
+    servicePeriods,
+    standardClaim,
+  } = form.data;
+
+  const disabilityProperties = Object.keys(
+    fullSchemaIncrease.definitions.disabilities.items.properties
+  );
+
+  const transformedData = {
+    disabilities: disabilities
+      .filter(disability => (disability['view:selected'] === true))
+      .map(filtered => pick(filtered, disabilityProperties)),
+    // Pull phone & email out of phoneEmailCard and into veteran property
+    veteran: setPhoneEmailPaths(veteran),
+    // Extract treatments into one top-level array
+    treatments: aggregate(disabilities, 'treatments'),
+    privacyAgreementAccepted,
+    serviceInformation: { servicePeriods },
+    standardClaim,
+  };
+
+  const withoutViewFields = filterViewFields(transformedData);
+  return JSON.stringify({ form526: withoutViewFields });
 }
 
 export function validateDisability(disability) {
@@ -407,7 +435,14 @@ export const evidenceSummaryView = ({ formData }) => {
   );
 };
 
+export const editNote = (name) => (
+  <p><strong>Note:</strong> If you need to update your {name}, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+);
+
 /**
+ * Show one thing, have a screen reader say another.
+ * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
+ *
  * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
@@ -429,11 +464,7 @@ const unconnectedVetInfoView = (profile) => {
   return (
     <div>
       <p>
-        This is the personal information we have on file for you. If something doesn’t look
-        right and you need to update your details, please go to eBenefits.
-      </p>
-      <p>
-        <a target="_blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
+        This is the personal information we have on file for you.
       </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
@@ -442,7 +473,7 @@ const unconnectedVetInfoView = (profile) => {
         <p>Date of birth: <DateWidget value={dob} options={{ monthYear: false }}/></p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
-      <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+      {editNote('personal information')}
     </div>
   );
 };
@@ -711,12 +742,15 @@ export const get4142Selection = (disabilities) => {
 };
 
 export const contactInfoDescription = () => (
+  <p>
+    This is the contact information we have on file for you. We’ll send any important
+    information about your disability claim to the address listed here. Any updates
+    you make here to your contact information will only apply to this application.
+  </p>
+);
+
+export const contactInfoUpdateHelp = () => (
   <div>
-    <p>
-      This is the contact information we have on file for you. We’ll send any important
-      information about your disability claim to the address listed here. Any updates
-      you make here to your contact information will only apply to this application.
-    </p>
     <p>
       If you want to update your contact information for all your VA accounts, please go
       to your profile page.
@@ -730,8 +764,6 @@ export const contactInfoDescription = () => (
 export const PaymentDescription = () => (
   <p>
     This is the bank account information we have on file for you. We’ll pay your
-    disability benefit to this account. If you need to update your bank information,
-    please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
-    Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+    disability benefit to this account.
   </p>
 );

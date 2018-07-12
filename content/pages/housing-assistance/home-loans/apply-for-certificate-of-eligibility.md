@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Apply for Your COE
+title: How to Apply for Your COE
 concurrence: 
 order: 3
 relatedlinks:
@@ -27,11 +27,9 @@ The first step in getting a VA direct or VA-backed home loan is to apply for a C
 
 </div>
 
-### Get your COE
+### How do I prepare before starting my application?
 
-#### Gather the information you’ll need to apply for your COE
-
-Click on the description that matches you best to find out what information you’ll need:
+Gather the information you'll need to apply for your COE. Click on the description below that matches you best to find out what you'll need:
 
 <br>
 
@@ -139,19 +137,18 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 
 <br>
 
-#### Apply for your COE
+### How do I apply for my COE?
 
-**You can apply in 1 of 3 ways:**
-
-**Online through eBenefits** <br>
-We recommend applying for your COE online.
+You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan">Go to eBenefits to Apply</a>
 
-**Through our Web LGY system** <br>
+#### You can also apply:
+
+##### Through our Web LGY system
 In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
 
-**By mail** <br>
+##### By mail
 To apply by mail, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and mail it to the address listed on the form. Please keep in mind that this may take longer than applying online or through our Web LGY system. <br>
 [Download VA Form 26-1880](https://www.vba.va.gov/pubs/forms/vba-26-1880-are.pdf).
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import { formLinks, formTitles } from '../../../applications/user-profile/helpers';
+import { formLinks, formTitles } from '../../../applications/personalization/profile360/util/helpers';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
@@ -16,29 +16,6 @@ export class ApplicationStatus extends React.Component {
       modalOpen: false,
       loading: false
     };
-
-    moment.updateLocale('en', {
-      meridiem: (hour) => {
-        if (hour < 12) {
-          return 'a.m.';
-        }
-        return 'p.m.';
-      },
-      monthsShort: [
-        'Jan.',
-        'Feb.',
-        'Mar.',
-        'Apr.',
-        'May',
-        'June',
-        'July',
-        'Aug.',
-        'Sept.',
-        'Oct.',
-        'Nov.',
-        'Dec.'
-      ]
-    });
   }
 
   componentDidUpdate(oldProps) {
@@ -66,7 +43,7 @@ export class ApplicationStatus extends React.Component {
   }
 
   render() {
-    const { formIds, profile, login, applyText, showApplyButton, applyRender, formType, applyLink } = this.props;
+    const { formIds, profile, login, applyHeading, applyText, showApplyButton, applyRender, formType, applyLink } = this.props;
     if (profile.loading || this.state.loading) {
       const message = profile.loading
         ? 'Checking your application status.'
@@ -143,12 +120,12 @@ export class ApplicationStatus extends React.Component {
     } else if (showApplyButton) {
       return (
         <div itemProp="steps" itemScope itemType="http://schema.org/HowToSection">
-          <h3 itemProp="name">Ready to apply?</h3>
+          <h3 itemProp="name">{applyHeading}</h3>
           <div itemProp="itemListElement">
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
             <div className="sip-application-status">
               <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
-              {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process</a>.</p>}
+              {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about how to apply</a>.</p>}
             </div>
           </div>
         </div>
@@ -162,6 +139,7 @@ export class ApplicationStatus extends React.Component {
 ApplicationStatus.propTypes = {
   formId: PropTypes.string,
   formType: PropTypes.string,
+  applyHeading: PropTypes.string,
   applyLink: PropTypes.string,
   applyRender: PropTypes.func,
   applyText: PropTypes.string,
@@ -174,6 +152,10 @@ ApplicationStatus.propTypes = {
     savedForms: PropTypes.array.isRequired
   }),
   stayAfterDelete: PropTypes.bool
+};
+
+ApplicationStatus.defaultProps = {
+  applyHeading: 'Ready to apply?'
 };
 
 function mapStateToProps(state) {
