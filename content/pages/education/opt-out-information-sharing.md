@@ -44,9 +44,8 @@ You'll need to fill out a short form to tell us you want to opt out of sharing t
 <div markdown="0">
 
 <div id="react-applicationStatus" class="static-page-widget"></div>
-<br></div>
-
-<div markdown="1">
+<br/>
+</div>
 
 <b>Note</b>: If you're signed in to your account, we can prefill part of your application based on your account details.
 
