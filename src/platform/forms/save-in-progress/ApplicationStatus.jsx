@@ -16,29 +16,6 @@ export class ApplicationStatus extends React.Component {
       modalOpen: false,
       loading: false
     };
-
-    moment.updateLocale('en', {
-      meridiem: (hour) => {
-        if (hour < 12) {
-          return 'a.m.';
-        }
-        return 'p.m.';
-      },
-      monthsShort: [
-        'Jan.',
-        'Feb.',
-        'Mar.',
-        'Apr.',
-        'May',
-        'June',
-        'July',
-        'Aug.',
-        'Sept.',
-        'Oct.',
-        'Nov.',
-        'Dec.'
-      ]
-    });
   }
 
   componentDidUpdate(oldProps) {
