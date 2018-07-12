@@ -37,6 +37,7 @@ It makes it easy for schools to access information about your education benefits
 
 You'll need to fill out a short form here:
 <a class="usa-button-primary va-button-primary" href="/education/opt-out-information-sharing/opt-out-form-0993/">Opt Out</a>
+
 Note: If you're signed in to your account, we can prefill part of your application based on your account details.
 
 ### What’s the Colmery Act? 
