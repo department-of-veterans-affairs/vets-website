@@ -1,12 +1,12 @@
 import React from 'react';
 
-import RoutedSavableApp from '../../../../platform/forms/save-in-progress/RoutedSavableApp';
+import SinglePageFormApp from './SinglePageFormApp';
 import formConfig from '../config/form';
 
 export default function FormOptOutApp({ location, children }) {
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+    <SinglePageFormApp formConfig={formConfig} currentLocation={location}>
       {children}
-    </RoutedSavableApp>
+    </SinglePageFormApp>
   );
 }

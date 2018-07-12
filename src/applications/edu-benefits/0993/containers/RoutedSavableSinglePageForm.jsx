@@ -17,7 +17,7 @@ import {
 import { getFormContext } from '../../../../platform/forms/save-in-progress/selectors';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
-class RoutedSavablePage extends React.Component {
+class RoutedSavableSinglePageForm extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
@@ -87,7 +87,7 @@ const mapDispatchToProps = {
   uploadFile
 };
 
-RoutedSavablePage.propTypes = {
+RoutedSavableSinglePageForm.propTypes = {
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
@@ -102,6 +102,6 @@ RoutedSavablePage.propTypes = {
   setData: PropTypes.func
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavablePage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavableSinglePageForm));
 
-export { RoutedSavablePage };
+export { RoutedSavableSinglePageForm };

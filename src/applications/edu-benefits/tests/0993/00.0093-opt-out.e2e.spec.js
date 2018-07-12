@@ -18,7 +18,6 @@ module.exports = E2eHelpers.createE2eTest((client) => {
     // Claimant information
     client.waitForElementVisible('input[name="root_claimantFullName_first"]', Timeouts.normal)
       .axeCheck('.main');
-    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeClaimantInformation(client, testData.data);
 
     // Submit
@@ -26,9 +25,9 @@ module.exports = E2eHelpers.createE2eTest((client) => {
       .click('input[name="privacyAgreement"]')
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/claimant/information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/claimant-information');
     client.expect.element('.js-test-location').attribute('data-location')
-      .to.not.contain('/claimant/information').before(Timeouts.slow);
+      .to.not.contain('/claimant-information').before(Timeouts.slow);
 
     // Submit message
     client.waitForElementVisible('.schemaform-confirmation-section-header', Timeouts.normal);
