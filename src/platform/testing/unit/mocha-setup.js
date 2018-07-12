@@ -7,6 +7,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
+import '../../site-wide/moment-setup';
 // import sinon from 'sinon'
 
 
