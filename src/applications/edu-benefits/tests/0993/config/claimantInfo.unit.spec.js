@@ -6,8 +6,8 @@ import { mount } from 'enzyme';
 import { DefinitionTester, selectCheckbox } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../0993/config/form';
 
-describe('0993 applicant information', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+describe('0993 claimant information', () => {
+  const { schema, uiSchema } = formConfig.chapters.claimantInformation.pages.claimantInformation;
 
   it('should render unverified view', () => {
     const form = mount(

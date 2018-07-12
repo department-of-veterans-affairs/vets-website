@@ -40,19 +40,18 @@ const formConfig = {
     ...fullSchema0993.definitions
   },
   chapters: {
-    applicantInformation: {
+    claimantInformation: {
       title: 'Form',
       pages: {
-        applicantInformation: {
-          path: 'applicant/information',
-          title: 'Applicant information',
+        claimantInformation: {
+          path: 'claimant/information',
           initialData: {
             // verified: true,
-            claimantFullName: {
-              first: 'test',
-              last: 'test'
-            },
-            claimantSocialSecurityNumber: '234234234'
+            // claimantFullName: {
+            //   first: 'test',
+            //   last: 'test'
+            // },
+            // claimantSocialSecurityNumber: '234234234'
           },
           uiSchema: {
             'ui:description': PrefillMessage,

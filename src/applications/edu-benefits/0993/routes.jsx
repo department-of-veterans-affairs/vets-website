@@ -17,7 +17,7 @@ childRoutes[0].formConfig = formConfig;
 const route = {
   path: '/',
   component: OptOutApp,
-  indexRoute: { onEnter: (nextState, replace) => replace('/applicant/information') },
+  indexRoute: { onEnter: (nextState, replace) => replace('/claimant/information') },
   childRoutes
 };
 
