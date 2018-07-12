@@ -42,7 +42,7 @@ export default class OptOutWizard extends React.Component {
           <p><strong>Please note:</strong> If you submit an opt-out request and then change your mind, you’ll need to call the Education Call Center at 1-888-442-4551 to opt back in.</p>
           <div>
             <a
-              href="/education/opt-out/form"
+              href="/education/opt-out-information-sharing/opt-out-form-0993"
               className="usa-button-primary">
               Yes, I Want to Opt Out
             </a>
