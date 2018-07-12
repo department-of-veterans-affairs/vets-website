@@ -21,8 +21,7 @@ import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL,
-  E_BENEFITS_URL
+  VA_FORM4142_URL
 } from './constants';
 
 /**
@@ -436,7 +435,14 @@ export const evidenceSummaryView = ({ formData }) => {
   );
 };
 
+export const editNote = (name) => (
+  <p><strong>Note:</strong> If you need to update your {name}, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+);
+
 /**
+ * Show one thing, have a screen reader say another.
+ * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
+ *
  * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
@@ -458,11 +464,7 @@ const unconnectedVetInfoView = (profile) => {
   return (
     <div>
       <p>
-        This is the personal information we have on file for you. If something doesn’t look
-        right and you need to update your details, please go to eBenefits.
-      </p>
-      <p>
-        <a target="_blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
+        This is the personal information we have on file for you.
       </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
@@ -471,7 +473,7 @@ const unconnectedVetInfoView = (profile) => {
         <p>Date of birth: <DateWidget value={dob} options={{ monthYear: false }}/></p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
-      <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+      {editNote('personal information')}
     </div>
   );
 };
@@ -740,12 +742,15 @@ export const get4142Selection = (disabilities) => {
 };
 
 export const contactInfoDescription = () => (
+  <p>
+    This is the contact information we have on file for you. We’ll send any important
+    information about your disability claim to the address listed here. Any updates
+    you make here to your contact information will only apply to this application.
+  </p>
+);
+
+export const contactInfoUpdateHelp = () => (
   <div>
-    <p>
-      This is the contact information we have on file for you. We’ll send any important
-      information about your disability claim to the address listed here. Any updates
-      you make here to your contact information will only apply to this application.
-    </p>
     <p>
       If you want to update your contact information for all your VA accounts, please go
       to your profile page.
@@ -759,8 +764,6 @@ export const contactInfoDescription = () => (
 export const PaymentDescription = () => (
   <p>
     This is the bank account information we have on file for you. We’ll pay your
-    disability benefit to this account. If you need to update your bank information,
-    please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
-    Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+    disability benefit to this account.
   </p>
 );
