@@ -15,20 +15,20 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: https://benefits.va.gov/TAP/index.asp
-      title: Transition Assistance
-      description:
+      title: Transition Assistance Program (VA TAP)
+      description: Learn about VA benefits available to you and your family as you transition out of active-duty, National Guard, or Reserve service.
     - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment
-      description:
+      description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url: https://www.vets.gov/housing-assistance/home-loans/
-      title: VA Back Home Loans
-      description:
+      title: VA Home Loan Benefits
+      description: Explore options for Veterans home loans, apply for your Certificate of Eligibility (COE), and get help if you're having trouble making your mortgage payments.
     - url: https://www.vets.gov/employment/job-seekers/register-your-business/
-      title: Small Business Support
-      description:
+      title: Veteran-Owned Small Business Support
+      description: Register to do business with VA and get support for your Veteran-owned small business.
     - url: https://www.dol.gov/veterans/findajob/
-      title: Search for Jobs
-      description:
+      title: Jobs for Veterans
+      description: Get help from the U.S. Department of Labor to find a job, get training, or explore career options.
 contact:
   - heading: Contact us for help with education and training benefits or services
     links:
@@ -56,14 +56,6 @@ social:
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
       label: E-mail Directory
-mobile:
-  - heading: Mobile Apps
-    links:
-    - url: "https://mobile.va.gov/app/ds-logon-education"
-      label: Download the DS Logon Education App
-      icon:
-
-
 ---
 
 <p class="va-introtext">
@@ -198,8 +190,8 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education and Overpayments and Debt</b></a>
-    <p>Get answers to frequently asked questions about GI Bill overpayments and debt.</p>
+    <a href="https://benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education Debt and Overpayments</b></a>
+    <p>Get answers to frequently asked questions about GI Bill overpayments and VA education debt.</p>
   </div>
 
   <div class="link">
