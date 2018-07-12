@@ -9,9 +9,6 @@ import Announcement from '../components/Announcement';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 
-import LegacyProfile from '../../../user-profile/containers/UserProfileApp';
-import isPersonalizationEnabled from '../../dashboard/isPersonalizationEnabled';
-
 import { dismissAnnouncement } from '../../../../platform/site-wide/announcements/actions';
 
 const ANNOUNCEMENT_NAME = 'account';
@@ -27,23 +24,21 @@ class AccountApp extends React.Component {
           authRequired={1}
           serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}>
-          {isPersonalizationEnabled() ? (
-            <DowntimeNotification appTitle="user account page" dependencies={[externalServices.mvi, externalServices.emis]}>
-              <div className="row user-profile-row">
-                <div className="usa-width-two-thirds medium-8 small-12 columns">
-                  <h1>Your Vets.gov Account Settings</h1>
-                  <div className="va-introtext">
-                    <p>Below, you’ll find your current settings for signing in to Vets.gov. Find out how to update your settings as needed to access more site tools or add extra security to your account.</p>
-                  </div>
-                  <Announcement dismiss={this.dismissAnnouncement} isDismissed={this.props.announcementDismissed}/>
-                  <AccountMain
-                    login={this.props.login}
-                    profile={this.props.profile}
-                    terms={this.props.terms}/>
+          <DowntimeNotification appTitle="user account page" dependencies={[externalServices.mvi, externalServices.emis]}>
+            <div className="row user-profile-row">
+              <div className="usa-width-two-thirds medium-8 small-12 columns">
+                <h1>Your Vets.gov Account Settings</h1>
+                <div className="va-introtext">
+                  <p>Below, you’ll find your current settings for signing in to Vets.gov. Find out how to update your settings as needed to access more site tools or add extra security to your account.</p>
                 </div>
+                <Announcement dismiss={this.dismissAnnouncement} isDismissed={this.props.announcementDismissed}/>
+                <AccountMain
+                  login={this.props.login}
+                  profile={this.props.profile}
+                  terms={this.props.terms}/>
               </div>
-            </DowntimeNotification>
-          ) : <LegacyProfile/>}
+            </div>
+          </DowntimeNotification>
         </RequiredLoginView>
       </div>
     );
