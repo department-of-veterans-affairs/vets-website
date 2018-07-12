@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import '../../../../platform/startup/moment-setup';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import { selectUser, isLOA3 } from '../../../../platform/user/selectors';
 
