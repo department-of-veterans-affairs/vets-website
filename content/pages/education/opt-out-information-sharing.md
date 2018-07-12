@@ -11,7 +11,7 @@ order: 5
 ---
 
 
-The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with schools, unless you ask us not to--that is, "opt out."  
+The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with schools, unless you ask us not to (that is, you "opt out").
   
 ### Will opting out affect my education benefits?
 
@@ -35,7 +35,7 @@ It makes it easy for schools to access information about your education benefits
 
 ### How do I tell VA I don't want my information shared?
 
-You'll need to fill out a short form here:
+You'll need to fill out a short form here: 
 <a class="usa-button-primary va-button-primary" href="/education/opt-out-information-sharing/opt-out-form-0993/">Opt Out</a>
 
 Note: If you're signed in to your account, we can prefill part of your application based on your account details.
