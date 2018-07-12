@@ -4,18 +4,18 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import FormApp from 'us-forms-system/lib/js/containers/FormApp';
+import SinglePageFormApp from './SinglePageFormApp';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
   SAVE_STATUSES,
   setFetchFormStatus,
   fetchInProgressForm
-} from './actions';
+} from '../../../../platform/forms/save-in-progress/actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import { isInProgress } from '../helpers';
-import { getSaveInProgressState } from './selectors';
+import { isInProgress } from '../../../../platform/forms/helpers';
+import { getSaveInProgressState } from '../../../../platform/forms/save-in-progress/selectors';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -53,7 +53,7 @@ moment.updateLocale('en', {
 /*
  * Primary component for a schema generated form app.
  */
-class RoutedSavableApp extends React.Component {
+class RoutedSavableSinglePageFormApp extends React.Component {
   componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
@@ -192,9 +192,9 @@ class RoutedSavableApp extends React.Component {
       content = <LoadingIndicator message="Retrieving your profile information..."/>;
     } else {
       content = (
-        <FormApp formConfig={formConfig} currentLocation={currentLocation}>
+        <SinglePageFormApp formConfig={formConfig} currentLocation={currentLocation}>
           {children}
-        </FormApp>
+        </SinglePageFormApp>
       );
     }
 
@@ -212,6 +212,6 @@ const mapDispatchToProps = {
   fetchInProgressForm
 };
 
-export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(RoutedSavableApp));
+export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(RoutedSavableSinglePageFormApp));
 
-export { RoutedSavableApp };
+export { RoutedSavableSinglePageFormApp };

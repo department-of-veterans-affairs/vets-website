@@ -2,17 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import FormNav from '../components/FormNav';
-import FormTitle from '../components/FormTitle';
-import { isInProgress } from '../helpers';
-import { setGlobalScroll } from '../utilities/ui';
+import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import { setGlobalScroll } from 'us-forms-system/lib/js/utilities/ui';
 
 const Element = Scroll.Element;
 
 /*
  * Primary component for a schema generated form app.
  */
-class FormApp extends React.Component {
+class SinglePageFormApp extends React.Component {
   componentWillMount() {
     setGlobalScroll();
 
@@ -22,32 +20,18 @@ class FormApp extends React.Component {
   }
 
   render() {
-    const { currentLocation, formConfig, children, formData } = this.props;
+    const { currentLocation, formConfig, children } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const Footer = formConfig.footerContent;
 
     let formTitle;
-    let formNav;
-    let renderedChildren = children;
     if (!isIntroductionPage) {
       // Show title only if we're not on the intro page and if there is a title
       // specified in the form config
       if (formConfig.title) {
         formTitle = <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>;
       }
-    }
-
-    // Show nav only if we're not on the intro, form-saved, error, or confirmation page
-    // Also add form classes only if on an actual form page
-    if (isInProgress(trimmedPathname)) {
-      formNav = <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>;
-
-      renderedChildren = (
-        <div className="progress-box progress-box-schemaform">
-          {children}
-        </div>
-      );
     }
 
     let footer;
@@ -65,8 +49,7 @@ class FormApp extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <Element name="topScrollElement"/>
             {formTitle}
-            {formNav}
-            {renderedChildren}
+            {children}
           </div>
         </div>
         {footer}
@@ -80,6 +63,6 @@ const mapStateToProps = (state) => ({
   formData: state.form.data
 });
 
-export default connect(mapStateToProps)(FormApp);
+export default connect(mapStateToProps)(SinglePageFormApp);
 
-export { FormApp };
+export { SinglePageFormApp };

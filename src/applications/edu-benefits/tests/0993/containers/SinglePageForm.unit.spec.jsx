@@ -3,15 +3,17 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { FormPage } from '../../../src/js/containers/FormPage';
+import { SinglePageForm } from '../../../0993/containers/SinglePageForm';
+import fullSchema0993 from '../../../0993/config/form';
 
-describe('Schemaform <FormPage>', () => {
+describe('Schemaform <SinglePageForm>', () => {
   const location = {
     pathname: '/testing/0'
   };
 
   it('should render', () => {
     const route = {
+      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -44,11 +46,10 @@ describe('Schemaform <FormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage form={form} route={route} user={user} location={location}/>
+      <SinglePageForm form={form} route={route} user={user} location={location}/>
     );
-
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
-    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+    expect(tree.everySubTree('Connect(DowntimeNotification)').length).to.equal(1);
   });
   describe('should handle', () => {
     let tree;
@@ -65,6 +66,7 @@ describe('Schemaform <FormPage>', () => {
         push: sinon.spy()
       };
       route = {
+        formConfig: fullSchema0993,
         pageConfig: {
           pageKey: 'testPage',
           schema: {},
@@ -109,7 +111,7 @@ describe('Schemaform <FormPage>', () => {
       };
 
       tree = SkinDeep.shallowRender(
-        <FormPage
+        <SinglePageForm
           router={router}
           setData={setData}
           form={form}
@@ -141,6 +143,7 @@ describe('Schemaform <FormPage>', () => {
   });
   it('should go back to the beginning if current page isn\'t found', () => {
     const route = {
+      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -184,7 +187,7 @@ describe('Schemaform <FormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage
+      <SinglePageForm
         router={router}
         form={form}
         user={user}
@@ -198,6 +201,7 @@ describe('Schemaform <FormPage>', () => {
   });
   it('should render array page', () => {
     const route = {
+      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         showPagePerItem: true,
@@ -242,7 +246,7 @@ describe('Schemaform <FormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage
+      <SinglePageForm
         form={form}
         user={user}
         route={route}
@@ -257,6 +261,7 @@ describe('Schemaform <FormPage>', () => {
   it('should handle change in array page', () => {
     const setData = sinon.spy();
     const route = {
+      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         showPagePerItem: true,
@@ -301,7 +306,7 @@ describe('Schemaform <FormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage
+      <SinglePageForm
         setData={setData}
         form={form}
         user={user}
@@ -370,7 +375,7 @@ describe('Schemaform <FormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage
+      <SinglePageForm
         setData={setData}
         router={router}
         form={form}

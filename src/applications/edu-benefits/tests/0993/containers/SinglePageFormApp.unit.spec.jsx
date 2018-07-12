@@ -2,13 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { FormApp } from '../../../src/js/containers/FormApp';
+import { SinglePageFormApp } from '../../../0993/containers/SinglePageFormApp';
 
-describe('Schemaform <FormApp>', () => {
-  it('should render children on intro page, but not form title or nav', () => {
+describe('Schemaform <SinglePageFormApp>', () => {
+  it('should render children on confirmation page, but not form title', () => {
     const formConfig = {};
     const currentLocation = {
-      pathname: 'introduction',
+      pathname: 'confirmation',
       search: ''
     };
     const routes = [{
@@ -16,22 +16,21 @@ describe('Schemaform <FormApp>', () => {
     }];
 
     const tree = SkinDeep.shallowRender(
-      <FormApp
+      <SinglePageFormApp
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}>
         <div className="child"/>
-      </FormApp>
+      </SinglePageFormApp>
     );
 
     expect(tree.everySubTree('.child')).not.to.be.empty;
-    expect(tree.everySubTree('FormNav')).to.be.empty;
     expect(tree.everySubTree('FormTitle')).to.be.empty;
   });
   it('should show nav when the form is in progress', () => {
     const formConfig = {};
     const currentLocation = {
-      pathname: '/veteran-information/personal-information',
+      pathname: '/claimant-information',
       search: ''
     };
     const routes = [{
@@ -39,15 +38,14 @@ describe('Schemaform <FormApp>', () => {
     }];
 
     const tree = SkinDeep.shallowRender(
-      <FormApp
+      <SinglePageFormApp
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}>
         <div className="child"/>
-      </FormApp>
+      </SinglePageFormApp>
     );
 
     expect(tree.everySubTree('.child')).not.to.be.empty;
-    expect(tree.everySubTree('FormNav')).not.to.be.empty;
   });
 });

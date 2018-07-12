@@ -6,11 +6,15 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 
-import ProgressButton from '../components/ProgressButton';
-import SchemaForm from '../components/SchemaForm';
-import { setData, uploadFile } from '../actions';
-import { getNextPagePath, getPreviousPagePath } from '../routing';
-import { focusElement } from '../utilities/ui';
+import SubmitController from './SubmitController';
+
+import DowntimeNotification, { externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeMessage from '../../../../platform/forms/save-in-progress/RoutedSavableReviewPage.jsx';
+
+import SchemaForm from 'us-forms-system/lib/js/components/SchemaForm';
+import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
+import { getNextPagePath, getPreviousPagePath } from 'us-forms-system/lib/js/routing';
+import { focusElement } from 'us-forms-system/lib/js/utilities/ui';
 
 function focusForm() {
   focusElement('.nav-header');
@@ -25,7 +29,7 @@ const scrollToTop = () => {
   });
 };
 
-class FormPage extends React.Component {
+class SinglePageForm extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
       scrollToTop();
@@ -73,19 +77,35 @@ class FormPage extends React.Component {
     this.props.router.push(path);
   }
 
+  renderDowntime = (downtime, children) => {
+    if (downtime.status === externalServiceStatus.down) {
+      const Message = this.props.formConfig.downtime.message || DowntimeMessage;
+
+      return (
+        <Message downtime={downtime}/>
+      );
+    }
+
+    return children;
+  }
+
   render() {
     const {
       route,
       params,
       form,
-      contentAfterButtons,
-      formContext
+      formContext,
+      contentAfterButtons
     } = this.props;
 
+    const { formConfig, pageList } = route;
+    const { path } = pageList;
     let {
       schema,
       uiSchema
     } = form.pages[route.pageConfig.pageKey];
+
+    const downtimeDependencies = _.get('downtime.dependencies', formConfig) || [];
 
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     let data = form.data;
@@ -113,22 +133,16 @@ class FormPage extends React.Component {
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
           onSubmit={this.onSubmit}>
-          <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
-              <ProgressButton
-                onButtonClick={this.goBack}
-                buttonText="Back"
-                buttonClass="usa-button-secondary"
-                beforeText="«"/>
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                submitButton
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
-            </div>
-          </div>
+          <DowntimeNotification
+            appTitle="application"
+            render={this.renderDowntime}
+            dependencies={downtimeDependencies}>
+            <SubmitController
+              formConfig={formConfig}
+              pageList={route.pageList}
+              path={path}
+              renderErrorMessage={this.renderErrorMessage}/>
+          </DowntimeNotification>
           {contentAfterButtons}
         </SchemaForm>
       </div>
@@ -148,9 +162,12 @@ const mapDispatchToProps = {
   uploadFile
 };
 
-FormPage.propTypes = {
+SinglePageForm.propTypes = {
   form: PropTypes.object.isRequired,
+  formContext: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
   route: PropTypes.shape({
+    formConfig: PropTypes.object.isRequired,
     pageConfig: PropTypes.shape({
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
@@ -164,6 +181,6 @@ FormPage.propTypes = {
   setData: PropTypes.func
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SinglePageForm));
 
-export { FormPage };
+export { SinglePageForm };
