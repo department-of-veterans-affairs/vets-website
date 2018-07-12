@@ -13,10 +13,6 @@ order: 5
 
 The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with schools, unless you ask us not to (that is, you "opt out").
   
-### Will opting out affect my education benefits?
-
-No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits.
-
 ### What kind of information does VA share with schools?
 
 Unless you opt out, we share basic information about your eligibility and benefits, including:
@@ -33,9 +29,13 @@ Unless you opt out, we share basic information about your eligibility and benefi
 
 It makes it easy for schools to access information about your education benefits without your having to gather benefit information or fill out forms. Schools get all the information they need straight from VA. 
 
+### Will opting out affect my education benefits?
+
+No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits.
+
 ### How do I tell VA I don't want my information shared?
 
-You'll need to fill out a short form here: 
+You'll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
 
 <a class="usa-button-primary va-button-primary" href="/education/opt-out-information-sharing/opt-out-form-0993/">Opt Out</a>
 
