@@ -47,6 +47,5 @@ describe('Schemaform <SinglePageFormApp>', () => {
     );
 
     expect(tree.everySubTree('.child')).not.to.be.empty;
-    expect(tree.everySubTree('FormNav')).not.to.be.empty;
   });
 });
