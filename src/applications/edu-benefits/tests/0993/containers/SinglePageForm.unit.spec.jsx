@@ -143,7 +143,7 @@ describe('Schemaform <SinglePageForm>', () => {
   });
   it('should go back to the beginning if current page isn\'t found', () => {
     const route = {
-      formConfig: fullSchema0993,        
+      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -201,7 +201,7 @@ describe('Schemaform <SinglePageForm>', () => {
   });
   it('should render array page', () => {
     const route = {
-      formConfig: fullSchema0993,  
+      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         showPagePerItem: true,
@@ -261,7 +261,7 @@ describe('Schemaform <SinglePageForm>', () => {
   it('should handle change in array page', () => {
     const setData = sinon.spy();
     const route = {
-      formConfig: fullSchema0993,        
+      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         showPagePerItem: true,

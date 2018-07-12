@@ -41,7 +41,6 @@ const formConfig = {
   },
   chapters: {
     claimantInformation: {
-      title: 'Form',
       pages: {
         claimantInformation: {
           path: 'claimant/information',
