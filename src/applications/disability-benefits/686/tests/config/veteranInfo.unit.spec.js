@@ -26,8 +26,7 @@ describe('686 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(3);
-    expect(form.find('select').length).to.equal(2);
+    expect(form.find('input').length).to.equal(2);
   });
 
   it('should render if applicant is not veteran', () => {
@@ -38,8 +37,8 @@ describe('686 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(5);
+    expect(form.find('select').length).to.equal(1);
   });
 
   it('should expand VA file number if noSSN is checked', () => {
@@ -51,7 +50,7 @@ describe('686 veteran information', () => {
         uiSchema={uiSchema}/>
     );
     selectCheckbox(form, 'root_view:noSSN', true);
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
   });
 
   it('should not submit empty form if applicant is veteran', () => {
@@ -65,7 +64,7 @@ describe('686 veteran information', () => {
         uiSchema={uiSchema}/>
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -80,7 +79,7 @@ describe('686 veteran information', () => {
         uiSchema={uiSchema}/>
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -96,9 +95,6 @@ describe('686 veteran information', () => {
     );
 
     fillData(form, 'input#root_veteranSocialSecurityNumber', '222-23-2424');
-    fillData(form, 'select#root_dateOfBirthMonth', '10');
-    fillData(form, 'select#root_dateOfBirthDay', '31');
-    fillData(form, 'input#root_dateOfBirthYear', '1987');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -118,9 +114,6 @@ describe('686 veteran information', () => {
     fillData(form, 'input#root_veteranFullName_first', 'test');
     fillData(form, 'input#root_veteranFullName_last', 'test');
     fillData(form, 'input#root_veteranSocialSecurityNumber', '222-23-2424');
-    fillData(form, 'select#root_dateOfBirthMonth', '10');
-    fillData(form, 'select#root_dateOfBirthDay', '31');
-    fillData(form, 'input#root_dateOfBirthYear', '1987');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

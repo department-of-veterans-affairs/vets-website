@@ -10,7 +10,7 @@ import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
-import DowntimeNotification, { serviceStatus } from '../../monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServiceStatus } from '../../monitoring/DowntimeNotification';
 import DowntimeMessage from './DowntimeMessage';
 
 class SaveInProgressIntro extends React.Component {
@@ -109,7 +109,7 @@ class SaveInProgressIntro extends React.Component {
   };
 
   renderDowntime = (downtime, children) => {
-    if (downtime.status === serviceStatus.down) {
+    if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.downtime.message || DowntimeMessage;
 
       return (
@@ -157,7 +157,6 @@ class SaveInProgressIntro extends React.Component {
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}
           prefillTransformer={this.props.prefillTransformer}
-          beforeStartForm={this.props.beforeStartForm}
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}

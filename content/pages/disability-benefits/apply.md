@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
-title: Disability Benefits Application Process
-display_title: Application Process
-description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today. 
+title: How to Apply for Disability Benefits
+display_title: How to Apply
+description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today.
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
@@ -27,23 +27,21 @@ relatedlinks:
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
-      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
 Find out how to apply for VA disability benefits. We can show you how to file a new claim, a claim for increased disability compensation, or any other type of claim.
-
 </div>
 
-### Prepare
+### How do I prepare before starting my application?
 
-- [Check your eligibility](/disability-benefits/eligibility/).
+- [Find out if you're eligible for VA disability benefits](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
 - [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability-benefits/apply/supplemental-forms/). 
 
-<div markdown="0"><br></div>
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
@@ -52,7 +50,7 @@ Find out how to apply for VA disability benefits. We can show you how to file a 
 
 For the first disability claim you file, please provide:
 
-- Discharge papers (DD214 or other separation documents) 
+- Discharge papers (DD214 or other separation documents)
 - Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records)
 
 For all disability claims, please provide:
@@ -68,11 +66,12 @@ For all disability claims, please provide:
 
 <span id="disability-wizard"></span>
 
+
 <div id="react-applicationStatus"></div>
 
 </div>
 
-<h3 itemprop="name">Other ways to apply</h3>
+<h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
 
 #### By mail
@@ -88,7 +87,12 @@ PO Box 4444<br>
 Janesville, WI 53547-4444<br>
 </p>
 
-#### In person
+##### In person
+
+Bring your application to a regional benefit office near you. <br>
+[Find a regional benefit office](/facilities/).
+
+##### With the help of a trained professional
 
 Bring your application to a regional benefit office near you. <br>[Find a regional benefit office](/facilities/).
 
@@ -119,10 +123,10 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">97.4 days</span>
-<span class="description">Average number of days to complete disability-related claims in May 2018</span>
+<span class="number">94 days</span>
+<span class="description">Average number of days to complete disability-related claims in June 2018</span>
 </div>
 </div>
 </div>
 
-<div markdown="0"><br></div>
+<br>

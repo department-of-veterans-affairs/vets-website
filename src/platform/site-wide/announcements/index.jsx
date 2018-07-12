@@ -9,8 +9,12 @@ import './sass/style.scss';
 import React from 'react';
 import { Provider } from 'react-redux';
 
+import localStorage from '../../../platform/utilities/storage/localStorage';
+
 import startReactApp from '../../startup/react';
 import Announcement from './containers/Announcement';
+
+import { ANNOUNCEMENTS_LOCAL_STORAGE } from './actions';
 
 /**
  * Sets up the Announcement widget with the given store at announcement-root
@@ -20,7 +24,7 @@ import Announcement from './containers/Announcement';
 export default function startAnnouncement(store) {
   const annoucementRoot = document.getElementById('announcement-root');
 
-  const isDisabled = window.localStorage.DISMISSED_ANNOUNCEMENTS === '*';
+  const isDisabled = localStorage.getItem(ANNOUNCEMENTS_LOCAL_STORAGE) === '*';
   if (isDisabled) return;
 
   startReactApp((

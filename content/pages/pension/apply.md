@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Pension Benefits Application Process
-display_title: Application Process
+title: How to Apply for a Veterans Pension
+display_title: How to Apply for a Veterans Pension
 concurrence: ""
 order: 2
 children: pensionApplication
@@ -15,13 +15,13 @@ widgets:
 
 <div class="va-introtext">
 
-You can apply online, by mail, or in person for a Veterans pension. Follow these steps to apply for this tax-free benefit.
+Find out how to apply for a tax-free Veterans pension. 
 
 </div>
 
-### Prepare
+### How do I prepare before starting my application?
 
-- Find out if you qualify. [Check your eligibility](/pension/eligibility/).
+- [Find out if you're eligible for VA pension benefits](/pension/eligibility/).
 - Gather the information listed below that you’ll need to fill out your pension application.
 
 <div class="feature">
@@ -34,7 +34,6 @@ You can apply online, by mail, or in person for a Veterans pension. Follow these
 - Work history
 - Bank account direct deposit information
 - Medical information
-
 </div>
 
 <div id="react-applicationStatus" class="static-page-widget">
@@ -43,10 +42,11 @@ You can apply online, by mail, or in person for a Veterans pension. Follow these
 
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">Other ways to apply</h4>
+<h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
   
-**By mail** <br>
+
+  **By mail** <br>
 Apply by mail using an Application for Pension (VA Form 21P-527EZ). <br>
 [Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
@@ -57,7 +57,7 @@ Bring your application to a regional benefit office near you. <br>
 
 **With the help of a trained professional** <br>
 You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br> 
-[Get help filing a claim](/disability-benefits/apply/help/).
+[Get help filing your claim](/disability-benefits/apply/help/).
 
 
 

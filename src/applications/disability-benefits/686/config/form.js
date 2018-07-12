@@ -275,33 +275,17 @@ const formConfig = {
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
-            },
-            dateOfBirth: _.merge(currentOrPastDateUI(''), {
-              'ui:options': {
-                updateSchema: (form) => {
-                  if (isVeteran(form)) {
-                    return {
-                      title: 'Your date of birth'
-                    };
-                  }
-                  return {
-                    title: 'Veteran’s date of birth'
-                  };
-                }
-              }
-            })
+            }
           },
           schema: {
             type: 'object',
-            required: ['dateOfBirth'],
             properties: {
               veteranFullName,
               veteranSocialSecurityNumber,
               'view:noSSN': {
                 type: 'boolean'
               },
-              veteranVAfileNumber: vaFileNumber,
-              dateOfBirth: date,
+              veteranVAfileNumber: vaFileNumber
             }
           }
         }
@@ -612,7 +596,6 @@ const formConfig = {
             properties: {
               spouseMarriages: {
                 type: 'array',
-                minItems: 1,
                 items: {
                   type: 'object',
                   required: [

@@ -1,64 +1,43 @@
-/* eslint-disable no-unused-vars */
+import Raven from 'raven-js';
+
 import { apiRequest } from '../../../../platform/utilities/api';
-import { fetchInProgressForm } from '../../../common/schemaform/save-in-progress/actions';
 
-export const ITFStatuses = Object.freeze({
-  active: 'active',
-  claim_received: 'claim_received', // eslint-disable-line camelcase
-  duplicate: 'duplicate',
-  expired: 'expired',
-  pending: 'pending',
-  incomplete: 'incomplete'
-});
+export const ITF_FETCH_INITIATED = 'ITF_FETCH_INITIATED';
+export const ITF_FETCH_SUCCEEDED = 'ITF_FETCH_SUCCEEDED';
+export const ITF_FETCH_FAILED = 'ITF_FETCH_FAILED';
 
+export const ITF_CREATION_INITIATED = 'ITF_CREATION_INITIATED';
+export const ITF_CREATION_SUCCEEDED = 'ITF_CREATION_SUCCEEDED';
+export const ITF_CREATION_FAILED = 'ITF_CREATION_FAILED';
 
-// TODO: replace mock once ITF endpoint setup
-export function submitIntentToFile(formConfig, onChange) {
-  const { intentToFileUrl, formId, migrations, prefillTransformer } = formConfig;
-  let ITFStatus = ITFStatuses.pending;
-  return dispatch => {
+export function fetchITF() {
+  return (dispatch) => {
+    dispatch({ type: ITF_FETCH_INITIATED });
 
-    onChange(ITFStatus);
-
-    const delay = (ms) => new Promise((resolve, reject) => {
-      ITFStatus = ITFStatuses.active;
-      onChange({ ITFStatus });
-
-      // TODO: if the backend handles resubmission, this check can be removed
-      if (ITFStatus === ITFStatuses.active) {
-        setTimeout(resolve, ms);
-      } else {
-        const errorMessage = 'Network request failed';
-        onChange({
-          ITFStatus,
-          errorMessage
-        });
-        reject(errorMessage);
+    return apiRequest(
+      '/intent_to_file',
+      null,
+      ({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }),
+      () => {
+        Raven.captureMessage('itf_fetch_failed');
+        dispatch({ type: ITF_FETCH_FAILED });
       }
-    });
-
-    return delay(2000);
+    );
   };
 }
 
-//   apiRequest(
-//     `${intentToFileUrl}`,
-//     null,
-//     ({ data }) => {
-//       const ITFStatus = data.attributes.ITFStatus
-//       onChange({ ITFStatus });
-//       return ITFStatus === 'active';
-//     },
-//     ({ errors }) => {
-//       const errorMessage = 'Network request failed';
-//       onChange({
-//         ITFStatus,
-//         errorMessage
-//       });
-//       Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
-//     }
-//   );
-// };
-// }
-/* eslint-enable */
+export function createITF() {
+  return (dispatch) => {
+    dispatch({ type: ITF_CREATION_INITIATED });
 
+    return apiRequest(
+      '/intent_to_file/compensation',
+      { method: 'POST' },
+      ({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }),
+      () => {
+        Raven.captureMessage('itf_creation_failed');
+        dispatch({ type: ITF_CREATION_FAILED });
+      }
+    );
+  };
+}

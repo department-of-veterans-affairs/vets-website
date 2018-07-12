@@ -1,53 +1,164 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
+import _ from 'lodash';
+
 import {
-  flatten,
-  isPrefillDataComplete,
+  validateDisability,
+  transformDisabilities,
+  addPhoneEmailToCard,
   prefillTransformer,
   get4142Selection,
-  queryForFacilities
+  queryForFacilities,
+  transform
 } from '../helpers.jsx';
+import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
 
-delete initialData.prefilled;
-const treatments = [
-  {
-    treatment: {
-      treatmentCenterName: 'local VA center'
-    }
-  }
-];
-initialData.disabilities[0].treatments = treatments;
-const flattened = flatten(initialData);
-const completeData = initialData;
-const incompleteData = {};
-const { formData: transformedPrefill } = prefillTransformer([], initialData, {}, { prefilStatus: 'success' });
-const { formData: incompletePrefill } = prefillTransformer([], {}, {}, { prefilStatus: 'success' });
-
 describe('526 helpers', () => {
-  describe('flatten', () => {
-    it('should flatten sibling arrays', () => {
-      expect(flattened.treatments).to.exist;
-      expect(flattened.disabilities[0].treatments).to.not.exist;
+  const prefilledData = _.cloneDeep(initialData);
+  const invalidDisability = prefilledData.disabilities[1];
+  const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
+  describe('transform', () => {
+    const formData = maximalData;
+    const transformedData = {
+      form526: {
+        disabilities: [
+          {
+            name: 'Diabetes mellitus0',
+            disabilityActionType: 'INCREASE',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '0',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238
+          },
+          {
+            name: 'Diabetes mellitus1',
+            disabilityActionType: 'INCREASE',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '1',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238
+          }
+        ],
+        veteran: {
+          homelessness: {
+            isHomeless: true,
+            pointOfContact: {
+              pointOfContactName: 'John',
+              primaryPhone: '1231231231'
+            }
+          },
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 MAIN ST',
+            addressLine2: 'BEN FRANKLIN VILLAGE',
+            city: 'APO',
+            state: 'AE',
+            zipCode: '09028'
+          },
+          forwardingAddress: {
+            country: 'USA',
+            addressLine1: '123 Anystreet',
+            addressLine2: 'Viking Drive',
+            addressLine3: 'Some Suite',
+            city: 'Anyville',
+            state: 'AK',
+            zipCode: '33492',
+            effectiveDate: '2019-04-04'
+          },
+          primaryPhone: '4445551212',
+          emailAddress: 'test2@test1.net'
+        },
+        treatments: [
+          {
+            treatmentCenterName: 'Somerset VA Clinic',
+            treatmentDateRange: {
+              from: '2000-06-06',
+              to: '2004-02-06'
+            }
+          },
+          {
+            treatmentCenterName: 'DC VA Regional Medical Center',
+            treatmentDateRange: {
+              from: '2000-07-04',
+              to: '2010-01-03'
+            }
+          }
+        ],
+        privacyAgreementAccepted: true,
+        serviceInformation: {
+          servicePeriods: [
+            {
+              serviceBranch: 'Air National Guard',
+              dateRange: {
+                from: '1980-03-06',
+                to: '1990-02-04'
+              }
+            },
+            {
+              serviceBranch: 'Army Reserve',
+              dateRange: {
+                from: '1990-07-05',
+                to: '2000-02-04'
+              }
+            }
+          ]
+        },
+        standardClaim: false
+      }
+    };
+    it('should return stringified, transformed data for submit', () => {
+      expect(transform(null, formData)).to.deep.equal(JSON.stringify(transformedData));
     });
   });
-  describe('isPrefillDataComplete', () => {
-    it('should reject incomplete prefilled data', () => {
-      expect(isPrefillDataComplete(incompleteData)).to.equal(false);
+  describe('validateDisability', () => {
+    it('should reject invalid disability data', () => {
+      expect(validateDisability(invalidDisability)).to.equal(false);
     });
-    it('should accept complete prefilled data', () => {
-      expect(isPrefillDataComplete(completeData)).to.equal(true);
+    it('should accept valid disability data', () => {
+      expect(validateDisability(validDisability)).to.equal(true);
+    });
+  });
+  describe('transformDisabilities', () => {
+    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
+      expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
+    });
+  });
+  describe('addPhoneEmailToCard', () => {
+    it('should return formData when veteran property does not exist', () => {
+      const formData = { disabilities: {} };
+      const newFormData = addPhoneEmailToCard(formData);
+      expect(newFormData).to.equal(formData);
+    });
+    it('should return a new object with correctly-modified formData', () => {
+      const formData = { disabilities: {}, veteran: { primaryPhone: '1234567890', emailAddress: 'a@b.c' } };
+      const newFormData = addPhoneEmailToCard(formData);
+      expect(newFormData).to.not.equal(formData);
+      expect(newFormData.veteran.primaryPhone).to.be.undefined;
+      expect(newFormData.veteran.emailAddress).to.be.undefined;
+      expect(newFormData.veteran.phoneEmailCard).to.exist;
+
+      const { primaryPhone, emailAddress } = newFormData.veteran.phoneEmailCard;
+      expect(primaryPhone).to.equal(formData.veteran.primaryPhone);
+      expect(emailAddress).to.equal(formData.veteran.emailAddress);
     });
   });
   describe('prefillTransformer', () => {
-    it('should record if the form was prefilled', () => {
-      expect(transformedPrefill.prefilled).to.be.true;
-    });
-    it('should not record if the form was not completely prefilled', () => {
-      expect(incompletePrefill.prefilled).to.be.undefined;
+    it('should transform prefilled disabilities', () => {
+      const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
+      expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal('INCREASE');
     });
   });
-
   describe('get4142Selection', () => {
     const fullDisabilities = [
       {

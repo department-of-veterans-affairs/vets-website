@@ -2,92 +2,132 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import { connect } from 'react-redux';
+import { Validator } from 'jsonschema';
+import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
-import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
-import { transformForSubmit } from '../../common/schemaform/helpers';
+import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
+import { filterViewFields } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
-import get from '../../../platform/utilities/data/get';
 import set from '../../../platform/utilities/data/set';
+import get from '../../../platform/utilities/data/get';
+import { pick } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { getDiagnosticCodeName } from './reference-helpers';
 
-const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
-import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
-import { DateWidget } from '../../common/schemaform/review/widgets';
+import {
+  USA,
+  VA_FORM4142_URL,
+  E_BENEFITS_URL
+} from './constants';
 
-const vaForm4142URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+/**
+ * Inspects an array of objects, and attempts to aggregate subarrays at a given property
+ * of each object into one array
+ * @param {array} dataArray array of objects to inspect
+ * @param {string} property the property to inspect in each array item
+ * @returns {array} a list of aggregated items pulled from different arrays
+*/
+const aggregate = (dataArray, property) => {
+  const masterList = [];
+  dataArray.forEach(item => {
 
-export const USA = 'USA';
-export const MILITARY_STATES = ['AA', 'AE', 'AP'];
-export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
-
-/*
- * Flatten nested array form data into sibling properties
- *
- * @param {object} data - Form data for a full form, including nested array properties
- */
-export function flatten(data) {
-  const formData = cloneDeep(data);
-  formData.disabilities.forEach((disability, idx) => {
-    siblings.forEach(sibling => {
-      if (disability[sibling]) {
-        formData[sibling] = [];
-        formData[sibling][idx] = disability[sibling];
-        delete disability[sibling]; // eslint-disable-line no-param-reassign
-      }
-    });
-  });
-  return formData;
-}
-
-
-export function transform(formConfig, form) {
-  const formData = flatten(transformForSubmit(formConfig, form));
-  delete formData.prefilled;
-  return JSON.stringify({
-    disabilityBenefitsClaim: {
-      form: formData
+    if (item[property]) {
+      item[property].forEach(listItem => masterList.push(listItem));
     }
   });
-}
 
-
-export const isPrefillDataComplete = (formData) => {
-  const { socialSecurityNumber, vaFileNumber, gender,
-    dateOfBirth, servicePeriods } = formData;
-  const first = get('fullName.first', formData);
-  const last = get('fullName.last', formData);
-  const country = get('veteran.mailingAddress.country', formData);
-  const addressLine1 = get('veteran.mailingAddress.addressLine1', formData);
-  const emailAddress = get('veteran.emailAddress', formData);
-  const primaryPhone = get('veteran.primaryPhone', formData);
-  const accountType = get('directDeposit.accountType', formData);
-  const routingNumber = get('directDeposit.routingNumber', formData);
-  const bankName = get('directDeposit.bankName', formData);
-  const noBank = get('directDeposit.noBank', formData);
-  const hasVeteranDetails = first && last && gender && dateOfBirth && (socialSecurityNumber || vaFileNumber);
-  const hasPrimaryAddressInfo = country && addressLine1 && emailAddress && primaryPhone;
-  const hasPaymentInfo = noBank || (accountType && routingNumber && bankName);
-  const hasMilitaryHistoryInfo = servicePeriods && servicePeriods.length > 0;
-  return !!(hasVeteranDetails && hasPrimaryAddressInfo && hasPaymentInfo && hasMilitaryHistoryInfo);
+  return masterList;
 };
 
+// Moves phone & email out of the phoneEmailCard up one level into `formData.veteran`
+const setPhoneEmailPaths = (veteran) => {
+  const newVeteran = cloneDeep(veteran);
+  const { primaryPhone, emailAddress } = newVeteran.phoneEmailCard;
+  newVeteran.primaryPhone = primaryPhone;
+  newVeteran.emailAddress = emailAddress;
+  delete newVeteran.phoneEmailCard;
+  return newVeteran;
+};
 
-export function prefillTransformer(pages, formData, metadata, state) {
-  let newData = formData;
-  const isPrefilled = state.prefilStatus === PREFILL_STATUSES.success;
-  const hasRequiredInformation = isPrefillDataComplete(formData);
+export function transform(formConfig, form) {
+  const {
+    disabilities,
+    veteran,
+    privacyAgreementAccepted,
+    servicePeriods,
+    standardClaim,
+  } = form.data;
 
-  if (isPrefilled && hasRequiredInformation) {
-    newData = set('prefilled', true, newData);
+  const disabilityProperties = Object.keys(
+    fullSchemaIncrease.definitions.disabilities.items.properties
+  );
+
+  const transformedData = {
+    disabilities: disabilities
+      .filter(disability => (disability['view:selected'] === true))
+      .map(filtered => pick(filtered, disabilityProperties)),
+    // Pull phone & email out of phoneEmailCard and into veteran property
+    veteran: setPhoneEmailPaths(veteran),
+    // Extract treatments into one top-level array
+    treatments: aggregate(disabilities, 'treatments'),
+    privacyAgreementAccepted,
+    serviceInformation: { servicePeriods },
+    standardClaim,
+  };
+
+  const withoutViewFields = filterViewFields(transformedData);
+  return JSON.stringify({ form526: withoutViewFields });
+}
+
+export function validateDisability(disability) {
+  const invalidDisabilityError = (error => /^instance.disabilities\[/.test(error.property));
+  const v = new Validator();
+  const result = v.validate(
+    { disabilities: [disability] },
+    fullSchemaIncrease
+  );
+
+  if (result.errors.find(invalidDisabilityError)) {
+    Raven.captureMessage(`vets-disability-increase-invalid-disability-prefilled: ${disability}`);
+    return false;
+  }
+  return true;
+}
+
+export function transformDisabilities(disabilities) {
+  return disabilities.map(disability => set('disabilityActionType', 'INCREASE', disability));
+}
+
+export function addPhoneEmailToCard(formData) {
+  const { veteran } = formData;
+  if (typeof veteran === 'undefined') {
+    return formData;
   }
 
+  const phoneEmailCard = {
+    primaryPhone: get('primaryPhone', veteran, ''),
+    emailAddress: get('emailAddress', veteran, '')
+  };
+
+  const newFormData = set('veteran.phoneEmailCard', phoneEmailCard, formData);
+  delete newFormData.veteran.primaryPhone;
+  delete newFormData.veteran.emailAddress;
+
+  return newFormData;
+}
+
+export function prefillTransformer(pages, formData, metadata) {
+  const withDisabilityActionType = set('disabilities', transformDisabilities(formData.disabilities), formData);
+  withDisabilityActionType.disabilities.forEach(validateDisability);
+  const withPhoneEmailCard = addPhoneEmailToCard(withDisabilityActionType);
   return {
     metadata,
-    formData: newData,
+    formData: withPhoneEmailCard,
     pages
   };
 }
@@ -190,7 +230,7 @@ export const privateRecordsChoiceHelp = (
       Information to the VA (VA Form 21-4142) so we can request your records.
     </p>
     <p>
-      <a href={vaForm4142URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
       </a>.
     </p>
@@ -261,7 +301,7 @@ export const download4142Notice = (
       we can request your records. You’ll need to fill out a form for each doctor.
     </p>
     <p>
-      <a href={vaForm4142URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
       </a>.
       <p>
@@ -279,7 +319,7 @@ export const authorizationToDisclose = (
     Information to the VA (VA Form 21-4142) so we can request your records. You’ll need to fill out a form for
     each doctor.</p>
     <p>
-      <a href={vaForm4142URL} target="_blank">
+      <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
       </a>.
     </p>
@@ -340,45 +380,56 @@ const getVACenterName = (center) => center.treatmentCenterName;
 
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
 
-const listifyCenters = (center, idx, list) => {
-  const centerName = center.treatmentCenterName ? getVACenterName(center) : getPrivateCenterName(center);
-  const notLast = idx < (list.length - 1);
-  const justOne = list.length === 1;
-  const atLeastThree = list.length > 2;
+const listCenters = (centers) => {
   return (
-    <span key={idx}>
-      {!notLast && !justOne && <span className="unstyled-word"> and </span>}
-      {centerName}
-      {atLeastThree && notLast && ', '}
-    </span>
+    <span className="treatment-centers">{centers.map((center, idx, list) => {
+      const centerName = center.treatmentCenterName ? getVACenterName(center) : getPrivateCenterName(center);
+      const notLast = idx < (list.length - 1);
+      const justOne = list.length === 1;
+      const atLeastThree = list.length > 2;
+      return (
+        <span key={idx}>
+          {!notLast && !justOne && <span className="unstyled-word"> and </span>}
+          {centerName}
+          {atLeastThree && notLast && ', '}
+        </span>
+      );
+    }) }</span>
   );
+
+};
+
+const listDocuments = (documents) => {
+  return (<ul>
+    {documents.map((document, id) => {
+      return (<li className="dashed-bullet" key={id}>
+        <strong>{document.name}</strong>
+      </li>);
+    })}
+  </ul>);
 };
 
 export const evidenceSummaryView = ({ formData }) => {
   const {
-    vaTreatments,
+    treatments,
     privateRecordReleases,
     privateRecords,
     additionalDocuments
   } = formData;
+
   return (
     <div>
       <ul>
-        {vaTreatments &&
-        <li>We’ll get your medical records from <span className="treatment-centers">{vaTreatments.map(listifyCenters)}</span>.</li>}
+        {treatments &&
+        <li>We’ll get your medical records from {listCenters(treatments)}.</li>}
         {privateRecordReleases &&
-        <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
-        {privateRecords && <li>We have received the private medical records you uploaded.</li>}
+        <li>We’ll get your private medical records from {listCenters(privateRecordReleases)}.</li>}
+        {privateRecords && <li>We have received the private medical records you uploaded:
+          {listDocuments(privateRecords)}
+        </li>}
         {additionalDocuments &&
         <li>We have received the additional evidence you uploaded:
-          <ul>
-            {additionalDocuments.map((document, id) => {
-              return (<li className="dashed-bullet" key={id}>
-                <strong>{document.name}</strong>
-              </li>);
-            })
-            }
-          </ul>
+          {listDocuments(additionalDocuments)}
         </li>}
       </ul>
     </div>
@@ -390,7 +441,7 @@ export const evidenceSummaryView = ({ formData }) => {
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
-const srSubstitute = (srIgnored, substitutionText) => {
+export const srSubstitute = (srIgnored, substitutionText) => {
   return (
     <div style={{ display: 'inline' }}>
       <span aria-hidden>{srIgnored}</span>
@@ -399,24 +450,34 @@ const srSubstitute = (srIgnored, substitutionText) => {
   );
 };
 
-export const veteranInformationViewField = (data) => {
-  const { ssn, vaFileNumber, dateOfBirth, gender } = data;
-  const { first, middle, last, suffix } = data.fullName;
+const unconnectedVetInfoView = (profile) => {
+  // NOTE: ssn and vaFileNumber will be undefined for the foreseeable future; they're kept in here as a reminder.
+  const { ssn, vaFileNumber, dob, gender } = profile;
+  const { first, middle, last, suffix } = profile.userFullName;
   const mask = srSubstitute('●●●–●●–', 'ending with');
   return (
     <div>
-      <p>This is the personal information we have on file for you.</p>
+      <p>
+        This is the personal information we have on file for you. If something doesn’t look
+        right and you need to update your details, please go to eBenefits.
+      </p>
+      <p>
+        <a target="_blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
+      </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
-        <p>Social Security number: {mask}{ssn.slice(5)}</p>
-        <p>VA file number: {mask}{vaFileNumber.slice(5)}</p>
-        <p>Date of birth: <DateWidget value={dateOfBirth} options={{ monthYear: false }}/></p>
+        {ssn && <p>Social Security number: {mask}{ssn.slice(5)}</p>}
+        {vaFileNumber && <p>VA file number: {mask}{vaFileNumber.slice(5)}</p>}
+        <p>Date of birth: <DateWidget value={dob} options={{ monthYear: false }}/></p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
       <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
     </div>
   );
 };
+
+export const veteranInfoDescription = connect((state) => state.user.profile)(unconnectedVetInfoView);
+
 
 /**
  * @typedef {Object} Disability
@@ -509,25 +570,24 @@ export const VAFileNumberDescription = (
   </div>
 );
 
-const PhoneViewField = ({ formData: phoneNumber, name }) => {
-  const isDomestic = phoneNumber.length <= 10;
-  const midBreakpoint = isDomestic ? -7 : -8;
-  const lastPhoneString = `${phoneNumber.slice(-4)}`;
-  const middlePhoneString = `${phoneNumber.slice(midBreakpoint, -4)}-`;
-  const firstPhoneString = `${phoneNumber.slice(0, midBreakpoint)}-`;
+const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
+  const midBreakpoint = -7;
+  const lastPhoneString = phoneNumber.slice(-4);
+  const middlePhoneString = phoneNumber.slice(midBreakpoint, -4);
+  const firstPhoneString = phoneNumber.slice(0, midBreakpoint);
 
-  const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
+  const phoneString = `${firstPhoneString}-${middlePhoneString}-${lastPhoneString}`;
   return (<p><strong>{name}</strong>: {phoneString}</p>);
 };
 
-const EmailViewField = ({ formData, name }) => {
-  return (<p><strong>{name}</strong>: {formData}</p>);
-};
+const EmailViewField = ({ formData, name }) => (
+  <p><strong>{name}</strong>: {formData || ''}</p>
+);
 
 const EffectiveDateViewField = ({ formData }) => {
   return (
     <p>
-      Effective Date: <DateWidget value={formData} options={{ monthYear: false }}/>
+      We will use this address starting on <DateWidget value={formData} options={{ monthYear: false }}/>:
     </p>
   );
 };
@@ -557,24 +617,24 @@ const AddressViewField = ({ formData }) => {
   );
 };
 
-export const PrimaryAddressViewField = ({ formData }) => {
-  const {
-    mailingAddress, primaryPhone, emailAddress, forwardingAddress } = formData;
+export const PrimaryAddressViewField = ({ formData }) => (<AddressViewField formData={formData}/>);
+
+export const ForwardingAddressViewField = ({ formData }) => {
+  const { effectiveDate } = formData;
   return (
     <div>
-      <AddressViewField formData={mailingAddress}/>
-      {primaryPhone && (
-        <PhoneViewField formData={primaryPhone} name="Primary phone"/>
-      )}
-      {emailAddress && (
-        <EmailViewField formData={emailAddress} name="Email address"/>
-      )}
-      {formData['view:hasForwardingAddress'] && (
-        <AddressViewField formData={forwardingAddress}/>
-      )}
-      {formData.effectiveDate && (
-        <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
-      )}
+      <EffectiveDateViewField formData={effectiveDate}/>
+      <AddressViewField formData={formData}/>
+    </div>
+  );
+};
+
+export const phoneEmailViewField = ({ formData }) => {
+  const { primaryPhone, emailAddress } = formData;
+  return (
+    <div>
+      <PhoneViewField formData={primaryPhone} name="Primary phone"/>
+      <EmailViewField formData={emailAddress} name="Email address"/>
     </div>
   );
 };
@@ -585,7 +645,7 @@ export const FDCDescription = (
     <h5>Fully developed claim program</h5>
     <p>
       You can apply using the Fully Developed Claim (FDC) program if
-      you’ve uploaded all the supporting documents or supplemental
+      you’ve uploaded all the supporting documents or additional
       forms needed to support your claim.
     </p>
     <a href="/pension/apply/fully-developed-claim/" target="_blank">
@@ -678,3 +738,29 @@ export const get4142Selection = (disabilities) => {
     return false;
   }, false);
 };
+
+export const contactInfoDescription = () => (
+  <div>
+    <p>
+      This is the contact information we have on file for you. We’ll send any important
+      information about your disability claim to the address listed here. Any updates
+      you make here to your contact information will only apply to this application.
+    </p>
+    <p>
+      If you want to update your contact information for all your VA accounts, please go
+      to your profile page.
+    </p>
+    <p>
+      <a href="/profile">Go to my profile page</a>.
+    </p>
+  </div>
+);
+
+export const PaymentDescription = () => (
+  <p>
+    This is the bank account information we have on file for you. We’ll pay your
+    disability benefit to this account. If you need to update your bank information,
+    please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
+    Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+  </p>
+);
