@@ -49,7 +49,9 @@ class SinglePageFormApp extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <Element name="topScrollElement"/>
             {formTitle}
-            {children}
+            <div className="progress-box progress-box-schemaform">
+              {children}
+            </div>
           </div>
         </div>
         {footer}
