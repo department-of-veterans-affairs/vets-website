@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import { isInProgress } from 'us-forms-system/lib/js/helpers';
 import { setGlobalScroll } from 'us-forms-system/lib/js/utilities/ui';
 
 const Element = Scroll.Element;
