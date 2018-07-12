@@ -466,7 +466,7 @@ class CalculatorForm extends React.Component {
       <div>
         <RadioButtons
           label={this.renderLearnMoreLabel({
-            text: 'Will the majority of your classes be on main campus?',
+            text: 'Will the majority of your classes be on the main campus?',
             modal: 'calcBeneficiaryLocationQuestion'
           })}
           name="beneficiaryLocationQuestion"
