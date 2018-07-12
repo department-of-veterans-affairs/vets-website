@@ -196,11 +196,8 @@ describe('526 ITFWrapper', () => {
       </ITFWrapper>
     );
     expect(tree.find('AlertBox').length).to.equal(1);
-    expect(tree.text()).to.contain('August 28, 2015');
-    const additionalInfo = tree.find('AdditionalInfo');
-    expect(additionalInfo.length).to.equal(1);
-    additionalInfo.find('button').simulate('click');
-    expect(additionalInfo.text()).to.contain('August 28, 2014');
+    expect(tree.text()).to.contain('will expire on August 28, 2015');
+    expect(tree.text()).to.contain('expired on August 28, 2014');
   });
 
 
