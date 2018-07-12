@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import { removeSavedForm } from '../../../platform/user/profile/actions';
@@ -9,29 +8,6 @@ import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-
-moment.updateLocale('en', {
-  meridiem: (hour) => {
-    if (hour < 12) {
-      return 'a.m.';
-    }
-    return 'p.m.';
-  },
-  monthsShort: [
-    'Jan.',
-    'Feb.',
-    'Mar.',
-    'Apr.',
-    'May',
-    'June',
-    'July',
-    'Aug.',
-    'Sept.',
-    'Oct.',
-    'Nov.',
-    'Dec.'
-  ]
-});
 
 class UserProfileApp extends React.Component {
   render() {
