@@ -1,7 +1,6 @@
 import moment from 'moment';
 
-// Called at startup so that the formatting applied under updateLocale
-// occur site-wide.
+// Called at startup so that the formatting applied under updateLocale occur site-wide.
 moment.updateLocale('en', {
   meridiem: (hour) => {
     if (hour < 12) {
