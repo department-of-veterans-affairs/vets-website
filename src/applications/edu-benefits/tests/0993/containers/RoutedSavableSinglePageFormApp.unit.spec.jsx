@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { RoutedSavableSinglePageFormApp } from '../../../0993/containers/RoutedSavableSinglePageFormApp';
-import { LOAD_STATUSES, PREFILL_STATUSES } from '../../../../../platform/forms/save-in-progress/actions';
+import { RoutedSavableApp } from '../../save-in-progress/RoutedSavableApp';
+import { LOAD_STATUSES, PREFILL_STATUSES } from '../../save-in-progress/actions';
 
 let oldWindow;
 
@@ -24,7 +24,7 @@ const teardown = () => {
   global.window = oldWindow;
 };
 
-describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
+describe('Schemaform <RoutedSavableApp>', () => {
   beforeEach(setup);
   afterEach(teardown);
 
@@ -39,13 +39,13 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     }];
 
     const tree = SkinDeep.shallowRender(
-      <RoutedSavableSinglePageFormApp
+      <RoutedSavableApp
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}
         loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
-      </RoutedSavableSinglePageFormApp>
+      </RoutedSavableApp>
     );
 
     expect(tree.everySubTree('.child')).not.to.be.empty;
@@ -65,14 +65,14 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     }];
 
     const tree = SkinDeep.shallowRender(
-      <RoutedSavableSinglePageFormApp
+      <RoutedSavableApp
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}
         loadedStatus={LOAD_STATUSES.pending}
         updateLogInUrl={() => {}}>
         <div className="child"/>
-      </RoutedSavableSinglePageFormApp>
+      </RoutedSavableApp>
     );
 
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
@@ -97,7 +97,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <RoutedSavableSinglePageFormApp
+      <RoutedSavableApp
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}
@@ -105,7 +105,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
         prefillStatus={PREFILL_STATUSES.pending}
         updateLogInUrl={() => {}}>
         <div className="child"/>
-      </RoutedSavableSinglePageFormApp>
+      </RoutedSavableApp>
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
@@ -134,14 +134,14 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     const setFetchFormStatus = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <RoutedSavableSinglePageFormApp
+      <RoutedSavableApp
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}
         loadedStatus={LOAD_STATUSES.pending}
         updateLogInUrl={() => {}}>
         <div className="child"/>
-      </RoutedSavableSinglePageFormApp>
+      </RoutedSavableApp>
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
@@ -170,14 +170,14 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <RoutedSavableSinglePageFormApp
+      <RoutedSavableApp
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}
         loadedStatus={LOAD_STATUSES.pending}
         updateLogInUrl={() => {}}>
         <div className="child"/>
-      </RoutedSavableSinglePageFormApp>
+      </RoutedSavableApp>
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
@@ -211,14 +211,14 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     const buildType = __BUILDTYPE__;
     __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
-      <RoutedSavableSinglePageFormApp
+      <RoutedSavableApp
         formConfig={formConfig}
         routes={routes}
         router={router}
         currentLocation={currentLocation}
         loadedStatus={LOAD_STATUSES.pending}>
         <div className="child"/>
-      </RoutedSavableSinglePageFormApp>
+      </RoutedSavableApp>
     );
 
     tree.getMountedInstance().componentDidMount();
@@ -252,7 +252,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     const buildType = __BUILDTYPE__;
     __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
-      <RoutedSavableSinglePageFormApp
+      <RoutedSavableApp
         formConfig={formConfig}
         routes={routes}
         router={router}
@@ -260,7 +260,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
         profileIsLoading
         loadedStatus={LOAD_STATUSES.pending}>
         <div className="child"/>
-      </RoutedSavableSinglePageFormApp>
+      </RoutedSavableApp>
     );
 
     // When logged in, the component gets mounted before the profile is finished
@@ -306,7 +306,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     const buildType = __BUILDTYPE__;
     __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
-      <RoutedSavableSinglePageFormApp
+      <RoutedSavableApp
         formConfig={formConfig}
         routes={routes}
         router={router}
@@ -314,7 +314,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
         profileIsLoading
         loadedStatus={LOAD_STATUSES.pending}>
         <div className="child"/>
-      </RoutedSavableSinglePageFormApp>
+      </RoutedSavableApp>
     );
 
     // When logged in, the component gets mounted before the profile is finished

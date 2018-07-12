@@ -4,18 +4,18 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import SinglePageFormApp from './SinglePageFormApp';
+import FormApp from 'us-forms-system/lib/js/containers/FormApp';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
   SAVE_STATUSES,
   setFetchFormStatus,
   fetchInProgressForm
-} from '../../../../platform/forms/save-in-progress/actions';
+} from './actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import { isInProgress } from '../../../../platform/forms/helpers';
-import { getSaveInProgressState } from '../../../../platform/forms/save-in-progress/selectors';
+import { isInProgress } from '../helpers';
+import { getSaveInProgressState } from './selectors';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -53,7 +53,7 @@ moment.updateLocale('en', {
 /*
  * Primary component for a schema generated form app.
  */
-class RoutedSavableSinglePageFormApp extends React.Component {
+class RoutedSavableApp extends React.Component {
   componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
@@ -192,9 +192,9 @@ class RoutedSavableSinglePageFormApp extends React.Component {
       content = <LoadingIndicator message="Retrieving your profile information..."/>;
     } else {
       content = (
-        <SinglePageFormApp formConfig={formConfig} currentLocation={currentLocation}>
+        <FormApp formConfig={formConfig} currentLocation={currentLocation}>
           {children}
-        </SinglePageFormApp>
+        </FormApp>
       );
     }
 
@@ -212,6 +212,6 @@ const mapDispatchToProps = {
   fetchInProgressForm
 };
 
-export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(RoutedSavableSinglePageFormApp));
+export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(RoutedSavableApp));
 
-export { RoutedSavableSinglePageFormApp };
+export { RoutedSavableApp };

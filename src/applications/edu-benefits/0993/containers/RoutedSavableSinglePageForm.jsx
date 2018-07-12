@@ -4,20 +4,20 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
 
-import SinglePageForm from './SinglePageForm';
+import { FormPage } from 'us-forms-system/lib/js/containers/FormPage';
 import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
 
-import SaveFormLink from '../../../../platform/forms/save-in-progress/SaveFormLink';
-import SaveStatus from '../../../../platform/forms/save-in-progress/SaveStatus';
+import SaveFormLink from './SaveFormLink';
+import SaveStatus from './SaveStatus';
 import {
   saveErrors,
   autoSaveForm,
   saveAndRedirectToReturnUrl
-} from '../../../../platform/forms/save-in-progress/actions';
-import { getFormContext } from '../../../../platform/forms/save-in-progress/selectors';
-import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
+} from './actions';
+import { getFormContext } from './selectors';
+import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 
-class RoutedSavableSinglePageForm extends React.Component {
+class RoutedSavablePage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
@@ -41,7 +41,6 @@ class RoutedSavableSinglePageForm extends React.Component {
 
   render() {
     const { user, form } = this.props;
-
     const contentAfterButtons = (
       <div>
         <SaveStatus
@@ -61,7 +60,7 @@ class RoutedSavableSinglePageForm extends React.Component {
     );
 
     return (
-      <SinglePageForm
+      <FormPage
         {...this.props}
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}
@@ -87,7 +86,7 @@ const mapDispatchToProps = {
   uploadFile
 };
 
-RoutedSavableSinglePageForm.propTypes = {
+RoutedSavablePage.propTypes = {
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
@@ -102,6 +101,6 @@ RoutedSavableSinglePageForm.propTypes = {
   setData: PropTypes.func
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavableSinglePageForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavablePage));
 
-export { RoutedSavableSinglePageForm };
+export { RoutedSavablePage };

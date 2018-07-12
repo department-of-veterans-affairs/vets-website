@@ -1,21 +1,23 @@
 import React from 'react';
+import Raven from 'raven-js';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import SubmitButtons from './SubmitButtons';
-import PrivacyAgreement from 'us-forms-system/lib/js/components/PrivacyAgreement';
-import { isValidForm } from 'us-forms-system/lib/js/validation';
+import PrivacyAgreement from '../components/PrivacyAgreement';
+import { isValidForm } from '../validation';
 import {
   createPageListByChapter,
   expandArrayPages,
   getActivePages,
-} from 'us-forms-system/lib/js/helpers';
+  recordEvent
+} from '../helpers';
 import {
   setPrivacyAgreement,
   setSubmission,
   submitForm
-} from 'us-forms-system/lib/js/actions';
+} from '../actions';
 
 class SubmitController extends React.Component {
 
@@ -45,16 +47,33 @@ class SubmitController extends React.Component {
     const {
       form,
       formConfig,
-      pagesByChapter
+      pagesByChapter,
+      privacyAgreementAccepted,
+      trackingPrefix
     } = this.props;
 
     const {
-      isValid
+      isValid,
+      errors
     } = isValidForm(form, pagesByChapter);
 
     if (isValid) {
       this.props.submitForm(formConfig, form);
     } else {
+      // validation errors in this situation are not visible, so we’d
+      // like to know if they’re common
+      if (privacyAgreementAccepted) {
+        recordEvent({
+          event: `${trackingPrefix}-validation-failed`,
+        });
+        Raven.captureMessage('Validation issue not displayed', {
+          extra: {
+            errors,
+            prefix: trackingPrefix
+          }
+        });
+        this.props.setSubmission('status', 'validationError');
+      }
       this.props.setSubmission('hasAttemptedSubmit', true);
     }
   }

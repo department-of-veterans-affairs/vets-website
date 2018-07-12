@@ -3,14 +3,14 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { RoutedSavableSinglePageForm } from '../../../0993/containers/RoutedSavableSinglePageForm';
+import { RoutedSavablePage } from '../../save-in-progress/RoutedSavablePage';
 
-describe('Schemaform <RoutedSavableSinglePageForm>', () => {
+describe('Schemaform <RoutedSavablePage>', () => {
   const location = {
     pathname: '/testing/0'
   };
 
-  xit('should include SaveLink and SaveStatus', () => {
+  it('should include SaveLink and SaveStatus', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
@@ -44,11 +44,9 @@ describe('Schemaform <RoutedSavableSinglePageForm>', () => {
       }
     };
 
-
     const tree = shallow(
-      <RoutedSavableSinglePageForm form={form} route={route} user={user} location={location}/>
-    ).find('SinglePageForm').dive();
-
+      <RoutedSavablePage form={form} route={route} user={user} location={location}/>
+    ).find('FormPage').dive();
 
     expect(tree.find('SaveStatus').exists()).to.be.true;
     expect(tree.find('SaveFormLink').exists()).to.be.true;
@@ -91,7 +89,7 @@ describe('Schemaform <RoutedSavableSinglePageForm>', () => {
     const setData = sinon.spy();
 
     const tree = shallow(
-      <RoutedSavableSinglePageForm setData={setData} form={form} route={route} user={user} location={location} autoSave={autosave}/>
+      <RoutedSavablePage setData={setData} form={form} route={route} user={user} location={location} autoSave={autosave}/>
     );
     tree.instance().debouncedAutoSave = autosave;
 

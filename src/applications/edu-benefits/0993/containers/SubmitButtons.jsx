@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import ProgressButton from 'us-forms-system/lib/js/components/ProgressButton';
-import { timeFromNow } from 'us-forms-system/lib/js/utilities/date';
+import ProgressButton from '../components/ProgressButton';
+import { timeFromNow } from '../utilities/date';
 
 export default function SubmitButtons(props) {
   const {
@@ -12,11 +12,9 @@ export default function SubmitButtons(props) {
   } = props;
   let submitButton;
   let submitMessage;
-
   if (submission.status === false) {
     submitButton = (
       <ProgressButton
-        submitButton
         onButtonClick={onSubmit}
         buttonText="Submit Application"
         buttonClass="usa-button-primary"/>
@@ -68,6 +66,21 @@ export default function SubmitButtons(props) {
         </div>
       </div>
     );
+  } else if (submission.status === 'validationError') {
+    submitButton = (
+      <ProgressButton
+        onButtonClick={onSubmit}
+        buttonText="Submit Application"
+        buttonClass="usa-button-primary"/>
+    );
+    submitMessage = (
+      <div className="usa-alert usa-alert-error schemaform-failure-alert">
+        <div className="usa-alert-body">
+          <p className="schemaform-warning-header"><strong>We’re sorry. Some information in your application is missing or not valid.</strong></p>
+          <p>Please check each section of your application to make sure you’ve filled out all the information that is required.</p>
+        </div>
+      </div>
+    );
   } else {
     if (renderErrorMessage) {
       submitMessage = renderErrorMessage();
@@ -110,7 +123,7 @@ export default function SubmitButtons(props) {
   }
   return (
     <div>
-      <div className="row form-progress-buttons schemaform-buttons">
+      <div className="row form-progress-buttons">
         <div className="small-6 medium-5 columns">
           <ProgressButton
             onButtonClick={onBack}
