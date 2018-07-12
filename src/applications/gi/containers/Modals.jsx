@@ -116,8 +116,8 @@ export class Modals extends React.Component {
               target="_blank">Click here for FAQs about the Yellow Ribbon Program..</a>
           </p>
           <p>
-            Only Veterans entitled to the maximum benefit rate (based on service requirements) or
-            their designated transferees can receive this funding. Active duty Servicemembers and
+            Veterans and Fry Scholarship and Purple Heart recipients are entitled to the maximum benefit
+            rate or their designated transferees can receive this funding. Active duty Servicemembers and
             their spouses aren’t eligible for this program (child transferees of active duty
             Servicemembers may be eligible if the servicemember is qualified at the 100% rate).
             This information will be updated quarterly.
@@ -329,7 +329,7 @@ export class Modals extends React.Component {
               target="_blank">this page.</a>
           </p>
           <p>
-            Only Veterans entitled to the maximum benefit rate or their designated transferees can receive this funding. Active duty Servicemembers and their spouses are not eligible for this program (child transferees of active duty Servicemembers may be eligible if the servicemember is qualified at the 100% rate). This information will be updated quarterly.
+            Veterans and Fry Scholarship and Purple Heart recipients are entitled to the maximum benefit rate or their designated transferees can receive this funding. Active duty Servicemembers and their spouses are not eligible for this program (child transferees of active duty Servicemembers may be eligible if the servicemember is qualified at the 100% rate). This information will be updated quarterly.
           </p>
         </Modal>
 
