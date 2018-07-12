@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import { formLinks, formTitles } from '../../../applications/user-profile/helpers';
+import { formLinks, formTitles } from '../../../applications/personalization/profile360/util/helpers';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
