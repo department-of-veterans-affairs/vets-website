@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-const optOutForms = new Set(['22-0993']);
 
 export default function createOptOutApplicationStatus(store) {
   const root = document.getElementById('react-applicationStatus');
@@ -12,7 +11,6 @@ export default function createOptOutApplicationStatus(store) {
       ReactDOM.render((
         <Provider store={store}>
           <ApplicationStatus
-            formIds={optOutForms}
             formType="education"
             showApplyButton={root.getAttribute('data-hide-apply-button') === null}
             stayAfterDelete
