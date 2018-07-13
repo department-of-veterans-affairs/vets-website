@@ -358,12 +358,7 @@ const getDerivedValues = createSelector(
     const tuitionFeesTotal = tuitionFeesTerm1 + tuitionFeesTerm2 + tuitionFeesTerm3;
 
 
-    let yellowRibbonAmount;
-    if (__BUILDTYPE__ !== 'production') {
-      yellowRibbonAmount = inputs.yellowRibbonRecipient === 'yes' ? +inputs.yellowRibbonAmount : 0;
-    } else {
-      yellowRibbonAmount = +inputs.yellowRibbonAmount;
-    }
+    const yellowRibbonAmount = inputs.yellowRibbonRecipient === 'yes' ? +inputs.yellowRibbonAmount : 0;
 
     // Calculate Yellow Ribbon for Term #1 - getYrBenTerm1
     const shouldHaveNoYrBenTerm1 =
@@ -457,20 +452,16 @@ const getDerivedValues = createSelector(
       inputs.beneficiaryLocationBah !== null;
     // if beneficiary has indicated they are using the grandfathered rate, use it when available;
     const useGrandfatheredBeneficiaryLocationRate = inputs.giBillBenefit === 'yes';
-    if (__BUILDTYPE__ !== 'production') {
-      if (useBeneficiaryLocationRate) {
-        // sometimes there's no grandfathered rate for a zip code
-        bah = useGrandfatheredBeneficiaryLocationRate && inputs.beneficiaryLocationGrandfatheredBah ?
-          inputs.beneficiaryLocationGrandfatheredBah :
-          inputs.beneficiaryLocationBah;
-      } else {
-        // sometimes there's no grandfathered rate for a zip code
-        bah = useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered ?
-          institution.bahGrandfathered :
-          institution.bah;
-      }
+    if (useBeneficiaryLocationRate) {
+      // sometimes there's no grandfathered rate for a zip code
+      bah = useGrandfatheredBeneficiaryLocationRate && inputs.beneficiaryLocationGrandfatheredBah ?
+        inputs.beneficiaryLocationGrandfatheredBah :
+        inputs.beneficiaryLocationBah;
     } else {
-      bah = institution.bah;
+      // sometimes there's no grandfathered rate for a zip code
+      bah = useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered ?
+        institution.bahGrandfathered :
+        institution.bah;
     }
 
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1

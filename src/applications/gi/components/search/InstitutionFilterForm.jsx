@@ -113,21 +113,21 @@ class InstitutionFilterForm extends React.Component {
           name="eightKeysToVeteranSuccess"
           label="8 Keys to Vet Success"
           onChange={this.handleCheckboxChange}/>
-        {__BUILDTYPE__ !== 'production' && <Checkbox
+        <Checkbox
           checked={filters.stemOffered}
           name="stemOffered"
           label="STEM (Science, Technology, Engineering, and Math)"
-          onChange={this.handleCheckboxChange}/>}
-        {__BUILDTYPE__ !== 'production' && <Checkbox
+          onChange={this.handleCheckboxChange}/>
+        <Checkbox
           checked={filters.priorityEnrollment}
           name="priorityEnrollment"
           label="Priority Enrollment"
-          onChange={this.handleCheckboxChange}/>}
-        {__BUILDTYPE__ !== 'production' && <Checkbox
+          onChange={this.handleCheckboxChange}/>
+        <Checkbox
           checked={filters.independentStudy}
           name="independentStudy"
           label="Independent Study"
-          onChange={this.handleCheckboxChange}/>}
+          onChange={this.handleCheckboxChange}/>
       </div>
     );
   }
