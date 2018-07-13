@@ -1,6 +1,6 @@
 import { createRoutesWithSaveInProgress } from '../../../platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
-import OptOutApp from './containers/Form0993App.jsx';
+import Form0993App from './containers/Form0993App.jsx';
 import RoutedSavableSinglePageForm from './containers/RoutedSavableSinglePageForm';
 
 const filteredRoutes = new Set(['introduction', 'review-and-submit']);
@@ -16,7 +16,7 @@ childRoutes[0].formConfig = formConfig;
 
 const route = {
   path: '/',
-  component: OptOutApp,
+  component: Form0993App,
   indexRoute: { onEnter: (nextState, replace) => replace('/claimant-information') },
   childRoutes
 };
