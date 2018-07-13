@@ -104,7 +104,7 @@ export function validateDisability(disability) {
 }
 
 
-export function transformDisabilities(disabilities) {
+export function transformDisabilities(disabilities = []) {
   return disabilities.map(disability => {
     const newDisability = set('disabilityActionType', 'INCREASE', disability);
     // Mark disabilities for which the veteran cannot claim an increase
