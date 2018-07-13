@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
+import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
+
+import GetFormHelp from '../../components/GetFormHelp';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -50,21 +53,10 @@ export class ConfirmationPage extends React.Component {
             </li>
           </ul>}
         </div>
-        <div className="confirmation-guidance-container">
-          <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message help-talk">For help filling out this form, please call the Education Call Center:</p>
-          <p className="help-phone-number">
-            <a className="help-phone-number-link" href="tel:+1-888-442-4551">1-888-442-4551</a><br/>
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET)<br/>
-            <a className="help-phone-number-link" href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask">Submit a question to Education Service</a>
-          </p>
-          <p className="help-talk">To report a problem with this form,<br/>
-          please call the Vets.gov Technical Help Desk:</p>
-          <p className="help-phone-number">
-            <a className="help-phone-number-link" href="tel:+1-855-574-7286">1-855-574-7286</a><br/>
-            TTY: <a className="help-phone-number-link" href="tel:+18008778339">1-800-877-8339</a><br/>
-            Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-          </p>
+        <div>
+          <AskVAQuestions>
+            <GetFormHelp/>
+          </AskVAQuestions>
         </div>
       </div>
     );
