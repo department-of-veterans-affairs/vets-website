@@ -34,6 +34,10 @@ Unless you opt out, we share basic information about your eligibility and benefi
 
 It makes it easy for schools to access information about your education benefits without your having to gather benefit information or fill out forms. Schools get all the information they need straight from VA.
 
+### Will opting out affect my benefits?
+
+No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits.
+
 
 ### How do I tell VA I don’t want my information shared?  
 
