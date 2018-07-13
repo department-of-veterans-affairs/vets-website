@@ -58,7 +58,7 @@ describe('selectors', () => {
       let result = selectors.selectIsVet360AvailableForUser(state);
       expect(result, 'returns true when on localhost so the local mock Vet360 will run').to.be.true;
 
-      global.document.location.hostname = 'working-vet360';
+      global.document.location.hostname = 'staging.vets.gov';
       result = selectors.selectIsVet360AvailableForUser(state);
       expect(result, 'returns true when the environment is not localhost but Vet360 is in the profile services array').to.be.true;
 
