@@ -1,3 +1,5 @@
+import { constantHandler } from '../../../platform/utilities/constants';
+
 export const PCIU_STATES = [
   { label: 'Alabama', value: 'AL' },
   { label: 'Alaska', value: 'AK' },
@@ -84,3 +86,11 @@ export const ADDRESS_TYPES = {
   mailingAddress: 'mailingAddress',
   forwardingAddress: 'forwardingAddress'
 };
+
+export const itfStatuses = new Proxy({
+  active: 'active',
+  expired: 'expired',
+  claimRecieved: 'claim_recieved',
+  duplicate: 'duplicate',
+  incomplete: 'incomplete'
+}, constantHandler);

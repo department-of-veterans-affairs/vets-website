@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -26,29 +25,6 @@ const scrollToTop = () => {
     smooth: true
   });
 };
-
-moment.updateLocale('en', {
-  meridiem: (hour) => {
-    if (hour < 12) {
-      return 'a.m.';
-    }
-    return 'p.m.';
-  },
-  monthsShort: [
-    'Jan.',
-    'Feb.',
-    'Mar.',
-    'Apr.',
-    'May',
-    'June',
-    'July',
-    'Aug.',
-    'Sept.',
-    'Oct.',
-    'Nov.',
-    'Dec.'
-  ]
-});
 
 /*
  * Primary component for a schema generated form app.

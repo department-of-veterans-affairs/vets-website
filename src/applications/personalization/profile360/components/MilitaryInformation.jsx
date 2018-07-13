@@ -1,6 +1,6 @@
 import React from 'react';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
-import moment from '../../../../platform/startup/moment-setup';
+import moment from 'moment';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
@@ -23,7 +23,7 @@ class MilitaryInformationContent extends React.Component {
     if (error || serviceHistory.length === 0) return <LoadFail information="military"/>;
 
     return (
-      <div>
+      <div data-field-name="serviceHistory">
         {serviceHistory.map((service, index) => {
           return (
             <div key={index}>
