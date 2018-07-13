@@ -18,6 +18,18 @@ export const DisabilityGate = ({ prefillStatus, disabilities = [], children }) =
     return children;
   }
 
+  if (prefillStatus === PREFILL_STATUSES.unfilled) {
+    return (
+      <div className="usa-grid" style={{ marginBottom: '2em' }}>
+        <AlertBox
+          isVisible
+          headline="Hmm..."
+          content="Looks like we couldn't find your disabilities right now. Unfortunately, that means you'll have to try again later."
+          status="error"/>
+      </div>
+    );
+  }
+
   // We now have a successful pre-fill; check that we have eligible disabilities
   const hasEligibleDisability = disabilities.reduce((hasEligible, disability) => hasEligible || !disability.ineligible, false);
   if (!hasEligibleDisability) {
