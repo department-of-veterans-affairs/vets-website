@@ -519,7 +519,7 @@ export const disabilityOption = ({ name, diagnosticCode, ratingPercentage }) => 
 
   return (
     <div>
-      {diagnosticCode && <h4>{getDisabilityName(name, diagnosticCode)}</h4>}
+      <h4>{getDisabilityName(name, diagnosticCode)}</h4>
       {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
