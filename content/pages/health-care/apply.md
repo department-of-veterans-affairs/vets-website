@@ -65,6 +65,11 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 Fill out an Application for Health Benefits (VA Form 10-10EZ). <br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
+<b>Note</b>: You or someone acting as your power of attorney must sign and date the form. And:
+
+If you’re using a power of attorney, you’ll need to submit a copy of the Power of Attorney form along with your application.
+If you sign with an "X," two people you know must witness your signature. They’ll also need to sign and print their names on the form.
+
 Send it here:
 
 <p class="va-address-block">
@@ -75,9 +80,9 @@ Atlanta, GA 30329<br>
 
 ##### In person
 
-Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br>
+Go to your nearest VA medical center or clinic. Bring a signed Application for Health Benefits (VA Form 10-10EZ) with you.<br>
 [Find a VA medical center or clinic near you](/facilities/).<br>
-[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
+
 
 Or get help through your state's Department of Veterans Affairs. <br>
 [Find your state’s Department of Veterans Affairs](https://www.va.gov/statedva.htm).
