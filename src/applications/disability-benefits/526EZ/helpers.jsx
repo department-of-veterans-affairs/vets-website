@@ -108,8 +108,9 @@ export function transformDisabilities(disabilities) {
   return disabilities.map(disability => {
     const newDisability = set('disabilityActionType', 'INCREASE', disability);
     // Mark disabilities for which the veteran cannot claim an increase
-    // We'll use this to mark the disability as disabled in the UI
-    if ([undefined, null, 100].includes(newDisability.rating)) {
+    // We'll use this to mark the disability as disabled in the UI and gate the form if necessary
+    // As far as we know, only disabilities without a rating are ineligible (but a rating of 0% is eligible)
+    if ([undefined, null].includes(newDisability.ratingPercentage)) {
       newDisability.ineligible = true;
     }
     return newDisability;
@@ -138,11 +139,6 @@ export function addPhoneEmailToCard(formData) {
 
 export function prefillTransformer(pages, formData, metadata) {
   const newFormData = set('disabilities', transformDisabilities(formData.disabilities), formData);
-  // If there are no disabilities we can claim increase on, gate the form
-  const eligibleDisabilitiesExist = !!newFormData.disabilities.filter(disability => !disability.ineligible).length;
-  if (!eligibleDisabilitiesExist) {
-    // TODO: Fire the redux action and short circuit on
-  }
   newFormData.disabilities.forEach(validateDisability);
   const withPhoneEmailCard = addPhoneEmailToCard(newFormData);
   return {
