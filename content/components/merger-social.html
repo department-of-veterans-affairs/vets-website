@@ -10,13 +10,10 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
 
   {% for group in social %}
 
-    {% comment %}
-      Only add <section> if there are heading titles.
-    {% endcomment %}
-
     {% if group.heading != empty %}
-      <section>
-        <p class="heading va-nav-linkslist-heading">{{ group.heading }}</p>
+      <div class='rail-heading'>
+        <h4>{{ group.heading }}</h4>
+      </div>
     {% endif %}
 
     {% if group.links.length > 0 %}
@@ -38,9 +35,5 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
     {% endif %}
 
   {% endfor %}
-
-  {% if group.heading != empty %}
-    </section>
-  {% endif %}
 
 </div>

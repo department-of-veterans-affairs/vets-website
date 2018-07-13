@@ -15,6 +15,12 @@ section.usa-grid {
   height:auto;
 }
 
+article {
+  &:last-of-type {
+    padding-bottom: 3em;
+  }
+}
+
 #mega-menu {
 
   border-top: 1px solid $color-white;
@@ -274,13 +280,16 @@ h3, h4 {
     }
   }
 
-  &:last-of-type {
-    padding-bottom: 3em;
-  }
-
 }
 
 .merger-r-rail {
+
+  border: 3px solid $color-grey-lightest;
+
+  .rail-heading {
+    padding: 1em;
+    background-color: $color-grey-lightest;
+  }
 
   &:last-child {
     margin-bottom: 3em !important;
@@ -288,10 +297,16 @@ h3, h4 {
 
   &:first-child {
     background-color: $color-primary-lightest;
+    padding: 1em;
+    border: none;
+
+    img {
+      margin-bottom: 1em;
+    }
   }
 
-  background-color: $color-grey-lightest;
-  padding: 1em;
+  //background-color: $color-grey-lightest;
+
   margin-bottom: 1.5em;
 
   .heading {
@@ -308,9 +323,17 @@ h3, h4 {
   }
 
   h4 {
+
+    margin-top:0;
+
     a{
-      text-decoration: underline;;
+      text-decoration: underline;
     }
+  }
+
+  .va-nav-linkslist-list {
+    padding: 1em;
+    background-color: $color-white;
   }
 
   .va-nav-linkslist-list li {

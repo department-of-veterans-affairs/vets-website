@@ -32,7 +32,7 @@ crosslinks:
       title: <b>National Center for PTSD</b>
       description: Learn how to recognize and manage PTSD symptoms, and listen to Veterans share their stories.
 contact:
-  - heading: Call us for help getting health benefits or services
+  - heading: Call us for help with accessing health benefits or services
     links:
     - url: 1-877-222-VETS (8387)
       title: <b>General Questions about Health Care Benefits</b>
@@ -53,7 +53,7 @@ contact:
     - url: Dial 711
       title: <b>Telecommunications Device for Veterans with Hearing Loss (TDD)</b>
 social:
-  - heading: Social Media
+  - heading: Stay up-to-date with health benefits
     links:
     - url: "https://twitter.com"
       label: Twitter
@@ -69,23 +69,19 @@ social:
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
       label: Email Directory
-mobile:
-  - heading: Mobile Apps
-    links:
-    - url: "https://mobile.va.gov/appstore"
-      label: Download apps to help manage your health
-      icon:  
 ---
 
 <p class="va-introtext">
 With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you've earned.
 </p>
 
-<h3 class="highlight">Content on This Page</h3>
+<h3>On This Page</h3>
 
-[Get VA Health Care Benefits](#get)<br>
-[Manage Your Veterans Health Care Benefits](#manage)<br>
-[More VA Health Care Information and Resources](#more)<br>
+<ul>
+  <li><a href="#get">Get VA Health Care Benefits</a></li>
+  <li><a href="#manage">Manage Your Veterans Health Care Benefits</a></li>
+  <li><a href="#more">More VA Health Care Information and Resources</a></li>
+</ul>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
@@ -116,9 +112,13 @@ With VA health care, you’re covered for regular checkups with your primary car
     });
 </script>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get VA Health Care Benefits</h2>
+  <h2>Get VA Health Care Benefits</h2>
 
   <div class="link">
     <a href="#"><b>About VA Health Benefits</b></a>
@@ -152,9 +152,13 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 </section>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Veterans Health Care Benefits</h2>
+  <h2>Manage Your Health Benefits</h2>
 
   <div class="link">
     <a href="#"><b>Refill and Track Your VA Prescriptions</b></a>
@@ -208,9 +212,13 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 </section>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More VA Health Care Information and Resources</h2>
+  <h2>More VA Health Care Information and Resources</h2>
 
   <div class="link">
     <a href="#"><b>About Your VA Copay and Health Care Costs</b></a>

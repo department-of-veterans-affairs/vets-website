@@ -14,6 +14,11 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
         <i class="icon-large fa fa-{{icon}}"></i>{{ title }}
       </h1>
       {{ contents }}
+
+      {% if crosslinks != empty %}
+        {% include "content/components/merger-crosslinks.html" %}
+      {% endif %}
+
     </article>
 
     <div class="usa-width-one-third">
@@ -26,16 +31,12 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
         {% include "content/components/merger-promo.html" %}
       {% endif %}
 
-      {% if crosslinks != empty %}
-        {% include "content/components/merger-crosslinks.html" %}
+      {% if social != empty %}
+        {% include "content/components/merger-social.html" %}
       {% endif %}
 
       {% if contact != empty %}
         {% include "content/components/merger-contact.html" %}
-      {% endif %}
-
-      {% if social != empty %}
-        {% include "content/components/merger-social.html" %}
       {% endif %}
 
       {% if mobile != empty %}
@@ -45,4 +46,10 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
     </div>
 
   </div>
+
+  <section id="homepage-hero">
+    <div class="usa-grid">
+      <img src="/img/homepage/veterans-blue.png" width=728 height=155/>
+    </div>
+  </section>
 </main>
