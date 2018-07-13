@@ -7,7 +7,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import { formTitles } from '../../../applications/user-profile/helpers';
+import { formTitles } from '../../../applications/personalization/profile360/util/helpers';
 import FormStartControls from './FormStartControls';
 
 const scroller = Scroll.scroller;

@@ -22,6 +22,7 @@ const INITIAL_STATE = {
   books: 0,
   yellowRibbonRecipient: 'no',
   yellowRibbonAmount: 0,
+  giBillBenefit: 'no',
   scholarships: 0,
   tuitionAssist: 0,
   enrolled: 'full',
@@ -64,35 +65,48 @@ export default function (state = INITIAL_STATE, action) {
       if (__BUILDTYPE__ !== 'production') {
 
         if (field === 'yellowRibbonDegreeLevel') {
-          const {
-            yellowRibbonPrograms
-          } = state;
+          if (value === 'customAmount') {
+            newState = {
+              ...newState,
+              yellowRibbonAmount: 0,
+              yellowRibbonDivisionOptions: [],
+              yellowRibbonDivision: '',
+              yellowRibbonProgramIndex: -1,
+              yellowRibbonMaxAmount: 0,
+              yellowRibbonMaxNumberOfStudents: 0
+            };
 
-          // make an array of unique values
-          const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
-            [...new Set(yellowRibbonPrograms
-              .filter(program => program.degreeLevel === value)
-              .map(program => program.divisionProfessionalSchool))] :
-            [];
+          } else {
+            const {
+              yellowRibbonPrograms
+            } = state;
 
-          const {
-            contributionAmount: yellowRibbonAmount,
-            numberOfStudents: yellowRibbonMaxNumberOfStudents,
-            index: yellowRibbonProgramIndex
-          } = yellowRibbonPrograms
-            .find(program =>
-              program.degreeLevel === value &&
-              program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0]);
+            // make an array of unique values
+            const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
+              [...new Set(yellowRibbonPrograms
+                .filter(program => program.degreeLevel === value)
+                .map(program => program.divisionProfessionalSchool))] :
+              [];
 
-          newState = {
-            ...newState,
-            yellowRibbonAmount,
-            yellowRibbonDivisionOptions,
-            yellowRibbonDivision: yellowRibbonDivisionOptions[0],
-            yellowRibbonProgramIndex,
-            yellowRibbonMaxAmount: yellowRibbonAmount,
-            yellowRibbonMaxNumberOfStudents
-          };
+            const {
+              contributionAmount: yellowRibbonAmount,
+              numberOfStudents: yellowRibbonMaxNumberOfStudents,
+              index: yellowRibbonProgramIndex
+            } = yellowRibbonPrograms
+              .find(program =>
+                program.degreeLevel === value &&
+                program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0]);
+
+            newState = {
+              ...newState,
+              yellowRibbonAmount,
+              yellowRibbonDivisionOptions,
+              yellowRibbonDivision: yellowRibbonDivisionOptions[0],
+              yellowRibbonProgramIndex,
+              yellowRibbonMaxAmount: yellowRibbonAmount,
+              yellowRibbonMaxNumberOfStudents
+            };
+          }
         }
 
         if (field === 'yellowRibbonDivision') {
@@ -134,6 +148,7 @@ export default function (state = INITIAL_STATE, action) {
         ...newState
       };
     }
+
     case FETCH_BAH_FAILED: {
       const {
         beneficiaryZIPFetched,
@@ -154,6 +169,7 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPError: errorMessage,
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: ''
       };
 
@@ -168,6 +184,7 @@ export default function (state = INITIAL_STATE, action) {
 
       const newState = {
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         beneficiaryZIPError: '',
         beneficiaryZIP: beneficiaryZIPFetched,
         beneficiaryZIPFetched,
@@ -184,6 +201,7 @@ export default function (state = INITIAL_STATE, action) {
       const { beneficiaryZIPFetched } = action;
       const {
         mhaRate: beneficiaryLocationBah,
+        mhaRateGrandfathered: beneficiaryLocationGrandfatheredBah,
         mhaName: housingAllowanceCity } = action.payload.data.attributes;
 
       // response mismatch - do nothing
@@ -195,6 +213,7 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah,
+        beneficiaryLocationGrandfatheredBah,
         housingAllowanceCity
       };
 
@@ -219,6 +238,7 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPError,
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: ''
       };
 
@@ -275,6 +295,7 @@ export default function (state = INITIAL_STATE, action) {
         ...INITIAL_STATE,
         type,
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         tuitionInState: tuitionInState || 0,
         tuitionOutOfState: tuitionOutOfState || 0,
         tuitionFees: tuitionInState || 0,

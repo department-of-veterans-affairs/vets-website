@@ -16,7 +16,7 @@ majorlinks:
       title: Eligibility
       description: Find out if you can get VA health care benefits.
     - url: /health-care/apply/
-      title: Application Process
+      title: How to Apply 
       description: Apply online now, or find out how to apply in person, by phone, or by mail.
     - url: /health-care/family-caregiver-health-benefits/
       title: Family and Caregiver Health Benefits

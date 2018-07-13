@@ -87,6 +87,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: 'No rates for this zip code found. Try another zip code',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: ''
       };
 
@@ -112,6 +113,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: 'Something went wrong. Try again',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: ''
       };
 
@@ -161,6 +163,7 @@ describe('calculator reducer', () => {
         beneficiaryZIP: '88888',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: 'Loading...'
       };
 
@@ -198,6 +201,7 @@ describe('calculator reducer', () => {
         beneficiaryZIP: '88888',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: 5000,
+        beneficiaryLocationGrandfatheredBah: undefined,
         housingAllowanceCity: 'Los Angeles, CA'
       };
 
@@ -212,6 +216,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: 'Loading...'
       };
 
@@ -253,6 +258,7 @@ describe('calculator reducer', () => {
         beneficiaryZIP: '1111',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: ''
       };
 
@@ -280,6 +286,7 @@ describe('calculator reducer', () => {
         beneficiaryZIP: '1dd',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: ''
       };
 
@@ -307,6 +314,7 @@ describe('calculator reducer', () => {
         beneficiaryZIP: '1111111',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         housingAllowanceCity: ''
       };
 

@@ -1,22 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import PropTypes from 'prop-types';
 
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 
 import {
   selectVet360SuccessfulTransactions,
-  selectVet360FailedTransactions
+  selectVet360FailedTransactions,
+  selectMostRecentSuccessfulTransaction,
+  selectMostRecentErroredTransaction
 } from '../selectors';
 
 import {
   clearTransaction
 } from '../actions';
 
+import Vet360TransactionSuccessBanner from '../components/Vet360TransactionSuccessBanner';
 import Vet360TransactionErrorBanner from '../components/Vet360TransactionErrorBanner';
 
 class Vet360TransactionReporter extends React.Component {
+  static propTypes = {
+    clearTransaction: PropTypes.func.isRequired,
+    mostRecentSuccessfulTransaction: PropTypes.object,
+    mostRecentErroredTransaction: PropTypes.object,
+    successfulTransactions: PropTypes.array.isRequired,
+    erroredTransactions: PropTypes.array.isRequired
+  };
+
   componentDidUpdate(prevProps) {
     const newMessageVisible = (
       prevProps.erroredTransactions.length < this.props.erroredTransactions.length ||
@@ -26,32 +36,31 @@ class Vet360TransactionReporter extends React.Component {
     if (newMessageVisible) scrollToTop();
   }
 
+  clearAllSuccessfulTransactions = () => {
+    this.props.successfulTransactions.forEach(this.props.clearTransaction);
+  }
+
+  clearAllErroredTransactions = () => {
+    this.props.erroredTransactions.forEach(this.props.clearTransaction);
+  }
+
   render() {
     const {
-      successfulTransactions,
-      erroredTransactions
+      mostRecentSuccessfulTransaction,
+      mostRecentErroredTransaction
     } = this.props;
 
     return (
       <div className="vet360-transaction-reporter">
-        {successfulTransactions.map((transaction) => {
-          return (
-            <AlertBox
-              key={transaction.data.attributes.transactionId}
-              isVisible
-              status="success"
-              onCloseAlert={this.props.clearTransaction.bind(null, transaction)}
-              content={<h4>We saved your updated information.</h4>}/>
-          );
-        })}
-        {erroredTransactions.map((transaction) => {
-          return (
-            <Vet360TransactionErrorBanner
-              key={transaction.data.attributes.transactionId}
-              transaction={transaction}
-              clearTransaction={this.props.clearTransaction.bind(null, transaction)}/>
-          );
-        })}
+        {mostRecentSuccessfulTransaction && (
+          <Vet360TransactionSuccessBanner
+            clearTransaction={this.clearAllSuccessfulTransactions}/>
+        )}
+        {mostRecentErroredTransaction && (
+          <Vet360TransactionErrorBanner
+            transaction={mostRecentErroredTransaction}
+            clearTransaction={this.clearAllErroredTransactions}/>
+        )}
       </div>
     );
   }
@@ -59,6 +68,8 @@ class Vet360TransactionReporter extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    mostRecentSuccessfulTransaction: selectMostRecentSuccessfulTransaction(state),
+    mostRecentErroredTransaction: selectMostRecentErroredTransaction(state),
     successfulTransactions: selectVet360SuccessfulTransactions(state),
     erroredTransactions: selectVet360FailedTransactions(state)
   };

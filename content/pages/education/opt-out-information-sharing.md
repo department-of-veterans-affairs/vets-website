@@ -7,7 +7,12 @@ concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18 
 template: detail-page
 order: 5 	
-
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
+    description: Find the right VA education benefits for you, and apply to start getting help paying tuition. We can also help you find the right school or training program.
 ---
 
 
@@ -18,6 +23,7 @@ The Harry W. Colmery Veterans Educational Assistance Act (also called the “For
 You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
 
 <a class="usa-button-primary va-button-primary" href="/education/opt-out-information-sharing/opt-out-form-0993/">Opt Out</a>
+<div id="react-applicationStatus" class="static-page-widget"></div>
   
 ### Will opting out affect my education benefits?
 

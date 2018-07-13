@@ -18,7 +18,7 @@
     "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --retries 3",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
-    "nightwatch-visual": "nightwatch test/visual-regression/index.js -c config/nightwatch.js",
+    "nightwatch-visual": "nightwatch src/platform/testing/visual-regression/index.js -c config/nightwatch.js",
     "postinstall": "npm rebuild node-sass",
     "reset:env": "./script/reset-environment.sh",
     "test": "npm run test:unit && npm run test:e2e",
@@ -40,6 +40,7 @@
     "test:unit:rx": "BABEL_ENV=test mocha test/helper.js --opts src/platform/testing/unit/mocha.opts --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:gi": "BABEL_ENV=test mocha test/helper.js --opts src/platform/testing/unit/mocha.opts --recursive 'test/gibct/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'test/login/**/*.unit.spec.js?(x)' ",
+    "test:unit:profile": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/personalization/profile360/tests/**/*.unit.spec.js?(x)' ",
     "test:unit:db": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'test/disability-benefits/**/*.unit.spec.js?(x)' ",
     "test:watch": "node script/watch.js",
     "test:visual": "./script/run-nightwatch.sh --visual",
@@ -209,7 +210,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^0.8.0",
+    "@department-of-veterans-affairs/formation": "^1.2.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
@@ -230,7 +231,7 @@
     "reselect": "^2.5.4",
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
-    "us-forms-system": "https://github.com/usds/us-forms-system.git#8cb4fa8460ec4bf3405d5b45e6b1f54ae6bdc09f",
+    "us-forms-system": "https://github.com/usds/us-forms-system.git#84887dc7cb0ccee2ae2c8156b5664697c2850b1d",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae6a9b1c403a3c55a3c455424eacfa6d5b4669ef",
     "webpack-bundle-analyzer": "^2.11.1"
   }

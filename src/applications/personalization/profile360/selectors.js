@@ -24,7 +24,7 @@ export function selectVet360Transaction(state, fieldName) {
     vet360: {
       transactions,
       fieldTransactionMap: {
-        [fieldName]: transactionRequest
+        [fieldName]: transactionRequest = null
       }
     }
   } = state;
@@ -47,6 +47,40 @@ export function selectVet360SuccessfulTransactions(state) {
 
 export function selectVet360FailedTransactions(state) {
   return state.vet360.transactions.filter(isFailedTransaction);
+}
+
+export function selectMostRecentSuccessfulTransaction(state) {
+  const {
+    vet360: {
+      transactions,
+      metadata: {
+        mostRecentSuccessfulTransactionId
+      }
+    }
+  } = state;
+
+  let transaction = null;
+  if (mostRecentSuccessfulTransactionId) {
+    transaction = transactions.find(t => t.data.attributes.transactionId === mostRecentSuccessfulTransactionId);
+  }
+  return transaction;
+}
+
+export function selectMostRecentErroredTransaction(state) {
+  const {
+    vet360: {
+      transactions,
+      metadata: {
+        mostRecentErroredTransactionId
+      }
+    }
+  } = state;
+
+  let transaction = null;
+  if (mostRecentErroredTransactionId) {
+    transaction = transactions.find(t => t.data.attributes.transactionId === mostRecentErroredTransactionId);
+  }
+  return transaction;
 }
 
 export function selectVet360PendingCategoryTransactions(state, type) {

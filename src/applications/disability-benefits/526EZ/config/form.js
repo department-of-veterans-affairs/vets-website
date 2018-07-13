@@ -17,8 +17,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   uiSchema as primaryAddressUiSchema,
-  primaryAddressSchema
+  schema as primaryAddressSchema
 } from '../pages/primaryAddress';
+
+import treatmentAddressUiSchema from '../pages/treatmentAddress';
 
 import {
   uiSchema as paymentInfoUiSchema,
@@ -52,7 +54,8 @@ import {
   noFDCWarning,
   queryForFacilities,
   getEvidenceTypesDescription,
-  veteranInfoDescription
+  veteranInfoDescription,
+  editNote
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -76,12 +79,12 @@ const {
   date,
   fullName,
   phone,
-  // files
   dateRange,
   dateRangeFromRequired,
   dateRangeAllRequired,
   disabilities,
   specialIssues,
+  vaTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -98,7 +101,7 @@ const treatments = ((treatmentsCommonDef) => {
       // TODO: use standard required property once treatmentCenterType added
       // back in schema (because it's required)
       required: ['treatmentCenterName'],
-      properties: _.omit(['treatmentCenterAddress', 'treatmentCenterType'], items.properties)
+      properties: _.omit(['treatmentCenterType'], items.properties)
     }
   };
 
@@ -127,6 +130,7 @@ const formConfig = {
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address,
+    vaTreatmentCenterAddress,
     date,
     fullName,
     phone,
@@ -146,7 +150,7 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
-          description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
+          description: 'This is the personal information we have on file for you.',
           path: 'veteran-information',
           uiSchema: {
             'ui:description': veteranInfoDescription
@@ -159,7 +163,7 @@ const formConfig = {
         primaryAddress: {
           title: 'Address information',
           path: 'veteran-details/address-information',
-          description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
+          description: 'This is the contact information we have on file for you. We’ll send any important information about your disability claim to the address listed here. Any updates you make here to your contact information will only apply to this application.',
           uiSchema: primaryAddressUiSchema,
           schema: primaryAddressSchema
         },
@@ -198,12 +202,19 @@ const formConfig = {
                   }
                 }
               }
+            },
+            'view:militaryHistoryNote': {
+              'ui:description': editNote('service history')
             }
           },
           schema: {
             type: 'object',
             properties: {
-              servicePeriods: serviceInformation.properties.servicePeriods
+              servicePeriods: serviceInformation.properties.servicePeriods,
+              'view:militaryHistoryNote': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         },
@@ -278,12 +289,7 @@ const formConfig = {
       }
     },
     ratedDisabilities: {
-      title: (isReview) => {
-        if (isReview) {
-          return 'Rated Disabilities';
-        }
-        return 'Your Rated Disabilities';
-      },
+      title: 'Rated Disabilities',
       pages: {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',
@@ -464,9 +470,7 @@ const formConfig = {
                       'Date of last treatment (This date doesn’t have to be exact.)',
                       'Date of last treatment must be after date of first treatment'
                     ),
-                    // TODO: Put these back as hidden in the UI once typeahead fills this out
-                    // treatmentCenterType: {},
-                    // treatmentCenterAddress: {}
+                    treatmentCenterAddress: treatmentAddressUiSchema
                   }
                 }
               }

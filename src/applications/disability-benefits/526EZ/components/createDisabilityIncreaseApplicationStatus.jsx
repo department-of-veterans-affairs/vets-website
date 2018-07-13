@@ -20,9 +20,10 @@ export default function createDisabilityIncreaseApplicationStatus(store) {
             stayAfterDelete
             applyRender={() => (
               <div itemScope itemType="http://schema.org/Question">
-                <h3 itemProp="name">Ready to apply?</h3>
+                <h3 itemProp="name">How do I apply?</h3>
                 <div itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
                   <div itemProp="text">
+                    <p>You can apply online right now.</p>
                     <DisabilityWizard/>
                   </div>
                 </div>

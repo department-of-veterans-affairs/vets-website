@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { benefitsServices, vetCenterServices } from '../config';
+
+import {
+  healthServices,
+  benefitsServices,
+  vetCenterServices
+} from '../config';
+
 import FacilityTypeDropdown from './FacilityTypeDropdown';
 
 class SearchControls extends Component {
@@ -39,7 +45,7 @@ class SearchControls extends Component {
 
   renderFacilityTypeDropdown = () => {
     return (
-      <div className="columns usa-width-one-fourth medium-3">
+      <div className="columns medium-3">
         <FacilityTypeDropdown
           facilityType={this.props.currentQuery.facilityType}
           onChange={this.handleFacilityTypeChange}/>
@@ -49,32 +55,38 @@ class SearchControls extends Component {
 
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
-    const disabled = !['benefits', 'vet_center'].includes(facilityType);
+    const disabled = !['health', 'benefits', 'vet_center'].includes(facilityType);
     let services;
 
     // Determine what service types to display for the facility type.
     switch (facilityType) {
+      case 'health':
+        services = healthServices;
+        break;
       case 'benefits':
-        services = Object.keys(benefitsServices);
+        services = benefitsServices;
         break;
       case 'vet_center':
-        services = ['All', ...vetCenterServices];
+        services = vetCenterServices.reduce((result, service) => {
+          result[service] = service; // eslint-disable-line no-param-reassign
+          return result;
+        }, { All: 'Show all facilities' });
         break;
       default:
-        services = [];
+        services = {};
     }
 
     // Create option elements for each service type.
-    const options = services.map((service) => (
+    const options = Object.keys(services).map((service) => (
       <option key={service} value={service}>
-        {benefitsServices[service] || service}
+        {services[service]}
       </option>
     ));
 
     return (
-      <div className="columns usa-width-one-fourth medium-3">
+      <div className="columns medium-3">
         <label htmlFor="service-type-dropdown">
-          Select Service Type
+          Filter by service
         </label>
         <select
           id="service-type-dropdown"
@@ -102,8 +114,8 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
-        <form onSubmit={this.handleSubmit}>
-          <div className="columns usa-width-one-third medium-4">
+        <form className="row" onSubmit={this.handleSubmit}>
+          <div className="columns medium-4">
             <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
               Enter Street, City, State or Zip
             </label>
@@ -117,7 +129,7 @@ class SearchControls extends Component {
           </div>
           {this.renderFacilityTypeDropdown()}
           {this.renderServiceTypeDropdown()}
-          <div className="columns usa-width-one-sixth medium-2">
+          <div className="columns medium-2">
             <input type="submit" value="Search"/>
           </div>
         </form>
