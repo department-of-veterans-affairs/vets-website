@@ -161,17 +161,17 @@ describe('526 helpers', () => {
     });
   });
   describe('getDisabilityName', () => {
-    it('should return Unknown Condition with null code or name', () => {
-      expect(getDisabilityName(null, null)).to.equal('Unknown Condition');
+    it('should return string with each word capitalized when name supplied', () => {
+      expect(getDisabilityName('some disability - some detail')).to.equal('Some Disability - Some Detail');
     });
-    it('should return Inter Capitalized Name when name supplied', () => {
-      expect(getDisabilityName('some disability - some detail', 1234)).to.equal('Some Disability - Some Detail');
+    it('should return Unknown Condition with undefined name', () => {
+      expect(getDisabilityName()).to.equal('Unknown Condition');
     });
-    it('should return Unknown Condition when no name and invalid code supplied', () => {
-      expect(getDisabilityName(null, 1010101010)).to.equal('Unknown Condition');
+    it('should return Unknown Condition when input is empty string', () => {
+      expect(getDisabilityName('')).to.equal('Unknown Condition');
     });
-    it('should return fallback name when no name and valid code supplied', () => {
-      expect(getDisabilityName(null, 249481)).to.equal('Dental and Oral - Musculoskeletal');
+    it('should return Unknown Condition when name is not a string', () => {
+      expect(getDisabilityName(249481)).to.equal('Unknown Condition');
     });
   });
   describe('get4142Selection', () => {
