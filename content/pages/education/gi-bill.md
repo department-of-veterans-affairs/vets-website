@@ -28,7 +28,7 @@ majorlinks:
     - url: /education/gi-bill/higher-learning/
       title: Undergraduate and Graduate Degrees from Institutions of Higher Learning 
       description: If you’re looking to earn an undergraduate or graduate degree, find out if you can get VA benefits to help pay for courses.
-  - heading: Other GI Bill Programs You May Qualify for
+  - heading: More GI Bill Benefits and Information
     links:
     - url: /education/gi-bill/montgomery-active-duty/
       title: Montgomery GI Bill Active Duty (MGIB-AD)
@@ -53,6 +53,10 @@ majorlinks:
     - url: /education/gi-bill/tutorial-assistance/
       title: Tutorial Assistance
       description: If you’re using VA educational benefits and you're struggling with the coursework, find out if you can get help paying for a tutor.
+    - url: /education/opt-out-information-sharing/
+      title: Opt Out of Sharing VA Education Benefits Information
+      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing. 
+
 ---
 
 <div class="va-introtext">
