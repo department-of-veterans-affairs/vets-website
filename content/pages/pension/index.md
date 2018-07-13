@@ -13,21 +13,21 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: https://vets.gov/pension/survivors-pension/
-      title: Survivor's Pension
-      description:
-    - url: https://benefits.va.gov/insurance/bfcs.asp
-      title: Beneficiary Financial Counseling
-      description:
-    - url: https://benefits.va.gov/fiduciary/
-      title: Fudiciary Services
-      description:
-    - url: https://vets.gov/social-work
-      title: Social Work Services
-      description:
-    - url: https://www.archives.gov/veterans
-      title: National Archives
-      description:
+    - url: vets.gov/health-care
+      title: VA Health Care
+      description: Find out how to apply for and manage your VA health care benefits.
+    - url: https://www.vets.gov/housing-assistance/adaptive-housing-grants/
+      title: Disability Housing Grants for Veterans
+      description: Learn how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
+    - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
+      title: Vocational Rehabilitation and Employment
+      description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
+    - url: va.gov/families-caregivers
+      title: Family and Caregiver Health Benefits
+      description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
+    - url: va.gov/life-insurance
+      title: VA Life Insurance Benefits
+      description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
 contact:
   - heading: Call us for help accessing health benefits or services
     links:
@@ -82,32 +82,17 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
   <div class="link">
     <a href="https://www.vets.gov/pension/application/527EZ/introduction"><b>Apply for a Veterans Pension Online (VA Form 21P-527EZ)</b></a>
-    <p>Submit your Veterans pension application online now.</p>
+    <p>Complete your Veterans pension application online now.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Survivor and Dependent Compensation (DIC)</b></a>
-    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
+    <a href="vets.gov/pension/aid-attendance-housebound/"><b>VA Aid and Attendance or Housebound Allowance Benefits</b></a>
+    <p>If you need help with daily activities, or you're housebound, find out how to apply for extra VA pension benefits.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Headstones, Markers and Medallions</b></a>
-    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/honor/flags-and-memorial-certificates/"><b>Burial Flags</b></a>
-    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/honor/flags-and-memorial-certificates/"><b>Presidential Memorial Certificates</b></a>
-    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/bereavement-counseling/"><b>Headstones, Markers and Medallions</b></a>
-    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
+    <a href="vets.gov/pension/survivors-pension/"><b>Survivors Pension</b></a>
+    <p>Find out if you’re eligible and how to apply for a survivors pension as a surviving spouse or child of a deceased Veteran with wartime service.</p>
   </div>
 
 </section>
@@ -117,33 +102,28 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2 class='highlight'>Manage Your VA Pension Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/burial-planning/"><b>Plan a Burial for a Family Member</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Check Your VA Claim Status</b></a>
+    <p>Check the status of an open VA disability pay (compensation) and pension claim. If you're a surviving spouse or parent, you can view Dependency and Indemnity Compensation (DIC) claim status.</p>
     </div>
 
   <div class="link">
-    <a href="https://www.cem.va.gov/cem/burial_benefits/need.asp"><b>Schedule a Burial in a VA National Cemetery</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
+    <p>Check the status of your VA disability, pension, and education payments. You can also see certain survivor benefits.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.cem.va.gov/recmed_records.asp"><b>Replace Medals and Awards</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="vets.gov/disability-benefits/claims-appeal/"><b>File a Notice of Disagreement to Appeal a VA Decision</b></a>
+    <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
+  </div>
+
+  <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status">
+    <a href="#"><b>Check Your VA Appeal Status</b></a>
+    <p>Check the status of an open VA appeal.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Find Historical Military Records</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://vets.gov/facilities"><b>Find a Cemetery</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://m.va.gov/gravelocator/index.cfm"><b>Find a Gravesite</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <p>Find out how to change your VA disability direct deposit information online.</p>
   </div>
 
 </section>
@@ -153,23 +133,34 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2 class='highlight'>More Pension Information and Resources</h2>
 
   <div class="link">
-    <a href="https://cem.va.gov/cem/dailyburialschedule/"><b>Daily Burial Schedule</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="vets.gov/pension/rates/"><b>VA Pension Rates for Veterans</b></a>
+    <p>View VA pension rates for Veterans, including aid and attendance and housebound rates.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.cem.va.gov/cem/faq.asp"><b>Frequently Asked Questions</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="vets.gov/pension/survivors-pension/rates/"><b>VA Survivors Pension Benefits Rates</b></a>
+    <p>View Survivors pension rates for surviving spouses and children.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/what-to-expect-at-a-funeral/"><b>What to Expect at a Funeral</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="https://www.benefits.va.gov/PENSION/current_protected_pension_rate_tables.asp"><b>Protected Pension Rates</b></a>
+    <p>View protected pension rates for section 306 and old law VA disability and death pension benefits.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.cem.va.gov/cem/legacy/index.asp"><b>Veterans Legacy Program</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="benefits.va.gov/compensation/claimexam.asp"><b>VA Compensation and Pension Exam (C&P Exam)</b></a>
+    <p>Find out how to schedule your C&P exam and what to expect during and after the appointment.</p>
   </div>
+
+  <div class="link">
+    <a href="vets.gov/pension/pension-management-center/"><b>Find Your VA Pension Management Center</b></a>
+    <p>Find your regional pension management center to mail or fax your VA pension application.</p>
+  </div>
+
+  <div class="link">
+    <a href="vets.gov/pension/pension-management-center/"><b>Access Your VA Records and Documents</b></a>
+    <p>Manage records like your DD214, VA benefits award letter, and medical records.</p>
+  </div>
+
 
 </section>
