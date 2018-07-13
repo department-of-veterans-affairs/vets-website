@@ -138,7 +138,7 @@ export function addPhoneEmailToCard(formData) {
 
 export function prefillTransformer(pages, formData, metadata) {
   const newFormData = set('disabilities', transformDisabilities(formData.disabilities), formData);
-  // TODO: If there are no disabilities we can claim increase on, gate the form
+  // If there are no disabilities we can claim increase on, gate the form
   const eligibleDisabilitiesExist = !!newFormData.disabilities.filter(disability => !disability.ineligible).length;
   if (!eligibleDisabilitiesExist) {
     // TODO: Fire the redux action and short circuit on
