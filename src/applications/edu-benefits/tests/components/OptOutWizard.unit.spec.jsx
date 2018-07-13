@@ -25,7 +25,7 @@ describe('<OptOutWizard>', () => {
     component.update();
     expect(component.state('modalOpen')).to.be.true;
     expect(component.find('button').length).to.equal(3);
-    expect(component.find('a').length).to.equal(1);
+    expect(component.find('a').length).to.equal(2);
 
     delete global.document.focus;
     global.document.querySelector = oldQuerySelector;
