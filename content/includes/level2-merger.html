@@ -10,8 +10,11 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
 <main>
   <div class="usa-grid">
     <article class="usa-width-two-thirds">
-      <h1>
-        <i class="icon-large fa fa-{{icon}}"></i>{{ title }}
+      <div class="inline">
+        <i class="icon-large fa fa-{{icon}}"></i>
+      </div>
+      <h1 class="inline">
+        {{ title }}
       </h1>
       {{ contents }}
 
