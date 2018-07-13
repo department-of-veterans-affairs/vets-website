@@ -154,13 +154,9 @@ export const evidenceTypeHelp = (
   </AdditionalInfo>
 );
 
-const capitalizeEachWord = (name) => {
-  const splitName = name.split(' ');
-  const capitalizedsplitName = splitName.map(word => {
-    const capFirstLetter = word[0].toUpperCase();
-    return `${capFirstLetter}${word.slice(1)}`;
-  });
-  return capitalizedsplitName.join(' ');
+const capitalizeEach = (word) => {
+  const capFirstLetter = word[0].toUpperCase();
+  return `${capFirstLetter}${word.slice(1)}`;
 };
 
 /**
@@ -171,7 +167,9 @@ const capitalizeEachWord = (name) => {
  */
 export const getDisabilityName = (name) => {
   if (name && typeof name === 'string') {
-    return capitalizeEachWord(name);
+    const splitName = name.split(' ');
+    const capitalizedsplitName = splitName.map(capitalizeEach);
+    return capitalizedsplitName.join(' ');
   }
 
   Raven.captureMessage('form_526: no name supplied for ratedDisability');
