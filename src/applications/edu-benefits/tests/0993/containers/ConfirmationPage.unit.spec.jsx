@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ConfirmationPage } from '../../../opt-out/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../../0993/containers/ConfirmationPage';
 
 describe('Opt Out <ConfirmationPage>', () => {
   it('should render', () => {
