@@ -1,0 +1,48 @@
+.merger-r-rail {
+
+  border: 3px solid $color-grey-lightest;
+  margin-bottom: 1.5em;
+
+  .rail-heading {
+    padding: 1em;
+    background-color: $color-grey-lightest;
+  }
+
+  &:last-child {
+    margin-bottom: 3em !important;
+  }
+
+  &:first-child {
+    background-color: $color-primary-lightest;
+    padding: 1em;
+    border: none;
+
+    img {
+      margin-bottom: 1em;
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h4 {
+    margin-top:0;
+    a{
+      text-decoration: underline;
+    }
+  }
+
+  .va-nav-linkslist-list {
+    padding: 1em;
+    background-color: $color-white;
+
+    li {
+      margin: 0;
+      p {
+        margin-bottom: 0;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}

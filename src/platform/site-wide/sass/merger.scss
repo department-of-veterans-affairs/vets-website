@@ -1,6 +1,7 @@
 /* MERGER-specific shame. This is not production ready; proof of concept only */
 
 @import 'iconography';
+@import 'right-rail';
 
 $color-grey-lightest: #f1f1f1;
 $color-primary-lightest: #e1f3f8;
@@ -280,73 +281,6 @@ h3, h4 {
     }
   }
 
-}
-
-.merger-r-rail {
-
-  border: 3px solid $color-grey-lightest;
-
-  .rail-heading {
-    padding: 1em;
-    background-color: $color-grey-lightest;
-  }
-
-  &:last-child {
-    margin-bottom: 3em !important;
-  }
-
-  &:first-child {
-    background-color: $color-primary-lightest;
-    padding: 1em;
-    border: none;
-
-    img {
-      margin-bottom: 1em;
-    }
-  }
-
-  //background-color: $color-grey-lightest;
-
-  margin-bottom: 1.5em;
-
-  .heading {
-
-    font-weight: bold;
-
-    &.va-nav-linkslist-heading {
-      font-size: 1.15em;
-    }
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  h4 {
-
-    margin-top:0;
-
-    a{
-      text-decoration: underline;
-    }
-  }
-
-  .va-nav-linkslist-list {
-    padding: 1em;
-    background-color: $color-white;
-  }
-
-  .va-nav-linkslist-list li {
-      margin: 0;
-      p {
-        margin-bottom: 0;
-        margin-top: 0.5rem;
-      }
-
-      a {
-
-      }
-  }
 }
 
 .usa-grid {
