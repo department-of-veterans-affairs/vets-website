@@ -160,7 +160,7 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Change Your VA Direct Deposit and Contact Information</b></a>
-    <p>Find out how to change your VA disability direct deposit information online.</p>
+    <p>Find out how to change your direct deposit information online.</p>
   </div>
 
  <div class="link">
