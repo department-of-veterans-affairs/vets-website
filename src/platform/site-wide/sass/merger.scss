@@ -1,10 +1,12 @@
 /* MERGER-specific shame. This is not production ready; proof of concept only */
 
+$color-primary-lightest: #e1f3f8;
+
 @import 'iconography';
 @import 'right-rail';
 
-$color-grey-lightest: #f1f1f1;
-$color-primary-lightest: #e1f3f8;
+
+
 
 section.usa-grid {
   padding-top: 3em;
@@ -112,7 +114,7 @@ article {
 
 #homepage-popular {
   padding: 3em 0 3em 0;
-  background-color: $color-grey-lightest;
+  background-color: $color-gray-lightest;
 }
 
 #homepage-hero {

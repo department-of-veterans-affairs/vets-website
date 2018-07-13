@@ -17,17 +17,19 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
     {% endif %}
 
     {% if group.links.length > 0 %}
-      <ul class="va-nav-linkslist-list">
+      <ul class="va-nav-linkslist-list social">
       {% for link in group.links %}
         {% if link.url != empty %}
           <li>
-            <p><b>{{ link.label }}:</b>
-              <a href="tel:{{link.url}}">
-              {% if link.label != empty %}
-                {{link.url}}
+            <a href="tel:{{link.url}}">
+              {% if link.icon != empty %}
+                <i class="fa fab {{link.icon}}"></i>
               {% endif %}
-              </a>
-            </p>
+
+              {% if link.label != empty %}
+                {{link.label}}
+              {% endif %}
+            </a>
           </li>
         {% endif %}
       {% endfor %}

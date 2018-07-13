@@ -21,7 +21,7 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
       {% for link in group.links %}
         {% if link.url != empty %}
           <li>
-            <p><b>{{ link.title }}:</b>
+            <p><b>{{ link.title }}</b>
               <a href="tel:{{link.url}}">
               {% if link.title != empty %}
                 {{link.url}}

@@ -34,41 +34,38 @@ crosslinks:
 contact:
   - heading: Call us for help with accessing health benefits or services
     links:
-    - url: 1-877-222-VETS (8387)
-      title: <b>General Questions about Health Care Benefits</b>
-    - url: 1-800-733-8387
-      title: <b>CHAMPVA and CHAMPVA In-House Treatment Initiative (CITI)</b>
-    - url: 1-888-385-0235
-      title: <b>CHAMPVA Meds by Mail</b>
-    - url: 1-855-VA-WOMEN (829-6636)
-      title: <b>Women Veterans Hotline</b>
+    - url: 1-877-222-8387
+      title: "General Health Care Help:"
     - url: 1-888-492-7844
-      title: <b>Mammography Hotline</b>
-    - url: 1-855-QUIT-VET (784-8838)
-      title: <b>Counselors to Help You Quit Smoking</b>
+      title: "Mammography Hotline:"
+    - url: 1-855-829-6636
+      title: "Women Veterans Hotline:"
+    - url: 1-888-385-0235
+      title: "CHAMPVA Meds By Mail:"
+    - url: 1-855-784-8838
+      title: "Smoking Cessation Counselors:"
     - url: 1-877-345-8179
-      title: <b>Foreign Medical Program (FMP)</b>
+      title: "Foreign Medical Program (FMP):"
     - url: 1-877-345-8179
-      title: <b>Spina Bifida Health Care Program</b>
-    - url: Dial 711
-      title: <b>Telecommunications Device for Veterans with Hearing Loss (TDD)</b>
+      title: "Spina Bifida Health Care Program:"
 social:
   - heading: Stay up-to-date with health benefits
     links:
-    - url: "https://twitter.com"
-      label: Twitter
+    - url: "#"
+      label: Veterans Health Administration
+      icon:
     - url: "https://facebook.com"
-      label: Facebook
+      label: VHA Facebook
+      icon: fa-facebook-square
+    - url: "https://twitter.com"
+      label: VHA Twitter
+      icon: fa-twitter
     - url: "https://youtube.com"
-      label: Youtube
-    - url: "https://instagram.com"
-      label: Instagram
-    - url: "https://flickr.com"
-      label: Flickr
-    - url: "https://www.blogs.va.gov/"
-      label: VAntage Point Blog
-    - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: Email Directory
+      label: VHA Youtube
+      icon: fa-youtube
+    - url: "https://googleplus.com"
+      label: VHA Google Plus
+      icon: fa-google-plus
 ---
 
 <p class="va-introtext">
