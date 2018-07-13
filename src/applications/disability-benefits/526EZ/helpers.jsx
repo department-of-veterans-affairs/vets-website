@@ -164,8 +164,10 @@ const capitalizeEachWord = (name) => {
 };
 
 /**
- * 
+ * Takes a string and returns the same string with every word capitalized. If no valid
+ * string is given as input, returns 'Unknown Condition' and logs to Sentry.
  * @param {string} name the lower-case name of a disability
+ * @returns {string} the input name, but with all words capitalized
  */
 export const getDisabilityName = (name) => {
   if (name && typeof name === 'string') {
