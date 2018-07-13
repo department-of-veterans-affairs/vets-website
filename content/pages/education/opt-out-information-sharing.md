@@ -16,7 +16,7 @@ widgets:
 ---
 
 
-The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with schools, unless you ask us not to.  
+The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with schools, unless you ask us not to (called "opting out").  
 
 ### What kind of information does VA share with schools?
 
