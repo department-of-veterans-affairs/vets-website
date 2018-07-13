@@ -9,8 +9,10 @@ describe('Opt Out <ConfirmationPage>', () => {
     const form = {
       submission: {
         response: {
-          timestamp: '2010-01-01',
-          confirmationNumber: '3702390024'
+          attributes: {
+            timestamp: '2010-01-01',
+            confirmationNumber: '3702390024'
+          }
         }
       },
       data: {
