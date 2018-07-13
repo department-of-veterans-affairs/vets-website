@@ -160,7 +160,7 @@ describe('526 helpers', () => {
       expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal('INCREASE');
     });
   });
-  describe.only('getDisabilityName', () => {
+  describe('getDisabilityName', () => {
     it('should return Unknown Condition with null code or name', () => {
       expect(getDisabilityName(null, null)).to.equal('Unknown Condition');
     });
