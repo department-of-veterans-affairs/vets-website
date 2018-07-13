@@ -15,7 +15,6 @@ import get from '../../../platform/utilities/data/get';
 import { pick } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { getDiagnosticCodeName } from './reference-helpers';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
