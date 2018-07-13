@@ -34,12 +34,10 @@ export default class OptOutWizard extends React.Component {
             <ul>
               <li>You’ll be responsible for providing schools with your education benefits paperwork. If you transfer schools, you’ll also need to make sure your new school has your paperwork.</li>
               <li>There may be a delay with you getting reimbursed for school-related expenses.</li>
-              <li>More information TK from stakeholders</li>
-              <li>More information TK from stakeholders</li>
             </ul>
           </div>
 
-          <p><strong>Please note:</strong> If you submit an opt-out request and then change your mind, you’ll need to call the Education Call Center at <a className="help-phone-number-link" href="tel:+1-888-442-4551">1-888-442-4551</a> to opt back in.</p>
+          <p><strong>Please note:</strong> If you opt out and then change your mind, you’ll need to call the Education Call Center at<a className="help-phone-number-link" href="tel:+1-888-442-4551">1-888-442-4551</a> to opt back in.</p>
           <div>
             <a
               href="/education/opt-out-information-sharing/opt-out-form-0993"
