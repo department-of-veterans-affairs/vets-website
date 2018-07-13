@@ -18,17 +18,6 @@ widgets:
 
 The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with schools, unless you ask us not to.  
 
-### How do I tell VA I don’t want my information shared?  
-
-You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
-
-<a class="usa-button-primary va-button-primary" href="/education/opt-out-information-sharing/opt-out-form-0993/">Opt Out</a>
-<div id="react-applicationStatus" class="static-page-widget"></div>
-  
-### Will opting out affect my education benefits?
-
-No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits.
-
 ### What kind of information does VA share with schools?
 
 Unless you opt out, we share basic information about your eligibility and benefits, including:
@@ -43,7 +32,17 @@ Unless you opt out, we share basic information about your eligibility and benefi
 
 ### Why does VA share this information?
 
-It makes it easy for schools to access information about your education benefits without your having to gather benefit information or fill out forms. Schools get all the information they need straight from VA. 
+It makes it easy for schools to access information about your education benefits without your having to gather benefit information or fill out forms. Schools get all the information they need straight from VA.
+
+
+### How do I tell VA I don’t want my information shared?  
+
+You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
+
+<a class="usa-button-primary va-button-primary" href="/education/opt-out-information-sharing/opt-out-form-0993/">Opt Out</a>
+<div id="react-applicationStatus" class="static-page-widget"></div>
+
+<b>Note</b>: If you’re signed in to your account, we can prefill part of your application based on your account details.
 
 ### What’s the Colmery Act? 
 The Harry W. Colmery Veterans Educational Assistance Act, also called the “Forever GI Bill,” was signed into law August 2017 and expands education benefits for Veterans, Servicemembers, and their family members.
