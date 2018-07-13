@@ -155,17 +155,40 @@ export const evidenceTypeHelp = (
   </AdditionalInfo>
 );
 
+const capitalizeEachWord = (name) => {
+  const splitName = name.split(' ');
+  const capitalizedsplitName = splitName.map(word => {
+    const capFirstLetter = word[0].toUpperCase();
+    return `${capFirstLetter}${word.slice(1)}`;
+  });
+  return capitalizedsplitName.join(' ');
+};
+
+/**
+ * 
+ * @param {string} name the lower-case name of a disability
+ * @param {number} code the diagnosticCode of a disability
+ */
+export const getDisabilityName = (name, code) => {
+  if (name) {
+    return capitalizeEachWord(name);
+  } else if (code) {
+    return (getDiagnosticCodeName(code));
+  }
+  Raven.captureMessage('form_526: no name or code supplied for ratedDisability');
+  return 'Unknown Condition';
+};
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{getDiagnosticCodeName(formData.diagnosticCode)}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{getDisabilityName(formData.name, formData.diagnosticCode)}</legend>
   );
 };
 
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Please tell us where VA treated you for {getDiagnosticCodeName(formData.diagnosticCode)} <strong>after you got your disability rating</strong>.</p>
+    <p>Please tell us where VA treated you for {getDisabilityName(formData.name, formData.diagnosticCode)} <strong>after you got your disability rating</strong>.</p>
   );
 };
 
@@ -192,7 +215,7 @@ export const treatmentView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>First we’ll ask you about your VA medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.</p>
+    <p>First we’ll ask you about your VA medical records that show your {getDisabilityName(formData.name, formData.diagnosticCode)} has gotten worse.</p>
   );
 };
 
@@ -202,7 +225,7 @@ export const privateRecordsChoice = ({ formData }) => {
     <div>
       <h4>About private medical records</h4>
       <p>
-        You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private
+        You said you were treated for {getDisabilityName(formData.name, formData.diagnosticCode)} by a private
         doctor. If you have your private medical records, you can upload them to your application.
         If you want us to get them for you, you’ll need to authorize their release.
       </p>
@@ -240,7 +263,7 @@ const firstOrNowString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecord
 
 export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
-    {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.
+    {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDisabilityName(formData.name, formData.diagnosticCode)} has gotten worse.
   </p>
 );
 
@@ -489,14 +512,14 @@ export const veteranInfoDescription = connect((state) => state.user.profile)(unc
  *
  * @param {Disability} disability
  */
-export const disabilityOption = ({ diagnosticCode, ratingPercentage }) => {
+export const disabilityOption = ({ name, diagnosticCode, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showRatingPercentage = Number.isInteger(ratingPercentage);
 
   return (
     <div>
-      {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
+      {diagnosticCode && <h4>{getDisabilityName(name, diagnosticCode)}</h4>}
       {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
@@ -714,7 +737,8 @@ const evidenceTypesDescription = (disabilityName) => {
 };
 
 export const getEvidenceTypesDescription = (form, index) => {
-  return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
+  const { name, diagnosticCode } = form.disabilities[index];
+  return evidenceTypesDescription(getDisabilityName(name, diagnosticCode));
 };
 
 /**
