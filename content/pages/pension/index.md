@@ -29,14 +29,20 @@ crosslinks:
       title: VA Life Insurance Benefits
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
 contact:
-  - heading: Call us for help accessing health benefits or services
+  - heading: Contact us for help with benefits or services
     links:
+    - url: 1-877-222-VETS (1-877-222-8387)
+      title: Questions About Your Application     
     - url: 1-800-827-1000
-      title: Questions about Disability Compensation, Pension, and Direct Deposit
+      title: Questions about Your VA Benefits and Direct Deposit
+    - url: 1-877-294-6380
+      title: Support If You're Currently Receiving VA Pension Benefits
     - url: 1-800-983-0937
       title: eBenefits Technical Support
     - url: 1-877-4AID-VET (1-877-424-3838)
       title: National Call Center for Homeless Veterans
+    - url: https://iris.custhelp.va.gov/app/ask
+      title: Ask Us a Question Online
 social:
   - heading: Social Media
     links:
@@ -64,7 +70,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
 [Get VA Pension Benefits](#get)<br>
 [Manage Your VA Pension Benefits](#manage)<br>
-[More Pension VA Pension Information and Resources](#more)<br>
+[More Pension Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
 
@@ -130,7 +136,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More VA Pension Information and Resources</h2>
+  <h2 class='highlight'>More Pension Information and Resources</h2>
 
   <div class="link">
     <a href="vets.gov/pension/rates/"><b>VA Pension Rates for Veterans</b></a>
