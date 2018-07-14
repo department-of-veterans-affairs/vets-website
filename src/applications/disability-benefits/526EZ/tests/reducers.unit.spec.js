@@ -12,7 +12,7 @@ import {
   ITF_CREATION_FAILED
 } from '../actions';
 
-import { itf } from '../reducer';
+import reducers from '../reducers';
 
 
 const initialState = {
@@ -24,6 +24,8 @@ const initialState = {
 
 
 describe('ITF reducer', () => {
+  const { itf } = reducers;
+
   it('should handle ITF_FETCH_INITIATED', () => {
     const newState = itf(initialState, { type: ITF_FETCH_INITIATED });
     expect(newState.fetchCallState).to.equal(requestStates.pending);
