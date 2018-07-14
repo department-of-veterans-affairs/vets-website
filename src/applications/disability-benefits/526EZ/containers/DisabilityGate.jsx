@@ -37,8 +37,8 @@ export const DisabilityGate = ({ prefillStatus, disabilities = [], children }) =
       <div className="usa-grid" style={{ marginBottom: '2em' }}>
         <AlertBox
           isVisible
-          headline="Woops"
-          content="Looks like you have no disabilities to claim an increase on."
+          headline="We're sorry"
+          content="We couldn't find your rated disabilites at this time."
           status="error"/>
       </div>
     );
