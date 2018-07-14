@@ -15,14 +15,12 @@ import get from '../../../platform/utilities/data/get';
 import { pick } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { getDiagnosticCodeName } from './reference-helpers';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL,
-  E_BENEFITS_URL
+  VA_FORM4142_URL
 } from './constants';
 
 
@@ -173,17 +171,38 @@ export const evidenceTypeHelp = (
   </AdditionalInfo>
 );
 
+const capitalizeEach = (word) => {
+  const capFirstLetter = word[0].toUpperCase();
+  return `${capFirstLetter}${word.slice(1)}`;
+};
+
+/**
+ * Takes a string and returns the same string with every word capitalized. If no valid
+ * string is given as input, returns 'Unknown Condition' and logs to Sentry.
+ * @param {string} name the lower-case name of a disability
+ * @returns {string} the input name, but with all words capitalized
+ */
+export const getDisabilityName = (name) => {
+  if (name && typeof name === 'string') {
+    const splitName = name.split(' ');
+    const capitalizedsplitName = splitName.map(capitalizeEach);
+    return capitalizedsplitName.join(' ');
+  }
+
+  Raven.captureMessage('form_526: no name supplied for ratedDisability');
+  return 'Unknown Condition';
+};
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{getDiagnosticCodeName(formData.diagnosticCode)}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{getDisabilityName(formData.name)}</legend>
   );
 };
 
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Please tell us where VA treated you for {getDiagnosticCodeName(formData.diagnosticCode)} <strong>after you got your disability rating</strong>.</p>
+    <p>Please tell us where VA treated you for {getDisabilityName(formData.name)} <strong>after you got your disability rating</strong>.</p>
   );
 };
 
@@ -210,7 +229,7 @@ export const treatmentView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>First we’ll ask you about your VA medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.</p>
+    <p>First we’ll ask you about your VA medical records that show your {getDisabilityName(formData.name)} has gotten worse.</p>
   );
 };
 
@@ -220,7 +239,7 @@ export const privateRecordsChoice = ({ formData }) => {
     <div>
       <h4>About private medical records</h4>
       <p>
-        You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private
+        You said you were treated for {getDisabilityName(formData.name)} by a private
         doctor. If you have your private medical records, you can upload them to your application.
         If you want us to get them for you, you’ll need to authorize their release.
       </p>
@@ -258,7 +277,7 @@ export const privateRecordsChoiceHelp = (
 const firstOrNowString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
 export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
-    {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.
+    {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDisabilityName(formData.name)} has gotten worse.
   </p>
 );
 
@@ -462,7 +481,15 @@ export const evidenceSummaryView = ({ formData }) => {
 };
 
 
+export const editNote = (name) => (
+  <p><strong>Note:</strong> If you need to update your {name}, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+);
+
+
 /**
+ * Show one thing, have a screen reader say another.
+ * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
+ *
  * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
@@ -485,11 +512,7 @@ const unconnectedVetInfoView = (profile) => {
   return (
     <div>
       <p>
-        This is the personal information we have on file for you. If something doesn’t look
-        right and you need to update your details, please go to eBenefits.
-      </p>
-      <p>
-        <a target="_blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
+        This is the personal information we have on file for you.
       </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
@@ -498,7 +521,7 @@ const unconnectedVetInfoView = (profile) => {
         <p>Date of birth: <DateWidget value={dob} options={{ monthYear: false }}/></p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
-      <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+      {editNote('personal information')}
     </div>
   );
 };
@@ -512,17 +535,16 @@ export const veteranInfoDescription = connect((state) => state.user.profile)(unc
  * @property {String} diagnosticCode
  * @property {String} name
  * @property {String} ratingPercentage
- *
  * @param {Disability} disability
  */
-export const disabilityOption = ({ diagnosticCode, ratingPercentage }) => {
+export const disabilityOption = ({ name, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showRatingPercentage = Number.isInteger(ratingPercentage);
 
   return (
     <div>
-      {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
+      <h4>{getDisabilityName(name)}</h4>
       {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
@@ -750,7 +772,8 @@ const evidenceTypesDescription = (disabilityName) => {
 
 
 export const getEvidenceTypesDescription = (form, index) => {
-  return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
+  const { name } = form.disabilities[index];
+  return evidenceTypesDescription(getDisabilityName(name));
 };
 
 
@@ -780,12 +803,15 @@ export const get4142Selection = (disabilities) => {
 
 
 export const contactInfoDescription = () => (
+  <p>
+    This is the contact information we have on file for you. We’ll send any important
+    information about your disability claim to the address listed here. Any updates
+    you make here to your contact information will only apply to this application.
+  </p>
+);
+
+export const contactInfoUpdateHelp = () => (
   <div>
-    <p>
-      This is the contact information we have on file for you. We’ll send any important
-      information about your disability claim to the address listed here. Any updates
-      you make here to your contact information will only apply to this application.
-    </p>
     <p>
       If you want to update your contact information for all your VA accounts, please go
       to your profile page.
@@ -800,8 +826,6 @@ export const contactInfoDescription = () => (
 export const PaymentDescription = () => (
   <p>
     This is the bank account information we have on file for you. We’ll pay your
-    disability benefit to this account. If you need to update your bank information,
-    please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
-    Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+    disability benefit to this account.
   </p>
 );

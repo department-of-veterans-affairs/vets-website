@@ -62,58 +62,30 @@ export default function (state = INITIAL_STATE, action) {
         [field]: convertedValue,
       };
 
-      if (__BUILDTYPE__ !== 'production') {
 
-        if (field === 'yellowRibbonDegreeLevel') {
-          if (value === 'customAmount') {
-            newState = {
-              ...newState,
-              yellowRibbonAmount: 0,
-              yellowRibbonDivisionOptions: [],
-              yellowRibbonDivision: '',
-              yellowRibbonProgramIndex: -1,
-              yellowRibbonMaxAmount: 0,
-              yellowRibbonMaxNumberOfStudents: 0
-            };
+      if (field === 'yellowRibbonDegreeLevel') {
+        if (value === 'customAmount') {
+          newState = {
+            ...newState,
+            yellowRibbonAmount: 0,
+            yellowRibbonDivisionOptions: [],
+            yellowRibbonDivision: '',
+            yellowRibbonProgramIndex: -1,
+            yellowRibbonMaxAmount: 0,
+            yellowRibbonMaxNumberOfStudents: 0
+          };
 
-          } else {
-            const {
-              yellowRibbonPrograms
-            } = state;
-
-            // make an array of unique values
-            const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
-              [...new Set(yellowRibbonPrograms
-                .filter(program => program.degreeLevel === value)
-                .map(program => program.divisionProfessionalSchool))] :
-              [];
-
-            const {
-              contributionAmount: yellowRibbonAmount,
-              numberOfStudents: yellowRibbonMaxNumberOfStudents,
-              index: yellowRibbonProgramIndex
-            } = yellowRibbonPrograms
-              .find(program =>
-                program.degreeLevel === value &&
-                program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0]);
-
-            newState = {
-              ...newState,
-              yellowRibbonAmount,
-              yellowRibbonDivisionOptions,
-              yellowRibbonDivision: yellowRibbonDivisionOptions[0],
-              yellowRibbonProgramIndex,
-              yellowRibbonMaxAmount: yellowRibbonAmount,
-              yellowRibbonMaxNumberOfStudents
-            };
-          }
-        }
-
-        if (field === 'yellowRibbonDivision') {
+        } else {
           const {
-            yellowRibbonDegreeLevel,
             yellowRibbonPrograms
           } = state;
+
+          // make an array of unique values
+          const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
+            [...new Set(yellowRibbonPrograms
+              .filter(program => program.degreeLevel === value)
+              .map(program => program.divisionProfessionalSchool))] :
+            [];
 
           const {
             contributionAmount: yellowRibbonAmount,
@@ -121,17 +93,43 @@ export default function (state = INITIAL_STATE, action) {
             index: yellowRibbonProgramIndex
           } = yellowRibbonPrograms
             .find(program =>
-              program.degreeLevel === yellowRibbonDegreeLevel &&
-              program.divisionProfessionalSchool === value);
+              program.degreeLevel === value &&
+              program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0]);
 
           newState = {
             ...newState,
             yellowRibbonAmount,
+            yellowRibbonDivisionOptions,
+            yellowRibbonDivision: yellowRibbonDivisionOptions[0],
             yellowRibbonProgramIndex,
             yellowRibbonMaxAmount: yellowRibbonAmount,
             yellowRibbonMaxNumberOfStudents
           };
         }
+      }
+
+      if (field === 'yellowRibbonDivision') {
+        const {
+          yellowRibbonDegreeLevel,
+          yellowRibbonPrograms
+        } = state;
+
+        const {
+          contributionAmount: yellowRibbonAmount,
+          numberOfStudents: yellowRibbonMaxNumberOfStudents,
+          index: yellowRibbonProgramIndex
+        } = yellowRibbonPrograms
+          .find(program =>
+            program.degreeLevel === yellowRibbonDegreeLevel &&
+            program.divisionProfessionalSchool === value);
+
+        newState = {
+          ...newState,
+          yellowRibbonAmount,
+          yellowRibbonProgramIndex,
+          yellowRibbonMaxAmount: yellowRibbonAmount,
+          yellowRibbonMaxNumberOfStudents
+        };
       }
 
       if (field === 'inState') {
@@ -272,23 +270,21 @@ export default function (state = INITIAL_STATE, action) {
       let yellowRibbonMaxNumberOfStudents;
       let yellowRibbonProgramIndex;
 
-      if (__BUILDTYPE__ !== 'production') {
 
-        if (yellowRibbonPrograms.length > 0) {
-          yellowRibbonPrograms = yellowRibbonPrograms.map((program, index) => ({ ...program, index }));
-          yellowRibbonDegreeLevelOptions = [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))];
-          // first value of degree level is selected by default; only display division options associated with this degree level
-          yellowRibbonDivisionOptions = [...new Set(yellowRibbonPrograms
-            .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
-            .map(program => program.divisionProfessionalSchool))];
+      if (yellowRibbonPrograms.length > 0) {
+        yellowRibbonPrograms = yellowRibbonPrograms.map((program, index) => ({ ...program, index }));
+        yellowRibbonDegreeLevelOptions = [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))];
+        // first value of degree level is selected by default; only display division options associated with this degree level
+        yellowRibbonDivisionOptions = [...new Set(yellowRibbonPrograms
+          .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
+          .map(program => program.divisionProfessionalSchool))];
 
-          yellowRibbonAmount = yellowRibbonPrograms[0].contributionAmount;
-          yellowRibbonMaxAmount = yellowRibbonAmount;
-          yellowRibbonDegreeLevel = yellowRibbonPrograms[0].degreeLevel;
-          yellowRibbonDivision = yellowRibbonPrograms[0].divisionProfessionalSchool;
-          yellowRibbonMaxNumberOfStudents = yellowRibbonPrograms[0].numberOfStudents;
-          yellowRibbonProgramIndex = yellowRibbonPrograms[0].index;
-        }
+        yellowRibbonAmount = yellowRibbonPrograms[0].contributionAmount;
+        yellowRibbonMaxAmount = yellowRibbonAmount;
+        yellowRibbonDegreeLevel = yellowRibbonPrograms[0].degreeLevel;
+        yellowRibbonDivision = yellowRibbonPrograms[0].divisionProfessionalSchool;
+        yellowRibbonMaxNumberOfStudents = yellowRibbonPrograms[0].numberOfStudents;
+        yellowRibbonProgramIndex = yellowRibbonPrograms[0].index;
       }
 
       return {

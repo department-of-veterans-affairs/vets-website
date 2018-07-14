@@ -1,98 +1,56 @@
 ---
 layout: page-breadcrumbs.html
+title: Opt Out of Sharing VA Education Benefits Information
+display_title: Opt Out of Information Sharing
+description: 
+concurrence: Incomplete
+plainlanguage: Certified plain language 4.20.18 
 template: detail-page
-title: Education Benefits Application Process
-display_title: Application Process
-plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-collection: education
-order: 2
-relatedlinks:
-  - heading: Other VA benefits you may want to explore
-    links:
-    - url: /employment/vocational-rehab-and-employment/
-      title: Vocational Rehabilitation and Employment (VR&E)
-      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
+order: 5 	
 widgets:
   - root: react-applicationStatus
     timeout: 20
     loadingMessage: Checking your application status.
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
-description: Find the right VA education benefits for you, and apply to start getting help paying tuition. We can also help you find the right school or training program.
+    description: Find the right VA education benefits for you, and apply to start getting help paying tuition. We can also help you find the right school or training program.
 ---
-<div itemscope itemtype ="http://schema.org/HowTo">
-<div class="va-introtext" itemprop="description">
 
-If you’re a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.
 
-</div>
+The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with schools, unless you ask us not to (called "opting out").  
 
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+### What kind of information does VA share with schools?
 
-<h3 itemprop="name">Prepare</h3>
-<div itemprop="itemListElement">
+Unless you opt out, we share basic information about your eligibility and benefits, including:
+- Your eligibility date 
+- The amount of money you’re receiving for tuition and school fees
+- The amount of money you get and the time you have left to use your benefits
+- If you’re getting money through the Yellow Ribbon Program.  
+[Learn about the Yellow Ribbon program](/education/gi-bill/yellow-ribbon/).
+- Residence hours (your time spent in the classroom)
+- Distance hours (your time spent in online classes)
+- Benefit percentage (amount of education benefits based on active-duty service time)
 
-- [Check your eligibility](/education/eligibility/).
-- Gather the documents and information listed below that you’ll need to apply for education benefits.
-- See what benefits you’ll get at the school you want to attend. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-- Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program and file a claim for VA education benefits. [Get help filing your claim](/disability-benefits/apply/help/index.html).
+### Why does VA share this information?
 
-<div markdown="0"><br></div>
+It makes it easy for schools to access information about your education benefits without your having to gather benefit information or fill out forms. Schools get all the information they need straight from VA.
 
-<div class="feature" markdown="1">
+### Will opting out affect my benefits?
 
-#### What documents and information do I need to apply?
+No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits.
 
-- Social Security number
-- Bank account direct deposit information
-- Education and military history
-- Basic information about the school or training facility you want to attend or are attending now
 
-</div>
-</div>
-</div>
+### How do I tell VA I don’t want my information shared?  
+
+You’ll need to fill out a short form to tell us you want to opt out of sharing this information. You can get started right now.
+
+<a class="usa-button-primary va-button-primary" href="/education/opt-out-information-sharing/opt-out-form-0993/">Opt Out</a>
 <div id="react-applicationStatus" class="static-page-widget"></div>
 
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<b>Note</b>: If you’re signed in to your account, we can prefill part of your application based on your account details.
 
-<h3 itemprop="name">Other ways to apply</h3>
-<div itemprop="itemListElement">
+### What’s the Colmery Act? 
+The Harry W. Colmery Veterans Educational Assistance Act, also called the “Forever GI Bill,” was signed into law August 2017 and expands education benefits for Veterans, Servicemembers, and their family members.
 
-#### In person
-Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
+[Learn more about the Colmery Veterans Educational Assistance Act](https://www.benefits.va.gov/GIBILL/ForeverGIBill.asp).
 
-Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
-#### By mail
-Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>), to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](https://www.benefits.va.gov/gibill/regional_processing.asp).
-
-</div>
-</div>
-
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-
-<h3 itemprop="name">What happens after I apply?</h3>
-<div itemprop="itemListElement">
-
-[Find out what happens after you apply](/education/after-you-apply/).
-
-You can’t make changes to your application, but if you have questions about education benefits, please call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>).
-
-If we’ve asked you for documents, please upload them through the GI Bill website. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill Website</a>
-
-</div>
-</div>
-
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-
-<h4 itemprop="name">How long does it take VA to make a decision?</h4>
-<div itemprop="itemListElement">
-
-<div class="card information" markdown="0">
-<span class="number">30 days</span>
-<span class="description">Average time to process education claims</span>
-</div>
-</div>
-</div>
-
-</div>
-<div markdown="0"><br></div>
