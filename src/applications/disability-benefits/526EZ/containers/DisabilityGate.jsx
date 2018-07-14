@@ -23,8 +23,8 @@ export const DisabilityGate = ({ prefillStatus, disabilities = [], children }) =
       <div className="usa-grid" style={{ marginBottom: '2em' }}>
         <AlertBox
           isVisible
-          headline="Hmm..."
-          content="Looks like we couldn't find your disabilities right now. Unfortunately, that means you'll have to try again later."
+          headline="We're sorry"
+          content="Our system is having trouble retrieving your rated disabilites at this time."
           status="error"/>
       </div>
     );
@@ -38,7 +38,7 @@ export const DisabilityGate = ({ prefillStatus, disabilities = [], children }) =
         <AlertBox
           isVisible
           headline="We're sorry"
-          content="We couldn't find your rated disabilites at this time."
+          content="We couldn't find any rated disabilites at this time."
           status="error"/>
       </div>
     );
