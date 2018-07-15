@@ -55,10 +55,10 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     );
 
     const labels = form.find('input[type="checkbox"] + label');
-    expect(labels.at(0).find('h4').text()).to.contain('PTSD');
+    expect(labels.at(0).find('h4').text()).to.equal('Post Traumatic Stress Disorder');
     expect(labels.at(0).find('p').last().text()).to.equal('Current rating: 40%');
 
-    expect(labels.at(1).find('h4').text()).to.equal('Unknown Condition');
+    expect(labels.at(1).find('h4').text()).to.equal('Intervertebral Disc Syndrome');
     expect(labels.at(1).find('p').last().text()).to.equal('Current rating: 0%');
   });
 });

@@ -27,12 +27,10 @@ export class SearchResult extends React.Component {
     const tuition = this.estimate(this.props.estimated.tuition);
     const housing = this.estimate(this.props.estimated.housing);
     const books = this.estimate(this.props.estimated.books);
-    const cautionFlagClass = __BUILDTYPE__ !== 'production' ? 'caution-flag-new' : 'caution-flag';
-    const innerClass = __BUILDTYPE__ !== 'production' ? 'inner-new' : 'inner';
     const SchoolClosingFlag = () => {
-      if (__BUILDTYPE__ === 'production' || !this.props.schoolClosing) return null;
+      if (!this.props.schoolClosing) return null;
       return (
-        <div className={cautionFlagClass}>
+        <div className="caution-flag">
           <i className="fa fa-warning"></i>
           School closing
         </div>
@@ -42,7 +40,7 @@ export class SearchResult extends React.Component {
     const CautionFlag = () => {
       if (!this.props.cautionFlag) return null;
       return (
-        <div className={cautionFlagClass}>
+        <div className="caution-flag">
           <i className="fa fa-warning"></i>
           Caution
         </div>
@@ -60,7 +58,7 @@ export class SearchResult extends React.Component {
         <div className="outer">
           <SchoolClosingFlag/>
           <CautionFlag/>
-          <div className={innerClass}>
+          <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2><Link to={linkTo}>{this.props.name}</Link></h2>
