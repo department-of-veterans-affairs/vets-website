@@ -65,13 +65,13 @@ social:
 ---
 
 <p class="va-introtext">
-VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of Veterans. Find out how to apply for and manage the Veterans burial benefits you've earned.</p>
+VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of Veterans. Find out how to apply for the Veterans burial benefits you've earned, and how to plan for burial either in advance or at your time of need.</p>
 
 <h3 class="highlight">Page Content</h3>
 
 [Get VA Burial Benefits and Memorial Items](#get)<br>
 [Plan a Burial For a Family Member](#manage)<br>
-[More Veterans Burial Benefits and Memorial Information and Resources](#more)<br>
+[More Veterans Burial Benefits Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
 
@@ -84,12 +84,12 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/pre-need/"><b>Pre-Need Burial Eligibility Determination (VA Form 40-10007)</b></a>
-    <p>Apply for a pre-need eligibility decision letter to pre plan for burial in a VA national cemetery, and make the process easier for your family members at your time of need.</p>
+    <p>Apply for a pre-need eligibility decision letter. This can help you pre plan for burial in a VA national cemetery, and make the process easier for your family members at your time of need.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"><b>Burial Allowances</b></a>
-    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
+    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"><b>Burial Allowance For Veterans</b></a>
+    <p>Learn how to apply for a burial allowance to help pay for Veteran funeral services, burial, and transportation costs.</p>
   </div>
 
   <div class="link">
@@ -98,8 +98,8 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Memorial Items</b></a>
-    <p>Nunc commodo gravida hendrerit. Donec a ante eget lorem molestie malesuada.</p>
+    <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Veterans Grave Markers, Headstones, and Other Memorial Items</b></a>
+    <p>Find out how to apply for memorial items to honor a Veteran's service.</p>
   </div>
   
 </section>
@@ -132,7 +132,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Burials and Memorials Information and Resources</h2>
+  <h2 class='highlight'>More Veterans Burial Benefits Information and Resources</h2>
 
   <div class="link">
     <a href="https://cem.va.gov/cem/dailyburialschedule/"><b>Daily Burial Schedule</b></a>
