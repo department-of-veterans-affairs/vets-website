@@ -44,13 +44,14 @@ majorlinks:
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: VR&E Benefits and Services
-      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
+      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
+
 
 ---
 
 <div class="va-introtext">
 
-We offer Veterans, Servicemembers, and their families education benefits like help paying tuition, help finding the right school or training program, and career counseling. Explore your benefit options.   
+We offer Veterans, Servicemembers, and their families education benefits like help paying tuition, help finding the right school or training program, and career counseling. Explore your benefit options.
 
 </div>
 <div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
