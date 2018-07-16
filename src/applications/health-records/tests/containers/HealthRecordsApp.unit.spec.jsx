@@ -4,6 +4,16 @@ import { expect } from 'chai';
 
 import { HealthRecordsApp } from '../../containers/HealthRecordsApp';
 
+const location = {
+  pathname: '/',
+  search: '',
+  hash: '',
+  action: 'POP',
+  key: null,
+  basename: '/health-care/health-records',
+  query: {}
+};
+
 const props = {
   modal: {
     content: '',
@@ -17,7 +27,7 @@ const props = {
 };
 
 describe('<HealthRecordsApp>', () => {
-  const tree = SkinDeep.shallowRender(<HealthRecordsApp {...props}/>);
+  const tree = SkinDeep.shallowRender(<HealthRecordsApp location={location} {...props}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();
