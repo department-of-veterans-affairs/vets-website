@@ -5,9 +5,6 @@ $color-primary-lightest: #e1f3f8;
 @import 'iconography';
 @import 'right-rail';
 
-
-
-
 section.usa-grid {
   padding-top: 3em;
 }
@@ -24,6 +21,15 @@ article {
   }
 }
 
+#helpmenu {
+  a {
+    text-decoration: none;
+  }
+
+  p {
+    margin-top: 1em;
+  }
+}
 #mega-menu {
 
   border-top: 1px solid $color-white;
