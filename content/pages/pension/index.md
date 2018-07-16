@@ -21,7 +21,7 @@ crosslinks:
       description: Learn how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
     - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment
-      description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
+      description: Find out if you're eligible for help exploring employment options, any training you may need, and other voc rehab services.
     - url: va.gov/families-caregivers
       title: Family and Caregiver Health Benefits
       description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
@@ -29,14 +29,20 @@ crosslinks:
       title: VA Life Insurance Benefits
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
 contact:
-  - heading: Call us for help accessing health benefits or services
+  - heading: Contact us for help with benefits or services
     links:
+    - url: 1-877-222-VETS (1-877-222-8387)
+      title: Questions About Your Application     
     - url: 1-800-827-1000
-      title: Questions about Disability Compensation, Pension, and Direct Deposit
+      title: Questions about Your VA Benefits and Direct Deposit
+    - url: 1-877-294-6380
+      title: Support If You're Currently Receiving VA Pension Benefits
     - url: 1-800-983-0937
       title: eBenefits Technical Support
     - url: 1-877-4AID-VET (1-877-424-3838)
       title: National Call Center for Homeless Veterans
+    - url: https://iris.custhelp.va.gov/app/ask
+      title: Ask Us a Question Online
 social:
   - heading: Social Media
     links:
@@ -57,7 +63,7 @@ social:
 ---
 
 <p class="va-introtext">
-VA pension benefits provide tax-free monthly payments to wartime Veterans with limited or no income who are over age 65 or have a permanent and total non-service connected disability. Survivors of wartime Veterans with limited income and net worth may also qualify for a VA pension. Find out how to apply for and manage the pension benefits you've earned.
+VA pension benefits provide tax-free monthly payments to wartime Veterans with limited or no income who meet certain age or disability requirements. Survivors of wartime Veterans with limited income and net worth may also qualify for a VA pension. Find out how to apply for and manage the pension benefits you've earned.
 </p>
 
 <h3 class="highlight">Page Content</h3>
@@ -71,18 +77,18 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2 class="highlight">Get VA Pension Benefits</h2>
 
   <div class="link">
-    <a href="vets.gov/pension/eligibility//"><b>Eligibility</b></a>
-    <p>See if you qualify for a VA Veterans pension.
+    <a href="vets.gov/pension/eligibility//"><b>Non Service-Connected Pension Eligibility</b></a>
+    <p>See if you qualify for VA pension benefits as a Veteran.
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/pension/apply/"><b>How to Apply</b></a>
-    <p>Find out how to prepare and apply for VA pension benefits as a Veteran.</p>
+    <a href="https://www.vets.gov/pension/apply/"><b>How to Apply for a VA Pension as a Veteran</b></a>
+    <p>Find out how to prepare and apply for a VA Veterans pension.</p>
   </div>
 
   <div class="link">
     <a href="https://www.vets.gov/pension/application/527EZ/introduction"><b>Apply for a Veterans Pension Online (VA Form 21P-527EZ)</b></a>
-    <p>Complete your Veterans pension application online now.</p>
+    <p>Complete your application online now.</p>
   </div>
 
   <div class="link">
@@ -91,8 +97,8 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="vets.gov/pension/survivors-pension/"><b>Survivors Pension</b></a>
-    <p>Find out if you’re eligible and how to apply for a survivors pension as a surviving spouse or child of a deceased Veteran with wartime service.</p>
+    <a href="vets.gov/pension/survivors-pension/"><b>VA Survivors Pension</b></a>
+    <p>Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.</p>
   </div>
 
 </section>
@@ -103,7 +109,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
   <div class="link">
     <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Check Your VA Claim Status</b></a>
-    <p>Check the status of an open VA disability pay (compensation) and pension claim. If you're a surviving spouse or parent, you can view Dependency and Indemnity Compensation (DIC) claim status.</p>
+    <p>Check the status of an open VA disability pay (compensation) and pension claim. If you're a surviving spouse or parent, you can view your Dependency and Indemnity Compensation (DIC) claim status.</p>
     </div>
 
   <div class="link">
@@ -148,8 +154,8 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="benefits.va.gov/compensation/claimexam.asp"><b>VA Compensation and Pension Exam (C&P Exam)</b></a>
-    <p>Find out how to schedule your C&P exam and what to expect during and after the appointment.</p>
+    <a href="benefits.va.gov/compensation/claimexam.asp"><b>VA Claim Exam (C&P Exam)</b></a>
+    <p>Find out how to schedule your VA claim exam and what to expect during and after the appointment.</p>
   </div>
 
   <div class="link">
@@ -159,8 +165,6 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
   <div class="link">
     <a href="vets.gov/pension/pension-management-center/"><b>Access Your VA Records and Documents</b></a>
-    <p>Manage records like your DD214, VA benefits award letter, and medical records.</p>
+    <p>Manage records like your DD214, VA benefits award letters, and medical records.</p>
   </div>
-
-
 </section>
