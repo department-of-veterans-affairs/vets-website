@@ -92,7 +92,6 @@ class DocumentRequestPage extends React.Component {
       const claim = this.props.claim;
       const trackedItem = this.props.trackedItem;
       const filesPath = `your-claims/${this.props.claim.id}/files`;
-      // const claimsPath = `your-claims${this.props.claim.attributes.open ? '' : '/closed'}`;
       const message = this.props.message;
 
       content = (

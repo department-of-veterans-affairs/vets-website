@@ -55,12 +55,12 @@ export class AppealInfo extends React.Component {
     return `Appeal of ${appealDate} Claim Decision`;
   }
 
-  renderBreadcrumbs(appealObj) {
+  renderBreadcrumbs(appeal) {
     const crumbs = [
       <a href="/" key="home">Home</a>,
       <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
       <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
-      <Link to={`/appeals/${appealObj.id}`} key="claims-appeal">Status Details</Link>
+      <Link to={`/appeals/${appeal.id}`} key="claims-appeal">Status Details</Link>
     ];
 
     return crumbs;

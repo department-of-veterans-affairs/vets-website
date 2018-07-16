@@ -14,7 +14,6 @@ const MAX_CONTENTIONS = 3;
 
 export default class ClaimDetailLayout extends React.Component {
   renderBreadcrumbs(claim) {
-    // const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}/${claim.id}`;
     const crumbs = [
       <a href="/" key="home">Home</a>,
       <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
