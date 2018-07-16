@@ -164,7 +164,6 @@ describe('526 helpers', () => {
       const dataClone = _.set(_.cloneDeep(initialData), 'disabilities[0].name', newName);
       const prefill = prefillTransformer([], dataClone, {});
       expect(prefill.formData.disabilities[0].name).to.equal(newName);
-      expect(prefill.formData.disabilities[0].name).to.equal(newName);
     });
   });
   describe('getDisabilityName', () => {
