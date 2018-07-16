@@ -180,6 +180,14 @@ describe('526 helpers', () => {
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
     });
+    it('should return original data if disabilities is not an array', () => {
+      const clonedData = _.cloneDeep(initialData);
+      const pages = [];
+      const formData = _.set(clonedData, 'disabilities', { someProperty: 'value' });
+      const metadata = {};
+
+      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
+    });
   });
   describe('getDisabilityName', () => {
     it('should return string with each word capitalized when name supplied', () => {

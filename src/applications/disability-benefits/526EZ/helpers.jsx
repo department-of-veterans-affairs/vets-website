@@ -121,7 +121,7 @@ export function addPhoneEmailToCard(formData) {
 
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
-  if (!disabilities) {
+  if (!disabilities || !Array.isArray(disabilities)) {
     Raven.captureMessage('vets-disability-increase-no-rated-disabilities-found');
     return { metadata, formData, pages };
   }
