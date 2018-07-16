@@ -1,7 +1,7 @@
-import get from '../../../platform/utilities/data/get';
-import set from '../../../platform/utilities/data/set';
-import { requestStates } from '../../../platform/utilities/constants';
-import { itfStatuses } from './constants';
+import get from '../../../../platform/utilities/data/get';
+import set from '../../../../platform/utilities/data/set';
+import { requestStates } from '../../../../platform/utilities/constants';
+import { itfStatuses } from '../constants';
 import {
   ITF_FETCH_INITIATED,
   ITF_FETCH_SUCCEEDED,
@@ -9,10 +9,7 @@ import {
   ITF_CREATION_INITIATED,
   ITF_CREATION_SUCCEEDED,
   ITF_CREATION_FAILED,
-} from './actions';
-
-import formConfig from './config/form';
-import { createSaveInProgressFormReducer } from '../../../platform/forms/save-in-progress/reducers';
+} from '../actions';
 
 
 const initialState = {
@@ -33,7 +30,7 @@ function findLastITF(itfList) {
 }
 
 
-export const itf = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case ITF_FETCH_INITIATED:
       return set('fetchCallState', requestStates.pending, state);
@@ -71,9 +68,4 @@ export const itf = (state = initialState, action) => {
     default:
       return state;
   }
-};
-
-export default {
-  form: createSaveInProgressFormReducer(formConfig),
-  itf
 };

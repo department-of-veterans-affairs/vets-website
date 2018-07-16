@@ -3,6 +3,7 @@ import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 import 'isomorphic-fetch';
 import { logOut } from '../../user/authentication/actions';
+import { constantHandler } from '../../utilities/constants';
 
 import { removeFormApi, saveFormApi } from './api';
 import { sanitizeForm } from '../helpers';
@@ -46,12 +47,12 @@ export const LOAD_STATUSES = Object.freeze({
   success: 'success'
 });
 
-export const PREFILL_STATUSES = Object.freeze({
+export const PREFILL_STATUSES = new Proxy({
   notAttempted: 'not-attempted',
   pending: 'pending',
   success: 'success',
   unfilled: 'unfilled'
-});
+}, constantHandler);
 
 export function setSaveFormStatus(saveType, status, lastSavedDate = null, expirationDate = null) {
   return {
