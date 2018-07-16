@@ -1,6 +1,6 @@
 # Beta version of Vets.gov
 
-## Created by
+### Created by
 
 - Renee Anderson, @rereboom
 - Ric Arthur, @Ric_Arthur
