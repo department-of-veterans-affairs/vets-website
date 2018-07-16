@@ -97,7 +97,7 @@ export function validateDisability(disability) {
   return true;
 }
 
-export function transformDisabilities(disabilities) {
+export function transformDisabilities(disabilities = []) {
   return disabilities.map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
@@ -120,7 +120,12 @@ export function addPhoneEmailToCard(formData) {
 }
 
 export function prefillTransformer(pages, formData, metadata) {
-  const withDisabilityActionType = set('disabilities', transformDisabilities(formData.disabilities), formData);
+  const { disabilities } = formData;
+  if (!disabilities) {
+    Raven.captureMessage('vets-disability-increase-no-rated-disabilities-found');
+    return { metadata, formData, pages };
+  }
+  const withDisabilityActionType = set('disabilities', transformDisabilities(disabilities), formData);
   withDisabilityActionType.disabilities.forEach(validateDisability);
   const withPhoneEmailCard = addPhoneEmailToCard(withDisabilityActionType);
   return {

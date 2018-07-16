@@ -134,6 +134,9 @@ describe('526 helpers', () => {
     it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
       expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
     });
+    it('should return an empty array when given undefined input', () => {
+      expect(transformDisabilities(undefined)).to.deep.equal([]);
+    });
   });
   describe('addPhoneEmailToCard', () => {
     it('should return formData when veteran property does not exist', () => {
@@ -158,6 +161,24 @@ describe('526 helpers', () => {
     it('should transform prefilled disabilities', () => {
       const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
       expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal('INCREASE');
+    });
+    it('should add phone and email to phoneEmailCard', () => {
+      const pages = [];
+      const formData = initialData;
+      const metadata = {};
+      const transformedPhoneEmail = {
+        primaryPhone: initialData.veteran.primaryPhone,
+        emailAddress: initialData.veteran.emailAddress
+      };
+      const newForm = prefillTransformer(pages, formData, metadata);
+      expect(newForm.formData.veteran.phoneEmailCard).to.deep.equal(transformedPhoneEmail);
+    });
+    it('should return original data when no disabilities returned', () => {
+      const pages = [];
+      const formData = _.omit(initialData, 'disabilities');
+      const metadata = {};
+
+      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
     });
   });
   describe('getDisabilityName', () => {
