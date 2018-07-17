@@ -136,7 +136,12 @@ export function addPhoneEmailToCard(formData) {
 
 
 export function prefillTransformer(pages, formData, metadata) {
-  const newFormData = set('disabilities', transformDisabilities(formData.disabilities), formData);
+  const { disabilities } = formData;
+  if (!disabilities || !Array.isArray(disabilities)) {
+    Raven.captureMessage('vets-disability-increase-no-rated-disabilities-found');
+    return { metadata, formData, pages };
+  }
+  const newFormData = set('disabilities', transformDisabilities(disabilities), formData);
   newFormData.disabilities.forEach(validateDisability);
   const withPhoneEmailCard = addPhoneEmailToCard(newFormData);
   return {
