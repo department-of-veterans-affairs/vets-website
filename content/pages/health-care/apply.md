@@ -33,12 +33,19 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 </div>
 </div>
 
-#### What documents and information do I need to apply?
+<div class="feature">
+
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">What documents and information do I need to apply?</h4>
+<div itemprop="itemListElement">
 
 - Your most recent tax return
 - Social Security numbers for yourself and your qualified dependents
 - Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
 
+</div>
+</div>
+</div>
 <br>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
@@ -71,9 +78,9 @@ Atlanta, GA 30329<br>
 </p>
 
 ##### In person
-<br>
+
 ### Fill out an Application for Health Benefits (VA Form 10-10EZ).
-Download VA Form 10-10EZ. (MARY: Just copy and paste the code from "By mail" above to create this link.)
+[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 You or someone acting as your power of attorney must sign and date the form. And:
 
 - If you’re using a power of attorney, you’ll need to submit a copy of the Power of Attorney form along with your application.
@@ -93,11 +100,8 @@ You can work with a trained professional called an accredited representative to 
 </div>
 </div>
 
-<div class="feature">
 
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">What if I'm the caregiver of a post-9/11 Veteran or Servicemember?</h4>
-<div itemprop="itemListElement">
+#### What if I'm the caregiver of a post-9/11 Veteran or Servicemember?
 
 You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
 
@@ -108,8 +112,6 @@ You may qualify for VA health care and other benefits. View the Application for 
 If you need community nursing home care, domiciliary care, adult day health care, geriatric evaluation, or respite care, you'll need to fill out an Application for Extended Care Services (VA Form 10-10EC). 
 
 [Download Form 10-10EC](/health-care/forms/vha-10-10EC.pdf).
-
-Download Form 10-10EC
 
 </div>
 </div>
