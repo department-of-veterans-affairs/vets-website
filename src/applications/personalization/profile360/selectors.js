@@ -5,7 +5,6 @@ import {
 } from './util/local-vet360';
 
 import {
-  isSuccessfulTransaction,
   isFailedTransaction,
   isPendingTransaction
 } from './util/transactions';
@@ -41,29 +40,8 @@ export function selectVet360Transaction(state, fieldName) {
   };
 }
 
-export function selectVet360SuccessfulTransactions(state) {
-  return state.vet360.transactions.filter(isSuccessfulTransaction);
-}
-
 export function selectVet360FailedTransactions(state) {
   return state.vet360.transactions.filter(isFailedTransaction);
-}
-
-export function selectMostRecentSuccessfulTransaction(state) {
-  const {
-    vet360: {
-      transactions,
-      metadata: {
-        mostRecentSuccessfulTransactionId
-      }
-    }
-  } = state;
-
-  let transaction = null;
-  if (mostRecentSuccessfulTransactionId) {
-    transaction = transactions.find(t => t.data.attributes.transactionId === mostRecentSuccessfulTransactionId);
-  }
-  return transaction;
 }
 
 export function selectMostRecentErroredTransaction(state) {
