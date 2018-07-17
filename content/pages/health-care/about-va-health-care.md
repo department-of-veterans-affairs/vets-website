@@ -22,11 +22,8 @@ If you qualify for VA health care, you’ll receive coverage for the services yo
 
 </div>
 
-<div class="feature" markdown=“1” itemscope itemtype="http://schema.org/Question">
+### What care and services does VA health care cover?
 
-<h3 itemprop="name">What care and services does VA health care cover?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
 Each Veteran’s medical benefits package is unique. Yours will include care and services to help:
 
 - Treat illnesses and injuries
@@ -46,6 +43,11 @@ You should also know that being signed up for VA health care meets your Affordab
 </div>
 </div>
 </div>
+
+### What if I'm just separating from active duty and don't know where to start? 
+
+We can help you learn about and apply for VA health care benefits. A member of our Concierge for Care (C4C) team will call you soon after your separation from military service. We can answer any questions you may have, process your application over the phone, and help you schedule your first VA medical appointment.
+
 
 <br>
 
