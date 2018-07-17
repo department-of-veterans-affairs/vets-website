@@ -82,7 +82,7 @@ Contact your local VA medical center or clinic and ask for:
 
 <span id="after-need-help">
 
-#### What if I need help understanding my benefits or accessing services?
+#### How can I learn more about my benefits and accessing services?
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 
@@ -97,7 +97,7 @@ If you need help accessing services, call our toll-free hotline at 1-877-222-VET
 
 <span id="after-update-information">
 
-#### What if I need to update my personal information?
+#### How do I update my personal information??
 
 To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
