@@ -79,7 +79,7 @@ Atlanta, GA 30329<br>
 
 ##### In person
 
-### Fill out an Application for Health Benefits (VA Form 10-10EZ).
+Fill out an Application for Health Benefits (VA Form 10-10EZ).
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 You or someone acting as your power of attorney must sign and date the form. And:
 
@@ -113,9 +113,7 @@ If you need community nursing home care, domiciliary care, adult day health care
 
 [Download Form 10-10EC](/health-care/forms/vha-10-10EC.pdf).
 
-</div>
-</div>
-</div>
+
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
