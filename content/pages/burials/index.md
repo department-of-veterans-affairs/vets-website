@@ -22,12 +22,6 @@ crosslinks:
     - url: "https://benefits.va.gov/fiduciary/"
       title: Fiduciary Services
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
-    - url: "https://vets.gov/social-work"
-      title: Social Work Services
-      description:
-    - url: "https://www.archives.gov/veterans"
-      title: National Archives
-      description:
 contact:
   - heading: Contact us for help with VA benefits or services
     links:
@@ -69,9 +63,9 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
 <h3 class="highlight">Page Content</h3>
 
-[Get VA Burial Benefits and Memorial Items](#get)<br>
+[Get Burial Benefits and Memorial Items](#get)<br>
 [Plan a Burial](#manage)<br>
-[More VA Burial Benefits Information and Resources](#more)<br>
+[More Burials Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
 
@@ -127,7 +121,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Veterans Burial Benefits Information and Resources</h2>
+  <h2 class='highlight'>More Burial Benefits Information and Resources</h2>
 
   <div class="link">
     <a href="https://cem.va.gov/cem/dailyburialschedule/"><b>Daily Burial Schedule</b></a>
