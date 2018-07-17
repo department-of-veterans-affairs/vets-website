@@ -55,13 +55,14 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 </li>
 </ol>
 
-### More about what to do after you apply
+### Other questions you may have after you apply
 
 **Jump to a section:**
 
 - [What if I need to see a doctor before my scheduled appointment?](#after-see-doctor)
-- [What if I need help understanding my benefits or accessing services?](#after-need-help)
-- [What if I need to update my personal information?](#after-update-information)
+- [How can I learn more about my benefits and accessing services?](#after-need-help)
+- [How do I update my personal information?](#after-update-information)
+- [What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I'm not eligible and will be removed from enrollment?] 
 - [What if my application isn’t approved and I disagree with the decision?](#after-not-approved)
 
 <br>
@@ -111,6 +112,16 @@ Atlanta, GA 30329<br>
 You can also get help updating your personal information by visiting your local VA facility. [Find a VA facility near you](/facilities/).
 
 <br>
+
+<span id="after-removed-enrollment">
+
+#### What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I'm not eligible and will be removed from enrollment?
+
+First, you'll want to gather any evidence to support your eligibility to stay enrolled in VA health care and send it to us. Evidence may include documents like doctor's reports, medical tests, or military service records. You'll have 60 days from the date you received your letter to send us this evidence before we make our final decision.
+During these 60 days, you'll keep and can continue to use your VA health care benefits.
+If we decide not to keep you enrolled in VA health care after this time, you have the right to appeal our decision.
+[Learn how to appeal a VA decision.] (https://www.va.gov/vaforms/va/pdf/VA4107VHA.pdf)
+
 
 <span id="after-not-approved">
 
