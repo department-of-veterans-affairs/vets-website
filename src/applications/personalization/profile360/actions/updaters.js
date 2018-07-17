@@ -21,11 +21,12 @@ export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
 function recordProfileTransaction(event, fieldName) {
   const analyticsMap = VET360_CONSTANTS.ANALYTICS_FIELD_MAP;
+  const mappedName = analyticsMap[fieldName];
 
-  if (analyticsMap[fieldName]) {
+  if (mappedName) {
     recordEvent({
       event,
-      'profile-section': fieldName
+      'profile-section': mappedName
     });
   }
 }
