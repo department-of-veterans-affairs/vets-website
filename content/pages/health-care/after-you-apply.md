@@ -64,6 +64,8 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 - [How do I update my personal information?](#after-update-information)
 - [What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I'm not eligible and will be removed from enrollment?](#after-removed-enrollment)
 - [What if my application isn’t approved and I disagree with the decision?](#after-not-approved)
+- [Do I need to apply again each year like with private health insurance?](#after-again-eachyear)
+- [How do I cancel my VA health care enrollment if I no longer want or need it?](#after-cancel)
 
 <br>
 
@@ -129,3 +131,28 @@ If we decide not to keep you enrolled in VA health care after this time, you hav
 #### What if my application isn’t approved and I disagree with the decision?
 
 If you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will include instructions on how to appeal the decision. [Download our “How Do I Appeal?” booklet](https://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).
+
+<br>
+
+<span id="after-again-eachyear">
+  
+#### Do I need to apply again each year like with private health insurance?
+
+No. You'll only need to apply once. If you're enrolled, you'll stay in the VA health care system unless you decide to cancel your enrollment or you receive a letter saying that we've decided you're no longer eligible.
+
+
+<br>
+
+<span id="after-cancel">
+  
+#### How do I cancel my VA health care enrollment if I no longer want or need it?
+
+You can cancel, or decline, enrollment at any time. Just submit a signed and dated document (like a letter) telling us that you want to cancel your coverage. You can bring your document to a VA medical center or mail it to this address: 
+<p class='va-address-block'>
+VA Health Eligibility Center (HEC) <br>
+2957 Clairmont Rd. <br>
+Atlanta, GA 30329<br>
+</p>
+
+<BR>
+
