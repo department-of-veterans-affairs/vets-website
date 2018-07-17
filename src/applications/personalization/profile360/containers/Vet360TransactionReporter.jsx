@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 
 import {
-  selectVet360SuccessfulTransactions,
   selectVet360FailedTransactions,
-  selectMostRecentSuccessfulTransaction,
   selectMostRecentErroredTransaction
 } from '../selectors';
 
@@ -15,7 +13,6 @@ import {
   clearTransaction
 } from '../actions';
 
-import Vet360TransactionSuccessBanner from '../components/Vet360TransactionSuccessBanner';
 import Vet360TransactionErrorBanner from '../components/Vet360TransactionErrorBanner';
 
 class Vet360TransactionReporter extends React.Component {
@@ -23,7 +20,6 @@ class Vet360TransactionReporter extends React.Component {
     clearTransaction: PropTypes.func.isRequired,
     mostRecentSuccessfulTransaction: PropTypes.object,
     mostRecentErroredTransaction: PropTypes.object,
-    successfulTransactions: PropTypes.array.isRequired,
     erroredTransactions: PropTypes.array.isRequired
   };
 
@@ -36,26 +32,17 @@ class Vet360TransactionReporter extends React.Component {
     if (newMessageVisible) scrollToTop();
   }
 
-  clearAllSuccessfulTransactions = () => {
-    this.props.successfulTransactions.forEach(this.props.clearTransaction);
-  }
-
   clearAllErroredTransactions = () => {
     this.props.erroredTransactions.forEach(this.props.clearTransaction);
   }
 
   render() {
     const {
-      mostRecentSuccessfulTransaction,
       mostRecentErroredTransaction
     } = this.props;
 
     return (
       <div className="vet360-transaction-reporter">
-        {mostRecentSuccessfulTransaction && (
-          <Vet360TransactionSuccessBanner
-            clearTransaction={this.clearAllSuccessfulTransactions}/>
-        )}
         {mostRecentErroredTransaction && (
           <Vet360TransactionErrorBanner
             transaction={mostRecentErroredTransaction}
@@ -68,9 +55,7 @@ class Vet360TransactionReporter extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    mostRecentSuccessfulTransaction: selectMostRecentSuccessfulTransaction(state),
     mostRecentErroredTransaction: selectMostRecentErroredTransaction(state),
-    successfulTransactions: selectVet360SuccessfulTransactions(state),
     erroredTransactions: selectVet360FailedTransactions(state)
   };
 };

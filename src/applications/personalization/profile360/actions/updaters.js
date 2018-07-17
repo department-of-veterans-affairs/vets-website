@@ -30,6 +30,20 @@ function recordProfileTransaction(event, fieldName) {
   }
 }
 
+export function clearTransaction(transaction) {
+  return {
+    type: VET360_TRANSACTION_CLEARED,
+    transaction
+  };
+}
+
+export function clearTransactionRequest(fieldName) {
+  return {
+    type: VET360_TRANSACTION_REQUEST_CLEARED,
+    fieldName
+  };
+}
+
 export function refreshTransaction(transaction, analyticsSectionName) {
   return async (dispatch, getState) => {
     try {
@@ -55,7 +69,8 @@ export function refreshTransaction(transaction, analyticsSectionName) {
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
-        dispatch(refreshProfile(forceCacheClear));
+        await dispatch(refreshProfile(forceCacheClear));
+        dispatch(clearTransaction(transactionRefreshed));
         recordEvent({ event: 'profile-saved' });
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
@@ -71,20 +86,6 @@ export function refreshTransaction(transaction, analyticsSectionName) {
         err
       });
     }
-  };
-}
-
-export function clearTransaction(transaction) {
-  return {
-    type: VET360_TRANSACTION_CLEARED,
-    transaction
-  };
-}
-
-export function clearTransactionRequest(fieldName) {
-  return {
-    type: VET360_TRANSACTION_REQUEST_CLEARED,
-    fieldName
   };
 }
 
