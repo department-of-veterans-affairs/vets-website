@@ -7,9 +7,6 @@ description: Find out if you're eligible for VA disability pay (compensation) fo
 concurrence: complete
 lastupdate:
 order: 1
-administration:
-  - heading: Administration
-    description: What goes here?
 promo:
   - image: /img/megamenu/disability-illustration.png
     heading: TBD
