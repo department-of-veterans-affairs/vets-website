@@ -1,9 +1,13 @@
 // import fullSchema from 'vets-json-schema/dist/686-schema.json';
+import _ from 'lodash/fp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AutosuggestField from '../../components/AutosuggestField.jsx';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
-import _ from 'lodash/fp';
+import {
+  fetchAutocompleteSuggestions,
+  transformAutocompletePayloadForAutosuggestField
+} from '../helpers';
 
 // const { } = fullSchema.properties;
 
@@ -35,11 +39,31 @@ const formConfig = {
           uiSchema: {
             name: _.merge(autoSuggestUiSchema(
               'Label',
-              (value) => Promise.resolve(['option1', 'option2', 'option3', 'option4', 'option5', 'option6', 'option7', 'option8', 'option9', 'option10']),
+              value => fetchAutocompleteSuggestions(value)
+                .then(transformAutocompletePayloadForAutosuggestField),
+              /*
+              (value) => {
+
+                return new Promise(resolve => {
+                  setTimeout(() => resolve([
+                    { label: 'option1', value: 'option1' },
+                    { label: 'option2', value: 'option1' },
+                    { label: 'option3', value: 'option1' },
+                    { label: 'option4', value: 'option1' },
+                    { label: 'option5', value: 'option1' },
+                    { label: 'option6', value: 'option1' },
+                    { label: 'option7', value: 'option1' },
+                    { label: 'option8', value: 'option1' },
+                    { label: 'option9', value: 'option1' }
+                  ]), 1000);
+                })
+              },
+              */
               {
                 'ui:options': {
                   queryForResults: true,
                   freeInput: true,
+                  debounceRate: 250
                 },
                 'ui:errorMessages': {
                   // If the maxLength changes, we'll want to update the message too
