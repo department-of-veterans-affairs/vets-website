@@ -36,27 +36,20 @@ class RoutedSavableSinglePageFormApp extends React.Component {
       window.History.scrollRestoration = 'manual';
     }
 
-    // If we start in the middle of a form, redirect to the beginning or load
-    //  saved form / prefill
-    // If we're in production, we'll redirect if we start in the middle of a form
-    // In development, we won't redirect unless we append the URL with `?redirect`
+    // If on the form’s single page, load saved form / prefill
     const { currentLocation } = this.props;
-    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    const resumeForm = trimmedPathname.endsWith('resume');
-    const devRedirect = (__BUILDTYPE__ !== 'development' && !currentLocation.search.includes('skip'))
-      || currentLocation.search.includes('redirect');
-    const goToStartPage = resumeForm || devRedirect;
-    if (isInProgress(currentLocation.pathname) && goToStartPage) {
-      // We started on a page that isn't the first, so after we know whether
+    const formInProgress = isInProgress(currentLocation.pathname);
+    if (formInProgress) {
+      // We started on the single form page, so after we know whether
       //  we're logged in or not, we'll load or redirect as needed.
-      this.shouldRedirectOrLoad = true;
+      this.shouldLoadForm = true;
     }
   }
 
   componentDidMount() {
     // When a user isn't logged in, the profile finishes loading before the component mounts
-    if (!this.props.profileIsLoading && this.shouldRedirectOrLoad) {
-      this.redirectOrLoad(this.props);
+    if (!this.props.profileIsLoading && this.shouldLoadForm) {
+      this.loadForm(this.props);
     }
   }
 
@@ -64,8 +57,8 @@ class RoutedSavableSinglePageFormApp extends React.Component {
     // When a user is logged in, the profile finishes loading after the component
     //  has mounted, so we check here.
     // If we're done loading the profile, check to see if we should load or redirect
-    if (this.props.profileIsLoading && !newProps.profileIsLoading && this.shouldRedirectOrLoad) {
-      this.redirectOrLoad(newProps);
+    if (this.props.profileIsLoading && !newProps.profileIsLoading && this.shouldLoadForm) {
+      this.loadForm(newProps);
     }
 
     const status = newProps.loadedStatus;
@@ -124,9 +117,9 @@ class RoutedSavableSinglePageFormApp extends React.Component {
     return message;
   }
 
-  redirectOrLoad(props) {
+  loadForm(props) {
     // Stop a user that's been redirected to be redirected again after logging in
-    this.shouldRedirectOrLoad = false;
+    this.shouldLoadForm = false;
 
 
     const firstPagePath = props.routes[props.routes.length - 1].pageList[0].path;
@@ -164,7 +157,7 @@ class RoutedSavableSinglePageFormApp extends React.Component {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
       content = <LoadingIndicator message="Saving your form..."/>;
-    } else if (!formConfig.disableSave && this.shouldRedirectOrLoad) {
+    } else if (!formConfig.disableSave && this.shouldLoadForm) {
       content = <LoadingIndicator message="Retrieving your profile information..."/>;
     } else {
       content = (
