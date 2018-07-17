@@ -120,7 +120,7 @@ You can also get help updating your personal information by visiting your local 
 First, you'll want to gather any evidence to support your eligibility to stay enrolled in VA health care and send it to us. Evidence may include documents like doctor's reports, medical tests, or military service records. You'll have 60 days from the date you received your letter to send us this evidence before we make our final decision.
 During these 60 days, you'll keep and can continue to use your VA health care benefits.
 If we decide not to keep you enrolled in VA health care after this time, you have the right to appeal our decision.
-[Learn how to appeal a VA decision.] (https://www.va.gov/vaforms/va/pdf/VA4107VHA.pdf)
+[Learn how to appeal a VA decision.](https://www.va.gov/vaforms/va/pdf/VA4107VHA.pdf)
 
 <br>
 
