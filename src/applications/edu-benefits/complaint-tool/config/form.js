@@ -1,7 +1,9 @@
 // import fullSchema from 'vets-json-schema/dist/686-schema.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import AutosuggestField from '../../components/AutosuggestField.jsx';
+import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
+import _ from 'lodash/fp';
 
 // const { } = fullSchema.properties;
 
@@ -31,6 +33,25 @@ const formConfig = {
           path: 'form-page',
           title: 'First Page',
           uiSchema: {
+            name: _.merge(autoSuggestUiSchema(
+              'Label',
+              (value) => Promise.resolve(['option1', 'option2']),
+              {
+                'ui:options': {
+                  queryForResults: true,
+                  freeInput: true,
+                },
+                'ui:errorMessages': {
+                  // If the maxLength changes, we'll want to update the message too
+                  maxLength: 'Please enter a name with fewer than 100 characters.',
+                  pattern: 'Please enter a valid name.'
+                }
+              }
+            ),
+              {
+                'ui:field': AutosuggestField
+              }
+            )
           },
           schema: {
             type: 'object',
