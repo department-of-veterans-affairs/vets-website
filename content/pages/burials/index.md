@@ -63,13 +63,13 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Burial Benefits and Memorial Items](#get)<br>
+[Get Benefits](#get)<br>
 [Plan a Burial](#manage)<br>
-[More Burials Information and Resources](#more)<br>
+[More Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get VA Burial Benefits and Memorial Items</h2>
+  <h2 class="highlight">Get Benefits</h2>
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/eligibility/"><b>Eligibility</b></a>
