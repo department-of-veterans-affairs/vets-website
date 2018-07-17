@@ -188,6 +188,12 @@ describe('526 helpers', () => {
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
     });
+    it('should transform prefilled data when disability name has special chars', () => {
+      const newName = '//()';
+      const dataClone = _.set(_.cloneDeep(initialData), 'disabilities[0].name', newName);
+      const prefill = prefillTransformer([], dataClone, {});
+      expect(prefill.formData.disabilities[0].name).to.equal(newName);
+    });
   });
   describe('getDisabilityName', () => {
     it('should return string with each word capitalized when name supplied', () => {

@@ -13,7 +13,7 @@ export default function ContactInformationExplanation() {
           <a
             href="/health-care/"
             onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'learn-more-va-benefits' }); }}>
-          >Learn more about VA health benefits</a>.
+          Learn more about VA health benefits</a>.
         </AlertBox>
       </div>
       <AdditionalInfo
