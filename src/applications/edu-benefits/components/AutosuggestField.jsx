@@ -110,6 +110,7 @@ render() {
   //
   // forms system is passing custom props into input
   return (
+    <div>
     <Downshift
       onInputValueChange={this.handleInputValueChange}
       inputValue={this.state.input}
@@ -172,6 +173,8 @@ render() {
         </div>
       )}
     />
+    <h1>test</h1>
+  </div>
   );
 }
 }
