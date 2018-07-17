@@ -29,6 +29,8 @@ contact:
       title: VA National Cemetery Scheduling Office
     - url: 1-800-697-6947
       title: Status of Headstones and Markers
+   - url: https://iris.custhelp.va.gov/app/ask
+      title: Ask Us A Question Online 
     - url: 1-877-222-VETS (1-877-222-8387)
       title: Questions About Your Application
     - url: 1-800-827-1000
@@ -37,8 +39,7 @@ contact:
       title: Questions About Servicemembers or Veterans Group Life Insurance
     - url: Dial 711
       title: Telecommunications Device for Veterans With Hearing Loss (TDD or TTY)
-    - url: https://iris.custhelp.va.gov/app/ask
-      title: Ask Us A Question Online 
+    
 social:
   - heading: Social Media
     links:
@@ -59,11 +60,11 @@ social:
 ---
 
 <p class="va-introtext">
-VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of Veterans. Find out how to apply for the burial benefits you've earned, and how to plan for burial either in advance or at your time of need.</p>
+VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of a Veteran. Find out how to apply for the burial benefits you've earned, and how to plan for burial either in advance or at your time of need.</p>
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Benefits](#get)<br>
+[Get Burial Benefits and Memorial Items](#get)<br>
 [Plan a Burial](#manage)<br>
 [More Information and Resources](#more)<br>
 
@@ -82,8 +83,8 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"><b>Burial Allowance For Veterans Funeral Services and Burial Costs</b></a>
-    <p>Learn how to apply for a burial allowance to help pay for Veteran funeral services, burial, and transportation costs.</p>
+    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"><b>Help With Paying For Veterans Funeral and Burial Costs</b></a>
+    <p>Learn how to apply for a burial allowance to help pay for Veterans funeral services, burial, and transportation costs.</p>
   </div>
 
   <div class="link">
@@ -95,6 +96,12 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Veterans Grave Markers, Headstones, Presidential Memorial Certificate, and Other Memorial Items</b></a>
     <p>Find out how to apply for memorial items to honor a Veteran's service.</p>
   </div>
+  
+   <div class="link">
+    <a href="https://www.vets.gov/burials-and-memorials/bereavement-counseling/"><b>Bereavement Counseling</b></a>
+    <p>See if you qualify for grief counseling and support after the loss of an active-duty Servicemember, Reservist, or National Guard Soldier.</p>
+  </div>
+ 
   
 </section>
 
@@ -112,46 +119,52 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <p>Find a VA national cemetery near you.</p>
   </div>
   
-  <div class="link">
-    <a href="#"><b>Request Military Records</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+  <div class="https://www.archives.gov/veterans/military-service-records">
+    <a href="#"><b>Request Your Military Service Records</b></a>
+    <p>Visit the National Archives website to request your military service records online or by mail or fax.</p>
   </div>
 
 </section>
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Burial Benefits Information and Resources</h2>
+  <h2 class='highlight'>More Information and Resources</h2>
 
+  <div class="https://www.cem.va.gov/dailyburialschedule/">
+    <a href="c"><b>VA National Cemetery Daily Burial Schedule</b></a>
+    <p>Find the committal service date, time, and cemetery for the scheduled burial of a Veteran, spouse, or other eligible family member.</p>
+  </div>
+
+  <div class="https://benefits.va.gov/Compensation/current_rates_dic.asp">
+    <a href=""><b>Dependency and Indemnity Compensation (DIC) Rates</b></a>
+    <p>View current VA survivor benefit rates for spouses and children.</p>
+  
+  <div class="https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp">
+    <a href=""><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
+    <p>View current survivor benefit rates for parents.</p>
+  
+  <div class="https://www.archives.gov/veterans/replace-medals.html">
+    <a href=""><b>Replace Medals, Awards, and Decorations</b></a>
+    <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
+ 
   <div class="link">
-    <a href="https://cem.va.gov/cem/dailyburialschedule/"><b>Daily Burial Schedule</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="https://m.va.gov/gravelocator/index.cfm"><b>Veteran Grave Locator</b></a>
+    <p>Find a Veteran's or family member's grave in a VA national cemetery or state or tribal Veterans cemetery.</p>
   </div>
 
   <div class="link">
-    <a href=""><b>Compensation Rates  </b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
-  </div>
-
-
-  <div class="link">
-    <a href="https://m.va.gov/gravelocator/index.cfm"><b>Grave Locator</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://www.cem.va.gov/cem/faq.asp"><b>Frequently Asked Questions</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <a href="https://www.cem.va.gov/cem/faq.asp"><b>VA Burial Benefits FAQs</b></a>
+    <p>Find answers to common questions about VA burial benefits and memorial items</p>
   </div>
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/what-to-expect-at-a-funeral/"><b>What to Expect at a Veteran Funeral</b></a>
-    <p>Prepare for a memorial service by learning about.</p>
+    <p>Prepare for a memorial service by learning about what happens at a committal service in a VA national cemetery.</p>
   </div>
 
   <div class="link">
     <a href="https://www.cem.va.gov/cem/legacy/index.asp"><b>Veterans Legacy Program</b></a>
-    <p>Vivamus ut arcu ac arcu gravida commodo. Cras mattis, justo eu sollicitudin efficitur, risus tellus scelerisque dolor, sit amet vulputate tellus nibh sit amet elit.</p>
+    <p>Learn about our educational outreach program that works to memorialize our nation's Veterans by sharing their stories.</p>
   </div>
 
 </section>
