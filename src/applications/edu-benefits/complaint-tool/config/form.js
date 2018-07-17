@@ -24,19 +24,28 @@ const formConfig = {
   defaultDefinitions: {
   },
   chapters: {
-    form: {
-      title: 'Form',
+    applicantInformation: {
+      title: 'GI Bill School Complaint Tool',
       pages: {
-        page1: {
-          path: 'form-page',
-          title: 'First Page',
+        applicantInformation: {
+          path: 'applicant-information',
+          title: 'Applicant Information',
           uiSchema: {
+            onBehalfOf: {
+              'ui:widget': 'radio',
+              'ui:title': 'I’m filing on behalf of...'
+            }
           },
           schema: {
             type: 'object',
             properties: {
-              name: {
-                type: 'string'
+              onBehalfOf: {
+                type: 'string',
+                enum: [
+                  'Myself',
+                  'Someone else',
+                  'I want to submit my complaint anonymously.'
+                ]
               }
             }
           }
