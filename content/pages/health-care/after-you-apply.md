@@ -122,6 +122,7 @@ During these 60 days, you'll keep and can continue to use your VA health care be
 If we decide not to keep you enrolled in VA health care after this time, you have the right to appeal our decision.
 [Learn how to appeal a VA decision.] (https://www.va.gov/vaforms/va/pdf/VA4107VHA.pdf)
 
+<br>
 
 <span id="after-not-approved">
 
