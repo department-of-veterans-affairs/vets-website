@@ -64,7 +64,7 @@ social:
       label: VHA Youtube
       icon: fa-youtube
     - url: "https://googleplus.com"
-      label:VHA Google Plus
+      label: VHA Google Plus
       icon: fa-google-plus
 ---
 
