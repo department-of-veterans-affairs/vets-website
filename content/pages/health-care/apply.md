@@ -33,19 +33,13 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 </div>
 </div>
 
-<div class="feature" markdown=“1”>
-
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">What documents and information do I need to apply?</h4>
-<div itemprop="itemListElement">
+#### What documents and information do I need to apply?
 
 - Your most recent tax return
 - Social Security numbers for yourself and your qualified dependents
 - Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
 
-</div>
-</div>
-</div> 
+<br>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <div id="react-applicationStatus" class="static-page-widget">
@@ -65,10 +59,8 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 Fill out an Application for Health Benefits (VA Form 10-10EZ). <br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
-<b>Note</b>: You or someone acting as your power of attorney must sign and date the form. And:
-
-If you’re using a power of attorney, you’ll need to submit a copy of the Power of Attorney form along with your application.
-If you sign with an "X," two people you know must witness your signature. They’ll also need to sign and print their names on the form.
+- If you’re using a power of attorney, you’ll need to submit a copy of the Power of Attorney form along with your application.
+- If you sign with an "X," two people you know must witness your signature. They’ll also need to sign and print their names on the form.
 
 Send it here:
 
@@ -79,7 +71,13 @@ Atlanta, GA 30329<br>
 </p>
 
 ##### In person
+<br>
+### Fill out an Application for Health Benefits (VA Form 10-10EZ).
+Download VA Form 10-10EZ. (MARY: Just copy and paste the code from "By mail" above to create this link.)
+You or someone acting as your power of attorney must sign and date the form. And:
 
+- If you’re using a power of attorney, you’ll need to submit a copy of the Power of Attorney form along with your application.
+- If you sign with an “X,” two people you know must witness your signature. They’ll also need to sign and print their names on the form.
 Go to your nearest VA medical center or clinic. Bring a signed Application for Health Benefits (VA Form 10-10EZ) with you.<br>
 [Find a VA medical center or clinic near you](/facilities/).<br>
 
@@ -105,7 +103,7 @@ You may qualify for VA health care and other benefits. View the Application for 
 
 [Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
 
-What if I need long-term care? 
+<b>What if I need long-term care?</b>
 
 If you need community nursing home care, domiciliary care, adult day health care, geriatric evaluation, or respite care, you'll need to fill out an Application for Extended Care Services (VA Form 10-10EC). 
 
