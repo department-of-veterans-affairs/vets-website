@@ -62,7 +62,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 - [What if I need to see a doctor before my scheduled appointment?](#after-see-doctor)
 - [How can I learn more about my benefits and accessing services?](#after-need-help)
 - [How do I update my personal information?](#after-update-information)
-- [What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I'm not eligible and will be removed from enrollment?] (#after-removed-enrollment)
+- [What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I'm not eligible and will be removed from enrollment?](#after-removed-enrollment)
 - [What if my application isn’t approved and I disagree with the decision?](#after-not-approved)
 
 <br>
