@@ -42,7 +42,6 @@ All Veterans receive coverage for most care and services, but only some will qua
 You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having “minimum essential health coverage.” We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 </div>
 </div>
-</div>
 
 ### What if I'm just separating from active duty and don't know where to start? 
 
