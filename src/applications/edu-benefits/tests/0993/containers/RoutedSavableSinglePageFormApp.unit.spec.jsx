@@ -259,7 +259,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
       .to.be.false;
   });
-  it('should load a saved form when on the form’s single page and logged in', () => {
+  it('should load a saved form when on the form’s single page and logged in with a saved form', () => {
     const formConfig = {
       title: 'Testing',
       formId: 'testForm'
