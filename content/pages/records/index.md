@@ -39,16 +39,8 @@ social:
 ---
 
 <p class="va-introtext">
-With VA Records, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
+Access your VA records and documents online to manage your health and benefits.
 </p>
-
-<h3 class="highlight">Page Content</h3>
-
-[Get Records](#get)<br>
-
-<section id="get" class="merger-majorlinks">
-
-  <h2 class="highlight">Get Your Records and Documents</h2>
 
   <div class="link">
     <a href="https://www.vets.gov/veteran-id-card/"><b>Apply for a Veteran ID Card</b></a>
@@ -56,18 +48,13 @@ With VA Records, you’re covered for regular checkups with your primary care pr
   </div>
 
   <div class="link">
-    <a href="https://www.myhealth.va.gov/mhv-portal-web/download-my-data"><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
-    <p>Set up your personal health record and download reports to share with your VA and non-VA doctors.</p>
+    <a href=""><b>Manage and Share Your VA Medical Records (called VA Blue Button)</b></a>
+    <p>Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p>
   </div>
 
   <div class="link">
-    <a href="ebenefits.va.gov/ebenefits/vapii"><b>Share Your VA Health Records</b></a>
-    <p>TBD.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>Apply for a VA Home Loan Certificate of Elibility</b></a>
-    <p>If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for Records benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.</p>
+    <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>Learn How to Apply for a VA Home Loan Certificate of Elibility</b></a>
+    <p>Find out how to apply for your Certificate of Eligibility (COE), which confirms for your lender that you qualify for the VA home loan benefit. Then, choose your loan type and learn about the rest of the loan application process.</p>
   </div>
 
   <div class="link">
@@ -77,13 +64,17 @@ With VA Records, you’re covered for regular checkups with your primary care pr
 
   <div class="link">
     <a href="https://www.vets.gov/discharge-upgrade-instructions/"><b>Learn How to Apply for a Discharge Upgrade</b></a>
-    <p>Apply online now, or find out how to apply in person, by phone, or by mail.</p>
+    <p>Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.</p>
+  </div>
+
+<div class="link">
+    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Manage Your Military Personnel File (DD214)</b></a>
+    <p>Verify, review, and print documents from your official military personnel file, including your DD214</p>
   </div>
 
   <div class="link">
     <a href="https://www.archives.gov/"><b>Find Historical Military Records (National Archives)</b></a>
     <p>Visit the National Archives website to research military records from the Revolutionary War to the present.</p>
   </div>
-
 
 </section>
