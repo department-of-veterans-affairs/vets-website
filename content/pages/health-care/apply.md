@@ -67,10 +67,10 @@ Fill out an Application for Health Benefits (VA Form 10-10EZ). <br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). 
 
 You or someone acting as your power of attorney must sign and date the form. And:
-- If you’re using a power of attorney, you’ll need to submit a copy of the Power of Attorney form along with your application.
-- If you sign with an "X," two people you know must witness your signature. They’ll also need to sign and print their names on the form.
+- **If you’re using a power of attorney,** you’ll need to submit a copy of the Power of Attorney form along with your application.
+- **If you sign with an "X,"** two people you know must witness your signature. They’ll also need to sign and print their names on the form.
 
-Send it here:
+Send your completed application here:
 
 <p class="va-address-block">
 Health Eligibility Center<br>
@@ -84,8 +84,8 @@ Fill out an Application for Health Benefits (VA Form 10-10EZ).<br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 You or someone acting as your power of attorney must sign and date the form. And:
-- If you’re using a power of attorney, you’ll need to submit a copy of the Power of Attorney form along with your application.
-- If you sign with an “X,” two people you know must witness your signature. They’ll also need to sign and print their names on the form.
+- **If you’re using a power of attorney,** you’ll need to submit a copy of the Power of Attorney form along with your application.
+- **If you sign with an “X,”** two people you know must witness your signature. They’ll also need to sign and print their names on the form.
 
 Go to your nearest VA medical center or clinic. Bring a signed Application for Health Benefits (VA Form 10-10EZ) with you.<br>
 [Find a VA medical center or clinic near you](/facilities/).<br>
