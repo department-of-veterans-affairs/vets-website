@@ -38,6 +38,9 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: [
+              'onBehalfOf',
+            ],
             properties: {
               onBehalfOf: {
                 type: 'string',
@@ -50,17 +53,59 @@ const formConfig = {
               fullName: {
                 type: 'object',
                 properties: {
+                  // prefix: {
+                  //   type: 'string',
+                  //   'enum': [
+                  //     'Mr.',
+                  //     'Mrs.',
+                  //     'Ms.',
+                  //     'Dr.',
+                  //     'Other'
+                  //   ]
+                  // },
                   first: {
-                    type: 'string'
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 15
                   },
                   middle: {
-                    type: 'string'
+                    type: 'string',
+                    maxLength: 15
                   },
                   last: {
-                    type: 'string'
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 25
+                  },
+                  suffix: {
+                    type: 'string',
+                    'enum': [
+                      'Jr.',
+                      'Sr.',
+                      'II',
+                      'III',
+                      'IV'
+                    ]
                   }
-                }
-              }
+                },
+                required: [
+                  'first',
+                  'last'
+                ]
+              },
+              dob: {
+                type: 'string',
+                format: 'date'
+              },
+              serviceAffiliation: {
+                type: 'string',
+                'enum': [
+                  'Service Member',
+                  'Spouse or Family Member',
+                  'Veteran',
+                  'Other'
+                ]
+              },
             }
           }
         }
