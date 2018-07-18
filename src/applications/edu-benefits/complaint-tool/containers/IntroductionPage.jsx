@@ -14,41 +14,46 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Opt Out of Sharing VA Education Benefits Information"/>
-        <h4>Follow the steps below to apply for declaration of status of dependents.</h4>
-        <div className="process schemaform-process">
-          <ol>
-            <li className="process-step list-one">
-              <div><h5>Prepare</h5></div>
-              <div><h6>To fill out this application, you’ll need your:</h6></div>
-              <ul>
-                <li>Social Security number (required)</li>
-              </ul>
-              <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
-            </li>
-            <li className="process-step list-two">
-              <div><h5>Apply</h5></div>
-              <p>Complete this declaration of status of dependents form.</p>
-              <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
-            </li>
-            <li className="process-step list-three">
-              <div><h5>VA Review</h5></div>
-              <p>We process claims within a week. If more than a week has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call us at.</p>
-            </li>
-            <li className="process-step list-four">
-              <div><h5>Decision</h5></div>
-              <p>Once we’ve processed your claim, you’ll get a notice in the mail with our decision.</p>
-            </li>
-          </ol>
-        </div>
-        <SaveInProgressIntro
-          buttonOnly
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
-      </div>
+       <FormTitle title="GI Bill School Complaint Tool"/>
+       <p>If you believe your school or employer isn’t following the Principles of Excellence guidelines, you can file a complaint. This program requires schools to follow certain guidelines in order to get federal funding through the GI Bill.</p>
+       <p><a href="https://www.benefits.va.gov/gibill/principles_of_excellence.asp">Learn more about the Principles of Excellence program.</a></p>
+       <p>You can file a complaint yourself, anonymously, or on behalf of someone else. Any complaints sent in anonymously aren’t shared with schools or employers. You’ll need to fill out a short form to submit your complaint. You can get started right now.</p>
+       <h4>Follow the steps below to file and track your complaint:</h4>
+       <div className="process schemaform-process">
+         <ol>
+           <li className="process-step list-one">
+             <div><h5>Prepare</h5></div>
+             <div><h6>To fill out this application, you’ll need to:</h6></div>
+             <ul>
+               <li>Enter your school information and address</li>
+               <li>Tell us which education benefit you're using</li>
+               <li>Give us your feedback and how you think we could make things better (1,000 characters maximum)</li>
+               <li>Provide your email if you want us to get back to you</li>
+             </ul>
+           </li>
+           <li className="process-step list-two">
+             <div><h5>File Your Complaint</h5></div>
+             <p>Complete this application.</p>
+             <p>Note: You might want to type up your feedback in a Word document first, then copy and paste it into the feedback tool’s text box</p>
+           </li>
+           <li className="process-step list-three">
+             <div><h5>VA Review</h5></div>
+             <p>We process claims in the order we recieve them. We may contact you if we need more information from you.</p>
+           </li>
+           <li className="process-step list-four">
+             <div><h5>Follow Up</h5></div>
+             <p>We'll let you know if we have any communication with your school about your feedback. We suggest that you add __@va.gov to your email contact list to make sure you get messages that may require a quick response from you.</p>
+           </li>
+         </ol>
+       </div>
+       <SaveInProgressIntro
+         buttonOnly
+         messages={this.props.route.formConfig.savedFormMessages}
+         pageList={this.props.route.pageList}
+         startText="File Your Complaint"
+         {...this.props.saveInProgressActions}
+         {...this.props.saveInProgress}/>
+     </div>
     );
   }
 }
