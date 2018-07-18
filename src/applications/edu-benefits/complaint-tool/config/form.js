@@ -41,11 +41,25 @@ const formConfig = {
             properties: {
               onBehalfOf: {
                 type: 'string',
-                enum: [
+                'enum': [
                   'Myself',
                   'Someone else',
                   'I want to submit my complaint anonymously.'
                 ]
+              },
+              fullName: {
+                type: 'object',
+                properties: {
+                  first: {
+                    type: 'string'
+                  },
+                  middle: {
+                    type: 'string'
+                  },
+                  last: {
+                    type: 'string'
+                  }
+                }
               }
             }
           }
