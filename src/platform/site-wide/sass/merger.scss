@@ -322,11 +322,6 @@ h3, h4 {
 // mobile
 @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
 
-  body {
-    border: 1px solid orange;
-    width: 100%;
-  }
-
   #vetnav-controls {
     margin-top: 7px;
   }
@@ -358,5 +353,42 @@ h3, h4 {
     .sign-in-nav {
       margin-top: 6px;
     }
+  }
+
+  #homepage-hub {
+
+    padding-top: 1.5em;
+    padding-bottom: 1em;
+
+    #hub-internal {
+
+      width: 100%;
+
+      h2 {
+        margin-bottom: 1em;
+      }
+
+      .usa-grid {
+        &:first-of-type {
+          margin-bottom: 0;
+        }
+
+        .usa-width-one-half {
+          margin-bottom: .55em;
+        }
+      }
+    }
+  }
+
+  #hub-internal,
+  #homepage-benefits,
+  #homepage-news,
+  .va-h-ruled--stars {
+
+    padding-left: .5em;
+    padding-right: .5em;
+  }
+  
+  .va-h-ruled--stars {
   }
 }
