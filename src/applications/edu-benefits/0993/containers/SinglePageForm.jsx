@@ -13,7 +13,7 @@ import DowntimeMessage from '../../../../platform/forms/save-in-progress/RoutedS
 
 import SchemaForm from 'us-forms-system/lib/js/components/SchemaForm';
 import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
-import { getNextPagePath, getPreviousPagePath } from 'us-forms-system/lib/js/routing';
+import { getNextPagePath } from 'us-forms-system/lib/js/routing';
 import { focusElement } from 'us-forms-system/lib/js/utilities/ui';
 
 function focusForm() {
@@ -66,13 +66,6 @@ class SinglePageForm extends React.Component {
     }
 
     const path = getNextPagePath(route.pageList, form.data, location.pathname);
-
-    this.props.router.push(path);
-  }
-
-  goBack = () => {
-    const { form, route: { pageList }, location } = this.props;
-    const path = getPreviousPagePath(pageList, form.data, location.pathname);
 
     this.props.router.push(path);
   }
