@@ -159,6 +159,8 @@ VA Health Eligibility Center (HEC) <br>
 2957 Clairmont Rd. <br>
 Atlanta, GA 30329<br>
 </p>
+<b>Note</b>: Canceling your enrollment in VA health care may impact your health care coverage requirements under the Affordable Care Act if you don't have other health care.
 
+You may reapply at any time.
 <BR>
 
