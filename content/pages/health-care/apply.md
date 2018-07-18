@@ -64,7 +64,8 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 ##### By mail
 
 Fill out an Application for Health Benefits (VA Form 10-10EZ). <br>
-[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). 
+<br>
 You or someone acting as your power of attorney must sign and date the form. And:
 - If you’re using a power of attorney, you’ll need to submit a copy of the Power of Attorney form along with your application.
 - If you sign with an "X," two people you know must witness your signature. They’ll also need to sign and print their names on the form.
