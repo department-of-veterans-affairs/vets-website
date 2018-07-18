@@ -60,6 +60,7 @@ export default class AutosuggestField extends React.Component {
     this.debouncedGetOptions = debounce(debounceRate, this.getOptions);
 
     this.state = {
+      listLabel: uiOptions.listLabel,
       loading: false,
       options,
       input,
@@ -197,9 +198,7 @@ export default class AutosuggestField extends React.Component {
       loading,
       options: items
     } = this.state;
-    const label = loading ? 'Loading...' : 'label';
-    console.log(loading);
-    console.log(label);
+    const listLabel = loading ? 'Loading...' : this.state.listLabel;
 
     if (formContext.reviewMode) {
       const readOnlyData = <span>{getInput(formData, uiSchema, schema)}</span>;
@@ -241,52 +240,68 @@ export default class AutosuggestField extends React.Component {
             highlightedIndex
           }) => (
             <div className="edu-complaint-input-controls">
-              <input {...getInputProps()} />
-              {isOpen && (loading || items) ? (
-                <div className="ds-u-border--1 ds-u-padding--1 ds-c-autocomplete__list">
-                  {label && (
-                    <h5
-                      className="ds-u-margin--0 ds-u-padding--1"
-                      id={this.labelId}
-                    >
-                      {label}
-                    </h5>
-                  )}
+              {console.log(highlightedIndex)}
+              <input {...getInputProps({
+                onKeyDown: event => {
+                  // if no item is selected and enter is pressed, then trigger change
+                  if (highlightedIndex === null && event.key === 'Enter') {
+                    // Prevent Downshift's default 'Enter' behavior.
+                      event.nativeEvent.preventDownshiftDefault = true
 
-                  <ul
-                    aria-labelledby={label ? this.labelId : null}
-                    className="ds-c-list--bare"
-                    id={this.listboxId}
-                    role="listbox"
+                    this.handleChange({ label: this.state.input, value: null });
+                  }
+                }
+              })} />
+            {isOpen && (loading || items) ? (
+              <div className="ds-u-border--1 ds-u-padding--1 ds-c-autocomplete__list">
+                {listLabel && (
+                  <h5
+                    className="ds-u-margin--0 ds-u-padding--1"
+                    id={this.labelId}
                   >
-                    {!loading && this.state.suggestions
-                        .map(({ label: itemLabel, value: itemValue }, index) => (
-                          <li
-                            aria-selected={highlightedIndex === index}
-                            className={
-                              highlightedIndex === index
-                                ? 'ds-c-autocomplete__list-item ds-c-autocomplete__list-item--active'
-                                : 'ds-c-autocomplete__list-item'
-                            }
-                            key={index}
-                            role="option"
-                            {...getItemProps({ item: itemLabel })}
-                          >
-                            {itemLabel}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-              ) : null}
+                    {listLabel}
+                  </h5>
+                )}
 
-              <button
-                aria-label={'ariaClearLabel TODO'}
-                className="ds-u-float--right ds-u-padding-right--0"
-                onClick={this.clearSelection}
-              >
-                {'Clear search'}
-              </button>
-            </div>
+                <ul
+                  aria-labelledby={listLabel ? this.labelId : null}
+                  className="ds-c-list--bare"
+                  id={this.listboxId}
+                  role="listbox"
+                >
+                  {!loading && this.state.suggestions
+                      .map(({ label: itemLabel, value: itemValue }, index) => (
+                        <li
+                          aria-selected={highlightedIndex === index}
+                          className={
+                            highlightedIndex === index
+                              ? 'ds-c-autocomplete__list-item ds-c-autocomplete__list-item--active'
+                              : 'ds-c-autocomplete__list-item'
+                          }
+                          key={index}
+                          role="option"
+                          {...getItemProps({
+                            item: {
+                              label: itemLabel,
+                              value: itemValue
+                            }
+                          })}
+                        >
+                          {itemLabel}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+            ) : null}
+
+            <button
+              aria-label={'ariaClearLabel TODO'}
+              className="ds-u-float--right ds-u-padding-right--0"
+              onClick={this.clearSelection}
+            >
+              {'Clear search'}
+            </button>
+          </div>
           )}>
         </Downshift>
         <h1>test</h1>

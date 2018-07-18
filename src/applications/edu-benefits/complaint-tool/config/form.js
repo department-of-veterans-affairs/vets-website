@@ -38,7 +38,7 @@ const formConfig = {
           title: 'First Page',
           uiSchema: {
             name: _.merge(autoSuggestUiSchema(
-              'Label',
+              'Search for some schools',
               value => fetchAutocompleteSuggestions(value)
                 .then(transformAutocompletePayloadForAutosuggestField),
               /*
@@ -63,7 +63,8 @@ const formConfig = {
                 'ui:options': {
                   queryForResults: true,
                   freeInput: true,
-                  debounceRate: 250
+                  debounceRate: 250,
+                  listLabel: 'Select one of options or submit to search'
                 },
                 'ui:errorMessages': {
                   // If the maxLength changes, we'll want to update the message too
