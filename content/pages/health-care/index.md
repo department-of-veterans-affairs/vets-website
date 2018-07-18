@@ -75,9 +75,9 @@ With VA health care, you’re covered for regular checkups with your primary car
 <h3>On This Page</h3>
 
 <ul>
-  <li><a href="#get">Get VA Health Care Benefits</a></li>
-  <li><a href="#manage">Manage Your Veterans Health Care Benefits</a></li>
-  <li><a href="#more">More VA Health Care Information and Resources</a></li>
+  <li><a href="#get">Get Health Care Benefits</a></li>
+  <li><a href="#manage">Manage Your Health and Benefits</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
 </ul>
 
 <div class="usa-alert usa-alert-warning">
@@ -115,7 +115,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="get" class="merger-majorlinks">
 
-  <h2>Get VA Health Care Benefits</h2>
+  <h2>Get Health Care Benefits</h2>
 
   <div class="link">
     <a href="#"><b>About VA Health Benefits</b></a>
@@ -155,7 +155,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2>Manage Your Health Benefits</h2>
+  <h2>Manage Your Health and Benefits</h2>
 
   <div class="link">
     <a href="#"><b>Refill and Track Your VA Prescriptions</b></a>
@@ -215,7 +215,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="more" class="merger-majorlinks">
 
-  <h2>More VA Health Care Information and Resources</h2>
+  <h2>More Information and Resources</h2>
 
   <div class="link">
     <a href="#"><b>About Your VA Copay and Health Care Costs</b></a>
