@@ -76,9 +76,9 @@ article {
   margin-top: 2em;
 }
 
-
+// we'll need to rewrite this at some point once we have business rules
 [href^="http"], [rel="external"] {
-    background-image: none;
+  background-image: none;
 }
 
 #homepage-hub {
@@ -315,5 +315,48 @@ h3, h4 {
 .va-footer-linkgroup {
   li {
     margin-bottom: 0;
+  }
+}
+
+
+// mobile
+@media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
+
+  body {
+    border: 1px solid orange;
+    width: 100%;
+  }
+
+  #vetnav-controls {
+    margin-top: 7px;
+  }
+
+  .usa-banner {
+    padding-left: .5em;
+  }
+
+  .va-header-logo-wrapper {
+    width: 55%;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 1em;
+
+    a {
+      width: 100%;
+      height: auto;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  .vet-toolbar {
+    margin-bottom: .5em;
+
+    .sign-in-nav {
+      margin-top: 6px;
+    }
   }
 }
