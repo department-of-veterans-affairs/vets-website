@@ -30,7 +30,7 @@ class SearchMenu extends React.Component {
         <div className="csp-inline-patch-header">
           <input name="utf8" type="hidden" value="&#x2713;"/>
         </div>
-        <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search"/>
+        <input id="affiliate" name="affiliate" type="hidden" value={window.settings.search.affiliate}/>
         <label htmlFor="query" className="usa-sr-only">Search:</label>
 
         <div className="va-flex">

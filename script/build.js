@@ -45,6 +45,7 @@ const optionDefinitions = [
   { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
+  { name: 'searchaffiliate', type: String, defaultValue: 'vets.gov_search' },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -79,10 +80,12 @@ switch (options.buildtype) {
 
   case 'devpreview':
     options.mergedbuild = true;
+    options.searchaffiliate = 'va';
     break;
 
   case 'preview':
     options.mergedbuild = true;
+    options.searchaffiliate = 'va';
     break;
 
   default:
@@ -115,6 +118,7 @@ smith.destination(`../build/${options.buildtype}`);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: options.buildtype });
 smith.metadata({ mergedbuild: options.mergedbuild });
+smith.metadata({ searchaffiliate: options.searchaffiliate });
 
 // To block an app from production add the following to the below list:
 //  ignoreList.push('<path-to-content-file>');
