@@ -78,6 +78,14 @@ export default class AutosuggestField extends React.Component {
     this.debouncedGetOptions.cancel();
   }
 
+  clearSelection = () => {
+    this.setState({
+      input: '',
+      searchTerm: '',
+      loading: false
+    });
+  }
+
   getOptions = (inputValue) => {
     const getOptions = this.props.uiSchema['ui:options'].getOptions;
     if (getOptions) {
@@ -91,10 +99,14 @@ export default class AutosuggestField extends React.Component {
 
   setOptions = (options) => {
     if (!this.unmounted) {
+      const optionsOrDefault = options.length > 0 ?
+        options :
+        [{ value: null, label: 'No results'}];
       this.setState({
         loading: false,
-        options,
-        suggestions: this.getSuggestions(options, this.state.input)
+        searchTerm: '',
+        options: optionsOrDefault,
+        suggestions: this.getSuggestions(optionsOrDefault, this.state.input)
       });
     }
   }
@@ -228,7 +240,7 @@ export default class AutosuggestField extends React.Component {
             selectedItem,
             highlightedIndex
           }) => (
-            <div>
+            <div className="edu-complaint-input-controls">
               <input {...getInputProps()} />
               {isOpen && (loading || items) ? (
                 <div className="ds-u-border--1 ds-u-padding--1 ds-c-autocomplete__list">
@@ -267,13 +279,13 @@ export default class AutosuggestField extends React.Component {
                     </div>
               ) : null}
 
-              <a
+              <button
                 aria-label={'ariaClearLabel TODO'}
                 className="ds-u-float--right ds-u-padding-right--0"
                 onClick={this.clearSelection}
               >
-                {'clearInputText TODO'}
-              </a>
+                {'Clear search'}
+              </button>
             </div>
           )}>
         </Downshift>
