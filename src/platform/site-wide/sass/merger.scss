@@ -383,12 +383,19 @@ h3, h4 {
   #hub-internal,
   #homepage-benefits,
   #homepage-news,
-  .va-h-ruled--stars {
+  .va-h-ruled--stars,
+  .va-nav-breadcrumbs,
+  article {
 
     padding-left: .5em;
     padding-right: .5em;
   }
-  
+
   .va-h-ruled--stars {
+  }
+
+  // internal static-pages
+  #promo {
+    display: none;
   }
 }
