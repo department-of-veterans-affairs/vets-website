@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, selectCheckbox, selectRadio, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../complaint-tool/config/form';
 
 describe('complaint tool applicant info', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
 
-  it.only('should render', () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -18,26 +18,10 @@ describe('complaint tool applicant info', () => {
         uiSchema={uiSchema}/>
     );
 
-    // Check for opt out message
     expect(form.find('input').length).to.equal(3);
   });
 
-  it('should render verified view', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        data={{ verified: true }}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
-    );
-
-    // Check for opt out message
-    expect(form.find('legend').length).to.equal(1);
-    expect(form.find('input').length).to.equal(0);
-    expect(form.find('select').length).to.equal(0);
-  });
-
-  it('should not submit empty form', () => {
+  it('should not submit without required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -46,56 +30,97 @@ describe('complaint tool applicant info', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
+
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with no errors with all required fields filled in', () => {
+  it('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        data={{
-          claimantFullName: {
-            first: 'test',
-            last: 'test'
-          },
-          claimantSocialSecurityNumber: '987987987'
-        }}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
 
+    selectRadio(form, 'root_onBehalfOf', 'Myself');
+    const select  = form.find('select#root_serviceAffiliation');
+    select.simulate('change', {
+      target: { value: 'Veteran' }
+    });
+    fillData(form, 'input#root_fullName_first', 'test');
+    fillData(form, 'input#root_fullName_last', 'test');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should expand and require VA file number question if no SSN is available', () => {
+  it('should render myself', () => {
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        data={{
-          claimantFullName: {
-            first: 'test',
-            last: 'test'
-          }
-        }}
+        onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
 
-    form.find('form').simulate('submit');
-
-    // VA file number input is not visible; error is shown for empty SSN input
-    expect(form.find('.usa-input-error #root_claimantSocialSecurityNumber-error-message').length).to.equal(1);
-    expect(form.find('#root_vaFileNumber').length).to.equal(0);
-
-    // Check no-SSN box
-    selectCheckbox(form, 'root_view:noSSN', true);
-    expect(form.find('.usa-input-error #root_claimantSocialSecurityNumber-error-message').length).to.equal(0);
-    expect(form.find('.usa-input-error #root_vaFileNumber-error-message').length).to.equal(1);
+    selectRadio(form, 'root_onBehalfOf', 'Myself');
+    expect(form.find('input').length).to.equal(7);
+    expect(form.find('select').length).to.equal(4);
   });
+
+  it('should render myself as a veteran', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    selectRadio(form, 'root_onBehalfOf', 'Myself');
+    const select = form.find('select#root_serviceAffiliation');
+    select.simulate('change', {
+      target: { value: 'Veteran' }
+    });
+
+    expect(form.find('input').length).to.equal(9);
+    expect(form.find('select').length).to.equal(9);
+  });
+
+  it('should render someone else', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    selectRadio(form, 'root_onBehalfOf', 'Someone else');
+    expect(form.find('input').length).to.equal(7);
+    expect(form.find('select').length).to.equal(3);
+  });
+
+  it('should render anonymous', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    selectRadio(form, 'root_onBehalfOf', 'I want to submit my complaint anonymously');
+    expect(form.find('input').length).to.equal(4);
+  });
+
+
 });

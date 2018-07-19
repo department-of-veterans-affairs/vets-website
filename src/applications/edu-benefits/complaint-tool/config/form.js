@@ -13,7 +13,7 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 // const { } = fullSchema.definitions;
 
 function isNotAnonymous(formData) {
-  if (!!formData && formData !== 'I want to submit my feedback anonymously') {
+  if (!!formData && formData !== 'I want to submit my complaint anonymously') {
     return true;
   }
   return false;
@@ -71,7 +71,7 @@ const formConfig = {
                 nestedContent: {
                   Myself: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
                   'Someone else': () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  'I want to submit my feedback anonymously': () => <div className="usa-alert-info no-background-image"><i>None of your personal information will be shared outside of the VA.</i></div>
+                  'I want to submit my complaint anonymously': () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
@@ -79,11 +79,11 @@ const formConfig = {
             fullName: _.merge(fullNameUI, {
               first: {
                 'ui:title': 'Your first name',
-                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== 'I want to submit my feedback anonymously')
+                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== 'I want to submit my complaint anonymously')
               },
               last: {
                 'ui:title': 'Your last name',
-                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== 'I want to submit my feedback anonymously')
+                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== 'I want to submit my complaint anonymously')
               },
               middle: {
                 'ui:title': 'Your middle name'
@@ -145,7 +145,7 @@ const formConfig = {
               'ui:title': 'Email',
               'ui:options': {
                 expandUnder: 'onBehalfOf',
-                expandUnderCondition: 'I want to submit my feedback anonymously'
+                expandUnderCondition: 'I want to submit my complaint anonymously'
               }
             }
           },
@@ -160,7 +160,7 @@ const formConfig = {
                 'enum': [
                   'Myself',
                   'Someone else',
-                  'I want to submit my feedback anonymously'
+                  'I want to submit my complaint anonymously'
                 ]
               },
               fullName: {
