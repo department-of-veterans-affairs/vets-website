@@ -11,7 +11,6 @@ function runEmailTest(browser, fieldName = 'email', initialValue = 'veteran@gmai
   const emailInput = `${fieldWrapper} input[name=email]`;
   const saveEditButton = `${fieldWrapper} button[data-action="save-edit"]`;
   const transactionPending = `${fieldWrapper} [data-transaction-pending]`;
-  const transactionSuccess = '[data-transaction-success]';
 
   browser.assert.containsText(fieldWrapper, initialValue);
   browser.click(editButton);
@@ -23,7 +22,8 @@ function runEmailTest(browser, fieldName = 'email', initialValue = 'veteran@gmai
   browser.click(saveEditButton);
   browser.waitForElementVisible(transactionPending, Timeouts.normal);
 
-  browser.waitForElementVisible(transactionSuccess, Timeouts.slow);
+  // Edit button should become visible again after transaction finishes
+  browser.waitForElementVisible(editButton, Timeouts.slow);
 }
 
 function runPhoneTest(browser, fieldName, initialValue) {
