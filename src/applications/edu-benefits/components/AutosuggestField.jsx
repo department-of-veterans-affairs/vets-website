@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import Downshift from 'downshift';
-import classNames from 'classnames';
 
 import debounce from 'us-forms-system/lib/js/utilities/data/debounce';
 import sortListByFuzzyMatch from 'us-forms-system/lib/js/utilities/fuzzy-matching';
@@ -79,14 +78,6 @@ export default class AutosuggestField extends React.Component {
     this.debouncedGetOptions.cancel();
   }
 
-  clearSelection = () => {
-    this.setState({
-      input: '',
-      searchTerm: '',
-      loading: false
-    });
-  }
-
   getOptions = (inputValue) => {
     const getOptions = this.props.uiSchema['ui:options'].getOptions;
     if (getOptions) {
@@ -102,7 +93,7 @@ export default class AutosuggestField extends React.Component {
     if (!this.unmounted) {
       const optionsOrDefault = options.length > 0 ?
         options :
-        [{ value: null, label: 'No results'}];
+        [{ value: null, label: 'No results' }];
       this.setState({
         loading: false,
         searchTerm: '',
@@ -133,6 +124,16 @@ export default class AutosuggestField extends React.Component {
     }
 
     return _.set('widget', 'autosuggest', suggestion);
+  }
+
+  handleClearSelection = (e, downshiftClear) => {
+    e.preventDefault();
+    // using Downshift's clear sets the correct focus state after using clear
+    downshiftClear(() => this.setState({
+      input: '',
+      searchTerm: '',
+      loading: false
+    }));
   }
 
   handleInputValueChange = (inputValue) => {
@@ -191,8 +192,7 @@ export default class AutosuggestField extends React.Component {
   }
 
   render() {
-    const { idSchema, formContext, formData, uiSchema, schema } = this.props;
-    const id = idSchema.$id;
+    const { formContext, formData, uiSchema, schema } = this.props;
 
     const {
       loading,
@@ -233,43 +233,30 @@ export default class AutosuggestField extends React.Component {
             return item.label;
           }}
           render={({
+            clearSelection,
             getInputProps,
             getItemProps,
             isOpen,
-            selectedItem,
             highlightedIndex
           }) => (
             <div className="edu-complaint-input-controls">
-              {console.log(highlightedIndex)}
-              <input {...getInputProps({
-                onKeyDown: event => {
-                  // if no item is selected and enter is pressed, then trigger change
-                  if (highlightedIndex === null && event.key === 'Enter') {
-                    // Prevent Downshift's default 'Enter' behavior.
-                      event.nativeEvent.preventDownshiftDefault = true
+              <input {...getInputProps()}/>
+              {isOpen && (loading || items) ? (
+                <div className="ds-u-border--1 ds-u-padding--1 ds-c-autocomplete__list">
+                  {listLabel && (
+                    <h5
+                      className="ds-u-margin--0 ds-u-padding--1"
+                      id={this.labelId}>
+                      {listLabel}
+                    </h5>
+                  )}
 
-                    this.handleChange({ label: this.state.input, value: null });
-                  }
-                }
-              })} />
-            {isOpen && (loading || items) ? (
-              <div className="ds-u-border--1 ds-u-padding--1 ds-c-autocomplete__list">
-                {listLabel && (
-                  <h5
-                    className="ds-u-margin--0 ds-u-padding--1"
-                    id={this.labelId}
-                  >
-                    {listLabel}
-                  </h5>
-                )}
-
-                <ul
-                  aria-labelledby={listLabel ? this.labelId : null}
-                  className="ds-c-list--bare"
-                  id={this.listboxId}
-                  role="listbox"
-                >
-                  {!loading && this.state.suggestions
+                  <ul
+                    aria-labelledby={listLabel ? this.labelId : null}
+                    className="ds-c-list--bare"
+                    id={this.listboxId}
+                    role="listbox">
+                    {!loading && this.state.suggestions
                       .map(({ label: itemLabel, value: itemValue }, index) => (
                         <li
                           aria-selected={highlightedIndex === index}
@@ -285,23 +272,21 @@ export default class AutosuggestField extends React.Component {
                               label: itemLabel,
                               value: itemValue
                             }
-                          })}
-                        >
+                          })}>
                           {itemLabel}
                         </li>
                       ))}
-                    </ul>
-                  </div>
-            ) : null}
+                  </ul>
+                </div>
+              ) : null}
 
-            <button
-              aria-label={'ariaClearLabel TODO'}
-              className="ds-u-float--right ds-u-padding-right--0"
-              onClick={this.clearSelection}
-            >
-              {'Clear search'}
-            </button>
-          </div>
+              <button
+                aria-label={'clear all fields on this page'}
+                className="ds-u-float--right ds-u-padding-right--0"
+                onClick={e => this.handleClearSelection(e, clearSelection)}>
+                {'Clear search'}
+              </button>
+            </div>
           )}>
         </Downshift>
         <h1>test</h1>

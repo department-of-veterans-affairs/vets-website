@@ -41,24 +41,6 @@ const formConfig = {
               'Search for some schools',
               value => fetchAutocompleteSuggestions(value)
                 .then(transformAutocompletePayloadForAutosuggestField),
-              /*
-              (value) => {
-
-                return new Promise(resolve => {
-                  setTimeout(() => resolve([
-                    { label: 'option1', value: 'option1' },
-                    { label: 'option2', value: 'option1' },
-                    { label: 'option3', value: 'option1' },
-                    { label: 'option4', value: 'option1' },
-                    { label: 'option5', value: 'option1' },
-                    { label: 'option6', value: 'option1' },
-                    { label: 'option7', value: 'option1' },
-                    { label: 'option8', value: 'option1' },
-                    { label: 'option9', value: 'option1' }
-                  ]), 1000);
-                })
-              },
-              */
               {
                 'ui:options': {
                   queryForResults: true,
@@ -72,11 +54,9 @@ const formConfig = {
                   pattern: 'Please enter a valid name.'
                 }
               }
-            ),
-              {
-                'ui:field': AutosuggestField
-              }
-            )
+            ), {
+              'ui:field': AutosuggestField
+            })
           },
           schema: {
             type: 'object',
