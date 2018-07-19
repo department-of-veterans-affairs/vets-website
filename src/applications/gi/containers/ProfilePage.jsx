@@ -93,7 +93,7 @@ export class ProfilePage extends React.Component {
                 </AccordionItem>)
               }
               {
-                !isOJT &&
+                !isOJT && __BUILDTYPE__ !== 'production' &&
                 (<AccordionItem button="Student outcomes">
                   <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
                     <Outcomes
