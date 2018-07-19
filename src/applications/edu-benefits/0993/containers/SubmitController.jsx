@@ -8,8 +8,6 @@ import PrivacyAgreement from 'us-forms-system/lib/js/components/PrivacyAgreement
 import { isValidForm } from 'us-forms-system/lib/js/validation';
 import {
   createPageListByChapter,
-  expandArrayPages,
-  getActivePages,
 } from 'us-forms-system/lib/js/helpers';
 import {
   setPrivacyAgreement,
@@ -29,16 +27,7 @@ class SubmitController extends React.Component {
   }
 
   goBack = () => {
-    const {
-      form,
-      pageList,
-      router
-    } = this.props;
-
-    const eligiblePageList = getActivePages(pageList, form.data);
-    const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
-
-    router.push(expandedPageList[expandedPageList.length - 2].path);
+    this.props.router.goBack();
   }
 
   handleSubmit = () => {

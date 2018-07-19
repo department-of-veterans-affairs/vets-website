@@ -65,22 +65,22 @@ export class AdditionalInformation extends React.Component {
           </strong>
           &nbsp;{it.creditForMilTraining ? 'Yes' : 'No'}
         </div>
-        <div>
+        {__BUILDTYPE__ !== 'production' && <div>
           <strong>
             <a onClick={this.props.onShowModal.bind(this, 'iStudy')}>
                Independent study:
             </a>
           </strong>
           &nbsp;{it.independentStudy ? 'Yes' : 'No'}
-        </div>
-        <div>
+        </div>}
+        {__BUILDTYPE__ !== 'production' && <div>
           <strong>
             <a onClick={this.props.onShowModal.bind(this, 'stemOffered')}>
               STEM (Science, Technology, Engineering, and Math):
             </a>
           </strong>
           &nbsp;{it.stemOffered ? 'Yes' : 'No'}
-        </div>
+        </div>}
       </div>
     );
   }

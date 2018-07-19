@@ -116,8 +116,10 @@ node('vetsgov-general-purpose') {
 
         // Check package.json for known vulnerabilities
         security: {
-          dockerImage.inside(args) {
-            sh "cd /application && nsp check"
+          retry(3) {
+            dockerImage.inside(args) {
+              sh "cd /application && nsp check"
+            }
           }
         },
 
