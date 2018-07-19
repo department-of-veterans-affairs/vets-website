@@ -64,8 +64,8 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 - [How do I update my personal information?](#after-update-information)
 - [What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I'm not eligible and will be removed from enrollment?](#after-removed-enrollment)
 - [What if my application isn’t approved and I disagree with the decision?](#after-not-approved)
-- [Do I need to apply again each year like with private health insurance?](#apply-each-year)
-- [How do I cancel my VA health care enrollment if I no longer want or need it?](#cancel-enrollment)
+- [Do I need to apply again each year like with private health insurance?](#after-apply-each-year)
+- [How do I cancel my VA health care enrollment if I no longer want or need it?](#after-cancel-enrollment)
 
 <br>
 
@@ -136,7 +136,7 @@ If you disagree with the decision, you can file an appeal. We’ll send you a le
 
 <br>
 
-<span id="apply-each-year">
+<span id="after-apply-each-year">
   
 #### Do I need to apply again each year like with private health insurance?
 
@@ -145,7 +145,7 @@ No. You'll only need to apply once. If you're enrolled, you'll stay in the VA he
 
 <br>
 
-<span id="cancel-enrollment">
+<span id="after-cancel-enrollment">
   
 #### How do I cancel my VA health care enrollment if I no longer want or need it?
 
