@@ -27,9 +27,12 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { form, fullName: { first, middle, last, suffix } } = this.props;
-    const { disabilities } = form.data;
-    const { claimId } = form.submission.response.attributes;
+    const {
+      fullName: { first, middle, last, suffix },
+      disabilities,
+      claimId,
+      submittedAt
+    } = this.props;
 
     const selected4142 = get4142Selection(disabilities || []);
 
@@ -98,7 +101,7 @@ class ConfirmationPage extends React.Component {
             <li>
               <strong>Date submitted</strong>
               <br/>
-              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+              <span>{moment(submittedAt).format('MMM D, YYYY')}</span>
             </li>
           </ul>
         </div>
@@ -124,8 +127,10 @@ class ConfirmationPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form,
-    fullName: state.user.profile.userFullName
+    fullName: state.user.profile.userFullName,
+    disabilities: state.form.data.disabilities,
+    claimId: state.form.submission.response.attributes.claimId,
+    submittedAt: state.form.submission.submittedAt
   };
 }
 
