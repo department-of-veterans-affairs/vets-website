@@ -4,8 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import {
   hasGenericUpdateError,
   hasMVIError,
-  hasMVINotFoundError,
-  hasUserIsDeceasedError
+  hasMVINotFoundError
 } from '../util/transactions';
 
 export function GenericUpdateError(props) {
@@ -48,28 +47,10 @@ export function MVIError(props) {
   );
 }
 
-export function UserIsDeceasedError(props) {
-  return (
-    <AlertBox {...props}
-      status="error"
-      content={(
-        <div>
-          <h4>We can’t accept updates to this profile</h4>
-          <p>We’re sorry. We’ve locked this profile because our records show the Veteran is deceased. If this is an error, please contact your nearest VA medical center. Let them know you need to fix this information in your records. The operator, or a patient advocate, can connect you with the right person who can help.</p>
-          <a href="/facilities/">Find your nearest VA medical center</a>
-        </div>
-      )}/>
-  );
-}
-
 export default function Vet360TransactionErrorBanner({ transaction, clearTransaction }) {
   let TransactionError = null;
 
   switch (true) {
-    case hasUserIsDeceasedError(transaction):
-      TransactionError = UserIsDeceasedError;
-      break;
-
     case hasMVINotFoundError(transaction):
       TransactionError = MVILookupFailError;
       break;

@@ -2,7 +2,8 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import {
-  LOW_CONFIDENCE_ADDRESS_ERROR_CODES
+  LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
+  DECEASED_ERROR_CODES
 } from  '../util/transactions';
 
 function hasError(codes, errors) {
@@ -15,6 +16,15 @@ export default function Vet360EditModalErrorMessage({ error: { errors = [] }, cl
   switch (true) {
     case hasError(LOW_CONFIDENCE_ADDRESS_ERROR_CODES, errors):
       content = <p>We’re sorry. We looked up the address you entered and we're not sure mail can be delivered there. Please try entering your address again.</p>;
+      break;
+
+    case hasError(DECEASED_ERROR_CODES, errors):
+      content = (
+        <div>
+          <p>We can’t make this update because our records show the Veteran is deceased. If this isn’t true, please contact your nearest VA medical center.</p>
+          <a href="/facilities/">Find your nearest VA medical center</a>
+        </div>
+      );
       break;
 
     default:
