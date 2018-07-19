@@ -198,7 +198,9 @@ These services are **not** included in your VA medical benefits package:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 This will depend on factors like your income level, disability rating, and military service history. If you don't already receive VA disability compensation or pension payments, you'll probably need to complete a financial assessment when you enroll. This will help us determine if you qualify for free VA health care. <br>
+  
 [Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp).
+  
 [Find out more about financial assessments](https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp).
 
 
