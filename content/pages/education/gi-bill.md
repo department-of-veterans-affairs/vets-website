@@ -28,7 +28,7 @@ majorlinks:
     - url: /education/gi-bill/higher-learning/
       title: Undergraduate and Graduate Degrees from Institutions of Higher Learning 
       description: If you’re looking to earn an undergraduate or graduate degree, find out if you can get VA benefits to help pay for courses.
-  - heading: More GI Bill Benefits and Information
+  - heading: Other GI Bill Programs You May Qualify for
     links:
     - url: /education/gi-bill/montgomery-active-duty/
       title: Montgomery GI Bill Active Duty (MGIB-AD)
