@@ -33,7 +33,7 @@ contact:
   - heading: Contact us for help with education and training benefits or services
     links:
     - url: 1-888-GIBILL-1 (888-442-4551) 
-      title: Education (GI Bill) Questions
+      title: Education Questions about the GI Bill
     - url: 001-918-781-5678
       title: For Students and School Certifying Officials outside the U.S.
     - url: https://gibill.custhelp.va.gov/
@@ -47,7 +47,7 @@ social:
     - url: "https://facebook.com"
       label: Facebook
     - url: "https://youtube.com"
-      label: Youtube
+      label: YouTube
     - url: "https://instagram.com"
       label: Instagram
     - url: "https://flickr.com"
@@ -55,13 +55,13 @@ social:
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: E-mail Directory
+      label: Email Directory
 ---
 
 <p class="va-introtext">
-VA education benefits help Veterans, Servicemembers, and their qualified family members with needs like paying college tuition, finding the right school or training program, and getting career counseling. Learn more about how to apply for and manage the education and training benefits you've earned. 
+VA education benefits help Veterans, Servicemembers, and their qualified family members with needs like paying college tuition, finding the right school or training program, and getting career counseling. Learn how to apply for and manage the education and training benefits you've earned. 
 
-You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-4551). We're here Monday to Friday, 7:00 a.m. to 6:00 p.m. (CT).
+You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-4551). We're here Monday through Friday, 7:00 a.m. — 6:00 p.m. (CT).
 
 </p>
 
