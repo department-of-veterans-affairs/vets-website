@@ -193,6 +193,17 @@ These services are **not** included in your VA medical benefits package:
 </div>
 <br>
 
+### Will VA fill prescriptions by a non-VA provider?
+
+We'll fill prescriptions by a non-VA provider only if you meet all the requirements listed below.
+
+All of these must be true:
+
+- You're enrolled in VA health care
+- You have an assigned VA primary care provider
+- You've given your VA provider your medical records from your non-VA provider
+- Your VA provider agrees with the prescription
+
 <div id="health-about-care-team" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Who will care for me at VA?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
