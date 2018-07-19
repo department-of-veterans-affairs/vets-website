@@ -12,6 +12,7 @@ export class AuthApp extends React.Component {
     const { token } = props.location.query;
     this.state = { error: !token };
     this.authSettings = {
+      credentials: 'include',
       headers: {
         Authorization: `Token token=${token}`
       }
