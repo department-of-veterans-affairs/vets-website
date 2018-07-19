@@ -25,7 +25,6 @@ const hooks = {
       transactions: [],
       fieldTransactionMap: {},
       metadata: {
-        mostRecentSuccessfulTransactionId: '',
         mostRecentErroredTransactionId: ''
       }
     };
@@ -109,27 +108,6 @@ describe('selectors', () => {
     });
   });
 
-  describe('selectVet360SuccessfulTransactions', () => {
-    beforeEach(hooks.beforeEach);
-    it('returns only successful transactions from a list of transactions', () => {
-      const successful = [
-        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS } } },
-        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED } } }
-      ];
-
-      state.vet360.transactions = [
-        ...successful,
-        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.RECEIVED } } },
-        { data: { attributes: { transactionStatus: TRANSACTION_STATUS.REJECTED } } }
-      ];
-
-      const result = selectors.selectVet360SuccessfulTransactions(state);
-
-      expect(result).to.include(successful[0]);
-      expect(result).to.include(successful[1]);
-    });
-  });
-
   describe('selectVet360FailedTransactions', () => {
     beforeEach(hooks.beforeEach);
     it('returns only failed transactions from a list of transactions', () => {
@@ -149,17 +127,6 @@ describe('selectors', () => {
 
       expect(result).to.include(failed[0]);
       expect(result).to.include(failed[1]);
-    });
-  });
-
-  describe('selectMostRecentSuccessfulTransaction', () => {
-    beforeEach(hooks.beforeEach);
-    it('selects the transaction stored of the ID stored in the metadata mostRecentSuccessfulTransactionId', () => {
-      const transactionId = 'transaction_id';
-      const transaction = { data: { attributes: { transactionId } } };
-      state.vet360.transactions = [transaction];
-      state.vet360.metadata.mostRecentSuccessfulTransactionId = transactionId;
-      expect(selectors.selectMostRecentSuccessfulTransaction(state)).to.be.equal(transaction);
     });
   });
 
