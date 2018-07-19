@@ -104,7 +104,8 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 </div>
 </div>
 
-***Does VA address the specific health needs of LGBT Veterans?** <br>
+
+*** Does VA address the specific health needs of LGBT Veterans?** <br>
 
 Yes. We're committed to serving the health needs of Veterans with LGBT and related identities and providing care in a sensitive, safe environment at all VA health facilities. <br>
 
