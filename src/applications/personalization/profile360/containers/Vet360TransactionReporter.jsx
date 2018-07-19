@@ -18,15 +18,13 @@ import Vet360TransactionErrorBanner from '../components/Vet360TransactionErrorBa
 class Vet360TransactionReporter extends React.Component {
   static propTypes = {
     clearTransaction: PropTypes.func.isRequired,
-    mostRecentSuccessfulTransaction: PropTypes.object,
     mostRecentErroredTransaction: PropTypes.object,
     erroredTransactions: PropTypes.array.isRequired
   };
 
   componentDidUpdate(prevProps) {
     const newMessageVisible = (
-      prevProps.erroredTransactions.length < this.props.erroredTransactions.length ||
-      prevProps.successfulTransactions.length < this.props.successfulTransactions.length
+      prevProps.erroredTransactions.length < this.props.erroredTransactions.length
     );
 
     if (newMessageVisible) scrollToTop();
