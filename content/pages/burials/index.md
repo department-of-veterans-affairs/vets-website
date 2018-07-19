@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: level2-merger
 title: VA Burial Benefits and Memorial Items
-display_title: Burials and Memorials
+display_title: Burials and Memorials! 
 lastupdate:
 order: 1
 promo:
@@ -30,7 +30,7 @@ contact:
     - url: 1-800-697-6947
       title: Status of Headstones and Markers
     - url: https://iris.custhelp.va.gov/app/ask
-      title: Ask Us A Question Online 
+      title: Ask Us A Question Online
     - url: 1-877-222-VETS (1-877-222-8387)
       title: Questions About Your Application
     - url: 1-800-827-1000
@@ -95,13 +95,13 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Veterans Grave Markers, Headstones, Presidential Memorial Certificate, and Other Memorial Items</b></a>
     <p>Find out how to apply for memorial items to honor a Veteran's service.</p>
   </div>
-  
+
    <div class="link">
     <a href="https://www.vets.gov/burials-and-memorials/bereavement-counseling/"><b>Bereavement Counseling</b></a>
     <p>See if you qualify for grief counseling and support after the loss of an active-duty Servicemember, Reservist, or National Guard Soldier.</p>
   </div>
- 
-  
+
+
 </section>
 
 <section id="manage" class="merger-majorlinks">
@@ -117,7 +117,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <a href="https://vets.gov/facilities"><b>Find a VA National Cemetery</b></a>
     <p>Find a VA national cemetery near you.</p>
   </div>
-  
+
   <div class="https://www.archives.gov/veterans/military-service-records">
     <a href="#"><b>Request Your Military Service Records</b></a>
     <p>Visit the National Archives website to request your military service records online or by mail or fax.</p>
@@ -137,15 +137,15 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   <div class="https://benefits.va.gov/Compensation/current_rates_dic.asp">
     <a href=""><b>Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current VA survivor benefit rates for spouses and children.</p>
-  
+
   <div class="https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp">
     <a href=""><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current survivor benefit rates for parents.</p>
-  
+
   <div class="https://www.archives.gov/veterans/replace-medals.html">
     <a href=""><b>Replace Medals, Awards, and Decorations</b></a>
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
- 
+
   <div class="link">
     <a href="https://m.va.gov/gravelocator/index.cfm"><b>Veteran Grave Locator</b></a>
     <p>Find a Veteran's or family member's grave in a VA national cemetery or state or tribal Veterans cemetery.</p>
