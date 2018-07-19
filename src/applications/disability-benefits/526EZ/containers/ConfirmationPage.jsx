@@ -27,11 +27,10 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const formData = this.props.form.data;
-    // const response = this.props.form.submission.response
-    // ? this.props.form.submission.response.attributes
-    // : {};
-    const { fullName, disabilities } = formData;
+    const { form, fullName: { first, middle, last, suffix } } = this.props;
+    const { disabilities } = form.data;
+    const { claimId } = form.submission.response.attributes;
+
     const selected4142 = get4142Selection(disabilities || []);
 
     const privateRecordReleaseContent = (
@@ -81,9 +80,8 @@ class ConfirmationPage extends React.Component {
         <div className="inset">
           <h4>Disability Compensation Claim for Increase <span className="additional">(Form 21-526EZ)</span></h4>
           <span>
-            For {fullName.first} {fullName.middle} {fullName.last} {fullName.suffix}
+            For {first} {middle} {last} {suffix}
           </span>
-
           <ul className="claim-list">
             <strong>Conditions claimed</strong>
             <br/>
@@ -95,14 +93,12 @@ class ConfirmationPage extends React.Component {
             <li>
               <strong>Confirmation number</strong>
               <br/>
-              <span>V-DCCI-3986</span>
-              {/* <span>{response.claimId}</span> */}
+              <span>{claimId}</span>
             </li>
             <li>
               <strong>Date submitted</strong>
               <br/>
-              <span>{moment(Date.now()).format('MMM D, YYYY')}</span>
-              {/* <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span> */}
+              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
             </li>
           </ul>
         </div>
@@ -128,7 +124,8 @@ class ConfirmationPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    fullName: state.user.profile.userFullName
   };
 }
 
