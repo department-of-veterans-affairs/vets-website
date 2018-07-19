@@ -55,7 +55,7 @@ describe.only('Disability Benefits 526EZ <ConfirmationPage>', () => {
     expect(wrapper.render().text()).to.contain(defaultProps.claimId);
   });
 
-  it('should render a full name properly', () => {
+  it('should render a formatted full name', () => {
     const fullName = {
       first: 'Sally',
       middle: 'Ruth',
@@ -67,5 +67,10 @@ describe.only('Disability Benefits 526EZ <ConfirmationPage>', () => {
     const wrapper = shallow(<ConfirmationPage {...newProps}/>);
     const { first, middle, last, suffix } = fullName;
     expect(wrapper.render().text()).to.contain(`${first} ${middle} ${last} ${suffix}`);
+  });
+
+  it('should render a formatted submission date', () => {
+    const wrapper = shallow(<ConfirmationPage {...defaultProps}/>);
+    expect(wrapper.render().text()).to.contain('April 12, 2018');
   });
 });
