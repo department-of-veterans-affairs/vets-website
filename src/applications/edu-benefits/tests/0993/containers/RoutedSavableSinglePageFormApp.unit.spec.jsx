@@ -31,7 +31,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
   it('should render children', () => {
     const formConfig = {};
     const currentLocation = {
-      pathname: 'introduction',
+      pathname: 'confirmation',
       search: ''
     };
     const routes = [{
@@ -188,17 +188,17 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
 
     expect(router.push.calledWith('/error')).to.be.true;
   });
-  it('should route to the first page if started in the middle and not logged in', () => {
+  it('should not load form if not on form’s single page', () => {
     const formConfig = {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test',
+      pathname: '/confirmation',
       search: ''
     };
     const routes = [{
       pageList: [
-        { path: '/introduction' },
+        { path: '/claimant-information' },
         { path: currentLocation.pathname }, // You are here
         { path: '/lastPage' }
       ]
@@ -206,10 +206,8 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     const router = {
       replace: sinon.spy()
     };
+    const fetchInProgressForm = sinon.spy();
 
-    // Only redirects in production or if ?redirect is in the URL
-    const buildType = __BUILDTYPE__;
-    __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
       <RoutedSavableSinglePageFormApp
         formConfig={formConfig}
@@ -223,10 +221,45 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
 
     tree.getMountedInstance().componentDidMount();
 
-    expect(router.replace.calledWith('/introduction')).to.be.true;
-    __BUILDTYPE__ = buildType;
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
+      .to.be.false;
   });
-  it('should load a saved form when starting in the middle of a form and logged in', () => {
+  it('should not load form if on form’s single page and not logged in', () => {
+    const formConfig = {
+      title: 'Testing'
+    };
+    const currentLocation = {
+      pathname: 'test',
+      search: ''
+    };
+    const routes = [{
+      pageList: [
+        { path: currentLocation.pathname }, // You are here
+        { path: '/lastPage' }
+      ]
+    }];
+    const router = {
+      replace: sinon.spy()
+    };
+    const fetchInProgressForm = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <RoutedSavableSinglePageFormApp
+        formConfig={formConfig}
+        routes={routes}
+        router={router}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}>
+        <div className="child"/>
+      </RoutedSavableSinglePageFormApp>
+    );
+
+    tree.getMountedInstance().componentDidMount();
+
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
+      .to.be.false;
+  });
+  it('should load a saved form when on the form’s single page and logged in with a saved form', () => {
     const formConfig = {
       title: 'Testing',
       formId: 'testForm'
@@ -237,7 +270,6 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     };
     const routes = [{
       pageList: [
-        { path: '/introduction' },
         { path: currentLocation.pathname }, // You are here
         { path: '/lastPage' }
       ]
@@ -248,9 +280,6 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     };
     const fetchInProgressForm = sinon.spy();
 
-    // Only redirects in production or if ?redirect is in the URL
-    const buildType = __BUILDTYPE__;
-    __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
       <RoutedSavableSinglePageFormApp
         formConfig={formConfig}
@@ -278,9 +307,8 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
 
     expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
       .to.be.true;
-    __BUILDTYPE__ = buildType;
   });
-  it('should load a pre-filled form when starting in the middle of a form and logged in', () => {
+  it('should load a pre-filled form when logged in at the form’s single page', () => {
     const formConfig = {
       title: 'Testing',
       formId: 'testForm'
@@ -291,7 +319,6 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     };
     const routes = [{
       pageList: [
-        { path: '/introduction' },
         { path: currentLocation.pathname }, // You are here
         { path: '/lastPage' }
       ]
@@ -302,9 +329,6 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
     };
     const fetchInProgressForm = sinon.spy();
 
-    // Only redirects in production or if ?redirect is in the URL
-    const buildType = __BUILDTYPE__;
-    __BUILDTYPE__ = 'production';
     const tree = SkinDeep.shallowRender(
       <RoutedSavableSinglePageFormApp
         formConfig={formConfig}
@@ -332,7 +356,6 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
 
     expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, true))
       .to.be.true;
-    __BUILDTYPE__ = buildType;
   });
 });
 

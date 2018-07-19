@@ -269,7 +269,7 @@ describe('Schemaform review: SubmitController', () => {
   });
   it('should go back', () => {
     const router = {
-      push: sinon.spy()
+      goBack: sinon.spy()
     };
     const formConfig = {
       chapters: {
@@ -307,13 +307,13 @@ describe('Schemaform review: SubmitController', () => {
       <SubmitController
         form={form}
         formConfg={formConfig}
-        pageList={['chapter1', 'chatper2']}
+        pageList={['chapter1', 'chapter2']}
         router={router}
         submission={submission}/>
     ).instance();
 
     tree.goBack();
 
-    expect(router.push.calledWith('previous-page'));
+    expect(router.goBack.calledWith('previous-page'));
   });
 });
