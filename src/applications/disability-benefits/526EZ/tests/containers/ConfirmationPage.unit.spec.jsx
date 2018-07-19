@@ -6,7 +6,7 @@ import _ from 'lodash/fp';
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 import initialData from '../schema/initialData.js';
 
-describe.only('Disability Benefits 526EZ <ConfirmationPage>', () => {
+describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
   const defaultProps = {
     fullName: {
       first: 'Sally',
