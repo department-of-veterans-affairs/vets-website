@@ -14,8 +14,8 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="GI Bill School Complaint Tool"/>
-        <p>If you believe your school or employer isn’t following the Principles of Excellence guidelines, you can file a complaint. This program requires schools to follow certain guidelines in order to get federal funding through the GI Bill.</p>
+        <FormTitle title="GI Bill® School Complaint Tool"/>
+        <p>If you believe your school or employer isn’t following the Principles of Excellence guidelines, you can file a complaint. This program requires schools to follow certain guidelines in order to get federal funding through the GI Bill®.</p>
        <p><a href="https://www.benefits.va.gov/gibill/principles_of_excellence.asp">Learn more about the Principles of Excellence program.</a></p>
        <p>You can file a complaint yourself, anonymously, or on behalf of someone else. Any complaints sent in anonymously aren’t shared with schools or employers. You’ll need to fill out a short form to submit your complaint. You can get started right now.</p>
        <h4>Follow the steps below to file and track your complaint:</h4>
@@ -42,7 +42,7 @@ class IntroductionPage extends React.Component {
            </li>
            <li className="process-step list-four">
              <div><h5>Follow Up</h5></div>
-             <p>We’ll let you know if we have any communication with your school about your feedback. We suggest that you add __@va.gov to your email contact list to make sure you get messages that may require a quick response from you.</p>
+             <p>We'll get back to you within 45 days to let you know if we have any communication with your school about your complaint. We suggest that you add __@va.gov to your email contact list to make sure you get messages that may require a quick response from you.</p>
            </li>
          </ol>
        </div>
