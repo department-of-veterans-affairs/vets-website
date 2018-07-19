@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: level2-merger
 title: VA Burial Benefits and Memorial Items
-display_title: Burials and Memorials! 
+display_title: Burials and Memorials
 lastupdate:
 order: 1
 promo:
