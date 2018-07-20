@@ -102,6 +102,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 Yes. We're committed to serving the health needs of Veterans with LGBT and related identities and providing care in a sensitive, safe environment at all VA health facilities. <br>
 
 For more information, you can download these fact sheets:
+
 [Transgender male health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-male.pdf#)
 
 [Transgender female health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-female.pdf#)
