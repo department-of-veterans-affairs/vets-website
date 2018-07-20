@@ -75,6 +75,7 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
 - [What if I need help accessing services?](#health-accessing-services)
+- [Will VA fill prescriptions by a non-VA provider?](#health-prescriptions)
 - [Can I manage my VA health and benefits online?](#health-manage-online)
 - [Will I have a copay or is my VA health care free?](#health-copay)
 
@@ -205,18 +206,6 @@ This will depend on factors like your income level, disability rating, and milit
 
 [Find out more about financial assessments](https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp).
 
-
-### Will VA fill prescriptions by a non-VA provider?
-
-We'll fill prescriptions by a non-VA provider only if you meet all the requirements listed below.
-
-All of these must be true:
-
-- You're enrolled in VA health care
-- You have an assigned VA primary care provider
-- You've given your VA provider your medical records from your non-VA provider
-- Your VA provider agrees with the prescription
-
 <div id="health-about-care-team" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Who will care for me at VA?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -259,6 +248,23 @@ If you have other forms of health care coverage (like a private insurance plan, 
 <div itemprop="text">
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Or [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+
+</div>
+</div>
+</div>
+<br>
+<div id="health-prescriptions" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Will VA fill prescriptions by a non-VA provider?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+We'll fill prescriptions by a non-VA provider only if you meet all the requirements listed below.
+
+<b>All of these must be true</b>:
+
+- You're enrolled in VA health care
+- You have an assigned VA primary care provider
+- You've given your VA provider your medical records from your non-VA provider
+- Your VA provider agrees with the prescription
 
 </div>
 </div>
