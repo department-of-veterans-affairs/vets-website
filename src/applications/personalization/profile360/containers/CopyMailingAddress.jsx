@@ -4,7 +4,8 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
 import {
-  consolidateAddress
+  consolidateAddress,
+  isEmptyAddress
 } from '../../../../platform/forms/address/helpers';
 
 import {
@@ -51,7 +52,7 @@ class CopyMailingAddress extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   const addressProps = [
     'addressLine1',
     'addressLine2',
@@ -67,7 +68,7 @@ function mapStateToProps(state) {
   ];
 
   const mailingAddress = selectVet360Field(state, FIELD_NAMES.MAILING_ADDRESS);
-  const hasEmptyMailingAddress = !mailingAddress;
+  const hasEmptyMailingAddress = isEmptyAddress(mailingAddress);
 
   const residentialAddress = selectEditedFormField(state, FIELD_NAMES.RESIDENTIAL_ADDRESS).value;
 
