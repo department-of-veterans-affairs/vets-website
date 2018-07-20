@@ -14,7 +14,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="GI Bill® School Complaint Tool"/>
+        <FormTitle title="GI Bill® School Feeback Tool"/>
         <p>If you believe your school or employer isn’t following the Principles of Excellence guidelines, you can file a complaint. This program requires schools to follow certain guidelines in order to get federal funding through the GI Bill®.</p>
        <p><a href="https://www.benefits.va.gov/gibill/principles_of_excellence.asp">Learn more about the Principles of Excellence program.</a></p>
        <p>You can file a complaint yourself, anonymously, or on behalf of someone else. Any complaints sent in anonymously aren’t shared with schools or employers. You’ll need to fill out a short form to submit your complaint. You can get started right now.</p>
@@ -50,7 +50,7 @@ class IntroductionPage extends React.Component {
          buttonOnly
          messages={this.props.route.formConfig.savedFormMessages}
          pageList={this.props.route.pageList}
-         startText="File Your Complaint"
+         startText="File Your Feedback"
          {...this.props.saveInProgressActions}
          {...this.props.saveInProgress}/>
      </div>
