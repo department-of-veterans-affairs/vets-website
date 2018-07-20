@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox, selectRadio, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, selectRadio, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../complaint-tool/config/form';
 
 describe('complaint tool applicant info', () => {
@@ -70,7 +70,7 @@ describe('complaint tool applicant info', () => {
 
     selectRadio(form, 'root_onBehalfOf', 'Myself');
     expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(4);
+    expect(form.find('select').length).to.equal(5);
   });
 
   it('should render myself as a veteran', () => {
@@ -90,7 +90,7 @@ describe('complaint tool applicant info', () => {
     });
 
     expect(form.find('input').length).to.equal(9);
-    expect(form.find('select').length).to.equal(9);
+    expect(form.find('select').length).to.equal(10);
   });
 
   it('should render someone else', () => {
@@ -105,7 +105,7 @@ describe('complaint tool applicant info', () => {
 
     selectRadio(form, 'root_onBehalfOf', 'Someone else');
     expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('select').length).to.equal(4);
   });
 
   it('should render anonymous', () => {
