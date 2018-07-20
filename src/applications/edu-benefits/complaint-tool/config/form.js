@@ -1,7 +1,13 @@
 // import fullSchema from 'vets-json-schema/dist/686-schema.json';
-
+import _ from 'lodash/fp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import AutosuggestField from '../../components/AutosuggestField.jsx';
+import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
+import {
+  fetchAutocompleteSuggestions,
+  transformAutocompletePayloadForAutosuggestField
+} from '../helpers';
 
 // const { } = fullSchema.properties;
 
@@ -31,6 +37,26 @@ const formConfig = {
           path: 'form-page',
           title: 'First Page',
           uiSchema: {
+            name: _.merge(autoSuggestUiSchema(
+              'Search for some schools',
+              value => fetchAutocompleteSuggestions(value)
+                .then(transformAutocompletePayloadForAutosuggestField),
+              {
+                'ui:options': {
+                  queryForResults: true,
+                  freeInput: true,
+                  debounceRate: 250,
+                  listLabel: 'Select one of options or submit to search'
+                },
+                'ui:errorMessages': {
+                  // If the maxLength changes, we'll want to update the message too
+                  maxLength: 'Please enter a name with fewer than 100 characters.',
+                  pattern: 'Please enter a valid name.'
+                }
+              }
+            ), {
+              'ui:field': AutosuggestField
+            })
           },
           schema: {
             type: 'object',

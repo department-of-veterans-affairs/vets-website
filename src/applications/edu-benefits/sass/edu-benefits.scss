@@ -28,3 +28,77 @@
 .row .edu-intro-spacing {
   margin-bottom: 7rem;
 }
+
+// autocomplete component
+.ds-c-autocomplete__list {
+  background-color: $color-white;
+  box-sizing: border-box;
+  left: 0;
+  right: 0;
+  top: 4.2rem;
+  max-height: 320px;
+  overflow-y: auto;
+  position: absolute;
+  max-width: 46rem;
+  width: 100%;
+  z-index: 1000;
+}
+
+.ds-c-autocomplete__list-item {
+  color: $color-primary;
+  padding: 8px;
+}
+
+.ds-c-autocomplete__list-item--active {
+  background-color: $color-primary-alt-darkest;
+  color: $color-white;
+}
+
+.ds-c-autocomplete__list-item--message {
+  color: #5b616b;
+  padding: 8px;
+}
+
+.ds-u-border--1 {
+  // Example: border: 1px !important;
+  border: 1px solid #d6d7d9;
+}
+
+.ds-u-padding--1 {
+  padding: 8px;
+}
+
+.ds-u-margin--0 {
+  margin: 0;
+}
+
+.ds-c-list--bare {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ds-u-padding-right--0 {
+    padding-right: 0!important;
+}
+
+.ds-u-float--right {
+    float: right!important;
+}
+
+.edu-complaint-input-controls {
+  max-width: 46rem;
+  position: relative;
+
+  button {
+    background-color: transparent;
+    color: #0071bc;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.3;
+    padding: 0;
+    text-decoration: none;
+    width: auto;
+  }
+}
