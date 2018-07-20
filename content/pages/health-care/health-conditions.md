@@ -78,14 +78,6 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
 
-- Military sexual trauma (MST)
-
-- Women’s health care needs
-
-- Cancers and other conditions caused by contact with hazardous materials
-
-- Assisted living and home health care
-
 - [Traumatic brain injury (TBI), Polytrauma, and Amputation](https://www.polytrauma.va.gov) 
 
 - [Spinal cord injuries and disorders](https://www.sci.va.gov/)
@@ -111,8 +103,11 @@ Yes. We're committed to serving the health needs of Veterans with LGBT and relat
 
 For more information, you can download these fact sheets:
 [Transgender male health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-male.pdf#)
+
 [Transgender female health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-female.pdf#)
+
 [Male Veterans: Gay and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-gay-bisexual.pdf#)
+
 [Female Veterans: Lesbian and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-lesbian-bisexual.pdf#)
 
 You can also find out more about LGBT programs at VA medical centers across the nation. <br>
