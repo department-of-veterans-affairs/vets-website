@@ -27,7 +27,11 @@ class SubmitController extends React.Component {
   }
 
   goBack = () => {
-    this.props.router.goBack();
+    const formPageUrl = window.location.pathname;
+    let introductionPageUrl = formPageUrl.split('/');
+    introductionPageUrl.splice(-2);
+    introductionPageUrl = introductionPageUrl.join('/');
+    window.location.replace(`${introductionPageUrl}`);
   }
 
   handleSubmit = () => {
