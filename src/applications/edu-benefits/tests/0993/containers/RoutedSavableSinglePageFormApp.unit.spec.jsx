@@ -221,7 +221,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
 
     tree.getMountedInstance().componentDidMount();
 
-    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false, formConfig.prefillTransformer))
       .to.be.false;
   });
   it('should not load form if on form’s single page and not logged in', () => {
@@ -256,7 +256,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
 
     tree.getMountedInstance().componentDidMount();
 
-    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false, formConfig.prefillTransformer))
       .to.be.false;
   });
   it('should load a saved form when on the form’s single page and logged in with a saved form', () => {
@@ -305,7 +305,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
       fetchInProgressForm
     });
 
-    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false, formConfig.prefillTransformer))
       .to.be.true;
   });
   it('should load a pre-filled form when logged in at the form’s single page', () => {
@@ -354,7 +354,7 @@ describe('Schemaform <RoutedSavableSinglePageFormApp>', () => {
       fetchInProgressForm
     });
 
-    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, true))
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, true, formConfig.prefillTransformer))
       .to.be.true;
   });
 });
