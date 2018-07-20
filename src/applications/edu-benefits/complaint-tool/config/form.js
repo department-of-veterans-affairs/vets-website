@@ -12,12 +12,17 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 // const { } = fullSchema.definitions;
 
+const myself = 'Myself';
+const someoneElse = 'Someone else';
+const anonymous = 'I want to submit my complaint anonymously';
+
 function isNotAnonymous(formData) {
-  if (!!formData && formData !== 'I want to submit my complaint anonymously') {
+  if (!!formData && formData !== anonymous) {
     return true;
   }
   return false;
 }
+
 
 const suffixes = [
   'Jr.',
@@ -54,8 +59,6 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'Opt Out of Sharing VA Education Benefits Information',
-  defaultDefinitions: {
-  },
   chapters: {
     applicantInformation: {
       title: 'GI Bill School Complaint Tool',
@@ -69,21 +72,27 @@ const formConfig = {
               'ui:title': 'I’m filing on behalf of...',
               'ui:options': {
                 nestedContent: {
-                  Myself: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  'Someone else': () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  'I want to submit my complaint anonymously': () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
+                  myself: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  someoneElse: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  anonymous: () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
             },
             fullName: _.merge(fullNameUI, {
+              prefix: {
+                'ui:title': 'Prefix',
+                'ui:options': {
+                  widgetClassNames: 'form-select-medium'
+                }
+              },
               first: {
                 'ui:title': 'Your first name',
-                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== 'I want to submit my complaint anonymously')
+                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== anonymous)
               },
               last: {
                 'ui:title': 'Your last name',
-                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== 'I want to submit my complaint anonymously')
+                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== anonymous)
               },
               middle: {
                 'ui:title': 'Your middle name'
@@ -107,9 +116,9 @@ const formConfig = {
               'ui:title': 'Service affiliation',
               'ui:options': {
                 expandUnder: 'onBehalfOf',
-                expandUnderCondition: 'Myself'
+                expandUnderCondition: myself
               },
-              'ui:required': (formData) => !!formData && (formData.onBehalfOf === 'Myself')
+              'ui:required': (formData) => !!formData && (formData.onBehalfOf === myself)
             },
             serviceBranch: {
               'ui:title': 'Branch',
@@ -121,7 +130,7 @@ const formConfig = {
                   return false;
                 },
                 expandUnder: 'onBehalfOf',
-                expandUnderCondition: 'Myself'
+                expandUnderCondition: myself
               }
             },
             serviceDateRange: _.merge(dateRangeUI(
@@ -138,14 +147,14 @@ const formConfig = {
                   return false;
                 },
                 expandUnder: 'onBehalfOf',
-                expandUnderCondition: 'Myself'
+                expandUnderCondition: myself
               }
             }),
             email: {
               'ui:title': 'Email',
               'ui:options': {
                 expandUnder: 'onBehalfOf',
-                expandUnderCondition: 'I want to submit my complaint anonymously'
+                expandUnderCondition: anonymous
               }
             }
           },
@@ -158,24 +167,24 @@ const formConfig = {
               onBehalfOf: {
                 type: 'string',
                 'enum': [
-                  'Myself',
-                  'Someone else',
-                  'I want to submit my complaint anonymously'
+                  myself,
+                  someoneElse,
+                  anonymous
                 ]
               },
               fullName: {
                 type: 'object',
                 properties: {
-                  // prefix: {
-                  //   type: 'string',
-                  //   'enum': [
-                  //     'Mr.',
-                  //     'Mrs.',
-                  //     'Ms.',
-                  //     'Dr.',
-                  //     'Other'
-                  //   ]
-                  // },
+                  prefix: {
+                    type: 'string',
+                    'enum': [
+                      'Mr.',
+                      'Mrs.',
+                      'Ms.',
+                      'Dr.',
+                      'Other'
+                    ]
+                  },
                   first: {
                     type: 'string',
                     minLength: 1,
