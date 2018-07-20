@@ -78,9 +78,6 @@ function mapStateToProps(state) {
 
   return {
     mailingAddress,
-    residentialAddress,
-    mailingAddressConsolidated,
-    residentialAddressConsolidated,
     hasEmptyMailingAddress,
     checked
   };
