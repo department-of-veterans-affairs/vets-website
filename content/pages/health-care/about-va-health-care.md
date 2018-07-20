@@ -51,7 +51,8 @@ You should also know that being signed up for VA health care meets your Affordab
 <h3 itemprop="name">What if I'm just separating from active duty and don't know where to start?</h3>
 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">	
-<div itemprop="text">We can help you learn about and apply for VA health care benefits. A member of our Concierge for Care (C4C) team will call you soon after your separation from military service. We can answer any questions you may have, process your application over the phone, and help you schedule your first VA medical appointment. <br>
+<div itemprop="text">We can help you learn about and apply for VA health care benefits. A member of our Concierge for Care (C4C) team will call you soon after your separation from military service. We can answer any questions you may have, process your application over the phone, and help you schedule your first VA medical appointment.
+  
 [Learn about transitioning from TRICARE to VA health care](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp)
 </div>
 </div>
@@ -198,8 +199,10 @@ These services are **not** included in your VA medical benefits package:
 <h4 itemprop="name">Will I have a copay or is my VA health care free?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-This will depend on factors like your income level, disability rating, and military service history. If you don't already receive VA disability compensation or pension payments, you'll probably need to complete a financial assessment when you enroll. This will help us determine if you qualify for free VA health care. <br>
-[Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp).<br>
+This will depend on factors like your income level, disability rating, and military service history. If you don't already receive VA disability compensation or pension payments, you'll probably need to complete a financial assessment when you enroll. This will help us determine if you qualify for free VA health care.
+  
+[Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp).
+
 [Find out more about financial assessments](https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp).
 
 
@@ -255,7 +258,7 @@ If you have other forms of health care coverage (like a private insurance plan, 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Or [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>
