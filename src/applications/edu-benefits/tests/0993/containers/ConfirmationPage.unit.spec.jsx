@@ -16,7 +16,7 @@ describe('Opt Out <ConfirmationPage>', () => {
         }
       },
       data: {
-        veteranFullName: {
+        claimantFullName: {
           first: 'Joe',
           middle: 'Marjorie',
           last: 'Smith',
@@ -42,7 +42,7 @@ describe('Opt Out <ConfirmationPage>', () => {
       submission: {
       },
       data: {
-        veteranFullName: {
+        claimantFullName: {
           first: 'Joe',
           middle: 'Marjorie',
           last: 'Smith',
