@@ -4,6 +4,7 @@ import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 
+import environment from '../../../../platform/utilities/environment';
 import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 
@@ -19,8 +20,7 @@ const { claimantSocialSecurityNumber, vaFileNumber } = fullSchema0993.properties
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123', timestamp: Date.now() } }),
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0993`,
   trackingPrefix: 'edu-0993',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
