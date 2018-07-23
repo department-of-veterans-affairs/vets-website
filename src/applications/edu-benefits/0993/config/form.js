@@ -13,7 +13,7 @@ import GetFormHelp from '../../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { prefillTransformer } from '../helpers';
+import { prefillTransformer, transform } from '../helpers';
 
 const { fullName } = fullSchema0993.definitions;
 const { claimantSocialSecurityNumber, vaFileNumber } = fullSchema0993.properties;
@@ -32,6 +32,7 @@ const formConfig = {
     notFound: 'Please start over to apply to opt out of sharing VA education benefits information.',
     noAuth: 'Please sign in again to continue your application to opt out of sharing VA education benefits information.'
   },
+  transformForSubmit: transform,
   title: 'Opt Out of Sharing VA Education Benefits Information',
   subTitle: 'VA Form 22-0993',
   getHelp: GetFormHelp,
