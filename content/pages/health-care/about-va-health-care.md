@@ -71,8 +71,8 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
 - [What services aren’t covered under VA health care?](#health-about-not-covered)
-- [Will I have a copay or is my VA health care free?](#health-copay)
 - [Will VA fill prescriptions by a non-VA provider?](#health-prescriptions)
+- [Will I have a copay or is my VA health care free?](#health-copay)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
@@ -196,17 +196,8 @@ These services are **not** included in your VA medical benefits package:
 </div>
 </div>
 <br>
-<div id="health-copay" itemscope itemtype="http://schema.org/Question">
-<h4 itemprop="name">Will I have a copay or is my VA health care free?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
-This will depend on factors like your income level, disability rating, and military service history. If you don't already receive VA disability compensation or pension payments, you'll probably need to complete a financial assessment when you enroll. This will help us determine if you qualify for free VA health care.
-  
-[Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp).
 
-[Find out more about financial assessments](https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp).
-</div>
-<br>
+
 <div id="health-prescriptions" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Will VA fill prescriptions by a non-VA provider?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -224,7 +215,17 @@ We'll fill prescriptions by a non-VA provider only if you meet all the requireme
 </div>
 </div>
 <br>
+<div id="health-copay" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Will I have a copay or is my VA health care free?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+This will depend on factors like your income level, disability rating, and military service history. If you don't already receive VA disability compensation or pension payments, you'll probably need to complete a financial assessment when you enroll. This will help us determine if you qualify for free VA health care.
+  
+[Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp).
 
+[Find out more about financial assessments](https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp).
+</div>
+<br>
 <div id="health-about-care-team" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Who will care for me at VA?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
