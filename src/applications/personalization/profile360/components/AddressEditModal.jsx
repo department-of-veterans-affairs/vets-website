@@ -41,7 +41,8 @@ export default class AddressEditModal extends React.Component {
   }
 
   copyMailingAddress = (mailingAddress) => {
-    this.props.onChange(mailingAddress, null, true);
+    const newAddressValue = { ...mailingAddress, id: this.props.data.id };
+    this.props.onChange(newAddressValue, null, true);
   }
 
   renderForm = () => {
