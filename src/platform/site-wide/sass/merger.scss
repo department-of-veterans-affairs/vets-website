@@ -301,6 +301,12 @@ h3, h4 {
 
 .va-nav-breadcrumbs-list {
   padding-left: 0;
+
+  li {
+    list-style: none;
+    padding-bottom: 1em;
+    padding-top: 1em;
+  }
 }
 
 .footer-banner {
