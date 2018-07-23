@@ -47,8 +47,8 @@ class SearchHelpSignIn extends React.Component {
     }
 
     const buttonClasses = classNames({
-      'va-button-link': true,
-      'sign-in-link': true
+      'va-button-link': false,
+      'sign-in-link': true,
     });
 
     return (
