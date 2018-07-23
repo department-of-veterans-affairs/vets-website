@@ -109,7 +109,7 @@ Other services aren’t covered under VA health care benefits. For these service
 - [What if I have a disability or chronic (long-term) health condition, but I want to stay in my home?](#health-assisted-disability)
 - [What if I’m homebound or live far away from VA?](#health-assisted-remote)
 - [What if I have a family caregiver, but they need support to help care for me at home?](#health-assisted-caregiver)
-
+- [Does VA provide specialized geriatric (elder) care for seniors with multiple physical and mental health needs?] (#health-geriatric-care)
 <br>
 
 <span id="health-assisted-options">
@@ -203,3 +203,18 @@ You may be able to get a service called respite care as part of your VA health c
 [Learn more about respite care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Respite_Care.asp#).
 
 Other services for home health care (like adult day health care or skilled health aide services) listed above can also help to support caregivers.
+
+<span id="health-geriatric-care">
+  
+#### Does VA provide specialized geriatric (elder) care for seniors with multiple physical and mental health needs?
+
+Yes. Many VA medical centers have Geriatric Patient Aligned Care Teams (GeriPACT). These teams provide health care for Veterans with more than one chronic disease who also have declining mental and physical function. Primary care providers and specialists work together to help these Veterans live with as much independence and quality of life as possible. 
+
+To qualify for GeriPACT care, Veterans need to meet all of the requirements below.
+
+**All of these must be true. The Veteran has health challenges due to:**
+- More than one complex chronic disease
+- Dementia or cognitive decline
+- Geriatric syndromes (like frailty, falls, incontinence, memory loss, multiple medications, or being 85 years or older)
+
+[Learn more about geriatric care](https://www.va.gov/GERIATRICS/Geriatric_Patient_Aligned_Care_Team.asp#).
