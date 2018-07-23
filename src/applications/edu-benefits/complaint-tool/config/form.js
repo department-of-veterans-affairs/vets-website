@@ -243,6 +243,29 @@ const formConfig = {
           }
         }
       }
+    },
+    benefitsInformation: {
+      title: 'Benefits Information',
+      pages: {
+        benefitsInformation: {
+          path: 'benefits-information',
+          title: 'Benefits Information',
+          uiSchema: {
+            test: {
+              'ui:title': 'Testing'
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [],
+            properties: {
+              test: {
+                type: 'string'
+              }
+            }
+          }
+        }
+      }
     }
   }
 };
