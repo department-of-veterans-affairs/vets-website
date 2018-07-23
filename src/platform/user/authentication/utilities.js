@@ -32,7 +32,7 @@ function popup(popupUrl, clickedEvent, openedEvent) {
 
     return apiRequest(
       popupUrl,
-      {credentials: 'include'},
+      { credentials: 'include' },
       ({ url }) => { popupWindow.location = url; },
       () => { popupWindow.location = `${environment.BASE_URL}/auth/login/callback`; }
     ).then(() => popupWindow);
