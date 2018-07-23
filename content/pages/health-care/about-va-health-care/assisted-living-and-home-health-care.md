@@ -204,6 +204,8 @@ You may be able to get a service called respite care as part of your VA health c
 
 Other services for home health care (like adult day health care or skilled health aide services) listed above can also help to support caregivers.
 
+<br>
+
 <span id="health-geriatric-care">
   
 #### Does VA provide specialized geriatric (elder) care for seniors with multiple physical and mental health needs?
