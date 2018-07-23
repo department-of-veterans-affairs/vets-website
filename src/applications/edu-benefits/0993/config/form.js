@@ -4,6 +4,7 @@ import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 
+import environment from '../../../../platform/utilities/environment';
 import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 
@@ -12,15 +13,14 @@ import GetFormHelp from '../../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { prefillTransformer } from '../helpers';
+import { prefillTransformer, transform } from '../helpers';
 
 const { fullName } = fullSchema0993.definitions;
 const { claimantSocialSecurityNumber, vaFileNumber } = fullSchema0993.properties;
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123', timestamp: Date.now() } }),
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0993`,
   trackingPrefix: 'edu-0993',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -32,6 +32,7 @@ const formConfig = {
     notFound: 'Please start over to apply to opt out of sharing VA education benefits information.',
     noAuth: 'Please sign in again to continue your application to opt out of sharing VA education benefits information.'
   },
+  transformForSubmit: transform,
   title: 'Opt Out of Sharing VA Education Benefits Information',
   subTitle: 'VA Form 22-0993',
   getHelp: GetFormHelp,

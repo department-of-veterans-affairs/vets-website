@@ -9,12 +9,14 @@ describe('Opt Out <ConfirmationPage>', () => {
     const form = {
       submission: {
         response: {
-          timestamp: '2010-01-01',
-          confirmationNumber: '3702390024'
+          attributes: {
+            timestamp: '2010-01-01',
+            confirmationNumber: '3702390024'
+          }
         }
       },
       data: {
-        veteranFullName: {
+        claimantFullName: {
           first: 'Joe',
           middle: 'Marjorie',
           last: 'Smith',
@@ -40,7 +42,7 @@ describe('Opt Out <ConfirmationPage>', () => {
       submission: {
       },
       data: {
-        veteranFullName: {
+        claimantFullName: {
           first: 'Joe',
           middle: 'Marjorie',
           last: 'Smith',

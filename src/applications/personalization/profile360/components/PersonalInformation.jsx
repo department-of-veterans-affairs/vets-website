@@ -54,7 +54,7 @@ class PersonalInformationContent extends React.Component {
       <div>
         <AdditionalInfo
           triggerText="How do I update my personal information?"
-          onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'learn-more-va-benefits' }); }}>
+          onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'update-personal-information' }); }}>
           <p><strong>If you're enrolled in the VA health care program</strong>
             <br/>Please contact your nearest VA medical center to update your personal information.<br/>
             <a href="/facilities/?facilityType=health">Find your nearest VA medical center</a>

@@ -15,7 +15,6 @@ import get from '../../../platform/utilities/data/get';
 import { pick } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { getDiagnosticCodeName } from './reference-helpers';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
@@ -23,6 +22,7 @@ import {
   USA,
   VA_FORM4142_URL
 } from './constants';
+
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
@@ -43,6 +43,7 @@ const aggregate = (dataArray, property) => {
   return masterList;
 };
 
+
 // Moves phone & email out of the phoneEmailCard up one level into `formData.veteran`
 const setPhoneEmailPaths = (veteran) => {
   const newVeteran = cloneDeep(veteran);
@@ -52,6 +53,7 @@ const setPhoneEmailPaths = (veteran) => {
   delete newVeteran.phoneEmailCard;
   return newVeteran;
 };
+
 
 export function transform(formConfig, form) {
   const {
@@ -83,6 +85,7 @@ export function transform(formConfig, form) {
   return JSON.stringify({ form526: withoutViewFields });
 }
 
+
 export function validateDisability(disability) {
   const invalidDisabilityError = (error => /^instance.disabilities\[/.test(error.property));
   const v = new Validator();
@@ -98,9 +101,20 @@ export function validateDisability(disability) {
   return true;
 }
 
-export function transformDisabilities(disabilities) {
-  return disabilities.map(disability => set('disabilityActionType', 'INCREASE', disability));
+
+export function transformDisabilities(disabilities = []) {
+  return disabilities.map(disability => {
+    const newDisability = set('disabilityActionType', 'INCREASE', disability);
+    // Mark disabilities for which the veteran cannot claim an increase
+    // We'll use this to mark the disability as disabled in the UI and gate the form if necessary
+    // As far as we know, only disabilities without a rating are ineligible (but a rating of 0% is eligible)
+    if ([undefined, null].includes(newDisability.ratingPercentage)) {
+      newDisability.ineligible = true;
+    }
+    return newDisability;
+  });
 }
+
 
 export function addPhoneEmailToCard(formData) {
   const { veteran } = formData;
@@ -120,10 +134,16 @@ export function addPhoneEmailToCard(formData) {
   return newFormData;
 }
 
+
 export function prefillTransformer(pages, formData, metadata) {
-  const withDisabilityActionType = set('disabilities', transformDisabilities(formData.disabilities), formData);
-  withDisabilityActionType.disabilities.forEach(validateDisability);
-  const withPhoneEmailCard = addPhoneEmailToCard(withDisabilityActionType);
+  const { disabilities } = formData;
+  if (!disabilities || !Array.isArray(disabilities)) {
+    Raven.captureMessage('vets-disability-increase-no-rated-disabilities-found');
+    return { metadata, formData, pages };
+  }
+  const newFormData = set('disabilities', transformDisabilities(disabilities), formData);
+  newFormData.disabilities.forEach(validateDisability);
+  const withPhoneEmailCard = addPhoneEmailToCard(newFormData);
   return {
     metadata,
     formData: withPhoneEmailCard,
@@ -142,6 +162,7 @@ export const supportingEvidenceOrientation = (
   </p>
 );
 
+
 export const evidenceTypeHelp = (
   <AdditionalInfo triggerText="Which evidence type should I choose?">
     <h3>Types of evidence</h3>
@@ -155,17 +176,38 @@ export const evidenceTypeHelp = (
   </AdditionalInfo>
 );
 
+const capitalizeEach = (word) => {
+  const capFirstLetter = word[0].toUpperCase();
+  return `${capFirstLetter}${word.slice(1)}`;
+};
+
+/**
+ * Takes a string and returns the same string with every word capitalized. If no valid
+ * string is given as input, returns 'Unknown Condition' and logs to Sentry.
+ * @param {string} name the lower-case name of a disability
+ * @returns {string} the input name, but with all words capitalized
+ */
+export const getDisabilityName = (name) => {
+  if (name && typeof name === 'string') {
+    const splitName = name.split(' ');
+    const capitalizedsplitName = splitName.map(capitalizeEach);
+    return capitalizedsplitName.join(' ');
+  }
+
+  Raven.captureMessage('form_526: no name supplied for ratedDisability');
+  return 'Unknown Condition';
+};
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{getDiagnosticCodeName(formData.diagnosticCode)}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{getDisabilityName(formData.name)}</legend>
   );
 };
 
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Please tell us where VA treated you for {getDiagnosticCodeName(formData.diagnosticCode)} <strong>after you got your disability rating</strong>.</p>
+    <p>Please tell us where VA treated you for {getDisabilityName(formData.name)} <strong>after you got your disability rating</strong>.</p>
   );
 };
 
@@ -192,7 +234,7 @@ export const treatmentView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>First we’ll ask you about your VA medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.</p>
+    <p>First we’ll ask you about your VA medical records that show your {getDisabilityName(formData.name)} has gotten worse.</p>
   );
 };
 
@@ -202,7 +244,7 @@ export const privateRecordsChoice = ({ formData }) => {
     <div>
       <h4>About private medical records</h4>
       <p>
-        You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private
+        You said you were treated for {getDisabilityName(formData.name)} by a private
         doctor. If you have your private medical records, you can upload them to your application.
         If you want us to get them for you, you’ll need to authorize their release.
       </p>
@@ -236,13 +278,14 @@ export const privateRecordsChoiceHelp = (
   </AdditionalInfo>
 );
 
-const firstOrNowString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
 
+const firstOrNowString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
 export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
-    {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.
+    {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDisabilityName(formData.name)} has gotten worse.
   </p>
 );
+
 
 export function validatePostalCodes(errors, formData) {
   let isValidPostalCode = true;
@@ -259,6 +302,7 @@ export function validatePostalCodes(errors, formData) {
     errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
   }
 }
+
 
 export function validateAddress(errors, formData) {
   // Adds error message for state if it is blank and one of the following countries:
@@ -283,6 +327,7 @@ export function validateAddress(errors, formData) {
   validatePostalCodes(errors, formData);
 }
 
+
 const claimsIntakeAddress = (
   <p className="va-address-block">
     Department of Veterans Affairs<br/>
@@ -291,6 +336,7 @@ const claimsIntakeAddress = (
     Janesville, WI 53547-4444
   </p>
 );
+
 
 export const download4142Notice = (
   <div className="usa-alert usa-alert-warning no-background-image">
@@ -312,6 +358,7 @@ export const download4142Notice = (
   </div>
 );
 
+
 export const authorizationToDisclose = (
   <div>
     <p>Since your medical records are with your doctor, you’ll need to fill out an Authorization to Disclose
@@ -327,6 +374,7 @@ export const authorizationToDisclose = (
   </div>
 );
 
+
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
     <span>Limiting consent means that your doctor can only share records that are
@@ -334,6 +382,7 @@ export const recordReleaseWarning = (
       get your private medical records.</span>
   </div>
 );
+
 
 export const documentDescription = () => {
   return (
@@ -353,6 +402,7 @@ export const documentDescription = () => {
     </div>
   );
 };
+
 
 export const additionalDocumentDescription = () => {
   return (
@@ -375,10 +425,9 @@ export const additionalDocumentDescription = () => {
   );
 };
 
+
 const getVACenterName = (center) => center.treatmentCenterName;
-
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
-
 const listCenters = (centers) => {
   return (
     <span className="treatment-centers">{centers.map((center, idx, list) => {
@@ -395,8 +444,8 @@ const listCenters = (centers) => {
       );
     }) }</span>
   );
-
 };
+
 
 const listDocuments = (documents) => {
   return (<ul>
@@ -407,6 +456,7 @@ const listDocuments = (documents) => {
     })}
   </ul>);
 };
+
 
 export const evidenceSummaryView = ({ formData }) => {
   const {
@@ -435,9 +485,11 @@ export const evidenceSummaryView = ({ formData }) => {
   );
 };
 
+
 export const editNote = (name) => (
   <p><strong>Note:</strong> If you need to update your {name}, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
 );
+
 
 /**
  * Show one thing, have a screen reader say another.
@@ -455,6 +507,7 @@ export const srSubstitute = (srIgnored, substitutionText) => {
     </div>
   );
 };
+
 
 const unconnectedVetInfoView = (profile) => {
   // NOTE: ssn and vaFileNumber will be undefined for the foreseeable future; they're kept in here as a reminder.
@@ -478,6 +531,7 @@ const unconnectedVetInfoView = (profile) => {
   );
 };
 
+
 export const veteranInfoDescription = connect((state) => state.user.profile)(unconnectedVetInfoView);
 
 
@@ -486,17 +540,16 @@ export const veteranInfoDescription = connect((state) => state.user.profile)(unc
  * @property {String} diagnosticCode
  * @property {String} name
  * @property {String} ratingPercentage
- *
  * @param {Disability} disability
  */
-export const disabilityOption = ({ diagnosticCode, ratingPercentage }) => {
+export const disabilityOption = ({ name, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showRatingPercentage = Number.isInteger(ratingPercentage);
 
   return (
     <div>
-      {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
+      <h4>{getDisabilityName(name)}</h4>
       {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
@@ -560,9 +613,11 @@ export const GetFormHelp = () => {
   );
 };
 
+
 export const ITFDescription = (
   <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
 );
+
 
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
@@ -571,6 +626,7 @@ export const VAFileNumberDescription = (
     </AdditionalInfo>
   </div>
 );
+
 
 const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;
@@ -582,9 +638,11 @@ const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   return (<p><strong>{name}</strong>: {phoneString}</p>);
 };
 
+
 const EmailViewField = ({ formData, name }) => (
   <p><strong>{name}</strong>: {formData || ''}</p>
 );
+
 
 const EffectiveDateViewField = ({ formData }) => {
   return (
@@ -593,6 +651,7 @@ const EffectiveDateViewField = ({ formData }) => {
     </p>
   );
 };
+
 
 const AddressViewField = ({ formData }) => {
   const { addressLine1, addressLine2, addressLine3, city, state, country, zipCode } = formData;
@@ -619,7 +678,9 @@ const AddressViewField = ({ formData }) => {
   );
 };
 
+
 export const PrimaryAddressViewField = ({ formData }) => (<AddressViewField formData={formData}/>);
+
 
 export const ForwardingAddressViewField = ({ formData }) => {
   const { effectiveDate } = formData;
@@ -630,6 +691,7 @@ export const ForwardingAddressViewField = ({ formData }) => {
     </div>
   );
 };
+
 
 export const phoneEmailViewField = ({ formData }) => {
   const { primaryPhone, emailAddress } = formData;
@@ -713,9 +775,12 @@ const evidenceTypesDescription = (disabilityName) => {
   );
 };
 
+
 export const getEvidenceTypesDescription = (form, index) => {
-  return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
+  const { name } = form.disabilities[index];
+  return evidenceTypesDescription(getDisabilityName(name));
 };
+
 
 /**
  * If user chooses private medical record supporting evidence, he/she has a choice
@@ -741,6 +806,7 @@ export const get4142Selection = (disabilities) => {
   }, false);
 };
 
+
 export const contactInfoDescription = () => (
   <p>
     This is the contact information we have on file for you. We’ll send any important
@@ -760,6 +826,7 @@ export const contactInfoUpdateHelp = () => (
     </p>
   </div>
 );
+
 
 export const PaymentDescription = () => (
   <p>

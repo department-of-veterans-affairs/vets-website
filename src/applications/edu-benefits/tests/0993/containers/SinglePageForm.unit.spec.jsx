@@ -135,69 +135,6 @@ describe('Schemaform <SinglePageForm>', () => {
 
       expect(router.push.calledWith('next-page'));
     });
-    it('back', () => {
-      tree.getMountedInstance().goBack();
-
-      expect(router.push.calledWith('previous-page'));
-    });
-  });
-  it('should go back to the beginning if current page isn\'t found', () => {
-    const route = {
-      formConfig: fullSchema0993,
-      pageConfig: {
-        pageKey: 'testPage',
-        schema: {},
-        uiSchema: {},
-        errorMessages: {},
-        title: ''
-      },
-      pageList: [
-        {
-          path: 'first-page'
-        },
-        {
-          path: 'previous-page'
-        },
-        {
-          path: 'testing',
-          pageKey: 'testPage'
-        }
-      ]
-    };
-    const form = {
-      pages: {
-        testPage: {
-          depends: () => false,
-          schema: {},
-          uiSchema: {},
-        }
-      },
-      data: {}
-    };
-    const user = {
-      profile: {
-        savedForms: []
-      },
-      login: {
-        currentlyLoggedIn: false
-      }
-    };
-    const router = {
-      push: sinon.spy()
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <SinglePageForm
-        router={router}
-        form={form}
-        user={user}
-        route={route}
-        location={location}/>
-    );
-
-    tree.getMountedInstance().goBack();
-
-    expect(router.push.calledWith('first-page'));
   });
   it('should render array page', () => {
     const route = {

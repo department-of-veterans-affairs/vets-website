@@ -7,6 +7,7 @@ import {
   transformDisabilities,
   addPhoneEmailToCard,
   prefillTransformer,
+  getDisabilityName,
   get4142Selection,
   queryForFacilities,
   transform
@@ -133,6 +134,9 @@ describe('526 helpers', () => {
     it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
       expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
     });
+    it('should return an empty array when given undefined input', () => {
+      expect(transformDisabilities(undefined)).to.deep.equal([]);
+    });
   });
   describe('addPhoneEmailToCard', () => {
     it('should return formData when veteran property does not exist', () => {
@@ -157,6 +161,52 @@ describe('526 helpers', () => {
     it('should transform prefilled disabilities', () => {
       const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
       expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal('INCREASE');
+    });
+    it('should add phone and email to phoneEmailCard', () => {
+      const pages = [];
+      const formData = initialData;
+      const metadata = {};
+      const transformedPhoneEmail = {
+        primaryPhone: initialData.veteran.primaryPhone,
+        emailAddress: initialData.veteran.emailAddress
+      };
+      const newForm = prefillTransformer(pages, formData, metadata);
+      expect(newForm.formData.veteran.phoneEmailCard).to.deep.equal(transformedPhoneEmail);
+    });
+    it('should return original data when no disabilities returned', () => {
+      const pages = [];
+      const formData = _.omit(initialData, 'disabilities');
+      const metadata = {};
+
+      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
+    });
+    it('should return original data if disabilities is not an array', () => {
+      const clonedData = _.cloneDeep(initialData);
+      const pages = [];
+      const formData = _.set(clonedData, 'disabilities', { someProperty: 'value' });
+      const metadata = {};
+
+      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
+    });
+    it('should transform prefilled data when disability name has special chars', () => {
+      const newName = '//()';
+      const dataClone = _.set(_.cloneDeep(initialData), 'disabilities[0].name', newName);
+      const prefill = prefillTransformer([], dataClone, {});
+      expect(prefill.formData.disabilities[0].name).to.equal(newName);
+    });
+  });
+  describe('getDisabilityName', () => {
+    it('should return string with each word capitalized when name supplied', () => {
+      expect(getDisabilityName('some disability - some detail')).to.equal('Some Disability - Some Detail');
+    });
+    it('should return Unknown Condition with undefined name', () => {
+      expect(getDisabilityName()).to.equal('Unknown Condition');
+    });
+    it('should return Unknown Condition when input is empty string', () => {
+      expect(getDisabilityName('')).to.equal('Unknown Condition');
+    });
+    it('should return Unknown Condition when name is not a string', () => {
+      expect(getDisabilityName(249481)).to.equal('Unknown Condition');
     });
   });
   describe('get4142Selection', () => {

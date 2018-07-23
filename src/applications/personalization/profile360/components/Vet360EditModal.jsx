@@ -33,6 +33,15 @@ export default class Vet360EditModal extends React.Component {
     this.props.onChange(this.props.getInitialFormValues(), null, true);
   }
 
+  componentWillUnmount() {
+    // Errors returned directly from the API request (as opposed through a transaction lookup) are
+    // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
+    // for the next time the modal is opened by removing any existing transaction request from the store.
+    if (this.props.transactionRequest && this.props.transactionRequest.error) {
+      this.props.clearErrors();
+    }
+  }
+
   onSubmit = (event) => {
     event.preventDefault();
     if (this.props.onBlur) {
