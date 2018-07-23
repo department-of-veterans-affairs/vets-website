@@ -307,6 +307,7 @@ $color-inactive: #9b9b9b;
   font-weight: bold;
   text-decoration: none;
   margin: 0.5em 0;
+  word-break: keep-all;
 }
 
 .clearfix:after {
