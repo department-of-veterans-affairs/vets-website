@@ -268,8 +268,12 @@ describe('Schemaform review: SubmitController', () => {
     expect(submitForm.called).to.be.true;
   });
   it('should go back', () => {
-    const router = {
-      goBack: sinon.spy()
+    const oldWindow = global.window;
+    global.window = {
+      location: {
+        pathname: '/benefit/static/form/page',
+        replace: sinon.spy()
+      }
     };
     const formConfig = {
       chapters: {
@@ -308,12 +312,12 @@ describe('Schemaform review: SubmitController', () => {
         form={form}
         formConfg={formConfig}
         pageList={['chapter1', 'chapter2']}
-        router={router}
         submission={submission}/>
     ).instance();
 
     tree.goBack();
 
-    expect(router.goBack.calledWith('previous-page'));
+    expect(global.window.location.replace.calledWith('/benefit/static'));
+    global.window = oldWindow;
   });
 });
