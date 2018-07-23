@@ -14,7 +14,7 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 const myself = 'Myself';
 const someoneElse = 'Someone else';
-const anonymous = 'I want to submit my complaint anonymously';
+const anonymous = 'I want to submit my feedback anonymously';
 
 function isNotAnonymous(formData) {
   if (!!formData && formData !== anonymous) {
@@ -58,7 +58,7 @@ const formConfig = {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
-  title: 'GI Bill® School Feeback Tool',
+  title: 'GI Bill® School Feedback Tool',
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -69,12 +69,15 @@ const formConfig = {
           uiSchema: {
             onBehalfOf: {
               'ui:widget': 'radio',
-              'ui:title': 'I’m filing on behalf of...',
+              'ui:title': 'I’m submitting feedback on behalf of...',
               'ui:options': {
                 nestedContent: {
-                  myself: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  someoneElse: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  anonymous: () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
+                  // these descriptions will not work using a const, must use a string
+
+                  // 'Myself' will give a lint error, but this works
+                  Myself: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  'Someone else': () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  'I want to submit my feedback anonymously': () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
