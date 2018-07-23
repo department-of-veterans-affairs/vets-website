@@ -52,6 +52,8 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Mental health problems like bipolar disorder, schizophrenia, and anxiety disorders](/health-care/health-conditions/mental-health/)
 
+- [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
+
 - [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
 
 - [Depression](/health-care/health-conditions/mental-health/depression/)
@@ -68,25 +70,31 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Dental care](/health-care/about-va-health-care/dental-care/)
 
-**Other health conditions and needs**
-
-- [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
-
-- [Women’s health care needs](/health-care/health-conditions/womens-health-care-needs/)
+**Illnesses and injuries**
 
 - [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-conditions/exposure-to-hazardous-materials/)
 
-- [Assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
+- [HIV/AIDS](https://www.hiv.va.gov/patient/index.asp)
 
-- [Traumatic brain injury (TBI), Polytrauma, and Amputation](https://www.polytrauma.va.gov) 
+- [Kidney disease (including dialysis care)](https://www.va.gov/health/services/renal/)
+
+- [Multiple Sclerosis (MS)](https://www.va.gov/MS/Veterans/benefits/What_Are_My_VA_Benefits_for_Multiple_Sclerosis.asp)
+
+- [Parkinson's disease](https://www.parkinsons.va.gov/patients.asp)
 
 - [Spinal cord injuries and disorders](https://www.sci.va.gov/)
 
+- [Traumatic brain injury (TBI), Polytrauma, and Amputation](https://www.polytrauma.va.gov) 
+
 - [Viral hepatitis](https://www.hepatitis.va.gov/patient/index.asp)
 
-- [HIV/AIDS](https://www.hiv.va.gov/patient/index.asp)
+**Other health conditions and needs**
+
+- [Assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
 
 - [Infertility due to service-connected conditions](https://www.va.gov/COMMUNITYCARE/programs/veterans/ivf.asp)
+
+- [Women’s health care needs](/health-care/health-conditions/womens-health-care-needs/)
 
 
 **[Get an overview of what’s covered by VA health care](/health-care/about-va-health-care/).**
