@@ -34,7 +34,7 @@ describe('<SearchHelpSignIn>', () => {
     const wrapper = shallow(
       <SearchHelpSignIn {...defaultProps}/>
     );
-    expect(wrapper.find('.sign-in-link')).to.have.lengthOf(2);
+    expect(wrapper.find('.va-button-link')).to.have.lengthOf(2);
   });
 
   it('should render <SignInProfileMenu/> when logged in', () => {
