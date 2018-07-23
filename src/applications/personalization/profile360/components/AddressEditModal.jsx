@@ -40,8 +40,8 @@ export default class AddressEditModal extends React.Component {
     };
   }
 
-  copyMailingAddress = (consolidatedMailingAddress) => {
-    this.props.onChange(consolidatedMailingAddress, null, true);
+  copyMailingAddress = (mailingAddress) => {
+    this.props.onChange(mailingAddress, null, true);
   }
 
   renderForm = () => {

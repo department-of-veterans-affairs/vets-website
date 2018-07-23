@@ -4,7 +4,6 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
 import {
-  consolidateAddress,
   isEmptyAddress
 } from '../../../../platform/forms/address/helpers';
 
@@ -25,9 +24,7 @@ class CopyMailingAddress extends React.Component {
   onChange = (event) => {
     event.stopPropagation();
     if (event.target.checked) {
-      this.props.copyMailingAddress(
-        consolidateAddress(this.props.mailingAddress)
-      );
+      this.props.copyMailingAddress(this.props.mailingAddress);
     }
   }
 
@@ -71,11 +68,10 @@ export function mapStateToProps(state) {
   const hasEmptyMailingAddress = isEmptyAddress(mailingAddress);
 
   const residentialAddress = selectEditedFormField(state, FIELD_NAMES.RESIDENTIAL_ADDRESS).value;
-
-  const mailingAddressConsolidated = pick(cleanAddressDataForUpdate(consolidateAddress(mailingAddress)), addressProps);
-  const residentialAddressConsolidated = pick(consolidateAddress(residentialAddress), addressProps);
-
-  const checked = isEqual(mailingAddressConsolidated, residentialAddressConsolidated);
+  const checked = isEqual(
+    pick(cleanAddressDataForUpdate(mailingAddress), addressProps),
+    pick(residentialAddress, addressProps)
+  );
 
   return {
     mailingAddress,
