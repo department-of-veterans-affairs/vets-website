@@ -71,13 +71,13 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
 - [What services aren’t covered under VA health care?](#health-about-not-covered)
+- [Will I have a copay or is my VA health care free?](#health-copay)
+- [Will VA fill prescriptions by a non-VA provider?](#health-prescriptions)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
 - [What if I need help accessing services?](#health-accessing-services)
-- [Will VA fill prescriptions by a non-VA provider?](#health-prescriptions)
 - [Can I manage my VA health and benefits online?](#health-manage-online)
-- [Will I have a copay or is my VA health care free?](#health-copay)
 
 <br>
 
