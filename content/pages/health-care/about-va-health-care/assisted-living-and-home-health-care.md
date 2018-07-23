@@ -109,7 +109,7 @@ Other services aren’t covered under VA health care benefits. For these service
 - [What if I have a disability or chronic (long-term) health condition, but I want to stay in my home?](#health-assisted-disability)
 - [What if I’m homebound or live far away from VA?](#health-assisted-remote)
 - [What if I have a family caregiver, but they need support to help care for me at home?](#health-assisted-caregiver)
-- [Does VA provide specialized geriatric (elder) care for seniors with multiple physical and mental health needs?] (#health-geriatric-care)
+- [Does VA provide specialized geriatric (elder) care for seniors with multiple physical and mental health needs?](#health-geriatric-care)
 <br>
 
 <span id="health-assisted-options">
