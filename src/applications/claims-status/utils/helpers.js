@@ -190,6 +190,7 @@ export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) 
   const options = _.merge({
     method: 'GET',
     mode: 'cors',
+    credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
       Authorization: `Token token=${sessionStorage.userToken}`

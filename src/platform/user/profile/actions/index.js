@@ -28,6 +28,7 @@ export function getProfile() {
   return (dispatch) => {
     fetch(`${environment.API_URL}/v0/user`, {
       method: 'GET',
+      credentials: 'include',
       headers: new Headers({
         Authorization: `Token token=${sessionStorage.userToken}`
       })
