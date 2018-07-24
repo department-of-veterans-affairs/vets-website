@@ -12,7 +12,7 @@ import './moment-setup';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startFeedbackWidget from './feedback';
-import startAnnouncementWidget from './announcements';
+// import startAnnouncementWidget from './announcements';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -41,5 +41,5 @@ export default function startSitewideComponents(commonStore) {
   startUserNavWidget(commonStore);
   startMegaMenuWidget(commonStore);
   startFeedbackWidget(commonStore);
-  startAnnouncementWidget(commonStore);
+  // startAnnouncementWidget(commonStore);
 }
