@@ -2,6 +2,11 @@
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import SchoolSelectField from '../../components/SchoolSelectField.jsx';
+import {
+  fetchInstitutions,
+  transformInstitutionsForSchoolSelectField
+} from '../helpers';
 
 // const { } = fullSchema.properties;
 
@@ -31,11 +36,43 @@ const formConfig = {
           path: 'form-page',
           title: 'First Page',
           uiSchema: {
-          },
+            school: {
+              'ui:field': SchoolSelectField,
+              'ui:options': {
+                schoolSelect: {
+                  fetchInstitutions: ({ institutionQuery, url }) => fetchInstitutions({ institutionQuery, url })
+                    .then(({ error, payload }) => transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload })),
+                  okay: 'test'
+                }
+              }
+            },
+            /*
+            name: _.merge(autoSuggestUiSchema(
+              'Search for some schools',
+              value => fetchAutocompleteSuggestions(value)
+                .then(transformAutocompletePayloadForAutosuggestField),
+              {
+                'ui:options': {
+                  queryForResults: true,
+                  freeInput: true,
+                  debounceRate: 250,
+                  listLabel: 'Select one of options or submit to search'
+                },
+                'ui:errorMessages': {
+                  // If the maxLength changes, we'll want to update the message too
+                  maxLength: 'Please enter a name with fewer than 100 characters.',
+                  pattern: 'Please enter a valid name.'
+                }
+              }
+            ), {
+              'ui:field': AutosuggestField
+            })
+            */
+                },
           schema: {
             type: 'object',
             properties: {
-              name: {
+              school: {
                 type: 'string'
               }
             }
