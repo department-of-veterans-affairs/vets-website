@@ -1,4 +1,4 @@
-// import localStorage from '../../../utilities/storage/localStorage';
+import localStorage from '../../../utilities/storage/localStorage';
 
 export const INIT_DISMISSED_ANNOUNCEMENTS = 'INIT_DISMISSED_ANNOUNCEMENTS';
 export const DISMISS_ANNOUNCEMENT = 'DISMISS_ANNOUNCEMENT';
@@ -6,7 +6,7 @@ export const DISMISS_ANNOUNCEMENT = 'DISMISS_ANNOUNCEMENT';
 const localAnnouncements = (() => {
   // const DISMISSED_ANNOUNCEMENTS = 'DISMISSED_ANNOUNCEMENTS';
 
-  /* function localAnnouncements(dismissedAnnouncementName) {
+  function localAnnouncements(dismissedAnnouncementName) {
     const fromLocalStorage = localStorage.getItem(ANNOUNCEMENTS_LOCAL_STORAGE);
     let parsed = [];
 
@@ -24,7 +24,7 @@ const localAnnouncements = (() => {
     }
 
     return parsed;
-  } */
+  }
 })();
 
 export function initDismissedAnnouncements() {
