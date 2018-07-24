@@ -120,6 +120,7 @@ You can get help in any of these ways:
 - [I need dental care. Can I get it through VA?](#dental-care)
 - [I think I may have a service-connected disability. Can I get disability compensation (monthly payments)?](#disability-compensation)
 - [When I leave active-duty service, how do I know if I'm eligible for TRICARE, VA health care, or both?](#leave-active-service)
+
 <br>
 
 <span id="priority-groups"></span>
