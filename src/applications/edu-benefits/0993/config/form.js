@@ -90,10 +90,10 @@ const formConfig = {
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
-            }  //,
-            // 'view:optOutMessage': {
-            //   'ui:title': 'By clicking the Submit button, you’re asking VA to not share your education benefits information.'
-            // }
+            },
+            'view:optOutMessage': {
+              'ui:title': 'By clicking the Continue button, you’re asking VA to not share your education benefits information.'
+            }
           },
           schema: {
             type: 'object',
