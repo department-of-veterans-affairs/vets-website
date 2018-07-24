@@ -9,16 +9,16 @@ import Vet360EditModal from './Vet360EditModal';
 import Address from './Address';
 
 export default class AddressEditModal extends React.Component {
-  // Receives the field name as its first arg but that fails the linter
-  onBlur = () => {}
+  onBlur = (field) => {
+    this.props.onChange(this.props.field.value, field);
+  }
 
   onInput = (field, value) => {
     const newFieldValue = {
       ...this.props.field.value,
       [field]: value
     };
-
-    this.props.onChange(newFieldValue);
+    this.props.onChange(newFieldValue, field);
   }
 
   onSubmit = () => {
@@ -40,7 +40,7 @@ export default class AddressEditModal extends React.Component {
         address={this.props.field.value}
         onInput={this.onInput}
         onBlur={this.onBlur}
-        errorMessages={{}}
+        errorMessages={this.props.field.validations}
         states={this.props.addressConstants.states}
         countries={this.props.addressConstants.countries}/>
     );
@@ -50,6 +50,7 @@ export default class AddressEditModal extends React.Component {
     return (
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
+        onBlur={this.onBlur}
         onSubmit={this.onSubmit}
         render={this.renderForm}
         {...this.props}/>

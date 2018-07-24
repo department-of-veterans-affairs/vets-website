@@ -17,8 +17,8 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main', { rules: ['section508'] });
 
     client
-      .clearValue('input[name="streetCityStateZip"]')
-      .setValue('input[name="streetCityStateZip"]', 'Seattle, WA');
+      .clearValue('input[name="street-city-state-zip"]')
+      .setValue('input[name="street-city-state-zip"]', 'Seattle, WA');
 
     client
       .click('input[type="submit"]')

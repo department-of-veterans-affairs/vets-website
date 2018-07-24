@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-// import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import * as VET360 from '../constants/vet360';
+
+import {
+  isPendingTransaction
+} from '../util/transactions';
 
 import {
   clearTransactionRequest,
@@ -26,32 +30,61 @@ import Vet360Transaction from '../components/Vet360Transaction';
 
 class Vet360ProfileField extends React.Component {
 
-  isEmpty() {
+  static propTypes = {
+    analyticsSectionName: PropTypes.string.isRequired,
+    clearErrors: PropTypes.func.isRequired,
+    Content: PropTypes.func.isRequired,
+    data: PropTypes.object,
+    EditModal: PropTypes.func.isRequired,
+    field: PropTypes.object,
+    fieldName: PropTypes.string.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    isEmpty: PropTypes.func,
+    onAdd: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    refreshTransaction: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    transaction: PropTypes.object,
+    transactionRequest: PropTypes.object
+  };
+
+  isEmpty = () => {
     return this.props.isEmpty ? this.props.isEmpty(this.props) : !this.props.data;
   }
 
   isEditLinKVisible() {
-    return !this.isEmpty() && !this.props.transaction;
+    let transactionPending = false;
+    if (this.props.transaction) {
+      transactionPending = isPendingTransaction(this.props.transaction);
+    }
+    return !this.isEmpty() && !transactionPending;
   }
 
   render() {
     const {
+      fieldName,
       isEditing,
       onAdd,
       onEdit,
       Content,
       EditModal,
       title,
-      transaction
+      transaction,
+      transactionRequest
     } = this.props;
 
     return (
-      <div className="vet360-profile-field">
+      <div className="vet360-profile-field" data-field-name={fieldName}>
         <Vet360ProfileFieldHeading onEditClick={this.isEditLinKVisible() && onEdit}>{title}</Vet360ProfileFieldHeading>
-        {isEditing && <EditModal {...this.props}/>}
+        {isEditing && <EditModal {...this.props} isEmpty={this.isEmpty}/>}
         <Vet360Transaction
           title={title}
           transaction={transaction}
+          transactionRequest={transactionRequest}
           refreshTransaction={this.props.refreshTransaction.bind(this, transaction)}>
           {this.isEmpty() ? (
             <button
@@ -81,22 +114,19 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  // TODO turn analytics back on later
-  /* eslint-disable no-unused-vars */
-
   const {
     fieldName,
     analyticsSectionName: sectionName
   } = ownProps;
 
   const captureEvent = (actionName) => {
-    // if (sectionName && actionName) {
-    //   recordEvent({
-    //     event: 'profile-navigation',
-    //     'profile-action': actionName,
-    //     'profile-section': sectionName,
-    //   });
-    // }
+    if (sectionName && actionName) {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': actionName,
+        'profile-section': sectionName,
+      });
+    }
   };
 
   const {
@@ -117,7 +147,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     refreshTransaction(transaction) {
-      dispatch(refreshTransaction(transaction));
+      dispatch(refreshTransaction(transaction, sectionName));
     },
 
     onAdd() {
@@ -135,7 +165,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     onDelete(...args) {
-      captureEvent('delete-button');
       dispatch(deleteField(...args));
     },
 

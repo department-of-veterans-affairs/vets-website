@@ -1,4 +1,4 @@
-import { removeFormApi } from '../../../../applications/common/schemaform/save-in-progress/api';
+import { removeFormApi } from '../../../../platform/forms/save-in-progress/api';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import environment from '../../../utilities/environment';
 
@@ -26,9 +26,14 @@ export function profileLoadingFinished() {
   };
 }
 
-export function refreshProfile() {
+export function refreshProfile(forceCacheClear = false) {
   return async (dispatch) => {
-    const response = await fetch(`${environment.API_URL}/v0/user`, {
+    let url = `${environment.API_URL}/v0/user`;
+    if (forceCacheClear) {
+      url += `?now=${new Date().getTime()}`;
+    }
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: new Headers({
         Authorization: `Token token=${sessionStorage.userToken}`
