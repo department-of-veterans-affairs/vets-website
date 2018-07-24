@@ -20,11 +20,24 @@ import {
   cleanAddressDataForUpdate
 } from '../actions/misc';
 
+const ADDRESS_PROPS = [
+  'addressLine1',
+  'addressLine2',
+  'addressLine3',
+  'city',
+  'countryName',
+  'internationalPostalCode',
+  'province',
+  'stateCode',
+  'zipCode'
+];
+
 class CopyMailingAddress extends React.Component {
   onChange = (event) => {
     event.stopPropagation();
     if (event.target.checked) {
-      this.props.copyMailingAddress(this.props.mailingAddress);
+      const address = pick(this.props.mailingAddress, ADDRESS_PROPS);
+      this.props.copyMailingAddress(address);
     }
   }
 
@@ -50,28 +63,14 @@ class CopyMailingAddress extends React.Component {
 }
 
 export function mapStateToProps(state) {
-  const addressProps = [
-    'addressLine1',
-    'addressLine2',
-    'addressLine3',
-    'addressPou',
-    'addressType',
-    'city',
-    'countryName',
-    'internationalPostalCode',
-    'province',
-    'stateCode',
-    'zipCode'
-  ];
-
   const mailingAddress = selectVet360Field(state, FIELD_NAMES.MAILING_ADDRESS);
   const hasEmptyMailingAddress = isEmptyAddress(mailingAddress);
 
   const residentialAddress = selectEditedFormField(state, FIELD_NAMES.RESIDENTIAL_ADDRESS).value;
 
   const checked = !hasEmptyMailingAddress && isEqual(
-    pick(cleanAddressDataForUpdate(mailingAddress), addressProps),
-    pick(residentialAddress, addressProps)
+    pick(cleanAddressDataForUpdate(mailingAddress), ADDRESS_PROPS),
+    pick(residentialAddress, ADDRESS_PROPS)
   );
 
   return {
