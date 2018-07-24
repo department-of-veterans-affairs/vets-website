@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: GI Bill
 concurrence: incomplete
-plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
+plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act.
 collection: education
 children: educationGIBill
 order: 4
