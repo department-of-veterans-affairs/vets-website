@@ -7,6 +7,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
@@ -65,7 +66,12 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 const {
   treatments: treatmentsSchema,
   // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
-  serviceInformation,
+  serviceInformation: {
+    properties: {
+      servicePeriods,
+      reservesNationalGuardService
+    }
+  },
   standardClaim,
   veteran: {
     properties: {
@@ -186,20 +192,7 @@ const formConfig = {
                   'Service start date',
                   'Service end date',
                   'End of service must be after start of service'
-                ),
-                dischargeType: {
-                  'ui:title': 'Character of discharge',
-                  'ui:options': {
-                    labels: {
-                      honorable: 'Honorable',
-                      general: 'General',
-                      other: 'Other Than Honorable',
-                      'bad-conduct': 'Bad Conduct',
-                      dishonorable: 'Dishonorable',
-                      undesirable: 'Undesirable'
-                    }
-                  }
-                }
+                )
               }
             },
             'view:militaryHistoryNote': {
@@ -209,11 +202,56 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              servicePeriods: serviceInformation.properties.servicePeriods,
+              servicePeriods,
               'view:militaryHistoryNote': {
                 type: 'object',
                 properties: {}
               }
+            }
+          }
+        },
+        reservesNationalGuardService: {
+          title: 'Reserves and National Guard Service',
+          path: 'review-veteran-details/military-service-history/reserves-national-guard',
+          depends: (formData) => {
+            const serviceHistory = formData.servicePeriods;
+            if (!serviceHistory || !Array.isArray(serviceHistory)) {
+              return false;
+            }
+
+            return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
+              // For a new service period, service branch will be set to undefined by default
+              if (!serviceBranch) {
+                return false;
+              }
+              // TODO: Replace magic strings
+              return isGuardReserve
+                  || serviceBranch.includes('Reserve')
+                  || serviceBranch.includes('National Guard');
+            }, false);
+          },
+          // TODO: replace description with actual info about the most recent R/NG service period
+          // TODO: Why doesn't this title or description work?
+          description: 'Please provide details about your most recent Reserves or National Guard service',
+          uiSchema: {
+            'view:isTitle10Activated': {
+              'ui:title': 'I am currently activated on Federal orders'
+            },
+            title10Activation: {
+              'ui:options': {
+                expandUnder: 'view:isTitle10Activated',
+              },
+              title10ActivationDate: dateUI('Activation Date'),
+              anticipatedSeparationDate: dateUI('Anticipated Separation Date'),
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:isTitle10Activated': {
+                type: 'boolean'
+              },
+              title10Activation: reservesNationalGuardService.properties.title10Activation
             }
           }
         },
