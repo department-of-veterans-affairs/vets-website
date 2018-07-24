@@ -20,7 +20,7 @@ The Harry W. Colmery Veterans Educational Assistance Act (also called the “For
 
 ### What kind of information does VA share with schools?
 
-Unless you opt out, we share basic information about your eligibility and benefits, including:
+Unless you opt out, we share basic information about your eligibility and benefits with your school’s certifying official, including:
 - Your eligibility date
 - The amount of money you’re receiving for tuition and school fees
 - The amount of money you get and the time you have left to use your benefits
@@ -30,6 +30,8 @@ Unless you opt out, we share basic information about your eligibility and benefi
 - Distance hours (your time spent in online classes)
 - Benefit percentage (amount of education benefits based on active-duty service time)
 
+<b>Please note</b>: Opting out means you’re choosing to not share your education benefits information with schools. It doesn’t mean you’re opting out of getting GI Bill education benefits.
+
 ### Why does VA share this information?
 
 It makes it easy for schools to access information about your education benefits without your having to gather benefit information or fill out forms. Schools get all the information they need straight from VA.
@@ -37,7 +39,7 @@ It makes it easy for schools to access information about your education benefits
 ### Will opting out affect my benefits?
 
 No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits.
-
+However, if you opt out, you’ll need to provide schools with your education benefits paperwork. In addition, there may be a delay with you getting reimbursed for school-related expenses.
 
 ### How do I tell VA I don’t want my information shared?
 
