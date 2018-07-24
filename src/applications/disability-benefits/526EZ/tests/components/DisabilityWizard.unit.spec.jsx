@@ -109,7 +109,7 @@ describe('<DisabilityWizard>', () => {
   });
   it('should show unauthenticated increase guidance page', () => {
     // mount is used for find, shallow is used for setState
-    conditionalStorage.setItem('userToken', '');
+    conditionalStorage().setItem('userToken', '');
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -119,11 +119,11 @@ describe('<DisabilityWizard>', () => {
     tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
     expect(tree.text()).to.contain('Sign In and Verify Your Identity »');
     expect(tree.find('p').text()).to.equal('Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability. To apply for a disability increase, you’ll need to sign in and verify your account.');
-    conditionalStorage.clear();
+    conditionalStorage().clear();
   });
   it('should show authenticated increase guidance page', () => {
     // mount is used for find, shallow is used for setState
-    conditionalStorage.setItem('userToken', 'abcdefg');
+    conditionalStorage().setItem('userToken', 'abcdefg');
 
     const tree = mount(
       shallow(
@@ -134,11 +134,11 @@ describe('<DisabilityWizard>', () => {
     tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
     expect(tree.text()).to.contain('Verify Your Identity »');
     expect(tree.find('p').at(0).text()).to.contain('Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.');
-    conditionalStorage.clear();
+    conditionalStorage().clear();
   });
   it('should show authenticated and verified increase guidance page', () => {
     // mount is used for find, shallow is used for setState
-    conditionalStorage.setItem('userToken', 'abcdefg');
+    conditionalStorage().setItem('userToken', 'abcdefg');
 
     const tree = mount(
       shallow(
@@ -150,6 +150,6 @@ describe('<DisabilityWizard>', () => {
     tree.setProps({ user: { profile: { verified: true } } });
     expect(tree.text()).to.contain('Apply for Claim for Increase »');
     expect(tree.find('p').at(0).text()).to.contain('Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.');
-    conditionalStorage.clear();
+    conditionalStorage().clear();
   });
 });

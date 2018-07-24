@@ -50,7 +50,7 @@ let fetchMock;
 let oldFetch;
 
 const mockFetch = () => {
-  conditionalStorage.setItem('userToken', '1234');
+  conditionalStorage().setItem('userToken', '1234');
   oldFetch = global.fetch;
   fetchMock = sinon.stub();
   global.fetch = fetchMock;
@@ -58,7 +58,7 @@ const mockFetch = () => {
 
 const unMockFetch = () => {
   global.fetch = oldFetch;
-  conditionalStorage.clear();
+  conditionalStorage().clear();
 };
 
 describe('Actions', () => {

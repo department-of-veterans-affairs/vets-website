@@ -25,14 +25,14 @@ import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 
 let oldFetch;
 const setup = () => {
-  conditionalStorage.setItem('userToken', '123abc');
+  conditionalStorage().setItem('userToken', '123abc');
   oldFetch = global.fetch;
   global.fetch = sinon.stub();
   global.fetch.returns(Promise.resolve({ ok: true }));
 };
 const teardown = () => {
   global.fetch = oldFetch;
-  conditionalStorage.clear();
+  conditionalStorage().clear();
 };
 const getState = () => ({ form: { trackingPrefix: 'test' } });
 
@@ -136,7 +136,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a no-auth if the user has no session token', () => {
       const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
-      conditionalStorage.removeItem('userToken');
+      conditionalStorage().removeItem('userToken');
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.pending))).to.be.true;
@@ -243,7 +243,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a no-auth if the user has no session token', () => {
       const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
-      conditionalStorage.removeItem('userToken');
+      conditionalStorage().removeItem('userToken');
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledOnce).to.be.true;

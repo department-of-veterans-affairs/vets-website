@@ -10,7 +10,7 @@ import conditionalStorage from '../../../platform/utilities/storage/conditionalS
 
 export class VerifyApp extends React.Component {
   componentDidMount() {
-    if (!conditionalStorage.getItem('userToken')) {
+    if (!conditionalStorage().getItem('userToken')) {
       return window.location.replace('/');
     }
     return recordEvent({ event: 'verify-prompt-displayed' });

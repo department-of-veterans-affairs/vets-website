@@ -20,7 +20,7 @@ import {
 let oldFetch;
 
 const setup = () => {
-  conditionalStorage.setItem('userToken', '123');
+  conditionalStorage().setItem('userToken', '123');
   oldFetch = global.fetch;
   global.fetch = sinon.stub();
   global.fetch.returns(Promise.resolve({
@@ -34,7 +34,7 @@ const setup = () => {
 
 const teardown = () => {
   global.fetch = oldFetch;
-  conditionalStorage.clear();
+  conditionalStorage().clear();
 };
 
 describe('getAppealsV2', () => {

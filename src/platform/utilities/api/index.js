@@ -23,8 +23,8 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     }
   };
 
-  if (conditionalStorage.getItem('userToken')) {
-    defaultSettings.headers.Authorization = `Token token=${conditionalStorage.getItem('userToken')}`;
+  if (conditionalStorage().getItem('userToken')) {
+    defaultSettings.headers.Authorization = `Token token=${conditionalStorage().getItem('userToken')}`;
   }
 
   const settings = merge(defaultSettings, optionalSettings);

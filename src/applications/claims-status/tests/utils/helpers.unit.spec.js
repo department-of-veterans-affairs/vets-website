@@ -409,14 +409,14 @@ describe('Disability benefits helpers: ', () => {
     let fetchMock = sinon.stub();
     let oldFetch = global.fetch;
     beforeEach(() => {
-      conditionalStorage.setItem('userToken', '1234');
+      conditionalStorage().setItem('userToken', '1234');
       oldFetch = global.fetch;
       fetchMock = sinon.stub();
       global.fetch = fetchMock;
     });
     afterEach(() => {
       global.fetch = oldFetch;
-      conditionalStorage.clear();
+      conditionalStorage().clear();
     });
     it('should make a fetch request', (done) => {
       fetchMock.returns({

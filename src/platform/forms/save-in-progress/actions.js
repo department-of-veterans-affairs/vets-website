@@ -202,7 +202,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
-    const userToken = conditionalStorage.getItem('userToken');
+    const userToken = conditionalStorage().getItem('userToken');
     // If we don’t have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));

@@ -114,14 +114,14 @@ const getApiRequestObject = (returnVal) => ({
  *
  * @param {} returnVal The value to return from the json promise
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
- * @param {string} [userToken='foo'] The token to set in conditionalStorage, to simulate
+ * @param {string} [userToken='foo'] The token to set in conditionalStorage(), to simulate
  * an authenticated request
  */
 export function mockApiRequest(returnVal, shouldResolve = true, userToken = 'foo') {
   const returnObj = getApiRequestObject(returnVal);
 
   mockFetch(returnObj, shouldResolve);
-  conditionalStorage.setItem('userToken', userToken);
+  conditionalStorage().setItem('userToken', userToken);
 }
 
 
@@ -139,7 +139,7 @@ export function mockMultipleApiRequests(responses, userToken = 'foo') {
     const { response, shouldResolve } = res;
     global.fetch.onCall(index).returns(shouldResolve ? Promise.resolve(response) : Promise.reject(response));
   });
-  conditionalStorage.setItem('userToken', userToken);
+  conditionalStorage().setItem('userToken', userToken);
 }
 
 

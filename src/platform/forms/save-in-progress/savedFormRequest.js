@@ -18,7 +18,7 @@ export function savedFormRequest(resource, success, error, optionalSettings = {}
   const defaultSettings = {
     method: 'GET',
     headers: {
-      Authorization: `Token token=${conditionalStorage.getItem('userToken')}`
+      Authorization: `Token token=${conditionalStorage().getItem('userToken')}`
     }
   };
 

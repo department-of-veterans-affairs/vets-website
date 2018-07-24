@@ -76,7 +76,7 @@ export function setupProfileSession(payload) {
   // Since sessionStorage/localStorage coerces everything into String,
   // this conditional avoids setting the first name to the string 'null'.
   if (userData.first_name) {
-    conditionalStorage.setItem('userFirstName', userData.first_name);
+    conditionalStorage().setItem('userFirstName', userData.first_name);
   }
   // Report out the current level of assurance for the user
   recordEvent({ event: `login-loa-current-${userData.loa.current}` });
@@ -84,6 +84,6 @@ export function setupProfileSession(payload) {
 
 export function teardownProfileSession() {
   for (const key of ['entryTime', 'userToken', 'userFirstName']) {
-    conditionalStorage.removeItem(key);
+    conditionalStorage().removeItem(key);
   }
 }

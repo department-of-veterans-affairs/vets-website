@@ -6,7 +6,7 @@ const conditionalStorage = require('../../utilities/storage/conditionalStorage')
 
 function setUserToken(token, client) {
   client.execute((inToken) => {
-    conditionalStorage.setItem('userToken', inToken);
+    conditionalStorage().setItem('userToken', inToken);
   },
   [token],
   (val) => {

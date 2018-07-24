@@ -59,7 +59,7 @@ export class Main extends React.Component {
   }
 
   setToken = (event) => {
-    if (event.data === conditionalStorage.getItem('userToken')) { this.props.initializeProfile(); }
+    if (event.data === conditionalStorage().getItem('userToken')) { this.props.initializeProfile(); }
   }
 
   getRedirectUrl = () => (new URLSearchParams(window.location.search)).get('next');
@@ -85,7 +85,7 @@ export class Main extends React.Component {
   }
 
   checkTokenStatus = () => {
-    if (!conditionalStorage.getItem('userToken')) {
+    if (!conditionalStorage().getItem('userToken')) {
       this.props.updateLoggedInStatus(false);
       if (this.getRedirectUrl()) { this.props.toggleLoginModal(true); }
     } else {

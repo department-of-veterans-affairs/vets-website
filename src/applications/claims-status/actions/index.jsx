@@ -296,7 +296,7 @@ export function submitFiles(claimId, trackedItem, files) {
           inputName: 'file',
           customHeaders: {
             'X-Key-Inflection': 'camel',
-            Authorization: `Token token=${conditionalStorage.getItem('userToken')}`
+            Authorization: `Token token=${conditionalStorage().getItem('userToken')}`
           }
         },
         cors: {

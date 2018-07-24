@@ -40,7 +40,7 @@ export class MhvTermsAndConditions extends React.Component {
 
   componentDidMount() {
     this.props.fetchLatestTerms(TERMS_NAME);
-    if (conditionalStorage.getItem('userToken')) { this.props.fetchTermsAcceptance(TERMS_NAME); }
+    if (conditionalStorage().getItem('userToken')) { this.props.fetchTermsAcceptance(TERMS_NAME); }
   }
 
   componentDidUpdate(prevProps) {

@@ -16,7 +16,7 @@ function setFetchResponse(stub, data) {
 describe('Burials helpers', () => {
   describe('submit', () => {
     beforeEach(() => {
-      conditionalStorage.setItem('userToken', 'testing');
+      conditionalStorage().setItem('userToken', 'testing');
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
         createObjectURL: sinon.stub().returns('test')
@@ -115,7 +115,7 @@ describe('Burials helpers', () => {
       });
     });
     afterEach(() => {
-      conditionalStorage.clear();
+      conditionalStorage().clear();
       resetFetch();
       delete window.URL;
     });

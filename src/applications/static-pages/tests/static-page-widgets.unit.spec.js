@@ -5,11 +5,11 @@ import mountWidgets from '../static-page-widgets';
 
 describe('static page widget', () => {
   beforeEach(() => {
-    conditionalStorage.setItem('userToken', 'asdfafd');
+    conditionalStorage().setItem('userToken', 'asdfafd');
   });
 
   afterEach(() => {
-    conditionalStorage.clear();
+    conditionalStorage().clear();
   });
 
   it('should display a spinner', () => {

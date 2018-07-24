@@ -7,7 +7,7 @@ import { selectProfile } from '../../user/selectors';
 export const selectUserGreeting = createSelector(
   state => selectProfile(state).userFullName,
   state => selectProfile(state).email,
-  () => conditionalStorage.getItem('userFirstName'),
+  () => conditionalStorage().getItem('userFirstName'),
   (name, email, sessionFirstName) => {
     if (name.first || sessionFirstName) {
       return _.startCase(_.toLower(

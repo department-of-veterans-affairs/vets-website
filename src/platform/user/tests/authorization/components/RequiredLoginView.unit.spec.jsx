@@ -12,7 +12,7 @@ describe('<RequiredLoginView>', () => {
   let oldWindow;
 
   const initialSetup = () => {
-    conditionalStorage.setItem('userToken', 'abcdefg');
+    conditionalStorage().setItem('userToken', 'abcdefg');
     oldWindow = global.window;
 
     global.window = {
@@ -25,7 +25,7 @@ describe('<RequiredLoginView>', () => {
 
   const teardown = () => {
     global.window = oldWindow;
-    conditionalStorage.clear();
+    conditionalStorage().clear();
   };
 
   beforeEach(initialSetup);

@@ -57,7 +57,7 @@ class RequiredLoginView extends React.Component {
         userServices.includes(serviceRequired)
     );
 
-    return conditionalStorage.getItem('userToken') && hasRequiredServices;
+    return conditionalStorage().getItem('userToken') && hasRequiredServices;
   }
 
   renderVerifiedContent = () => {

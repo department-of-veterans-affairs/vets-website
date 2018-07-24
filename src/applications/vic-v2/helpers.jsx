@@ -69,7 +69,7 @@ export function transform(form, formConfig) {
 }
 
 function checkStatus(guid) {
-  const userToken = conditionalStorage.getItem('userToken');
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
@@ -122,7 +122,7 @@ function pollStatus(guid, onDone, onError) {
 }
 
 export function fetchPreview(id) {
-  const userToken = conditionalStorage.getItem('userToken');
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'X-Key-Inflection': 'camel',
     Authorization: `Token token=${userToken}`
@@ -142,7 +142,7 @@ export function fetchPreview(id) {
 }
 
 export function submit(form, formConfig) {
-  const userToken = conditionalStorage.getItem('userToken');
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',

@@ -5,7 +5,7 @@ import conditionalStorage from '../../utilities/storage/conditionalStorage';
 import { sanitizeForm } from '../helpers';
 
 export function removeFormApi(formId) {
-  const userToken = conditionalStorage.getItem('userToken');
+  const userToken = conditionalStorage().getItem('userToken');
 
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'DELETE',
@@ -43,7 +43,7 @@ export function saveFormApi(formId, formData, version, returnUrl, savedAt, track
     formData
   });
 
-  const userToken = conditionalStorage.getItem('userToken');
+  const userToken = conditionalStorage().getItem('userToken');
   if (!userToken) {
     Raven.captureMessage('vets_sip_missing_token');
     recordEvent({

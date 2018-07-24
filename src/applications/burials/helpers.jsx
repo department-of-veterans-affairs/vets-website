@@ -7,7 +7,7 @@ import environment from '../../platform/utilities/environment';
 import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
 
 function checkStatus(guid) {
-  const userToken = conditionalStorage.getItem('userToken');
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
@@ -73,7 +73,7 @@ export function transform(formConfig, form) {
 }
 
 export function submit(form, formConfig) {
-  const userToken = conditionalStorage.getItem('userToken');
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',

@@ -23,7 +23,7 @@ class SearchHelpSignIn extends React.Component {
   handleHelpMenuClick = this.handleMenuClick('help');
   handleAccountMenuClick = this.handleMenuClick('account');
 
-  hasSession = () => conditionalStorage.getItem('userFirstName');
+  hasSession = () => conditionalStorage().getItem('userFirstName');
 
   renderSignInContent = () => {
     const isLoading = this.props.isProfileLoading;

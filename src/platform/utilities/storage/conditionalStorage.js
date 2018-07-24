@@ -12,4 +12,4 @@ function getConditionalStorage() {
   return (shouldUseLocalStorage) ? localStorage : window.sessionStorage;
 }
 
-export default getConditionalStorage();
+export default getConditionalStorage;

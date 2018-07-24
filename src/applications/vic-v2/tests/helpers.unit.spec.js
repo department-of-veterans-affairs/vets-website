@@ -32,7 +32,7 @@ function setFailedBlobResponse(stub, error) {
 describe('VIC helpers:', () => {
   describe('submit', () => {
     beforeEach(() => {
-      conditionalStorage.setItem('userToken', 'testing');
+      conditionalStorage().setItem('userToken', 'testing');
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
         createObjectURL: sinon.stub().returns('test')
@@ -219,7 +219,7 @@ describe('VIC helpers:', () => {
 
     afterEach(() => {
       resetFetch();
-      conditionalStorage.clear();
+      conditionalStorage().clear();
       delete window.URL;
     });
   });

@@ -193,7 +193,7 @@ export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) 
     mode: 'cors',
     headers: {
       'X-Key-Inflection': 'camel',
-      Authorization: `Token token=${conditionalStorage.getItem('userToken')}`
+      Authorization: `Token token=${conditionalStorage().getItem('userToken')}`
     },
     responseType: 'json',
   }, userOptions);

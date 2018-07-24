@@ -37,7 +37,7 @@ export function refreshProfile(forceCacheClear = false) {
     const response = await fetch(url, {
       method: 'GET',
       headers: new Headers({
-        Authorization: `Token token=${conditionalStorage.getItem('userToken')}`
+        Authorization: `Token token=${conditionalStorage().getItem('userToken')}`
       })
     });
 
