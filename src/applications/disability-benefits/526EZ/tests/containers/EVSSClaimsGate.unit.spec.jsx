@@ -4,11 +4,20 @@ import { shallow, mount } from 'enzyme';
 
 import { EVSSClaimsGate } from '../../containers/EVSSClaimsGate';
 
+import backendServices from '../../../../../platform/user/profile/constants/backendServices';
+
 describe('EVSSClaimsGate', () => {
   const disallowedUser = {
     login: { currentlyLoggedIn: true },
     profile: {
       services: []
+    }
+  };
+
+  const allowedUser = {
+    login: { currentlyLoggedIn: true },
+    profile: {
+      services: [backendServices.EVSS_CLAIMS]
     }
   };
 
@@ -26,7 +35,7 @@ describe('EVSSClaimsGate', () => {
   it('should render a RequiredLoginView', () => {
     const tree = shallow(
       <EVSSClaimsGate
-        user={disallowedUser}
+        user={allowedUser}
         location={{ pathname: '/middle-of-the-form' }}>
         <p>It worked!</p>
       </EVSSClaimsGate>
