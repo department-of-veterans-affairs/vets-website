@@ -145,8 +145,7 @@ You may be able to get help with some non-medical services, like:
 <h4 itemprop="name">How do I get help if I don't speak English or have hearing loss?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-Contact your nearest VA medical center and ask to speak to the patient advocate. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits. 
-  
+Contact your nearest VA medical center and ask to speak to the patient advocate. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits. <br>
 [Find a VA medical center near you](/facilities/).
 
 </div>
