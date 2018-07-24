@@ -68,7 +68,8 @@ export function mapStateToProps(state) {
   const hasEmptyMailingAddress = isEmptyAddress(mailingAddress);
 
   const residentialAddress = selectEditedFormField(state, FIELD_NAMES.RESIDENTIAL_ADDRESS).value;
-  const checked = isEqual(
+
+  const checked = !hasEmptyMailingAddress && isEqual(
     pick(cleanAddressDataForUpdate(mailingAddress), addressProps),
     pick(residentialAddress, addressProps)
   );
