@@ -38,6 +38,9 @@ You may be able to get VA health care benefits if you served in the active milit
 
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
+- **If you're an OEF/OIF/OND combat Veteran who has just returned from service,** you can receive free medical care for any condition related to your service in Iraq or Afghanistan for 5 years after discharge. <br>
+[Learn more about enhanced health care eligibility for returning Servicemembers](https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp).
+
 ### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits.
@@ -72,9 +75,6 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 - Served in Vietnam between January 9, 1962, and May 7, 1975
 - Served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
 - Served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
-
-**If you're an OEF/OIF/OND combat Veteran who has just returned from service,** you can receive free medical care for any condition related to your service in Iraq or Afghanistan for 5 years after discharge. <br>
-[Learn more about enhanced health care eligibility for returning Servicemembers](https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp).
 
 **If none of the above apply to you**, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. <br>
 [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
