@@ -8,6 +8,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
+<<<<<<< HEAD
+=======
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+
+>>>>>>> 65bbd48566d3dd5a297336088bb151f6b4189635
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -238,6 +243,104 @@ const formConfig = {
               serviceDateRange: dateRange,
               email: {
                 type: 'string'
+              }
+            }
+          }
+        }
+      }
+    },
+    benefitsInformation: {
+      title: 'Benefits Information',
+      pages: {
+        benefitsInformation: {
+          path: 'benefits-information',
+          title: 'Benefits Information',
+          uiSchema: {
+            'view:giBill': {
+              'ui:title': 'Which education benefits have you used?',
+              'ui:validations': [
+                validateBooleanGroup
+              ],
+              'ui:options': {
+                // commenting this out will fix the title formatting but break the 'required' property
+                showFieldLabel: true
+              },
+              'ui:errorMessages': {
+                atLeastOne: 'Please select at least one'
+              },
+            },
+            'view:title10': {
+              'ui:title': 'Which military tuition assistance benefits have you used?',
+              'ui:options': {
+                // commenting this out will fix the title formatting but break the 'required' property
+                // showFieldLabel: true
+              },
+            },
+            'view:otherBenefits': {
+              'ui:title': 'Have you used any of these other benefits?',
+              'ui:options': {
+                // commenting this out will fix the title formatting but break the 'required' property
+                // showFieldLabel: true
+              },
+            },
+            study: {
+              'ui:title': 'Level of Study'
+            },
+            governmentTuition: {
+              'ui:title': 'Government Tuition'
+            },
+            pocketTuition: {
+              'ui:title': 'Out of Pocket Tuition'
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:giBill'],
+            properties: {
+              'view:giBill': {
+                type: 'object',
+                properties: {
+                  'Post-9/11 GI Bill (Ch. 33)': {
+                    type: 'boolean',
+                  },
+                  'Montgomery GI Bill - Active Duty (MGIB) (Ch. 30)': {
+                    type: 'boolean'
+                  },
+                  'Montgomery GI Bill - Selected Reserve (MGIB-SR) (Ch. 1606)': {
+                    type: 'boolean'
+                  },
+                  'Tuition Assistance Top-Up': {
+                    type: 'boolean'
+                  },
+                  'Survivors & Dependents Assistance (DEA) (Ch. 35)': {
+                    type: 'boolean'
+                  },
+                  'Vocational Rehabilitation and Employment (VR&E) (Ch. 31)': {
+                    type: 'boolean'
+                  },
+                }
+              },
+              'view:title10': {
+                type: 'object',
+                properties: {
+                  'Federal Tuition Assistance (TA)': {
+                    type: 'boolean'
+                  },
+                  'State Funded Tuition Assistance (TA) for Service Members Performing Active Guard and Reserve Dutites (AGR)': {
+                    type: 'boolean'
+                  },
+                  'Military Spouse Career Advancement Accounts (MyCAA)': {
+                    type: 'boolean'
+                  },
+                }
+              },
+              'view:otherBenefits': {
+                type: 'object',
+                properties: {
+                  'Federal financial aid': {
+                    type: 'boolean'
+                  }
+                }
               }
             }
           }
