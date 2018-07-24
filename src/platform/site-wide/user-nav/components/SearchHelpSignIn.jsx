@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import recordEvent from '../../../monitoring/record-event';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import HelpMenu from './HelpMenu';
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
@@ -22,10 +23,7 @@ class SearchHelpSignIn extends React.Component {
   handleHelpMenuClick = this.handleMenuClick('help');
   handleAccountMenuClick = this.handleMenuClick('account');
 
-  hasSession = () => {
-    // Includes a safety check because sessionStorage is not defined during e2e testing
-    return !!(window.sessionStorage && window.sessionStorage.getItem('userFirstName'));
-  }
+  hasSession = () => conditionalStorage.getItem('userFirstName');
 
   renderSignInContent = () => {
     const isLoading = this.props.isProfileLoading;

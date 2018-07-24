@@ -13,6 +13,7 @@ import {
 } from '../../../user/selectors';
 import { initializeProfile } from '../../../user/profile/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 
 import {
   toggleLoginModal,
@@ -58,7 +59,7 @@ export class Main extends React.Component {
   }
 
   setToken = (event) => {
-    if (event.data === sessionStorage.userToken) { this.props.initializeProfile(); }
+    if (event.data === conditionalStorage.getItem('userToken')) { this.props.initializeProfile(); }
   }
 
   getRedirectUrl = () => (new URLSearchParams(window.location.search)).get('next');
@@ -84,7 +85,7 @@ export class Main extends React.Component {
   }
 
   checkTokenStatus = () => {
-    if (!sessionStorage.userToken) {
+    if (!conditionalStorage.getItem('userToken')) {
       this.props.updateLoggedInStatus(false);
       if (this.getRedirectUrl()) { this.props.toggleLoginModal(true); }
     } else {

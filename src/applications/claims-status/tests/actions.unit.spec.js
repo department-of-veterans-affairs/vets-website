@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
+
 import {
   ADD_FILE,
   addFile,
@@ -48,7 +50,7 @@ let fetchMock;
 let oldFetch;
 
 const mockFetch = () => {
-  global.sessionStorage = { userToken: '1234' };
+  conditionalStorage.setItem('userToken', '1234');
   oldFetch = global.fetch;
   fetchMock = sinon.stub();
   global.fetch = fetchMock;
@@ -56,6 +58,7 @@ const mockFetch = () => {
 
 const unMockFetch = () => {
   global.fetch = oldFetch;
+  conditionalStorage.clear();
 };
 
 describe('Actions', () => {
