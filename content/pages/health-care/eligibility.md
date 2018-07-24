@@ -259,6 +259,7 @@ If you have an illness or injury that was caused—or made worse—by your activ
 <span id="#leave-active-service"></span>
 
 <div itemscope itemtype="http://schema.org/Question">
+  
 <h4 itemprop="name">When I leave active-duty service, how do I know if I'm eligible for TRICARE, VA health care, or both?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
