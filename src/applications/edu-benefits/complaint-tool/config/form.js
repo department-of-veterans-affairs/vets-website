@@ -8,6 +8,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -237,6 +239,91 @@ const formConfig = {
               },
               serviceDateRange: dateRange,
               email: {
+                type: 'string'
+              }
+            }
+          }
+        }
+      }
+    },
+    issueInformation: {
+      title: 'Feeback Information',
+      pages: {
+        issueInformation: {
+          path: 'feedback-information',
+          title: 'Feedback Information',
+          uiSchema: {
+            'view:issueType': {
+              'ui:title': 'Which describes the issue?',
+              'ui:validations': [
+                validateBooleanGroup
+              ],
+              'ui:options': {
+                showFieldLabel: true
+              },
+              'ui:errorMessages': {
+                atLeastOne: 'Please select at least one'
+              },
+            },
+            complaint: {
+              'ui:title': 'Please give us your feedback and any details about your issue.',
+              'ui:widget': 'textarea',
+              'ui:options': {
+                rows: 5
+              }
+            },
+            resolution: {
+              'ui:title': 'What do you think would be a fair way to resolve your issue?',
+              'ui:widget': 'textarea',
+              'ui:options': {
+                rows: 5
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'view:issueType',
+              'complaint',
+              'resolution'
+            ],
+            properties: {
+              'view:issueType': {
+                type: 'object',
+                properties: {
+                  'Recruiting or marketing practices': {
+                    type: 'boolean',
+                  },
+                  Accreditation: {
+                    type: 'boolean'
+                  },
+                  'Financial concern (for example, tuition or fee changes)': {
+                    type: 'boolean'
+                  },
+                  'Student loan': {
+                    type: 'boolean'
+                  },
+                  'Post-graduation job opportunity': {
+                    type: 'boolean'
+                  },
+                  'Change in degree plan or requirements': {
+                    type: 'boolean'
+                  },
+                  'Quality of education': {
+                    type: 'boolean'
+                  },
+                  'Grade policy': {
+                    type: 'boolean'
+                  },
+                  'Release of transcripts': {
+                    type: 'boolean'
+                  },
+                }
+              },
+              complaint: {
+                type: 'string'
+              },
+              resolution: {
                 type: 'string'
               }
             }
