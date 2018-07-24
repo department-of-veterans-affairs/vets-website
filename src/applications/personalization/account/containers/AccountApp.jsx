@@ -30,7 +30,7 @@ class AccountApp extends React.Component {
                 <div className="va-introtext">
                   <p>Below, you’ll find your current settings for signing in to Vets.gov. Find out how to update your settings as needed to access more site tools or add extra security to your account.</p>
                 </div>
-                { /* <Announcement dismiss={this.dismissAnnouncement} isDismissed={this.props.announcementDismissed}/> */ } 
+                { /* <Announcement dismiss={this.dismissAnnouncement} isDismissed={this.props.announcementDismissed}/> */  } 
                 <AccountMain
                   login={this.props.login}
                   profile={this.props.profile}
