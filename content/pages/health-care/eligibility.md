@@ -167,7 +167,7 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 </div>
 </div>
 <br>
-<span id="#leave-active-service"></span>
+<span id="leave-active-service"></span>
 
 <div itemscope itemtype="http://schema.org/Question">
   
