@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import React from 'react';
-// import fullSchema from 'vets-json-schema/dist/686-schema.json';
+import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -8,9 +8,15 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
-// const { } = fullSchema.properties;
+const {
+  address,
+  email,
+  phone
+} = fullSchema.properties;
 
-// const { } = fullSchema.definitions;
+const {
+  usaPhone,
+} = fullSchema.definitions;
 
 const myself = 'Myself';
 const someoneElse = 'Someone else';
@@ -54,6 +60,9 @@ const formConfig = {
   formId: '686',
   version: 0,
   prefillEnabled: true,
+  defaultDefinitions: {
+    usaPhone
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
@@ -239,6 +248,22 @@ const formConfig = {
               email: {
                 type: 'string'
               }
+            }
+          }
+        },
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact Information',
+          depends: (formData) => formData.onBehalfOf !== 'I want to submit my feedback anonymously',
+          uiSchema: {
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              address,
+              email,
+              // view:emailConfirmation
+              phone
             }
           }
         }
