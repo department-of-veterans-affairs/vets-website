@@ -48,7 +48,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-**Mental health problems**
+**Mental health and trauma-related needs**
 
 - [Mental health problems like bipolar disorder, schizophrenia, and anxiety disorders](/health-care/health-conditions/mental-health/)
 
