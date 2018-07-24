@@ -67,6 +67,7 @@ You should also know that being signed up for VA health care meets your Affordab
 - [What basic health care services does VA cover?](#health-about-basic)
 - [What other medical services will VA cover to support my treatment?](#health-about-other-services)
 - [Will VA cover any non-medical services to support my treatment?](#health-about-non-medical)
+- [How do I get help if I don't speak English or have hearing loss?](#health-help)
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
@@ -134,6 +135,18 @@ You may be able to get help with some non-medical services, like:
 - [Beneficiary travel benefits (help paying for travel related to treatment)](https://www.va.gov/healthbenefits/vtp/beneficiary_travel.asp)
 - [Caregiver support (help for the person who cares for you)](https://www.caregiver.va.gov/)
 - [Veterans transportation service (help getting to and from appointments)](https://www.va.gov/healthbenefits/vtp/veterans_transportation_service.asp)
+
+</div>
+</div>
+</div>
+<br>
+
+<div id="health-help" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">How do I get help if I don't speak English or have hearing loss?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+Contact your nearest VA medical center and ask to speak to the patient advocate. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits. <br>
+[Find a VA medical center near you](/facilities/).
 
 </div>
 </div>
