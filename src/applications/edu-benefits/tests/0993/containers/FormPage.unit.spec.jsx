@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { SinglePageForm } from '../../../0993/containers/SinglePageForm';
+import { FormPageForm } from '../../../0993/containers/FormPageForm';
 import fullSchema0993 from '../../../0993/config/form';
 
-describe('Schemaform <SinglePageForm>', () => {
+describe('Opt Out <FormPageForm>', () => {
   const location = {
     pathname: '/testing/0'
   };
@@ -46,7 +46,7 @@ describe('Schemaform <SinglePageForm>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <SinglePageForm form={form} route={route} user={user} location={location}/>
+      <FormPageForm form={form} route={route} user={user} location={location}/>
     );
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
     expect(tree.everySubTree('Connect(DowntimeNotification)').length).to.equal(1);
@@ -111,7 +111,7 @@ describe('Schemaform <SinglePageForm>', () => {
       };
 
       tree = SkinDeep.shallowRender(
-        <SinglePageForm
+        <FormPageForm
           router={router}
           setData={setData}
           form={form}
@@ -183,7 +183,7 @@ describe('Schemaform <SinglePageForm>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <SinglePageForm
+      <FormPageForm
         form={form}
         user={user}
         route={route}
@@ -243,7 +243,7 @@ describe('Schemaform <SinglePageForm>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <SinglePageForm
+      <FormPageForm
         setData={setData}
         form={form}
         user={user}
@@ -312,7 +312,7 @@ describe('Schemaform <SinglePageForm>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <SinglePageForm
+      <FormPageForm
         setData={setData}
         router={router}
         form={form}
