@@ -1,88 +1,122 @@
 import { expect } from 'chai';
 
+import { requestStates } from '../../../../platform/utilities/constants';
+import { itfStatuses } from '../constants';
 
 import {
-  PRESTART_STATUS_SET,
-  PRESTART_DATA_SET,
-  PRESTART_STATE_RESET,
-  PRESTART_DISPLAY_RESET,
-  PRESTART_STATUSES,
-  PRESTART_VERIFICATION_TYPES
+  ITF_FETCH_INITIATED,
+  ITF_FETCH_SUCCEEDED,
+  ITF_FETCH_FAILED,
+  ITF_CREATION_INITIATED,
+  ITF_CREATION_SUCCEEDED,
+  ITF_CREATION_FAILED
 } from '../actions';
 
-import { prestart } from '../reducer';
+import reducers from '../reducers';
 
-describe('prestart', () => {
-  it('creates a reducer with initial state', () => {
-    const reducer = prestart;
-    const state = reducer(undefined, { type: PRESTART_DISPLAY_RESET });
-    expect(state.status).to.equal(PRESTART_STATUSES.notAttempted);
-    expect(state.data).to.deep.equal({
-      verificationType: null,
-      currentExpirationDate: null,
-      previousExpirationDate: null
-    });
-    expect(state.display).to.be.false;
+
+const initialState = {
+  fetchCallState: requestStates.notCalled,
+  creationCallState: requestStates.notCalled,
+  currentITF: null,
+  previousITF: null
+};
+
+
+describe('ITF reducer', () => {
+  const { itf } = reducers;
+
+  it('should handle ITF_FETCH_INITIATED', () => {
+    const newState = itf(initialState, { type: ITF_FETCH_INITIATED });
+    expect(newState.fetchCallState).to.equal(requestStates.pending);
   });
 
-  describe('reducer', () => {
-    const reducer = prestart;
-    it('should set prestart status', () => {
-      const state = reducer(undefined, {
-        type: PRESTART_STATUS_SET,
-        status: PRESTART_STATUSES.succeeded
-      });
-
-      expect(state.status).to.equal(PRESTART_STATUSES.succeeded);
-      expect(state.display).to.be.true;
-    });
-    it('should set prestart data', () => {
-      const state = reducer(undefined, {
-        type: PRESTART_DATA_SET,
+  describe('ITF_FETCH_SUCCEEDED', () => {
+    // These also test that it filters for compensation ITFs
+    it('should set the currentITF to the active one if present', () => {
+      const action = {
+        type: ITF_FETCH_SUCCEEDED,
         data: {
-          verificationType: PRESTART_VERIFICATION_TYPES.retrieve,
-          currentExpirationDate: '2019-04-10T15:12:34.000+00:00'
+          attributes: {
+            intentToFile: [
+              {
+                type: 'something not compensation',
+                status: itfStatuses.active
+              },
+              {
+                type: 'compensation',
+                status: itfStatuses.active,
+                expirationDate: '2014-07-28T19:53:45.810+0000'
+              },
+              {
+                // duplicate ITF with later expiration date; should use the active one
+                type: 'compensation',
+                status: itfStatuses.duplicate,
+                expirationDate: '2015-07-28T19:53:45.810+0000'
+              }
+            ]
+          }
         }
-      });
-
-      expect(state.data.verificationType).to.equal(PRESTART_VERIFICATION_TYPES.retrieve);
-      expect(state.data.currentExpirationDate).to.equal('2019-04-10T15:12:34.000+00:00');
+      };
+      const newState = itf(initialState, action);
+      expect(newState.currentITF.status).to.equal(itfStatuses.active);
     });
-    it('should reinitialize state', () => {
-      const state = reducer({
-        display: true,
-        status: PRESTART_STATUSES.succeeded,
+
+    it('should set the currentITF to the one with the latest expiration date if no active one is present', () => {
+      const action = {
+        type: ITF_FETCH_SUCCEEDED,
         data: {
-          verificationType: PRESTART_VERIFICATION_TYPES.create,
-          currentExpirationDate: '2019-04-10T15:12:34.000+00:00',
-          previousExpirationDate: '2019-04-10T15:12:34.000+00:00'
+          attributes: {
+            intentToFile: [
+              {
+                type: 'something not compensation',
+                status: itfStatuses.active
+              },
+              {
+                type: 'compensation',
+                status: itfStatuses.expired,
+                expirationDate: '2014-07-28T19:53:45.810+0000'
+              },
+              {
+                type: 'compensation',
+                status: itfStatuses.duplicate,
+                expirationDate: '2015-07-28T19:53:45.810+0000'
+              }
+            ]
+          }
         }
-      }, {
-        type: PRESTART_STATE_RESET,
-      });
-
-      expect(state.status).to.equal(PRESTART_STATUSES.notAttempted);
-      expect(state.data).to.deep.equal({
-        verificationType: null,
-        currentExpirationDate: null,
-        previousExpirationDate: null
-      });
-      expect(state.display).to.be.false;
+      };
+      const newState = itf(initialState, action);
+      expect(newState.currentITF.status).to.equal(itfStatuses.duplicate);
     });
-    it('should reset prestart display', () => {
-      const state = reducer({
-        display: true,
-        status: PRESTART_STATUSES.succeeded,
-        data: {
-          verificationType: PRESTART_VERIFICATION_TYPES.create,
-          currentExpirationDate: '2019-04-10T15:12:34.000+00:00',
-          previousExpirationDate: '2019-04-10T15:12:34.000+00:00'
+  });
+
+  it('should handle ITF_FETCH_FAILED', () => {
+    const newState = itf(initialState, { type: ITF_FETCH_FAILED });
+    expect(newState.fetchCallState).to.equal(requestStates.failed);
+  });
+
+  it('should handle ITF_CREATION_INITIATED', () => {
+    const newState = itf(initialState, { type: ITF_CREATION_INITIATED });
+    expect(newState.creationCallState).to.equal(requestStates.pending);
+  });
+
+  it('should handle ITF_CREATION_SUCCEEDED', () => {
+    const action = {
+      type: ITF_CREATION_SUCCEEDED,
+      data: {
+        attributes: {
+          intentToFile: 'new itf'
         }
-      }, {
-        type: PRESTART_DISPLAY_RESET,
-      });
+      }
+    };
+    const newState = itf({ currentITF: 'old itf' }, action);
+    expect(newState.previousITF).to.equal('old itf');
+    expect(newState.currentITF).to.equal('new itf');
+  });
 
-      expect(state.display).to.be.false;
-    });
+  it('should handle ITF_CREATION_FAILED', () => {
+    const newState = itf(initialState, { type: ITF_CREATION_FAILED });
+    expect(newState.creationCallState).to.equal(requestStates.failed);
   });
 });

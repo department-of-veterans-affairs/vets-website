@@ -2,16 +2,23 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+import recordEvent from '../../../../platform/monitoring/record-event';
+
 export default function ContactInformationExplanation() {
   return (
     <div>
       <div style={{ marginBottom: 10 }}>
         <AlertBox status="info" isVisible>
           <p>We’ll use this information to contact you about certain benefits and services, including disability compensation, pension benefits, and claims and appeals. If you’re enrolled in the VA health care program, your health care team may also use this information to communicate with you.</p>
-          <a href="/health-care/">Learn more about VA health benefits</a>.
+          <a
+            href="/health-care/"
+            onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'learn-more-va-benefits' }); }}>
+          Learn more about VA health benefits</a>.
         </AlertBox>
       </div>
-      <AdditionalInfo triggerText="How do I update my contact information for other benefits?">
+      <AdditionalInfo
+        triggerText="How do I update my contact information for other benefits?"
+        onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'update-personal-information' }); }}>
         <p>Some of our departments keep your contact information updated in their own separate records. If you use any of the VA benefits or services listed below, you’ll need to contact the department that handles those benefits directly to update your information.</p>
         <h5>Contact these departments directly to update your contact information:</h5>
         <ul>

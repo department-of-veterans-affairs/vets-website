@@ -20,22 +20,29 @@ export const VET360_TRANSACTION_UPDATE_FAILED = 'VET360_TRANSACTION_UPDATE_FAILE
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 
 function recordProfileTransaction(event, fieldName) {
-  const analyticsMap = {
-    homePhone: 'home-telephone',
-    mobilePhone: 'mobile-telephone',
-    workPhone: 'work-telephone',
-    mailingAddress: 'mailing-address',
-    residentialAddress: 'home-address',
-    faxNumber: 'fax-telephone',
-    email: 'email',
-  };
+  const analyticsMap = VET360_CONSTANTS.ANALYTICS_FIELD_MAP;
+  const mappedName = analyticsMap[fieldName];
 
-  if (analyticsMap[fieldName]) {
+  if (mappedName) {
     recordEvent({
       event,
-      'profile-section': fieldName
+      'profile-section': mappedName
     });
   }
+}
+
+export function clearTransaction(transaction) {
+  return {
+    type: VET360_TRANSACTION_CLEARED,
+    transaction
+  };
+}
+
+export function clearTransactionRequest(fieldName) {
+  return {
+    type: VET360_TRANSACTION_REQUEST_CLEARED,
+    fieldName
+  };
 }
 
 export function refreshTransaction(transaction, analyticsSectionName) {
@@ -54,7 +61,7 @@ export function refreshTransaction(transaction, analyticsSectionName) {
         transaction
       });
 
-      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : await localVet360.updateTransactionRandom(transactionId);
+      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : await localVet360.updateTransaction(transactionId);
 
       dispatch({
         type: VET360_TRANSACTION_UPDATED,
@@ -63,7 +70,9 @@ export function refreshTransaction(transaction, analyticsSectionName) {
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
-        dispatch(refreshProfile(forceCacheClear));
+        await dispatch(refreshProfile(forceCacheClear));
+        dispatch(clearTransaction(transactionRefreshed));
+        recordEvent({ event: 'profile-saved' });
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
           event: 'profile-edit-failure',
@@ -78,20 +87,6 @@ export function refreshTransaction(transaction, analyticsSectionName) {
         err
       });
     }
-  };
-}
-
-export function clearTransaction(transaction) {
-  return {
-    type: VET360_TRANSACTION_CLEARED,
-    transaction
-  };
-}
-
-export function clearTransactionRequest(fieldName) {
-  return {
-    type: VET360_TRANSACTION_REQUEST_CLEARED,
-    fieldName
   };
 }
 

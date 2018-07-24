@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Survivors Pension
+title: How to Apply for a Survivors Pension
 concurrence: "" 
 children: pensionSurvivors
 order: 4
@@ -9,7 +9,7 @@ order: 4
 
 <div class="va-introtext">
 
-Survivors pension is a tax-free monetary benefit. If you’re a surviving spouse or child of a deceased Veteran with wartime service, and your income and net worth meet certain limits set by Congress, you may be able to get this benefit. Find out if you qualify. 
+Find out if you're eligible and how to apply for a survivors pension as a surviving spouse or child of a deceased Veteran with wartime service.
 
 </div>
 
@@ -45,11 +45,11 @@ You may be able to get this benefit if you’re unmarried and you meet at least 
 
 </div>
 
-### Ready to apply? 
+### How do I apply? 
 
-You can apply in 1 of 3 ways:
+You can apply in any of these ways:
 
-#### Apply by mail
+#### By mail
 
 Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21-534EZ). <br>
 [Download VA Form 21-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
@@ -57,15 +57,16 @@ Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form
 Mail it to the Pension Management Center (PMC) for your state. <br>
 [Find your PMC](/pension/pension-management-center/). 
 
-#### Work with a trained professional
-
-You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/).
-
-#### Apply in person
+#### In person
 
 Bring your application to a regional benefit office near you. <br>
 [Find a regional benefit office](/facilities/). 
+
+
+#### With the help of a trained professional
+
+You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. <br>
+[Get help filing your claim](/disability-benefits/apply/help/).
 
 ### How long does it take VA to make a decision?
 

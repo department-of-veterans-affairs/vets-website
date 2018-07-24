@@ -46,12 +46,12 @@ export const LOAD_STATUSES = Object.freeze({
   success: 'success'
 });
 
-export const PREFILL_STATUSES = Object.freeze({
+export const PREFILL_STATUSES = {
   notAttempted: 'not-attempted',
   pending: 'pending',
   success: 'success',
   unfilled: 'unfilled'
-});
+};
 
 export function setSaveFormStatus(saveType, status, lastSavedDate = null, expirationDate = null) {
   return {

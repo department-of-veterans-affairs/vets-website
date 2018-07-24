@@ -2,13 +2,16 @@ import { uniqueId } from 'lodash';
 import * as VET360_CONSTANTS from '../constants/vet360';
 
 export function isVet360Configured() {
-  return document.location.hostname !== 'localhost';
+  return [
+    'staging.vets.gov',
+    'www.vets.gov'
+  ].includes(document.location.hostname);
 }
 
 export const mockContactInformation = {
   email: {
     id: 100,
-    emailAddress: 'asdf@asdf.com'
+    emailAddress: 'veteran@gmail.com'
   },
   mobilePhone: {
     areaCode: '503',
@@ -87,11 +90,11 @@ export const mockContactInformation = {
     zipCodeSuffix: '1234'
   },
   residentialAddress: {
-    addressLine1: '1493 Martin Luther King Rd',
+    addressLine1: 'PSC 808 Box 37',
     addressLine2: '',
     addressLine3: '',
     addressPou: 'RESIDENCE/CHOICE',
-    addressType: 'domestic',
+    addressType: 'MILITARY OVERSEAS',
     city: 'FPO',
     countryName: 'United States',
     countryCodeFips: 'US',
@@ -159,14 +162,14 @@ export default {
     );
   },
   updateTransaction(transactionId) {
-    return {
+    return asyncReturn({
       data: {
         attributes: {
           transactionId,
           transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_SUCCESS
         }
       }
-    };
+    });
   },
   updateTransactionToFailure(transactionId, code = 'VET360_CORE100') {
     return {

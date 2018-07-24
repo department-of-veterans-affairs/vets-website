@@ -11,7 +11,7 @@ majorlinks:
       title: Eligibility
       description: Find out if you can get VR&E benefits and services as a Servicemember or Veteran.
     - url: /employment/vocational-rehab-and-employment/apply-vre/
-      title: Application Process
+      title: How to Apply
       description: Find out how to apply for VR&amp;E benefits and services as a Servicemember or Veteran.
     - url: /employment/vocational-rehab-and-employment/service-disabled/
       title: VR&E Programs for Servicemembers and Veterans

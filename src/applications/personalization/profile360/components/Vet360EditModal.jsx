@@ -10,6 +10,7 @@ import Vet360EditModalActionButtons from '../components/Vet360EditModalActionBut
 export default class Vet360EditModal extends React.Component {
 
   static propTypes = {
+    analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
     getInitialFormValues: PropTypes.func.isRequired,
     field: PropTypes.shape({
@@ -19,6 +20,7 @@ export default class Vet360EditModal extends React.Component {
     hasValidationError: PropTypes.func,
     isEmpty: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     render: PropTypes.func.isRequired,
@@ -29,6 +31,15 @@ export default class Vet360EditModal extends React.Component {
   componentDidMount() {
     // initialize form with no fieldName and skip validation
     this.props.onChange(this.props.getInitialFormValues(), null, true);
+  }
+
+  componentWillUnmount() {
+    // Errors returned directly from the API request (as opposed through a transaction lookup) are
+    // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
+    // for the next time the modal is opened by removing any existing transaction request from the store.
+    if (this.props.transactionRequest && this.props.transactionRequest.error) {
+      this.props.clearErrors();
+    }
   }
 
   onSubmit = (event) => {
@@ -77,11 +88,11 @@ export default class Vet360EditModal extends React.Component {
 
     return (
       <Modal
-        id="profile-phone-modal"
+        id="profile-edit-modal"
         onClose={onCancel}
         visible={isFormReady}>
         <h3>Edit {title.toLowerCase()}</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} data-ready={isFormReady}>
           {error && <Vet360EditModalErrorMessage title={title} error={error} clearErrors={clearErrors}/>}
           {isFormReady && render()}
           <br/>
@@ -92,7 +103,7 @@ export default class Vet360EditModal extends React.Component {
             analyticsSectionName={analyticsSectionName}
             transactionRequest={transactionRequest}
             deleteEnabled={!isEmpty() && !deleteDisabled}>
-            <LoadingButton isLoading={isLoading}>Update</LoadingButton>
+            <LoadingButton data-action="save-edit" isLoading={isLoading}>Update</LoadingButton>
             <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
           </Vet360EditModalActionButtons>
         </form>

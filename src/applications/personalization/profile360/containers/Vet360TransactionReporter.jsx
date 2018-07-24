@@ -1,14 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import PropTypes from 'prop-types';
 
 import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
 
 import {
-  selectVet360SuccessfulTransactions,
   selectVet360FailedTransactions,
-  selectMostRecentSuccessfulTransaction,
   selectMostRecentErroredTransaction
 } from '../selectors';
 
@@ -19,17 +16,18 @@ import {
 import Vet360TransactionErrorBanner from '../components/Vet360TransactionErrorBanner';
 
 class Vet360TransactionReporter extends React.Component {
+  static propTypes = {
+    clearTransaction: PropTypes.func.isRequired,
+    mostRecentErroredTransaction: PropTypes.object,
+    erroredTransactions: PropTypes.array.isRequired
+  };
+
   componentDidUpdate(prevProps) {
     const newMessageVisible = (
-      prevProps.erroredTransactions.length < this.props.erroredTransactions.length ||
-      prevProps.successfulTransactions.length < this.props.successfulTransactions.length
+      prevProps.erroredTransactions.length < this.props.erroredTransactions.length
     );
 
     if (newMessageVisible) scrollToTop();
-  }
-
-  clearAllSuccessfulTransactions = () => {
-    this.props.successfulTransactions.forEach(this.props.clearTransaction);
   }
 
   clearAllErroredTransactions = () => {
@@ -38,19 +36,11 @@ class Vet360TransactionReporter extends React.Component {
 
   render() {
     const {
-      mostRecentSuccessfulTransaction,
       mostRecentErroredTransaction
     } = this.props;
 
     return (
       <div className="vet360-transaction-reporter">
-        {mostRecentSuccessfulTransaction && (
-          <AlertBox
-            isVisible
-            status="success"
-            onCloseAlert={this.clearAllSuccessfulTransactions}
-            content={<h4>We saved your updated information.</h4>}/>
-        )}
         {mostRecentErroredTransaction && (
           <Vet360TransactionErrorBanner
             transaction={mostRecentErroredTransaction}
@@ -63,9 +53,7 @@ class Vet360TransactionReporter extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    mostRecentSuccessfulTransaction: selectMostRecentSuccessfulTransaction(state),
     mostRecentErroredTransaction: selectMostRecentErroredTransaction(state),
-    successfulTransactions: selectVet360SuccessfulTransactions(state),
     erroredTransactions: selectVet360FailedTransactions(state)
   };
 };

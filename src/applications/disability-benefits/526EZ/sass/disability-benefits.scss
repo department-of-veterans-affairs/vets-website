@@ -126,6 +126,7 @@
     border: 2px solid $color-gray-lightest;
     // Remove the top border because it looks like it just extends the header
     border-top: none;
+    margin-bottom: 1em;
 
     .review-card--title {
       margin: 1.5rem 0 2.5rem;

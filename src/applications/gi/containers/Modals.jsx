@@ -116,8 +116,8 @@ export class Modals extends React.Component {
               target="_blank">Click here for FAQs about the Yellow Ribbon Program..</a>
           </p>
           <p>
-            Only Veterans entitled to the maximum benefit rate (based on service requirements) or
-            their designated transferees can receive this funding. Active duty Servicemembers and
+            Veterans and Fry Scholarship and Purple Heart recipients are entitled to the maximum benefit
+            rate or their designated transferees can receive this funding. Active duty Servicemembers and
             their spouses aren’t eligible for this program (child transferees of active duty
             Servicemembers may be eligible if the servicemember is qualified at the 100% rate).
             This information will be updated quarterly.
@@ -162,6 +162,13 @@ export class Modals extends React.Component {
             tuition assistance.
           </p>
         </Modal>
+
+        {__BUILDTYPE__ !== 'production' && <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('priEnroll')}>
+          <h3>Priority Enrollment</h3>
+          <p>
+            If an Institution of Higher Learning (a college or university) has a system for priority enrollment that allows certain student Veterans to enroll in courses earlier than other students (not necessarily earlier than <strong>all</strong> students), we’ll note that with the school’s information here.
+          </p>
+        </Modal>}
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('eightKeys')}>
           <h3>8 Keys to Veteran Success</h3>
@@ -232,6 +239,10 @@ export class Modals extends React.Component {
           <h3>STEM</h3>
           <p>VA will provide up to 9 months of additional Post-9/11 GI Bill benefits if you're eligible and enrolled in a Science, Technology, Engineering, or Math educational program.</p>
         </Modal>
+        {__BUILDTYPE__ !== 'production' && <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('iStudy')}>
+          <h3>Independent Study</h3>
+          <p>Beneficiaries may use educational assistance to access online learning (accredited independent study) at schools that aren’t Institutions of Higher Learning (IHLs). These schools must be postsecondary vocational institutions or area career and technical education schools that provide postsecondary level education. <strong>Note:</strong> This change doesn’t apply to Dependents’ Educational Assistance program beneficiaries.</p>
+        </Modal>}
       </span>
     );
   }
@@ -318,7 +329,7 @@ export class Modals extends React.Component {
               target="_blank">this page.</a>
           </p>
           <p>
-            Only Veterans entitled to the maximum benefit rate or their designated transferees can receive this funding. Active duty Servicemembers and their spouses are not eligible for this program (child transferees of active duty Servicemembers may be eligible if the servicemember is qualified at the 100% rate). This information will be updated quarterly.
+            Veterans and Fry Scholarship and Purple Heart recipients are entitled to the maximum benefit rate or their designated transferees can receive this funding. Active duty Servicemembers and their spouses are not eligible for this program (child transferees of active duty Servicemembers may be eligible if the servicemember is qualified at the 100% rate). This information will be updated quarterly.
           </p>
         </Modal>
 

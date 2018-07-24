@@ -30,6 +30,28 @@ import Vet360Transaction from '../components/Vet360Transaction';
 
 class Vet360ProfileField extends React.Component {
 
+  static propTypes = {
+    analyticsSectionName: PropTypes.string.isRequired,
+    clearErrors: PropTypes.func.isRequired,
+    Content: PropTypes.func.isRequired,
+    data: PropTypes.object,
+    EditModal: PropTypes.func.isRequired,
+    field: PropTypes.object,
+    fieldName: PropTypes.string.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    isEmpty: PropTypes.func,
+    onAdd: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    refreshTransaction: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    transaction: PropTypes.object,
+    transactionRequest: PropTypes.object
+  };
+
   isEmpty = () => {
     return this.props.isEmpty ? this.props.isEmpty(this.props) : !this.props.data;
   }
@@ -44,6 +66,7 @@ class Vet360ProfileField extends React.Component {
 
   render() {
     const {
+      fieldName,
       isEditing,
       onAdd,
       onEdit,
@@ -55,7 +78,7 @@ class Vet360ProfileField extends React.Component {
     } = this.props;
 
     return (
-      <div className="vet360-profile-field">
+      <div className="vet360-profile-field" data-field-name={fieldName}>
         <Vet360ProfileFieldHeading onEditClick={this.isEditLinKVisible() && onEdit}>{title}</Vet360ProfileFieldHeading>
         {isEditing && <EditModal {...this.props} isEmpty={this.isEmpty}/>}
         <Vet360Transaction
@@ -91,9 +114,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  // TODO turn analytics back on later
-  /* eslint-disable no-unused-vars */
-
   const {
     fieldName,
     analyticsSectionName: sectionName

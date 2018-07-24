@@ -25,7 +25,7 @@ function inferAddressType(countryName, stateCode) {
   if (countryName !== 'United States') {
     addressType = 'INTERNATIONAL';
   } else if (MILITARY_STATES.has(stateCode)) {
-    addressType = 'MILITARY OVERSEAS';
+    addressType = 'OVERSEAS MILITARY';
   }
 
   return addressType;
@@ -81,7 +81,10 @@ function cleanPhoneDataForUpdate(value) {
   };
 }
 
-function cleanAddressDataForUpdate(value) {
+// @todo Consolidate this logic with consolidateAddress, which is intended to make address formats
+// consistent for display within the edit-address modal. Maybe they should go directly in that modal instead.
+// Also, should probably do something with the updaters' createAddressObject here too.
+export function cleanAddressDataForUpdate(value) {
   const {
     id,
     addressLine1,

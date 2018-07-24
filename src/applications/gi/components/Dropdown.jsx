@@ -7,6 +7,7 @@ class Dropdown extends React.Component {
     if (!this.props.visible) {
       return null;
     }
+    const hideArrowsClass = this.props.hideArrows ? 'hide-arrows' : '';
 
     return (
       <div className={this.props.className}>
@@ -14,6 +15,7 @@ class Dropdown extends React.Component {
           {this.props.label}
         </label>
         <select
+          className={hideArrowsClass}
           id={this.props.name}
           name={this.props.name}
           alt={this.props.alt}

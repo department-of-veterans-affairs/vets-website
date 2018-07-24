@@ -67,6 +67,14 @@ export class AdditionalInformation extends React.Component {
         </div>
         {__BUILDTYPE__ !== 'production' && <div>
           <strong>
+            <a onClick={this.props.onShowModal.bind(this, 'iStudy')}>
+               Independent study:
+            </a>
+          </strong>
+          &nbsp;{it.independentStudy ? 'Yes' : 'No'}
+        </div>}
+        {__BUILDTYPE__ !== 'production' && <div>
+          <strong>
             <a onClick={this.props.onShowModal.bind(this, 'stemOffered')}>
               STEM (Science, Technology, Engineering, and Math):
             </a>
