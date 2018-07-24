@@ -36,7 +36,7 @@ export default function AppealListItem({ appeal, name }) {
         Appeal of {appealTypeMap[appeal.attributes.programArea]} - Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
       </h3>
       <div className="card-status">
-        <p><strong>{moment(lastEvent.date).format('MMM D')}</strong> - {getStatusContents(status.type, status.details, name).title}</p>
+        <p><strong>{moment(lastEvent.date).format('MMM D, YYYY')}</strong> - {getStatusContents(status.type, status.details, name).title}</p>
       </div>
       <p>
         <Link className="usa-button usa-button-primary" href={`/track-claims/appeals/${appeal.id}/status`}>View appeal<i className="fa fa-chevron-right"/></Link>
