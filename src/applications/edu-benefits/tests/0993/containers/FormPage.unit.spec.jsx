@@ -3,17 +3,15 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { FormPageForm } from '../../../0993/containers/FormPageForm';
-import fullSchema0993 from '../../../0993/config/form';
+import { FormPage } from '../../../0993/containers/FormPage';
 
-describe('Opt Out <FormPageForm>', () => {
+describe('Schemaform <FormPage>', () => {
   const location = {
     pathname: '/testing/0'
   };
 
   it('should render', () => {
     const route = {
-      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -46,10 +44,11 @@ describe('Opt Out <FormPageForm>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPageForm form={form} route={route} user={user} location={location}/>
+      <FormPage form={form} route={route} user={user} location={location}/>
     );
+
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
-    expect(tree.everySubTree('Connect(DowntimeNotification)').length).to.equal(1);
+    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
   });
   describe('should handle', () => {
     let tree;
@@ -66,7 +65,6 @@ describe('Opt Out <FormPageForm>', () => {
         push: sinon.spy()
       };
       route = {
-        formConfig: fullSchema0993,
         pageConfig: {
           pageKey: 'testPage',
           schema: {},
@@ -111,7 +109,7 @@ describe('Opt Out <FormPageForm>', () => {
       };
 
       tree = SkinDeep.shallowRender(
-        <FormPageForm
+        <FormPage
           router={router}
           setData={setData}
           form={form}
@@ -136,9 +134,73 @@ describe('Opt Out <FormPageForm>', () => {
       expect(router.push.calledWith('next-page'));
     });
   });
+  it('should go back', () => {
+    const oldWindow = global.window;
+    global.window = {
+      location: {
+        pathname: '/benefit/static/form/page',
+        replace: sinon.spy()
+      }
+    };
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'first-page'
+        },
+        {
+          path: 'previous-page'
+        },
+        {
+          path: 'testing',
+          pageKey: 'testPage'
+        }
+      ]
+    };
+    const form = {
+      pages: {
+        testPage: {
+          depends: () => false,
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
+    const router = {
+      push: sinon.spy()
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        router={router}
+        form={form}
+        user={user}
+        route={route}
+        location={location}/>
+    );
+
+    tree.getMountedInstance().goBack();
+
+    expect(global.window.location.replace.calledWith('/benefit/static'));
+    global.window = oldWindow;
+  });
   it('should render array page', () => {
     const route = {
-      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         showPagePerItem: true,
@@ -183,7 +245,7 @@ describe('Opt Out <FormPageForm>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPageForm
+      <FormPage
         form={form}
         user={user}
         route={route}
@@ -198,7 +260,6 @@ describe('Opt Out <FormPageForm>', () => {
   it('should handle change in array page', () => {
     const setData = sinon.spy();
     const route = {
-      formConfig: fullSchema0993,
       pageConfig: {
         pageKey: 'testPage',
         showPagePerItem: true,
@@ -243,7 +304,7 @@ describe('Opt Out <FormPageForm>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPageForm
+      <FormPage
         setData={setData}
         form={form}
         user={user}
@@ -312,7 +373,7 @@ describe('Opt Out <FormPageForm>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPageForm
+      <FormPage
         setData={setData}
         router={router}
         form={form}
