@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { RoutedSavableFormPage } from '../../../0993/containers/RoutedSavableFormPage';
 
-xdescribe('Schemaform <RoutedSavableFormPage>', () => {
+describe('Schemaform <RoutedSavableFormPage>', () => {
   const location = {
     pathname: '/testing/0'
   };
