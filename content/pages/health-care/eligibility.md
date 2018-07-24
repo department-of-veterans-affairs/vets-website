@@ -73,9 +73,11 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 - Served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
 - Served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
 
+**If you're an OEF/OIF/OND combat Veteran who has just returned from service,** you can receive free medical care for any condition related to your service in Iraq or Afghanistan for 5 years after discharge. <br>
+[Learn more about enhanced health care eligibility for returning Servicemembers](https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp).
+
 **If none of the above apply to you**, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. <br>
 [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
-
 </div>
 </div>
 </div>
@@ -117,7 +119,7 @@ You can get help in any of these ways:
 - [I need vision care. Can I get it through VA?](#vision-care)
 - [I need dental care. Can I get it through VA?](#dental-care)
 - [I think I may have a service-connected disability. Can I get disability compensation (monthly payments)?](#disability-compensation)
-
+- [When I leave active-duty service, how do I know if I'm eligible for TRICARE, VA health care, or both?](#leave-active-service)
 <br>
 
 <span id="priority-groups"></span>
@@ -250,4 +252,22 @@ If you have an illness or injury that was caused—or made worse—by your activ
 </div>
 </div>
 <div markdown="0"><br></div>
+</div>
+
+<br>
+
+<span id="#leave-active-service"></span>
+
+<div itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">When I leave active-duty service, how do I know if I'm eligible for TRICARE, VA health care, or both?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+**If you're retiring,** you're eligible for TRICARE. You may also qualify for certain VA health care benefits. <br>
+**If you're separating from service due to a service-connected illness or injury,** you may be eligible for VA health care benefits and certain TRICARE benefits. <br>
+**If you're an OEF/OIF/OND combat Veteran who has just returned from service,** you can receive free medical care for any condition related to your service in Iraq or Afghanistan for 5 years after discharge. 
+
+[Learn more health care benefits for transitioning Servicemembers](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
+
+</div>
 </div>
