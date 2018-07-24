@@ -8,11 +8,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
-<<<<<<< HEAD
-=======
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
->>>>>>> 65bbd48566d3dd5a297336088bb151f6b4189635
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
