@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: level2-merger
 title: VA Health Care
 display_title: Health Care
-description: Learn about VA health care benefits that cover primary care, prescriptions, and prosthetics, as well as mental health, home health, and geriatric care. Find out if you’re eligible, how to apply, and how to manage your Veterans health care benefits.
+description: VA health care offers access to primary and specialty care, including home health, geriatric (edler), women's health, and mental health care. Find out how to apply for and manage the Veterans health care benefits you've earned.
 concurrence:
 lastupdate:
 order: 1
@@ -17,7 +17,7 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: ""
-      title: <b>Disability Pay (Compensation)</b>
+      title: <b>Disability Compensation</b>
       description: Find out how to apply for and manage your VA disability benefits.
     - url: ""
       title: <b>Life Insurance</b>
@@ -75,7 +75,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 <h3>On This Page</h3>
 
 <ul>
-  <li><a href="#get">Get Health Care Benefits</a></li>
+  <li><a href="#get">Get VA Health Care</a></li>
   <li><a href="#manage">Manage Your Health and Benefits</a></li>
   <li><a href="#more">More Information and Resources</a></li>
 </ul>
@@ -115,7 +115,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 <section id="get" class="merger-majorlinks">
 
-  <h2>Get Health Care Benefits</h2>
+  <h2>Get VA Health Care</h2>
 
   <div class="link">
     <a href="#"><b>About VA Health Benefits</b></a>
