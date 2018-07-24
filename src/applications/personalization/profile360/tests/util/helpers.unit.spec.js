@@ -27,7 +27,7 @@ import schemas from 'vets-json-schema/dist/schemas';
 // Maps schema id to config id
 const schemaToConfigIds = {
   '10-10EZ': '1010ez',
-  '21-526EZ': '21-526EZ',
+  // '21-526EZ': '21-526EZ',
   '21-686C': '21-686C',
   '21P-527EZ': '21P-527EZ',
   '21P-530': '21P-530',
