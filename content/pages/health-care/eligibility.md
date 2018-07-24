@@ -236,7 +236,6 @@ In certain cases, you may receive dental care as part of your VA health benefits
 </div>
 </div>
 </div>
-<br>
 
 <span id="disability-compensation"></span>
 
