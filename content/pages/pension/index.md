@@ -27,16 +27,16 @@ crosslinks:
       description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
     - url: va.gov/life-insurance
       title: VA Life Insurance Benefits
-      description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
+      description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
 contact:
   - heading: Contact us for help with benefits or services
     links:
     - url: 1-877-222-VETS (1-877-222-8387)
-      title: Questions About Your Application     
+      title: Questions about Your Application     
     - url: 1-800-827-1000
       title: Questions about Your VA Benefits and Direct Deposit
     - url: 1-877-294-6380
-      title: Support If You're Currently Receiving VA Pension Benefits
+      title: Support if You're Currently Receiving VA Pension Benefits
     - url: 1-800-983-0937
       title: eBenefits Technical Support
     - url: 1-877-4AID-VET (1-877-424-3838)
@@ -51,7 +51,7 @@ social:
     - url: "https://facebook.com"
       label: Facebook
     - url: "https://youtube.com"
-      label: Youtube
+      label: YouTube
     - url: "https://instagram.com"
       label: Instagram
     - url: "https://flickr.com"
@@ -59,7 +59,7 @@ social:
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: E-mail Directory
+      label: Email Directory
 ---
 
 <p class="va-introtext">
