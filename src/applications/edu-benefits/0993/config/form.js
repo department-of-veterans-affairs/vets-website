@@ -42,6 +42,7 @@ const formConfig = {
   },
   chapters: {
     claimantInformation: {
+      title: 'Applicant Information',
       pages: {
         claimantInformation: {
           title: 'Applicant Information',
@@ -58,42 +59,32 @@ const formConfig = {
             'ui:description': PrefillMessage,
             claimantFullName: _.merge(fullNameUI, {
               first: {
-                'ui:title': 'Your first name',
-                'ui:required': (formData) => !formData.verified
+                'ui:title': 'Your first name'
               },
               last: {
-                'ui:title': 'Your last name',
-                'ui:required': (formData) => !formData.verified
+                'ui:title': 'Your last name'
               },
               middle: {
                 'ui:title': 'Your middle name'
               },
               suffix: {
                 'ui:title': 'Your suffix'
-              },
-              'ui:options': {
-                hideIf: (formData) => formData.verified
               }
             }),
             claimantSocialSecurityNumber: _.assign(ssnUI, {
               'ui:required': (formData) => !formData.verified && !formData['view:noSSN'],
-              'ui:title': 'Your Social Security number',
-              'ui:options': {
-                hideIf: (formData) => formData.verified
-              }
+              'ui:title': 'Your Social Security number'
             }),
             'view:noSSN': {
               'ui:title': 'I don’t have a Social Security number',
               'ui:options': {
-                hideOnReview: true,
-                hideIf: (formData) => formData.verified
+                hideOnReview: true
               }
             },
             vaFileNumber: {
               'ui:required': (formData) => !formData.verified && formData['view:noSSN'],
               'ui:title': 'Your VA file number',
               'ui:options': {
-                hideIf: (formData) => formData.verified,
                 expandUnder: 'view:noSSN'
               },
               'ui:errorMessages': {
@@ -109,6 +100,7 @@ const formConfig = {
             properties: {
               claimantFullName: {
                 type: 'object',
+                required: ['first', 'last'],
                 properties: fullName.properties
               },
               claimantSocialSecurityNumber,
