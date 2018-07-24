@@ -3,15 +3,15 @@
  * @module platform/site-wide
  */
 
-import '../monitoring/sentry.js';
-import './legacy/menu';  // Used in the footer.
+// import '../monitoring/sentry.js';
+// import './legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './accessible-VCL-modal';
 // import addMenuListeners from './accessible-menus';
-import startUserNavWidget from './user-nav';
+// import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
-import startFeedbackWidget from './feedback';
-import startAnnouncementWidget from './announcements';
+// import startFeedbackWidget from './feedback';
+// import startAnnouncementWidget from './announcements';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -37,8 +37,5 @@ export default function startSitewideComponents(commonStore) {
     }
   });
 
-  startUserNavWidget(commonStore);
   startMegaMenuWidget(commonStore);
-  startFeedbackWidget(commonStore);
-  startAnnouncementWidget(commonStore);
 }
