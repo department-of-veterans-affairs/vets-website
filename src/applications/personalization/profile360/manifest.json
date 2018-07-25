@@ -1,0 +1,8 @@
+{
+  "appName": "VA Profile",
+  "entryFile": "./profile-360-entry.jsx",
+  "entryName": "profile-360",
+  "rootUrl": "/profile",
+  "production": true,
+  "contentPage": "profile/index.md"
+}

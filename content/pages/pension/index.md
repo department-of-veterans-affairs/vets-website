@@ -13,6 +13,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
+<<<<<<< HEAD
     - url: vets.gov/health-care
       title: VA Health Care
       description: Find out how to apply for and manage your VA health care benefits.
@@ -60,6 +61,26 @@ social:
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
       label: E-mail Directory
+=======
+    - url: /pension/eligibility/
+      title: Eligibility
+      description: Find out if you can get monthly payments through our Veterans Pension program.
+    - url: /pension/apply/
+      title: How to Apply for a Veterans Pension
+      description: You can apply online, by mail, or in person.
+    - url: /pension/aid-attendance-housebound/
+      title: Aid and Attendance or Housebound Allowance
+      description: Find out if you can get added pension benefits as a Veteran or survivor.
+    - url: /pension/survivors-pension/
+      title: How to Apply for a Survivors Pension
+      description: Find out if you’re eligible and how to apply for a survivors pension as a surviving spouse or child of a deceased Veteran with wartime service.
+    - url: /pension/rates/
+      title: Veterans Pension Rates
+      description: Find out how much you qualify for.
+    - url: /pension/pension-management-center/
+      title: Pension Management Centers
+      description: Find the location that serves you and your family.
+>>>>>>> master
 ---
 
 <p class="va-introtext">
@@ -153,10 +174,14 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
     <p>View protected pension rates for section 306 and old law VA disability and death pension benefits.</p>
   </div>
 
+<<<<<<< HEAD
   <div class="link">
     <a href="benefits.va.gov/compensation/claimexam.asp"><b>VA Claim Exam (C&P Exam)</b></a>
     <p>Find out how to schedule your VA claim exam and what to expect during and after the appointment.</p>
   </div>
+=======
+If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. If you’re a survivor of a wartime Veteran, you may also qualify for monthly payments if your income and net worth are within certain limits. Find out if you can get this tax-free benefit.
+>>>>>>> master
 
   <div class="link">
     <a href="vets.gov/pension/pension-management-center/"><b>Find Your VA Pension Management Center</b></a>
