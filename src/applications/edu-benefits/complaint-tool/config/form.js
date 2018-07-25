@@ -253,7 +253,7 @@ const formConfig = {
           path: 'benefits-information',
           title: 'Benefits Information',
           uiSchema: {
-            'view:giBill': {
+            programs: {
               'ui:title': 'Which education benefits have you used?',
               'ui:validations': [
                 validateBooleanGroup
@@ -266,7 +266,7 @@ const formConfig = {
                 atLeastOne: 'Please select at least one'
               },
             },
-            'view:title10': {
+            'view:assistance': {
               'ui:title': 'Which military tuition assistance benefits have you used?',
               'ui:options': {
                 // commenting this out will fix the title formatting but break the 'required' property
@@ -278,64 +278,68 @@ const formConfig = {
               'ui:options': {
                 // commenting this out will fix the title formatting but break the 'required' property
                 // showFieldLabel: true
-              },
-            },
-            study: {
-              'ui:title': 'Level of Study'
-            },
-            governmentTuition: {
-              'ui:title': 'Government Tuition'
-            },
-            pocketTuition: {
-              'ui:title': 'Out of Pocket Tuition'
+                label: [
+                  'test 12': 'yeah'
+                ]
+              }
             }
           },
           schema: {
             type: 'object',
-            required: ['view:giBill'],
+            required: ['programs'],
             properties: {
-              'view:giBill': {
+              programs: {
                 type: 'object',
                 properties: {
-                  'Post-9/11 GI Bill (Ch. 33)': {
+                  'Post- 9/11 Ch 33': {
                     type: 'boolean',
+                    title: 'Post-9/11 GI Bill (Ch. 33)'
                   },
-                  'Montgomery GI Bill - Active Duty (MGIB) (Ch. 30)': {
-                    type: 'boolean'
+                  'MGIB-AD Ch 30': {
+                    type: 'boolean',
+                    title: 'Montgomery GI Bill - Active Duty (MGIB) (Ch. 30)'
                   },
-                  'Montgomery GI Bill - Selected Reserve (MGIB-SR) (Ch. 1606)': {
-                    type: 'boolean'
+                  'MGIB-SR Ch 1606': {
+                    type: 'boolean',
+                    title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR) (Ch. 1606)'
                   },
-                  'Tuition Assistance Top-Up': {
-                    type: 'boolean'
+                  TATU: {
+                    type: 'boolean',
+                    title: 'Tuition Assistance Top-Up'
                   },
-                  'Survivors & Dependents Assistance (DEA) (Ch. 35)': {
-                    type: 'boolean'
+                  'DEA Ch 35': {
+                    type: 'boolean',
+                    title: 'Survivors & Dependents Assistance (DEA) (Ch. 35)'
                   },
-                  'Vocational Rehabilitation and Employment (VR&E) (Ch. 31)': {
-                    type: 'boolean'
+                  'VRE Ch 31': {
+                    type: 'boolean',
+                    title: 'Vocational Rehabilitation and Employment (VR&E) (Ch. 31)'
                   },
                 }
               },
-              'view:title10': {
+              'view:assistance': {
                 type: 'object',
                 properties: {
-                  'Federal Tuition Assistance (TA)': {
-                    type: 'boolean'
+                  TA: {
+                    type: 'boolean',
+                    title: 'Federal Tuition Assistance (TA)'
                   },
-                  'State Funded Tuition Assistance (TA) for Service Members Performing Active Guard and Reserve Dutites (AGR)': {
-                    type: 'boolean'
+                  'TA-AGR': {
+                    type: 'boolean',
+                    title: 'State Funded Tuition Assistance (TA) for Service Members Performing Active Guard and Reserve Dutites (AGR)'
                   },
-                  'Military Spouse Career Advancement Accounts (MyCAA)': {
-                    type: 'boolean'
+                  MyCAA: {
+                    type: 'boolean',
+                    title: 'Military Spouse Career Advancement Accounts (MyCAA)'
                   },
-                }
+                },
               },
               'view:otherBenefits': {
                 type: 'object',
                 properties: {
-                  'Federal financial aid': {
-                    type: 'boolean'
+                  FFA: {
+                    type: 'boolean',
+                    title: 'Federal financial aid'
                   }
                 }
               }
