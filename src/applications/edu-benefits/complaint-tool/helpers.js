@@ -1,10 +1,14 @@
 import environment from '../../../platform/utilities/environment';
-import _ from 'lodash';
+import appendQuery from 'append-query';
 
 const searchInstitutionBaseUrl = `${environment.API_URL}/v0/gi/institutions/search`;
 
-export function fetchInstitutions({ institutionQuery, url }) {
-  const fetchUrl = institutionQuery ? `${searchInstitutionBaseUrl}?name=${institutionQuery}` : url;
+export function fetchInstitutions({ institutionQuery, page }) {
+  // const fetchUrl = institutionQuery ? `${searchInstitutionBaseUrl}?name=${institutionQuery}` : url;
+  const fetchUrl = appendQuery(searchInstitutionBaseUrl, {
+    name: institutionQuery,
+    page
+  });
 
   return fetch(fetchUrl, {
     headers: {
@@ -13,23 +17,23 @@ export function fetchInstitutions({ institutionQuery, url }) {
   })
     .then(res => res.json())
     .then(
-      payload => ({ payload });
+      payload => ({ payload }),
       error => ({ error })
     );
 }
 
-export function transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload = {}}) {
+export function transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload = {} }) {
   if (error) {
-    return { error }
+    return { error };
   }
 
   const {
     data = [],
-    links,
     meta
   } = payload;
 
   const institutionCount = meta.count;
+  const pagesCount = Math.ceil(institutionCount / 10);
   const institutions = data.map(({ attributes }) => {
     const { city, country, facilityCode, name, state, zip } = attributes;
 
@@ -40,7 +44,7 @@ export function transformInstitutionsForSchoolSelectField({ error, institutionQu
     institutionCount,
     institutionQuery,
     institutions,
-    links
+    pagesCount
   };
 }
 
