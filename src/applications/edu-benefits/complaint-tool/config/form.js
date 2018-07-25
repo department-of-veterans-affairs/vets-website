@@ -291,7 +291,7 @@ const formConfig = {
               programs: {
                 type: 'object',
                 properties: {
-                  'Post- 9/11 Ch 33': {
+                  'Post-9/11 Ch 33': {
                     type: 'boolean',
                     title: 'Post-9/11 GI Bill (Ch. 33)'
                   },
