@@ -77,13 +77,13 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Veterans Memorial Items</b></a>
+    <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Memorial Items</b></a>
     <p>Find out how to apply for grave markers, headstones Presidential Memorial Certificates, and other memorial items to honor a Veteran's service.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Dependency and Indemnity Compensation (VA DIC)</b></a>
-    <p>Learn about getting VA disability benefits for a surviving spouse and dependent children.</p>
+    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for Surviving Spouse and Dependents (VA DIC)</b></a>
+    <p>Learn about getting VA disability benefits for a surviving spouse or a dependent child or parent.</p>
   </div>
 
    <div class="link">
@@ -131,8 +131,8 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="https://benefits.va.gov/Compensation/current_rates_dic.asp">
-    <a href=""><b>Dependency and Indemnity Compensation (DIC) Rates</b></a>
-    <p>View current VA survivor benefit rates for spouses and children.</p>
+    <a href=""><b>VA Survivor Benefits Rates (VA DIC)</b></a>
+    <p>View current dependency and indemnity compensation rates for surviving spouses and children.</p>
 
   <div class="https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp">
     <a href=""><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
