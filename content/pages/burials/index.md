@@ -90,8 +90,8 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <a href="https://www.vets.gov/burials-and-memorials/bereavement-counseling/"><b>Bereavement Counseling</b></a>
     <p>See if you qualify for grief counseling and support after the loss of an active-duty Servicemember, Reservist, or National Guard Soldier.</p>
   </div>
- 
-  
+
+
 </section>
 
 <section id="manage" class="merger-majorlinks">
@@ -117,6 +117,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">
     <a href="#"><b>Manage Your Military Service Records</b></a>
     <p>View, review, and print documents from your official Military Personnel File (including your DD214)</p>
+
   </div>
 
 </section>
@@ -133,15 +134,15 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   <div class="https://benefits.va.gov/Compensation/current_rates_dic.asp">
     <a href=""><b>Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current VA survivor benefit rates for spouses and children.</p>
-  
+
   <div class="https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp">
     <a href=""><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current survivor benefit rates for parents.</p>
-  
+
   <div class="https://www.archives.gov/veterans/replace-medals.html">
     <a href=""><b>Replace Medals, Awards, and Decorations</b></a>
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
- 
+
   <div class="link">
     <a href="https://www.archives.gov/veterans"><b>Find Historical Military Records</b></a>
     <p>Search and request military records from the National Archives website for research.</p>

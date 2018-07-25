@@ -5,11 +5,16 @@ $color-primary-lightest: #e1f3f8;
 @import 'iconography';
 @import 'right-rail';
 
+.sign-in-link {
+
+}
+
 section.usa-grid {
   padding-top: 3em;
 }
 
 /* logo size override */
+
 .va-header-logo {
   width: 264px;
   height:auto;
@@ -30,14 +35,20 @@ article {
     margin-top: 1em;
   }
 }
-#mega-menu {
 
-  border-top: 1px solid $color-white;
-  margin-top: 1em;
+#mega-menu {
 
   #vetnav-menu, #vetnav {
     margin-top: 0;
   }
+}
+
+#menu-rule {
+  border-bottom: 1px solid $color-white;
+  margin-left: -.55em;
+  padding-bottom: 1em;
+  padding-right: 1.2em;
+
 }
 
 /* new pattern? where we use old VA icons with h3 */
@@ -119,8 +130,7 @@ article {
 }
 
 #homepage-popular {
-  padding: 3em 0 3em 0;
-  background-color: $color-gray-lightest;
+  padding-top: 3em;
 }
 
 #homepage-hero {
@@ -132,12 +142,6 @@ article {
 #homepage-news {
   padding: 0 0 3em 0;
   margin-top: 3em;
-
-  h4 {
-    a {
-      text-decoration: none;
-    }
-  }
 }
 
 #homepage-benefits {
@@ -243,7 +247,7 @@ h3, h4 {
 @media screen and (min-width: 768px) {
 
   .vet-toolbar {
-    flex: 0 1 30.5rem;
+    flex: 0 1 35.5rem;
   }
 }
 
@@ -297,6 +301,12 @@ h3, h4 {
 
 .va-nav-breadcrumbs-list {
   padding-left: 0;
+
+  li {
+    list-style: none;
+    padding-bottom: 1em;
+    padding-top: 1em;
+  }
 }
 
 .footer-banner {

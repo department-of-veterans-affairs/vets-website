@@ -8397,7 +8397,7 @@ p.info-message {
       display: flex; }
     @media screen and (min-width: 768px) {
       .vet-toolbar {
-        flex: 0 1 32.5rem;
+        flex: 0 1 35.5rem;
         margin-left: 0;
         margin-right: 0;
         z-index: 3; } }
