@@ -31,7 +31,6 @@ import Vet360Transaction from '../components/Vet360Transaction';
 class Vet360ProfileField extends React.Component {
 
   static propTypes = {
-    analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
     Content: PropTypes.func.isRequired,
     data: PropTypes.object,

@@ -19,7 +19,6 @@ class ProfileView extends React.Component {
   static propTypes = {
     downtimeData: PropTypes.object,
     isVet360AvailableForUser: PropTypes.bool,
-    fetchAddressConstants: PropTypes.func.isRequired,
     fetchTransactions: PropTypes.func.isRequired,
     fetchMilitaryInformation: PropTypes.func.isRequired,
     fetchHero: PropTypes.func.isRequired,
