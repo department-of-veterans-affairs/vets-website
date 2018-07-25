@@ -37,7 +37,7 @@ export default class OptOutWizard extends React.Component {
             </ul>
           </div>
 
-          <p><strong>Please note:</strong> If you opt out and then change your mind, you’ll need to call the Education Call Center at<a className="help-phone-number-link" href="tel:+1-888-442-4551">1-888-442-4551</a> to opt back in.</p>
+          <p><strong>Please note:</strong> If you opt out and then change your mind, you’ll need to call the Education Call Center at <a className="help-phone-number-link" href="tel:+1-888-442-4551">1-888-442-4551</a> to opt back in.</p>
           <div>
             <a
               href="/education/opt-out-information-sharing/opt-out-form-0993"

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import DowntimeNotification, { externalServices, externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
@@ -15,11 +16,28 @@ import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
 
 class ProfileView extends React.Component {
+  static propTypes = {
+    downtimeData: PropTypes.object,
+    isVet360AvailableForUser: PropTypes.bool,
+    fetchAddressConstants: PropTypes.func.isRequired,
+    fetchTransactions: PropTypes.func.isRequired,
+    fetchMilitaryInformation: PropTypes.func.isRequired,
+    fetchHero: PropTypes.func.isRequired,
+    fetchPersonalInformation: PropTypes.func.isRequired,
+    profile: PropTypes.shape({
+      addressConstants: PropTypes.object,
+      hero: PropTypes.object,
+      personalInformation: PropTypes.object,
+      militaryInformation: PropTypes.object
+    }),
+    user: PropTypes.object
+  };
 
-  componentDidUpdate(oldProps) {
-    if (this.props.profile !== oldProps.profile && this.props.profile.hero && this.props.profile.hero.userFullName) {
-      const { first, last } = this.props.profile.hero.userFullName;
-      document.title = `Profile: ${first} ${last}`;
+  componentDidMount() {
+    if (this.props.isVet360AvailableForUser) {
+      this.props.fetchTransactions();
+    } else {
+      // this.props.initializeUserToVet360()
     }
   }
 
