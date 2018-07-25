@@ -59,7 +59,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Veterans Benefits</h2>
+  <h2 class="highlight">Get Veterans Burial Benefits</h2>
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/eligibility/"><b>Eligibility</b></a>
@@ -72,13 +72,13 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"><b>Help With Paying For Veterans Funeral and Burial Costs</b></a>
+    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"><b>Veteran Burial Allowance</b></a>
     <p>Learn how to apply for a burial allowance to help pay for Veterans funeral services, burial, and transportation costs.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Veterans Grave Markers, Headstones, Presidential Memorial Certificate, and Other Memorial Items</b></a>
-    <p>Find out how to apply for memorial items to honor a Veteran's service.</p>
+    <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Veterans Memorial Items</b></a>
+    <p>Find out how to apply for grave markers, headstones Presidential Memorial Certificates, and other memorial items to honor a Veteran's service.</p>
   </div>
 
   <div class="link">
@@ -88,7 +88,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
    <div class="link">
     <a href="https://www.vets.gov/burials-and-memorials/bereavement-counseling/"><b>Bereavement Counseling</b></a>
-    <p>See if you qualify for grief counseling and support after the loss of an active-duty Servicemember, Reservist, or National Guard Soldier.</p>
+    <p>See if you qualify for grief counseling and transition support after the loss of an active-duty Servicemember, Reservist, or National Guard Soldier.</p>
   </div>
 
 
@@ -109,13 +109,13 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
    <div class="link">
-    <a href="https://vets.gov/facilities"><b>Find a VA National Cemetery</b></a>
-    <p>Find a VA national cemetery near you.</p>
+    <a href="https://www.cem.va.gov/cem/cems/index.asp"><b>Find a National, State, or Tribal Government Veterans Cemetery</b></a>
+    <p>Search for national, state, or tribal government Veterans cemeteries.</p>
   </div>
   
   <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">
     <a href="#"><b>Request Military Records</b></a>
-    <p>View, review, and print documents from your official Military Personnel File (including your DD214)</p>
+    <p>View, review, and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
 
@@ -158,8 +158,8 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/what-to-expect-at-a-funeral/"><b>What to Expect at a Veteran Funeral</b></a>
-    <p>Prepare for a memorial service by learning about what happens at a committal service in a VA national cemetery.</p>
+    <a href="https://vets.gov/burials-and-memorials/what-to-expect-at-a-funeral/"><b>What to Expect at a Military Funeral</b></a>
+    <p>Prepare for a military funeral by learning about what happens at a committal service in a VA national cemetery.</p>
   </div>
 
 </section>
