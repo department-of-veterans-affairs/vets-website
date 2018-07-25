@@ -1,0 +1,62 @@
+/*
+Error: File to import not found or unreadable: ~@department-of-veterans-affairs/formation/sass/core.
+       Load path: /Users/sophia/Desktop/Vets.gov/va-proof-of-concept/css
+        on line 3 of css/style.scss
+
+1: $font-path: "~uswds/src/fonts";
+2: $image-path: "~uswds/src/img";
+3: @import "~@department-of-veterans-affairs/formation/sass/core";
+4: 
+5: @import "modules/m-footer";
+6: 
+7: // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
+8: @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
+
+Backtrace:
+css/style.scss:3
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/import_node.rb:67:in `rescue in import'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/import_node.rb:45:in `import'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/import_node.rb:28:in `imported_file'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/import_node.rb:37:in `css_import?'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:314:in `visit_import'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/stack.rb:79:in `block in with_base'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/stack.rb:135:in `with_frame'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/stack.rb:79:in `with_base'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:171:in `block in visit_children'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:170:in `visit_children'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:190:in `visit_root'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:161:in `visit'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:10:in `visit'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/engine.rb:307:in `render_with_sourcemap'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:462:in `update_stylesheet'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:294:in `watch'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/plugin.rb:109:in `method_missing'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/exec/sass_scss.rb:360:in `watch_or_update'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/exec/sass_scss.rb:51:in `process_result'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/exec/base.rb:52:in `parse'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/lib/sass/exec/base.rb:19:in `parse!'
+/Users/sophia/.rvm/gems/ruby-2.3.3/gems/sass-3.5.5/bin/sass:13:in `<top (required)>'
+/Users/sophia/.rvm/gems/ruby-2.3.3/bin/sass:23:in `load'
+/Users/sophia/.rvm/gems/ruby-2.3.3/bin/sass:23:in `<main>'
+/Users/sophia/.rvm/gems/ruby-2.3.3/bin/ruby_executable_hooks:15:in `eval'
+/Users/sophia/.rvm/gems/ruby-2.3.3/bin/ruby_executable_hooks:15:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: File to import not found or unreadable: ~@department-of-veterans-affairs/formation/sass/core.\A        Load path: /Users/sophia/Desktop/Vets.gov/va-proof-of-concept/css\A         on line 3 of css/style.scss\A \A 1: $font-path: \"~uswds/src/fonts\";\A 2: $image-path: \"~uswds/src/img\";\A 3: @import \"~@department-of-veterans-affairs/formation/sass/core\";\A 4: \A 5: @import \"modules/m-footer\";\A 6: \A 7: // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //\A 8: @import \"~@department-of-veterans-affairs/formation/sass/modules/m-alert\";"; }
