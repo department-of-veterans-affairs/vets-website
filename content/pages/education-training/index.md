@@ -32,13 +32,13 @@ crosslinks:
 contact:
   - heading: Contact us for help with education and training benefits or services
     links:
-    - url: 1-888-GIBILL-1 (888-442-4551) 
-      title: Education (GI Bill) Questions
+    - url: 1-888-GIBILL-1 (888-442-4551)
+      title: Education Questions about the GI Bill
     - url: 001-918-781-5678
       title: For Students and School Certifying Officials outside the U.S.
     - url: https://gibill.custhelp.va.gov/
       title: Ask GI Bill Questions Online
-   
+
 social:
   - heading: Social Media
     links:
@@ -47,7 +47,7 @@ social:
     - url: "https://facebook.com"
       label: Facebook
     - url: "https://youtube.com"
-      label: Youtube
+      label: YouTube
     - url: "https://instagram.com"
       label: Instagram
     - url: "https://flickr.com"
@@ -55,13 +55,13 @@ social:
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: E-mail Directory
+      label: Email Directory
 ---
 
 <p class="va-introtext">
-VA education benefits help Veterans, Servicemembers, and their qualified family members with needs like paying college tuition, finding the right school or training program, and getting career counseling. Learn more about how to apply for and manage the education and training benefits you've earned. 
+VA education benefits help Veterans, Servicemembers, and their qualified family members with needs like paying college tuition, finding the right school or training program, and getting career counseling. Learn how to apply for and manage the education and training benefits you've earned.
 
-You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-4551). We're here Monday to Friday, 7:00 a.m. to 6:00 p.m. (CT).
+You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-4551). We're here Monday through Friday, 7:00 a.m. — 6:00 p.m. (CT).
 
 </p>
 
@@ -109,7 +109,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/other-educational-assistance-programs/"><b>Other VA Educational Benefits</b></a>
+    <a href="https://vets.gov/education/other-educational-assistance-programs/"><b>Other VA Education Benefits</b></a>
     <p>If you're a Guardsman, Reservist, or Veteran who doesn't qualify for the Post-9/11 GI Bill, see if you're eligible for other VA education benefits.</p>
   </div>
 </section>
@@ -120,12 +120,12 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
-    <p>View your payment history for VA education and other benefits you may have like disability compensation and pension.</p>
+    <p>See your payment history for VA education and other benefits you may have like disability compensation and pension.</p>
   </div>
 
   <div class="link">
     <a href="https://vets.gov/education/gi-bill/post-9-11/ch-33-benefit"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
-    <p>See how much GI Bill benefits you have left to help pay for school or training.</p>
+    <p>See how much of your GI Bill benefits you have left to help pay for school or training.</p>
   </div>
 
   <div class="link">
@@ -135,7 +135,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
   <div class="link">
     <a href="https://vets.gov/education/apply/"><b>Change Your GI Bill School or Program</b></a>
-    <p>Request a change to use a different GI Bill program or transfer your benefits to a new school or training program.</p>
+    <p>Request a change to use a different GI Bill program or to transfer your benefits to a new school or training program.</p>
   </div>
 
   <div class="link">
@@ -159,7 +159,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://"><b>Opt Out of Information Sharing With Schools</b></a>
+    <a href="https://"><b>Opt Out of Information Sharing with Schools</b></a>
     <p>Find out how to opt out of sharing your VA education eligibility and benefits information with schools.</p>
   </div>
 
@@ -176,7 +176,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
   <div class="link">
     <a href="https://benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp"><b>Post-9/11 GI Bill and Other VA Education Benefits Rates</b></a>
-    <p>View rate tables for Post-9/11 GI Bill and other Veterans education benefits programs.</p>
+    <p>View rate tables for the Post-9/11 GI Bill and other Veterans education benefits programs.</p>
   </div>
 
   <div class="link">
@@ -186,7 +186,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
   <div class="link">
     <a href="https://www.vets.gov/education/tools-programs/careerscope/"><b>CareerScope</b></a>
-    <p>Get a CareerScope assessment to help you figure out your career path when transitioning into civilian life.</p>
+    <p>Get a CareerScope assessment to help you figure out your career path when transitioning to civilian life.</p>
   </div>
 
   <div class="link">
@@ -196,17 +196,17 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
   <div class="link">
     <a href="https://"><b>VA Education Forms and Resources</b></a>
-    <p>Download VA education benefit forms, fact sheets, and other resources.</p>
+    <p>Download VA education benefits forms, fact sheets, and other resources.</p>
   </div>
 
   <div class="link">
     <a href="https://"><b>Ask GI Bill Questions Online</b></a>
-    <p>Visit our GI Bill Customer Help site to ask a question and get an answer in 4 to 5 working days.
+    <p>Visit our GI Bill Customer Help site to ask questions and get answers within 4 to 5 working days.
   </div>
 
   <div class="link">
     <a href="https://"><b>Access Your VA Records and Documents</b></a>
-    <p>Manage records like your DD214, GI Bill Certificate of Eligibility, and VA medical records.</p>
+    <p>Access records like your DD214, GI Bill Certificate of Eligibility, and VA medical records.</p>
   </div>
 
 </section>

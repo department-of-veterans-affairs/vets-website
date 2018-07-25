@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: level2-merger
-title: VA Disability Pay (Compensation)
+title: VA Disability Compensation
 display_title: Disability
 description: Find out if you're eligible for VA disability pay (compensation) for a service-connected disability. Learn about VA disability benefits, ratings, which conditions qualify, how to apply, and what to expect after you apply for Veterans disability.
 concurrence: complete
@@ -25,7 +25,7 @@ crosslinks:
       title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
       description: Explore long-term care options for Veterans and their caregivers.
     - url:  https://vets.gov/employment/vocational-rehab-and-employment/
-      title: <b>Vocational Rehabilitation and Employment</b> 
+      title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url:  https://www.vets.gov/pension/aid-attendance-housebound/
       title: <b>Aid and Attendance or Housebound Allowance</b>
@@ -37,7 +37,7 @@ crosslinks:
       title: <b>Servicemembers' Group Life Insurance Disability Extension</b>
       description: Learn about SGLI extensions for Veterans with service-connected disabilities.
 contact:
-  - heading: Call us for help accessing health benefits or services
+  - heading: Ask Questions
     links:
     - url: 1-800-827-1000
       title: Questions about Disability Compensation, Pension, and Direct Deposit
@@ -53,45 +53,39 @@ contact:
       title: Women Veterans Hotline
     - url: Dial 711
       title: Telecommunications Device for Veterans with Hearing Loss (TTY or TDD)
-      
+
 social:
-  - heading: Social Media
+  - heading: Get Updates
     links:
-    - url: "https://twitter.com"
-      label: Twitter
-    - url: "https://facebook.com"
-      label: Facebook
-    - url: "https://youtube.com"
-      label: Youtube
-    - url: "https://instagram.com"
-      label: Instagram
-    - url: "https://flickr.com"
-      label: Flickr
+    - url: "https://twitter.com/VAVetBenefits"
+      label: Veterans Benefits Twitter
+    - url: "https://www.facebook.com/VeteransBenefits"
+      label: Veterans Benefits Facebook
+    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+      label: Veterans Benefits Youtube
+    - url: "https://www.instagram.com/vabenefits/"
+      label: Veterans Benefits Instagram
+    - url: "https://www.pinterest.com/vavetbenefits/"
+      label: Veterans Benefits Pinterest
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
-    - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: Email Directory
-mobile:
-  - heading: Mobile Apps
-    links:
-    - url: "https://mobile.va.gov/appstore"
-      label: Download apps to help manage your health
-      icon:     
+    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
+      label: Email Updates
 ---
 
 <p class="va-introtext">
-VA disability pay (compensation) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you've earned.
+VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you've earned.
 </p>
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Disability Pay (Compensation)](#get)<br>
-[Manage Your VA Disability Benefits](#manage)<br>
-[More Veterans Disability Information and Resources](#more)<br>
+[Get Disability Compensation (Pay)](#get)<br>
+[Manage Your Veterans Disability Benefits](#manage)<br>
+[More Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get VA Disability Pay (Compensation)</h2>
+  <h2 class="highlight">Get Disability Compensation (Pay)</h2>
 
   <div class="link">
     <a href="https://vets.gov/disability-benefits/eligibility/"><b>Eligibility</b></a>
@@ -99,18 +93,18 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/apply/"><b>How to Apply</b></a>
+    <a href="https://vets.gov/disability-benefits/apply/"><b>How to File a Claim</b></a>
     <p>Find out how to prepare and file for VA disability benefits online or by phone or mail.</p>
-  </div>
-  
-  <div class="link">
-    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><b>Apply Online (VA Form 21-526EZ)</b></a>
-    <p>File your VA disability claim online now.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You Apply</b></a>
-    <p>Find out what happens after you apply for VA disability benefits, how long it takes us to make a decision, and what to do if you disagree.</p>
+    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><b>File a Claim Online (VA Form 21-526EZ)</b></a>
+    <p>Start your VA disability claim online now.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You Submit Your Claim</b></a>
+    <p>Find out what happens after you apply for VA disability compensation, how long it takes us to make a decision, and what to do if you disagree.</p>
   </div>
 
   <div class="link">
@@ -122,11 +116,11 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your VA Disability Benefits</h2>
+  <h2 class='highlight'>Manage Your Veterans Disability Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/track-claims"><b>Check Your VA Claim Status</b></a>
-    <p>Track the status of your VA disability claim or appeal.</p>
+    <a href="https://vets.gov/track-claims"><b>Check Your VA Claim or Appeal Status</b></a>
+    <p>Check the status of your VA disability claim or appeal.</p>
     </div>
 
   <div class="link">
@@ -146,13 +140,15 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>File Supplemental Forms</b></a>
-    <p>TBD - need to know where this is going (referencing 21-526b?).</p>
-  </div>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Upload Documents to Support Your Claim</b></a>
+    <p>Send us evidence (like doctor's reports, medical test results, or service records) to help support your open disability claim.
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Upload Documents to Support Your VA Disability Claim</b></a>
-    <p>Send us evidence (like doctor's reports, medical test results, or service records) to help support your open disability claim.</p>
+    <a href=""><b>File Supplemental Forms</b></a>
+    <p>Find out if you'll need to turn in any additional forms to support your disability claim.</p>
+  </div>
+
+</p>
   </div>
 
   <div class="link">
@@ -179,7 +175,7 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Veterans Disability Information and Resources</h2>
+  <h2 class='highlight'>More Information and Resources</h2>
 
  <div class="link">
     <a href="#"><b>About VA Disability Ratings</b></a>
@@ -197,12 +193,8 @@ VA disability pay (compensation) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="#"><b>Download a VA Disability Benefits Questionnaire (DBQ)</b></a>
+    <a href="#"><b>Download VA Disability Benefits Questionnaires (VA DBQs)</b></a>
     <p>Find and download the right questionnaire for your health care provider to complete in support of your claim.</p>
   </div>
 
-<div class="link">
-    <a href="#"><b>Access Your VA Records and Documents</b></a>
-    <p>Manage records like your DD214, VA benefits award letter, and medical records.</p>
-  </div>
 </section>
