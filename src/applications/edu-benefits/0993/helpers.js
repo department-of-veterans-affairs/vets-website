@@ -1,14 +1,17 @@
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
-export function prefillTransformer(pages, formData, metadata, state) {
-  const { verified } = state.user.profile;
+export function prefillTransformer(pages, formData, metadata) {
+  // TODO: enable this to implement the review card UI for verified users
+  // TODO: add 'state' to arguments
 
-  const newFormData = _.set('verified', !!verified, formData);
+  // const { verified } = state.user.profile;
+
+  // const newFormData = _.set('view:isVerified', !!verified, formData);
 
   return {
     metadata,
-    formData: newFormData,
+    formData,
     pages
   };
 }
