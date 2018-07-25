@@ -17,7 +17,7 @@ function convertUrlToMarkdownPath(root, url) {
 }
 
 function getAppManifests(root) {
-  return find.fileSync(/manifest\.json$/, path.join(root, './src/applications'))
+  return find.fileSync(/manifest\.json$/, path.join(root, './src/js'))
     .map(file => {
       // eslint-disable-next-line import/no-dynamic-require
       const manifest = require(file);
