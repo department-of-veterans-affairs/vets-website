@@ -21,22 +21,30 @@ import RequiredLoginView from '../../../../platform/user/authorization/component
 import ProfileView from '../components/ProfileView';
 
 class VAProfileApp extends React.Component {
-  componentDidMount() {
-    this.props.fetchTransactions();
+  componentDidUpdate(oldProps) {
+    const justLoggedIn = !oldProps.user.login.currentlyLoggedIn && this.props.user.login.currentlyLoggedIn;
+    if (justLoggedIn) {
+      if (this.props.isVet360AvailableForUser) {
+        this.props.fetchTransactions();
+      } else {
+        // this.props.initializeUserToVet360()
+      }
+    }
   }
+
   render() {
     return (
       <div>
         <RequiredLoginView
           authRequired={1}
           serviceRequired={backendServices.USER_PROFILE}
-          user={this.props.account}
+          user={this.props.user}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <ProfileView
             isVet360AvailableForUser={this.props.isVet360AvailableForUser}
             profile={this.props.profile}
-            user={this.props.account}
+            user={this.props.user}
             fetchAddressConstants={this.props.fetchAddressConstants}
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
@@ -55,7 +63,7 @@ class VAProfileApp extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.user,
+    user: state.user,
     profile: state.vaProfile,
     isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile'),
     isVet360AvailableForUser: selectIsVet360AvailableForUser(state)
