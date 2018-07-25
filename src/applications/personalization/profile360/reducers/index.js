@@ -1,4 +1,4 @@
-import vet360 from './vet360';
+import vet360 from '../vet360/reducers';
 
 import {
   // Fetch actions
