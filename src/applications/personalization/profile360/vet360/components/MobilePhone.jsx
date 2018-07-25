@@ -10,7 +10,6 @@ export default function MobilePhone() {
   return (
     <PhoneSection
       title="Mobile phone number"
-      fieldName={FIELD_NAMES.MOBILE_PHONE}
-      analyticsSectionName="mobile-telephone"/>
+      fieldName={FIELD_NAMES.MOBILE_PHONE}/>
   );
 }

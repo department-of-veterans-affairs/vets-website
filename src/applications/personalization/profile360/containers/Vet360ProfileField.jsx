@@ -115,9 +115,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
-    fieldName,
-    analyticsSectionName: sectionName
+    fieldName
   } = ownProps;
+
+  const sectionName = VET360.ANALYTICS_FIELD_MAP[fieldName];
 
   const captureEvent = (actionName) => {
     if (sectionName && actionName) {
@@ -183,7 +184,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const Vet360ProfileFieldContainer = connect(mapStateToProps, mapDispatchToProps)(Vet360ProfileField);
 
 Vet360ProfileFieldContainer.propTypes = {
-  analyticsSectionName: PropTypes.string.isRequired,
   fieldName: PropTypes.oneOf(Object.values(VET360.FIELD_NAMES)).isRequired,
   Content: PropTypes.func.isRequired,
   EditModal: PropTypes.func.isRequired,

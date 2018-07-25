@@ -11,7 +11,6 @@ export default function MailingAddress() {
     <AddressSection
       title="Mailing address"
       fieldName={FIELD_NAMES.MAILING_ADDRESS}
-      analyticsSectionName="mailing-address"
       deleteDisabled/>
   );
 }

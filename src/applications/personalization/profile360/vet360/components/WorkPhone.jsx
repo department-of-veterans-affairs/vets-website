@@ -10,7 +10,6 @@ export default function WorkPhone() {
   return (
     <PhoneSection
       title="Work phone number"
-      fieldName={FIELD_NAMES.WORK_PHONE}
-      analyticsSectionName="work-telephone"/>
+      fieldName={FIELD_NAMES.WORK_PHONE}/>
   );
 }

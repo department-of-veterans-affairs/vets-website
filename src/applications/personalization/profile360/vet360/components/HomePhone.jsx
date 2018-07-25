@@ -10,7 +10,6 @@ export default function HomePhone() {
   return (
     <PhoneSection
       title="Home phone number"
-      fieldName={FIELD_NAMES.HOME_PHONE}
-      analyticsSectionName="home-telephone"/>
+      fieldName={FIELD_NAMES.HOME_PHONE}/>
   );
 }

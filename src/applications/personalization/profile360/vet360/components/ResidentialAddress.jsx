@@ -10,7 +10,6 @@ export default function ResidentialAddress() {
   return (
     <AddressSection
       title="Home address"
-      fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS}
-      analyticsSectionName="home-address"/>
+      fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS}/>
   );
 }

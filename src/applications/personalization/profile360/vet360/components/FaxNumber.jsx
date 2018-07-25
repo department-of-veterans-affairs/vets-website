@@ -10,7 +10,6 @@ export default function FaxNumber() {
   return (
     <PhoneSection
       title="Fax number"
-      fieldName={FIELD_NAMES.FAX_NUMBER}
-      analyticsSectionName="fax-telephone"/>
+      fieldName={FIELD_NAMES.FAX_NUMBER}/>
   );
 }

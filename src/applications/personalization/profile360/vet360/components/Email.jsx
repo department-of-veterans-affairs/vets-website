@@ -10,7 +10,6 @@ export default function Email() {
   return (
     <EmailSection
       title="Email address"
-      fieldName={FIELD_NAMES.EMAIL}
-      analyticsSectionName="email"/>
+      fieldName={FIELD_NAMES.EMAIL}/>
   );
 }
