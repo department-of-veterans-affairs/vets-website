@@ -25,7 +25,6 @@ class ProfileView extends React.Component {
     fetchHero: PropTypes.func.isRequired,
     fetchPersonalInformation: PropTypes.func.isRequired,
     profile: PropTypes.shape({
-      addressConstants: PropTypes.object,
       hero: PropTypes.object,
       personalInformation: PropTypes.object,
       militaryInformation: PropTypes.object
