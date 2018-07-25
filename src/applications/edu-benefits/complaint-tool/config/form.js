@@ -20,7 +20,7 @@ const formConfig = {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
-  title: 'Opt Out of Sharing VA Education Benefits Information',
+  title: 'GI Bill® School Feedback Tool',
   defaultDefinitions: {
   },
   chapters: {
