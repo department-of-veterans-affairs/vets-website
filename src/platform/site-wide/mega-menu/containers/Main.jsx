@@ -19,7 +19,7 @@ const mapStateToProps = ({ megaMenu }) => ({ ...megaMenu });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleOnClick: (currentDropdown) => {
+    toggleDropDown: (currentDropdown) => {
       dispatch(togglePanelOpen(currentDropdown));
     },
     updateCurrentSection: (currentSection) => {
