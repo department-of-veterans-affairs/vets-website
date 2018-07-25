@@ -259,7 +259,6 @@ const formConfig = {
                 validateBooleanGroup
               ],
               'ui:options': {
-                // commenting this out will fix the title formatting but break the 'required' property
                 showFieldLabel: true
               },
               'ui:errorMessages': {
@@ -270,15 +269,13 @@ const formConfig = {
               'view:assistance': {
                 'ui:title': 'Which military tuition assistance benefits have you used?',
                 'ui:options': {
-                  // commenting this out will fix the title formatting but break the 'required' property
-                  // showFieldLabel: true
+                  showFieldLabel: true
                 },
               },
               FFA: {
                 'ui:title': 'Have you used any of these other benefits?',
                 'ui:options': {
-                  // commenting this out will fix the title formatting but break the 'required' property
-                  // showFieldLabel: true
+                  showFieldLabel: true
                 }
               }
             }
@@ -328,7 +325,7 @@ const formConfig = {
                       },
                       'TA-AGR': {
                         type: 'boolean',
-                        title: 'State Funded Tuition Assistance (TA) for Service Members Performing Active Guard and Reserve Dutites (AGR)'
+                        title: 'State Funded Tuition Assistance (TA) for Service Members Performing Active Guard and Reserve Duties (AGR)'
                       },
                       MyCAA: {
                         type: 'boolean',
