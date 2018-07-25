@@ -266,20 +266,19 @@ const formConfig = {
                 atLeastOne: 'Please select at least one'
               },
             },
-            'view:assistance': {
-              'ui:title': 'Which military tuition assistance benefits have you used?',
-              'ui:options': {
-                // commenting this out will fix the title formatting but break the 'required' property
-                // showFieldLabel: true
+            assistance: {
+              'view:assistance': {
+                'ui:title': 'Which military tuition assistance benefits have you used?',
+                'ui:options': {
+                  // commenting this out will fix the title formatting but break the 'required' property
+                  // showFieldLabel: true
+                },
               },
-              'view:FFA': {
+              FFA: {
                 'ui:title': 'Have you used any of these other benefits?',
                 'ui:options': {
                   // commenting this out will fix the title formatting but break the 'required' property
                   // showFieldLabel: true
-                  label: [
-                    'test 12': 'yeah'
-                  ]
                 }
               }
             }
@@ -317,29 +316,29 @@ const formConfig = {
                   },
                 }
               },
-              'view:assistance': {
+              assistance: {
                 type: 'object',
                 properties: {
-                  TA: {
-                    type: 'boolean',
-                    title: 'Federal Tuition Assistance (TA)'
-                  },
-                  'TA-AGR': {
-                    type: 'boolean',
-                    title: 'State Funded Tuition Assistance (TA) for Service Members Performing Active Guard and Reserve Dutites (AGR)'
-                  },
-                  MyCAA: {
-                    type: 'boolean',
-                    title: 'Military Spouse Career Advancement Accounts (MyCAA)'
-                  },
-                  'view:FFA': {
+                  'view:assistance': {
                     type: 'object',
                     properties: {
-                      FFA: {
+                      TA: {
                         type: 'boolean',
-                        title: 'Federal financial aid'
+                        title: 'Federal Tuition Assistance (TA)'
+                      },
+                      'TA-AGR': {
+                        type: 'boolean',
+                        title: 'State Funded Tuition Assistance (TA) for Service Members Performing Active Guard and Reserve Dutites (AGR)'
+                      },
+                      MyCAA: {
+                        type: 'boolean',
+                        title: 'Military Spouse Career Advancement Accounts (MyCAA)'
                       }
                     }
+                  },
+                  FFA: {
+                    type: 'boolean',
+                    title: 'Federal financial aid'
                   }
                 }
               }
