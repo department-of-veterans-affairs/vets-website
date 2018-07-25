@@ -253,7 +253,7 @@ const formConfig = {
           path: 'feedback-information',
           title: 'Feedback Information',
           uiSchema: {
-            'view:issueType': {
+            'view:issue': {
               'ui:title': 'Which describes the issue?',
               'ui:validations': [
                 validateBooleanGroup
@@ -283,7 +283,7 @@ const formConfig = {
           schema: {
             type: 'object',
             required: [
-              'view:issueType',
+              'view:issue',
               'complaint',
               'resolution'
             ],
