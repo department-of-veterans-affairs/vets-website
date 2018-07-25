@@ -272,15 +272,15 @@ const formConfig = {
                 // commenting this out will fix the title formatting but break the 'required' property
                 // showFieldLabel: true
               },
-            },
-            'view:otherBenefits': {
-              'ui:title': 'Have you used any of these other benefits?',
-              'ui:options': {
-                // commenting this out will fix the title formatting but break the 'required' property
-                // showFieldLabel: true
-                label: [
-                  'test 12': 'yeah'
-                ]
+              'view:FFA': {
+                'ui:title': 'Have you used any of these other benefits?',
+                'ui:options': {
+                  // commenting this out will fix the title formatting but break the 'required' property
+                  // showFieldLabel: true
+                  label: [
+                    'test 12': 'yeah'
+                  ]
+                }
               }
             }
           },
@@ -332,14 +332,14 @@ const formConfig = {
                     type: 'boolean',
                     title: 'Military Spouse Career Advancement Accounts (MyCAA)'
                   },
-                },
-              },
-              'view:otherBenefits': {
-                type: 'object',
-                properties: {
-                  FFA: {
-                    type: 'boolean',
-                    title: 'Federal financial aid'
+                  'view:FFA': {
+                    type: 'object',
+                    properties: {
+                      FFA: {
+                        type: 'boolean',
+                        title: 'Federal financial aid'
+                      }
+                    }
                   }
                 }
               }
