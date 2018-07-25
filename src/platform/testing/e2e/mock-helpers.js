@@ -9,6 +9,7 @@ function mock(token, json) {
 
     request({
       uri: `${E2eHelpers.apiUrl}/mock`,
+      credentials: 'include',
       method: 'POST',
       json: jsonWithToken
     }, (error, response) => {
