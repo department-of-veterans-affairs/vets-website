@@ -2,11 +2,10 @@ const process = require('process');
 const E2eHelpers = require('./helpers');
 const Timeouts = require('./timeouts');
 const mock = require('./mock-helpers');
-const conditionalStorage = require('../../utilities/storage/conditionalStorage');
 
 function setUserToken(token, client) {
   client.execute((inToken) => {
-    conditionalStorage().setItem('userToken', inToken);
+    window.sessionStorage.setItem('userToken', inToken);
   },
   [token],
   (val) => {
