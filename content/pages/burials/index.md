@@ -28,11 +28,11 @@ contact:
     - url: 1-800-535-1117
       title: VA National Cemetery Scheduling Office
     - url: 1-800-697-6947
-      title: Status of Headstones and Markers
-    - url: https://iris.custhelp.va.gov/app/ask
-      title: Ask Us A Question Online 
+      title: Status of Headstones and Markers    
     - url: 1-800-827-1000
-      title: Questions About Your VA Benefits
+      title: VA Benefits and Services
+    - url: https://iris.custhelp.va.gov/app/ask
+      title: Submit Questions Online
 social:
   - heading: Get Updates
     links:
