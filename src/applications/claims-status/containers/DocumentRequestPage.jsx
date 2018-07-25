@@ -8,7 +8,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import ClBreadcrumbs from '../components/Breadcrumbs';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
 import {
@@ -70,37 +70,27 @@ class DocumentRequestPage extends React.Component {
     this.props.getClaimDetail(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
-
-  renderBreadcrumbs(claim, trackedItem) {
-    const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
-      <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
-      <Link to={`/your-claims/${claim.id}`} key="claim-id">Status Details</Link>,
-      <Link to={`/your-claims/${claim.id}/document-request/${trackedItem}`} key="claim-id">Document Request</Link>
-    ];
-
-    return crumbs;
-  }
-
   render() {
     let content;
 
     if (this.props.loading) {
       content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
     } else {
-      const claim = this.props.claim;
       const trackedItem = this.props.trackedItem;
+      const claim = this.props.claim;
+      const claimsPath = `your-claims/${claim.id}`;
       const filesPath = `your-claims/${this.props.claim.id}/files`;
+      const itemPath = `your-claims/${claim.id}/document-request/${trackedItem.id}`;
       const message = this.props.message;
 
       content = (
         <div>
           <div className="row">
             <div className="medium-12 columns">
-              <Breadcrumbs>
-                {this.renderBreadcrumbs(claim, trackedItem)}
-              </Breadcrumbs>
+              <ClBreadcrumbs>
+                <Link to={claimsPath}>Status Detail</Link>
+                <Link to={itemPath}>Document Request</Link>
+              </ClBreadcrumbs>
             </div>
           </div>
           <div className="row">

@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
-class hrBreadcrumbs extends React.Component {
+class HrBreadcrumbs extends React.Component {
   render() {
     const { location: { pathname } } = this.props;
     const crumbs = [
@@ -23,4 +23,4 @@ class hrBreadcrumbs extends React.Component {
   }
 }
 
-export default hrBreadcrumbs;
+export default HrBreadcrumbs;

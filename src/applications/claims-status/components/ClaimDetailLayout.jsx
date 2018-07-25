@@ -5,25 +5,14 @@ import TabNav from '../components/TabNav';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
+import ClBreadcrumbs from '../components/Breadcrumbs';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONTENTIONS = 3;
 
 export default class ClaimDetailLayout extends React.Component {
-  renderBreadcrumbs(claim) {
-    const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
-      <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
-      <Link to={`/your-claims/${claim.id}`} key="claim-id">Status Details</Link>
-    ];
-
-    return crumbs;
-  }
-
   render() {
     const { claim, loading, message, clearNotification, currentTab, synced } = this.props;
     const tabs = [
@@ -34,13 +23,14 @@ export default class ClaimDetailLayout extends React.Component {
 
     let content;
     if (!loading) {
+      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}/${claim.id}`;
       content = (
         <div>
           <div className="row">
             <div className="medium-12 columns">
-              <Breadcrumbs>
-                {this.renderBreadcrumbs(claim)}
-              </Breadcrumbs>
+              <ClBreadcrumbs>
+                <Link to={claimsPath}>Status Detail</Link>
+              </ClBreadcrumbs>
             </div>
           </div>
           <div className="row">

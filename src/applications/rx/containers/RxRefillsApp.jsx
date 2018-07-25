@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
+import RxBreadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
 const SERVICE_REQUIRED = backendServices.RX;
 
@@ -27,50 +25,15 @@ const AppContent = ({ children }) => (
 );
 
 class RxRefillsApp extends React.Component {
-  renderBreadcrumbs(prescription) {
-    const { location: { pathname } } = this.props;
-
-    const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <a href="/health-care/" key="healthcare">Health Care</a>,
-      <Link to="/" key="prescriptions">Prescription Refills</Link>
-    ];
-
-    if (pathname.match(/\/\d+\/?(track)?$/)) {
-      const prescriptionId = _.get(
-        prescription,
-        ['rx', 'attributes', 'prescriptionId']
-      );
-
-      // TODO: Remove this Lodash get call if you feel it's unnecessary
-      // const prescriptionName = _.get(
-      //   prescription,
-      //   ['rx', 'attributes', 'prescriptionName']
-      // );
-
-      crumbs.push(<Link to={`/${prescriptionId}`} key="prescription-name">Prescription Details</Link>);
-    } else if (pathname.match(/\/glossary\/?$/)) {
-      crumbs.push(<Link to="/glossary" key="glossary">Glossary</Link>);
-    } else if (pathname.match(/\/settings\/?$/)) {
-      crumbs.push(<Link to="/settings" key="settings">Settings</Link>);
-    }
-
-    return crumbs;
-  }
-
   render() {
     return (
       <RequiredLoginView
         verify
         serviceRequired={SERVICE_REQUIRED}
         user={this.props.user}>
-        <DowntimeNotification
-          appTitle="prescription refill tool"
-          dependencies={[externalServices.mhv]}>
+        <DowntimeNotification appTitle="prescription refill tool" dependencies={[externalServices.mhv]}>
           <AppContent>
-            <Breadcrumbs>
-              {this.renderBreadcrumbs(this.props.prescription)}
-            </Breadcrumbs>
+            <RxBreadcrumbs location={this.props.location} prescription={this.props.prescription}/>
             <MHVApp serviceRequired={SERVICE_REQUIRED}>
               {this.props.children}
               <ConfirmRefillModal

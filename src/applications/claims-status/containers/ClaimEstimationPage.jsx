@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import AskVAQuestions from '../components/AskVAQuestions';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import ClBreadcrumbs from '../components/Breadcrumbs';
 import { setUpPage } from '../utils/page';
 
 class ClaimEstimationPage extends React.Component {
@@ -10,30 +10,18 @@ class ClaimEstimationPage extends React.Component {
     document.title = 'How We Come Up with Your Estimated Decision Date';
     setUpPage();
   }
-
-  renderBreadcrumbs(claim) {
-    const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
-      <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>,
-      <Link to={`/your-claims/${claim.id}`} key="claim-id">Status Details</Link>,
-      <Link to={`/your-claims/${claim.id}/claim-estimate`} key="claim-id">Estimated Decision Date</Link>
-    ];
-
-    return crumbs;
-  }
-
-
   render() {
-    // const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
     const claim = this.props.claim;
+    const claimsPath = `your-claims/${claim.id}`;
+    const datePath = `your-claims/${claim.id}/claim-estimate`;
     return (
       <div>
         <div className="row">
           <div className="medium-12 columns">
-            <Breadcrumbs>
-              {this.renderBreadcrumbs(claim)}
-            </Breadcrumbs>
+            <ClBreadcrumbs>
+              <Link to={claimsPath}>Status Detail</Link>
+              <Link to={datePath}>Estimated Decision Date</Link>
+            </ClBreadcrumbs>
           </div>
         </div>
         <div className="row">

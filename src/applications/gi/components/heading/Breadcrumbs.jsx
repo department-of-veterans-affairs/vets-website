@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
-class gibBreadcrumbs extends React.Component {
+class GibBreadcrumbs extends React.Component {
   render() {
     const {
       pathname,
@@ -49,8 +49,8 @@ class gibBreadcrumbs extends React.Component {
   }
 }
 
-gibBreadcrumbs.propTypes = {
+GibBreadcrumbs.propTypes = {
   includeSearch: PropTypes.bool,
 };
 
-export default gibBreadcrumbs;
+export default GibBreadcrumbs;

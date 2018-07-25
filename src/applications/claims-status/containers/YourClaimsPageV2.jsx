@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../platform/monitoring/record-event';
 
@@ -32,9 +31,9 @@ import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import NoClaims from '../components/NoClaims';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
+import ClBreadcrumbs from '../components/Breadcrumbs';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -72,16 +71,6 @@ class YourClaimsPageV2 extends React.Component {
   changePage(page) {
     this.props.changePageV2(page);
     scrollToTop();
-  }
-
-  renderBreadcrumbs() {
-    const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a>,
-      <Link to="/" key="claims-home">Track Your Claims and Appeals</Link>
-    ];
-
-    return crumbs;
   }
 
   renderListItem(claim) {
@@ -170,9 +159,7 @@ class YourClaimsPageV2 extends React.Component {
 
     return (
       <div className="claims-container">
-        <Breadcrumbs>
-          {this.renderBreadcrumbs()}
-        </Breadcrumbs>
+        <ClBreadcrumbs/>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">

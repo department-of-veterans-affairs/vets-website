@@ -3,13 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import hrBreadcrumbs from '../components/Breadcrumbs';
+import HrBreadcrumbs from '../components/Breadcrumbs';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { closeModal } from '../actions/modal';
-// import Breadcrumbs from '../components/Breadcrumbs';
 
 const SERVICE_REQUIRED = backendServices.HEALTH_RECORDS;
 
@@ -32,7 +31,7 @@ export class HealthRecordsApp extends React.Component {
         user={this.props.user}>
         <DowntimeNotification appTitle="health records tool" dependencies={[externalServices.mhv]}>
           <AppContent>
-            <hrBreadcrumbs location={this.props.location}/>
+            <HrBreadcrumbs location={this.props.location}/>
             <MHVApp serviceRequired={SERVICE_REQUIRED}>
               {this.props.children}
               <Modal
