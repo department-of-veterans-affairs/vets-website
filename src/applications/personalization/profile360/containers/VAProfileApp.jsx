@@ -21,17 +21,6 @@ import RequiredLoginView from '../../../../platform/user/authorization/component
 import ProfileView from '../components/ProfileView';
 
 class VAProfileApp extends React.Component {
-  componentDidUpdate(oldProps) {
-    const justLoggedIn = !oldProps.user.login.currentlyLoggedIn && this.props.user.login.currentlyLoggedIn;
-    if (justLoggedIn) {
-      if (this.props.isVet360AvailableForUser) {
-        this.props.fetchTransactions();
-      } else {
-        // this.props.initializeUserToVet360()
-      }
-    }
-  }
-
   render() {
     return (
       <div>
@@ -49,6 +38,7 @@ class VAProfileApp extends React.Component {
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
             fetchPersonalInformation={this.props.fetchPersonalInformation}
+            fetchTransactions={this.props.fetchTransactions}
             downtimeData={{
               appTitle: 'profile',
               isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,

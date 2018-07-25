@@ -20,6 +20,7 @@ class ProfileView extends React.Component {
     downtimeData: PropTypes.object,
     isVet360AvailableForUser: PropTypes.bool,
     fetchAddressConstants: PropTypes.func.isRequired,
+    fetchTransactions: PropTypes.func.isRequired,
     fetchMilitaryInformation: PropTypes.func.isRequired,
     fetchHero: PropTypes.func.isRequired,
     fetchPersonalInformation: PropTypes.func.isRequired,
@@ -31,6 +32,14 @@ class ProfileView extends React.Component {
     }),
     user: PropTypes.object
   };
+
+  componentDidMount() {
+    if (this.props.isVet360AvailableForUser) {
+      this.props.fetchTransactions();
+    } else {
+      // this.props.initializeUserToVet360()
+    }
+  }
 
   handleDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.downtimeApproaching) {
