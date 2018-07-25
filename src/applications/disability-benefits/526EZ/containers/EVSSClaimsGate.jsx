@@ -17,8 +17,8 @@ export function EVSSClaimsGate({ user, location, children }) {
       <div className="usa-grid full-page-alert">
         <AlertBox
           isVisible
-          headline="Nope"
-          content="Looks like we don't have all the information we need. Please call the call center."
+          headline="We’re sorry. It looks like we’re missing some information needed for your application"
+          content="Please call Veterans Benefits Assistance at 1-800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET)."
           status="error"/>
       </div>
     );
