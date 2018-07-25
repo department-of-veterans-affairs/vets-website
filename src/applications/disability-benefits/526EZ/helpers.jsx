@@ -103,16 +103,10 @@ export function validateDisability(disability) {
 
 
 export function transformDisabilities(disabilities = []) {
-  return disabilities.map(disability => {
-    const newDisability = set('disabilityActionType', 'INCREASE', disability);
-    // Mark disabilities for which the veteran cannot claim an increase
-    // We'll use this to mark the disability as disabled in the UI and gate the form if necessary
-    // As far as we know, only disabilities without a rating are ineligible (but a rating of 0% is eligible)
-    if ([undefined, null].includes(newDisability.ratingPercentage)) {
-      newDisability.ineligible = true;
-    }
-    return newDisability;
-  });
+  return disabilities
+    // We want to remove disabilities without a rating, but 0 counts as a valid rating
+    .filter(disability => disability.ratingPercentage || disability.ratingPercentage === 0)
+    .map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
 
