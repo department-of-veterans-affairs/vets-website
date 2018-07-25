@@ -220,7 +220,7 @@ const formConfig = {
             }
 
             return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
-              // For a new service period, service branch will be set to undefined by default
+              // For a new service period, service branch defaults to undefined
               if (!serviceBranch) {
                 return false;
               }
@@ -230,28 +230,51 @@ const formConfig = {
                   || serviceBranch.includes('National Guard');
             }, false);
           },
-          // TODO: replace description with actual info about the most recent R/NG service period
-          // TODO: Why doesn't this title or description work?
-          description: 'Please provide details about your most recent Reserves or National Guard service',
           uiSchema: {
-            'view:isTitle10Activated': {
-              'ui:title': 'I am currently activated on Federal orders'
-            },
-            title10Activation: {
-              'ui:options': {
-                expandUnder: 'view:isTitle10Activated',
+            reservesNationalGuardService: {
+              'ui:title': 'Reserves and National Guard Information',
+              // TODO: Need to use updateSchema to bring the actual period info
+              // into the description
+              'ui:description': 'Please tell us about your most recent Reserves or National Guard service period.',
+              unitName: {
+                'ui:title': 'Unit Name',
               },
-              title10ActivationDate: dateUI('Activation Date'),
-              anticipatedSeparationDate: dateUI('Anticipated Separation Date'),
+              obligationTermOfServiceDateRange: dateRangeUI(
+                'Obligation Start Date',
+                'Obligation End Date',
+                'End date must be after start date'
+              ),
+              'view:isTitle10Activated': {
+                'ui:title': 'I am currently activated on Federal orders'
+              },
+              title10Activation: {
+                'ui:options': {
+                  expandUnder: 'view:isTitle10Activated',
+                },
+                title10ActivationDate: dateUI('Activation Date'),
+                anticipatedSeparationDate: dateUI('Anticipated Separation Date'),
+              },
+              waiveVABenefitsToRetainTrainingPay: {
+                'ui:title': 'I elect to waive VA benefits for the days I accrued inactive duty training pay in order to retain my inactive duty training pay.'
+              }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              'view:isTitle10Activated': {
-                type: 'boolean'
-              },
-              title10Activation: reservesNationalGuardService.properties.title10Activation
+              reservesNationalGuardService: {
+                type: 'object',
+                properties: {
+                  // TODO: Make the schema better so we don't have to pull these out one by one
+                  unitName: reservesNationalGuardService.properties.unitName,
+                  obligationTermOfServiceDateRange: reservesNationalGuardService.properties.obligationTermOfServiceDateRange,
+                  'view:isTitle10Activated': {
+                    type: 'boolean'
+                  },
+                  title10Activation: reservesNationalGuardService.properties.title10Activation,
+                  waiveVABenefitsToRetainTrainingPay: reservesNationalGuardService.properties.inactiveDutyTrainingPay.properties.waiveVABenefitsToRetainTrainingPay
+                }
+              }
             }
           }
         },
