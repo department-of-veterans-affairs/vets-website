@@ -8,14 +8,14 @@ import {
 } from '../../util/helpers';
 
 import fullSchema1010ez from '../../../../hca/config/form';
-// import fullSchema0993 from '../../../../edu-benefits/0993/config/form';
+import fullSchema0993 from '../../../../edu-benefits/0993/config/form';
 import fullSchema1990 from '../../../../edu-benefits/1990/config/form';
 import fullSchema1990e from '../../../../edu-benefits/1990e/config/form';
 import fullSchema1990n from '../../../../edu-benefits/1990n/config/form';
 import fullSchema1995 from '../../../../edu-benefits/1995/config/form';
 import fullSchema5490 from '../../../../edu-benefits/5490/config/form';
 import fullSchema5495 from '../../../../edu-benefits/5495/config/form';
-// import fullSchema526EZ from '../../../../disability-benefits/526EZ/config/form';
+import fullSchema526EZ from '../../../../disability-benefits/526EZ/config/form';
 import fullSchema527EZ from '../../../../pensions/config/form';
 import fullSchema530 from '../../../../burials/config/form';
 import fullSchema10007 from '../../../../pre-need/config/form';
@@ -27,11 +27,11 @@ import schemas from 'vets-json-schema/dist/schemas';
 // Maps schema id to config id
 const schemaToConfigIds = {
   '10-10EZ': '1010ez',
-  // '21-526EZ': '21-526EZ',
+  '21-526EZ': '21-526EZ',
   '21-686C': '21-686C',
   '21P-527EZ': '21P-527EZ',
   '21P-530': '21P-530',
-  // '22-0993': '0993',
+  '22-0993': '0993',
   '22-1990': '1990',
   '22-1990E': '1990e',
   '22-1990N': '1990n',
@@ -69,14 +69,14 @@ describe('profile helpers:', () => {
       const configs = [
         fullSchema1010ez,
         fullSchema686,
-        // fullSchema0993,
+        fullSchema0993,
         fullSchema1990,
         fullSchema1990e,
         fullSchema1990n,
         fullSchema1995,
         fullSchema5490,
         fullSchema5495,
-        // fullSchema526EZ,
+        fullSchema526EZ,
         fullSchema527EZ,
         fullSchema530,
         fullSchema10007,

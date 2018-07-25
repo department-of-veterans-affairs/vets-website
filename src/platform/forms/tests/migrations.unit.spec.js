@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import fullSchema1010ez from '../../../applications/hca/config/form';
-// import fullSchema0993 from '../../../applications/edu-benefits/0993/config/form';
+import fullSchema0993 from '../../../applications/edu-benefits/0993/config/form';
 import fullSchema1990 from '../../../applications/edu-benefits/1990/config/form';
 import fullSchema1990e from '../../../applications/edu-benefits/1990e/config/form';
 import fullSchema1990n from '../../../applications/edu-benefits/1990n/config/form';
@@ -21,7 +21,7 @@ const mappedIds = [
   '21-686C',
   '21P-527EZ',
   '21P-530',
-  // '22-0993',
+  '22-0993',
   '22-1990',
   '22-1990E',
   '22-1990N',
@@ -37,7 +37,7 @@ const configs = [
   fullSchema686,
   fullSchema527EZ,
   fullSchema530,
-  // fullSchema0993,
+  fullSchema0993,
   fullSchema1990,
   fullSchema1990e,
   fullSchema1990n,

@@ -80,6 +80,9 @@ social:
     - url: /pension/pension-management-center/
       title: Pension Management Centers
       description: Find the location that serves you and your family.
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 ---
 
@@ -175,10 +178,14 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   <div class="link">
     <a href="benefits.va.gov/compensation/claimexam.asp"><b>VA Claim Exam (C&P Exam)</b></a>
     <p>Find out how to schedule your VA claim exam and what to expect during and after the appointment.</p>
   </div>
+=======
+If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. If you’re a survivor of a wartime Veteran, you may also qualify for monthly payments if your income and net worth are within certain limits. Find out if you can get this tax-free benefit.
+>>>>>>> master
 =======
 If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. If you’re a survivor of a wartime Veteran, you may also qualify for monthly payments if your income and net worth are within certain limits. Find out if you can get this tax-free benefit.
 >>>>>>> master
