@@ -1,9 +1,6 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 import { isVet360Configured } from '../util/local-vet360';
 import sendAndMergeApiRequests from '../util/sendAndMergeApiRequests';
-import _ from 'lodash';
-import countries from '../constants/countries.json';
-import states from '../constants/states.json';
 
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS = 'FETCH_PERSONAL_INFORMATION_SUCCESS';
@@ -51,16 +48,6 @@ export function fetchMilitaryInformation() {
   };
 }
 
-export function fetchAddressConstants() {
-  return ({
-    type: FETCH_ADDRESS_CONSTANTS_SUCCESS,
-    addressConstants: {
-      states: _.map(states, 'stateCode'),
-      countries: _.map(countries, 'countryName'),
-    }
-  });
-}
-
 export function fetchTransactions() {
   return async (dispatch) => {
     try {
@@ -79,14 +66,5 @@ export function fetchTransactions() {
     } catch (err) {
       // If we sync transactions in the background and fail, is it worth telling the user?
     }
-  };
-}
-
-export function startup() {
-  return async (dispatch) => {
-    dispatch(fetchHero());
-    dispatch(fetchAddressConstants());
-    dispatch(fetchPersonalInformation());
-    dispatch(fetchMilitaryInformation());
   };
 }

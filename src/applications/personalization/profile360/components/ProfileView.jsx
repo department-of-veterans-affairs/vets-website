@@ -35,12 +35,10 @@ class ProfileView extends React.Component {
     const {
       user,
       isVet360AvailableForUser,
-      fetchAddressConstants,
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
       profile: {
-        addressConstants,
         hero,
         personalInformation,
         militaryInformation
@@ -59,7 +57,7 @@ class ProfileView extends React.Component {
             <div>
               <Vet360TransactionReporter/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
-              <ContactInformation fetchAddressConstants={fetchAddressConstants} addressConstants={addressConstants} isVet360AvailableForUser={isVet360AvailableForUser} user={user}/>
+              <ContactInformation isVet360AvailableForUser={isVet360AvailableForUser} user={user}/>
               <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
               <MilitaryInformation fetchMilitaryInformation={fetchMilitaryInformation} militaryInformation={militaryInformation}/>
             </div>

@@ -21,17 +21,12 @@ import Email from '../vet360/components/Email';
 
 export default class ContactInformation extends React.Component {
 
-  componentDidMount() {
-    this.props.fetchAddressConstants();
-  }
-
   renderContent = () => {
     if (every(Object.keys(this.props.user.profile.vet360), false)) {
       return <LoadFail information="contact"/>;
     }
 
     const {
-      addressConstants,
       isVet360AvailableForUser,
     } =  this.props;
 
@@ -44,8 +39,8 @@ export default class ContactInformation extends React.Component {
         <ContactInformationExplanation/>
 
         <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}>
-          <MailingAddress addressConstants={addressConstants}/>
-          <ResidentialAddress addressConstants={addressConstants}/>
+          <MailingAddress/>
+          <ResidentialAddress/>
         </Vet360PendingTransactionCategory>
 
         <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}>
