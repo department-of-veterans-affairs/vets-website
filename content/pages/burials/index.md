@@ -53,13 +53,13 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
 <h3 class="highlight">Page Content</h3>
 
-[Get Burial Benefits and Memorial Items](#get)<br>
+[Get Veterans Burial Benefits](#get)<br>
 [Plan a Burial](#manage)<br>
 [More Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Benefits</h2>
+  <h2 class="highlight">Get Veterans Benefits</h2>
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/eligibility/"><b>Eligibility</b></a>
@@ -108,14 +108,13 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <p>Learn how to work with the VA National Cemetery Scheduling Office to schedule a burial.</p>
   </div>
 
-
    <div class="link">
     <a href="https://vets.gov/facilities"><b>Find a VA National Cemetery</b></a>
     <p>Find a VA national cemetery near you.</p>
   </div>
   
   <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">
-    <a href="#"><b>Manage Your Military Service Records</b></a>
+    <a href="#"><b>Request Military Records</b></a>
     <p>View, review, and print documents from your official Military Personnel File (including your DD214)</p>
 
   </div>
@@ -144,7 +143,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
 
   <div class="link">
-    <a href="https://www.archives.gov/veterans"><b>Find Historical Military Records</b></a>
+    <a href="https://www.archives.gov/veterans"><b>Search Historical Military Records</b></a>
     <p>Search and request military records from the National Archives website for research.</p>
   </div>
 
