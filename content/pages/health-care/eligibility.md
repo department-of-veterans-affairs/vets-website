@@ -49,12 +49,6 @@ If you've received one of these discharge statuses, you may not be eligible for 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
 [Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
-<br>
-
-### What if I just returned from Iraq or Afghanistan?
-
-If you're an OEF/OIF/OND combat Veteran who has just returned from service, you can receive free medical care for any condition related to your service in Iraq or Afghanistan for 5 years after discharge. <br>
-[Learn more about enhanced health care eligibility for returning Servicemembers](https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp)
 
 </div>
 </div>
@@ -73,7 +67,7 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 - Receive financial compensation (payments) from VA for a service-connected disability
 - Were discharged for a disability resulting from something that happened to you in the line of duty
 - Were discharged for a disability that got worse in the line of duty
-- Are a recently discharged Combat Veteran
+- [Are a recently discharged Combat Veteran](https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp)
 - Get a VA pension
 - Are a former Prisoner of War (POW)
 - Have received a Purple Heart
