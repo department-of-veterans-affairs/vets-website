@@ -18,8 +18,8 @@ export default function ResidentialAddress({ addressConstants }) {
 }
 
 ResidentialAddress.propTypes = {
-  addressProps: PropTypes.shape({
-    states: PropTypes.array,
-    countries: PropTypes.array
+  addressConstants: PropTypes.shape({
+    states: PropTypes.arrayOf(PropTypes.string),
+    countries: PropTypes.arrayOf(PropTypes.string)
   })
 };
