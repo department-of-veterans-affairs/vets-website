@@ -45,15 +45,15 @@ export class Programs extends React.Component {
         }
       },
 
-      priorityEnrollment: {
-        modal: 'priEnroll',
-        text: 'Priority Enrollment',
-        link: false
-      },
-
       dodmou: {
         modal: 'ta',
         text: 'Military Tuition Assistance (TA)',
+        link: false
+      },
+
+      priorityEnrollment: {
+        modal: 'priEnroll',
+        text: 'Priority Enrollment',
         link: false
       }
     };
