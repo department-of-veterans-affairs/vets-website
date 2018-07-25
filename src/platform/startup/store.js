@@ -7,9 +7,8 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import feedback from '../site-wide/feedback/reducers';
-// import announcements from '../site-wide/announcements/reducers';
+import announcements from '../site-wide/announcements/reducers';
 import navigation from '../site-wide/user-nav/reducers';
-import megaMenu from '../site-wide/mega-menu/reducers';
 import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
 
@@ -22,8 +21,7 @@ export const commonReducer = {
   navigation,
   feedback,
   scheduledDowntime,
-  // announcements,
-  megaMenu,
+  announcements
 };
 
 /**
@@ -41,3 +39,4 @@ export default function createCommonStore(appReducer = {}) {
   return createStore(combineReducers(reducer), compose(
     applyMiddleware(thunk), useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f));
 }
+

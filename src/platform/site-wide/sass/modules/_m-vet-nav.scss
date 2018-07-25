@@ -277,7 +277,7 @@ body.va-pos-fixed {
     &:hover {
       background-color: transparent;
       border-bottom: 1px solid transparent;
-      box-shadow: -3px 0 $color-gold-light;
+      box-shadow: -3px 0 $color-va-accent;
       color: $color-primary;
       text-decoration: underline;
     }
@@ -286,7 +286,7 @@ body.va-pos-fixed {
       background-color: $color-gray-lightest;
       border-bottom-color: $color-gray-warm-light;
       border-top-color: $color-gray-warm-light;
-      box-shadow: -3px 0 $color-gold-light;
+      box-shadow: -3px 0 $color-va-accent;
       color: $color-gray-dark;
       font-weight: bold;
       text-decoration: inherit;

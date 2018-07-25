@@ -11,9 +11,7 @@ describe('<Vet360ProfileField/>', () => {
   beforeEach(() => {
     props = {
       clearTransaction() {},
-      mostRecentSuccessfulTransaction: null,
       mostRecentErroredTransaction: null,
-      successfulTransactions: null,
       erroredTransactions: null
     };
   });
@@ -26,46 +24,39 @@ describe('<Vet360ProfileField/>', () => {
   });
 
   it('renders a success or error component when there are success or errored transactions', () => {
-    props.successfulTransactions = [
-      { data: { attributes: { transactionId: 'transaction_1' } } }
-    ];
     props.erroredTransactions = [
       { data: { attributes: { transactionId: 'transaction_2' } } }
     ];
 
-    props.mostRecentSuccessfulTransaction = props.successfulTransactions[0];
     props.mostRecentErroredTransaction = props.erroredTransactions[0];
 
     const component = enzyme.shallow(
       <Vet360TransactionReporter {...props}/>
     );
 
-    const successBanner = component.find('Vet360TransactionSuccessBanner');
-    expect(successBanner, 'the successful transaction rendered a banner').to.have.lengthOf(1);
-
     const vet360TransactionErrorBanner  = component.find('Vet360TransactionErrorBanner');
     expect(vet360TransactionErrorBanner, 'the errored transaction rendered').to.have.lengthOf(1);
   });
 
-  it('calls clearTransaction on each successful transaction', () => {
+  it('calls clearTransaction on each errored transaction', () => {
     props.clearTransaction = sinon.stub();
-    props.successfulTransactions = [
+    props.erroredTransactions = [
       { data: { attributes: { transactionId: 'transaction_1' } } },
       { data: { attributes: { transactionId: 'transaction_2' } } },
       { data: { attributes: { transactionId: 'transaction_3' } } }
     ];
-    props.mostRecentSuccessfulTransaction = props.successfulTransactions[0];
+    props.mostRecentErroredTransaction = props.erroredTransactions[0];
 
     const component = enzyme.shallow(
       <Vet360TransactionReporter {...props}/>
     );
 
-    const successBanner = component.find('Vet360TransactionSuccessBanner');
-    successBanner.props().clearTransaction();
+    const errorBanner = component.find('Vet360TransactionErrorBanner');
+    errorBanner.props().clearTransaction();
 
     expect(props.clearTransaction.callCount,
       'Closing the success banner resulted in a call to clearTransaction for each successful transaction'
-    ).to.be.equal(props.successfulTransactions.length);
+    ).to.be.equal(props.erroredTransactions.length);
   });
 
 });
