@@ -45,7 +45,7 @@ majorlinks:
     - url: /employment/vocational-rehab-and-employment/
       title: VR&E Benefits and Services
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
-    - url: /employment/gi-bill-school-feedback
+    - url: /education/gi-bill-school-feedback/
       title: GI Bill&reg; School Feedback Tool 
       description: If you have an issue or concern about your GI Bill school, you can submit feedback to VA. You can provide feedback for yourself, anonymously, or on behalf of someone else. Learn more about how to give feedback about your GI Bill school.      
     - url: /education/opt-out-information-sharing/
