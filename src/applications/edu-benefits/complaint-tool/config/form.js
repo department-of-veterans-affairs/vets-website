@@ -7,6 +7,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 const {
   address,
@@ -14,13 +15,23 @@ const {
   phone
 } = fullSchema.properties;
 
+// TODO: update with new BE schema
+const {
+  street: applicantAddress,
+  street2: applicantAddress2,
+  city: applicantCity,
+  state: applicantState,
+  country: applicantCountry, 
+  postalCode: applicantPostalCode
+} = address.properties;
+
 const {
   usaPhone,
 } = fullSchema.definitions;
 
 const myself = 'Myself';
 const someoneElse = 'Someone else';
-const anonymous = 'I want to submit my feedback anonymously';
+const anonymous = 'anonymous';
 
 function isNotAnonymous(formData) {
   if (!!formData && formData !== anonymous) {
@@ -84,9 +95,9 @@ const formConfig = {
                   // these descriptions will not work using a const, must use a string
 
                   // 'Myself' will give a lint error, but this works
-                  Myself: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  'Someone else': () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  'I want to submit my feedback anonymously': () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
+                  [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
@@ -182,7 +193,8 @@ const formConfig = {
                   myself,
                   someoneElse,
                   anonymous
-                ]
+                ],
+                enumNames: ['Myself', 'Someone else', 'I want to submit my feedback anonymously']
               },
               fullName: {
                 type: 'object',
@@ -254,15 +266,60 @@ const formConfig = {
         contactInformation: {
           path: 'contact-information',
           title: 'Contact Information',
-          depends: (formData) => formData.onBehalfOf !== 'I want to submit my feedback anonymously',
+          depends: (formData) => formData.onBehalfOf !== anonymous,
           uiSchema: {
+            address: {
+              'ui:title': 'Address line 1'
+            },
+            address2: {
+              'ui:title': 'Address line 2'
+            },
+            city: {
+              'ui:title': 'City'
+            },
+            state: {
+              'ui:title': 'State'
+            },
+            country: {
+              'ui:title': 'Country'
+            },
+            postalCode: {
+              'ui:title': 'ZIP code'
+            },
+            email: {
+              'ui:title': 'Email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
+            },
+            'view:emailConfirmation': {
+              'ui:title': 'Re-enter email address',
+              'ui:errorMessages': {
+                pattern: 'Please enter a valid email address'
+              }
+            },
+            phone: phoneUI('Phone number')
           },
           schema: {
             type: 'object',
+            required: [
+              'address',
+              'city',
+              'state',
+              'country',
+              'postalCode',
+              'email',
+              'view:emailConfirmation'
+            ],
             properties: {
-              address,
+              address: applicantAddress,
+              address2: applicantAddress2,
+              city: applicantCity,
+              state: applicantState,
+              country: applicantCountry,
+              postalCode: applicantPostalCode,
               email,
-              // view:emailConfirmation
+              'view:emailConfirmation': email,
               phone
             }
           }
