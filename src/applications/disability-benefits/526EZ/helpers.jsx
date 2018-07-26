@@ -57,6 +57,44 @@ const setPhoneEmailPaths = (veteran) => {
 };
 
 
+const getReservesGuardData = (formData) => {
+  const {
+    unitName,
+    obligationTermOfServiceDateRange: { from, to },
+    title10Activation,
+    waiveVABenefitsToRetainTrainingPay
+  } = formData;
+
+  // Ensure all required fields are present
+  if (!unitName || !from || !to || typeof waiveVABenefitsToRetainTrainingPay === 'undefined') {
+    return null;
+  }
+
+  const obligationDateRange = {
+    from,
+    to
+  };
+
+  if (formData['view:isTitle10Activated']) {
+    return {
+      unitName,
+      obligationTermOfServiceDateRange: obligationDateRange,
+      title10Activation: {
+        title10ActivationDate: title10Activation.title10ActivationDate,
+        anticipatedSeparationDate: title10Activation.anticipatedSeparationDate
+      },
+      waiveVABenefitsToRetainTrainingPay
+    };
+  }
+
+  return {
+    unitName,
+    obligationTermOfServiceDateRange: obligationDateRange,
+    waiveVABenefitsToRetainTrainingPay
+  };
+};
+
+
 export function transform(formConfig, form) {
   const {
     disabilities,
@@ -65,10 +103,14 @@ export function transform(formConfig, form) {
     servicePeriods,
     standardClaim,
   } = form.data;
-
+  const reservesNationalGuardService = getReservesGuardData(form.data);
   const disabilityProperties = Object.keys(
     fullSchemaIncrease.definitions.disabilities.items.properties
   );
+
+  const serviceInformation = reservesNationalGuardService
+    ? { servicePeriods, reservesNationalGuardService }
+    : { servicePeriods };
 
   const transformedData = {
     disabilities: disabilities
@@ -79,10 +121,7 @@ export function transform(formConfig, form) {
     // Extract treatments into one top-level array
     treatments: aggregate(disabilities, 'treatments'),
     privacyAgreementAccepted,
-    serviceInformation: {
-      servicePeriods,
-      reservesNationalGuardService: {} // TODO: if exists, add it to the submit
-    },
+    serviceInformation,
     standardClaim,
   };
 
