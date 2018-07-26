@@ -15,10 +15,9 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="GI Bill® School Feedback Tool"/>
-        <p>If you have an issue or complaint about your GI Bill school, you can submit feedback to VA. You can send in feedback about any concerns you have, but most of the feedback we respond to is about a school or employer not following the Principles of Excellence guidelines. This program requires schools to follow certain guidelines in order to get federal funding through the GI Bill. </p>
-        <p>You can submit feedback for yourself, anonymously, or on behalf of someone else. Any feedback sent in anonymously isn't shared with schools or employers.</p>
-        <p>You’ll need to fill out a short form to submit your feedback. You can get started right now.</p>
-        <h4>Follow the steps below to submit your feedback:</h4>
+        <p>You can submit feedback to us if your GI Bill school isn’t following the Principles of Excellence guidelines or if you have any other concerns or issues you’d like to raise with us. The Principles of Excellence program requires schools to follow certain guidelines in order to get federal funding through the GI Bill.</p>
+        <p>You can choose to submit feedback anonymously or on behalf of someone else. Any feedback sent in anonymously isn’t shared with schools or employers.</p>
+        <p>Get started right now by filling out a short form. Follow the steps below.</p>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -38,15 +37,15 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
               <p>We review feedback in the order we receive it. We may contact you if we need more information from you.</p>
-              <p>If we need to get in touch with you, we’ll contact you from an email that’ll look like this: process.vbavaco.va.gov. Please add this to your email contact list so you can respond to messages that may need a quick response from you.</p>
+              <p>If we need to get in touch with you, we’ll contact you form an email that will look like this: process.vbavaco@va.gov.</p>
             </li>
             <li className="process-step list-four">
               <div><h5>VA Follow Up</h5></div>
-              <p>We’ll get back to you within 45 days to let you know how we’re handling your feedback and if we’ve had any communication with your school. Feedback that isn't related to VA education benefits may be sent to another agency for review.</p>
+              <p>We’ll get back to you within 45 days to let you know how we’re handling your feedback and if we’ve had any communication with your school. Feedback that isn’t related to VA education benefits may be sent to another agency for review.</p>
             </li>
             <li className="process-step list-five">
               <div><h5>School Follow Up</h5></div>
-              <p>The school will review your feedback. We’ll send you the school’s response and ask you if you think their response resolves your issue.</p>
+              <p>The school will review your feedback. We’ll send you the school’s response and ask you if you think their response resolves your issue. In some cases, the school may get in touch with you directly to discuss your feedback.</p>
             </li>
           </ol>
         </div>
