@@ -7,7 +7,7 @@ import { refreshTransaction } from '../../actions/updaters';
 import Vet360TransactionPending from '../components/base/Vet360TransactionPending';
 
 import { TRANSACTION_CATEGORY_TYPES } from '../../constants/vet360';
-import { selectVet360PendingCategoryTransactions } from '../../selectors';
+import { selectVet360PendingCategoryTransactions } from '../selectors';
 
 function Vet360PendingTransactionCategory({ refreshTransaction: dispatchRefreshTransaction, transactions, hasPendingCategoryTransaction, categoryType, children }) {
   if (!hasPendingCategoryTransaction) return <div>{children}</div>;

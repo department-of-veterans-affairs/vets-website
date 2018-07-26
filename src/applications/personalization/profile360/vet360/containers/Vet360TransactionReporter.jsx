@@ -7,7 +7,7 @@ import scrollToTop from '../../../../../platform/utilities/ui/scrollToTop';
 import {
   selectVet360FailedTransactions,
   selectMostRecentErroredTransaction
-} from '../../selectors';
+} from '../selectors';
 
 import {
   clearTransaction

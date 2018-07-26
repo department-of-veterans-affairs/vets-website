@@ -14,7 +14,7 @@ import {
 import {
   selectVet360Field,
   selectEditedFormField
-} from '../../selectors';
+} from '../selectors';
 
 import {
   cleanAddressDataForUpdate

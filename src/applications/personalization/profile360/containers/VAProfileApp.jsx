@@ -14,7 +14,7 @@ import {
   fetchPersonalInformation
 } from '../actions';
 
-import { selectIsVet360AvailableForUser } from '../selectors';
+import { selectIsVet360AvailableForUser } from '../vet360/selectors';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import ProfileView from '../components/ProfileView';

@@ -23,7 +23,7 @@ import {
   selectVet360Transaction,
   selectCurrentlyOpenEditModal,
   selectEditedFormField
-} from '../../selectors';
+} from '../selectors';
 
 import Vet360ProfileFieldHeading from '../components/base/Vet360ProfileFieldHeading';
 import Vet360Transaction from '../components/base/Vet360Transaction';
