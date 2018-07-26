@@ -21,7 +21,7 @@ const {
   street2: applicantAddress2,
   city: applicantCity,
   state: applicantState,
-  country: applicantCountry, 
+  country: applicantCountry,
   postalCode: applicantPostalCode
 } = address.properties;
 
