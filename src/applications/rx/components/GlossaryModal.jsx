@@ -21,7 +21,13 @@ class GlossaryModal extends React.Component {
       element = (
         <div>
           <GlossaryList terms={this.props.content}/>
-          <button className="va-modal-close" type="button" onClick={this.handleCloseModal}><i className="fa fa-close"></i><span className="usa-sr-only">Close this modal</span></button>
+          <button
+            className="va-modal-close"
+            type="button"
+            aria-label="Close this modal"
+            onClick={this.handleCloseModal}>
+            <i className="fa fa-close"></i>
+          </button>
           <Link
             to="/glossary"
             onClick={this.props.onCloseModal}>
