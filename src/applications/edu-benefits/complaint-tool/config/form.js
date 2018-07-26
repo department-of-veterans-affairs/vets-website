@@ -10,7 +10,6 @@ import {
 
 const { educationDetails } = fullSchema.properties;
 
-
 const { school } = educationDetails;
 
 const {
@@ -21,7 +20,7 @@ const {
   state: schoolState,
   country: schoolCountry,
   postalCode: schoolPostalCode
-} = school;
+} = school.properties;
 
 // const { } = fullSchema.definitions;
 
@@ -60,6 +59,27 @@ const formConfig = {
                 }
               },
               'view:manualSchoolEntry': {
+                name: {
+                  'ui:title': 'Name'
+                },
+                address: {
+                  'ui:title': 'Address line 1'
+                },
+                address2: {
+                  'ui:title': 'Address line 2'
+                },
+                city: {
+                  'ui:title': 'City'
+                },
+                state: {
+                  'ui:title': 'State'
+                },
+                country: {
+                  'ui:title': 'Country'
+                },
+                postalCode: {
+                  'ui:title': 'Postal Code'
+                },
                 'ui:options': {
                   expandUnder: 'view:cannotFindSchool'
                 }
@@ -76,18 +96,19 @@ const formConfig = {
                     type: 'string'
                   },
                   'view:cannotFindSchool': {
+                    title: 'I can’t find my school',
                     type: 'boolean'
                   },
                   'view:manualSchoolEntry': {
                     type: 'object',
                     properties: {
-                      schoolName,
-                      schoolAddress,
-                      schoolAddress2,
-                      schoolCity,
-                      schoolState,
-                      schoolCountry,
-                      schoolPostalCode
+                      name: schoolName,
+                      address: schoolAddress,
+                      address2: schoolAddress2,
+                      city: schoolCity,
+                      state: schoolState,
+                      country: schoolCountry,
+                      postalCode: schoolPostalCode
                     }
                   }
                 }
