@@ -25,6 +25,9 @@ relatedlinks:
     - url: /employment/vocational-rehab-and-employment/ides/
       title: Accessing VR&E through the Integrated Disability Evaluation System (IDES)
       description: If you've been referred to IDES to determine if you're medically unfit for duty due to a service-connected disability, find out how to access VR&E services as quickly as possible.
+    - url: /disability-benefits/apply/evidence/
+      title: How to Gather Evidence for Your Claim
+      description: Find out your options for gathering documents to support your disability claim.
 
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
