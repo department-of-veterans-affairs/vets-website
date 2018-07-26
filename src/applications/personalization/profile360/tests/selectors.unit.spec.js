@@ -22,6 +22,8 @@ const hooks = {
     };
 
     const vet360 = {
+      modal: null,
+      formFields: {},
       transactions: [],
       fieldTransactionMap: {},
       metadata: {
@@ -29,15 +31,9 @@ const hooks = {
       }
     };
 
-    const vaProfile = {
-      modal: null,
-      formFields: {}
-    };
-
     state = {
       user,
-      vet360,
-      vaProfile
+      vet360
     };
   }
 };
@@ -171,7 +167,7 @@ describe('selectors', () => {
     it('looks up the form value in state for a given field name', () => {
       const fieldName = 'someField';
       const fieldValue = 'someFieldValue';
-      state.vaProfile.formFields[fieldName] = fieldValue;
+      state.vet360.formFields[fieldName] = fieldValue;
 
       expect(selectors.selectEditedFormField(state, fieldName)).to.be.equal(fieldValue);
     });
@@ -181,7 +177,7 @@ describe('selectors', () => {
     beforeEach(hooks.beforeEach);
     it('looks up the form value in state for a given field name', () => {
       const currentlyOpenModal = 'someField';
-      state.vaProfile.modal = currentlyOpenModal;
+      state.vet360.modal = currentlyOpenModal;
 
       expect(selectors.selectCurrentlyOpenEditModal(state)).to.be.equal(currentlyOpenModal);
     });
