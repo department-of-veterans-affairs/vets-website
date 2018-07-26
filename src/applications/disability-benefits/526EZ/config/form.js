@@ -310,12 +310,19 @@ const formConfig = {
                 widgetClassNames: 'widget-outline',
                 keepInPageOnReview: true
               }
+            },
+            'view:disabilitiesClarification': {
+              'ui:description': 'This list only includes disabilities that you have received a rating for. It will not show disabilities from claims in progress.'
             }
           },
           schema: {
             type: 'object',
             properties: {
-              disabilities
+              disabilities,
+              'view:disabilitiesClarification': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }

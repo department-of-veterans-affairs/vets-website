@@ -105,6 +105,10 @@ export function validateDisability(disability) {
 export function transformDisabilities(disabilities = []) {
   return disabilities
     // We want to remove disabilities without a rating, but 0 counts as a valid rating
+    // TODO: Log the disabilities if they're not service connected
+    // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
+    //  it gets here and we can't tell whether it is service connected or not. This happens in
+    //  the api
     .filter(disability => disability.ratingPercentage || disability.ratingPercentage === 0)
     .map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
