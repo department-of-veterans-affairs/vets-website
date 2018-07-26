@@ -22,7 +22,7 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6>To fill out this application, you’ll need to:</h6></div>
+              <div><h6>To fill out this form, you’ll need to:</h6></div>
               <ul>
                 <li>Enter your school information and address</li>
                 <li>Tell us which education benefit you’re using</li>
