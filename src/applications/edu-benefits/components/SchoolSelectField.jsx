@@ -33,7 +33,7 @@ export default class SchoolSelectField extends React.Component {
   }
 
   setInstitutions = ({ institutionCount, institutionQuery, institutions, pagesCount }) => {
-    if (institutionQuery === this.state.searchInputValue) {
+    if (institutionQuery === this.state.institutionQuery) {
       this.setState({
         loadingInstitutions: false,
         loadingPage: false,
@@ -64,6 +64,7 @@ export default class SchoolSelectField extends React.Component {
         loadingPage: false,
         page: 1,
         pageCount: 0,
+        institutionQuery: this.state.searchInputValue,
         showInstitutions: false,
         showPagination: false
       });
@@ -79,6 +80,7 @@ export default class SchoolSelectField extends React.Component {
       loadingPage: false,
       page: 1,
       pageCount: 0,
+      institutionQuery: this.state.searchInputValue,
       showInstitutions: false,
       showPagination: false
     });
@@ -119,7 +121,7 @@ export default class SchoolSelectField extends React.Component {
     });
 
     this.debouncedSearchInstitutions({
-      institutionQuery: this.state.searchInputValue,
+      institutionQuery: this.state.institutionQuery,
       page
     });
   }
@@ -166,7 +168,7 @@ export default class SchoolSelectField extends React.Component {
             </button>
           </div>
           {this.state.showInstitutions && <div>
-            {`${this.state.institutionCount} results`}
+            {`${this.state.institutionCount} results for ${this.state.institutionQuery}`}
             {this.state.institutions.map(({ city, facilityCode, name, state }, index) => (
               <div key={index}>
                 <div className="radio-button">
@@ -191,11 +193,11 @@ export default class SchoolSelectField extends React.Component {
           </div>
           }
           {this.state.loadingInstitutions && <div>
-            <LoadingIndicator message={`Searching ${this.state.searchInputValue}...`}/>
+            <LoadingIndicator message={`Searching ${this.state.institutionQuery}...`}/>
           </div>
           }
           {this.state.loadingPage && <div>
-            <LoadingIndicator message={`Loading page ${this.state.page} results for ${this.state.searchInputValue}...`}/>
+            <LoadingIndicator message={`Loading page ${this.state.page} results for ${this.state.institutionQuery}...`}/>
           </div>
           }
         </div>
