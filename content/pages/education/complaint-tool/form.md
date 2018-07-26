@@ -10,7 +10,7 @@ description: Use your VA education benefits to pay for college or training progr
     <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>
       <li><a href="/education/">Education</a></li>
-      <li><a aria-current="page" href="/education/complaint-tool/">GI Bill School Feedback Tool</a></li>
+      <li><a aria-current="page" href="/education/complaint-tool/">GI Bill® School Feedback Tool</a></li>
     </ul>
   </nav>
   <div class="section">
