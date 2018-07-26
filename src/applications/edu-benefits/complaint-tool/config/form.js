@@ -284,7 +284,7 @@ const formConfig = {
               'ui:title': 'Country'
             },
             postalCode: {
-              'ui:title': 'ZIP code'
+              'ui:title': 'Postal code'
             },
             email: {
               'ui:title': 'Email address',
