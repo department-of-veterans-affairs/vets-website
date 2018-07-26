@@ -3,9 +3,7 @@ import React from 'react';
 import Vet360ProfileField from '../../containers/Vet360ProfileField';
 import EmailEditModal from './EditModal';
 
-function EmailView({ data: emailData }) {
-  return <span>{emailData.emailAddress}</span>;
-}
+import EmailView from './View';
 
 export default function Vet360Email({ title = 'Email address', fieldName = 'email', analyticsSectionName = 'email' }) {
   return (
