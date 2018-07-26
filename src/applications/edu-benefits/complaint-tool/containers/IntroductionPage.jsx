@@ -37,7 +37,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
               <p>We review feedback in the order we receive it. We may contact you if we need more information from you.</p>
-              <p>If we need to get in touch with you, we’ll contact you form an email that will look like this: process.vbavaco@va.gov.</p>
+              <p>If we need to get in touch with you, we’ll contact you from an email that will look like this: process.vbavaco@va.gov.</p>
             </li>
             <li className="process-step list-four">
               <div><h5>VA Follow Up</h5></div>
