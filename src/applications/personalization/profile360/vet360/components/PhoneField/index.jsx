@@ -1,8 +1,8 @@
 import React from 'react';
 import PhoneNumberWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
-import Vet360ProfileField from '../containers/Vet360ProfileField';
-import PhoneEditModal from './PhoneEditModal';
+import Vet360ProfileField from '../../containers/Vet360ProfileField';
+import PhoneEditModal from './EditModal';
 
 function PhoneView({ data: phoneData }) {
   const phoneNumber = <PhoneNumberWidget value={[phoneData.areaCode, phoneData.phoneNumber].join('')}/>;

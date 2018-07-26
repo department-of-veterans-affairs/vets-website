@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Vet360ProfileField from '../containers/Vet360ProfileField';
-import EmailEditModal from './EmailEditModal';
+import Vet360ProfileField from '../../containers/Vet360ProfileField';
+import EmailEditModal from './EditModal';
 
 function EmailView({ data: emailData }) {
   return <span>{emailData.emailAddress}</span>;

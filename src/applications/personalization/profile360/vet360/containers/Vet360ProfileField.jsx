@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from '../../../../../platform/monitoring/record-event';
 
-import * as VET360 from '../constants/vet360';
+import * as VET360 from '../../constants/vet360';
 
 import {
   isPendingTransaction
-} from '../util/transactions';
+} from '../../util/transactions';
 
 import {
   clearTransactionRequest,
@@ -16,17 +16,17 @@ import {
   updateFormField,
   openModal,
   fieldUpdaters
-} from '../actions';
+} from '../../actions';
 
 import {
   selectVet360Field,
   selectVet360Transaction,
   selectCurrentlyOpenEditModal,
   selectEditedFormField
-} from '../selectors';
+} from '../../selectors';
 
-import Vet360ProfileFieldHeading from '../components/Vet360ProfileFieldHeading';
-import Vet360Transaction from '../components/Vet360Transaction';
+import Vet360ProfileFieldHeading from '../components/base/Vet360ProfileFieldHeading';
+import Vet360Transaction from '../components/base/Vet360Transaction';
 
 class Vet360ProfileField extends React.Component {
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AddressSection from '../../components/AddressSection';
+import AddressField from './AddressField';
 
 import {
   FIELD_NAMES
@@ -8,7 +8,7 @@ import {
 
 export default function ResidentialAddress() {
   return (
-    <AddressSection
+    <AddressField
       title="Home address"
       fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS}/>
   );

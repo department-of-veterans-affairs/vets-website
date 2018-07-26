@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import {
   isPendingTransaction,
   isFailedTransaction
-} from '../util/transactions';
+} from '../../../util/transactions';
 
 import Vet360TransactionInlineErrorMessage from './Vet360TransactionInlineErrorMessage';
 import Vet360TransactionPending from './Vet360TransactionPending';

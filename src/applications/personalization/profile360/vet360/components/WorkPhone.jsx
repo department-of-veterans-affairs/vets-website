@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PhoneSection from '../../components/PhoneSection';
+import PhoneField from './PhoneField';
 
 import {
   FIELD_NAMES
@@ -8,7 +8,7 @@ import {
 
 export default function WorkPhone() {
   return (
-    <PhoneSection
+    <PhoneField
       title="Work phone number"
       fieldName={FIELD_NAMES.WORK_PHONE}/>
   );

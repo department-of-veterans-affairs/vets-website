@@ -2,18 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from '../../../../platform/utilities/ui/scrollToTop';
+import scrollToTop from '../../../../../platform/utilities/ui/scrollToTop';
 
 import {
   selectVet360FailedTransactions,
   selectMostRecentErroredTransaction
-} from '../selectors';
+} from '../../selectors';
 
 import {
   clearTransaction
-} from '../actions';
+} from '../../actions';
 
-import Vet360TransactionErrorBanner from '../components/Vet360TransactionErrorBanner';
+import Vet360TransactionErrorBanner from '../components/base/Vet360TransactionErrorBanner';
 
 class Vet360TransactionReporter extends React.Component {
   static propTypes = {

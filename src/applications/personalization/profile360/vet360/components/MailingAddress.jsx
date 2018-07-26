@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AddressSection from '../../components/AddressSection';
+import AddressField from './AddressField';
 
 import {
   FIELD_NAMES
@@ -8,7 +8,7 @@ import {
 
 export default function MailingAddress() {
   return (
-    <AddressSection
+    <AddressField
       title="Mailing address"
       fieldName={FIELD_NAMES.MAILING_ADDRESS}
       deleteDisabled/>
