@@ -129,7 +129,6 @@ describe('vet360 reducer', () => {
 
     expect(state.transactionsAwaitingUpdate.length).to.eql(0);
     expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
-    expect(state.metadata.mostRecentSuccessfulTransactionId).to.eql(111);
   });
 
   it('should set updated transaction request failure', () => {
@@ -186,7 +185,7 @@ describe('vet360 reducer', () => {
         }
       }],
       metadata: {
-        mostRecentSuccessfulTransactionId: 111,
+        mostRecentErroredTransactionId: 111,
       }
     }, {
       type: 'VET360_TRANSACTION_CLEARED',
@@ -199,7 +198,7 @@ describe('vet360 reducer', () => {
       }
     });
 
-    expect(state.metadata.mostRecentSuccessfulTransactionId).to.eql(null);
+    expect(state.metadata.mostRecentErroredTransactionId).to.eql(null);
     expect(state.transactions.length).to.eql(0);
   });
 

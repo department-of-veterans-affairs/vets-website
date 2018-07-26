@@ -1,11 +1,17 @@
 import React from 'react';
 
 import {
+  FIELD_NAMES
+} from '../constants/vet360';
+
+import {
   consolidateAddress,
   expandAddress
 } from '../../../../platform/forms/address/helpers';
 
 import Vet360EditModal from './Vet360EditModal';
+
+import CopyMailingAddress from '../containers/CopyMailingAddress';
 import Address from './Address';
 
 export default class AddressEditModal extends React.Component {
@@ -34,15 +40,23 @@ export default class AddressEditModal extends React.Component {
     };
   }
 
+  copyMailingAddress = (mailingAddress) => {
+    const newAddressValue = { ...this.props.field.value, ...mailingAddress };
+    this.props.onChange(newAddressValue, null, true);
+  }
+
   renderForm = () => {
     return (
-      <Address
-        address={this.props.field.value}
-        onInput={this.onInput}
-        onBlur={this.onBlur}
-        errorMessages={this.props.field.validations}
-        states={this.props.addressConstants.states}
-        countries={this.props.addressConstants.countries}/>
+      <div>
+        {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && <CopyMailingAddress copyMailingAddress={this.copyMailingAddress}/>}
+        <Address
+          address={this.props.field.value}
+          onInput={this.onInput}
+          onBlur={this.onBlur}
+          errorMessages={this.props.field.validations}
+          states={this.props.addressConstants.states}
+          countries={this.props.addressConstants.countries}/>
+      </div>
     );
   }
 

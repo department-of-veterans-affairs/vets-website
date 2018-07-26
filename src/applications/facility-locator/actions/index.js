@@ -102,21 +102,20 @@ export function searchWithAddress(query) {
         const featureBox = res.features[0].box;
 
         let minBounds = [
-          coordinates[0] - 0.5,
-          coordinates[1] - 0.5,
-          coordinates[0] + 0.5,
-          coordinates[1] + 0.5,
+          coordinates[0] - 0.75,
+          coordinates[1] - 0.75,
+          coordinates[0] + 0.75,
+          coordinates[1] + 0.75,
         ];
 
         if (featureBox) {
           minBounds = [
-            Math.min(featureBox[0], coordinates[0] - 0.5),
-            Math.min(featureBox[1], coordinates[1] - 0.5),
-            Math.max(featureBox[2], coordinates[0] + 0.5),
-            Math.max(featureBox[3], coordinates[1] + 0.5),
+            Math.min(featureBox[0], coordinates[0] - 0.75),
+            Math.min(featureBox[1], coordinates[1] - 0.75),
+            Math.max(featureBox[2], coordinates[0] + 0.75),
+            Math.max(featureBox[3], coordinates[1] + 0.75),
           ];
         }
-
         return dispatch({
           type: 'SEARCH_QUERY_UPDATED',
           payload: {
@@ -127,7 +126,7 @@ export function searchWithAddress(query) {
               longitude: coordinates[0],
             },
             bounds: minBounds,
-            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
+            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 9,
           }
         });
       }

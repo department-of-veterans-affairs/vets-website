@@ -8,6 +8,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
+import { transform } from '../helpers';
+
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -59,6 +61,9 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'GI Bill® School Feedback Tool',
+  transformForSubmit: transform,
+  defaultDefinitions: {
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

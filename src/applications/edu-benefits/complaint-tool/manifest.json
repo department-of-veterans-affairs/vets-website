@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "appName": "GI Bill® School Feedback Tool",
+=======
+    "appName": "GI Bill School Feedback Tool",
+>>>>>>> master
     "entryFile": "./complaint-tool-entry.jsx",
     "entryName": "complaint-tool",
     "rootUrl": "/education/complaint-tool/form",

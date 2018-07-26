@@ -1,18 +1,15 @@
 import { createRoutesWithSaveInProgress } from '../../../platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
-import Form0993App from './containers/Form0993App.jsx';
-import RoutedSavableSinglePageForm from './containers/RoutedSavableSinglePageForm';
+import Form0993App from './Form0993App';
+import RoutedSavableFormPage from './containers/RoutedSavableFormPage';
 
-const filteredRoutes = new Set(['introduction', 'review-and-submit']);
+const filteredRoutes = new Set(['introduction']);
 
 const childRoutes = createRoutesWithSaveInProgress(formConfig).filter(route => !filteredRoutes.has(route.path));
 
 
-// Set single page form component
-childRoutes[0].component = RoutedSavableSinglePageForm;
-
-// Provision form config
-childRoutes[0].formConfig = formConfig;
+// Set form page component with custom back behavior
+childRoutes[0].component = RoutedSavableFormPage;
 
 const route = {
   path: '/',
