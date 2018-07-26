@@ -63,7 +63,6 @@ export function transform(formConfig, form) {
     veteran,
     privacyAgreementAccepted,
     servicePeriods,
-    reservesNationalGuardService,
     standardClaim,
   } = form.data;
 
@@ -80,7 +79,10 @@ export function transform(formConfig, form) {
     // Extract treatments into one top-level array
     treatments: aggregate(disabilities, 'treatments'),
     privacyAgreementAccepted,
-    serviceInformation: { servicePeriods, reservesNationalGuardService },
+    serviceInformation: {
+      servicePeriods,
+      reservesNationalGuardService: {} // TODO: if exists, add it to the submit
+    },
     standardClaim,
   };
 
