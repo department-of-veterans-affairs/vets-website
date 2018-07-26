@@ -51,6 +51,10 @@ You may be able to get disability benefits if you have a current illness or inju
 - Had an illness or injury before you joined the military—and serving made it worse (called a preservice disability claim), **or**
 - Have a disability related to your active-duty service that didn’t appear until after you ended your service (called a postservice disability claim)
 
+<b>And both of these must be true. You:</b>
+- Served on active duty, active duty for training, or inactive duty training, <b>and</b>
+- Have at least a 10% disability rating for your service-connected condition
+
 <h4>Presumed disabilities</h4>
 If you have a disability that's been diagnosed by a doctor and that we consider to be related to your military service because of a specific aspect of that service, you may be able to get disability benefits based on this presumed disability. This usually applies to:
 - [A chronic (long-lasting) illness that appears within 1 year after discharge](/disability-benefits/eligibility/one-year/), **or**
