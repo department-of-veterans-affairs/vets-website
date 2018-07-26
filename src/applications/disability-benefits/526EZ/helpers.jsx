@@ -2,6 +2,7 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -20,7 +21,8 @@ import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL
+  VA_FORM4142_URL,
+  RESERVE_GUARD_TYPES
 } from './constants';
 
 
@@ -61,6 +63,7 @@ export function transform(formConfig, form) {
     veteran,
     privacyAgreementAccepted,
     servicePeriods,
+    reservesNationalGuardService,
     standardClaim,
   } = form.data;
 
@@ -77,7 +80,7 @@ export function transform(formConfig, form) {
     // Extract treatments into one top-level array
     treatments: aggregate(disabilities, 'treatments'),
     privacyAgreementAccepted,
-    serviceInformation: { servicePeriods },
+    serviceInformation: { servicePeriods, reservesNationalGuardService },
     standardClaim,
   };
 
@@ -834,3 +837,57 @@ export const PaymentDescription = () => (
     disability benefit to this account.
   </p>
 );
+
+export const hasGuardOrReservePeriod = (formData) => {
+  const serviceHistory = formData.servicePeriods;
+  if (!serviceHistory || !Array.isArray(serviceHistory)) {
+    return false;
+  }
+
+  return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
+    // For a new service period, service branch defaults to undefined
+    if (!serviceBranch) {
+      return false;
+    }
+    // TODO: Replace magic strings
+    return isGuardReserve
+        || serviceBranch.includes('Reserve')
+        || serviceBranch.includes('National Guard');
+  }, false);
+};
+
+export const reservesGuardDescription = ({ formData }) => {
+  const { servicePeriods } = formData;
+  if (!servicePeriods || !Array.isArray(servicePeriods) || !servicePeriods[0].serviceBranch) {
+    return null;
+  }
+
+  const mostRecentPeriod = servicePeriods.filter(({ serviceBranch }) => {
+    const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
+    return (serviceBranch.includes(nationalGuard) || serviceBranch.includes(reserve));
+  }).map(({ serviceBranch, dateRange }) => {
+    const dateTo = new Date(dateRange.to);
+    return {
+      serviceBranch,
+      to: dateTo
+    };
+  }).sort((periodA, periodB) => {
+    if (periodA.to < periodB.to) {
+      return 1;
+    }
+    if (periodA.to > periodB.to) {
+      return -1;
+    }
+    return 0;
+  })[0];
+
+  if (!mostRecentPeriod) {
+    return null;
+  }
+  const { serviceBranch, to } = mostRecentPeriod;
+  return (
+    <div>
+      Please tell us more about your {serviceBranch} service that ended on {moment(to).format('MMMM Do, YYYY')}.
+    </div>
+  );
+};
