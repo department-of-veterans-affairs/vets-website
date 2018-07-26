@@ -289,15 +289,15 @@ const formConfig = {
                 properties: {
                   'Post-9/11 Ch 33': {
                     type: 'boolean',
-                    title: 'Post-9/11 GI Bill (Ch. 33)'
+                    title: 'Post-9/11 GI Bill (Chapter 33)'
                   },
                   'MGIB-AD Ch 30': {
                     type: 'boolean',
-                    title: 'Montgomery GI Bill - Active Duty (MGIB) (Ch. 30)'
+                    title: 'Montgomery GI Bill - Active Duty (MGIB-AD, Chapter 30)'
                   },
                   'MGIB-SR Ch 1606': {
                     type: 'boolean',
-                    title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR) (Ch. 1606)'
+                    title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606)'
                   },
                   TATU: {
                     type: 'boolean',
@@ -305,11 +305,11 @@ const formConfig = {
                   },
                   'DEA Ch 35': {
                     type: 'boolean',
-                    title: 'Survivors & Dependents Assistance (DEA) (Ch. 35)'
+                    title: 'Survivors & Dependents Assistance (DEA) (Chapter 35)'
                   },
                   'VRE Ch 31': {
                     type: 'boolean',
-                    title: 'Vocational Rehabilitation and Employment (VR&E) (Ch. 31)'
+                    title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)'
                   },
                 }
               },
