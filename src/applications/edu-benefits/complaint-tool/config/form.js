@@ -254,7 +254,7 @@ const formConfig = {
           title: 'Benefits Information',
           uiSchema: {
             programs: {
-              'ui:title': 'Which education benefits have you used?',
+              'ui:title': 'Which education benefits have you used? (Select all that apply)',
               'ui:validations': [
                 validateBooleanGroup
               ],
@@ -267,7 +267,7 @@ const formConfig = {
             },
             assistance: {
               'view:assistance': {
-                'ui:title': 'Which military tuition assistance benefits have you used?',
+                'ui:title': 'Which military tuition assistance benefits have you used? (Select all that apply)',
                 'ui:options': {
                   showFieldLabel: true
                 },
