@@ -23,9 +23,14 @@ For example, if you had an illness or injury (also known as a condition) that wa
 
 ### Can I get increased payments if I have a severe disability or dependents?
 
-You may be paid added amounts in certain instances if:
+Yes. We may increase your monthly payments if one or more of these is true for you. You have a:
 
--	You have a very severe disability or loss of limb
--	You have a spouse, child, or dependent parent
--	You have a seriously disabled spouse
+- Very severe disability or loss of limb, or
+- Spouse, child, or dependent parent and your combined disability is 30% or greater, or
+- Spouse with a serious disability
+
+
+### Is there anything else that might affect my compensation amount?
+
+Yes. If you receive military retirement pay, disability severance pay, or separation incentive payments, your compensation may end up being less than it otherwise would be.
 
