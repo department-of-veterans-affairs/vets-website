@@ -26,13 +26,11 @@ crosslinks:
       title: Family and Caregiver Health Benefits
       description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
     - url: va.gov/life-insurance
-      title: VA Life Insurance Benefits
+      title: Life Insurance
       description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
 contact:
-  - heading: Contact us for help with benefits or services
+  - heading: Ask Questions
     links:
-    - url: 1-877-222-VETS (1-877-222-8387)
-      title: Questions about Your Application     
     - url: 1-800-827-1000
       title: Questions about Your VA Benefits and Direct Deposit
     - url: 1-877-294-6380
@@ -44,21 +42,21 @@ contact:
     - url: https://iris.custhelp.va.gov/app/ask
       title: Ask Us a Question Online
 social:
-  - heading: Social Media
+  - heading: Get Updates
     links:
-    - url: "https://twitter.com"
-      label: Twitter
-    - url: "https://facebook.com"
-      label: Facebook
-    - url: "https://youtube.com"
-      label: YouTube
-    - url: "https://instagram.com"
-      label: Instagram
-    - url: "https://flickr.com"
-      label: Flickr
+    - url: "https://twitter.com/VAVetBenefits"
+      label: Veterans Benefits Twitter
+    - url: "https://www.facebook.com/VeteransBenefits"
+      label: Veterans Benefits Facebook
+    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+      label: Veterans Benefits YouTube
+    - url: "https://www.instagram.com/vabenefits/"
+      label: Veterans Benefits Instagram
+    - url: "https://www.pinterest.com/vavetbenefits/"
+      label: Veterans Benefits Pinterest
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
-    - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
+    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
       label: Email Directory
 ---
 
@@ -68,16 +66,16 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
 <h3 class="highlight">Page Content</h3>
 
-[Get VA Pension Benefits](#get)<br>
-[Manage Your VA Pension Benefits](#manage)<br>
-[More Pension Information and Resources](#more)<br>
+[Get Pension Benefits](#get)<br>
+[Manage Your Benefits](#manage)<br>
+[More Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get VA Pension Benefits</h2>
+  <h2 class="highlight">Get Pension Benefits</h2>
 
   <div class="link">
-    <a href="vets.gov/pension/eligibility//"><b>Non Service-Connected Pension Eligibility</b></a>
+    <a href="vets.gov/pension/eligibility//"><b>Veterans Pension Eligibility</b></a>
     <p>See if you qualify for VA pension benefits as a Veteran.
   </div>
 
@@ -105,10 +103,10 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your VA Pension Benefits</h2>
+  <h2 class='highlight'>Manage Your Benefits</h2>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Check Your VA Claim Status</b></a>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Check Your VA Claim or Appeal Status</b></a>
     <p>Check the status of an open VA disability pay (compensation) and pension claim. If you're a surviving spouse or parent, you can view your Dependency and Indemnity Compensation (DIC) claim status.</p>
     </div>
 
@@ -118,13 +116,8 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="vets.gov/disability-benefits/claims-appeal/"><b>File a Notice of Disagreement to Appeal a VA Decision</b></a>
+    <a href="vets.gov/disability-benefits/claims-appeal/"><b>File an Appeal</b></a>
     <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
-  </div>
-
-  <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status">
-    <a href="#"><b>Check Your VA Appeal Status</b></a>
-    <p>Check the status of an open VA appeal.</p>
   </div>
 
   <div class="link">
@@ -163,8 +156,4 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
     <p>Find your regional pension management center to mail or fax your VA pension application.</p>
   </div>
 
-  <div class="link">
-    <a href="vets.gov/pension/pension-management-center/"><b>Access Your VA Records and Documents</b></a>
-    <p>Manage records like your DD214, VA benefits award letters, and medical records.</p>
-  </div>
 </section>
