@@ -18,7 +18,7 @@ import {
 
 import {
   cleanAddressDataForUpdate
-} from '../../actions/misc';
+} from '../actions';
 
 const ADDRESS_PROPS = [
   'addressLine1',

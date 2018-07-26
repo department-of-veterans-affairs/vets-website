@@ -1,5 +1,5 @@
-import { isValidEmail, isValidPhone } from '../../../../platform/forms/validations';
-import { MILITARY_STATES } from '../../../letters/utils/constants';
+import { isValidEmail, isValidPhone } from '../../../../../platform/forms/validations';
+import { MILITARY_STATES } from '../../../../letters/utils/constants';
 
 export const UPDATE_PROFILE_FORM_FIELD = 'UPDATE_PROFILE_FORM_FIELD';
 export const OPEN_MODAL = 'OPEN_MODAL';

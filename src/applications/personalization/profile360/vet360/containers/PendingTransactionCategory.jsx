@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import { refreshTransaction } from '../../actions/updaters';
+import { refreshTransaction } from '../actions';
 
 import Vet360TransactionPending from '../components/base/TransactionPending';
 

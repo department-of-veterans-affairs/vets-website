@@ -1,15 +1,13 @@
-import { apiRequest } from '../../../../platform/utilities/api';
-import { refreshProfile } from '../../../../platform/user/profile/actions';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import { apiRequest } from '../../../../../platform/utilities/api';
+import { refreshProfile } from '../../../../../platform/user/profile/actions';
+import recordEvent from '../../../../../platform/monitoring/record-event';
 import { pickBy } from 'lodash';
 
-import localVet360, { isVet360Configured } from '../util/local-vet360';
-import * as VET360_CONSTANTS from '../constants/vet360';
-import { isSuccessfulTransaction, isFailedTransaction } from '../util/transactions';
+import localVet360, { isVet360Configured } from '../../util/local-vet360';
+import * as VET360_CONSTANTS from '../../constants/vet360';
+import { isSuccessfulTransaction, isFailedTransaction } from '../../util/transactions';
 
-// @todo get rid of this now that it uses refreshProfile
-export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
-
+export const VET360_TRANSACTIONS_FETCH_SUCCESS = 'VET360_TRANSACTIONS_FETCH_SUCCESS';
 export const VET360_TRANSACTION_REQUESTED = 'VET360_TRANSACTION_REQUESTED';
 export const VET360_TRANSACTION_REQUEST_FAILED = 'VET360_TRANSACTION_REQUEST_FAILED';
 export const VET360_TRANSACTION_REQUEST_SUCCEEDED = 'VET360_TRANSACTION_REQUEST_SUCCEEDED';
@@ -29,6 +27,27 @@ function recordProfileTransaction(event, fieldName) {
       'profile-section': mappedName
     });
   }
+}
+
+export function fetchTransactions() {
+  return async (dispatch) => {
+    try {
+      let response;
+      if (isVet360Configured()) {
+        response = await apiRequest('/profile/status/');
+      } else {
+        response = { data: [] };
+        // Uncomment the line below to simulate transactions being processed during initialization
+        // response = localVet360.getUserTransactions();
+      }
+      dispatch({
+        type: VET360_TRANSACTIONS_FETCH_SUCCESS,
+        data: response.data
+      });
+    } catch (err) {
+      // If we sync transactions in the background and fail, is it worth telling the user?
+    }
+  };
 }
 
 export function clearTransaction(transaction) {

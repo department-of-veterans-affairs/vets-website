@@ -8,7 +8,10 @@ import {
 } from '../../../../platform/monitoring/DowntimeNotification/actions';
 
 import {
-  fetchTransactions,
+  fetchTransactions
+} from '../vet360/actions';
+
+import {
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation
