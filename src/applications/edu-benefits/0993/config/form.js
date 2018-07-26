@@ -4,6 +4,7 @@ import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 
+import environment from '../../../../platform/utilities/environment';
 import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 
@@ -12,15 +13,14 @@ import GetFormHelp from '../../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { prefillTransformer } from '../helpers';
+import { prefillTransformer, transform } from '../helpers';
 
 const { fullName } = fullSchema0993.definitions;
 const { claimantSocialSecurityNumber, vaFileNumber } = fullSchema0993.properties;
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123', timestamp: Date.now() } }),
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0993`,
   trackingPrefix: 'edu-0993',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -32,6 +32,7 @@ const formConfig = {
     notFound: 'Please start over to apply to opt out of sharing VA education benefits information.',
     noAuth: 'Please sign in again to continue your application to opt out of sharing VA education benefits information.'
   },
+  transformForSubmit: transform,
   title: 'Opt Out of Sharing VA Education Benefits Information',
   subTitle: 'VA Form 22-0993',
   getHelp: GetFormHelp,
@@ -41,12 +42,12 @@ const formConfig = {
   },
   chapters: {
     claimantInformation: {
+      title: 'Applicant Information',
       pages: {
         claimantInformation: {
           title: 'Applicant Information',
           path: 'claimant-information',
           initialData: {
-            // verified: true,
             // claimantFullName: {
             //   first: 'test',
             //   last: 'test'
@@ -57,42 +58,32 @@ const formConfig = {
             'ui:description': PrefillMessage,
             claimantFullName: _.merge(fullNameUI, {
               first: {
-                'ui:title': 'Your first name',
-                'ui:required': (formData) => !formData.verified
+                'ui:title': 'Your first name'
               },
               last: {
-                'ui:title': 'Your last name',
-                'ui:required': (formData) => !formData.verified
+                'ui:title': 'Your last name'
               },
               middle: {
                 'ui:title': 'Your middle name'
               },
               suffix: {
                 'ui:title': 'Your suffix'
-              },
-              'ui:options': {
-                hideIf: (formData) => formData.verified
               }
             }),
             claimantSocialSecurityNumber: _.assign(ssnUI, {
-              'ui:required': (formData) => !formData.verified && !formData['view:noSSN'],
-              'ui:title': 'Your Social Security number',
-              'ui:options': {
-                hideIf: (formData) => formData.verified
-              }
+              'ui:required': (formData) => !formData['view:noSSN'],
+              'ui:title': 'Your Social Security number'
             }),
             'view:noSSN': {
               'ui:title': 'I don’t have a Social Security number',
               'ui:options': {
-                hideOnReview: true,
-                hideIf: (formData) => formData.verified
+                hideOnReview: true
               }
             },
             vaFileNumber: {
-              'ui:required': (formData) => !formData.verified && formData['view:noSSN'],
+              'ui:required': (formData) => formData['view:noSSN'],
               'ui:title': 'Your VA file number',
               'ui:options': {
-                hideIf: (formData) => formData.verified,
                 expandUnder: 'view:noSSN'
               },
               'ui:errorMessages': {
@@ -100,7 +91,7 @@ const formConfig = {
               }
             },
             'view:optOutMessage': {
-              'ui:title': 'By clicking the Submit button, you’re asking VA to not share your education benefits information.'
+              'ui:title': 'By clicking the Continue button, you’re asking VA to not share your education benefits information.'
             }
           },
           schema: {
@@ -108,6 +99,7 @@ const formConfig = {
             properties: {
               claimantFullName: {
                 type: 'object',
+                required: ['first', 'last'],
                 properties: fullName.properties
               },
               claimantSocialSecurityNumber,

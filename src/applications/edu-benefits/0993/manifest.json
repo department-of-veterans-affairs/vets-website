@@ -3,5 +3,5 @@
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "0993-edu-benefits",
   "rootUrl": "/education/opt-out-information-sharing/opt-out-form-0993",
-  "production": false
+  "production": true
 }
