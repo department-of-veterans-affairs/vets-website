@@ -832,3 +832,9 @@ export const PaymentDescription = () => (
     disability benefit to this account.
   </p>
 );
+
+export const disabilitiesClarification = (
+  <p>
+    <strong>Please note:</strong> This list only includes disabilities that we've already rated. It doesn't include any disabilities from claims that are in progress.
+  </p>
+);

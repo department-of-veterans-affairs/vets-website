@@ -55,7 +55,8 @@ import {
   queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
-  editNote
+  editNote,
+  disabilitiesClarification
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -312,7 +313,7 @@ const formConfig = {
               }
             },
             'view:disabilitiesClarification': {
-              'ui:description': 'This list only includes disabilities that you have received a rating for. It will not show disabilities from claims in progress.'
+              'ui:description': disabilitiesClarification
             }
           },
           schema: {
