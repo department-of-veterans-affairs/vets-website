@@ -137,6 +137,18 @@ export function addPhoneEmailToCard(formData) {
   return newFormData;
 }
 
+export function transformObligationDates(formData) {
+  const { reservesNationalGuardService } = formData;
+  if (!reservesNationalGuardService || !reservesNationalGuardService.obligationTermOfServiceDateRange) {
+    return formData;
+  }
+
+  const { obligationTermOfServiceDateRange: { from, to } } = reservesNationalGuardService;
+  const newFormData = set('obligationTermOfServiceDateRange', { from, to }, formData);
+  delete newFormData.reservesNationalGuardService;
+
+  return newFormData;
+}
 
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
@@ -147,9 +159,10 @@ export function prefillTransformer(pages, formData, metadata) {
   const newFormData = set('disabilities', transformDisabilities(disabilities), formData);
   newFormData.disabilities.forEach(validateDisability);
   const withPhoneEmailCard = addPhoneEmailToCard(newFormData);
+  const withObligationDates = transformObligationDates(withPhoneEmailCard);
   return {
     metadata,
-    formData: withPhoneEmailCard,
+    formData: withObligationDates,
     pages
   };
 }
