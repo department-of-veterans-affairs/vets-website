@@ -37,6 +37,7 @@ const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
+  { name: 'mergedbuild', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
@@ -76,6 +77,14 @@ switch (options.buildtype) {
     }
     break;
 
+  case 'devpreview':
+    options.mergedbuild = true;
+    break;
+
+  case 'preview':
+    options.mergedbuild = true;
+    break;
+
   default:
     throw new Error(`Unknown buildtype: '${options.buildtype}'`);
 }
@@ -105,6 +114,7 @@ smith.destination(`../build/${options.buildtype}`);
 
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: options.buildtype });
+smith.metadata({ mergedbuild: options.mergedbuild });
 
 // To block an app from production add the following to the below list:
 //  ignoreList.push('<path-to-content-file>');
@@ -117,6 +127,8 @@ if (options.buildtype === 'production') {
   });
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
+  ignoreList.push('education/opt-out-information-sharing.md');
+  ignoreList.push('education/complaint-tool.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -152,7 +164,7 @@ smith.use(collections({
     }
   },
   burialsPreNeed: {
-    pattern: 'burials-and-memorials/pre-need/*.md',
+    pattern: 'burials-and-memorials/pre-need/after*.md',
     sortBy: 'title',
     metadata: {
       name: 'Pre-need Determination'
@@ -189,7 +201,7 @@ smith.use(collections({
     pattern: 'disability-benefits/apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Application Process'
+      name: 'How to Apply'
     }
   },
   disabilityClaimsAppeal: {
@@ -246,6 +258,13 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'Eligibility'
+    }
+  },
+  disabilityEvidence: {
+    pattern: 'disability-benefits/apply/evidence/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'How to Gather Evidence for Your Claim'
     }
   },
   education: {
@@ -412,7 +431,7 @@ smith.use(collections({
     pattern: 'pension/apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Application Process'
+      name: 'How to Apply'
     }
   },
   vre: {
@@ -615,12 +634,11 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/health-care/apply/application',
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
-        '/disability-benefits/apply-for-increase',
         '/download-va-letters/letters'].join('|'))
   }));
 }
 
-if (options.buildtype !== 'development') {
+if (options.buildtype !== 'development' && options.buildtype !== 'devpreview') {
 
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML

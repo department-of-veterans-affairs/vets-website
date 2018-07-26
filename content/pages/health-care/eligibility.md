@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Health Care Benefits Eligibility
 display_title: Eligibility
+description: If you served on active duty and didn’t receive a dishonorable discharge, you may qualify for VA health care benefits. Find out if you're eligible for VA health care.
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2018-01-02
 collection: healthCare
@@ -91,12 +92,14 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+You can get help in any of these ways:
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
+- Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+
+- Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
 [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
-Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+- [Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>

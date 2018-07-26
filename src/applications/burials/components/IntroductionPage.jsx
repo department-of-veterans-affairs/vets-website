@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
-import FormTitle from '../../common/schemaform/components/FormTitle';
-import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+import SaveInProgressIntro, { introActions, introSelector } from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -22,6 +22,7 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
+          downtime={this.props.route.formConfig.downtime}
           startText="Start the Burial Benefits Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
@@ -75,6 +76,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           pageList={this.props.route.pageList}
           startText="Start the Burial Benefits Application"
+          downtime={this.props.route.formConfig.downtime}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

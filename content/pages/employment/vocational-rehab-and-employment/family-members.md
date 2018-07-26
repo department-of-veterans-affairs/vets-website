@@ -19,9 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-As the dependent family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. 
-
-If the Servicemember or Veteran in your family is eligible to apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're eligible for certain benefits and services through VR&E or through other VA programs.
+Find out if you're eligible and how to apply to get career and educational counseling through VR&E as the dependent family member of a Servicemember or Veteran with a service-connected disability.
 
 </div>
 
@@ -58,11 +56,8 @@ You may be eligible for educational and vocational counseling if you meet both o
 
 <hr>
 
-### How do I get these benefits?
 
-You'll need to apply for services.
-
-#### Follow these steps to apply for Chapter 36 services:
+### Follow these steps to apply for Chapter 36 services:
 
 <ol class="process">
 <li class="process-step list-one">
@@ -96,7 +91,9 @@ If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Co
 </li>
 </ol>
 
-### Ready to apply?
+### How do I apply?
+
+You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 

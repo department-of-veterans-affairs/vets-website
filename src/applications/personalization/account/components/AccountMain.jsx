@@ -1,5 +1,6 @@
 import React from 'react';
 import recordEvent from '../../../../platform/monitoring/record-event';
+import localStorage from '../../../../platform/utilities/storage/localStorage';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
@@ -25,7 +26,7 @@ class AccountMain extends React.Component {
   }
 
   renderMVIError() {
-    if (this.props.profile.veteranStatus === 'OK') {
+    if (this.props.profile.loa.current === 1 || this.props.profile.status === 'OK') {
       return null;
     }
 

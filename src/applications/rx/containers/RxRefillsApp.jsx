@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import backendServices from '../../../platform/user/profile/constants/backendServices';
+import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
@@ -11,7 +12,7 @@ import { refillPrescription } from '../actions/prescriptions';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
 
-const SERVICE_REQUIRED = 'rx';
+const SERVICE_REQUIRED = backendServices.RX;
 
 const AppContent = ({ children }) => (
   <div className="rx-app">
@@ -30,7 +31,7 @@ class RxRefillsApp extends React.Component {
         verify
         serviceRequired={SERVICE_REQUIRED}
         user={this.props.user}>
-        <DowntimeNotification appTitle="prescription refill tool" dependencies={[services.mhv]}>
+        <DowntimeNotification appTitle="prescription refill tool" dependencies={[externalServices.mhv]}>
           <AppContent>
             <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
             <MHVApp serviceRequired={SERVICE_REQUIRED}>

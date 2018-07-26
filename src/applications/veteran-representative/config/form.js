@@ -3,11 +3,13 @@ import _ from 'lodash/fp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import ssnUI from '../../common/schemaform/definitions/ssn';
-import * as addressUI from '../../common/schemaform/definitions/address.js';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import phoneUI from '../../common/schemaform/definitions/phone';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import * as addressUI from 'us-forms-system/lib/js/definitions/address.js';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+
+import environment from '../../../platform/utilities/environment';
 
 const {
   veteranFullName,
@@ -44,7 +46,7 @@ const authorizationToChangeClaimantAddressDescription =
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/vso_appointments',
+  submitUrl: `${environment.API_URL}/v0/vso_appointments`,
   trackingPrefix: 'form-2122-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

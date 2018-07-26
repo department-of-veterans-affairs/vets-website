@@ -3,30 +3,31 @@ import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import contactInformationPage from '../../pages/contactInformation';
-import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
 import GetFormHelp from '../../components/GetFormHelp';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
-import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import { schema as addressSchema, uiSchema as addressUI } from '../../../common/schemaform/definitions/address';
-import phoneUI from '../../../common/schemaform/definitions/phone';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import { schema as addressSchema, uiSchema as addressUI } from 'us-forms-system/lib/js/definitions/address';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
 import createDirectDepositPage from '../../pages/directDeposit';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
-import currentOrPastMonthYearUI from '../../../common/schemaform/definitions/currentOrPastMonthYear';
-import yearUI from '../../../common/schemaform/definitions/year';
+import currentOrPastMonthYearUI from 'us-forms-system/lib/js/definitions/currentOrPastMonthYear';
+import yearUI from 'us-forms-system/lib/js/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
 
-import { validateBooleanGroup } from '../../../common/schemaform/validation';
-import dateUI from '../../../common/schemaform/definitions/date';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
 
 import {
   transform,
@@ -35,6 +36,7 @@ import {
   benefitsRelinquishmentLabels,
   benefitsRelinquishedDescription,
   directDepositDescription,
+  prefillTransformer,
   reserveKickerWarning
 } from '../helpers';
 
@@ -81,7 +83,7 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/1990',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990`,
   trackingPrefix: 'edu-',
   formId: '22-1990',
   version: 1,
@@ -91,6 +93,7 @@ const formConfig = {
     noAuth: 'Please sign in again to resume your application for education benefits.'
   },
   prefillEnabled: true,
+  prefillTransformer,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

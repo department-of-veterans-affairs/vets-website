@@ -1,37 +1,31 @@
 import _ from '../../../../platform/utilities/data';
 
-// import { omitRequired } from '../../../common/schemaform/helpers';
-
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
+
 // import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
-import fileUploadUI from '../../../common/schemaform/definitions/file';
-import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
-import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  uiSchema as veteranInfoUiSchema,
-  schema as veteranInfoSchema
-} from '../pages/veteranInfo';
-
-import {
   uiSchema as primaryAddressUiSchema,
-  primaryAddressSchema
+  schema as primaryAddressSchema
 } from '../pages/primaryAddress';
+
+import treatmentAddressUiSchema from '../pages/treatmentAddress';
 
 import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema
 } from '../pages/paymentInfo';
-
-// TODO: Load live user prefill data from network
-// TODO: initialData for dev / testing purposes only and should be removed for production
-import prefillData from '../tests/schema/initialData'; // add `disabilityActionType` before using
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
@@ -49,41 +43,48 @@ import {
   treatmentView,
   download4142Notice,
   authorizationToDisclose,
-  recordReleaseWarning,
-  // validateAddress, // TODO: This needs to be fleshed out
+  // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
-  // releaseView, // Where was this used before?
   disabilityOption,
   GetFormHelp,
-  specialCircumstancesDescription,
   FDCDescription,
   FDCWarning,
   noFDCWarning,
-  getEvidenceTypesDescription
+  queryForFacilities,
+  getEvidenceTypesDescription,
+  veteranInfoDescription,
+  editNote
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
-import { validateBooleanGroup } from '../../../common/schemaform/validation';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
 const {
   treatments: treatmentsSchema,
-  privateRecordReleases,
+  // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation,
   standardClaim,
+  veteran: {
+    properties: {
+      homelessness
+    }
+  }
 } = fullSchema526EZ.properties;
 
 const {
+  address,
   date,
   fullName,
-  // files
+  phone,
   dateRange,
   dateRangeFromRequired,
   dateRangeAllRequired,
   disabilities,
   specialIssues,
-  privateTreatmentCenterAddress,
+  vaTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -100,27 +101,16 @@ const treatments = ((treatmentsCommonDef) => {
       // TODO: use standard required property once treatmentCenterType added
       // back in schema (because it's required)
       required: ['treatmentCenterName'],
-      properties: _.omit(
-        ['treatmentCenterAddress', 'treatmentCenterType'],
-        items.properties
-      )
+      properties: _.omit(['treatmentCenterType'], items.properties)
     }
   };
 
 })(treatmentsSchema);
 
-const initialData = {
-  ...prefillData,
-  disabilities: prefillData.disabilities.map((disability) => {
-    return _.set('disabilityActionType', 'INCREASE', disability);
-  })
-};
-
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  // submitUrl: '/v0/21-526EZ',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
@@ -138,15 +128,17 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
+    address,
+    vaTreatmentCenterAddress,
     date,
     fullName,
+    phone,
     // files
     dateRange,
     dateRangeFromRequired,
     dateRangeAllRequired,
     disabilities,
     specialIssues,
-    privateTreatmentCenterAddress
   },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
@@ -157,27 +149,30 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
-          description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
+          description: 'This is the personal information we have on file for you.',
           path: 'veteran-information',
-          uiSchema: veteranInfoUiSchema,
-          schema: veteranInfoSchema
+          uiSchema: {
+            'ui:description': veteranInfoDescription
+          },
+          schema: {
+            type: 'object',
+            properties: {}
+          }
         },
         primaryAddress: {
           title: 'Address information',
           path: 'veteran-details/address-information',
-          description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
+          description: 'This is the contact information we have on file for you. We’ll send any important information about your disability claim to the address listed here. Any updates you make here to your contact information will only apply to this application.',
           uiSchema: primaryAddressUiSchema,
           schema: primaryAddressSchema
         },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          initialData,
           uiSchema: {
             servicePeriods: {
               'ui:title': 'Military service history',
-              'ui:description':
-                'This is the service history we have on file for you. If you need to update your service history, you can edit or add another service period.',
+              'ui:description': 'This is the military service history we have on file for you.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
@@ -206,19 +201,25 @@ const formConfig = {
                   }
                 }
               }
+            },
+            'view:militaryHistoryNote': {
+              'ui:description': editNote('service history')
             }
           },
           schema: {
             type: 'object',
             properties: {
-              servicePeriods: serviceInformation.properties.servicePeriods
+              servicePeriods: serviceInformation.properties.servicePeriods,
+              'view:militaryHistoryNote': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         },
         paymentInformation: {
           title: 'Payment Information',
           path: 'payment-information',
-          description: 'This is the bank account information we have on file for you. We’ll pay your benefit to this account. If you need to make changes to your bank information, you can click the Edit button.',
           uiSchema: paymentInfoUiSchema,
           schema: paymentInfoSchema
         },
@@ -226,34 +227,60 @@ const formConfig = {
           title: 'Special Circumstances',
           path: 'special-circumstances',
           uiSchema: {
-            'ui:description': specialCircumstancesDescription,
-            'view:suicidal': {
-              'ui:title': 'In crisis or thinking of suicide?'
-            },
-            'view:homeless': {
-              'ui:title': 'Homeless or at risk of becoming homeless?'
-            },
-            'view:extremeFinancialHardship': {
-              'ui:title': 'Suffering from extreme financial hardship?'
-            },
-            'view:blindOrSightImpaired': {
-              'ui:title': 'Blind or sight-impaired?'
+            veteran: {
+              'ui:title': 'Homelessness',
+              homelessness: {
+                isHomeless: {
+                  'ui:title': 'Are you homeless or at risk of becoming homeless?',
+                  'ui:widget': 'yesNo',
+                },
+                pointOfContact: {
+                  'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
+                  'ui:options': {
+                    expandUnder: 'isHomeless',
+                  },
+                  pointOfContactName: {
+                    'ui:title': 'Name of person we should contact',
+                    'ui:errorMessages': {
+                      pattern: "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
+                    },
+                    'ui:required': (formData) => {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
+                        return false;
+                      }
+                      return !!homelessOrAtRisk.pointOfContact.primaryPhone;
+                    }
+                  },
+                  primaryPhone: {
+                    'ui:title': 'Phone number',
+                    'ui:widget': PhoneNumberWidget,
+                    'ui:options': {
+                      widgetClassNames: 'va-input-medium-large'
+                    },
+                    'ui:errorMessages': {
+                      pattern: 'Phone numbers must be 10 digits (dashes allowed)'
+                    },
+                    'ui:required': (formData) => {
+                      const { homelessness: homelessOrAtRisk } = formData.veteran;
+                      if (homelessOrAtRisk.isHomeless !== true) {
+                        return false;
+                      }
+                      return !!homelessOrAtRisk.pointOfContact.pointOfContactName;
+                    }
+                  }
+                }
+              }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              // 'view:suicidal': { // TODO: re-enable after user testing
-              // type: 'boolean'
-              // },
-              'view:homeless': {
-                type: 'boolean'
-              },
-              'view:extremeFinancialHardship': {
-                type: 'boolean'
-              },
-              'view:blindOrSightImpaired': {
-                type: 'boolean'
+              veteran: {
+                type: 'object',
+                properties: {
+                  homelessness
+                }
               }
             }
           }
@@ -261,18 +288,13 @@ const formConfig = {
       }
     },
     ratedDisabilities: {
-      title: (isReview) => {
-        if (isReview) {
-          return 'Rated Disabilities';
-        }
-        return 'Your Rated Disabilities';
-      },
+      title: 'Rated Disabilities',
       pages: {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',
           path: 'select-disabilities',
           uiSchema: {
-            'ui:description': 'Please choose the disability that you’re filing a claim for increase because the condition has gotten worse.',
+            'ui:description': 'Below are your rated disabilities. Please choose the disability that you’re filing for an increase because the condition has gotten worse.',
             disabilities: {
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
@@ -305,7 +327,6 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
-          initialData,
           uiSchema: {
             'ui:description': supportingEvidenceOrientation
           },
@@ -428,17 +449,27 @@ const formConfig = {
                     viewField: treatmentView
                   },
                   items: {
-                    treatmentCenterName: {
-                      'ui:title': 'Name of VA medical facility'
-                    },
+                    treatmentCenterName: autoSuggestUiSchema(
+                      'Name of VA medical facility',
+                      queryForFacilities,
+                      {
+                        'ui:options': {
+                          queryForResults: true,
+                          freeInput: true,
+                        },
+                        'ui:errorMessages': {
+                          // If the maxLength changes, we'll want to update the message too
+                          maxLength: 'Please enter a name with fewer than 100 characters.',
+                          pattern: 'Please enter a valid name.'
+                        }
+                      }
+                    ),
                     treatmentDateRange: dateRangeUI(
-                      'Approximate date of first treatment',
-                      'Approximate date of last treatment',
+                      'Date of first treatment (This date doesn’t have to be exact.)',
+                      'Date of last treatment (This date doesn’t have to be exact.)',
                       'Date of last treatment must be after date of first treatment'
                     ),
-                    // TODO: Put these back as hidden in the UI once typeahead fills this out
-                    // treatmentCenterType: {},
-                    // treatmentCenterAddress: {}
+                    treatmentCenterAddress: treatmentAddressUiSchema
                   }
                 }
               }
@@ -505,7 +536,7 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, my doctor has my medical records.'
+                      no: 'No, my doctor has my medical records'
                     }
                   }
                 },
@@ -529,6 +560,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['view:uploadPrivateRecords'],
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
@@ -580,114 +612,113 @@ const formConfig = {
             }
           }
         },
-        privateMedicalRecordRelease: {
-          title: '',
-          path: 'supporting-evidence/:index/private-medical-records-release',
-          showPagePerItem: true,
-          itemFilter: (item) => _.get('view:selected', item),
-          arrayPath: 'disabilities',
-          // TODO: Re-enable actual depends logic for page once 4142 PDF generation is working through vets-api
-          depends: () => false,
-          // depends: (formData, index) => {
-          //   const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
-          //   const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
-          //   return hasRecords && requestsRecords;
-          // },
-          uiSchema: {
-            disabilities: {
-              items: {
-                'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
-                privateRecordReleases: {
-                  'ui:options': {
-                    itemName: 'Private Medical Record Release',
-                    viewField: treatmentView
-                  },
-                  items: {
-                    'ui:order': [
-                      'treatmentCenterName',
-                      'privateMedicalRecordsReleaseRestricted',
-                      'view:releaseRestrictedNotice',
-                      'treatmentDateRange',
-                      'treatmentCenterAddress'
-                    ],
-                    treatmentCenterName: {
-                      'ui:title': 'Name of private provider or hospital'
-                    },
-                    treatmentDateRange: dateRangeUI(
-                      'Approximate date of first treatment',
-                      'Approximate date of last treatment',
-                      'Date of last treatment must be after date of first treatment'
-                    ),
-                    privateMedicalRecordsReleaseRestricted: {
-                      'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
-                    },
-                    'view:releaseRestrictedNotice': {
-                      'ui:description': () => recordReleaseWarning,
-                      'ui:options': {
-                        expandUnder: 'privateMedicalRecordsReleaseRestricted'
-                      }
-                    },
-                    treatmentCenterAddress: {
-                      'ui:order': [
-                        'country',
-                        'addressLine1',
-                        'addressLine2',
-                        'city',
-                        'state',
-                        'zipCode'
-                      ],
-                      // TODO: confirm validation for PCIU address across all usage
-                      // 'ui:validations': [validateAddress],
-                      country: {
-                        'ui:title': 'Country'
-                      },
-                      addressLine1: {
-                        'ui:title': 'Street address'
-                      },
-                      addressLine2: {
-                        'ui:title': 'Street address'
-                      },
-                      city: {
-                        'ui:title': 'City'
-                      },
-                      state: {
-                        'ui:title': 'State'
-                      },
-                      zipCode: {
-                        'ui:title': 'Postal code',
-                        'ui:options': {
-                          widgetClassNames: 'usa-input-medium',
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              disabilities: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    privateRecordReleases: _.set(
-                      'items.properties.view:releaseRestrictedNotice',
-                      {
-                        type: 'object',
-                        'ui:collapsed': true,
-                        properties: {}
-                      },
-                      privateRecordReleases
-                    )
-                  }
-                }
-              }
-            },
-          }
-        },
+        // TODO: Re-enable after 4142 PDF integration
+        // privateMedicalRecordRelease: {
+        //   title: '',
+        //   path: 'supporting-evidence/:index/private-medical-records-release',
+        //   showPagePerItem: true,
+        //   itemFilter: (item) => _.get('view:selected', item),
+        //   arrayPath: 'disabilities',
+        //   depends: (formData, index) => {
+        //     const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+        //     const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+        //     return hasRecords && requestsRecords;
+        //   },
+        //   uiSchema: {
+        //     disabilities: {
+        //       items: {
+        //         'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
+        //         privateRecordReleases: {
+        //           'ui:options': {
+        //             itemName: 'Private Medical Record Release',
+        //             viewField: treatmentView
+        //           },
+        //           items: {
+        //             'ui:order': [
+        //               'treatmentCenterName',
+        //               'privateMedicalRecordsReleaseRestricted',
+        //               'view:releaseRestrictedNotice',
+        //               'treatmentDateRange',
+        //               'treatmentCenterAddress'
+        //             ],
+        //             treatmentCenterName: {
+        //               'ui:title': 'Name of private provider or hospital'
+        //             },
+        //             treatmentDateRange: dateRangeUI(
+        //               'Approximate date of first treatment',
+        //               'Approximate date of last treatment',
+        //               'Date of last treatment must be after date of first treatment'
+        //             ),
+        //             privateMedicalRecordsReleaseRestricted: {
+        //               'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
+        //             },
+        //             'view:releaseRestrictedNotice': {
+        //               'ui:description': () => recordReleaseWarning,
+        //               'ui:options': {
+        //                 expandUnder: 'privateMedicalRecordsReleaseRestricted'
+        //               }
+        //             },
+        //             treatmentCenterAddress: {
+        //               'ui:order': [
+        //                 'country',
+        //                 'addressLine1',
+        //                 'addressLine2',
+        //                 'city',
+        //                 'state',
+        //                 'zipCode'
+        //               ],
+        //               // TODO: confirm validation for PCIU address across all usage
+        //               // 'ui:validations': [validateAddress],
+        //               country: {
+        //                 'ui:title': 'Country'
+        //               },
+        //               addressLine1: {
+        //                 'ui:title': 'Street address'
+        //               },
+        //               addressLine2: {
+        //                 'ui:title': 'Street address'
+        //               },
+        //               city: {
+        //                 'ui:title': 'City'
+        //               },
+        //               state: {
+        //                 'ui:title': 'State'
+        //               },
+        //               zipCode: {
+        //                 'ui:title': 'Postal code',
+        //                 'ui:options': {
+        //                   widgetClassNames: 'usa-input-medium',
+        //                 }
+        //               }
+        //             }
+        //           }
+        //         }
+        //       }
+        //     }
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {
+        //       disabilities: {
+        //         type: 'array',
+        //         items: {
+        //           type: 'object',
+        //           properties: {
+        //             privateRecordReleases: _.set(
+        //               'items.properties.view:releaseRestrictedNotice',
+        //               {
+        //                 type: 'object',
+        //                 'ui:collapsed': true,
+        //                 properties: {}
+        //               },
+        //               privateRecordReleases
+        //             )
+        //           }
+        //         }
+        //       }
+        //     },
+        //   }
+        // },
         recordUpload: {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
@@ -705,13 +736,13 @@ const formConfig = {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     itemDescription: 'Adding additional evidence:',
-                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },
@@ -737,6 +768,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['privateRecords'],
                   properties: {
                     privateRecords: {
                       type: 'array',
@@ -775,13 +807,13 @@ const formConfig = {
                 additionalDocuments: Object.assign({},
                   fileUploadUI('Lay statements or other evidence', {
                     itemDescription: 'Adding additional evidence:',
-                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
                     addAnotherLabel: 'Add Another Document',
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+                      payload.append('supporting_evidence_attachment[file_data]', file);
 
                       return payload;
                     },
@@ -807,6 +839,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['additionalDocuments'],
                   properties: {
                     additionalDocuments: {
                       type: 'array',
@@ -876,9 +909,8 @@ const formConfig = {
               'ui:options': {
                 yesNoReverse: true,
                 labels: {
-                  Y: 'Yes, I have uploaded all my supporting documents.',
-                  N:
-                    'No, I have some extra information that I will submit to VA later.'
+                  Y: 'Yes, I’ve uploaded all my supporting documents.',
+                  N: 'No, I have some extra information that I will submit to VA later.'
                 }
               }
             },

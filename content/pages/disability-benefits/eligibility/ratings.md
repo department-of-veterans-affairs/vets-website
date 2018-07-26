@@ -15,8 +15,17 @@ We use a Combined Ratings table to calculate disability percentage if you have m
 
 </div>
 
-### You may be paid added amounts in certain instances if:
+### How do ratings work for a disability I had before entering the service that got worse because of my service?
+
+If you get disability benefits for a disability that you had before entering the military that got worse because of your service (called a preservice claim), the amount of compensation (monthly payments) you’ll get will be based on the level of aggravation, or how much worse your service made your disability.
+
+For example, if you had an illness or injury (also known as a condition) that was 10% disabling when you entered the military, and it became 20% disabling due to service, then the level of aggravation would be 10%.
+
+### Can I get increased payments if I have a severe disability or dependents?
+
+You may be paid added amounts in certain instances if:
 
 -	You have a very severe disability or loss of limb
 -	You have a spouse, child, or dependent parent
 -	You have a seriously disabled spouse
+

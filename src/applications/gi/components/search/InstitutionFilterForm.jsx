@@ -113,6 +113,21 @@ class InstitutionFilterForm extends React.Component {
           name="eightKeysToVeteranSuccess"
           label="8 Keys to Vet Success"
           onChange={this.handleCheckboxChange}/>
+        <Checkbox
+          checked={filters.stemOffered}
+          name="stemOffered"
+          label="STEM (Science, Technology, Engineering, and Math)"
+          onChange={this.handleCheckboxChange}/>
+        {__BUILDTYPE__ !== 'production' && <Checkbox
+          checked={filters.priorityEnrollment}
+          name="priorityEnrollment"
+          label="Priority Enrollment"
+          onChange={this.handleCheckboxChange}/>}
+        {__BUILDTYPE__ !== 'production' && <Checkbox
+          checked={filters.independentStudy}
+          name="independentStudy"
+          label="Independent Study"
+          onChange={this.handleCheckboxChange}/>}
       </div>
     );
   }
@@ -158,11 +173,14 @@ InstitutionFilterForm.propTypes = {
     category: PropTypes.string,
     type: PropTypes.string,
     country: PropTypes.string,
+    priorityEnrollment: PropTypes.bool,
+    independentStudy: PropTypes.bool,
     state: PropTypes.string,
     studentVetGroup: PropTypes.bool,
     yellowRibbonScholarship: PropTypes.bool,
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
+    stemOffered: PropTypes.bool
   }),
   onFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -173,7 +191,10 @@ InstitutionFilterForm.propTypes = {
     studentVetGroup: PropTypes.object,
     yellowRibbonScholarship: PropTypes.object,
     principlesOfExcellence: PropTypes.object,
-    eightKeysToVeteranSuccess: PropTypes.object
+    eightKeysToVeteranSuccess: PropTypes.object,
+    priorityEnrollment: PropTypes.object,
+    independentStudy: PropTypes.object,
+    stemOffered: PropTypes.object
   })
 };
 

@@ -27,6 +27,16 @@ export class SearchResult extends React.Component {
     const tuition = this.estimate(this.props.estimated.tuition);
     const housing = this.estimate(this.props.estimated.housing);
     const books = this.estimate(this.props.estimated.books);
+    const SchoolClosingFlag = () => {
+      if (!this.props.schoolClosing) return null;
+      return (
+        <div className="caution-flag">
+          <i className="fa fa-warning"></i>
+          School closing
+        </div>
+      );
+    };
+
     const CautionFlag = () => {
       if (!this.props.cautionFlag) return null;
       return (
@@ -46,6 +56,7 @@ export class SearchResult extends React.Component {
     return (
       <div className="search-result">
         <div className="outer">
+          <SchoolClosingFlag/>
           <CautionFlag/>
           <div className="inner">
             <div className="row">

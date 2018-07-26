@@ -126,6 +126,7 @@
     border: 2px solid $color-gray-lightest;
     // Remove the top border because it looks like it just extends the header
     border-top: none;
+    margin-bottom: 1em;
 
     .review-card--title {
       margin: 1.5rem 0 2.5rem;
@@ -135,5 +136,23 @@
       margin-top: 1rem;
       width: 15rem;
     }
+  }
+}
+
+.disability-increase-wizard .fieldset-input .legend-label {
+  max-width: 100%;
+}
+
+.async-display-widget-alert-box {
+  margin-bottom: 1em;
+}
+
+// This seems duplicative
+.blue-bar-block {
+  border-left: 7px solid $color-primary;
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
   }
 }

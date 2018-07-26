@@ -14,8 +14,8 @@ import {
   getSoonestDowntime
 } from '../util/helpers';
 
-import services from '../config/services';
-import serviceStatus from '../config/serviceStatus';
+import externalServices from '../config/externalServices';
+import externalServiceStatus from '../config/externalServiceStatus';
 
 import Down from '../components/Down';
 import DowntimeApproaching from '../components/DowntimeApproaching';
@@ -38,7 +38,7 @@ class DowntimeNotification extends React.Component {
     appTitle: PropTypes.string,
     children: PropTypes.node,
     content: PropTypes.node,
-    dependencies: PropTypes.arrayOf(PropTypes.oneOf(Object.values(services))).isRequired,
+    dependencies: PropTypes.arrayOf(PropTypes.oneOf(Object.values(externalServices))).isRequired,
     getScheduledDowntime: PropTypes.func.isRequired,
     isReady: PropTypes.bool,
     loadingIndicator: PropTypes.node,
@@ -65,11 +65,11 @@ class DowntimeNotification extends React.Component {
       }, children);
     }
 
-    if (this.props.status === serviceStatus.downtimeApproaching) {
+    if (this.props.status === externalServiceStatus.downtimeApproaching) {
       return <DowntimeApproaching {...this.props}/>;
     }
 
-    if (this.props.status === serviceStatus.down) {
+    if (this.props.status === externalServiceStatus.down) {
       return <Down {...this.props}/>;
     }
 
@@ -96,18 +96,10 @@ export const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    getScheduledDowntime() {
-      return dispatch(getScheduledDowntime());
-    },
-    initializeDowntimeWarnings() {
-      return dispatch(initializeDowntimeWarnings());
-    },
-    dismissDowntimeWarning() {
-      return dispatch(dismissDowntimeWarning(ownProps.appTitle));
-    }
-  };
+const mapDispatchToProps = {
+  getScheduledDowntime,
+  initializeDowntimeWarnings,
+  dismissDowntimeWarning
 };
 
 export { DowntimeNotification };

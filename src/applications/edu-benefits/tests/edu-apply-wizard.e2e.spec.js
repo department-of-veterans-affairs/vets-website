@@ -8,7 +8,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .url(`${E2eHelpers.baseUrl}/education/apply/`)
       .waitForElementVisible('body', Timeouts.normal)
-      .assert.title('Education Benefits Application Process: Vets.gov')
+      .assert.title('How to Apply for Education Benefits: Vets.gov')
       .waitForElementVisible('.wizard-container', Timeouts.normal)
       .click('.wizard-button')
       .waitForElementVisible('label[for="newBenefit-0"]', Timeouts.normal)

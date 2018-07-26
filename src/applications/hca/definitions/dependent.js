@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import ssnUI from '../../common/schemaform/definitions/ssn';
-import currencyUI from '../../common/schemaform/definitions/currency';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 import { validateDependentDate } from '../validation';
 
 const incomeFields = [

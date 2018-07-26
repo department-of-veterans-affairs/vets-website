@@ -4,6 +4,8 @@ import React from 'react';
 import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
+import recordEvent from '../../../../platform/monitoring/record-event';
+
 import FormItem from './FormItem';
 import { isSIPEnabledForm } from '../helpers';
 
@@ -18,6 +20,11 @@ class FormList extends React.Component {
 
  removeForm = () => {
    this.toggleModal();
+   recordEvent({
+     event: 'dashboard-navigation',
+     'dashboard-action': 'delete-link',
+     'dashboard-product': this.state.formId,
+   });
    this.props.removeSavedForm(this.state.formId);
  }
 

@@ -6,6 +6,11 @@ permalink: /disability-benefits/index.html
 source: http://www.benefits.va.gov/compensation/
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: level2-index
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading: Apply for Disability Benefits
     links:
@@ -13,7 +18,7 @@ majorlinks:
       title: Eligibility
       description: Find out if you can get disability benefits, like financial support and health care, from VA.
     - url: /disability-benefits/apply/
-      title: Application Process
+      title: How to Apply
       description: Apply online now, or find out how to apply in person or get help from a trained professional.
     - url: /disability-benefits/conditions/
       title: Conditions
@@ -40,5 +45,5 @@ You may be able to get VA disability benefits if you got sick or injured, or dev
 
 
 </div>
-
+<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>

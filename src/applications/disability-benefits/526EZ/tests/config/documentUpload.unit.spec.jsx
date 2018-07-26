@@ -146,7 +146,7 @@ describe('526EZ document upload', () => {
     expect(form.find('input').length).to.equal(1);
   });
 
-  it('should submit empty form', () => {
+  it('should not submit without an upload', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       arrayPath={arrayPath}
@@ -160,8 +160,8 @@ describe('526EZ document upload', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 
   it('should not submit without required info', () => {
