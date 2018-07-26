@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import backendServices from '../../../../../platform/user/profile/constants/backendServices';
 
 import {
   TRANSACTION_STATUS,
   TRANSACTION_CATEGORY_TYPES
-} from '../constants/vet360';
+} from '../../constants/vet360';
 
 import * as selectors from '../selectors';
 
