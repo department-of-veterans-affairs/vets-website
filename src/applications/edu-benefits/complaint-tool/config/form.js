@@ -265,18 +265,20 @@ const formConfig = {
                 atLeastOne: 'Please select at least one'
               },
             },
-            complaint: {
-              'ui:title': 'Please give us your feedback and any details about your issue.',
+            issueDescription: {
+              'ui:title': 'Please write your feedback and any details about your issue in the space below. (1,000 charcters maximum)',
               'ui:widget': 'textarea',
               'ui:options': {
-                rows: 5
-              }
+                rows: 5,
+                maxLength: 1000
+              },
             },
-            resolution: {
-              'ui:title': 'What do you think would be a fair way to resolve your issue?',
+            issueResolution: {
+              'ui:title': 'What do you think would be a fair way to resolve your issue? (1,000 charcters maximum)',
               'ui:widget': 'textarea',
               'ui:options': {
-                rows: 5
+                rows: 5,
+                maxLength: 1000
               }
             }
           },
@@ -284,11 +286,11 @@ const formConfig = {
             type: 'object',
             required: [
               'view:issue',
-              'complaint',
-              'resolution'
+              'issueDescription',
+              'issueResolution'
             ],
             properties: {
-              'view:issueType': {
+              'view:issue': {
                 type: 'object',
                 properties: {
                   'Recruiting or marketing practices': {
@@ -318,12 +320,18 @@ const formConfig = {
                   'Release of transcripts': {
                     type: 'boolean'
                   },
+                  'Transfer of credits': {
+                    type: 'boolean'
+                  },
+                  'Refund issues': {
+                    type: 'boolean'
+                  }
                 }
               },
-              complaint: {
+              issueDescription: {
                 type: 'string'
               },
-              resolution: {
+              issueResolution: {
                 type: 'string'
               }
             }
