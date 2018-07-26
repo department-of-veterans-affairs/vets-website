@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectRadio, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../complaint-tool/config/form';
 
 describe('complaint tool applicant info', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.contactInformation;
 
   it('should render', () => {
     const form = mount(
@@ -18,7 +18,7 @@ describe('complaint tool applicant info', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(7);
   });
 
   it('should not submit without required information', () => {
@@ -32,7 +32,7 @@ describe('complaint tool applicant info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -46,81 +46,23 @@ describe('complaint tool applicant info', () => {
         uiSchema={uiSchema}/>
     );
 
-    selectRadio(form, 'root_onBehalfOf', 'Myself');
-    const select  = form.find('select#root_serviceAffiliation');
-    select.simulate('change', {
-      target: { value: 'Veteran' }
+    fillData(form, 'input#root_address', 'test');
+    fillData(form, 'input#root_address2', 'test');
+    fillData(form, 'input#root_city', 'test');
+    const state  = form.find('select#root_state');
+    state.simulate('change', {
+      target: { value: 'California' } // TODO: update with new schema
     });
-    fillData(form, 'input#root_fullName_first', 'test');
-    fillData(form, 'input#root_fullName_last', 'test');
+    const country  = form.find('select#root_country');
+    country.simulate('change', {
+      target: { value: 'US' }
+    });
+    fillData(form, 'input#root_postalCode', '12312');
+    fillData(form, 'input#root_email', 'test@test.com');
+    fillData(form, 'input[name="root_view:emailConfirmation"]', 'test@test.com');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-
-  it('should render myself', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
-    );
-
-    selectRadio(form, 'root_onBehalfOf', 'Myself');
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(5);
-  });
-
-  it('should render myself as a veteran', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
-    );
-
-    selectRadio(form, 'root_onBehalfOf', 'Myself');
-    const select = form.find('select#root_serviceAffiliation');
-    select.simulate('change', {
-      target: { value: 'Veteran' }
-    });
-
-    expect(form.find('input').length).to.equal(9);
-    expect(form.find('select').length).to.equal(10);
-  });
-
-  it('should render someone else', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
-    );
-
-    selectRadio(form, 'root_onBehalfOf', 'Someone else');
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(4);
-  });
-
-  it('should render anonymous', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
-    );
-
-    selectRadio(form, 'root_onBehalfOf', 'I want to submit my complaint anonymously');
-    expect(form.find('input').length).to.equal(4);
-  });
-
 
 });
