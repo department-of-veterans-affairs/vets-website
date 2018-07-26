@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import React from 'react';
 // import fullSchema from 'vets-json-schema/dist/686-schema.json';
+import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -10,7 +11,7 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
-// const { } = fullSchema.properties;
+const { issue, issueDescription, issueResolution } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
 
@@ -253,7 +254,7 @@ const formConfig = {
           path: 'feedback-information',
           title: 'Feedback Information',
           uiSchema: {
-            'view:issue': {
+            issue: {
               'ui:title': 'Which describes your feedback? (Select all that apply)',
               'ui:validations': [
                 validateBooleanGroup
@@ -264,6 +265,52 @@ const formConfig = {
               'ui:errorMessages': {
                 atLeastOne: 'Please select at least one'
               },
+              'ui:order': [
+                'Recruiting/Marketing Practices',
+                'Accreditation',
+                'Financial Issues (e.g. Tuition/Fee charges)',
+                'Student Loans',
+                'Post-graduation Job Opportunities',
+                'Change in degree plan/requirements',
+                'Quality of Education',
+                'Grade Policy',
+                'Release of Transcripts',
+                'Transfer of Credits',
+                'Refund Issues'
+              ],
+              'Recruiting/Marketing Practices': {
+                'ui:title': 'Recruiting or marketing practices'
+              },
+              'Student Loans': {
+                'ui:title': 'Student loan'
+              },
+              'Quality of Education': {
+                'ui:title': 'Quality of education'
+              },
+              'Transfer of Credits': {
+                'ui:title': 'Transfer of credits'
+              },
+              Accreditation: {
+                'ui:title': 'Accreditation'
+              },
+              'Post-graduation Job Opportunities': {
+                'ui:title': 'Post-graduation job opportunity'
+              },
+              'Grade Policy': {
+                'ui:title': 'Grade policy'
+              },
+              'Refund Issues': {
+                'ui:title': 'Refund issues'
+              },
+              'Financial Issues (e.g. Tuition/Fee charges)': {
+                'ui:title': 'Financial concern (for example, tuition or fee changes)'
+              },
+              'Change in degree plan/requirements': {
+                'ui:title': 'Change in degree plan or requirements'
+              },
+              'Release of Transcripts': {
+                'ui:title': 'Release of transcripts'
+              }
             },
             issueDescription: {
               'ui:title': 'Please give us your feedback and any details about your issue. (1,000 charcters maximum)',
@@ -285,55 +332,14 @@ const formConfig = {
           schema: {
             type: 'object',
             required: [
-              'view:issue',
+              'issue',
               'issueDescription',
               'issueResolution'
             ],
             properties: {
-              'view:issue': {
-                type: 'object',
-                properties: {
-                  'Recruiting or marketing practices': {
-                    type: 'boolean',
-                  },
-                  Accreditation: {
-                    type: 'boolean'
-                  },
-                  'Financial concern (for example, tuition or fee changes)': {
-                    type: 'boolean'
-                  },
-                  'Student loan': {
-                    type: 'boolean'
-                  },
-                  'Post-graduation job opportunity': {
-                    type: 'boolean'
-                  },
-                  'Change in degree plan or requirements': {
-                    type: 'boolean'
-                  },
-                  'Quality of education': {
-                    type: 'boolean'
-                  },
-                  'Grade policy': {
-                    type: 'boolean'
-                  },
-                  'Release of transcripts': {
-                    type: 'boolean'
-                  },
-                  'Transfer of credits': {
-                    type: 'boolean'
-                  },
-                  'Refund issues': {
-                    type: 'boolean'
-                  }
-                }
-              },
-              issueDescription: {
-                type: 'string'
-              },
-              issueResolution: {
-                type: 'string'
-              }
+              issue,
+              issueDescription,
+              issueResolution
             }
           }
         }
