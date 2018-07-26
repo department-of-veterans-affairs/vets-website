@@ -44,7 +44,8 @@ export const uiSchema = {
     anticipatedSeparationDate: _.merge(dateUI('Anticipated Separation Date'), title10DatesRequired),
   },
   waiveVABenefitsToRetainTrainingPay: {
-    'ui:title': 'I elect to waive VA benefits for the days I accrued inactive duty training pay in order to retain my inactive duty training pay.'
+    'ui:title': 'I elect to waive VA benefits for the days I accrued inactive duty training pay in order to retain my inactive duty training pay.',
+    'ui:widget': 'yesNo'
   }
 };
 
