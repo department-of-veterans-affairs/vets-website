@@ -10,7 +10,7 @@ import {
   expandAddress
 } from '../../../../../../platform/forms/address/helpers';
 
-import Vet360EditModal from '../base/Vet360EditModal';
+import Vet360EditModal from '../base/EditModal';
 
 import CopyMailingAddress from '../../containers/CopyMailingAddress';
 import AddressForm from './AddressForm';

@@ -25,8 +25,8 @@ import {
   selectEditedFormField
 } from '../selectors';
 
-import Vet360ProfileFieldHeading from '../components/base/Vet360ProfileFieldHeading';
-import Vet360Transaction from '../components/base/Vet360Transaction';
+import Vet360ProfileFieldHeading from '../components/base/ProfileFieldHeading';
+import Vet360Transaction from '../components/base/Transaction';
 
 class Vet360ProfileField extends React.Component {
 

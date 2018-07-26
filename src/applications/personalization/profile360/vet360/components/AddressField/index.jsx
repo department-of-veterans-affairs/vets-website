@@ -4,7 +4,7 @@ import {
   isEmptyAddress
 } from '../../../../../../platform/forms/address/helpers';
 
-import Vet360ProfileField from '../../containers/Vet360ProfileField';
+import Vet360ProfileField from '../../containers/ProfileField';
 
 import AddressEditModal from './EditModal';
 import AddressView from './View';

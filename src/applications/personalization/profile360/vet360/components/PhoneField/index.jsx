@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Vet360ProfileField from '../../containers/Vet360ProfileField';
+import Vet360ProfileField from '../../containers/ProfileField';
 
 import PhoneEditModal from './EditModal';
 import PhoneView from './View';

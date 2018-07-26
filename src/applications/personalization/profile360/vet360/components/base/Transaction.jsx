@@ -7,8 +7,8 @@ import {
   isFailedTransaction
 } from '../../../util/transactions';
 
-import Vet360TransactionInlineErrorMessage from './Vet360TransactionInlineErrorMessage';
-import Vet360TransactionPending from './Vet360TransactionPending';
+import Vet360TransactionInlineErrorMessage from './TransactionInlineErrorMessage';
+import Vet360TransactionPending from './TransactionPending';
 
 export default class Vet360Transaction extends React.Component {
   static propTypes = {
