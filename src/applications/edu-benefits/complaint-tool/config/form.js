@@ -3,10 +3,6 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
-import {
-  fetchInstitutions,
-  transformInstitutionsForSchoolSelectField
-} from '../helpers';
 
 // const { } = fullSchema.properties;
 
@@ -38,12 +34,6 @@ const formConfig = {
           uiSchema: {
             school: {
               'ui:field': SchoolSelectField,
-              'ui:options': {
-                schoolSelect: {
-                  fetchInstitutions: ({ institutionQuery, page }) => fetchInstitutions({ institutionQuery, page })
-                    .then(({ error, payload }) => transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload }))
-                }
-              }
             },
           },
           schema: {

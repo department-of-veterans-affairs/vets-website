@@ -4,7 +4,13 @@ import classNames from 'classnames';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Scroll from 'react-scroll';
+import {
+  fetchInstitutions,
+  transformInstitutionsForSchoolSelectField
+} from '../complaint-tool/helpers';
 
+const fetchAndTransformInstitutions = ({ institutionQuery, page }) => fetchInstitutions({ institutionQuery, page })
+  .then(({ error, payload }) => transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload }));
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
@@ -12,12 +18,8 @@ export default class SchoolSelectField extends React.Component {
   constructor(props) {
     super(props);
 
-    const {
-      fetchInstitutions
-    } = _.get(props, 'uiSchema.ui:options.schoolSelect', props);
-
     this.debouncedSearchInstitutions = _.debounce(
-      value => fetchInstitutions(value).then(this.setInstitutions),
+      value => fetchAndTransformInstitutions(value).then(this.setInstitutions),
       150);
 
     this.state = {
