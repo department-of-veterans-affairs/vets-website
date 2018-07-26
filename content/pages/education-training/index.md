@@ -67,9 +67,9 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 <h3 class="highlight">Page Content</h3>
 
-[Get VA Education Benefits](#get)<br>
-[Manage Your Education and Training Benefits](#manage)<br>
-[More Veterans Education Benefits Information and Resources](#more)<br>
+[Get Benefits](#get)<br>
+[Manage Your Veterans Education Benefits](#manage)<br>
+[More Information and Resources](#more)<br>
 
   <h2 class="highlight">Get VA Education Benefits</h2>
 
@@ -116,7 +116,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your VA Education and Training Benefits</h2>
+  <h2 class='highlight'>Manage Your Veterans Education Benefits</h2>
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
@@ -149,7 +149,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://"><b>File a VA Education Benefits Appeal</b></a>
+    <a href="https://"><b>File an Appeal</b></a>
     <p>If you disagree with our decision on your application, learn how to file an appeal and what to expect from the VA appeal process.</p>
   </div>
 
@@ -167,7 +167,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Veterans Education Benefits Information and Resources</h2>
+  <h2 class='highlight'>More Information and Resources</h2>
 
   <div class="link">
     <a href="https://vets.gov/gi-bill-comparison-tool"><b>GI Bill Comparison Tool</b></a>
@@ -190,7 +190,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education (GI Bill) Debt and Overpayment</b></a>
+    <a href="https://benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education Debt and GI Bill Overpayment</b></a>
     <p>Get answers to frequently asked questions about GI Bill overpayments and VA education debt management.</p>
   </div>
 
@@ -203,10 +203,4 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
     <a href="https://"><b>Ask GI Bill Questions Online</b></a>
     <p>Visit our GI Bill Customer Help site to ask questions and get answers within 4 to 5 working days.
   </div>
-
-  <div class="link">
-    <a href="https://"><b>Access Your VA Records and Documents</b></a>
-    <p>Access records like your DD214, GI Bill Certificate of Eligibility, and VA medical records.</p>
-  </div>
-
 </section>
