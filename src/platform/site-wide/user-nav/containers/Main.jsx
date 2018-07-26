@@ -60,7 +60,7 @@ export class Main extends React.Component {
     }
   }
 
-  getRedirectUrlParameter() {
+  getNextParameter() {
     const nextParam = (new URLSearchParams(window.location.search)).get('next');
     if (nextParam) {
       return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
@@ -69,7 +69,7 @@ export class Main extends React.Component {
   }
 
   getRedirectUrl = () => {
-    const nextParam = this.getRedirectUrlParameter();
+    const nextParam = this.getNextParameter();
     if (nextParam) return nextParam;
 
     return window.location.pathname === '/' && DASHBOARD_URL;
@@ -107,7 +107,7 @@ export class Main extends React.Component {
   checkTokenStatus = () => {
     if (!sessionStorage.userToken) {
       this.props.updateLoggedInStatus(false);
-      if (this.getRedirectUrlParameter()) { this.props.toggleLoginModal(true); }
+      if (this.getNextParameter()) { this.props.toggleLoginModal(true); }
     } else {
       this.props.initializeProfile();
     }
