@@ -129,10 +129,10 @@ const formConfig = {
               'ui:required': (formData) => !!formData && (formData.onBehalfOf === myself)
             },
             serviceBranch: {
-              'ui:title': 'Branch',
+              'ui:title': 'Branch of service',
               'ui:options': {
                 hideIf: (formData) => {
-                  if (!formData.serviceAffiliation || formData.serviceAffiliation !== 'Veteran') {
+                  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
                     return true;
                   }
                   return false;
@@ -149,7 +149,7 @@ const formConfig = {
             {
               'ui:options': {
                 hideIf: (formData) => {
-                  if (!formData.serviceAffiliation || formData.serviceAffiliation !== 'Veteran') {
+                  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
                     return true;
                   }
                   return false;
