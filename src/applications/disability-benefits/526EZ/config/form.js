@@ -28,6 +28,11 @@ import {
   schema as paymentInfoSchema
 } from '../pages/paymentInfo';
 
+import {
+  uiSchema as reservesNationalGuardUISchema,
+  schema as reservesNationalGuardSchema
+} from '../pages/reservesNationalGuardService';
+
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
 import {
@@ -56,7 +61,8 @@ import {
   queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
-  editNote
+  editNote,
+  hasGuardOrReservePeriod
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -67,16 +73,11 @@ const {
   treatments: treatmentsSchema,
   // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation: {
-    properties: {
-      servicePeriods,
-      reservesNationalGuardService
-    }
+    properties: { servicePeriods }
   },
   standardClaim,
   veteran: {
-    properties: {
-      homelessness
-    }
+    properties: { homelessness }
   }
 } = fullSchema526EZ.properties;
 
@@ -213,70 +214,9 @@ const formConfig = {
         reservesNationalGuardService: {
           title: 'Reserves and National Guard Service',
           path: 'review-veteran-details/military-service-history/reserves-national-guard',
-          depends: (formData) => {
-            const serviceHistory = formData.servicePeriods;
-            if (!serviceHistory || !Array.isArray(serviceHistory)) {
-              return false;
-            }
-
-            return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
-              // For a new service period, service branch defaults to undefined
-              if (!serviceBranch) {
-                return false;
-              }
-              // TODO: Replace magic strings
-              return isGuardReserve
-                  || serviceBranch.includes('Reserve')
-                  || serviceBranch.includes('National Guard');
-            }, false);
-          },
-          uiSchema: {
-            reservesNationalGuardService: {
-              'ui:title': 'Reserves and National Guard Information',
-              // TODO: Need to use updateSchema to bring the actual period info
-              // into the description
-              'ui:description': 'Please tell us about your most recent Reserves or National Guard service period.',
-              unitName: {
-                'ui:title': 'Unit Name',
-              },
-              obligationTermOfServiceDateRange: dateRangeUI(
-                'Obligation Start Date',
-                'Obligation End Date',
-                'End date must be after start date'
-              ),
-              'view:isTitle10Activated': {
-                'ui:title': 'I am currently activated on Federal orders'
-              },
-              title10Activation: {
-                'ui:options': {
-                  expandUnder: 'view:isTitle10Activated',
-                },
-                title10ActivationDate: dateUI('Activation Date'),
-                anticipatedSeparationDate: dateUI('Anticipated Separation Date'),
-              },
-              waiveVABenefitsToRetainTrainingPay: {
-                'ui:title': 'I elect to waive VA benefits for the days I accrued inactive duty training pay in order to retain my inactive duty training pay.'
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              reservesNationalGuardService: {
-                type: 'object',
-                properties: {
-                  // TODO: Make the schema better so we don't have to pull these out one by one
-                  unitName: reservesNationalGuardService.properties.unitName,
-                  obligationTermOfServiceDateRange: reservesNationalGuardService.properties.obligationTermOfServiceDateRange,
-                  'view:isTitle10Activated': {
-                    type: 'boolean'
-                  },
-                  title10Activation: reservesNationalGuardService.properties.title10Activation,
-                  waiveVABenefitsToRetainTrainingPay: reservesNationalGuardService.properties.inactiveDutyTrainingPay.properties.waiveVABenefitsToRetainTrainingPay
-                }
-              }
-            }
-          }
+          depends: hasGuardOrReservePeriod,
+          uiSchema: reservesNationalGuardUISchema,
+          schema: reservesNationalGuardSchema
         },
         paymentInformation: {
           title: 'Payment Information',
