@@ -127,6 +127,12 @@ You can apply online right now.
 - Depression
 - Anxiety
 
+#### Is there anything that might affect the amount of my compensation?
+**If you have dependents and your combined disability is rated at greater than 30%,** we may add to the amount of your compensation. 
+**If you receive military retirement pay, disability severance pay, or separation incentive payments,** your compensation may end up being less than it otherwise would be. 
+
+[Learn more about disability compensation rates](https://www.benefits.va.gov/COMPENSATION/rates-index.asp).
+
 [Get more information about conditions that may be covered](https://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
 
 </div>
