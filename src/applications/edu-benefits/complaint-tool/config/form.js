@@ -3,6 +3,8 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import { transform } from '../helpers';
+
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -20,6 +22,7 @@ const formConfig = {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
+  transformForSubmit: transform,
   title: 'Opt Out of Sharing VA Education Benefits Information',
   defaultDefinitions: {
   },
