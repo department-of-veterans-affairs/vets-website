@@ -1,4 +1,4 @@
-// import fullSchema from 'vets-json-schema/dist/686-schema.json';
+import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -8,7 +8,20 @@ import {
   transformInstitutionsForSchoolSelectField
 } from '../helpers';
 
-// const { } = fullSchema.properties;
+const { educationDetails } = fullSchema.properties;
+
+
+const { school } = educationDetails;
+
+const {
+  name: schoolName,
+  address: schoolAddress,
+  address2: schoolAddress2,
+  city: schoolCity,
+  state: schoolState,
+  country: schoolCountry,
+  postalCode: schoolPostalCode
+} = school;
 
 // const { } = fullSchema.definitions;
 
@@ -29,28 +42,55 @@ const formConfig = {
   defaultDefinitions: {
   },
   chapters: {
-    form: {
-      title: 'Form',
+    schoolInformation: {
+      title: 'School Information',
       pages: {
-        page1: {
-          path: 'form-page',
-          title: 'First Page',
+        schoolInformation: {
+          path: 'school-information',
+          title: 'School Information',
           uiSchema: {
             school: {
-              'ui:field': SchoolSelectField,
-              'ui:options': {
-                schoolSelect: {
-                  fetchInstitutions: ({ institutionQuery, page }) => fetchInstitutions({ institutionQuery, page })
-                    .then(({ error, payload }) => transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload }))
+              name: {
+                'ui:field': SchoolSelectField,
+                'ui:options': {
+                  schoolSelect: {
+                    fetchInstitutions: ({ institutionQuery, page }) => fetchInstitutions({ institutionQuery, page })
+                      .then(({ error, payload }) => transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload }))
+                  }
+                }
+              },
+              'view:manualSchoolEntry': {
+                'ui:options': {
+                  expandUnder: 'view:cannotFindSchool'
                 }
               }
-            },
+            }
           },
           schema: {
             type: 'object',
             properties: {
               school: {
-                type: 'string'
+                type: 'object',
+                properties: {
+                  name: { // TODO: determine whether to store facility ID
+                    type: 'string'
+                  },
+                  'view:cannotFindSchool': {
+                    type: 'boolean'
+                  },
+                  'view:manualSchoolEntry': {
+                    type: 'object',
+                    properties: {
+                      schoolName,
+                      schoolAddress,
+                      schoolAddress2,
+                      schoolCity,
+                      schoolState,
+                      schoolCountry,
+                      schoolPostalCode
+                    }
+                  }  
+                }
               }
             }
           }
