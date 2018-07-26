@@ -13,6 +13,6 @@ describe('<AppealLayout>', () => {
     );
 
     expect(tree.text()).to.contain('Testing');
-    expect(tree.subTree('Breadcrumbs')).not.to.be.false;
+    expect(tree.subTree('ClBreadcrumbs')).not.to.be.false;
   });
 });

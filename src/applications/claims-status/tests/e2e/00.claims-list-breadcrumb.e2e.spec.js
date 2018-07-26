@@ -20,6 +20,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('a[aria-current="page"', Timeouts.normal);
 
     client.expect.element('.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]').to.be.present;
+    client.expect.element('.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]').text.to.equal('Track Your Claims and Appeals');
     client.expect.element('.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]').to.have.css('pointer-events').which.equal('none');
 
     // Mobile test, most common size
@@ -27,6 +28,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.waitForElementVisible('.va-nav-breadcrumbs-list', Timeouts.normal);
     client.expect.element('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))').to.have.css('display').which.equal('none');
+    client.expect.element('.va-nav-breadcrumbs-list li:nth-last-child(2)').text.to.equal('Disability Benefits');
     client.expect.element('.va-nav-breadcrumbs-list li:nth-last-child(2)').to.have.css('display').which.equal('inline-block');
 
     // Reset default size

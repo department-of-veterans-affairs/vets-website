@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Breadcrumbs from './Breadcrumbs';
+import ClBreadcrumbs from './Breadcrumbs';
 
 export default function AppealLayout({ children }) {
   return (
     <div>
       <div className="row">
-        <Breadcrumbs>
-          <li><Link to="your-claims">Track Your Claims and Appeals</Link></li>
-        </Breadcrumbs>
+        <ClBreadcrumbs>
+          <Link to="your-claims">Track Your Claims and Appeals</Link>
+        </ClBreadcrumbs>
       </div>
       {children}
     </div>

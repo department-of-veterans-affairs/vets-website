@@ -32,9 +32,7 @@ class AskVAPage extends React.Component {
     this.props.router.push(`your-claims/${this.props.params.id}`);
   }
   render() {
-    const { claim, loadingDecisionRequest, decisionRequestError } = this.props;
-    const claimsPath = `your-claims/${claim.id}`;
-    const decisionsPath = `your-claims/${claim.id}/ask-va-to-decide`;
+    const { loadingDecisionRequest, decisionRequestError } = this.props;
     const submitDisabled = !this.state.submittedDocs || loadingDecisionRequest || decisionRequestError;
 
     let buttonMsg = 'Submit';
@@ -48,8 +46,8 @@ class AskVAPage extends React.Component {
         <div className="row">
           <div className="medium-12 columns">
             <ClBreadcrumbs>
-              <Link to={claimsPath}>Status Detail</Link>
-              <Link to={decisionsPath}>Ask for Claim Decision</Link>
+              <Link to={`your-claims/${this.props.params.id}`}>Status Details</Link>
+              <Link to={`your-claims/${this.props.params.id}/ask-va-to-decide`}>Ask for Claim Decision</Link>
             </ClBreadcrumbs>
           </div>
         </div>

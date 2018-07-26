@@ -37,7 +37,7 @@ describe('<AppealInfo/>', () => {
 
   it('should render the breadcrumbs', () => {
     const wrapper = shallow(<AppealInfo {...defaultProps}/>);
-    const breadcrumbs = wrapper.find('Breadcrumbs');
+    const breadcrumbs = wrapper.find('ClBreadcrumbs');
     expect(breadcrumbs.length).to.equal(1);
   });
 

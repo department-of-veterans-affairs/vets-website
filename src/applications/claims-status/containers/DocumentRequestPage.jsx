@@ -88,7 +88,7 @@ class DocumentRequestPage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <ClBreadcrumbs>
-                <Link to={claimsPath}>Status Detail</Link>
+                <Link to={claimsPath}>Status Details</Link>
                 <Link to={itemPath}>Document Request</Link>
               </ClBreadcrumbs>
             </div>

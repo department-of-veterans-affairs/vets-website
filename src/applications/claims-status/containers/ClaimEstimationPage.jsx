@@ -19,7 +19,7 @@ class ClaimEstimationPage extends React.Component {
         <div className="row">
           <div className="medium-12 columns">
             <ClBreadcrumbs>
-              <Link to={claimsPath}>Status Detail</Link>
+              <Link to={claimsPath}>Status Details</Link>
               <Link to={datePath}>Estimated Decision Date</Link>
             </ClBreadcrumbs>
           </div>
