@@ -127,7 +127,7 @@ const formConfig = {
               'ui:title': 'Branch',
               'ui:options': {
                 hideIf: (formData) => {
-                  if (!formData.serviceAffiliation || formData.serviceAffiliation !== 'Veteran') {
+                  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
                     return true;
                   }
                   return false;
@@ -144,7 +144,7 @@ const formConfig = {
             {
               'ui:options': {
                 hideIf: (formData) => {
-                  if (!formData.serviceAffiliation || formData.serviceAffiliation !== 'Veteran') {
+                  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
                     return true;
                   }
                   return false;
