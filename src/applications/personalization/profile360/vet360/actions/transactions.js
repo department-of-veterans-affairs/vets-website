@@ -3,9 +3,9 @@ import { refreshProfile } from '../../../../../platform/user/profile/actions';
 import recordEvent from '../../../../../platform/monitoring/record-event';
 import { pickBy } from 'lodash';
 
-import localVet360, { isVet360Configured } from '../../util/local-vet360';
-import * as VET360_CONSTANTS from '../../constants/vet360';
-import { isSuccessfulTransaction, isFailedTransaction } from '../../util/transactions';
+import localVet360, { isVet360Configured } from '../util/local-vet360';
+import * as VET360_CONSTANTS from '../constants';
+import { isSuccessfulTransaction, isFailedTransaction } from '../util/transactions';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS = 'VET360_TRANSACTIONS_FETCH_SUCCESS';
 export const VET360_TRANSACTION_REQUESTED = 'VET360_TRANSACTION_REQUESTED';

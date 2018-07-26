@@ -4,7 +4,7 @@ import backendServices from '../../../../../platform/user/profile/constants/back
 import {
   TRANSACTION_STATUS,
   TRANSACTION_CATEGORY_TYPES
-} from '../../constants/vet360';
+} from '../constants';
 
 import * as selectors from '../selectors';
 

@@ -4,7 +4,7 @@ import PhoneField from './PhoneField';
 
 import {
   FIELD_NAMES
-} from '../../constants/vet360';
+} from '../constants';
 
 export default function WorkPhone() {
   return (

@@ -3,7 +3,7 @@ import React from 'react';
 import {
   FIELD_NAMES,
   ADDRESS_FORM_VALUES
-} from '../../../constants/vet360';
+} from '../../constants';
 
 import {
   consolidateAddress,

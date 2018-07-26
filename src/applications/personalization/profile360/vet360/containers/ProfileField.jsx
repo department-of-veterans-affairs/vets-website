@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 
 import recordEvent from '../../../../../platform/monitoring/record-event';
 
-import * as VET360 from '../../constants/vet360';
+import * as VET360 from '../constants';
 
 import {
   isPendingTransaction
-} from '../../util/transactions';
+} from '../util/transactions';
 
 import {
   clearTransactionRequest,

@@ -1,4 +1,4 @@
-import * as VET360 from '../constants/vet360';
+import * as VET360 from '../constants';
 
 export const PENDING_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.RECEIVED,

@@ -9,7 +9,7 @@ import {
 
 import {
   FIELD_NAMES
-} from '../../constants/vet360';
+} from '../constants';
 
 import {
   selectVet360Field,

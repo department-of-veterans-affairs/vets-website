@@ -14,7 +14,7 @@ import {
 
 import {
   isFailedTransaction
-} from '../../util/transactions';
+} from '../util/transactions';
 
 const initialState = {
   modal: null,

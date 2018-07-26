@@ -4,7 +4,7 @@ import React from 'react';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
-import { TRANSACTION_CATEGORY_TYPES } from '../constants/vet360';
+import { TRANSACTION_CATEGORY_TYPES } from '../vet360/constants';
 import Vet360PendingTransactionCategory from '../vet360/containers/PendingTransactionCategory';
 import LoadFail from './LoadFail';
 import { handleDowntimeForSection } from './DowntimeBanner';
