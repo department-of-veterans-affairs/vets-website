@@ -49,9 +49,12 @@
 
     <div id="login-root" class="vet-toolbar"></div>
 
-
-    {% if body_class != 'page-playbook' %}
-    {% include "content/includes/veteran-navigation.html" %}
+    {% if mergedbuild %}
+      <div id="mega-menu"></div>
+    {% else %}
+      {% if body_class != 'page-playbook' %}
+        {% include "content/includes/veteran-navigation.html" %}
+      {% endif %}
     {% endif %}
   </div>
 
