@@ -2,21 +2,11 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Scroll from 'react-scroll';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
-/*
-const Element = Scroll.Element;
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('saveFormLinkTop', window.VetsGov.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true
-  });
-};
-*/
 
 export default class SchoolSelectField extends React.Component {
   constructor(props) {
@@ -201,11 +191,11 @@ export default class SchoolSelectField extends React.Component {
           </div>
           }
           {this.state.loadingInstitutions && <div>
-            {`Searching ${this.state.searchInputValue}...`}
+            <LoadingIndicator message={`Searching ${this.state.searchInputValue}...`}/>
           </div>
           }
           {this.state.loadingPage && <div>
-            {`Loading page ${this.state.page}...`}
+            <LoadingIndicator message={`Loading page ${this.state.page} results for ${this.state.searchInputValue}...`}/>
           </div>
           }
         </div>
