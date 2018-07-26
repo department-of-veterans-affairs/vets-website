@@ -272,7 +272,7 @@ const formConfig = {
                   showFieldLabel: true
                 },
               },
-              FFA: {
+              'view:FFA': {
                 'ui:title': 'Have you used any of these other benefits?',
                 'ui:options': {
                   showFieldLabel: true
@@ -333,9 +333,14 @@ const formConfig = {
                       }
                     }
                   },
-                  FFA: {
-                    type: 'boolean',
-                    title: 'Federal financial aid'
+                  'view:FFA': {
+                    type: 'object',
+                    properties: {
+                      FFA: {
+                        type: 'boolean',
+                        title: 'Federal financial aid'
+                      }
+                    }
                   }
                 }
               }
