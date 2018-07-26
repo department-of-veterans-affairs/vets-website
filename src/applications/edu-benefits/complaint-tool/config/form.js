@@ -89,7 +89,7 @@ const formConfig = {
                       schoolCountry,
                       schoolPostalCode
                     }
-                  }  
+                  }
                 }
               }
             }
