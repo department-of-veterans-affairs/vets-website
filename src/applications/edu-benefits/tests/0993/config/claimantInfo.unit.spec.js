@@ -9,7 +9,7 @@ import formConfig from '../../../0993/config/form';
 describe('0993 claimant information', () => {
   const { schema, uiSchema } = formConfig.chapters.claimantInformation.pages.claimantInformation;
 
-  it('should render unverified view', () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -22,21 +22,6 @@ describe('0993 claimant information', () => {
     expect(form.find('legend').length).to.equal(1);
     expect(form.find('input').length).to.equal(5);
     expect(form.find('select').length).to.equal(1);
-  });
-
-  it('should render verified view', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        data={{ verified: true }}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
-    );
-
-    // Check for opt out message
-    expect(form.find('legend').length).to.equal(1);
-    expect(form.find('input').length).to.equal(0);
-    expect(form.find('select').length).to.equal(0);
   });
 
   it('should not submit empty form', () => {

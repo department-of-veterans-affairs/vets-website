@@ -11,8 +11,7 @@ import {
 } from '../actions';
 
 import {
-  isFailedTransaction,
-  isSuccessfulTransaction
+  isFailedTransaction
 } from '../util/transactions';
 
 const initialState = {
@@ -20,7 +19,6 @@ const initialState = {
   fieldTransactionMap: {},
   transactionsAwaitingUpdate: [],
   metadata: {
-    mostRecentSuccessfulTransactionId: '',
     mostRecentErroredTransactionId: '',
   }
 };
@@ -95,8 +93,6 @@ export default function vet360(state = initialState, action) {
       const metadata = { ...state.metadata };
       if (isFailedTransaction(transaction)) {
         metadata.mostRecentErroredTransactionId = updatedTransactionId;
-      } else if (isSuccessfulTransaction(transaction)) {
-        metadata.mostRecentSuccessfulTransactionId = updatedTransactionId;
       }
 
       return {
@@ -129,9 +125,7 @@ export default function vet360(state = initialState, action) {
       });
 
       const metadata = { ...state.metadata };
-      if (metadata.mostRecentSuccessfulTransactionId === finishedTransactionId) {
-        metadata.mostRecentSuccessfulTransactionId = null;
-      } else if (metadata.mostRecentErroredTransactionId === finishedTransactionId) {
+      if (metadata.mostRecentErroredTransactionId === finishedTransactionId) {
         metadata.mostRecentErroredTransactionId = null;
       }
 

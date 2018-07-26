@@ -62,3 +62,11 @@ input.usa-only-phone {
   right: 1.9rem;
   font-weight: bold;
 }
+
+.copy-mailing-address-to-residential-address {
+  background-color: $color-primary-alt-lightest;
+  padding: 1em;
+  label {
+    margin: 0;
+  }
+}
