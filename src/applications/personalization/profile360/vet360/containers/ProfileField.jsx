@@ -104,6 +104,7 @@ const mapStateToProps = (state, ownProps) => {
   const { transaction, transactionRequest } = selectVet360Transaction(state, fieldName);
 
   return {
+    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     data: selectVet360Field(state, fieldName),
     field: selectEditedFormField(state, fieldName),
     isEditing: selectCurrentlyOpenEditModal(state) === fieldName,
