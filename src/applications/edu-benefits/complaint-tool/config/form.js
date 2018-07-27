@@ -249,11 +249,11 @@ const formConfig = {
               }
             },
             issueDescription: {
-              'ui:title': 'Please give us your feedback and any details about your issue. (1,000 characters maximum)',
+              'ui:title': 'Please give us your feedback and any details about your issue. (32,000 characters maximum)',
               'ui:widget': 'textarea',
               'ui:options': {
                 rows: 5,
-                maxLength: 1000
+                maxLength: 32000
               },
             },
             issueResolution: {
