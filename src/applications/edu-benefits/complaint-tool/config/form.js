@@ -64,9 +64,6 @@ const formConfig = {
   formId: '686',
   version: 0,
   prefillEnabled: true,
-  defaultDefinitions: {
-    usaPhone
-  },
   savedFormMessages: {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
