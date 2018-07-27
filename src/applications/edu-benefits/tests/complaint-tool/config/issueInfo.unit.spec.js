@@ -46,10 +46,9 @@ describe('complaint tool issue info', () => {
         uiSchema={uiSchema}/>
     );
 
-
-    selectCheckbox(form, 'root_issue_Recruiting/Marketing Practices', true);
-    fillData(form, 'textarea#root_complaint', 'test');
-    fillData(form, 'textarea#root_resolution', 'test');
+    selectCheckbox(form, 'root_issue_Accreditation', true);
+    fillData(form, 'textarea#root_issueDescription', 'test');
+    fillData(form, 'textarea#root_issueResolution', 'test');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
