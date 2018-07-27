@@ -916,7 +916,7 @@ export const hasGuardOrReservePeriod = (formData) => {
   }, false);
 };
 
-export const reservesGuardDescription = ({ formData }) => {
+export const ReservesGuardDescription = ({ formData }) => {
   const { servicePeriods } = formData;
   if (!servicePeriods || !Array.isArray(servicePeriods) || !servicePeriods[0].serviceBranch) {
     return null;
@@ -932,7 +932,7 @@ export const reservesGuardDescription = ({ formData }) => {
       to: dateTo
     };
   }).sort((periodA, periodB) => {
-    if (periodA.to < periodB.to) {
+    if (periodA.to < periodB.to) { // could probably simplify sort to b.to - a.to
       return 1;
     }
     if (periodA.to > periodB.to) {

@@ -4,7 +4,7 @@ import _ from 'lodash/fp';
 
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import { reservesGuardDescription } from '../helpers';
+import { ReservesGuardDescription } from '../helpers';
 
 const { reservesNationalGuardService } = fullSchema526EZ.properties.serviceInformation.properties;
 
@@ -23,7 +23,7 @@ export const uiSchema = {
     'waiveVABenefitsToRetainTrainingPay'
   ],
   'ui:title': 'Reserves and National Guard Information',
-  'ui:description': reservesGuardDescription,
+  'ui:description': ReservesGuardDescription,
   unitName: {
     'ui:title': 'Unit Name',
   },
