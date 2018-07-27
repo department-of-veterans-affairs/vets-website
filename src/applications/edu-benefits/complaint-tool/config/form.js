@@ -6,38 +6,32 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 import { transform } from '../helpers';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
-// const { } = fullSchema.properties;
-
 const {
-  address,
-  email,
-  phone
+  onBehalfOf,
+  fullName,
+  dob,
+  serviceAffiliation,
+  serviceBranch,
+  serviceDateRange,
+  email
 } = fullSchema.properties;
 
-// TODO: update with new BE schema
 const {
-  street: applicantAddress,
-  street2: applicantAddress2,
-  city: applicantCity,
-  state: applicantState,
-  country: applicantCountry,
-  postalCode: applicantPostalCode
-} = address.properties;
-
-const {
-  usaPhone,
+  date,
+  dateRange
 } = fullSchema.definitions;
 
 const myself = 'Myself';
 const someoneElse = 'Someone else';
-const anonymous = 'anonymous';
+const anonymous = 'Anonymous';
+const anonymousLabel = 'I want to submit my feedback anonymously'; // Only anonymous has a label that differs form its value
 
 function isNotAnonymous(formData) {
   if (!!formData && formData !== anonymous) {
@@ -46,27 +40,20 @@ function isNotAnonymous(formData) {
   return false;
 }
 
+function hasNotAnonymous(formData) {
+  return !!formData && (formData.onBehalfOf !== anonymous);
+}
 
-const suffixes = [
-  'Jr.',
-  'Sr.',
-  'II',
-  'III',
-  'IV'
-];
+function hasMyself(formData) {
+  return !!formData && (formData.onBehalfOf === myself);
+}
 
-const date = {
-  pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-  type: 'string'
-};
-
-const dateRange = {
-  type: 'object',
-  properties: {
-    from: date,
-    to: date
+function isNotVeteranOrServiceMember(formData) {
+  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
+    return true;
   }
-};
+  return false;
+}
 
 const formConfig = {
   urlPrefix: '/',
@@ -86,6 +73,10 @@ const formConfig = {
   },
   title: 'GI Bill® School Feedback Tool',
   transformForSubmit: transform,
+  defaultDefinitions: {
+    date,
+    dateRange
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -99,9 +90,6 @@ const formConfig = {
               'ui:title': 'I’m submitting feedback on behalf of...',
               'ui:options': {
                 nestedContent: {
-                  // these descriptions will not work using a const, must use a string
-
-                  // 'Myself' will give a lint error, but this works
                   [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
                   [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
                   [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
@@ -118,11 +106,11 @@ const formConfig = {
               },
               first: {
                 'ui:title': 'Your first name',
-                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== anonymous)
+                'ui:required': hasNotAnonymous
               },
               last: {
                 'ui:title': 'Your last name',
-                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== anonymous)
+                'ui:required': hasNotAnonymous
               },
               middle: {
                 'ui:title': 'Your middle name'
@@ -135,30 +123,24 @@ const formConfig = {
                 expandUnderCondition: isNotAnonymous
               }
             }),
-            dob: {
-              'ui:title': 'Date of birth',
+            dob: _.merge(dateUI('Date of birth'), {
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: isNotAnonymous
               }
-            },
+            }),
             serviceAffiliation: { // could wrap service info in an object
               'ui:title': 'Service affiliation',
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: myself
               },
-              'ui:required': (formData) => !!formData && (formData.onBehalfOf === myself)
+              'ui:required': hasMyself,
             },
             serviceBranch: {
-              'ui:title': 'Branch',
+              'ui:title': 'Branch of service',
               'ui:options': {
-                hideIf: (formData) => {
-                  if (!formData.serviceAffiliation || formData.serviceAffiliation !== 'Veteran') {
-                    return true;
-                  }
-                  return false;
-                },
+                hideIf: isNotVeteranOrServiceMember,
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: myself
               }
@@ -170,12 +152,7 @@ const formConfig = {
             ),
             {
               'ui:options': {
-                hideIf: (formData) => {
-                  if (!formData.serviceAffiliation || formData.serviceAffiliation !== 'Veteran') {
-                    return true;
-                  }
-                  return false;
-                },
+                hideIf: isNotVeteranOrServiceMember,
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: myself
               }
@@ -194,140 +171,13 @@ const formConfig = {
               'onBehalfOf',
             ],
             properties: {
-              onBehalfOf: {
-                type: 'string',
-                'enum': [
-                  myself,
-                  someoneElse,
-                  anonymous
-                ],
-                enumNames: ['Myself', 'Someone else', 'I want to submit my feedback anonymously']
-              },
-              fullName: {
-                type: 'object',
-                properties: {
-                  prefix: {
-                    type: 'string',
-                    'enum': [
-                      'Mr.',
-                      'Mrs.',
-                      'Ms.',
-                      'Dr.',
-                      'Other'
-                    ]
-                  },
-                  first: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 100
-                  },
-                  middle: {
-                    type: 'string'
-                  },
-                  last: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 100
-                  },
-                  suffix: {
-                    type: 'string',
-                    'enum': suffixes
-                  }
-                },
-                required: [
-                  'first',
-                  'last'
-                ]
-              },
-              dob: {
-                type: 'string',
-                format: 'date'
-              },
-              serviceAffiliation: { // design may change
-                type: 'string',
-                'enum': [
-                  'Service Member',
-                  'Spouse or Family Member',
-                  'Veteran',
-                  'Other'
-                ]
-              },
-              serviceBranch: {
-                type: 'string',
-                'enum': [
-                  'Army',
-                  'Navy',
-                  'Marines',
-                  'Air Force',
-                  'Coast Guard',
-                  'NOAA/PHS'
-                ]
-              },
-              serviceDateRange: dateRange,
-              email: {
-                type: 'string'
-              }
-            }
-          }
-        },
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          depends: (formData) => formData.onBehalfOf !== anonymous,
-          uiSchema: {
-            address: {
-              'ui:title': 'Address line 1'
-            },
-            address2: {
-              'ui:title': 'Address line 2'
-            },
-            city: {
-              'ui:title': 'City'
-            },
-            state: {
-              'ui:title': 'State'
-            },
-            country: {
-              'ui:title': 'Country'
-            },
-            postalCode: {
-              'ui:title': 'Postal code'
-            },
-            email: {
-              'ui:title': 'Email address',
-              'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx'
-              }
-            },
-            'view:emailConfirmation': {
-              'ui:title': 'Re-enter email address',
-              'ui:errorMessages': {
-                pattern: 'Please enter a valid email address'
-              }
-            },
-            phone: phoneUI('Phone number')
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'address',
-              'city',
-              'state',
-              'country',
-              'postalCode',
-              'email',
-              'view:emailConfirmation'
-            ],
-            properties: {
-              address: applicantAddress,
-              address2: applicantAddress2,
-              city: applicantCity,
-              state: applicantState,
-              country: applicantCountry,
-              postalCode: applicantPostalCode,
-              email,
-              'view:emailConfirmation': email,
-              phone
+              onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
+              fullName,
+              dob,
+              serviceAffiliation,
+              serviceBranch,
+              serviceDateRange,
+              email
             }
           }
         }
