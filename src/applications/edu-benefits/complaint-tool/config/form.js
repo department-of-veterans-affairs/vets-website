@@ -46,60 +46,63 @@ const formConfig = {
           uiSchema: {
             school: {
               name: {
-                'ui:field': SchoolSelectField
-              }
-            },
-            'view:manualSchoolEntry': {
-              name: {
-                'ui:title': 'Name'
+                'ui:field': SchoolSelectField,
+                'ui:options': {
+                  hideIf: formData => formData.school['view:cannotFindSchool']
+                }
               },
-              address: {
-                'ui:title': 'Address line 1'
-              },
-              address2: {
-                'ui:title': 'Address line 2'
-              },
-              city: {
-                'ui:title': 'City'
-              },
-              state: {
-                'ui:title': 'State'
-              },
-              country: {
-                'ui:title': 'Country'
-              },
-              postalCode: {
-                'ui:title': 'Postal Code'
-              },
-              'ui:options': {
-                expandUnder: 'view:cannotFindSchool'
+              'view:manualSchoolEntry': {
+                name: {
+                  'ui:title': 'Name'
+                },
+                address: {
+                  'ui:title': 'Address line 1'
+                },
+                address2: {
+                  'ui:title': 'Address line 2'
+                },
+                city: {
+                  'ui:title': 'City'
+                },
+                state: {
+                  'ui:title': 'State'
+                },
+                country: {
+                  'ui:title': 'Country'
+                },
+                postalCode: {
+                  'ui:title': 'Postal Code'
+                },
+                'ui:options': {
+                  expandUnder: 'view:cannotFindSchool'
+                }
               }
             }
-          }
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            school: {
-              type: 'object',
-              properties: {
-                name: { // TODO: determine whether to store facility ID
-                  type: 'string'
-                },
-                'view:cannotFindSchool': {
-                  title: 'I can’t find my school',
-                  type: 'boolean'
-                },
-                'view:manualSchoolEntry': {
-                  type: 'object',
-                  properties: {
-                    name: schoolName,
-                    address: schoolAddress,
-                    address2: schoolAddress2,
-                    city: schoolCity,
-                    state: schoolState,
-                    country: schoolCountry,
-                    postalCode: schoolPostalCode
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              school: {
+                type: 'object',
+                properties: {
+                  name: { // TODO: determine whether to store facility ID
+                    type: 'string'
+                  },
+                  'view:cannotFindSchool': {
+                    title: 'I can’t find my school',
+                    type: 'boolean'
+                  },
+                  'view:manualSchoolEntry': {
+                    type: 'object',
+                    properties: {
+                      name: schoolName,
+                      address: schoolAddress,
+                      address2: schoolAddress2,
+                      city: schoolCity,
+                      state: schoolState,
+                      country: schoolCountry,
+                      postalCode: schoolPostalCode
+                    }
                   }
                 }
               }
