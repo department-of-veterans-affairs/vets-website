@@ -113,6 +113,7 @@ const formConfig = {
               suffix: {
                 'ui:title': 'Your suffix'
               },
+              'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: isNotAnonymous
