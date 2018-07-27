@@ -14,7 +14,8 @@ import {
   transform,
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
-  transformObligationDates
+  transformObligationDates,
+  isInFuture
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
@@ -453,6 +454,26 @@ describe('526 helpers', () => {
       };
 
       expect(ReservesGuardDescription(form)).to.equal(null);
+    });
+  });
+
+  describe.only('isInFuture', () => {
+    it('adds an error when entered date is today or earlier', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const fieldData = '2018-04-12';
+
+      isInFuture(errors, fieldData);
+      expect(addError.calledOnce).to.be.true;
+    });
+
+    it('does not add an error when the entered date is in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const fieldData = '2099-04-12';
+
+      isInFuture(errors, fieldData);
+      expect(addError.callCount).to.equal(0);
     });
   });
 });

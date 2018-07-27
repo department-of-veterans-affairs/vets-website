@@ -4,15 +4,13 @@ import _ from 'lodash/fp';
 
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import { ReservesGuardDescription } from '../helpers';
+import {
+  ReservesGuardDescription,
+  title10DatesRequired,
+  isInFuture
+} from '../helpers';
 
 const { reservesNationalGuardService } = fullSchema526EZ.properties.serviceInformation.properties;
-
-const title10DatesRequired = {
-  'ui:required': (formData) => {
-    return _.get('view:isTitle10Activated', formData, false);
-  }
-};
 
 export const uiSchema = {
   'ui:order': [
@@ -39,9 +37,17 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'view:isTitle10Activated',
     },
-    title10ActivationDate: _.merge(dateUI('Activation Date'), title10DatesRequired),
-    // TODO: validate that separation date is in the future?
-    anticipatedSeparationDate: _.merge(dateUI('Anticipated Separation Date'), title10DatesRequired),
+    title10ActivationDate: _.merge(
+      dateUI('Activation Date'),
+      { 'ui:required': title10DatesRequired }
+    ),
+    anticipatedSeparationDate: _.merge(
+      dateUI('Anticipated Separation Date'),
+      {
+        'ui:validations': [isInFuture],
+        'ui:required': title10DatesRequired
+      },
+    ),
   },
   waiveVABenefitsToRetainTrainingPay: {
     'ui:title': 'I elect to waive VA benefits for the days I accrued inactive duty training pay in order to retain my inactive duty training pay.',

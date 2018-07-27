@@ -951,3 +951,12 @@ export const ReservesGuardDescription = ({ formData }) => {
     </div>
   );
 };
+
+export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);
+
+export const isInFuture = (errors, fieldData) => {
+  const enteredDate = new Date(fieldData);
+  if (enteredDate < Date.now()) {
+    errors.addError('Anticipated separation date must not be in the past');
+  }
+};
