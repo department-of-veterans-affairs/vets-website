@@ -6,6 +6,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 import { transform } from '../helpers';
@@ -27,7 +28,8 @@ const {
 
 const myself = 'Myself';
 const someoneElse = 'Someone else';
-const anonymous = 'I want to submit my feedback anonymously';
+const anonymous = 'Anonymous';
+const anonymousLabel = 'I want to submit my feedback anonymously'; // Only anonymous has a label that differs form its value
 
 function isNotAnonymous(formData) {
   if (!!formData && formData !== anonymous) {
@@ -116,13 +118,12 @@ const formConfig = {
                 expandUnderCondition: isNotAnonymous
               }
             }),
-            dob: {
-              'ui:title': 'Date of birth',
+            dob: _.merge(dateUI('Date of birth'), {
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: isNotAnonymous
               }
-            },
+            }),
             serviceAffiliation: { // could wrap service info in an object
               'ui:title': 'Service affiliation',
               'ui:options': {
@@ -165,7 +166,7 @@ const formConfig = {
               'onBehalfOf',
             ],
             properties: {
-              onBehalfOf,
+              onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
               fullName,
               dob,
               serviceAffiliation,
