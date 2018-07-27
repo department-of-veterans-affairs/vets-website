@@ -60,19 +60,25 @@ const setPhoneEmailPaths = (veteran) => {
 const getReservesGuardData = (formData) => {
   const {
     unitName,
-    obligationTermOfServiceDateRange: { from, to },
+    obligationTermOfServiceDateRange,
     title10Activation,
     waiveVABenefitsToRetainTrainingPay
   } = formData;
 
   // Ensure all required fields are present
-  if (!unitName || !from || !to || typeof waiveVABenefitsToRetainTrainingPay === 'undefined') {
+  if (
+    !unitName
+    || !obligationTermOfServiceDateRange
+    || !obligationTermOfServiceDateRange.from
+    || !obligationTermOfServiceDateRange.to
+    || typeof waiveVABenefitsToRetainTrainingPay === 'undefined'
+  ) {
     return null;
   }
 
   const obligationDateRange = {
-    from,
-    to
+    from: obligationTermOfServiceDateRange.from,
+    to: obligationTermOfServiceDateRange.to
   };
 
   if (formData['view:isTitle10Activated']) {
