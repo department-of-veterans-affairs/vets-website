@@ -1,5 +1,5 @@
-// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
-import fullSchema526EZ from '/Users/adhocteam/Sites/vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
 import _ from 'lodash/fp';
 
 import dateUI from 'us-forms-system/lib/js/definitions/date';
