@@ -334,7 +334,7 @@ const formConfig = {
       }
     },
     issueInformation: {
-      title: 'Feeback Information',
+      title: 'Feedback Information',
       pages: {
         issueInformation: {
           path: 'feedback-information',
@@ -399,7 +399,7 @@ const formConfig = {
               }
             },
             issueDescription: {
-              'ui:title': 'Please give us your feedback and any details about your issue. (1,000 charcters maximum)',
+              'ui:title': 'Please give us your feedback and any details about your issue. (1,000 characters maximum)',
               'ui:widget': 'textarea',
               'ui:options': {
                 rows: 5,
@@ -407,7 +407,7 @@ const formConfig = {
               },
             },
             issueResolution: {
-              'ui:title': 'What do you think would be a fair way to resolve your issue? (1,000 charcters maximum)',
+              'ui:title': 'What do you think would be a fair way to resolve your issue? (1,000 characters maximum)',
               'ui:widget': 'textarea',
               'ui:options': {
                 rows: 5,
