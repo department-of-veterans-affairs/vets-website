@@ -22,7 +22,7 @@ describe('<CopyMailingAddress/>', () => {
             }
           }
         },
-        vaProfile: {
+        vet360: {
           formFields: {
             [FIELD_NAMES.MAILING_ADDRESS]: null
           }
@@ -34,7 +34,7 @@ describe('<CopyMailingAddress/>', () => {
       const mailingAddress = { city: 'some city' };
 
       state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = mailingAddress;
-      state.vaProfile.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = { city: 'some other city' };
+      state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = { city: 'some other city' };
 
       const result = mapStateToProps(state);
 
@@ -69,7 +69,7 @@ describe('<CopyMailingAddress/>', () => {
       };
 
       // This is the same address as above, but converted to the edit-modal form.
-      state.vaProfile.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+      state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
         value: {
           addressLine1: '1493 Martin Luther King Rd',
           addressLine2: 'string',

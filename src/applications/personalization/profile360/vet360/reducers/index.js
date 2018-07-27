@@ -1,4 +1,6 @@
 import {
+  UPDATE_PROFILE_FORM_FIELD,
+  OPEN_MODAL,
   VET360_TRANSACTIONS_FETCH_SUCCESS,
   VET360_TRANSACTION_REQUESTED,
   VET360_TRANSACTION_REQUEST_SUCCEEDED,
@@ -8,13 +10,15 @@ import {
   VET360_TRANSACTION_REQUEST_CLEARED,
   VET360_TRANSACTION_UPDATE_REQUESTED,
   VET360_TRANSACTION_UPDATE_FAILED
-} from '../actions';
+} from '../../actions';
 
 import {
   isFailedTransaction
-} from '../util/transactions';
+} from '../../util/transactions';
 
 const initialState = {
+  modal: null,
+  formFields: {},
   transactions: [],
   fieldTransactionMap: {},
   transactionsAwaitingUpdate: [],
@@ -66,6 +70,7 @@ export default function vet360(state = initialState, action) {
     case VET360_TRANSACTION_REQUEST_SUCCEEDED: {
       return {
         ...state,
+        modal: null,
         transactions: state.transactions.concat(action.transaction),
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
@@ -146,6 +151,17 @@ export default function vet360(state = initialState, action) {
         fieldTransactionMap
       };
     }
+
+    case UPDATE_PROFILE_FORM_FIELD: {
+      const formFields = {
+        ...state.formFields,
+        [action.field]: action.newState
+      };
+      return { ...state, formFields };
+    }
+
+    case OPEN_MODAL:
+      return { ...state, modal: action.modal };
 
     default:
       return state;

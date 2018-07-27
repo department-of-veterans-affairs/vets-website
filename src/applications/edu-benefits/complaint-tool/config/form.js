@@ -9,9 +9,9 @@ import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
-import { transform } from '../helpers';
-
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+
+import { transform } from '../helpers';
 
 const {
   onBehalfOf,
@@ -118,6 +118,7 @@ const formConfig = {
               suffix: {
                 'ui:title': 'Your suffix'
               },
+              'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: isNotAnonymous

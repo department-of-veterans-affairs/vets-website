@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {
-  FIELD_NAMES
+  FIELD_NAMES,
+  ADDRESS_FORM_VALUES
 } from '../constants/vet360';
 
 import {
@@ -54,8 +55,8 @@ export default class AddressEditModal extends React.Component {
           onInput={this.onInput}
           onBlur={this.onBlur}
           errorMessages={this.props.field.validations}
-          states={this.props.addressConstants.states}
-          countries={this.props.addressConstants.countries}/>
+          states={ADDRESS_FORM_VALUES.STATES}
+          countries={ADDRESS_FORM_VALUES.COUNTRIES}/>
       </div>
     );
   }
