@@ -1,3 +1,11 @@
+import states from './states.json';
+import countries from './countries.json';
+
+export const ADDRESS_FORM_VALUES = {
+  STATES: states.map(state => state.stateCode),
+  COUNTRIES: countries.map(country => country.countryName)
+};
+
 export const TRANSACTION_CATEGORY_TYPES = {
   PHONE: 'AsyncTransaction::Vet360::PhoneTransaction',
   EMAIL: 'AsyncTransaction::Vet360::EmailTransaction',
