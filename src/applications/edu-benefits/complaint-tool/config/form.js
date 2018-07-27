@@ -157,7 +157,7 @@ const formConfig = {
                 expandUnderCondition: myself
               }
             }),
-            email: {
+            anonymousEmail: {
               'ui:title': 'Email',
               'ui:options': {
                 expandUnder: 'onBehalfOf',
@@ -177,7 +177,7 @@ const formConfig = {
               serviceAffiliation,
               serviceBranch,
               serviceDateRange,
-              email
+              anonymousEmail: email
             }
           }
         },
@@ -209,7 +209,7 @@ const formConfig = {
                 }
               }
             },
-            email: {
+            applicantEmail: {
               'ui:title': 'Email address',
               'ui:errorMessages': {
                 pattern: 'Please put your email in this format x@x.xxx'
@@ -232,7 +232,7 @@ const formConfig = {
             ],
             properties: {
               address: applicantAddress,
-              email,
+              applicantEmail: email,
               'view:emailConfirmation': email,
               phone
             }
