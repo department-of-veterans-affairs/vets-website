@@ -59,7 +59,7 @@ const formConfig = {
   trackingPrefix: 'complaint-tool',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '686',
+  formId: 'complaint-tool',
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
