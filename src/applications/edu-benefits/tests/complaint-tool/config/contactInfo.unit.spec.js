@@ -58,8 +58,8 @@ describe('complaint tool applicant info', () => {
       target: { value: 'US' }
     });
     fillData(form, 'input#root_address_postalCode', '12312');
-    fillData(form, 'input#root_email', 'test@test.com');
-    fillData(form, 'input[name="root_view:emailConfirmation"]', 'test@test.com');
+    fillData(form, 'input#root_applicantEmail', 'test@test.com');
+    fillData(form, 'input[name="root_view:applicantEmailConfirmation"]', 'test@test.com');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

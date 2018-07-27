@@ -215,7 +215,7 @@ const formConfig = {
                 pattern: 'Please put your email in this format x@x.xxx'
               }
             },
-            'view:emailConfirmation': {
+            'view:applicantEmailConfirmation': {
               'ui:title': 'Re-enter email address',
               'ui:errorMessages': {
                 pattern: 'Please enter a valid email address'
@@ -227,13 +227,13 @@ const formConfig = {
             type: 'object',
             required: [
               'address',
-              'email',
-              'view:emailConfirmation'
+              'applicantEmail',
+              'view:applicantEmailConfirmation'
             ],
             properties: {
               address: applicantAddress,
               applicantEmail: email,
-              'view:emailConfirmation': email,
+              'view:applicantEmailConfirmation': email,
               phone
             }
           }
