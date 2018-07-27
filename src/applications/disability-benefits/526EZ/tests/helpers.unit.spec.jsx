@@ -13,7 +13,8 @@ import {
   queryForFacilities,
   transform,
   hasGuardOrReservePeriod,
-  ReservesGuardDescription
+  ReservesGuardDescription,
+  transformObligationDates
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
@@ -116,7 +117,19 @@ describe('526 helpers', () => {
                 to: '2000-02-04'
               }
             }
-          ]
+          ],
+          reservesNationalGuardService: {
+            unitName: 'Alpha Bravo Charlie',
+            obligationTermOfServiceDateRange: {
+              from: '2015-05-12',
+              to: '2017-05-12'
+            },
+            title10Activation: {
+              title10ActivationDate: '2014-054-12',
+              anticipatedSeparationDate: '2019-09-02'
+            },
+            waiveVABenefitsToRetainTrainingPay: true
+          }
         },
         standardClaim: false
       }
@@ -160,6 +173,34 @@ describe('526 helpers', () => {
       expect(emailAddress).to.equal(formData.veteran.emailAddress);
     });
   });
+  describe('transformObligationDates', () => {
+    const dateRange = {
+      from: '2012-04-01',
+      to: '2015-04-01'
+    };
+
+    const formData = {
+      reservesNationalGuardService: {
+        obligationTermOfServiceDateRange: {
+          from: dateRange.from,
+          to: dateRange.to
+        }
+      }
+    };
+
+    it('adds obligation dates to the top level formData', () => {
+      expect(transformObligationDates(formData)).to.deep.equal({
+        obligationTermOfServiceDateRange: {
+          from: dateRange.from,
+          to: dateRange.to
+        }
+      });
+    });
+    it('returns original form data if reserves data is missing', () => {
+      const newFormData = { someOtherProperty: 'someOtherValue' };
+      expect(transformObligationDates(newFormData)).to.equal(newFormData);
+    });
+  });
   describe('prefillTransformer', () => {
     it('should transform prefilled disabilities', () => {
       const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
@@ -186,7 +227,7 @@ describe('526 helpers', () => {
     it('should return original data if disabilities is not an array', () => {
       const clonedData = _.cloneDeep(initialData);
       const pages = [];
-      const formData = _.set(clonedData, 'disabilities', { someProperty: 'value' });
+      const formData = _.set('disabilities', clonedData, { someProperty: 'value' });
       const metadata = {};
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
@@ -196,6 +237,24 @@ describe('526 helpers', () => {
       const dataClone = _.set(_.cloneDeep(initialData), 'disabilities[0].name', newName);
       const prefill = prefillTransformer([], dataClone, {});
       expect(prefill.formData.disabilities[0].name).to.equal(newName);
+    });
+    it('should put obligation dates into the parent level', () => {
+      const dateRange = {
+        from: '2015-05-07',
+        to: '2018-05-07'
+      };
+
+      const pages = [];
+      const metadata = {};
+      const formData = _.set(_.cloneDeep(initialData), 'reservesNationalGuardService', {
+        obligationTermOfServiceDateRange: {
+          from: dateRange.from,
+          to: dateRange.to
+        }
+      });
+
+      const newData = prefillTransformer(pages, formData, metadata);
+      expect(newData.formData.obligationTermOfServiceDateRange).to.deep.equal(dateRange);
     });
   });
   describe('getDisabilityName', () => {
