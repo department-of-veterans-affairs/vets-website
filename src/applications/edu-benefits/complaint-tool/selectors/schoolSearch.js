@@ -11,4 +11,3 @@ export const selectShowInstitutions = state => _.get(state, 'schoolSelect.showIn
 export const selectShowInstitutionsLoading = state => _.get(state, 'schoolSelect.showInstitutionsLoading');
 export const selectShowPagination = state => _.get(state, 'schoolSelect.showPagination');
 export const selectShowPaginationLoading = state => _.get(state, 'schoolSelect.showPaginationLoading');
-// select institutions
