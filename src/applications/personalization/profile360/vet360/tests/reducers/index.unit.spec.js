@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import vet360 from '../../reducers/vet360';
-import * as VET360 from '../../constants/vet360';
+import vet360 from '../../reducers';
+import * as VET360 from '../../../constants/vet360';
 
 describe('vet360 reducer', () => {
   it('should return array of transaction data', () => {
@@ -76,6 +76,7 @@ describe('vet360 reducer', () => {
       }
     });
 
+    expect(state.modal, 'The modal was closed').to.be.null;
     expect(state.transactions.length).to.eql(1);
     expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
     expect(state.fieldTransactionMap).to.eql({
@@ -214,4 +215,28 @@ describe('vet360 reducer', () => {
 
     expect(state.fieldTransactionMap.name).to.eql(undefined);
   });
+
+  it('should update profile form fields', () => {
+    const state = vet360({}, {
+      type: 'UPDATE_PROFILE_FORM_FIELD',
+      field: 'fieldName',
+      newState: {
+        fieldValue: 'value'
+      }
+    });
+
+    expect(state.formFields.fieldName).to.eql({
+      fieldValue: 'value'
+    });
+  });
+
+  it('should open modal', () => {
+    const state = vet360({}, {
+      type: 'OPEN_MODAL',
+      modal: 'modalName'
+    });
+
+    expect(state.modal).to.eql('modalName');
+  });
+
 });

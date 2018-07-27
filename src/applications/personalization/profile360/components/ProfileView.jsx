@@ -19,13 +19,11 @@ class ProfileView extends React.Component {
   static propTypes = {
     downtimeData: PropTypes.object,
     isVet360AvailableForUser: PropTypes.bool,
-    fetchAddressConstants: PropTypes.func.isRequired,
     fetchTransactions: PropTypes.func.isRequired,
     fetchMilitaryInformation: PropTypes.func.isRequired,
     fetchHero: PropTypes.func.isRequired,
     fetchPersonalInformation: PropTypes.func.isRequired,
     profile: PropTypes.shape({
-      addressConstants: PropTypes.object,
       hero: PropTypes.object,
       personalInformation: PropTypes.object,
       militaryInformation: PropTypes.object
@@ -60,12 +58,10 @@ class ProfileView extends React.Component {
     const {
       user,
       isVet360AvailableForUser,
-      fetchAddressConstants,
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
       profile: {
-        addressConstants,
         hero,
         personalInformation,
         militaryInformation
@@ -84,7 +80,7 @@ class ProfileView extends React.Component {
             <div>
               <Vet360TransactionReporter/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
-              <ContactInformation fetchAddressConstants={fetchAddressConstants} addressConstants={addressConstants} isVet360AvailableForUser={isVet360AvailableForUser} user={user}/>
+              <ContactInformation isVet360AvailableForUser={isVet360AvailableForUser} user={user}/>
               <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
               <MilitaryInformation fetchMilitaryInformation={fetchMilitaryInformation} militaryInformation={militaryInformation}/>
             </div>
