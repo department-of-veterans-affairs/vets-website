@@ -17,6 +17,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
   const defaultSettings = {
     method: 'GET',
+    credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel'
     }
