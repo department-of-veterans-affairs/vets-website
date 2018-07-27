@@ -1,6 +1,5 @@
 import _ from 'lodash/fp';
 import React from 'react';
-// import fullSchema from 'vets-json-schema/dist/686-schema.json';
 import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -8,16 +7,37 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+
+import { transform } from '../helpers';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 const { issue, issueDescription, issueResolution } = fullSchema.properties;
 
-// const { } = fullSchema.definitions;
+const {
+  address,
+  email,
+  phone
+} = fullSchema.properties;
+
+// TODO: update with new BE schema
+const {
+  street: applicantAddress,
+  street2: applicantAddress2,
+  city: applicantCity,
+  state: applicantState,
+  country: applicantCountry,
+  postalCode: applicantPostalCode
+} = address.properties;
+
+const {
+  usaPhone,
+} = fullSchema.definitions;
 
 const myself = 'Myself';
 const someoneElse = 'Someone else';
-const anonymous = 'I want to submit my feedback anonymously';
+const anonymous = 'anonymous';
 
 function isNotAnonymous(formData) {
   if (!!formData && formData !== anonymous) {
@@ -57,11 +77,15 @@ const formConfig = {
   formId: '686',
   version: 0,
   prefillEnabled: true,
+  defaultDefinitions: {
+    usaPhone
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'GI Bill® School Feedback Tool',
+  transformForSubmit: transform,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -78,9 +102,9 @@ const formConfig = {
                   // these descriptions will not work using a const, must use a string
 
                   // 'Myself' will give a lint error, but this works
-                  Myself: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  'Someone else': () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  'I want to submit my feedback anonymously': () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
+                  [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
@@ -176,7 +200,8 @@ const formConfig = {
                   myself,
                   someoneElse,
                   anonymous
-                ]
+                ],
+                enumNames: ['Myself', 'Someone else', 'I want to submit my feedback anonymously']
               },
               fullName: {
                 type: 'object',
@@ -242,6 +267,67 @@ const formConfig = {
               email: {
                 type: 'string'
               }
+            }
+          }
+        },
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact Information',
+          depends: (formData) => formData.onBehalfOf !== anonymous,
+          uiSchema: {
+            address: {
+              'ui:title': 'Address line 1'
+            },
+            address2: {
+              'ui:title': 'Address line 2'
+            },
+            city: {
+              'ui:title': 'City'
+            },
+            state: {
+              'ui:title': 'State'
+            },
+            country: {
+              'ui:title': 'Country'
+            },
+            postalCode: {
+              'ui:title': 'Postal code'
+            },
+            email: {
+              'ui:title': 'Email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
+            },
+            'view:emailConfirmation': {
+              'ui:title': 'Re-enter email address',
+              'ui:errorMessages': {
+                pattern: 'Please enter a valid email address'
+              }
+            },
+            phone: phoneUI('Phone number')
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'address',
+              'city',
+              'state',
+              'country',
+              'postalCode',
+              'email',
+              'view:emailConfirmation'
+            ],
+            properties: {
+              address: applicantAddress,
+              address2: applicantAddress2,
+              city: applicantCity,
+              state: applicantState,
+              country: applicantCountry,
+              postalCode: applicantPostalCode,
+              email,
+              'view:emailConfirmation': email,
+              phone
             }
           }
         }
