@@ -478,7 +478,7 @@ describe('526 helpers', () => {
     });
   });
 
-  describe.only('getReservesGuardData', () => {
+  describe('getReservesGuardData', () => {
     it('gets reserve & national guard data when available', () => {
       const formData = {
         unitName: 'Alpha Bravo',
