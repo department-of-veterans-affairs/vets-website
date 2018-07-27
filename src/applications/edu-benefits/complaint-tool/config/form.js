@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import React from 'react';
-// import fullSchema from 'vets-json-schema/dist/686-schema.json';
+import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -10,7 +10,15 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 import { transform } from '../helpers';
 
-// const { } = fullSchema.properties;
+const {
+  onBehalfOf,
+  fullName,
+  dob,
+  serviceAffiliation,
+  serviceBranch,
+  serviceDateRange,
+  email
+} = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
 
@@ -25,27 +33,20 @@ function isNotAnonymous(formData) {
   return false;
 }
 
+function hasNotAnonymous(formData) {
+  return !!formData && (formData.onBehalfOf !== anonymous);
+}
 
-const suffixes = [
-  'Jr.',
-  'Sr.',
-  'II',
-  'III',
-  'IV'
-];
+function hasMyself(formData) {
+  return !!formData && (formData.onBehalfOf === myself);
+}
 
-const date = {
-  pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-  type: 'string'
-};
-
-const dateRange = {
-  type: 'object',
-  properties: {
-    from: date,
-    to: date
+function isNotVeteranOrServiceMember(formData) {
+  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
+    return true;
   }
-};
+  return false;
+}
 
 const formConfig = {
   urlPrefix: '/',
@@ -77,12 +78,9 @@ const formConfig = {
               'ui:title': 'I’m submitting feedback on behalf of...',
               'ui:options': {
                 nestedContent: {
-                  // these descriptions will not work using a const, must use a string
-
-                  // 'Myself' will give a lint error, but this works
-                  Myself: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  'Someone else': () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  'I want to submit my feedback anonymously': () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
+                  [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
+                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
@@ -96,11 +94,11 @@ const formConfig = {
               },
               first: {
                 'ui:title': 'Your first name',
-                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== anonymous)
+                'ui:required': hasNotAnonymous
               },
               last: {
                 'ui:title': 'Your last name',
-                'ui:required': (formData) => !!formData && (formData.onBehalfOf !== anonymous)
+                'ui:required': hasNotAnonymous
               },
               middle: {
                 'ui:title': 'Your middle name'
@@ -126,17 +124,12 @@ const formConfig = {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: myself
               },
-              'ui:required': (formData) => !!formData && (formData.onBehalfOf === myself)
+              'ui:required': hasMyself,
             },
             serviceBranch: {
               'ui:title': 'Branch of service',
               'ui:options': {
-                hideIf: (formData) => {
-                  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
-                    return true;
-                  }
-                  return false;
-                },
+                hideIf: isNotVeteranOrServiceMember,
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: myself
               }
@@ -148,12 +141,7 @@ const formConfig = {
             ),
             {
               'ui:options': {
-                hideIf: (formData) => {
-                  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
-                    return true;
-                  }
-                  return false;
-                },
+                hideIf: isNotVeteranOrServiceMember,
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: myself
               }
@@ -172,78 +160,13 @@ const formConfig = {
               'onBehalfOf',
             ],
             properties: {
-              onBehalfOf: {
-                type: 'string',
-                'enum': [
-                  myself,
-                  someoneElse,
-                  anonymous
-                ]
-              },
-              fullName: {
-                type: 'object',
-                properties: {
-                  prefix: {
-                    type: 'string',
-                    'enum': [
-                      'Mr.',
-                      'Mrs.',
-                      'Ms.',
-                      'Dr.',
-                      'Other'
-                    ]
-                  },
-                  first: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 100
-                  },
-                  middle: {
-                    type: 'string'
-                  },
-                  last: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 100
-                  },
-                  suffix: {
-                    type: 'string',
-                    'enum': suffixes
-                  }
-                },
-                required: [
-                  'first',
-                  'last'
-                ]
-              },
-              dob: {
-                type: 'string',
-                format: 'date'
-              },
-              serviceAffiliation: { // design may change
-                type: 'string',
-                'enum': [
-                  'Service Member',
-                  'Spouse or Family Member',
-                  'Veteran',
-                  'Other'
-                ]
-              },
-              serviceBranch: {
-                type: 'string',
-                'enum': [
-                  'Army',
-                  'Navy',
-                  'Marines',
-                  'Air Force',
-                  'Coast Guard',
-                  'NOAA/PHS'
-                ]
-              },
-              serviceDateRange: dateRange,
-              email: {
-                type: 'string'
-              }
+              onBehalfOf,
+              fullName,
+              dob,
+              serviceAffiliation,
+              serviceBranch,
+              serviceDateRange,
+              email
             }
           }
         }
