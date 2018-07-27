@@ -5,13 +5,21 @@ export const FETCH_PERSONAL_INFORMATION_SUCCESS = 'FETCH_PERSONAL_INFORMATION_SU
 export const FETCH_MILITARY_INFORMATION_SUCCESS = 'FETCH_MILITARY_INFORMATION_SUCCESS';
 export const FETCH_ADDRESS_CONSTANTS_SUCCESS = 'FETCH_ADDRESS_CONSTANTS_SUCCESS';
 
+async function getData(apiRoute) {
+  try {
+    const response = await apiRequest(apiRoute);
+    return response.data.attributes;
+  } catch (error) {
+    return { error };
+  }
+}
+
 export function fetchHero() {
   return async (dispatch) => {
-    const userFullName = await apiRequest('/profile/full_name');
     dispatch({
       type: FETCH_HERO_SUCCESS,
       hero: {
-        userFullName: userFullName.data.attributes
+        userFullName: await getData('/profile/full_name')
       }
     });
   };
@@ -19,21 +27,19 @@ export function fetchHero() {
 
 export function fetchPersonalInformation() {
   return async (dispatch) => {
-    const personalInformation = await apiRequest('/profile/personal_information');
     dispatch({
       type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-      personalInformation: personalInformation.data.attributes
+      personalInformation: await getData('/profile/personal_information')
     });
   };
 }
 
 export function fetchMilitaryInformation() {
   return async (dispatch) => {
-    const serviceHistory = await apiRequest('/profile/service_history');
     dispatch({
       type: FETCH_MILITARY_INFORMATION_SUCCESS,
       militaryInformation: {
-        serviceHistory: serviceHistory.data.attributes
+        serviceHistory: await getData('/profile/service_history')
       }
     });
   };
