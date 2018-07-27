@@ -239,7 +239,7 @@ const formConfig = {
                   },
                   'DEA Ch 35': {
                     type: 'boolean',
-                    title: 'Survivors & Dependents Assistance (DEA) (Chapter 35)'
+                    title: 'Survivors’ and Dependents’ Assistance (DEA) (Chapter 35)'
                   },
                   'VRE Ch 31': {
                     type: 'boolean',
@@ -259,7 +259,7 @@ const formConfig = {
                       },
                       'TA-AGR': {
                         type: 'boolean',
-                        title: 'State Funded Tuition Assistance (TA) for Service Members Performing Active Guard and Reserve Duties (AGR)'
+                        title: 'State-funded Tuition Assistance (TA) for Servicemembers on Active Guard and Reserve (AGR) duties'
                       },
                       MyCAA: {
                         type: 'boolean',
