@@ -90,7 +90,7 @@ If you have 180 to 90 days left on active duty, you'll need to apply for benefit
 ### If you're stationed in the U.S.
 
 You can apply for benefits online, by mail, or in person. <br>
-[Learn more about how to apply for benefits](/disability-benefits/apply/).
+[Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 **To complete the process, you'll need to:**
 
@@ -143,7 +143,7 @@ Or contact your local VSO.<br>
 ### File a fully developed or standard claim
 
 The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
-[Learn about the application process](/disability-benefits/apply/).<br>
+[Find out how to file a claim for disability compensation](/disability-benefits/apply/).<br>
 [Find out what evidence you need for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 </div>
