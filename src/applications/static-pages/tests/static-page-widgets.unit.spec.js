@@ -1,17 +1,8 @@
 import { expect } from 'chai';
 
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 import mountWidgets from '../static-page-widgets';
 
 describe('static page widget', () => {
-  beforeEach(() => {
-    conditionalStorage().setItem('userToken', 'asdfafd');
-  });
-
-  afterEach(() => {
-    conditionalStorage().clear();
-  });
-
   it('should display a spinner', () => {
     const widget = {
       root: 'testRoot',
