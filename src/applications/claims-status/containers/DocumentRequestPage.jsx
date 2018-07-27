@@ -78,8 +78,7 @@ class DocumentRequestPage extends React.Component {
     } else {
       const trackedItem = this.props.trackedItem;
       const claim = this.props.claim;
-      const claimsPath = `your-claims/${claim.id}`;
-      const filesPath = `your-claims/${this.props.claim.id}/files`;
+      const filesPath = `your-claims/${claim.id}/files`;
       const itemPath = `your-claims/${claim.id}/document-request/${trackedItem.id}`;
       const message = this.props.message;
 
@@ -88,7 +87,7 @@ class DocumentRequestPage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <ClBreadcrumbs>
-                <Link to={claimsPath}>Status Details</Link>
+                <Link to={filesPath}>Status Details</Link>
                 <Link to={itemPath}>Document Request</Link>
               </ClBreadcrumbs>
             </div>

@@ -69,7 +69,7 @@ class AdditionalEvidencePage extends React.Component {
       content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
     } else {
       const claim = this.props.claim;
-      const claimsPath = `your-claims/${claim.id}`;
+      const claimsPath = `your-claims/${claim.id}/files`;
       const filesPath = `your-claims/${claim.id}/additional-evidence`;
       const message = this.props.message;
 
@@ -78,7 +78,7 @@ class AdditionalEvidencePage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <ClBreadcrumbs>
-                <Link to={claimsPath}>Status Detail</Link>
+                <Link to={claimsPath}>Status Details</Link>
                 <Link to={filesPath}>Additional Evidence</Link>
               </ClBreadcrumbs>
             </div>

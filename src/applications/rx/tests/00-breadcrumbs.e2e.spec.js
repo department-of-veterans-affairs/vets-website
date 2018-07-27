@@ -40,6 +40,26 @@ module.exports = E2eHelpers.createE2eTest(
     // Reset default size
     client.resizeWindow(1024, 768);
 
+    // Check breadcrumb on prescription detail page
+    client
+      .click('.rx-prescription-info .rx-prescription-title a')
+      .waitForElementVisible('#rx-details', Timeouts.slow);
+
+    client.expect.element('.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]').to.be.present;
+    client.expect.element('.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]').text.to.equal('Prescription Details');
+    client.expect.element('.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]').to.have.css('pointer-events').which.equal('none');
+
+    // Mobile test, most common size
+    client.resizeWindow(375, 667);
+
+    client.waitForElementVisible('.va-nav-breadcrumbs-list', Timeouts.normal);
+    client.expect.element('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))').to.have.css('display').which.equal('none');
+    client.expect.element('.va-nav-breadcrumbs-list li:nth-last-child(2)').text.to.equal('Prescription Refills');
+    client.expect.element('.va-nav-breadcrumbs-list li:nth-last-child(2)').to.have.css('display').which.equal('inline-block');
+
+    // Reset default size
+    client.resizeWindow(1024, 768);
+
     client.end();
   }
 );

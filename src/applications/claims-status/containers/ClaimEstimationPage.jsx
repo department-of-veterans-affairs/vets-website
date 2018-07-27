@@ -11,16 +11,13 @@ class ClaimEstimationPage extends React.Component {
     setUpPage();
   }
   render() {
-    const claim = this.props.claim;
-    const claimsPath = `your-claims/${claim.id}`;
-    const datePath = `your-claims/${claim.id}/claim-estimate`;
     return (
       <div>
         <div className="row">
           <div className="medium-12 columns">
             <ClBreadcrumbs>
-              <Link to={claimsPath}>Status Details</Link>
-              <Link to={datePath}>Estimated Decision Date</Link>
+              <Link to={`your-claims/${this.props.params.id}`}>Status Details</Link>
+              <Link to={`your-claims/${this.props.params.id}/claim-estimate`}>Estimated Decision Date</Link>
             </ClBreadcrumbs>
           </div>
         </div>

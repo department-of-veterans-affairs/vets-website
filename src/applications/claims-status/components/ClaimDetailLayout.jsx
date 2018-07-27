@@ -29,7 +29,7 @@ export default class ClaimDetailLayout extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <ClBreadcrumbs>
-                <Link to={claimsPath}>Status Detail</Link>
+                <Link to={claimsPath}>Status Details</Link>
               </ClBreadcrumbs>
             </div>
           </div>

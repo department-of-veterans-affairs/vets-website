@@ -35,19 +35,6 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.profile-page', Timeouts.normal)
       .axeCheck('.main');
 
-    // Treating hard refreshes of a profile detail page differently.
-    // We are appending the Search Results crumb using `searchCount` logic.
-    // Hard page refreshes won't have that available, so we shorten the
-    // breadcrumb by one on refresh, and assert the list length is 4.
-    client
-      .refresh()
-      .waitForElementVisible('.va-nav-breadcrumbs', Timeouts.normal)
-      .waitForElementVisible('.va-nav-breadcrumbs-list', Timeouts.normal)
-      .waitForElementVisible('.profile-page', Timeouts.normal);
-
-    client.expect.element('.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]').to.be.present;
-    client.expect.element('.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]').to.have.css('pointer-events').which.equal('none');
-
     client.end();
   }
 );

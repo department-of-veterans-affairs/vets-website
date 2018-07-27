@@ -4,11 +4,11 @@ entryname: 686-dependent-status
 layout: page-react.html
 ---
 <div id="main">
-  <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
+  <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
+    <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>
       <li><a href="/disability-benefits/"> Disability Benefits </a></li>
-      <li><a href="/disability-benefits/apply/dependents/form-686c-dependents/"> Declaration of Dependents </a></li>
+      <li><a aria-current="page" href="/disability-benefits/apply/dependents/form-686c-dependents/"> Declaration of Dependents </a></li>
     </ul>
   </nav>
   <div class="section">
