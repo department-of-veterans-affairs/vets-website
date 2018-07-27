@@ -191,7 +191,7 @@ const formConfig = {
           title: 'Feedback Information',
           uiSchema: {
             issue: {
-              'ui:title': 'Which describes your feedback? (Select all that apply)',
+              'ui:title': 'Which topic best describes your feedback? (Select all that apply)',
               'ui:validations': [
                 validateBooleanGroup
               ],
@@ -249,7 +249,7 @@ const formConfig = {
               }
             },
             issueDescription: {
-              'ui:title': 'Please give us your feedback and any details about your issue. (32,000 characters maximum)',
+              'ui:title': 'Please write your feedback and any details about your issue in the space below. (32,000 characters maximum)',
               'ui:widget': 'textarea',
               'ui:options': {
                 rows: 5,
