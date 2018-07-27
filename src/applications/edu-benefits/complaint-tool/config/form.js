@@ -341,7 +341,7 @@ const formConfig = {
           title: 'Benefits Information',
           uiSchema: {
             programs: {
-              'ui:title': 'Which education benefits have you used?',
+              'ui:title': 'Which education benefits have you used? (Select all that apply)',
               'ui:validations': [
                 validateBooleanGroup
               ],
@@ -354,12 +354,12 @@ const formConfig = {
             },
             assistance: {
               'view:assistance': {
-                'ui:title': 'Which military tuition assistance benefits have you used?',
+                'ui:title': 'Which military tuition assistance benefits have you used? (Select all that apply)',
                 'ui:options': {
                   showFieldLabel: true
                 },
               },
-              FFA: {
+              'view:FFA': {
                 'ui:title': 'Have you used any of these other benefits?',
                 'ui:options': {
                   showFieldLabel: true
@@ -376,15 +376,15 @@ const formConfig = {
                 properties: {
                   'Post-9/11 Ch 33': {
                     type: 'boolean',
-                    title: 'Post-9/11 GI Bill (Ch. 33)'
+                    title: 'Post-9/11 GI Bill (Chapter 33)'
                   },
                   'MGIB-AD Ch 30': {
                     type: 'boolean',
-                    title: 'Montgomery GI Bill - Active Duty (MGIB) (Ch. 30)'
+                    title: 'Montgomery GI Bill - Active Duty (MGIB-AD, Chapter 30)'
                   },
                   'MGIB-SR Ch 1606': {
                     type: 'boolean',
-                    title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR) (Ch. 1606)'
+                    title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606)'
                   },
                   TATU: {
                     type: 'boolean',
@@ -392,11 +392,11 @@ const formConfig = {
                   },
                   'DEA Ch 35': {
                     type: 'boolean',
-                    title: 'Survivors & Dependents Assistance (DEA) (Ch. 35)'
+                    title: 'Survivors & Dependents Assistance (DEA) (Chapter 35)'
                   },
                   'VRE Ch 31': {
                     type: 'boolean',
-                    title: 'Vocational Rehabilitation and Employment (VR&E) (Ch. 31)'
+                    title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)'
                   },
                 }
               },
@@ -420,9 +420,14 @@ const formConfig = {
                       }
                     }
                   },
-                  FFA: {
-                    type: 'boolean',
-                    title: 'Federal financial aid'
+                  'view:FFA': {
+                    type: 'object',
+                    properties: {
+                      FFA: {
+                        type: 'boolean',
+                        title: 'Federal financial aid'
+                      }
+                    }
                   }
                 }
               }
