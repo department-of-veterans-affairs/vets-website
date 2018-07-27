@@ -10,8 +10,7 @@ function mock(token, json) {
     request({
       uri: `${E2eHelpers.apiUrl}/mock`,
       method: 'POST',
-      json: jsonWithToken,
-      jar: true
+      json: jsonWithToken
     }, (error, response) => {
       if (error) {
         reject(error);
