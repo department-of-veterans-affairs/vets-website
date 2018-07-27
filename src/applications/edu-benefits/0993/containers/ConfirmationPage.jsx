@@ -5,6 +5,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import GetFormHelp from '../../components/GetFormHelp';
 
@@ -19,6 +20,7 @@ const scrollToTop = () => {
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
+    recordEvent({ event: 'edu-opt-out-submission-successful' });
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }

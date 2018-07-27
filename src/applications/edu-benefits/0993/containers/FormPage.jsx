@@ -11,6 +11,7 @@ import SchemaForm from 'us-forms-system/lib/js/components/SchemaForm';
 import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
 import { getNextPagePath } from 'us-forms-system/lib/js/routing';
 import { focusElement } from 'us-forms-system/lib/js/utilities/ui';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 function focusForm() {
   focusElement('.nav-header');
@@ -52,6 +53,8 @@ class FormPage extends React.Component {
   }
 
   onSubmit = ({ formData }) => {
+    // TODO: do the below only on final form submit
+    // recordEvent({ event: 'edu-navigation', 'edu-action': 'submit' });
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
@@ -67,6 +70,8 @@ class FormPage extends React.Component {
   }
 
   goBack = () => {
+    // TODO: also do the below when clicking BACK on the final form page
+    recordEvent({ event: 'edu-navigation', 'edu-action': 'back' });
     const formPageUrl = window.location.pathname;
     let introductionPageUrl = formPageUrl.split('/');
     introductionPageUrl.splice(-2);

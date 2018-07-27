@@ -1,17 +1,25 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
+import recordEvent from '../../../platform/monitoring/record-event';
+
 export default class OptOutWizard extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
   }
 
+  confirmOptOut = () => {
+    recordEvent({ event: 'edu-navigation', 'edu-action': 'confirm' });
+  }
+
   closeModal = () => {
+    recordEvent({ event: 'edu-navigation', 'edu-action': 'cancel' });
     this.setState({ modalOpen: false });
   }
 
   openModal = () => {
+    recordEvent({ event: 'edu-navigation', 'edu-action': 'opt-out-button' });
     this.setState({ modalOpen: true });
   }
 
@@ -41,6 +49,7 @@ export default class OptOutWizard extends React.Component {
           <p><strong>Please note:</strong> If you opt out and then change your mind, you’ll need to call the Education Call Center at <a className="help-phone-number-link" href="tel:+1-888-442-4551">1-888-442-4551</a> to opt back in.</p>
           <div>
             <a
+              onClick={this.confirmOptOut}
               href="/education/opt-out-information-sharing/opt-out-form-0993"
               className="usa-button-primary">
               Yes, I Want to Opt Out
