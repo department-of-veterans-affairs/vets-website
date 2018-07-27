@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import RxBreadcrumbs from '../../components/Breadcrumbs';
 
 const props = {
   location: {
@@ -25,22 +25,16 @@ const crumbs = [
 
 describe('<Breadcrumbs>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<Breadcrumbs {...props}/>);
+    const tree = SkinDeep.shallowRender(<RxBreadcrumbs {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(<Breadcrumbs {...props}/>);
-
-    expect(tree.props.className).to.equal('va-nav-breadcrumbs');
-  });
-
-  it('should render on prescription detail pages correctly', () => {
+  it('should render on prescription refills page correctly', () => {
     const tree = SkinDeep.shallowRender(
-      <Breadcrumbs {...props} location={{ pathname: 'foo/123' }}>
+      <RxBreadcrumbs {...props}>
         {crumbs}
-      </Breadcrumbs>
+      </RxBreadcrumbs>
     );
     const lastSpan = tree.everySubTree('Link').pop().subTree();
 
@@ -48,11 +42,29 @@ describe('<Breadcrumbs>', () => {
     expect(lastSpan.text()).to.equal('Prescription Refills');
   });
 
-  // TODO: Remove the test if you feel it's unnessary
-  // it('should render on glossary page correctly', () => {
-  //   const tree = SkinDeep.shallowRender(<Breadcrumbs {...props} location={{ pathname: 'foo/glossary/' }}/>);
-  //   const lastSpan = tree.everySubTree('Link').pop().subTree();
-  //   expect(lastSpan).to.be.ok;
-  //   expect(lastSpan.text()).to.equal('Prescription Refills');
-  // });
+  it('should render on prescription detail pages correctly', () => {
+    const tree = SkinDeep.shallowRender(
+      <RxBreadcrumbs {...props} location={{ pathname: 'foo/123' }}>
+        {crumbs}
+      </RxBreadcrumbs>
+    );
+    const lastSpan = tree.everySubTree('Link').pop().subTree();
+
+    expect(lastSpan).to.be.ok;
+    expect(lastSpan.text()).to.equal('Prescription Details');
+  });
+
+  it('should render on glossary page correctly', () => {
+    const tree = SkinDeep.shallowRender(<RxBreadcrumbs {...props} location={{ pathname: 'foo/glossary/' }}/>);
+    const lastSpan = tree.everySubTree('Link').pop().subTree();
+    expect(lastSpan).to.be.ok;
+    expect(lastSpan.text()).to.equal('Glossary');
+  });
+
+  it('should render on settings page correctly', () => {
+    const tree = SkinDeep.shallowRender(<RxBreadcrumbs {...props} location={{ pathname: 'foo/settings/' }}/>);
+    const lastSpan = tree.everySubTree('Link').pop().subTree();
+    expect(lastSpan).to.be.ok;
+    expect(lastSpan.text()).to.equal('Settings');
+  });
 });
