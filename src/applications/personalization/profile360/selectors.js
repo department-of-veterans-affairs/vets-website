@@ -96,9 +96,9 @@ export function selectVet360PendingCategoryTransactions(state, type) {
 }
 
 export function selectEditedFormField(state, fieldName) {
-  return state.vaProfile.formFields[fieldName];
+  return state.vet360.formFields[fieldName];
 }
 
 export function selectCurrentlyOpenEditModal(state) {
-  return state.vaProfile.modal;
+  return state.vet360.modal;
 }
