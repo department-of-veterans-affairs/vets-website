@@ -37,6 +37,7 @@ The child’s biological mother or father served in:
 
 The child was conceived after the parent served in either South Vietnam or the Republic of Korea.
  
+**Note**: Your character of discharge and length of service don't affect your child's eligibility for disability benefits relating to spina bifida.
 <br>
 
 #### For Other Birth Defects
@@ -47,6 +48,8 @@ Your child may be able to get disability benefits if they have a covered birth d
 - The child’s biological mother served in South Vietnam any time from January 9, 1962, through May 7, 1975, **and**
 - The child was conceived after the mother served in South Vietnam  
 
+
+[See the list of covered birth defects](https://www.publichealth.va.gov/exposures/agentorange/birth-defects/children-women-vietnam-vets.asp).
 <br>
 
 ### Who’s covered?
@@ -66,7 +69,12 @@ Your child may be able to get disability benefits if they have a covered birth d
 
 ### How do I get these benefits for my child?
 
-You’ll need to apply for benefits for your child. When you apply, you’ll have to show that your contact with certain chemicals while serving in the military likely caused your child’s birth defect. <br>
+You’ll need to apply for benefits for your child and submit this evidence:
+- A document showing the biological relationship between the child and the Veteran parent, **and**
+- Service records that prove the Veteran served in Vietnam or Korea during the qualifying dates listed above, **and**
+- The child's birth certificate, **and**
+- Medical records with the diagnosis of spina bifida or another covered birth defect
+
 [Apply for benefits](/disability-benefits/apply/).
 
 ### Get more information
