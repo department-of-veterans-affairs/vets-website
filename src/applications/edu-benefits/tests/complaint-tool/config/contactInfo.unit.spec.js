@@ -32,7 +32,7 @@ describe('complaint tool applicant info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(7);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -46,18 +46,18 @@ describe('complaint tool applicant info', () => {
         uiSchema={uiSchema}/>
     );
 
-    fillData(form, 'input#root_address', 'test');
-    fillData(form, 'input#root_address2', 'test');
-    fillData(form, 'input#root_city', 'test');
-    const state  = form.find('select#root_state');
+    fillData(form, 'input#root_address_street', 'test');
+    fillData(form, 'input#root_address_street2', 'test');
+    fillData(form, 'input#root_address_city', 'test');
+    const state  = form.find('select#root_address_state');
     state.simulate('change', {
-      target: { value: 'California' } // TODO: update with new schema
+      target: { value: 'CA' } // TODO: update with new schema
     });
-    const country  = form.find('select#root_country');
+    const country  = form.find('select#root_address_country');
     country.simulate('change', {
       target: { value: 'US' }
     });
-    fillData(form, 'input#root_postalCode', '12312');
+    fillData(form, 'input#root_address_postalCode', '12312');
     fillData(form, 'input#root_email', 'test@test.com');
     fillData(form, 'input[name="root_view:emailConfirmation"]', 'test@test.com');
     form.find('form').simulate('submit');

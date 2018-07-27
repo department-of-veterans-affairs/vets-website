@@ -118,7 +118,7 @@ describe('complaint tool applicant info', () => {
         uiSchema={uiSchema}/>
     );
 
-    selectRadio(form, 'root_onBehalfOf', 'I want to submit my complaint anonymously');
+    selectRadio(form, 'root_onBehalfOf', 'Anonymous');
     expect(form.find('input').length).to.equal(4);
   });
 
