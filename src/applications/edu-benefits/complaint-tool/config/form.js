@@ -20,7 +20,10 @@ const {
   email
 } = fullSchema.properties;
 
-// const { } = fullSchema.definitions;
+const {
+  date,
+  dateRange
+} = fullSchema.definitions;
 
 const myself = 'Myself';
 const someoneElse = 'Someone else';
@@ -64,6 +67,8 @@ const formConfig = {
   title: 'GI Bill® School Feedback Tool',
   transformForSubmit: transform,
   defaultDefinitions: {
+    date,
+    dateRange
   },
   chapters: {
     applicantInformation: {
