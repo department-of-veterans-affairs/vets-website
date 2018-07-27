@@ -15,7 +15,8 @@ import {
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
   transformObligationDates,
-  isInFuture
+  isInFuture,
+  getReservesGuardData
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
@@ -457,7 +458,7 @@ describe('526 helpers', () => {
     });
   });
 
-  describe.only('isInFuture', () => {
+  describe('isInFuture', () => {
     it('adds an error when entered date is today or earlier', () => {
       const addError = sinon.spy();
       const errors = { addError };
@@ -474,6 +475,49 @@ describe('526 helpers', () => {
 
       isInFuture(errors, fieldData);
       expect(addError.callCount).to.equal(0);
+    });
+  });
+
+  describe.only('getReservesGuardData', () => {
+    it('gets reserve & national guard data when available', () => {
+      const formData = {
+        unitName: 'Alpha Bravo',
+        obligationTermOfServiceDateRange: {
+          from: '2012-02-02',
+          to: '2018-02-02'
+        },
+        waiveVABenefitsToRetainTrainingPay: false
+      };
+
+      expect(getReservesGuardData(formData)).to.deep.equal(formData);
+    });
+    it('get title 10 data when available', () => {
+      const formData = {
+        unitName: 'Alpha Bravo',
+        obligationTermOfServiceDateRange: {
+          from: '2012-02-02',
+          to: '2018-02-02'
+        },
+        waiveVABenefitsToRetainTrainingPay: false,
+        'view:isTitle10Activated': true,
+        title10Activation: {
+          title10ActivationDate: '2016-05-04',
+          anticipatedSeparationDate: '2099-05-03'
+        }
+      };
+
+      expect(getReservesGuardData(formData)).to.deep.equal(_.omit(formData, 'view:isTitle10Activated'));
+    });
+    it('returns null when some required data is missing', () => {
+      const formData = {
+        obligationTermOfServiceDateRange: {
+          from: '2012-02-02',
+          to: '2018-02-02'
+        },
+        waiveVABenefitsToRetainTrainingPay: false
+      };
+
+      expect(getReservesGuardData(formData)).to.equal(null);
     });
   });
 });

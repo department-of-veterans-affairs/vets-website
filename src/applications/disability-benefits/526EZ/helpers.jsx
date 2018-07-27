@@ -57,7 +57,7 @@ const setPhoneEmailPaths = (veteran) => {
 };
 
 
-const getReservesGuardData = (formData) => {
+export const getReservesGuardData = (formData) => {
   const {
     unitName,
     obligationTermOfServiceDateRange,
