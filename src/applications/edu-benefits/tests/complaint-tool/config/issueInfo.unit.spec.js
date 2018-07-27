@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester, selectCheckbox, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../complaint-tool/config/form';
 
-describe('complaint tool applicant info', () => {
+describe('complaint tool issue info', () => {
   const { schema, uiSchema } = formConfig.chapters.issueInformation.pages.issueInformation;
 
   it('should render', () => {
@@ -18,7 +18,7 @@ describe('complaint tool applicant info', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(9);
+    expect(form.find('input').length).to.equal(11);
   });
 
   it('should not submit without required information', () => {
@@ -46,7 +46,8 @@ describe('complaint tool applicant info', () => {
         uiSchema={uiSchema}/>
     );
 
-    selectCheckbox(form, 'root_view:issueType_Recruiting or marketing practices', true);
+
+    selectCheckbox(form, 'root_issue_Recruiting/Marketing Practices', true);
     fillData(form, 'textarea#root_complaint', 'test');
     fillData(form, 'textarea#root_resolution', 'test');
     form.find('form').simulate('submit');
