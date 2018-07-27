@@ -115,6 +115,7 @@ const formConfig = {
               suffix: {
                 'ui:title': 'Your suffix'
               },
+              'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: isNotAnonymous
@@ -181,7 +182,7 @@ const formConfig = {
       }
     },
     benefitsInformation: {
-      title: 'Benefits Information',
+      title: 'Education Benefits',
       pages: {
         benefitsInformation: {
           path: 'benefits-information',
@@ -197,14 +198,14 @@ const formConfig = {
               },
               'ui:errorMessages': {
                 atLeastOne: 'Please select at least one'
-              },
+              }
             },
             assistance: {
               'view:assistance': {
                 'ui:title': 'Which military tuition assistance benefits have you used? (Select all that apply)',
                 'ui:options': {
                   showFieldLabel: true
-                },
+                }
               },
               'view:FFA': {
                 'ui:title': 'Have you used any of these other benefits?',
@@ -244,7 +245,7 @@ const formConfig = {
                   'VRE Ch 31': {
                     type: 'boolean',
                     title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)'
-                  },
+                  }
                 }
               },
               assistance: {
