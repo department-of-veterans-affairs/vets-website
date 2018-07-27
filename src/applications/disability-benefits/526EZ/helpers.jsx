@@ -957,6 +957,6 @@ export const title10DatesRequired = (formData) => get('view:isTitle10Activated',
 export const isInFuture = (errors, fieldData) => {
   const enteredDate = new Date(fieldData);
   if (enteredDate < Date.now()) {
-    errors.addError('Anticipated separation date must not be in the past');
+    errors.addError('Anticipated separation date must be in the future');
   }
 };
