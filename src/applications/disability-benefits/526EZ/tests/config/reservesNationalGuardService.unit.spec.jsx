@@ -7,7 +7,7 @@ import _ from 'lodash/fp';
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
-describe.only('Disability benefits 526EZ reservesNationalGuardService', () => {
+describe('Disability benefits 526EZ reservesNationalGuardService', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.reservesNationalGuardService;
 
   const defaultFormData = {
