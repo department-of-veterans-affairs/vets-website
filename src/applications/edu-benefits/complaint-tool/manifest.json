@@ -1,5 +1,5 @@
 {
-    "appName": "Opt Out of Sharing VA Education Benefits Information",
+    "appName": "GI Bill School Feedback Tool",
     "entryFile": "./complaint-tool-entry.jsx",
     "entryName": "complaint-tool",
     "rootUrl": "/education/complaint-tool/form",

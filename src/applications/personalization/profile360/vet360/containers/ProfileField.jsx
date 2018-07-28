@@ -16,7 +16,7 @@ import {
   updateFormField,
   openModal,
   fieldUpdaters
-} from '../actions';
+} from '../../actions';
 
 import {
   selectVet360Field,
