@@ -12,7 +12,7 @@ import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
-import { transform } from '../helpers';
+import { transform, validateZIP } from '../helpers';
 
 const {
   onBehalfOf,
