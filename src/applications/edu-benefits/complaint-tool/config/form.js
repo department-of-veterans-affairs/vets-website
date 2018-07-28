@@ -211,8 +211,11 @@ const formConfig = {
               },
               postalCode: {
                 'ui:title': 'Postal code',
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid 5 digit postal code'
+                },
                 'ui:options': {
-                  widgetClassNames: 'usa-input-medium'
+                  widgetClassNames: 'va-input-medium-large',
                 }
               }
             },
