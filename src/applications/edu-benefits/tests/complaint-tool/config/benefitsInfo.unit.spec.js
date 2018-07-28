@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester, selectCheckbox } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../complaint-tool/config/form';
 
-describe('complaint tool applicant info', () => {
+describe('complaint tool benefits info', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitsInformation.pages.benefitsInformation;
 
   it('should render', () => {
