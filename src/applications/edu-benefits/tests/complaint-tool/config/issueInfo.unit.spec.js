@@ -46,7 +46,7 @@ describe('complaint tool issue info', () => {
         uiSchema={uiSchema}/>
     );
 
-    selectCheckbox(form, 'root_issue_Accreditation', true);
+    selectCheckbox(form, 'root_issue_accreditation', true);
     fillData(form, 'textarea#root_issueDescription', 'test');
     fillData(form, 'textarea#root_issueResolution', 'test');
     form.find('form').simulate('submit');

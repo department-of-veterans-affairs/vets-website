@@ -13,8 +13,6 @@ import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import { transform } from '../helpers';
 
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
-
 const {
   onBehalfOf,
   fullName,
@@ -308,49 +306,49 @@ const formConfig = {
                 atLeastOne: 'Please select at least one'
               },
               'ui:order': [
-                'Recruiting/Marketing Practices',
-                'Accreditation',
-                'Financial Issues (e.g. Tuition/Fee charges)',
-                'Student Loans',
-                'Post-graduation Job Opportunities',
-                'Change in degree plan/requirements',
-                'Quality of Education',
-                'Grade Policy',
-                'Release of Transcripts',
-                'Transfer of Credits',
-                'Refund Issues'
+                'recruiting',
+                'accreditation',
+                'financialIssues',
+                'studentLoans',
+                'jobOpportunities',
+                'changeInDegree',
+                'quality',
+                'gradePolicy',
+                'transcriptRelease',
+                'creditTransfer',
+                'refundIssues'
               ],
-              'Recruiting/Marketing Practices': {
+              recruiting: {
                 'ui:title': 'Recruiting or marketing practices'
               },
-              'Student Loans': {
+              studentLoans: {
                 'ui:title': 'Student loan'
               },
-              'Quality of Education': {
+              quality: {
                 'ui:title': 'Quality of education'
               },
-              'Transfer of Credits': {
+              creditTransfer: {
                 'ui:title': 'Transfer of credits'
               },
-              Accreditation: {
+              accreditation: {
                 'ui:title': 'Accreditation'
               },
-              'Post-graduation Job Opportunities': {
+              jobOpportunities: {
                 'ui:title': 'Post-graduation job opportunity'
               },
-              'Grade Policy': {
+              gradePolicy: {
                 'ui:title': 'Grade policy'
               },
-              'Refund Issues': {
+              refundIssues: {
                 'ui:title': 'Refund issues'
               },
-              'Financial Issues (e.g. Tuition/Fee charges)': {
+              financialIssues: {
                 'ui:title': 'Financial concern (for example, tuition or fee changes)'
               },
-              'Change in degree plan/requirements': {
+              changeInDegree: {
                 'ui:title': 'Change in degree plan or requirements'
               },
-              'Release of Transcripts': {
+              transcriptRelease: {
                 'ui:title': 'Release of transcripts'
               }
             },
