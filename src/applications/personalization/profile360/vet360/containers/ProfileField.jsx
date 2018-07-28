@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from '../../../../../platform/monitoring/record-event';
 
-import * as VET360 from '../constants/vet360';
+import * as VET360 from '../../constants/vet360';
 
 import {
   isPendingTransaction
-} from '../util/transactions';
+} from '../../util/transactions';
 
 import {
   clearTransactionRequest,
@@ -16,7 +16,7 @@ import {
   updateFormField,
   openModal,
   fieldUpdaters
-} from '../actions';
+} from '../../actions';
 
 import {
   selectVet360Field,
@@ -25,8 +25,8 @@ import {
   selectEditedFormField
 } from '../selectors';
 
-import Vet360ProfileFieldHeading from '../components/Vet360ProfileFieldHeading';
-import Vet360Transaction from '../components/Vet360Transaction';
+import Vet360ProfileFieldHeading from '../components/base/ProfileFieldHeading';
+import Vet360Transaction from '../components/base/Transaction';
 
 class Vet360ProfileField extends React.Component {
 
@@ -104,6 +104,7 @@ const mapStateToProps = (state, ownProps) => {
   const { transaction, transactionRequest } = selectVet360Transaction(state, fieldName);
 
   return {
+    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     data: selectVet360Field(state, fieldName),
     field: selectEditedFormField(state, fieldName),
     isEditing: selectCurrentlyOpenEditModal(state) === fieldName,

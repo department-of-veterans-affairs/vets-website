@@ -1,13 +1,13 @@
-import backendServices from '../../../platform/user/profile/constants/backendServices';
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
 import {
   isVet360Configured
-} from './util/local-vet360';
+} from '../util/local-vet360';
 
 import {
   isFailedTransaction,
   isPendingTransaction
-} from './util/transactions';
+} from '../util/transactions';
 
 export function selectIsVet360AvailableForUser(state) {
   if (!isVet360Configured()) return true; // returns true if on localhost

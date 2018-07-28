@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EmailSection from '../../components/EmailSection';
+import EmailField from './EmailField';
 
 import {
   FIELD_NAMES
@@ -8,7 +8,7 @@ import {
 
 export default function Email() {
   return (
-    <EmailSection
+    <EmailField
       title="Email address"
       fieldName={FIELD_NAMES.EMAIL}/>
   );

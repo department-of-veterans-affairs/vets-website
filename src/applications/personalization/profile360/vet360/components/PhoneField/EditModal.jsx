@@ -4,7 +4,7 @@ import { merge } from 'lodash';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import Vet360EditModal from './Vet360EditModal';
+import Vet360EditModal from '../base/EditModal';
 
 class PhoneTextInput extends ErrorableTextInput {
   componentDidMount() {

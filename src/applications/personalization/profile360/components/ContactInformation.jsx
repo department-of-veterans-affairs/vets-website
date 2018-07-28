@@ -5,7 +5,7 @@ import DowntimeNotification, { externalServices } from '../../../../platform/mon
 import recordEvent from '../../../../platform/monitoring/record-event';
 import accountManifest from '../../account/manifest.json';
 import { TRANSACTION_CATEGORY_TYPES } from '../constants/vet360';
-import Vet360PendingTransactionCategory from '../containers/Vet360PendingTransactionCategory';
+import Vet360PendingTransactionCategory from '../vet360/containers/PendingTransactionCategory';
 import LoadFail from './LoadFail';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import MissingVet360IDError from './MissingVet360IDError';

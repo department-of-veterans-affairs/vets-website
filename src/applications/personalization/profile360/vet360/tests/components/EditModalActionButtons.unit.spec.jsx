@@ -2,7 +2,7 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import Vet360EditModalActionButtons from '../../components/Vet360EditModalActionButtons';
+import Vet360EditModalActionButtons from '../../components/base/EditModalActionButtons';
 
 describe('<Vet360EditModalActionButtons/>', () => {
   let props = null;

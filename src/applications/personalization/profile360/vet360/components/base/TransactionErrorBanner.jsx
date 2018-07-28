@@ -5,7 +5,7 @@ import {
   hasGenericUpdateError,
   hasMVIError,
   hasMVINotFoundError
-} from '../util/transactions';
+} from '../../../util/transactions';
 
 export function GenericUpdateError(props) {
   return (

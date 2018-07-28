@@ -3,7 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { Vet360TransactionReporter } from '../../containers/Vet360TransactionReporter';
+import { Vet360TransactionReporter } from '../../containers/TransactionReporter';
 
 describe('<Vet360ProfileField/>', () => {
   let props = null;

@@ -5,11 +5,11 @@ import pick from 'lodash/pick';
 
 import {
   isEmptyAddress
-} from '../../../../platform/forms/address/helpers';
+} from '../../../../../platform/forms/address/helpers';
 
 import {
   FIELD_NAMES
-} from '../constants/vet360';
+} from '../../constants/vet360';
 
 import {
   selectVet360Field,
@@ -18,7 +18,7 @@ import {
 
 import {
   cleanAddressDataForUpdate
-} from '../actions/misc';
+} from '../../actions/misc';
 
 const ADDRESS_PROPS = [
   'addressLine1',

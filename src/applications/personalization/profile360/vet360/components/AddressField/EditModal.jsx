@@ -3,17 +3,17 @@ import React from 'react';
 import {
   FIELD_NAMES,
   ADDRESS_FORM_VALUES
-} from '../constants/vet360';
+} from '../../../constants/vet360';
 
 import {
   consolidateAddress,
   expandAddress
-} from '../../../../platform/forms/address/helpers';
+} from '../../../../../../platform/forms/address/helpers';
 
-import Vet360EditModal from './Vet360EditModal';
+import Vet360EditModal from '../base/EditModal';
 
-import CopyMailingAddress from '../containers/CopyMailingAddress';
-import Address from './Address';
+import CopyMailingAddress from '../../containers/CopyMailingAddress';
+import AddressForm from './AddressForm';
 
 export default class AddressEditModal extends React.Component {
   onBlur = (field) => {
@@ -50,7 +50,7 @@ export default class AddressEditModal extends React.Component {
     return (
       <div>
         {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && <CopyMailingAddress copyMailingAddress={this.copyMailingAddress}/>}
-        <Address
+        <AddressForm
           address={this.props.field.value}
           onInput={this.onInput}
           onBlur={this.onBlur}
