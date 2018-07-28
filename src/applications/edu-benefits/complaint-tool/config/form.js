@@ -19,7 +19,8 @@ const {
   serviceAffiliation,
   serviceBranch,
   serviceDateRange,
-  email,
+  anonymousEmail,
+  applicantEmail,
   address: applicantAddress,
   phone
 } = fullSchema.properties;
@@ -118,6 +119,7 @@ const formConfig = {
               suffix: {
                 'ui:title': 'Your suffix'
               },
+              'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: isNotAnonymous
@@ -177,7 +179,7 @@ const formConfig = {
               serviceAffiliation,
               serviceBranch,
               serviceDateRange,
-              anonymousEmail: email
+              anonymousEmail
             }
           }
         },
@@ -232,9 +234,210 @@ const formConfig = {
             ],
             properties: {
               address: applicantAddress,
-              applicantEmail: email,
-              'view:applicantEmailConfirmation': email,
+              applicantEmail,
+              'view:applicantEmailConfirmation': applicantEmail,
               phone
+            }
+          }
+        }
+      }
+    },
+    benefitsInformation: {
+      title: 'Education Benefits',
+      pages: {
+        benefitsInformation: {
+          path: 'benefits-information',
+          title: 'Benefits Information',
+          uiSchema: {
+            programs: {
+              'ui:title': 'Which education benefits have you used? (Select all that apply)',
+              'ui:validations': [
+                validateBooleanGroup
+              ],
+              'ui:options': {
+                showFieldLabel: true
+              },
+              'ui:errorMessages': {
+                atLeastOne: 'Please select at least one'
+              }
+            },
+            assistance: {
+              'view:assistance': {
+                'ui:title': 'Which military tuition assistance benefits have you used? (Select all that apply)',
+                'ui:options': {
+                  showFieldLabel: true
+                }
+              },
+              'view:FFA': {
+                'ui:title': 'Have you used any of these other benefits?',
+                'ui:options': {
+                  showFieldLabel: true
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['programs'],
+            properties: {
+              programs: {
+                type: 'object',
+                properties: {
+                  'Post-9/11 Ch 33': {
+                    type: 'boolean',
+                    title: 'Post-9/11 GI Bill (Chapter 33)'
+                  },
+                  'MGIB-AD Ch 30': {
+                    type: 'boolean',
+                    title: 'Montgomery GI Bill - Active Duty (MGIB-AD, Chapter 30)'
+                  },
+                  'MGIB-SR Ch 1606': {
+                    type: 'boolean',
+                    title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606)'
+                  },
+                  TATU: {
+                    type: 'boolean',
+                    title: 'Tuition Assistance Top-Up'
+                  },
+                  'DEA Ch 35': {
+                    type: 'boolean',
+                    title: 'Survivors’ and Dependents’ Assistance (DEA) (Chapter 35)'
+                  },
+                  'VRE Ch 31': {
+                    type: 'boolean',
+                    title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)'
+                  }
+                }
+              },
+              assistance: {
+                type: 'object',
+                properties: {
+                  'view:assistance': {
+                    type: 'object',
+                    properties: {
+                      TA: {
+                        type: 'boolean',
+                        title: 'Federal Tuition Assistance (TA)'
+                      },
+                      'TA-AGR': {
+                        type: 'boolean',
+                        title: 'State-funded Tuition Assistance (TA) for Servicemembers on Active Guard and Reserve (AGR) duties'
+                      },
+                      MyCAA: {
+                        type: 'boolean',
+                        title: 'Military Spouse Career Advancement Accounts (MyCAA)'
+                      }
+                    }
+                  },
+                  'view:FFA': {
+                    type: 'object',
+                    properties: {
+                      FFA: {
+                        type: 'boolean',
+                        title: 'Federal financial aid'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    issueInformation: {
+      title: 'Feedback Information',
+      pages: {
+        issueInformation: {
+          path: 'feedback-information',
+          title: 'Feedback Information',
+          uiSchema: {
+            issue: {
+              'ui:title': 'Which topic best describes your feedback? (Select all that apply)',
+              'ui:validations': [
+                validateBooleanGroup
+              ],
+              'ui:options': {
+                showFieldLabel: true
+              },
+              'ui:errorMessages': {
+                atLeastOne: 'Please select at least one'
+              },
+              'ui:order': [
+                'recruiting',
+                'accreditation',
+                'financialIssues',
+                'studentLoans',
+                'jobOpportunities',
+                'changeInDegree',
+                'quality',
+                'gradePolicy',
+                'transcriptRelease',
+                'creditTransfer',
+                'refundIssues'
+              ],
+              recruiting: {
+                'ui:title': 'Recruiting or marketing practices'
+              },
+              studentLoans: {
+                'ui:title': 'Student loan'
+              },
+              quality: {
+                'ui:title': 'Quality of education'
+              },
+              creditTransfer: {
+                'ui:title': 'Transfer of credits'
+              },
+              accreditation: {
+                'ui:title': 'Accreditation'
+              },
+              jobOpportunities: {
+                'ui:title': 'Post-graduation job opportunity'
+              },
+              gradePolicy: {
+                'ui:title': 'Grade policy'
+              },
+              refundIssues: {
+                'ui:title': 'Refund issues'
+              },
+              financialIssues: {
+                'ui:title': 'Financial concern (for example, tuition or fee changes)'
+              },
+              changeInDegree: {
+                'ui:title': 'Change in degree plan or requirements'
+              },
+              transcriptRelease: {
+                'ui:title': 'Release of transcripts'
+              }
+            },
+            issueDescription: {
+              'ui:title': 'Please write your feedback and any details about your issue in the space below. (32,000 characters maximum)',
+              'ui:widget': 'textarea',
+              'ui:options': {
+                rows: 5,
+                maxLength: 32000
+              },
+            },
+            issueResolution: {
+              'ui:title': 'What do you think would be a fair way to resolve your issue? (1,000 characters maximum)',
+              'ui:widget': 'textarea',
+              'ui:options': {
+                rows: 5,
+                maxLength: 1000
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'issue',
+              'issueDescription',
+              'issueResolution'
+            ],
+            properties: {
+              issue,
+              issueDescription,
+              issueResolution
             }
           }
         }
