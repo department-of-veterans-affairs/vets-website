@@ -13,6 +13,8 @@ import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import { transform } from '../helpers';
 
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+
 const {
   onBehalfOf,
   fullName,
