@@ -78,10 +78,14 @@ const formConfig = {
                   'ui:title': 'Country'
                 },
                 postalCode: {
-                  'ui:title': 'Postal Code'
-                },
-                'ui:options': {
-                  expandUnder: 'view:cannotFindSchool'
+                  'ui:title': 'Postal Code',
+                  'ui:errorMessages': {
+                    pattern: 'Please enter a valid 5 digit postal code'
+                  },
+                  'ui:options': {
+                    widgetClassNames: 'va-input-medium-large',
+                    expandUnder: 'view:cannotFindSchool'
+                  }
                 }
               }
             }
