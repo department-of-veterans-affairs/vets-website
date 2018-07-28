@@ -9,13 +9,12 @@ import {
 
 import {
   fetchTransactions,
-  fetchAddressConstants,
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation
 } from '../actions';
 
-import { selectIsVet360AvailableForUser } from '../selectors';
+import { selectIsVet360AvailableForUser } from '../vet360/selectors';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import ProfileView from '../components/ProfileView';
@@ -34,7 +33,6 @@ class VAProfileApp extends React.Component {
             isVet360AvailableForUser={this.props.isVet360AvailableForUser}
             profile={this.props.profile}
             user={this.props.user}
-            fetchAddressConstants={this.props.fetchAddressConstants}
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
             fetchPersonalInformation={this.props.fetchPersonalInformation}
@@ -62,7 +60,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchTransactions,
-  fetchAddressConstants,
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation,

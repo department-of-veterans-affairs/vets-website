@@ -10,6 +10,8 @@ import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+
 import { transform } from '../helpers';
 
 const {
@@ -22,7 +24,10 @@ const {
   anonymousEmail,
   applicantEmail,
   address: applicantAddress,
-  phone
+  phone,
+  issue,
+  issueDescription,
+  issueResolution
 } = fullSchema.properties;
 
 const {
@@ -64,7 +69,7 @@ const formConfig = {
   trackingPrefix: 'complaint-tool',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '686',
+  formId: 'complaint-tool',
   version: 0,
   prefillEnabled: true,
   defaultDefinitions: {
