@@ -3,10 +3,6 @@ import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
-import {
-  fetchInstitutions,
-  transformInstitutionsForSchoolSelectField
-} from '../helpers';
 
 const { educationDetails } = fullSchema.properties;
 
@@ -21,6 +17,8 @@ const {
   country: schoolCountry,
   postalCode: schoolPostalCode
 } = school.properties;
+
+import { transform } from '../helpers';
 
 // const { } = fullSchema.definitions;
 
@@ -37,7 +35,8 @@ const formConfig = {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
-  title: 'Opt Out of Sharing VA Education Benefits Information',
+  title: 'GI Bill® School Feedback Tool',
+  transformForSubmit: transform,
   defaultDefinitions: {
   },
   chapters: {
@@ -52,10 +51,7 @@ const formConfig = {
               name: {
                 'ui:field': SchoolSelectField,
                 'ui:options': {
-                  schoolSelect: {
-                    fetchInstitutions: ({ institutionQuery, page }) => fetchInstitutions({ institutionQuery, page })
-                      .then(({ error, payload }) => transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload }))
-                  }
+                  hideIf: formData => formData.school['view:cannotFindSchool']
                 }
               },
               'view:manualSchoolEntry': {

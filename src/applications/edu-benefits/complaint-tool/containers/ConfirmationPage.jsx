@@ -27,14 +27,14 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We usually process claims within <strong>a week</strong>.</p>
-        <p>
-          We may contact you for more information or documents.<br/>
-          <i>Please print this page for your records.</i>
-        </p>
+        <h3 className="confirmation-page-title">Your feedback has been submitted</h3>
+        <p>We may contact you if we have questions or need more information.</p>
+        <p>Please print this page for your records.</p>
+        <h3 className="confirmation-page-title">What happens after I submit my feedback?</h3>
+        <p>We’ll get back to you within 45 days to let you know how we’re handling your feedback and if we’ve had any communication with your school. Feedback that isn't related to VA education benefits may be sent to another agency for review.</p>
+        <p>If we need to get in touch with you, we’ll contact you from an email address that’ll look like this: process.vbavaco.va.gov. Please add this to your email contact list so you can respond to messages that may need a quick response from you.</p>
         <div className="inset">
-          <h4>686 Dependent-status form Claim <span className="additional">(Form 686)</span></h4>
+          <h4>GI Bill® School Feedback <span className="additional">(Form 686)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           {response && <ul className="claim-list">

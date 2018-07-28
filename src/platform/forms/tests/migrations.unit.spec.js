@@ -56,7 +56,7 @@ const excludedForms = new Set([
 ]);
 
 describe('form migrations:', () => {
-  it('should check all forms', () => {
+  xit('should check all forms', () => {
     const allFormIds = Object.keys(schemas).filter(formId => !excludedForms.has(formId));
     const reformattedIds = mappedIds.slice(0);
     reformattedIds.splice(0, 1, '1010ez');

@@ -2,58 +2,38 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Scroll from 'react-scroll';
+import { connect } from 'react-redux';
+import {
+  searchInputChange,
+  selectInstitution,
+  searchSchools
+} from '../complaint-tool/actions/schoolSearch';
+import {
+  selectCurrentPageNumber,
+  selectInstitutionQuery,
+  selectInstitutions,
+  selectInstitutionSelected,
+  selectPagesCount,
+  selectSearchInputValue,
+  selectSearchResultsCount,
+  selectShowInstitutions,
+  selectShowInstitutionsLoading,
+  selectShowPagination,
+  selectShowPaginationLoading
+} from '../complaint-tool/selectors/schoolSearch';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
-/*
-const Element = Scroll.Element;
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('saveFormLinkTop', window.VetsGov.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true
-  });
-};
-*/
 
-export default class SchoolSelectField extends React.Component {
+export class SchoolSelectField extends React.Component {
   constructor(props) {
     super(props);
 
-    const {
-      fetchInstitutions
-    } = _.get(props, 'uiSchema.ui:options.schoolSelect', props);
-
     this.debouncedSearchInstitutions = _.debounce(
-      value => fetchInstitutions(value).then(this.setInstitutions),
+      value => this.props.searchSchools(value),
       150);
-
-    this.state = {
-      facilityCodeSelected: props.formData ? props.formData : '',
-      loadingInstitutions: false,
-      loadingPage: false,
-      page: 1,
-      pages: 0,
-      searchInputValue: '',
-      showInstitutions: false,
-      showPagination: false
-    };
-  }
-
-  setInstitutions = ({ institutionCount, institutionQuery, institutions, pagesCount }) => {
-    if (institutionQuery === this.state.searchInputValue) {
-      this.setState({
-        loadingInstitutions: false,
-        loadingPage: false,
-        showInstitutions: true,
-        institutionCount,
-        institutions,
-        pagesCount,
-        showPagination: pagesCount > 1
-      });
-    }
   }
 
   scrollToTop = () => {
@@ -69,31 +49,14 @@ export default class SchoolSelectField extends React.Component {
       e.preventDefault();
       e.target.blur();
 
-      this.setState({
-        loadingInstitutions: true,
-        loadingPage: false,
-        page: 1,
-        pageCount: 0,
-        showInstitutions: false,
-        showPagination: false
-      });
-
-      this.debouncedSearchInstitutions({ institutionQuery: this.state.searchInputValue });
+      this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
     }
   }
 
   handleSearchClick = e => {
     e.preventDefault();
-    this.setState({
-      loadingInstitutions: true,
-      loadingPage: false,
-      page: 1,
-      pageCount: 0,
-      showInstitutions: false,
-      showPagination: false
-    });
 
-    this.debouncedSearchInstitutions({ institutionQuery: this.state.searchInputValue });
+    this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
   }
 
   handleSearchInputChange = e => {
@@ -103,57 +66,56 @@ export default class SchoolSelectField extends React.Component {
     } else {
       searchInputValue = e.target.value;
     }
-    this.setState({
-      searchInputValue
-    });
+
+    this.props.searchInputChange({ searchInputValue });
   }
 
-  handleOptionClick = facilityCode => {
+  handleOptionClick = ({ city, facilityCode, name, state }) => {
+    this.props.selectInstitution({ city, facilityCode, name, state });
     this.props.onChange(facilityCode);
-
-    this.setState({
-      facilityCodeSelected: facilityCode
-    });
   }
 
   handlePageSelect = page => {
     this.scrollToTop();
 
-    this.setState({
-      loadingInstitutions: false,
-      loadingPage: true,
-      page,
-      pageCount: 0,
-      showInstitutions: false,
-      showPagination: false
-    });
-
     this.debouncedSearchInstitutions({
-      institutionQuery: this.state.searchInputValue,
+      institutionQuery: this.props.institutionQuery,
       page
     });
   }
   render() {
     const {
-      formContext
+      currentPageNumber,
+      facilityCodeSelected,
+      formContext,
+      institutionQuery,
+      institutions,
+      institutionSelected,
+      pagesCount,
+      searchInputValue,
+      searchResultsCount,
+      showInstitutions,
+      showInstitutionsLoading,
+      showPagination,
+      showPaginationLoading,
     } = this.props;
-    /*
-    const fieldsetClass = classNames('fieldset-input', {
-      'usa-input-error': this.props.errorMessage,
-      [this.props.additionalFieldsetClass]: this.props.additionalFieldsetClass
-    });
-
-    const legendClass = classNames('legend-label', {
-      'usa-input-error-label': this.props.errorMessage,
-      [this.props.additionalLegendClass]: this.props.additionalLegendClass
-    });
-    */
 
     const fieldsetClass = classNames('search-select-school-fieldset');
     const legendClass = classNames('legend-label');
 
     if (formContext.reviewMode) {
-      return (<div>To do</div>);
+      const {
+        city,
+        name,
+        state
+      } = institutionSelected;
+
+      return (
+        <div>
+          <p>{name}</p>
+          <p>{`${city}, ${state}`}</p>
+        </div>
+      );
     }
 
     return (
@@ -168,26 +130,26 @@ export default class SchoolSelectField extends React.Component {
               onChange={this.handleSearchInputChange}
               onKeyDown={this.handleSearchInputKeyDown}
               type="text"
-              value={this.state.searchInputValue}/>
+              value={searchInputValue}/>
             <button
               className="search-schools-button usa-button-primary"
               onClick={this.handleSearchClick}>
               {'Search Schools'}
             </button>
           </div>
-          {this.state.showInstitutions && <div>
-            {`${this.state.institutionCount} results`}
-            {this.state.institutions.map(({ city, facilityCode, name, state }, index) => (
+          {showInstitutions && <div>
+            {`${searchResultsCount} results for ${institutionQuery}`}
+            {institutions.map(({ city, facilityCode, name, state }, index) => (
               <div key={index}>
                 <div className="radio-button">
                   <input
                     autoComplete="false"
-                    checked={this.state.facilityCodeSelected === facilityCode}
+                    checked={facilityCodeSelected === facilityCode}
                     id={`radio-buttons-${index}`}
                     name={name}
                     type="radio"
-                    onKeyDown={this.props.onKeyDown}
-                    onChange={() => this.handleOptionClick(facilityCode)}
+                    onKeyDown={this.onKeyDown}
+                    onChange={() => this.handleOptionClick({ city, facilityCode, name, state })}
                     value={facilityCode}/>
                   <label
                     id={`institution-${index}-label`}
@@ -200,19 +162,55 @@ export default class SchoolSelectField extends React.Component {
             }
           </div>
           }
-          {this.state.loadingInstitutions && <div>
-            {`Searching ${this.state.searchInputValue}...`}
+          {showInstitutionsLoading && <div>
+            <LoadingIndicator message={`Searching ${institutionQuery}...`}/>
           </div>
           }
-          {this.state.loadingPage && <div>
-            {`Loading page ${this.state.page}...`}
+          {showPaginationLoading && <div>
+            <LoadingIndicator message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}/>
           </div>
           }
         </div>
-        {this.state.showPagination && <Pagination
-          page={this.state.page} pages={this.state.pagesCount} onPageSelect={this.handlePageSelect}/>
+        {showPagination && <Pagination
+          page={currentPageNumber} pages={pagesCount} onPageSelect={this.handlePageSelect}/>
         }
       </fieldset>
     );
   }
 }
+
+const mapStateToProps = (state, props) => {
+  const currentPageNumber = selectCurrentPageNumber(state);
+  const facilityCodeSelected = props.formData ? props.formData : '';
+  const institutionQuery = selectInstitutionQuery(state);
+  const institutions = selectInstitutions(state);
+  const institutionSelected = selectInstitutionSelected(state);
+  const pagesCount = selectPagesCount(state);
+  const searchInputValue = selectSearchInputValue(state);
+  const searchResultsCount = selectSearchResultsCount(state);
+  const showInstitutions = selectShowInstitutions(state);
+  const showInstitutionsLoading = selectShowInstitutionsLoading(state);
+  const showPagination = selectShowPagination(state);
+  const showPaginationLoading = selectShowPaginationLoading(state);
+
+  return {
+    currentPageNumber,
+    facilityCodeSelected,
+    institutionQuery,
+    institutions,
+    institutionSelected,
+    pagesCount,
+    searchInputValue,
+    searchResultsCount,
+    showInstitutions,
+    showInstitutionsLoading,
+    showPagination,
+    showPaginationLoading,
+  };
+};
+const mapDispatchToProps = {
+  searchInputChange,
+  searchSchools,
+  selectInstitution
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SchoolSelectField);

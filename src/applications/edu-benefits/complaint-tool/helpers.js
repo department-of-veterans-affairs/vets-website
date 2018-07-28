@@ -1,5 +1,6 @@
 import environment from '../../../platform/utilities/environment';
 import appendQuery from 'append-query';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 const searchInstitutionBaseUrl = `${environment.API_URL}/v0/gi/institutions/search`;
 
@@ -48,3 +49,11 @@ export function transformInstitutionsForSchoolSelectField({ error, institutionQu
   };
 }
 
+export function transform(formConfig, form) {
+  const formData = transformForSubmit(formConfig, form);
+  return JSON.stringify({
+    educationBenefitsClaim: {
+      form: formData
+    }
+  });
+}
