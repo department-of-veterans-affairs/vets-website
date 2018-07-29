@@ -10,27 +10,27 @@ order: 1
 icon: medkit
 promo:
   - image: /img/megamenu/pension-illustration.png
-    heading: Learn about VA Telehealth Services
-    url: "#"
+    heading: VA Telehealth Services
+    url: "https://www.telehealth.va.gov/"
     description: Find out how we use telehealth technologies to provide specialty care and health monitoring to Veterans at their local VA clinic or in their own home.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: ""
-      title: <b>Disability Compensation</b>
-      description: Find out how to apply for and manage your VA disability benefits.
-    - url: ""
+    - url: "/disability/"
+      title: <b>Disability Compensation (Pay)</b>
+      description: Find out how to file a claim for disability compensation and manage your disability benefits.
+    - url: "/life-insurance."
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
-    - url: ""
+    - url: "https://www.vets.gov/pension/aid-attendance-housebound/"
       title: <b>Aid and Attendance or Household Allowance</b>
-      description: Find out if you can get increased pension pay as a Veteran or surviving spouse.
-    - url: ""
-      title: <b>Burial Benefits and Memorial Items</b>
+      description: Find out if you can get increased pension pay as a Veteran or surviving spouse who has disabilities.
+    - url: "/burials/"
+      title: <b>Burials and Memorials</b>
       description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
-    - url: ""
+    - url: "/education-training/"
       title: <b>Education and Training</b>
-      description: Learn how to recognize and manage PTSD symptoms, and listen to Veterans share their stories.
+      description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
 contact:
   - heading: Ask Questions
     links:
@@ -47,6 +47,9 @@ contact:
 social:
   - heading: Get Updates
     links:
+     - url: "https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11"
+      label: Veteran Health Care Email Updates
+      icon:
     - url: "https://facebook.com"
       label: Veteran Health Care Facebook
       icon: fa-facebook-square
@@ -56,10 +59,10 @@ social:
     - url: "https://youtube.com"
       label: Veteran Health Care Youtube
       icon: fa-youtube
-    - url: "https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11"
-      label: Veteran Health Care Email Updates
-      icon:
----
+    - url: Veteran Health Care Flickr
+      label: https://www.flickr.com/photos/veteranshealth/sets/ 
+      icon: fa-flickr
+   ---
 
 <p class="va-introtext">
 With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you've earned.
@@ -78,23 +81,26 @@ With VA health care, you’re covered for regular checkups with your primary car
     <h4 class="usa-alert-title">How do I get help if I'm homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">We may be able to help</a>.</h4>
     <div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner usa-alert-text">
-        <p>We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.</p>
-        <p><strong>Find the support you need:</strong></p>
-        <ul>
-          <li><b>Call the National Call Center for Homeless Veterans</b> at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.</li>
-          <li><b>Contact your nearest VA medical center</b> and ask to talk with the VA social worker. If you’re a female Veteran, ask for the Women Veterans Program Manager.<br>            
-            <a href="/facilities/">Find the nearest VA medical center</a>.</li>          
-        </ul>
-        <p><b>Talk with someone right now:</b></p> </br>
-        <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>
-        <p><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
-      </div>
-    </div>
+
+We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.
+  
+**Find the support you need:**
+
+- **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
+- **Contact your nearest VA medical center** and ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager. <br>
+[Find the nearest VA medical center](/facilities/).
+
+**Talk with someone right now:**
+ 
+Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
+[Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
+
+   </div>
   </div>
+ </div>
 </div>
 
 <script type="text/javascript">
-
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')
     .addEventListener('click', function () {
@@ -127,7 +133,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="link">
     <a href="#"><b>Apply Online (VA Form 10-10EZ)</b></a>
-    <p>Start your VA health care application now.</p>
+    <p>Start your Veterans health care application now.</p>
   </div>
 
   <div class="link">
@@ -152,7 +158,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/managing-your-prescription-refills">
     <a href="#"><b>Refill and Track Your VA Prescriptions</b></a>
-    <p>Order a VA prescription refill and track your shipment online.</p>
+    <p>Order a prescription refill and track your shipment online.</p>
     </div>
 
   <div class="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/secure-messaging-spotlight">
@@ -162,12 +168,12 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">
     <a href="#"><b>Schedule and View Your VA Appointments</b></a>
-    <p>Find out how to schedule a VA appointment by phone, online, or through secure messaging.</p>
+    <p>Find out how to schedule an appointment by phone, online, or through secure messaging.</p>
   </div>
 
   <div class="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/labs-tests">
     <a href="#"><b>View Your VA Test and Lab Results</b></a>
-    <p>View, download, and print your VA labs and test results.</p>
+    <p>View, download, and print your labs and test results.</p>
   </div>
 
   <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks">
@@ -191,7 +197,7 @@ With VA health care, you’re covered for regular checkups with your primary car
   </div>
 
  <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status">
-    <a href="#"><b>Check Your VA Health Care Appeal Status</b></a>
+    <a href="#"><b>Check Your Appeal Status</b></a>
     <p>Track the status of an open VA health care appeal.</p>
   </div>
 
@@ -212,7 +218,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
   <div class="https://www.va.gov/healthbenefits/cost/index.asp/">
     <a href="#"><b>VA Health Care Cost</b></a>
-    <p>Learn about your VA copay, financial assessment, and how VA health care works with private health insurance.</p>
+    <p>Learn about your copay, financial assessment, and how VA health care works with private health insurance.</p>
   </div>
 
   <div class="https://www.vets.gov/health-care/health-conditions/">
@@ -251,7 +257,7 @@ With VA health care, you’re covered for regular checkups with your primary car
   </div>
 
   <div class="https://www.va.gov/health/rights/patientrights.asp">
-    <a href="#"><b>VA Patient Rights and Responsibilities</b></a>
+    <a href="#"><b>Patient Rights and Responsibilities</b></a>
     <p>Read about your basic rights and responsibilities when you receive care at a VA health facility or live in a VA community living center.</p>
   </div>
 
