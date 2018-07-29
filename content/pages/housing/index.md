@@ -30,12 +30,12 @@ crosslinks:
       title: Life Insurance
       description: Explore your life insurance options and find out how to apply and manage your policy as a Servicemember, Veteran, or family member.
 contact:
-  - heading: Ask Quewstions
+  - heading: Ask Questions
     links:
     - url: https://iris.custhelp.va.gov/app/ask
       title: Ask a Question Online
     - url: <a href="tel:+18008271000">1-800-827-1000</a>
-      title: Questions About VA Benefits
+      title: Get Help With Your VA Benefits
     - url: <a href="tel:+18778273702">1-877-827-3702</a>
       title: Reach a VA Loan Service Representative 
     - url: 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>)
@@ -43,20 +43,18 @@ contact:
 social:
   - heading: Get Updates
     links:
-    - url: "https://twitter.com"
-      label: Twitter
-    - url: "https://facebook.com"
-      label: Facebook
-    - url: "https://youtube.com"
-      label: Youtube
-    - url: "https://instagram.com"
-      label: Instagram
-    - url: "https://flickr.com"
-      label: Flickr
+    - url: "https://twitter.com/VAVetBenefits"
+      label: Veterans Benefits Twitter
+    - url: "https://www.facebook.com/VeteransBenefits"
+      label: Veterans Benefits Facebook
+    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+      label: Veterans Benefits Youtube
+    - url: "https://www.instagram.com/vabenefits/"
+      label: Veterans Benefits Instagram
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
-    - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: E-mail Directory
+    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
+      label: E-mail Updates
 ---
 <p class="va-introtext">
 VA housing assistance can help Servicemembers, Veterans, and their surviving spouses to buy a home or refinance a loan. We also offer services to help you build, repair, or keep your current home. This includes grants for Veterans with service-connected disabilities who need to adapt their home to live as independently as possible. Find out how to apply for and manage the Veterans housing assistance benefits you've earned.</p>
@@ -64,12 +62,11 @@ VA housing assistance can help Servicemembers, Veterans, and their surviving spo
 <h3 class="highlight">Page Content</h3>
 
 [Get VA Home Loan Benefits](#get)<br>
-[Get Veterans Adapted Housing Assistance](#manage)<br>
-[More Information and Resources](#more)<br>
+[Get Veterans Housing Assistance Grants](#manage)<br>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-title">How do I get help if I’m homeless or at risk of becoming homeless?"We may be able to help</a>.</h4>
+    <h4 class="usa-alert-title">How do I get help if I'm homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">We may be able to help</a>.</h4>
     <div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner usa-alert-text">
         <p>We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.</p>
@@ -101,32 +98,32 @@ VA housing assistance can help Servicemembers, Veterans, and their surviving spo
   <h2 class="highlight">Get VA Home Loan Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/loan-options/"><b>About VA Loan Options</b></a>
+    <a href="https://vets.gov/housing-assistance/home-loans/loan-options/"><b>About VA Home Loan Options</b></a>
     <p>Learn how VA direct and VA-backed home loans work—and find out which loan option may be right for you.</p>
   </div>
 
   <div class="link">
     <a href="https://vets.gov/housing-assistance/home-loans/eligibility/"><b>Eligibility</b></a>
-    <p>Find out if you can get a Certificate of Eligibility (COE) based on your service history and duty status.
+    <p>Find out if you're eligible for a VA-backed or VA direct home loan, based on your service history and duty status.
   </div>
 
   <div class="link">
     <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>How to Apply for Your Certificate of Eligibility</b></a>
-    <p>Get instructions for how to apply for a COE—and what to do next depending on your loan type.</p>
+    <p>Get instructions for how to apply for your Certificate of Eligibility (COE)—and what to do next depending on your loan type.</p>
   </div>
   
   <div class="link">
     <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"><b>Apply Online for Your COE (VA Form 26-1880)</b></a>
-    <p>Start your application online now.</p>
+    <p>Start your online application now.</p>
   </div>
 
   <div class="link">
-    <a href="https://https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your Appeal Status</b></a>
-    <p>Check the status of an open home loan COE appeal.</p>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your Appeal Status</b></a>
+    <p>Track the status of an open home loan COE appeal.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/trouble-making-payments/"><b>Trouble Making Mortgage Payments?</b></a>
+    <a href="https://vets.gov/housing-assistance/home-loans/trouble-making-payments/"><b>Trouble Making Payments on a VA-Backed Mortgage?</b></a>
     <p>Get help to avoid foreclosure if you're struggling to make your monthly mortgage payments.</p>
   </div>
 
@@ -154,7 +151,7 @@ VA housing assistance can help Servicemembers, Veterans, and their surviving spo
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Get Adapted Housing Assistance</h2>
+  <h2 class='highlight'>Get Veterans Housing Assistance Grants</h2>
 
   <div class="link">
     <a href="https://vets.gov/housing-assistance/adaptive-housing-grants/"><b>About Disability Housing Grants for Veterans</b></a>
