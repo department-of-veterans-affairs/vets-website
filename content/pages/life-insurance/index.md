@@ -11,13 +11,13 @@ crosslinks:
     links:
     - url: https://va.gov/burials
       title: Burial Benefits and Memorial Items
-      description: Learn how to apply for burial in a VA national cemetery, plan a burial for a family member, and request memorial items.
+      description: Learn how to apply for burial in a VA national cemetery, plan a burial for a family member, and request memorial items to honor a Veteran's service.
     - url: https://va.gov/pension
       title: Pension Benefits
       description: Find out if you're eligible for tax-free monthly payments as a wartime Veteran or surviving spouse or child.
     - url: https://va.gov/families-caregivers
       title: Family and Caregiver Benefits and Services
-      description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
+      description: See if you qualify for VA benefits as a spouse, surviving spouse, dependent child, or caregiver.
     - url: https://www.vets.gov/health-care/
       title: VA Health Care
       description: Find out how to apply for and manage your VA health care benefits.
@@ -53,7 +53,7 @@ social:
       label: E-mail Directory
 ---
 <p class="va-introtext">
-VA life insurance can help offer financial security and support for Veterans, Servicemembers, their spouses and dependent children. We Explore your options, manage your policy, and file claims to get the VA insurance benefits you've earned.</p>
+VA life insurance can help offer financial security and support for Veterans, Servicemembers, their spouses and dependent children. Explore your options, manage your policy, and file claims to get the VA insurance benefits you've earned.</p>
 
 <h3 class="highlight">Page Content</h3>
 
@@ -108,22 +108,22 @@ VA life insurance can help offer financial security and support for Veterans, Se
   
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/converting.asp"><b>Convert to a Commercial Policy</b></a>
-    <p></p>
+    <p>Find out when and how you can convert your VA life insurance to a commercial policy.</p>
   </div>
   
   <div class="link">
-    <a href="https://www.benefits.va.gov/insurance/sglidisabled.asp"><b>Apply for SGLI Disability Extension</b></a>
-    <p></p>
+    <a href="https://www.benefits.va.gov/insurance/sglidisabled.asp"><b>Apply for SGLI Disability Extension (VA Form SGLV 8715)</b></a>
+    <p>If you're totally disabled when you're discharged from active duty, find out how to apply for free life insurance coverage for up to 2 years from the date of separation.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIForm.htm"><b>File a TSGLI Appeal</b></a>
-    <p></p>
+    <a href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIAppealsForm.htm"><b>File a TSGLI Appeal (VA Form SGLV 8600A)</b></a>
+    <p>If you've received a denial letter for TSGLI benefits that instructs you to use this form, file your appeal by the date provided in your letter.</p>
   </div>
 
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/vgli_auto_pay.asp"><b>Enroll in VGLI Auto Pay</b></a>
-    <p></p>
+    <p>Sign up to pay your VGLI premium automatically from your bank account.</p>
   </div>
 
 </section>
@@ -139,47 +139,37 @@ VA life insurance can help offer financial security and support for Veterans, Se
 
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp"><b>Myths and Rumors About SGLI/VGLI Insurance</b></a>
-    <p></p>
-  </div>
-  
-  <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp"><b>Myths and Rumors About SGLI/VGLI Insurance</b></a>
-    <p></p>
-  </div>
-  
-  <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp"><b>Myths and Rumors About SGLI/VGLI Insurance</b></a>
-    <p></p>
+    <p>Get the facts on common myths, rumors, and misconceptions about SGLI and VGLI insurance.</p>
   </div>
   
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/SOES.asp"><b>About the SGLI Online Enrollment System (SEOS)</b></a>
-    <p></p>
+    <p>Learn about our new online process for enrolling in Servicemembers' Group Life Insurance (SGLI).</p>
   </div>
   
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/resources-contact.asp"><b>Contact Us</b></a>
-    <p></p>
+    <p>Find out how to reach out to ask a question about your policy or file a claim for benefits.</p>
   </div>
   
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/resources-forms.asp"><b>Forms and Downloads</b></a>
-    <p></p>
+    <p>Find and download forms, depending on your policy and needs.</p>
   </div>
   
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/ins_publications.asp"><b>Publications and Handbooks</b></a>
-    <p></p>
+    <p>Download life insurance handbooks, guides, and newsletters.</p>
   </div>
   
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/payments-eft.asp"><b>Mandatory Electronic Payments</b></a>
-    <p></p>
+    <p>Learn about the law requiring us to pay all life insurance benefits by electronic funds transfer.</p>
   </div> 
   
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/uninsurable.asp"><b>Medical Conditions that May Make  You Uninsurable</b></a>
-    <p></p>
+    <a href="https://www.benefits.va.gov/INSURANCE/uninsurable.asp"><b>Medical Conditions that May Make You Uninsurable</b></a>
+    <p>Find out which medical conditions may make it hard for you to get private life insurance after you separate from service, and what to do to make sure you have coverage. </p>
   </div> 
 
 </section>
