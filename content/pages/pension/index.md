@@ -61,14 +61,14 @@ social:
 ---
 
 <p class="va-introtext">
-VA pension benefits provide tax-free monthly payments to wartime Veterans with limited or no income who meet certain age or disability requirements. Survivors of wartime Veterans with limited income and net worth may also qualify for a VA pension. Find out how to apply for and manage the pension benefits you've earned.
+VA pension benefits provide tax-free monthly payments to wartime Veterans with limited or no income who meet certain age or disability requirements. Survivors of wartime Veterans may also qualify for a VA pension. Find out how to apply for and manage the pension benefits you've earned.
 </p>
 
 <h3 class="highlight">Page Content</h3>
 
 [Get Pension Benefits](#get)<br>
 [Manage Your Benefits](#manage)<br>
-[More Information and Resources](#more)<br>
+[More Pension Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
 
@@ -91,7 +91,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
   <div class="link">
     <a href="vets.gov/pension/aid-attendance-housebound/"><b>VA Aid and Attendance or Housebound Allowance Benefits</b></a>
-    <p>If you need help with daily activities, or you're housebound, find out how to apply for extra VA pension benefits.</p>
+    <p>If you need help with daily activities or you're housebound, find out how to apply for extra VA pension benefits.</p>
   </div>
 
   <div class="link">
@@ -107,7 +107,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
   <div class="link">
     <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Check Your VA Claim or Appeal Status</b></a>
-    <p>Check the status of an open VA disability pay (compensation) and pension claim. If you're a surviving spouse or parent, you can view your Dependency and Indemnity Compensation (DIC) claim status.</p>
+    <p>Check the status of an open claim for VA disability compensation or pension benefits. If you're a surviving spouse or parent, you can view your Dependency and Indemnity Compensation (DIC) claim status.</p>
     </div>
 
   <div class="link">
@@ -137,8 +137,8 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="vets.gov/pension/survivors-pension/rates/"><b>VA Survivors Pension Benefits Rates</b></a>
-    <p>View Survivors pension rates for surviving spouses and children.</p>
+    <a href="vets.gov/pension/survivors-pension/rates/"><b>Rates for VA Survivors Pension Benefits</b></a>
+    <p>View pension rates for surviving spouses and children.</p>
   </div>
 
   <div class="link">
