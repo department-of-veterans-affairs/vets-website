@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: level2-merger
-title: Life Insurance
+title: VA Life Insurance
 display_title: Life Insurance
 concurrence: complete
 lastupdate:
@@ -10,10 +10,10 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: https://va.gov/burials
-      title: VA Burial Benefits and Memorial Items
+      title: Burial Benefits and Memorial Items
       description: Learn how to apply for burial in a VA national cemetery, plan a burial for a family member, and request memorial items.
     - url: https://va.gov/pension
-      title: VA Pension Benefits
+      title: Pension Benefits
       description: Find out if you're eligible for tax-free monthly payments as a wartime Veteran or surviving spouse or child.
     - url: https://va.gov/families-caregivers
       title: Family and Caregiver Benefits and Services
@@ -22,7 +22,7 @@ crosslinks:
       title: VA Health Care
       description: Find out how to apply for and manage your VA health care benefits.
 contact:
-  - heading: Contact us for help with VA benefits or services
+  - heading: Ask Questions
     links:
     - url: 1-800-419-1473
       title: Questions About Service Members or Veterans Group Life Insurance
@@ -35,18 +35,18 @@ contact:
     - url: Dial 711
       title: Telecommunications Device for Veterans with Hearing Loss (called TDD or TTY)
 social:
-  - heading: Social Media
+  - heading: Get Updates
     links:
-    - url: "https://twitter.com"
-      label: Twitter
-    - url: "https://facebook.com"
-      label: Facebook
-    - url: "https://youtube.com"
-      label: Youtube
-    - url: "https://instagram.com"
-      label: Instagram
-    - url: "https://flickr.com"
-      label: Flickr
+    - url: "https://twitter.com/DeptVetAffairs/"
+      label: Veterans Affairs Twitter
+    - url: "https://www.facebook.com/VeteransAffairs"
+      label: Veterans Affairs Facebook
+    - url: "https://www.youtube.com/user/DeptVetAffairs"
+      label: Veterans Affairs Youtube
+    - url: "https://www.instagram.com/deptvetaffairs/"
+      label: Veterans Affairs Instagram
+    - url: "https://www.flickr.com/photos/VeteransAffairs/"
+      label: Veterans Affairs Flickr
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
@@ -58,15 +58,15 @@ VA life insurance can help offer financial security and support for Veterans, Se
 <h3 class="highlight">Page Content</h3>
 
 [Get VA Life Insurance](#get)<br>
-[Manage Your VA Life Insurance Policy](#manage)<br>
-[More VA Insurance Information and Resources](#more)<br>
+[Manage Your Life Insurance Benefits](#manage)<br>
+[More Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
 
   <h2 class="highlight">Get VA Life Insurance</h2>
 
   <div class="link">
-    <a href="https://vets.gov/life-insurance/options-and-eligibility/"><b>VA Life Insurance Options and Eligibility</b></a>
+    <a href="https://vets.gov/life-insurance/options-and-eligibility/"><b>About VA Life Insurance Options and Eligibility</b></a>
     <p>Find out which VA insurance plans you may qualify for—and the benefits you’ll receive with each plan.</p>
   </div>
 
@@ -84,10 +84,10 @@ VA life insurance can help offer financial security and support for Veterans, Se
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your VA Life Insurance Benefits</h2>
+  <h2 class='highlight'>Manage Your Life Insurance Benefits</h2>
 
   <div class="link">
-    <a href="https://www.vets.gov/life-insurance/manage-your-policy/"><b>Mange Your VA Life Insurance Policy Online</b></a>
+    <a href="https://www.vets.gov/life-insurance/manage-your-policy/"><b>Manage Your VA Life Insurance Policy Online</b></a>
     <p>Check your policy's status, update your information, or pay your bill online.</p>
     </div>
 
@@ -102,15 +102,35 @@ VA life insurance can help offer financial security and support for Veterans, Se
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Track Your Life Insurance Eligibility Appeal Status</b></a>
-    <p>TBD: Working to understand this process.</p>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your Appeal Status</b></a>
+    <p>Track the status of an open appeal.</p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/converting.asp"><b>Convert to a Commercial Policy</b></a>
+    <p></p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/insurance/sglidisabled.asp"><b>Apply for SGLI Disability Extension</b></a>
+    <p></p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIForm.htm"><b>File a TSGLI Appeal</b></a>
+    <p></p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/vgli_auto_pay.asp"><b>Enroll in VGLI Auto Pay</b></a>
+    <p></p>
   </div>
 
 </section>
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More VA Insurance Information and Resources</h2>
+  <h2 class='highlight'>More Information and Resources</h2>
 
   <div class="link">
     <a href="https://benefits.va.gov/insurance/lifeins101.asp"><b>Assessing Your Life Insurance Needs</b></a>
@@ -118,8 +138,48 @@ VA life insurance can help offer financial security and support for Veterans, Se
   </div>
 
   <div class="link">
-    <a href="https://"><b>Closed and Reopened Life Insurance Information</b></a>
-    <p>TBD: Need link.</p>
+    <a href="https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp"><b>Myths and Rumors About SGLI/VGLI Insurance</b></a>
+    <p></p>
   </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp"><b>Myths and Rumors About SGLI/VGLI Insurance</b></a>
+    <p></p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp"><b>Myths and Rumors About SGLI/VGLI Insurance</b></a>
+    <p></p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/SOES.asp"><b>About the SGLI Online Enrollment System (SEOS)</b></a>
+    <p></p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/resources-contact.asp"><b>Contact Us</b></a>
+    <p></p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/resources-forms.asp"><b>Forms and Downloads</b></a>
+    <p></p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/ins_publications.asp"><b>Publications and Handbooks</b></a>
+    <p></p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/payments-eft.asp"><b>Mandatory Electronic Payments</b></a>
+    <p></p>
+  </div> 
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/uninsurable.asp"><b>Medical Conditions that May Make  You Uninsurable</b></a>
+    <p></p>
+  </div> 
 
 </section>
