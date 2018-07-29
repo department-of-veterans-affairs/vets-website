@@ -15,11 +15,11 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: https://va.gov/disability
-      title: Disability Pay (Compensation)
+      title: Disability Compensation (Pay)
       description: Find out how to apply for and manage your disability benefits.
     - url: https://www.vets.gov/pension/
       title: Pension Benefits
-      description: See if you qualify for pension benefits as a wartime Veteran or their surviving spouse or child.
+      description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
     - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
@@ -30,16 +30,18 @@ crosslinks:
       title: Life Insurance
       description: Explore your life insurance options and find out how to apply and manage your policy as a Servicemember, Veteran, or family member.
 contact:
-  - heading: Contact us for help accessing benefits and services
+  - heading: Ask Quewstions
     links:
-    - url:
-      title:
-    - url:
-      title:
-    - url:
-      title:
+    - url: https://iris.custhelp.va.gov/app/ask
+      title: Ask a Question Online
+    - url: <a href="tel:+18008271000">1-800-827-1000</a>
+      title: Questions About VA Benefits
+    - url: <a href="tel:+18778273702">1-877-827-3702</a>
+      title: Reach a VA Loan Service Representative 
+    - url: 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>)
+      title: National Call Center for Homeless Veterans
 social:
-  - heading: Social Media
+  - heading: Get Updates
     links:
     - url: "https://twitter.com"
       label: Twitter
@@ -67,7 +69,7 @@ VA housing assistance can help Servicemembers, Veterans, and their surviving spo
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-title">How do I get help if I’m homeless or at risk of becoming homeless?">We may be able to help</a>.</h4>
+    <h4 class="usa-alert-title">How do I get help if I’m homeless or at risk of becoming homeless?"We may be able to help</a>.</h4>
     <div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner usa-alert-text">
         <p>We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.</p>
@@ -99,23 +101,53 @@ VA housing assistance can help Servicemembers, Veterans, and their surviving spo
   <h2 class="highlight">Get VA Home Loan Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/loan-options/"><b>VA Loan Options</b></a>
+    <a href="https://vets.gov/housing-assistance/home-loans/loan-options/"><b>About VA Loan Options</b></a>
     <p>Learn how VA direct and VA-backed home loans work—and find out which loan option may be right for you.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/eligibility/"><b>Certificate of Eligibility</b></a>
+    <a href="https://vets.gov/housing-assistance/home-loans/eligibility/"><b>Eligibility</b></a>
     <p>Find out if you can get a Certificate of Eligibility (COE) based on your service history and duty status.
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>Apply for a Home Loan COE</b></a>
+    <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>How to Apply for Your Certificate of Eligibility</b></a>
     <p>Get instructions for how to apply for a COE—and what to do next depending on your loan type.</p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"><b>Apply Online for Your COE (VA Form 26-1880)</b></a>
+    <p>Start your application online now.</p>
   </div>
 
   <div class="link">
-    <a href="https://https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your VA Claim or Appeal Status</b></a>
-    <p>TBD</p>
+    <a href="https://https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your Appeal Status</b></a>
+    <p>Check the status of an open home loan COE appeal.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://vets.gov/housing-assistance/home-loans/trouble-making-payments/"><b>Trouble Making Mortgage Payments?</b></a>
+    <p>Get help to avoid foreclosure if you're struggling to make your monthly mortgage payments.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.benefits.va.gov/homeloans/resources_veteran.asp"><b>Home Buying Process for Veterans</b></a>
+    <p>Watch a video and get more information about using your VA home loan benefit to buy a home.</p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/homeloans/purchaseco_loan_fee.asp"><b>VA Loan Funding Fee</b></a>
+    <p>Find out if you'll need to pay this fee when using your home loan benefits.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://benefits.va.gov/HOMELOANS/contact_rlc_info.asp"><b>VA Regional Loan Centers</b></a>
+    <p>Look up contact information for your nearest regional loan center.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://benefits.va.gov/homeloans/documents/docs/va_policy_regarding_natural_disasters.pdf"><b>Guidance on Natural Disasters </b></a>
+    <p>Find out how to get help if you have a VA direct or VA-backed home loan or Specially Adapted Housing grant and your home was affected by a natural disaster.</p>
   </div>
 
 </section>
@@ -125,7 +157,7 @@ VA housing assistance can help Servicemembers, Veterans, and their surviving spo
   <h2 class='highlight'>Get Adapted Housing Assistance</h2>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/adaptive-housing-grants/"><b>Disability Housing Grants for Veterans</b></a>
+    <a href="https://vets.gov/housing-assistance/adaptive-housing-grants/"><b>About Disability Housing Grants for Veterans</b></a>
     <p>Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.</p>
     </div>
 
@@ -135,34 +167,8 @@ VA housing assistance can help Servicemembers, Veterans, and their surviving spo
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant"><b>Check Your VA Claim or Appeal Status</b></a>
-    <p>TBD</p>
-  </div>
-
-</section>
-
-<section id="more" class="merger-majorlinks">
-
-  <h2 class='highlight'>More Information and Resources</h2>
-
-  <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/trouble-making-payments/"><b>Trouble Making Mortgage Payments?</b></a>
-    <p>Get help to avoid foreclosure if you're struggling to make your monthly mortgage payments.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://hud.gov/i_want_to/talk_to_a_housing_counselor"><b>Housing Counseling (Department of Housing and Urban Development) </b></a>
-    <p>Get free or low-cost advice from HUD counselors on buying or renting a home as well as credit or mortgage payment issues.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://benefits.va.gov/homeloans/documents/docs/va_policy_regarding_natural_disasters.pdf"><b>Guidance on Natural Disasters </b></a>
-    <p>Find out how to get help if you have a VA direct or VA-backed home loan or Specially Adapted Housing grant and your home was affected by a natural disaster.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://benefits.va.gov/HOMELOANS/contact_rlc_info.asp"><b>VA Regional Loan Centers</b></a>
-    <p>Look up contact information for your nearest regional loan center.</p>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant"><b>Check Your Claim Status</b></a>
+    <p>Check the status of an open Specially Adapted Housing Grant claim.</p>
   </div>
 
 </section>
