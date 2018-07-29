@@ -19,7 +19,7 @@ crosslinks:
     - url: "/disability/"
       title: <b>Disability Compensation (Pay)</b>
       description: Find out how to file a claim for disability compensation and manage your disability benefits.
-    - url: "/life-insurance."
+    - url: "/life-insurance/"
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
     - url: "https://www.vets.gov/pension/aid-attendance-housebound/"
@@ -37,17 +37,17 @@ contact:
     - url: https://iris.custhelp.va.gov/
       title: Ask Questions Online
     - url: 1-877-222-VETS(8387)
-      title: "Health Benefits Hotline:"
+      title: "Health Benefits Hotline"
     - url: 1-877-327-0022
-      title: "My Health_e_Vet Hotline:"
+      title: "My Health_e_Vet Hotline"
     - url: 1-855-829-6636
-      title: "Women Veterans Hotline:"
+      title: "Women Veterans Hotline"
     - url: 1-877-4AID VET (877-424-3838)
       title: "National Center for Homeless Veterans"  
 social:
   - heading: Get Updates
     links:
-     - url: "https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11"
+    - url: "https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11"
       label: Veteran Health Care Email Updates
       icon:
     - url: "https://facebook.com"
@@ -61,8 +61,8 @@ social:
       icon: fa-youtube
     - url: Veteran Health Care Flickr
       label: https://www.flickr.com/photos/veteranshealth/sets/ 
-      icon: fa-flickr
-   ---
+      icon: 
+---
 
 <p class="va-introtext">
 With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you've earned.
