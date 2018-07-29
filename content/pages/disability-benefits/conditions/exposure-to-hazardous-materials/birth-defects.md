@@ -38,6 +38,7 @@ The child’s biological mother or father served in:
 The child was conceived after the parent served in either South Vietnam or the Republic of Korea.
  
 **Note**: Your character of discharge and length of service don't affect your child's eligibility for disability benefits relating to spina bifida.
+
 <br>
 
 #### For Other Birth Defects
@@ -50,6 +51,7 @@ Your child may be able to get disability benefits if they have a covered birth d
 
 
 [See the list of covered birth defects](https://www.publichealth.va.gov/exposures/agentorange/birth-defects/children-women-vietnam-vets.asp).
+
 <br>
 
 ### Who’s covered?
