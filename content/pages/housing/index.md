@@ -34,23 +34,27 @@ contact:
     links:
     - url: https://iris.custhelp.va.gov/app/ask
       title: Ask a Question Online
-    - url: <a href="tel:+18008271000">1-800-827-1000</a>
-      title: Get Help With Your VA Benefits
-    - url: <a href="tel:+18778273702">1-877-827-3702</a>
-      title: Reach a VA Loan Service Representative 
-    - url: 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>)
+    - url: 1-800-827-1000
+      title: VA Benefits Hotline
+    - url: 1-877-827-3702
+      title: VA Loan Service Representatives
+    - url: 1-877-4AID-VET (1-877-424-3838)
       title: National Call Center for Homeless Veterans
 social:
   - heading: Get Updates
     links:
     - url: "https://twitter.com/VAVetBenefits"
       label: Veterans Benefits Twitter
+      icon: fa-twitter
     - url: "https://www.facebook.com/VeteransBenefits"
       label: Veterans Benefits Facebook
+      icon: fa-facebook
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
       label: Veterans Benefits Youtube
+      icon: fa-youtube
     - url: "https://www.instagram.com/vabenefits/"
       label: Veterans Benefits Instagram
+      icon: fa-instagram
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
