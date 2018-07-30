@@ -41,7 +41,7 @@ social:
     - url: "https://www.facebook.com/NationalCemeteries"
       label: National Cemeteries Facebook
     - url: "https://www.youtube.com/watch?v=4MhXfpNSHzs&list=PL7897A1FCC5516DDE"
-      label: National Cemeteries Youtube
+      label: National Cemeteries YouTube
     - url: "https://www.blogs.va.gov/"
       label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify"
@@ -49,7 +49,7 @@ social:
 ---
 
 <p class="va-introtext">
-VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of a Veteran. Find out how to apply for the burial benefits you've earned, and how to plan for burial either in advance or at your time of need.</p>
+VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of a Veteran. Find out how to apply for the burial benefits you've earned, and how to plan for a burial in advance or at your time of need.</p>
 
 <h3 class="highlight">Page Content</h3>
 
@@ -63,22 +63,22 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/eligibility/"><b>Eligibility</b></a>
-    <p>Find out if you qualify for burial in a VA national cemetery and other burial honors.
+    <p>Find out if you qualify for burial in a VA national cemetery and for other burial honors.
   </div>
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/pre-need/"><b>Pre-Need Burial Eligibility Determination</b></a>
-    <p>Apply for a pre-need eligibility decision letter. This can help you pre plan for burial in a VA national cemetery, and make the process easier for your family members at your time of need.</p>
+    <p>Apply for a pre-need eligibility decision letter. This can help you pre-plan for burial in a VA national cemetery, and make the process easier for your family members at your time of need.</p>
   </div>
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"><b>Veteran Burial Allowance</b></a>
-    <p>Learn how to apply for a burial allowance to help pay for Veterans funeral services, burial, and transportation costs.</p>
+    <p>Learn how to apply for a burial allowance to help pay for a Veteran's funeral services, burial, and transportation costs.</p>
   </div>
 
   <div class="link">
     <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Memorial Items</b></a>
-    <p>Find out how to apply for grave markers, headstones Presidential Memorial Certificates, and other memorial items to honor a Veteran's service.</p>
+    <p>Find out how to apply for grave markers, headstones, Presidential Memorial Certificates, and other memorial items to honor a Veteran's service.</p>
   </div>
 
   <div class="link">
@@ -99,8 +99,8 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   <h2 class='highlight'>Plan a Burial</h2>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/burial-planning/"><b>Plan a Burial For a Veteran, Spouse, or Dependent Family Member</b></a>
-    <p>Get step-by-step guidance on how to request and apply for burial in a VA national cemetery, or a state or tribal government Veterans cemetery.</p>
+    <a href="https://vets.gov/burials-and-memorials/burial-planning/"><b>Plan a Burial for a Veteran, Spouse, or Dependent Family Member</b></a>
+    <p>Get step-by-step guidance on how to request and apply for a burial in a VA national cemetery, or in a state or tribal government Veterans cemetery.</p>
     </div>
 
   <div class="link">
@@ -113,9 +113,9 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <p>Search for national, state, or tribal government Veterans cemeteries.</p>
   </div>
 
-  <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">
-    <a href="#"><b>Request Military Records</b></a>
-    <p>View, review, and print documents from your official military personnel file (including your DD214).</p>
+  <div class="link">
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Request Military Records</b></a>
+    <p>View and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
 
@@ -127,7 +127,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
   <div class="https://www.cem.va.gov/dailyburialschedule/">
     <a href="c"><b>VA National Cemetery Daily Burial Schedule</b></a>
-    <p>Find the committal service date, time, and cemetery for the scheduled burial of a Veteran, spouse, or other eligible family member.</p>
+    <p>Find the date, time, and location of the committal service for the scheduled burial of a Veteran, spouse, or other eligible family member.</p>
   </div>
 
   <div class="https://benefits.va.gov/Compensation/current_rates_dic.asp">
@@ -144,16 +144,16 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
   <div class="link">
     <a href="https://www.archives.gov/veterans"><b>Search Historical Military Records</b></a>
-    <p>Search and request military records from the National Archives website for research.</p>
+    <p>Search and request military records from the National Archives website.</p>
   </div>
 
   <div class="link">
     <a href="https://m.va.gov/gravelocator/index.cfm"><b>Veteran Grave Locator</b></a>
-    <p>Find a Veteran's or family member's grave in a VA national cemetery or state or tribal Veterans cemetery.</p>
+    <p>Find a Veteran's or family member's grave in a VA national cemetery, or in a state or tribal Veterans cemetery.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.cem.va.gov/cem/faq.asp"><b>VA Burial Benefits FAQs</b></a>
+    <a href="https://www.cem.va.gov/cem/faq.asp"><b>VA Burial Benefits FAQ</b></a>
     <p>Find answers to common questions about VA burial benefits and memorial items.</p>
   </div>
 
