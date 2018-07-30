@@ -23,26 +23,26 @@ export const uiSchema = {
   'ui:title': 'Reserves and National Guard Information',
   'ui:description': ReservesGuardDescription,
   unitName: {
-    'ui:title': 'Unit Name',
+    'ui:title': 'Unit name',
   },
   obligationTermOfServiceDateRange: dateRangeUI(
-    'Obligation Start Date',
-    'Obligation End Date',
+    'Obligation start date',
+    'Obligation end date',
     'End date must be after start date'
   ),
   'view:isTitle10Activated': {
-    'ui:title': 'I am currently activated on Federal orders'
+    'ui:title': "I'm currently activated on federal orders"
   },
   title10Activation: {
     'ui:options': {
       expandUnder: 'view:isTitle10Activated',
     },
     title10ActivationDate: _.merge(
-      dateUI('Activation Date'),
+      dateUI('Activation date'),
       { 'ui:required': title10DatesRequired }
     ),
     anticipatedSeparationDate: _.merge(
-      dateUI('Anticipated Separation Date'),
+      dateUI('Expected separation date'),
       {
         'ui:validations': [isInFuture],
         'ui:required': title10DatesRequired
@@ -50,7 +50,7 @@ export const uiSchema = {
     ),
   },
   waiveVABenefitsToRetainTrainingPay: {
-    'ui:title': 'I elect to waive VA benefits for the days I accrued inactive duty training pay in order to retain my inactive duty training pay.',
+    'ui:title': 'I choose to waive VA compensation pay for the days I receive inactive duty training pay, so I can keep my inactive duty training pay.',
     'ui:widget': 'yesNo'
   }
 };

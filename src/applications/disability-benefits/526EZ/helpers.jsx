@@ -947,7 +947,7 @@ export const ReservesGuardDescription = ({ formData }) => {
   const { serviceBranch, to } = mostRecentPeriod;
   return (
     <div>
-      Please tell us more about your {serviceBranch} service that ended on {moment(to).format('MMMM Do, YYYY')}.
+      Please tell us more about your {serviceBranch} service that ended on {moment(to).format('MMMM DD, YYYY')}.
     </div>
   );
 };
@@ -957,6 +957,6 @@ export const title10DatesRequired = (formData) => get('view:isTitle10Activated',
 export const isInFuture = (errors, fieldData) => {
   const enteredDate = new Date(fieldData);
   if (enteredDate < Date.now()) {
-    errors.addError('Anticipated separation date must be in the future');
+    errors.addError('Expected separation date must be in the future');
   }
 };
