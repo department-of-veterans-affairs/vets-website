@@ -6,6 +6,13 @@ display_title: Life Insurance
 concurrence: complete
 lastupdate:
 order: 1
+icon: medkit
+promo:
+  - image: /img/megamenu/life-insurance-illustration.png
+    heading: SGLI Online Enrollment System (SOES)
+    url: "https://www.benefits.va.gov/INSURANCE/SOES.asp"
+    description: Learn about our new online enrollment system for Servicemembers' Group Life Insurance.
+
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
