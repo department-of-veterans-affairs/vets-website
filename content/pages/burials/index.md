@@ -130,20 +130,20 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   <h2 class='highlight'>More Information and Resources</h2>
 
   <div class="https://www.cem.va.gov/dailyburialschedule/">
-    <a href="c"><b>VA National Cemetery Daily Burial Schedule</b></a>
+    <a href="#"><b>VA National Cemetery Daily Burial Schedule</b></a>
     <p>Find the committal service date, time, and cemetery for the scheduled burial of a Veteran, spouse, or other eligible family member.</p>
   </div>
 
   <div class="https://benefits.va.gov/Compensation/current_rates_dic.asp">
-    <a href=""><b>Dependency and Indemnity Compensation (DIC) Rates</b></a>
+    <a href="#"><b>Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current VA survivor benefit rates for spouses and children.</p>
 
   <div class="https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp">
-    <a href=""><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
+    <a href="#"><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current survivor benefit rates for parents.</p>
 
   <div class="https://www.archives.gov/veterans/replace-medals.html">
-    <a href=""><b>Replace Medals, Awards, and Decorations</b></a>
+    <a href="#"><b>Replace Medals, Awards, and Decorations</b></a>
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
 
   <div class="link">
