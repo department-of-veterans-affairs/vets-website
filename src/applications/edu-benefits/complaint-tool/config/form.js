@@ -19,13 +19,17 @@ import { transform } from '../helpers';
 
 const {
   name: schoolName,
-  address: schoolAddress,
-  address2: schoolAddress2,
+  address: schoolAddress
+} = school.properties;
+
+const {
+  street: schoolStreet,
+  street2: schoolStreet2,
   city: schoolCity,
   state: schoolState,
   country: schoolCountry,
   postalCode: schoolPostalCode
-} = school.properties;
+} = schoolAddress.properties;
 
 const {
   onBehalfOf,
@@ -164,14 +168,15 @@ const formConfig = {
               'Service start date',
               'Service end date',
               'End of service must be after start of service'
-            ),
-            {
-              'ui:options': {
+            ), {
+              'ui:options':
+              {
                 hideIf: isNotVeteranOrServiceMember,
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: myself
               }
-            }),
+            }
+            ),
             anonymousEmail: {
               'ui:title': 'Email',
               'ui:options': {
@@ -309,7 +314,7 @@ const formConfig = {
           title: 'School Information',
           uiSchema: {
             school: {
-              name: {
+              facilityCode: {
                 'ui:field': SchoolSelectField,
                 'ui:options': {
                   hideIf: formData => formData.school['view:cannotFindSchool']
@@ -319,10 +324,10 @@ const formConfig = {
                 name: {
                   'ui:title': 'Name'
                 },
-                address: {
+                street: {
                   'ui:title': 'Address line 1'
                 },
-                address2: {
+                street2: {
                   'ui:title': 'Address line 2'
                 },
                 city: {
@@ -345,7 +350,7 @@ const formConfig = {
                   }
                 },
                 'ui:options': {
-                  hideIf: formData => formData.school['view:cannotFindSchool']
+                  hideIf: formData => !formData.school['view:cannotFindSchool']
                 }
               }
             }
@@ -356,7 +361,7 @@ const formConfig = {
               school: {
                 type: 'object',
                 properties: {
-                  name: { // TODO: determine whether to store facility ID
+                  facilityCode: { // TODO: determine whether to store facility ID
                     type: 'string'
                   },
                   'view:cannotFindSchool': {
@@ -367,8 +372,8 @@ const formConfig = {
                     type: 'object',
                     properties: {
                       name: schoolName,
-                      address: schoolAddress,
-                      address2: schoolAddress2,
+                      street: schoolStreet,
+                      street2: schoolStreet2,
                       city: schoolCity,
                       state: schoolState,
                       country: schoolCountry,
