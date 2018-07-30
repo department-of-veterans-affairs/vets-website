@@ -10,8 +10,8 @@ order: 1
 promo:
   - image: /img/megamenu/disability-illustration.png
     heading: TBD
-    url: "https://"
-    description: TBD
+    url: "https://www.vets.gov/disability-benefits/apply/evidence/decision-ready-claims/"
+    description: Find out if you can use the Decision Ready Claims (DRC) program to get a decision on your claim in 30 days or less.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
