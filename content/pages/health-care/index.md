@@ -9,7 +9,7 @@ lastupdate:
 order: 1
 icon: medkit
 promo:
-  - image: /img/megamenu/pension-illustration.png
+  - image: /img/megamenu/health-care-illustration.png
     heading: VA Telehealth Services
     url: "https://www.telehealth.va.gov/"
     description: Find out how we use telehealth technologies to provide specialty care and health monitoring to Veterans at their local VA clinic or in their own home.
@@ -34,16 +34,16 @@ crosslinks:
 contact:
   - heading: Ask Questions
     links:
+    - url: 1-877-222-VETS(8387)
+      title: "Health Benefits Hotline:"
+    - url: 1-877-327-0022
+      title: "My HealtheVet Help Desk:"
+    - url: 1-855-829-6636
+      title: "Women Veterans Call Center:"
+    - url: 1-877-4AID VET (877-424-3838)
+      title: "National Center for Homeless Veterans:"
     - url: https://iris.custhelp.va.gov/
       title: Ask Questions Online
-    - url: 1-877-222-VETS(8387)
-      title: "Health Benefits Hotline"
-    - url: 1-877-327-0022
-      title: "My Health_e_Vet Hotline"
-    - url: 1-855-829-6636
-      title: "Women Veterans Hotline"
-    - url: 1-877-4AID VET (877-424-3838)
-      title: "National Center for Homeless Veterans"  
 social:
   - heading: Get Updates
     links:
@@ -59,9 +59,6 @@ social:
     - url: "https://youtube.com"
       label: Veteran Health Care Youtube
       icon: fa-youtube
-    - url: Veteran Health Care Flickr
-      label: https://www.flickr.com/photos/veteranshealth/sets/ 
-      icon: 
 ---
 
 <p class="va-introtext">
