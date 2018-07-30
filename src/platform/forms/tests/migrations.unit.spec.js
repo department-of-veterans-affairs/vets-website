@@ -12,6 +12,7 @@ import fullSchema527EZ from '../../../applications/pensions/config/form';
 import fullSchema530 from '../../../applications/burials/config/form';
 import fullSchema10007 from '../../../applications/pre-need/config/form';
 import fullSchema686 from '../../../applications/disability-benefits/686/config/form';
+import fullSchemaComplaintTool from '../../../applications/edu-benefits/complaint-tool/config/form';
 
 import schemas from 'vets-json-schema/dist/schemas';
 
@@ -29,6 +30,7 @@ const mappedIds = [
   '22-5490',
   '22-5495',
   '40-10007',
+  'complaint-tool',
   'definitions'
 ];
 
@@ -44,7 +46,8 @@ const configs = [
   fullSchema1995,
   fullSchema5490,
   fullSchema5495,
-  fullSchema10007
+  fullSchema10007,
+  fullSchemaComplaintTool
 ];
 
 const excludedForms = new Set([
