@@ -59,11 +59,15 @@ social:
 <p class="va-introtext">
 VA life insurance can help offer financial security and support for Veterans, Servicemembers, their spouses and dependent children. Explore your options, manage your policy, and file claims to get the insurance benefits you've earned.</p>
 
-<h3 class="highlight">Page Content</h3>
+<h3>On This Page</h3>
 
 [Get VA Life Insurance](#get)<br>
 [Manage Your Policy and Benefits](#manage)<br>
 [More Information and Resources](#more)<br>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
 
 <section id="get" class="merger-majorlinks">
 
@@ -84,6 +88,10 @@ VA life insurance can help offer financial security and support for Veterans, Se
     <p>If you're enrolled in a VA life insurance plan, find out if you can get free financial planning and online will preparation services.</p>
   </div>
 
+</section>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
 </section>
 
 <section id="manage" class="merger-majorlinks">
@@ -130,6 +138,10 @@ VA life insurance can help offer financial security and support for Veterans, Se
     <p>Sign up to pay your Veterans' Group Life Insurance premium automatically from your bank account.</p>
   </div>
 
+</section>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
 </section>
 
 <section id="more" class="merger-majorlinks">
