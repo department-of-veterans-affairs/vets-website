@@ -10,7 +10,7 @@ import {
   VET360_TRANSACTION_REQUEST_CLEARED,
   VET360_TRANSACTION_UPDATE_REQUESTED,
   VET360_TRANSACTION_UPDATE_FAILED
-} from '../../actions';
+} from '../actions';
 
 import {
   isFailedTransaction
