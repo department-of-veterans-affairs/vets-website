@@ -57,7 +57,7 @@ social:
       label: Veteran Health Care Twitter
       icon: fa-twitter
     - url: "https://youtube.com"
-      label: Veteran Health Care Youtube
+      label: Veteran Health Care YouTube
       icon: fa-youtube
 ---
 
