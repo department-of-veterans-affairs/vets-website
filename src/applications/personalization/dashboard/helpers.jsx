@@ -5,7 +5,7 @@ export const formBenefits = {
   '21P-527EZ': 'Veterans pension benefits',
   '21P-530': 'burial benefits',
   '1010ez': 'health care',
-  '22-0993': 'education benefits',
+  '22-0993': 'opt out',
   '22-1990': 'education benefits',
   '22-1990E': 'education benefits',
   '22-1990N': 'education benefits',
@@ -14,6 +14,7 @@ export const formBenefits = {
   '22-5495': 'education benefits',
   '40-10007': 'pre-need determination of eligibility in a VA national cemetery',
   VIC: 'Veteran ID Card',
+  'complaint-tool': 'feedback',
   '21-686C': 'dependent status'
 };
 
@@ -45,6 +46,7 @@ export const formLinks = {
   '22-5495': '/education/apply-for-education-benefits/application/5495/',
   '40-10007': '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/',
   VIC: '/veteran-id-card/apply/',
+  'complaint-tool': '/education/complaint-tool/form',
   '21-686C': '/disability-benefits/686/dependent-status/'
 };
 
@@ -79,7 +81,8 @@ export const sipEnabledForms = new Set([
   '22-5490',
   '22-5495',
   '40-10007',
-  'VIC'
+  'VIC',
+  'complaint-tool'
 ]);
 
 
