@@ -16,7 +16,7 @@ contact:
     links:
     - url: 1-800-827-1000 
       title: Questions about VA Benefits
-    - url: 1-877-327-0022 or 1-800877-8339 (TTY) 
+    - url: 1-877-327-0022 or 1-800-877-8339 (TTY) 
       title: MyHealtheVet Help Desk
     - url: 1-800-983-0937
       title: eBenefits Technical Support
