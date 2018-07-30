@@ -70,7 +70,7 @@ describe('Disability benefits 526EZ reservesNationalGuardService', () => {
       'view:isTitle10Activated': true,
       title10Activation: {
         title10ActivationDate: '2015-06-05',
-        anticipatedSeparationDate: '2016-08-12'
+        anticipatedSeparationDate: '2099-08-12' // must be a future date
       }
     });
     const onSubmit = sinon.spy();
