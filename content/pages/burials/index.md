@@ -114,7 +114,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Request Military Records</b></a>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Request Your Military Records</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
@@ -143,8 +143,8 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
 
   <div class="link">
-    <a href="https://www.archives.gov/veterans"><b>Search Historical Military Records</b></a>
-    <p>Search and request military records from the National Archives website.</p>
+    <a href="https://www.archives.gov/veterans"><b>Search Historical Military Records (National Archives)</b></a>
+    <p>Visit the National Archives website to research military records from the Revolutionary War to the present.</p>
   </div>
 
   <div class="link">
