@@ -8,16 +8,16 @@ lastupdate:
 order: 1
 promo:
   - image: /img/megamenu/records-illustration.png
-    heading: TBD
-    url: "https://"
-    description: TBD.
+    heading: Veteran ID Card
+    url: "https://www.vets.gov/?next=%2Fveteran-id-card%2F"
+    description: Apply for your Veteran ID Card to get Veteran discounts on goods and services.
 contact:
   - heading: Ask Questions
     links:
     - url: 1-800-827-1000 
       title: Questions About VA Benefits
     - url: 1-877-327-0022 or 1-800877-8339 (TTY) 
-      title: MyHealth*e*Vet Help Desk
+      title: MyHealtheVet Help Desk
     - url: 1-800-983-0937
       title: eBenefits Technical Support
 
@@ -26,16 +26,13 @@ social:
     links:
     - url: "https://twitter.com/DeptVetAffairs/"
       label: Veterans Affairs Twitter
+      icon: fa-twitter
     - url: "https://www.facebook.com/VeteransAffairs/"
       label: Veterans Affairs Facebook
+      icon: fa-facebook
     - url: "https://www.youtube.com/user/DeptVetAffairs"
       label: Veterans Affairs Youtube
-    - url: "https://www.instagram.com/deptvetaffairs/"
-      label: Veterans Affairs Instagram
-    - url: "https://www.flickr.com/photos/VeteransAffairs/"
-      label: Veterans Affairs Flickr
-    - url: "https://www.blogs.va.gov/"
-      label: VAntage Point Blog
+      icon: fa-youtube
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new"
       label: Email Updates
 ---
