@@ -1,5 +1,5 @@
 ---
-title: Your Vets.gov Profile
+title: Your Profile
 layout: page-react.html
 entryname: profile-360
 ---

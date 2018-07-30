@@ -8,39 +8,38 @@ import {
 } from '../../../../platform/monitoring/DowntimeNotification/actions';
 
 import {
-  fetchTransactions,
-  fetchAddressConstants,
+  fetchTransactions
+} from '../vet360/actions';
+
+import {
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation
 } from '../actions';
 
-import { selectIsVet360AvailableForUser } from '../selectors';
+import { selectIsVet360AvailableForUser } from '../vet360/selectors';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import ProfileView from '../components/ProfileView';
 
 class VAProfileApp extends React.Component {
-  componentDidMount() {
-    this.props.fetchTransactions();
-  }
   render() {
     return (
       <div>
         <RequiredLoginView
           authRequired={1}
           serviceRequired={backendServices.USER_PROFILE}
-          user={this.props.account}
+          user={this.props.user}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <ProfileView
             isVet360AvailableForUser={this.props.isVet360AvailableForUser}
             profile={this.props.profile}
-            user={this.props.account}
-            fetchAddressConstants={this.props.fetchAddressConstants}
+            user={this.props.user}
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
             fetchPersonalInformation={this.props.fetchPersonalInformation}
+            fetchTransactions={this.props.fetchTransactions}
             downtimeData={{
               appTitle: 'profile',
               isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,
@@ -55,7 +54,7 @@ class VAProfileApp extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.user,
+    user: state.user,
     profile: state.vaProfile,
     isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile'),
     isVet360AvailableForUser: selectIsVet360AvailableForUser(state)
@@ -64,7 +63,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchTransactions,
-  fetchAddressConstants,
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation,
