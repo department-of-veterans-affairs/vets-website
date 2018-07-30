@@ -9,9 +9,9 @@ import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
-import { transform } from '../helpers';
-
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+
+import { transform } from '../helpers';
 
 const {
   onBehalfOf,
@@ -20,7 +20,10 @@ const {
   serviceAffiliation,
   serviceBranch,
   serviceDateRange,
-  email
+  anonymousEmail,
+  issue,
+  issueDescription,
+  issueResolution
 } = fullSchema.properties;
 
 const {
@@ -155,7 +158,7 @@ const formConfig = {
                 expandUnderCondition: myself
               }
             }),
-            email: {
+            anonymousEmail: {
               'ui:title': 'Email',
               'ui:options': {
                 expandUnder: 'onBehalfOf',
@@ -175,7 +178,7 @@ const formConfig = {
               serviceAffiliation,
               serviceBranch,
               serviceDateRange,
-              email
+              anonymousEmail
             }
           }
         }
@@ -279,6 +282,104 @@ const formConfig = {
                   }
                 }
               }
+            }
+          }
+        }
+      }
+    },
+    issueInformation: {
+      title: 'Feedback Information',
+      pages: {
+        issueInformation: {
+          path: 'feedback-information',
+          title: 'Feedback Information',
+          uiSchema: {
+            issue: {
+              'ui:title': 'Which topic best describes your feedback? (Select all that apply)',
+              'ui:validations': [
+                validateBooleanGroup
+              ],
+              'ui:options': {
+                showFieldLabel: true
+              },
+              'ui:errorMessages': {
+                atLeastOne: 'Please select at least one'
+              },
+              'ui:order': [
+                'recruiting',
+                'accreditation',
+                'financialIssues',
+                'studentLoans',
+                'jobOpportunities',
+                'changeInDegree',
+                'quality',
+                'gradePolicy',
+                'transcriptRelease',
+                'creditTransfer',
+                'refundIssues'
+              ],
+              recruiting: {
+                'ui:title': 'Recruiting or marketing practices'
+              },
+              studentLoans: {
+                'ui:title': 'Student loan'
+              },
+              quality: {
+                'ui:title': 'Quality of education'
+              },
+              creditTransfer: {
+                'ui:title': 'Transfer of credits'
+              },
+              accreditation: {
+                'ui:title': 'Accreditation'
+              },
+              jobOpportunities: {
+                'ui:title': 'Post-graduation job opportunity'
+              },
+              gradePolicy: {
+                'ui:title': 'Grade policy'
+              },
+              refundIssues: {
+                'ui:title': 'Refund issues'
+              },
+              financialIssues: {
+                'ui:title': 'Financial concern (for example, tuition or fee changes)'
+              },
+              changeInDegree: {
+                'ui:title': 'Change in degree plan or requirements'
+              },
+              transcriptRelease: {
+                'ui:title': 'Release of transcripts'
+              }
+            },
+            issueDescription: {
+              'ui:title': 'Please write your feedback and any details about your issue in the space below. (32,000 characters maximum)',
+              'ui:widget': 'textarea',
+              'ui:options': {
+                rows: 5,
+                maxLength: 32000
+              },
+            },
+            issueResolution: {
+              'ui:title': 'What do you think would be a fair way to resolve your issue? (1,000 characters maximum)',
+              'ui:widget': 'textarea',
+              'ui:options': {
+                rows: 5,
+                maxLength: 1000
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'issue',
+              'issueDescription',
+              'issueResolution'
+            ],
+            properties: {
+              issue,
+              issueDescription,
+              issueResolution
             }
           }
         }
