@@ -20,6 +20,23 @@ module.exports = E2eHelpers.createE2eTest((client) => {
       .axeCheck('.main');
     PageHelpers.completeClaimantInformation(client, testData.data);
 
+    // Review and submit page
+    E2eHelpers.expectNavigateAwayFrom(client, '/claimant-information');
+    client
+      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .pause(1000)
+      .click('input[type="checkbox"]')
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
+    client.expect.element('.js-test-location').attribute('data-location')
+      .to.not.contain('/review-and-submit').before(Timeouts.submission);
+
+    // Confirmation page
+    client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
+    client
+      .axeCheck('.main')
+      .end();
+
     // Submit
     client
       .click('input[name="privacyAgreement"]')
