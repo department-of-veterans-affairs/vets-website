@@ -7,9 +7,9 @@ lastupdate:
 order: 1
 promo:
   - image: /img/megamenu/pension-illustration.png
-    heading: TBD
-    url: "#"
-    description: TBD
+    heading: Get Your Pension Payments Electronically
+    url: "https://www.godirect.gov/gpw"
+    description: Sign up for direct deposit or a pre-paid debit card.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
@@ -50,14 +50,8 @@ social:
       label: Veterans Benefits Facebook
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
       label: Veterans Benefits YouTube
-    - url: "https://www.instagram.com/vabenefits/"
-      label: Veterans Benefits Instagram
-    - url: "https://www.pinterest.com/vavetbenefits/"
-      label: Veterans Benefits Pinterest
-    - url: "https://www.blogs.va.gov/"
-      label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
-      label: Email Directory
+      label: Email Updates
 ---
 
 <p class="va-introtext">
