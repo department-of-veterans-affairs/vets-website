@@ -43,11 +43,11 @@ social:
   - heading: Social Media
     links:
     - url: "https://twitter.com"
-      label: Twitter
+      label: Veteran Benefits Twitter
     - url: "https://facebook.com"
-      label: Facebook
+      label: Veteran Benefits Facebook
     - url: "https://youtube.com"
-      label: YouTube
+      label: Veteran Benefits YouTube
     - url: "https://instagram.com"
       label: Instagram
     - url: "https://flickr.com"
