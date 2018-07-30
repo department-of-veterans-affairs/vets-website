@@ -455,7 +455,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('attempts to remove an in-progress form', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = removeInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {

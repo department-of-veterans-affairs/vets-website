@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import Vet360Transaction from '../../components/base/Transaction';
-import { TRANSACTION_STATUS } from '../../../constants/vet360';
+import { TRANSACTION_STATUS } from '../../constants';
 
 describe('<Vet360Transaction/>', () => {
 

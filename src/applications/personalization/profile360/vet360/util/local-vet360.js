@@ -1,5 +1,5 @@
 import { uniqueId } from 'lodash';
-import * as VET360_CONSTANTS from '../constants/vet360';
+import * as VET360_CONSTANTS from '../constants';
 
 export function isVet360Configured() {
   return [

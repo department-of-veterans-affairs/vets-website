@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import vet360 from '../../reducers';
-import * as VET360 from '../../../constants/vet360';
+import * as VET360 from '../../constants';
 
 describe('vet360 reducer', () => {
   it('should return array of transaction data', () => {

@@ -14,8 +14,6 @@ const initialState = {
 
 function vaProfile(state = initialState, action) {
   switch (action.type) {
-
-    // Fetch
     case FETCH_HERO_SUCCESS:
       return { ...state, hero: action.hero };
 

@@ -4,7 +4,7 @@ import EmailField from './EmailField';
 
 import {
   FIELD_NAMES
-} from '../../constants/vet360';
+} from '../constants';
 
 export default function Email() {
   return (

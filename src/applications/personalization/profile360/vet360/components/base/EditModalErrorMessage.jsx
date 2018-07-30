@@ -4,7 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import {
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
   DECEASED_ERROR_CODES
-} from  '../../../util/transactions';
+} from  '../../util/transactions';
 
 function hasError(codes, errors) {
   return errors.some(error => codes.has(error.code));

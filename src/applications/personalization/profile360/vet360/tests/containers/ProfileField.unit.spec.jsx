@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Vet360ProfileField } from '../../containers/ProfileField';
-import { TRANSACTION_STATUS } from '../../../constants/vet360';
+import { TRANSACTION_STATUS } from '../../constants';
 
 function Content() {
   return <h1>Content</h1>;
