@@ -62,7 +62,7 @@ Veterans
 ### How do I get these benefits?
 
 You’ll need to apply for benefits. When you apply, you’ll have to show that your illness is at least 10% disabling. (For example, you may include a doctor’s report showing that you’re taking medicine for your high blood pressure.) You’ll also need to show that the illness appeared within 1 year after being discharged from active service. <br>
-[Find out how to apply for benefits](/disability-benefits/apply/).
+[Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 **Exception:**<br>
 The following diseases are covered, even if they appear more than 1 year after you separated:
