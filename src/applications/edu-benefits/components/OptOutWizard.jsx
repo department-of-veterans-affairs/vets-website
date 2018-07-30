@@ -25,8 +25,9 @@ export default class OptOutWizard extends React.Component {
           Opt Out
         </button>
         <Modal
-          id="opt-out-alert"
+          clickToClose
           cssClass="va-modal va-modal-large"
+          id="opt-out-alert"
           onClose={this.closeModal}
           title="Are you sure you want to opt out?"
           visible={this.state.modalOpen}>
