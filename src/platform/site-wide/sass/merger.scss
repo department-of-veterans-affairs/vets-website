@@ -1,0 +1,411 @@
+/* MERGER-specific shame. This is not production ready; proof of concept only */
+
+$color-primary-lightest: #e1f3f8;
+
+@import 'iconography';
+@import 'right-rail';
+
+.sign-in-link {
+
+}
+
+section.usa-grid {
+  padding-top: 3em;
+}
+
+/* logo size override */
+
+.va-header-logo {
+  width: 264px;
+  height:auto;
+}
+
+article {
+  &:last-of-type {
+    padding-bottom: 3em;
+  }
+}
+
+#helpmenu {
+  a {
+    text-decoration: none;
+  }
+
+  p {
+    margin-top: 1em;
+  }
+}
+
+#mega-menu {
+
+  #vetnav-menu, #vetnav {
+    margin-top: 0;
+  }
+}
+
+#menu-rule {
+  border-bottom: 1px solid $color-white;
+  margin-left: -.55em;
+  padding-bottom: 1em;
+  padding-right: 1.2em;
+
+}
+
+/* new pattern? where we use old VA icons with h3 */
+.va-icon-header {
+
+  width:100%;
+  height: 40px;
+  margin-left: -6px;
+
+  .va-icon-icon {
+    margin: 0;
+    padding: 0;
+
+    display: inline;
+    float: left;
+    width:12%;
+    height:auto;
+  }
+
+  .va-icon-h {
+    display: inline;
+    width: 87%;
+  }
+
+}
+
+.va-icon-cols {
+  p {
+    margin-top:0;
+  }
+
+  padding-bottom: 3em;
+}
+
+#footer-first-child {
+  margin-top: 2em;
+}
+
+// we'll need to rewrite this at some point once we have business rules
+[href^="http"], [rel="external"] {
+  background-image: none;
+}
+
+#homepage-hub {
+
+  background: #0071bb; /* Old browsers */
+  background: -moz-linear-gradient(top, #0071bb 0%, #112e51 63%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #0071bb 0%,#112e51 63%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #0071bb 0%,#112e51 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0071bb', endColorstr='#112e51',GradientType=0 ); /* IE6-9 */
+
+  padding-top: 3em;
+  padding-bottom: 3em;
+
+  #hub-internal {
+
+    width: 53%;
+
+    h2 {
+      color: $color-white;
+      text-align: center;
+      margin-bottom: 2em;
+    }
+
+    .usa-grid:first-of-type {
+      margin-bottom: 1.5rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+
+    .usa-width-one-half {
+      background-color: $color-white;
+      padding: 1.5em 0 1.5em 1.5em;
+    }
+  }
+}
+
+#homepage-popular {
+  padding-top: 3em;
+}
+
+#homepage-hero {
+  background-color: $color-primary-darker;
+  text-align: center;
+  padding-top: 1.5em;
+}
+
+#homepage-news {
+  padding: 0 0 3em 0;
+  margin-top: 3em;
+}
+
+#homepage-benefits {
+
+  .usa-grid {
+    padding-bottom: 3em;
+  }
+
+  .usa-grid:last-of-type {
+    padding-bottom: 0;
+  }
+}
+
+h3, h4 {
+  .fa {
+    padding-right: .35em;
+  }
+}
+
+// new pattern, but specific to homepage only
+.homepage-button {
+
+  width:100%;
+  height: 85px;
+  padding: 0;
+
+  a {
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+
+  .icon-wrapper {
+    width: 55px;
+    height: 100%;
+    float: left;
+
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+
+  .button-inner {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  .fa {
+    font-size: 1.5em;
+    display:inline-block;
+
+    &.fa-user-circle {
+      font-size: 1.5em;
+      padding-right: .3em;
+    }
+
+    &::before {
+      position: absolute;
+      margin: 0;
+      top: 15px;
+      left: -7.75px;
+    }
+  }
+
+  .vcl {
+    content: "";
+    background: url(/img/vcl-logo-white.png) no-repeat;
+    background-size: 100%;
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    margin-top:32.5px;
+  }
+
+  div {
+    display:inline-block;
+    width:80%;
+  }
+
+  &.primary-darker {
+
+    .icon-wrapper {
+      background-color: $color-primary-darker;
+    }
+
+    background-color: $color-primary;
+  }
+
+  &.secondary-dark {
+
+    .icon-wrapper {
+      background-color: $color-secondary-darkest;
+    }
+    background-color: $color-secondary-dark;
+  }
+}
+
+@media screen and (min-width: 768px) {
+
+  .vet-toolbar {
+    flex: 0 1 35.5rem;
+  }
+}
+
+.footer-banner {
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+}
+
+.footer-links {
+
+  ul {
+
+    padding-left: 0;
+    padding-bottom: 3em;
+    list-style: none;
+
+    li {
+      display: inline-block;
+
+      a {
+        color: white;
+      }
+      a:visited {
+        color: white;
+      }
+    }
+  }
+}
+
+.merger-majorlinks {
+
+  .link {
+
+    margin-bottom: 1em;
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      text-decoration: none;
+      padding-bottom: 0;
+    }
+  }
+
+}
+
+.usa-grid {
+  padding: 0;
+}
+
+.va-nav-breadcrumbs-list {
+  padding-left: 0;
+
+  li {
+    list-style: none;
+    padding-bottom: 1em;
+    padding-top: 1em;
+  }
+}
+
+.footer-banner {
+
+  padding-top: 1.5em;
+  padding-bottom: 2em;
+
+  .va-footer-logo {
+    img {
+      width:200px;
+      height:auto;
+    }
+  }
+}
+
+.va-footer-linkgroup {
+  li {
+    margin-bottom: 0;
+  }
+}
+
+
+// mobile
+@media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
+
+  #vetnav-controls {
+    margin-top: 7px;
+  }
+
+  .usa-banner {
+    padding-left: .5em;
+  }
+
+  .va-header-logo-wrapper {
+    width: 55%;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 1em;
+
+    a {
+      width: 100%;
+      height: auto;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  .vet-toolbar {
+    margin-bottom: .5em;
+
+    .sign-in-nav {
+      margin-top: 6px;
+    }
+  }
+
+  #homepage-hub {
+
+    padding-top: 1.5em;
+    padding-bottom: 1em;
+
+    #hub-internal {
+
+      width: 100%;
+
+      h2 {
+        margin-bottom: 1em;
+      }
+
+      .usa-grid {
+        &:first-of-type {
+          margin-bottom: 0;
+        }
+
+        .usa-width-one-half {
+          margin-bottom: .55em;
+        }
+      }
+    }
+  }
+
+  #hub-internal,
+  #homepage-benefits,
+  #homepage-news,
+  .va-h-ruled--stars,
+  .va-nav-breadcrumbs,
+  article {
+
+    padding-left: .5em;
+    padding-right: .5em;
+  }
+
+  .va-h-ruled--stars {
+  }
+
+  // internal static-pages
+  #promo {
+    display: none;
+  }
+}
