@@ -29,6 +29,44 @@ function recordProfileTransaction(event, fieldName) {
   }
 }
 
+function initializeUserToVet360() {
+  return () => {
+    return async (dispatch) => {
+      const method = 'POST';
+      const fieldName = 'initialization';
+
+      const options = {
+        method,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      try {
+        dispatch({
+          type: VET360_TRANSACTION_REQUESTED,
+          fieldName,
+          method
+        });
+
+        const transaction = isVet360Configured() ? await apiRequest('/profile/initialize_vet360_id/', options) : await localVet360.createTransaction();
+
+        dispatch({
+          type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
+          fieldName,
+          transaction
+        });
+      } catch (error) {
+        dispatch({
+          type: VET360_TRANSACTION_REQUEST_FAILED,
+          error,
+          fieldName
+        });
+      }
+    };
+  };
+}
+
 export function fetchTransactions() {
   return async (dispatch) => {
     try {
@@ -290,5 +328,6 @@ export const fieldUpdaters = {
   [VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS]: {
     update: updateVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address'),
     destroy: deleteVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address')
-  }
+  },
+  initialization: initializeUserToVet360(),
 };
