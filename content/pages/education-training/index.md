@@ -8,9 +8,9 @@ lastupdate:
 order: 1
 promo:
   - image: /img/megamenu/education-training-illustration.png
-    heading: TBD
+    heading: GI Bill&reg; School Feedback Tool
     url: "https://"
-    description: TBD
+    description: Find out how to give us feedback about your GI Bill school.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
@@ -75,7 +75,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
   <div class="link">
     <a href="https://vets.gov/education/gi-bill/"><b>About GI Bill Benefits</b></a>
-    <p>Learn how the GI Bill works and explore your options to pay for school or training.</p>
+    <p>Learn how the GI Bill&reg; works and explore your options to pay for school or training.</p>
   </div>
 
   <div class="link">
