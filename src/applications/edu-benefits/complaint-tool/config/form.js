@@ -175,8 +175,7 @@ const formConfig = {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: myself
               }
-            }
-            ),
+            }),
             anonymousEmail: {
               'ui:title': 'Email',
               'ui:options': {

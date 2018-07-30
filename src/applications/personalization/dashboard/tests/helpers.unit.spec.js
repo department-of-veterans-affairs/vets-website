@@ -67,7 +67,7 @@ describe('profile helpers:', () => {
     });
   });
   describe('sipEnabledForms', () => {
-    xit('should include all and only SIP enabled forms', () => {
+    it('should include all and only SIP enabled forms', () => {
       const configs = [
         fullSchema1010ez,
         fullSchema686,
