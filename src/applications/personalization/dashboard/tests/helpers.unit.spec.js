@@ -48,7 +48,7 @@ const schemaToConfigIds = {
 const excludedForms = new Set([
   '28-1900',
   '28-8832',
-  '24-0296',
+  '24-0296'
 ]);
 
 describe('profile helpers:', () => {
