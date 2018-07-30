@@ -10,27 +10,27 @@
                         "links": [
                             {
                                 "text": "About VA Health Care Coverage",
-                                "href": "/health-care/about-va-health-care/"
+                                "href": "/healthcare/about-va-health-care/"
                             },
                             {
                                 "text": "Eligibility",
-                                "href": "/health-care/eligibility"
+                                "href": "/healthcare/eligibility"
                             },
                             {
                                 "text": "Application Process",
-                                "href": "/health-care/apply"
+                                "href": "/healthcare/apply"
                             },
                             {
                                 "text": "After You Apply",
-                                "href": "/health-care/after-you-apply"
+                                "href": "/healthcare/after-you-apply"
                             },
                             {
                                 "text": "Family and Caregiver Health Benefits",
-                                "href": "/health-care/family-caregiver-health-benefits/"
+                                "href": "/healthcare/family-caregiver-health-benefits/"
                             },
                             {
                                 "text": "Apply for Health Care",
-                                "href": "/health-care/apply/application/introduction"
+                                "href": "/healthcare/apply/application/introduction"
                             }
                         ]
                     },
@@ -39,15 +39,15 @@
                         "links": [
                             {
                                 "text": "Refill and Track Your Perscriptions",
-                                "href": "/health-care/prescriptions"
+                                "href": "/healthcare/prescriptions"
                             },
                             {
                                 "text": "Message Your Health Care Team",
-                                "href": "/health-care/messaging"
+                                "href": "/healthcare/messaging"
                             },
                             {
                                 "text": "Schedule or Manage Your VA Appointment",
-                                "href": "/health-care/schedule-an-appointment"
+                                "href": "/healthcare/schedule-an-appointment"
                             },
                             {
                                 "text": "View Your Lab and Test Results",
@@ -59,7 +59,7 @@
                             },
                             {
                                 "text": "Get Your VA Health Records (Blue Button)",
-                                "href": "/health-care/health-records"
+                                "href": "/healthcare/health-records"
                             },
                             {
                                 "text": "Update Your Health Benefits",
@@ -84,7 +84,7 @@
                     },
                     "seeAllLink": {
                       "text": "Health Care",
-                      "href": "/health-care/"
+                      "href": "/healthcare/"
                     }
                 }
             },
