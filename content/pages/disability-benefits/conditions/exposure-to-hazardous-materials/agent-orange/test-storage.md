@@ -43,7 +43,7 @@ You may be able to get disability benefits if you meet both of the requirements 
 ### How do I get these benefits?
 
 You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military and that you have an illness believed to be caused by Agent Orange. <br>
-[Apply for benefits](/disability-benefits/apply/).
+[Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 ### Need help?
 
