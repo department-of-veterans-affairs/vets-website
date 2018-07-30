@@ -7,7 +7,7 @@ lastupdate:
 order: 1
 icon: star
 promo:
-  - image: /img/megamenu/burials-illustration.png
+  - image: /img/megamenu/burials-memorials-illustration.png
     heading: National Cemetery Administration Mobile Site
     url: "https://m.va.gov/"
     description: Locate a grave, search for national cemeteries, and find benefits information and resources from your mobile phone or tablet.
@@ -46,7 +46,7 @@ social:
     - url: "https://www.youtube.com/watch?v=4MhXfpNSHzs&list=PL7897A1FCC5516DDE"
       label: National Cemeteries YouTube
       icon: fa-youtube      
-     - url: "https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify"
+    - url: "https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify"
       label: Email Updates
 ---
 
@@ -59,9 +59,14 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 [Plan a Burial](#manage)<br>
 [More Information and Resources](#more)<br>
 
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Veterans Burial Benefits</h2>
+  <h2>Get Veterans Burial Benefits</h2>
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/eligibility/"><b>Eligibility</b></a>
@@ -96,9 +101,13 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
 </section>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Plan a Burial</h2>
+  <h2>Plan a Burial</h2>
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/burial-planning/"><b>Plan a Burial for a Veteran, Spouse, or Dependent Family Member</b></a>
@@ -123,9 +132,13 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
 </section>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Information and Resources</h2>
+  <h2>More Information and Resources</h2>
 
   <div class="https://www.cem.va.gov/dailyburialschedule/">
     <a href="c"><b>VA National Cemetery Daily Burial Schedule</b></a>
