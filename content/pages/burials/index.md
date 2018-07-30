@@ -5,16 +5,17 @@ title: VA Burial Benefits and Memorial Items
 display_title: Burials and Memorials
 lastupdate:
 order: 1
+icon: star
 promo:
-  - image: /img/megamenu/pension-illustration.png
-    heading: TBD
-    url: "#"
-    description: TBD
+  - image: /img/megamenu/burials-illustration.png
+    heading: National Cemetery Administration Mobile Site
+    url: "https://m.va.gov/"
+    description: Locate a grave, search for national cemeteries, and find benefits information and resources from your mobile phone or tablet.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: "https://vets.gov/pension/survivors-pension/"
-      title: VA Survivors Pension
+      title: Survivors Pension
       description: Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.
     - url: "https://benefits.va.gov/insurance/bfcs.asp"
       title: Beneficiary Financial Counseling and Online Will Preparation
@@ -36,16 +37,17 @@ contact:
 social:
   - heading: Get Updates
     links:
-    - url: "https://twitter.com/VANatCemeteries"
-      label: National Cemeteries Twitter
     - url: "https://www.facebook.com/NationalCemeteries"
       label: National Cemeteries Facebook
+      icon: fa-facebook
+    - url: "https://twitter.com/VANatCemeteries"
+      label: National Cemeteries Twitter
+      icon: fa-twitter    
     - url: "https://www.youtube.com/watch?v=4MhXfpNSHzs&list=PL7897A1FCC5516DDE"
       label: National Cemeteries YouTube
-    - url: "https://www.blogs.va.gov/"
-      label: VAntage Point Blog
-    - url: "https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify"
-      label: NCA Email Updates
+      icon: fa-youtube      
+     - url: "https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify"
+      label: Email Updates
 ---
 
 <p class="va-introtext">
@@ -104,7 +106,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     </div>
 
   <div class="link">
-    <a href="https://vets.gov/facilities"><b>Schedule a Burial in a VA National Cemetery</b></a>
+    <a href="https://www.cem.va.gov/cem/burial_benefits/need.asp"><b>Schedule a Burial in a VA National Cemetery</b></a>
     <p>Learn how to work with the VA National Cemetery Scheduling Office to schedule a burial.</p>
   </div>
 
@@ -114,7 +116,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Request Your Military Records</b></a>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Request Military Records</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
