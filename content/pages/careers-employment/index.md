@@ -8,9 +8,9 @@ lastupdate:
 order: 1
 promo:
   - image: /img/megamenu/careers-employment-illustration.png
-    heading: TBD
-    url: "#"
-    description: TBD.
+    heading: VA for Vets
+    url: "https://www.vaforvets.va.gov"
+    description: Get help transitioning to a civilian career and matching your skills and experiences to VA job opportunities so you can grow your career while making a difference in the lives of fellow Veterans.
 crosslinks:
   - heading: Related VA Benefits and Services
     links:
@@ -34,24 +34,23 @@ contact:
     links:
     - url: 1-800-827-1000
       title: Questions About Your Benefits
+    - url: 1-800-983-0937
+      title: eBenefits Technical Support
     - url: https://iris.custhelp.va.gov/app/ask
       title: Ask a Question Online  
 social:
   - heading: Get Updates
     links:
-    - url: "https://twitter.com/DeptVetAffairs/"
-      label: Veterans Affairs Twitter
-    - url: "https://www.facebook.com/VeteransAffairs"
-      label: Veterans Affairs Facebook
-    - url: "https://www.youtube.com/user/DeptVetAffairs"
+    - url: "https://www.facebook.com/VeteransBenefits"
+      label: Veterans Benefits Facebook
+      icon: fa-facebook
+    - url: "https://twitter.com/VAVetBenefits"
+      label: Veterans Benefits Twitter
+      icon: fa-twitter
+    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
       label: Veterans Affairs Youtube
-    - url: "https://www.instagram.com/deptvetaffairs/"
-      label: Veterans Affairs Instagram
-    - url: "https://www.flickr.com/photos/VeteransAffairs/"
-      label: Veterans Affairs Flickr
-    - url: "https://www.blogs.va.gov/"
-      label: VAntage Point Blog
-    - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
+      icon: fa-youtube
+    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
       label: E-mail Updates
 ---
 
