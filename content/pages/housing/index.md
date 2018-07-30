@@ -8,9 +8,9 @@ lastupdate:
 order: 1
 promo:
   - image: /img/megamenu/housing-assistance-illustration.png
-    heading: TBD
-    url: "https://"
-    description: TBD
+    heading: National Call Center for Homeless Veterans
+    url: "https://www.va.gov/homeless/nationalcallcenter.asp"
+    description: Find out how we can help you or a Veteran you care about connect with VA and local resources 24 hours a day, 7 days a week.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
@@ -52,11 +52,6 @@ social:
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
       label: Veterans Benefits Youtube
       icon: fa-youtube
-    - url: "https://www.instagram.com/vabenefits/"
-      label: Veterans Benefits Instagram
-      icon: fa-instagram
-    - url: "https://www.blogs.va.gov/"
-      label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
       label: E-mail Updates
 ---
