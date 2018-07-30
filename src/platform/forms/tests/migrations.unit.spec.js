@@ -56,7 +56,6 @@ const excludedForms = new Set([
   '28-8832',
   '24-0296',
   'VIC',
-  'complaint-tool'
 ]);
 
 describe('form migrations:', () => {
