@@ -83,7 +83,7 @@ You may be able to get disability benefits if you have a current illness or inju
 <div itemprop="text">
 
 You’ll need to apply for benefits. When you apply, you’ll have to show that your conditions were likely caused by—or got worse because of—your service. <br>
-[Apply for benefits](/disability-benefits/apply/).
+[Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 <div itemscope itemtype="http://schema.org/Question">
 
