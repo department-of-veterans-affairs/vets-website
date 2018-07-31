@@ -316,6 +316,7 @@ const formConfig = {
               facilityCode: {
                 'ui:title': 'Please click on the button to search for your school.',
                 'ui:field': SchoolSelectField,
+                'ui:required': formData => !_.get('school.view:cannotFindSchool', formData),
                 'ui:options': {
                   hideIf: formData => formData.school['view:cannotFindSchool']
                 }
