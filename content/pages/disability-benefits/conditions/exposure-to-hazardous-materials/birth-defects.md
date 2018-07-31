@@ -78,6 +78,7 @@ You’ll need to apply for benefits for your child and submit this evidence:
 - Medical records with the diagnosis of spina bifida or another covered birth defect
 
 [Apply for benefits](/disability-benefits/apply/).
+[View the current payment rates](https://www.benefits.va.gov/compensation/sb2017.asp).
 
 ### Get more information
 
