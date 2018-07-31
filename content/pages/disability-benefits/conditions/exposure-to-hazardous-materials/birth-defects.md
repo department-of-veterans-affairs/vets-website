@@ -68,6 +68,7 @@ Your child may be able to get disability benefits if they have a covered birth d
 
 You’ll need to apply for benefits for your child. When you apply, you’ll have to show that your contact with certain chemicals while serving in the military likely caused your child’s birth defect. <br>
 [Find out how to file a claim for disability compensation](/disability-benefits/apply/).
+[View the current payment rates](https://www.benefits.va.gov/compensation/sb2017.asp).
 
 ### Get more information
 
