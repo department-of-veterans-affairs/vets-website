@@ -32,11 +32,11 @@ contact:
   - heading: Ask Questions
     links:
     - url: 1-800-419-1473
-      title: Questions About Service Members or Veterans Group Life Insurance
+      title: Questions about Service Members or Veterans Group Life Insurance
     - url: 1-800-669-8477
-      title: Questions About All Other VA Life Insurance Programs
+      title: Questions about All Other VA Life Insurance Programs
     - url: 1-800-827-1000
-      title: Questions About Other VA Benefits
+      title: Questions about Other VA Benefits
     - url: https://iris.custhelp.va.gov/app/ask
       title: Ask Us a Question Online
 
@@ -50,13 +50,13 @@ social:
       label: Veterans Benefits Twitter
       icon: fa-twitter
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-      label: Veterans Benefits Youtube
+      label: Veterans Benefits YouTube
       icon: fa-youtube
     - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
-      label: E-mail Updates
+      label: Email Updates
 ---
 <p class="va-introtext">
-VA life insurance can help offer financial security and support for Veterans, Servicemembers, their spouses and dependent children. Explore your options, manage your policy, and file claims to get the insurance benefits you've earned.</p>
+VA life insurance can offer financial security and support for Veterans, Servicemembers, their spouses and dependent children. Explore your options, manage your policy, and file claims to get the insurance benefits you've earned.</p>
 
 <h3>On This Page</h3>
 
@@ -104,12 +104,12 @@ VA life insurance can help offer financial security and support for Veterans, Se
 
   <div class="link">
     <a href="https://benefits.va.gov/INSURANCE/updatebene.asp"><b>Update Your Beneficiaries</b></a>
-    <p>Keep the information about who you want to receive your insurance proceeds up to date to make it easier for your family members to file a claim in their time of need.</p>
+    <p>Keep the information up to date about who you want to receive your insurance proceeds. This will make it easier for your family members to file a claim in their time of need.</p>
   </div>
 
   <div class="link">
     <a href="https://benefits.va.gov/INSURANCE/sglivgli.asp"><b>File a Claim for Benefits</b></a>
-    <p>Find out how to claim VA life insurance benefits, depending on your policy.</p>
+    <p>Find out how to claim VA life insurance benefits under your policy.</p>
   </div>
 
   <div class="link">
@@ -123,7 +123,7 @@ VA life insurance can help offer financial security and support for Veterans, Se
   </div>
   
   <div class="link">
-    <a href="https://www.benefits.va.gov/insurance/sglidisabled.asp"><b>Apply for a SGLI Disability Extension (VA Form SGLV 8715)</b></a>
+    <a href="https://www.benefits.va.gov/insurance/sglidisabled.asp"><b>Apply for an SGLI Disability Extension (VA Form SGLV 8715)</b></a>
     <p>If you're totally disabled when you're discharged from active duty, find out how to apply for free Servicemembers' Group Life Insurance coverage for up to 2 years from your date of separation.</p>
   </div>
 
@@ -183,7 +183,7 @@ VA life insurance can help offer financial security and support for Veterans, Se
   </div> 
   
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/uninsurable.asp"><b>Medical Conditions that May Make You Uninsurable</b></a>
+    <a href="https://www.benefits.va.gov/INSURANCE/uninsurable.asp"><b>Medical Conditions That May Make You Uninsurable</b></a>
     <p>Find out which medical conditions may make it hard for you to get private life insurance after you separate from service, and what to do to make sure you have coverage. </p>
   </div> 
 
