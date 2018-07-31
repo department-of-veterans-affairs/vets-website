@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import schoolSelect from '../../reducers/schoolSelect';
+import schoolSelect from '../../../complaint-tool/reducers/schoolSelect';
 
 describe('schoolSearch reducer', () => {
   describe('LOAD_SCHOOLS_STARTED', () => {

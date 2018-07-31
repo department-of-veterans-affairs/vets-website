@@ -20,7 +20,7 @@ import { transform } from '../helpers';
 const {
   name: schoolName,
   address: schoolAddress
-} = school.properties;
+} = school.oneOf[0].schoolInformation.properties;
 
 const {
   street: schoolStreet,
@@ -314,6 +314,7 @@ const formConfig = {
           uiSchema: {
             school: {
               facilityCode: {
+                'ui:title': 'Please click on the button to search for your school.',
                 'ui:field': SchoolSelectField,
                 'ui:options': {
                   hideIf: formData => formData.school['view:cannotFindSchool']

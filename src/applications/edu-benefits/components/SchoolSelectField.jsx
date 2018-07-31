@@ -101,7 +101,6 @@ export class SchoolSelectField extends React.Component {
     } = this.props;
 
     const fieldsetClass = classNames('search-select-school-fieldset');
-    const legendClass = classNames('legend-label');
 
     if (formContext.reviewMode) {
       const {
@@ -120,9 +119,6 @@ export class SchoolSelectField extends React.Component {
 
     return (
       <fieldset className={fieldsetClass}>
-        <legend className={legendClass}>
-          {'Search school names'}
-        </legend>
         <div>
           <div className="search-controls">
             <Element name="schoolSearch"/>
