@@ -6,6 +6,7 @@ display_title: Housing
 concurrence: complete
 lastupdate:
 order: 1
+icon: home
 promo:
   - image: /img/megamenu/housing-assistance-illustration.png
     heading: National Call Center for Homeless Veterans
