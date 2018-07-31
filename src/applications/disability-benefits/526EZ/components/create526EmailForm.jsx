@@ -56,7 +56,7 @@ class EmailForm extends React.Component {
           isVisible
           headline="To use our new tool, you’ll need to sign in with your premium My HealtheVet or DS Logon account"
           content="If you don’t have a verified account, you can create an ID.me account to complete the verification process."
-          status="error"/>
+          status="info"/>
       );
     }
 
@@ -64,7 +64,7 @@ class EmailForm extends React.Component {
       return (
         <AlertBox
           isVisible
-          headline="We’re sorry. It looks like we’re missing some information needed for you to apply online for increased disability compensation"
+          headline="We’re sorry. It looks like we’re missing some information needed for you to apply online for increased disability compensation."
           content="For help, please call Veterans Benefits Assistance at 1-800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET)."
           status="error"/>
       );
