@@ -11,9 +11,9 @@ promo:
   - image: /img/megamenu/careers-employment-illustration.png
     heading: VA for Vets
     url: "https://www.vaforvets.va.gov"
-    description: Get help transitioning to a civilian career and matching your skills and experiences to VA job opportunities. You can grow your career while making a difference in the lives of fellow Veterans.
+    description: Get help transitioning to a civilian career and matching your skills and experiences to VA job opportunities.
 crosslinks:
-  - heading: Related VA Benefits and Services
+  - heading: Other VA Benefits and Services
     links:
     - url: https://benefits.va.gov/TAP/index.asp
       title: <b>Transition Assistance</b>
