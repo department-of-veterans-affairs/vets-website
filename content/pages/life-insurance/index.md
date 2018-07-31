@@ -6,7 +6,7 @@ display_title: Life Insurance
 concurrence: complete
 lastupdate:
 order: 1
-icon: medkit
+icon: users
 promo:
   - image: /img/megamenu/life-insurance-illustration.png
     heading: SGLI Online Enrollment System (SOES)
@@ -43,23 +43,15 @@ contact:
 social:
   - heading: Get Updates
     links:
-    - url: "https://twitter.com/VAVetBenefits"
-      label: Veterans Benefits Twitter
-      icon: fa-twitter
     - url: "https://www.facebook.com/VeteransBenefits"
       label: Veterans Benefits Facebook
       icon: fa-facebook
+    - url: "https://twitter.com/VAVetBenefits"
+      label: Veterans Benefits Twitter
+      icon: fa-twitter
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
       label: Veterans Benefits Youtube
       icon: fa-youtube
-    - url: "https://www.instagram.com/vabenefits/"
-      label: Veterans Benefits Instagram
-      icon: fa-instagram
-    - url: "https://www.flickr.com/photos/VeteransAffairs/"
-      label: Veterans Affairs Flickr
-      icon: fa-flickr
-    - url: "https://www.blogs.va.gov/"
-      label: VAntage Point Blog
     - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
       label: E-mail Updates
 ---
@@ -78,7 +70,7 @@ VA life insurance can help offer financial security and support for Veterans, Se
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get VA Life Insurance</h2>
+  <h2>Get VA Life Insurance</h2>
 
   <div class="link">
     <a href="https://vets.gov/life-insurance/options-and-eligibility/"><b>About VA Insurance Options and Eligibility</b></a>
@@ -103,7 +95,7 @@ VA life insurance can help offer financial security and support for Veterans, Se
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Policy and Benefits</h2>
+  <h2>Manage Your Policy and Benefits</h2>
 
   <div class="link">
     <a href="https://www.vets.gov/life-insurance/manage-your-policy/"><b>Manage Your Policy Online</b></a>
@@ -153,7 +145,7 @@ VA life insurance can help offer financial security and support for Veterans, Se
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Information and Resources</h2>
+  <h2>More Information and Resources</h2>
 
   <div class="link">
     <a href="https://benefits.va.gov/insurance/lifeins101.asp"><b>How Much Life Insurance Do I Need?</b></a>
