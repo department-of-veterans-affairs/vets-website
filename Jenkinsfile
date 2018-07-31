@@ -1,6 +1,6 @@
 import org.kohsuke.github.GitHub
 
-def envNames = ['development', 'staging', 'production', 'devpreview', 'preview']
+def envNames = ['devpreview', 'preview']
 
 def devBranch = 'master'
 def stagingBranch = 'master'
@@ -170,28 +170,28 @@ node('vetsgov-general-purpose') {
   }
 
   // Run E2E and accessibility tests
-  stage('Integration') {
-    if (shouldBail()) { return }
-
-    try {
-      parallel (
-        e2e: {
-          sh "export IMAGE_TAG=${imageTag} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker"
-        },
-
-        accessibility: {
-          sh "export IMAGE_TAG=${imageTag} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility"
-        }
-      )
-    } catch (error) {
-      notify()
-      throw error
-    } finally {
-      sh "docker-compose -p e2e down --remove-orphans"
-      sh "docker-compose -p accessibility down --remove-orphans"
-      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
-    }
-  }
+//  stage('Integration') {
+//    if (shouldBail()) { return }
+//
+//    try {
+//      parallel (
+//        e2e: {
+//          sh "export IMAGE_TAG=${imageTag} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker"
+//        },
+//
+//        accessibility: {
+//          sh "export IMAGE_TAG=${imageTag} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility"
+//        }
+//      )
+//    } catch (error) {
+//      notify()
+//      throw error
+//    } finally {
+//      sh "docker-compose -p e2e down --remove-orphans"
+//      sh "docker-compose -p accessibility down --remove-orphans"
+//      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+//    }
+//  }
 
   stage('Archive') {
     if (shouldBail()) { return }
