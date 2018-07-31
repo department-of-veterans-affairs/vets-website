@@ -7,6 +7,7 @@ description: Find out if you're eligible for VA disability pay (compensation) fo
 concurrence: complete
 lastupdate:
 order: 1
+icon: handshake
 promo:
   - image: /img/megamenu/disability-illustration.png
     heading: Decision Ready Claims
@@ -43,32 +44,22 @@ contact:
       title: Questions about Disability Compensation, Pension, and Direct Deposit
     - url: 1-800-983-0937
       title: eBenefits Technical Support
-    - url: 1-877-222-VETS (8387)
-      title: General Questions about Health Care Benefits
     - url: 1-800-749-8387
       title: Special Issues (Gulf War/Agent Orange/Project Shad/Mustard Agents and Lewisite/Ionizing Radiation)
     - url: 1-877-4AID-VET (1-877-424-3838)
       title: National Call Center for Homeless Veterans
-    - url: 1-855-VA-WOMEN (1-855-829-6636)
-      title: Women Veterans Hotline
-    - url: Dial 711
-      title: Telecommunications Device for Veterans with Hearing Loss (TTY or TDD)
-
 social:
   - heading: Get Updates
-    links:
-    - url: "https://twitter.com/VAVetBenefits"
-      label: Veterans Benefits Twitter
+    links:    
     - url: "https://www.facebook.com/VeteransBenefits"
       label: Veterans Benefits Facebook
+      icon: fa-facebook
+   - url: "https://twitter.com/VAVetBenefits"
+      label: Veterans Benefits Twitter
+      icon: fa-twitter
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
       label: Veterans Benefits Youtube
-    - url: "https://www.instagram.com/vabenefits/"
-      label: Veterans Benefits Instagram
-    - url: "https://www.pinterest.com/vavetbenefits/"
-      label: Veterans Benefits Pinterest
-    - url: "https://www.blogs.va.gov/"
-      label: VAntage Point Blog
+      icon: fa-youtube
     - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
       label: Email Updates
 ---
@@ -77,15 +68,19 @@ social:
 VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you've earned.
 </p>
 
-<h3 class="highlight">Page Content</h3>
+<h3>On This Page</h3>
 
 [Get Disability Compensation (Pay)](#get)<br>
 [Manage Your Veterans Disability Benefits](#manage)<br>
 [More Information and Resources](#more)<br>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Disability Compensation (Pay)</h2>
+  <h2>Get Disability Compensation (Pay)</h2>
 
   <div class="link">
     <a href="https://vets.gov/disability-benefits/eligibility/"><b>Eligibility</b></a>
@@ -114,9 +109,13 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 
 </section>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Veterans Disability Benefits</h2>
+  <h2>Manage Your Veterans Disability Benefits</h2>
 
   <div class="link">
     <a href="https://vets.gov/track-claims"><b>Check Your VA Claim or Appeal Status</b></a>
@@ -127,7 +126,6 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
     <a href="https://vets.gov/track-claims"><b>Apply for a VA Disability Increase</b></a>
     <p>If your service-connected disability has gotten worse, find out how to file a claim to increase your VA disability rating.</p>
     </div>
-
 
   <div class="link">
     <a href="https://vets.gov/disability-benefits/claims-appeal/"><b>File a Notice of Disagreement to Appeal a VA Decision</b></a>
@@ -146,9 +144,6 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <div class="link">
     <a href=""><b>File Supplemental Forms</b></a>
     <p>Find out if you'll need to turn in any additional forms to support your disability claim.</p>
-  </div>
-
-</p>
   </div>
 
   <div class="link">
@@ -173,9 +168,13 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 
 </section>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Information and Resources</h2>
+  <h2>More Information and Resources</h2>
 
  <div class="link">
     <a href="#"><b>About VA Disability Ratings</b></a>
