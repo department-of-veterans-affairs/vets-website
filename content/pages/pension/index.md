@@ -5,6 +5,7 @@ title: VA Pension Benefits
 display_title: Pension
 lastupdate:
 order: 1
+icon: money
 promo:
   - image: /img/megamenu/pension-illustration.png
     heading: Get Your Pension Payments Electronically
@@ -58,13 +59,17 @@ social:
 VA pension benefits provide tax-free monthly payments to wartime Veterans with limited or no income who meet certain age or disability requirements. Survivors of wartime Veterans may also qualify for a VA pension. Find out how to apply for and manage the pension benefits you've earned.
 </p>
 
-<h3 class="highlight">Page Content</h3>
+<h3 class="highlight">On This Page</h3>
 
 [Get Pension Benefits](#get)<br>
-[Manage Your Benefits](#manage)<br>
+[Manage Your Pension Benefits](#manage)<br>
 [More Information and Resources](#more)<br>
 
 <section id="get" class="merger-majorlinks">
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
 
   <h2 class="highlight">Get Pension Benefits</h2>
 
@@ -95,9 +100,13 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
 </section>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Benefits</h2>
+  <h2>Manage Your Pension Benefits</h2>
 
   <div class="link">
     <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Check Your VA Claim or Appeal Status</b></a>
@@ -119,6 +128,10 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
     <p>Find out how to change your VA disability direct deposit information online.</p>
   </div>
 
+</section>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
 </section>
 
 <section id="more" class="merger-majorlinks">
