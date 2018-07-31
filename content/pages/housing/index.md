@@ -76,7 +76,7 @@ We offer many programs and services that may help—including free health care a
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
 - **Contact your nearest VA medical center** and ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager. <br>
-[Find the nearest VA medical center](/facilities/).
+[Find the nearest VA medical center](https://www.vets.gov/facilities).
 
 **Talk with someone right now:**
  
@@ -102,7 +102,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get VA Home Loan Benefits</h2>
+  <h2>Get VA Home Loan Benefits</h2>
 
   <div class="link">
     <a href="https://vets.gov/housing-assistance/home-loans/loan-options/"><b>About VA Home Loan Options</b></a>
@@ -156,9 +156,13 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
 </section>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Get Veterans Housing Assistance Grants</h2>
+  <h2>Get Veterans Housing Assistance Grants</h2>
 
   <div class="link">
     <a href="https://vets.gov/housing-assistance/adaptive-housing-grants/"><b>About Disability Housing Grants for Veterans</b></a>
@@ -171,8 +175,8 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant"><b>Check Your Claim Status</b></a>
-    <p>Track the status of your open claim for a Specially Adapted Housing grant.</p>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant"><b>Check Your SAH Grant Claim Status</b></a>
+    <p>Track the status of an open claim for a Specially Adapted Housing grant.</p>
   </div>
 
 </section>
