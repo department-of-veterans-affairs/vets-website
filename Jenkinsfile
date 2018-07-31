@@ -247,20 +247,20 @@ node('vetsgov-general-purpose') {
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
-        build job: 'deploys/vets-website-devpreview', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
+        //build job: 'deploys/vets-website-devpreview', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
       }
       if (env.BRANCH_NAME == stagingBranch) {
         build job: 'deploys/vets-website-staging', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
-        build job: 'deploys/vets-website-preview', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
+        //build job: 'deploys/vets-website-preview', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
       }
     } catch (error) {
       notify()
