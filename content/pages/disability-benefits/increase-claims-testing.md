@@ -1,5 +1,5 @@
 ---
-title: Apply for Increased Disability Compensation
+title: Apply for Increased Disability Benefits
 layout: page-breadcrumbs.html
 description: Search me...
 template: detail-page
