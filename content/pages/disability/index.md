@@ -10,9 +10,9 @@ order: 1
 icon: handshake
 promo:
   - image: /img/megamenu/disability-illustration.png
-    heading: Decision Ready Claims
+    heading: Decision Ready Claims Program
     url: "https://www.vets.gov/disability-benefits/apply/evidence/decision-ready-claims/"
-    description: Find out if you can use the Decision Ready Claims (DRC) program to get a decision on your claim in 30 days or less.
+    description: Find out if you can use the DRC program to get a decision on your claim in 30 days or less.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
@@ -30,13 +30,13 @@ crosslinks:
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url:  https://www.vets.gov/pension/aid-attendance-housebound/
       title: <b>Aid and Attendance or Housebound Allowance</b>
-      description: See if you're eligible for extra monthly pension payments if you need more aid than you're getting.
+      description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
     - url: https://vets.gov/life-insurance/options-and-eligibility/s-dvi/
       title: <b>Service-Disabled Veteran's Insurance</b>
       description: Find out if you qualify for S-DVI life insurance and how to manage your coverage.
     - url: https://vets.gov/life-insurance/options-and-eligibility/sgli/#extension
-      title: <b>Servicemembers' Group Life Insurance Disability Extension</b>
-      description: Learn about SGLI extensions for Veterans with service-connected disabilities.
+      title: <b>SGLI Disability Extension</b>
+      description: Learn about Servicemembers' Group Life Insurance extensions for Veterans with service-connected disabilities.
 contact:
   - heading: Ask Questions
     links:
@@ -70,7 +70,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 
 <h3>On This Page</h3>
 
-[Get Disability Compensation (Pay)](#get)<br>
+[Get VA Disability Compensation (Pay)](#get)<br>
 [Manage Your Veterans Disability Benefits](#manage)<br>
 [More Information and Resources](#more)<br>
 
@@ -80,7 +80,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 
 <section id="get" class="merger-majorlinks">
 
-  <h2>Get Disability Compensation (Pay)</h2>
+  <h2>Get VA Disability Compensation (Pay)</h2>
 
   <div class="link">
     <a href="https://vets.gov/disability-benefits/eligibility/"><b>Eligibility</b></a>
@@ -89,7 +89,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 
   <div class="link">
     <a href="https://vets.gov/disability-benefits/apply/"><b>How to File a Claim</b></a>
-    <p>Find out how to prepare and file for VA disability benefits online or by phone or mail.</p>
+    <p>Find out how to prepare and file a claim for disability compensation online or by phone or mail.</p>
   </div>
 
   <div class="link">
@@ -98,8 +98,8 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You Submit Your Claim</b></a>
-    <p>Find out what happens after you apply for VA disability compensation, how long it takes us to make a decision, and what to do if you disagree.</p>
+    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You File Your Claim</b></a>
+    <p>Find out what happens after you file for VA disability compensation, how long it takes us to make a decision, and what to do if you disagree.</p>
   </div>
 
   <div class="link">
@@ -118,17 +118,17 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>Manage Your Veterans Disability Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/track-claims"><b>Check Your VA Claim or Appeal Status</b></a>
-    <p>Check the status of your VA disability claim or appeal.</p>
+    <a href="https://vets.gov/track-claims"><b>Check Your Claim or Appeal Status</b></a>
+    <p>Track the status of your VA disability claim or appeal.</p>
     </div>
 
   <div class="link">
     <a href="https://vets.gov/track-claims"><b>Apply for a VA Disability Increase</b></a>
-    <p>If your service-connected disability has gotten worse, find out how to file a claim to increase your VA disability rating.</p>
+    <p>If your service-connected disability has gotten worse, find out how to file a claim to increase your disability rating.</p>
     </div>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/claims-appeal/"><b>File a Notice of Disagreement to Appeal a VA Decision</b></a>
+    <a href="https://vets.gov/disability-benefits/claims-appeal/"><b>File a Disability Appeal</b></a>
     <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
   </div>
 
@@ -138,8 +138,9 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Upload Documents to Support Your Claim</b></a>
-    <p>Send us evidence (like doctor's reports, medical test results, or service records) to help support your open disability claim.
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Upload Evidence to Support Your Claim</b></a>
+    <p>Send us evidence (like doctor's reports, medical test results, or service records) to help support your open disability claim.</p>
+</div>
 
   <div class="link">
     <a href=""><b>File Supplemental Forms</b></a>
@@ -152,13 +153,13 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
  <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/vapii"><b>Share Your VA Medical Records (called VA Blue Button)</b></a>
+    <a href=""><b>Share Your VA Medical Records</b></a>
     <p>Set up your personal health record and download reports to share with your VA and non-VA doctors.</p>
   </div>
 
   <div class="link">
     <a href="https://vets.gov/download-va-letters/"><b>Get a Copy of Your VA Benefits Award or Eligibility Letter</b></a>
-    <p>Download a copy of your VA eligibility or award letter for certain benefits.</p>
+    <p>Download a copy of your eligibility or award letter for certain benefits.</p>
   </div>
 
   <div class="link">
