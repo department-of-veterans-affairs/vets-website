@@ -46,12 +46,12 @@ Access your VA records and documents online to manage your health and benefits.
   <h2 class="highlight">Get Your Records and Documents</h2>
 
   <div class="link">
-    <a href="https://www.vets.gov/veteran-id-card/"><b>Apply for a Veteran ID Card</b></a>
+    <a href=#><b>Apply for a Veteran ID Card</b></a>
     <p>Apply for a printed Veteran ID Card (VIC) that you can use instead of your DD214 to get discounts on goods and services offered to Veterans.</p>
   </div>
 
   <div class="link">
-    <a href=""><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
+    <a href=#><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
     <p>Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p>
   </div>
 
@@ -71,7 +71,7 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
 <div class="link">
-    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Request Your Military Records</b></a>
+    <a href=#><b>Request Your Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
   </div>
 
