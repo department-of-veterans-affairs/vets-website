@@ -65,7 +65,7 @@ class EmailForm extends React.Component {
         <AlertBox
           isVisible
           headline="We’re sorry. It looks like we’re missing some information needed for you to apply online for increased disability compensation"
-          content="For help, please call Veterans Benefits Assistance at 1-800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET)."
+          content="For help, please call Veterans Benefits Assistance at 1-800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET)."
           status="error"/>
       );
     }
@@ -75,7 +75,7 @@ class EmailForm extends React.Component {
         <AlertBox
           isVisible
           headline="Thank you."
-          content="We added you to the list."
+          content="We received your email address. We'll contact you to schedule a time to try out the claim for increase tool."
           status="success"/>
       );
     }
@@ -84,8 +84,8 @@ class EmailForm extends React.Component {
       return (
         <AlertBox
           isVisible
-          headline="We’re sorry, the submission didn’t go through."
-          content="Please try again later."
+          headline="We’re sorry. We didn’t receive your email address."
+          content="We're working to fix the problem. Please try again later."
           status="error"/>
       );
     }
@@ -104,7 +104,7 @@ class EmailForm extends React.Component {
           id="submit-button"
           className="usa-input"
           onClick={this.submitEmail}>
-          Submit email
+          Submit Your Email
         </button>
       </form>
     );

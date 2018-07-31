@@ -1,5 +1,5 @@
 ---
-title: Disability Compensation Testing -- Increase Only
+title: Apply for Increased Disability Compensation
 layout: page-breadcrumbs.html
 description: Search me...
 template: detail-page
