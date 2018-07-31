@@ -247,6 +247,8 @@ node('vetsgov-general-purpose') {
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+      }
+      if (env.BRANCH_NAME == 'feature/11693') {
         build job: 'deploys/vets-website-devpreview', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
@@ -257,6 +259,8 @@ node('vetsgov-general-purpose') {
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+      }
+      if (env.BRANCH_NAME == 'feature/11693') {
         build job: 'deploys/vets-website-preview', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
