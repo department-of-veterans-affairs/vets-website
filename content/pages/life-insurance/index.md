@@ -18,7 +18,7 @@ crosslinks:
     links:
     - url: https://va.gov/burials
       title: <b>Burials and Memorials</b>
-      description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
+      description: Learn about Veterans burial benefits, how to plan a burial, and how to get compensation as a survivor.
     - url: https://va.gov/pension
       title: <b>Pension Benefits</b>
       description: Find out if you're eligible for tax-free monthly payments as a wartime Veteran or surviving spouse or child.
@@ -168,8 +168,8 @@ VA life insurance can help offer financial security and support for Veterans, Se
   </div>
   
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/resources-forms.asp"><b>Forms and Downloads</b></a>
-    <p>Find and download forms, depending on your policy and needs.</p>
+    <a href="https://www.benefits.va.gov/INSURANCE/resources-forms.asp"><b>VA Life Insurance Forms</b></a>
+    <p>Find and download the forms you need to apply for and manage your life insurance benefits.</p>
   </div>
   
   <div class="link">
@@ -179,7 +179,7 @@ VA life insurance can help offer financial security and support for Veterans, Se
   
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/payments-eft.asp"><b>Mandatory Electronic Payments</b></a>
-    <p>Learn about the law requiring us to pay all life insurance benefits by electronic funds transfer.</p>
+    <p>Learn about the law requiring us to pay all benefits by electronic funds transfer.</p>
   </div> 
   
   <div class="link">
