@@ -1,6 +1,6 @@
 import recordEvent from '../../../monitoring/record-event';
 import camelCaseObjectKeys from '../../../utilities/data/camelCaseObjectKeys';
-import { isVet360Configured, mockContactInformation } from '../../../../applications/personalization/profile360/util/local-vet360';
+import { isVet360Configured, mockContactInformation } from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
 
 export function mapRawUserDataToState(json) {
   const {
