@@ -26,9 +26,13 @@ class EmailForm extends React.Component {
 
     this.setState({ submissionStatus: requestStates.pending });
 
-    apiRequest('form526_opt_in',
+    /* apiRequest(`/form526_opt_in?email=${this.state.email}`, */
+    apiRequest('/form526_opt_in',
       {
         method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
         body: JSON.stringify({ email: this.state.email })
       },
       () => {
