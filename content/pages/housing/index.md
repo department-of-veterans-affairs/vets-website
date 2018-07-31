@@ -6,7 +6,6 @@ display_title: Housing
 concurrence: complete
 lastupdate:
 order: 1
-icon: home
 promo:
   - image: /img/megamenu/housing-assistance-illustration.png
     heading: National Call Center for Homeless Veterans
@@ -29,7 +28,7 @@ crosslinks:
       description: Learn about benefits for spouses, dependents, and caregivers of Veterans and Servicemembers.
     - url: https://www.vets.gov/life-insurance/
       title: Life Insurance
-      description: Explore your life insurance options and find out how to apply and manage your policy as a Servicemember, Veteran, or family member.
+      description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
 contact:
   - heading: Ask Questions
     links:
@@ -51,10 +50,10 @@ social:
       label: Veterans Benefits Facebook
       icon: fa-facebook
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-      label: Veterans Benefits Youtube
+      label: Veterans Benefits YouTube
       icon: fa-youtube
     - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
-      label: E-mail Updates
+      label: Email Updates
 ---
 <p class="va-introtext">
 VA housing assistance can help Servicemembers, Veterans, and their surviving spouses to buy a home or refinance a loan. We also offer benefits and services to help you build, repair, or keep your current home. This includes grants for Veterans with service-connected disabilities who need to adapt their home to live as independently as possible. Find out how to apply for and manage the Veterans housing assistance benefits you've earned.</p>
@@ -111,7 +110,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="https://vets.gov/housing-assistance/home-loans/eligibility/"><b>Eligibility</b></a>
-    <p>Find out if you're eligible for a VA-backed or VA direct home loan, based on your service history and duty status.
+    <p>Find out if you're eligible for a VA direct or VA-backed home loan, based on your service history and duty status.
   </div>
 
   <div class="link">
@@ -130,7 +129,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/trouble-making-payments/"><b>Trouble Making Payments on a VA-Backed Mortgage?</b></a>
+    <a href="https://vets.gov/housing-assistance/home-loans/trouble-making-payments/"><b>Having Trouble Making Payments on a VA-Backed Mortgage?</b></a>
     <p>Get help to avoid foreclosure if you're struggling to make your monthly mortgage payments.</p>
   </div>
 
@@ -151,7 +150,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="https://benefits.va.gov/homeloans/documents/docs/va_policy_regarding_natural_disasters.pdf"><b>Guidance on Natural Disasters </b></a>
-    <p>Find out how to get help if you have a VA direct or VA-backed home loan or Specially Adapted Housing grant and your home was affected by a natural disaster.</p>
+    <p>Find out how to get help if you have a VA direct or VA-backed home loan or Specially Adapted Housing grant and your home was damaged by a natural disaster.</p>
   </div>
 
 </section>
@@ -166,13 +165,13 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
     </div>
 
   <div class="link">
-    <a href="https://"><b>Apply for Specially Adapted Housing Grants</b></a>
+    <a href="https://"><b>Apply for a Specially Adapted Housing Grant</b></a>
     <p>Get financial help to make changes to your home to help you live more independently with a service-connected disability.</p>
   </div>
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant"><b>Check Your Claim Status</b></a>
-    <p>Track the status of an open Specially Adapted Housing grant claim.</p>
+    <p>Track the status of your open claim for a Specially Adapted Housing grant.</p>
   </div>
 
 </section>
