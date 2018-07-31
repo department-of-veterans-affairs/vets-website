@@ -40,7 +40,7 @@ majorlinks:
       title: Survivors’ and Dependents’ Assistance
       description: If you’re a dependent spouse or child of a Veteran, find out if you qualify for education benefits or job training.
   - heading: More GI Bill Benefits and Information
-    links: 
+    links:
     - url: /education/gi-bill/yellow-ribbon/
       title: Yellow Ribbon Program
       description: Find out if your school participates in the Yellow Ribbon Program, which can help pay tuition costs that the Post-9/11 GI Bill doesn’t cover.
