@@ -86,7 +86,7 @@ We offer many programs and services that may help—including free health care a
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
 - **Contact your nearest VA medical center** and ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager. <br>
-[Find the nearest VA medical center](/facilities/).
+[Find the nearest VA medical center](https://www.vets.gov/facilities/).
 
 **Talk with someone right now:**
  
@@ -115,32 +115,32 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <h2>Get VA Health Care</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Health Benefits</b></a>
+    <a href="https://www.vets.gov/health-care/about-va-health-care/"><b>About VA Health Benefits</b></a>
     <p>Find out how VA health care works and which Veterans health care services we cover.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Eligibility</b></a>
+    <a href="https://www.vets.gov/health-care/eligibility/"><b>Eligibility</b></a>
     <p>Find out if you’re eligible for Veterans health care benefits and how priority groups work.
   </div>
 
   <div class="link">
-    <a href="#"><b>How to Apply</b></a>
+    <a href="https://www.vets.gov/health-care/apply/"><b>How to Apply</b></a>
     <p>Find out how to prepare and apply for VA health care online, by phone, or by mail.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Apply Online (VA Form 10-10EZ)</b></a>
+    <a href="https://www.vets.gov/health-care/apply/application/introduction"><b>Apply Online (VA Form 10-10EZ)</b></a>
     <p>Start your Veterans health care application now.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>After You Apply</b></a>
+    <a href="https://www.vets.gov/health-care/after-you-apply/"><b>After You Apply</b></a>
     <p>Find out when to expect a decision on your application, and what to do next.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Family and Caregiver Health Benefits</b></a>
+    <a href="https://www.vets.gov/health-care/family-caregiver-health-benefits/"><b>Family and Caregiver Health Benefits</b></a>
     <p>Find out if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.</p>
   </div>
 
@@ -154,53 +154,53 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <h2>Manage Your Health and Benefits</h2>
 
-  <div class="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/managing-your-prescription-refills">
+  <div class="link">
     <a href="#"><b>Refill and Track Your VA Prescriptions</b></a>
     <p>Order a prescription refill and track your shipment online.</p>
     </div>
 
-  <div class="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/secure-messaging-spotlight">
+  <div class="link">
     <a href="#"><b>Use VA Secure Messaging</b></a>
     <p>Communicate privately with your VA health care team through secure messaging.</p>
   </div>
 
-  <div class="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">
+  <div class="link">
     <a href="#"><b>Schedule and View Your VA Appointments</b></a>
     <p>Find out how to schedule an appointment by phone, online, or through secure messaging.</p>
   </div>
 
-  <div class="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/labs-tests">
+  <div class="link">
     <a href="#"><b>View Your VA Test and Lab Results</b></a>
     <p>View, download, and print your labs and test results.</p>
   </div>
 
-  <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks">
+  <div class="link">
     <a href="#"><b>Order Hearing Aid Batteries or Prosthetic Socks</b></a>
     <p>Order these items online for home delivery.</p>
   </div>
 
-  <div class="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/download-your-own-va-medical-records">
-    <a href="#"><b>Manage Your VA Medical Records (called VA Blue Button)</b></a>
+  <div class="link">
+    <a href="#"><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
     <p>Set up your personal health record and download reports to share with your VA and non-VA doctors.</p>
   </div>
 
-  <div class="https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf">
-    <a href="#"><b>Update Your Health Benefits Information (Form 10-10EZR)</b></a>
+  <div class="link">
+    <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf"><b>Update Your Health Benefits Information (Form 10-10EZR)</b></a>
     <p>Update your personal, financial, or insurance information after you’re enrolled in the VA health care program.</p>
   </div>
 
- <div class="https://www.pay.gov/public/form/start/25987221">
-    <a href="#"><b>Make a VA Health Care Payment Online</b></a>
+ <div class="link">
+    <a href="https://www.pay.gov/public/form/start/25987221"><b>Make a VA Health Care Payment Online</b></a>
     <p>Pay your VA copay securely online through Pay.gov.</p>
   </div>
 
- <div class="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status">
+ <div class="link">
     <a href="#"><b>Check Your Appeal Status</b></a>
     <p>Track the status of an open VA health care appeal.</p>
   </div>
 
-<div class="https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp">
-    <a href="#"><b>Get VA Travel Pay (Reimbursement)</b></a>
+<div class="link">
+    <a href="https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp"><b>Get VA Travel Pay (Reimbursement)</b></a>
     <p>Find out how to apply for reimbursement for your travel to a VA health facility.</p>
   </div>
 
@@ -214,48 +214,48 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <h2>More Information and Resources</h2>
 
-  <div class="https://www.va.gov/healthbenefits/cost/index.asp/">
-    <a href="#"><b>VA Health Care Cost</b></a>
+  <div class="link">
+    <a href="https://www.va.gov/healthbenefits/cost/index.asp/"><b>VA Health Care Cost</b></a>
     <p>Learn about your copay, financial assessment, and how VA health care works with private health insurance.</p>
   </div>
 
-  <div class="https://www.vets.gov/health-care/health-conditions/">
-    <a href="#"><b>VA Health Services for Specific Needs and Conditions</b></a>
+  <div class="link">
+    <a href="https://www.vets.gov/health-care/health-conditions/"><b>VA Health Services for Specific Needs and Conditions</b></a>
     <p>Find out how to get care for specific needs (like mental health), and learn about service-related health concerns you should be aware of (like Agent Orange-related diseases or Camp Lejeune water contamination).</p>
   </div>
 
-  <div class="https://www.va.gov/health/programs/index.asp">
-    <a href="#"><b>Veterans Programs for Health and Wellness</b></a>
+  <div class="link">
+    <a href="https://www.va.gov/health/programs/index.asp"><b>Veterans Programs for Health and Wellness</b></a>
   <p>Learn about VA programs to help you get and stay healthy in both body and mind.</p>
   </div>
 
-  <div class="https://www.vets.gov/health-care/health-conditions/exposure-to-hazardous-materials/">
-    <a href="#"><b>Chemical or Hazardous Material Exposures</b></a>
+  <div class="link">
+    <a href="https://www.vets.gov/health-care/health-conditions/exposure-to-hazardous-materials/"><b>Chemical or Hazardous Material Exposures</b></a>
     <p>Find out about health concerns linked to exposures during military service. Learn about the special VA health registries you can join that document Veterans' exposure to Agent Orange, depleted uranium, ionizing radiation, and certain hazardous materials from the Gulf and Iraq Wars and Operation Enduring Freedom.</p>
   </div>
 
-<div class="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp">
-    <a href="#"><b>The Veterans Choice Program</b></a>
+<div class="link">
+    <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"><b>The Veterans Choice Program</b></a>
     <p>If you're enrolled in VA health care, find out if you can receive care from a local community provider through the Veterans Choice Program.</p>
   </div>
 
-<div class="https://www.vets.gov/health-care/affordable-care-act/">
-    <a href="#"><b>The Affordable Care Act (ACA) and Your Benefits</b></a>
+<div class="link">
+    <a href="https://www.vets.gov/health-care/affordable-care-act/"><b>The Affordable Care Act (ACA) and Your Benefits</b></a>
     <p>Find out what you need to know about the Affordable Care Act and what it means for Veterans.
   </div>
 
-  <div class="https://www.research.va.gov/mvp/">
-    <a href="#"><b>The Million Veteran Program</b></a>
+  <div class="link">
+    <a href="https://www.research.va.gov/mvp/"><b>The Million Veteran Program</b></a>
     <p>Find out if you can be a part of this voluntary research study to better understand the role genes play in our health.
   </div>
 
-  <div class="https://www.accesstocare.va.gov/">
-    <a href="#"><b>Access and Quality in VA Health Care</b></a>
+  <div class="link">
+    <a href="https://www.accesstocare.va.gov/"><b>Access and Quality in VA Health Care</b></a>
     <p>Get information about your VA facility, like how quickly you can be seen and what other Veterans say about their experiences.</p>
   </div>
 
-  <div class="https://www.va.gov/health/rights/patientrights.asp">
-    <a href="#"><b>Patient Rights and Responsibilities</b></a>
+  <div class="link">
+    <a href="https://www.va.gov/health/rights/patientrights.asp"><b>Patient Rights and Responsibilities</b></a>
     <p>Read about your basic rights and responsibilities when you receive care at a VA health facility or live in a VA community living center.</p>
   </div>
 
