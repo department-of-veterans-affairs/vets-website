@@ -217,3 +217,8 @@ You can start your online application right now, or find out how to apply by mai
 **Note:** Please be sure to upload all medical evidence or supporting documents at the end of the form. 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+
+### More Helpful Resources
+
+[Get a checklist for preparing your Fully Developed Claim](https://www.benefits.va.gov/FDC/checklist.asp). <br>
+[View a step-by-step graphic of the Fully Developed Claim online process](https://www.benefits.va.gov/FDC/walkthrough.asp). 
