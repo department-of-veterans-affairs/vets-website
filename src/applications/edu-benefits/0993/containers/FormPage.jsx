@@ -53,8 +53,9 @@ class FormPage extends React.Component {
   }
 
   onSubmit = ({ formData }) => {
-    // TODO: do the below only on final form submit
+    // TODO: do the below on final form submit
     // recordEvent({ event: 'edu-navigation', 'edu-action': 'submit' });
+    recordEvent({ event: 'edu-navigation', 'edu-action': 'continue' });
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
