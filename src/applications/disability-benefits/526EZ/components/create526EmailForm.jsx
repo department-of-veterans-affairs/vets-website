@@ -75,7 +75,7 @@ class EmailForm extends React.Component {
         <AlertBox
           isVisible
           headline="Thank you."
-          content="We received your email address. We'll contact you to schedule a time to try out the claim for increase tool."
+          content="We received your email address. We’ll contact you to schedule a time to try out the claim for increase tool."
           status="success"/>
       );
     }
