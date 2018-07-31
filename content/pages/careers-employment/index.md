@@ -11,7 +11,7 @@ promo:
   - image: /img/megamenu/careers-employment-illustration.png
     heading: VA for Vets
     url: "https://www.vaforvets.va.gov"
-    description: Get help transitioning to a civilian career and matching your skills and experiences to VA job opportunities so you can grow your career while making a difference in the lives of fellow Veterans.
+    description: Get help transitioning to a civilian career and matching your skills and experiences to VA job opportunities. You can grow your career while making a difference in the lives of fellow Veterans.
 crosslinks:
   - heading: Related VA Benefits and Services
     links:
@@ -22,19 +22,19 @@ crosslinks:
       title: <b>GI Bill Benefits</b>
       description: Explore options for using GI Bill benefits to help pay for school or training, and find out what benefits you can get.
     - url: https://www.vets.gov/education/other-educational-assistance-programs/
-      title: <b>Other Education Assistance Programs</b>
+      title: <b>Other Educational Assistance Programs</b>
       description: If you’re a Veteran, Reservist, or National Guard Soldier who doesn’t qualify for the Post-9/11 GI Bill, see if you can get education benefits through other VA programs.
     - url: https://www.vets.gov/housing-assistance/home-loans/
       title: <b>Home Loans</b>
       description: Apply for a Certificate of Eligibility for a VA direct or VA-backed home loan to build, buy, improve, or refinance a home.
     - url: https://www.vets.gov/life-insurance/
-      title: Life Insurance
+      title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
 contact:
   - heading: Ask Questions
     links:
     - url: 1-800-827-1000
-      title: Questions About Your Benefits
+      title: Questions about Your Benefits
     - url: 1-800-983-0937
       title: eBenefits Technical Support
     - url: https://iris.custhelp.va.gov/app/ask
@@ -49,14 +49,14 @@ social:
       label: Veterans Benefits Twitter
       icon: fa-twitter
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-      label: Veterans Affairs Youtube
+      label: Veterans Affairs YouTube
       icon: fa-youtube
     - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
-      label: E-mail Updates
+      label: Email Updates
 ---
 
 <p class="va-introtext">
-We can support you in all stages of your job search—from returning to work with a service-connected disability, to getting more training for new job opportunities, to starting or growing your own business. And, we can connect you with Department of Labor resources for more career advice, help building your resume, and access to employers who want to hire Veterans and military spouses. Find out how you can get the help you need to build your career and find the right job or business opportunity for you.
+We can support you in all stages of your job search—from returning to work with a service-connected disability, to getting more training for new job opportunities, to starting or growing your own business. And we can connect you with Department of Labor resources for more career advice, help building your resume, and access to employers who want to hire Veterans and military spouses. Find out how you can get the help you need to build your career and find the right job or business opportunity for you.
 </p>
 
 <h3>On This Page</h3>
@@ -125,7 +125,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/tools-programs/education-career-counseling/"><b>Education and Career Counseling (Chapter 36)</b></a>
+    <a href="https://vets.gov/education/tools-programs/education-career-counseling/"><b>Educational and Career Counseling (Chapter 36)</b></a>
     <p>Find out how to get free educational and career counseling as a recently discharged Veteran or a dependent family member. </p>
   </div>
 
@@ -136,7 +136,7 @@ We can support you in all stages of your job search—from returning to work wit
 
   <div class="link">
     <a href="https://vets.gov/employment/job-seekers/family-members/"><b>Resources for Family Members</b></a>
-    <p>Access valuable career resources for the spouses and other family members of Veterans and Servicemembers.
+    <p>Access valuable career resources for spouses and other family members of Veterans and Servicemembers.
   </div>
 
 </section>
@@ -155,7 +155,7 @@ We can support you in all stages of your job search—from returning to work wit
     </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/education/tools-programs/careerscope/"><b>Match Your Interests and Skills to a Career With a CareerScope Assessment</b></a>
+    <a href="https://www.vets.gov/education/tools-programs/careerscope/"><b>Match Your Interests and Skills to a Career with a CareerScope Assessment</b></a>
     <p>Use this online tool to get recommendations for careers you may enjoy and succeed in, and training programs to help you get started.</p>
   </div>
   
@@ -166,12 +166,12 @@ We can support you in all stages of your job search—from returning to work wit
   
   <div class="link">
     <a href="ebenefits.va.gov/ebenefits/manage/documents"><b>Print Your Civil Service Preference Letter</b></a>
-    <p>Print your Civil Service Preference Letter to verify your hiring preference for Federal jobs.</p>
+    <p>Print your Civil Service Preference Letter to verify your hiring preference for federal jobs.</p>
   </div>
   
   <div class="link">
     <a href="https://linkedinforgood.linkedin.com/programs/veterans"><b>Get Free Classes for a Year (LinkedIn)</b></a>
-    <p>Get one year of free access to LinkedIn Premium and LinkedIn Learning.</p>
+    <p>Get 1 year of free access to LinkedIn Premium and LinkedIn Learning.</p>
   </div>
 
 </section>
