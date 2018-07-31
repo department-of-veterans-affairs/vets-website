@@ -21,7 +21,7 @@ class EmailForm extends React.Component {
     this.setState({ email: event.target.value });
   }
 
-  submitEmail(event) {
+  submitEmail = (event) => {
     event.preventDefault();
 
     this.setState({ submissionStatus: requestStates.pending });
