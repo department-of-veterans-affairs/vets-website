@@ -6,6 +6,7 @@ display_title: Careers and Employment
 concurrence: complete
 lastupdate:
 order: 1
+icon: briefcase
 promo:
   - image: /img/megamenu/careers-employment-illustration.png
     heading: VA for Vets
@@ -58,7 +59,7 @@ social:
 We can support you in all stages of your job search—from returning to work with a service-connected disability, to getting more training for new job opportunities, to starting or growing your own business. And, we can connect you with Department of Labor resources for more career advice, help building your resume, and access to employers who want to hire Veterans and military spouses. Find out how you can get the help you need to build your career and find the right job or business opportunity for you.
 </p>
 
-<h3 class="highlight">On This Page</h3>
+<h3>On This Page</h3>
 
 [Get Career and Employment Assistance](#get)<br>
 [Manage Your Career](#manage)<br>
@@ -101,7 +102,7 @@ We can support you in all stages of your job search—from returning to work wit
 
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Career and Employment Assistance</h2>
+  <h2>Get Career and Employment Assistance</h2>
 
   <div class="link">
     <a href="https://vets.gov/employment/vocational-rehab-and-employment/"><b>About VA Vocational Rehabilitation and Employment (Chapter 31)</b></a>
@@ -146,7 +147,7 @@ We can support you in all stages of your job search—from returning to work wit
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Career</h2>
+  <h2>Manage Your Career</h2>
 
   <div class="link">
     <a href="https://www.benefits.va.gov/vocrehab/transitioning_from_service.asp"><b>Transitioning to Civilian Employment</b></a>
@@ -160,7 +161,7 @@ We can support you in all stages of your job search—from returning to work wit
   
   <div class="link">
     <a href="dol.gov/veterans/findajob/"><b>Find a Job (Department of Labor)</b></a>
-    <p>Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources.</p>
+    <p>Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources./p>
   </div>
   
   <div class="link">
@@ -181,7 +182,7 @@ We can support you in all stages of your job search—from returning to work wit
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Information and Resources</h2>
+  <h2>More Information and Resources</h2>
 
   <div class="link">
     <a href="https://benefits.va.gov/VOCREHAB/subsistence_allowance_rates.asp"><b>Subsistence Allowance Rates</b></a>
