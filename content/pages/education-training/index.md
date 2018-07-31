@@ -6,6 +6,7 @@ display_title: Education and Training
 concurrence: complete
 lastupdate:
 order: 1
+icon: book
 promo:
   - image: /img/megamenu/education-training-illustration.png
     heading: GI Bill&reg; School Feedback Tool
@@ -21,7 +22,7 @@ crosslinks:
       title: Vocational Rehabilitation and Employment
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url: https://www.vets.gov/housing-assistance/home-loans/
-      title: VA Home Loan Benefits
+      title: Home Loan Benefits
       description: Explore options for Veterans home loans, apply for your Certificate of Eligibility (COE), and get help if you're having trouble making your mortgage payments.
     - url: https://www.vets.gov/employment/job-seekers/register-your-business/
       title: Veteran-Owned Small Business Support
@@ -30,7 +31,7 @@ crosslinks:
       title: Jobs for Veterans
       description: Get help from the U.S. Department of Labor to find a job, get training, or explore career options.
 contact:
-  - heading: Contact us for help with education and training benefits or services
+  - heading: Ask Questions
     links:
     - url: 1-888-GIBILL-1 (888-442-4551)
       title: Education Questions about the GI Bill
@@ -40,10 +41,11 @@ contact:
       title: Ask GI Bill Questions Online
 
 social:
-  - heading: Social Media
+  - heading: Get Updates
     links:
     - url: "https://twitter.com"
       label: Veteran Benefits Twitter
+      icon: fa-twitter
     - url: "https://facebook.com"
       label: Veteran Benefits Facebook
     - url: "https://youtube.com"
@@ -65,17 +67,21 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 </p>
 
-<h3 class="highlight">Page Content</h3>
+<h3>On This Page</h3>
 
-[Get Benefits](#get)<br>
+[Get GI Bill and Other Education Benefits](#get)<br>
 [Manage Your Veterans Education Benefits](#manage)<br>
 [More Information and Resources](#more)<br>
 
-  <h2 class="highlight">Get VA Education Benefits</h2>
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+  <h2>Get GI Bill&reg; and Other Education Benefits</h2>
 
   <div class="link">
     <a href="https://vets.gov/education/gi-bill/"><b>About GI Bill Benefits</b></a>
-    <p>Learn how the GI Bill&reg; works and explore your options to pay for school or training.</p>
+    <p>Learn how the GI Bill works and explore your options to pay for school or training.</p>
   </div>
 
   <div class="link">
@@ -114,9 +120,13 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 </section>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="manage" class="merger-majorlinks">
 
-  <h2 class='highlight'>Manage Your Veterans Education Benefits</h2>
+  <h2'>Manage Your Veterans Education Benefits</h2>
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
@@ -166,8 +176,12 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 </section>
 
 <section id="more" class="merger-majorlinks">
+  
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>  
 
-  <h2 class='highlight'>More Information and Resources</h2>
+  <h2>More Information and Resources</h2>
 
   <div class="link">
     <a href="https://vets.gov/gi-bill-comparison-tool"><b>GI Bill Comparison Tool</b></a>
