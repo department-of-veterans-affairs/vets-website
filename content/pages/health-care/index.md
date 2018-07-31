@@ -47,9 +47,7 @@ contact:
 social:
   - heading: Get Updates
     links:
-    - url: "https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11"
-      label: Veteran Health Care Email Updates
-      icon:
+    
     - url: "https://facebook.com"
       label: Veteran Health Care Facebook
       icon: fa-facebook-square
@@ -59,6 +57,9 @@ social:
     - url: "https://youtube.com"
       label: Veteran Health Care YouTube
       icon: fa-youtube
+    - url: "https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11"
+      label: Email Updates
+      icon:
 ---
 
 <p class="va-introtext">
