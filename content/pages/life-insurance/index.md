@@ -6,7 +6,7 @@ display_title: Life Insurance
 concurrence: complete
 lastupdate:
 order: 1
-icon: users
+icon: fa-users
 promo:
   - image: /img/megamenu/life-insurance-illustration.png
     heading: SGLI Online Enrollment System (SOES)
@@ -98,8 +98,8 @@ VA life insurance can help offer financial security and support for Veterans, Se
   <h2>Manage Your Policy and Benefits</h2>
 
   <div class="link">
-    <a href="https://www.vets.gov/life-insurance/manage-your-policy/"><b>Manage Your Policy Online</b></a>
-    <p>Check your policy's status, update your information, or pay your bill online.</p>
+    <a href="https://www.vets.gov/life-insurance/manage-your-policy/"><b>Access Your Policy Online</b></a>
+    <p>Find out how to check your policy's status, update your information, or pay your premium online.</p>
     </div>
 
   <div class="link">
@@ -113,8 +113,8 @@ VA life insurance can help offer financial security and support for Veterans, Se
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your Appeal Status</b></a>
-    <p>Track the status of an open VA insurance appeal.</p>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your VA Insurance Appeal Status</b></a>
+    <p>Track the status of an open life insurance appeal.</p>
   </div>
   
   <div class="link">
