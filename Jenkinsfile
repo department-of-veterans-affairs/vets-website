@@ -236,9 +236,9 @@ node('vetsgov-general-purpose') {
 
   stage('Deploy dev or staging') {
     try {
-      if (!isDeployable()) {
-        return
-      }
+      //if (!isDeployable()) {
+      //  return
+      //}
       script {
         commit = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
       }
