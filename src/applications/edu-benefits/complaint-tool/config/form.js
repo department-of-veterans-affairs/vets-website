@@ -322,31 +322,36 @@ const formConfig = {
               },
               'view:manualSchoolEntry': {
                 name: {
-                  'ui:title': 'Name'
+                  'ui:title': 'Name',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
                 },
                 street: {
-                  'ui:title': 'Address line 1'
+                  'ui:title': 'Address line 1',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
                 },
                 street2: {
                   'ui:title': 'Address line 2'
                 },
                 city: {
-                  'ui:title': 'City'
+                  'ui:title': 'City',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
                 },
                 state: {
-                  'ui:title': 'State'
+                  'ui:title': 'State',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
                 },
                 country: {
-                  'ui:title': 'Country'
+                  'ui:title': 'Country',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
                 },
                 postalCode: {
                   'ui:title': 'Postal Code',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData),
                   'ui:errorMessages': {
                     pattern: 'Please enter a valid 5 digit postal code'
                   },
                   'ui:options': {
-                    widgetClassNames: 'va-input-medium-large',
-                    expandUnder: 'view:cannotFindSchool'
+                    widgetClassNames: 'va-input-medium-large'
                   }
                 },
                 'ui:options': {
