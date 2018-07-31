@@ -209,4 +209,20 @@ const mapDispatchToProps = {
   searchSchools,
   selectInstitution
 };
+
+SchoolSelectField.PropTypes = {
+  currentPageNumber: React.PropTypes.number,
+  facilityCodeSelected: React.PropTypes.string,
+  institutionQuery: React.PropTypes.string,
+  institutions: React.PropTypes.array,
+  institutionSelected: React.PropTypes.string,
+  pagesCount: React.PropTypes.number,
+  searchInputValue: React.PropTypes.string,
+  searchResultsCount: React.PropTypes.number,
+  showInstitutions: React.PropTypes.bool.required,
+  showInstitutionsLoading: React.PropTypes.bool.required,
+  showPagination: React.PropTypes.bool.required,
+  showPaginationLoading: React.PropTypes.bool.required
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolSelectField);
