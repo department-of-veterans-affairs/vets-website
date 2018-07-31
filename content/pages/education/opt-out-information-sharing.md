@@ -30,7 +30,7 @@ Unless you opt out, we share basic information about your eligibility and benefi
 - Distance hours (your time spent in online classes)
 - Benefit percentage (amount of education benefits based on active-duty service time)
 
-<b>Please note</b>: Opting out means you’re choosing to not share your education benefits information with  your school. It doesn’t mean you’re opting out of getting GI Bill education benefits.
+<b>Please note</b>: Opting out means you’re choosing to not share your education benefits information with your school. It doesn’t mean you’re opting out of getting GI Bill education benefits.
 
 ### Why does VA share this information?
 
