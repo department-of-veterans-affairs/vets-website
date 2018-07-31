@@ -54,7 +54,7 @@ social:
     - url: "https://www.facebook.com/VeteransBenefits"
       label: Veterans Benefits Facebook
       icon: fa-facebook
-   - url: "https://twitter.com/VAVetBenefits"
+    - url: "https://twitter.com/VAVetBenefits"
       label: Veterans Benefits Twitter
       icon: fa-twitter
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
