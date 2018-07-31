@@ -35,7 +35,7 @@ class ProfileView extends React.Component {
     if (this.props.isVet360AvailableForUser) {
       this.props.fetchTransactions();
     } else {
-      // this.props.initializeUserToVet360()
+      this.props.initializeUserToVet360();
     }
   }
 

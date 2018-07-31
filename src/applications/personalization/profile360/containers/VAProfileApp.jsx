@@ -8,7 +8,8 @@ import {
 } from '../../../../platform/monitoring/DowntimeNotification/actions';
 
 import {
-  fetchTransactions
+  fetchTransactions,
+  initializeUserToVet360
 } from '../vet360/actions';
 
 import {
@@ -40,6 +41,7 @@ class VAProfileApp extends React.Component {
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
             fetchPersonalInformation={this.props.fetchPersonalInformation}
             fetchTransactions={this.props.fetchTransactions}
+            initializeUserToVet360={this.props.initializeUserToVet360}
             downtimeData={{
               appTitle: 'profile',
               isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,
@@ -67,7 +69,8 @@ const mapDispatchToProps = {
   fetchMilitaryInformation,
   fetchPersonalInformation,
   initializeDowntimeWarnings,
-  dismissDowntimeWarning
+  dismissDowntimeWarning,
+  initializeUserToVet360,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VAProfileApp);
