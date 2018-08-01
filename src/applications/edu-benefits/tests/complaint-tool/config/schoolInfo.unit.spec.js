@@ -3,22 +3,29 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../complaint-tool/config/form';
 
-describe('complaint tool issue info', () => {
-  const { schema, uiSchema } = formConfig.chapters.issueInformation.pages.issueInformation;
+describe('complaint tool school info', () => {
+  const { schema, uiSchema } = formConfig.chapters.schoolInformation.pages.schoolInformation;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
-        data={{}}
+        data={{
+          school: {
+            'view:cannotFindSchool': true
+          }
+        }}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('input').length).to.equal(6);
   });
 
   it('should not submit without required information', () => {
@@ -26,13 +33,18 @@ describe('complaint tool issue info', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
+        data={{
+          school: {
+            'view:cannotFindSchool': true
+          }
+        }}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -41,14 +53,22 @@ describe('complaint tool issue info', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
+        data={{
+          school: {
+            'view:cannotFindSchool': true
+          }
+        }}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
 
-    selectCheckbox(form, 'root_issue_accreditation', true);
-    fillData(form, 'textarea#root_issueDescription', 'test');
-    fillData(form, 'textarea#root_issueResolution', 'test');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_name"]', 'test');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_street"]', 'test');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_city"]', 'test');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_postalCode"]', '34343');
+    fillData(form, 'select[name="root_school_view:manualSchoolEntry_state"]', 'MA');
+    fillData(form, 'select[name="root_school_view:manualSchoolEntry_country"]', 'US');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

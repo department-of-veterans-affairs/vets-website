@@ -21,7 +21,6 @@ const defaultProps = {
 
 describe('<SearchHelpSignIn>', () => {
   beforeEach(() => {
-    global.sessionStorage = {};
     global.window = {
       location: {
         replace: () => {},

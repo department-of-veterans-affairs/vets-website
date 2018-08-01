@@ -6,37 +6,38 @@ const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest((client) => {
-  if (process.env.BUILDTYPE !== 'production') {
+  PageHelpers.initApplicationSubmitMock('0993');
 
-    E2eHelpers.overrideVetsGovApi(client);
-    FormsTestHelpers.overrideFormsScrolling(client);
+  E2eHelpers.overrideVetsGovApi(client);
+  FormsTestHelpers.overrideFormsScrolling(client);
 
-    client
-      .url(`${E2eHelpers.baseUrl}/education/opt-out-information-sharing/opt-out-form-0993/`)
-      .waitForElementVisible('body', Timeouts.normal);
+  client
+    .url(`${E2eHelpers.baseUrl}/education/opt-out-information-sharing/opt-out-form-0993/`)
+    .waitForElementVisible('body', Timeouts.normal);
 
-    // Claimant information
-    client.waitForElementVisible('input[name="root_claimantFullName_first"]', Timeouts.normal)
-      .axeCheck('.main');
-    PageHelpers.completeClaimantInformation(client, testData.data);
+  // Claimant information
+  client.waitForElementVisible('input[name="root_claimantFullName_first"]', Timeouts.normal)
+    .axeCheck('.main');
+  PageHelpers.completeClaimantInformation(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
 
-    // Submit
-    client
-      .click('input[name="privacyAgreement"]')
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/claimant-information');
-    client.expect.element('.js-test-location').attribute('data-location')
-      .to.not.contain('/claimant-information').before(Timeouts.slow);
 
-    // Submit message
-    client.waitForElementVisible('.schemaform-confirmation-section-header', Timeouts.normal);
+  // Review and submit page
+  E2eHelpers.expectNavigateAwayFrom(client, '/claimant-information');
+  client
+    .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+    .pause(1000)
+    .click('input[type="checkbox"]')
+    .axeCheck('.main')
+    .click('.form-progress-buttons .usa-button-primary');
+  client.expect.element('.js-test-location').attribute('data-location')
+    .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
-    client.axeCheck('.main');
-    client.end();
+  // Confirmation page
+  client.waitForElementVisible('.schemaform-confirmation-section-header', Timeouts.normal);
 
-    client.end();
-  }
+  client.axeCheck('.main');
+  client.end();
 });
 
 module.exports['@disabled'] = !manifest.production;

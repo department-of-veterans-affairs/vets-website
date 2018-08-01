@@ -2,6 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import moment from 'moment';
 import environment from '../../platform/utilities/environment';
+import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 function replacer(key, value) {
@@ -24,7 +25,7 @@ function replacer(key, value) {
 }
 
 function checkStatus(guid) {
-  const userToken = window.sessionStorage.userToken;
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
@@ -90,7 +91,7 @@ function transform(formConfig, form) {
 }
 
 export function submit(form, formConfig) {
-  const userToken = window.sessionStorage.userToken;
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
