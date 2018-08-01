@@ -1,6 +1,6 @@
 [
     {
-        "title": "Health and Benefits",
+        "title": "Health Care and Benefits",
         "menuSections": [
             {
                 "title": "Health Care",
@@ -9,82 +9,70 @@
                         "title": "Get Health Care Benefits",
                         "links": [
                             {
-                                "text": "About VA Health Care Coverage",
-                                "href": "/healthcare/about-va-health-care/"
+                                "text": "About VA Health Benefits",
+                                "href": "/health-care/about-va-health-care/"
                             },
                             {
                                 "text": "Eligibility",
-                                "href": "/healthcare/eligibility"
+                                "href": "/health-care/eligibility"
                             },
                             {
-                                "text": "Application Process",
-                                "href": "/healthcare/apply"
-                            },
-                            {
-                                "text": "After You Apply",
-                                "href": "/healthcare/after-you-apply"
+                                "text": "How to Apply",
+                                "href": "/health-care/apply"
                             },
                             {
                                 "text": "Family and Caregiver Health Benefits",
-                                "href": "/healthcare/family-caregiver-health-benefits/"
+                                "href": "/health-care/family-caregiver-health-benefits"
+                            },
+                            {
+                                "text": "Apply Now for Health Care",
+                                "href": "/health-care/apply-for-health-care-form-10-10ez/"
                             },
                             {
                                 "text": "Apply for Health Care",
-                                "href": "/healthcare/apply/application/introduction"
+                                "href": "/health-care/apply/application/introduction"
                             }
                         ]
                     },
                     "columnTwo": {
-                        "title": "Manage Your Health Benefits",
+                        "title": "Manage Your Health and Benefits",
                         "links": [
                             {
-                                "text": "Refill and Track Your Perscriptions",
-                                "href": "/healthcare/prescriptions"
+                                "text": "Refill and Track Your Prescriptions",
+                                "href": "/health-care/prescriptions"
                             },
                             {
-                                "text": "Message Your Health Care Team",
-                                "href": "/healthcare/messaging"
+                                "text": "Send a Secure Message to Your Health Care Team",
+                                "href": "/health-care/secure-messaging"
                             },
                             {
-                                "text": "Schedule or Manage Your VA Appointment",
-                                "href": "/healthcare/schedule-an-appointment"
+                                "text": "Schedule and View VA Appointments",
+                                "href": "/health-care/va-appointments"
                             },
                             {
-                                "text": "View Your Lab and Test Results",
-                                "href": "https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/labs-tests"
+                                "text": "View Your Test and Lab Results",
+                                "href": "/health-care/test-and-lab-results"
                             },
                             {
                                 "text": "Order Hearing Aid Batteries or Prosthetic Socks",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks"
-                            },
-                            {
-                                "text": "Get Your VA Health Records (Blue Button)",
-                                "href": "/healthcare/health-records"
-                            },
-                            {
-                                "text": "Update Your Health Benefits",
-                                "href": "https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf"
-                            },
-                            {
-                                "text": "Make a Health Care Payment",
-                                "href": "https://www.pay.gov/public/form/start/25987221"
+                                "href": "/health-care/order-hearing-aid-batteries-prosthetic-socks"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
                             "src": "http://via.placeholder.com/228x128",
-                            "alt": "Place Holder Image"
+                            "alt": "VA Telehealth Services"
                         },
                         "link": {
-                            "text": "Learn About the Veterans Choice Program",
-                            "href": "#"
+                            "text": "VA Telehealth Services",
+                            "href": "https://www.telehealth.va.gov/"
                         },
-                        "description": "the Veterans Choice Program allows you to receive health care within your community"
+                        "description": "Find out how we use telehealth technologies to provide specialty care and health monitoring to Veterans at their local VA clinic or in their own home."
                     },
                     "seeAllLink": {
                       "text": "Health Care",
-                      "href": "/healthcare/"
+                      "href": "/health-care/"
                     }
                 }
             },
