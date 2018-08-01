@@ -27,6 +27,15 @@ import {
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+const setManuallyEnterData =  () => ({
+  type: 'SET_DATA',
+  data: {
+    school: {
+    'view:cannotFindSchool': true
+    }
+  }
+});
+
 export class SchoolSelectField extends React.Component {
   constructor(props) {
     super(props);
@@ -43,6 +52,11 @@ export class SchoolSelectField extends React.Component {
       smooth: true
     });
   };
+
+  handleManuallyEnterClicked = () => {
+    console.log('manually enter clicked');
+    this.props.setManuallyEnterData();
+  }
 
   handleSearchInputKeyDown = e => {
     if ((e.which || e.keyCode) === 13) {
@@ -96,6 +110,7 @@ export class SchoolSelectField extends React.Component {
       searchResultsCount,
       showInstitutions,
       showInstitutionsLoading,
+      showNoResultsFound,
       showPagination,
       showPaginationLoading,
     } = this.props;
@@ -162,6 +177,11 @@ export class SchoolSelectField extends React.Component {
             <LoadingIndicator message={`Searching ${institutionQuery}...`}/>
           </div>
           }
+          {showNoResultsFound && <div className="no-results-box">
+            <p>
+              <strong>{'No schools found. '}</strong>{'Please try entering a different search term (school name or address), or '}<a role="button" onClick={this.handleManuallyEnterClicked}>{'manually enter your school’s information by clicking this link.'}</a>
+            </p>
+          </div>}
           {showPaginationLoading && <div>
             <LoadingIndicator message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}/>
           </div>
@@ -207,7 +227,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   searchInputChange,
   searchSchools,
-  selectInstitution
+  selectInstitution,
+  setManuallyEnterData
 };
 
 SchoolSelectField.PropTypes = {
@@ -221,8 +242,17 @@ SchoolSelectField.PropTypes = {
   searchResultsCount: React.PropTypes.number,
   showInstitutions: React.PropTypes.bool.required,
   showInstitutionsLoading: React.PropTypes.bool.required,
+  showNoResultsFound: React.PropTypes.bool.required,
   showPagination: React.PropTypes.bool.required,
   showPaginationLoading: React.PropTypes.bool.required
+};
+
+SchoolSelectField.defaultProps = {
+  showInstitutions: false,
+  showInstitutionsLoading: false,
+  showNoResultsFound: true,
+  showPagination: false,
+  showPaginationLoading: false
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolSelectField);
