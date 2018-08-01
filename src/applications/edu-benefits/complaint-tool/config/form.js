@@ -12,6 +12,7 @@ const { school } = educationDetails;
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
@@ -39,12 +40,16 @@ const {
   serviceBranch,
   serviceDateRange,
   anonymousEmail,
+  applicantEmail,
+  address: applicantAddress,
+  phone,
   issue,
   issueDescription,
   issueResolution
 } = fullSchema.properties;
 
 const {
+  usaPhone,
   date,
   dateRange
 } = fullSchema.definitions;
@@ -85,16 +90,17 @@ const formConfig = {
   formId: 'complaint-tool',
   version: 0,
   prefillEnabled: true,
+  defaultDefinitions: {
+    date,
+    dateRange,
+    usaPhone
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'GI Bill® School Feedback Tool',
   transformForSubmit: transform,
-  defaultDefinitions: {
-    date,
-    dateRange
-  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -197,6 +203,66 @@ const formConfig = {
               serviceBranch,
               serviceDateRange,
               anonymousEmail
+            }
+          }
+        },
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact Information',
+          depends: (formData) => formData.onBehalfOf !== anonymous,
+          uiSchema: {
+            address: {
+              street: {
+                'ui:title': 'Address line 1'
+              },
+              street2: {
+                'ui:title': 'Address line 2'
+              },
+              city: {
+                'ui:title': 'City'
+              },
+              state: {
+                'ui:title': 'State'
+              },
+              country: {
+                'ui:title': 'Country'
+              },
+              postalCode: {
+                'ui:title': 'Postal code',
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid 5 digit postal code'
+                },
+                'ui:options': {
+                  widgetClassNames: 'va-input-medium-large',
+                }
+              }
+            },
+            applicantEmail: {
+              'ui:title': 'Email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
+            },
+            'view:applicantEmailConfirmation': {
+              'ui:title': 'Re-enter email address',
+              'ui:errorMessages': {
+                pattern: 'Please enter a valid email address'
+              }
+            },
+            phone: phoneUI('Phone number')
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'address',
+              'applicantEmail',
+              'view:applicantEmailConfirmation'
+            ],
+            properties: {
+              address: applicantAddress,
+              applicantEmail,
+              'view:applicantEmailConfirmation': applicantEmail,
+              phone
             }
           }
         }
@@ -422,7 +488,8 @@ const formConfig = {
                 'gradePolicy',
                 'transcriptRelease',
                 'creditTransfer',
-                'refundIssues'
+                'refundIssues',
+                'other'
               ],
               recruiting: {
                 'ui:title': 'Recruiting or marketing practices'
@@ -456,6 +523,9 @@ const formConfig = {
               },
               transcriptRelease: {
                 'ui:title': 'Release of transcripts'
+              },
+              other: {
+                'ui:title': 'Other'
               }
             },
             issueDescription: {

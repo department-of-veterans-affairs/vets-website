@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../complaint-tool/config/form';
 
-describe('complaint tool issue info', () => {
-  const { schema, uiSchema } = formConfig.chapters.issueInformation.pages.issueInformation;
+describe('complaint tool applicant info', () => {
+  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.contactInformation;
 
   it('should render', () => {
     const form = mount(
@@ -18,7 +18,7 @@ describe('complaint tool issue info', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('input').length).to.equal(7);
   });
 
   it('should not submit without required information', () => {
@@ -32,7 +32,7 @@ describe('complaint tool issue info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -46,11 +46,23 @@ describe('complaint tool issue info', () => {
         uiSchema={uiSchema}/>
     );
 
-    selectCheckbox(form, 'root_issue_accreditation', true);
-    fillData(form, 'textarea#root_issueDescription', 'test');
-    fillData(form, 'textarea#root_issueResolution', 'test');
+    fillData(form, 'input#root_address_street', 'test');
+    fillData(form, 'input#root_address_street2', 'test');
+    fillData(form, 'input#root_address_city', 'test');
+    const state  = form.find('select#root_address_state');
+    state.simulate('change', {
+      target: { value: 'CA' } // TODO: update with new schema
+    });
+    const country  = form.find('select#root_address_country');
+    country.simulate('change', {
+      target: { value: 'US' }
+    });
+    fillData(form, 'input#root_address_postalCode', '12312');
+    fillData(form, 'input#root_applicantEmail', 'test@test.com');
+    fillData(form, 'input[name="root_view:applicantEmailConfirmation"]', 'test@test.com');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
+
 });

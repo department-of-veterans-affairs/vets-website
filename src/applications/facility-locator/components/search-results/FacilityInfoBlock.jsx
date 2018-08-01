@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import FacilityAddress from './FacilityAddress';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { facilityTypes } from '../../config';
+import FacilityTypeDescription from '../FacilityTypeDescription';
 
 class FacilityInfoBlock extends Component {
   renderDistance() {
@@ -27,16 +27,14 @@ class FacilityInfoBlock extends Component {
 
   render() {
     const { facility } = this.props;
-    const { name, facilityType } = facility.attributes;
+    const { name } = facility.attributes;
 
     return (
       <div>
         <Link to={`facility/${facility.id}`}>
           <h5>{name}</h5>
         </Link>
-        <p>
-          <span><strong>Facility type:</strong> {facilityTypes[facilityType]}</span>
-        </p>
+        <FacilityTypeDescription facility={facility}/>
         <p>
           <FacilityAddress facility={facility}/>
         </p>

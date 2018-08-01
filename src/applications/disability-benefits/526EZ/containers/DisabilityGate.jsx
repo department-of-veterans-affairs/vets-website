@@ -20,7 +20,7 @@ export const DisabilityGate = ({ prefillStatus, disabilities = [], children }) =
 
   if (prefillStatus === PREFILL_STATUSES.unfilled) {
     return (
-      <div className="usa-grid" style={{ marginBottom: '2em' }}>
+      <div className="usa-grid full-page-alert">
         <AlertBox
           isVisible
           headline="We're sorry"
@@ -34,7 +34,7 @@ export const DisabilityGate = ({ prefillStatus, disabilities = [], children }) =
   const hasEligibleDisability = disabilities.reduce((hasEligible, disability) => hasEligible || !disability.ineligible, false);
   if (!hasEligibleDisability) {
     return (
-      <div className="usa-grid" style={{ marginBottom: '2em' }}>
+      <div className="usa-grid full-page-alert">
         <AlertBox
           isVisible
           headline="We're sorry"

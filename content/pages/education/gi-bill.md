@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: GI Bill
 concurrence: incomplete
-plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
+plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act.
 collection: education
 children: educationGIBill
 order: 4
@@ -39,7 +39,7 @@ majorlinks:
     - url: /education/gi-bill/survivors-dependent-assistance/
       title: Survivors’ and Dependents’ Assistance
       description: If you’re a dependent spouse or child of a Veteran, find out if you qualify for education benefits or job training.
-  - heading: More GI Bill Benefits
+  - heading: More GI Bill Benefits and Information
     links:
     - url: /education/gi-bill/yellow-ribbon/
       title: Yellow Ribbon Program
@@ -53,7 +53,9 @@ majorlinks:
     - url: /education/gi-bill/tutorial-assistance/
       title: Tutorial Assistance
       description: If you’re using VA educational benefits and you're struggling with the coursework, find out if you can get help paying for a tutor.
-
+    - url: /education/opt-out-information-sharing/
+      title: Opt Out of Sharing VA Education Benefits Information
+      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing. 
 
 ---
 
