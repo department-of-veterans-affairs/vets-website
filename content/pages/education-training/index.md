@@ -31,7 +31,7 @@ crosslinks:
       title: <b>Jobs for Veterans</b>
       description: Get help from the U.S. Department of Labor to find a job, get training, or explore career options.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -79,6 +79,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <div class="va-h-ruled--stars"></div>
 </section>
 
+<section id="get" class="merger-majorlinks">
   <h2>Get GI Bill&reg; and Other Education Benefits</h2>
 
   <div class="link">
@@ -171,13 +172,12 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
 </section>
-
-<section id="more" class="merger-majorlinks">
   
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
 </section>  
 
+<section id="more" class="merger-majorlinks">
   <h2>More Information and Resources</h2>
 
   <div class="link">
