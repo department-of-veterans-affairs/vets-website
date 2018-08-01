@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
 import _ from 'lodash';
 
 import {
@@ -10,7 +11,12 @@ import {
   getDisabilityName,
   get4142Selection,
   queryForFacilities,
-  transform
+  transform,
+  hasGuardOrReservePeriod,
+  ReservesGuardDescription,
+  transformObligationDates,
+  isInFuture,
+  getReservesGuardData
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
@@ -113,7 +119,19 @@ describe('526 helpers', () => {
                 to: '2000-02-04'
               }
             }
-          ]
+          ],
+          reservesNationalGuardService: {
+            unitName: 'Alpha Bravo Charlie',
+            obligationTermOfServiceDateRange: {
+              from: '2015-05-12',
+              to: '2017-05-12'
+            },
+            title10Activation: {
+              title10ActivationDate: '2014-054-12',
+              anticipatedSeparationDate: '2019-09-02'
+            },
+            waiveVABenefitsToRetainTrainingPay: true
+          }
         },
         standardClaim: false
       }
@@ -137,6 +155,10 @@ describe('526 helpers', () => {
     it('should return an empty array when given undefined input', () => {
       expect(transformDisabilities(undefined)).to.deep.equal([]);
     });
+    it('should remove ineligible disabilities', () => {
+      const ineligibleDisability = _.omit(invalidDisability, 'ratingPercentage');
+      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
+    });
   });
   describe('addPhoneEmailToCard', () => {
     it('should return formData when veteran property does not exist', () => {
@@ -155,6 +177,34 @@ describe('526 helpers', () => {
       const { primaryPhone, emailAddress } = newFormData.veteran.phoneEmailCard;
       expect(primaryPhone).to.equal(formData.veteran.primaryPhone);
       expect(emailAddress).to.equal(formData.veteran.emailAddress);
+    });
+  });
+  describe('transformObligationDates', () => {
+    const dateRange = {
+      from: '2012-04-01',
+      to: '2015-04-01'
+    };
+
+    const formData = {
+      reservesNationalGuardService: {
+        obligationTermOfServiceDateRange: {
+          from: dateRange.from,
+          to: dateRange.to
+        }
+      }
+    };
+
+    it('adds obligation dates to the top level formData', () => {
+      expect(transformObligationDates(formData)).to.deep.equal({
+        obligationTermOfServiceDateRange: {
+          from: dateRange.from,
+          to: dateRange.to
+        }
+      });
+    });
+    it('returns original form data if reserves data is missing', () => {
+      const newFormData = { someOtherProperty: 'someOtherValue' };
+      expect(transformObligationDates(newFormData)).to.equal(newFormData);
     });
   });
   describe('prefillTransformer', () => {
@@ -193,6 +243,24 @@ describe('526 helpers', () => {
       const dataClone = _.set(_.cloneDeep(initialData), 'disabilities[0].name', newName);
       const prefill = prefillTransformer([], dataClone, {});
       expect(prefill.formData.disabilities[0].name).to.equal(newName);
+    });
+    it('should put obligation dates into the parent level', () => {
+      const dateRange = {
+        from: '2015-05-07',
+        to: '2018-05-07'
+      };
+
+      const pages = [];
+      const metadata = {};
+      const formData = _.set(_.cloneDeep(initialData), 'reservesNationalGuardService', {
+        obligationTermOfServiceDateRange: {
+          from: dateRange.from,
+          to: dateRange.to
+        }
+      });
+
+      const newData = prefillTransformer(pages, formData, metadata);
+      expect(newData.formData.obligationTermOfServiceDateRange).to.deep.equal(dateRange);
     });
   });
   describe('getDisabilityName', () => {
@@ -314,6 +382,160 @@ describe('526 helpers', () => {
       }).catch(error => {
         done(error);
       });
+    });
+  });
+
+  describe('hasGuardOrReservePeriod', () => {
+    it('should return true when reserve period present', () => {
+      const formData = {
+        servicePeriods: [{
+          serviceBranch: 'Air Force Reserve',
+          dateRange: {
+            to: '2011-05-06',
+            from: '2015-05-06'
+          }
+        }]
+      };
+
+      expect(hasGuardOrReservePeriod(formData)).to.be.true;
+    });
+
+    it('should return true when national guard period present', () => {
+      const formData = {
+        servicePeriods: [{
+          serviceBranch: 'Air National Guard',
+          dateRange: {
+            to: '2011-05-06',
+            from: '2015-05-06'
+          }
+        }]
+      };
+
+      expect(hasGuardOrReservePeriod(formData)).to.be.true;
+    });
+
+    it('should return false when no reserves or guard period present', () => {
+      const formData = {
+        servicePeriods: [{
+          serviceBranch: 'Air Force',
+          dateRange: {
+            from: '2011-05-06',
+            to: '2015-05-06'
+          }
+        }]
+      };
+
+      expect(hasGuardOrReservePeriod(formData)).to.be.false;
+    });
+
+    it('should return false when no service history present', () => {
+      const formData = {};
+
+      expect(hasGuardOrReservePeriod(formData)).to.be.false;
+    });
+  });
+
+  describe('reservesGuardDescription', () => {
+    it('should pick the most recent service branch', () => {
+      const form = {
+        formData: {
+          servicePeriods: [{
+            serviceBranch: 'Air Force',
+            dateRange: {
+              from: '2010-05-08',
+              to: '2018-10-08',
+            }
+          },
+          {
+            serviceBranch: 'Air Force Reserve',
+            dateRange: {
+              from: '2000-05-08',
+              to: '2011-10-08',
+            }
+          },
+          {
+            serviceBranch: 'Marine Corps Reserve',
+            dateRange: {
+              from: '2000-05-08',
+              to: '2018-10-08',
+            }
+          }]
+        }
+      };
+
+      const renderedText = shallow(ReservesGuardDescription(form)).render().text();
+      expect(renderedText).to.contain('Marine Corps Reserve');
+    });
+
+    it('should return null when no service periods present', () => {
+      const form = {
+        formData: {}
+      };
+
+      expect(ReservesGuardDescription(form)).to.equal(null);
+    });
+  });
+
+  describe('isInFuture', () => {
+    it('adds an error when entered date is today or earlier', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const fieldData = '2018-04-12';
+
+      isInFuture(errors, fieldData);
+      expect(addError.calledOnce).to.be.true;
+    });
+
+    it('does not add an error when the entered date is in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const fieldData = '2099-04-12';
+
+      isInFuture(errors, fieldData);
+      expect(addError.callCount).to.equal(0);
+    });
+  });
+
+  describe('getReservesGuardData', () => {
+    it('gets reserve & national guard data when available', () => {
+      const formData = {
+        unitName: 'Alpha Bravo',
+        obligationTermOfServiceDateRange: {
+          from: '2012-02-02',
+          to: '2018-02-02'
+        },
+        waiveVABenefitsToRetainTrainingPay: false
+      };
+
+      expect(getReservesGuardData(formData)).to.deep.equal(formData);
+    });
+    it('get title 10 data when available', () => {
+      const formData = {
+        unitName: 'Alpha Bravo',
+        obligationTermOfServiceDateRange: {
+          from: '2012-02-02',
+          to: '2018-02-02'
+        },
+        waiveVABenefitsToRetainTrainingPay: false,
+        'view:isTitle10Activated': true,
+        title10Activation: {
+          title10ActivationDate: '2016-05-04',
+          anticipatedSeparationDate: '2099-05-03'
+        }
+      };
+
+      expect(getReservesGuardData(formData)).to.deep.equal(_.omit(formData, 'view:isTitle10Activated'));
+    });
+    it('returns null when some required data is missing', () => {
+      const formData = {
+        obligationTermOfServiceDateRange: {
+          from: '2012-02-02',
+          to: '2018-02-02'
+        },
+        waiveVABenefitsToRetainTrainingPay: false
+      };
+
+      expect(getReservesGuardData(formData)).to.equal(null);
     });
   });
 });
