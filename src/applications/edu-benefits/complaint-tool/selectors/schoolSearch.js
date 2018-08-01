@@ -9,5 +9,6 @@ export const selectSearchInputValue = state => _.get(state, 'schoolSelect.search
 export const selectSearchResultsCount = state => _.get(state, 'schoolSelect.searchResultsCount');
 export const selectShowInstitutions = state => _.get(state, 'schoolSelect.showInstitutions');
 export const selectShowInstitutionsLoading = state => _.get(state, 'schoolSelect.showInstitutionsLoading');
+export const selectShowNoResultsFound = state => _.get(state, 'schoolSelect.showNoResultsFound');
 export const selectShowPagination = state => _.get(state, 'schoolSelect.showPagination');
 export const selectShowPaginationLoading = state => _.get(state, 'schoolSelect.showPaginationLoading');

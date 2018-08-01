@@ -16,6 +16,7 @@ const initialState = {
   searchResultsCount: 0,
   showInstitutions: false,
   showInstitutionsLoading: false,
+  showNoResultsFound: false,
   showPagination: false,
   showPaginationLoading: false
 };
@@ -30,6 +31,7 @@ export default function schoolSearch(state = initialState, action) {
       const searchResultsCount = action.page ? state.searchResultsCount : 0;
       const showInstitutions = false;
       const showInstitutionsLoading = !action.page;
+      const showNoResultsFound = false;
       const showPagination = action.page ? action.page > 1 : false;
       const showPaginationLoading = !!action.page;
 
@@ -42,6 +44,7 @@ export default function schoolSearch(state = initialState, action) {
         searchResultsCount,
         showInstitutions,
         showInstitutionsLoading,
+        showNoResultsFound,
         showPagination,
         showPaginationLoading
       };
@@ -63,6 +66,7 @@ export default function schoolSearch(state = initialState, action) {
       const pagesCount = Math.ceil(searchResultsCount / 10);
       const showInstitutions = true;
       const showInstitutionsLoading = false;
+      const showNoResultsFound = institutions.length < 1;
       const showPagination = pagesCount > 1;
       const showPaginationLoading = false;
 
@@ -74,6 +78,7 @@ export default function schoolSearch(state = initialState, action) {
         searchResultsCount,
         showInstitutions,
         showInstitutionsLoading,
+        showNoResultsFound,
         showPagination,
         showPaginationLoading
       };

@@ -7,6 +7,18 @@ export const LOAD_SCHOOLS_SUCCEEDED = 'LOAD_SCHOOLS_SUCCEEDED';
 export const LOAD_SCHOOLS_FAILED = 'LOAD_SCHOOLS_FAILED';
 export const SEARCH_INPUT_CHANGED = 'SEARCH_INPUT_CHANGED';
 export const INSTITUTION_SELECTED = 'INSTITUTION_SELECTED';
+const SET_DATA = 'SET_DATA';
+
+export function setCannotFindSchool() {
+  return {
+    type: SET_DATA,
+    data: {
+      school: {
+        'view:cannotFindSchool': true
+      }
+    }
+  };
+}
 
 export function searchInputChange({ searchInputValue }) {
   return {

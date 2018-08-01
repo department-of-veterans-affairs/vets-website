@@ -8,7 +8,8 @@ import { connect } from 'react-redux';
 import {
   searchInputChange,
   selectInstitution,
-  searchSchools
+  searchSchools,
+  setCannotFindSchool
 } from '../complaint-tool/actions/schoolSearch';
 import {
   selectCurrentPageNumber,
@@ -20,6 +21,7 @@ import {
   selectSearchResultsCount,
   selectShowInstitutions,
   selectShowInstitutionsLoading,
+  selectShowNoResultsFound,
   selectShowPagination,
   selectShowPaginationLoading
 } from '../complaint-tool/selectors/schoolSearch';
@@ -47,6 +49,10 @@ export class SchoolSelectField extends React.Component {
       smooth: true
     });
   };
+
+  handleManuallyEnterClicked = () => {
+    this.props.setCannotFindSchool();
+  }
 
   handleSearchInputKeyDown = e => {
     if ((e.which || e.keyCode) === 13) {
@@ -196,6 +202,7 @@ const mapStateToProps = (state, props) => {
   const searchResultsCount = selectSearchResultsCount(state);
   const showInstitutions = selectShowInstitutions(state);
   const showInstitutionsLoading = selectShowInstitutionsLoading(state);
+  const showNoResultsFound = selectShowNoResultsFound(state);
   const showPagination = selectShowPagination(state);
   const showPaginationLoading = selectShowPaginationLoading(state);
 
@@ -210,6 +217,7 @@ const mapStateToProps = (state, props) => {
     searchResultsCount,
     showInstitutions,
     showInstitutionsLoading,
+    showNoResultsFound,
     showPagination,
     showPaginationLoading,
   };
@@ -217,7 +225,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   searchInputChange,
   searchSchools,
-  selectInstitution
+  selectInstitution,
+  setCannotFindSchool
 };
 
 SchoolSelectField.PropTypes = {
@@ -239,7 +248,7 @@ SchoolSelectField.PropTypes = {
 SchoolSelectField.defaultProps = {
   showInstitutions: false,
   showInstitutionsLoading: false,
-  showNoResultsFound: true,
+  showNoResultsFound: false,
   showPagination: false,
   showPaginationLoading: false
 };
