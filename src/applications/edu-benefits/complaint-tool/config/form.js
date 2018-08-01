@@ -18,7 +18,7 @@ const {
   onBehalfOf,
   fullName,
   dob,
-  serviceAffiliation,
+  // serviceAffiliation,
   serviceBranch,
   serviceDateRange,
   anonymousEmail,
@@ -57,7 +57,7 @@ function hasMyself(formData) {
 }
 
 function isNotVeteranOrServiceMember(formData) {
-  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
+  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember or Veteran'))) {
     return true;
   }
   return false;
@@ -181,7 +181,14 @@ const formConfig = {
               onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
               fullName,
               dob,
-              serviceAffiliation,
+              serviceAffiliation: { // TODO: update BE schema and use here
+                type: 'string',
+                'enum': [
+                  'Servicemember or Veteran',
+                  'Spouse or Child',
+                  'Family member'
+                ]
+              },
               serviceBranch,
               serviceDateRange,
               anonymousEmail
@@ -291,7 +298,7 @@ const formConfig = {
               programs: {
                 type: 'object',
                 properties: {
-                  'Post-9/11 Ch 33': {
+                  'Post-9/11 Ch 33': { // TODO: update schema and use here
                     type: 'boolean',
                     title: 'Post-9/11 GI Bill (Chapter 33)'
                   },
@@ -306,6 +313,10 @@ const formConfig = {
                   TATU: {
                     type: 'boolean',
                     title: 'Tuition Assistance Top-Up'
+                  },
+                  REAP: {
+                    type: 'boolean',
+                    title: 'Reserve Educational Assistance Program (REAP) (Chapter 1607)'
                   },
                   'DEA Ch 35': {
                     type: 'boolean',
