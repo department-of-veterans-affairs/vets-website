@@ -909,10 +909,10 @@ export const hasGuardOrReservePeriod = (formData) => {
     if (!serviceBranch) {
       return false;
     }
-    // TODO: Replace magic strings
+    const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
     return isGuardReserve
-        || serviceBranch.includes('Reserve')
-        || serviceBranch.includes('National Guard');
+        || serviceBranch.includes(reserve)
+        || serviceBranch.includes(nationalGuard);
   }, false);
 };
 
@@ -931,15 +931,7 @@ export const ReservesGuardDescription = ({ formData }) => {
       serviceBranch,
       to: dateTo
     };
-  }).sort((periodA, periodB) => {
-    if (periodA.to < periodB.to) { // could probably simplify sort to b.to - a.to
-      return 1;
-    }
-    if (periodA.to > periodB.to) {
-      return -1;
-    }
-    return 0;
-  })[0];
+  }).sort((periodA, periodB) => (periodB.to - periodA.to))[0];
 
   if (!mostRecentPeriod) {
     return null;

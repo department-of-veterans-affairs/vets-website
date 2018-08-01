@@ -229,7 +229,7 @@ describe('526 helpers', () => {
     it('should return original data if disabilities is not an array', () => {
       const clonedData = _.cloneDeep(initialData);
       const pages = [];
-      const formData = _.set('disabilities', clonedData, { someProperty: 'value' });
+      const formData = _.set(clonedData, 'disabilities', { someProperty: 'value' });
       const metadata = {};
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
@@ -382,10 +382,24 @@ describe('526 helpers', () => {
   });
 
   describe('hasGuardOrReservePeriod', () => {
-    it('should return true when reserve or guard period present', () => {
+    it('should return true when reserve period present', () => {
       const formData = {
         servicePeriods: [{
           serviceBranch: 'Air Force Reserve',
+          dateRange: {
+            to: '2011-05-06',
+            from: '2015-05-06'
+          }
+        }]
+      };
+
+      expect(hasGuardOrReservePeriod(formData)).to.be.true;
+    });
+
+    it('should return true when national guard period present', () => {
+      const formData = {
+        servicePeriods: [{
+          serviceBranch: 'Air National Guard',
           dateRange: {
             to: '2011-05-06',
             from: '2015-05-06'
