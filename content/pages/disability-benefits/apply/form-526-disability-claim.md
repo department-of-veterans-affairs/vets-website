@@ -2,7 +2,8 @@
 title: Apply for increased disability benefits
 entryname: 526EZ-claims-increase
 layout: page-react.html
-description: Learn how to apply online for increased disability compensation. 
+description: Learn how to apply online for increased disability compensation.
+hideFromSidebar: true
 ---
 <div id="main">
   <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"

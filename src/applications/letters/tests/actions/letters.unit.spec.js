@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+
 import {
   ADDRESS_TYPES,
   BACKEND_SERVICE_ERROR,
@@ -37,19 +39,15 @@ import {
 } from '../../actions/letters';
 
 /**
- * Setup() for each test requires stubbing global fetch() and setting userToken
- * in global sessionStorage. Teardown() resets everything back to normal
+ * Setup() for each test requires stubbing global fetch() and setting userToken.
+ * Teardown() resets everything back to normal.
  */
 let oldFetch;
-let oldSessionStorage;
 let oldWindow;
 const setup = () => {
-  oldSessionStorage = global.sessionStorage;
+  conditionalStorage().setItem('userToken', '123abc');
   oldFetch = global.fetch;
   oldWindow = global.window;
-  global.sessionStorage = {
-    userToken: '123abc'
-  };
   global.fetch = sinon.stub();
   global.fetch.returns(Promise.resolve({
     headers: { get: () => 'application/json' },
@@ -64,8 +62,8 @@ const setup = () => {
 };
 const teardown = () => {
   global.fetch = oldFetch;
-  global.sessionStorage = oldSessionStorage;
   global.window = oldWindow;
+  conditionalStorage().clear();
 };
 const getState = () => ({});
 

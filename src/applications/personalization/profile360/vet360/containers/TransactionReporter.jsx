@@ -11,7 +11,7 @@ import {
 
 import {
   clearTransaction
-} from '../../actions';
+} from '../actions';
 
 import Vet360TransactionErrorBanner from '../components/base/TransactionErrorBanner';
 

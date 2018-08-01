@@ -25,15 +25,16 @@ export default class OptOutWizard extends React.Component {
           Opt Out
         </button>
         <Modal
-          id="opt-out-alert"
+          clickToClose
           cssClass="va-modal va-modal-large"
+          id="opt-out-alert"
           onClose={this.closeModal}
           title="Are you sure you want to opt out?"
           visible={this.state.modalOpen}>
-          <div>Here are some things that'll change if you ask VA to not share your education benefits information with schools:
+          <div>Here are some things that’ll change if you ask VA to not share your education benefits information with your school:
             <ul>
-              <li>You’ll be responsible for providing schools with your education benefits paperwork. If you transfer schools, you’ll also need to make sure your new school has your paperwork.</li>
-              <li>There may be a delay with you getting reimbursed for school-related expenses.</li>
+              <li>You’ll be responsible for giving this information to your school.</li>
+              <li>If you transfer schools, you may also need to make sure your new school has your education benefits paperwork.</li>
             </ul>
           </div>
 

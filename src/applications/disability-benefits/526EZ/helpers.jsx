@@ -153,16 +153,27 @@ export function validateDisability(disability) {
 
 
 export function transformDisabilities(disabilities = []) {
-  return disabilities.map(disability => {
-    const newDisability = set('disabilityActionType', 'INCREASE', disability);
-    // Mark disabilities for which the veteran cannot claim an increase
-    // We'll use this to mark the disability as disabled in the UI and gate the form if necessary
-    // As far as we know, only disabilities without a rating are ineligible (but a rating of 0% is eligible)
-    if ([undefined, null].includes(newDisability.ratingPercentage)) {
-      newDisability.ineligible = true;
-    }
-    return newDisability;
-  });
+  return disabilities
+    // We want to remove disabilities without a rating, but 0 counts as a valid rating
+    // TODO: Log the disabilities if they're not service connected
+    // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
+    //  it gets here and we can't tell whether it is service connected or not. This happens in
+    //  the api
+    .filter(disability => {
+      if (disability.ratingPercentage || disability.ratingPercentage === 0) {
+        return true;
+      }
+
+      // TODO: Only log it if the decision code indicates the condition is not non-service-connected
+      const { decisionCode } = disability;
+      if (decisionCode) {
+        Raven.captureMessage('526_increase_disability_filter', {
+          extra: { decisionCode }
+        });
+      }
+
+      return false;
+    }).map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
 
@@ -952,3 +963,9 @@ export const isInFuture = (errors, fieldData) => {
     errors.addError('Expected separation date must be in the future');
   }
 };
+
+export const disabilitiesClarification = (
+  <p>
+    <strong>Please note:</strong> This list only includes disabilities that we've already rated. It doesn't include any disabilities from claims that are in progress.
+  </p>
+);

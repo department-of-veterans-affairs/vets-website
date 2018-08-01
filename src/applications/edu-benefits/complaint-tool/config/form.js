@@ -4,29 +4,52 @@ import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import SchoolSelectField from '../../components/SchoolSelectField.jsx';
 
+const { educationDetails } = fullSchema.properties;
+
+const { school } = educationDetails;
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import { transform } from '../helpers';
 
 const {
+  name: schoolName,
+  address: schoolAddress
+} = school.oneOf[0].schoolInformation.properties;
+
+const {
+  street: schoolStreet,
+  street2: schoolStreet2,
+  city: schoolCity,
+  state: schoolState,
+  country: schoolCountry,
+  postalCode: schoolPostalCode
+} = schoolAddress.properties;
+
+const {
   onBehalfOf,
   fullName,
   dob,
-  serviceAffiliation,
+  // serviceAffiliation,
   serviceBranch,
   serviceDateRange,
   anonymousEmail,
+  applicantEmail,
+  address: applicantAddress,
+  phone,
   issue,
   issueDescription,
   issueResolution
 } = fullSchema.properties;
 
 const {
+  usaPhone,
   date,
   dateRange
 } = fullSchema.definitions;
@@ -52,7 +75,7 @@ function hasMyself(formData) {
 }
 
 function isNotVeteranOrServiceMember(formData) {
-  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Veteran') && (formData.serviceAffiliation !== 'Service Member'))) {
+  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember or Veteran'))) {
     return true;
   }
   return false;
@@ -67,16 +90,17 @@ const formConfig = {
   formId: 'complaint-tool',
   version: 0,
   prefillEnabled: true,
+  defaultDefinitions: {
+    date,
+    dateRange,
+    usaPhone
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for declaration of status of dependents.',
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'GI Bill® School Feedback Tool',
   transformForSubmit: transform,
-  defaultDefinitions: {
-    date,
-    dateRange
-  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -150,9 +174,9 @@ const formConfig = {
               'Service start date',
               'Service end date',
               'End of service must be after start of service'
-            ),
-            {
-              'ui:options': {
+            ), {
+              'ui:options':
+              {
                 hideIf: isNotVeteranOrServiceMember,
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: myself
@@ -175,10 +199,77 @@ const formConfig = {
               onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
               fullName,
               dob,
-              serviceAffiliation,
+              serviceAffiliation: { // TODO: update BE schema and use here
+                type: 'string',
+                'enum': [
+                  'Servicemember or Veteran',
+                  'Spouse or Child',
+                  'Family member'
+                ]
+              },
               serviceBranch,
               serviceDateRange,
               anonymousEmail
+            }
+          }
+        },
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact Information',
+          depends: (formData) => formData.onBehalfOf !== anonymous,
+          uiSchema: {
+            address: {
+              street: {
+                'ui:title': 'Address line 1'
+              },
+              street2: {
+                'ui:title': 'Address line 2'
+              },
+              city: {
+                'ui:title': 'City'
+              },
+              state: {
+                'ui:title': 'State'
+              },
+              country: {
+                'ui:title': 'Country'
+              },
+              postalCode: {
+                'ui:title': 'Postal code',
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid 5 digit postal code'
+                },
+                'ui:options': {
+                  widgetClassNames: 'va-input-medium-large',
+                }
+              }
+            },
+            applicantEmail: {
+              'ui:title': 'Email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
+            },
+            'view:applicantEmailConfirmation': {
+              'ui:title': 'Re-enter email address',
+              'ui:errorMessages': {
+                pattern: 'Please enter a valid email address'
+              }
+            },
+            phone: phoneUI('Phone number')
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'address',
+              'applicantEmail',
+              'view:applicantEmailConfirmation'
+            ],
+            properties: {
+              address: applicantAddress,
+              applicantEmail,
+              'view:applicantEmailConfirmation': applicantEmail,
+              phone
             }
           }
         }
@@ -225,7 +316,7 @@ const formConfig = {
               programs: {
                 type: 'object',
                 properties: {
-                  'Post-9/11 Ch 33': {
+                  'Post-9/11 Ch 33': { // TODO: update schema and use here
                     type: 'boolean',
                     title: 'Post-9/11 GI Bill (Chapter 33)'
                   },
@@ -240,6 +331,10 @@ const formConfig = {
                   TATU: {
                     type: 'boolean',
                     title: 'Tuition Assistance Top-Up'
+                  },
+                  REAP: {
+                    type: 'boolean',
+                    title: 'Reserve Educational Assistance Program (REAP) (Chapter 1607)'
                   },
                   'DEA Ch 35': {
                     type: 'boolean',
@@ -287,6 +382,94 @@ const formConfig = {
         }
       }
     },
+    schoolInformation: {
+      title: 'School Information',
+      pages: {
+        schoolInformation: {
+          path: 'school-information',
+          title: 'School Information',
+          uiSchema: {
+            school: {
+              facilityCode: {
+                'ui:title': 'Please click on the button to search for your school.',
+                'ui:field': SchoolSelectField,
+                'ui:required': formData => !_.get('school.view:cannotFindSchool', formData),
+                'ui:options': {
+                  hideIf: formData => formData.school['view:cannotFindSchool']
+                }
+              },
+              'view:manualSchoolEntry': {
+                name: {
+                  'ui:title': 'Name',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                },
+                street: {
+                  'ui:title': 'Address line 1',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                },
+                street2: {
+                  'ui:title': 'Address line 2'
+                },
+                city: {
+                  'ui:title': 'City',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                },
+                state: {
+                  'ui:title': 'State',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                },
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                },
+                postalCode: {
+                  'ui:title': 'Postal Code',
+                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData),
+                  'ui:errorMessages': {
+                    pattern: 'Please enter a valid 5 digit postal code'
+                  },
+                  'ui:options': {
+                    widgetClassNames: 'va-input-medium-large'
+                  }
+                },
+                'ui:options': {
+                  hideIf: formData => !formData.school['view:cannotFindSchool']
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              school: {
+                type: 'object',
+                properties: {
+                  facilityCode: { // TODO: determine whether to store facility ID
+                    type: 'string'
+                  },
+                  'view:cannotFindSchool': {
+                    title: 'I can’t find my school',
+                    type: 'boolean'
+                  },
+                  'view:manualSchoolEntry': {
+                    type: 'object',
+                    properties: {
+                      name: schoolName,
+                      street: schoolStreet,
+                      street2: schoolStreet2,
+                      city: schoolCity,
+                      state: schoolState,
+                      country: schoolCountry,
+                      postalCode: schoolPostalCode
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     issueInformation: {
       title: 'Feedback Information',
       pages: {
@@ -316,7 +499,8 @@ const formConfig = {
                 'gradePolicy',
                 'transcriptRelease',
                 'creditTransfer',
-                'refundIssues'
+                'refundIssues',
+                'other'
               ],
               recruiting: {
                 'ui:title': 'Recruiting or marketing practices'
@@ -350,6 +534,9 @@ const formConfig = {
               },
               transcriptRelease: {
                 'ui:title': 'Release of transcripts'
+              },
+              other: {
+                'ui:title': 'Other'
               }
             },
             issueDescription: {
