@@ -10070,9 +10070,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#0582ee6d9969a63c7145907511acf7764c993668":
-  version "3.67.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0582ee6d9969a63c7145907511acf7764c993668"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#5a30dd96d339e0dbfbfb28449f5c2f49bcbc654b":
+  version "3.69.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5a30dd96d339e0dbfbfb28449f5c2f49bcbc654b"
 
 vm-browserify@0.0.4, vm-browserify@~0.0.1:
   version "0.0.4"
