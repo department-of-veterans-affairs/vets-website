@@ -31,10 +31,10 @@ export class ConfirmationPage extends React.Component {
         <p>We may contact you if we have questions or need more information.</p>
         <p>Please print this page for your records.</p>
         <h3 className="confirmation-page-title">What happens after I submit my feedback?</h3>
-        <p>We’ll get back to you within 45 days to let you know how we’re handling your feedback and if we’ve had any communication with your school. Feedback that isn't related to VA education benefits may be sent to another agency for review.</p>
-        <p>If we need to get in touch with you, we’ll contact you from an email address that’ll look like this: process.vbavaco.va.gov. Please add this to your email contact list so you can respond to messages that may need a quick response from you.</p>
+        <p>We’ll get back to you within 45 days to let you know how we’re handling your feedback. We may contact you if we need more information from you.</p>
+        <p>Feedback that isn’t related to VA education benefits may be sent to another agency for review.</p>
         <div className="inset">
-          <h4>GI Bill® School Feedback <span className="additional">(Form 686)</span></h4>
+          <h4>GI Bill® School Feedback Tool</h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           {response && <ul className="claim-list">
