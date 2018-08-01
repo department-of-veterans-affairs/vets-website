@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import 'isomorphic-fetch';
 
-import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers.js';
+import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers';
 
 import PhotoPreview from '../../components/PhotoPreview.jsx';
 
@@ -15,13 +15,7 @@ function setFetchResponse(stub, data) {
   stub.resolves(response);
 }
 
-let oldSesionStorage;
-
 describe('<PhotoPreview>', () => {
-  beforeEach(() => {
-    oldSesionStorage = window.sessionStorage;
-    window.sessionStorage = {};
-  });
   it('should render preview with src', () => {
     const tree = shallow(
       <PhotoPreview
@@ -86,8 +80,5 @@ describe('<PhotoPreview>', () => {
     );
 
     expect(tree.find('.usa-alert-warning').exists()).to.be.true;
-  });
-  afterEach(() => {
-    window.sessionStorage = oldSesionStorage;
   });
 });

@@ -16,9 +16,9 @@ widgets:
 ---
 
 
-The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with schools, unless you ask us not to (called "opting out").
+The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your education eligibility and benefits with your school, unless you ask us not to (called “opting out”).
 
-### What kind of information does VA share with schools?
+### What kind of information does VA share with my school?
 
 Unless you opt out, we share basic information about your eligibility and benefits with your school’s certifying official, including:
 - Your eligibility date
@@ -30,16 +30,15 @@ Unless you opt out, we share basic information about your eligibility and benefi
 - Distance hours (your time spent in online classes)
 - Benefit percentage (amount of education benefits based on active-duty service time)
 
-<b>Please note</b>: Opting out means you’re choosing to not share your education benefits information with schools. It doesn’t mean you’re opting out of getting GI Bill education benefits.
+<b>Please note</b>: Opting out means you’re choosing to not share your education benefits information with your school. It doesn’t mean you’re opting out of getting GI Bill education benefits.
 
 ### Why does VA share this information?
 
-It makes it easy for schools to access information about your education benefits without your having to gather benefit information or fill out forms. Schools get all the information they need straight from VA.
+It makes it easy for your school to access information about your education benefits without your having to gather benefit information or fill out forms. Your school gets all the information they need straight from VA.
 
 ### Will opting out affect my benefits?
 
-No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits.
-However, if you opt out, you’ll need to provide schools with your education benefits paperwork. In addition, there may be a delay with you getting reimbursed for school-related expenses.
+No. Your education benefits will stay the same if you decide to opt out. You won’t lose any benefits. However, if you opt out, you may need to provide your school with your education benefits paperwork.
 
 ### How do I tell VA I don’t want my information shared?
 

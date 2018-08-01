@@ -3,6 +3,7 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import createCommonStore from '../../../../../platform/startup/store';
+import conditionalStorage from '../../../../../platform/utilities/storage/conditionalStorage';
 import DisabilityWizard from '../../components/DisabilityWizard';
 import { layouts } from '../../wizardHelpers';
 
@@ -59,7 +60,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
   });
   it('should show ebenefits guidance page for first claims', () => {
-    // mount is used for find, shallow is used for setState  
+    // mount is used for find, shallow is used for setState
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -71,7 +72,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal('We’re sorry. We’re not set up to accept original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.');
   });
   it('should show ebenefits guidance page for new claims', () => {
-    // mount is used for find, shallow is used for setState  
+    // mount is used for find, shallow is used for setState
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -83,7 +84,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal('Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.');
   });
   it('should show ebenefits guidance page for new and increase claims', () => {
-    // mount is used for find, shallow is used for setState  
+    // mount is used for find, shallow is used for setState
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -95,7 +96,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal('Since you have a new condition and a condition that has gotten worse, you’ll need to file your disability claim on eBenefits.');
   });
   it('should show appeals guidance page', () => {
-    // mount is used for find, shallow is used for setState    
+    // mount is used for find, shallow is used for setState
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -107,9 +108,8 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal('If you disagree with our decision on your disability claim, you can appeal it. Learn how to file an appeal.');
   });
   it('should show unauthenticated increase guidance page', () => {
-    // mount is used for find, shallow is used for setState    
-    const oldStorage = global.sessionStorage;
-    global.sessionStorage = { userToken: '' };
+    // mount is used for find, shallow is used for setState
+    conditionalStorage().setItem('userToken', '');
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
@@ -119,12 +119,11 @@ describe('<DisabilityWizard>', () => {
     tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
     expect(tree.text()).to.contain('Sign In and Verify Your Identity »');
     expect(tree.find('p').text()).to.equal('Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability. To apply for a disability increase, you’ll need to sign in and verify your account.');
-    global.sessionStorage = oldStorage;
+    conditionalStorage().clear();
   });
   it('should show authenticated increase guidance page', () => {
-    // mount is used for find, shallow is used for setState    
-    const oldStorage = global.sessionStorage;
-    global.sessionStorage = { userToken: 'abcdefg' };
+    // mount is used for find, shallow is used for setState
+    conditionalStorage().setItem('userToken', 'abcdefg');
 
     const tree = mount(
       shallow(
@@ -135,12 +134,11 @@ describe('<DisabilityWizard>', () => {
     tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
     expect(tree.text()).to.contain('Verify Your Identity »');
     expect(tree.find('p').at(0).text()).to.contain('Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.');
-    global.sessionStorage = oldStorage;
+    conditionalStorage().clear();
   });
   it('should show authenticated and verified increase guidance page', () => {
-    // mount is used for find, shallow is used for setState    
-    const oldStorage = global.sessionStorage;
-    global.sessionStorage = { userToken: 'abcdefg' };
+    // mount is used for find, shallow is used for setState
+    conditionalStorage().setItem('userToken', 'abcdefg');
 
     const tree = mount(
       shallow(
@@ -152,6 +150,6 @@ describe('<DisabilityWizard>', () => {
     tree.setProps({ user: { profile: { verified: true } } });
     expect(tree.text()).to.contain('Apply for Claim for Increase »');
     expect(tree.find('p').at(0).text()).to.contain('Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.');
-    global.sessionStorage = oldStorage;
+    conditionalStorage().clear();
   });
 });

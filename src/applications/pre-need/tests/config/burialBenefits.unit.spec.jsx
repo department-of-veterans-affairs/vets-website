@@ -3,14 +3,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, fillData, selectRadio } from '../../../../platform/testing/unit/schemaform-utils';
+import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 import formConfig from '../../config/form';
 
 let fetchMock;
 let oldFetch;
 
 const mockFetch = () => {
-  global.sessionStorage = { userToken: '1234' };
+  conditionalStorage().setItem('userToken', '1234');
   oldFetch = global.fetch;
   fetchMock = sinon.stub();
   global.fetch = fetchMock;
@@ -39,6 +40,7 @@ const mockFetch = () => {
 
 const unMockFetch = () => {
   global.fetch = oldFetch;
+  conditionalStorage().clear();
 };
 
 describe('Pre-need burial benefits', () => {

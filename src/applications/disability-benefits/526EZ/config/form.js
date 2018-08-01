@@ -27,6 +27,11 @@ import {
   schema as paymentInfoSchema
 } from '../pages/paymentInfo';
 
+import {
+  uiSchema as reservesNationalGuardUISchema,
+  schema as reservesNationalGuardSchema
+} from '../pages/reservesNationalGuardService';
+
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
 import {
@@ -55,7 +60,9 @@ import {
   queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
-  editNote
+  editNote,
+  hasGuardOrReservePeriod,
+  disabilitiesClarification
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -65,7 +72,9 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 const {
   treatments: treatmentsSchema,
   // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
-  serviceInformation,
+  serviceInformation: {
+    properties: { servicePeriods }
+  },
   standardClaim,
   veteran: {
     properties: {
@@ -187,20 +196,7 @@ const formConfig = {
                   'Service start date',
                   'Service end date',
                   'End of service must be after start of service'
-                ),
-                dischargeType: {
-                  'ui:title': 'Character of discharge',
-                  'ui:options': {
-                    labels: {
-                      honorable: 'Honorable',
-                      general: 'General',
-                      other: 'Other Than Honorable',
-                      'bad-conduct': 'Bad Conduct',
-                      dishonorable: 'Dishonorable',
-                      undesirable: 'Undesirable'
-                    }
-                  }
-                }
+                )
               }
             },
             'view:militaryHistoryNote': {
@@ -210,13 +206,20 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              servicePeriods: serviceInformation.properties.servicePeriods,
+              servicePeriods,
               'view:militaryHistoryNote': {
                 type: 'object',
                 properties: {}
               }
             }
           }
+        },
+        reservesNationalGuardService: {
+          title: 'Reserves and National Guard Service',
+          path: 'review-veteran-details/military-service-history/reserves-national-guard',
+          depends: hasGuardOrReservePeriod,
+          uiSchema: reservesNationalGuardUISchema,
+          schema: reservesNationalGuardSchema
         },
         paymentInformation: {
           title: 'Payment Information',
@@ -311,12 +314,19 @@ const formConfig = {
                 widgetClassNames: 'widget-outline',
                 keepInPageOnReview: true
               }
+            },
+            'view:disabilitiesClarification': {
+              'ui:description': disabilitiesClarification
             }
           },
           schema: {
             type: 'object',
             properties: {
-              disabilities
+              disabilities,
+              'view:disabilitiesClarification': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }

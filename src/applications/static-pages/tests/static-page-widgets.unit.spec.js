@@ -12,14 +12,12 @@ describe('static page widget', () => {
     };
 
     document.body.insertAdjacentHTML('beforeend', '<div id="testRoot"></div>');
-    global.sessionStorage = {
-      userToken: 'asdfafd'
-    };
     mountWidgets([widget]);
 
     expect(document.querySelector('#testRoot .loading-indicator')).to.not.be.null;
     expect(document.querySelector('#testRoot .loading-indicator-message').textContent).to.equal(widget.loadingMessage);
   });
+
   it('should replace loading message with slow loading message', (done) => {
     const widget = {
       root: 'testRoot',
@@ -31,10 +29,6 @@ describe('static page widget', () => {
     };
 
     document.body.insertAdjacentHTML('beforeend', '<div id="testRoot"></div>');
-    global.sessionStorage = {
-      userToken: 'asdfafd'
-    };
-
     mountWidgets([widget]);
 
     setTimeout(() => {
@@ -42,6 +36,7 @@ describe('static page widget', () => {
       done();
     }, 600);
   });
+
   it('should show error message after timing out', (done) => {
     const widget = {
       root: 'testRoot',
@@ -52,10 +47,6 @@ describe('static page widget', () => {
     };
 
     document.body.insertAdjacentHTML('beforeend', '<div id="testRoot"></div>');
-    global.sessionStorage = {
-      userToken: 'asdfafd'
-    };
-
     mountWidgets([widget]);
 
     setTimeout(() => {
@@ -63,6 +54,7 @@ describe('static page widget', () => {
       done();
     }, 600);
   });
+
   it('should not show error message if content replaced by React', (done) => {
     const widget = {
       root: 'testRoot',
@@ -73,10 +65,6 @@ describe('static page widget', () => {
     };
 
     document.body.insertAdjacentHTML('beforeend', '<div id="testRoot"></div>');
-    global.sessionStorage = {
-      userToken: 'asdfafd'
-    };
-
     mountWidgets([widget]);
 
     document.querySelector('#testRoot').innerHTML = '';

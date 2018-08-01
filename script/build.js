@@ -127,7 +127,6 @@ if (options.buildtype === 'production') {
   });
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
-  ignoreList.push('education/opt-out-information-sharing.md');
   ignoreList.push('education/complaint-tool.md');
   ignoreList.push('disability-benefits/apply/form-526-disability-claim.md');
 }

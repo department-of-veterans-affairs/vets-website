@@ -18,7 +18,7 @@ describe('complaint tool benefits info', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(11);
   });
 
   it('should not submit without required information', () => {
