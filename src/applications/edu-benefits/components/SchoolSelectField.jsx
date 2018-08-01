@@ -36,6 +36,10 @@ export class SchoolSelectField extends React.Component {
       150);
   }
 
+  componentWillUnmount() {
+    this.debouncedSearchInstitutions.cancel();
+  }
+
   scrollToTop = () => {
     scroller.scrollTo('schoolSearch', {
       duration: 250,
