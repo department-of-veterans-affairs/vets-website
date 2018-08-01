@@ -30,31 +30,37 @@ crosslinks:
     - url: https://www.vets.gov/life-insurance/
       title: Life Insurance
       description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: https://iris.custhelp.va.gov/app/ask
-      title: Ask a Question Online
-    - url: 1-800-827-1000
-      title: VA Benefits Hotline
-    - url: 1-877-827-3702
-      title: VA Loan Service Representatives
-    - url: 1-877-4AID-VET (1-877-424-3838)
-      title: National Call Center for Homeless Veterans
 social:
-  - heading: Get Updates
-    links:
-    - url: "https://twitter.com/VAVetBenefits"
-      label: Veterans Benefits Twitter
-      icon: fa-twitter
-    - url: "https://www.facebook.com/VeteransBenefits"
-      label: Veterans Benefits Facebook
-      icon: fa-facebook
-    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-      label: Veterans Benefits YouTube
-      icon: fa-youtube
-    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
-      label: Email Updates
+  - heading: Connect With Us
+    admin: Veterans Benefits Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: 1-800-827-1000
+          title: "VA Benefits Hotline:"
+        - url: 1-877-827-3702
+          title: "VA Loan Service Representatives:"
+        - url: 1-877-4AID-VET (1-877-424-3838)
+          title: "National Call Center for Homeless Veterans:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+          label: Veterans Benefits Email Updates
+          icon:
+        - url: https://twitter.com/VAVetBenefits
+          label: Veterans Benefits Twitter
+          icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransBenefits"
+          label: Veterans Benefits Facebook
+          icon: fa-facebook
+        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+          label: Veterans Benefits YouTube
+          icon: fa-youtube  
+
+
 ---
 <p class="va-introtext">
 VA housing assistance can help Servicemembers, Veterans, and their surviving spouses to buy a home or refinance a loan. We also offer benefits and services to help you build, repair, or keep your current home. This includes grants for Veterans with service-connected disabilities who need to adapt their home to live as independently as possible. Find out how to apply for and manage the Veterans housing assistance benefits you've earned.</p>
@@ -71,7 +77,7 @@ VA housing assistance can help Servicemembers, Veterans, and their surviving spo
       <div class="expander-content-inner usa-alert-text">
 
 We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.
-  
+
 **Find the support you need:**
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
@@ -79,7 +85,7 @@ We offer many programs and services that may help—including free health care a
 [Find the nearest VA medical center](https://www.vets.gov/facilities).
 
 **Talk with someone right now:**
- 
+
 Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
 [Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
 
@@ -118,7 +124,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
     <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>How to Apply for Your Certificate of Eligibility</b></a>
     <p>Get instructions for how to apply for your VA home loan Certificate of Eligibility (COE)—and what to do next depending on your loan type.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"><b>Apply Online for Your COE (VA Form 26-1880)</b></a>
     <p>Start your online application now.</p>
@@ -138,7 +144,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
     <a href="https://www.benefits.va.gov/homeloans/resources_veteran.asp"><b>Home Buying Process for Veterans</b></a>
     <p>Watch a video and get more information about using your VA home loan benefit to buy a home.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.benefits.va.gov/homeloans/purchaseco_loan_fee.asp"><b>VA Loan Funding Fee</b></a>
     <p>Find out if you'll need to pay this fee when using your home loan benefits.</p>
