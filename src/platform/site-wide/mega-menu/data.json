@@ -10,27 +10,27 @@
                         "links": [
                             {
                                 "text": "About VA Health Benefits",
-                                "href": "/health-care/about-va-health-care/"
+                                "href": "#"
                             },
                             {
                                 "text": "Eligibility",
-                                "href": "/health-care/eligibility"
+                                "href": "#"
                             },
                             {
                                 "text": "How to Apply",
-                                "href": "/health-care/apply"
+                                "href": "#"
                             },
                             {
                                 "text": "Family and Caregiver Health Benefits",
-                                "href": "/health-care/family-caregiver-health-benefits"
+                                "href": "#"
                             },
                             {
                                 "text": "Apply Now for Health Care",
-                                "href": "/health-care/apply-for-health-care-form-10-10ez/"
+                                "href": "#"
                             },
                             {
                                 "text": "Apply for Health Care",
-                                "href": "/health-care/apply/application/introduction"
+                                "href": "#"
                             }
                         ]
                     },
@@ -39,23 +39,23 @@
                         "links": [
                             {
                                 "text": "Refill and Track Your Prescriptions",
-                                "href": "/health-care/prescriptions"
+                                "href": "#"
                             },
                             {
                                 "text": "Send a Secure Message to Your Health Care Team",
-                                "href": "/health-care/secure-messaging"
+                                "href": "#"
                             },
                             {
                                 "text": "Schedule and View VA Appointments",
-                                "href": "/health-care/va-appointments"
+                                "href": "#"
                             },
                             {
                                 "text": "View Your Test and Lab Results",
-                                "href": "/health-care/test-and-lab-results"
+                                "href": "#"
                             },
                             {
                                 "text": "Order Hearing Aid Batteries or Prosthetic Socks",
-                                "href": "/health-care/order-hearing-aid-batteries-prosthetic-socks"
+                                "href": "#"
                             }
                         ]
                     },
@@ -72,7 +72,7 @@
                     },
                     "seeAllLink": {
                       "text": "Health Care",
-                      "href": "/health-care/"
+                      "href": "/healthcare/"
                     }
                 }
             },
@@ -84,19 +84,19 @@
                         "links": [
                             {
                                 "text": "Eligibility",
-                                "href": "/disability-benefits/eligibility/"
+                                "href": "#"
                             },
                             {
-                                "text": "Application Process",
-                                "href": "/disability-benefits/apply/"
+                                "text": "How to File a Claim",
+                                "href": "#"
                             },
                             {
-                                "text": "After You Apply",
-                                "href": "/disability-benefits/after-you-apply/"
+                                "text": "Survivor and Dependent Compensation (DIC)",
+                                "href": "#"
                             },
                             {
-                                "text": "Apply for Disability Compensation",
-                                "href": "ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
+                                "text": "File a Claim for Disability Compensation",
+                                "href": "#"
                             }
                         ]
                     },
@@ -104,49 +104,37 @@
                         "title": "Manage Your Disability Benefits",
                         "links": [
                             {
-                                "text": "Track Your Claims and Appeals",
-                                "href": "/track-claims"
+                                "text": "Check Your Claim or Appeal Status",
+                                "href": "#"
+                            },
+                            {
+                                "text": "Apply for an Increase in Your Disability Pay",
+                                "href": "#"
                             },
                             {
                                 "text": "File an Appeal",
-                                "href": "/disability-benefits/claims-appeal/"
+                                "href": "#"
                             },
                             {
                                 "text": "Add or Remove a Dependent",
-                                "href": "ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"
+                                "href": "#"
                             },
                             {
-                                "text": "Upload Documents for a Submitted Claim",
-                                "href": "ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"
-                            },
-                            {
-                                "text": "Update Your Direct Deposit and Contact Information",
-                                "href": "ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
-                            },
-                            {
-                                "text": "Request a Representative for VA Claims",
-                                "href": "ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative"
-                            },
-                            {
-                                "text": "Share Your VA Health Records",
-                                "href": "ebenefits.va.gov/ebenefits/vapii"
-                            },
-                            {
-                                "text": "Print Your Benefit Summary Letter",
-                                "href": "/download-va-letters/"
+                                "text": "Upload Evidence to Support Your Claim",
+                                "href": "#"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
                             "src": "http://via.placeholder.com/228x128",
-                            "alt": "Placeholder"
+                            "alt": "Decision Ready Claims"
                         },
                         "link": {
-                            "text": "Learn About the Veterans Choice Program",
+                            "text": "Decision Ready Claims (DRC) Program",
                             "href": "#"
                         },
-                        "description": "the Veterans Choice Program allows you to receive health care within your community"
+                        "description": "Find out if you can use the DRC program to get a decision on your disability claim in 30 days or less."
                     },
                     "seeAllLink": {
                       "text": "Disability",
@@ -162,31 +150,27 @@
                         "links": [
                             {
                                 "text": "About GI Bill Benefits",
-                                "href": "/education/gi-bill/"
+                                "href": "#"
                             },
                             {
-                                "text": "Eligibility",
-                                "href": "/education/eligibility/"
+                                "text": "How to Apply",
+                                "href": "#"
                             },
                             {
-                                "text": "Application Process",
-                                "href": "/education/after-you-apply/"
-                            },
-                            {
-                                "text": "Vocational Rehabilitation & Employment",
-                                "href": "/employment/vocational-rehab-and-employment/"
+                                "text": "Vocational Rehabilitation and Employment",
+                                "href": "#"
                             },
                             {
                                 "text": "Survivor and Dependent Education Benefits",
                                 "href": "#"
                             },
                             {
-                                "text": "Other Education Assistance Programs",
-                                "href": "/education/other-educational-assistance-programs/"
+                                "text": "Survivor and Dependent Education Benefits",
+                                "href": "#"
                             },
                             {
-                                "text": "Apply for GI Bill Benefits",
-                                "href": "/education/apply/"
+                                "text": "Apply Now for GI Bill Benefits",
+                                "href": "#"
                             }
                         ]
                     },
@@ -195,44 +179,36 @@
                         "links": [
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
-                            },
-                            {
-                                "text": "Check Your Post-9/11 GI Bill Benefits",
-                                "href": "/education/gi-bill/post-9-11/ch-33-benefit"
-                            },
-                            {
-                                "text": "Transfer Your Post-9/11 GI Bill Benefits",
-                                "href": "/education/gi-bill/transfer/"
-                            },
-                            {
-                                "text": "Make a Change to Your Current GI Bill Benefits",
-                                "href": "/education/apply/"
-                            },
-                            {
-                                "text": "Update Your Direct Deposit Information",
                                 "href": "#"
                             },
                             {
-                                "text": "Track Your Education Benefits Eligibility Appeal Status",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"
+                                "text": "Check Your Post-9/11 GI Bill Benefits",
+                                "href": "#"
                             },
                             {
-                                "text": "File an Appeal",
+                                "text": "Transfer Your Post-9/11 GI Bill Benefits",
+                                "href": "#"
+                            },
+                            {
+                                "text": "Change Your GI Bill School or Program",
+                                "href": "#"
+                            },
+                            {
+                                "text": "Update Your Direct Deposit Information",
                                 "href": "#"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
-                            "src": "http://via.placeholder.com/228x128",
-                            "alt": "Placeholder"
+                            "src": "#",
+                            "alt": "GI Bill School Feedback"
                         },
                         "link": {
-                            "text": "Learn About the Veterans Choice Program",
+                            "text": "GI Bill® School Feedback Tool",
                             "href": "#"
                         },
-                        "description": "the Veterans Choice Program allows you to receive health care within your community"
+                        "description": "Find out how to give us feedback about your GI Bill school."
                     },
                     "seeAllLink": {
                       "text": "Education",
@@ -248,31 +224,19 @@
                         "links": [
                             {
                                 "text": "About Vocational Rehabilitation and Employment",
-                                "href": "/employment/vocational-rehab-and-employment/"
+                                "href": "#"
                             },
                             {
                                 "text": "Eligibility",
-                                "href": "/employment/vocational-rehab-and-employment/eligibility/"
-                            },
-                            {
-                                "text": "Application Process",
-                                "href": "/employment/vocational-rehab-and-employment/apply-vre/"
-                            },
-                            {
-                                "text": "Education and Career Counseling",
-                                "href": "/education/tools-programs/education-career-counseling/"
-                            },
-                            {
-                                "text": "Support for Veteran-Owned Small Businesses",
-                                "href": "/employment/job-seekers/register-your-business/"
+                                "href": "#"
                             },
                             {
                                 "text": "Resources for Family Members",
-                                "href": "/employment/job-seekers/family-members/"
+                                "href": "#"
                             },
                             {
-                                "text": "Apply for Vocational Rehabilitation and Employment",
-                                "href": "http://ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"
+                                "text": "Apply Now for Voc Rehab",
+                                "href": "#"
                             }
                         ]
                     },
@@ -280,25 +244,33 @@
                         "title": "Manage Your Career",
                         "links": [
                             {
+                                "text": "Transitioning to Civilian Employment",
+                                "href": "#"
+                            },
+                            {
+                                "text": "Take a Skill Assessment with CareerScope",
+                                "href": "#"
+                            },
+                            {
                                 "text": "Find a Job",
                                 "href": "https://dol.gov/veterans/findajob/"
                             },
                             {
-                                "text": "Build Your Resume",
-                                "href": "/employment/job-seekers/create-resume"
+                                "text": "Print Your Civil Service Preference Letter",
+                                "href": "https://ebenefits.va.gov/ebenefits/manage/documents"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
                             "src": "http://via.placeholder.com/228x128",
-                            "alt": "Placeholder"
+                            "alt": "VA for Vets"
                         },
                         "link": {
-                            "text": "Learn About the Veterans Choice Program",
-                            "href": "#"
+                            "text": "VA for Vets",
+                            "href": "https://www.vaforvets.va.gov/"
                         },
-                        "description": "the Veterans Choice Program allows you to receive health care within your community"
+                        "description": "Get help transitioning to a civilian career and matching your skills and experiences to VA job opportunities."
                     },
                     "seeAllLink": {
                       "text": "Careers and Employment",
@@ -314,23 +286,23 @@
                         "links": [
                             {
                                 "text": "Eligibility",
-                                "href": "/pension/eligibility/"
+                                "href": "#"
                             },
                             {
-                                "text": "Application Process",
-                                "href": "/pension/apply/"
+                                "text": "How to Apply",
+                                "href": "#"
                             },
                             {
                                 "text": "Aid and Attendance or Housebound Allowance",
-                                "href": "/pension/aid-attendance-housebound/"
+                                "href": "#"
                             },
                             {
-                                "text": "Survivor Pension",
-                                "href": "/pension/survivors-pension/"
+                                "text": "Survivors Pension",
+                                "href": "#"
                             },
                             {
-                                "text": "Apply for Veteran Pension",
-                                "href": "/pension/apply/"
+                                "text": "Apply Now for a Veteran Pension",
+                                "href": "#"
                             }
                         ]
                     },
@@ -338,33 +310,33 @@
                         "title": "Manage Your Pension Benefits",
                         "links": [
                             {
-                                "text": "Track Your Claim Status",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"
+                                "text": "Check Your Claim or Appeal Status",
+                                "href": ""
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
+                                "href": "#"
                             },
                             {
-                                "text": "Track Your Appeal Status",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"
+                                "text": "File an Appeal",
+                                "href": "#"
                             },
                             {
-                                "text": "Update Your Direct Deposit and Contact Information",
-                                "href": "https://ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
+                                "text": "Change Your Direct Deposit or Contact Information",
+                                "href": "#"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
                             "src": "http://via.placeholder.com/228x128",
-                            "alt": "Placeholder"
+                            "alt": "Electronic Pension Payments"
                         },
                         "link": {
-                            "text": "Learn About the Veterans Choice Program",
-                            "href": "#"
+                            "text": "Get Your Pension Payments Electronically",
+                            "href": "https://www.godirect.gov/gpw"
                         },
-                        "description": "the Veterans Choice Program allows you to receive health care within your community"
+                        "description": "Sign up for direct deposit or a pre-paid debit card."
                     },
                     "seeAllLink": {
                       "text": "Pension",
@@ -376,23 +348,23 @@
                 "title": "Housing Assistance",
                 "links": {
                     "columnOne": {
-                        "title": "Get A VA Home Loan",
+                        "title": "Get Home Loan Benefits",
                         "links": [
                             {
-                                "text": "VA Backed Home Loan Options",
-                                "href": "/housing-assistance/home-loans/loan-options/"
+                                "text": "About VA Backed Home Loan Options",
+                                "href": "#"
                             },
                             {
                                 "text": "Eligibility",
-                                "href": "/housing-assistance/home-loans/eligibility/"
+                                "href": "#"
                             },
                             {
-                                "text": "Apply for a Home Loan COE",
-                                "href": "/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"
+                                "text": "Check Your Appeal Status",
+                                "href": "#"
                             },
                             {
-                                "text": "Track Your Housing Appeal Status",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"
+                                "text": "Apply Now for a COE",
+                                "href": "#"
                             }
                         ]
                     },
@@ -400,29 +372,29 @@
                         "title": "Get Adapted Housing Assistance",
                         "links": [
                             {
-                                "text": "Housing Grants for Disabled Veterans",
-                                "href": "/housing-assistance/adaptive-housing-grants/"
-                            },
-                            {
-                                "text": "Apply for Specially Adapted Housing",
+                                "text": "About Disability Housing Grants",
                                 "href": "#"
                             },
                             {
-                                "text": "Track Your Specially Adapted Housing Claim Status",
-                                "href": "https://ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant"
+                                "text": "Check Your SAH Claim Status",
+                                "href": "#"
+                            },
+                            {
+                                "text": "Apply Now for a SAH Grant",
+                                "href": "#"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
                             "src": "http://via.placeholder.com/228x128",
-                            "alt": "Placeholder"
+                            "alt": "National Call Center for Homeless Veterans"
                         },
                         "link": {
-                            "text": "Learn About the Veterans Choice Program",
-                            "href": "#"
+                            "text": "National Call Center for Homeless Veterans",
+                            "href": "https://www.va.gov/homeless/nationalcallcenter.asp"
                         },
-                        "description": "the Veterans Choice Program allows you to receive health care within your community"
+                        "description": "Find out how we can help you or a Veteran you care about connect with VA and local resources 24 hours a day, 7 days a week."
                     },
                     "seeAllLink": {
                       "text": "Housing Assistance",
@@ -437,16 +409,16 @@
                         "title": "Get Life Insurance",
                         "links": [
                             {
-                                "text": "Life Insurance Options and Eligibility",
-                                "href": "/life-insurance/options-and-eligibility/"
+                                "text": "About Life Insurance Options and Eligibility",
+                                "href": "#"
                             },
                             {
                                 "text": "Benefits for Totally Disabled or Terminally Ill Policyholders",
-                                "href": "/life-insurance/disabled-and-terminally-ill/"
+                                "href": "#"
                             },
                             {
                                 "text": "Beneficiary Financial Counseling and Online Will Preparation",
-                                "href": "https://benefits.va.gov/insurance/bfcs.asp"
+                                "href": "#"
                             }
                         ]
                     },
@@ -455,32 +427,32 @@
                         "links": [
                             {
                                 "text": "Mange Your Policy",
-                                "href": "https://www.vets.gov/life-insurance/manage-your-policy/"
+                                "href": "#"
                             },
                             {
                                 "text": "Update Your Beneficiaries",
-                                "href": "https://benefits.va.gov/INSURANCE/updatebene.asp"
+                                "href": "#"
                             },
                             {
-                                "text": "File a Claim",
-                                "href": "https://benefits.va.gov/INSURANCE/sglivgli.asp"
+                                "text": "File a Claim for Insurance Benefits",
+                                "href": "#"
                             },
                             {
-                                "text": "Track Your Life Insurance Eligibility Appeal Status",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"
+                                "text": "Track Your Appeal Status",
+                                "href": "#"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
                             "src": "http://via.placeholder.com/228x128",
-                            "alt": "Placeholder"
+                            "alt": "SGLI Online Enrollment System (SOES)"
                         },
                         "link": {
-                            "text": "Learn About the Veterans Choice Program",
-                            "href": "#"
+                            "text": "SGLI Online Enrollment System (SOES)",
+                            "href": "https://www.benefits.va.gov/INSURANCE/SOES.asp"
                         },
-                        "description": "the Veterans Choice Program allows you to receive health care within your community"
+                        "description": "Learn about our new online enrollment system for Servicemembers' Group Life Insurance."
                     },
                     "seeAllLink": {
                       "text": "Life Insurance",
@@ -492,39 +464,27 @@
                 "title": "Burials and Memorials",
                 "links": {
                     "columnOne": {
-                        "title": "Get Burial and Memorial  Benefits",
+                        "title": "Get Burial Benefits",
                         "links": [
                             {
                                 "text": "Eligibility",
-                                "href": "/burials-and-memorials/eligibility/"
+                                "href": "#"
                             },
                             {
                                 "text": "Pre-Need Burial Eligibility Determination",
-                                "href": "/burials-and-memorials/pre-need/"
+                                "href": "#"
                             },
                             {
-                                "text": "Burial Allowances",
-                                "href": "/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"
+                                "text": "Veteran Burial Allowance",
+                                "href": "#"
+                            },
+                            {
+                                "text": "Memorial Items",
+                                "href": "#"
                             },
                             {
                                 "text": "Survivor and Dependent Compensation (DIC)",
-                                "href": "/burials-and-memorials/survivor-and-dependent-benefits/compensation/"
-                            },
-                            {
-                                "text": "Headstones, Markers and Medallions",
-                                "href": "/burials-and-memorials/honor/headstones-markers-medallions/"
-                            },
-                            {
-                                "text": "Burial Flags",
-                                "href": "/burials-and-memorials/honor/flags-and-memorial-certificates/"
-                            },
-                            {
-                                "text": "Presidential Memorial Certificates",
-                                "href": "/burials-and-memorials/honor/flags-and-memorial-certificates/"
-                            },
-                            {
-                                "text": "Bereavement Counseling",
-                                "href": "/burials-and-memorials/bereavement-counseling/"
+                                "href": "#"
                             }
                         ]
                     },
@@ -533,40 +493,32 @@
                         "links": [
                             {
                                 "text": "Plan a Burial for a Family Member",
-                                "href": "/burials-and-memorials/burial-planning/"
+                                "href": "#"
                             },
                             {
                                 "text": "Schedule a Burial in a VA National Cemetery",
-                                "href": "https://www.cem.va.gov/cem/burial_benefits/need.asp"
-                            },
-                            {
-                                "text": "Replace Medals and Awards",
-                                "href": "https://www.cem.va.gov/recmed_records.asp"
-                            },
-                            {
-                                "text": "Find Historical Military Records",
-                                "href": "/burials-and-memorials/burial-planning/"
+                                "href": "#"
                             },
                             {
                                 "text": "Find a Cemetery",
-                                "href": "/facilities"
+                                "href": "#"
                             },
                             {
-                                "text": "Find a Gravesite",
-                                "href": "https://m.va.gov/gravelocator/index.cfm"
+                                "text": "Request Military Records",
+                                "href": "#"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
                             "src": "http://via.placeholder.com/228x128",
-                            "alt": "Placeholder"
+                            "alt": "National Cemetery Administration Mobile Site"
                         },
                         "link": {
-                            "text": "Learn About the Veterans Choice Program",
-                            "href": "#"
+                            "text": "National Cemetery Administration Mobile Site",
+                            "href": "https://m.va.gov/"
                         },
-                        "description": "the Veterans Choice Program allows you to receive health care within your community"
+                        "description": "Locate a grave, search for national cemeteries, and find benefits information and resources from your mobile phone or tablet."
                     },
                     "seeAllLink": {
                       "text": "Burials and Memorials",
@@ -578,52 +530,57 @@
                 "title": "Records",
                 "links": {
                     "columnOne": {
-                        "title": "Get Records Benefits",
+                        "title": "Get Your Records",
                         "links": [
                             {
-                                "text": "Request Your Military Personnel File (DD-214)",
-                                "href": "https://ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"
+                                "text": "Apply for a Veteran ID Card",
+                                "href": "#"
                             },
                             {
                                 "text": "Get Your VA Health Records (Blue Button)",
-                                "href": "https://www.myhealth.va.gov/mhv-portal-web/download-my-data"
-                            },
-                            {
-                                "text": "Share Your VA Health Records",
-                                "href": "https://ebenefits.va.gov/ebenefits/vapii"
+                                "href": "#"
                             },
                             {
                                 "text": "Download Your VA Letters",
-                                "href": "/download-va-letters/"
+                                "href": "#"
                             },
                             {
-                                "text": "Request a Home Loan COE",
-                                "href": "/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"
+                                "text": "Apply for a Home Loan COE",
+                                "href": "#"
+                            }
+                        ]
+                    },
+                    "columnTwo": {
+                        "title": "",
+                        "links": [
+                            {
+                                "text": "Request Your Military Records (DD-214)",
+                                "href": "#"
                             },
                             {
                                 "text": "How to Apply for a Discharge Upgrade",
-                                "href": "/discharge-upgrade-instructions/"
+                                "href": "#"
                             },
                             {
-                                "text": "Find Historical Records (National Archives)",
-                                "href": "https://cem.va.gov/recmed_records.asp"
+                                "text": "View Your VA Payment History",
+                                "href": "#"
                             },
                             {
-                                "text": "Apply for a Veteran ID Card",
-                                "href": "https://www.vets.gov/veteran-id-card/"
+                                "text": "Search Historical Records (National Archives)",
+                                "href": "https://www.archives.gov/"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
                             "src": "http://via.placeholder.com/228x128",
-                            "alt": "Placeholder"
+                            "alt": "Veteran ID Card"
                         },
                         "link": {
-                            "text": "Learn About the Veterans Choice Program",
+                            "text": "Veteran ID Card",
                             "href": "#"
                         },
-                        "description": "the Veterans Choice Program allows you to receive health care within your community"
+                        "description": "Apply for your Veteran ID Card to get Veteran discounts on goods and services."
                     }
                 }
             }
