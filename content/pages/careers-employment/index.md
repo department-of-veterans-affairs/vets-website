@@ -31,7 +31,7 @@ crosslinks:
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -67,9 +67,11 @@ We can support you in all stages of your job search—from returning to work wit
 
 <h3>On This Page</h3>
 
-[Get Career and Employment Assistance](#get)<br>
-[Manage Your Career](#manage)<br>
-[More Information and Resources](#more)<br>
+<ul>
+  <li><a href="#get">Get Career and Employment Assistance</a></li>
+  <li><a href="#manage">Manage Your Career</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
