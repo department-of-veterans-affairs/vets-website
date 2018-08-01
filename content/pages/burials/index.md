@@ -23,31 +23,35 @@ crosslinks:
     - url: "https://benefits.va.gov/fiduciary/"
       title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-800-535-1117
-      title: VA National Cemetery Scheduling Office
-    - url: 1-800-697-6947
-      title: Status of Headstones and Markers    
-    - url: 1-800-827-1000
-      title: VA Benefits and Services
-    - url: https://iris.custhelp.va.gov/app/ask
-      title: Submit Questions Online
 social:
-  - heading: Get Updates
-    links:
-    - url: "https://www.facebook.com/NationalCemeteries"
-      label: National Cemeteries Facebook
-      icon: fa-facebook
-    - url: "https://twitter.com/VANatCemeteries"
-      label: National Cemeteries Twitter
-      icon: fa-twitter    
-    - url: "https://www.youtube.com/watch?v=4MhXfpNSHzs&list=PL7897A1FCC5516DDE"
-      label: National Cemeteries YouTube
-      icon: fa-youtube      
-    - url: "https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify"
-      label: Email Updates
+  - heading: Connect with Us
+    admin: Veterans Benefits Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: 1-800-535-1117
+          title: "National Cemetery Scheduling Office:"
+        - url: 1-800-697-6947
+          title: "Headstones and Markers:"
+        - url: 1-800-827-1000
+          title: "VA Benefits Hotline:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify
+          label: National Cemeteries Email Updates
+          icon:
+        - url: https://twitter.com/VANatCemeteries
+          label: National Cemeteries Twitter
+          icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransBenefits"
+          label: National Cemeteries Facebook
+          icon: fa-facebook
+        - url: "https://www.youtube.com/watch?v=4MhXfpNSHzs&list=PL7897A1FCC5516DDE"
+          label: National Cemeteries YouTube
+          icon: fa-youtube  
 ---
 
 <p class="va-introtext">
@@ -125,7 +129,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Request Military Records</b></a>
+    <a href="#"><b>Request Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
