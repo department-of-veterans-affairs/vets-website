@@ -10,7 +10,7 @@ order: 1
 icon: handshake
 promo:
   - image: /img/megamenu/disability-illustration.png
-    heading: Decision Ready Claims Program
+    heading: Decision Ready Claims (DRC) Program
     url: "https://www.vets.gov/disability-benefits/apply/evidence/decision-ready-claims/"
     description: Find out if you can use the DRC program to get a decision on your claim in 30 days or less.
 crosslinks:
@@ -98,12 +98,12 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You File Your Claim</b></a>
+    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You Submit Your Claim</b></a>
     <p>Find out what happens after you file for VA disability compensation, how long it takes us to make a decision, and what to do if you disagree.</p>
   </div>
 
   <div class="link">
-    <a href="vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Dependency and Indemnity Compensation (VA DIC)</b></a>
+    <a href="vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for Surviving Spouse and Dependents (VA DIC) </b></a>
     <p>Learn about getting VA disability benefits for a surviving spouse and dependent children.</p>
   </div>
 
@@ -123,7 +123,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
     </div>
 
   <div class="link">
-    <a href="https://vets.gov/track-claims"><b>Apply for a VA Disability Increase</b></a>
+    <a href="#"><b>Apply for a VA Disability Increase</b></a>
     <p>If your service-connected disability has gotten worse, find out how to file a claim to increase your disability rating.</p>
     </div>
 
@@ -133,37 +133,37 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"><b>Add or Remove a Dependent</b></a>
+    <a href="#"><b>Add or Remove a Dependent</b></a>
     <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits. Also learn how to remove a dependent from your benefits.</p>
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Upload Evidence to Support Your Claim</b></a>
+    <a href="#"><b>Upload Evidence to Support Your Claim</b></a>
     <p>Send us evidence (like doctor's reports, medical test results, or service records) to help support your open disability claim.</p>
 </div>
 
   <div class="link">
-    <a href=""><b>File Supplemental Forms</b></a>
+    <a href="#"><b>File Supplemental Forms For Certain Claims</b></a>
     <p>Find out if you'll need to turn in any additional forms to support your disability claim.</p>
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <a href="#"><b>Change Your VA Direct Deposit and Contact Information</b></a>
     <p>Find out how to change your direct deposit information online.</p>
   </div>
 
  <div class="link">
-    <a href=""><b>Share Your VA Medical Records</b></a>
+    <a href="#"><b>Share Your VA Medical Records</b></a>
     <p>Set up your personal health record and download reports to share with your VA and non-VA doctors.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/download-va-letters/"><b>Get a Copy of Your VA Benefits Award or Eligibility Letter</b></a>
+    <a href="#"><b>Get a Copy of Your VA Benefits Award or Eligibility Letter</b></a>
     <p>Download a copy of your eligibility or award letter for certain benefits.</p>
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Disability Payments History</b></a>
+    <a href="#"><b>View Your VA Disability Payments History</b></a>
     <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
   </div>
 
@@ -178,23 +178,28 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>More Information and Resources</h2>
 
  <div class="link">
-    <a href="#"><b>About VA Disability Ratings</b></a>
+    <a href="vets.gov/disability-benefits/eligibility/ratings/"><b>About VA Disability Ratings</b></a>
     <p>Learn how we assign disability ratings and effective dates, and what to do after you get your rating.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>View VA Disability Compensation Rates</b></a>
+    <a href="benefits.va.gov/compensation/resources_comp01.asp"><b>View VA Disability Compensation Rates</b></a>
     <p>See the Veterans compensation benefits rates tables to find your rate based on your disability rating and dependents.</p>
   </div>
 
+ <div class="link">
+    <a href="https://www.vets.gov/disability-benefits/after-you-apply/VA-claim-exam/"><b>VA Claim Exam (C&P Exam)</b></a>
+    <p>Find out why you might need a claim exam, how to schedule and prepare for your appointment, and what to expect during and after the exam.</p>
+  </div>
+
   <div class="link">
-    <a href="#"><b>Get Help Filing a Claim</b></a>
+    <a href="https://www.vets.gov/disability-benefits/apply/help/"><b>Get Help Filing a Claim</b></a>
   <p>Connect with a Veterans Service Organization (VSO) or accredited Veterans representative for help applying for benefits.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Download VA Disability Benefits Questionnaires (VA DBQs)</b></a>
-    <p>Find and download the right questionnaire for your health care provider to complete in support of your claim.</p>
+    <a href="benefits.va.gov/compensation/dbq_disabilityexams.asp"><b>Download VA DBQ Forms</b></a>
+    <p>Find and download the right disability benefits questionnaire for your health care provider to complete in support of your claim.</p>
   </div>
 
 </section>
