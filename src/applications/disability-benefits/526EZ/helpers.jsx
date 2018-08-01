@@ -109,8 +109,21 @@ export function transformDisabilities(disabilities = []) {
     // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
     //  it gets here and we can't tell whether it is service connected or not. This happens in
     //  the api
-    .filter(disability => disability.ratingPercentage || disability.ratingPercentage === 0)
-    .map(disability => set('disabilityActionType', 'INCREASE', disability));
+    .filter(disability => {
+      if (disability.ratingPercentage || disability.ratingPercentage === 0) {
+        return true;
+      }
+
+      // TODO: Only log it if the decision code indicates the condition is not non-service-connected
+      const { decisionCode } = disability;
+      if (decisionCode) {
+        Raven.captureMessage('526_increase_disability_filter', {
+          extra: { decisionCode }
+        });
+      }
+
+      return false;
+    }).map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
 
