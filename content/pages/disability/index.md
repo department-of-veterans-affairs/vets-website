@@ -31,7 +31,7 @@ crosslinks:
     - url:  https://www.vets.gov/pension/aid-attendance-housebound/
       title: <b>Aid and Attendance or Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
- social:
+social:
   - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
