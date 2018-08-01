@@ -22,10 +22,6 @@ import {
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
-import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
-
-const DASHBOARD_URL = dashboardManifest.rootUrl;
-
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 export class Main extends React.Component {
@@ -42,9 +38,17 @@ export class Main extends React.Component {
 
   componentDidUpdate() {
     const { currentlyLoggedIn, showLoginModal } = this.props;
-    const shouldCloseLoginModal = currentlyLoggedIn && showLoginModal;
+    const nextParam = this.getRedirectUrl();
 
-    if (currentlyLoggedIn) this.executeRedirect();
+    const shouldRedirect =
+      currentlyLoggedIn && nextParam && !window.location.pathname.includes('verify');
+
+    if (shouldRedirect) {
+      const redirectPath = nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
+      window.location.replace(redirectPath);
+    }
+
+    const shouldCloseLoginModal = currentlyLoggedIn && showLoginModal;
 
     if (shouldCloseLoginModal) { this.props.toggleLoginModal(false); }
   }
@@ -54,35 +58,10 @@ export class Main extends React.Component {
   }
 
   setToken = (event) => {
-    if (event.data === sessionStorage.userToken) {
-      this.executeRedirect();
-      this.props.initializeProfile();
-    }
+    if (event.data === sessionStorage.userToken) { this.props.initializeProfile(); }
   }
 
-  getNextParameter() {
-    const nextParam = (new URLSearchParams(window.location.search)).get('next');
-    if (nextParam) {
-      return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
-    }
-    return false;
-  }
-
-  getRedirectUrl = () => {
-    const nextParam = this.getNextParameter();
-    if (nextParam) return nextParam;
-
-    return window.location.pathname === '/' && DASHBOARD_URL;
-  };
-
-  executeRedirect() {
-    const redirectUrl = this.getRedirectUrl();
-    const shouldRedirect = redirectUrl && !window.location.pathname.includes('verify');
-
-    if (shouldRedirect) {
-      window.location.replace(redirectUrl);
-    }
-  }
+  getRedirectUrl = () => (new URLSearchParams(window.location.search)).get('next');
 
   bindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
@@ -107,7 +86,7 @@ export class Main extends React.Component {
   checkTokenStatus = () => {
     if (!sessionStorage.userToken) {
       this.props.updateLoggedInStatus(false);
-      if (this.getNextParameter()) { this.props.toggleLoginModal(true); }
+      if (this.getRedirectUrl()) { this.props.toggleLoginModal(true); }
     } else {
       this.props.initializeProfile();
     }

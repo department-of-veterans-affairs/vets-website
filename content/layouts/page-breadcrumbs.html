@@ -1,8 +1,4 @@
-{% if mergedbuild %}
-  {% include "content/includes/merger-header.html" %}
-{% else %}
-  {% include "content/includes/header.html" %}
-{% endif %}
+{% include "content/includes/header.html" %}
 
 {% if gibsAlert %}
   {% include "content/includes/gibs-down.html" %}
@@ -21,19 +17,13 @@
 
     {% when 'topic-landing' %}
       {% include "content/includes/topic-landing.html" %}
-
     {% if mergerbuild %}
-      {% include "content/includes/level2-merger.html" %}
+      {% when 'level2-merger' %}
+        {% include "content/includes/level2-merger.html" %}
     {% endif %}
-
   {% else %}
     {{ contents }}
   {% endcase %}
 
 </div>
-
-{% if mergedbuild %}
-  {% include "content/includes/merger-footer.html" %}
-{% else %}
-  {% include "content/includes/footer.html" %}
-{% endif %}
+{% include "content/includes/footer.html" %}

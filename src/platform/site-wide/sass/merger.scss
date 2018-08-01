@@ -37,6 +37,7 @@ article {
 }
 
 #mega-menu {
+
   #vetnav-menu, #vetnav {
     margin-top: 0;
   }
@@ -103,12 +104,13 @@ article {
   padding-bottom: 3em;
 
   #hub-internal {
-    width: 64%;
+
+    width: 53%;
 
     h2 {
       color: $color-white;
       text-align: center;
-      margin-bottom: 1.5em;
+      margin-bottom: 2em;
     }
 
     .usa-grid:first-of-type {
@@ -124,22 +126,6 @@ article {
       background-color: $color-white;
       padding: 1.5em 0 1.5em 1.5em;
     }
-  }
-}
-
-.va-modal-close {
-  .fa {
-    color: $color-black;
-  }
-}
-
-#hub-internal {
-  .header-title-1 {
-    font-size: 35px;
-  }
-
-  .header-title-2 {
-    font-size: 20px;
   }
 }
 
@@ -306,6 +292,7 @@ h3, h4 {
       padding-bottom: 0;
     }
   }
+
 }
 
 .usa-grid {
@@ -420,101 +407,5 @@ h3, h4 {
   // internal static-pages
   #promo {
     display: none;
-  }
-}
-
-.merger-healthcare-title {
-  &> * {
-    vertical-align: middle;
-    display: inline-block;
-  }
-
-  h1 {
-    margin: 0;
-  }
-
-  .fa {
-    margin-right: 15px;
-  }
-}
-
-.grid-one-third {
-  display: inline-block;
-  width: 33%;
-  vertical-align: top;
-  margin-top: 83px;
-  padding-left: 25px;
-}
-
-.grid-two-third {
-  display: inline-block;
-  width: 66%;
-}
-
-.merger-marketing-section {
-  padding: 15px;
-  background-color: $light-blue;
-}
-
-.merger-contact-section {
-  margin-top: 20px;
-  border: 2px solid $color-gray-light-alt;
-
-  .section-title {
-    font-size: 1.5em;
-    font-weight: bold;
-    background-color: $color-gray-light-alt;
-    padding: 20px;
-  }
-
-  .section-sub-title {
-    font-size: 1.2em;
-    font-weight: bold;
-
-    &.second {
-      margin-top: 25px;
-    }
-  }
-
-  .second-container {
-    a {
-      color: $color-primary;
-      display: block;
-    }
-
-    .fa {
-      color: $color-primary;
-      display: inline-block;
-      vertical-align: middle;
-    }
-  }
-
-  .section-content-container {
-    padding: 20px;
-
-    p, a {
-      margin-left: 10px;
-    }
-  }
-
-  .section-contact-label {
-    font-weight: bold;
-  }
-
-  p {
-    line-height: 1.0;
-  }
-}
-
-.other-benefits {
-  background-color: $color-gray-light-alt;
-  padding: 20px;
-  margin-bottom: 60px;
-  margin-top: 40px;
-
-  h3 {
-    margin-top: 0;
-    padding-bottom: 20px;
-    border-bottom: 1px solid $color-gray-light;
   }
 }

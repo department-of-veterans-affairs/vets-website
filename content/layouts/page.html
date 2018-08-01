@@ -1,15 +1,5 @@
-{% if mergedbuild %}
-  {% include "content/includes/merger-header.html" %}
-{% else %}
-  {% include "content/includes/header.html" %}
-{% endif %}
-
+{% include "content/includes/header.html" %}
 <div id="content" class="{{ page.id }}">
-  {{ contents }}
+  {{ contents }} 
 </div><!-- /content -->
-
-{% if mergedbuild %}
-  {% include "content/includes/merger-footer.html" %}
-{% else %}
-  {% include "content/includes/footer.html" %}
-{% endif %}
+{% include "content/includes/footer.html" %}

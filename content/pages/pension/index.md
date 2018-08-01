@@ -1,40 +1,166 @@
 ---
 layout: page-breadcrumbs.html
-template: level2-index
-title: Pension Benefits
-permalink: /pension/index.html
-widgets:
-  - root: react-applicationStatus
-    timeout: 20
-    loadingMessage: Checking your application status.
-    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
-majorlinks:
-  - heading:
+template: level2-merger
+title: VA Pension Benefits
+display_title: Pension
+lastupdate:
+order: 1
+icon: money
+promo:
+  - image: /img/megamenu/pension-illustration.png
+    heading: Get Your Pension Payments Electronically
+    url: "https://www.godirect.gov/gpw"
+    description: Sign up for direct deposit or a pre-paid debit card.
+crosslinks:
+  - heading: Other VA Benefits and Services
     links:
-    - url: /pension/eligibility/
-      title: Eligibility
-      description: Find out if you can get monthly payments through our Veterans Pension program.
-    - url: /pension/apply/
-      title: How to Apply for a Veterans Pension
-      description: You can apply online, by mail, or in person.
-    - url: /pension/aid-attendance-housebound/
-      title: Aid and Attendance or Housebound Allowance
-      description: Find out if you can get added pension benefits as a Veteran or survivor.
-    - url: /pension/survivors-pension/
-      title: How to Apply for a Survivors Pension
-      description: Find out if you’re eligible and how to apply for a survivors pension as a surviving spouse or child of a deceased Veteran with wartime service.
-    - url: /pension/rates/
-      title: Veterans Pension Rates
-      description: Find out how much you qualify for.
-    - url: /pension/pension-management-center/
-      title: Pension Management Centers
-      description: Find the location that serves you and your family.
+    - url: https://www.vets.gov/health-care
+      title: <b>VA Health Care</b>
+      description: Find out how to apply for and manage your VA health care benefits.
+    - url: https://www.vets.gov/housing-assistance/adaptive-housing-grants/
+      title: <b>Disability Housing Grants for Veterans</b>
+      description: Learn how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
+    - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
+      title: <b>Vocational Rehabilitation and Employment</b>
+      description: Find out if you're eligible for help exploring employment options, any training you may need, and other voc rehab services.
+    - url: https://www.vets.gov/families-caregivers/
+      title: <b>Family and Caregiver Health Benefits</b>
+      description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
+    - url: https://www.vets.gov/life-insurance/
+      title: <b>Life Insurance</b>
+      description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
+contact:
+  - heading: Ask Questions
+    links:
+    - url: 1-800-827-1000
+      title: Questions about Your VA Benefits and Direct Deposit
+    - url: 1-877-294-6380
+      title: Support if You're Currently Receiving VA Pension Benefits
+    - url: 1-800-983-0937
+      title: eBenefits Technical Support
+    - url: 1-877-4AID-VET (1-877-424-3838)
+      title: National Call Center for Homeless Veterans
+    - url: https://iris.custhelp.va.gov/app/ask
+      title: Ask Us a Question Online
+social:
+  - heading: Get Updates
+    links:
+    - url: "https://twitter.com/VAVetBenefits"
+      label: Veterans Benefits Twitter
+    - url: "https://www.facebook.com/VeteransBenefits"
+      label: Veterans Benefits Facebook
+    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+      label: Veterans Benefits YouTube
+    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
+      label: Email Updates
 ---
 
-<div class="va-introtext">
+<p class="va-introtext">
+VA pension benefits provide tax-free monthly payments to wartime Veterans with limited or no income who meet certain age or disability requirements. Survivors of wartime Veterans may also qualify for a VA pension. Find out how to apply for and manage the pension benefits you've earned.
+</p>
 
-If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. If you’re a survivor of a wartime Veteran, you may also qualify for monthly payments if your income and net worth are within certain limits. Find out if you can get this tax-free benefit.
+<h3 class="highlight">On This Page</h3>
 
-</div>
+[Get Pension Benefits](#get)<br>
+[Manage Your Pension Benefits](#manage)<br>
+[More Information and Resources](#more)<br>
 
-<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
+<section id="get" class="merger-majorlinks">
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+  <h2 class>Get Pension Benefits</h2>
+
+  <div class="link">
+    <a href="https://www.vets.gov/pension/eligibility/"><b>Veterans Pension Eligibility</b></a>
+    <p>See if you qualify for VA pension benefits as a Veteran.
+  </div>
+
+  <div class="link">
+    <a href="https://www.vets.gov/pension/apply/"><b>How to Apply for a VA Pension as a Veteran</b></a>
+    <p>Find out how to prepare and apply for a VA Veterans pension.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.vets.gov/pension/application/527EZ/introduction"><b>Apply for a Veterans Pension Online (VA Form 21P-527EZ)</b></a>
+    <p>Complete your application online now.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.vets.gov/pension/aid-attendance-housebound/"><b>VA Aid and Attendance or Housebound Allowance Benefits</b></a>
+    <p>If you need help with daily activities or you're housebound, find out how to apply for extra VA pension benefits.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.vets.gov/pension/survivors-pension/"><b>VA Survivors Pension</b></a>
+    <p>Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.</p>
+  </div>
+
+</section>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+<section id="manage" class="merger-majorlinks">
+
+  <h2>Manage Your Pension Benefits</h2>
+
+  <div class="link">
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Check Your VA Claim or Appeal Status</b></a>
+    <p>Check the status of an open claim for VA disability compensation or pension benefits. If you're a surviving spouse or parent, you can view your Dependency and Indemnity Compensation (DIC) claim status.</p>
+    </div>
+
+  <div class="link">
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
+    <p>Check the status of your VA disability, pension, and education payments. You can also see certain survivor benefits.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.vets.gov/disability-benefits/claims-appeal/"><b>File an Appeal</b></a>
+    <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <p>Find out how to change your VA disability direct deposit information online.</p>
+  </div>
+
+</section>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+<section id="more" class="merger-majorlinks">
+
+  <h2>More Information and Resources</h2>
+
+  <div class="link">
+    <a href="https://www.vets.gov/pension/rates/"><b>VA Pension Rates for Veterans</b></a>
+    <p>View VA pension rates for Veterans, including aid and attendance and housebound rates.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.vets.gov/pension/survivors-pension/rates/"><b>Rates for VA Survivors Pension Benefits</b></a>
+    <p>View pension rates for surviving spouses and children.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.benefits.va.gov/PENSION/current_protected_pension_rate_tables.asp"><b>Protected Pension Rates</b></a>
+    <p>View protected pension rates for section 306 and old law VA disability and death pension benefits.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.vets.gov/disability-benefits/after-you-apply/VA-claim-exam/"><b>VA Claim Exam (C&P Exam)</b></a>
+    <p>Find out how to schedule your VA claim exam and what to expect during and after the appointment.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.vets.gov/pension/pension-management-center/"><b>Find Your VA Pension Management Center</b></a>
+    <p>Find your regional pension management center to mail or fax your VA pension application.</p>
+  </div>
+
+</section>

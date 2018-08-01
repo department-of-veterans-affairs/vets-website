@@ -14,7 +14,12 @@ function NewBadge() {
 
 class PersonalizationDropdown extends React.Component {
   componentDidMount() {
-    document.addEventListener('click', this.checkLink);
+    // If when this component is mounted the user is on the index page without the "next" parameter in the URL...
+    if (window.location.pathname === '/' && !window.location.search) {
+      document.location.href = dashboardLink;
+    } else {
+      document.addEventListener('click', this.checkLink);
+    }
   }
 
   componentWillUnmount() {
