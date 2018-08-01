@@ -99,7 +99,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://https://www.vets.gov/employment/vocational-rehab-and-employment/"><b>Vocational Rehabilitation and Employment</b></a>
+    <a href="https://vets.gov/employment/vocational-rehab-and-employment/"><b>Vocational Rehabilitation and Employment</b></a>
     <p>See if you qualify for help exploring employment options, any training you may need, and other voc rehab services.</p>
   </div>
 
@@ -120,7 +120,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 <section id="manage" class="merger-majorlinks">
 
-  <h2'>Manage Your Veterans Education Benefits</h2>
+  <h2>Manage Your Veterans Education Benefits</h2>
 
   <div class="link">
     <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
@@ -163,7 +163,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://"><b>Opt Out of Information Sharing with Schools</b></a>
+    <a href="https://vets.gov/education/opt-out-information-sharing"><b>Opt Out of Information Sharing with Schools</b></a>
     <p>Find out how to opt out of sharing your VA education eligibility and benefits information with schools.</p>
   </div>
 
