@@ -105,12 +105,12 @@ article {
 
   #hub-internal {
 
-    width: 53%;
+    width: 64%;
 
     h2 {
       color: $color-white;
       text-align: center;
-      margin-bottom: 2em;
+      margin-bottom: 1.5em;
     }
 
     .usa-grid:first-of-type {
@@ -125,7 +125,20 @@ article {
     .usa-width-one-half {
       background-color: $color-white;
       padding: 1.5em 0 1.5em 1.5em;
+
+      li {
+        padding: 0;
+      }
     }
+  }
+}
+
+#hub-internal {
+  .header-title-1 {
+    font-size: 35px;
+  }
+   .header-title-2 {
+    font-size: 20px;
   }
 }
 
