@@ -45,11 +45,13 @@ social:
     links:
     - url: "https://www.facebook.com/VeteransBenefits"
       label: Veterans Benefits Facebook
-   - url: "https://twitter.com/VAVetBenefits"
+      icon: fa-facebook
+    - url: "https://twitter.com/VAVetBenefits"
       label: Veterans Benefits Twitter
       icon: fa-twitter
-   - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
       label: Veterans Benefits YouTube
+      icon: fa-youtube
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
       label: Email Updates
 ---
