@@ -73,7 +73,6 @@ With VA health care, you’re covered for regular checkups with your primary car
   <li><a href="#manage">Manage Your Health and Benefits</a></li>
   <li><a href="#more">More Information and Resources</a></li>
 </ul>
-
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
     <h4 class="usa-alert-title">How do I get help if I'm homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">We may be able to help</a>.</h4>
@@ -86,7 +85,7 @@ We offer many programs and services that may help—including free health care a
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
 - **Contact your nearest VA medical center** and ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager. <br>
-[Find the nearest VA medical center](https://www.vets.gov/facilities/).
+[Find the nearest VA medical center](https://www.vets.gov/facilities).
 
 **Talk with someone right now:**
  
