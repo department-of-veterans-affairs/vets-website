@@ -61,7 +61,7 @@ export class SchoolSelectField extends React.Component {
 
   handleSearchInputChange = e => {
     let searchInputValue;
-    if (typeof (e) === 'string') {
+    if (typeof e === 'string') {
       searchInputValue = e;
     } else {
       searchInputValue = e.target.value;
