@@ -16,19 +16,19 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: /disability]
-      title: Disability Compensation (Pay)
+      title: <b>Disability Compensation (Pay)</b>
       description: Find out how to file a claim for compensation for conditions related to your military service.
     - url: /pension/
-      title: Pension Benefits
+      title: <b>Pension Benefits</b>
       description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
     - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
-      title: Vocational Rehabilitation and Employment
+      title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url: https://www.vets.gov/families-caregivers/
-      title: Family and Caregiver Benefits
+      title: <b>Family and Caregiver Benefits</b>
       description: Learn about benefits for spouses, dependents, and caregivers of Veterans and Servicemembers.
     - url: /life-insurance/
-      title: Life Insurance
+      title: <b>Life Insurance</b>
       description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
 contact:
   - heading: Ask Questions
