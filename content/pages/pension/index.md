@@ -154,7 +154,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/compensation/claimexam.asp"><b>VA Claim Exam (C&P Exam)</b></a>
+    <a href="https://www.vets.gov/disability-benefits/after-you-apply/VA-claim-exam/"><b>VA Claim Exam (C&P Exam)</b></a>
     <p>Find out how to schedule your VA claim exam and what to expect during and after the appointment.</p>
   </div>
 
