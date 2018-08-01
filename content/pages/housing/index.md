@@ -15,7 +15,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: https://va.gov/disability
+    - url: https://www.vets.gov/disability
       title: Disability Compensation (Pay)
       description: Find out how to file a claim for compensation for conditions related to your military service.
     - url: https://www.vets.gov/pension/
@@ -24,7 +24,7 @@ crosslinks:
     - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url: https://va.gov/families-caregivers
+    - url: https://www.vets.gov/families-caregivers/
       title: Family and Caregiver Benefits
       description: Learn about benefits for spouses, dependents, and caregivers of Veterans and Servicemembers.
     - url: https://www.vets.gov/life-insurance/
