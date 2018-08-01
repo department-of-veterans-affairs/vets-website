@@ -20,7 +20,9 @@ const scrollToTop = () => {
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    recordEvent({ event: 'edu-opt-out-submission-successful' });
+    if (this.props.form.submission.response) {
+      recordEvent({ event: 'edu-opt-out-submission-successful' });
+    }
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }
