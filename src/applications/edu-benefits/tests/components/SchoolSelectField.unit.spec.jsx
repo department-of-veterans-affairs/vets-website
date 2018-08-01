@@ -143,7 +143,7 @@ describe('<SchoolSelectField>', () => {
     }, 200);
   });
 
-  it('call select institution when institution selected', () => {
+  it('should call selectInstitution prop when institution selected', () => {
     const selectInstitution = sinon.spy();
     const onChange = sinon.spy();
     const institutions = [{
@@ -171,5 +171,27 @@ describe('<SchoolSelectField>', () => {
     tree.find('#radio-buttons-0').first().simulate('change');
     expect(onChange.firstCall.args[0]).to.eql('test');
     expect(selectInstitution.firstCall.args[0]).to.eql(institutions[0]);
+  });
+
+  it('should call setCannoFindSchool prop when manual entry link clicked', () => {
+    const setCannotFindSchool = sinon.spy();
+    const tree = mount(<SchoolSelectField
+      formContext={{}}
+      currentPageNumber={1}
+      institutionQuery="test"
+      institutions={[]}
+      pagesCount={2}
+      searchInputValue="test"
+      searchResultsCount={1}
+      setCannotFindSchool={setCannotFindSchool}
+      showInstitutions={false}
+      showInstitutionsLoading={false}
+      showNoResultsFound
+      showPagination={false}
+      showPaginationLoading={false}/>
+    );
+
+    tree.find('.no-results-box a').first().simulate('click');
+    expect(setCannotFindSchool.calledOnce).to.eql(true);
   });
 });

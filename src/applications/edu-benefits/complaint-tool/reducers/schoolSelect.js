@@ -64,7 +64,7 @@ export default function schoolSearch(state = initialState, action) {
         return { city, country, facilityCode, name, state: institutionState, zip };
       });
       const pagesCount = Math.ceil(searchResultsCount / 10);
-      const showInstitutions = true;
+      const showInstitutions = institutions.length > 0;
       const showInstitutionsLoading = false;
       const showNoResultsFound = institutions.length < 1;
       const showPagination = pagesCount > 1;
