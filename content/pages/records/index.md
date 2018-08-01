@@ -47,9 +47,13 @@ social:
 Access your VA records and documents online to manage your health and benefits.
 </p>
 
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
 <section id="get" class="merger-majorlinks">
 
-  <h2 class="highlight">Get Your Records and Documents</h2>
+  <h2>Get Your Records and Documents</h2>
 
   <div class="link">
     <a href=#><b>Apply for a Veteran ID Card</b></a>
