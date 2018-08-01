@@ -71,7 +71,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <div class="va-h-ruled--stars"></div>
 </section>
 
-  <h2 class="highlight">Get Pension Benefits</h2>
+  <h2 class>Get Pension Benefits</h2>
 
   <div class="link">
     <a href="https://www.vets.gov/pension/eligibility/"><b>Veterans Pension Eligibility</b></a>
@@ -136,7 +136,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
 
 <section id="more" class="merger-majorlinks">
 
-  <h2 class='highlight'>More Information and Resources</h2>
+  <h2>More Information and Resources</h2>
 
   <div class="link">
     <a href="https://www.vets.gov/pension/rates/"><b>VA Pension Rates for Veterans</b></a>
