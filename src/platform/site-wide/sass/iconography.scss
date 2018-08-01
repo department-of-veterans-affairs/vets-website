@@ -39,6 +39,18 @@ h1, h3, h4 {
     }
   }
 
+  &.icon-x-large {
+    font-size: 25px;
+    height: 45px;
+    width: 45px;
+
+    &::before {
+      position: absolute;
+      margin-top: 8.5px;
+      margin-left: 10.47px;
+    }
+  }
+
   &.icon-small {
     height: 32px;
     width: 32px;

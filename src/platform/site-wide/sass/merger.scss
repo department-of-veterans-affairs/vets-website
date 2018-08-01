@@ -37,7 +37,6 @@ article {
 }
 
 #mega-menu {
-
   #vetnav-menu, #vetnav {
     margin-top: 0;
   }
@@ -125,6 +124,12 @@ article {
       background-color: $color-white;
       padding: 1.5em 0 1.5em 1.5em;
     }
+  }
+}
+
+.va-modal-close {
+  .fa {
+    color: $color-black;
   }
 }
 
@@ -415,5 +420,20 @@ h3, h4 {
   // internal static-pages
   #promo {
     display: none;
+  }
+}
+
+.merger-healthcare-title {
+  &> * {
+    vertical-align: middle;
+    display: inline-block;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  .fa {
+    margin-right: 15px;
   }
 }

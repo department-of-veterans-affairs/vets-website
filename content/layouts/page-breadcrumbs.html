@@ -1,4 +1,8 @@
-{% include "content/includes/header.html" %}
+{% if mergedbuild %}
+  {% include "content/includes/merger-header.html" %}
+{% else %}
+  {% include "content/includes/header.html" %}
+{% endif %}
 
 {% if gibsAlert %}
   {% include "content/includes/gibs-down.html" %}
@@ -28,4 +32,9 @@
   {% endcase %}
 
 </div>
-{% include "content/includes/footer.html" %}
+
+{% if mergedbuild %}
+  {% include "content/includes/merger-footer.html" %}
+{% else %}
+  {% include "content/includes/footer.html" %}
+{% endif %}

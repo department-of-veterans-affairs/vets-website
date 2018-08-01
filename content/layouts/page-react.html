@@ -1,4 +1,8 @@
-{% include "content/includes/header.html" %}
+{% if mergedbuild %}
+  {% include "content/includes/merger-header.html" %}
+{% else %}
+  {% include "content/includes/header.html" %}
+{% endif %}
 
 {% if includeBreadcrumbs == true %}
   {% include "content/includes/breadcrumbs.html" %}
@@ -23,4 +27,9 @@
   {% endif %}
 </div>
 </div>
-{% include "content/includes/footer.html" %}
+
+{% if mergedbuild %}
+  {% include "content/includes/merger-footer.html" %}
+{% else %}
+  {% include "content/includes/footer.html" %}
+{% endif %}

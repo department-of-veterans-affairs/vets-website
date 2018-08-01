@@ -36,7 +36,10 @@ body.va-pos-fixed {
   width: 103%;
 
   // Just large enough to take precedence over any other dropdowns on the page and the VA Map
-  z-index: 1011;
+  // z-index: 1011;
+
+  // fix because nav still shows up when signin modal is up. Previous code was commented out above.
+  z-index: 2;
 
   &.vetnav--submenu-expanded {
     #vetnav-menu {

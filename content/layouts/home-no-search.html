@@ -1,5 +1,16 @@
-{% include "content/includes/header.html" search='false' %}
+{% if mergedbuild %}
+  {% include "content/includes/merger-header.html" search='false'%}
+{% else %}
+  {% include "content/includes/header.html" search='false'%}
+{% endif %}
+
 <div id="content">
   {{ contents }}
 </div>
+
+{% if mergedbuild %}
+  {% include "content/includes/merger-footer.html" %}
+{% else %}
+  {% include "content/includes/footer.html" %}
+{% endif %}
 {% include "content/includes/footer.html" %}
