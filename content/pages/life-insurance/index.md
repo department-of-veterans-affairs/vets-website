@@ -29,7 +29,7 @@ crosslinks:
       title: <b>VA Health Care</b>
       description: Find out how to apply for and manage your VA health care benefits.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -61,9 +61,11 @@ VA life insurance can offer financial security and support for Veterans, Service
 
 <h3>On This Page</h3>
 
-[Get VA Life Insurance](#get)<br>
-[Manage Your Policy and Benefits](#manage)<br>
-[More Information and Resources](#more)<br>
+<ul>
+  <li><a href="#get">Get VA Life Insurance</a></li>
+  <li><a href="#manage">Manage Your Policy and Benefits</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
