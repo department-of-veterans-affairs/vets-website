@@ -6,7 +6,7 @@ function mountWidgets(widgets) {
       var slowLoadingThreshold = (widget.slowLoadingThreshold || 6) * 1000;
       var slowMessage = widget.slowMessage || 'Sorry, this is taking longer than expected.';
 
-      if (!widget.showSpinnerUnauthed && sessionStorage.userToken) {
+      if (!widget.showSpinnerUnauthed) {
         root.innerHTML = '<div class="loading-indicator-container">' +
           '<div class="loading-indicator" role="progressbar" aria-valuetext="' + widget.loadingMessage + '"></div>' +
           '<span class="loading-indicator-message">' + widget.loadingMessage + '</span>' +
