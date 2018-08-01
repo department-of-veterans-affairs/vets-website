@@ -61,6 +61,11 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
+    <a href=#><b>Request Your Military Records (DD214)</b></a>
+    <p>View and print documents from your official military personnel file (including your DD214).</p>
+  </div>
+
+  <div class="link">
     <a href=#><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
     <p>Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p>
   </div>
@@ -73,11 +78,6 @@ Access your VA records and documents online to manage your health and benefits.
   <div class="link">
     <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>Apply for a VA Home Loan Certificate of Eligibility</b></a>
     <p>Apply for a Certificate of Eligibility (COE), which confirms for your lender that you qualify for a VA-backed home loan. Then choose your loan type to learn about the rest of the loan application process.</p>
-  </div>
-
-  <div class="link">
-    <a href=#><b>Request Your Military Records (DD214)</b></a>
-    <p>View and print documents from your official military personnel file (including your DD214).</p>
   </div>
 
   <div class="link">
