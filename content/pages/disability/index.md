@@ -37,31 +37,35 @@ crosslinks:
     - url: https://vets.gov/life-insurance/options-and-eligibility/sgli/#extension
       title: <b>SGLI Disability Extension</b>
       description: Learn about Servicemembers' Group Life Insurance extensions for Veterans with service-connected disabilities.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-800-827-1000
-      title: Questions about Disability Compensation, Pension, and Direct Deposit
-    - url: 1-800-983-0937
-      title: eBenefits Technical Support
-    - url: 1-800-749-8387
-      title: Special Issues (Gulf War/Agent Orange/Project Shad/Mustard Agents and Lewisite/Ionizing Radiation)
-    - url: 1-877-4AID-VET (1-877-424-3838)
-      title: National Call Center for Homeless Veterans
 social:
-  - heading: Get Updates
-    links:    
-    - url: "https://www.facebook.com/VeteransBenefits"
-      label: Veterans Benefits Facebook
-      icon: fa-facebook
-    - url: "https://twitter.com/VAVetBenefits"
-      label: Veterans Benefits Twitter
-      icon: fa-twitter
-    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-      label: Veterans Benefits Youtube
-      icon: fa-youtube
-    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
-      label: Email Updates
+  - heading: Connect with Us
+    admin: Veterans Benefits Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: 1-800-827-1000
+          title: "1-800-983-0937:"
+        - url: 1-877-827-3702
+          title: "eBenefits Technical Support:"
+        - url: 1-877-4AID-VET (1-877-424-3838)
+          title: "National Call Center for Homeless Veterans:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+          label: Veterans Benefits Email Updates
+          icon:
+        - url: https://twitter.com/VAVetBenefits
+          label: Veterans Benefits Twitter
+          icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransBenefits"
+          label: Veterans Benefits Facebook
+          icon: fa-facebook
+        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+          label: Veterans Benefits YouTube
+          icon: fa-youtube  
 ---
 
 <p class="va-introtext">
