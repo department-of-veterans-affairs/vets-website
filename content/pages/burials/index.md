@@ -15,13 +15,13 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: "https://vets.gov/pension/survivors-pension/"
-      title: Survivors Pension
+      title: <b>Survivors Pension</b>
       description: Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.
     - url: "https://benefits.va.gov/insurance/bfcs.asp"
-      title: Beneficiary Financial Counseling and Online Will Preparation
+      title: <b>Beneficiary Financial Counseling and Online Will Preparation</b>
       description: If you're enrolled in VA life insurance, find out if you can get free financial planning and online will preparation services.
     - url: "https://benefits.va.gov/fiduciary/"
-      title: Fiduciary Services
+      title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
 contact:
   - heading: Ask Questions
