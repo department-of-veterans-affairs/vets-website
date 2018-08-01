@@ -93,7 +93,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><b>File a Claim Online (VA Form 21-526EZ)</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><b>File a Claim Online (VA Form 21-526EZ)</b></a>
     <p>Start your VA disability claim online now.</p>
   </div>
 

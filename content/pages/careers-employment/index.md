@@ -118,9 +118,9 @@ We can support you in all stages of your job search—from returning to work wit
     <a href="https://vets.gov/employment/vocational-rehab-and-employment/apply-vre/"><b>How to Apply</b></a>
     <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
   </div>  
-   
+
   <div class="link">
-    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"><b>Apply Online for Vocational Rehab and Employment Benefits</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"><b>Apply Online for Vocational Rehab and Employment Benefits</b></a>
     <p>Start your online application now.</p>
   </div>
 
@@ -158,17 +158,17 @@ We can support you in all stages of your job search—from returning to work wit
     <a href="https://www.vets.gov/education/tools-programs/careerscope/"><b>Match Your Interests and Skills to a Career with a CareerScope Assessment</b></a>
     <p>Use this online tool to get recommendations for careers you may enjoy and succeed in, and training programs to help you get started.</p>
   </div>
-  
+
   <div class="link">
-    <a href="dol.gov/veterans/findajob/"><b>Find a Job (Department of Labor)</b></a>
+    <a href="https://dol.gov/veterans/findajob/"><b>Find a Job (Department of Labor)</b></a>
     <p>Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources./p>
   </div>
-  
+
   <div class="link">
-    <a href="ebenefits.va.gov/ebenefits/manage/documents"><b>Print Your Civil Service Preference Letter</b></a>
+    <a href="https://ebenefits.va.gov/ebenefits/manage/documents"><b>Print Your Civil Service Preference Letter</b></a>
     <p>Print your Civil Service Preference Letter to verify your hiring preference for federal jobs.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://linkedinforgood.linkedin.com/programs/veterans"><b>Get Free Classes for a Year (LinkedIn)</b></a>
     <p>Get 1 year of free access to LinkedIn Premium and LinkedIn Learning.</p>
