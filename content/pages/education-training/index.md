@@ -69,9 +69,11 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 <h3>On This Page</h3>
 
-[Get GI Bill and Other Education Benefits](#get)<br>
-[Manage Your Veterans Education Benefits](#manage)<br>
-[More Information and Resources](#more)<br>
+<ul>
+  <li><a href="#get">Get GI Bill and Other Education Benefits</a></li>
+  <li><a href="#manage">Manage Your Veterans Education Benefits</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
