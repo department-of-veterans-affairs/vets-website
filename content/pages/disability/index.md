@@ -31,13 +31,7 @@ crosslinks:
     - url:  https://www.vets.gov/pension/aid-attendance-housebound/
       title: <b>Aid and Attendance or Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
-    - url: https://vets.gov/life-insurance/options-and-eligibility/s-dvi/
-      title: <b>Service-Disabled Veteran's Insurance</b>
-      description: Find out if you qualify for S-DVI life insurance and how to manage your coverage.
-    - url: https://vets.gov/life-insurance/options-and-eligibility/sgli/#extension
-      title: <b>SGLI Disability Extension</b>
-      description: Learn about Servicemembers' Group Life Insurance extensions for Veterans with service-connected disabilities.
-social:
+ social:
   - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
@@ -74,9 +68,11 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 
 <h3>On This Page</h3>
 
-[Get VA Disability Compensation (Pay)](#get)<br>
-[Manage Your Veterans Disability Benefits](#manage)<br>
-[More Information and Resources](#more)<br>
+<ul>
+  <li><a href="#get">Get VA Disability Compensation (Pay)</a></li>
+  <li><a href="#manage">Manage Your Veterans Disability Benefits</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
