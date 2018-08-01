@@ -72,7 +72,7 @@
                     },
                     "seeAllLink": {
                       "text": "Health Care",
-                      "href": "/healthcare/"
+                      "href": "/health-care/"
                     }
                 }
             },
@@ -138,7 +138,7 @@
                     },
                     "seeAllLink": {
                       "text": "Disability",
-                      "href": "/disability-benefits/"
+                      "href": "/disability/"
                     }
                 }
             },
@@ -158,10 +158,6 @@
                             },
                             {
                                 "text": "Vocational Rehabilitation and Employment",
-                                "href": "#"
-                            },
-                            {
-                                "text": "Survivor and Dependent Education Benefits",
                                 "href": "#"
                             },
                             {
@@ -194,7 +190,7 @@
                                 "href": "#"
                             },
                             {
-                                "text": "Update Your Direct Deposit Information",
+                                "text": "Change Your Direct Deposit Information",
                                 "href": "#"
                             }
                         ]
@@ -227,15 +223,15 @@
                                 "href": "#"
                             },
                             {
-                                "text": "Eligibility",
+                                "text": "How to Apply",
                                 "href": "#"
                             },
                             {
-                                "text": "Resources for Family Members",
+                                "text": "Veteran-Owned Small Business Support",
                                 "href": "#"
                             },
                             {
-                                "text": "Apply Now for Voc Rehab",
+                                "text": "Apply Now for Vocational Rehab and Employment",
                                 "href": "#"
                             }
                         ]
@@ -245,10 +241,10 @@
                         "links": [
                             {
                                 "text": "Transitioning to Civilian Employment",
-                                "href": "#"
+                                "href": "https://www.benefits.va.gov/vocrehab/transitioning_from_service.asp"
                             },
                             {
-                                "text": "Take a Skill Assessment with CareerScope",
+                                "text": "CareerScope Assessment",
                                 "href": "#"
                             },
                             {
@@ -301,7 +297,7 @@
                                 "href": "#"
                             },
                             {
-                                "text": "Apply Now for a Veteran Pension",
+                                "text": "Apply Now for a Veterans Pension",
                                 "href": "#"
                             }
                         ]
@@ -322,7 +318,7 @@
                                 "href": "#"
                             },
                             {
-                                "text": "Change Your Direct Deposit or Contact Information",
+                                "text": "Change Your Direct Deposit and Contact Information",
                                 "href": "#"
                             }
                         ]
@@ -351,11 +347,11 @@
                         "title": "Get Home Loan Benefits",
                         "links": [
                             {
-                                "text": "About VA Backed Home Loan Options",
+                                "text": "About VA Home Loan Options",
                                 "href": "#"
                             },
                             {
-                                "text": "Eligibility",
+                                "text": "How to Apply for your COE",
                                 "href": "#"
                             },
                             {
@@ -369,7 +365,7 @@
                         ]
                     },
                     "columnTwo": {
-                        "title": "Get Adapted Housing Assistance",
+                        "title": "Get Adapted Housing Benefits",
                         "links": [
                             {
                                 "text": "About Disability Housing Grants",
@@ -409,7 +405,7 @@
                         "title": "Get Life Insurance",
                         "links": [
                             {
-                                "text": "About Life Insurance Options and Eligibility",
+                                "text": "About Life Insurance Options",
                                 "href": "#"
                             },
                             {
@@ -438,7 +434,7 @@
                                 "href": "#"
                             },
                             {
-                                "text": "Track Your Appeal Status",
+                                "text": "Check Your Appeal Status",
                                 "href": "#"
                             }
                         ]
@@ -522,7 +518,7 @@
                     },
                     "seeAllLink": {
                       "text": "Burials and Memorials",
-                      "href": "/burials-and-memorials/"
+                      "href": "/burials-memorials/"
                     }
                 }
             },
@@ -537,11 +533,11 @@
                                 "href": "#"
                             },
                             {
-                                "text": "Get Your VA Health Records (Blue Button)",
+                                "text": "Get Your VA Medical Records (Blue Button)",
                                 "href": "#"
                             },
                             {
-                                "text": "Download Your VA Letters",
+                                "text": "Download Your VA Benefit Letters",
                                 "href": "#"
                             },
                             {
@@ -551,10 +547,10 @@
                         ]
                     },
                     "columnTwo": {
-                        "title": "",
+                        "title": "  ",
                         "links": [
                             {
-                                "text": "Request Your Military Records (DD-214)",
+                                "text": "Request Your Military Records (DD214)",
                                 "href": "#"
                             },
                             {
@@ -566,7 +562,7 @@
                                 "href": "#"
                             },
                             {
-                                "text": "Search Historical Records (National Archives)",
+                                "text": "Search Historical Military Records (National Archives)",
                                 "href": "https://www.archives.gov/"
                             }
                         ]
@@ -581,6 +577,10 @@
                             "href": "#"
                         },
                         "description": "Apply for your Veteran ID Card to get Veteran discounts on goods and services."
+                    },
+                    "seeAllLink": {
+                      "text": "Records",
+                      "href": "/records/"
                     }
                 }
             }
@@ -590,7 +590,7 @@
         "title": "About VA",
         "menuSections": {
           "mainColumn": {
-              "title": "Inside VA",
+              "title": "VA Organizations",
               "links": [
                   {
                       "text": "Veterans Health Administration",
@@ -601,7 +601,7 @@
                       "href": "https://benefits.va.gov/benefits/"
                   },
                   {
-                      "text": "National Cemetary Administration",
+                      "text": "National Cemetery Administration",
                       "href": "https://cem.va.gov"
                   },
                   {
@@ -675,6 +675,10 @@
                       "href": "https://va.gov/about_va/vahistory.asp"
                   },
                   {
+                      "text": "VA Plans, Budget, and Performance",
+                      "href": "https://va.gov/performance/"
+                  },
+                  {
                       "text": "National Cemetery History Program",
                       "href": "https://cem.va.gov/cem/history/index.asp"
                   },
@@ -691,13 +695,13 @@
           "columnThree": {
               "img": {
                   "src": "http://via.placeholder.com/228x128",
-                  "alt": "Place Holder Image"
+                  "alt": "The VAntage Point Blog"
               },
               "link": {
-                  "text": "Learn About the Veterans Choice Program",
-                  "href": "#"
+                  "text": "The VAntage Point Blog",
+                  "href": "https://www.blogs.va.gov/VAntage/"
               },
-              "description": "the Veterans Choice Program allows you to receive health care within your community"
+              "description": "Stay up to date on VA benefits, services, and programs."
           }
       }
     },
