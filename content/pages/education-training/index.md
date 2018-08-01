@@ -125,12 +125,12 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>Manage Your Veterans Education Benefits</h2>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
+    <a href="#"><b>View Your VA Payment History</b></a>
     <p>See your payment history for VA education and other benefits you may have like disability compensation and pension.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/gi-bill/post-9-11/ch-33-benefit"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
+    <a href="#"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
     <p>See how much of your GI Bill benefits you have left to help pay for school or training.</p>
   </div>
 
@@ -140,27 +140,27 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/apply/"><b>Change Your GI Bill School or Program</b></a>
+    <a href="#"><b>Change Your GI Bill School or Program</b></a>
     <p>Request a change to use a different GI Bill program or to transfer your benefits to a new school or training program.</p>
   </div>
 
   <div class="link">
-    <a href="https://"><b>Change Your VA Direct Deposit Information</b></a>
+    <a href="#"><b>Change Your VA Direct Deposit Information</b></a>
     <p>Find out how to change your GI Bill direct deposit and contact information.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your VA Claim Status</b></a>
+    <a href="#"><b>Check Your VA Claim Status</b></a>
     <p>Track the status of your VA education benefits claim or appeal.</p>
   </div>
 
   <div class="link">
-    <a href="https://"><b>File an Appeal</b></a>
+    <a href="#"><b>File an Appeal</b></a>
     <p>If you disagree with our decision on your application, learn how to file an appeal and what to expect from the VA appeal process.</p>
   </div>
 
   <div class="link">
-    <a href="https://"><b>Apply to Restore Your GI Bill Benefits</b></a>
+    <a href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"><b>Apply to Restore Your GI Bill Benefits</b></a>
     <p>If your school closed or your program ended because of a change in VA regulations or a new law, apply to have your GI Bill benefits restored.</p>
   </div>
 
@@ -195,7 +195,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/education/tools-programs/careerscope/"><b>CareerScope</b></a>
+    <a href="https://www.vets.gov/education/tools-programs/careerscope/"><b>CareerScope Assessment</b></a>
     <p>Get a CareerScope assessment to help you figure out your career path when transitioning to civilian life.</p>
   </div>
 
@@ -205,12 +205,28 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://"><b>VA Education Forms and Resources</b></a>
+    <a href="https://www.benefits.va.gov/gibill/contact_us.asp"><b>GI Bill Questions and Customer Help</b></a>
+    <p>Contact us to ask questions and get help with your benefits online or by phone.</p>
+  </div>  
+ 
+  <div class="link">
+    <a href="https://www.benefits.va.gov/GIBILL/Feedback.asp"><b>GI Bill School Feedback Tool</b></a>
+    <p>Find out how to give us feedback about your GI Bill school.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.benefits.va.gov/gibill/handouts_forms.asp"><b>Education Forms and Resources</b></a>
     <p>Download VA education benefits forms, fact sheets, and other resources.</p>
   </div>
 
   <div class="link">
-    <a href="https://"><b>Ask GI Bill Questions Online</b></a>
-    <p>Visit our GI Bill Customer Help site to ask questions and get answers within 4 to 5 working days.
+    <a href="https://www.benefits.va.gov/gibill/my_story.asp"><b>My Story—How Veterans and Servicemembers Use the GI Bill</b></a>
+    <p>Hear inspiring stories from Veterans and Servicemembers who’ve advanced their education and training with the Post-9/11 GI Bill.</p>
   </div>
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/gibill/non_va_resources.asp"><b>Other Helpful Education Resources</b></a>
+    <p>Get links to non-VA resources and websites that may be useful to student Veterans and those who support them.</p>
+  </div>
+
 </section>
