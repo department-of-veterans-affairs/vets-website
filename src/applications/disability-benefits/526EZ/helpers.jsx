@@ -2,6 +2,7 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -20,7 +21,8 @@ import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL
+  VA_FORM4142_URL,
+  RESERVE_GUARD_TYPES
 } from './constants';
 
 
@@ -55,6 +57,50 @@ const setPhoneEmailPaths = (veteran) => {
 };
 
 
+export const getReservesGuardData = (formData) => {
+  const {
+    unitName,
+    obligationTermOfServiceDateRange,
+    title10Activation,
+    waiveVABenefitsToRetainTrainingPay
+  } = formData;
+
+  // Ensure all required fields are present
+  if (
+    !unitName
+    || !obligationTermOfServiceDateRange
+    || !obligationTermOfServiceDateRange.from
+    || !obligationTermOfServiceDateRange.to
+    || typeof waiveVABenefitsToRetainTrainingPay === 'undefined'
+  ) {
+    return null;
+  }
+
+  const obligationDateRange = {
+    from: obligationTermOfServiceDateRange.from,
+    to: obligationTermOfServiceDateRange.to
+  };
+
+  if (formData['view:isTitle10Activated']) {
+    return {
+      unitName,
+      obligationTermOfServiceDateRange: obligationDateRange,
+      title10Activation: {
+        title10ActivationDate: title10Activation.title10ActivationDate,
+        anticipatedSeparationDate: title10Activation.anticipatedSeparationDate
+      },
+      waiveVABenefitsToRetainTrainingPay
+    };
+  }
+
+  return {
+    unitName,
+    obligationTermOfServiceDateRange: obligationDateRange,
+    waiveVABenefitsToRetainTrainingPay
+  };
+};
+
+
 export function transform(formConfig, form) {
   const {
     disabilities,
@@ -63,10 +109,14 @@ export function transform(formConfig, form) {
     servicePeriods,
     standardClaim,
   } = form.data;
-
+  const reservesNationalGuardService = getReservesGuardData(form.data);
   const disabilityProperties = Object.keys(
     fullSchemaIncrease.definitions.disabilities.items.properties
   );
+
+  const serviceInformation = reservesNationalGuardService
+    ? { servicePeriods, reservesNationalGuardService }
+    : { servicePeriods };
 
   const transformedData = {
     disabilities: disabilities
@@ -77,7 +127,7 @@ export function transform(formConfig, form) {
     // Extract treatments into one top-level array
     treatments: aggregate(disabilities, 'treatments'),
     privacyAgreementAccepted,
-    serviceInformation: { servicePeriods },
+    serviceInformation,
     standardClaim,
   };
 
@@ -145,6 +195,18 @@ export function addPhoneEmailToCard(formData) {
   return newFormData;
 }
 
+export function transformObligationDates(formData) {
+  const { reservesNationalGuardService } = formData;
+  if (!reservesNationalGuardService || !reservesNationalGuardService.obligationTermOfServiceDateRange) {
+    return formData;
+  }
+
+  const { obligationTermOfServiceDateRange: { from, to } } = reservesNationalGuardService;
+  const newFormData = set('obligationTermOfServiceDateRange', { from, to }, formData);
+  delete newFormData.reservesNationalGuardService;
+
+  return newFormData;
+}
 
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
@@ -155,9 +217,10 @@ export function prefillTransformer(pages, formData, metadata) {
   const newFormData = set('disabilities', transformDisabilities(disabilities), formData);
   newFormData.disabilities.forEach(validateDisability);
   const withPhoneEmailCard = addPhoneEmailToCard(newFormData);
+  const withObligationDates = transformObligationDates(withPhoneEmailCard);
   return {
     metadata,
-    formData: withPhoneEmailCard,
+    formData: withObligationDates,
     pages
   };
 }
@@ -845,6 +908,61 @@ export const PaymentDescription = () => (
     disability benefit to this account.
   </p>
 );
+
+export const hasGuardOrReservePeriod = (formData) => {
+  const serviceHistory = formData.servicePeriods;
+  if (!serviceHistory || !Array.isArray(serviceHistory)) {
+    return false;
+  }
+
+  return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
+    // For a new service period, service branch defaults to undefined
+    if (!serviceBranch) {
+      return false;
+    }
+    const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
+    return isGuardReserve
+        || serviceBranch.includes(reserve)
+        || serviceBranch.includes(nationalGuard);
+  }, false);
+};
+
+export const ReservesGuardDescription = ({ formData }) => {
+  const { servicePeriods } = formData;
+  if (!servicePeriods || !Array.isArray(servicePeriods) || !servicePeriods[0].serviceBranch) {
+    return null;
+  }
+
+  const mostRecentPeriod = servicePeriods.filter(({ serviceBranch }) => {
+    const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
+    return (serviceBranch.includes(nationalGuard) || serviceBranch.includes(reserve));
+  }).map(({ serviceBranch, dateRange }) => {
+    const dateTo = new Date(dateRange.to);
+    return {
+      serviceBranch,
+      to: dateTo
+    };
+  }).sort((periodA, periodB) => (periodB.to - periodA.to))[0];
+
+  if (!mostRecentPeriod) {
+    return null;
+  }
+  const { serviceBranch, to } = mostRecentPeriod;
+  return (
+    <div>
+      Please tell us more about your {serviceBranch} service that ended on {moment(to).format('MMMM DD, YYYY')}.
+    </div>
+  );
+};
+
+export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);
+
+export const isInFuture = (errors, fieldData) => {
+  const enteredDate = new Date(fieldData);
+  if (enteredDate < Date.now()) {
+    errors.addError('Expected separation date must be in the future');
+  }
+};
 
 export const disabilitiesClarification = (
   <p>
