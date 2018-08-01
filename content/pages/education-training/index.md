@@ -43,21 +43,15 @@ contact:
 social:
   - heading: Get Updates
     links:
-    - url: "https://twitter.com"
-      label: Veteran Benefits Twitter
+    - url: "https://www.facebook.com/VeteransBenefits"
+      label: Veterans Benefits Facebook
+   - url: "https://twitter.com/VAVetBenefits"
+      label: Veterans Benefits Twitter
       icon: fa-twitter
-    - url: "https://facebook.com"
-      label: Veteran Benefits Facebook
-    - url: "https://youtube.com"
-      label: Veteran Benefits YouTube
-    - url: "https://instagram.com"
-      label: Instagram
-    - url: "https://flickr.com"
-      label: Flickr
-    - url: "https://www.blogs.va.gov/"
-      label: VAntage Point Blog
+   - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+      label: Veterans Benefits YouTube
     - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: Email Directory
+      label: Email Updates
 ---
 
 <p class="va-introtext">
@@ -69,7 +63,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 <h3>On This Page</h3>
 
-[Get GI Bill and Other Education Benefits](#get)<br>
+[Get GI Bill&reg; and Other Education Benefits](#get)<br>
 [Manage Your Veterans Education Benefits](#manage)<br>
 [More Information and Resources](#more)<br>
 
@@ -95,7 +89,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/apply/"><b>Apply Online for GI Bill Education Benefits</b></a>
+    <a href="https://vets.gov/education/apply/"><b>Apply Online for GI Bill Benefits</b></a>
     <p>Get help finding the right form and apply online now.</p>
   </div>
 
