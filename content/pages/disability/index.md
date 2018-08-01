@@ -98,13 +98,13 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You Submit Your Claim</b></a>
+    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You File Your Claim</b></a>
     <p>Find out what happens after you file for VA disability compensation, how long it takes us to make a decision, and what to do if you disagree.</p>
   </div>
 
   <div class="link">
-    <a href="vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for Surviving Spouse and Dependents (VA DIC) </b></a>
-    <p>Learn about getting VA disability benefits for a surviving spouse and dependent children.</p>
+    <a href="https://www.vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for Surviving Spouse and Dependents (VA DIC)</b></a>
+    <p>Learn about getting VA disability benefits for a surviving spouse, dependent child, or parent.</p>
   </div>
 
 </section>
@@ -118,8 +118,8 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>Manage Your Veterans Disability Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/track-claims"><b>Check Your Claim or Appeal Status</b></a>
-    <p>Track the status of your VA disability claim or appeal.</p>
+    <a href="https://vets.gov/track-claims"><b>Check Your VA Claim or Appeal Status</b></a>
+    <p>Track the status of your disability claim or appeal.</p>
     </div>
 
   <div class="link">
@@ -143,7 +143,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 </div>
 
   <div class="link">
-    <a href="#"><b>File Supplemental Forms For Certain Claims</b></a>
+    <a href="#"><b>File Supplemental Forms For Special Claims</b></a>
     <p>Find out if you'll need to turn in any additional forms to support your disability claim.</p>
   </div>
 
@@ -158,8 +158,8 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="#"><b>Get a Copy of Your VA Benefits Award or Eligibility Letter</b></a>
-    <p>Download a copy of your eligibility or award letter for certain benefits.</p>
+    <a href="#"><b>Download Your VA Benefit Letters</b></a>
+    <p>Download a copy of letters like your your eligibility or award letter for certain benefits.</p>
   </div>
 
   <div class="link">
@@ -178,12 +178,12 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>More Information and Resources</h2>
 
  <div class="link">
-    <a href="vets.gov/disability-benefits/eligibility/ratings/"><b>About VA Disability Ratings</b></a>
+    <a href="https://www.vets.gov/disability-benefits/eligibility/ratings/"><b>About VA Disability Ratings</b></a>
     <p>Learn how we assign disability ratings and effective dates, and what to do after you get your rating.</p>
   </div>
 
   <div class="link">
-    <a href="benefits.va.gov/compensation/resources_comp01.asp"><b>View VA Disability Compensation Rates</b></a>
+    <a href="https://www.benefits.va.gov/compensation/resources_comp01.asp"><b>View VA Disability Compensation Rates</b></a>
     <p>See the Veterans compensation benefits rates tables to find your rate based on your disability rating and dependents.</p>
   </div>
 
@@ -198,7 +198,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="benefits.va.gov/compensation/dbq_disabilityexams.asp"><b>Download VA DBQ Forms</b></a>
+    <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp"><b>Disability Evaluation Questionnaires (VA DBQ Forms)</b></a>
     <p>Find and download the right disability benefits questionnaire for your health care provider to complete in support of your claim.</p>
   </div>
 
