@@ -1,10 +1,12 @@
 import React from 'react';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
-import moment from '../../../../platform/startup/moment-setup';
+import moment from 'moment';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 class MilitaryInformationContent extends React.Component {
   componentDidMount() {
@@ -21,7 +23,7 @@ class MilitaryInformationContent extends React.Component {
     if (error || serviceHistory.length === 0) return <LoadFail information="military"/>;
 
     return (
-      <div>
+      <div data-field-name="serviceHistory">
         {serviceHistory.map((service, index) => {
           return (
             <div key={index}>
@@ -36,7 +38,9 @@ class MilitaryInformationContent extends React.Component {
   render() {
     return (
       <div>
-        <AdditionalInfo triggerText="How do I update my military service information?">
+        <AdditionalInfo
+          triggerText="How do I update my military service information?"
+          onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'update-military-information' }); }}>
           <p>You'll need to file a request to change or correct your DD214 or other military records.<br/>
             <a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/478/~/amend-or-change-dd-214-or-other-military-records">Find out how to request a change to your military records</a>
           </p>

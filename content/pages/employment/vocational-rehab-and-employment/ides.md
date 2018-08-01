@@ -11,7 +11,7 @@ relatedlinks:
       title: Disability Benefits Pre-discharge Claim
       description: Find out how to file a disability claim as you're getting ready to leave the military to speed up the decision process.
     - url: /health-care/apply/
-      title: Health Care Application Process
+      title: How to Apply for Health Care Benefits
       description: Find out how to apply for VA health care.
     - url: /life-insurance/options-and-eligibility/s-dvi/
       title: Service-Disabled Veterans Life Insurance (S-DVI)

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import Scroll from 'react-scroll';
 
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
@@ -18,7 +17,7 @@ import DowntimeNotification, { externalServices } from '../../../../platform/mon
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import profileManifest from '../../va-profile/manifest.json';
+import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
 
 const scroller = Scroll.animateScroll;
@@ -29,29 +28,6 @@ const scrollToTop = () => {
     smooth: true,
   });
 };
-
-moment.updateLocale('en', {
-  meridiem: (hour) => {
-    if (hour < 12) {
-      return 'a.m.';
-    }
-    return 'p.m.';
-  },
-  monthsShort: [
-    'Jan.',
-    'Feb.',
-    'Mar.',
-    'Apr.',
-    'May',
-    'June',
-    'July',
-    'Aug.',
-    'Sept.',
-    'Oct.',
-    'Nov.',
-    'Dec.'
-  ]
-});
 
 function recordDashboardClick(product, actionType = 'view-link') {
   return () => {

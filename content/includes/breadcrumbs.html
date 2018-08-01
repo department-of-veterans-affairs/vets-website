@@ -1,9 +1,9 @@
 {% if gatePage === true %} {% assign gatePageClassName = 'va-nav-breadcrumbs--gate' %} {% endif %}
 
-<nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual {{gatePageClassName}}" id="va-breadcrumbs">
+<nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs {{gatePageClassName}}" id="va-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     <li>
-      <a href="/">Home</a>
+      <a href="/" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">Home</a>
     </li>
     {% assign current_page = breadcrumb_path | last %}
     {% for crumb in breadcrumb_path %}

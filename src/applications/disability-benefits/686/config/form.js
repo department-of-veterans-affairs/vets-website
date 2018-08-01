@@ -446,7 +446,7 @@ const formConfig = {
       }
     },
     currentSpouseInfo: {
-      title: 'Current Spouse’s Information',
+      title: 'Spouse Information',
       pages: {
         spouseInfo: {
           title: 'Spouse information',

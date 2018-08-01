@@ -1,11 +1,10 @@
 ---
-title: Your Vets.gov Profile
+title: Your Profile
 layout: page-react.html
-entryname: va-profile
+entryname: profile-360
 ---
 <div id="main">
-  <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
-  id="va-breadcrumbs">
+  <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">Home</a></li>
       <li><a aria-current="page" href="/profile/">Your Profile</a></li>

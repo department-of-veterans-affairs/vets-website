@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { apiRequest } from '../../../../platform/utilities/api';
 import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 
-import { srSubstitute, PaymentDescription } from '../helpers';
+import { srSubstitute, PaymentDescription, editNote } from '../helpers';
 
 const accountTitleLabels = {
   CHECKING: 'Checking Account',
@@ -27,7 +27,12 @@ export const viewComponent = (response) => {
   let routingNumberString;
   let bankNameString;
   const mask = (string, unmaskedLength) => {
-    const maskedString = srSubstitute(`${'●'.repeat(string.length - unmaskedLength)}`, 'ending with');
+    // If no string is given, tell the screen reader users the account or routing number is blank
+    if (string === '') {
+      return srSubstitute('', 'is blank');
+    }
+    const repeatCount = string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+    const maskedString = srSubstitute(`${'●'.repeat(repeatCount)}`, 'ending with');
     return <span>{maskedString}{string.slice(-unmaskedLength)}</span>;
   };
 
@@ -42,7 +47,7 @@ export const viewComponent = (response) => {
         Bank routing number: {mask(routingNumber, 4)}
       </p>
     );
-    bankNameString = <p>Bank name: {bankName}</p>;
+    bankNameString = <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>;
   }
   return (
     <div>
@@ -55,6 +60,7 @@ export const viewComponent = (response) => {
         {routingNumberString}
         {bankNameString}
       </div>
+      {editNote('bank information')}
     </div>
   );
 };

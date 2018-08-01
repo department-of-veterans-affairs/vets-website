@@ -3,32 +3,123 @@ import { expect } from 'chai';
 import _ from 'lodash';
 
 import {
-  flatten,
   validateDisability,
   transformDisabilities,
+  addPhoneEmailToCard,
   prefillTransformer,
+  getDisabilityName,
   get4142Selection,
-  queryForFacilities
+  queryForFacilities,
+  transform
 } from '../helpers.jsx';
+import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
 
 describe('526 helpers', () => {
   const prefilledData = _.cloneDeep(initialData);
   const invalidDisability = prefilledData.disabilities[1];
   const validDisability = Object.assign({ disabilityActionType: 'INCREASE' }, invalidDisability);
-  describe('flatten', () => {
-    it('should flatten sibling arrays', () => {
-      const treatments = [
-        {
-          treatment: {
-            treatmentCenterName: 'local VA center'
+  describe('transform', () => {
+    const formData = maximalData;
+    const transformedData = {
+      form526: {
+        disabilities: [
+          {
+            name: 'Diabetes mellitus0',
+            disabilityActionType: 'INCREASE',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '0',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238
+          },
+          {
+            name: 'Diabetes mellitus1',
+            disabilityActionType: 'INCREASE',
+            specialIssues: [
+              {
+                code: 'TRM',
+                name: 'Personal Trauma PTSD'
+              }
+            ],
+            ratedDisabilityId: '1',
+            ratingDecisionId: '63655',
+            diagnosticCode: 5238
           }
-        }
-      ];
-      prefilledData.disabilities[0].treatments = treatments;
-      const flattened = flatten(prefilledData);
-      expect(flattened.treatments).to.exist;
-      expect(flattened.disabilities[0].treatments).to.not.exist;
+        ],
+        veteran: {
+          homelessness: {
+            isHomeless: true,
+            pointOfContact: {
+              pointOfContactName: 'John',
+              primaryPhone: '1231231231'
+            }
+          },
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 MAIN ST',
+            addressLine2: 'BEN FRANKLIN VILLAGE',
+            city: 'APO',
+            state: 'AE',
+            zipCode: '09028'
+          },
+          forwardingAddress: {
+            country: 'USA',
+            addressLine1: '123 Anystreet',
+            addressLine2: 'Viking Drive',
+            addressLine3: 'Some Suite',
+            city: 'Anyville',
+            state: 'AK',
+            zipCode: '33492',
+            effectiveDate: '2019-04-04'
+          },
+          primaryPhone: '4445551212',
+          emailAddress: 'test2@test1.net'
+        },
+        treatments: [
+          {
+            treatmentCenterName: 'Somerset VA Clinic',
+            treatmentDateRange: {
+              from: '2000-06-06',
+              to: '2004-02-06'
+            }
+          },
+          {
+            treatmentCenterName: 'DC VA Regional Medical Center',
+            treatmentDateRange: {
+              from: '2000-07-04',
+              to: '2010-01-03'
+            }
+          }
+        ],
+        privacyAgreementAccepted: true,
+        serviceInformation: {
+          servicePeriods: [
+            {
+              serviceBranch: 'Air National Guard',
+              dateRange: {
+                from: '1980-03-06',
+                to: '1990-02-04'
+              }
+            },
+            {
+              serviceBranch: 'Army Reserve',
+              dateRange: {
+                from: '1990-07-05',
+                to: '2000-02-04'
+              }
+            }
+          ]
+        },
+        standardClaim: false
+      }
+    };
+    it('should return stringified, transformed data for submit', () => {
+      expect(transform(null, formData)).to.deep.equal(JSON.stringify(transformedData));
     });
   });
   describe('validateDisability', () => {
@@ -43,11 +134,79 @@ describe('526 helpers', () => {
     it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
       expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
     });
+    it('should return an empty array when given undefined input', () => {
+      expect(transformDisabilities(undefined)).to.deep.equal([]);
+    });
+  });
+  describe('addPhoneEmailToCard', () => {
+    it('should return formData when veteran property does not exist', () => {
+      const formData = { disabilities: {} };
+      const newFormData = addPhoneEmailToCard(formData);
+      expect(newFormData).to.equal(formData);
+    });
+    it('should return a new object with correctly-modified formData', () => {
+      const formData = { disabilities: {}, veteran: { primaryPhone: '1234567890', emailAddress: 'a@b.c' } };
+      const newFormData = addPhoneEmailToCard(formData);
+      expect(newFormData).to.not.equal(formData);
+      expect(newFormData.veteran.primaryPhone).to.be.undefined;
+      expect(newFormData.veteran.emailAddress).to.be.undefined;
+      expect(newFormData.veteran.phoneEmailCard).to.exist;
+
+      const { primaryPhone, emailAddress } = newFormData.veteran.phoneEmailCard;
+      expect(primaryPhone).to.equal(formData.veteran.primaryPhone);
+      expect(emailAddress).to.equal(formData.veteran.emailAddress);
+    });
   });
   describe('prefillTransformer', () => {
     it('should transform prefilled disabilities', () => {
       const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
       expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal('INCREASE');
+    });
+    it('should add phone and email to phoneEmailCard', () => {
+      const pages = [];
+      const formData = initialData;
+      const metadata = {};
+      const transformedPhoneEmail = {
+        primaryPhone: initialData.veteran.primaryPhone,
+        emailAddress: initialData.veteran.emailAddress
+      };
+      const newForm = prefillTransformer(pages, formData, metadata);
+      expect(newForm.formData.veteran.phoneEmailCard).to.deep.equal(transformedPhoneEmail);
+    });
+    it('should return original data when no disabilities returned', () => {
+      const pages = [];
+      const formData = _.omit(initialData, 'disabilities');
+      const metadata = {};
+
+      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
+    });
+    it('should return original data if disabilities is not an array', () => {
+      const clonedData = _.cloneDeep(initialData);
+      const pages = [];
+      const formData = _.set(clonedData, 'disabilities', { someProperty: 'value' });
+      const metadata = {};
+
+      expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
+    });
+    it('should transform prefilled data when disability name has special chars', () => {
+      const newName = '//()';
+      const dataClone = _.set(_.cloneDeep(initialData), 'disabilities[0].name', newName);
+      const prefill = prefillTransformer([], dataClone, {});
+      expect(prefill.formData.disabilities[0].name).to.equal(newName);
+    });
+  });
+  describe('getDisabilityName', () => {
+    it('should return string with each word capitalized when name supplied', () => {
+      expect(getDisabilityName('some disability - some detail')).to.equal('Some Disability - Some Detail');
+    });
+    it('should return Unknown Condition with undefined name', () => {
+      expect(getDisabilityName()).to.equal('Unknown Condition');
+    });
+    it('should return Unknown Condition when input is empty string', () => {
+      expect(getDisabilityName('')).to.equal('Unknown Condition');
+    });
+    it('should return Unknown Condition when name is not a string', () => {
+      expect(getDisabilityName(249481)).to.equal('Unknown Condition');
     });
   });
   describe('get4142Selection', () => {

@@ -21,21 +21,18 @@ import {
 } from '../../save-in-progress/actions';
 
 import { logOut } from '../../../user/authentication/actions';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 
 let oldFetch;
-let oldSessionStorage;
 const setup = () => {
-  oldSessionStorage = global.sessionStorage;
+  conditionalStorage().setItem('userToken', '123abc');
   oldFetch = global.fetch;
-  global.sessionStorage = {
-    userToken: '123abc'
-  };
   global.fetch = sinon.stub();
   global.fetch.returns(Promise.resolve({ ok: true }));
 };
 const teardown = () => {
   global.fetch = oldFetch;
-  global.sessionStorage = oldSessionStorage;
+  conditionalStorage().clear();
 };
 const getState = () => ({ form: { trackingPrefix: 'test' } });
 
@@ -139,7 +136,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a no-auth if the user has no session token', () => {
       const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
-      delete sessionStorage.userToken;
+      conditionalStorage().removeItem('userToken');
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.pending))).to.be.true;
@@ -246,7 +243,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a no-auth if the user has no session token', () => {
       const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
-      delete sessionStorage.userToken;
+      conditionalStorage().removeItem('userToken');
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledOnce).to.be.true;
@@ -455,7 +452,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('attempts to remove an in-progress form', () => {
-      const thunk = fetchInProgressForm('1010ez', {});
+      const thunk = removeInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {

@@ -1,11 +1,11 @@
 const process = require('process');
 const E2eHelpers = require('./helpers');
 const Timeouts = require('./timeouts');
-const mock = require('../../../platform/testing/e2e/mock-helpers');
+const mock = require('./mock-helpers');
 
 function setUserToken(token, client) {
   client.execute((inToken) => {
-    window.sessionStorage.userToken = inToken;
+    window.sessionStorage.setItem('userToken', inToken);
   },
   [token],
   (val) => {

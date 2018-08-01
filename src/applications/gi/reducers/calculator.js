@@ -3,10 +3,17 @@ import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import {
   CALCULATOR_INPUTS_CHANGED,
+  BENEFICIARY_ZIP_CODE_CHANGED,
+  FETCH_BAH_FAILED,
+  FETCH_BAH_STARTED,
+  FETCH_BAH_SUCCEEDED,
   FETCH_PROFILE_SUCCEEDED
 } from '../actions';
 
+const beneficiaryZIPRegExTester = /\b\d{1,5}\b/;
 const INITIAL_STATE = {
+  beneficiaryLocationQuestion: 'yes',
+  beneficiaryZIP: '',
   inState: 'yes',
   tuitionInState: 0,
   tuitionOutOfState: 0,
@@ -15,6 +22,7 @@ const INITIAL_STATE = {
   books: 0,
   yellowRibbonRecipient: 'no',
   yellowRibbonAmount: 0,
+  giBillBenefit: 'no',
   scholarships: 0,
   tuitionAssist: 0,
   enrolled: 'full',
@@ -47,7 +55,6 @@ export default function (state = INITIAL_STATE, action) {
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {
-        // Strip all non-numeric characters.
         convertedValue = +value.replace(/[^0-9.]+/g, '');
       }
 
@@ -55,9 +62,20 @@ export default function (state = INITIAL_STATE, action) {
         [field]: convertedValue,
       };
 
-      if (__BUILDTYPE__ !== 'production') {
 
-        if (field === 'yellowRibbonDegreeLevel') {
+      if (field === 'yellowRibbonDegreeLevel') {
+        if (value === 'customAmount') {
+          newState = {
+            ...newState,
+            yellowRibbonAmount: 0,
+            yellowRibbonDivisionOptions: [],
+            yellowRibbonDivision: '',
+            yellowRibbonProgramIndex: -1,
+            yellowRibbonMaxAmount: 0,
+            yellowRibbonMaxNumberOfStudents: 0
+          };
+
+        } else {
           const {
             yellowRibbonPrograms
           } = state;
@@ -88,30 +106,30 @@ export default function (state = INITIAL_STATE, action) {
             yellowRibbonMaxNumberOfStudents
           };
         }
+      }
 
-        if (field === 'yellowRibbonDivision') {
-          const {
-            yellowRibbonDegreeLevel,
-            yellowRibbonPrograms
-          } = state;
+      if (field === 'yellowRibbonDivision') {
+        const {
+          yellowRibbonDegreeLevel,
+          yellowRibbonPrograms
+        } = state;
 
-          const {
-            contributionAmount: yellowRibbonAmount,
-            numberOfStudents: yellowRibbonMaxNumberOfStudents,
-            index: yellowRibbonProgramIndex
-          } = yellowRibbonPrograms
-            .find(program =>
-              program.degreeLevel === yellowRibbonDegreeLevel &&
-              program.divisionProfessionalSchool === value);
+        const {
+          contributionAmount: yellowRibbonAmount,
+          numberOfStudents: yellowRibbonMaxNumberOfStudents,
+          index: yellowRibbonProgramIndex
+        } = yellowRibbonPrograms
+          .find(program =>
+            program.degreeLevel === yellowRibbonDegreeLevel &&
+            program.divisionProfessionalSchool === value);
 
-          newState = {
-            ...newState,
-            yellowRibbonAmount,
-            yellowRibbonProgramIndex,
-            yellowRibbonMaxAmount: yellowRibbonAmount,
-            yellowRibbonMaxNumberOfStudents
-          };
-        }
+        newState = {
+          ...newState,
+          yellowRibbonAmount,
+          yellowRibbonProgramIndex,
+          yellowRibbonMaxAmount: yellowRibbonAmount,
+          yellowRibbonMaxNumberOfStudents
+        };
       }
 
       if (field === 'inState') {
@@ -122,6 +140,105 @@ export default function (state = INITIAL_STATE, action) {
 
         newState.inStateTuitionFees = state.tuitionInState;
       }
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+
+    case FETCH_BAH_FAILED: {
+      const {
+        beneficiaryZIPFetched,
+        error = {}
+      } = action;
+
+      // institution and zipcode_rates endpoints both return this generic error
+      const errorMessage = error.message === 'Record not found' ?
+        'No rates for this zip code found. Try another zip code' :
+        'Something went wrong. Try again';
+
+      // response mismatch - do nothing
+      if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {
+        return state;
+      }
+
+      const newState = {
+        beneficiaryZIPError: errorMessage,
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        housingAllowanceCity: ''
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+
+    case FETCH_BAH_STARTED: {
+      const { beneficiaryZIPFetched } = action;
+
+      const newState = {
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        beneficiaryZIPError: '',
+        beneficiaryZIP: beneficiaryZIPFetched,
+        beneficiaryZIPFetched,
+        housingAllowanceCity: 'Loading...'
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+
+    case FETCH_BAH_SUCCEEDED: {
+      const { beneficiaryZIPFetched } = action;
+      const {
+        mhaRate: beneficiaryLocationBah,
+        mhaRateGrandfathered: beneficiaryLocationGrandfatheredBah,
+        mhaName: housingAllowanceCity } = action.payload.data.attributes;
+
+      // response mismatch - do nothing
+      if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {
+        return state;
+      }
+
+      const newState = {
+        beneficiaryZIPError: '',
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah,
+        beneficiaryLocationGrandfatheredBah,
+        housingAllowanceCity
+      };
+
+      return {
+        ...state,
+        ...newState
+      };
+    }
+    case BENEFICIARY_ZIP_CODE_CHANGED: {
+      const { beneficiaryZIP } = action;
+
+      let beneficiaryZIPError;
+
+      if (!beneficiaryZIPRegExTester.exec(beneficiaryZIP)) {
+        beneficiaryZIPError = 'ZIP Code must be a five digit number';
+      } else {
+        beneficiaryZIPError = '';
+      }
+
+      const newState = {
+        beneficiaryZIP,
+        beneficiaryZIPError,
+        beneficiaryZIPFetched: '',
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
+        housingAllowanceCity: ''
+      };
 
       return {
         ...state,
@@ -153,28 +270,28 @@ export default function (state = INITIAL_STATE, action) {
       let yellowRibbonMaxNumberOfStudents;
       let yellowRibbonProgramIndex;
 
-      if (__BUILDTYPE__ !== 'production') {
 
-        if (yellowRibbonPrograms.length > 0) {
-          yellowRibbonPrograms = yellowRibbonPrograms.map((program, index) => ({ ...program, index }));
-          yellowRibbonDegreeLevelOptions = [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))];
-          // first value of degree level is selected by default; only display division options associated with this degree level
-          yellowRibbonDivisionOptions = [...new Set(yellowRibbonPrograms
-            .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
-            .map(program => program.divisionProfessionalSchool))];
+      if (yellowRibbonPrograms.length > 0) {
+        yellowRibbonPrograms = yellowRibbonPrograms.map((program, index) => ({ ...program, index }));
+        yellowRibbonDegreeLevelOptions = [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))];
+        // first value of degree level is selected by default; only display division options associated with this degree level
+        yellowRibbonDivisionOptions = [...new Set(yellowRibbonPrograms
+          .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
+          .map(program => program.divisionProfessionalSchool))];
 
-          yellowRibbonAmount = yellowRibbonPrograms[0].contributionAmount;
-          yellowRibbonMaxAmount = yellowRibbonAmount;
-          yellowRibbonDegreeLevel = yellowRibbonPrograms[0].degreeLevel;
-          yellowRibbonDivision = yellowRibbonPrograms[0].divisionProfessionalSchool;
-          yellowRibbonMaxNumberOfStudents = yellowRibbonPrograms[0].numberOfStudents;
-          yellowRibbonProgramIndex = yellowRibbonPrograms[0].index;
-        }
+        yellowRibbonAmount = yellowRibbonPrograms[0].contributionAmount;
+        yellowRibbonMaxAmount = yellowRibbonAmount;
+        yellowRibbonDegreeLevel = yellowRibbonPrograms[0].degreeLevel;
+        yellowRibbonDivision = yellowRibbonPrograms[0].divisionProfessionalSchool;
+        yellowRibbonMaxNumberOfStudents = yellowRibbonPrograms[0].numberOfStudents;
+        yellowRibbonProgramIndex = yellowRibbonPrograms[0].index;
       }
 
       return {
         ...INITIAL_STATE,
         type,
+        beneficiaryLocationBah: null,
+        beneficiaryLocationGrandfatheredBah: null,
         tuitionInState: tuitionInState || 0,
         tuitionOutOfState: tuitionOutOfState || 0,
         tuitionFees: tuitionInState || 0,

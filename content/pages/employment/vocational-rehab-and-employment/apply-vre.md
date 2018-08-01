@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: VR&amp;E Application Process
-display_title: Application Process
+title: How to Apply for VR&amp;E
+display_title: How to Apply
 order: 2
 template: detail-page
 relatedlinks:
@@ -17,7 +17,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you’re a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap, you can apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services online. Find out how to apply.  
+Find out how to apply for Vocational Rehabilitation and Employment (VR&E). 
 
 </div>
 
@@ -56,7 +56,9 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 </li>
 </ol>
 
-### Ready to apply?
+### How do I apply?
+
+You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 

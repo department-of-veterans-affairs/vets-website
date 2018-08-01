@@ -92,12 +92,14 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+You can get help in any of these ways:
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
+- Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+
+- Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
 [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
-Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+- [Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>

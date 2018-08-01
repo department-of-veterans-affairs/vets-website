@@ -1,11 +1,12 @@
 import Raven from 'raven-js';
-import recordEvent from '../../monitoring/record-event';
-import environment from '../../utilities/environment';
 import 'isomorphic-fetch';
-import { logOut } from '../../user/authentication/actions';
 
-import { removeFormApi, saveFormApi } from './api';
+import recordEvent from '../../monitoring/record-event';
+import { logOut } from '../../user/authentication/actions';
+import environment from '../../utilities/environment';
+import conditionalStorage from '../../utilities/storage/conditionalStorage';
 import { sanitizeForm } from '../helpers';
+import { removeFormApi, saveFormApi } from './api';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_AUTO_SAVE_FORM_STATUS = 'SET_AUTO_SAVE_FORM_STATUS';
@@ -46,12 +47,12 @@ export const LOAD_STATUSES = Object.freeze({
   success: 'success'
 });
 
-export const PREFILL_STATUSES = Object.freeze({
+export const PREFILL_STATUSES = {
   notAttempted: 'not-attempted',
   pending: 'pending',
   success: 'success',
   unfilled: 'unfilled'
-});
+};
 
 export function setSaveFormStatus(saveType, status, lastSavedDate = null, expirationDate = null) {
   return {
@@ -201,7 +202,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
-    const userToken = sessionStorage.userToken;
+    const userToken = conditionalStorage().getItem('userToken');
     // If we don’t have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
