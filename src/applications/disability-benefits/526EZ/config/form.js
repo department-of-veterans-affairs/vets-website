@@ -1,8 +1,8 @@
 import _ from '../../../../platform/utilities/data';
 
-// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
-import fullSchema526EZ from '/Users/adhocteam/Sites/vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from '/path/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
