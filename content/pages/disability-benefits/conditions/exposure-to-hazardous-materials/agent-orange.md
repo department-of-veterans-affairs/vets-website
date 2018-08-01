@@ -64,19 +64,44 @@ You may be able to get disability benefits if both of the below descriptions are
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. <br>
+You’ll need to apply for benefits. 
+
+**If you have an illness believed to be caused by Agent Orange,** you won’t need to show the problem started during—or got worse because of—your military service. This is because we believe that certain diseases are the result of exposure to herbicides (called "presumptive diseases"). <br>
+[See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+
+When you file your claim, you'll need to submit this evidence:
+- A medical record that shows you have an Agent Orange‒related illness, **and**
+- A military record that shows your service dates in Vietnam or in or near the Korean demilitarized zone, **and**
+- A document that proves exposure to herbicides in a location other than Vietnam or the Korean demilitarized zone
+
 [Apply for disability benefits](/disability-benefits/apply/).
 
-**Note:**
-- If you have an illness believed to be caused by Agent Orange, you won’t need to show the problem started during—or got worse because of—your military service. <br>
+**If you have an illness that’s not on the list of Agent Orange‒related illnesses,** but you believe it was caused by Agent Orange, you’ll need to show the problem started during—or got worse because of—your military service. <br>
 [See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
-- If you have an illness that’s not on this list, but you believe it was caused by Agent Orange, you’ll need to show the problem started during—or got worse because of—your military service.
+
+When you file your claim, you'll need to submit this evidence:
+- A medical record showing your current disability, **and**
+- A medical record showing a connection between exposure to Agent Orange and the current disability, **and**
+- A document that proves either:
+   - Contact with Agent Orange in a location other than Vietnam or the Korean demilitarized zone, **or**
+   - Service in Vietnam or at or near the Korean demilitarized zone during the dates listed below
+
+[Apply for disability benefits](/disability-benefits/apply/).
 
 
 ### Get more information
 
-Do you think you may have had contact with Agent Orange or other herbicides while serving in the military? <br>
+If you think you may have had contact with Agent Orange or other herbicides while serving in the military: <br>
 [Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
 
-Do you have non-Hodgkin’s lymphoma (a type of cancer)? You can get VA support. <br>
+If you have non-Hodgkin’s lymphoma (a type of cancer), you can get VA support. <br>
 [Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
+
+If you have questions, you can contact us in either of these ways:
+- Call the Agent Orange Help Line at 1-800-749-8387 **or** 
+- Send an email to GW/AOHelpline@vba.va.gov
+
+Please be ready to give us your name, email address, telephone number, and VA file number or Social Security number.
+
+If you'd like to know the monthly payment rate you may receive, you can view our rate tables. <br>
+[See the Veterans Compensation Benefits Rate Tables](https://www.benefits.va.gov/COMPENSATION/resources_comp01.asp).
