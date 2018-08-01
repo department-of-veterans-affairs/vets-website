@@ -57,12 +57,13 @@ social:
 <p class="va-introtext">
 VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of a Veteran. Find out how to apply for the burial benefits you've earned, and how to plan for a burial in advance or at your time of need.</p>
 
-<h3 class="highlight">Page Content</h3>
+<h3>On This Page</h3>
 
-[Get Veterans Burial Benefits](#get)<br>
-[Plan a Burial](#manage)<br>
-[More Information and Resources](#more)<br>
-
+<ul>
+  <li><a href="#get">Get Veterans Burial Benefits</a></li>
+  <li><a href="#manage">Plan a Burial</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
@@ -101,7 +102,6 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <a href="https://www.vets.gov/burials-and-memorials/bereavement-counseling/"><b>Bereavement Counseling</b></a>
     <p>See if you qualify for grief counseling and transition support after the loss of an active-duty Servicemember, Reservist, or National Guard Soldier.</p>
   </div>
-
 
 </section>
 
