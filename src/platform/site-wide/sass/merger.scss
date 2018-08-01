@@ -437,3 +437,84 @@ h3, h4 {
     margin-right: 15px;
   }
 }
+
+.grid-one-third {
+  display: inline-block;
+  width: 33%;
+  vertical-align: top;
+  margin-top: 83px;
+  padding-left: 25px;
+}
+
+.grid-two-third {
+  display: inline-block;
+  width: 66%;
+}
+
+.merger-marketing-section {
+  padding: 15px;
+  background-color: $light-blue;
+}
+
+.merger-contact-section {
+  margin-top: 20px;
+  border: 2px solid $color-gray-light-alt;
+
+  .section-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    background-color: $color-gray-light-alt;
+    padding: 20px;
+  }
+
+  .section-sub-title {
+    font-size: 1.2em;
+    font-weight: bold;
+
+    &.second {
+      margin-top: 25px;
+    }
+  }
+
+  .second-container {
+    a {
+      color: $color-primary;
+      display: block;
+    }
+
+    .fa {
+      color: $color-primary;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .section-content-container {
+    padding: 20px;
+
+    p, a {
+      margin-left: 10px;
+    }
+  }
+
+  .section-contact-label {
+    font-weight: bold;
+  }
+
+  p {
+    line-height: 1.0;
+  }
+}
+
+.other-benefits {
+  background-color: $color-gray-light-alt;
+  padding: 20px;
+  margin-bottom: 60px;
+  margin-top: 40px;
+
+  h3 {
+    margin-top: 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $color-gray-light;
+  }
+}
