@@ -30,20 +30,22 @@ crosslinks:
     - url: /life-insurance/
       title: <b>Life Insurance</b>
       description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
-contact:
-  - heading: Ask Questions
+social:
+  - heading: Connect With Us
     links:
+    - url: https://www.va.gov/health/
+      label: Veterans Health Administration
+  - subhead: Ask Questions
+    links: 
     - url: https://iris.custhelp.va.gov/app/ask
-      title: Ask a Question Online
+      label: Ask a Question Online
     - url: 1-800-827-1000
       title: VA Benefits Hotline
     - url: 1-877-827-3702
       title: VA Loan Service Representatives
     - url: 1-877-4AID-VET (1-877-424-3838)
       title: National Call Center for Homeless Veterans
-social:
-  - heading: Get Updates
-    links:
+  - subhead: Get Updates  
     - url: "https://twitter.com/VAVetBenefits"
       label: Veterans Benefits Twitter
       icon: fa-twitter
