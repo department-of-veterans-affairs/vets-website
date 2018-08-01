@@ -14,7 +14,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: vets.gov/health-care
+    - url: https://www.vets.gov/health-care
       title: VA Health Care
       description: Find out how to apply for and manage your VA health care benefits.
     - url: https://www.vets.gov/housing-assistance/adaptive-housing-grants/
@@ -23,10 +23,10 @@ crosslinks:
     - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment
       description: Find out if you're eligible for help exploring employment options, any training you may need, and other voc rehab services.
-    - url: va.gov/families-caregivers
+    - url: https://www.vets.gov/families-caregivers/
       title: Family and Caregiver Health Benefits
       description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
-    - url: va.gov/life-insurance
+    - url: https://www.vets.gov/life-insurance/
       title: Life Insurance
       description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
 contact:
@@ -74,7 +74,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2 class="highlight">Get Pension Benefits</h2>
 
   <div class="link">
-    <a href="vets.gov/pension/eligibility//"><b>Veterans Pension Eligibility</b></a>
+    <a href="https://www.vets.gov/pension/eligibility/"><b>Veterans Pension Eligibility</b></a>
     <p>See if you qualify for VA pension benefits as a Veteran.
   </div>
 
@@ -89,12 +89,12 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="vets.gov/pension/aid-attendance-housebound/"><b>VA Aid and Attendance or Housebound Allowance Benefits</b></a>
+    <a href="https://www.vets.gov/pension/aid-attendance-housebound/"><b>VA Aid and Attendance or Housebound Allowance Benefits</b></a>
     <p>If you need help with daily activities or you're housebound, find out how to apply for extra VA pension benefits.</p>
   </div>
 
   <div class="link">
-    <a href="vets.gov/pension/survivors-pension/"><b>VA Survivors Pension</b></a>
+    <a href="https://www.vets.gov/pension/survivors-pension/"><b>VA Survivors Pension</b></a>
     <p>Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.</p>
   </div>
 
@@ -114,17 +114,17 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
     </div>
 
   <div class="link">
-    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
     <p>Check the status of your VA disability, pension, and education payments. You can also see certain survivor benefits.</p>
   </div>
 
   <div class="link">
-    <a href="vets.gov/disability-benefits/claims-appeal/"><b>File an Appeal</b></a>
+    <a href="https://www.vets.gov/disability-benefits/claims-appeal/"><b>File an Appeal</b></a>
     <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
   </div>
 
   <div class="link">
-    <a href="ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Change Your VA Direct Deposit and Contact Information</b></a>
     <p>Find out how to change your VA disability direct deposit information online.</p>
   </div>
 
@@ -139,12 +139,12 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2 class='highlight'>More Information and Resources</h2>
 
   <div class="link">
-    <a href="vets.gov/pension/rates/"><b>VA Pension Rates for Veterans</b></a>
+    <a href="https://www.vets.gov/pension/rates/"><b>VA Pension Rates for Veterans</b></a>
     <p>View VA pension rates for Veterans, including aid and attendance and housebound rates.</p>
   </div>
 
   <div class="link">
-    <a href="vets.gov/pension/survivors-pension/rates/"><b>Rates for VA Survivors Pension Benefits</b></a>
+    <a href="https://www.vets.gov/pension/survivors-pension/rates/"><b>Rates for VA Survivors Pension Benefits</b></a>
     <p>View pension rates for surviving spouses and children.</p>
   </div>
 
@@ -154,12 +154,12 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="benefits.va.gov/compensation/claimexam.asp"><b>VA Claim Exam (C&P Exam)</b></a>
+    <a href="https://www.benefits.va.gov/compensation/claimexam.asp"><b>VA Claim Exam (C&P Exam)</b></a>
     <p>Find out how to schedule your VA claim exam and what to expect during and after the appointment.</p>
   </div>
 
   <div class="link">
-    <a href="vets.gov/pension/pension-management-center/"><b>Find Your VA Pension Management Center</b></a>
+    <a href="https://www.vets.gov/pension/pension-management-center/"><b>Find Your VA Pension Management Center</b></a>
     <p>Find your regional pension management center to mail or fax your VA pension application.</p>
   </div>
 
