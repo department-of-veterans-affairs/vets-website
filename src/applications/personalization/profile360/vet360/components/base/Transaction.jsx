@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import {
-  isPendingTransaction,
   isFailedTransaction
 } from '../../util/transactions';
 
@@ -37,7 +36,7 @@ export default class Vet360Transaction extends React.Component {
     return (
       <div className={classes}>
         {hasError && <Vet360TransactionInlineErrorMessage {...this.props}/>}
-        {transaction && isPendingTransaction(transaction) ? (
+        {transaction ? (
           <Vet360TransactionPending title={title} refreshTransaction={refreshTransaction} method={method}/>
         ) : children}
       </div>

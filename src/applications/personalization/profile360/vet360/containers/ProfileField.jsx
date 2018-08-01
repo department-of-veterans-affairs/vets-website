@@ -56,11 +56,7 @@ class Vet360ProfileField extends React.Component {
   }
 
   isEditLinKVisible() {
-    let transactionPending = false;
-    if (this.props.transaction) {
-      transactionPending = isPendingTransaction(this.props.transaction);
-    }
-    return !this.isEmpty() && !transactionPending;
+    return !this.isEmpty() && !this.props.transaction;
   }
 
   render() {
@@ -148,7 +144,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     refreshTransaction(transaction) {
-      dispatch(refreshTransaction(transaction, sectionName));
+      if (isPendingTransaction(transaction)) {
+        dispatch(refreshTransaction(transaction, sectionName));
+      }
     },
 
     onAdd() {
