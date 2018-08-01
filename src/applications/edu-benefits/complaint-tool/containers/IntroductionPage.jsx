@@ -16,7 +16,8 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="GI Bill® School Feedback Tool"/>
-        <p>If you have an issue or complaint about a school or training facility that receives GI Bill benefits, you can submit feedback to VA.</p>       <p>You can choose to submit feedback anonymously or on behalf of someone else. We’ll share any information you provide with the schools. If you submit feedback on behalf of someone, we’ll share only your information with the school, and not the person you’re submitting on behalf of.</p>
+        <p>If you have an issue or complaint about a school or training facility that receives GI Bill benefits, you can submit feedback to VA.</p>
+        <p>You can choose to submit feedback anonymously or on behalf of someone else. We’ll share any information you provide with the schools. If you submit feedback on behalf of someone, we’ll share only your information with the school, and not the person you’re submitting on behalf of.</p>
         <p>Get started right now by filling out a short form. Follow the steps below.</p>
         <div className="process schemaform-process">
           <ol>
@@ -41,7 +42,7 @@ class IntroductionPage extends React.Component {
               <p>Feedback that isn’t related to VA education benefits may be sent to another agency for review. We’ll get back to you within 45 days to let you know how we’re handling your feedback.</p>
             </li>
             <li className="process-step list-four">
-              <div><h5>School Follow Up</h5></div>
+              <div><h5>School Review</h5></div>
               <p>The school will review your feedback and send us their response.</p>
             </li>
             <li className="process-step list-five">
