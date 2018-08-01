@@ -422,7 +422,8 @@ const formConfig = {
                 'gradePolicy',
                 'transcriptRelease',
                 'creditTransfer',
-                'refundIssues'
+                'refundIssues',
+                'other'
               ],
               recruiting: {
                 'ui:title': 'Recruiting or marketing practices'
@@ -456,6 +457,9 @@ const formConfig = {
               },
               transcriptRelease: {
                 'ui:title': 'Release of transcripts'
+              },
+              other: {
+                'ui:title': 'Other'
               }
             },
             issueDescription: {
