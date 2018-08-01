@@ -30,11 +30,12 @@ The Vet360 reducer is necessary in order to manage transactions (more on that be
 2. `formFields`
     - Information for the modals to manage their state in the UI, including the edited form value and validation errors.
 2. `transactions`
-    - An array of transactions, all of which will pertain to updates that are either pending (status of `RECEIVED) or rejected. Successful transactions are automatically removed from state and the user profile is refreshed.
+    - An array of transactions, all of which will pertain to updates that are either pending (status of `RECEIVED`) or rejected. Successful transactions are automatically removed from state after the user profile is refreshed.
     - The `fetchTransactions` action will populate this property with all transactions for a particular user.
 3. `fieldTransactionMap`
-    - An object, where each field-name (`mailingAddress`, `emailAddress`, etc) is used to look up whether there is an update request for a field. If there is pending request, then `fieldTransactionMap[FIELD_NAME].isPending` will be `true`. If there is direct error, then `isFailed` will be true and `error` will contain information from the API. If we there is an active transaction for that field, then `fieldTransactionMap[FIELD_NAME].transactionId` can be used to look up that transaction. This is necessary because transactions only contain enough information to determine the update category (address, email address, or phone number) rather then the specific field that it corresponds. The value be `undefined` otherwise.
-    - A transaction may exist in the `transactions` array but with a field-mapping in the `fieldTransactionMap` if transactions are found via the `fetchTransactions` action.
+    - An object, where each field-name (`mailingAddress`, `emailAddress`, etc) is used to look up whether there is an update request for a field. If there is pending request, then `fieldTransactionMap[FIELD_NAME].isPending` will be `true`. If there is direct error, then `isFailed` will be true and `error` will contain information from the API. If we there is an active transaction for that field, then `fieldTransactionMap[FIELD_NAME].transactionId` can be used to look up that transaction in the `transactions` property. This is necessary because a transaction only contains enough information to determine the update category (address, email address, or phone number) via its `type` rather then the specific field that it corresponds.
+    - A transaction may exist in the `transactions` array but without a field-mapping in the `fieldTransactionMap` if transactions are found via the `fetchTransactions` action.
+    - If there is no active transaction for a field or the specific field can't be determined because of the reason described above, then the value for a field will be `undefined`.
 4. `transactionsAwaitingUpdate`
   - An array of transaction IDs, each one corresponding to a request at `/v0/profile/person/status/{transaction_id}`. This is effectively used to prevent the API from being hit quicker than it can respond while we are polling for transaction updates.
 5. `metadata`
