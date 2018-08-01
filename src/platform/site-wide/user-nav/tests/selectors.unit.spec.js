@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 import { set } from 'lodash/fp';
+
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import { selectUserGreeting } from '../selectors';
 
 describe('User navigation selectors', () => {
@@ -19,13 +21,13 @@ describe('User navigation selectors', () => {
     });
 
     it('should return session name', () => {
-      window.sessionStorage.userFirstName = 'Joe';
+      conditionalStorage().setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(state);
       expect(result).to.equal('Joe');
     });
 
     it('should return profile name', () => {
-      window.sessionStorage.userFirstName = 'Joe';
+      conditionalStorage().setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(
         set('user.profile.userFullName.first', 'Jane', state)
       );
@@ -33,7 +35,7 @@ describe('User navigation selectors', () => {
     });
 
     afterEach(() => {
-      delete window.sessionStorage.userFirstName;
+      conditionalStorage().clear();
     });
   });
 });

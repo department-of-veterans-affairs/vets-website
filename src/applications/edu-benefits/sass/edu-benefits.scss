@@ -8,6 +8,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 
 // Privacy agreement?
 .form-required-span {
@@ -27,4 +28,53 @@
 
 .row .edu-intro-spacing {
   margin-bottom: 7rem;
+}
+
+
+.search-select-school-fieldset {
+  .search-controls {
+    display: flex;
+    flex-wrap: nowrap;
+    input {
+      margin-right: 10px;
+    }
+
+    button {
+      max-width: 150px;
+    }
+  }
+
+  .radio-button {
+    input[type="radio"] {
+    }
+
+    span {
+      background-color: #f1f1f1;
+      display: inline-block;
+      margin-left: 25px;
+      width: 100%;
+
+      &.institution-name {
+        color: #0071BC;
+        font-size: 35;
+        font-weight: bold;
+        padding: 10px 0 0 10px;
+        text-decoration: underline;
+      }
+      &.institution-city-state {
+        font-size: 30;
+        font-weight: bold;
+        padding: 0 0 10px 10px;
+      }
+    }
+
+    label {
+      margin: 0;
+      &::before {
+        position: relative;
+        top: 45px;
+      }
+    }
+  }
+
 }
