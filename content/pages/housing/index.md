@@ -31,7 +31,7 @@ crosslinks:
       title: <b>Life Insurance</b>
       description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -175,7 +175,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="#"><b>Apply for a Specially Adapted Housing Grant</b></a>
-    <p>Get financial help to make changes to your home to help you live more independently with a service-connected disability.</p>
+    <p>Get financial help to make changes to your home so you can live more independently with a service-connected disability.</p>
   </div>
 
   <div class="link">
