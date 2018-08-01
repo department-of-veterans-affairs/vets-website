@@ -31,8 +31,8 @@ export const DisabilityGate = ({ prefillStatus, disabilities = [], children }) =
   }
 
   // We now have a successful pre-fill; check that we have eligible disabilities
-  const hasEligibleDisability = disabilities.reduce((hasEligible, disability) => hasEligible || !disability.ineligible, false);
-  if (!hasEligibleDisability) {
+  // (The prefillTransformer removed ineligible disabilities)
+  if (!disabilities.length) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox
