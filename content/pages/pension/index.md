@@ -29,37 +29,44 @@ crosslinks:
     - url: https://www.vets.gov/life-insurance/
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-800-827-1000
-      title: Questions about Your VA Benefits and Direct Deposit
-    - url: 1-877-294-6380
-      title: Support if You're Currently Receiving VA Pension Benefits
-    - url: 1-800-983-0937
-      title: eBenefits Technical Support
-    - url: 1-877-4AID-VET (1-877-424-3838)
-      title: National Call Center for Homeless Veterans
-    - url: https://iris.custhelp.va.gov/app/ask
-      title: Ask Us a Question Online
 social:
-  - heading: Get Updates
-    links:
-    - url: "https://twitter.com/VAVetBenefits"
-      label: Veterans Benefits Twitter
-    - url: "https://www.facebook.com/VeteransBenefits"
-      label: Veterans Benefits Facebook
-    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-      label: Veterans Benefits YouTube
-    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
-      label: Email Updates
+  - heading: Connect with Us
+    admin: Veterans Benefits Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: 1-800-827-1000
+          title: "VA Benefits Hotline:"
+        - url: 1-877-294-6380
+          title: "Support for Current Pension Beneficiaries:"
+        - url: 1-800-983-0937
+          title: "eBenefits Technical Support:"
+        - url: 1-877-4AID-VET (1-877-424-3838)
+          title: "National Call Center for Homeless Veterans:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+          label: Veterans Benefits Email Updates
+          icon:
+        - url: https://twitter.com/VAVetBenefits
+          label: Veterans Benefits Twitter
+          icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransBenefits"
+          label: Veterans Benefits Facebook
+          icon: fa-facebook
+        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+          label: Veterans Benefits YouTube
+          icon: fa-youtube  
 ---
 
 <p class="va-introtext">
 VA pension benefits provide tax-free monthly payments to wartime Veterans with limited or no income who meet certain age or disability requirements. Survivors of wartime Veterans may also qualify for a VA pension. Find out how to apply for and manage the pension benefits you've earned.
 </p>
 
-<h3 class="highlight">On This Page</h3>
+<h3>On This Page</h3>
 
 [Get Pension Benefits](#get)<br>
 [Manage Your Pension Benefits](#manage)<br>
