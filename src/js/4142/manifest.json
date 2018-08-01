@@ -1,7 +1,0 @@
-{
-  "appName": "Authorization to disclose information",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "formEntry",
-  "rootUrl": "/private-medical-records-release",
-  "production": false
-}
