@@ -173,7 +173,7 @@ export const uiSchema = {
       emailAddress: {
         'ui:title': 'Email address',
         'ui:errorMessages': {
-          pattern: 'Email format must be at least x@x.xx'
+          pattern: 'The email you enter should be in this format x@x.xx'
         }
       },
     },
