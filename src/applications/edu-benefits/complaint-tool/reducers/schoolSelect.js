@@ -2,8 +2,8 @@ import {
   LOAD_SCHOOLS_STARTED,
   LOAD_SCHOOLS_SUCCEEDED,
   // LOAD_SCHOOLS_FAILED,
-  SEARCH_INPUT_CHANGE,
-  SELECT_INSTITUTION
+  SEARCH_INPUT_CHANGED,
+  INSTITUTION_SELECTED
 } from '../actions/schoolSearch';
 
 const initialState = {
@@ -79,14 +79,14 @@ export default function schoolSearch(state = initialState, action) {
       };
     }
 
-    case SEARCH_INPUT_CHANGE: {
+    case SEARCH_INPUT_CHANGED: {
       return {
         ...state,
         searchInputValue: action.searchInputValue
       };
     }
 
-    case SELECT_INSTITUTION: {
+    case INSTITUTION_SELECTED: {
       const {
         city,
         facilityCode,

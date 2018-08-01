@@ -36,6 +36,10 @@ export class SchoolSelectField extends React.Component {
       150);
   }
 
+  componentWillUnmount() {
+    this.debouncedSearchInstitutions.cancel();
+  }
+
   scrollToTop = () => {
     scroller.scrollTo('schoolSearch', {
       duration: 250,
@@ -61,7 +65,7 @@ export class SchoolSelectField extends React.Component {
 
   handleSearchInputChange = e => {
     let searchInputValue;
-    if (typeof (e) === 'string') {
+    if (typeof e === 'string') {
       searchInputValue = e;
     } else {
       searchInputValue = e.target.value;
