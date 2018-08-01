@@ -173,7 +173,7 @@ describe('<SchoolSelectField>', () => {
     expect(selectInstitution.firstCall.args[0]).to.eql(institutions[0]);
   });
 
-  it('should call setCannoFindSchool prop when manual entry link clicked', () => {
+  it('should call setCannotFindSchool prop when manual entry link clicked', () => {
     const setCannotFindSchool = sinon.spy();
     const tree = mount(<SchoolSelectField
       formContext={{}}
