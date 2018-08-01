@@ -15,7 +15,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: /disability]
+    - url: /disability/
       title: <b>Disability Compensation (Pay)</b>
       description: Find out how to file a claim for compensation for conditions related to your military service.
     - url: /pension/
@@ -33,19 +33,22 @@ crosslinks:
 social:
   - heading: Connect With Us
     links:
-    - url: https://www.va.gov/health/
-      label: Veterans Health Administration
+    - url: https://www.benefits.va.gov/benefits/
+      label: Veterans Benefits Administration
   - subhead: Ask Questions
     links: 
     - url: https://iris.custhelp.va.gov/app/ask
       label: Ask a Question Online
     - url: 1-800-827-1000
-      title: VA Benefits Hotline
+      title: VA Benefits Hotline:
     - url: 1-877-827-3702
-      title: VA Loan Service Representatives
+      title: VA Loan Service Representatives:
     - url: 1-877-4AID-VET (1-877-424-3838)
-      title: National Call Center for Homeless Veterans
-  - subhead: Get Updates  
+      title: National Call Center for Homeless Veterans:
+  - subhead: Get Updates
+    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
+      label: Veterans Benefits Email Updates
+      icon: 
     - url: "https://twitter.com/VAVetBenefits"
       label: Veterans Benefits Twitter
       icon: fa-twitter
@@ -54,9 +57,7 @@ social:
       icon: fa-facebook
     - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
       label: Veterans Benefits YouTube
-      icon: fa-youtube
-    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
-      label: Email Updates
+      icon: fa-youtube  
 ---
 <p class="va-introtext">
 VA housing assistance can help Servicemembers, Veterans, and their surviving spouses to buy a home or refinance a loan. We also offer benefits and services to help you build, repair, or keep your current home. This includes grants for Veterans with service-connected disabilities who need to adapt their home to live as independently as possible. Find out how to apply for and manage the Veterans housing assistance benefits you've earned.</p>
