@@ -38,7 +38,7 @@ describe('DisabilityGate', () => {
   it('should render an alert if there are no eligible disabilities', () => {
     const props = {
       prefillStatus: PREFILL_STATUSES.success,
-      disabilities: [{ ineligible: true }]
+      disabilities: [] // Would have been emptied in transformDisabilities
     };
     const tree = shallow(
       <DisabilityGate {...props}>

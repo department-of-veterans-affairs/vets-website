@@ -137,6 +137,10 @@ describe('526 helpers', () => {
     it('should return an empty array when given undefined input', () => {
       expect(transformDisabilities(undefined)).to.deep.equal([]);
     });
+    it('should remove ineligible disabilities', () => {
+      const ineligibleDisability = _.omit(invalidDisability, 'ratingPercentage');
+      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
+    });
   });
   describe('addPhoneEmailToCard', () => {
     it('should return formData when veteran property does not exist', () => {

@@ -20,7 +20,7 @@ const outputDateFormat = 'MMMM DD, YYYY';
 const displayDate = (dateString) => moment(dateString, evssDateFormat).format(outputDateFormat);
 
 const itfMessage = (headline, content, status) => (
-  <div className="usa-grid" style={{ marginBottom: '2em' }}>
+  <div className="usa-grid full-page-alert">
     <AlertBox
       isVisible
       headline={headline}
@@ -42,7 +42,8 @@ export class ITFWrapper extends React.Component {
   // When we first enter the form...
   componentDidMount() {
     // ...fetch the ITF if needed
-    if (!noITFPages.includes(this.props.location.pathname)) {
+    if (!noITFPages.includes(this.props.location.pathname)
+      && this.props.itf.fetchCallState === requestStates.notCalled) {
       this.props.fetchITF();
     }
   }

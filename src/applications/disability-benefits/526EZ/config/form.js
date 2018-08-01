@@ -55,7 +55,8 @@ import {
   queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
-  editNote
+  editNote,
+  disabilitiesClarification
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -310,12 +311,19 @@ const formConfig = {
                 widgetClassNames: 'widget-outline',
                 keepInPageOnReview: true
               }
+            },
+            'view:disabilitiesClarification': {
+              'ui:description': disabilitiesClarification
             }
           },
           schema: {
             type: 'object',
             properties: {
-              disabilities
+              disabilities,
+              'view:disabilitiesClarification': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
