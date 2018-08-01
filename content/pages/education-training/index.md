@@ -9,26 +9,26 @@ order: 1
 icon: book
 promo:
   - image: /img/megamenu/education-training-illustration.png
-    heading: GI Bill&reg; School Feedback Tool
+    heading: GI Bill School Feedback Tool
     url: "https://www.benefits.va.gov/GIBILL/Feedback.asp"
     description: Find out how to give us feedback about your GI Bill school.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: https://benefits.va.gov/TAP/index.asp
-      title: Transition Assistance Program (VA TAP)
+      title: <b>Transition Assistance Program (VA TAP)</b>
       description: Learn about VA benefits available to you and your family as you transition out of active-duty, National Guard, or Reserve service.
     - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
-      title: Vocational Rehabilitation and Employment
+      title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url: https://www.vets.gov/housing-assistance/home-loans/
-      title: Home Loan Benefits
+      title: <b>Home Loan Benefits</b>
       description: Explore options for Veterans home loans, apply for your Certificate of Eligibility (COE), and get help if you're having trouble making your mortgage payments.
     - url: https://www.vets.gov/employment/job-seekers/register-your-business/
-      title: Veteran-Owned Small Business Support
+      title: <b>Veteran-Owned Small Business Support</b>
       description: Register to do business with VA and get support for your Veteran-owned small business.
     - url: https://www.dol.gov/veterans/findajob/
-      title: Jobs for Veterans
+      title: <b>Jobs for Veterans</b>
       description: Get help from the U.S. Department of Labor to find a job, get training, or explore career options.
 contact:
   - heading: Ask Questions
@@ -65,7 +65,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 <h3>On This Page</h3>
 
-[Get GI Bill&reg; and Other Education Benefits](#get)<br>
+[Get GI Bill and Other Education Benefits](#get)<br>
 [Manage Your Veterans Education Benefits](#manage)<br>
 [More Information and Resources](#more)<br>
 
