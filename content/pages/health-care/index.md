@@ -26,40 +26,40 @@ crosslinks:
       title: <b>Aid and Attendance or Household Allowance</b>
       description: Find out if you can get increased pension pay as a Veteran or surviving spouse who has disabilities.
     - url: "/burials/"
-      title: <b>Burials and Memorials</b>
+      title: <b>Burial Benefits and Memorial Items</b>
       description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
     - url: "/education-training/"
       title: <b>Education and Training</b>
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-877-222-VETS(8387)
-      title: "Health Benefits Hotline:"
-    - url: 1-877-327-0022
-      title: "My HealtheVet Help Desk:"
-    - url: 1-855-829-6636
-      title: "Women Veterans Call Center:"
-    - url: 1-877-4AID VET (877-424-3838)
-      title: "National Center for Homeless Veterans:"
-    - url: https://iris.custhelp.va.gov/
-      title: Ask Questions Online
 social:
-  - heading: Get Updates
-    links:
-    
-    - url: "https://facebook.com"
-      label: Veteran Health Care Facebook
-      icon: fa-facebook-square
-    - url: "https://twitter.com"
-      label: Veteran Health Care Twitter
-      icon: fa-twitter
-    - url: "https://youtube.com"
-      label: Veteran Health Care YouTube
-      icon: fa-youtube
-    - url: "https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11"
-      label: Email Updates
-      icon:
+  - heading: Connect With Us
+    admin: Veterans Health Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: 1-877-222-VETS(8387)
+          title: "Health Benefits Hotline:"
+        - url: 1-877-327-0022
+          title: "My HealtheVet Help Desk:"
+        - url: 1-877-4AID-VET (1-877-424-3838)
+          title: "National Call Center for Homeless Veterans:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11
+          label: Veterans Health Email Updates
+          icon:
+        - url: https://www.facebook.com/VeteransHealth
+          label: Veterans Health Facebook
+          icon: fa-facebook
+        - url: "https://twitter.com/VeteransHealth"
+          label: Veterans Benefits Twitter
+          icon: fa-twitter
+        - url: "https://www.youtube.com/user/VeteransHealthAdmin"
+          label: Veterans Health YouTube
+          icon: fa-youtube 
 ---
 
 <p class="va-introtext">
