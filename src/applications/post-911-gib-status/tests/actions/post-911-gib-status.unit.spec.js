@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 import {
   getEnrollmentData,
   getServiceAvailability
@@ -13,13 +14,11 @@ import {
 } from '../../utils/constants';
 
 let oldFetch;
-let oldSessionStorage;
 let oldWindow;
 const setup = () => {
-  oldSessionStorage = global.sessionStorage;
+  conditionalStorage().setItem('userToken', '123abc');
   oldFetch = global.fetch;
   oldWindow = global.window;
-  global.sessionStorage = { userToken: '123abc' };
   global.fetch = sinon.stub();
   global.fetch.returns(Promise.resolve({
     headers: { get: () => 'application/json' },
@@ -34,9 +33,9 @@ const setup = () => {
 };
 
 const teardown = () => {
-  global.sessionStorage = oldSessionStorage;
   global.fetch = oldFetch;
   global.window = oldWindow;
+  conditionalStorage().clear();
 };
 
 describe('getEnrollmentData', () => {
