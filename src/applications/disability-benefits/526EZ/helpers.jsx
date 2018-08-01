@@ -118,6 +118,9 @@ export function transform(formConfig, form) {
     ? { servicePeriods, reservesNationalGuardService }
     : { servicePeriods };
 
+  const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
+  const privateRecords = aggregate(disabilities, 'privateRecords');
+
   const transformedData = {
     disabilities: disabilities
       .filter(disability => (disability['view:selected'] === true))
@@ -126,6 +129,7 @@ export function transform(formConfig, form) {
     veteran: setPhoneEmailPaths(veteran),
     // Extract treatments into one top-level array
     treatments: aggregate(disabilities, 'treatments'),
+    attachments: additionalDocuments.concat(privateRecords),
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
