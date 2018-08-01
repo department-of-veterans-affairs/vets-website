@@ -9,31 +9,10 @@ export const SEARCH_INPUT_CHANGED = 'SEARCH_INPUT_CHANGED';
 export const INSTITUTION_SELECTED = 'INSTITUTION_SELECTED';
 const SET_DATA = 'SET_DATA';
 
-export function setCannotFindSchool() {
-  return {
-    type: SET_DATA,
-    data: {
-      school: {
-        'view:cannotFindSchool': true
-      }
-    }
-  };
-}
-
 export function searchInputChange({ searchInputValue }) {
   return {
     type: SEARCH_INPUT_CHANGED,
     searchInputValue
-  };
-}
-
-export function selectInstitution({ city, facilityCode, name, state }) {
-  return {
-    type: INSTITUTION_SELECTED,
-    city,
-    facilityCode,
-    name,
-    state
   };
 }
 
@@ -60,5 +39,26 @@ export function searchSchools({ institutionQuery, page }) {
         });
       }
     });
+  };
+}
+
+export function selectInstitution({ city, facilityCode, name, state }) {
+  return {
+    type: INSTITUTION_SELECTED,
+    city,
+    facilityCode,
+    name,
+    state
+  };
+}
+
+export function setCannotFindSchool() {
+  return {
+    type: SET_DATA,
+    data: {
+      school: {
+        'view:cannotFindSchool': true
+      }
+    }
   };
 }
