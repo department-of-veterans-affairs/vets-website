@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for VA disability benefits.
+Find out how to file for VA disability benefits.
 
 </div>
 
@@ -45,7 +45,7 @@ Find out how to apply for VA disability benefits.
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h4 itemprop="name">What documents do I need to apply?</h4>
+<h4 itemprop="name">What documents do I need to file my claim?</h4>
 <div itemprop="itemListElement">
 
 For the first disability claim you file, please provide:
@@ -64,12 +64,12 @@ For all disability claims, please provide:
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h3 itemprop="name">How do I apply?</h3>
+<h3 itemprop="name">How do I file my claim?</h3>
 <div itemprop="itemListElement">
 
-You can apply online right now.
+You can file online right now.
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to File</a>
 
 </div>
 </div>
@@ -78,12 +78,12 @@ You can apply online right now.
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h4 itemprop="name">You can also apply:</h4>
+<h4 itemprop="name">You can also file:</h4>
 <div itemprop="itemListElement">
 
 ##### By mail
 
-Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). <br>[Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
+File by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). <br>[Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -101,7 +101,7 @@ Bring your application to a regional benefit office near you. <br>
 
 ##### With the help of a trained professional
 
-You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
+You can work with a trained professional called an accredited representative to get help filing for disability benefits. <br>
 [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
@@ -112,7 +112,7 @@ You can work with a trained professional called an accredited representative to 
 <h3 itemprop="name">What happens after I apply?</h3>
 <div itemprop="itemListElement">
 
-[Find out what happens after you apply](/disability-benefits/after-you-apply/).
+[Find out what happens after you file](/disability-benefits/after-you-apply/).
 
 You don’t need to do anything while you’re waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
