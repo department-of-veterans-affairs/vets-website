@@ -25,8 +25,8 @@ crosslinks:
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
 social:
   - heading: Connect with Us
-    admin: Veterans Benefits Administration
-    url: https://www.benefits.va.gov/benefits/
+    admin: National Cemetery Administration
+    url: https://www.cem.va.gov/
     subsections:
       - subhead: Ask Questions
         links:
