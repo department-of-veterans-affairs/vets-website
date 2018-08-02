@@ -21,10 +21,10 @@ crosslinks:
     - url: /pension/
       title: <b>Pension Benefits</b>
       description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
-    - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
+    - url: "#"
       title: <br>Vocational Rehabilitation and Employment</br>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url: https://www.vets.gov/families-caregivers/
+    - url: "#"
       title: <br>Family and Caregiver Benefits</br>
       description: Learn about benefits for spouses, dependents, and caregivers of Veterans and Servicemembers.
     - url: /life-insurance/
@@ -85,7 +85,7 @@ We offer many programs and services that may help—including free health care a
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
 - **Contact your nearest VA medical center** and ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager. <br>
-[Find the nearest VA medical center](https://www.vets.gov/facilities).
+[Find the nearest VA medical center](#).
 
 **Talk with someone right now:**
 
@@ -114,17 +114,17 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <h2>Get VA Home Loan Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/loan-options/"><b>About VA Home Loan Options</b></a>
+    <a href="#"><b>About VA Home Loan Options</b></a>
     <p>Learn how VA direct and VA-backed home loans work—and find out which loan option may be right for you.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/eligibility/"><b>Eligibility</b></a>
+    <a href="#"><b>Eligibility</b></a>
     <p>Find out if you're eligible for a VA direct or VA-backed home loan, based on your service history and duty status.
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>How to Apply for Your Certificate of Eligibility</b></a>
+    <a href="#"><b>How to Apply for Your Certificate of Eligibility</b></a>
     <p>Get instructions for how to apply for your VA home loan Certificate of Eligibility (COE)—and what to do next depending on your loan type.</p>
   </div>
 
@@ -139,7 +139,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/trouble-making-payments/"><b>Having Trouble Making Payments on a VA-Backed Mortgage?</b></a>
+    <a href="#"><b>Having Trouble Making Payments on a VA-Backed Mortgage?</b></a>
     <p>Get help to avoid foreclosure if you're struggling to make your monthly mortgage payments.</p>
   </div>
 
@@ -174,7 +174,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <h2>Get Veterans Housing Assistance Grants</h2>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/adaptive-housing-grants/"><b>About Disability Housing Grants for Veterans</b></a>
+    <a href="#"><b>About Disability Housing Grants for Veterans</b></a>
     <p>Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.</p>
     </div>
 

@@ -22,7 +22,7 @@ crosslinks:
     - url: "/life-insurance/"
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
-    - url: "https://www.vets.gov/pension/aid-attendance-housebound/"
+    - url: "#"
       title: <b>Aid and Attendance or Household Allowance</b>
       description: Find out if you can get increased pension pay as a Veteran or surviving spouse who has disabilities.
     - url: "/burials/"
@@ -33,7 +33,7 @@ crosslinks:
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
 social:
   - heading: Connect With Us
-    admin: Veterans Benefits Administration
+    admin: Veterans Health Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
       - subhead: Ask Questions
@@ -58,7 +58,7 @@ social:
           label: Veterans Health Facebook
           icon: fa-facebook
         - url: "https://twitter.com/VeteransHealth"
-          label: Veterans Benefits Twitter
+          label: Veterans Health Twitter
           icon: fa-twitter
         - url: "https://www.youtube.com/user/VeteransHealthAdmin"
           label: Veterans Health YouTube

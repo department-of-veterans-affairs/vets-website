@@ -10,7 +10,7 @@ icon: id-card
 promo:
   - image: /img/megamenu/records-illustration.png
     heading: Veteran ID Card
-    url: "https://www.vets.gov/?next=%2Fveteran-id-card%2F"
+    url: "#"
     description: Apply for your Veteran ID Card to get Veteran discounts on goods and services.
 social:
   - heading: Connect With Us
@@ -33,7 +33,7 @@ social:
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
-          label: Veterans Benefits Email Updates
+          label: Veterans Records Email Updates
           icon: fa-envelope-square
         - url: https://twitter.com/DeptVetAffairs/
           label: Veterans Affairs Twitter
@@ -79,12 +79,12 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/housing-assistance/home-loans/apply-for-certificate-of-eligibility/"><b>Apply for a VA Home Loan Certificate of Eligibility</b></a>
+    <a href="#"><b>Apply for a VA Home Loan Certificate of Eligibility</b></a>
     <p>Apply for a Certificate of Eligibility (COE), which confirms for your lender that you qualify for a VA-backed home loan. Then choose your loan type to learn about the rest of the loan application process.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/discharge-upgrade-instructions/"><b>Learn How to Apply for a Discharge Upgrade</b></a>
+    <a href="#"><b>Learn How to Apply for a Discharge Upgrade</b></a>
     <p>Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge gets upgraded, you'll be eligible for the VA benefits you earned during your period of service.</p>
   </div>
 

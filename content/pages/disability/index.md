@@ -11,24 +11,24 @@ icon: handshake
 promo:
   - image: /img/megamenu/disability-illustration.png
     heading: Decision Ready Claims (DRC) Program
-    url: "https://www.vets.gov/disability-benefits/apply/evidence/decision-ready-claims/"
+    url: "#"
     description: Find out if you can use the DRC program to get a decision on your claim in 30 days or less.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: https://vets.gov/housing-assistance/adaptive-housing-grants/
+    - url: "#"
       title: <b>Disability Housing Grants for Veterans</b>
       description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
     - url:  https://benefits.va.gov/fiduciary/index.asp
       title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
-    - url:  https://vets.gov/health-care/about-va-health-care/assisted-living-and-home-health-care/
+    - url: "#"
       title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
       description: Explore long-term care options for Veterans and their caregivers.
-    - url:  https://vets.gov/employment/vocational-rehab-and-employment/
+    - url:  "#"
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url:  https://www.vets.gov/pension/aid-attendance-housebound/
+    - url:  "#"
       title: <b>Aid and Attendance or Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
@@ -42,9 +42,9 @@ social:
           label: "Ask a Question Online"
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
-          title: "1-800-983-0937:"
-        - url: tel:1-877-827-3702
-          number: 1-877-827-3702
+          title: "VA Health Benefits Hotline:"
+        - url: tel:1-800-983-0937
+          number: 1-800-983-0937
           title: "eBenefits Technical Support:"
         - url: tel:1-877-4AID-VET (1-877-424-3838)
           number: 1-877-4AID-VET (1-877-424-3838)
@@ -86,12 +86,12 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>Get VA Disability Compensation (Pay)</h2>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/eligibility/"><b>Eligibility</b></a>
+    <a href=#"><b>Eligibility</b></a>
     <p>Find out if you’re eligible for VA disability benefits for a presumptive disability or other service-connected condition.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/apply/"><b>How to File a Claim</b></a>
+    <a href="#"><b>How to File a Claim</b></a>
     <p>Find out how to prepare and file a claim for disability compensation online or by phone or mail.</p>
   </div>
 
@@ -101,12 +101,12 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/after-you-apply/"><b>After You File Your Claim</b></a>
+    <a href="#"><b>After You File Your Claim</b></a>
     <p>Find out what happens after you file for VA disability compensation, how long it takes us to make a decision, and what to do if you disagree.</p>
   </div>
 
   <div class="link">
-  <a href="https://www.vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for a Surviving Spouse and Dependents (VA DIC)</b></a>
+  <a href="#"><b>Compensation Benefits for a Surviving Spouse and Dependents (VA DIC)</b></a>
   <p>Learn about getting VA disability benefits as a surviving spouse, dependent child, or parent.</p>
   </div>
 
@@ -121,7 +121,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>Manage Your Veterans Disability Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/track-claims"><b>Check Your VA Claim or Appeal Status</b></a>
+    <a href="#"><b>Check Your VA Claim or Appeal Status</b></a>
     <p>Track the status of your disability claim or appeal.</p>
     </div>
 
@@ -131,7 +131,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
     </div>
 
   <div class="link">
-    <a href="https://vets.gov/disability-benefits/claims-appeal/"><b>File a Disability Appeal</b></a>
+    <a href="#"><b>File a Disability Appeal</b></a>
     <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
   </div>
 
@@ -181,7 +181,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>More Information and Resources</h2>
 
  <div class="link">
-    <a href="https://www.vets.gov/disability-benefits/eligibility/ratings/"><b>About VA Disability Ratings</b></a>
+    <a href="#"><b>About VA Disability Ratings</b></a>
     <p>Learn how we assign disability ratings and effective dates, and what to do after you get your rating.</p>
   </div>
 
@@ -191,12 +191,12 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
  <div class="link">
-    <a href="https://www.vets.gov/disability-benefits/after-you-apply/VA-claim-exam/"><b>VA Claim Exam (C&P Exam)</b></a>
+    <a href="#"><b>VA Claim Exam (C&P Exam)</b></a>
     <p>Find out why you might need a claim exam, how to schedule and prepare for your appointment, and what to expect during and after the exam.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/disability-benefits/apply/help/"><b>Get Help Filing a Claim</b></a>
+    <a href="#"><b>Get Help Filing a Claim</b></a>
   <p>Connect with a Veterans Service Organization (VSO) or accredited Veterans representative for help applying for benefits.</p>
   </div>
 

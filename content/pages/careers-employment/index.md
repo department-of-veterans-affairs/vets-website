@@ -18,13 +18,13 @@ crosslinks:
     - url: https://benefits.va.gov/TAP/index.asp
       title: <b>Transition Assistance</b>
       description: Explore the VA benefits and services you and your family may qualify for, and get help transitioning to VA support as you separate from the military.
-    - url: https://vets.gov/education/gi-bill/
+    - url: "#"
       title: <b>GI Bill Benefits</b>
       description: Explore options for using GI Bill benefits to help pay for school or training, and find out what benefits you can get.
-    - url: https://www.vets.gov/education/other-educational-assistance-programs/
+    - url: "#"
       title: <b>Other Educational Assistance Programs</b>
       description: If you’re a Veteran, Reservist, or National Guard Soldier who doesn’t qualify for the Post-9/11 GI Bill, see if you can get education benefits through other VA programs.
-    - url: https://www.vets.gov/housing-assistance/home-loans/
+    - url: "#"
       title: <b>Home Loans</b>
       description: Apply for a Certificate of Eligibility for a VA direct or VA-backed home loan to build, buy, improve, or refinance a home.
     - url: /life-insurance/
@@ -116,17 +116,17 @@ We can support you in all stages of your job search—from returning to work wit
   <h2>Get Career and Employment Assistance</h2>
 
   <div class="link">
-    <a href="https://vets.gov/employment/vocational-rehab-and-employment/"><b>About VA Vocational Rehabilitation and Employment (Chapter 31)</b></a>
+    <a href="#"><b>About VA Vocational Rehabilitation and Employment (Chapter 31)</b></a>
     <p>Learn about vocational rehabilitation and employment (also called voc rehab) benefits and services for Veterans and Servicemembers who have service-connected disabilities. Services include help with things like learning new skills, finding a new job, or starting a new business.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/employment/vocational-rehab-and-employment/eligibility/"><b>Eligibility</b></a>
+    <a href="#"><b>Eligibility</b></a>
     <p>If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you're eligible for vocational rehab.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/employment/vocational-rehab-and-employment/apply-vre/"><b>How to Apply</b></a>
+    <a href="#"><b>How to Apply</b></a>
     <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
   </div>  
 
@@ -136,17 +136,17 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/tools-programs/education-career-counseling/"><b>Educational and Career Counseling (Chapter 36)</b></a>
+    <a href="#"><b>Educational and Career Counseling (Chapter 36)</b></a>
     <p>Find out how to get free educational and career counseling as a recently discharged Veteran or a dependent family member. </p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/employment/job-seekers/register-your-business/"><b>Support for Your Veteran-Owned Small Business</b></a>
+    <a href="#"><b>Support for Your Veteran-Owned Small Business</b></a>
     <p>Register to do business with VA and get support for your Veteran-owned small business.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/employment/job-seekers/family-members/"><b>Resources for Family Members</b></a>
+    <a href="#"><b>Resources for Family Members</b></a>
     <p>Access valuable career resources for spouses and other family members of Veterans and Servicemembers.
   </div>
 
@@ -166,7 +166,7 @@ We can support you in all stages of your job search—from returning to work wit
     </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/education/tools-programs/careerscope/"><b>Match Your Interests and Skills to a Career with a CareerScope Assessment</b></a>
+    <a href="#"><b>Match Your Interests and Skills to a Career with a CareerScope Assessment</b></a>
     <p>Use this online tool to get recommendations for careers you may enjoy and succeed in, and training programs to help you get started.</p>
   </div>
 
@@ -201,7 +201,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/employment/vocational-rehab-and-employment/vetsuccess/"><b>Vet Success on Campus</b></a>
+    <a href="#"><b>Vet Success on Campus</b></a>
     <p>Find out if our counselors can help you transition from military to college life.</p>
   </div>
 
@@ -216,7 +216,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/employment/vocational-rehab-and-employment/external-resources/"><b>External Links and Resources</b></a>
+    <a href="#"><b>External Links and Resources</b></a>
     <p>Get links to more resources outside of VA that can help you in your job search.</p>
   </div>
 
