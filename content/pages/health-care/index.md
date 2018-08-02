@@ -55,7 +55,7 @@ social:
           label: Veterans Health Facebook
           icon: fa-facebook
         - url: "https://twitter.com/VeteransHealth"
-          label: Veterans Benefits Twitter
+          label: Veterans Health Twitter
           icon: fa-twitter
         - url: "https://www.youtube.com/user/VeteransHealthAdmin"
           label: Veterans Health YouTube
