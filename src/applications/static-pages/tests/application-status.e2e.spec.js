@@ -70,6 +70,8 @@ module.exports = E2eHelpers.createE2eTest(
             ],
             prefills_available: [],
             services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
+            mhv_account_state: 'upgraded',
+            health_terms_current: true,
             va_profile: {
               status: 'OK',
               birth_date: '19511118',
