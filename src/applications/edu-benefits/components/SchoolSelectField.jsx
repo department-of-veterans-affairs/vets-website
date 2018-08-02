@@ -158,8 +158,8 @@ export class SchoolSelectField extends React.Component {
                   {`${searchResultsCount} results for ${institutionQuery}`}
                 </span>}
                 <button
-                  onClick={this.handleStartOver}
-                  className="va-button-link">
+                  className="va-button-link"
+                  onClick={this.handleStartOver}>
                   Start Over
                 </button>
               </div>
@@ -180,15 +180,15 @@ export class SchoolSelectField extends React.Component {
                   <input
                     autoComplete="false"
                     checked={facilityCodeSelected === facilityCode}
-                    id={`radio-buttons-${index}`}
-                    name={name}
+                    id={`page-${currentPageNumber}-${index}`}
+                    name={`page-${currentPageNumber}`}
                     type="radio"
                     onKeyDown={this.onKeyDown}
                     onChange={() => this.handleOptionClick({ city, facilityCode, name, state })}
                     value={facilityCode}/>
                   <label
                     id={`institution-${index}-label`}
-                    htmlFor={`radio-buttons-${index}`}>
+                    htmlFor={`page-${currentPageNumber}-${index}`}>
                     <span className="institution-name">{name}</span>
                     <span className="institution-city-state">{`${city}, ${state}`}</span>
                   </label>
