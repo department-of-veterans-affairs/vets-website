@@ -381,6 +381,10 @@ h3, h4 {
   height: 490px;
 }
 
+#vetnav {
+  z-index: 2;
+}
+
 @media screen and (min-width: 768px) {
   .vet-toolbar {
     flex: 0 1 30.5rem;
