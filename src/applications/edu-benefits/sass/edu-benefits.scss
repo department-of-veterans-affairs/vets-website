@@ -30,8 +30,16 @@
   margin-bottom: 7rem;
 }
 
-
 .search-select-school-fieldset {
+  .no-results-box {
+    background-color: $color-gray-lightest;
+    margin: 25px 0;
+    padding: 20px;
+    p {
+      margin: 0;
+    }
+  }
+
   .search-controls {
     display: flex;
     flex-wrap: nowrap;
@@ -76,5 +84,4 @@
       }
     }
   }
-
 }

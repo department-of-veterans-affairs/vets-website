@@ -8,7 +8,8 @@ import { connect } from 'react-redux';
 import {
   searchInputChange,
   selectInstitution,
-  searchSchools
+  searchSchools,
+  setCannotFindSchool
 } from '../complaint-tool/actions/schoolSearch';
 import {
   selectCurrentPageNumber,
@@ -20,6 +21,7 @@ import {
   selectSearchResultsCount,
   selectShowInstitutions,
   selectShowInstitutionsLoading,
+  selectShowNoResultsFound,
   selectShowPagination,
   selectShowPaginationLoading
 } from '../complaint-tool/selectors/schoolSearch';
@@ -36,6 +38,10 @@ export class SchoolSelectField extends React.Component {
       150);
   }
 
+  componentWillUnmount() {
+    this.debouncedSearchInstitutions.cancel();
+  }
+
   scrollToTop = () => {
     scroller.scrollTo('schoolSearch', {
       duration: 250,
@@ -43,6 +49,10 @@ export class SchoolSelectField extends React.Component {
       smooth: true
     });
   };
+
+  handleManuallyEnterClicked = () => {
+    this.props.setCannotFindSchool();
+  }
 
   handleSearchInputKeyDown = e => {
     if ((e.which || e.keyCode) === 13) {
@@ -61,7 +71,7 @@ export class SchoolSelectField extends React.Component {
 
   handleSearchInputChange = e => {
     let searchInputValue;
-    if (typeof (e) === 'string') {
+    if (typeof e === 'string') {
       searchInputValue = e;
     } else {
       searchInputValue = e.target.value;
@@ -96,6 +106,7 @@ export class SchoolSelectField extends React.Component {
       searchResultsCount,
       showInstitutions,
       showInstitutionsLoading,
+      showNoResultsFound,
       showPagination,
       showPaginationLoading,
     } = this.props;
@@ -162,6 +173,19 @@ export class SchoolSelectField extends React.Component {
             <LoadingIndicator message={`Searching ${institutionQuery}...`}/>
           </div>
           }
+          {showNoResultsFound && <div className="no-results-box">
+            <p>
+              <strong>
+                {'No schools found. '}
+              </strong>
+              {'Please try entering a different search term (school name or address), or '}
+              <button
+                className="va-button-link"
+                onClick={this.handleManuallyEnterClicked}>
+                {'manually enter your school’s information by clicking this link.'}
+              </button>
+            </p>
+          </div>}
           {showPaginationLoading && <div>
             <LoadingIndicator message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}/>
           </div>
@@ -186,6 +210,7 @@ const mapStateToProps = (state, props) => {
   const searchResultsCount = selectSearchResultsCount(state);
   const showInstitutions = selectShowInstitutions(state);
   const showInstitutionsLoading = selectShowInstitutionsLoading(state);
+  const showNoResultsFound = selectShowNoResultsFound(state);
   const showPagination = selectShowPagination(state);
   const showPaginationLoading = selectShowPaginationLoading(state);
 
@@ -200,6 +225,7 @@ const mapStateToProps = (state, props) => {
     searchResultsCount,
     showInstitutions,
     showInstitutionsLoading,
+    showNoResultsFound,
     showPagination,
     showPaginationLoading,
   };
@@ -207,7 +233,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   searchInputChange,
   searchSchools,
-  selectInstitution
+  selectInstitution,
+  setCannotFindSchool
 };
 
 SchoolSelectField.PropTypes = {
@@ -221,8 +248,17 @@ SchoolSelectField.PropTypes = {
   searchResultsCount: React.PropTypes.number,
   showInstitutions: React.PropTypes.bool.required,
   showInstitutionsLoading: React.PropTypes.bool.required,
+  showNoResultsFound: React.PropTypes.bool.required,
   showPagination: React.PropTypes.bool.required,
   showPaginationLoading: React.PropTypes.bool.required
+};
+
+SchoolSelectField.defaultProps = {
+  showInstitutions: false,
+  showInstitutionsLoading: false,
+  showNoResultsFound: false,
+  showPagination: false,
+  showPaginationLoading: false
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolSelectField);

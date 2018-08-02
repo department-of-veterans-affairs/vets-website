@@ -1,5 +1,16 @@
 {
   "data":{
+     "obligationTermOfServiceDateRange": {
+      "from": "2015-05-12",
+      "to": "2017-05-12"
+     },
+     "unitName": "Alpha Bravo Charlie",
+     "view:isTitle10Activated": true,
+     "title10Activation": {
+       "title10ActivationDate": "2014-054-12",
+       "anticipatedSeparationDate": "2019-09-02"
+     },
+     "waiveVABenefitsToRetainTrainingPay": true,
      "disabilities":[
         {
            "additionalDocuments":[

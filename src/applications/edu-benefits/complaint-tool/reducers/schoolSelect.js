@@ -2,8 +2,8 @@ import {
   LOAD_SCHOOLS_STARTED,
   LOAD_SCHOOLS_SUCCEEDED,
   // LOAD_SCHOOLS_FAILED,
-  SEARCH_INPUT_CHANGE,
-  SELECT_INSTITUTION
+  SEARCH_INPUT_CHANGED,
+  INSTITUTION_SELECTED
 } from '../actions/schoolSearch';
 
 const initialState = {
@@ -16,6 +16,7 @@ const initialState = {
   searchResultsCount: 0,
   showInstitutions: false,
   showInstitutionsLoading: false,
+  showNoResultsFound: false,
   showPagination: false,
   showPaginationLoading: false
 };
@@ -30,6 +31,7 @@ export default function schoolSearch(state = initialState, action) {
       const searchResultsCount = action.page ? state.searchResultsCount : 0;
       const showInstitutions = false;
       const showInstitutionsLoading = !action.page;
+      const showNoResultsFound = false;
       const showPagination = action.page ? action.page > 1 : false;
       const showPaginationLoading = !!action.page;
 
@@ -42,6 +44,7 @@ export default function schoolSearch(state = initialState, action) {
         searchResultsCount,
         showInstitutions,
         showInstitutionsLoading,
+        showNoResultsFound,
         showPagination,
         showPaginationLoading
       };
@@ -61,8 +64,9 @@ export default function schoolSearch(state = initialState, action) {
         return { city, country, facilityCode, name, state: institutionState, zip };
       });
       const pagesCount = Math.ceil(searchResultsCount / 10);
-      const showInstitutions = true;
+      const showInstitutions = institutions.length > 0;
       const showInstitutionsLoading = false;
+      const showNoResultsFound = institutions.length < 1;
       const showPagination = pagesCount > 1;
       const showPaginationLoading = false;
 
@@ -74,19 +78,20 @@ export default function schoolSearch(state = initialState, action) {
         searchResultsCount,
         showInstitutions,
         showInstitutionsLoading,
+        showNoResultsFound,
         showPagination,
         showPaginationLoading
       };
     }
 
-    case SEARCH_INPUT_CHANGE: {
+    case SEARCH_INPUT_CHANGED: {
       return {
         ...state,
         searchInputValue: action.searchInputValue
       };
     }
 
-    case SELECT_INSTITUTION: {
+    case INSTITUTION_SELECTED: {
       const {
         city,
         facilityCode,

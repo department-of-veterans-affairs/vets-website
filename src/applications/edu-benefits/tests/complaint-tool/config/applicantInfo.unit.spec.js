@@ -49,7 +49,7 @@ describe('complaint tool applicant info', () => {
     selectRadio(form, 'root_onBehalfOf', 'Myself');
     const select  = form.find('select#root_serviceAffiliation');
     select.simulate('change', {
-      target: { value: 'Veteran' }
+      target: { value: 'Servicemember or Veteran' }
     });
     fillData(form, 'input#root_fullName_first', 'test');
     fillData(form, 'input#root_fullName_last', 'test');
@@ -86,7 +86,7 @@ describe('complaint tool applicant info', () => {
     selectRadio(form, 'root_onBehalfOf', 'Myself');
     const select = form.find('select#root_serviceAffiliation');
     select.simulate('change', {
-      target: { value: 'Veteran' }
+      target: { value: 'Servicemember or Veteran' }
     });
 
     expect(form.find('input').length).to.equal(9);

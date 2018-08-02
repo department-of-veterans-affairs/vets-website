@@ -25,6 +25,7 @@ describe('schoolSearch reducer', () => {
         searchResultsCount: 0,
         showInstitutions: false,
         showInstitutionsLoading: true,
+        showNoResultsFound: false,
         showPagination: false,
         showPaginationLoading: false
       };
@@ -59,6 +60,7 @@ describe('schoolSearch reducer', () => {
         searchResultsCount: 30,
         showInstitutions: false,
         showInstitutionsLoading: false,
+        showNoResultsFound: false,
         showPagination: true,
         showPaginationLoading: true
       };
@@ -104,6 +106,7 @@ describe('schoolSearch reducer', () => {
         searchResultsCount: 2001,
         showInstitutions: true,
         showInstitutionsLoading: false,
+        showNoResultsFound: false,
         showPagination: true,
         showPaginationLoading: false
       };
@@ -125,6 +128,50 @@ describe('schoolSearch reducer', () => {
           }],
           meta: {
             count: 2001
+          }
+        }
+      };
+
+      const actualState = schoolSelect(previousState, action);
+
+      expect(actualState).to.eql(expectedState);
+    });
+
+    it('should return a no results state', () => {
+      const previousState = {
+        currentPageNumber: 1,
+        institutionQuery: 'new',
+        institutions: [],
+        institutionSelected: {},
+        searchResultsCount: 0,
+        showInstitutions: false,
+        showInstitutionsLoading: true,
+        showPagination: false,
+        showPaginationLoading: false
+      };
+
+      const expectedState = {
+        currentPageNumber: 1,
+        institutionQuery: 'new',
+        institutions: [],
+        institutionSelected: {},
+        pagesCount: 0,
+        searchResultsCount: 0,
+        showInstitutions: false,
+        showInstitutionsLoading: false,
+        showNoResultsFound: true,
+        showPagination: false,
+        showPaginationLoading: false
+      };
+
+      const action = {
+        type: 'LOAD_SCHOOLS_SUCCEEDED',
+        institutionQuery: 'new',
+        page: 3,
+        payload: {
+          data: [],
+          meta: {
+            count: 0
           }
         }
       };

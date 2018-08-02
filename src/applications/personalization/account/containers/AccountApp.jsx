@@ -9,6 +9,7 @@ import RequiredLoginView from '../../../../platform/user/authorization/component
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 
 import { dismissAnnouncement } from '../../../../platform/site-wide/announcements/actions';
+import { fetchMHVAccount } from '../../../../platform/user/profile/actions';
 
 const ANNOUNCEMENT_NAME = 'account';
 
@@ -33,8 +34,7 @@ class AccountApp extends React.Component {
                 <Announcement dismiss={this.dismissAnnouncement} isDismissed={this.props.announcementDismissed}/>
                 <AccountMain
                   login={this.props.login}
-                  profile={this.props.profile}
-                  terms={this.props.terms}/>
+                  profile={this.props.profile}/>
               </div>
             </div>
           </DowntimeNotification>
@@ -50,14 +50,14 @@ const mapStateToProps = (state) => {
     isLOA3: isLOA3(state),
     login: userState.login,
     profile: userState.profile,
-    terms: userState.profile.mhv.terms,
     user: userState,
     announcementDismissed: state.announcements.dismissed.includes(ANNOUNCEMENT_NAME)
   };
 };
 
 const mapDispatchToProps = {
-  dismissAnnouncement
+  dismissAnnouncement,
+  fetchMHVAccount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountApp);
