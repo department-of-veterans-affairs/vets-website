@@ -1,24 +1,20 @@
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 
-function completeApplicantInformation(client) {
+function completeApplicantInformation(client, data) {
   client
-    .click('input[name="root_onBehalfOf_0"]')
-    .fillName('root_fullName_first', 'Lebron')
-    .fillName('root_fullName_last', 'James')
-    .waitForElementVisible('select[name="root_serviceAffiliation"]', Timeouts.slow)
-    .fill('select[name="root_serviceAffiliation"]', 'Veteran');
+    // .waitForElementVisible('root_onBehalfOf', Timeouts.normal)
+    // .axeCheck('.main')
+    .selectRadio('input#root_onBehalfOf', data.onBehalfOf)
+    // .fillName('root_FullName', data.applicantFullName);
+    // .waitForElementVisible('input[name="root_serviceAffiliation"]', Timeouts.slow);
 }
 
-function completeContactInformation(client) {
+function completeBenefitsInformation(client, data) {
   client
-    .click('input[name="root_onBehalfOf_0"]')
-    .fillName('root_fullName_first', 'Lebron')
-    .fillName('root_fullName_last', 'James')
-    .waitForElementVisible('select[name="root_serviceAffiliation"]', Timeouts.slow)
-    .fill('select[name="root_serviceAffiliation"]', 'Veteran');
+    .click('label [for="root_programs_Post-9/11 Ch 33"]');
 }
 
 module.exports = {
-  completeApplicantInformation,
-  completeContactInformation
+  // completeApplicantInformation
+  completeBenefitsInformation
 };

@@ -16,7 +16,7 @@ module.exports = E2eHelpers.createE2eTest((client) => {
       .waitForElementVisible('body', Timeouts.normal);
 
     // Claimant information
-    client.waitForElementVisible('input[name="root_claimantFullName_first"]', Timeouts.normal)
+    client.waitForElementVisible('input[name="root_onBehalfOf"]', Timeouts.normal)
       .axeCheck('.main');
     PageHelpers.completeClaimantInformation(client, testData.data);
 

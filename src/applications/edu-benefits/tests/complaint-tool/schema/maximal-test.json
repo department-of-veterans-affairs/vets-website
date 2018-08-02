@@ -1,0 +1,12 @@
+{
+  "data": {
+    "onBehalfOf": "Myself",
+    "applicantFullName": {
+      "first": "applicantFirst",
+      "middle": "applicantMiddle",
+      "last": "applicantLast",
+      "suffix": "Jr."
+    },
+    "serviceAffiliation": "Veteran"
+  }
+}
