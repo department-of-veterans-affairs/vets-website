@@ -35,7 +35,7 @@
                         ]
                     },
                     "columnTwo": {
-                        "title": "Manage Your Health and Benefits",
+                        "title": "Manage Your Health",
                         "links": [
                             {
                                 "text": "Refill and Track Your Prescriptions",
@@ -101,14 +101,14 @@
                         ]
                     },
                     "columnTwo": {
-                        "title": "Manage Your Disability Benefits",
+                        "title": "Manage Your Benefits",
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
                                 "href": "#"
                             },
                             {
-                                "text": "Apply for an Increase in Your Disability Pay",
+                                "text": "File for a VA Disability Increase",
                                 "href": "#"
                             },
                             {
@@ -171,7 +171,7 @@
                         ]
                     },
                     "columnTwo": {
-                        "title": "Manage Your Education Benefits",
+                        "title": "Manage Your Benefits",
                         "links": [
                             {
                                 "text": "View Your VA Payment History",
@@ -216,7 +216,7 @@
                 "title": "Careers and Employment",
                 "links": {
                     "columnOne": {
-                        "title": "Get Career and Employment Benefits",
+                        "title": "Get Employment Benefits",
                         "links": [
                             {
                                 "text": "About Vocational Rehabilitation and Employment",
@@ -303,7 +303,7 @@
                         ]
                     },
                     "columnTwo": {
-                        "title": "Manage Your Pension Benefits",
+                        "title": "Manage Your Benefits",
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
@@ -365,7 +365,7 @@
                         ]
                     },
                     "columnTwo": {
-                        "title": "Get Adapted Housing Benefits",
+                        "title": "Get Veterans Housing Grants",
                         "links": [
                             {
                                 "text": "About Disability Housing Grants",
@@ -615,10 +615,6 @@
                   {
                       "text": "Congressional Affairs",
                       "href": "https://va.gov/oca/index.asp"
-                  },
-                  {
-                      "text": "VA Plans, Budget, and Performance",
-                      "href": "https://va.gov/performance/"
                   },
                   {
                       "text": "All VA Offices and Organizations",
