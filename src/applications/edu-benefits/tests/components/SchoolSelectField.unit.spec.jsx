@@ -194,4 +194,29 @@ describe('<SchoolSelectField>', () => {
     tree.find('.no-results-box a').first().simulate('click');
     expect(setCannotFindSchool.calledOnce).to.eql(true);
   });
+
+  it('should call onChange and clearSearch props when start over is clicked', () => {
+    const onChange = sinon.spy();
+    const clearSearch = sinon.spy();
+    const tree = mount(<SchoolSelectField
+      formContext={{}}
+      clearSearch={clearSearch}
+      currentPageNumber={1}
+      institutionQuery="test"
+      institutions={[]}
+      onChange={onChange}
+      pagesCount={2}
+      searchInputValue="test"
+      searchResultsCount={1}
+      showInstitutions={false}
+      showInstitutionsLoading={false}
+      showNoResultsFound
+      showPagination={false}
+      showPaginationLoading={false}/>
+    );
+
+    tree.find('.clear-search button').first().simulate('click');
+    expect(onChange.calledOnce).to.eql(true);
+    expect(clearSearch.calledOnce).to.eql(true);
+  });
 });

@@ -6,6 +6,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import {
+  clearSearch,
   searchInputChange,
   selectInstitution,
   searchSchools,
@@ -54,6 +55,20 @@ export class SchoolSelectField extends React.Component {
     this.props.setCannotFindSchool();
   }
 
+  handleOptionClick = ({ city, facilityCode, name, state }) => {
+    this.props.selectInstitution({ city, facilityCode, name, state });
+    this.props.onChange(facilityCode);
+  }
+
+  handlePageSelect = page => {
+    this.scrollToTop();
+
+    this.debouncedSearchInstitutions({
+      institutionQuery: this.props.institutionQuery,
+      page
+    });
+  }
+
   handleSearchInputKeyDown = e => {
     if ((e.which || e.keyCode) === 13) {
       e.preventDefault();
@@ -80,19 +95,13 @@ export class SchoolSelectField extends React.Component {
     this.props.searchInputChange({ searchInputValue });
   }
 
-  handleOptionClick = ({ city, facilityCode, name, state }) => {
-    this.props.selectInstitution({ city, facilityCode, name, state });
-    this.props.onChange(facilityCode);
+  handleStartOver = e => {
+    e.preventDefault();
+
+    this.props.onChange('');
+    this.props.clearSearch();
   }
 
-  handlePageSelect = page => {
-    this.scrollToTop();
-
-    this.debouncedSearchInstitutions({
-      institutionQuery: this.props.institutionQuery,
-      page
-    });
-  }
   render() {
     const {
       currentPageNumber,
@@ -112,6 +121,10 @@ export class SchoolSelectField extends React.Component {
     } = this.props;
 
     const fieldsetClass = classNames('search-select-school-fieldset');
+    const clearSearchInfoClass = classNames('clear-search', {
+      info: showInstitutions
+    });
+
 
     if (formContext.reviewMode) {
       const {
@@ -133,19 +146,34 @@ export class SchoolSelectField extends React.Component {
         <div>
           <div className="search-controls">
             <Element name="schoolSearch"/>
-            <input
-              onChange={this.handleSearchInputChange}
-              onKeyDown={this.handleSearchInputKeyDown}
-              type="text"
-              value={searchInputValue}/>
-            <button
-              className="search-schools-button usa-button-primary"
-              onClick={this.handleSearchClick}>
-              {'Search Schools'}
-            </button>
+            <div className="search-input">
+              <input
+                onChange={this.handleSearchInputChange}
+                onKeyDown={this.handleSearchInputKeyDown}
+                type="text"
+                value={searchInputValue}/>
+              <div
+                className={clearSearchInfoClass}>
+                {showInstitutions && <span>
+                  {`${searchResultsCount} results for ${institutionQuery}`}
+                </span>}
+                <button
+                  onClick={this.handleStartOver}
+                  className="va-button-link">
+                  Start Over
+                </button>
+              </div>
+            </div>
+            <div
+              className="search-schools">
+              <button
+                className="search-schools-button usa-button-primary"
+                onClick={this.handleSearchClick}>
+                {'Search Schools'}
+              </button>
+            </div>
           </div>
           {showInstitutions && <div>
-            {`${searchResultsCount} results for ${institutionQuery}`}
             {institutions.map(({ city, facilityCode, name, state }, index) => (
               <div key={index}>
                 <div className="radio-button">
@@ -231,6 +259,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 const mapDispatchToProps = {
+  clearSearch,
   searchInputChange,
   searchSchools,
   selectInstitution,
