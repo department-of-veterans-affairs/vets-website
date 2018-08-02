@@ -1,3 +1,4 @@
+import _ from '../../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -9,9 +10,9 @@ import {
   treatmentView,
 } from '../helpers';
 
-const {
-  privateRecordReleases
- } = fullSchema.properties;
+// const {
+//   privateRecordReleases
+// } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
 
