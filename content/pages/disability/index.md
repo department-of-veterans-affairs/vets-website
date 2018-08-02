@@ -31,23 +31,6 @@ crosslinks:
     - url:  https://www.vets.gov/pension/aid-attendance-housebound/
       title: <b>Aid and Attendance or Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
-    - url: https://vets.gov/life-insurance/options-and-eligibility/s-dvi/
-      title: <b>Service-Disabled Veteran's Insurance</b>
-      description: Find out if you qualify for S-DVI life insurance and how to manage your coverage.
-    - url: https://vets.gov/life-insurance/options-and-eligibility/sgli/#extension
-      title: <b>SGLI Disability Extension</b>
-      description: Learn about Servicemembers' Group Life Insurance extensions for Veterans with service-connected disabilities.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-800-827-1000
-      title: Questions about Disability Compensation, Pension, and Direct Deposit
-    - url: 1-800-983-0937
-      title: eBenefits Technical Support
-    - url: 1-800-749-8387
-      title: Special Issues (Gulf War/Agent Orange/Project Shad/Mustard Agents and Lewisite/Ionizing Radiation)
-    - url: 1-877-4AID-VET (1-877-424-3838)
-      title: National Call Center for Homeless Veterans
 social:
   - heading: Connect With Us
     admin: Veterans Benefits Administration
@@ -59,10 +42,10 @@ social:
           label: "Ask a Question Online"
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
-          title: "VA Benefits Hotline:"
+          title: "1-800-983-0937:"
         - url: tel:1-877-827-3702
           number: 1-877-827-3702
-          title: "VA Loan Service Representatives:"
+          title: "eBenefits Technical Support:"
         - url: tel:1-877-4AID-VET (1-877-424-3838)
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
@@ -79,7 +62,7 @@ social:
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
-          icon: fa-youtube 
+          icon: fa-youtube
 ---
 
 <p class="va-introtext">
@@ -88,9 +71,11 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 
 <h3>On This Page</h3>
 
-[Get VA Disability Compensation (Pay)](#get)<br>
-[Manage Your Veterans Disability Benefits](#manage)<br>
-[More Information and Resources](#more)<br>
+<ul>
+  <li><a href="#get">Get VA Disability Compensation (Pay)</a></li>
+  <li><a href="#manage">Manage Your Veterans Disability Benefits</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
@@ -121,8 +106,8 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for Surviving Spouse and Dependents (VA DIC)</b></a>
-    <p>Learn about getting VA disability benefits for a surviving spouse, dependent child, or parent.</p>
+  <a href="https://www.vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for a Surviving Spouse and Dependents (VA DIC)</b></a>
+  <p>Learn about getting VA disability benefits as a surviving spouse, dependent child, or parent.</p>
   </div>
 
 </section>
@@ -161,7 +146,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 </div>
 
   <div class="link">
-    <a href="#"><b>File Supplemental Forms For Special Claims</b></a>
+    <a href="#"><b>File Supplemental Forms for Special Claims</b></a>
     <p>Find out if you'll need to turn in any additional forms to support your disability claim.</p>
   </div>
 
@@ -176,8 +161,8 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="#"><b>Download Your VA Benefit Letters</b></a>
-    <p>Download a copy of letters like your your eligibility or award letter for certain benefits.</p>
+  <a href="#"><b>Download Your VA Benefit Letters</b></a>
+  <p>Download a copy of letters like your eligibility or award letter for certain benefits.</p>
   </div>
 
   <div class="link">
@@ -216,8 +201,8 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp"><b>Disability Evaluation Questionnaires (VA DBQ Forms)</b></a>
-    <p>Find and download the right disability benefits questionnaire for your health care provider to complete in support of your claim.</p>
+  <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp"><b>Disability Evaluation Questionnaires (VA DBQ Forms)</b></a>
+  <p>Find and download the right disability benefits questionnaire for your health care provider to complete in support of your claim.</p>
   </div>
 
 </section>
