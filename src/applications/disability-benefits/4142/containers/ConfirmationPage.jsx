@@ -1,9 +1,9 @@
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+// import { focusElement } from '../../../../platform/utilities/ui';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -20,9 +20,9 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data } = this.props.form;
-    const { response } = submission;
-    const name = data.veteranFullName;
+    // const { submission, data } = this.props.form;
+    // const { response } = submission;
+    const fullname = data.veteranFullName;
 
     return (
       <div>
@@ -34,14 +34,7 @@ export class ConfirmationPage extends React.Component {
         </p>
         <div className="inset">
           <h4>Authorization to disclose information Claim <span className="additional">(Form 21-4142)</span></h4>
-          <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
-
-          {response && <ul className="claim-list">
-            <li>
-              <strong>Date received</strong><br/>
-              <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
-            </li>
-          </ul>}
+          <span>for {fullname.first} {fullname.middle} {fullname.last} {fullname.suffix}</span>
         </div>
       </div>
     );
