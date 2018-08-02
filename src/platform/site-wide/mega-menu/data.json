@@ -61,7 +61,7 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "http://via.placeholder.com/228x128",
+                            "src": "/img/megamenu/healthcare.png",
                             "alt": "VA Telehealth Services"
                         },
                         "link": {
@@ -127,7 +127,7 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "http://via.placeholder.com/228x128",
+                            "src": "/img/megamenu/disability-illustration.png",
                             "alt": "Decision Ready Claims"
                         },
                         "link": {
@@ -197,7 +197,7 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "#",
+                            "src": "/img/megamenu/education-training-illustration.png",
                             "alt": "GI Bill School Feedback"
                         },
                         "link": {
@@ -259,7 +259,7 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "http://via.placeholder.com/228x128",
+                            "src": "/img/megamenu/careers-employment-illustration.png",
                             "alt": "VA for Vets"
                         },
                         "link": {
@@ -325,7 +325,7 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "http://via.placeholder.com/228x128",
+                            "src": "/img/megamenu/pension-illustration.png",
                             "alt": "Electronic Pension Payments"
                         },
                         "link": {
@@ -383,7 +383,7 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "http://via.placeholder.com/228x128",
+                            "src": "/img/megamenu/housing-assistance-illustration.png",
                             "alt": "National Call Center for Homeless Veterans"
                         },
                         "link": {
@@ -441,7 +441,7 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "http://via.placeholder.com/228x128",
+                            "src": "/img/megamenu/life-insurance-illustration.png",
                             "alt": "SGLI Online Enrollment System (SOES)"
                         },
                         "link": {
@@ -507,7 +507,7 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "http://via.placeholder.com/228x128",
+                            "src": "/img/megamenu/burials-memorials-illustration.png",
                             "alt": "National Cemetery Administration Mobile Site"
                         },
                         "link": {
@@ -569,7 +569,7 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "http://via.placeholder.com/228x128",
+                            "src": "/img/megamenu/records-illustration.png",
                             "alt": "Veteran ID Card"
                         },
                         "link": {
@@ -690,7 +690,7 @@
           },
           "columnThree": {
               "img": {
-                  "src": "http://via.placeholder.com/228x128",
+                  "src": "/img/students-classroom-web.jpg",
                   "alt": "The VAntage Point Blog"
               },
               "link": {
