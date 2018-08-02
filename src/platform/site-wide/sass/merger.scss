@@ -210,6 +210,11 @@ h3, h4 {
   .button-inner {
     padding-left: 1em;
     padding-right: 1em;
+
+    &#vcl {
+      padding-left: .5em;
+      padding-right: .5em;
+    }
   }
 
   .fa {
