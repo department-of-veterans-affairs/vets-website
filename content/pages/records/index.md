@@ -75,7 +75,7 @@ Access your VA records and documents online to manage your health and benefits.
 
   <div class="link">
     <a href="#"><b>Download Your VA Benefit Letters</b></a>
-    <p>Download a copy of letters like your your eligibility or award letter for certain benefits.</p>
+    <p>Download a copy of letters like your eligibility or award letter for certain benefits.</p>
   </div>
 
   <div class="link">

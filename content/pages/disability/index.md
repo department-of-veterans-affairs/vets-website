@@ -42,7 +42,7 @@ social:
           label: "Ask a Question Online"
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
-          title: "VA Health Benefits Hotline:"
+          title: "VA Benefits Hotline:"
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
