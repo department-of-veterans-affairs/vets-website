@@ -6,7 +6,7 @@ display_title: Life Insurance
 concurrence: complete
 lastupdate:
 order: 1
-icon: fa-users
+icon: users
 promo:
   - image: /img/megamenu/life-insurance-illustration.png
     heading: SGLI Online Enrollment System (SOES)
@@ -17,8 +17,8 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: https://va.gov/burials
-      title: <b>Burials and Memorials</b>
-      description: Learn about Veterans burial benefits, how to plan a burial, and how to get compensation as a survivor.
+      title: <b>Burial Benefits and and Memorial Items</b>
+      description: Get help planning a burial, order a headstone or other memorial item, and apply for survivor and dependent benefits.
     - url: https://va.gov/pension
       title: <b>Pension Benefits</b>
       description: Find out if you're eligible for tax-free monthly payments as a wartime Veteran or surviving spouse or child.
@@ -28,17 +28,6 @@ crosslinks:
     - url: https://www.vets.gov/health-care/
       title: <b>VA Health Care</b>
       description: Find out how to apply for and manage your VA health care benefits.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-800-419-1473
-      title: Questions about Service Members or Veterans Group Life Insurance
-    - url: 1-800-669-8477
-      title: Questions about All Other VA Life Insurance Programs
-    - url: 1-800-827-1000
-      title: Questions about Other VA Benefits
-    - url: https://iris.custhelp.va.gov/app/ask
-      title: Ask Us a Question Online
 social:
   - heading: Connect With Us
     admin: Veterans Benefits Administration
@@ -48,15 +37,12 @@ social:
         links:
         - url: https://iris.custhelp.va.gov/app/ask
           label: "Ask a Question Online"
-        - url: tel:1-800-827-1000
-          number: 1-800-827-1000
-          title: "VA Benefits Hotline:"
-        - url: tel:1-877-827-3702
-          number: 1-877-827-3702
-          title: "VA Loan Service Representatives:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
+        - url: tel:1-800-419-1473
+          number: 1-800-419-1473
+          title: "Support for SGLI or VGLI:"
+        - url: tel:1-800-669-8477
+          number: 1-800-669-8477
+          title: "All Other VA Life Insurance Programs:"
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
@@ -70,16 +56,18 @@ social:
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
-          icon: fa-youtube 
+          icon: fa-youtube
 ---
 <p class="va-introtext">
 VA life insurance can offer financial security and support for Veterans, Servicemembers, their spouses and dependent children. Explore your options, manage your policy, and file claims to get the insurance benefits you've earned.</p>
 
 <h3>On This Page</h3>
 
-[Get VA Life Insurance](#get)<br>
-[Manage Your Policy and Benefits](#manage)<br>
-[More Information and Resources](#more)<br>
+<ul>
+  <li><a href="#get">Get VA Life Insurance</a></li>
+  <li><a href="#manage">Manage Your Policy and Benefits</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
@@ -115,7 +103,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   <h2>Manage Your Policy and Benefits</h2>
 
   <div class="link">
-    <a href="https://www.vets.gov/life-insurance/manage-your-policy/"><b>Access Your Policy Online</b></a>
+    <a href="https://www.vets.gov/life-insurance/manage-your-policy/"><b>Manage Your Policy Online</b></a>
     <p>Find out how to check your policy's status, update your information, or pay your premium online.</p>
     </div>
 
@@ -125,24 +113,19 @@ VA life insurance can offer financial security and support for Veterans, Service
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/INSURANCE/sglivgli.asp"><b>File a Claim for Benefits</b></a>
+    <a href="https://benefits.va.gov/INSURANCE/sglivgli.asp"><b>File a Claim for Insurance Benefits</b></a>
     <p>Find out how to claim VA life insurance benefits under your policy.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your VA Insurance Appeal Status</b></a>
-    <p>Track the status of an open life insurance appeal.</p>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your Appeal Status</b></a>
+    <p>Track the status of your life insurance appeal.</p>
   </div>
 
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/converting.asp"><b>Convert to a Commercial Policy</b></a>
     <p>Find out when and how you can convert your VA life insurance to a commercial policy.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://www.benefits.va.gov/insurance/sglidisabled.asp"><b>Apply for an SGLI Disability Extension (VA Form SGLV 8715)</b></a>
-    <p>If you're totally disabled when you're discharged from active duty, find out how to apply for free Servicemembers' Group Life Insurance coverage for up to 2 years from your date of separation.</p>
-  </div>
+  </div>  
 
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIAppealsForm.htm"><b>File a TSGLI Appeal (VA Form SGLV 8600A)</b></a>
