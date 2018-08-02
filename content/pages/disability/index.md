@@ -103,8 +103,8 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for Surviving Spouse and Dependents (VA DIC)</b></a>
-    <p>Learn about getting VA disability benefits for a surviving spouse, dependent child, or parent.</p>
+    <a href="https://www.vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for a Surviving Spouse and Dependents (VA DIC)</b></a>
+    <p>Learn about getting VA disability benefits as a surviving spouse, dependent child, or parent.</p>
   </div>
 
 </section>
@@ -143,7 +143,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 </div>
 
   <div class="link">
-    <a href="#"><b>File Supplemental Forms For Special Claims</b></a>
+    <a href="#"><b>File Supplemental Forms for Special Claims</b></a>
     <p>Find out if you'll need to turn in any additional forms to support your disability claim.</p>
   </div>
 
@@ -159,7 +159,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 
   <div class="link">
     <a href="#"><b>Download Your VA Benefit Letters</b></a>
-    <p>Download a copy of letters like your your eligibility or award letter for certain benefits.</p>
+    <p>Download a copy of letters like your eligibility or award letter for certain benefits.</p>
   </div>
 
   <div class="link">
