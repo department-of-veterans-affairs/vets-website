@@ -100,6 +100,7 @@ export class SchoolSelectField extends React.Component {
 
     this.props.onChange('');
     this.props.clearSearch();
+    this.searchInput.focus();
   }
 
   render() {
@@ -150,6 +151,7 @@ export class SchoolSelectField extends React.Component {
               <input
                 onChange={this.handleSearchInputChange}
                 onKeyDown={this.handleSearchInputKeyDown}
+                ref={input => { this.searchInput = input; }}
                 type="text"
                 value={searchInputValue}/>
               <div
