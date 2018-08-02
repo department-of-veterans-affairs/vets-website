@@ -175,7 +175,15 @@ export class SchoolSelectField extends React.Component {
           }
           {showNoResultsFound && <div className="no-results-box">
             <p>
-              <strong>{'No schools found. '}</strong>{'Please try entering a different search term (school name or address), or '}<a onClick={this.handleManuallyEnterClicked}>{'manually enter your school’s information by clicking this link.'}</a>
+              <strong>
+                {'No schools found. '}
+              </strong>
+              {'Please try entering a different search term (school name or address), or '}
+              <button
+                className="va-button-link"
+                onClick={this.handleManuallyEnterClicked}>
+                {'manually enter your school’s information by clicking this link.'}
+              </button>
             </p>
           </div>}
           {showPaginationLoading && <div>
