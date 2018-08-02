@@ -9,36 +9,27 @@ order: 1
 icon: book
 promo:
   - image: /img/megamenu/education-training-illustration.png
-    heading: GI Bill&reg; School Feedback Tool
+    heading: GI Bill School Feedback Tool
     url: "https://www.benefits.va.gov/GIBILL/Feedback.asp"
     description: Find out how to give us feedback about your GI Bill school.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: https://benefits.va.gov/TAP/index.asp
-      title: Transition Assistance Program (VA TAP)
+      title: <b>Transition Assistance Program (VA TAP)</b>
       description: Learn about VA benefits available to you and your family as you transition out of active-duty, National Guard, or Reserve service.
     - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
-      title: Vocational Rehabilitation and Employment
+      title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url: https://www.vets.gov/housing-assistance/home-loans/
-      title: Home Loan Benefits
+      title: <b>Home Loan Benefits</b>
       description: Explore options for Veterans home loans, apply for your Certificate of Eligibility (COE), and get help if you're having trouble making your mortgage payments.
     - url: https://www.vets.gov/employment/job-seekers/register-your-business/
-      title: Veteran-Owned Small Business Support
+      title: <b>Veteran-Owned Small Business Support</b>
       description: Register to do business with VA and get support for your Veteran-owned small business.
     - url: https://www.dol.gov/veterans/findajob/
-      title: Jobs for Veterans
+      title: <b>Jobs for Veterans</b>
       description: Get help from the U.S. Department of Labor to find a job, get training, or explore career options.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-888-GIBILL-1 (888-442-4551)
-      title: Education Questions about the GI Bill
-    - url: 001-918-781-5678
-      title: For Students and School Certifying Officials outside the U.S.
-    - url: https://gibill.custhelp.va.gov/
-      title: Ask GI Bill Questions Online
 social:
   - heading: Connect With Us
     admin: Veterans Benefits Administration
@@ -48,15 +39,12 @@ social:
         links:
         - url: https://iris.custhelp.va.gov/app/ask
           label: "Ask a Question Online"
-        - url: tel:1-800-827-1000
-          number: 1-800-827-1000
-          title: "VA Benefits Hotline:"
-        - url: tel:1-877-827-3702
-          number: 1-877-827-3702
-          title: "VA Loan Service Representatives:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
+        - url: tel:1-888-GIBILL-1 (888-442-4551)
+          number: 1-888-GIBILL-1 (888-442-4551)
+          title: "GI Bill Hotline:"
+        - url: tel:001-918-781-5678
+          number: 001-918-781-5678
+          title: "Students Outside the U.S.:"
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
@@ -82,14 +70,17 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 <h3>On This Page</h3>
 
-[Get GI Bill&reg; and Other Education Benefits](#get)<br>
-[Manage Your Veterans Education Benefits](#manage)<br>
-[More Information and Resources](#more)<br>
+<ul>
+  <li><a href="#get">Get GI Bill and Other Education Benefits</a></li>
+  <li><a href="#manage">Manage Your Veterans Education Benefits</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
 </section>
 
+<section id="get" class="merger-majorlinks">
   <h2>Get GI Bill&reg; and Other Education Benefits</h2>
 
   <div class="link">
@@ -128,7 +119,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/other-educational-assistance-programs/"><b>Other VA Education Benefits</b></a>
+    <a href="https://vets.gov/education/other-educational-assistance-programs/"><b>Other Educational Assistance Programs</b></a>
     <p>If you're a Guardsman, Reservist, or Veteran who doesn't qualify for the Post-9/11 GI Bill, see if you're eligible for other VA education benefits.</p>
   </div>
 </section>
@@ -167,13 +158,8 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>Check Your VA Claim Status</b></a>
-    <p>Track the status of your VA education benefits claim or appeal.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>File an Appeal</b></a>
-    <p>If you disagree with our decision on your application, learn how to file an appeal and what to expect from the VA appeal process.</p>
+    <a href="#"><b>Check Your VA Appeal Status</b></a>
+    <p>Track the status of your VA education benefits appeal.</p>
   </div>
 
   <div class="link">
@@ -188,12 +174,11 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 </section>
 
-<section id="more" class="merger-majorlinks">
-
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
 </section>  
 
+<section id="more" class="merger-majorlinks">
   <h2>More Information and Resources</h2>
 
   <div class="link">
@@ -207,7 +192,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/gibill/school_decision.asp"><b>How to Choose a College or Training Program</b></a>
+    <a href="https://www.vets.gov/education/tools-programs/locate-a-school/"><b>How to Choose GI Bill Approved Schools</b></a>
     <p>Get links to VA and non-VA resources for guidance in choosing a college or training program.</p>
   </div>
 

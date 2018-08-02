@@ -15,20 +15,20 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: https://www.vets.gov/disability
-      title: Disability Compensation (Pay)
+    - url: /disability/
+      title: <b>Disability Compensation (Pay)</b>
       description: Find out how to file a claim for compensation for conditions related to your military service.
-    - url: https://www.vets.gov/pension/
-      title: Pension Benefits
+    - url: /pension/
+      title: <b>Pension Benefits</b>
       description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
     - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
-      title: Vocational Rehabilitation and Employment
+      title: <br>Vocational Rehabilitation and Employment</br>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url: https://www.vets.gov/families-caregivers/
-      title: Family and Caregiver Benefits
+      title: <br>Family and Caregiver Benefits</br>
       description: Learn about benefits for spouses, dependents, and caregivers of Veterans and Servicemembers.
-    - url: https://www.vets.gov/life-insurance/
-      title: Life Insurance
+    - url: /life-insurance/
+      title: <br>Life Insurance</br>
       description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
 social:
   - heading: Connect With Us
@@ -61,7 +61,7 @@ social:
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
-          icon: fa-youtube 
+          icon: fa-youtube
 
 
 ---
@@ -129,12 +129,12 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"><b>Apply Online for Your COE (VA Form 26-1880)</b></a>
+    <a href="#"><b>Apply Online for Your COE (VA Form 26-1880)</b></a>
     <p>Start your online application now.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your Appeal Status</b></a>
+    <a href="#"><b>Check Your Appeal Status</b></a>
     <p>Track the status of an open home loan COE appeal.</p>
   </div>
 
@@ -179,12 +179,12 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
     </div>
 
   <div class="link">
-    <a href="https://"><b>Apply for a Specially Adapted Housing Grant</b></a>
+    <a href="#"><b>Apply for a Specially Adapted Housing Grant</b></a>
     <p>Get financial help to make changes to your home to help you live more independently with a service-connected disability.</p>
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant"><b>Check Your SAH Grant Claim Status</b></a>
+    <a href="#"><b>Check Your SAH Grant Claim Status</b></a>
     <p>Track the status of an open claim for a Specially Adapted Housing grant.</p>
   </div>
 
