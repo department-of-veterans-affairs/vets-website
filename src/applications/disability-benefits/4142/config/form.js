@@ -1,5 +1,5 @@
 import _ from '../../../../platform/utilities/data';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-schema.json';
+//import fullSchema from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -8,6 +8,7 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 import {
   treatmentView,
+  recordReleaseWarning
 } from '../helpers';
 
 // const {
