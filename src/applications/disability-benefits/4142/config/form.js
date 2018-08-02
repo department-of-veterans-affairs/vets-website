@@ -6,10 +6,36 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
-import {
-  treatmentView,
-  recordReleaseWarning
-} from '../helpers';
+// import {
+//   treatmentView,
+//   recordReleaseWarning
+// } from '../helpers';
+const treatmentView = ({ formData }) => {
+  const { from, to } = formData.treatmentDateRange;
+
+  const name = formData.treatmentCenterName || '';
+  let treatmentPeriod = '';
+  if (from && to) {
+    treatmentPeriod = `${from} — ${to}`;
+  } else if (from || to) {
+    treatmentPeriod = `${(from || to)}`;
+  }
+
+  return (
+    <div>
+      <strong>{name}</strong><br/>
+      {treatmentPeriod}
+    </div>
+  );
+};
+
+const recordReleaseWarning = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span>Limiting consent means that your doctor can only share records that are
+      directly related to your condition. This could add to the time it takes to
+      get your private medical records.</span>
+  </div>
+);
 
 // const {
 //   privateRecordReleases
