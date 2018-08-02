@@ -39,17 +39,20 @@ social:
         links:
         - url: https://iris.custhelp.va.gov/app/ask
           label: "Ask a Question Online"
-        - url: 1-800-827-1000
+        - url: tel:1-800-827-1000
+          number: 1-800-827-1000
           title: "VA Benefits Hotline:"
-        - url: 1-877-827-3702
+        - url: tel:1-877-827-3702
+          number: 1-877-827-3702
           title: "VA Loan Service Representatives:"
-        - url: 1-877-4AID-VET (1-877-424-3838)
+        - url: tel:1-877-4AID-VET (1-877-424-3838)
+          number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
-          icon:
+          icon: fa-envelope-square
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
           icon: fa-twitter
@@ -58,7 +61,7 @@ social:
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
-          icon: fa-youtube  
+          icon: fa-youtube 
 
 
 ---

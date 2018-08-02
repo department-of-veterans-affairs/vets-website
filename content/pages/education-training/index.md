@@ -39,21 +39,38 @@ contact:
       title: For Students and School Certifying Officials outside the U.S.
     - url: https://gibill.custhelp.va.gov/
       title: Ask GI Bill Questions Online
-
 social:
-  - heading: Get Updates
-    links:
-    - url: "https://www.facebook.com/VeteransBenefits"
-      label: Veterans Benefits Facebook
-      icon: fa-facebook
-    - url: "https://twitter.com/VAVetBenefits"
-      label: Veterans Benefits Twitter
-      icon: fa-twitter
-    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-      label: Veterans Benefits YouTube
-      icon: fa-youtube
-    - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-      label: Email Updates
+  - heading: Connect With Us
+    admin: Veterans Benefits Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: tel:1-800-827-1000
+          number: 1-800-827-1000
+          title: "VA Benefits Hotline:"
+        - url: tel:1-877-827-3702
+          number: 1-877-827-3702
+          title: "VA Loan Service Representatives:"
+        - url: tel:1-877-4AID-VET (1-877-424-3838)
+          number: 1-877-4AID-VET (1-877-424-3838)
+          title: "National Call Center for Homeless Veterans:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+          label: Veterans Benefits Email Updates
+          icon: fa-envelope-square
+        - url: https://twitter.com/VAVetBenefits
+          label: Veterans Benefits Twitter
+          icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransBenefits"
+          label: Veterans Benefits Facebook
+          icon: fa-facebook
+        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+          label: Veterans Benefits YouTube
+          icon: fa-youtube  
 ---
 
 <p class="va-introtext">
@@ -172,7 +189,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 </section>
 
 <section id="more" class="merger-majorlinks">
-  
+
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
 </section>  
@@ -208,7 +225,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
     <a href="https://www.benefits.va.gov/gibill/contact_us.asp"><b>GI Bill Questions and Customer Help</b></a>
     <p>Contact us to ask questions and get help with your benefits online or by phone.</p>
   </div>  
- 
+
   <div class="link">
     <a href="https://www.benefits.va.gov/GIBILL/Feedback.asp"><b>GI Bill School Feedback Tool</b></a>
     <p>Find out how to give us feedback about your GI Bill school.</p>
@@ -223,7 +240,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
     <a href="https://www.benefits.va.gov/gibill/my_story.asp"><b>My Story—How Veterans and Servicemembers Use the GI Bill</b></a>
     <p>Hear inspiring stories from Veterans and Servicemembers who’ve advanced their education and training with the Post-9/11 GI Bill.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.benefits.va.gov/gibill/non_va_resources.asp"><b>Other Helpful Education Resources</b></a>
     <p>Get links to non-VA resources and websites that may be useful to student Veterans and those who support them.</p>

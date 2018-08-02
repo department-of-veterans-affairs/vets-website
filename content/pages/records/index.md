@@ -14,27 +14,44 @@ promo:
 contact:
   - heading: Ask Questions
     links:
-    - url: 1-800-827-1000 
+    - url: 1-800-827-1000
       title: Questions about VA Benefits
-    - url: 1-877-327-0022 or 1-800-877-8339 (TTY) 
+    - url: 1-877-327-0022 or 1-800-877-8339 (TTY)
       title: MyHealtheVet Help Desk
     - url: 1-800-983-0937
       title: eBenefits Technical Support
-
 social:
-  - heading: Get Updates
-    links:
-    - url: "https://twitter.com/DeptVetAffairs/"
-      label: Veterans Affairs Twitter
-      icon: fa-twitter
-    - url: "https://www.facebook.com/VeteransAffairs/"
-      label: Veterans Affairs Facebook
-      icon: fa-facebook
-    - url: "https://www.youtube.com/user/DeptVetAffairs"
-      label: Veterans Affairs YouTube
-      icon: fa-youtube
-    - url: "https://public.govdelivery.com/accounts/USVA/subscriber/new"
-      label: Email Updates
+  - heading: Connect With Us
+    admin: Veterans Benefits Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: tel:1-800-827-1000
+          number: 1-800-827-1000
+          title: "VA Benefits Hotline:"
+        - url: tel:1-877-827-3702
+          number: 1-877-827-3702
+          title: "VA Loan Service Representatives:"
+        - url: tel:1-877-4AID-VET (1-877-424-3838)
+          number: 1-877-4AID-VET (1-877-424-3838)
+          title: "National Call Center for Homeless Veterans:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+          label: Veterans Benefits Email Updates
+          icon: fa-envelope-square
+        - url: https://twitter.com/VAVetBenefits
+          label: Veterans Benefits Twitter
+          icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransBenefits"
+          label: Veterans Benefits Facebook
+          icon: fa-facebook
+        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+          label: Veterans Benefits YouTube
+          icon: fa-youtube 
 ---
 
 <p class="va-introtext">

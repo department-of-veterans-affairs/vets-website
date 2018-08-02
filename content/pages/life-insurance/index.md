@@ -39,21 +39,38 @@ contact:
       title: Questions about Other VA Benefits
     - url: https://iris.custhelp.va.gov/app/ask
       title: Ask Us a Question Online
-
 social:
-  - heading: Get Updates
-    links:
-    - url: "https://www.facebook.com/VeteransBenefits"
-      label: Veterans Benefits Facebook
-      icon: fa-facebook
-    - url: "https://twitter.com/VAVetBenefits"
-      label: Veterans Benefits Twitter
-      icon: fa-twitter
-    - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-      label: Veterans Benefits YouTube
-      icon: fa-youtube
-    - url: "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
-      label: Email Updates
+  - heading: Connect With Us
+    admin: Veterans Benefits Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: tel:1-800-827-1000
+          number: 1-800-827-1000
+          title: "VA Benefits Hotline:"
+        - url: tel:1-877-827-3702
+          number: 1-877-827-3702
+          title: "VA Loan Service Representatives:"
+        - url: tel:1-877-4AID-VET (1-877-424-3838)
+          number: 1-877-4AID-VET (1-877-424-3838)
+          title: "National Call Center for Homeless Veterans:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+          label: Veterans Benefits Email Updates
+          icon: fa-envelope-square
+        - url: https://twitter.com/VAVetBenefits
+          label: Veterans Benefits Twitter
+          icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransBenefits"
+          label: Veterans Benefits Facebook
+          icon: fa-facebook
+        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+          label: Veterans Benefits YouTube
+          icon: fa-youtube 
 ---
 <p class="va-introtext">
 VA life insurance can offer financial security and support for Veterans, Servicemembers, their spouses and dependent children. Explore your options, manage your policy, and file claims to get the insurance benefits you've earned.</p>
@@ -116,12 +133,12 @@ VA life insurance can offer financial security and support for Veterans, Service
     <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your VA Insurance Appeal Status</b></a>
     <p>Track the status of an open life insurance appeal.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/converting.asp"><b>Convert to a Commercial Policy</b></a>
     <p>Find out when and how you can convert your VA life insurance to a commercial policy.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.benefits.va.gov/insurance/sglidisabled.asp"><b>Apply for an SGLI Disability Extension (VA Form SGLV 8715)</b></a>
     <p>If you're totally disabled when you're discharged from active duty, find out how to apply for free Servicemembers' Group Life Insurance coverage for up to 2 years from your date of separation.</p>
@@ -156,35 +173,35 @@ VA life insurance can offer financial security and support for Veterans, Service
     <a href="https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp"><b>Myths and Rumors About SGLI/VGLI Insurance</b></a>
     <p>Get the facts on common myths, rumors, and misconceptions about SGLI and VGLI insurance.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/SOES.asp"><b>About the SGLI Online Enrollment System (SOES)</b></a>
     <p>Learn about our new online process for enrolling in Servicemembers' Group Life Insurance.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/resources-contact.asp"><b>Contact Us</b></a>
     <p>Find out how to reach out to ask a question about your policy or file a claim for benefits.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/resources-forms.asp"><b>VA Life Insurance Forms</b></a>
     <p>Find and download the forms you need to apply for and manage your life insurance benefits.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/ins_publications.asp"><b>Publications and Handbooks</b></a>
     <p>Download life insurance handbooks, guides, and newsletters.</p>
   </div>
-  
+
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/payments-eft.asp"><b>Mandatory Electronic Payments</b></a>
     <p>Learn about the law requiring us to pay all benefits by electronic funds transfer.</p>
-  </div> 
-  
+  </div>
+
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/uninsurable.asp"><b>Medical Conditions That May Make You Uninsurable</b></a>
     <p>Find out which medical conditions may make it hard for you to get private life insurance after you separate from service, and what to do to make sure you have coverage. </p>
-  </div> 
+  </div>
 
 </section>
