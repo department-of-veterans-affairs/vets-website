@@ -42,9 +42,9 @@ social:
           label: "Ask a Question Online"
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
-          title: "1-800-983-0937:"
-        - url: tel:1-877-827-3702
-          number: 1-877-827-3702
+          title: "VA Health Benefits Hotline:"
+        - url: tel:1-800-983-0937
+          number: 1-800-983-0937
           title: "eBenefits Technical Support:"
         - url: tel:1-877-4AID-VET (1-877-424-3838)
           number: 1-877-4AID-VET (1-877-424-3838)

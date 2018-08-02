@@ -33,7 +33,7 @@ social:
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
-          label: Veterans Benefits Email Updates
+          label: Veterans Records Email Updates
           icon: fa-envelope-square
         - url: https://twitter.com/DeptVetAffairs/
           label: Veterans Affairs Twitter
