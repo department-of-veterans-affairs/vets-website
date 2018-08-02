@@ -235,6 +235,7 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Deploy dev or staging') {
+    if (shouldBail()) { return }
     try {
       //if (!isDeployable()) {
       //  return
