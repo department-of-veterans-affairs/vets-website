@@ -341,6 +341,18 @@ h3, h4 {
   }
 }
 
+.hub-main-title {
+  width: 85%;
+}
+
+.usa-grid {
+  .usa-width-two-thirds {
+    .hub-main-icon {
+      vertical-align: top;
+      margin-top: 8px;
+    }
+  }
+}
 
 // mobile
 @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
