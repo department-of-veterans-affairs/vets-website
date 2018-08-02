@@ -448,7 +448,7 @@ const formConfig = {
                     type: 'string'
                   },
                   'view:cannotFindSchool': {
-                    title: 'I can’t find my school',
+                    title: 'I’d rather type in my school information',
                     type: 'boolean'
                   },
                   'view:manualSchoolEntry': {
