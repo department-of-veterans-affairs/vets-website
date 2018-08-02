@@ -10,10 +10,10 @@ class HelpMenu extends React.Component {
 
     const dropDownContents = (
       <div>
-        <p><b>Call the VA.gov Help Desk</b></p>
-        <p><a href="tel:18555747286">1-855-574-7286</a></p>
-        <p>TTY: <a href="tel:+18008778339">1-800-877-8339</a></p>
-        <p>Monday &ndash; Friday, 8:00 a.m. &ndash; 8:00 p.m. (ET)</p>
+        <p><a href="https://preview.va.gov/facilities/">Find a VA Location</a></p>
+        <p><a href="#">Submit a Help Request</a></p>
+        <p><a href="#">Go to VA Help Center</a></p>
+        <p><a href="#">Call Us: </a></p>
       </div>
     );
 
