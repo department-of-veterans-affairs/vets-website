@@ -112,6 +112,7 @@ You may qualify for VA health care and other benefits. View the Application for 
 
 [Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
 
+<br>
 
 #### What if I need long-term care?
 
