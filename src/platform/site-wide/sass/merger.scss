@@ -1,5 +1,10 @@
 /* MERGER-specific shame. This is not production ready; proof of concept only */
 
+/* OVERRIDE */
+.panel-bottom-link {
+  border-top: 0 !important; // sorry but it's got to go and I don't have time to do it right
+}
+
 $color-primary-lightest: #e1f3f8;
 
 @import 'iconography';
