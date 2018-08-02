@@ -34,7 +34,7 @@ crosslinks:
 social:
   - heading: Connect with Us
     admin: Veterans Health Administration
-    url: https://www.benefits.va.gov/benefits/
+    url: https://www.va.gov/health/
     subsections:
       - subhead: Ask Questions
         links:
