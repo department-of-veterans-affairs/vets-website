@@ -31,19 +31,6 @@ crosslinks:
     - url: "/education-training/"
       title: <b>Education and Training</b>
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-877-222-VETS(8387)
-      title: "Health Benefits Hotline:"
-    - url: 1-877-327-0022
-      title: "My HealtheVet Help Desk:"
-    - url: 1-855-829-6636
-      title: "Women Veterans Call Center:"
-    - url: 1-877-4AID VET (877-424-3838)
-      title: "National Center for Homeless Veterans:"
-    - url: https://iris.custhelp.va.gov/
-      title: Ask Questions Online
 social:
   - heading: Connect With Us
     admin: Veterans Benefits Administration
@@ -53,26 +40,26 @@ social:
         links:
         - url: https://iris.custhelp.va.gov/app/ask
           label: "Ask a Question Online"
-        - url: tel:1-800-827-1000
-          number: 1-800-827-1000
-          title: "VA Benefits Hotline:"
-        - url: tel:1-877-827-3702
-          number: 1-877-827-3702
-          title: "VA Loan Service Representatives:"
+        - url: tel:1-877-222-VETS(8387)
+          number: 1-877-222-VETS(8387)
+          title: "Health Benefits Hotline:"
+        - url: tel:1-877-327-0022
+          number: 1-877-327-0022
+          title: "My HealtheVet Help Desk:"
         - url: tel:1-877-4AID-VET (1-877-424-3838)
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates
-        links:
-        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
-          label: Veterans Benefits Email Updates
+        links:      
+        - url: https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11
+          label: Veterans Health Email Updates
           icon: fa-envelope-square
-        - url: https://twitter.com/VAVetBenefits
+        - url: "https://www.facebook.com/VeteransHealth"
+          label: Veterans Health Facebook
+          icon: fa-facebook
+        - url: "https://twitter.com/VeteransHealth"
           label: Veterans Benefits Twitter
           icon: fa-twitter
-        - url: "https://www.facebook.com/VeteransBenefits"
-          label: Veterans Benefits Facebook
-          icon: fa-facebook
-        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-          label: Veterans Benefits YouTube
-          icon: fa-youtube 
+        - url: "https://www.youtube.com/user/VeteransHealthAdmin"
+          label: Veterans Health YouTube
+          icon: fa-youtube
