@@ -19,7 +19,7 @@ class HelpMenu extends React.Component {
 
     return (
       <DropDownPanel
-        buttonText="Help"
+        buttonText="Contact Us"
         clickHandler={this.props.clickHandler}
         cssClass={this.props.cssClass}
         id="helpmenu"

@@ -354,10 +354,28 @@ h3, h4 {
   }
 }
 
+.vet-toolbar {
+  .va-dropdown {
+    margin-left: -2rem;
+    width: 128px;
+  }
+}
+
+.sign-in-links {
+  background: $color-primary;
+  padding: 5px 20px;
+  border-radius: 4px;
+}
+
 #mega-menu .vetnav-panel {
   height: 490px;
 }
 
+@media screen and (min-width: 768px) {
+  .vet-toolbar {
+    flex: 0 1 30.5rem;
+  }
+}
 // mobile
 @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
 
