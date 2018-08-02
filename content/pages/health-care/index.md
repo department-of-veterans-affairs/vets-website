@@ -22,7 +22,7 @@ crosslinks:
     - url: "/life-insurance/"
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
-    - url: "https://www.vets.gov/pension/aid-attendance-housebound/"
+    - url: "#"
       title: <b>Aid and Attendance or Household Allowance</b>
       description: Find out if you can get increased pension pay as a Veteran or surviving spouse who has disabilities.
     - url: "/burials/"
