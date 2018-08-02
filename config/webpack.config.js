@@ -142,7 +142,7 @@ const configGenerator = (options, apps) => {
           compress: { warnings: false }
         },
         // cache: true,
-        parallel: 3,
+        parallel: 8,
         sourceMap: true,
       })],
       splitChunks: {
