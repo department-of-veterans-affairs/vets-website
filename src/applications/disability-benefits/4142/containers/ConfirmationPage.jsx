@@ -20,7 +20,7 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-     const { data } = this.props.form;
+    const { data } = this.props.form;
     // const { response } = submission;
     const fullname = data.veteranFullName;
 
