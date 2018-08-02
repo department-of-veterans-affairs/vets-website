@@ -18,13 +18,13 @@ crosslinks:
     - url: https://benefits.va.gov/TAP/index.asp
       title: <b>Transition Assistance Program (VA TAP)</b>
       description: Learn about VA benefits available to you and your family as you transition out of active-duty, National Guard, or Reserve service.
-    - url: https://www.vets.gov/employment/vocational-rehab-and-employment/
+    - url: "#"
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url: https://www.vets.gov/housing-assistance/home-loans/
+    - url: "#"
       title: <b>Home Loan Benefits</b>
       description: Explore options for Veterans home loans, apply for your Certificate of Eligibility (COE), and get help if you're having trouble making your mortgage payments.
-    - url: https://www.vets.gov/employment/job-seekers/register-your-business/
+    - url: "#"
       title: <b>Veteran-Owned Small Business Support</b>
       description: Register to do business with VA and get support for your Veteran-owned small business.
     - url: https://www.dol.gov/veterans/findajob/
@@ -84,42 +84,42 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>Get GI Bill&reg; and Other Education Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/education/gi-bill/"><b>About GI Bill Benefits</b></a>
+    <a href="#"><b>About GI Bill Benefits</b></a>
     <p>Learn how the GI Bill works and explore your options to pay for school or training.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/eligibility/"><b>Eligibility</b></a>
+    <a href="#"><b>Eligibility</b></a>
     <p>See if you're eligible for GI Bill or other VA education benefits.
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/apply/"><b>How to Apply</b></a>
+    <a href="#"><b>How to Apply</b></a>
     <p>Learn how to prepare and apply for the GI Bill or other VA education and training benefits. </p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/apply/"><b>Apply Online for GI Bill Benefits</b></a>
+    <a href="#"><b>Apply Online for GI Bill Benefits</b></a>
     <p>Get help finding the right form and apply online now.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/after-you-apply/"><b>After You Apply</b></a>
+    <a href="#"><b>After You Apply</b></a>
     <p>Find out when to expect a decision from us on your application and what to do next.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/employment/vocational-rehab-and-employment/"><b>Vocational Rehabilitation and Employment</b></a>
+    <a href="#"><b>Vocational Rehabilitation and Employment</b></a>
     <p>See if you qualify for help exploring employment options, any training you may need, and other voc rehab services.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/"><b>VA Education Benefits for Dependents and Survivors</b></a>
+    <a href="#"><b>VA Education Benefits for Dependents and Survivors</b></a>
     <p>Find out if you're eligible for Veteran dependent or survivor education benefits through a GI Bill program.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/other-educational-assistance-programs/"><b>Other Educational Assistance Programs</b></a>
+    <a href="#"><b>Other Educational Assistance Programs</b></a>
     <p>If you're a Guardsman, Reservist, or Veteran who doesn't qualify for the Post-9/11 GI Bill, see if you're eligible for other VA education benefits.</p>
   </div>
 </section>
@@ -143,7 +143,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/gi-bill/transfer/"><b>Transfer Post-9/11 GI Bill Benefits</b></a>
+    <a href="#"><b>Transfer Post-9/11 GI Bill Benefits</b></a>
     <p>Transfer your unused Post-9/11 GI Bill Benefits to your spouse or other dependents.</p>
   </div>
 
@@ -168,7 +168,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/education/opt-out-information-sharing"><b>Opt Out of Information Sharing with Schools</b></a>
+    <a href="#"><b>Opt Out of Information Sharing with Schools</b></a>
     <p>Find out how to opt out of sharing your VA education eligibility and benefits information with schools.</p>
   </div>
 
@@ -182,7 +182,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>More Information and Resources</h2>
 
   <div class="link">
-    <a href="https://vets.gov/gi-bill-comparison-tool"><b>GI Bill Comparison Tool</b></a>
+    <a href="#"><b>GI Bill Comparison Tool</b></a>
     <p>Learn about VA education benefits programs and compare GI Bill benefits by school.</p>
   </div>
 
@@ -192,12 +192,12 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/education/tools-programs/locate-a-school/"><b>How to Choose GI Bill Approved Schools</b></a>
+    <a href="#"><b>How to Choose GI Bill Approved Schools</b></a>
     <p>Get links to VA and non-VA resources for guidance in choosing a college or training program.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/education/tools-programs/careerscope/"><b>CareerScope Assessment</b></a>
+    <a href="#"><b>CareerScope Assessment</b></a>
     <p>Get a CareerScope assessment to help you figure out your career path when transitioning to civilian life.</p>
   </div>
 

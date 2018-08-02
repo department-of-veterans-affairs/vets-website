@@ -14,7 +14,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "https://vets.gov/pension/survivors-pension/"
+    - url: "#"
       title: <b>Survivors Pension</b>
       description: Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.
     - url: "https://benefits.va.gov/insurance/bfcs.asp"
@@ -77,32 +77,32 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   <h2>Get Veterans Burial Benefits</h2>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/eligibility/"><b>Eligibility</b></a>
+    <a href="#"><b>Eligibility</b></a>
     <p>Find out if you qualify for burial in a VA national cemetery and for other burial honors.
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/pre-need/"><b>Pre-Need Burial Eligibility Determination</b></a>
+    <a href="#"><b>Pre-Need Burial Eligibility Determination</b></a>
     <p>Apply for a pre-need eligibility decision letter. This can help you pre-plan for burial in a VA national cemetery, and make the process easier for your family members at your time of need.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/"><b>Veteran Burial Allowance</b></a>
+    <a href="#"><b>Veteran Burial Allowance</b></a>
     <p>Learn how to apply for a burial allowance to help pay for a Veteran's funeral services, burial, and transportation costs.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/honor/headstones-markers-medallions/"><b>Memorial Items</b></a>
+    <a href="#"><b>Memorial Items</b></a>
     <p>Find out how to apply for grave markers, headstones, Presidential Memorial Certificates, and other memorial items to honor a Veteran's service.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/survivor-and-dependent-benefits/compensation/"><b>Compensation Benefits for Surviving Spouse and Dependents (VA DIC)</b></a>
+    <a href="#"><b>Compensation Benefits for Surviving Spouse and Dependents (VA DIC)</b></a>
     <p>Learn about getting VA disability benefits for a surviving spouse or a dependent child or parent.</p>
   </div>
 
    <div class="link">
-    <a href="https://www.vets.gov/burials-and-memorials/bereavement-counseling/"><b>Bereavement Counseling</b></a>
+    <a href="#"><b>Bereavement Counseling</b></a>
     <p>See if you qualify for grief counseling and transition support after the loss of an active-duty Servicemember, Reservist, or National Guard Soldier.</p>
   </div>
 
@@ -118,7 +118,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   <h2>Plan a Burial</h2>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/burial-planning/"><b>Plan a Burial for a Veteran, Spouse, or Dependent Family Member</b></a>
+    <a href="#"><b>Plan a Burial for a Veteran, Spouse, or Dependent Family Member</b></a>
     <p>Get step-by-step guidance on how to request and apply for a burial in a VA national cemetery, or in a state or tribal government Veterans cemetery.</p>
     </div>
 
@@ -181,7 +181,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/burials-and-memorials/what-to-expect-at-a-funeral/"><b>What to Expect at a Military Funeral</b></a>
+    <a href="#"><b>What to Expect at a Military Funeral</b></a>
     <p>Prepare for a military funeral by learning about what happens at a committal service in a VA national cemetery.</p>
   </div>
 

@@ -25,7 +25,7 @@ crosslinks:
     - url: https://va.gov/families-caregivers
       title: <b>Family and Caregiver Benefits and Services</b>
       description: See if you qualify for VA benefits as a spouse, surviving spouse, dependent child, or caregiver.
-    - url: https://www.vets.gov/health-care/
+    - url: https://preview.va.gov/health-care/
       title: <b>VA Health Care</b>
       description: Find out how to apply for and manage your VA health care benefits.
 social:
@@ -78,12 +78,12 @@ VA life insurance can offer financial security and support for Veterans, Service
   <h2>Get VA Life Insurance</h2>
 
   <div class="link">
-    <a href="https://vets.gov/life-insurance/options-and-eligibility/"><b>About VA Insurance Options and Eligibility</b></a>
+    <a href="#"><b>About VA Insurance Options and Eligibility</b></a>
     <p>Find out which life insurance plans you may qualify for—and the benefits you’ll receive with each plan.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/life-insurance/disabled-and-terminally-ill/"><b>Benefits for Totally Disabled or Terminally Ill Policyholders</b></a>
+    <a href="#"><b>Benefits for Totally Disabled or Terminally Ill Policyholders</b></a>
     <p>Find out if you can get your insurance premium waived or receive your benefits early in certain situations.
   </div>
 
@@ -103,7 +103,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   <h2>Manage Your Policy and Benefits</h2>
 
   <div class="link">
-    <a href="https://www.vets.gov/life-insurance/manage-your-policy/"><b>Manage Your Policy Online</b></a>
+    <a href="#"><b>Manage Your Policy Online</b></a>
     <p>Find out how to check your policy's status, update your information, or pay your premium online.</p>
     </div>
 
