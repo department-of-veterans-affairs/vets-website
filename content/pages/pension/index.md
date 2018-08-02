@@ -29,19 +29,6 @@ crosslinks:
     - url: https://www.vets.gov/life-insurance/
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-800-827-1000
-      title: Questions about Your VA Benefits and Direct Deposit
-    - url: 1-877-294-6380
-      title: Support if You're Currently Receiving VA Pension Benefits
-    - url: 1-800-983-0937
-      title: eBenefits Technical Support
-    - url: 1-877-4AID-VET (1-877-424-3838)
-      title: National Call Center for Homeless Veterans
-    - url: https://iris.custhelp.va.gov/app/ask
-      title: Ask Us a Question Online
 social:
   - heading: Connect With Us
     admin: Veterans Benefits Administration
@@ -54,9 +41,12 @@ social:
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
           title: "VA Benefits Hotline:"
-        - url: tel:1-877-827-3702
-          number: 1-877-827-3702
-          title: "VA Loan Service Representatives:"
+        - url: tel:1-877-294-6380
+          number: 1-877-294-6380
+          title: "Support for Current Pension Beneficiaries:"
+        - url: tel:1-800-983-0937
+          number: 1-800-983-0937
+          title: "eBenefits Technical Support:"
         - url: tel:1-877-4AID-VET (1-877-424-3838)
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
@@ -73,24 +63,26 @@ social:
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
-          icon: fa-youtube 
+          icon: fa-youtube
 ---
 
 <p class="va-introtext">
 VA pension benefits provide tax-free monthly payments to wartime Veterans with limited or no income who meet certain age or disability requirements. Survivors of wartime Veterans may also qualify for a VA pension. Find out how to apply for and manage the pension benefits you've earned.
 </p>
 
-<h3 class="highlight">On This Page</h3>
+<h3>On This Page</h3>
 
-[Get Pension Benefits](#get)<br>
-[Manage Your Pension Benefits](#manage)<br>
-[More Information and Resources](#more)<br>
-
-<section id="get" class="merger-majorlinks">
+<ul>
+  <li><a href="#get">Get Pension Benefits</a></li>
+  <li><a href="#manage">Manage Your Pension Benefits</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
 </section>
+
+<section id="get" class="merger-majorlinks">
 
   <h2 class>Get Pension Benefits</h2>
 
