@@ -26,7 +26,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Find out what happens to your claim after you apply for disability benefits. 
+Find out what happens to your claim after you file for disability benefits. 
 
 </div>
 
@@ -51,7 +51,7 @@ You don’t need to do anything unless we send you a letter asking for more info
 
 <div markdown="0"><br></div>
 
-### What happens after I apply?
+### What happens after I file?
 
 <ol class="process">
 <li class="process-step list-one">
