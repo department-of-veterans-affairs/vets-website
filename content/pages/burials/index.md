@@ -15,27 +15,16 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: "https://vets.gov/pension/survivors-pension/"
-      title: Survivors Pension
+      title: <b>Survivors Pension</b>
       description: Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.
     - url: "https://benefits.va.gov/insurance/bfcs.asp"
-      title: Beneficiary Financial Counseling and Online Will Preparation
+      title: <b>Beneficiary Financial Counseling and Online Will Preparation</b>
       description: If you're enrolled in VA life insurance, find out if you can get free financial planning and online will preparation services.
     - url: "https://benefits.va.gov/fiduciary/"
-      title: Fiduciary Services
+      title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-800-535-1117
-      title: VA National Cemetery Scheduling Office
-    - url: 1-800-697-6947
-      title: Status of Headstones and Markers    
-    - url: 1-800-827-1000
-      title: VA Benefits and Services
-    - url: https://iris.custhelp.va.gov/app/ask
-      title: Submit Questions Online
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -43,40 +32,41 @@ social:
         links:
         - url: https://iris.custhelp.va.gov/app/ask
           label: "Ask a Question Online"
+        - url: tel:1-800-535-1117
+          number: 1-800-535-1117
+          title: "National Cemetery Scheduling Office:"
+        - url: tel:1-800-697-6947
+          number: 1-800-697-6947
+          title: "Headstones and Markers:"
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
           title: "VA Benefits Hotline:"
-        - url: tel:1-877-827-3702
-          number: 1-877-827-3702
-          title: "VA Loan Service Representatives:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates
         links:
-        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
-          label: Veterans Benefits Email Updates
+        - url: https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify
+          label: National Cemeteries Email Updates
           icon: fa-envelope-square
-        - url: https://twitter.com/VAVetBenefits
-          label: Veterans Benefits Twitter
+        - url: https://twitter.com/VANatCemeteries
+          label: National Cemeteries Twitter
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransBenefits"
-          label: Veterans Benefits Facebook
+          label: National Cemeteries Facebook
           icon: fa-facebook
-        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
-          label: Veterans Benefits YouTube
+        - url: "https://www.youtube.com/watch?v=4MhXfpNSHzs&list=PL7897A1FCC5516DDE"
+          label: National Cemeteries YouTube
           icon: fa-youtube   
 ---
 
 <p class="va-introtext">
 VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of a Veteran. Find out how to apply for the burial benefits you've earned, and how to plan for a burial in advance or at your time of need.</p>
 
-<h3 class="highlight">Page Content</h3>
+<h3>On This Page</h3>
 
-[Get Veterans Burial Benefits](#get)<br>
-[Plan a Burial](#manage)<br>
-[More Information and Resources](#more)<br>
-
+<ul>
+  <li><a href="#get">Get Veterans Burial Benefits</a></li>
+  <li><a href="#manage">Plan a Burial</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
@@ -143,7 +133,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file"><b>Request Military Records</b></a>
+    <a href="#"><b>Request Military Records</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
