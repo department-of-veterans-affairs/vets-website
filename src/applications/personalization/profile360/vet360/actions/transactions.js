@@ -1,7 +1,6 @@
 import { apiRequest } from '../../../../../platform/utilities/api';
 import { refreshProfile } from '../../../../../platform/user/profile/actions';
 import recordEvent from '../../../../../platform/monitoring/record-event';
-import { pickBy } from 'lodash';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import * as VET360_CONSTANTS from '../constants';
@@ -111,186 +110,42 @@ export function refreshTransaction(transaction, analyticsSectionName) {
   };
 }
 
-// TODO: reconcile this with data object cleaning in misc/form update reducer
-// inputPhoneNumber is stripped here because it is only used for display in the form
-function createPhoneObject(phoneFormData, fieldName) {
-  // strip falsy values like '', null so vet360 does not reject
-  return pickBy({
-    id: phoneFormData.id,
-    areaCode: phoneFormData.areaCode,
-    countryCode: '1', // currently no international phone number support
-    extension: phoneFormData.extension,
-    phoneNumber: phoneFormData.phoneNumber,
-    isInternational: false, // currently no international phone number support
-    phoneType: VET360_CONSTANTS.PHONE_TYPE[fieldName],
-  }, e => !!e);
-}
-
-function createAddressObject(addressFormData, fieldName) {
-  return pickBy({
-    id: addressFormData.id,
-    addressLine1: addressFormData.addressLine1,
-    addressLine2: addressFormData.addressLine2,
-    addressLine3: addressFormData.addressLine3,
-    addressType: addressFormData.addressType,
-    city: addressFormData.city,
-    countryName: addressFormData.countryName,
-    stateCode: addressFormData.stateCode,
-    internationalPostalCode: addressFormData.internationalPostalCode,
-    zipCode: addressFormData.zipCode,
-    province: addressFormData.province,
-    addressPou: fieldName === 'mailingAddress' ? 'CORRESPONDENCE' : 'RESIDENCE/CHOICE',
-  }, e => !!e);
-}
-
-function updateVet360Field(apiRoute, fieldName, fieldType) {
-  return (nextFieldValue) => {
-    return async (dispatch, getState) => {
-      const currentState = getState();
-      const currentFieldValue = currentState.user.profile.vet360[fieldName];
-      const method = currentFieldValue ? 'PUT' : 'POST';
-
-      let fieldData = nextFieldValue;
-
-      switch (fieldType) {
-        case 'phone':
-          fieldData = createPhoneObject(nextFieldValue, fieldName);
-          break;
-        case 'email':
-          break;
-        case 'address':
-          fieldData = createAddressObject(nextFieldValue, fieldName);
-          break;
-        default:
-      }
-
-      const options = {
-        body: JSON.stringify(fieldData),
-        method,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      try {
-        dispatch({
-          type: VET360_TRANSACTION_REQUESTED,
-          fieldName,
-          method
-        });
-
-        const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
-
-        recordProfileTransaction('profile-transaction', fieldName);
-
-        dispatch({
-          type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
-          fieldName,
-          transaction
-        });
-      } catch (error) {
-        dispatch({
-          type: VET360_TRANSACTION_REQUEST_FAILED,
-          error,
-          fieldName
-        });
+export function createTransaction(route, method, fieldName, payload) {
+  return async (dispatch) => {
+    const options = {
+      body: JSON.stringify(payload),
+      method,
+      headers: {
+        'Content-Type': 'application/json'
       }
     };
-  };
-}
 
-function deleteVet360Field(apiRoute, fieldName, fieldType) {
-  return () => {
-    return async (dispatch, getState) => {
-      const currentState = getState();
-      const currentFieldValue = currentState.user.profile.vet360[fieldName];
-      let fieldData = currentFieldValue;
+    try {
+      dispatch({
+        type: VET360_TRANSACTION_REQUESTED,
+        fieldName,
+        method
+      });
 
-      switch (fieldType) {
-        case 'phone':
-          fieldData = createPhoneObject(currentFieldValue, fieldName);
-          break;
-        case 'email':
-          break;
-        case 'address':
-          fieldData = createAddressObject(currentFieldValue, fieldName);
-          break;
-        default:
-      }
+      const transaction = isVet360Configured() ? await apiRequest(route, options) : await localVet360.createTransaction();
 
-      const options = {
-        body: JSON.stringify(fieldData),
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      try {
-        dispatch({
-          type: VET360_TRANSACTION_REQUESTED,
-          fieldName,
-          method: 'DELETE'
-        });
-
-        const transaction = isVet360Configured() ? await apiRequest(apiRoute, options) : await localVet360.createTransaction();
-
+      if (method === 'DELETE') {
         recordProfileTransaction('profile-deleted', fieldName);
-
-        dispatch({
-          type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
-          fieldName,
-          transaction
-        });
-      } catch (error) {
-        dispatch({
-          type: VET360_TRANSACTION_REQUEST_FAILED,
-          error,
-          fieldName
-        });
+      } else {
+        recordProfileTransaction('profile-transaction', fieldName);
       }
-    };
+
+      dispatch({
+        type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
+        fieldName,
+        transaction
+      });
+    } catch (error) {
+      dispatch({
+        type: VET360_TRANSACTION_REQUEST_FAILED,
+        error,
+        fieldName
+      });
+    }
   };
 }
-
-export const fieldUpdaters = {
-  [VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE]: {
-    update: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE, 'phone'),
-    destroy: deleteVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.HOME_PHONE, 'phone')
-  },
-
-  [VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE]: {
-    update: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE, 'phone'),
-    destroy: deleteVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.MOBILE_PHONE, 'phone')
-  },
-
-  [VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE]: {
-    update: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE, 'phone'),
-    destroy: deleteVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.WORK_PHONE, 'phone')
-  },
-
-  [VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE]: {
-    update: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE, 'phone'),
-    destroy: deleteVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.TEMP_PHONE, 'phone')
-  },
-
-  [VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER]: {
-    update: updateVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER, 'phone'),
-    destroy: deleteVet360Field('/profile/telephones', VET360_CONSTANTS.FIELD_NAMES.FAX_NUMBER, 'phone')
-  },
-
-  [VET360_CONSTANTS.FIELD_NAMES.EMAIL]: {
-    update: updateVet360Field('/profile/email_addresses', VET360_CONSTANTS.FIELD_NAMES.EMAIL, 'email'),
-    destroy: deleteVet360Field('/profile/email_addresses', VET360_CONSTANTS.FIELD_NAMES.EMAIL, 'email')
-  },
-
-  [VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS]: {
-    update: updateVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS, 'address'),
-    destroy: deleteVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.MAILING_ADDRESS, 'address')
-  },
-
-  [VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS]: {
-    update: updateVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address'),
-    destroy: deleteVet360Field('/profile/addresses', VET360_CONSTANTS.FIELD_NAMES.RESIDENTIAL_ADDRESS, 'address')
-  }
-};

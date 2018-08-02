@@ -5,11 +5,6 @@ import {
   ADDRESS_FORM_VALUES
 } from '../../constants';
 
-import {
-  consolidateAddress,
-  expandAddress
-} from '../../../../../../platform/forms/address/helpers';
-
 import Vet360EditModal from '../base/EditModal';
 
 import CopyMailingAddress from '../../containers/CopyMailingAddress';
@@ -28,17 +23,8 @@ export default class AddressEditModal extends React.Component {
     this.props.onChange(newFieldValue, field);
   }
 
-  onSubmit = () => {
-    this.props.onSubmit(expandAddress(this.props.field.value));
-  }
-
   getInitialFormValues = () => {
-    if (this.props.data) {
-      return consolidateAddress(this.props.data);
-    }
-    return {
-      countryName: 'United States',
-    };
+    return this.props.data || { countryName: 'United States' };
   }
 
   copyMailingAddress = (mailingAddress) => {

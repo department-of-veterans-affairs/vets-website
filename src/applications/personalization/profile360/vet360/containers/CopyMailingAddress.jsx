@@ -16,10 +16,6 @@ import {
   selectEditedFormField
 } from '../selectors';
 
-import {
-  cleanAddressDataForUpdate
-} from '../actions';
-
 const ADDRESS_PROPS = [
   'addressLine1',
   'addressLine2',
@@ -69,7 +65,7 @@ export function mapStateToProps(state) {
   const residentialAddress = selectEditedFormField(state, FIELD_NAMES.RESIDENTIAL_ADDRESS).value;
 
   const checked = !hasEmptyMailingAddress && isEqual(
-    pick(cleanAddressDataForUpdate(mailingAddress), ADDRESS_PROPS),
+    pick(mailingAddress, ADDRESS_PROPS),
     pick(residentialAddress, ADDRESS_PROPS)
   );
 

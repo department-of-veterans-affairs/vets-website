@@ -52,3 +52,9 @@ export const ANALYTICS_FIELD_MAP = {
   mailingAddress: 'mailing-address',
   residentialAddress: 'home-address'
 };
+
+export const API_ROUTES = {
+  TELEPHONES: '/profile/telephone',
+  EMAILS: '/profile/email_addresses',
+  ADDRESSES: '/profile/addresses'
+};
