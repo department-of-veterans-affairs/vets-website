@@ -37,9 +37,9 @@ The Vet360 reducer is necessary in order to manage transactions (more on that be
     - A transaction may exist in the `transactions` array but without a field-mapping in the `fieldTransactionMap` if transactions are found via the `fetchTransactions` action.
     - If there is no active transaction for a field or the specific field can't be determined because of the reason described above, then the value for a field will be `undefined`.
 4. `transactionsAwaitingUpdate`
-  - An array of transaction IDs, each one corresponding to a request at `/v0/profile/person/status/{transaction_id}`. This is effectively used to prevent the API from being hit quicker than it can respond while we are polling for transaction updates.
+    - An array of transaction IDs, each one corresponding to a request at `/v0/profile/person/status/{transaction_id}`. This is effectively used to prevent the API from being hit quicker than it can respond while we are polling for transaction updates.
 5. `metadata`
-  - Anything else about the transactions data. Currently, it contains only a `mostRecentErroredTransactionId` property, which is used to render error messaging for the most recent rejected transaction. It is necessary because transactions aren't timestamped.
+    - Anything else about the transactions data. Currently, it contains only a `mostRecentErroredTransactionId` property, which is used to render error messaging for the most recent rejected transaction. It is necessary because transactions aren't timestamped.
 
 ## Transactions
 When a request to update a field is sent to Vet360 (via `PUT`, or `POST` if the field is empty), Vet360 does not respond with the updated record from a database as you would expect from a typical API. Instead, it responds with data on how to look up the progress of the update, information referred to as a "transaction." For example, a request to update an email would return a transaction that looks like:
