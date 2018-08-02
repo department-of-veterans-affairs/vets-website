@@ -5,6 +5,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import { get4142Selection } from '../helpers';
+import ConfirmationPoll from '../components/ConfirmationPoll';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -30,7 +31,6 @@ class ConfirmationPage extends React.Component {
     const {
       fullName: { first, middle, last, suffix },
       disabilities,
-      claimId,
       submittedAt
     } = this.props;
 
@@ -94,9 +94,7 @@ class ConfirmationPage extends React.Component {
               })}
             </ul>
             <li>
-              <strong>Confirmation number</strong>
-              <br/>
-              <span>{claimId}</span>
+              <ConfirmationPoll/>
             </li>
             <li>
               <strong>Date submitted</strong>
@@ -129,7 +127,6 @@ function mapStateToProps(state) {
   return {
     fullName: state.user.profile.userFullName,
     disabilities: state.form.data.disabilities,
-    claimId: state.form.submission.response.attributes.claimId,
     submittedAt: state.form.submission.submittedAt
   };
 }
