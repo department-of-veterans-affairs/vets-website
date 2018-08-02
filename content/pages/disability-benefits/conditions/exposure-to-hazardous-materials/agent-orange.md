@@ -64,7 +64,7 @@ You may be able to get disability benefits if both of the below descriptions are
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. 
+You’ll need to apply for benefits and submit your evidence (supporting documents). 
 
 **If you have an illness believed to be caused by Agent Orange,** you won’t need to show the problem started during—or got worse because of—your military service. This is because we believe that certain diseases are the result of exposure to herbicides (called "presumptive diseases"). <br>
 [See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
@@ -91,7 +91,7 @@ When you file your claim, you'll need to submit this evidence:
 
 ### Get more information
 
-If you think you may have had contact with Agent Orange or other herbicides while serving in the military: <br>
+If you think you may have had contact with Agent Orange or other herbicides while serving in the military, you can request a health exam. <br>
 [Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
 
 If you have non-Hodgkin’s lymphoma (a type of cancer), you can get VA support. <br>
@@ -101,7 +101,7 @@ If you have questions, you can contact us in either of these ways:
 - Call the Agent Orange Help Line at 1-800-749-8387 **or** 
 - Send an email to GW/AOHelpline@vba.va.gov
 
-Please be ready to give us your name, email address, telephone number, and VA file number or Social Security number.
+**Note:** Please be ready to give us your name, email address, telephone number, and VA file number or Social Security number.
 
 If you'd like to know the monthly payment rate you may receive, you can view our rate tables. <br>
 [See the Veterans Compensation Benefits Rate Tables](https://www.benefits.va.gov/COMPENSATION/resources_comp01.asp).
