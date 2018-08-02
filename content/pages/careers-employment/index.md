@@ -27,18 +27,9 @@ crosslinks:
     - url: https://www.vets.gov/housing-assistance/home-loans/
       title: <b>Home Loans</b>
       description: Apply for a Certificate of Eligibility for a VA direct or VA-backed home loan to build, buy, improve, or refinance a home.
-    - url: https://www.vets.gov/life-insurance/
+    - url: /life-insurance/
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
-contact:
-  - heading: Ask Questions
-    links:
-    - url: 1-800-827-1000
-      title: Questions about Your Benefits
-    - url: 1-800-983-0937
-      title: eBenefits Technical Support
-    - url: https://iris.custhelp.va.gov/app/ask
-      title: Ask a Question Online  
 social:
   - heading: Connect With Us
     admin: Veterans Benefits Administration
@@ -51,9 +42,9 @@ social:
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
           title: "VA Benefits Hotline:"
-        - url: tel:1-877-827-3702
-          number: 1-877-827-3702
-          title: "VA Loan Service Representatives:"
+        - url: tel:1-800-983-0937
+          number: 1-800-983-0937
+          title: "eBenefits Technical Support:"
         - url: tel:1-877-4AID-VET (1-877-424-3838)
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
@@ -79,9 +70,11 @@ We can support you in all stages of your job search—from returning to work wit
 
 <h3>On This Page</h3>
 
-[Get Career and Employment Assistance](#get)<br>
-[Manage Your Career](#manage)<br>
-[More Information and Resources](#more)<br>
+<ul>
+  <li><a href="#get">Get Career and Employment Assistance</a></li>
+  <li><a href="#manage">Manage Your Career</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
@@ -179,7 +172,7 @@ We can support you in all stages of your job search—from returning to work wit
 
   <div class="link">
     <a href="https://dol.gov/veterans/findajob/"><b>Find a Job (Department of Labor)</b></a>
-    <p>Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources./p>
+    <p>Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources.</p>
   </div>
 
   <div class="link">
