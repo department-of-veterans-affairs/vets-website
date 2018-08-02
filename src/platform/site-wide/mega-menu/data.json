@@ -208,7 +208,7 @@
                     },
                     "seeAllLink": {
                       "text": "Education",
-                      "href": "/education/"
+                      "href": "/education-training/"
                     }
                 }
             },
@@ -270,7 +270,7 @@
                     },
                     "seeAllLink": {
                       "text": "Careers and Employment",
-                      "href": "/employment/"
+                      "href": "/careers-employment/"
                     }
                 }
             },
@@ -394,7 +394,7 @@
                     },
                     "seeAllLink": {
                       "text": "Housing Assistance",
-                      "href": "/housing-assistance/"
+                      "href": "/housing/"
                     }
                 }
             },
@@ -518,7 +518,7 @@
                     },
                     "seeAllLink": {
                       "text": "Burials and Memorials",
-                      "href": "/burials-memorials/"
+                      "href": "/burials/"
                     }
                 }
             },
