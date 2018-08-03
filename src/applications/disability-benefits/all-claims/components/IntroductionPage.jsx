@@ -48,14 +48,14 @@ class IntroductionPage extends React.Component {
         </div>
         <button className="temporary-start">Start the Disability Compensation Application</button>
         <div>
-          <p>You’ll be submitting an original disability claim, if both of these are true:</p>
-          <ul>
+          <h4>You’ll be submitting an original disability claim, if both of these are true:</h4>
+          <ul className="original-disability-list">
             <li>You’re a Veteran or Servicemember who’s between 180 and 90 days from ending your military service, </li>
-          </ul>
-          <p>and</p>
-          <ul>
+            <span className="list-item-connector"><strong>and</strong></span>
             <li>This is the first time you’re filing a disability claim</li>
           </ul>
+          {/* <ul>
+          </ul> */}
         </div>
         <div className="process schemaform-process">
           <ol>
@@ -65,7 +65,9 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>Your Social Security number</li>
                 <li>A copy of your discharge papers (DD214 or other separation documents)</li>
-                <li>Service treatment records. You can order service medical records through the National Archives.</li>
+                <li>Service treatment records. <a target="_blank" href="https://www.archives.gov/veterans/military-service-records">
+                  You can order service medical records through the National Archives
+                </a>.</li>
                 <li>VA medical and hospital records that relate to your illness or injury</li>
                 <li>Private medical and hospital records that relate to your illness or injury</li>
               </ul>
@@ -92,7 +94,8 @@ class IntroductionPage extends React.Component {
                     <p>
                       For each disability claim, we assign a severity rating from 0% to
                       100%. We base this rating on the supporting documents you turn in
-                      with your claim. This rating can change if your condition changes.
+                      with your claim. In some cases we may also ask you to have an exam
+                      to help us rate your disability.
                     </p>
                     <p><a href="/disability-benefits/eligibility/ratings/">Learn how VA assigns disability ratings</a>.</p>
                   </div>
