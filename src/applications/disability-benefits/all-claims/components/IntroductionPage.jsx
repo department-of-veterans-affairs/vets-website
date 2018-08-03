@@ -46,7 +46,7 @@ class IntroductionPage extends React.Component {
             </p>
           </div>
         </div>
-        <button>Start the Disability Compensation Application</button>
+        <button className="temporary-start">Start the Disability Compensation Application</button>
         <div>
           <p>You’ll be submitting an original disability claim, if both of these are true:</p>
           <ul>
@@ -125,7 +125,7 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <button>Start the Disability Compensation Application</button>
+        <button className="temporary-start">Start the Disability Compensation Application</button>
         <p>
           By clicking the button to start the disability application, you’ll declare your
           intent to file. This will reserve a potential effective date for when you could
