@@ -2,7 +2,8 @@ import React from 'react';
 
 import {
   FIELD_NAMES,
-  ADDRESS_FORM_VALUES
+  ADDRESS_FORM_VALUES,
+  USA
 } from '../../constants';
 
 import Vet360EditModal from '../base/EditModal';
@@ -24,7 +25,7 @@ export default class AddressEditModal extends React.Component {
   }
 
   getInitialFormValues = () => {
-    return this.props.data || { countryName: 'United States' };
+    return this.props.data || { countryName: USA.COUNTRY_NAME };
   }
 
   copyMailingAddress = (mailingAddress) => {
@@ -35,7 +36,11 @@ export default class AddressEditModal extends React.Component {
   renderForm = () => {
     return (
       <div>
-        {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && <CopyMailingAddress copyMailingAddress={this.copyMailingAddress}/>}
+        {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
+          <CopyMailingAddress
+            convertNextValueToCleanData={this.props.convertNextValueToCleanData}
+            copyMailingAddress={this.copyMailingAddress}/>
+        )}
         <AddressForm
           address={this.props.field.value}
           onInput={this.onInput}
