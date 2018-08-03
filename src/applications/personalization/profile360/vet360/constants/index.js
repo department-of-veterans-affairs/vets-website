@@ -1,9 +1,28 @@
+import { MILITARY_STATES } from '../../../../letters/utils/constants';
+
 import states from './states.json';
 import countries from './countries.json';
 
 export const ADDRESS_FORM_VALUES = {
   STATES: states.map(state => state.stateCode),
-  COUNTRIES: countries.map(country => country.countryName)
+  COUNTRIES: countries.map(country => country.countryName),
+  MILITARY_STATES
+};
+
+export const ADDRESS_TYPES = {
+  DOMESTIC: 'DOMESTIC',
+  INTERNATIONAL: 'INTERNATIONAL',
+  OVERSEAS_MILITARY: 'OVERSEAS_MILITARY'
+};
+
+export const ADDRESS_POU = {
+  CORRESPONDENCE: 'CORRESPONDENCE',
+  RESIDENCE: 'RESIDENCE/CHOICE'
+};
+
+export const USA = {
+  COUNTRY_NAME: 'United States',
+  COUNTRY_CODE: '1'
 };
 
 export const TRANSACTION_CATEGORY_TYPES = {

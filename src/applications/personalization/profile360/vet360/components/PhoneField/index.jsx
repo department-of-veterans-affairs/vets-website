@@ -5,7 +5,8 @@ import pickBy from 'lodash/pickBy';
 import {
   API_ROUTES,
   FIELD_NAMES,
-  PHONE_TYPE
+  PHONE_TYPE,
+  USA
 } from '../../constants';
 
 import { isValidPhone } from '../../../../../../platform/forms/validations';
@@ -47,7 +48,7 @@ export default class PhoneField extends React.Component {
       extension: strippedExtension,
       phoneType,
       phoneNumber: strippedPhone.substring(3),
-      isInternational: countryCode !== '1',
+      isInternational: countryCode !== USA.COUNTRY_CODE,
       inputPhoneNumber,
     };
   }
@@ -62,7 +63,7 @@ export default class PhoneField extends React.Component {
     return pickBy({
       id: cleanData.id,
       areaCode: cleanData.areaCode,
-      countryCode: '1', // currently no international phone number support
+      countryCode: USA.COUNTRY_CODE, // currently no international phone number support
       extension: cleanData.extension,
       phoneNumber: cleanData.phoneNumber,
       isInternational: false, // currently no international phone number support

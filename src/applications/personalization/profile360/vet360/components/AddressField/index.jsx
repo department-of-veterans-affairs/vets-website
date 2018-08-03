@@ -4,10 +4,12 @@ import pickBy from 'lodash/pickBy';
 
 import {
   API_ROUTES,
-  FIELD_NAMES
+  FIELD_NAMES,
+  ADDRESS_FORM_VALUES,
+  ADDRESS_TYPES,
+  ADDRESS_POU,
+  USA
 } from '../../constants';
-
-import { MILITARY_STATES } from '../../../../../letters/utils/constants';
 
 import Vet360ProfileField from '../../containers/ProfileField';
 
@@ -26,11 +28,11 @@ export default class AddressField extends React.Component {
   };
 
   inferAddressType(countryName, stateCode) {
-    let addressType = 'DOMESTIC';
-    if (countryName !== 'United States') {
-      addressType = 'INTERNATIONAL';
-    } else if (MILITARY_STATES.has(stateCode)) {
-      addressType = 'OVERSEAS MILITARY';
+    let addressType = ADDRESS_TYPES.DOMESTIC;
+    if (countryName !== USA.COUNTRY_NAME) {
+      addressType = ADDRESS_TYPES.INTERNATIONAL;
+    } else if (ADDRESS_FORM_VALUES.MILITARY_STATES.has(stateCode)) {
+      addressType = ADDRESS_TYPES.OVERSEAS_MILITARY;
     }
 
     return addressType;
@@ -62,15 +64,15 @@ export default class AddressField extends React.Component {
       addressType,
       city,
       countryName,
-      province: addressType === 'INTERNATIONAL' ? province : null,
-      stateCode: addressType === 'INTERNATIONAL' ? null : stateCode,
-      zipCode: addressType !== 'INTERNATIONAL' ? zipCode : null,
-      internationalPostalCode: addressType === 'INTERNATIONAL' ? internationalPostalCode : null,
+      province: addressType === ADDRESS_TYPES.INTERNATIONAL ? province : null,
+      stateCode: addressType === ADDRESS_TYPES.INTERNATIONAL ? null : stateCode,
+      zipCode: addressType !== ADDRESS_TYPES.INTERNATIONAL ? zipCode : null,
+      internationalPostalCode: addressType === ADDRESS_TYPES.INTERNATIONAL ? internationalPostalCode : null,
     };
   }
 
   validateCleanData({ addressLine1, city, stateCode,  internationalPostalCode, zipCode, countryName }, property) {
-    const isInternational = this.inferAddressType(countryName, stateCode) === 'INTERNATIONAL';
+    const isInternational = this.inferAddressType(countryName, stateCode) === ADDRESS_TYPES.INTERNATIONAL;
     const validateAll = !property;
 
     return {
@@ -95,7 +97,7 @@ export default class AddressField extends React.Component {
       internationalPostalCode: cleanData.internationalPostalCode,
       zipCode: cleanData.zipCode,
       province: cleanData.province,
-      addressPou: fieldName === FIELD_NAMES.MAILING_ADDRESS ? 'CORRESPONDENCE' : 'RESIDENCE/CHOICE',
+      addressPou: fieldName === FIELD_NAMES.MAILING_ADDRESS ? ADDRESS_POU.CORRESPONDENCE : ADDRESS_POU.RESIDENCE,
     }, e => !!e);
   }
 
