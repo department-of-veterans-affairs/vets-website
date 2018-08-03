@@ -122,7 +122,7 @@ For more information, you can download these fact sheets:
 You can also find out more about LGBT programs at VA medical centers across the nation. <br>
 [View VA medical center LGBT program websites](https://www.patientcare.va.gov/LGBT/VAFacilities.asp).
 
-
+[Read about our approach to recognizing same-sex marriage](https://www.va.gov/opa/marriage/).
 
 ------
 
