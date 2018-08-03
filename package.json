@@ -46,6 +46,7 @@
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "watch": "node script/build.js --watch",
+    "watch:devpreview": "node script/build.js --buildtype=devpreview --watch",
     "watch:static": "npm run watch -- --entry static-pages"
   },
   "repository": {
