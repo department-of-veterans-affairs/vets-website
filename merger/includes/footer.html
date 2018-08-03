@@ -1,0 +1,169 @@
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="usa-grid">
+
+      <ul class="va-footer-linkgroup usa-width-one-fourth" id="footer-first-child">
+        <li><h4 class="va-footer-linkgroup-title">Veteran Programs and Services</h4></li>
+        <li><a href="#">For Homeless Veterans</a></li>
+        <li><a href="#">For Women Veterans</a></li>
+        <li><a href="#">For Minority Veterans</a></li>
+        <li><a href="#">PTSD</a></li>
+        <li><a href="#">Mental Health</a></li>
+        <li><a href="#">Adaptive Sports and Special Events</a></li>
+        <li><a href="#">Veterans Service Organizations (VSO)</a></li>
+        <li><a href="#">State Veterans Affairs Offices</a></li>
+        <li><a href="#">National Resource Directory</a></li>
+        <li><a href="#">Print Your VA Welcome Kit</a></li>
+      </ul>
+
+      <ul class="va-footer-linkgroup usa-width-one-fourth" id="footer-services">
+        <li><h4 class="va-footer-linkgroup-title">More VA Resources</h4></li>
+        <li><a href="#">Find a VA Form</a></li>
+        <li><a href="#">Get VA Mobile Apps</a></li>
+        <li><a href="#">Careers at VA</a></li>
+        <li><a href="#">Doing Business with VA</a></li>
+        <li><a href="#">Grants Management Services</a></li>
+        <li><a href="#">VA Claims Accreditation</a></li>
+        <li><a href="#">VA Information Technology and PIV Card</a></li>
+      </ul>
+
+      <ul class="va-footer-linkgroup usa-width-one-fourth" id="footer-popular">
+        <li><h4 class="va-footer-linkgroup-title">Connect with Us</h4></li>
+        <li><a href="#">VAntage Point Blog</a></li>
+        <li><a href="#">Email Updates</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">Flickr</a></li>
+        <li><a href="#">YouTube</a></li>
+      </ul>
+
+      <ul class="va-footer-linkgroup usa-width-one-fourth">
+        <li><h4 class="va-footer-linkgroup-title">In Crisis? Get Help Now</h4></li>
+        <li>
+          <a href="http://www.veteranscrisisline.net/">Veterans Crisis Line</a>
+        </li>
+
+        <li><br></li>
+
+        <li><h4 class="va-footer-linkgroup-title">Contact Us</h4></li>
+        <li><a href="#">Find a VA Location</a></li>
+        <li><a href="#">Submit a Help Request</a></li>
+        <li><a href="#">Go to VA Help Center</a></li>
+        <li><a href="#">Call Us</a></li>
+      </ul>
+
+    </div>
+
+    <div class="usa-grid footer-banner">
+      <a href="https://preview.va.gov" class="va-footer-logo" title="Go to VA.gov">
+        <img src="/img/homepage/va-logo-white.png">
+      </a>
+    </div>
+
+    <div class="usa-grid footer-links">
+      <ul>
+        <li><a href="#">Accessibility</a> | </li>
+        <li><a href="#">FOIA</a> | </li>
+        <li><a href="#">Inspector General</a> | </li>
+        <li><a href="#">No FEAR Act</a> | </li>
+        <li><a href="#">Notices</a> | </li>
+        <li><a href="#">Plain Language</a> | </li>
+        <li><a href="#">Privacy</a> | </li>
+        <li><a href="#">Regulations</a> | </li>
+        <li><a href="#">Site Index</a> | </li>
+        <li><a href="#">USA.gov</a> | </li>
+        <li><a href="#">VA.gov Playbook</a> | </li>
+        <li><a href="#">Web Policies</a> | </li>
+        <li><a href="#">Whistleblower Rights and Protections</a> | </li>
+        <li><a href="#">White House</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- End mobile crisis line overlay. See desktop overlay at end of footer -->
+<div id="modal-crisisline" class="va-overlay va-modal va-modal-large" role="alertdialog">
+  <div class="va-crisis-panel va-modal-inner">
+
+    <h3>Get help from Veterans Crisis Line</h3>
+
+    <button class="va-modal-close va-overlay-close" type="button">
+      <i class="fa fa-close va-overlay-close"></i>
+      <span class="usa-sr-only va-overlay-close">Close this modal</span>
+    </button>
+
+    <div class="va-overlay-body va-crisis-panel-body">
+      <ul>
+        <li><a href="tel:18002738255">Call <strong>1-800-273-8255 (Press 1)</strong></a></li>
+        <li><a href="sms:838255">Text to <b>838255</b></a></li>
+        <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat <b>confidentially now</b></a></li>
+      </ul>
+
+      <p>If you are in crisis or having thoughts of suicide,
+visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
+
+    </div>
+  </div>
+</div>
+<!-- End mobile crisis line overlay -->
+
+<!-- Begin generic overlay modal -->
+{% if modal %}
+  {% include "merger/includes/modal.html" %}
+{% endif %}
+
+<!-- htmllint attr-bans="[]" -->
+{% if buildtype === 'development' %}
+  <script>
+    recordEvent({ environment: '{{ buildtype }}' });
+  </script>
+  <script async src="/js/google-analytics-dev.js"></script>
+{% else %}
+  <!-- Google Tag Manager -->
+  <script>
+    // Always use push with GTM: https://www.simoahava.com/gtm-tips/datalayer-declaration-vs-push/
+    recordEvent({ environment: '{{ buildtype }}' });
+    // We want to know if we are being iframed
+    if ( self !== top ) {
+      recordEvent({ event: 'iframed', embeddedIn: document.referrer});
+    }
+  </script>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
+  height="0" width="0" class="csp-inline-patch-footer"></iframe></noscript>
+  <script async src="/js/google-analytics.js"></script>
+  <!-- End Google Tag Manager -->
+{% endif %}
+<!-- htmllint attr-bans="$previous" -->
+
+<!--
+“To care for him who shall have borne the battle and for his widow, and his orphan.”
+- Abraham Lincoln
+-->
+<script type="text/javascript">
+  function footerNavClick(elem) {
+    var eventLabel = 'nav-' + elem.parentElement.parentElement.id;
+    recordEvent({
+      event: eventLabel,
+      navlabel: elem.innerText
+    });
+  }
+</script>
+{% if widgets %}
+<script type="text/javascript">
+(function() {
+  var widgets = {{ widgets | json }};
+  var module = {};
+  {% include "src/applications/static-pages/static-page-widgets.js" %}
+  mountWidgets(widgets);
+})();
+</script>
+{% endif %}
+
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
+<script type="text/javascript" src="/js/jquery-1-10-2.js"></script>
+<script type="text/javascript" src="/js/scrollable.js"></script>
+<script type="text/javascript" src="/js/custom2.js"></script>
+
+</body>
+</html>
