@@ -1,5 +1,8 @@
 import React from 'react';
 import Raven from 'raven-js';
+import sinon from 'sinon';
+
+// import { apiRequest } from '../../../../platform/utilities/api';
 
 const statuses = {
   // The status returned by the API
@@ -11,7 +14,18 @@ const statuses = {
   apiFailure: 'apiFailure'
 };
 
-export class ConfirmationPoll extends React.Component {
+const pendingResponse = Promise.resolve({ status: statuses.pending });
+// const successResponse = Promise.resolve({
+//   status: statuses.succeeded,
+//   confirmationNumber: '123abc'
+// });
+const failureResponse = Promise.resolve({ status: statuses.failed });
+
+const apiRequest = sinon.stub();
+apiRequest.onCall(0).returns(pendingResponse);
+apiRequest.onCall(1).returns(failureResponse);
+
+export default class ConfirmationPoll extends React.Component {
   constructor(props) {
     super(props);
 
@@ -26,8 +40,8 @@ export class ConfirmationPoll extends React.Component {
     this.poll();
   }
 
-  poll() {
-    fetch()
+  poll = () => {
+    apiRequest('')
       .then((response) => {
         // Check status
         // TODO: Get where this actually comes from in the response
@@ -43,12 +57,11 @@ export class ConfirmationPoll extends React.Component {
         }
       })
       .catch((response) => {
-        // console.log('API call failed:', response);
         // The call to the API failed; show a message or something
         this.setState({
           submissionStatus: statuses.apiFailure,
-          // TODO: Make sure this is the right variable
-          failureCode: response.code
+          // NOTE: I don't know that it'll always take this shape.
+          failureCode: response.errors[0].status
         });
       });
   }
@@ -57,7 +70,7 @@ export class ConfirmationPoll extends React.Component {
     switch (this.state.submissionStatus) {
       case statuses.retry: {
         // What should we do here?
-        return null;
+        return <p><strong>This is taking a while.</strong> Please check on the Claims Status tool later.</p>;
       }
       case statuses.succeeded: {
         return (
@@ -69,9 +82,11 @@ export class ConfirmationPoll extends React.Component {
         );
       }
       case statuses.failed: {
+        // What should we do here?
         return null;
       }
       case statuses.apiFailure: {
+        // What should we do here?
         Raven.captureMessage('526_submission_failure', {
           context: {
             statusCode: this.state.failureCode
@@ -83,7 +98,7 @@ export class ConfirmationPoll extends React.Component {
         // pending
         return (
           <div>
-            <strong>Confirmation number goes here</strong>
+            <p>Please wait while we submit your application.</p>
           </div>
         );
       }
