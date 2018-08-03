@@ -5,11 +5,6 @@ import DowntimeNotification, { externalServices, externalServiceStatus } from '.
 import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
-import {
-  isPendingTransaction,
-  isSuccessfulTransaction,
-} from '../vet360/util/transactions';
-
 import Vet360TransactionPending from '../vet360/components/base/TransactionPending';
 import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
 
@@ -40,13 +35,10 @@ class ProfileView extends React.Component {
   };
 
   componentDidMount() {
-    const initializationTransaction = this.props.vet360InitializationTransaction;
     if (this.props.isVet360AvailableForUser) {
       this.props.fetchTransactions();
     } else {
-      if (!initializationTransaction || !isPendingTransaction(initializationTransaction) || !isSuccessfulTransaction(initializationTransaction)) {
-        this.props.initializeUserToVet360();
-      }
+      this.props.initializeUserToVet360();
     }
   }
 
@@ -66,7 +58,7 @@ class ProfileView extends React.Component {
   }
 
   handleTransactionRefresh = () => {
-    this.props.refreshTransaction(this.props.vet360InitializationTransaction);
+    this.props.refreshTransaction(this.props.vet360InitializationTransaction.transaction);
   }
 
   render() {

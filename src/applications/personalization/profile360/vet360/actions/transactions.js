@@ -32,7 +32,7 @@ function recordProfileTransaction(event, fieldName) {
 export function initializeUserToVet360() {
   return async (dispatch) => {
     const method = 'POST';
-    const fieldName = 'initialization';
+    const fieldName = VET360_CONSTANTS.INITIALIZATION_TRANSACTION;
 
     const options = {
       method,

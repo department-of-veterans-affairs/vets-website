@@ -24,6 +24,8 @@ import {
   selectVet360Transaction
 } from '../vet360/selectors';
 
+import { INITIALIZATION_TRANSACTION } from '../vet360/constants';
+
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import ProfileView from '../components/ProfileView';
 
@@ -66,7 +68,7 @@ const mapStateToProps = (state) => {
     profile: state.vaProfile,
     isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile'),
     isVet360AvailableForUser: selectIsVet360AvailableForUser(state),
-    vet360InitializationTransaction: selectVet360Transaction(state, 'initialization'),
+    vet360InitializationTransaction: selectVet360Transaction(state, INITIALIZATION_TRANSACTION),
   };
 };
 
