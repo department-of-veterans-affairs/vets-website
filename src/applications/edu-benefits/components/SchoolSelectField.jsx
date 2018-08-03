@@ -175,55 +175,59 @@ export class SchoolSelectField extends React.Component {
               </button>
             </div>
           </div>
-          {showInstitutions && <div>
-            {institutions.map(({ city, facilityCode, name, state }, index) => (
-              <div key={index}>
-                <div className="radio-button">
-                  <input
-                    autoComplete="false"
-                    checked={facilityCodeSelected === facilityCode}
-                    id={`page-${currentPageNumber}-${index}`}
-                    name={`page-${currentPageNumber}`}
-                    type="radio"
-                    onKeyDown={this.onKeyDown}
-                    onChange={() => this.handleOptionClick({ city, facilityCode, name, state })}
-                    value={facilityCode}/>
-                  <label
-                    id={`institution-${index}-label`}
-                    htmlFor={`page-${currentPageNumber}-${index}`}>
-                    <span className="institution-name">{name}</span>
-                    <span className="institution-city-state">{`${city}, ${state}`}</span>
-                  </label>
-                </div>
-              </div>))
+          <div
+            aria-live="polite"
+            aria-relevant="additions text">
+            {showInstitutions && <div>
+              {institutions.map(({ city, facilityCode, name, state }, index) => (
+                <div key={index}>
+                  <div className="radio-button">
+                    <input
+                      autoComplete="false"
+                      checked={facilityCodeSelected === facilityCode}
+                      id={`page-${currentPageNumber}-${index}`}
+                      name={`page-${currentPageNumber}`}
+                      type="radio"
+                      onKeyDown={this.onKeyDown}
+                      onChange={() => this.handleOptionClick({ city, facilityCode, name, state })}
+                      value={facilityCode}/>
+                    <label
+                      id={`institution-${index}-label`}
+                      htmlFor={`page-${currentPageNumber}-${index}`}>
+                      <span className="institution-name">{name}</span>
+                      <span className="institution-city-state">{`${city}, ${state}`}</span>
+                    </label>
+                  </div>
+                </div>))
+              }
+            </div>
+            }
+            {showInstitutionsLoading && <div>
+              <LoadingIndicator message={`Searching ${institutionQuery}...`}/>
+            </div>
+            }
+            {showNoResultsFound && <div className="no-results-box">
+              <p>
+                <strong>
+                  {'No schools found. '}
+                </strong>
+                {'Please try entering a different search term (school name or address), or '}
+                <button
+                  className="va-button-link"
+                  onClick={this.handleManuallyEnterClicked}>
+                  {'manually enter your school’s information by clicking this link.'}
+                </button>
+              </p>
+            </div>}
+            {showPaginationLoading && <div>
+              <LoadingIndicator message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}/>
+            </div>
             }
           </div>
-          }
-          {showInstitutionsLoading && <div>
-            <LoadingIndicator message={`Searching ${institutionQuery}...`}/>
-          </div>
-          }
-          {showNoResultsFound && <div className="no-results-box">
-            <p>
-              <strong>
-                {'No schools found. '}
-              </strong>
-              {'Please try entering a different search term (school name or address), or '}
-              <button
-                className="va-button-link"
-                onClick={this.handleManuallyEnterClicked}>
-                {'manually enter your school’s information by clicking this link.'}
-              </button>
-            </p>
-          </div>}
-          {showPaginationLoading && <div>
-            <LoadingIndicator message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}/>
-          </div>
+          {showPagination && <Pagination
+            page={currentPageNumber} pages={pagesCount} onPageSelect={this.handlePageSelect}/>
           }
         </div>
-        {showPagination && <Pagination
-          page={currentPageNumber} pages={pagesCount} onPageSelect={this.handlePageSelect}/>
-        }
       </fieldset>
     );
   }
