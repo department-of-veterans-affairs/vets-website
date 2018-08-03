@@ -5,6 +5,12 @@ import DowntimeNotification, { externalServices, externalServiceStatus } from '.
 import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
+import {
+  isPendingTransaction,
+  isSuccessfulTransaction,
+} from '../vet360/util/transactions';
+
+import Vet360TransactionPending from '../vet360/components/base/TransactionPending';
 import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
 
 import Hero from './Hero';
@@ -18,8 +24,10 @@ import MVIError from './MVIError';
 class ProfileView extends React.Component {
   static propTypes = {
     downtimeData: PropTypes.object,
+    vet360InitializationTransaction: PropTypes.object,
     isVet360AvailableForUser: PropTypes.bool,
     fetchTransactions: PropTypes.func.isRequired,
+    refreshTransaction: PropTypes.func.isRequired,
     fetchMilitaryInformation: PropTypes.func.isRequired,
     fetchHero: PropTypes.func.isRequired,
     fetchPersonalInformation: PropTypes.func.isRequired,
@@ -32,10 +40,13 @@ class ProfileView extends React.Component {
   };
 
   componentDidMount() {
+    const initializationTransaction = this.props.vet360InitializationTransaction;
     if (this.props.isVet360AvailableForUser) {
       this.props.fetchTransactions();
     } else {
-      this.props.initializeUserToVet360();
+      if (!initializationTransaction || !isPendingTransaction(initializationTransaction) || !isSuccessfulTransaction(initializationTransaction)) {
+        this.props.initializeUserToVet360();
+      }
     }
   }
 
@@ -52,6 +63,10 @@ class ProfileView extends React.Component {
       );
     }
     return children;
+  }
+
+  handleTransactionRefresh = () => {
+    this.props.refreshTransaction(this.props.vet360InitializationTransaction);
   }
 
   render() {
@@ -78,6 +93,7 @@ class ProfileView extends React.Component {
         content = (
           <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[externalServices.emis, externalServices.evss, externalServices.mvi]}>
             <div>
+              <Vet360TransactionPending refreshTransaction={this.handleTransactionRefresh}><div/></Vet360TransactionPending>
               <Vet360TransactionReporter/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
               <ContactInformation isVet360AvailableForUser={isVet360AvailableForUser} user={user}/>

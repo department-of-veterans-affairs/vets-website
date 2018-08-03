@@ -9,7 +9,8 @@ import {
 
 import {
   fetchTransactions,
-  initializeUserToVet360
+  initializeUserToVet360,
+  refreshTransaction,
 } from '../vet360/actions';
 
 import {
@@ -18,7 +19,10 @@ import {
   fetchPersonalInformation
 } from '../actions';
 
-import { selectIsVet360AvailableForUser } from '../vet360/selectors';
+import {
+  selectIsVet360AvailableForUser,
+  selectVet360Transaction
+} from '../vet360/selectors';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import ProfileView from '../components/ProfileView';
@@ -35,6 +39,7 @@ class VAProfileApp extends React.Component {
           verifyUrl={this.props.verifyUrl}>
           <ProfileView
             isVet360AvailableForUser={this.props.isVet360AvailableForUser}
+            vet360InitializationTransaction={this.props.vet360InitializationTransaction}
             profile={this.props.profile}
             user={this.props.user}
             fetchHero={this.props.fetchHero}
@@ -42,6 +47,7 @@ class VAProfileApp extends React.Component {
             fetchPersonalInformation={this.props.fetchPersonalInformation}
             fetchTransactions={this.props.fetchTransactions}
             initializeUserToVet360={this.props.initializeUserToVet360}
+            refreshTransaction={this.props.refreshTransaction}
             downtimeData={{
               appTitle: 'profile',
               isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,
@@ -59,7 +65,8 @@ const mapStateToProps = (state) => {
     user: state.user,
     profile: state.vaProfile,
     isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile'),
-    isVet360AvailableForUser: selectIsVet360AvailableForUser(state)
+    isVet360AvailableForUser: selectIsVet360AvailableForUser(state),
+    vet360InitializationTransaction: selectVet360Transaction(state, 'initialization'),
   };
 };
 
@@ -71,6 +78,7 @@ const mapDispatchToProps = {
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
   initializeUserToVet360,
+  refreshTransaction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VAProfileApp);

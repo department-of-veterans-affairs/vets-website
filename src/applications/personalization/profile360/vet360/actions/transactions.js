@@ -127,7 +127,10 @@ export function refreshTransaction(transaction, analyticsSectionName) {
         const forceCacheClear = true;
         await dispatch(refreshProfile(forceCacheClear));
         dispatch(clearTransaction(transactionRefreshed));
-        recordEvent({ event: 'profile-saved' });
+
+        if (analyticsSectionName) {
+          recordEvent({ event: 'profile-saved' });
+        }
       } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
         recordEvent({
           event: 'profile-edit-failure',
