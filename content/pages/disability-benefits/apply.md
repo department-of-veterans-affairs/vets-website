@@ -32,7 +32,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to file for VA disability benefits.
+Find out how to file for VA disability compensation.
 
 </div>
 
@@ -101,7 +101,7 @@ Bring your application to a regional benefit office near you. <br>
 
 ##### With the help of a trained professional
 
-You can work with a trained professional called an accredited representative to get help filing for disability benefits. <br>
+You can work with a trained professional called an accredited representative to get help filing for disability compensation. <br>
 [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
