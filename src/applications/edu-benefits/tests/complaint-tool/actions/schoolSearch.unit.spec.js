@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mockFetch, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
 import {
+  clearSearch,
   setCannotFindSchool,
   searchInputChange,
   searchSchools,
@@ -15,16 +16,11 @@ function setFetchResponse(stub, data) {
   stub.resolves(response);
 }
 
-describe.only('schoolSearch actions', () => {
-  describe('setCannotFindSchool', () => {
-    it('should return a SET_DATA action', () => {
-      expect(setCannotFindSchool()).to.eql({
-        type: 'SET_DATA',
-        data: {
-          school: {
-            'view:cannotFindSchool': true
-          }
-        }
+describe('schoolSearch actions', () => {
+  describe('clearSearch', () => {
+    it('should return a SEARCH_CLEARED action', () => {
+      expect(clearSearch()).to.eql({
+        type: 'SEARCH_CLEARED'
       });
     });
   });
@@ -83,6 +79,18 @@ describe.only('schoolSearch actions', () => {
         facilityCode: 'testFacilityCode',
         name: 'testName',
         state: 'testState'
+      });
+    });
+  });
+  describe('setCannotFindSchool', () => {
+    it('should return a SET_DATA action', () => {
+      expect(setCannotFindSchool()).to.eql({
+        type: 'SET_DATA',
+        data: {
+          school: {
+            'view:cannotFindSchool': true
+          }
+        }
       });
     });
   });
