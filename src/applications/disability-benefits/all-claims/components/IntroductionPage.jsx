@@ -32,6 +32,7 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for disability compensation"/>
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
+        {/* TODO: Replace alert with SaveInProgressIntro when implementing gating */}
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <p>If you’re signed in to your account, the application process can go more smoothly. Here’s why:</p>
