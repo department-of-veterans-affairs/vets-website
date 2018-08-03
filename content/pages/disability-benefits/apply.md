@@ -109,7 +109,7 @@ You can work with a trained professional called an accredited representative to 
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h3 itemprop="name">What happens after I apply?</h3>
+<h3 itemprop="name">What happens after I file?</h3>
 <div itemprop="itemListElement">
 
 [Find out what happens after you file](/disability-benefits/after-you-apply/).
