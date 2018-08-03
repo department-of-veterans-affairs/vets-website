@@ -1,6 +1,8 @@
 import states from './states.json';
 import countries from './countries.json';
 
+export const INITIALIZATION_TRANSACTION = 'INITIALIZATION_TRANSACTION';
+
 export const ADDRESS_FORM_VALUES = {
   STATES: states.map(state => state.stateCode),
   COUNTRIES: countries.map(country => country.countryName)
