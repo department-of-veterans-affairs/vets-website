@@ -7,7 +7,7 @@ import moment from 'moment';
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import { introActions, introSelector } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro, { introActions, introSelector } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
 class IntroductionPage extends React.Component {
@@ -32,7 +32,13 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for increased disability compensation"/>
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
-        <button>Start your form [change me]</button>
+        <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          formId={this.props.form.formId}
+          pageList={this.props.route.pageList}
+          startText="Start the Disability Compensation Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <h4>Follow the steps below to apply for increased disability compensation.</h4>
         <div className="process schemaform-process">
           <ol>
@@ -74,7 +80,13 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <button>Start form here!</button>
+        <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          formId={this.props.form.formId}
+          pageList={this.props.route.pageList}
+          startText="Start the Disability Compensation Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="11/30/2017"/>
