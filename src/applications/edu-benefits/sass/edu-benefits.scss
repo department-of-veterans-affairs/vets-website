@@ -30,17 +30,36 @@
   margin-bottom: 7rem;
 }
 
-
 .search-select-school-fieldset {
+  .no-results-box {
+    background-color: $color-gray-lightest;
+    margin: 25px 0;
+    padding: 20px;
+    p {
+      margin: 0;
+    }
+  }
+
   .search-controls {
     display: flex;
-    flex-wrap: nowrap;
-    input {
-      margin-right: 10px;
-    }
+    .search-input {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 2;
+      flex-wrap: nowrap;
 
-    button {
+      .clear-search{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        &.info {
+          justify-content: space-between;
+        }
+      }
+    }
+    .search-schools {
       max-width: 150px;
+      margin: 3px 0 0 20px;
     }
   }
 
@@ -76,5 +95,4 @@
       }
     }
   }
-
 }
