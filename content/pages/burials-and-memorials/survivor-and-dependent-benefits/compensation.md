@@ -71,9 +71,11 @@ You can get compensation if you're eligible as a survivor or dependent and one o
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-parent">Surviving Parent</button>
 <div id="VA-burials-survivor-parent" class="usa-accordion-content">
-
-You may be able to get compensation as a surviving parent if your income is below a certain amount. <br>
-[View the parents DIC rate table](https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp).
+  
+  You may be able to get compensation as a surviving parent if both of these are true: 
+- The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
+- Your income is below a certain amount. <br>
+[View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
 
    </div>
   </div>
