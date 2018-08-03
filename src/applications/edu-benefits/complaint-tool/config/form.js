@@ -84,7 +84,7 @@ function isNotVeteranOrServiceMember(formData) {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/api',
-  trackingPrefix: 'complaint-tool',
+  trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'complaint-tool',
