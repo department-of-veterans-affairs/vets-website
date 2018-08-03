@@ -191,7 +191,7 @@ describe('<SchoolSelectField>', () => {
       showPaginationLoading={false}/>
     );
 
-    tree.find('.no-results-box a').first().simulate('click');
+    tree.find('.no-results-box button').first().simulate('click');
     expect(setCannotFindSchool.calledOnce).to.eql(true);
   });
 

@@ -8,11 +8,13 @@ import { DefinitionTester, // selectCheckbox
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
+// NOTE: This file probably duplicates recordUpload
 const invalidDocumentData = {
   disabilities: [
     {
       additionalDocuments: [{
-        confirmationCode: 'testing'
+        confirmationCode: 'testing',
+        name: 'someFile.pdf'
       }],
       disability: { // Is this extra nesting necessary?
         diagnosticText: 'PTSD',
@@ -73,7 +75,8 @@ const validDocumentData = {
     {
       additionalDocuments: [{
         name: 'Form526.pdf',
-        confirmationCode: 'testing'
+        confirmationCode: 'testing',
+        attachmentId: 'L015'
       }],
       disability: { // Is this extra nesting necessary?
         diagnosticText: 'PTSD',
