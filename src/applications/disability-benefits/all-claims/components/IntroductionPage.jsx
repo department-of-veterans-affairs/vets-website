@@ -65,7 +65,7 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>Your Social Security number</li>
                 <li>A copy of your discharge papers (DD214 or other separation documents)</li>
-                <li>Service treatment records You can order service medical records through the National Archives.</li>
+                <li>Service treatment records. You can order service medical records through the National Archives.</li>
                 <li>VA medical and hospital records that relate to your illness or injury</li>
                 <li>Private medical and hospital records that relate to your illness or injury</li>
               </ul>
