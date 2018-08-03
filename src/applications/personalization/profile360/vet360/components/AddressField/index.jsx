@@ -38,7 +38,7 @@ export default class AddressField extends React.Component {
     return addressType;
   }
 
-  convertNextValueToCleanData(value) {
+  convertNextValueToCleanData = (value) => {
     const {
       id,
       addressLine1,
@@ -71,7 +71,7 @@ export default class AddressField extends React.Component {
     };
   }
 
-  validateCleanData({ addressLine1, city, stateCode,  internationalPostalCode, zipCode, countryName }, property) {
+  validateCleanData = ({ addressLine1, city, stateCode,  internationalPostalCode, zipCode, countryName }, property) => {
     const isInternational = this.inferAddressType(countryName, stateCode) === ADDRESS_TYPES.INTERNATIONAL;
     const validateAll = !property;
 
@@ -84,7 +84,7 @@ export default class AddressField extends React.Component {
     };
   }
 
-  convertCleanDataToPayload(cleanData, fieldName) {
+  convertCleanDataToPayload = (cleanData, fieldName) => {
     return pickBy({
       id: cleanData.id,
       addressLine1: cleanData.addressLine1,
