@@ -207,6 +207,17 @@ const mapDispatchToProps = {
   updateFormField
 };
 
+/**
+ * Container used to easily create components for Vet360 contact information.
+ * @property {string} fieldName The name of the property as it appears in the user.profile.vet360 object.
+ * @property {func} Content The component used to render the read-display of the field.
+ * @property {func} EditModal The component used to render the contents of the field's edit-modal.
+ * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
+ * @property {string} apiRoute The API route used to create/update/delete the Vet360 field.
+ * @property {func} convertNextValueToCleanData A function called to derive or make changes to form values after form values are changed in the edit-modal. Called prior to validation.
+ * @property {func} validateCleanData A function called to determine validation errors. Called after convertNextValueToCleanData.
+ * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in Vet360.
+ */
 const Vet360ProfileFieldContainer = connect(mapStateToProps, mapDispatchToProps)(Vet360ProfileField);
 
 Vet360ProfileFieldContainer.propTypes = {
