@@ -111,13 +111,13 @@ Yes. We're committed to serving the health needs of Veterans with LGBT and relat
 
 For more information, you can download these fact sheets:
 
-[Transgender male health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-male.pdf#)
+- [Transgender male health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-male.pdf#)
 
-[Transgender female health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-female.pdf#)
+- [Transgender female health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-female.pdf#)
 
-[Male Veterans: Gay and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-gay-bisexual.pdf#)
+- [Male Veterans: Gay and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-gay-bisexual.pdf#)
 
-[Female Veterans: Lesbian and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-lesbian-bisexual.pdf#)
+- [Female Veterans: Lesbian and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-lesbian-bisexual.pdf#)
 
 You can also find out more about LGBT programs at VA medical centers across the nation. <br>
 [View VA medical center LGBT program websites](https://www.patientcare.va.gov/LGBT/VAFacilities.asp).
