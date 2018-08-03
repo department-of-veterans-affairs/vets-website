@@ -129,7 +129,15 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    
+                    // privateRecordReleases: _.set(
+                    //   'items.properties.view:releaseRestrictedNotice',
+                    //   {
+                    //     type: 'object',
+                    //     'ui:collapsed': true,
+                    //     properties: {}
+                    //   },
+                    //   privateRecordReleases
+                    // )
                   }
                 }
               }
