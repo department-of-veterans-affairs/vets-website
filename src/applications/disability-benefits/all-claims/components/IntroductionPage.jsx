@@ -30,7 +30,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for increased disability compensation"/>
+        <FormTitle title="Apply for disability compensation"/>
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
@@ -133,7 +133,7 @@ class IntroductionPage extends React.Component {
         </p>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="11/30/2017"/>
+          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="03/31/2021"/>
         </div>
       </div>
     );
