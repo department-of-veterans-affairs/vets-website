@@ -1,10 +1,9 @@
 import React from 'react';
 import Raven from 'raven-js';
-import sinon from 'sinon';
 
-// import { apiRequest } from '../../../../platform/utilities/api';
+import { apiRequest } from '../../../../platform/utilities/api';
 
-const statuses = {
+export const submissionStatuses = {
   // The status returned by the API
   pending: 'pending',
   retry: 'retry',
@@ -14,38 +13,41 @@ const statuses = {
   apiFailure: 'apiFailure'
 };
 
-const pendingResponse = Promise.resolve({ status: statuses.pending });
-// const successResponse = Promise.resolve({
-//   status: statuses.succeeded,
-//   confirmationNumber: '123abc'
-// });
-const failureResponse = Promise.resolve({ status: statuses.failed });
-
-const apiRequest = sinon.stub();
-apiRequest.onCall(0).returns(pendingResponse);
-apiRequest.onCall(1).returns(failureResponse);
-
 export default class ConfirmationPoll extends React.Component {
+  static defaultProps = {
+    pollRate: 5000
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
-      submissionStatus: statuses.pending,
+      submissionStatus: submissionStatuses.pending,
       confirmationNumber: null,
       failureCode: null,
     };
   }
 
   componentDidMount() {
+    this.__isMounted = true;
     this.poll();
   }
 
+  componentWillUnmount() {
+    this.__isMounted = false;
+  }
+
   poll = () => {
+    // Don't continue to request after the component is unmounted
+    if (!this.__isMounted) {
+      return;
+    }
+
     apiRequest('')
       .then((response) => {
         // Check status
         // TODO: Get where this actually comes from in the response
-        if (response.status !== statuses.pending) {
+        if (response.status !== submissionStatuses.pending) {
           this.setState({
             submissionStatus: response.status,
             // TODO: Get where this actually comes from in the response
@@ -53,13 +55,13 @@ export default class ConfirmationPoll extends React.Component {
           });
         } else {
           // Wait for 5 seconds and recurse
-          setTimeout(this.poll, 5000);
+          setTimeout(this.poll, this.props.pollRate);
         }
       })
       .catch((response) => {
         // The call to the API failed; show a message or something
         this.setState({
-          submissionStatus: statuses.apiFailure,
+          submissionStatus: submissionStatuses.apiFailure,
           // NOTE: I don't know that it'll always take this shape.
           failureCode: response.errors[0].status
         });
@@ -68,11 +70,11 @@ export default class ConfirmationPoll extends React.Component {
 
   render() {
     switch (this.state.submissionStatus) {
-      case statuses.retry: {
+      case submissionStatuses.retry: {
         // What should we do here?
         return <p><strong>This is taking a while.</strong> Please check on the Claims Status tool later.</p>;
       }
-      case statuses.succeeded: {
+      case submissionStatuses.succeeded: {
         return (
           <div>
             <strong>Confirmation number</strong>
@@ -81,11 +83,11 @@ export default class ConfirmationPoll extends React.Component {
           </div>
         );
       }
-      case statuses.failed: {
+      case submissionStatuses.failed: {
         // What should we do here?
         return null;
       }
-      case statuses.apiFailure: {
+      case submissionStatuses.apiFailure: {
         // What should we do here?
         Raven.captureMessage('526_submission_failure', {
           context: {
