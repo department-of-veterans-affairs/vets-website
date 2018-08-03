@@ -118,11 +118,6 @@ export function refreshTransaction(transaction, analyticsSectionName) {
 
       const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : await localVet360.updateTransaction(transactionId);
 
-      dispatch({
-        type: VET360_TRANSACTION_UPDATED,
-        transaction: transactionRefreshed
-      });
-
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
         await dispatch(refreshProfile(forceCacheClear));
@@ -131,12 +126,19 @@ export function refreshTransaction(transaction, analyticsSectionName) {
         if (analyticsSectionName) {
           recordEvent({ event: 'profile-saved' });
         }
-      } else if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
-        recordEvent({
-          event: 'profile-edit-failure',
-          'profile-action': 'save-failure',
-          'profile-section': analyticsSectionName,
+      } else {
+        dispatch({
+          type: VET360_TRANSACTION_UPDATED,
+          transaction: transactionRefreshed
         });
+
+        if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
+          recordEvent({
+            event: 'profile-edit-failure',
+            'profile-action': 'save-failure',
+            'profile-section': analyticsSectionName,
+          });
+        }
       }
     } catch (err) {
       dispatch({

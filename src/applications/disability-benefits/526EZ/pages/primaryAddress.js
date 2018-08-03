@@ -144,7 +144,12 @@ const addressUISchema = (addressType, title) => {
   };
 };
 
-const { mailingAddress, forwardingAddress } = fullSchema526EZ.properties.veteran.properties;
+const {
+  mailingAddress,
+  forwardingAddress,
+  emailAddress,
+  primaryPhone
+} = fullSchema526EZ.properties.veteran.properties;
 
 export const uiSchema = {
   veteran: {
@@ -168,7 +173,7 @@ export const uiSchema = {
       emailAddress: {
         'ui:title': 'Email address',
         'ui:errorMessages': {
-          pattern: 'Please put your email in this format x@x.xxx'
+          pattern: 'The email you enter should be in this format x@x.xx'
         }
       },
     },
@@ -238,14 +243,8 @@ export const schema = {
           type: 'object',
           required: ['primaryPhone', 'emailAddress'],
           properties: {
-            primaryPhone: {
-              type: 'string',
-              pattern: '^\\d{10}$'
-            },
-            emailAddress: {
-              type: 'string',
-              format: 'email'
-            }
+            primaryPhone,
+            emailAddress
           }
         },
         mailingAddress,

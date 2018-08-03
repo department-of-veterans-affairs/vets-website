@@ -131,7 +131,7 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.c'
+              emailAddress: 'a@b.co'
             },
             mailingAddress: {
               country: 'USA',
@@ -162,7 +162,7 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.c'
+              emailAddress: 'a@b.co'
             },
             mailingAddress: {
               country: 'USA',
@@ -221,7 +221,7 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.c'
+              emailAddress: 'a@b.co'
             },
             mailingAddress: {
               country: 'USA',
@@ -261,7 +261,7 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.c'
+              emailAddress: 'a@b.co'
             },
             mailingAddress: {
               country: 'USA',
@@ -337,7 +337,7 @@ describe('Disability benefits 526EZ primary address', () => {
           veteran: {
             phoneEmailCard: {
               primaryPhone: '1231231231',
-              emailAddress: 'a@b.c'
+              emailAddress: 'a@b.co'
             },
             mailingAddress: {
               country: 'USA',

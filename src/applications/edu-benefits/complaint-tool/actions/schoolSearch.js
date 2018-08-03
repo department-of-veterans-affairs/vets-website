@@ -2,26 +2,25 @@ import {
   fetchInstitutions
 } from '../helpers';
 
+export const INSTITUTION_SELECTED = 'INSTITUTION_SELECTED';
 export const LOAD_SCHOOLS_STARTED = 'LOAD_SCHOOLS_STARTED';
 export const LOAD_SCHOOLS_SUCCEEDED = 'LOAD_SCHOOLS_SUCCEEDED';
 export const LOAD_SCHOOLS_FAILED = 'LOAD_SCHOOLS_FAILED';
-export const SEARCH_INPUT_CHANGE = 'SEARCH_INPUT_CHANGE';
-export const SELECT_INSTITUTION = 'SELECT_INSTITUTION';
+export const SEARCH_CLEARED = 'SEARCH_CLEARED';
+export const SEARCH_INPUT_CHANGED = 'SEARCH_INPUT_CHANGED';
 
-export function searchInputChange({ searchInputValue }) {
+const SET_DATA = 'SET_DATA';
+
+export function clearSearch() {
   return {
-    type: SEARCH_INPUT_CHANGE,
-    searchInputValue
+    type: SEARCH_CLEARED
   };
 }
 
-export function selectInstitution({ city, facilityCode, name, state }) {
+export function searchInputChange({ searchInputValue }) {
   return {
-    type: SELECT_INSTITUTION,
-    city,
-    facilityCode,
-    name,
-    state
+    type: SEARCH_INPUT_CHANGED,
+    searchInputValue
   };
 }
 
@@ -48,5 +47,26 @@ export function searchSchools({ institutionQuery, page }) {
         });
       }
     });
+  };
+}
+
+export function selectInstitution({ city, facilityCode, name, state }) {
+  return {
+    type: INSTITUTION_SELECTED,
+    city,
+    facilityCode,
+    name,
+    state
+  };
+}
+
+export function setCannotFindSchool() {
+  return {
+    type: SET_DATA,
+    data: {
+      school: {
+        'view:cannotFindSchool': true
+      }
+    }
   };
 }
