@@ -3,7 +3,6 @@ import { refreshProfile } from '../../../../../platform/user/profile/actions';
 import recordEvent from '../../../../../platform/monitoring/record-event';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
-import * as VET360_CONSTANTS from '../constants';
 import { isSuccessfulTransaction, isFailedTransaction } from '../util/transactions';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS = 'VET360_TRANSACTIONS_FETCH_SUCCESS';
@@ -15,18 +14,6 @@ export const VET360_TRANSACTION_UPDATE_REQUESTED = 'VET360_TRANSACTION_UPDATE_RE
 export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
 export const VET360_TRANSACTION_UPDATE_FAILED = 'VET360_TRANSACTION_UPDATE_FAILED';
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
-
-function recordProfileTransaction(event, fieldName) {
-  const analyticsMap = VET360_CONSTANTS.ANALYTICS_FIELD_MAP;
-  const mappedName = analyticsMap[fieldName];
-
-  if (mappedName) {
-    recordEvent({
-      event,
-      'profile-section': mappedName
-    });
-  }
-}
 
 export function fetchTransactions() {
   return async (dispatch) => {
@@ -110,7 +97,7 @@ export function refreshTransaction(transaction, analyticsSectionName) {
   };
 }
 
-export function createTransaction(route, method, fieldName, payload) {
+export function createTransaction(route, method, fieldName, payload, analyticsSectionName) {
   return async (dispatch) => {
     const options = {
       body: JSON.stringify(payload),
@@ -129,11 +116,10 @@ export function createTransaction(route, method, fieldName, payload) {
 
       const transaction = isVet360Configured() ? await apiRequest(route, options) : await localVet360.createTransaction();
 
-      if (method === 'DELETE') {
-        recordProfileTransaction('profile-deleted', fieldName);
-      } else {
-        recordProfileTransaction('profile-transaction', fieldName);
-      }
+      recordEvent({
+        event: method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
+        'profile-section': analyticsSectionName
+      });
 
       dispatch({
         type: VET360_TRANSACTION_REQUEST_SUCCEEDED,

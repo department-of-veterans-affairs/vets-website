@@ -56,8 +56,8 @@ class Vet360ProfileField extends React.Component {
   onChange = (value, property, skipValidation) => {
     this.props.updateFormField(
       this.props.fieldName,
-      this.props.cleanEditedData,
-      this.props.validateEditedData,
+      this.props.convertNextValueToCleanData,
+      this.props.validateCleanData,
       value,
       property,
       skipValidation
@@ -66,13 +66,16 @@ class Vet360ProfileField extends React.Component {
 
   onDelete = () => {
     let payload = this.props.data;
-    if (this.props.getPayload) payload = this.props.getPayload(payload, this.props.fieldName);
+    if (this.props.convertCleanDataToPayload) {
+      payload = this.props.convertCleanDataToPayload(payload, this.props.fieldName);
+    }
 
     this.props.createTransaction(
       this.props.apiRoute,
       'DELETE',
       this.props.fieldName,
-      payload
+      payload,
+      this.props.analyticsSectionName
     );
   }
 
@@ -85,7 +88,9 @@ class Vet360ProfileField extends React.Component {
     this.captureEvent('update-button');
 
     let payload = this.props.field.value;
-    if (this.props.getPayload) payload = this.props.getPayload(payload, this.props.fieldName);
+    if (this.props.convertCleanDataToPayload) {
+      payload = this.props.convertCleanDataToPayload(payload, this.props.fieldName);
+    }
 
     const method = payload.id ? 'PUT' : 'POST';
 
@@ -93,7 +98,8 @@ class Vet360ProfileField extends React.Component {
       this.props.apiRoute,
       method,
       this.props.fieldName,
-      payload
+      payload,
+      this.props.analyticsSectionName
     );
   }
 
@@ -113,14 +119,12 @@ class Vet360ProfileField extends React.Component {
     this.props.refreshTransaction(this.props.transaction, this.props.analyticsSectionName);
   }
 
-  captureEvent(actionName, sectionName = this.props.analyticsSectionName) {
-    if (sectionName && actionName) {
-      recordEvent({
-        event: 'profile-navigation',
-        'profile-action': actionName,
-        'profile-section': sectionName,
-      });
-    }
+  captureEvent(actionName) {
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': actionName,
+      'profile-section': this.props.analyticsSectionName,
+    });
   }
 
   isEditLinKVisible = () => {
@@ -211,8 +215,9 @@ Vet360ProfileFieldContainer.propTypes = {
   EditModal: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
-  cleanEditedData: PropTypes.func.isRequired,
-  validateEditedData: PropTypes.func.isRequired
+  convertNextValueToCleanData: PropTypes.func.isRequired,
+  validateCleanData: PropTypes.func.isRequired,
+  convertCleanDataToPayload: PropTypes.func
 };
 
 export default Vet360ProfileFieldContainer;

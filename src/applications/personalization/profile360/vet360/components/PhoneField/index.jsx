@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
 
 import {
   API_ROUTES,
+  FIELD_NAMES,
   PHONE_TYPE
 } from '../../constants';
 
@@ -13,59 +15,72 @@ import Vet360ProfileField from '../../containers/ProfileField';
 import PhoneEditModal from './EditModal';
 import PhoneView from './View';
 
-function cleanEditedData(value) {
-  const {
-    id,
-    countryCode,
-    extension,
-    phoneType,
-    inputPhoneNumber,
-  } = value;
+export default class PhoneField extends React.Component {
 
-  const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
-  const strippedExtension = (extension || '').replace(/[^a-zA-Z0-9]/g, '');
-
-  return {
-    id,
-    areaCode: strippedPhone.substring(0, 3),
-    countryCode,
-    extension: strippedExtension,
-    phoneType,
-    phoneNumber: strippedPhone.substring(3),
-    isInternational: countryCode !== '1',
-    inputPhoneNumber,
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    fieldName: PropTypes.oneOf([
+      FIELD_NAMES.HOME_PHONE,
+      FIELD_NAMES.MOBILE_PHONE,
+      FIELD_NAMES.TEMP_PHONE,
+      FIELD_NAMES.WORK_PHONE,
+      FIELD_NAMES.FAX_NUMBER
+    ]).isRequired
   };
-}
 
-function validateEditedData({ inputPhoneNumber }) {
-  return {
-    inputPhoneNumber: inputPhoneNumber && isValidPhone(inputPhoneNumber) ? '' : 'Please enter a valid phone.'
-  };
-}
+  convertNextValueToCleanData(value) {
+    const {
+      id,
+      countryCode,
+      extension,
+      phoneType,
+      inputPhoneNumber,
+    } = value;
 
-function getPayload(phoneFormData, fieldName) {
-  // strip falsy values like '', null so vet360 does not reject
-  return pickBy({
-    id: phoneFormData.id,
-    areaCode: phoneFormData.areaCode,
-    countryCode: '1', // currently no international phone number support
-    extension: phoneFormData.extension,
-    phoneNumber: phoneFormData.phoneNumber,
-    isInternational: false, // currently no international phone number support
-    phoneType: PHONE_TYPE[fieldName],
-  }, e => !!e);
-}
+    const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
+    const strippedExtension = (extension || '').replace(/[^a-zA-Z0-9]/g, '');
 
-export default function Vet360Phone({ title, fieldName }) {
-  return (
-    <Vet360ProfileField
-      title={title}
-      fieldName={fieldName}
-      apiRoute={API_ROUTES.TELEPHONES}
-      validateEditedData={validateEditedData}
-      getPayload={getPayload}
-      cleanEditedData={cleanEditedData}
-      Content={PhoneView}
-      EditModal={PhoneEditModal}/>
-  );
+    return {
+      id,
+      areaCode: strippedPhone.substring(0, 3),
+      countryCode,
+      extension: strippedExtension,
+      phoneType,
+      phoneNumber: strippedPhone.substring(3),
+      isInternational: countryCode !== '1',
+      inputPhoneNumber,
+    };
+  }
+
+  validateCleanData({ inputPhoneNumber }) {
+    return {
+      inputPhoneNumber: inputPhoneNumber && isValidPhone(inputPhoneNumber) ? '' : 'Please enter a valid phone.'
+    };
+  }
+
+  convertCleanDataToPayload(cleanData, fieldName) {
+    return pickBy({
+      id: cleanData.id,
+      areaCode: cleanData.areaCode,
+      countryCode: '1', // currently no international phone number support
+      extension: cleanData.extension,
+      phoneNumber: cleanData.phoneNumber,
+      isInternational: false, // currently no international phone number support
+      phoneType: PHONE_TYPE[fieldName],
+    }, e => !!e);
+  }
+
+  render() {
+    return (
+      <Vet360ProfileField
+        title={this.props.title}
+        fieldName={this.props.fieldName}
+        apiRoute={API_ROUTES.TELEPHONES}
+        convertNextValueToCleanData={this.convertNextValueToCleanData}
+        validateCleanData={this.validateCleanData}
+        convertCleanDataToPayload={this.convertCleanDataToPayload}
+        Content={PhoneView}
+        EditModal={PhoneEditModal}/>
+    );
+  }
 }
