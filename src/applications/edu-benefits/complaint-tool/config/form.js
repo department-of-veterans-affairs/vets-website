@@ -83,7 +83,8 @@ function isNotVeteranOrServiceMember(formData) {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  // submitUrl: '/v0/api',
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

@@ -67,6 +67,7 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
+      const { retentionPeriod } = this.props;
       alert = (
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -74,7 +75,7 @@ class SaveInProgressIntro extends React.Component {
               <strong>If you’re signed in to your account, your application process can go more smoothly. Here’s why:</strong><br/>
               <ul>
                 <li>We can prefill part of your application based on your account details.</li>
-                <li>You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.</li>
+                <li>You can save your form in progress, and come back later to finish filling it out. You have {retentionPeriod} from the date you start or update your application to submit the form. After {retentionPeriod}, the form won’t be saved, and you’ll need to start over.</li>
               </ul><br/>
               <button className="va-button-link" onClick={() => this.props.toggleLoginModal(true)}>Sign in to your account.</button>
             </div>
@@ -195,6 +196,7 @@ SaveInProgressIntro.propTypes = {
   saveInProgress: PropTypes.object.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
+  retentionPeriod: PropTypes.string,
   startText: PropTypes.string,
   pathname: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
@@ -203,6 +205,10 @@ SaveInProgressIntro.propTypes = {
   verifiedPrefillAlert: PropTypes.element,
   unverifiedPrefillAlert: PropTypes.element,
   downtime: PropTypes.object
+};
+
+SaveInProgressIntro.defaultProps = {
+  retentionPeriod: '60 days'
 };
 
 export const introSelector = getIntroState;

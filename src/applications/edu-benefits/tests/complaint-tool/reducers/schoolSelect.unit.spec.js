@@ -3,6 +3,37 @@ import { expect } from 'chai';
 import schoolSelect from '../../../complaint-tool/reducers/schoolSelect';
 
 describe('schoolSearch reducer', () => {
+  describe('INSTITUTION_SELECTED', () => {
+
+    it('should return an institution selected state', () => {
+      const previousState = {
+        oldState: [],
+        institutionSelected: { selected: 'old' },
+      };
+
+      const expectedState = {
+        ...previousState,
+        institutionSelected: {
+          city: 'testCity',
+          facilityCode: 'testFacilityCode',
+          name: 'testName',
+          state: 'testState'
+        }
+      };
+
+      const action = {
+        type: 'INSTITUTION_SELECTED',
+        city: 'testCity',
+        facilityCode: 'testFacilityCode',
+        name: 'testName',
+        state: 'testState'
+      };
+
+      const actualState = schoolSelect(previousState, action);
+
+      expect(actualState).to.eql(expectedState);
+    });
+  });
   describe('LOAD_SCHOOLS_STARTED', () => {
     it('should return a loading institution state', () => {
       const previousState = {
@@ -174,6 +205,57 @@ describe('schoolSearch reducer', () => {
             count: 0
           }
         }
+      };
+
+      const actualState = schoolSelect(previousState, action);
+
+      expect(actualState).to.eql(expectedState);
+    });
+  });
+  describe('SEARCH_CLEARED', () => {
+    it('should return a search cleared state', () => {
+      const previousState = {
+        oldState: []
+      };
+
+      const expectedState = {
+        currentPageNumber: 1,
+        institutions: [],
+        institutionQuery: '',
+        institutionSelected: {},
+        pagesCount: 0,
+        searchInputValue: '',
+        searchResultsCount: 0,
+        showInstitutions: false,
+        showInstitutionsLoading: false,
+        showNoResultsFound: false,
+        showPagination: false,
+        showPaginationLoading: false
+      };
+
+      const action = {
+        type: 'SEARCH_CLEARED'
+      };
+
+      const actualState = schoolSelect(previousState, action);
+
+      expect(actualState).to.eql(expectedState);
+    });
+  });
+  describe('SEARCH_INPUT_CHANGED', () => {
+    it('should return a search input changed state', () => {
+      const previousState = {
+        oldState: []
+      };
+
+      const expectedState = {
+        ...previousState,
+        searchInputValue: 'test'
+      };
+
+      const action = {
+        type: 'SEARCH_INPUT_CHANGED',
+        searchInputValue: 'test'
       };
 
       const actualState = schoolSelect(previousState, action);

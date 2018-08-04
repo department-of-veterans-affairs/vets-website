@@ -26,7 +26,7 @@ class VAMap extends Component {
   constructor(props) {
     super(props);
 
-    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.5), 2500, {
+    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.75), 2500, {
       leading: true,
     });
 

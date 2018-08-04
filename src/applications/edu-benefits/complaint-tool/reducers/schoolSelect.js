@@ -2,6 +2,7 @@ import {
   LOAD_SCHOOLS_STARTED,
   LOAD_SCHOOLS_SUCCEEDED,
   // LOAD_SCHOOLS_FAILED,
+  SEARCH_CLEARED,
   SEARCH_INPUT_CHANGED,
   INSTITUTION_SELECTED
 } from '../actions/schoolSearch';
@@ -23,6 +24,25 @@ const initialState = {
 
 export default function schoolSearch(state = initialState, action) {
   switch (action.type) {
+    case INSTITUTION_SELECTED: {
+      const {
+        city,
+        facilityCode,
+        name,
+        state: institutionState
+      } = action;
+
+      return {
+        ...state,
+        institutionSelected: {
+          city,
+          facilityCode,
+          name,
+          state: institutionState
+        }
+      };
+    }
+
     case LOAD_SCHOOLS_STARTED: {
       const currentPageNumber = action.page ? action.page : 1;
       const institutionQuery = action.institutionQuery;
@@ -84,6 +104,10 @@ export default function schoolSearch(state = initialState, action) {
       };
     }
 
+    case SEARCH_CLEARED: {
+      return initialState;
+    }
+
     case SEARCH_INPUT_CHANGED: {
       return {
         ...state,
@@ -91,24 +115,6 @@ export default function schoolSearch(state = initialState, action) {
       };
     }
 
-    case INSTITUTION_SELECTED: {
-      const {
-        city,
-        facilityCode,
-        name,
-        state: institutionState
-      } = action;
-
-      return {
-        ...state,
-        institutionSelected: {
-          city,
-          facilityCode,
-          name,
-          state: institutionState
-        }
-      };
-    }
     default:
       return state;
   }
