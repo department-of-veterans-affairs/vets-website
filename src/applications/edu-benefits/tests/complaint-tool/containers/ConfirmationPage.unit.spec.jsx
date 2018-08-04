@@ -1,22 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import moment from 'moment';
 
-import { ConfirmationPage } from '../../../0993/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../../complaint-tool/containers/ConfirmationPage';
 
-describe('Opt Out <ConfirmationPage>', () => {
+describe('GI Feedback Tool <ConfirmationPage>', () => {
   it('should render', () => {
     const form = {
       submission: {
         response: {
-          attributes: {
-            timestamp: '2010-01-01',
-            confirmationNumber: '3702390024'
-          }
+          caseNumber: '3702390024'
         }
       },
       data: {
-        claimantFullName: {
+        applicantFullName: {
           first: 'Joe',
           middle: 'Marjorie',
           last: 'Smith',
@@ -29,20 +27,38 @@ describe('Opt Out <ConfirmationPage>', () => {
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.find('.schemaform-confirmation-section-header').at(0).text()).to.contain('Your opt-out form has been submitted');
+    expect(tree.find('.confirmation-page-title').at(0).text()).to.contain('Your feedback has been submitted');
     expect(tree.find('.claim-list').exists()).to.be.true;
-    expect(tree.find('span').at(1).text()).to.contain('3702390024');
-    expect(tree.find('span').at(2).text()).to.contain('Jan. 1, 2010');
-    expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information. You can print this page for your records.');
+    expect(tree.find('span').at(2).text()).to.contain('3702390024');
+    expect(tree.find('span').at(1).text()).to.contain(moment().format('MMM D, YYYY'));
+    expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information.');
   });
+  it('should render without the name properties', () => {
 
+    const form = {
+      submission: {
+        response: {
+          caseNumber: '3702390024'
+        }
+      },
+      data: {}
+    };
+    const tree = shallow(
+      <ConfirmationPage form={form}/>
+    );
+
+    expect(tree.find('.confirmation-page-title').at(0).text()).to.contain('Your feedback has been submitted');
+    expect(tree.find('.inset').text()).to.not.contain('for');
+    expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information.');
+
+  });
   it('should render without the response properties', () => {
 
     const form = {
       submission: {
       },
       data: {
-        claimantFullName: {
+        applicantFullName: {
           first: 'Joe',
           middle: 'Marjorie',
           last: 'Smith',
@@ -54,8 +70,8 @@ describe('Opt Out <ConfirmationPage>', () => {
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.find('.schemaform-confirmation-section-header').at(0).text()).to.contain('Your opt-out form has been submitted');
+    expect(tree.find('.confirmation-page-title').at(0).text()).to.contain('Your feedback has been submitted');
     expect(tree.find('.claim-list').exists()).to.be.false;
-    expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information. You can print this page for your records.');
+    expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information.');
   });
 });
