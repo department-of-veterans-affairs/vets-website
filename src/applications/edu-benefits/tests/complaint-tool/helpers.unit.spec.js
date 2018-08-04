@@ -4,11 +4,11 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers';
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
-
 import { submit } from '../../complaint-tool/helpers';
 
 function setFetchResponse(stub, data) {
-  const response = new Response();
+  const response = {};
+  // const response = new Response();
   response.ok = true;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
@@ -34,10 +34,10 @@ describe('feedback-tool helpers:', () => {
 
       return submit(form, formConfig).then(() => {
         expect.fail();
-      },
-      err => {
-        expect(err.message).to.equal('fake error');
-      });
+      })
+        .catch(err => {
+          expect(err.message).to.equal('fake error');
+        });
     });
     it('should resolve if polling state is success', () => {
       mockFetch();
@@ -72,9 +72,7 @@ describe('feedback-tool helpers:', () => {
       };
 
       return submit(form, formConfig).then((res) => {
-        expect(res).to.deep.equal({
-          photo: 'test'
-        });
+        expect(res).to.deep.equal({});
       });
     });
     it('should reject if polling state is failed', () => {
@@ -109,9 +107,8 @@ describe('feedback-tool helpers:', () => {
 
       return submit(form, formConfig).then(() => {
         expect.fail();
-      },
-      err => {
-        expect(err.message).to.equal('vets_server_error_vic: status failed');
+      }).catch(err => {
+        expect(err.message).to.equal('vets_server_error_edu: status failed');
       });
     });
 

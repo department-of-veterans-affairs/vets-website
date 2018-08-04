@@ -1,7 +1,6 @@
 import environment from '../../../platform/utilities/environment';
 import appendQuery from 'append-query';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
-import _ from 'lodash/fp';
 import Raven from 'raven-js';
 import recordEvent from '../../../platform/monitoring/record-event';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
@@ -126,31 +125,34 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  const formData = transform(form, formConfig);
+  const formData = transform(formConfig, form);
   const body = JSON.stringify({
     giBillFeedback: {
       form: formData
     }
   });
+  return new Promise((resolve, reject) => {
+    return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
+      method: 'POST',
+      headers,
+      body
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
 
-  return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
-    method: 'POST',
-    headers,
-    body
-  }).then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-
-    return Promise.reject(res);
-  }).then(json => {
-    const guid = json.data.attributes.guid;
-    pollStatus(guid, () => {
-      recordEvent({
-        event: `${formConfig.trackingPrefix}-submission-successful`,
-      });
-    }, () => Promise.reject(json));
-  }).catch(respOrError => {
-    Promise.reject(respOrError);
+      return Promise.reject(res);
+    }).then(json => {
+      const guid = json.data.attributes.guid;
+      pollStatus(guid, (response) => {
+        recordEvent({
+          event: `${formConfig.trackingPrefix}-submission-successful`,
+        });
+        resolve(response);
+        resolve(json);
+      }, reject);
+    }).catch(respOrError => {
+      reject(respOrError);
+    });
   });
 }
