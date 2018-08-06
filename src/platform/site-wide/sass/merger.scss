@@ -403,6 +403,10 @@ h3, h4 {
     margin-top: 7px;
   }
 
+  #vetnav {
+  //  display: none;
+  }
+
   .usa-banner {
     padding-left: .5em;
   }
@@ -426,7 +430,7 @@ h3, h4 {
 
   .vet-toolbar {
     margin-bottom: .5em;
-    margin-left: 0;
+    margin-left: -10px;
 
     .sign-in-nav {
       margin-top: 6px;
@@ -434,7 +438,8 @@ h3, h4 {
 
       .sign-in-links {
         background: none;
-        margin-left: none;
+        margin-left: 0;
+        padding-left: .75em;
 
         .va-button-link {
           -webkit-font-smoothing: antialiased;
@@ -443,10 +448,22 @@ h3, h4 {
     }
 
     .va-dropdown {
-      border: 1px solid hotpink;
+      margin-left: 0;
+      width: auto;
 
       .va-dropdown-trigger {
         font-weight: normal;
+        padding-left: 0;
+        margin-right: 1.75em;
+        background-position: right 1.5rem center;
+
+        &:first-child {
+          margin-right: 1em;
+        }
+
+        span {
+          display: inline-block;
+        }
       }
 
     }
