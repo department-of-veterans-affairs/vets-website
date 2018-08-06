@@ -206,7 +206,7 @@ export class SchoolSelectField extends React.Component {
                 <strong>
                   {'We can’t find your school'}
                 </strong><br/>
-                {'We’re sorry. We can’t find any school that matches your entry. Please try entering a different school name or address. Or, you can check the box to enter your school information yourself'}
+                {'We’re sorry. We can’t find any school that matches your entry. Please try entering a different school name or address. Or, you can check the box to enter your school information yourself.'}
               </p>
             </div>}
             {showPaginationLoading && <div>
