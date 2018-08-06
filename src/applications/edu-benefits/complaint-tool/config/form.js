@@ -1,20 +1,21 @@
 import _ from 'lodash/fp';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
-
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-import SchoolSelectField from '../../components/SchoolSelectField.jsx';
-
-const { educationDetails } = fullSchema.properties;
-
-const { school } = educationDetails;
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import SchoolSelectField from '../../components/SchoolSelectField.jsx';
+import GetFormHelp from '../../components/GetFormHelp';
+
+const { educationDetails } = fullSchema.properties;
+
+const { school } = educationDetails;
 
 import { transform } from '../helpers';
 
@@ -101,6 +102,8 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'GI Bill® School Feedback Tool',
+  getHelp: GetFormHelp,
+  footerContent: FormFooter,
   transformForSubmit: transform,
   chapters: {
     applicantInformation: {
