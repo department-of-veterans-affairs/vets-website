@@ -5,7 +5,7 @@ import formConfig from './config/form';
 
 import ITFWrapper from './containers/ITFWrapper';
 import DisabilityGate from './containers/DisabilityGate';
-import EVSSClaimsGate from './containers/EVSSClaimsGate';
+import EVSSClaimsGate from '../all-claims/containers/EVSSClaimsGate';
 
 export default function Form526Entry({ location, children }) {
   return (
