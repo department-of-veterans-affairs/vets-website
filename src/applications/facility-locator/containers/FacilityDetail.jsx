@@ -23,10 +23,6 @@ class FacilityDetail extends Component {
     const { facility } = this.props;
     const { website } = facility.attributes;
 
-    if (!website) {
-      return null;
-    }
-
     return (
       <span>
         <a href={website} target="_blank">
@@ -38,7 +34,7 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name } = facility.attributes;
+    const { name, website } = facility.attributes;
 
     return (
       <div>
@@ -50,9 +46,7 @@ class FacilityDetail extends Component {
         <div>
           <FacilityPhoneLink facility={facility}/>
         </div>
-        <div>
-          {this.renderFacilityWebsite()}
-        </div>
+        { website && this.renderFacilityWebsite()}
         <div>
           <FacilityDirectionsLink facility={facility}/>
         </div>

@@ -1,17 +1,19 @@
 import { api } from '../config';
 import { find, compact, isEmpty } from 'lodash';
 import { mapboxClient } from '../components/MapboxClient';
+import { reverseGeocode } from '../utils/helpers';
+import * as Types from '../utils/actionTypes';
 
 export function updateSearchQuery(query) {
   return {
-    type: 'SEARCH_QUERY_UPDATED',
+    type: Types.SEARCH_QUERY_UPDATED,
     payload: { ...query }
   };
 }
 
 export function updateLocation(propertyPath, value) {
   return {
-    type: 'LOCATION_UPDATED',
+    type: Types.LOCATION_UPDATED,
     propertyPath,
     value
   };
@@ -20,16 +22,16 @@ export function updateLocation(propertyPath, value) {
 export function fetchVAFacility(id, facility = null) {
   if (facility) {
     return {
-      type: 'FETCH_VA_FACILITY',
+      type: Types.FETCH_VA_FACILITY,
       payload: facility,
     };
   }
 
   const url = `${api.url}/${id}`;
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: 'SEARCH_STARTED',
+      type: Types.SEARCH_STARTED,
       payload: {
         active: true,
       },
@@ -38,8 +40,8 @@ export function fetchVAFacility(id, facility = null) {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        data => dispatch({ type: 'FETCH_VA_FACILITY', payload: data.data }),
-        err => dispatch({ type: 'SEARCH_FAILED', err })
+        data => dispatch({ type: Types.FETCH_VA_FACILITY, payload: data.data }),
+        err => dispatch({ type: Types.SEARCH_FAILED, err })
       );
   };
 }
@@ -48,14 +50,14 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
   const params = compact([
     ...bounds.map(c => `bbox[]=${c}`),
     facilityType ? `type=${facilityType}` : null,
-    ['health', 'benefits'].includes(facilityType) && serviceType ? `services[]=${serviceType}` : null,
+    facilityType === 'benefits' && serviceType ? `services[]=${serviceType}` : null,
     `page=${page}`
   ]).join('&');
   const url = `${api.url}?${params}`;
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: 'SEARCH_STARTED',
+      type: Types.SEARCH_STARTED,
       payload: {
         page,
         searchBoundsInProgress: true,
@@ -65,24 +67,28 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        data => {
-          dispatch({ type: 'FETCH_VA_FACILITIES', payload: data });
+        (data) => {
+          if (data.errors) {
+            dispatch({ type: Types.SEARCH_FAILED, err: data.errors });
+          } else {
+            dispatch({ type: Types.FETCH_VA_FACILITIES, payload: data });
+          }
         },
-        err => dispatch({ type: 'SEARCH_FAILED', err })
+        (err) => dispatch({ type: Types.SEARCH_FAILED, err })
       );
   };
 }
 
-export function searchWithAddress(query) {
+export function genBBoxFromAddress(query) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query.searchString) {
-    return { type: 'SEARCH_FAILED' };
+    return { type: Types.SEARCH_FAILED };
   }
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: 'SEARCH_STARTED',
+      type: Types.SEARCH_STARTED,
     });
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = 'place,address,region,postcode,locality';
@@ -117,7 +123,7 @@ export function searchWithAddress(query) {
           ];
         }
         return dispatch({
-          type: 'SEARCH_QUERY_UPDATED',
+          type: Types.SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
             context: zipCode,
@@ -132,9 +138,37 @@ export function searchWithAddress(query) {
       }
 
       return dispatch({
-        type: 'SEARCH_FAILED',
+        type: Types.SEARCH_FAILED,
         err,
       });
     });
   };
 }
+
+export const searchProviders = (bounds, serviceType, page = 1) => {
+  const address = reverseGeocode(bounds);
+  const params = compact([
+    `address=${address}`,
+    serviceType ? `services[]=${serviceType}` : null,
+    `page=${page}`
+  ]).join('&');
+  const url = `${api.url}?${params}`;
+
+  return (dispatch) => {
+    dispatch({
+      type: Types.SEARCH_STARTED,
+      payload: {
+        page,
+        searchBoundsInProgress: true,
+      },
+    });
+
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(data => {
+        dispatch({ type: Types.FETCH_CC_PROVIDERS, payload: data });
+      }, error => {
+        dispatch({ type: Types.SEARCH_FAILED, error });
+      });
+  };
+};

@@ -1,5 +1,12 @@
 import { expect } from 'chai';
 
+import {
+  SEARCH_STARTED,
+  SEARCH_QUERY_UPDATED,
+  SEARCH_FAILED,
+  FETCH_VA_FACILITY,
+  FETCH_VA_FACILITIES
+} from '../../utils/actionTypes';
 import searchQueryReducer from '../../reducers/searchQuery';
 
 const INITIAL_STATE = {
@@ -26,7 +33,7 @@ const INITIAL_STATE = {
 describe('search query reducer', () => {
   it('should handle search started', () => {
     const state = searchQueryReducer(INITIAL_STATE, {
-      type: 'SEARCH_STARTED',
+      type: SEARCH_STARTED,
     });
 
     expect(state.error).to.eql(false);
@@ -39,7 +46,7 @@ describe('search query reducer', () => {
       error: true,
       searchBoundsInProgress: true,
     }, {
-      type: 'FETCH_VA_FACILITIES',
+      type: FETCH_VA_FACILITIES,
     });
 
     expect(state.error).to.eql(false);
@@ -52,7 +59,7 @@ describe('search query reducer', () => {
       error: true,
       inProgress: true,
     }, {
-      type: 'FETCH_VA_FACILITY',
+      type: FETCH_VA_FACILITY,
     });
 
     expect(state.error).to.eql(false);
@@ -64,7 +71,7 @@ describe('search query reducer', () => {
       error: false,
       inProgress: true,
     }, {
-      type: 'SEARCH_FAILED',
+      type: SEARCH_FAILED,
     });
 
     expect(state.error).to.eql(true);
@@ -75,7 +82,7 @@ describe('search query reducer', () => {
     const state = searchQueryReducer({
       error: true,
     }, {
-      type: 'SEARCH_QUERY_UPDATED',
+      type: SEARCH_QUERY_UPDATED,
       payload: {
         attribute: true,
       }

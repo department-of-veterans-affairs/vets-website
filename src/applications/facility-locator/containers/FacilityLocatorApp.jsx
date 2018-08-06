@@ -12,7 +12,7 @@ class FacilityLocatorApp extends React.Component {
     ];
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedFacility) {
-      crumbs.push(<Link to={`/${selectedFacility.id}`}>Facility Details</Link>);
+      crumbs.push(<Link to={`/${selectedFacility.id}`} key={selectedFacility.id}>Facility Details</Link>);
     }
 
     return crumbs;
