@@ -75,6 +75,7 @@ You’ll need to apply for benefits and submit your evidence (supporting documen
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="evidence-agent-orange">View the evidence requirements</button>
 <div id="evidence-agent-orange" class="usa-accordion-content">
 When you file your claim, you'll need to submit this evidence:
+  
 - A medical record that shows you have an Agent Orange‒related illness, **and**
 - A military record that shows your service dates in Vietnam or in or near the Korean demilitarized zone, **and**
 - A document that proves exposure to herbicides in a location other than Vietnam or the Korean demilitarized zone
@@ -96,6 +97,7 @@ When you file your claim, you'll need to submit this evidence:
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="illness-not-on-list">View the evidence requirements</button>
 <div id="illness-not-on-list" class="usa-accordion-content">
+  
 When you file your claim, you'll need to submit this evidence:
 - A medical record showing your current disability, **and**
 - A medical record showing a connection between exposure to Agent Orange and the current disability, **and**
