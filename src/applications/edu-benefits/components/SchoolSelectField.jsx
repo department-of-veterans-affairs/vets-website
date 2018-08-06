@@ -9,8 +9,7 @@ import {
   clearSearch,
   searchInputChange,
   selectInstitution,
-  searchSchools,
-  setCannotFindSchool
+  searchSchools
 } from '../complaint-tool/actions/schoolSearch';
 import {
   selectCurrentPageNumber,
@@ -50,10 +49,6 @@ export class SchoolSelectField extends React.Component {
       smooth: true
     });
   };
-
-  handleManuallyEnterClicked = () => {
-    this.props.setCannotFindSchool();
-  }
 
   handleOptionClick = ({ city, facilityCode, name, state }) => {
     this.props.selectInstitution({ city, facilityCode, name, state });
@@ -209,14 +204,9 @@ export class SchoolSelectField extends React.Component {
             {showNoResultsFound && <div className="no-results-box">
               <p>
                 <strong>
-                  {'No schools found. '}
-                </strong>
-                {'Please try entering a different search term (school name or address), or '}
-                <button
-                  className="va-button-link"
-                  onClick={this.handleManuallyEnterClicked}>
-                  {'manually enter your school’s information by clicking this link.'}
-                </button>
+                  {'We can’t find your school'}
+                </strong><br/>
+                {'We’re sorry. We can’t find any school that matches your entry. Please try entering a different school name or address. Or, you can check the box to enter your school information yourself.'}
               </p>
             </div>}
             {showPaginationLoading && <div>
@@ -268,8 +258,7 @@ const mapDispatchToProps = {
   clearSearch,
   searchInputChange,
   searchSchools,
-  selectInstitution,
-  setCannotFindSchool
+  selectInstitution
 };
 
 SchoolSelectField.PropTypes = {
