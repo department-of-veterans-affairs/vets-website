@@ -100,7 +100,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.facilities.selectedFacility, currentQuery: state.searchQuery };
+  return { facility: state.searchResult.selectedFacility, currentQuery: state.searchQuery };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);

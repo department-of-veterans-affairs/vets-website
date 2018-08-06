@@ -33,20 +33,18 @@ export const getBoxCenter = (bounds) => {
  * @param {Number} lat Latitude coordinate
  * @param {String} types A valid type-of-address string as defined by the Mapbox API:
  *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
- *   default => 'address,postcode'
+ *   default => `'address,postcode'`
+ * 
+ * @returns {String} The best approximation of the address for the coordinates
  */
-export const reverseGeocode = (lon, lat, types = 'address,postcode') => {
-  mapboxClient.geocodeReverse(
+export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
+  // eslint-disable-next-line no-unused-vars
+  const { entity: { features: [zero, ...rest] } } = await mapboxClient.geocodeReverse(
     { longitude: lon, latitude: lat },
-    { types },
-    (error, res) => {
-      if (error) {
-        console.log("[ERROR] Reverse geocoding exception:", error); // eslint-disable-line
-        return;
-      }
-      res.features.map(f => console.log('feature:', f.place_name)); // eslint-disable-line
-    }
+    { types }
   );
+
+  return zero.place_name;
 };
 
 /**
@@ -56,11 +54,16 @@ export const reverseGeocode = (lon, lat, types = 'address,postcode') => {
  * center point of the box.
  * 
  * @param {Array<Number>} bounds A geographic bounding box definition
+ * @param @param {String} types A valid type-of-address string as defined by the Mapbox API:
+ *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
+ *   default => `'address,postcode'`
+ * 
+ * @returns {String} The best approximation of the address for the coordinates
  */
-export const reverseGeocodeBox = (bounds) => {
+export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
   // reverse geocode to get address for provLoc search
   const { lon, lat } = getBoxCenter(bounds);
-  return reverseGeocode(lon, lat);
+  return reverseGeocode(lon, lat, types);
 };
 
 /**

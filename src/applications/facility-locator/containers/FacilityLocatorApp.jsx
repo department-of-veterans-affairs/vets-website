@@ -40,7 +40,7 @@ class FacilityLocatorApp extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    selectedFacility: state.facilities.selectedFacility,
+    selectedFacility: state.searchResult.selectedFacility,
   };
 }
 

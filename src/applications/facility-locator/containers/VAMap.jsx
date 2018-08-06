@@ -441,9 +441,9 @@ class VAMap extends Component {
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
-    facilities: state.facilities.facilities,
-    pagination: state.facilities.pagination,
-    selectedFacility: state.facilities.selectedFacility,
+    facilities: state.searchResult.facilities,
+    pagination: state.searchResult.pagination,
+    selectedFacility: state.searchResult.selectedFacility,
   };
 }
 
