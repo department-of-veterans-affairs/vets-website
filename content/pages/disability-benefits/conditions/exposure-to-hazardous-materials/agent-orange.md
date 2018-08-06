@@ -69,22 +69,43 @@ You’ll need to apply for benefits and submit your evidence (supporting documen
 **If you have an illness believed to be caused by Agent Orange,** you won’t need to show the problem started during—or got worse because of—your military service. This is because we believe that certain diseases are the result of exposure to herbicides (called "presumptive diseases"). <br>
 [See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="evidence-agent-orange">View the evidence requirements</button>
+<div id="evidence-agent-orange" class="usa-accordion-content">
+
 When you file your claim, you'll need to submit this evidence:
 - A medical record that shows you have an Agent Orange‒related illness, **and**
 - A military record that shows your service dates in Vietnam or in or near the Korean demilitarized zone, **and**
 - A document that proves exposure to herbicides in a location other than Vietnam or the Korean demilitarized zone
+
+</div>
+</li>
+</ul>
+</div>
 
 [Apply for disability benefits](/disability-benefits/apply/).
 
 **If you have an illness that’s not on the list of Agent Orange‒related illnesses,** but you believe it was caused by Agent Orange, you’ll need to show the problem started during—or got worse because of—your military service. <br>
 [See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="illness-not-on-list">View the evidence requirements</button>
+<div id="illness-not-on-list" class="usa-accordion-content">
 When you file your claim, you'll need to submit this evidence:
 - A medical record showing your current disability, **and**
 - A medical record showing a connection between exposure to Agent Orange and the current disability, **and**
 - A document that proves either:
    - Contact with Agent Orange in a location other than Vietnam or the Korean demilitarized zone, **or**
    - Service in Vietnam or at or near the Korean demilitarized zone during the dates listed below
+  
+</div>
+</li>
+</ul>
+</div>
 
 [Apply for disability benefits](/disability-benefits/apply/).
 
@@ -106,3 +127,4 @@ When you file your claim, you'll need to submit this evidence:
 
 **Note:** Please be ready to give us your name, email address, telephone number, and VA file number or Social Security number.
 
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
