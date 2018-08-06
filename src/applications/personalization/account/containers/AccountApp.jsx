@@ -34,7 +34,8 @@ class AccountApp extends React.Component {
                 <Announcement dismiss={this.dismissAnnouncement} isDismissed={this.props.announcementDismissed}/>
                 <AccountMain
                   login={this.props.login}
-                  profile={this.props.profile}/>
+                  profile={this.props.profile}
+                  fetchMHVAccount={this.props.fetchMHVAccount}/>
               </div>
             </div>
           </DowntimeNotification>
