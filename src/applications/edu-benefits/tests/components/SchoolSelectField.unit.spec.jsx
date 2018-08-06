@@ -168,7 +168,7 @@ describe('<SchoolSelectField>', () => {
       showPaginationLoading={false}/>
     );
 
-    tree.find('#radio-buttons-0').first().simulate('change');
+    tree.find('#page-1-0').first().simulate('change');
     expect(onChange.firstCall.args[0]).to.eql('test');
     expect(selectInstitution.firstCall.args[0]).to.eql(institutions[0]);
   });
