@@ -3,7 +3,7 @@ import React from 'react';
 import RoutedSavableApp from '../../../platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from './config/form';
 
-import ITFWrapper from './containers/ITFWrapper';
+import ITFWrapper from '../all-claims/containers/ITFWrapper';
 import DisabilityGate from './containers/DisabilityGate';
 import EVSSClaimsGate from './containers/EVSSClaimsGate';
 
