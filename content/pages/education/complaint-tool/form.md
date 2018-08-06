@@ -13,4 +13,3 @@ id="va-breadcrumbs">
     <li><a aria-current="page" href="/education/complaint-tool/">GI Bill® School Feedback Tool</a></li>
   </ul>
 </nav>
->>>>>>> 3de62bf6a772309ebcdb422d2c669959e4704530
