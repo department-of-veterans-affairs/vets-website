@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="GI Bill® School Feedback Tool"/>
         <p>If you have an issue or complaint about a school or training facility that’s eligible to receive GI Bill benefits, you can submit feedback to VA. You can submit feedback to us if your school isn’t following the Principles of Excellence guidelines or if you have any other concerns or issues you’d like to raise with us.</p>
-        <p>You can choose to submit your feedback anonymously or on behalf of someone else. We share all information with the school, but if you submit anonymously we won’t share your name with the school.</p>
+        <p>You can choose to submit your feedback anonymously or on behalf of someone else. We share all information with the school, but if you submit feedback anonymously we won’t share your name with the school.</p>
         <p>Get started right now by filling out a short form. Follow the steps below.</p>
         <div className="process schemaform-process">
           <ol>
@@ -41,9 +41,9 @@ class IntroductionPage extends React.Component {
               <p>We’ll review your feedback and pass it along to your school for their review. Feedback that isn’t related to VA education benefits may be sent to another agency for review.</p>
               <p>We’ll get back to you within 45 days to let you know how we’re handling your feedback.</p>
             </li>
-            <li className="process-step list-five">
+            <li className="process-step list-four">
               <div><h5>VA Processing</h5></div>
-              <p>After we get the school’s response to your feedback, we’ll send it to you and ask if you think their response resolves your issue. In some cases the school may also get in touch with you directly about your feedback.</p>
+              <p>After we get the school’s response to your feedback, we’ll send it to you and ask if you think their response resolves your issue. In some cases, your school may also get in touch with you directly about your feedback.</p>
             </li>
           </ol>
         </div>
@@ -55,7 +55,7 @@ class IntroductionPage extends React.Component {
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={5} ombNumber="2900-0797" expDate="12/31/2018"/>
+          <OMBInfo resBurden={15} ombNumber="2900-0797" expDate="12/31/2018"/>
         </div>
       </div>
     );
