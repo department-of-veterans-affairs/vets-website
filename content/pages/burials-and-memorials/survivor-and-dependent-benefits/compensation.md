@@ -17,7 +17,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">As a surviving spouse, am I eligible for compensation?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">As a surviving spouse</button>
 <div id="VA-burials-survivor-spouse" class="usa-accordion-content">
 
 You can get compensation as a surviving spouse if you meet the requirements listed below and if one of the descriptions below is true of the deceased Servicemember or Veteran.
@@ -40,7 +40,7 @@ You can get compensation as a surviving spouse if you meet the requirements list
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-child">As a surviving child, am I eligible for compensation?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-child">As a surviving child</button>
 <div id="VA-burials-survivor-child" class="usa-accordion-content">
 
 You can get compensation as a surviving child if you meet the requirements listed below and if one of the descriptions below is true of the deceased Servicemember or Veteran.
@@ -65,7 +65,7 @@ You can get compensation as a surviving child if you meet the requirements liste
 
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-parent">As a surviving parent, am I eligible for compensation?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-parent">As a surviving parent</button>
 <div id="VA-burials-survivor-parent" class="usa-accordion-content">
   
   You may be able to get compensation as a surviving parent if both of these are true: 
