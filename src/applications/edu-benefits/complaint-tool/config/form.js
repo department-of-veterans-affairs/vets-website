@@ -6,18 +6,18 @@ import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
+import { transform } from '../helpers';
+
 const { educationDetails } = fullSchema.properties;
 
 const { school } = educationDetails;
-
-import { transform } from '../helpers';
 
 const {
   name: schoolName,
