@@ -1,0 +1,26 @@
+---
+title: Apply for disability benefits
+entryname: 526EZ-all-claims
+layout: page-react.html
+description: Learn how to apply online for disability compensation.
+hideFromSidebar: true
+---
+<div id="main">
+  <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"
+  id="va-breadcrumbs">
+    <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/disability-benefits/">Disability Benefits</a></li>
+      <li><a aria-current="page" href="/disability-benefits/apply/form-526-all-claims/">Apply for Disability Benefits</a></li>
+    </ul>
+  </nav>
+  <div class="section">
+    <div id="react-root">
+      <div class="loading-message">
+        <div class="loading-indicator-container">
+          <div class="loading-indicator" role="progressbar" aria-valuetext="Please wait while we load the application for you." tabIndex="0"></div> Please wait while we load the application for you.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

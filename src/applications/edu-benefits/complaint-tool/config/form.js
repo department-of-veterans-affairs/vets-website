@@ -83,7 +83,8 @@ function isNotVeteranOrServiceMember(formData) {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  // submitUrl: '/v0/api',
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'complaint-tool',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -448,7 +449,7 @@ const formConfig = {
                     type: 'string'
                   },
                   'view:cannotFindSchool': {
-                    title: 'I can’t find my school',
+                    title: 'I’d rather type in my school information',
                     type: 'boolean'
                   },
                   'view:manualSchoolEntry': {

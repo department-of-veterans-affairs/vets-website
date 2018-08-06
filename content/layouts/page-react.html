@@ -4,8 +4,10 @@
   {% include "content/includes/breadcrumbs.html" %}
 {% endif %}
 
+{% if !loadingMessage %} {% assign loadingMessage = 'Please wait while we load the application for you.' %} {% endif %}
+
 <div id="content">
-<div class="main" role="main">
+<div id="main" class="main" role="main">
   {% if in_maintenance == true %}
     <div class="row">
         <div class="small-12 columns">
@@ -17,8 +19,15 @@
         </div>
       </div>
   {% else %}
+    {{ contents }}
     <div class="section">
-      {{ contents }}
+      <div id="react-root">
+        <div class="loading-indicator-container">
+          <div class="loading-indicator" role="progressbar" aria-valuetext="{{ loadingMessage }}" tabIndex="0">
+          </div>
+          {{ loadingMessage }}
+        </div>
+      </div>
     </div>
   {% endif %}
 </div>
