@@ -33,9 +33,9 @@ export class ConfirmationPage extends React.Component {
         <h3 className="confirmation-page-title">What happens after I submit my feedback?</h3>
         <p>We’ll get back to you within 45 days to let you know how we’re handling your feedback. We may contact you if we need more information from you.</p>
         <p>Feedback that isn’t related to VA education benefits may be sent to another agency for review.</p>
-        <div className="inset">
+        {(response || name) && <div className="inset">
           <h4>GI Bill® School Feedback Tool</h4>
-          <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
+          {name && <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>}
 
           {response && <ul className="claim-list">
             <li>
@@ -43,7 +43,7 @@ export class ConfirmationPage extends React.Component {
               <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
             </li>
           </ul>}
-        </div>
+        </div>}
       </div>
     );
   }
