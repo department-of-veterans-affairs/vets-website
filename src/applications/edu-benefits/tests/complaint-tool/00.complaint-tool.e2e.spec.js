@@ -18,14 +18,13 @@ module.exports = E2eHelpers.createE2eTest((client) => {
 
   // TODO: Fix this!
   // applicant information
-  // client.waitForElementVisible('label [for="root_onBehalfOf"]', Timeouts.normal).axeCheck('.main');
+  client.waitForElementVisible('label[for="root_onBehalfOf_0"]', Timeouts.normal);
   PageHelpers.completeApplicantInformation(client, testData.data);
   client
     .axeCheck('.main')
     .click('.form-progress-buttons .usa-button-primary');
 
-  // client.url(`${E2eHelpers.baseUrl}/education/complaint-tool/form/benefits-information`);
-  // client.waitForElementVisible('label [for="root_programs_Post-9/11 Ch 33"]', Timeouts.normal).axeCheck('.main');
+  // client.waitForElementVisible('#root_address_street', Timeouts.normal).axeCheck('.main');
   // PageHelpers.completeBenefitsInformation(client, testData.data);
   // client
   //   .axeCheck('.main')

@@ -2,15 +2,20 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 
 function completeApplicantInformation(client, data) {
   client
-    // .waitForElementVisible('root_onBehalfOf', Timeouts.normal)
-    // .axeCheck('.main')
-    .pause(2000)
+    // HACK: Shouldn't need to wait twice
+    .waitForElementVisible('label[for="root_onBehalfOf_0"]', Timeouts.normal)
     .selectRadio('root_onBehalfOf', data.onBehalfOf)
-    // .pause(2000)
-    // .fill('root_fullName_first', 'data.applicantFullName.first');
-    // .fillName('root_FullName', 'data.applicantFullName');
-    // .waitForElementVisible('input[name="root_serviceAffiliation"]', Timeouts.slow);
+    .waitForElementVisible('#root_fullName_first', Timeouts.normal)
+    .fillName('root_fullName', data.applicantFullName)
+    .waitForElementVisible('#root_serviceAffiliation', Timeouts.normal)
+    .selectDropdown('root_serviceAffiliation', data.serviceAffiliation);
 }
+
+// function completeContactInformation(client, data) {
+//   client
+//     .waitForElementVisible('#root_address_street', Timeouts.normal)
+//     .fill('#root_address', data.address)
+// }
 
 // function completeBenefitsInformation(client, data) {
 //   client
@@ -18,6 +23,7 @@ function completeApplicantInformation(client, data) {
 // }
 
 module.exports = {
-  completeApplicantInformation
+  completeApplicantInformation,
+  // completeContactInformation
   // completeBenefitsInformation
 };
