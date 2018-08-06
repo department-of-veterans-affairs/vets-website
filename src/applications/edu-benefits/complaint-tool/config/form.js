@@ -10,7 +10,6 @@ const { educationDetails } = fullSchema.properties;
 
 const { school } = educationDetails;
 import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
@@ -35,8 +34,7 @@ const {
 const {
   onBehalfOf,
   fullName,
-  dob,
-  // serviceAffiliation,
+  serviceAffiliation,
   serviceBranch,
   serviceDateRange,
   anonymousEmail,
@@ -75,7 +73,7 @@ function hasMyself(formData) {
 }
 
 function isNotVeteranOrServiceMember(formData) {
-  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember or Veteran'))) {
+  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember') && (formData.serviceAffiliation !== 'Veteran'))) {
     return true;
   }
   return false;
@@ -116,8 +114,8 @@ const formConfig = {
               'ui:options': {
                 nestedContent: {
                   [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
+                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(Your name is shared with the school, not the name of the person you’re submitting on behalf of.)</i></div>,
+                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Anonymous feedback is shared with the school. Your personal information isn’t shared with anyone outside of VA.)</i></div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
@@ -144,12 +142,6 @@ const formConfig = {
                 'ui:title': 'Your suffix'
               },
               'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: isNotAnonymous
-              }
-            }),
-            dob: _.merge(dateUI('Date of birth'), {
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: isNotAnonymous
@@ -199,15 +191,7 @@ const formConfig = {
             properties: {
               onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
               fullName,
-              dob,
-              serviceAffiliation: { // TODO: update BE schema and use here
-                type: 'string',
-                'enum': [
-                  'Servicemember or Veteran',
-                  'Spouse or Child',
-                  'Family member'
-                ]
-              },
+              serviceAffiliation,
               serviceBranch,
               serviceDateRange,
               anonymousEmail
