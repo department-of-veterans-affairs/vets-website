@@ -28,7 +28,7 @@ If you have an illness or injury that you believe was caused—or made worse—b
 
 <div class="feature" markdown="1">
 
-### Can I use the BDD program to get my disability benefits sooner?
+### Can I use the BDD program to get my disability compensation sooner?
 
 You can use the BDD program if you meet all of the requirements listed below.
 
@@ -74,7 +74,7 @@ Compensation (monthly payments)
 
 <span id="ways-to-file"></span>
 
-### How do I apply for disability benefits before I leave the service?
+### How do I apply for disability compensation before I leave the service?
 
 Choose the scenario below that matches your situation to find out how to apply for disability benefits before discharge.
 
