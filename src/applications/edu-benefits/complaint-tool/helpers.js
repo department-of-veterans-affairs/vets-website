@@ -26,7 +26,7 @@ export function fetchInstitutions({ institutionQuery, page }) {
       payload => ({ payload }),
       error => ({ error })
     )
-    .catch(error => { error });
+    .catch(error => ({ error }));
 }
 
 export function transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload = {} }) {
