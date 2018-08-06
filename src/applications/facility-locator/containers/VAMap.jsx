@@ -1,8 +1,14 @@
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
-import { map, find, compact, isEmpty, debounce } from 'lodash';
+import {
+  updateSearchQuery,
+  genBBoxFromAddress,
+  searchWithBounds,
+  searchProviders,
+  fetchVAFacility
+} from '../actions';
+import { map, /* find, */ compact, isEmpty, debounce } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
@@ -47,11 +53,12 @@ class VAMap extends Component {
       facilityType: location.query.facilityType,
       serviceType: location.query.serviceType,
     });
+
     if (location.query.address) {
       this.props.updateSearchQuery({
         searchString: location.query.address,
       });
-      this.props.searchWithAddress({
+      this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
@@ -61,7 +68,7 @@ class VAMap extends Component {
           position: currentPosition.coords,
         });
 
-        this.reverseGeocode(currentPosition.coords);
+        this.genBBoxFromCoords(currentPosition.coords);
       });
     } else {
       this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
@@ -100,12 +107,14 @@ class VAMap extends Component {
     const { currentQuery } = prevProps;
     const newQuery = this.props.currentQuery;
 
-    const shouldUpdateSearchQuery = isEmpty(this.props.facilities) &&
+    const shouldUpdateSearchQuery = (
+      isEmpty(this.props.facilities) &&
       !newQuery.inProgress &&
       currentQuery.inProgress &&
       newQuery.bounds &&
       parseInt(newQuery.zoomLevel, 10) > 2 &&
-      !newQuery.error;
+      !newQuery.error
+    );
 
     if (shouldUpdateSearchQuery) {
       if (isMobile.any) {
@@ -128,25 +137,38 @@ class VAMap extends Component {
   }
 
   componentWillUnmount() {
-    // call the func returned by browserHistory.listen to unbound the listener
+    // call the func returned by browserHistory.listen to unbind the listener
     this.listener();
   }
 
-  syncStateWithLocation(location) {
+  /**
+   * Presumably handles the case if a user manually types a change to the
+   * address bar and thereby updates the location as tracked by ReactRouter?
+   * (i.e. route changes not handled through the Router)
+   * 
+   * @param {Object} location ReactRouter location object
+   */
+  syncStateWithLocation = (location) => {
     if (
-      location.query.address &&
-      this.props.currentQuery.searchString !== location.query.address && !this.props.currentQuery.inProgress
+      location.query.address
+      && this.props.currentQuery.searchString !== location.query.address
+      && !this.props.currentQuery.inProgress
     ) {
-      this.props.searchWithAddress({
+      this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
     }
   }
 
-  // pushes coordinates to URL so that map link is useful for sharing
-  // TODO (bshyong): try out existing query-string npm library
+  /**
+   * Regenerates the URL based on the given parameters so that
+   * the map link stays useful for sharing. 
+   * 
+   * @param {Object} params 
+   */
   updateUrlParams = (params) => {
+    // TODO (bshyong): try out existing query-string npm library
     const { location, currentQuery } = this.props;
     const queryParams = compact(map({
       ...location.query,
@@ -156,24 +178,29 @@ class VAMap extends Component {
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
       ...params,
-    }, (v, k) => {
-      if (v) { return `${k}=${v}`; }
+    }, (value, key) => {
+      if (value) { return `${key}=${value}`; }
       return null;
     })).join('&');
 
     browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
   }
 
-  // takes obj of form {latitude: 0, longitude: 0}
-  reverseGeocode(position) {
+  /**
+   * Generates a bounding box from a lat/long geocoordinate
+   * 
+   *  @param position Has shape: `{latitude: x, longitude: y}`
+   */
+  genBBoxFromCoords = (position) => {
     mapboxClient.geocodeReverse(position, {
       types: 'address',
     }, (err, res) => {
       const coordinates = res.features[0].center;
       const placeName = res.features[0].place_name;
-      const zipCode = find(res.features[0].context, (v) => {
-        return v.id.includes('postcode');
-      }).text;
+      const zipCode = res.features[0].context.find(v => v.id.includes('postcode')).text || '';
+      // const zipCode = find(res.features[0].context, (v) => {
+      //   return v.id.includes('postcode');
+      // }).text;
 
       this.props.updateSearchQuery({
         bounds: res.features[0].bbox || [
@@ -200,7 +227,7 @@ class VAMap extends Component {
       address: currentQuery.searchString,
     });
 
-    this.props.searchWithAddress(currentQuery);
+    this.props.genBBoxFromAddress(currentQuery);
   }
 
   handleBoundsChanged = () => {
@@ -247,7 +274,7 @@ class VAMap extends Component {
     }, 1);
   }
 
-  renderFacilityMarkers() {
+  renderFacilityMarkers = () => {
     const { facilities } = this.props;
 
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
@@ -312,24 +339,10 @@ class VAMap extends Component {
     });
   }
 
-  renderSelectedFacility() {
-    const { selectedFacility } = this.props;
-
-    if (selectedFacility) {
-      return (
-        <div className="mobile-search-result">
-          <MobileSearchResult facility={selectedFacility}/>
-        </div>
-      );
-    }
-
-    return null;
-  }
-
-  renderMobileView() {
+  renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, facilities, pagination } = this.props;
+    const { currentQuery, facilities, pagination, selectedFacility } = this.props;
 
     return (
       <div>
@@ -343,19 +356,29 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <p>Search Results near <strong>“{currentQuery.context}”</strong></p>
-                <ResultsList facilities={facilities} pagination={pagination} isMobile currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
+                <ResultsList facilities={facilities} pagination={pagination} isMobile
+                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
+              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)}
+                style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}
+                zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged}
+                onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
                 <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                  attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
+                  attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
+                    <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
+                    Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
                 <FeatureGroup ref="facilityMarkers">
                   {this.renderFacilityMarkers()}
                 </FeatureGroup>
               </Map>
-              {this.renderSelectedFacility()}
+              { selectedFacility &&
+                <div className="mobile-search-result">
+                  <MobileSearchResult facility={selectedFacility}/>
+                </div>
+              }
             </TabPanel>
           </Tabs>
         </div>
@@ -363,7 +386,7 @@ class VAMap extends Component {
     );
   }
 
-  renderDesktopView() {
+  renderDesktopView = () => {
     // defaults to White House coordinates initially
     const { currentQuery, facilities, pagination } = this.props;
     const coords = this.props.currentQuery.position;
@@ -375,18 +398,24 @@ class VAMap extends Component {
           <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch}/>
         </div>
         <div className="row">
-          <div className="columns usa-width-one-third medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
+          <div className="columns usa-width-one-third medium-4 small-12"
+            style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
             <div className="facility-search-results">
               <div>
-                <ResultsList facilities={facilities} pagination={pagination} currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
+                <ResultsList facilities={facilities} pagination={pagination}
+                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </div>
           </div>
           <div className="columns usa-width-two-thirds medium-8 small-12" style={{ minHeight: '75vh' }}>
-            <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
+            <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5}
+              zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }}
+              scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
               <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
+                attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
+                  <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
+                  Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
               <FeatureGroup ref="facilityMarkers">
                 {this.renderFacilityMarkers()}
               </FeatureGroup>
@@ -398,7 +427,6 @@ class VAMap extends Component {
   }
 
   render() {
-    // render mobile view for mobile devices
     return (
       <div>
         <div className="title-section">
@@ -423,8 +451,9 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     fetchVAFacility,
     updateSearchQuery,
-    searchWithAddress,
+    genBBoxFromAddress,
     searchWithBounds,
+    searchProviders,
   }, dispatch);
 }
 

@@ -1,5 +1,10 @@
 import { expect } from 'chai';
 
+import {
+  FETCH_VA_FACILITY,
+  FETCH_VA_FACILITIES,
+  SEARCH_FAILED
+} from '../../utils/actionTypes';
 import facilitiesReducer from '../../reducers/facilities';
 
 const INITIAL_STATE = {
@@ -11,7 +16,7 @@ const INITIAL_STATE = {
 describe('facilities reducer', () => {
   it('should handle fetching a single facility', () => {
     const state = facilitiesReducer(INITIAL_STATE, {
-      type: 'FETCH_VA_FACILITY',
+      type: FETCH_VA_FACILITY,
       payload: {
         name: 'selectedFacility'
       },
@@ -22,7 +27,7 @@ describe('facilities reducer', () => {
 
   it('should handle fetching a list of facilities', () => {
     const state = facilitiesReducer(INITIAL_STATE, {
-      type: 'FETCH_VA_FACILITIES',
+      type: FETCH_VA_FACILITIES,
       payload: {
         data: [
           { name: 'selectedFacility1' },
@@ -42,7 +47,7 @@ describe('facilities reducer', () => {
 
   it('should handle failure case', () => {
     const state = facilitiesReducer(INITIAL_STATE, {
-      type: 'SEARCH_FAILED',
+      type: SEARCH_FAILED,
     });
 
     expect(state).to.eql(INITIAL_STATE);

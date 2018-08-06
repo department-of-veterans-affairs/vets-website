@@ -6,7 +6,7 @@ import Downshift from 'downshift';
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
 
-const FACILITY_OPTIONS = ['all', 'health', 'benefits', 'cemetery', 'vet_center'];
+const FACILITY_OPTIONS = ['all', 'health', 'cc_provider', 'benefits', 'cemetery', 'vet_center'];
 
 const facilityOptionClasses = (item, selected) => classNames(
   'dropdown-option',
