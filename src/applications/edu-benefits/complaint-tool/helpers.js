@@ -15,11 +15,18 @@ export function fetchInstitutions({ institutionQuery, page }) {
       'X-Key-Inflection': 'camel'
     }
   })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return res.json().then(error => Promise.reject(error));
+    })
     .then(
       payload => ({ payload }),
       error => ({ error })
-    );
+    )
+    .catch(error => { error });
 }
 
 export function transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload = {} }) {

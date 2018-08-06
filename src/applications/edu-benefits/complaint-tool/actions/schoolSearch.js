@@ -43,7 +43,8 @@ export function searchSchools({ institutionQuery, page }) {
       if (error) {
         dispatch({
           type: LOAD_SCHOOLS_FAILED,
-          error
+          error,
+          institutionQuery
         });
       }
     });

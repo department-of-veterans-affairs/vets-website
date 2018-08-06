@@ -1,7 +1,7 @@
 import {
+  LOAD_SCHOOLS_FAILED,
   LOAD_SCHOOLS_STARTED,
   LOAD_SCHOOLS_SUCCEEDED,
-  // LOAD_SCHOOLS_FAILED,
   SEARCH_CLEARED,
   SEARCH_INPUT_CHANGED,
   INSTITUTION_SELECTED
@@ -42,7 +42,34 @@ export default function schoolSearch(state = initialState, action) {
         }
       };
     }
+    case LOAD_SCHOOLS_FAILED: {
+      const currentPageNumber = 0;
+      const institutionSelected = {};
+      const institutionQuery = action.institutionQuery;
+      const institutions = [];
+      const pagesCount = 0;
+      const searchResultsCount = 0;
+      const showInstitutions = false;
+      const showInstitutionsLoading = false;
+      const showNoResultsFound = true;
+      const showPagination = false;
+      const showPaginationLoading = false;
 
+      return {
+        ...state,
+        currentPageNumber,
+        institutionQuery,
+        institutions,
+        institutionSelected,
+        pagesCount,
+        searchResultsCount,
+        showInstitutions,
+        showInstitutionsLoading,
+        showNoResultsFound,
+        showPagination,
+        showPaginationLoading
+      };
+    }
     case LOAD_SCHOOLS_STARTED: {
       const currentPageNumber = action.page ? action.page : 1;
       const institutionQuery = action.institutionQuery;
