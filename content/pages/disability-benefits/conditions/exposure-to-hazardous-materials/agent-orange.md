@@ -74,7 +74,6 @@ You’ll need to apply for benefits and submit your evidence (supporting documen
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="evidence-agent-orange">View the evidence requirements</button>
 <div id="evidence-agent-orange" class="usa-accordion-content">
-
 When you file your claim, you'll need to submit this evidence:
 - A medical record that shows you have an Agent Orange‒related illness, **and**
 - A military record that shows your service dates in Vietnam or in or near the Korean demilitarized zone, **and**
