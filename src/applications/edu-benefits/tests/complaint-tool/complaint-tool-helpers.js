@@ -4,8 +4,10 @@ function completeApplicantInformation(client, data) {
   client
     // HACK: Shouldn't need to wait twice
     .waitForElementVisible('label[for="root_onBehalfOf_0"]', Timeouts.normal)
+    // This is failing randomly?
     .selectRadio('root_onBehalfOf', data.onBehalfOf)
-    .waitForElementVisible('#root_fullName_first', Timeouts.normal)
+    // .click('label[for="root_onBehalfOf_0"]')
+    .waitForElementVisible('#root_fullName_first', Timeouts.slow)
     .fillName('root_fullName', data.applicantFullName)
     .waitForElementVisible('#root_serviceAffiliation', Timeouts.normal)
     .selectDropdown('root_serviceAffiliation', data.serviceAffiliation);
