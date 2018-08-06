@@ -24,11 +24,12 @@ module.exports = E2eHelpers.createE2eTest((client) => {
     .axeCheck('.main')
     .click('.form-progress-buttons .usa-button-primary');
 
-  // client.waitForElementVisible('#root_address_street', Timeouts.normal).axeCheck('.main');
-  // PageHelpers.completeBenefitsInformation(client, testData.data);
-  // client
-  //   .axeCheck('.main')
-  //   .click('.form-progress-buttons .usa-button-primary');
+  // contact information
+  client.waitForElementVisible('#root_address_street', Timeouts.normal).axeCheck('.main');
+  PageHelpers.completeContactInformation(client, testData.data);
+  client
+    .axeCheck('.main')
+    .click('.form-progress-buttons .usa-button-primary');
 
   client.end();
 });

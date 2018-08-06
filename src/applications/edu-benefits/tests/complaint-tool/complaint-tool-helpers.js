@@ -13,11 +13,21 @@ function completeApplicantInformation(client, data) {
     .selectDropdown('root_serviceAffiliation', data.serviceAffiliation);
 }
 
-// function completeContactInformation(client, data) {
-//   client
-//     .waitForElementVisible('#root_address_street', Timeouts.normal)
-//     .fill('#root_address', data.address)
-// }
+function completeContactInformation(client, data) {
+  client
+    .waitForElementVisible('#root_address_street', Timeouts.normal)
+    .fill('#root_address_street', data.street)
+    .fill('#root_address_city', data.city)
+    .waitForElementVisible('#root_address_state', Timeouts.normal)
+    // Not working
+    .selectDropdown('root_address_state', 'Georgia')
+    .fill('#root_address_postalCode', data.postalCode)
+    .fill('#root_applicantEmail', data.applicantEmail)
+    // Not Working
+    // .waitForElementVisible('#root_view:applicantEmailConfirmation', Timeouts.normal)
+    // .fill('#root_view:applicantEmailConfirmation', data.applicantEmailConfirmation)
+    .pause(2000);
+}
 
 // function completeBenefitsInformation(client, data) {
 //   client
@@ -26,6 +36,6 @@ function completeApplicantInformation(client, data) {
 
 module.exports = {
   completeApplicantInformation,
-  // completeContactInformation
+  completeContactInformation
   // completeBenefitsInformation
 };
