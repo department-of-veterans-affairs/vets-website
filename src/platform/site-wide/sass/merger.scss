@@ -267,6 +267,7 @@ h3, h4 {
   }
 }
 
+// tablet
 @media screen and (min-width: 768px) {
 
   .vet-toolbar {
@@ -390,8 +391,13 @@ h3, h4 {
     flex: 0 1 30.5rem;
   }
 }
+
 // mobile
 @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
+
+  #menu-rule {
+    border-bottom: 0;
+  }
 
   #vetnav-controls {
     margin-top: 7px;
@@ -420,9 +426,29 @@ h3, h4 {
 
   .vet-toolbar {
     margin-bottom: .5em;
+    margin-left: 0;
 
     .sign-in-nav {
       margin-top: 6px;
+      font-weight: normal;
+
+      .sign-in-links {
+        background: none;
+        margin-left: none;
+
+        .va-button-link {
+          -webkit-font-smoothing: antialiased;
+        }
+      }
+    }
+
+    .va-dropdown {
+      border: 1px solid hotpink;
+
+      .va-dropdown-trigger {
+        font-weight: normal;
+      }
+
     }
   }
 
