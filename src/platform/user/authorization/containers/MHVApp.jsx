@@ -229,9 +229,15 @@ export class MHVApp extends React.Component {
     }
 
     if (!this.hasService()) {
-      return (accountState === 'needs_terms_acceptance') ?
-        <LoadingIndicator setFocus message="Redirecting to terms and conditions..."/> :
-        mhvAccessError;
+      if (accountState === 'needs_identity_verification') {
+        return <LoadingIndicator setFocus message="Redirecting to verify..."/>;
+      }
+
+      if (accountState === 'needs_terms_acceptance') {
+        return <LoadingIndicator setFocus message="Redirecting to terms and conditions..."/>;
+      }
+
+      return mhvAccessError;
     }
 
     return (
