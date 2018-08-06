@@ -59,10 +59,6 @@ export default class PhoneEditModal extends React.Component {
     return defaultFieldValue;
   }
 
-  isEmpty = () => {
-    return !(this.props.data && this.props.data.phoneNumber);
-  }
-
   renderForm = () => {
     return (
       <div>
