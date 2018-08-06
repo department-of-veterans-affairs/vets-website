@@ -167,10 +167,10 @@ export class SchoolSelectField extends React.Component {
           <div
             aria-live="polite"
             aria-relevant="additions text">
+            {searchResultsCount > 0 && <span>
+              {`${searchResultsCount} results for ${institutionQuery}`}
+            </span>}
             {showInstitutions && <div>
-              <span>
-                {`${searchResultsCount} results for ${institutionQuery}`}
-              </span>
               {institutions.map(({ city, facilityCode, name, state }, index) => (
                 <div key={index}>
                   <div className="radio-button">
