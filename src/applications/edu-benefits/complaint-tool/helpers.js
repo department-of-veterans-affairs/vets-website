@@ -1,51 +1,18 @@
-import environment from '../../../platform/utilities/environment';
+import { apiRequest } from '../../../platform/utilities/api';
 import appendQuery from 'append-query';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
-const searchInstitutionBaseUrl = `${environment.API_URL}/v0/gi/institutions/search`;
-
 export function fetchInstitutions({ institutionQuery, page }) {
-  const fetchUrl = appendQuery(searchInstitutionBaseUrl, {
+  const fetchUrl = appendQuery('/gi/institutions/search', {
     name: institutionQuery,
     page
   });
 
-  return fetch(fetchUrl, {
-    headers: {
-      'X-Key-Inflection': 'camel'
-    }
-  })
-    .then(res => res.json())
-    .then(
-      payload => ({ payload }),
-      error => ({ error })
-    );
-}
-
-export function transformInstitutionsForSchoolSelectField({ error, institutionQuery, payload = {} }) {
-  if (error) {
-    return { error };
-  }
-
-  const {
-    data = [],
-    meta
-  } = payload;
-
-  const institutionCount = meta.count;
-  const pagesCount = Math.ceil(institutionCount / 10);
-  const institutions = data.map(({ attributes }) => {
-    const { city, country, facilityCode, name, state, zip } = attributes;
-
-    return { city, country, facilityCode, name, state, zip };
-  });
-
-  return {
-    institutionCount,
-    institutionQuery,
-    institutions,
-    pagesCount
-  };
+  return apiRequest(
+    fetchUrl,
+    null,
+    payload => ({ payload }),
+    error => ({ error }));
 }
 
 export function transform(formConfig, form) {

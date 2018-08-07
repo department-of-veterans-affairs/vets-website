@@ -34,6 +34,46 @@ describe('schoolSearch reducer', () => {
       expect(actualState).to.eql(expectedState);
     });
   });
+  describe('LOAD_SCHOOLS_FAILED', () => {
+    it('should return a loading institutions failed state', () => {
+      const previousState = {
+        currentPageNumber: 2,
+        institutionQuery: 'old',
+        institutions: ['old'],
+        institutionSelected: { selected: 'old' },
+        searchResultsCount: 20,
+        showInstitutions: true,
+        showInstitutionsLoading: false,
+        showPagination: true,
+        showPaginationLoading: false
+      };
+
+      const expectedState = {
+        currentPageNumber: 0,
+        institutionQuery: 'new',
+        institutions: [],
+        institutionSelected: {},
+        pagesCount: 0,
+        searchResultsCount: 0,
+        showInstitutions: false,
+        showInstitutionsLoading: false,
+        showNoResultsFound: true,
+        showPagination: false,
+        showPaginationLoading: false
+      };
+
+      const action = {
+        type: 'LOAD_SCHOOLS_FAILED',
+        institutionQuery: 'new',
+        error: 'test'
+      };
+
+      const actualState = schoolSelect(previousState, action);
+
+      expect(actualState).to.eql(expectedState);
+    });
+  });
+
   describe('LOAD_SCHOOLS_STARTED', () => {
     it('should return a loading institution state', () => {
       const previousState = {
