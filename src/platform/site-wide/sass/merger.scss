@@ -500,19 +500,43 @@ h3, h4 {
   .va-h-ruled--stars,
   .va-nav-breadcrumbs,
   article,
-  #homepage-popular {
+  #homepage-popular,
+  #hub-rail {
 
     padding-left: .5em;
     padding-right: .5em;
   }
 
-#homepage-popular {
-  padding-bottom: 1.5em;
-  padding-top: 1em;
-}
+  #homepage-popular {
+    padding-bottom: 1.5em;
+    padding-top: 1em;
+  }
 
   // internal static-pages
   #promo {
     display: none;
+  }
+
+  .va-nav-breadcrumbs  {
+
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+
+    .va-nav-breadcrumbs-list {
+      li {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  #hub-rail {
+    padding-top: 0;
+  }
+
+  .va-nav-linkslist--related  {
+
+    margin-bottom: 0 !important; //hard override; what does this break elsewhere
+
   }
 }
