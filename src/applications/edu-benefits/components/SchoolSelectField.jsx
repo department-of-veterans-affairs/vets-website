@@ -137,7 +137,7 @@ export class SchoolSelectField extends React.Component {
       <fieldset className={fieldsetClass}>
         <div>
           <span>
-            {'Please click on the button to search for your school.'}
+            {'Enter your school’s name or city to search for your school'}
           </span>
           <div className="search-controls">
             <Element name="schoolSearch"/>
@@ -205,7 +205,7 @@ export class SchoolSelectField extends React.Component {
                 <strong>
                   {'We can’t find your school'}
                 </strong><br/>
-                {'We’re sorry. We can’t find any school that matches your entry. Please try entering a different school name or address. Or, you can check the box to enter your school information yourself.'}
+                {'We’re sorry. We can’t find any school that matches your entry. Please try entering a different school name or city. Or, you can check the box to enter your school information yourself.'}
               </p>
             </div>}
             {showPaginationLoading && <div>
