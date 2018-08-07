@@ -395,7 +395,6 @@ const formConfig = {
           uiSchema: {
             school: {
               facilityCode: {
-                'ui:description': 'Please click on the button to search for your school.',
                 'ui:title': 'School Information',
                 'ui:field': SchoolSelectField,
                 'ui:required': formData => !_.get('school.view:cannotFindSchool', formData),

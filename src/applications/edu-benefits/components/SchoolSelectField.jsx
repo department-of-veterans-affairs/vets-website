@@ -140,6 +140,9 @@ export class SchoolSelectField extends React.Component {
     return (
       <fieldset className={fieldsetClass}>
         <div>
+          <span>
+            {'Please click on the button to search for your school.'}
+          </span>
           <div className="search-controls">
             <Element name="schoolSearch"/>
             <div className="search-input">
@@ -189,10 +192,12 @@ export class SchoolSelectField extends React.Component {
                     <label
                       id={`institution-${index}-label`}
                       htmlFor={`page-${currentPageNumber}-${index}`}>
-                      {name && <span className="institution-name">{name}</span>}
-                      {street && <span className="institution-street">{street}</span>}
-                      {(city || state) && <span className="institution-city-state">{`${city && city}${city && state && ', '}${state && state}`}</span>}
-                      {!city && !state && <span className="institution-country">{country}</span>}
+                      <span className="institution-information">
+                        {name && <span className="institution-name">{name}</span>}
+                        {street && <span className="institution-street">{street}</span>}
+                        {(city || state) && <span className="institution-city-state">{`${city && city}${city && state && ', '}${state && state}`}</span>}
+                        {!city && !state && <span className="institution-country">{country}</span>}
+                      </span>
                     </label>
                   </div>
                 </div>))
