@@ -37,7 +37,11 @@ function completeBenefitsInformation(client) {
 function completeSchoolInformation(client) {
   client
     // .waitForElementVisible('label [for="root_programs_Post-9/11 Ch 33"]', Timeouts.normal)
-    // .fill('#root_school', 'Brandeis');
+    .fill('.search-input input', 'Brandeis')
+    .click('.search-schools-button')
+    .pause(4000)
+    .waitForElementVisible('.radio-button', Timeouts.normal)
+    .selectRadio('page-1-0', 31003921);
 }
 
 function completeFeedbackInformation(client, data) {

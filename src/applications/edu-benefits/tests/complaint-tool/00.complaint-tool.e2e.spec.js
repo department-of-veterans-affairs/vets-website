@@ -1,6 +1,6 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 // const manifest = require('../../complaint-tool/manifest.json');
-const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
+// const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const PageHelpers = require('./complaint-tool-helpers');
 // const testData = require('./schema/maximal-test.json');
 const testData = require('./schema/maximal-test.json');
