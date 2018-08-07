@@ -1,65 +1,95 @@
 ---
 layout: page-breadcrumbs.html
-template: level2-merger-health-care
-title: VA Health Care
+template: level2-index
+title: Health Care Benefits
 display_title: Health Care
-description: VA health care offers access to primary and specialty care, including home health, geriatric (elder), women's health, and mental health care. Find out how to apply for and manage the Veterans health care benefits you've earned.
-concurrence:
-lastupdate:
-order: 1
-icon: medkit
-promo:
-  - image: /img/megamenu/health-care-illustration.png
-    heading: VA Telehealth Services
-    url: "https://www.telehealth.va.gov/"
-    description: Find out how we use telehealth technologies to provide specialty care and health monitoring to Veterans at their local VA clinic or in their own home.
-crosslinks:
-  - heading: Other VA Benefits and Services
+permalink: /health-care/index.html
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
+majorlinks:
+  - heading: Apply for Health Care Benefits
+    links:    
+    - url: /health-care/eligibility/
+      title: Eligibility
+      description: Find out if you can get VA health care benefits.
+    - url: /health-care/apply/
+      title: How to Apply 
+      description: Apply online now, or find out how to apply in person, by phone, or by mail.
+    - url: /health-care/family-caregiver-health-benefits/
+      title: Family and Caregiver Health Benefits
+      description: If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.
+  - heading: Manage Your Health
     links:
-    - url: "/disability/"
-      title: <b>Disability Compensation (Pay)</b>
-      description: Find out how to file a claim for disability compensation and manage your disability benefits.
-    - url: "/life-insurance/"
-      title: <b>Life Insurance</b>
-      description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
-    - url: "#"
-      title: <b>Aid and Attendance or Household Allowance</b>
-      description: Find out if you can get increased pension pay as a Veteran or surviving spouse who has disabilities.
-    - url: "/burials/"
-      title: <b>Burials and Memorials</b>
-      description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
-    - url: "/education-training/"
-      title: <b>Education and Training</b>
-      description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
-social:
-  - heading: Connect With Us
-    admin: Veterans Health Administration
-    url: https://www.va.gov/health/
-    subsections:
-      - subhead: Ask Questions
-        links:
-        - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
-        - url: tel:1-877-222-VETS(8387)
-          number: 1-877-222-VETS(8387)
-          title: "Health Benefits Hotline:"
-        - url: tel:1-877-327-0022
-          number: 1-877-327-0022
-          title: "My HealtheVet Help Desk:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
-      - subhead: Get Updates
-        links:      
-        - url: https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11
-          label: Veterans Health Email Updates
-          icon: fa-envelope-square
-        - url: "https://www.facebook.com/VeteransHealth"
-          label: Veterans Health Facebook
-          icon: fa-facebook
-        - url: "https://twitter.com/VeteransHealth"
-          label: Veterans Health Twitter
-          icon: fa-twitter
-        - url: "https://www.youtube.com/user/VeteransHealthAdmin"
-          label: Veterans Health YouTube
-          icon: fa-youtube
+    - url: /health-care/health-conditions/conditions-related-to-service-era/
+      title: Learn About Health Concerns Related to Your Service History
+      description: Learn about service-connected health concerns you should be aware of based on when and where you served.
+    - url: /health-care/prescriptions
+      title: Refill Prescriptions
+      description: Refill prescriptions online, and track the status of your refills.
+    - url: /health-care/messaging
+      title: Send a Secure Message to Your Health Care Team
+      description: Send a secure, private note to your primary care provider or other members of your VA health care team.
+    - url: /health-care/schedule-an-appointment
+      title: Schedule a VA Appointment
+      description: Find out how to make a doctor's appointment with a member of your VA health care team online or by phone.
+    - url: /health-care/health-records/
+      title: Get Your VA Health Records
+      description: View, download, and print your VA health records.
+  - heading: Learn About Health Care Coverage
+    links:
+    - url: /health-care/about-va-health-care/
+      title: About VA Health Care Coverage
+      description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
+    - url: /health-care/health-conditions
+      title: Health Needs and Conditions
+      description: Find out how to access VA services for mental health, women’s health, and other specific needs.
+    - url: /health-care/health-conditions/conditions-related-to-service-era/
+      title: Conditions Related to When and Where You Served
+      description: Find out which service-connected health concerns you should be aware of, based on when and where you served.
+    - url: /health-care/affordable-care-act/
+      title: Affordable Care Act (ACA)
+      description: Find out what you need to know about the ACA and your health coverage.
+---
+
+<div class="va-introtext">
+
+With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
+
+</div>
+
+<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
+  
+<div class="usa-alert usa-alert-warning">
+  <div class="usa-alert-body">
+    <h4 class="usa-alert-title">How do I get help if I'm homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">We may be able to help</a>.</h4>
+    <div id="crisis-expander-content" class="expander-content expander-content-closed">
+      <div class="expander-content-inner usa-alert-text">
+
+We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.
+  
+**Find the support you need:**
+
+- **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
+- **Contact your nearest VA medical center** and ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager. <br>
+[Find the nearest VA medical center](/facilities/).
+
+**Talk with someone right now:**
+ 
+Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
+[Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
+
+   </div>
+  </div>
+ </div>
+</div>
+
+<script type="text/javascript">
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>

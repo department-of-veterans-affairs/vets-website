@@ -1,0 +1,29 @@
+{% include "merger/includes/header.html" %}
+
+{% if gibsAlert %}
+  {% include "merger/includes/gibs-down.html" %}
+{% endif %}
+
+{% include "merger/includes/breadcrumbs.html" %}
+
+<div id="content" class="interior {{ id }}">
+
+  {% case template %}
+    {% when 'level2-index' %}
+      {% include "merger/includes/level2-index.html" %}
+
+    {% when 'detail-page' %}
+      {% include "merger/includes/detail-page.html" %}
+
+    {% when 'topic-landing' %}
+      {% include "merger/includes/topic-landing.html" %}
+    {% when 'level2-merger' %}
+      {% include "merger/includes/level2-merger.html" %}
+    {% when 'level2-merger-health-care' %}
+      {% include "merger/includes/level2-merger-health-care.html" %}
+  {% else %}
+    {{ contents }}
+  {% endcase %}
+
+</div>
+{% include "merger/includes/footer.html" %}
