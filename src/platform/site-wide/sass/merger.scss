@@ -404,7 +404,7 @@ h3, h4 {
   }
 
   #vetnav {
-  //  display: none;
+    display: none;  // remove this for now but will be overriden by megamenu
   }
 
   .usa-banner {
@@ -499,14 +499,17 @@ h3, h4 {
   #homepage-news,
   .va-h-ruled--stars,
   .va-nav-breadcrumbs,
-  article {
+  article,
+  #homepage-popular {
 
     padding-left: .5em;
     padding-right: .5em;
   }
 
-  .va-h-ruled--stars {
-  }
+#homepage-popular {
+  padding-bottom: 1.5em;
+  padding-top: 1em;
+}
 
   // internal static-pages
   #promo {
