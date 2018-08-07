@@ -121,14 +121,18 @@ export class SchoolSelectField extends React.Component {
     if (formContext.reviewMode) {
       const {
         city,
+        country,
         name,
-        state
+        state,
+        street
       } = institutionSelected;
 
       return (
         <div>
-          <p>{name}</p>
-          <p>{`${city}, ${state}`}</p>
+          {name && <p>{name}</p>}
+          {street && <p>{street}</p>}
+          {(city || state) && <p>{`${city && city}${city && state && ', '}${state && state}`}</p>}
+          {!city && !state && <p>{country}</p>}
         </div>
       );
     }
