@@ -7,10 +7,10 @@
       "last": "applicantLast",
       "suffix": "Jr."
     },
-    "serviceAffiliation": "Veteran",
+    "serviceAffiliation": "Servicemember or Veteran",
     "street": "123 Sesame Street",
     "city": "Atlanta",
-    "state": "Georgia",
+    "state": "GA",
     "postalCode": 30328,
     "applicantEmail": "test@test.com",
     "applicantEmailConfirmation": "test@test.com",

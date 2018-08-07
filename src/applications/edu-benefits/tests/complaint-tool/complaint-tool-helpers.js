@@ -15,18 +15,15 @@ function completeApplicantInformation(client, data) {
 
 function completeContactInformation(client, data) {
   client
-    .waitForElementVisible('#root_address_street', Timeouts.normal)
+    // .waitForElementVisible('#root_address_street', Timeouts.normal)
     .fill('#root_address_street', data.street)
     .fill('#root_address_city', data.city)
     .waitForElementVisible('#root_address_state', Timeouts.normal)
-    // Not working
-    .selectDropdown('root_address_state', 'Georgia')
+    .selectDropdown('root_address_state', data.state)
     .fill('#root_address_postalCode', data.postalCode)
-    .fill('#root_applicantEmail', data.applicantEmail);
-  // Not Working
-  // .waitForElementVisible('#root_view:applicantEmailConfirmation', Timeouts.normal)
-  // .fill('#root_view:applicantEmailConfirmation', data.applicantEmailConfirmation)
-  // .pause(2000);
+    .fill('#root_applicantEmail', data.applicantEmail)
+    // Note: I don't know why this worked...
+    .fill('[id="root_view:applicantEmailConfirmation"]', data.applicantEmailConfirmation);
 }
 
 function completeBenefitsInformation(client) {
@@ -37,11 +34,11 @@ function completeBenefitsInformation(client) {
   // .fillCheckbox('#root_programs_Post-9/11 Ch 33');
 }
 
-// function completeSchoolInformation(client) {
-//   client
-//     .waitForElementVisible('label [for="root_programs_Post-9/11 Ch 33"]', Timeouts.normal)
-//     .fill('root_programs_TATU');
-// }
+function completeSchoolInformation(client) {
+  client
+    // .waitForElementVisible('label [for="root_programs_Post-9/11 Ch 33"]', Timeouts.normal)
+    // .fill('#root_school', 'Brandeis');
+}
 
 function completeFeedbackInformation(client, data) {
   client
@@ -55,6 +52,6 @@ module.exports = {
   completeApplicantInformation,
   completeContactInformation,
   completeBenefitsInformation,
-  // completeSchoolInformation,
+  completeSchoolInformation,
   completeFeedbackInformation
 };
