@@ -117,8 +117,8 @@ const formConfig = {
               'ui:options': {
                 nestedContent: {
                   [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(Your name is shared with the school, not the name of the person you’re submitting on behalf of.)</i></div>,
-                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Anonymous feedback is shared with the school. Your personal information isn’t shared with anyone outside of VA.)</i></div>
+                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(Your name is shared with the school, not the name of the person you’re submitting feedback for.)</i></div>,
+                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Anonymous feedback is shared with the school. Your personal information, however, isn’t shared with anyone outside of VA.)</i></div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
