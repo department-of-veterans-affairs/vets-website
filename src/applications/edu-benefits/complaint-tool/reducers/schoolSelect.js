@@ -6,6 +6,7 @@ import {
   SEARCH_INPUT_CHANGED,
   INSTITUTION_SELECTED
 } from '../actions/schoolSearch';
+import _ from 'lodash';
 
 const initialState = {
   currentPageNumber: 1,
@@ -80,17 +81,22 @@ export default function schoolSearch(state = initialState, action) {
 
       const institutionQuery = action.institutionQuery;
       const institutions = data.map(({ attributes }) => {
+        // pull only necessary attributes from response
         const { city, country, facilityCode, name, state: institutionState, street, zip } = attributes;
         return {
-          city: city || '',
-          country: country || '',
+          city,
+          country,
           facilityCode,
-          name: name || '',
-          state: institutionState || '',
-          street: street || '',
-          zip: zip || ''
+          name,
+          state: institutionState,
+          street,
+          zip
         };
-      });
+      }).map(institution => _.reduce(institution, (result, value, key) => {
+        // transform null to empty string
+        result[key] = value || ''; // eslint-disable-line no-param-reassign
+        return result;
+      }, {}));
       const pagesCount = Math.ceil(searchResultsCount / 10);
       const showInstitutions = institutions.length > 0;
       const showInstitutionsLoading = false;
