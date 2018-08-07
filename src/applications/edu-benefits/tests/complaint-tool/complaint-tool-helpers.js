@@ -22,20 +22,39 @@ function completeContactInformation(client, data) {
     // Not working
     .selectDropdown('root_address_state', 'Georgia')
     .fill('#root_address_postalCode', data.postalCode)
-    .fill('#root_applicantEmail', data.applicantEmail)
-    // Not Working
-    // .waitForElementVisible('#root_view:applicantEmailConfirmation', Timeouts.normal)
-    // .fill('#root_view:applicantEmailConfirmation', data.applicantEmailConfirmation)
-    .pause(2000);
+    .fill('#root_applicantEmail', data.applicantEmail);
+  // Not Working
+  // .waitForElementVisible('#root_view:applicantEmailConfirmation', Timeouts.normal)
+  // .fill('#root_view:applicantEmailConfirmation', data.applicantEmailConfirmation)
+  // .pause(2000);
 }
 
-// function completeBenefitsInformation(client, data) {
+function completeBenefitsInformation(client) {
+  client
+    // .waitForElementVisible('label [for="root_programs_Post-9/11 Ch 33"]', Timeouts.normal)
+    .fillCheckbox('#root_programs_TATU');
+  // Note: I don't think this likes spaces...
+  // .fillCheckbox('#root_programs_Post-9/11 Ch 33');
+}
+
+// function completeSchoolInformation(client) {
 //   client
-//     .click('label [for="root_programs_Post-9/11 Ch 33"]');
+//     .waitForElementVisible('label [for="root_programs_Post-9/11 Ch 33"]', Timeouts.normal)
+//     .fill('root_programs_TATU');
 // }
+
+function completeFeedbackInformation(client, data) {
+  client
+    // .waitForElementVisible('label [for="#root_issue_accreditation"]', Timeouts.normal)
+    .fillCheckbox('#root_issue_accreditation')
+    .fill('#root_issueDescription', data.issueDescription)
+    .fill('#root_issueResolution', data.issueResolution);
+}
 
 module.exports = {
   completeApplicantInformation,
-  completeContactInformation
-  // completeBenefitsInformation
+  completeContactInformation,
+  completeBenefitsInformation,
+  // completeSchoolInformation,
+  completeFeedbackInformation
 };
