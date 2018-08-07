@@ -174,7 +174,7 @@ export class SchoolSelectField extends React.Component {
             aria-live="polite"
             aria-relevant="additions text">
             {showInstitutions && <div>
-              {institutions.map(({ city, facilityCode, name, state }, index) => (
+              {institutions.map(({ city, country, facilityCode, name, state, street }, index) => (
                 <div key={index}>
                   <div className="radio-button">
                     <input
@@ -189,8 +189,10 @@ export class SchoolSelectField extends React.Component {
                     <label
                       id={`institution-${index}-label`}
                       htmlFor={`page-${currentPageNumber}-${index}`}>
-                      <span className="institution-name">{name}</span>
-                      <span className="institution-city-state">{`${city}, ${state}`}</span>
+                      {name && <span className="institution-name">{name}</span>}
+                      {street && <span className="institution-street">{street}</span>}
+                      {(city || state) && <span className="institution-city-state">{`${city && city}${city && state && ', '}${state && state}`}</span>}
+                      {!city && !state && <span className="institution-country">{country}</span>}
                     </label>
                   </div>
                 </div>))

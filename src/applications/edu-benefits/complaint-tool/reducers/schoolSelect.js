@@ -80,8 +80,16 @@ export default function schoolSearch(state = initialState, action) {
 
       const institutionQuery = action.institutionQuery;
       const institutions = data.map(({ attributes }) => {
-        const { city, country, facilityCode, name, state: institutionState, zip } = attributes;
-        return { city, country, facilityCode, name, state: institutionState, zip };
+        const { city, country, facilityCode, name, state: institutionState, street, zip } = attributes;
+        return {
+          city: city || '',
+          country: country || '',
+          facilityCode,
+          name: name || '',
+          state: institutionState || '',
+          street: street || '',
+          zip: zip || ''
+        };
       });
       const pagesCount = Math.ceil(searchResultsCount / 10);
       const showInstitutions = institutions.length > 0;

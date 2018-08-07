@@ -75,15 +75,18 @@
 
       &.institution-name {
         color: #0071BC;
-        font-size: 35;
         font-weight: bold;
-        padding: 10px 0 0 10px;
+        padding: 10px 0 0px 10px;
         text-decoration: underline;
       }
       &.institution-city-state {
-        font-size: 30;
-        font-weight: bold;
         padding: 0 0 10px 10px;
+      }
+      &.institution-country {
+        padding: 0 0 10px 10px;
+      }
+      &.institution-street {
+        padding: 0 0 0px 10px;
       }
     }
 
