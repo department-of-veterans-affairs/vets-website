@@ -160,7 +160,7 @@ export class SchoolSelectField extends React.Component {
             </div>
             <div className="clear-search">
               <button
-                className="va-button-link"
+                className="va-button-link start-over"
                 onClick={this.handleStartOver}>
                 {'Start Over'}
               </button>
