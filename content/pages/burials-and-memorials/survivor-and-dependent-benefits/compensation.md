@@ -12,7 +12,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 </div>
 
-#### Find out if you're eligible:
+#### Am I eligible?
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
