@@ -117,10 +117,6 @@ export class SchoolSelectField extends React.Component {
     } = this.props;
 
     const fieldsetClass = classNames('search-select-school-fieldset');
-    const clearSearchInfoClass = classNames('clear-search', {
-      info: showInstitutions
-    });
-
 
     if (formContext.reviewMode) {
       const {
@@ -149,30 +145,26 @@ export class SchoolSelectField extends React.Component {
                 ref={input => { this.searchInput = input; }}
                 type="text"
                 value={searchInputValue}/>
-              <div
-                className={clearSearchInfoClass}>
-                {showInstitutions && <span>
-                  {`${searchResultsCount} results for ${institutionQuery}`}
-                </span>}
-                <button
-                  className="va-button-link"
-                  onClick={this.handleStartOver}>
-                  Start Over
-                </button>
-              </div>
-            </div>
-            <div
-              className="search-schools">
               <button
                 className="search-schools-button usa-button-primary"
                 onClick={this.handleSearchClick}>
                 {'Search Schools'}
               </button>
             </div>
+            <div className="clear-search">
+              <button
+                className="va-button-link"
+                onClick={this.handleStartOver}>
+                {'Start Over'}
+              </button>
+            </div>
           </div>
           <div
             aria-live="polite"
             aria-relevant="additions text">
+            {searchResultsCount > 0 && <span>
+              {`${searchResultsCount} results for ${institutionQuery}`}
+            </span>}
             {showInstitutions && <div>
               {institutions.map(({ city, facilityCode, name, state }, index) => (
                 <div key={index}>
