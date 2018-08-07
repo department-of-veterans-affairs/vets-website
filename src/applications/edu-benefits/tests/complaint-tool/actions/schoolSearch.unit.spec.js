@@ -9,14 +9,14 @@ import {
 } from '../../../complaint-tool/actions/schoolSearch';
 
 function setFetchResponse(stub, data) {
-  const response = new Response();
+  const response = new Response(null, { headers: { 'content-type': ['application/json'] } });
   response.ok = true;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 function setFetchFailure(stub, data) {
-  const response = new Response();
+  const response = new Response(null, { headers: { 'content-type': ['application/json'] } });
   response.ok = false;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
@@ -60,11 +60,11 @@ describe('schoolSearch actions', () => {
       })).to.be.true;
 
       setTimeout(() => {
-        expect(dispatch.secondCall.calledWith({
+        expect(dispatch.secondCall.args[0]).to.eql({
           type: 'LOAD_SCHOOLS_SUCCEEDED',
           payload,
           institutionQuery: 'testQuery'
-        })).to.be.true;
+        });
         resetFetch();
         done();
       }, 0);
