@@ -69,7 +69,7 @@ You can file a claim for increased disability compensation if you have a rated s
 - An increase in your disability rating
 - More financial support
 
-[Find out how to file an increased claim](/disability-benefits/apply/#disability-wizard).
+[Find out how to file a claim](/disability-benefits/apply/#disability-wizard).
 
 </div>
 </li>
