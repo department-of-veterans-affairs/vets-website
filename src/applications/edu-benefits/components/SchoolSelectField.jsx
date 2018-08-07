@@ -136,6 +136,9 @@ export class SchoolSelectField extends React.Component {
     return (
       <fieldset className={fieldsetClass}>
         <div>
+          <span>
+            {'Please click on the button to search for your school.'}
+          </span>
           <div className="search-controls">
             <Element name="schoolSearch"/>
             <div className="search-input">
@@ -166,7 +169,7 @@ export class SchoolSelectField extends React.Component {
               {`${searchResultsCount} results for ${institutionQuery}`}
             </span>}
             {showInstitutions && <div>
-              {institutions.map(({ city, facilityCode, name, state }, index) => (
+              {institutions.map(({ city, country, facilityCode, name, state, street }, index) => (
                 <div key={index}>
                   <div className="radio-button">
                     <input
@@ -181,8 +184,12 @@ export class SchoolSelectField extends React.Component {
                     <label
                       id={`institution-${index}-label`}
                       htmlFor={`page-${currentPageNumber}-${index}`}>
-                      <span className="institution-name">{name}</span>
-                      <span className="institution-city-state">{`${city}, ${state}`}</span>
+                      <span className="institution-information">
+                        {name && <span className="institution-name">{name}</span>}
+                        {street && <span className="institution-street">{street}</span>}
+                        {(city || state) && <span className="institution-city-state">{`${city && city}${city && state && ', '}${state && state}`}</span>}
+                        {!city && !state && <span className="institution-country">{country}</span>}
+                      </span>
                     </label>
                   </div>
                 </div>))

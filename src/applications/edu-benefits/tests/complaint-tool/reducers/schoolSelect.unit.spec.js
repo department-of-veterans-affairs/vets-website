@@ -130,6 +130,7 @@ describe('schoolSearch reducer', () => {
           facilityCode: 'testFacilityCode',
           name: 'testName',
           state: 'testState',
+          street: 'testStreet',
           zip: 'testZip'
         }],
         institutionSelected: {},
@@ -154,7 +155,70 @@ describe('schoolSearch reducer', () => {
               facilityCode: 'testFacilityCode',
               name: 'testName',
               state: 'testState',
+              street: 'testStreet',
               zip: 'testZip'
+            }
+          }],
+          meta: {
+            count: 2001
+          }
+        }
+      };
+
+      const actualState = schoolSelect(previousState, action);
+
+      expect(actualState).to.eql(expectedState);
+    });
+
+    it('should set null values to empty strings', () => {
+      const previousState = {
+        currentPageNumber: 1,
+        institutionQuery: 'new',
+        institutions: [],
+        institutionSelected: {},
+        searchResultsCount: 0,
+        showInstitutions: false,
+        showInstitutionsLoading: true,
+        showPagination: false,
+        showPaginationLoading: false
+      };
+
+      const expectedState = {
+        currentPageNumber: 1,
+        institutionQuery: 'new',
+        institutions: [{
+          city: '',
+          country: '',
+          facilityCode: 'testFacilityCode',
+          name: '',
+          state: '',
+          street: '',
+          zip: ''
+        }],
+        institutionSelected: {},
+        pagesCount: 201,
+        searchResultsCount: 2001,
+        showInstitutions: true,
+        showInstitutionsLoading: false,
+        showNoResultsFound: false,
+        showPagination: true,
+        showPaginationLoading: false
+      };
+
+      const action = {
+        type: 'LOAD_SCHOOLS_SUCCEEDED',
+        institutionQuery: 'new',
+        page: 3,
+        payload: {
+          data: [{
+            attributes: {
+              city: null,
+              country: null,
+              facilityCode: 'testFacilityCode',
+              name: null,
+              state: null,
+              street: null,
+              zip: null
             }
           }],
           meta: {
