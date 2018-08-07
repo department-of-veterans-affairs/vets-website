@@ -127,7 +127,7 @@ class Vet360ProfileField extends React.Component {
     });
   }
 
-  isEditLinKVisible = () => {
+  isEditLinkVisible = () => {
     let transactionPending = false;
     if (this.props.transaction) {
       transactionPending = isPendingTransaction(this.props.transaction);
@@ -161,7 +161,7 @@ class Vet360ProfileField extends React.Component {
 
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
-        <Vet360ProfileFieldHeading onEditClick={this.isEditLinKVisible() && this.onEdit}>{title}</Vet360ProfileFieldHeading>
+        <Vet360ProfileFieldHeading onEditClick={this.isEditLinkVisible() && this.onEdit}>{title}</Vet360ProfileFieldHeading>
         {isEditing && <EditModal {...childProps}/>}
         <Vet360Transaction
           title={title}

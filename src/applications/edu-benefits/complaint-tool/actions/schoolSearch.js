@@ -9,8 +9,6 @@ export const LOAD_SCHOOLS_FAILED = 'LOAD_SCHOOLS_FAILED';
 export const SEARCH_CLEARED = 'SEARCH_CLEARED';
 export const SEARCH_INPUT_CHANGED = 'SEARCH_INPUT_CHANGED';
 
-const SET_DATA = 'SET_DATA';
-
 export function clearSearch() {
   return {
     type: SEARCH_CLEARED
@@ -57,16 +55,5 @@ export function selectInstitution({ city, facilityCode, name, state }) {
     facilityCode,
     name,
     state
-  };
-}
-
-export function setCannotFindSchool() {
-  return {
-    type: SET_DATA,
-    data: {
-      school: {
-        'view:cannotFindSchool': true
-      }
-    }
   };
 }

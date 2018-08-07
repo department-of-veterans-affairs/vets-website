@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
+import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
+
+import GetFormHelp from '../../components/GetFormHelp';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -44,6 +47,11 @@ export class ConfirmationPage extends React.Component {
             </li>
           </ul>}
         </div>}
+        <div>
+          <AskVAQuestions>
+            <GetFormHelp/>
+          </AskVAQuestions>
+        </div>
       </div>
     );
   }
