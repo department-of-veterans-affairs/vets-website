@@ -115,19 +115,20 @@ When you file your claim, you'll need to submit this evidence:
 
 ### Get more information
 
+View our rate tables. <br>
+[See the Veterans Compensation Benefits Rate Tables](https://www.benefits.va.gov/COMPENSATION/resources_comp01.asp).
+
+Contact us in either of these ways if you have questions:
+- Call the Agent Orange Help Line at 1-800-749-8387 **or** 
+- Send an email to GW/AOHelpline@vba.va.gov
+
+**Note:** Please be ready to give us your name, email address, telephone number, and VA file number or Social Security number.
+
 **If you think you may have had contact with Agent Orange** or other herbicides while serving in the military, you can request a health exam. <br>
 [Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
 
 **If you have non-Hodgkin’s lymphoma (a type of cancer),** you can get VA support. <br>
 [Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 
-**If you'd like to know the monthly payment rate you may receive,** you can view our rate tables. <br>
-[See the Veterans Compensation Benefits Rate Tables](https://www.benefits.va.gov/COMPENSATION/resources_comp01.asp).
-
-**If you have questions,** you can contact us in either of these ways:
-- Call the Agent Orange Help Line at 1-800-749-8387 **or** 
-- Send an email to GW/AOHelpline@vba.va.gov
-
-**Note:** Please be ready to give us your name, email address, telephone number, and VA file number or Social Security number.
 
 <script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
