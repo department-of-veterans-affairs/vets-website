@@ -78,7 +78,6 @@ You can get compensation as a surviving child if you meet the requirements liste
   </li>
  </ul>
 
-<br>
 ### What kind of benefits can I get?
 
 Tax-free monetary benefits
