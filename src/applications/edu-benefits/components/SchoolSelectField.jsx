@@ -36,6 +36,17 @@ export class SchoolSelectField extends React.Component {
     this.debouncedSearchInstitutions = _.debounce(
       value => this.props.searchSchools(value),
       150);
+
+  }
+
+  componentDidMount() {
+    // hydrate search if restoring from SiP
+    // if there is a seach term stored in the form data
+    // if the search term in the form data isn't already in the redux state and displayed
+    const searchTermToRestore = this.props.formData['view:searchString'];
+    if (searchTermToRestore && searchTermToRestore !== this.props.institutionQuery && !this.props.showInstitutions) {
+      this.props.searchSchools({ institutionQuery: searchTermToRestore });
+    }
   }
 
   componentWillUnmount() {
@@ -52,7 +63,10 @@ export class SchoolSelectField extends React.Component {
 
   handleOptionClick = ({ city, facilityCode, name, state }) => {
     this.props.selectInstitution({ city, facilityCode, name, state });
-    this.props.onChange(facilityCode);
+    this.props.onChange({
+      facilityCode,
+      'view:searchString': this.props.institutionQuery
+    });
   }
 
   handlePageSelect = page => {
@@ -228,7 +242,7 @@ export class SchoolSelectField extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const currentPageNumber = selectCurrentPageNumber(state);
-  const facilityCodeSelected = props.formData ? props.formData : '';
+  const facilityCodeSelected = props.formData.facilityCode ? props.formData.facilityCode : '';
   const institutionQuery = selectInstitutionQuery(state);
   const institutions = selectInstitutions(state);
   const institutionSelected = selectInstitutionSelected(state);

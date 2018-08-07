@@ -433,7 +433,15 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   facilityCode: { // TODO: determine whether to store facility ID
-                    type: 'string'
+                    type: 'object',
+                    properties: {
+                      facilityCode: {
+                        type: 'string'
+                      },
+                      'view:searchString': {
+                        type: 'string'
+                      }
+                    }
                   },
                   'view:cannotFindSchool': {
                     title: 'I’d rather type in my school information',
