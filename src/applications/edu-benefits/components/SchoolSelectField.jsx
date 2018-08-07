@@ -41,8 +41,10 @@ export class SchoolSelectField extends React.Component {
 
   componentDidMount() {
     // hydrate search if restoring from SiP
+    // if there is a seach term stored in the form data
+    // if the search term in the form data isn't already in the redux state and displayed
     const searchTermToRestore = this.props.formData['view:searchString'];
-    if (searchTermToRestore && searchTermToRestore !== this.props.institutionQuery) {
+    if (searchTermToRestore && searchTermToRestore !== this.props.institutionQuery && !this.props.showInstitutions) {
       this.props.searchSchools({ institutionQuery: searchTermToRestore });
     }
   }
