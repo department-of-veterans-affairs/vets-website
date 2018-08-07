@@ -49,7 +49,7 @@ describe('complaint tool applicant info', () => {
     selectRadio(form, 'root_onBehalfOf', 'Myself');
     const select  = form.find('select#root_serviceAffiliation');
     select.simulate('change', {
-      target: { value: 'Servicemember or Veteran' }
+      target: { value: 'Servicemember' }
     });
     fillData(form, 'input#root_fullName_first', 'test');
     fillData(form, 'input#root_fullName_last', 'test');
@@ -69,8 +69,8 @@ describe('complaint tool applicant info', () => {
     );
 
     selectRadio(form, 'root_onBehalfOf', 'Myself');
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(5);
+    expect(form.find('input').length).to.equal(6);
+    expect(form.find('select').length).to.equal(3);
   });
 
   it('should render myself as a veteran', () => {
@@ -86,11 +86,11 @@ describe('complaint tool applicant info', () => {
     selectRadio(form, 'root_onBehalfOf', 'Myself');
     const select = form.find('select#root_serviceAffiliation');
     select.simulate('change', {
-      target: { value: 'Servicemember or Veteran' }
+      target: { value: 'Veteran' }
     });
 
-    expect(form.find('input').length).to.equal(9);
-    expect(form.find('select').length).to.equal(10);
+    expect(form.find('input').length).to.equal(8);
+    expect(form.find('select').length).to.equal(8);
   });
 
   it('should render someone else', () => {
@@ -104,8 +104,8 @@ describe('complaint tool applicant info', () => {
     );
 
     selectRadio(form, 'root_onBehalfOf', 'Someone else');
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(4);
+    expect(form.find('input').length).to.equal(6);
+    expect(form.find('select').length).to.equal(2);
   });
 
   it('should render anonymous', () => {
