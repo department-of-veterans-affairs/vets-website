@@ -115,10 +115,9 @@ When you file your claim, you'll need to submit this evidence:
 
 ### Get more information
 
-View our rate tables. <br>
 [See the Veterans Compensation Benefits Rate Tables](https://www.benefits.va.gov/COMPENSATION/resources_comp01.asp).
 
-Contact us in either of these ways if you have questions:
+Contact us if you have questions:
 - Call the Agent Orange Help Line at 1-800-749-8387 **or** 
 - Send an email to GW/AOHelpline@vba.va.gov
 
