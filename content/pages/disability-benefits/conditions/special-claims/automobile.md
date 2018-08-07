@@ -49,6 +49,10 @@ You’ll need to apply for benefits and get our approval **before** buying a veh
 When you apply, you’ll need to show that your disability is service connected or treated as if service connected under 38 U.S.C. 1151. <br>
 [Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
 
+<br>
+
+[View the current payment rates](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
+
 #### For the one-time payment to help you buy a specially equipped vehicle 
 - You’ll need to fill out an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502). <br>
 [Download VA Form 21-4502](https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf). 
