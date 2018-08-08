@@ -395,10 +395,10 @@ h3, h4 {
 
   #vetnav-controls {
     margin-top: 7px;
-  }
 
-  #vetnav {
-    display: none;  // remove this for now but will be overriden by megamenu
+    svg {
+      margin-left: 0.8rem;
+    }
   }
 
   .usa-banner {
