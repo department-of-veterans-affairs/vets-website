@@ -34,7 +34,7 @@ crosslinks:
 social:
   - heading: Connect with Us
     admin: Veterans Health Administration
-    url: https://www.benefits.va.gov/benefits/
+    url: https://www.va.gov/health/
     subsections:
       - subhead: Ask Questions
         links:
@@ -55,7 +55,7 @@ social:
           label: Veterans Health Facebook
           icon: fa-facebook
         - url: "https://twitter.com/VeteransHealth"
-          label: Veterans Benefits Twitter
+          label: Veterans Health Twitter
           icon: fa-twitter
         - url: "https://www.youtube.com/user/VeteransHealthAdmin"
           label: Veterans Health YouTube

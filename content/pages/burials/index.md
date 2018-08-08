@@ -25,8 +25,8 @@ crosslinks:
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
 social:
   - heading: Connect with Us
-    admin: Veterans Benefits Administration
-    url: https://www.benefits.va.gov/benefits/
+    admin: National Cemetery Administration
+    url: https://www.cem.va.gov/
     subsections:
       - subhead: Ask Questions
         links:
@@ -80,7 +80,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
   <div class="link">
     <a href="https://vets.gov/burials-and-memorials/pre-need/"><b>Pre-Need Burial Eligibility Determination</b></a>
-    <p>Apply for a pre-need eligibility decision letter. This can help you pre-plan for burial in a VA national cemetery, and make the process easier for your family members at your time of need.</p>
+    <p>Apply for a pre-need eligibility decision letter. This can help you pre-plan for burial in a VA national cemetery, and make the process easier for your family members in their time of need.</p>
   </div>
 
   <div class="link">

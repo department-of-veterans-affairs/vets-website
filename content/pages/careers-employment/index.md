@@ -194,11 +194,11 @@ We can support you in all stages of your job search—from returning to work wit
 
   <div class="link">
     <a href="https://benefits.va.gov/VOCREHAB/subsistence_allowance_rates.asp"><b>Subsistence Allowance Rates</b></a>
-    <p>Get current subsistence allowance rates to help eligible Veterans participating in the Voc Rehab program pay for basic needs (like food and clothing).</p>
+    <p>View the current subsistence allowance rates to find out the amount we'll provide to help you pay for basic needs (like food and clothing) if you're an eligible Veteran participating in the Voc Rehab program.</p>
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/employment/vocational-rehab-and-employment/vetsuccess/"><b>Vet Success on Campus</b></a>
+    <a href="https://vets.gov/employment/vocational-rehab-and-employment/vetsuccess/"><b>VetSuccess on Campus</b></a>
     <p>Find out if our counselors can help you transition from military to college life.</p>
   </div>
 

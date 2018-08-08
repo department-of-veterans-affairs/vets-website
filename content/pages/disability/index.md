@@ -41,8 +41,8 @@ social:
         - url: https://iris.custhelp.va.gov/app/ask
           label: "Ask a Question Online"
         - url: 1-800-827-1000
-          title: "1-800-983-0937:"
-        - url: 1-877-827-3702
+          title: "VA Benefits Hotline:"
+        - url: 1-800-983-0937
           title: "eBenefits Technical Support:"
         - url: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
