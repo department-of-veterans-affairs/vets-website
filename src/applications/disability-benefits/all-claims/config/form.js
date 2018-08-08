@@ -8,7 +8,7 @@ const formConfig = {
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
-  formId: '21-526EZ',
+  formId: '21-526EZ-all-claims',
   version: 1,
   migrations: [],
   // prefillTransformer,
