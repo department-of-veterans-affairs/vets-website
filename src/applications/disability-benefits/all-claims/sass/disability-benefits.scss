@@ -12,3 +12,22 @@
 .full-page-alert {
   margin-bottom: 2em;
 }
+
+button.temporary-start {
+  margin-top: 1em;
+}
+
+ul.original-disability-list {
+  li {
+    margin-bottom: 0;
+  }
+}
+
+.process-step:last-child {
+  padding-bottom: 0;
+}
+
+.list-item-connector {
+  display: block;
+  margin: 0;
+}
