@@ -14,7 +14,7 @@
     "postalCode": 30328,
     "applicantEmail": "test@test.com",
     "applicantEmailConfirmation": "test@test.com",
-    "issueDescription": "R is a great developer",
-    "issueResolution": "Help R Matthews find a job, see www.linkedin.com/in/rrmatthews"
+    "issueDescription": "This is a issue description",
+    "issueResolution": "This is an issue resolution!"
   }
 }
