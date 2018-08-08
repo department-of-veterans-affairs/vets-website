@@ -386,12 +386,6 @@ h3, h4 {
   z-index: 2;
 }
 
-@media screen and (min-width: 768px) {
-  .vet-toolbar {
-    flex: 0 1 30.5rem;
-  }
-}
-
 // mobile
 @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
 
@@ -538,5 +532,37 @@ h3, h4 {
 
     margin-bottom: 0 !important; //hard override; what does this break elsewhere
 
+  }
+}
+
+// tablet
+@media (min-width: 768px) and (max-width: $large-screen) {
+
+  .vet-toolbar {
+    flex: 0 1 35.5rem;
+    border: 1px solid pink;
+
+    .profile-nav {
+
+      width: 100%;
+      border: 1px solid orange;
+
+      .sign-in-nav,
+      .va-dropdown {
+        width: 30%;
+        border: 1px solid red;
+      }
+
+    }
+  }
+
+  .va-header-logo-wrapper {
+
+    border: 1px solid red;
+
+    a {
+      width: 70%;
+      height: auto;
+    }
   }
 }
