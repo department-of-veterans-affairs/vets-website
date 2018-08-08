@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import data from '../data.json';
-import { togglePanelOpen } from '../actions';
+import { togglePanelOpen, toggleMobileDisplayHidden } from '../actions';
 
 import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 
@@ -19,6 +19,9 @@ const mapStateToProps = ({ megaMenu }) => ({ ...megaMenu });
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    toggleDisplayHidden: (hidden) => {
+      dispatch(toggleMobileDisplayHidden(hidden));
+    },
     toggleDropDown: (currentDropdown) => {
       dispatch(togglePanelOpen(currentDropdown));
     },
