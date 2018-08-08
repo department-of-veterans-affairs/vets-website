@@ -591,12 +591,38 @@ h3, h4 {
 
   #homepage-popular {
 
+    text-align: center;
+
     .usa-width-one-third {
-      border: 1px solid pink;
-      float: left;
+
+      margin: 0 auto;
+      margin-bottom: 1.5em;
+      float: none;
       display: block;
-      margin-right: 3%;
-      width: 33.11389%;
+      width: 50%;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      #vcl {
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+      }
+    }
+  }
+
+  #hub-internal {
+
+    .usa-grid {
+
+      padding-left: 3em;
+      padding-right: 3em;
+
+      .usa-width-one-half {
+
+        min-height: 276px;
+      }
     }
   }
 }
