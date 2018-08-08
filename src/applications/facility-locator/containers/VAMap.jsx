@@ -26,7 +26,7 @@ class VAMap extends Component {
   constructor(props) {
     super(props);
 
-    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.5), 2500, {
+    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.75), 2500, {
       leading: true,
     });
 
@@ -111,10 +111,10 @@ class VAMap extends Component {
       if (isMobile.any) {
         this.props.updateSearchQuery({
           bounds: [
-            newQuery.bounds[0] - 0.5,
-            newQuery.bounds[1] - 0.5,
-            newQuery.bounds[2] + 0.5,
-            newQuery.bounds[3] + 0.5,
+            newQuery.bounds[0] - 0.75,
+            newQuery.bounds[1] - 0.75,
+            newQuery.bounds[2] + 0.75,
+            newQuery.bounds[3] + 0.75,
           ],
         });
       } else {
@@ -177,10 +177,10 @@ class VAMap extends Component {
 
       this.props.updateSearchQuery({
         bounds: res.features[0].bbox || [
-          coordinates[0] - 0.5,
-          coordinates[1] - 0.5,
-          coordinates[0] + 0.5,
-          coordinates[1] + 0.5,
+          coordinates[0] - 0.75,
+          coordinates[1] - 0.75,
+          coordinates[0] + 0.75,
+          coordinates[1] + 0.75,
         ],
         searchString: placeName,
         context: zipCode,

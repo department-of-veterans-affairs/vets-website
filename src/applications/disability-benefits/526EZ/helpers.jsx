@@ -2,57 +2,143 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import { filterViewFields } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
+import get from '../../../platform/utilities/data/get';
+import { pick } from 'lodash';
 import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
-import { getDiagnosticCodeName } from './reference-helpers';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
   VA_FORM4142_URL,
-  E_BENEFITS_URL
+  RESERVE_GUARD_TYPES
 } from './constants';
 
-/*
- * Flatten nested array form data into sibling properties
- *
- * @param {object} data - Form data for a full form, including nested array properties
- */
-export function flatten(data) {
-  const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
-  const formData = cloneDeep(data);
-  formData.disabilities.forEach((disability, idx) => {
-    siblings.forEach(sibling => {
-      if (disability[sibling]) {
-        formData[sibling] = [];
-        formData[sibling][idx] = disability[sibling];
-        delete disability[sibling]; // eslint-disable-line no-param-reassign
-      }
-    });
+
+/**
+ * Inspects an array of objects, and attempts to aggregate subarrays at a given property
+ * of each object into one array
+ * @param {array} dataArray array of objects to inspect
+ * @param {string} property the property to inspect in each array item
+ * @returns {array} a list of aggregated items pulled from different arrays
+*/
+const aggregate = (dataArray, property) => {
+  const masterList = [];
+  dataArray.forEach(item => {
+
+    if (item[property]) {
+      item[property].forEach(listItem => masterList.push(listItem));
+    }
   });
-  return formData;
-}
+
+  return masterList;
+};
+
+
+// Moves phone & email out of the phoneEmailCard up one level into `formData.veteran`
+const setPhoneEmailPaths = (veteran) => {
+  const newVeteran = cloneDeep(veteran);
+  const { primaryPhone, emailAddress } = newVeteran.phoneEmailCard;
+  newVeteran.primaryPhone = primaryPhone;
+  newVeteran.emailAddress = emailAddress;
+  delete newVeteran.phoneEmailCard;
+  return newVeteran;
+};
+
+
+export const getReservesGuardData = (formData) => {
+  const {
+    unitName,
+    obligationTermOfServiceDateRange,
+    title10Activation,
+    waiveVABenefitsToRetainTrainingPay
+  } = formData;
+
+  // Ensure all required fields are present
+  if (
+    !unitName
+    || !obligationTermOfServiceDateRange
+    || !obligationTermOfServiceDateRange.from
+    || !obligationTermOfServiceDateRange.to
+    || typeof waiveVABenefitsToRetainTrainingPay === 'undefined'
+  ) {
+    return null;
+  }
+
+  const obligationDateRange = {
+    from: obligationTermOfServiceDateRange.from,
+    to: obligationTermOfServiceDateRange.to
+  };
+
+  if (formData['view:isTitle10Activated']) {
+    return {
+      unitName,
+      obligationTermOfServiceDateRange: obligationDateRange,
+      title10Activation: {
+        title10ActivationDate: title10Activation.title10ActivationDate,
+        anticipatedSeparationDate: title10Activation.anticipatedSeparationDate
+      },
+      waiveVABenefitsToRetainTrainingPay
+    };
+  }
+
+  return {
+    unitName,
+    obligationTermOfServiceDateRange: obligationDateRange,
+    waiveVABenefitsToRetainTrainingPay
+  };
+};
 
 
 export function transform(formConfig, form) {
-  const formData = flatten(transformForSubmit(formConfig, form));
-  delete formData.prefilled;
-  return JSON.stringify({
-    disabilityBenefitsClaim: {
-      form: formData
-    }
-  });
+  const {
+    disabilities,
+    veteran,
+    privacyAgreementAccepted,
+    servicePeriods,
+    standardClaim,
+  } = form.data;
+  const reservesNationalGuardService = getReservesGuardData(form.data);
+  const disabilityProperties = Object.keys(
+    fullSchemaIncrease.definitions.disabilities.items.properties
+  );
+
+  const serviceInformation = reservesNationalGuardService
+    ? { servicePeriods, reservesNationalGuardService }
+    : { servicePeriods };
+
+  const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
+  const privateRecords = aggregate(disabilities, 'privateRecords');
+
+  const transformedData = {
+    disabilities: disabilities
+      .filter(disability => (disability['view:selected'] === true))
+      .map(filtered => pick(filtered, disabilityProperties)),
+    // Pull phone & email out of phoneEmailCard and into veteran property
+    veteran: setPhoneEmailPaths(veteran),
+    // Extract treatments into one top-level array
+    treatments: aggregate(disabilities, 'treatments'),
+    attachments: additionalDocuments.concat(privateRecords),
+    privacyAgreementAccepted,
+    serviceInformation,
+    standardClaim,
+  };
+
+  const withoutViewFields = filterViewFields(transformedData);
+  return JSON.stringify({ form526: withoutViewFields });
 }
+
 
 export function validateDisability(disability) {
   const invalidDisabilityError = (error => /^instance.disabilities\[/.test(error.property));
@@ -69,17 +155,76 @@ export function validateDisability(disability) {
   return true;
 }
 
-export function transformDisabilities(disabilities) {
-  return disabilities.map(disability => set('disabilityActionType', 'INCREASE', disability));
+
+export function transformDisabilities(disabilities = []) {
+  return disabilities
+    // We want to remove disabilities without a rating, but 0 counts as a valid rating
+    // TODO: Log the disabilities if they're not service connected
+    // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
+    //  it gets here and we can't tell whether it is service connected or not. This happens in
+    //  the api
+    .filter(disability => {
+      if (disability.ratingPercentage || disability.ratingPercentage === 0) {
+        return true;
+      }
+
+      // TODO: Only log it if the decision code indicates the condition is not non-service-connected
+      const { decisionCode } = disability;
+      if (decisionCode) {
+        Raven.captureMessage('526_increase_disability_filter', {
+          extra: { decisionCode }
+        });
+      }
+
+      return false;
+    }).map(disability => set('disabilityActionType', 'INCREASE', disability));
+}
+
+
+export function addPhoneEmailToCard(formData) {
+  const { veteran } = formData;
+  if (typeof veteran === 'undefined') {
+    return formData;
+  }
+
+  const phoneEmailCard = {
+    primaryPhone: get('primaryPhone', veteran, ''),
+    emailAddress: get('emailAddress', veteran, '')
+  };
+
+  const newFormData = set('veteran.phoneEmailCard', phoneEmailCard, formData);
+  delete newFormData.veteran.primaryPhone;
+  delete newFormData.veteran.emailAddress;
+
+  return newFormData;
+}
+
+export function transformObligationDates(formData) {
+  const { reservesNationalGuardService } = formData;
+  if (!reservesNationalGuardService || !reservesNationalGuardService.obligationTermOfServiceDateRange) {
+    return formData;
+  }
+
+  const { obligationTermOfServiceDateRange: { from, to } } = reservesNationalGuardService;
+  const newFormData = set('obligationTermOfServiceDateRange', { from, to }, formData);
+  delete newFormData.reservesNationalGuardService;
+
+  return newFormData;
 }
 
 export function prefillTransformer(pages, formData, metadata) {
-  const newData = set('disabilities', transformDisabilities(formData.disabilities), formData);
-  newData.disabilities.forEach(validateDisability);
-
+  const { disabilities } = formData;
+  if (!disabilities || !Array.isArray(disabilities)) {
+    Raven.captureMessage('vets-disability-increase-no-rated-disabilities-found');
+    return { metadata, formData, pages };
+  }
+  const newFormData = set('disabilities', transformDisabilities(disabilities), formData);
+  newFormData.disabilities.forEach(validateDisability);
+  const withPhoneEmailCard = addPhoneEmailToCard(newFormData);
+  const withObligationDates = transformObligationDates(withPhoneEmailCard);
   return {
     metadata,
-    formData: newData,
+    formData: withObligationDates,
     pages
   };
 }
@@ -95,6 +240,7 @@ export const supportingEvidenceOrientation = (
   </p>
 );
 
+
 export const evidenceTypeHelp = (
   <AdditionalInfo triggerText="Which evidence type should I choose?">
     <h3>Types of evidence</h3>
@@ -108,17 +254,38 @@ export const evidenceTypeHelp = (
   </AdditionalInfo>
 );
 
+const capitalizeEach = (word) => {
+  const capFirstLetter = word[0].toUpperCase();
+  return `${capFirstLetter}${word.slice(1)}`;
+};
+
+/**
+ * Takes a string and returns the same string with every word capitalized. If no valid
+ * string is given as input, returns 'Unknown Condition' and logs to Sentry.
+ * @param {string} name the lower-case name of a disability
+ * @returns {string} the input name, but with all words capitalized
+ */
+export const getDisabilityName = (name) => {
+  if (name && typeof name === 'string') {
+    const splitName = name.split(' ');
+    const capitalizedsplitName = splitName.map(capitalizeEach);
+    return capitalizedsplitName.join(' ');
+  }
+
+  Raven.captureMessage('form_526: no name supplied for ratedDisability');
+  return 'Unknown Condition';
+};
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{getDiagnosticCodeName(formData.diagnosticCode)}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{getDisabilityName(formData.name)}</legend>
   );
 };
 
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Please tell us where VA treated you for {getDiagnosticCodeName(formData.diagnosticCode)} <strong>after you got your disability rating</strong>.</p>
+    <p>Please tell us where VA treated you for {getDisabilityName(formData.name)} <strong>after you got your disability rating</strong>.</p>
   );
 };
 
@@ -145,7 +312,7 @@ export const treatmentView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>First we’ll ask you about your VA medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.</p>
+    <p>First we’ll ask you about your VA medical records that show your {getDisabilityName(formData.name)} has gotten worse.</p>
   );
 };
 
@@ -155,7 +322,7 @@ export const privateRecordsChoice = ({ formData }) => {
     <div>
       <h4>About private medical records</h4>
       <p>
-        You said you were treated for {getDiagnosticCodeName(formData.diagnosticCode)} by a private
+        You said you were treated for {getDisabilityName(formData.name)} by a private
         doctor. If you have your private medical records, you can upload them to your application.
         If you want us to get them for you, you’ll need to authorize their release.
       </p>
@@ -189,13 +356,14 @@ export const privateRecordsChoiceHelp = (
   </AdditionalInfo>
 );
 
-const firstOrNowString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
 
+const firstOrNowString = (evidenceTypes) => (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
 export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
-    {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDiagnosticCodeName(formData.diagnosticCode)} has gotten worse.
+    {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you about your private medical records that show your {getDisabilityName(formData.name)} has gotten worse.
   </p>
 );
+
 
 export function validatePostalCodes(errors, formData) {
   let isValidPostalCode = true;
@@ -212,6 +380,7 @@ export function validatePostalCodes(errors, formData) {
     errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
   }
 }
+
 
 export function validateAddress(errors, formData) {
   // Adds error message for state if it is blank and one of the following countries:
@@ -236,6 +405,7 @@ export function validateAddress(errors, formData) {
   validatePostalCodes(errors, formData);
 }
 
+
 const claimsIntakeAddress = (
   <p className="va-address-block">
     Department of Veterans Affairs<br/>
@@ -244,6 +414,7 @@ const claimsIntakeAddress = (
     Janesville, WI 53547-4444
   </p>
 );
+
 
 export const download4142Notice = (
   <div className="usa-alert usa-alert-warning no-background-image">
@@ -265,6 +436,7 @@ export const download4142Notice = (
   </div>
 );
 
+
 export const authorizationToDisclose = (
   <div>
     <p>Since your medical records are with your doctor, you’ll need to fill out an Authorization to Disclose
@@ -280,6 +452,7 @@ export const authorizationToDisclose = (
   </div>
 );
 
+
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
     <span>Limiting consent means that your doctor can only share records that are
@@ -287,6 +460,7 @@ export const recordReleaseWarning = (
       get your private medical records.</span>
   </div>
 );
+
 
 export const documentDescription = () => {
   return (
@@ -306,6 +480,7 @@ export const documentDescription = () => {
     </div>
   );
 };
+
 
 export const additionalDocumentDescription = () => {
   return (
@@ -328,56 +503,76 @@ export const additionalDocumentDescription = () => {
   );
 };
 
+
 const getVACenterName = (center) => center.treatmentCenterName;
-
 const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
-
-const listifyCenters = (center, idx, list) => {
-  const centerName = center.treatmentCenterName ? getVACenterName(center) : getPrivateCenterName(center);
-  const notLast = idx < (list.length - 1);
-  const justOne = list.length === 1;
-  const atLeastThree = list.length > 2;
+const listCenters = (centers) => {
   return (
-    <span key={idx}>
-      {!notLast && !justOne && <span className="unstyled-word"> and </span>}
-      {centerName}
-      {atLeastThree && notLast && ', '}
-    </span>
+    <span className="treatment-centers">{centers.map((center, idx, list) => {
+      const centerName = center.treatmentCenterName ? getVACenterName(center) : getPrivateCenterName(center);
+      const notLast = idx < (list.length - 1);
+      const justOne = list.length === 1;
+      const atLeastThree = list.length > 2;
+      return (
+        <span key={idx}>
+          {!notLast && !justOne && <span className="unstyled-word"> and </span>}
+          {centerName}
+          {atLeastThree && notLast && ', '}
+        </span>
+      );
+    }) }</span>
   );
 };
 
+
+const listDocuments = (documents) => {
+  return (<ul>
+    {documents.map((document, id) => {
+      return (<li className="dashed-bullet" key={id}>
+        <strong>{document.name}</strong>
+      </li>);
+    })}
+  </ul>);
+};
+
+
 export const evidenceSummaryView = ({ formData }) => {
   const {
-    vaTreatments,
+    treatments,
     privateRecordReleases,
     privateRecords,
     additionalDocuments
   } = formData;
+
   return (
     <div>
       <ul>
-        {vaTreatments &&
-        <li>We’ll get your medical records from <span className="treatment-centers">{vaTreatments.map(listifyCenters)}</span>.</li>}
+        {treatments &&
+        <li>We’ll get your medical records from {listCenters(treatments)}.</li>}
         {privateRecordReleases &&
-        <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
-        {privateRecords && <li>We have received the private medical records you uploaded.</li>}
+        <li>We’ll get your private medical records from {listCenters(privateRecordReleases)}.</li>}
+        {privateRecords && <li>We have received the private medical records you uploaded:
+          {listDocuments(privateRecords)}
+        </li>}
         {additionalDocuments &&
         <li>We have received the additional evidence you uploaded:
-          <ul>
-            {additionalDocuments.map((document, id) => {
-              return (<li className="dashed-bullet" key={id}>
-                <strong>{document.name}</strong>
-              </li>);
-            })
-            }
-          </ul>
+          {listDocuments(additionalDocuments)}
         </li>}
       </ul>
     </div>
   );
 };
 
+
+export const editNote = (name) => (
+  <p><strong>Note:</strong> If you need to update your {name}, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+);
+
+
 /**
+ * Show one thing, have a screen reader say another.
+ * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
+ *
  * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
@@ -391,6 +586,7 @@ export const srSubstitute = (srIgnored, substitutionText) => {
   );
 };
 
+
 const unconnectedVetInfoView = (profile) => {
   // NOTE: ssn and vaFileNumber will be undefined for the foreseeable future; they're kept in here as a reminder.
   const { ssn, vaFileNumber, dob, gender } = profile;
@@ -399,11 +595,7 @@ const unconnectedVetInfoView = (profile) => {
   return (
     <div>
       <p>
-        This is the personal information we have on file for you. If something doesn’t look
-        right and you need to update your details, please go to eBenefits.
-      </p>
-      <p>
-        <a target="_blank" href={E_BENEFITS_URL}>Go to eBenefits</a>.
+        This is the personal information we have on file for you.
       </p>
       <div className="blue-bar-block">
         <strong>{first} {middle} {last} {suffix}</strong>
@@ -412,10 +604,11 @@ const unconnectedVetInfoView = (profile) => {
         <p>Date of birth: <DateWidget value={dob} options={{ monthYear: false }}/></p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
-      <p><strong>Note:</strong> If something doesn’t look right and you need to update your details, please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+      {editNote('personal information')}
     </div>
   );
 };
+
 
 export const veteranInfoDescription = connect((state) => state.user.profile)(unconnectedVetInfoView);
 
@@ -425,17 +618,16 @@ export const veteranInfoDescription = connect((state) => state.user.profile)(unc
  * @property {String} diagnosticCode
  * @property {String} name
  * @property {String} ratingPercentage
- *
  * @param {Disability} disability
  */
-export const disabilityOption = ({ diagnosticCode, ratingPercentage }) => {
+export const disabilityOption = ({ name, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showRatingPercentage = Number.isInteger(ratingPercentage);
 
   return (
     <div>
-      {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
+      <h4>{getDisabilityName(name)}</h4>
       {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
@@ -499,9 +691,11 @@ export const GetFormHelp = () => {
   );
 };
 
+
 export const ITFDescription = (
   <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
 );
+
 
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
@@ -511,28 +705,31 @@ export const VAFileNumberDescription = (
   </div>
 );
 
-const PhoneViewField = ({ formData: phoneNumber, name }) => {
-  const isDomestic = phoneNumber.length <= 10;
-  const midBreakpoint = isDomestic ? -7 : -8;
-  const lastPhoneString = `${phoneNumber.slice(-4)}`;
-  const middlePhoneString = `${phoneNumber.slice(midBreakpoint, -4)}-`;
-  const firstPhoneString = `${phoneNumber.slice(0, midBreakpoint)}-`;
 
-  const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
+const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
+  const midBreakpoint = -7;
+  const lastPhoneString = phoneNumber.slice(-4);
+  const middlePhoneString = phoneNumber.slice(midBreakpoint, -4);
+  const firstPhoneString = phoneNumber.slice(0, midBreakpoint);
+
+  const phoneString = `${firstPhoneString}-${middlePhoneString}-${lastPhoneString}`;
   return (<p><strong>{name}</strong>: {phoneString}</p>);
 };
 
-const EmailViewField = ({ formData, name }) => {
-  return (<p><strong>{name}</strong>: {formData}</p>);
-};
+
+const EmailViewField = ({ formData, name }) => (
+  <p><strong>{name}</strong>: {formData || ''}</p>
+);
+
 
 const EffectiveDateViewField = ({ formData }) => {
   return (
     <p>
-      Effective Date: <DateWidget value={formData} options={{ monthYear: false }}/>
+      We will use this address starting on <DateWidget value={formData} options={{ monthYear: false }}/>:
     </p>
   );
 };
+
 
 const AddressViewField = ({ formData }) => {
   const { addressLine1, addressLine2, addressLine3, city, state, country, zipCode } = formData;
@@ -559,24 +756,27 @@ const AddressViewField = ({ formData }) => {
   );
 };
 
-export const PrimaryAddressViewField = ({ formData }) => {
-  const {
-    mailingAddress, primaryPhone, emailAddress, forwardingAddress } = formData;
+
+export const PrimaryAddressViewField = ({ formData }) => (<AddressViewField formData={formData}/>);
+
+
+export const ForwardingAddressViewField = ({ formData }) => {
+  const { effectiveDate } = formData;
   return (
     <div>
-      <AddressViewField formData={mailingAddress}/>
-      {primaryPhone && (
-        <PhoneViewField formData={primaryPhone} name="Primary phone"/>
-      )}
-      {emailAddress && (
-        <EmailViewField formData={emailAddress} name="Email address"/>
-      )}
-      {formData['view:hasForwardingAddress'] && (
-        <AddressViewField formData={forwardingAddress}/>
-      )}
-      {formData.effectiveDate && (
-        <EffectiveDateViewField formData={forwardingAddress.effectiveDate}/>
-      )}
+      <EffectiveDateViewField formData={effectiveDate}/>
+      <AddressViewField formData={formData}/>
+    </div>
+  );
+};
+
+
+export const phoneEmailViewField = ({ formData }) => {
+  const { primaryPhone, emailAddress } = formData;
+  return (
+    <div>
+      <PhoneViewField formData={primaryPhone} name="Primary phone"/>
+      <EmailViewField formData={emailAddress} name="Email address"/>
     </div>
   );
 };
@@ -653,9 +853,12 @@ const evidenceTypesDescription = (disabilityName) => {
   );
 };
 
+
 export const getEvidenceTypesDescription = (form, index) => {
-  return evidenceTypesDescription(getDiagnosticCodeName(form.disabilities[index].diagnosticCode));
+  const { name } = form.disabilities[index];
+  return evidenceTypesDescription(getDisabilityName(name));
 };
+
 
 /**
  * If user chooses private medical record supporting evidence, he/she has a choice
@@ -681,13 +884,17 @@ export const get4142Selection = (disabilities) => {
   }, false);
 };
 
-export const AddressDescription = () => (
+
+export const contactInfoDescription = () => (
+  <p>
+    This is the contact information we have on file for you. We’ll send any important
+    information about your disability claim to the address listed here. Any updates
+    you make here to your contact information will only apply to this application.
+  </p>
+);
+
+export const contactInfoUpdateHelp = () => (
   <div>
-    <p>
-      This is the contact information we have on file for you. We’ll send any important
-      information about your disability claim to the address listed here. Any updates
-      you make here to your contact information will only apply to this application.
-    </p>
     <p>
       If you want to update your contact information for all your VA accounts, please go
       to your profile page.
@@ -698,11 +905,71 @@ export const AddressDescription = () => (
   </div>
 );
 
+
 export const PaymentDescription = () => (
   <p>
     This is the bank account information we have on file for you. We’ll pay your
-    disability benefit to this account. If you need to update your bank information,
-    please call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
-    Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+    disability benefit to this account.
+  </p>
+);
+
+export const hasGuardOrReservePeriod = (formData) => {
+  const serviceHistory = formData.servicePeriods;
+  if (!serviceHistory || !Array.isArray(serviceHistory)) {
+    return false;
+  }
+
+  return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
+    // For a new service period, service branch defaults to undefined
+    if (!serviceBranch) {
+      return false;
+    }
+    const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
+    return isGuardReserve
+        || serviceBranch.includes(reserve)
+        || serviceBranch.includes(nationalGuard);
+  }, false);
+};
+
+export const ReservesGuardDescription = ({ formData }) => {
+  const { servicePeriods } = formData;
+  if (!servicePeriods || !Array.isArray(servicePeriods) || !servicePeriods[0].serviceBranch) {
+    return null;
+  }
+
+  const mostRecentPeriod = servicePeriods.filter(({ serviceBranch }) => {
+    const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
+    return (serviceBranch.includes(nationalGuard) || serviceBranch.includes(reserve));
+  }).map(({ serviceBranch, dateRange }) => {
+    const dateTo = new Date(dateRange.to);
+    return {
+      serviceBranch,
+      to: dateTo
+    };
+  }).sort((periodA, periodB) => (periodB.to - periodA.to))[0];
+
+  if (!mostRecentPeriod) {
+    return null;
+  }
+  const { serviceBranch, to } = mostRecentPeriod;
+  return (
+    <div>
+      Please tell us more about your {serviceBranch} service that ended on {moment(to).format('MMMM DD, YYYY')}.
+    </div>
+  );
+};
+
+export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);
+
+export const isInFuture = (errors, fieldData) => {
+  const enteredDate = new Date(fieldData);
+  if (enteredDate < Date.now()) {
+    errors.addError('Expected separation date must be in the future');
+  }
+};
+
+export const disabilitiesClarification = (
+  <p>
+    <strong>Please note:</strong> This list only includes disabilities that we've already rated. It doesn't include any disabilities from claims that are in progress.
   </p>
 );

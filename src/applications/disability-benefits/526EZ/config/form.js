@@ -2,8 +2,8 @@ import _ from '../../../../platform/utilities/data';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
+// import fullSchema526EZ from '/path/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 
-// import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
@@ -17,13 +17,20 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   uiSchema as primaryAddressUiSchema,
-  primaryAddressSchema
+  schema as primaryAddressSchema
 } from '../pages/primaryAddress';
+
+import treatmentAddressUiSchema from '../pages/treatmentAddress';
 
 import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema
 } from '../pages/paymentInfo';
+
+import {
+  uiSchema as reservesNationalGuardUISchema,
+  schema as reservesNationalGuardSchema
+} from '../pages/reservesNationalGuardService';
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
@@ -52,7 +59,10 @@ import {
   noFDCWarning,
   queryForFacilities,
   getEvidenceTypesDescription,
-  veteranInfoDescription
+  veteranInfoDescription,
+  editNote,
+  hasGuardOrReservePeriod,
+  disabilitiesClarification
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -62,13 +72,16 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 const {
   treatments: treatmentsSchema,
   // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
-  serviceInformation,
+  serviceInformation: {
+    properties: { servicePeriods }
+  },
   standardClaim,
   veteran: {
     properties: {
       homelessness
     }
-  }
+  },
+  attachments: uploadSchema
 } = fullSchema526EZ.properties;
 
 const {
@@ -76,12 +89,12 @@ const {
   date,
   fullName,
   phone,
-  // files
   dateRange,
   dateRangeFromRequired,
   dateRangeAllRequired,
   disabilities,
   specialIssues,
+  vaTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -98,7 +111,7 @@ const treatments = ((treatmentsCommonDef) => {
       // TODO: use standard required property once treatmentCenterType added
       // back in schema (because it's required)
       required: ['treatmentCenterName'],
-      properties: _.omit(['treatmentCenterAddress', 'treatmentCenterType'], items.properties)
+      properties: _.omit(['treatmentCenterType'], items.properties)
     }
   };
 
@@ -108,7 +121,6 @@ const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
-  // submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
@@ -127,6 +139,7 @@ const formConfig = {
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address,
+    vaTreatmentCenterAddress,
     date,
     fullName,
     phone,
@@ -146,7 +159,7 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
-          description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
+          description: 'This is the personal information we have on file for you.',
           path: 'veteran-information',
           uiSchema: {
             'ui:description': veteranInfoDescription
@@ -159,7 +172,7 @@ const formConfig = {
         primaryAddress: {
           title: 'Address information',
           path: 'veteran-details/address-information',
-          description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
+          description: 'This is the contact information we have on file for you. We’ll send any important information about your disability claim to the address listed here. Any updates you make here to your contact information will only apply to this application.',
           uiSchema: primaryAddressUiSchema,
           schema: primaryAddressSchema
         },
@@ -183,29 +196,30 @@ const formConfig = {
                   'Service start date',
                   'Service end date',
                   'End of service must be after start of service'
-                ),
-                dischargeType: {
-                  'ui:title': 'Character of discharge',
-                  'ui:options': {
-                    labels: {
-                      honorable: 'Honorable',
-                      general: 'General',
-                      other: 'Other Than Honorable',
-                      'bad-conduct': 'Bad Conduct',
-                      dishonorable: 'Dishonorable',
-                      undesirable: 'Undesirable'
-                    }
-                  }
-                }
+                )
               }
+            },
+            'view:militaryHistoryNote': {
+              'ui:description': editNote('service history')
             }
           },
           schema: {
             type: 'object',
             properties: {
-              servicePeriods: serviceInformation.properties.servicePeriods
+              servicePeriods,
+              'view:militaryHistoryNote': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
+        },
+        reservesNationalGuardService: {
+          title: 'Reserves and National Guard Service',
+          path: 'review-veteran-details/military-service-history/reserves-national-guard',
+          depends: hasGuardOrReservePeriod,
+          uiSchema: reservesNationalGuardUISchema,
+          schema: reservesNationalGuardSchema
         },
         paymentInformation: {
           title: 'Payment Information',
@@ -278,12 +292,7 @@ const formConfig = {
       }
     },
     ratedDisabilities: {
-      title: (isReview) => {
-        if (isReview) {
-          return 'Rated Disabilities';
-        }
-        return 'Your Rated Disabilities';
-      },
+      title: 'Rated Disabilities',
       pages: {
         ratedDisabilities: {
           title: 'Your Rated Disabilities',
@@ -305,12 +314,19 @@ const formConfig = {
                 widgetClassNames: 'widget-outline',
                 keepInPageOnReview: true
               }
+            },
+            'view:disabilitiesClarification': {
+              'ui:description': disabilitiesClarification
             }
           },
           schema: {
             type: 'object',
             properties: {
-              disabilities
+              disabilities,
+              'view:disabilitiesClarification': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
@@ -464,9 +480,7 @@ const formConfig = {
                       'Date of last treatment (This date doesn’t have to be exact.)',
                       'Date of last treatment must be after date of first treatment'
                     ),
-                    // TODO: Put these back as hidden in the UI once typeahead fills this out
-                    // treatmentCenterType: {},
-                    // treatmentCenterAddress: {}
+                    treatmentCenterAddress: treatmentAddressUiSchema
                   }
                 }
               }
@@ -749,6 +763,13 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
+                    // this is the uiSchema passed to FileField for the attachmentId schema
+                    // FileField requires this name be used
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    // this is the uiSchema passed to FileField for the name schema
+                    // FileField requires this name be used
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -767,24 +788,7 @@ const formConfig = {
                   type: 'object',
                   required: ['privateRecords'],
                   properties: {
-                    privateRecords: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        required: ['name'],
-                        properties: {
-                          name: {
-                            type: 'string'
-                          },
-                          size: {
-                            type: 'integer'
-                          },
-                          confirmationCode: {
-                            type: 'string'
-                          }
-                        }
-                      }
-                    }
+                    privateRecords: uploadSchema
                   }
                 }
               }
@@ -820,6 +824,13 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
+                    // this is the uiSchema passed to FileField for the attachmentId schema
+                    // FileField requires this name be used
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    // this is the uiSchema passed to FileField for the name schema
+                    // FileField requires this name be used
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -838,24 +849,7 @@ const formConfig = {
                   type: 'object',
                   required: ['additionalDocuments'],
                   properties: {
-                    additionalDocuments: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        required: ['name'],
-                        properties: {
-                          name: {
-                            type: 'string'
-                          },
-                          size: {
-                            type: 'integer'
-                          },
-                          confirmationCode: {
-                            type: 'string'
-                          }
-                        }
-                      }
-                    }
+                    additionalDocuments: uploadSchema
                   }
                 }
               }

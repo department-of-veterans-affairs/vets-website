@@ -8,14 +8,21 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 
 import ReviewCardField from '../components/ReviewCardField';
 
-import { PrimaryAddressViewField, AddressDescription } from '../helpers';
+import {
+  PrimaryAddressViewField,
+  ForwardingAddressViewField,
+  contactInfoDescription,
+  contactInfoUpdateHelp,
+  phoneEmailViewField
+} from '../helpers';
 import  {
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
   STATE_LABELS,
   STATE_VALUES,
-  USA
+  USA,
+  ADDRESS_TYPES
 } from '../constants';
 
 function isValidZIP(value) {
@@ -33,7 +40,7 @@ function validateZIP(errors, zip) {
 
 function validateMilitaryCity(errors, city, formData, schema, messages, options) {
   const isMilitaryState = MILITARY_STATE_VALUES.includes(
-    _.get(formData, `veteran[${options.addressName}].state`, '')
+    _.get(formData, `veteran.${options.addressPath}.state`, '')
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
@@ -43,7 +50,7 @@ function validateMilitaryCity(errors, city, formData, schema, messages, options)
 
 function validateMilitaryState(errors, state, formData, schema, messages, options) {
   const isMilitaryCity = MILITARY_CITIES.includes(
-    _.get(formData, `veteran[${options.addressName}].city`, '').trim().toUpperCase()
+    _.get(formData, `veteran.${options.addressPath}.city`, '').trim().toUpperCase()
   );
   const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
   if (isMilitaryCity && !isMilitaryState) {
@@ -52,10 +59,17 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
 }
 
 const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
+const forwardingCountryIsUSA = (formData) => (_.get(formData, 'veteran.forwardingAddress.country', '') === USA);
 
-const addressUISchema = (addressName, title) => {
+/**
+ *
+ * @param {('addressCard.mailingAddress' | 'forwardingCard.forwardingAddress')} addressPath used for path lookups
+ * @param {string} [title] Displayed as the card title in the card's header
+ * @returns {object} UI schema for an address card's content
+ */
+const addressUISchema = (addressType, title) => {
   const updateStates = (form) => {
-    const currentCity = _.get(form, `veteran.${addressName}.city`, '').trim().toUpperCase();
+    const currentCity = _.get(form, `veteran.${addressType}.city`, '').trim().toUpperCase();
     if (MILITARY_CITIES.includes(currentCity)) {
       return {
         'enum': MILITARY_STATE_VALUES,
@@ -80,6 +94,10 @@ const addressUISchema = (addressName, title) => {
       'zipCode'
     ],
     'ui:title': title,
+    'ui:field': ReviewCardField,
+    'ui:options': {
+      viewComponent: PrimaryAddressViewField
+    },
     country: {
       'ui:title': 'Country'
     },
@@ -95,81 +113,78 @@ const addressUISchema = (addressName, title) => {
     city: {
       'ui:title': 'City',
       'ui:validations': [{
-        options: { addressName },
+        options: { addressPath: addressType },
         validator: validateMilitaryCity
       }]
     },
     state: {
       'ui:title': 'State',
-      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === USA),
+      'ui:required': ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') === USA),
       'ui:options': {
-        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== USA),
+        hideIf: ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') !== USA),
         updateSchema: updateStates
       },
       'ui:validations': [{
-        options: { addressName },
+        options: { addressPath: addressType },
         validator: validateMilitaryState
       }]
     },
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
-      'ui:required': ({ veteran }) => (veteran.mailingAddress.country === USA),
+      'ui:required': ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') === USA),
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 5- or 9- digit ZIP code (dashes allowed)'
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: ({ veteran }) => (veteran.mailingAddress.country !== USA)
+        hideIf: ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') !== USA)
       }
     },
   };
 };
 
-const { mailingAddress, forwardingAddress } = fullSchema526EZ.properties.veteran.properties;
+const {
+  mailingAddress,
+  forwardingAddress,
+  emailAddress,
+  primaryPhone
+} = fullSchema526EZ.properties.veteran.properties;
 
 export const uiSchema = {
   veteran: {
-    'ui:title': 'Contact information',
-    'ui:description': AddressDescription,
-    'ui:field': ReviewCardField,
-    'ui:options': {
-      viewComponent: PrimaryAddressViewField
-    },
-    'ui:order': [
-      'mailingAddress',
-      'primaryPhone',
-      'emailAddress',
-      'view:hasForwardingAddress',
-      'forwardingAddress'
-    ],
-    mailingAddress: addressUISchema('mailingAddress'),
-    primaryPhone: {
-      'ui:title': 'Primary telephone number',
-      'ui:widget': PhoneNumberWidget,
-      'ui:errorMessages': {
-        pattern: 'Phone numbers must be 10 digits (dashes allowed)'
-      },
+    'ui:description': contactInfoDescription,
+    phoneEmailCard: {
+      'ui:title': 'Phone & email',
+      'ui:field': ReviewCardField,
       'ui:options': {
-        widgetClassNames: 'va-input-medium-large'
-      }
+        viewComponent: phoneEmailViewField
+      },
+      primaryPhone: {
+        'ui:title': 'Phone number',
+        'ui:widget': PhoneNumberWidget,
+        'ui:errorMessages': {
+          pattern: 'Phone numbers must be 10 digits (dashes allowed)'
+        },
+        'ui:options': {
+          widgetClassNames: 'va-input-medium-large'
+        }
+      },
+      emailAddress: {
+        'ui:title': 'Email address',
+        'ui:errorMessages': {
+          pattern: 'The email you enter should be in this format x@x.xx'
+        }
+      },
     },
-    emailAddress: {
-      'ui:title': 'Email address',
-      'ui:errorMessages': {
-        pattern: 'Please put your email in this format x@x.xxx'
-      }
-    },
+    mailingAddress: addressUISchema(ADDRESS_TYPES.mailingAddress, 'Mailing address'),
     'view:hasForwardingAddress': {
       'ui:title':
         'I want to provide a forwarding address since my address will be changing soon.'
     },
     forwardingAddress: _.merge(
-      addressUISchema('forwardingAddress', 'Forwarding address'),
+      addressUISchema(ADDRESS_TYPES.forwardingAddress, 'Forwarding address'),
       {
-        'ui:options': {
-          expandUnder: 'view:hasForwardingAddress'
-        },
         'ui:order': [
           'effectiveDate',
           'country',
@@ -180,14 +195,17 @@ export const uiSchema = {
           'state',
           'zipCode'
         ],
+        'ui:options': {
+          viewComponent: ForwardingAddressViewField,
+          expandUnder: 'view:hasForwardingAddress'
+        },
         effectiveDate: _.merge(
           {},
           dateUI('Effective date'),
           { 'ui:required': hasForwardingAddress }
         ),
         country: {
-          'ui:required': hasForwardingAddress,
-
+          'ui:required': hasForwardingAddress
         },
         addressLine1: {
           'ui:required': hasForwardingAddress
@@ -198,50 +216,46 @@ export const uiSchema = {
         state: {
           'ui:required': (formData) => (
             hasForwardingAddress(formData)
-            && formData.veteran.forwardingAddress.country === USA
-          ),
-          'ui:options': {
-            hideIf: (formData) => (
-              hasForwardingAddress(formData)
-              && formData.veteran.forwardingAddress.country !== USA)
-          }
+            && forwardingCountryIsUSA(formData)
+          )
         },
         zipCode: {
           'ui:required': (formData) => (
             hasForwardingAddress(formData)
-            && formData.veteran.forwardingAddress.country === USA
-          ),
-          'ui:options': {
-            hideIf: (formData) => (
-              hasForwardingAddress(formData)
-              && formData.veteran.forwardingAddress.country !== USA)
-          }
+            && forwardingCountryIsUSA(formData)
+          )
         }
       }
-    )
+    ),
+    'view:contactInfoDescription': {
+      'ui:description': contactInfoUpdateHelp
+    }
   }
 };
 
-export const primaryAddressSchema = {
+export const schema = {
   type: 'object',
   properties: {
     veteran: {
       type: 'object',
-      required: ['primaryPhone', 'emailAddress'],
       properties: {
+        phoneEmailCard: {
+          type: 'object',
+          required: ['primaryPhone', 'emailAddress'],
+          properties: {
+            primaryPhone,
+            emailAddress
+          }
+        },
         mailingAddress,
-        primaryPhone: {
-          type: 'string',
-          pattern: '^\\d{10}$'
-        },
-        emailAddress: {
-          type: 'string',
-          format: 'email'
-        },
         'view:hasForwardingAddress': {
           type: 'boolean'
         },
-        forwardingAddress
+        forwardingAddress,
+        'view:contactInfoDescription': {
+          type: 'object',
+          properties: {}
+        }
       }
     }
   }

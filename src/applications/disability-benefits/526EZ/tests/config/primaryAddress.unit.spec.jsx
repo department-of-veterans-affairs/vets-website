@@ -7,7 +7,6 @@ import { mount } from 'enzyme';
 import { DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
-import initialData from '../schema/initialData.js';
 import { STATE_VALUES, MILITARY_STATE_VALUES } from '../../constants';
 
 describe('Disability benefits 526EZ primary address', () => {
@@ -15,10 +14,6 @@ describe('Disability benefits 526EZ primary address', () => {
     schema,
     uiSchema
   } = formConfig.chapters.veteranDetails.pages.primaryAddress;
-
-  const primaryPhone = '1231231234';
-  const emailAddress = 'test@testing.com';
-
 
   it('renders primary address form', () => {
     const form = mount(
@@ -68,10 +63,8 @@ describe('Disability benefits 526EZ primary address', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          veteran: {
-            mailingAddress: {
-              country: 'Afghanistan'
-            }
+          mailingAddress: {
+            country: 'Afghanistan'
           }
         }}
         formData={{}}
@@ -136,8 +129,10 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            primaryPhone,
-            emailAddress,
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.co'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -165,8 +160,10 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            primaryPhone,
-            emailAddress,
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.co'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -222,9 +219,10 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            primaryPhone,
-            emailAddress,
-            'view:hasForwardingAddress': true,
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.co'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -232,6 +230,7 @@ describe('Disability benefits 526EZ primary address', () => {
               state: 'MI',
               zipCode: '12345'
             },
+            'view:hasForwardingAddress': true,
             forwardingAddress: {
               effectiveDate: '2019-01-01',
               country: 'USA',
@@ -260,9 +259,10 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            primaryPhone,
-            emailAddress,
-            'view:hasForwardingAddress': true,
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.co'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -270,6 +270,7 @@ describe('Disability benefits 526EZ primary address', () => {
               state: 'MI',
               zipCode: '12345'
             },
+            'view:hasForwardingAddress': true,
             forwardingAddress: {
               effectiveDate: '2019-01-01',
               country: 'USA',
@@ -298,12 +299,16 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            'view:hasForwardingAddress': true,
+            phoneEmailCard: {
+              primaryPhone: '',
+              emailAddress: ''
+            },
             mailingAddress: {
               country: '',
               addressLine1: '',
               city: ''
             },
+            'view:hasForwardingAddress': true,
             forwardingAddress: {
               effectiveDate: '',
               country: '',
@@ -330,9 +335,10 @@ describe('Disability benefits 526EZ primary address', () => {
         schema={schema}
         data={{
           veteran: {
-            primaryPhone,
-            emailAddress,
-            'view:hasForwardingAddress': true,
+            phoneEmailCard: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.co'
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
@@ -340,17 +346,18 @@ describe('Disability benefits 526EZ primary address', () => {
               state: 'MI',
               zipCode: '12345'
             },
+            'view:hasForwardingAddress': true,
             forwardingAddress: {
               effectiveDate: '2019-01-01',
               country: 'USA',
+              addressLine1: '234 Maple St.',
               city: 'Detroit',
               state: 'MI',
               zipCode: '234563453',
-              addressLine1: '234 Maple St.'
             }
           }
         }}
-        formData={initialData}
+        formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );

@@ -5,7 +5,8 @@ import sinon from 'sinon';
 
 import { fileHelp, submit } from '../helpers.jsx';
 
-import { mockFetch, resetFetch } from '../../../platform/testing/unit/helpers.js';
+import { mockFetch, resetFetch } from '../../../platform/testing/unit/helpers';
+import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
 function setFetchResponse(stub, data) {
   const response = new Response();
@@ -58,8 +59,8 @@ describe('Pensions helpers', () => {
   });
   describe('submit', () => {
     beforeEach(() => {
+      conditionalStorage().setItem('userToken', 'testing');
       window.VetsGov = { pollTimeout: 1 };
-      window.sessionStorage = { userToken: 'testing' };
       window.URL = {
         createObjectURL: sinon.stub().returns('test')
       };
@@ -158,6 +159,7 @@ describe('Pensions helpers', () => {
     });
     afterEach(() => {
       resetFetch();
+      conditionalStorage().clear();
       delete window.URL;
     });
   });
