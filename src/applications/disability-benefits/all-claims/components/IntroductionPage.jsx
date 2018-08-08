@@ -1,30 +1,18 @@
+// @ts-check
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
-import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
+// import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-  }
-
-  hasSavedForm = () => {
-    const { saveInProgress: { user } } = this.props;
-    return user.profile && user.profile.savedForms
-      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
-      .find(f => f.form === this.props.formId);
-  }
-
-  authenticate = (e) => {
-    e.preventDefault();
-    this.props.toggleLoginModal(true);
   }
 
   render() {
@@ -151,17 +139,23 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     saveInProgressActions: bindActionCreators(introActions, dispatch),
-    toggleLoginModal: (update) => {
-      dispatch(toggleLoginModal(update));
-    }
   };
 }
 
 IntroductionPage.PropTypes = {
+  form: PropTypes.object.isRequired,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool
+    }),
+    pageList: PropTypes.array.isRequired
+  }).isRequired,
   saveInProgress: PropTypes.object.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
-  verifyUrl: PropTypes.string.isRequired,
-  loginUrl: PropTypes.string.isRequired
+  saveInProgressActions: PropTypes.shape({
+    fetchInProgressForm: PropTypes.func.isRequired,
+    removeInProgressForm: PropTypes.func.isRequired,
+    toggleLoginModal: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
