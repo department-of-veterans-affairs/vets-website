@@ -7,6 +7,10 @@
     </div>
   </div>
 
+  {% if mergedbuild %}
+    <div id="preview-site-alert"></div>
+  {% endif %}
+
   <div class="va-notice--banner">
     <div class="va-notice--banner-inner">
       {% include "content/includes/usa-website-header.html" %}

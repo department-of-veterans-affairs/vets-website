@@ -589,3 +589,9 @@ h3, h4 {
     }
   }
 }
+
+#preview-site-alert {
+  z-index: 1;
+  color: $color-black;
+  position: relative;
+}
