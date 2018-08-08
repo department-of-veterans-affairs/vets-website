@@ -379,12 +379,10 @@ const formConfig = {
           uiSchema: {
             school: {
               facilityCode: {
-                'ui:title': 'School Information',
+                facilityCode: {
+                  'ui:required': formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                },
                 'ui:field': SchoolSelectField,
-                'ui:required': formData => !_.get('school.view:cannotFindSchool', formData),
-                'ui:options': {
-                  hideIf: formData => formData.school['view:cannotFindSchool']
-                }
               },
               'view:manualSchoolEntry': {
                 name: {
@@ -421,7 +419,7 @@ const formConfig = {
                   }
                 },
                 'ui:options': {
-                  hideIf: formData => !formData.school['view:cannotFindSchool']
+                  hideIf: formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 }
               }
             }
@@ -433,11 +431,12 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   facilityCode: { // TODO: determine whether to store facility ID
-                    type: 'string'
-                  },
-                  'view:cannotFindSchool': {
-                    title: 'I’d rather type in my school information',
-                    type: 'boolean'
+                    type: 'object',
+                    properties: {
+                      facilityCode: {
+                        type: 'string'
+                      }
+                    }
                   },
                   'view:manualSchoolEntry': {
                     type: 'object',

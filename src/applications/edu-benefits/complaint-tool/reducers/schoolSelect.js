@@ -2,6 +2,7 @@ import {
   LOAD_SCHOOLS_FAILED,
   LOAD_SCHOOLS_STARTED,
   LOAD_SCHOOLS_SUCCEEDED,
+  MANUAL_SCHOOL_ENTRY_TOGGLED,
   SEARCH_CLEARED,
   SEARCH_INPUT_CHANGED,
   INSTITUTION_SELECTED
@@ -13,6 +14,7 @@ const initialState = {
   institutions: [],
   institutionQuery: '',
   institutionSelected: {},
+  manualSchoolEntryChecked: false,
   pagesCount: 0,
   searchInputValue: '',
   searchResultsCount: 0,
@@ -20,7 +22,8 @@ const initialState = {
   showInstitutionsLoading: false,
   showNoResultsFound: false,
   showPagination: false,
-  showPaginationLoading: false
+  showPaginationLoading: false,
+  showSearchResults: true
 };
 
 export default function schoolSearch(state = initialState, action) {
@@ -76,6 +79,7 @@ export default function schoolSearch(state = initialState, action) {
       const institutionQuery = action.institutionQuery;
       const institutions = [];
       const institutionSelected = {};
+      const manualSchoolEntryChecked = false;
       const searchResultsCount = action.page ? state.searchResultsCount : 0;
       const showInstitutions = false;
       const showInstitutionsLoading = !action.page;
@@ -89,6 +93,7 @@ export default function schoolSearch(state = initialState, action) {
         institutionQuery,
         institutions,
         institutionSelected,
+        manualSchoolEntryChecked,
         searchResultsCount,
         showInstitutions,
         showInstitutionsLoading,
@@ -99,6 +104,10 @@ export default function schoolSearch(state = initialState, action) {
     }
 
     case LOAD_SCHOOLS_SUCCEEDED: {
+      if (action.institutionQuery !== state.institutionQuery) {
+        return state;
+      }
+
       const {
         data = [],
         meta
@@ -142,6 +151,17 @@ export default function schoolSearch(state = initialState, action) {
         showNoResultsFound,
         showPagination,
         showPaginationLoading
+      };
+    }
+
+    case MANUAL_SCHOOL_ENTRY_TOGGLED: {
+      const manualSchoolEntryChecked = action.manualSchoolEntryChecked;
+      const showSearchResults = !manualSchoolEntryChecked;
+
+      return {
+        ...state,
+        manualSchoolEntryChecked,
+        showSearchResults
       };
     }
 

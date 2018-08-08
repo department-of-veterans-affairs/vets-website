@@ -6,6 +6,7 @@ export const INSTITUTION_SELECTED = 'INSTITUTION_SELECTED';
 export const LOAD_SCHOOLS_STARTED = 'LOAD_SCHOOLS_STARTED';
 export const LOAD_SCHOOLS_SUCCEEDED = 'LOAD_SCHOOLS_SUCCEEDED';
 export const LOAD_SCHOOLS_FAILED = 'LOAD_SCHOOLS_FAILED';
+export const MANUAL_SCHOOL_ENTRY_TOGGLED = 'MANUAL_SCHOOL_ENTRY_TOGGLED';
 export const SEARCH_CLEARED = 'SEARCH_CLEARED';
 export const SEARCH_INPUT_CHANGED = 'SEARCH_INPUT_CHANGED';
 
@@ -56,5 +57,12 @@ export function selectInstitution({ city, facilityCode, name, state }) {
     facilityCode,
     name,
     state
+  };
+}
+
+export function toggleManualSchoolEntry(manualSchoolEntryChecked) {
+  return {
+    type: MANUAL_SCHOOL_ENTRY_TOGGLED,
+    manualSchoolEntryChecked
   };
 }
