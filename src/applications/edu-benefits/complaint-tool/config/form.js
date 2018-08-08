@@ -1,22 +1,22 @@
 import _ from 'lodash/fp';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
+import GetFormHelp from '../../components/GetFormHelp';
+
+import { transform } from '../helpers';
 
 const { educationDetails } = fullSchema.properties;
 
 const { school } = educationDetails;
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
-
-import { transform } from '../helpers';
 
 const {
   name: schoolName,
@@ -35,8 +35,7 @@ const {
 const {
   onBehalfOf,
   fullName,
-  dob,
-  // serviceAffiliation,
+  serviceAffiliation,
   serviceBranch,
   serviceDateRange,
   anonymousEmail,
@@ -75,7 +74,7 @@ function hasMyself(formData) {
 }
 
 function isNotVeteranOrServiceMember(formData) {
-  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember or Veteran'))) {
+  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember') && (formData.serviceAffiliation !== 'Veteran'))) {
     return true;
   }
   return false;
@@ -101,6 +100,8 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'GI Bill® School Feedback Tool',
+  getHelp: GetFormHelp,
+  footerContent: FormFooter,
   transformForSubmit: transform,
   chapters: {
     applicantInformation: {
@@ -116,8 +117,8 @@ const formConfig = {
               'ui:options': {
                 nestedContent: {
                   [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
+                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(Your name is shared with the school, not the name of the person you’re submitting feedback for.)</i></div>,
+                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Anonymous feedback is shared with the school. Your personal information, however, isn’t shared with anyone outside of VA.)</i></div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
@@ -144,12 +145,6 @@ const formConfig = {
                 'ui:title': 'Your suffix'
               },
               'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: isNotAnonymous
-              }
-            }),
-            dob: _.merge(dateUI('Date of birth'), {
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: isNotAnonymous
@@ -199,15 +194,7 @@ const formConfig = {
             properties: {
               onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
               fullName,
-              dob,
-              serviceAffiliation: { // TODO: update BE schema and use here
-                type: 'string',
-                'enum': [
-                  'Servicemember or Veteran',
-                  'Spouse or Child',
-                  'Family member'
-                ]
-              },
+              serviceAffiliation,
               serviceBranch,
               serviceDateRange,
               anonymousEmail
@@ -392,7 +379,7 @@ const formConfig = {
           uiSchema: {
             school: {
               facilityCode: {
-                'ui:title': 'Please click on the button to search for your school.',
+                'ui:title': 'School Information',
                 'ui:field': SchoolSelectField,
                 'ui:required': formData => !_.get('school.view:cannotFindSchool', formData),
                 'ui:options': {

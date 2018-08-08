@@ -3,15 +3,21 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
 import {
   clearSearch,
-  setCannotFindSchool,
   searchInputChange,
   searchSchools,
   selectInstitution
 } from '../../../complaint-tool/actions/schoolSearch';
 
 function setFetchResponse(stub, data) {
-  const response = new Response();
+  const response = new Response(null, { headers: { 'content-type': ['application/json'] } });
   response.ok = true;
+  response.json = () => Promise.resolve(data);
+  stub.resolves(response);
+}
+
+function setFetchFailure(stub, data) {
+  const response = new Response(null, { headers: { 'content-type': ['application/json'] } });
+  response.ok = false;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
@@ -54,11 +60,42 @@ describe('schoolSearch actions', () => {
       })).to.be.true;
 
       setTimeout(() => {
-        expect(dispatch.secondCall.calledWith({
+        expect(dispatch.secondCall.args[0]).to.eql({
           type: 'LOAD_SCHOOLS_SUCCEEDED',
           payload,
           institutionQuery: 'testQuery'
-        })).to.be.true;
+        });
+        resetFetch();
+        done();
+      }, 0);
+    });
+
+    it('should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_FAILED actions', (done) => {
+      const error = { test: 'test' };
+      mockFetch();
+      setFetchFailure(global.fetch.onFirstCall(), error);
+
+      const dispatch = sinon.spy();
+
+      const schoolSearchQuery = {
+        institutionQuery: 'testQuery',
+        page: 1
+      };
+
+      searchSchools(schoolSearchQuery)(dispatch);
+
+      expect(dispatch.firstCall.calledWith({
+        type: 'LOAD_SCHOOLS_STARTED',
+        institutionQuery: 'testQuery',
+        page: 1
+      })).to.be.true;
+
+      setTimeout(() => {
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: 'LOAD_SCHOOLS_FAILED',
+          error,
+          institutionQuery: 'testQuery'
+        });
         resetFetch();
         done();
       }, 0);
@@ -79,18 +116,6 @@ describe('schoolSearch actions', () => {
         facilityCode: 'testFacilityCode',
         name: 'testName',
         state: 'testState'
-      });
-    });
-  });
-  describe('setCannotFindSchool', () => {
-    it('should return a SET_DATA action', () => {
-      expect(setCannotFindSchool()).to.eql({
-        type: 'SET_DATA',
-        data: {
-          school: {
-            'view:cannotFindSchool': true
-          }
-        }
       });
     });
   });
