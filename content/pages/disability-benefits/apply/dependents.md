@@ -28,84 +28,84 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Find out how to add a dependent spouse, child, or parent to your VA disability compensation benefits so you can get a higher payment to help support your family.
+Find out how to file a claim for additional disability compensation for a spouse, child, and/or parent.
 
 </div>
 
 <div class="feature" markdown="1">
 
-### Can I add a dependent to my VA disability compensation benefits?
+### Am I eligible for additional disability compensation for my dependent(s)?
 
-You may be able to add a dependent spouse, child, or parent to your benefits if you meet the requirements listed below.
+You may be eligible for additional disability compensation for a spouse, child, and/or parent if you meet the requirements listed below. 
 
 **Both of these must be true. You:**	
 
-- Are receiving VA disability compensation, **and**
-- Have a 30% or higher disability rating <br>
+- Are eligible for VA disability compensation, **and**
+- Have a combined disability rating of at least 30% <br>
 
 Adding a dependent may make you eligible to receive a higher compensation payment (also called a benefit rate).
 
 <br>
 
-### Who can I add as a dependent?
+### Who does VA consider a dependent?
 
-**You can add your:**
+**We recognize  as a dependent your:**
 
 - Spouse (we recognize same-sex and common-law marriages)
-- Unmarried child (including a biological, adopted, or stepchild) who: 
+- Unmarried child (including an adopted child or stepchild) who: 
   - Is under 18 years old, **or**
   - Is between the ages of 18 and 23 years old and enrolled in school full time, **or**
-  - Became seriously disabled before they turned 18 
+  - Became permanently incapable of self-support before they turned 18 
 - Parent, if you’re directly caring for them and their income and net worth are below a certain amount
 
 </div>
 
-### When should I add a dependent to my benefits?
+### When should I file a claim for additional disability compensation for a dependent?
 
-This depends on where you are in the process of applying for disability benefits.
+This depends on where you are in the process of applying for disability compensation.
 
-#### If you haven’t yet applied for disability benefits
+#### If you haven’t yet applied for disability compensation
 
-You can apply to add your dependent at the same time you file your disability claim.
+You may file a claim at the same time you apply for disability compensation.
 
-If you receive a 30% or higher disability rating, we’ll automatically consider your dependent when we determine your disability compensation.
+If you receive a combined disability rating of at least 30%, we’ll automatically consider your eligibility for additional disability compensation for your dependent.
 
-[Find out how to apply for disability benefits](/disability-benefits/apply/). 
+[Find out how to file a claim for disability compensation](/disability-benefits/apply/). 
 
 
-#### If you have one or more dependents, but didn’t add them when you filed your original disability claim
+#### If you have one or more dependents, but didn’t claim them when you originally applied for disability compensation 
 
-If you’ve received a 30% or higher disability rating, you can apply online to add your dependent now.
+If you have a combined disability rating of at least 30%, you may file your claim for additional disability compensation online.
 
-#### If something changes in your family status after you’ve started receiving compensation
+#### If something changes in your family status after you received a combined disability rating of at least 30 percent
 
-You can apply online to add a new dependent whenever there is a change in your family.
+You may file a claim for additional disability compensation online whenever you gain a dependent.
 
 **You can add a dependent if:**
 
 - You get married 
 - You have or adopt a child
 - Your child is between 18 and 23 years old and enrolled in school full time
-- Your child becomes severely disabled before turning 18
+- VA determines your child, who is at least 18 years old, became permanently incapable of self-support before turning 18
 - You become the caregiver for a parent whose income and net worth is below a certain amount
 
 <br>
 
 ### Ready to apply? 
 
-#### To add a dependent child or spouse
+#### To file a claim for additional disability compensation for a child or spouse
 
 You can apply online. You may also need to provide more information or forms along with your application.
-
-<a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">Apply to Add a Dependent</a>
+ 
+<a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">File for Additional Disability Compensation for a Dependent</a>
 	
 
-**If you’re claiming a seriously disabled child,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
+**If you’re claiming your child became permanently incapable of self-support before they turned 18,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
 
 **If your dependent is a child who’s between 18 and 23 years old and attending school full time,** you’ll need to also submit a Request for Approval of School Attendance (VA Form 21-674) with your application. <br>
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf). 
 
-#### To add a dependent parent
+#### To file a claim for additional disability compensation for a dependent parent
 
 You’ll need to fill out and submit a Statement of Dependency of Parent(s) (VA Form 21-509) by mail or fax. <br>
 [Download VA Form 21-509](https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf).
@@ -137,23 +137,23 @@ You can work with an accredited Veterans Service Officer (VSO). We trust these p
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-mail">Can I apply to add a child or spouse as a dependent by mail or fax?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-mail">Can I file a claim for additional disability compensation for a child or spouse by mail or fax?</button>
 <div id="questions-apply-mail" class="usa-accordion-content">
 	
 Yes, but we encourage you to apply online. The online application is simple, and you can upload your supporting documents to your application.  
 
-When you file your claim online, you can also save the day you start your claim as the effective benefit start date. This means that if we decide you’re eligible for a higher compensation rate, we’ll pay you back to this date.
+When you file your claim online, we also recognize the day you start the online claim process as the date VA received your claim. This means that if we decide you’re eligible for additional disability compensation, we’ll pay you back to this date.
 
 **If you can’t, or don’t want to apply online, you can apply by mail or fax using the forms below:**
 
-- **To add a dependent spouse or a child under 18 years of age**, fill out a Declaration of Status of Dependents (VA Form 21-686c). <br>
+- **To file a claim for additional disability compensation for a spouse or a child under 18 years of age**, fill out a Declaration of Status of Dependents (VA Form 21-686c). <br>
 [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf).
 
-- **To add a dependent child who’s between 18 and 23 years old and attending school full time**, you’ll need to fill out both VA Form 21-686c and a Request for Approval of School Attendance (VA Form 21-674). <br>
+- **To file a claim for additional disability compensation for a child who’s between 18 and 23 years old and attending school full time**, you’ll need to fill out both VA Form 21-686c and a Request for Approval of School Attendance (VA Form 21-674). <br>
 [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf). <br>
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf).
 
-- **To add a dependent parent**, you’ll need to fill out a Statement of Dependency of Parent(s) (VA Form 21-509). <br>
+- **To file a claim for additional disability compensation for a dependent parent**, you’ll need to fill out a Statement of Dependency of Parent(s) (VA Form 21-509). <br>
 [Download VA Form 21-509](https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf).
 
 **Mail your completed form(s) to:**
@@ -174,31 +174,32 @@ Janesville, WI 53547-4444 <br>
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paper">What should I do if I already submitted a paper claim to add a dependent child or spouse, and I’m still waiting for a decision?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paper">What should I do if I already submitted a paper application for additional disability compensation for a child or spouse, and I’m still waiting for a decision?</button>
 <div id="questions-apply-paper" class="usa-accordion-content">
 
-Go ahead and apply again online. We’ll still review your paper application. If we award you a higher compensation rate, we’ll pay you back pay from the date you submitted your original paper claim.
+Apply again online. We’ll still review your paper application. If we award you additional disability compensation, we’ll pay you back pay from the date we received your paper application.
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paid-back">What if I didn’t realize I could add dependents until later? Can I get paid back to the date my spouse and I got married, or when my child was born or adopted?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paid-back">What if I didn’t realize I could could receive additional disability compensation for dependents after I started receiving disability compensation? Can I get paid back to the date my spouse and I got married, or the date when my child was born or adopted?</button>
 <div id="questions-apply-paid-back" class="usa-accordion-content">
 
 We may pay you back to the date of your marriage or the birth or adoption of your child if you meet all of the requirements listed below.
 
 **All of these must be true. You:**
 	
-- Had already received your 30% or higher disability rating at the time of the marriage, birth, or adoption, **and**
-- Applied to add the dependent within a year of the marriage, birth, or adoption, **and**
-- Responded within a year to our request for any more information needed to confirm your dependent <br>
+- Had already received a combined disability rating of at least 30% at the time of the marriage, birth, or adoption, **and**
+- File your claim for additional disability compensation for the dependent within a year of the marriage, birth, or adoption, **and**
+- Responded or respond within a year to our request for any more information or evidence needed to confirm your claim <br>
 
-If it’s been more than a year since you got married or had or adopted a child, we may not pay you back to the date of the marriage, birth, or adoption. Instead, we may pay you back only to the date you applied to add the dependent or, in some cases, up to a year before you applied.
+
+If it’s been more than one year since you got married or had or adopted a child, we may not pay you back to the date of the marriage, birth, or adoption. Instead, we may pay you back only to the date we received your claim for additional disability for the dependent or, in some cases, up to a year before before this date.
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-payment">When will I start receiving payment if VA approves my dependency claim?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-payment">When will I start receiving payment if VA approves my claim for additional disability compensation?</button>
 <div id="questions-apply-payment" class="usa-accordion-content">
 
 We’ll begin paying you within 2 weeks after we approve your claim.
