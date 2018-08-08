@@ -267,6 +267,7 @@ h3, h4 {
   }
 }
 
+// tablet
 @media screen and (min-width: 768px) {
 
   .vet-toolbar {
@@ -385,16 +386,19 @@ h3, h4 {
   z-index: 2;
 }
 
-@media screen and (min-width: 768px) {
-  .vet-toolbar {
-    flex: 0 1 30.5rem;
-  }
-}
 // mobile
 @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
 
+  #menu-rule {
+    border-bottom: 0;
+  }
+
   #vetnav-controls {
     margin-top: 7px;
+
+    svg {
+      margin-left: 0.8rem;
+    }
   }
 
   .usa-banner {
@@ -420,9 +424,42 @@ h3, h4 {
 
   .vet-toolbar {
     margin-bottom: .5em;
+    margin-left: -10px;
 
     .sign-in-nav {
       margin-top: 6px;
+      font-weight: normal;
+
+      .sign-in-links {
+        background: none;
+        margin-left: 0;
+        padding-left: .75em;
+
+        .va-button-link {
+          -webkit-font-smoothing: antialiased;
+        }
+      }
+    }
+
+    .va-dropdown {
+      margin-left: 0;
+      width: auto;
+
+      .va-dropdown-trigger {
+        font-weight: normal;
+        padding-left: 0;
+        margin-right: 1.75em;
+        background-position: right 1.5rem center;
+
+        &:first-child {
+          margin-right: 1em;
+        }
+
+        span {
+          display: inline-block;
+        }
+      }
+
     }
   }
 
@@ -456,17 +493,99 @@ h3, h4 {
   #homepage-news,
   .va-h-ruled--stars,
   .va-nav-breadcrumbs,
-  article {
+  article,
+  #homepage-popular,
+  #hub-rail {
 
     padding-left: .5em;
     padding-right: .5em;
   }
 
-  .va-h-ruled--stars {
+  #homepage-popular {
+    padding-bottom: 1.5em;
+    padding-top: 1em;
   }
 
   // internal static-pages
   #promo {
     display: none;
+  }
+
+  .va-nav-breadcrumbs  {
+
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+
+    .va-nav-breadcrumbs-list {
+      li {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  #hub-rail {
+    padding-top: 0;
+  }
+
+  .va-nav-linkslist--related  {
+
+    margin-bottom: 0 !important; //hard override; what does this break elsewhere
+
+  }
+}
+
+// tablet
+@media (min-width: 768px) and (max-width: $large-screen) {
+
+  .va-header-logo-wrapper {
+    margin-bottom: 0;
+  }
+
+  .vet-toolbar {
+    flex: 0 1 35.5rem;
+    padding-left: 2em;
+
+    .profile-nav {
+
+      width: 100%;
+
+      .va-dropdown {
+
+        &:first-child {
+        }
+
+        .va-dropdown-trigger {
+          background-position: right .8rem center;
+
+        }
+
+        width: 100%;
+
+        .va-btn-withicon {
+
+          span {
+            display: flex;
+          }
+
+          svg {
+            // margin-right: 0;
+          }
+        }
+
+        .sign-in-links {
+          padding-right: 0;
+          padding-left: 0;
+        }
+      }
+
+    }
+  }
+
+  .va-header-logo-wrapper {
+    a {
+      width: 70%;
+      height: auto;
+    }
   }
 }
