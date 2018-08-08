@@ -538,28 +538,51 @@ h3, h4 {
 // tablet
 @media (min-width: 768px) and (max-width: $large-screen) {
 
+  .va-header-logo-wrapper {
+    margin-bottom: 0;
+  }
+
   .vet-toolbar {
     flex: 0 1 35.5rem;
-    border: 1px solid pink;
+    padding-left: 2em;
 
     .profile-nav {
 
       width: 100%;
-      border: 1px solid orange;
 
-      .sign-in-nav,
       .va-dropdown {
-        width: 30%;
-        border: 1px solid red;
+
+        &:first-child {
+        }
+
+        .va-dropdown-trigger {
+          background-position: right .8rem center;
+
+        }
+
+        width: 100%;
+
+        .va-btn-withicon {
+
+          span {
+            display: flex;
+          }
+
+          svg {
+            // margin-right: 0;
+          }
+        }
+
+        .sign-in-links {
+          padding-right: 0;
+          padding-left: 0;
+        }
       }
 
     }
   }
 
   .va-header-logo-wrapper {
-
-    border: 1px solid red;
-
     a {
       width: 70%;
       height: auto;
