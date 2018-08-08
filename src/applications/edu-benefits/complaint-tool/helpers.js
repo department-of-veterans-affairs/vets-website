@@ -5,7 +5,6 @@ import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 const searchInstitutionBaseUrl = `${environment.API_URL}/v0/gi/institutions/search`;
 
 export function fetchInstitutions({ institutionQuery, page }) {
-  // const fetchUrl = institutionQuery ? `${searchInstitutionBaseUrl}?name=${institutionQuery}` : url;
   const fetchUrl = appendQuery(searchInstitutionBaseUrl, {
     name: institutionQuery,
     page

@@ -83,7 +83,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
   <div class="link">
     <a href="#"><b>Pre-Need Burial Eligibility Determination</b></a>
-    <p>Apply for a pre-need eligibility decision letter. This can help you pre-plan for burial in a VA national cemetery, and make the process easier for your family members at your time of need.</p>
+    <p>Apply for a pre-need eligibility decision letter. This can help you pre-plan for burial in a VA national cemetery, and make the process easier for your family members in their time of need.</p>
   </div>
 
   <div class="link">
