@@ -2,8 +2,8 @@ import _ from '../../../../platform/utilities/data';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
+// import fullSchema526EZ from '/path/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 
-// import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
@@ -26,6 +26,11 @@ import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema
 } from '../pages/paymentInfo';
+
+import {
+  uiSchema as reservesNationalGuardUISchema,
+  schema as reservesNationalGuardSchema
+} from '../pages/reservesNationalGuardService';
 
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
@@ -55,7 +60,9 @@ import {
   queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
-  editNote
+  editNote,
+  hasGuardOrReservePeriod,
+  disabilitiesClarification
 } from '../helpers';
 
 import { requireOneSelected } from '../validations';
@@ -65,13 +72,16 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 const {
   treatments: treatmentsSchema,
   // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
-  serviceInformation,
+  serviceInformation: {
+    properties: { servicePeriods }
+  },
   standardClaim,
   veteran: {
     properties: {
       homelessness
     }
-  }
+  },
+  attachments: uploadSchema
 } = fullSchema526EZ.properties;
 
 const {
@@ -186,20 +196,7 @@ const formConfig = {
                   'Service start date',
                   'Service end date',
                   'End of service must be after start of service'
-                ),
-                dischargeType: {
-                  'ui:title': 'Character of discharge',
-                  'ui:options': {
-                    labels: {
-                      honorable: 'Honorable',
-                      general: 'General',
-                      other: 'Other Than Honorable',
-                      'bad-conduct': 'Bad Conduct',
-                      dishonorable: 'Dishonorable',
-                      undesirable: 'Undesirable'
-                    }
-                  }
-                }
+                )
               }
             },
             'view:militaryHistoryNote': {
@@ -209,13 +206,20 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              servicePeriods: serviceInformation.properties.servicePeriods,
+              servicePeriods,
               'view:militaryHistoryNote': {
                 type: 'object',
                 properties: {}
               }
             }
           }
+        },
+        reservesNationalGuardService: {
+          title: 'Reserves and National Guard Service',
+          path: 'review-veteran-details/military-service-history/reserves-national-guard',
+          depends: hasGuardOrReservePeriod,
+          uiSchema: reservesNationalGuardUISchema,
+          schema: reservesNationalGuardSchema
         },
         paymentInformation: {
           title: 'Payment Information',
@@ -310,12 +314,19 @@ const formConfig = {
                 widgetClassNames: 'widget-outline',
                 keepInPageOnReview: true
               }
+            },
+            'view:disabilitiesClarification': {
+              'ui:description': disabilitiesClarification
             }
           },
           schema: {
             type: 'object',
             properties: {
-              disabilities
+              disabilities,
+              'view:disabilitiesClarification': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
@@ -752,6 +763,13 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
+                    // this is the uiSchema passed to FileField for the attachmentId schema
+                    // FileField requires this name be used
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    // this is the uiSchema passed to FileField for the name schema
+                    // FileField requires this name be used
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -770,24 +788,7 @@ const formConfig = {
                   type: 'object',
                   required: ['privateRecords'],
                   properties: {
-                    privateRecords: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        required: ['name'],
-                        properties: {
-                          name: {
-                            type: 'string'
-                          },
-                          size: {
-                            type: 'integer'
-                          },
-                          confirmationCode: {
-                            type: 'string'
-                          }
-                        }
-                      }
-                    }
+                    privateRecords: uploadSchema
                   }
                 }
               }
@@ -823,6 +824,13 @@ const formConfig = {
                         confirmationCode: response.data.attributes.guid
                       };
                     },
+                    // this is the uiSchema passed to FileField for the attachmentId schema
+                    // FileField requires this name be used
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    // this is the uiSchema passed to FileField for the name schema
+                    // FileField requires this name be used
                     attachmentName: {
                       'ui:title': 'Document name'
                     }
@@ -841,24 +849,7 @@ const formConfig = {
                   type: 'object',
                   required: ['additionalDocuments'],
                   properties: {
-                    additionalDocuments: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        required: ['name'],
-                        properties: {
-                          name: {
-                            type: 'string'
-                          },
-                          size: {
-                            type: 'integer'
-                          },
-                          confirmationCode: {
-                            type: 'string'
-                          }
-                        }
-                      }
-                    }
+                    additionalDocuments: uploadSchema
                   }
                 }
               }

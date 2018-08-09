@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intersection } from 'lodash';
 
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import backendServices from '../../profile/constants/backendServices';
 
 const healthTools = [backendServices.HEALTH_RECORDS, backendServices.RX, backendServices.MESSAGING];
@@ -57,7 +57,7 @@ class RequiredLoginView extends React.Component {
         userServices.includes(serviceRequired)
     );
 
-    return sessionStorage.userToken && hasRequiredServices;
+    return conditionalStorage().getItem('userToken') && hasRequiredServices;
   }
 
   renderVerifiedContent = () => {

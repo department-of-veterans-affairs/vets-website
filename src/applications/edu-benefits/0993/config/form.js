@@ -48,7 +48,6 @@ const formConfig = {
           title: 'Applicant Information',
           path: 'claimant-information',
           initialData: {
-            // verified: true,
             // claimantFullName: {
             //   first: 'test',
             //   last: 'test'
@@ -72,7 +71,7 @@ const formConfig = {
               }
             }),
             claimantSocialSecurityNumber: _.assign(ssnUI, {
-              'ui:required': (formData) => !formData.verified && !formData['view:noSSN'],
+              'ui:required': (formData) => !formData['view:noSSN'],
               'ui:title': 'Your Social Security number'
             }),
             'view:noSSN': {
@@ -82,7 +81,7 @@ const formConfig = {
               }
             },
             vaFileNumber: {
-              'ui:required': (formData) => !formData.verified && formData['view:noSSN'],
+              'ui:required': (formData) => formData['view:noSSN'],
               'ui:title': 'Your VA file number',
               'ui:options': {
                 expandUnder: 'view:noSSN'

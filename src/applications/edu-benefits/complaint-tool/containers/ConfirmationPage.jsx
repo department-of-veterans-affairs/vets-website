@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
+import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
+
+import GetFormHelp from '../../components/GetFormHelp';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -27,15 +30,15 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We usually process claims within <strong>a week</strong>.</p>
-        <p>
-          We may contact you for more information or documents.<br/>
-          <i>Please print this page for your records.</i>
-        </p>
-        <div className="inset">
-          <h4>686 Dependent-status form Claim <span className="additional">(Form 686)</span></h4>
-          <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
+        <h3 className="confirmation-page-title">Your feedback has been submitted</h3>
+        <p>We may contact you if we have questions or need more information.</p>
+        <p>Please print this page for your records.</p>
+        <h3 className="confirmation-page-title">What happens after I submit my feedback?</h3>
+        <p>We’ll get back to you within 45 days to let you know how we’re handling your feedback. We may contact you if we need more information from you.</p>
+        <p>Feedback that isn’t related to VA education benefits may be sent to another agency for review.</p>
+        {(response || name) && <div className="inset">
+          <h4>GI Bill® School Feedback Tool</h4>
+          {name && <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>}
 
           {response && <ul className="claim-list">
             <li>
@@ -43,6 +46,11 @@ export class ConfirmationPage extends React.Component {
               <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
             </li>
           </ul>}
+        </div>}
+        <div>
+          <AskVAQuestions>
+            <GetFormHelp/>
+          </AskVAQuestions>
         </div>
       </div>
     );

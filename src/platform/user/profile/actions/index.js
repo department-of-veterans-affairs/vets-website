@@ -1,7 +1,7 @@
-import { removeFormApi } from '../../../../platform/forms/save-in-progress/api';
-import { updateLoggedInStatus } from '../../authentication/actions';
+import { removeFormApi } from '../../../forms/save-in-progress/api';
 import environment from '../../../utilities/environment';
-
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
+import { updateLoggedInStatus } from '../../authentication/actions';
 import { setupProfileSession, teardownProfileSession } from '../utilities';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -9,7 +9,6 @@ export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
 export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
-export const UPDATE_VET360_PROFILE_FIELD = 'UPDATE_VET360_PROFILE_FIELD';
 
 export * from './mhv';
 
@@ -36,7 +35,7 @@ export function refreshProfile(forceCacheClear = false) {
     const response = await fetch(url, {
       method: 'GET',
       headers: new Headers({
-        Authorization: `Token token=${sessionStorage.userToken}`
+        Authorization: `Token token=${conditionalStorage().getItem('userToken')}`
       })
     });
 
