@@ -20,7 +20,7 @@ class IntroductionPage extends React.Component {
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          formId={this.props.form.formId}
+          formId={this.props.formId}
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
           retentionPeriod="1 year"
@@ -108,7 +108,7 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          formId={this.props.form.formId}
+          formId={this.props.formId}
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
           {...this.props.saveInProgressActions}
@@ -129,7 +129,7 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form,
+    formId: state.form.formId,
     saveInProgress: introSelector(state)
   };
 }
@@ -141,7 +141,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 IntroductionPage.PropTypes = {
-  form: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool
