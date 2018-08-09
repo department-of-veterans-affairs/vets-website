@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Adding a Dependent to Your Disability Compensation Benefits
-display_title: Adding a Dependent to Your Disability Benefits
+title: Apply for Additional Disability Compensation for a Dependent
+display_title: Apply for Additional Disability Compensation for a Dependent
 description: Find out how to add a dependent family member to your VA disability compensation benefits so you can get a higher payment to help support your family.
 concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18 
@@ -55,7 +55,7 @@ Adding a dependent may make you eligible to receive a higher compensation paymen
 - Unmarried child (including an adopted child or stepchild) who: 
   - Is under 18 years old, **or**
   - Is between the ages of 18 and 23 years old and enrolled in school full time, **or**
-  - Became permanently incapable of self-support before they turned 18 
+  - Became permanently disabled before they turned 18 
 - Parent, if you’re directly caring for them and their income and net worth are below a certain amount
 
 </div>
@@ -77,7 +77,7 @@ If you receive a combined disability rating of at least 30%, we’ll automatical
 
 If you have a combined disability rating of at least 30%, you may file your claim for additional disability compensation online.
 
-#### If something changes in your family status after you received a combined disability rating of at least 30 percent
+#### If something changes in your family status after you received a combined disability rating of at least 30%
 
 You may file a claim for additional disability compensation online whenever you gain a dependent.
 
@@ -86,21 +86,21 @@ You may file a claim for additional disability compensation online whenever you 
 - You get married 
 - You have or adopt a child
 - Your child is between 18 and 23 years old and enrolled in school full time
-- VA determines your child, who is at least 18 years old, became permanently incapable of self-support before turning 18
+- VA determines your child, who is at least 18 years old, became permanently disabled before turning 18
 - You become the caregiver for a parent whose income and net worth is below a certain amount
 
 <br>
 
-### Ready to apply? 
+### How do I apply? 
 
 #### To file a claim for additional disability compensation for a child or spouse
 
 You can apply online. You may also need to provide more information or forms along with your application.
  
-<a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">File for Additional Disability Compensation for a Dependent</a>
+<a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">File for Disability Compensation for a Dependent</a>
 	
 
-**If you’re claiming your child became permanently incapable of self-support before they turned 18,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
+**If you’re claiming your child became permanently disabled before they turned 18,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
 
 **If your dependent is a child who’s between 18 and 23 years old and attending school full time,** you’ll need to also submit a Request for Approval of School Attendance (VA Form 21-674) with your application. <br>
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf). 
@@ -114,7 +114,7 @@ You’ll need to fill out and submit a Statement of Dependency of Parent(s) (VA 
 
 <p class="va-address-block">
 Department of Veterans Affairs <br>
-Claims Intake Center <br>
+Evidence Intake Center <br>
 PO Box 4444 <br>
 Janesville, WI 53547-4444 <br>
 </p>
@@ -160,7 +160,7 @@ When you file your claim online, we also recognize the day you start the online 
 
 <p class="va-address-block">
 Department of Veterans Affairs <br>
-Claims Intake Center <br>
+Evidence Intake Center <br>
 PO Box 4444 <br>
 Janesville, WI 53547-4444 <br>
 </p>
@@ -247,17 +247,17 @@ If you and your spouse are both Veterans with a combined disability rating of at
 	
 *Note: Will need to confirm if this is changing with when the new paper form being is released.*
 
-You can remove a dependent online through eBenefits. We’ll need more time to process a claim to remove a dependent child than a dependent spouse, but the online process is still much faster than submitting a paper claim.
+You can submit a request through eBenefits for VA to stop paying additional disability compensation for a spouse or child. We’ll need more time to process a request that involves a child than a request that involves a spouse, but the online process is still much faster than submitting a paper request.
 
-**If you get divorced and need to remove your former spouse or a dependent stepchild of your former spouse**, you’ll want to submit the claim right away. You don’t have to submit or upload the supporting paperwork into eBenefits. 
+**If you get divorced**, you’ll want to notify VA right away. There is no need to submit or upload supporting documentation into eBenefits in this case. 
 
-This will help to make sure you don’t keep receiving compensation for these dependents after the divorce. If you don’t tell us to remove these dependents and keep receiving extra compensation for them until we discover the error, we may withhold money from your future compensation payments until you’ve paid it back. <br>
+This will help to make sure we don’t continue paying you additional disability compensation for your former spouse and, if applicable stepchildren, after the divorce. If we continue paying you benefits that you’re not eligible for, we may withhold money from future payments until you’ve paid them back. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-school">How will VA know not to remove my child from my benefits if they turn 18 but are still in school? Do I have to reapply?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-school">How will VA know it needs to  continue paying me additional disability compensation for my child when they turn 18 but remain in school? Do I have to submit another claim?</button>
 <div id="questions-specific-child-school" class="usa-accordion-content">
  
 *Note: Will need to confirm if this is changing when the new paper form is released.*
@@ -273,10 +273,10 @@ Then select “Update Dependents.” <br>
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-old">Do I have to remove my child from my compensation benefits once they’re too old to be claimed as a dependent?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-old">Do I need to ask VA to stop paying me additional disability compensation for my child when they turn 18?</button>
 <div id="questions-specific-child-old" class="usa-accordion-content">
 
-No. We’ll track your child’s age based on the date of birth you give us when you apply to add them as a dependent. When your child turns 18, we’ll remove them from your disability compensation unless you update their information and let us know they’re enrolled in school full time. 
+No. We’ll track your child’s age based on the date of birth you give us when you submitted your claim. When your child turns 18, we’ll stop paying additional disability compensation for them unless you let us know they’re enrolled in school full time. 
 
 </div>
 </li>
