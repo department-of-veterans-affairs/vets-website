@@ -120,8 +120,7 @@ class IntroductionPage extends React.Component {
           start getting benefits. You have 1 year from the day you submit your intent to
           file to complete your application.
         </p>
-        {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+        <div className="omb-info--container">
           <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="03/31/2021"/>
         </div>
       </div>
