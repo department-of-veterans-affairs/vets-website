@@ -4,6 +4,7 @@ import moment from 'moment';
 import React from 'react';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import {
   APPEAL_V2_TYPE,
   claimsAvailability,
@@ -21,7 +22,7 @@ import ClaimsUnavailable from '../../../claims-status/components/ClaimsUnavailab
 import AppealsUnavailable from '../../../claims-status/components/AppealsUnavailable';
 import ClaimsAppealsUnavailable from '../../../claims-status/components/ClaimsAppealsUnavailable';
 
-import DowntimeNotification, { services } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
@@ -150,10 +151,10 @@ class ClaimsAppealsWidget extends React.Component {
       <div id="claims-widget">
         <h2>Track Claims</h2>
         <div>
-          <DowntimeNotification appTitle="claims" dependencies={[services.mhv]} render={this.renderWidgetDowntimeNotification('Claims tracking')}>
+          <DowntimeNotification appTitle="claims" dependencies={[externalServices.mhv]} render={this.renderWidgetDowntimeNotification('Claims tracking')}>
             <div/>
           </DowntimeNotification>
-          <DowntimeNotification appTitle="appeals" dependencies={[services.appeals]} render={this.renderWidgetDowntimeNotification('Appeals tracking')}>
+          <DowntimeNotification appTitle="appeals" dependencies={[externalServices.appeals]} render={this.renderWidgetDowntimeNotification('Appeals tracking')}>
             <div/>
           </DowntimeNotification>
           {this.renderErrorMessages()}
@@ -170,8 +171,8 @@ const mapStateToProps = (state) => {
   const claimsRoot = claimsState.claims;
   const claimsV2Root = claimsState.claimsV2;
   const profileState = state.user.profile;
-  const canAccessAppeals = profileState.services.includes('appeals-status');
-  const canAccessClaims = profileState.services.includes('evss-claims');
+  const canAccessAppeals = profileState.services.includes(backendServices.APPEALS_STATUS);
+  const canAccessClaims = profileState.services.includes(backendServices.EVSS_CLAIMS);
 
   const claimsAppealsCount = claimsV2Root.appeals
     .concat(claimsV2Root.claims).length;

@@ -31,7 +31,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 <br>
 
-### Prepare
+### How do I prepare before starting my application?
 
 <ol class="process">
 <li class="process-step list-one">
@@ -102,19 +102,19 @@ To apply, you’ll need your (or your sponsor's):
 
 <div markdown="0"><br></div>
 
-### Ready to apply?
+#### By mail
 
 <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/">Apply for Pre-need Eligibility</a>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h4 itemprop="name">Other ways to apply</h4>
 <div itemprop="itemListElement">
-	
+
 **By mail**
 
 Apply by mail using an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <br> [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
-Print the form, fill it out, and send it (with copies of your supporting documents) to: 
+Print the form, fill it out, and send it (with copies of your supporting documents) to:
 
 <p class="va-address-block">
 	    National Cemetery Scheduling Office<br>
@@ -124,7 +124,7 @@ Print the form, fill it out, and send it (with copies of your supporting documen
 
 Please don't send us the originals of your DD214 and other supporting documents since we can't return them. Send copies only.
 
-**By fax** 
+**By fax**
 
 You can also fax your application to us at 1-855-840-8299.
 
@@ -137,8 +137,6 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
 [Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
-
-<br>
 
 ### What happens after I apply?
 

@@ -295,4 +295,27 @@ describe('HCA migrations', () => {
       expect(metadata.returnUrl).to.equal('veteran-information/personal-information');
     });
   });
+  describe('sixth migration', () => {
+    const migration = migrations[5];
+    it('should unset insurance fields that are blank strings', () => {
+      const data = {
+        formData: {
+          providers: [
+            {
+              insuranceGroupCode: '    ',
+              insurancePolicyNumber: ' '
+            },
+            {
+              insuranceGroupCode: '   t',
+              insurancePolicyNumber: ' '
+            }
+          ]
+        }
+      };
+
+      const { formData } = migration(data);
+      expect(formData.providers[0]).to.eql({});
+      expect(formData.providers[1]).to.deep.eql({ insuranceGroupCode: '   t' });
+    });
+  });
 });

@@ -11,8 +11,9 @@ import {
   isProfileLoading,
   isLOA3
 } from '../../../user/selectors';
-import { getProfile } from '../../../user/profile/actions';
+import { initializeProfile } from '../../../user/profile/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 
 import {
   toggleLoginModal,
@@ -21,6 +22,10 @@ import {
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
+
+import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
+
+const DASHBOARD_URL = dashboardManifest.rootUrl;
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
@@ -38,17 +43,9 @@ export class Main extends React.Component {
 
   componentDidUpdate() {
     const { currentlyLoggedIn, showLoginModal } = this.props;
-    const nextParam = this.getRedirectUrl();
-
-    const shouldRedirect =
-      currentlyLoggedIn && nextParam && !window.location.pathname.includes('verify');
-
-    if (shouldRedirect) {
-      const redirectPath = nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
-      window.location.replace(redirectPath);
-    }
-
     const shouldCloseLoginModal = currentlyLoggedIn && showLoginModal;
+
+    if (currentlyLoggedIn) this.executeRedirect();
 
     if (shouldCloseLoginModal) { this.props.toggleLoginModal(false); }
   }
@@ -58,15 +55,40 @@ export class Main extends React.Component {
   }
 
   setToken = (event) => {
-    if (event.data === sessionStorage.userToken) { this.props.getProfile(); }
+    if (event.data === conditionalStorage().getItem('userToken')) {
+      this.executeRedirect();
+      this.props.initializeProfile();
+    }
   }
 
-  getRedirectUrl = () => (new URLSearchParams(window.location.search)).get('next');
+  getNextParameter() {
+    const nextParam = (new URLSearchParams(window.location.search)).get('next');
+    if (nextParam) {
+      return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
+    }
+    return false;
+  }
+
+  getRedirectUrl = () => {
+    const nextParam = this.getNextParameter();
+    if (nextParam) return nextParam;
+
+    return window.location.pathname === '/' && DASHBOARD_URL;
+  };
+
+  executeRedirect() {
+    const redirectUrl = this.getRedirectUrl();
+    const shouldRedirect = redirectUrl && !window.location.pathname.includes('verify');
+
+    if (shouldRedirect) {
+      window.location.replace(redirectUrl);
+    }
+  }
 
   bindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.addEventListener('click', e => {
-        if (!this.props.login.currentlyLoggedIn) {
+        if (!this.props.currentlyLoggedIn) {
           e.preventDefault();
           const nextQuery = { next: el.getAttribute('href') };
           const nextPath = appendQuery('/', nextQuery);
@@ -84,28 +106,11 @@ export class Main extends React.Component {
   }
 
   checkTokenStatus = () => {
-    if (sessionStorage.userToken) {
-      // @todo once we have time to replace the confirm dialog with an actual modal we should uncomment this code.
-      // if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
-      //   if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
-      //     login();
-      //   } else {
-      //     logout();
-      //   }
-      // } else {
-      //   if (this.props.getProfile()) {
-      //     this.props.updateLoggedInStatus(true);
-      //   }
-      // }
-
-      // @todo after doing the above, remove this code.
-      if (this.props.getProfile()) {
-        recordEvent({ event: 'login-user-logged-in' });
-        this.props.updateLoggedInStatus(true);
-      }
-    } else {
+    if (!conditionalStorage().getItem('userToken')) {
       this.props.updateLoggedInStatus(false);
-      if (this.getRedirectUrl()) { this.props.toggleLoginModal(true); }
+      if (this.getNextParameter()) { this.props.toggleLoginModal(true); }
+    } else {
+      this.props.initializeProfile();
     }
   }
 
@@ -147,7 +152,7 @@ const mapDispatchToProps = {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
-  getProfile
+  initializeProfile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

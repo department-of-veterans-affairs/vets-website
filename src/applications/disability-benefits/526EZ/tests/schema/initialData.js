@@ -1,6 +1,4 @@
 export default {
-  // For testing purposes only
-  prefilled: true,
   fullName: {
     first: 'Sally',
     last: 'Alphonse'
@@ -20,7 +18,6 @@ export default {
     secondaryPhone: '3242342342',
     emailAddress: 'test@test.com',
     mailingAddress: {
-      type: 'DOMESTIC',
       country: 'USA',
       city: 'Detroit',
       state: 'MI',
@@ -39,7 +36,7 @@ export default {
   ],
   disabilities: [
     {
-      diagnosticCode: 1234,
+      diagnosticCode: 5420,
       name: 'Post traumatic stress disorder',
       ratedDisabilityId: '9459392',
       ratingDecisionId: '63655',

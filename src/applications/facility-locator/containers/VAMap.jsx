@@ -26,7 +26,7 @@ class VAMap extends Component {
   constructor(props) {
     super(props);
 
-    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.5), 2500, {
+    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.75), 2500, {
       leading: true,
     });
 
@@ -111,10 +111,10 @@ class VAMap extends Component {
       if (isMobile.any) {
         this.props.updateSearchQuery({
           bounds: [
-            newQuery.bounds[0] - 0.5,
-            newQuery.bounds[1] - 0.5,
-            newQuery.bounds[2] + 0.5,
-            newQuery.bounds[3] + 0.5,
+            newQuery.bounds[0] - 0.75,
+            newQuery.bounds[1] - 0.75,
+            newQuery.bounds[2] + 0.75,
+            newQuery.bounds[3] + 0.75,
           ],
         });
       } else {
@@ -177,10 +177,10 @@ class VAMap extends Component {
 
       this.props.updateSearchQuery({
         bounds: res.features[0].bbox || [
-          coordinates[0] - 0.5,
-          coordinates[1] - 0.5,
-          coordinates[0] + 0.5,
-          coordinates[1] + 0.5,
+          coordinates[0] - 0.75,
+          coordinates[1] - 0.75,
+          coordinates[0] + 0.75,
+          coordinates[1] + 0.75,
         ],
         searchString: placeName,
         context: zipCode,
@@ -334,7 +334,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="columns small-12">
-          <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch} isMobile/>
+          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch} isMobile/>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -372,7 +372,7 @@ class VAMap extends Component {
     return (
       <div className="desktop-container">
         <div>
-          <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
+          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch}/>
         </div>
         <div className="row">
           <div className="columns usa-width-one-third medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">

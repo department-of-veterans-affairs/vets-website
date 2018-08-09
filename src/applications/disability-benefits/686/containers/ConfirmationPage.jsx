@@ -46,7 +46,7 @@ export class ConfirmationPage extends React.Component {
           <p>You’ll get a notice in the mail, once we’ve processed your claim.</p>
         </div>
         <div className="inset">
-          <h4>Declaration of Dependents Claim <span className="additional">(Form 21-686c)</span></h4>
+          <h4 className="schemaform-confirmation-claim-header">Declaration of Dependents Claim <span className="additional">(Form 21-686c)</span></h4>
           <span>For {first} {middle} {last} {suffix}</span>
 
           {confirmationNumber && <ul className="claim-list">

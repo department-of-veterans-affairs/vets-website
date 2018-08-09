@@ -7,6 +7,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
+import '../../site-wide/moment-setup';
 // import sinon from 'sinon'
 
 
@@ -33,6 +34,14 @@ export default function setupJSDom() {
   global.window = win;
 
   win.VetsGov = {
+    scroll: {
+      duration: 0,
+      delay: 0,
+      smooth: false
+    }
+  };
+
+  win.Forms = {
     scroll: {
       duration: 0,
       delay: 0,

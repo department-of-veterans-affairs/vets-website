@@ -2,7 +2,9 @@ import _ from 'lodash/fp';
 import Raven from 'raven-js';
 import recordEvent from '../../platform/monitoring/record-event';
 import environment from '../../platform/utilities/environment';
-import { transformForSubmit } from '../common/schemaform/helpers';
+import backendServices from '../../platform/user/profile/constants/backendServices';
+import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata, state) {
   let newPages = pages;
@@ -20,7 +22,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     }
   }
 
-  if (state.user.profile.services.includes('identity-proofed')) {
+  if (state.user.profile.services.includes(backendServices.IDENTITY_PROOFED)) {
     newData = _.set('processAsIdProofed', true, newData);
     newData.originalUser = {
       veteranSocialSecurityNumber: newData.veteranSocialSecurityNumber,
@@ -67,7 +69,7 @@ export function transform(form, formConfig) {
 }
 
 function checkStatus(guid) {
-  const userToken = window.sessionStorage.userToken;
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
@@ -120,7 +122,7 @@ function pollStatus(guid, onDone, onError) {
 }
 
 export function fetchPreview(id) {
-  const userToken = window.sessionStorage.userToken;
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'X-Key-Inflection': 'camel',
     Authorization: `Token token=${userToken}`
@@ -140,7 +142,7 @@ export function fetchPreview(id) {
 }
 
 export function submit(form, formConfig) {
-  const userToken = window.sessionStorage.userToken;
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',

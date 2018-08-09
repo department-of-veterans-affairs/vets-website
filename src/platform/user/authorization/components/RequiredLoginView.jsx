@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intersection } from 'lodash';
 
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
+import backendServices from '../../profile/constants/backendServices';
 
-const healthTools = ['health-records', 'rx', 'messaging'];
+const healthTools = [backendServices.HEALTH_RECORDS, backendServices.RX, backendServices.MESSAGING];
 const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
 const verifyUrl = appendQuery('/verify', nextQuery);
@@ -55,7 +57,7 @@ class RequiredLoginView extends React.Component {
         userServices.includes(serviceRequired)
     );
 
-    return sessionStorage.userToken && hasRequiredServices;
+    return conditionalStorage().getItem('userToken') && hasRequiredServices;
   }
 
   renderVerifiedContent = () => {
@@ -70,8 +72,8 @@ class RequiredLoginView extends React.Component {
     // if app we are trying to access includes appeals,
     // bypass the checks for user profile status
     const attemptingAppealsAccess = Array.isArray(serviceRequired) ?
-      serviceRequired.includes('appeals-status') :
-      serviceRequired === 'appeals-status';
+      serviceRequired.includes(backendServices.APPEALS_STATUS) :
+      serviceRequired === backendServices.APPEALS_STATUS;
 
     // TODO: If unable to fetch MVI data or unable to determine veteran status,
     // perhaps that should be reflected in how the API determines whether
@@ -128,10 +130,12 @@ class RequiredLoginView extends React.Component {
   }
 }
 
+const validService = PropTypes.oneOf(Object.values(backendServices));
+
 RequiredLoginView.propTypes = {
   serviceRequired: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
+    validService,
+    PropTypes.arrayOf(validService)
   ]).isRequired,
   user: PropTypes.object.isRequired,
   verify: PropTypes.bool

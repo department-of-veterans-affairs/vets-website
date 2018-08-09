@@ -15,7 +15,7 @@ very secret.
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
 | clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
-| Use the git hooks provided               | You can either copy the hooks as-is right now with `cp hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
+| Use the git hooks provided               | You can either copy the hooks as-is right now with `cp hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s ../hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
 | deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Production deploys are executed by creating a release of vets-website via Jenkins. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site.      | Create new files at the right location in `content/pages`. Send a PR. |
@@ -74,9 +74,9 @@ We use `nvm` to manage Node.js and other tools. Keeping your tools in sync with 
 
 > If you are on a mac and use [homebrew](http://brew.sh/), you can install `nvm` by typing in the Terminal:
 > ```bash
-> brew update && brew install nvm		
+> brew update && brew install nvm
 > ```
-> _There will be some further instructions in the success message after install "finishes"._ 
+> _There will be some further instructions in the success message after install "finishes"._
 
 Once you have `nvm` installed, you should install Node.js:
 
@@ -101,7 +101,7 @@ npm i -g yarn@1.5.1
 
 ```bash
 node --version // 8.10.0
-yarn --version // 1.5.1 
+yarn --version // 1.5.1
 ```
 
 Once you use one of the correct commands above (like `npm run watch`), the site will be available locally by typing `localhost:3001` into your browser. If you get weird errors, try `yarn install` as your first step.

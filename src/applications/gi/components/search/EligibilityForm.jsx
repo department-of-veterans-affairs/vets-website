@@ -116,7 +116,8 @@ export class EligibilityForm extends React.Component {
             { value: '0.4', label: '90 days: 40% (excludes BASIC)' },
             { value: '0.0', label: 'Less than 90 days 0% (excludes BASIC)' },
             { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' },  // notice not 1.0
-            { value: 'service discharge', label: 'Service-Connected Discharge: 100%' }
+            { value: 'service discharge', label: 'Service-Connected Discharge: 100%' },
+            { value: 'purple heart', label: 'Purple Heart Service: 100%' }
           ]}
           value={this.props.cumulativeService}
           alt="Cumulative Post-9/11 active duty service"

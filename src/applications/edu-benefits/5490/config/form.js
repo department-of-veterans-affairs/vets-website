@@ -23,33 +23,34 @@ import {
 import {
   validateMonthYear,
   validateFutureDateIfExpectedGrad
-} from '../../../common/schemaform/validation';
+} from 'us-forms-system/lib/js/validation';
 
-import * as address from '../../../common/schemaform/definitions/address';
-import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
-import dateUI from '../../../common/schemaform/definitions/date';
-import monthYearUI from '../../../common/schemaform/definitions/monthYear';
-import phoneUI from '../../../common/schemaform/definitions/phone';
-import * as personId from '../../../common/schemaform/definitions/personId';
+import * as address from 'us-forms-system/lib/js/definitions/address';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
+import monthYearUI from 'us-forms-system/lib/js/definitions/monthYear';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import * as personId from 'us-forms-system/lib/js/definitions/personId';
+import dateRangeUi from 'us-forms-system/lib/js/definitions/dateRange';
+import fullNameUi from 'us-forms-system/lib/js/definitions/fullName';
 
-import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
-import fullNameUi from '../../../common/schemaform/definitions/fullName';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import applicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
+import applicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
-import createNonRequiredFullName from '../../../common/schemaform/definitions/nonRequiredFullName';
+import createNonRequiredFullName from 'us-forms-system/lib/js/definitions/nonRequiredFullName';
 
 const {
   benefit,
@@ -81,7 +82,7 @@ const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_benefits_claims/5490',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5490`,
   trackingPrefix: 'edu-5490-',
   formId: '22-5490',
   version: 1,

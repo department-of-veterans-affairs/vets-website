@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Vietnam War
 display_title: 
+description: Learn what health conditions you might be at risk of developing if you’re a Vietnam War Veteran.
 concurrence: complete
 lastupdate: 2017-06-28
 order: 5
@@ -16,7 +17,7 @@ relatedlinks:
       title: Health Care Benefits Eligibility
       description: Not sure if you qualify? Find out if you can get VA health care benefits.
     - url: /health-care/apply/
-      title: Health Care Application Process
+      title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
 ---
 

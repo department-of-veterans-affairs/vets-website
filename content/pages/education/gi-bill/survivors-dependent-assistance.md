@@ -82,10 +82,10 @@ There are 2 main GI Bill programs offering educational assistance to survivors a
 <tbody>
   <tr>
     <th scope="row"><strong>Benefit Payments</strong></th>
-    <td>We pay the monthly amount directly to the student. The current monthly payment for full-time training is $1,024.</td>
+    <td>We pay the monthly amount directly to the student. The current monthly payment for full-time training is $1,041.</td>
     <td>
     <ul>
-      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: We cover the full in-state tuition costs for training at public schools and up to $22,805.34 per year at private or foreign schools.<br /><br /></li>
+      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: We cover the full in-state tuition costs for training at public schools and up to $23,671.94 per year at private or foreign schools.<br /><br /></li>
       <li><strong>Money for Books and Supplies (paid to the student)</strong>:
     We cover up to $1,000 a year, divided up equally among the terms, for books and supplies.<br /><br /></li>
       <li><strong>Monthly Housing Allowance (paid to the student)</strong>:
