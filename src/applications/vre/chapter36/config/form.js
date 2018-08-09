@@ -14,7 +14,7 @@ import createVeteranInfoPage from '../../pages/veteranInfo';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import { validateMatch } from 'us-forms-system/lib/js/validation';

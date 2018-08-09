@@ -32,7 +32,7 @@ import monthYearUI from 'us-forms-system/lib/js/definitions/monthYear';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import * as personId from 'us-forms-system/lib/js/definitions/personId';
 import dateRangeUi from 'us-forms-system/lib/js/definitions/dateRange';
-import fullNameUi from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUi from '../../../../platform/forms/definitions/fullName';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';

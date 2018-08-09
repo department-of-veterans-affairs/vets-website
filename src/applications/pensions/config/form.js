@@ -55,7 +55,7 @@ import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUI from '../../../platform/forms/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';

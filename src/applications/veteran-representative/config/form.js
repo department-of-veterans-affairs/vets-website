@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUI from '../../../platform/forms/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import * as addressUI from 'us-forms-system/lib/js/definitions/address.js';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';

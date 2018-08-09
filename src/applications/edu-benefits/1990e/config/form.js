@@ -13,7 +13,7 @@ import createDirectDepositPage from '../../pages/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
 import * as address from 'us-forms-system/lib/js/definitions/address';
-import fullNameUISchema from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUISchema from '../../../../platform/forms/definitions/fullName';
 import monthYearUI from 'us-forms-system/lib/js/definitions/monthYear';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 import * as personId from 'us-forms-system/lib/js/definitions/personId';
