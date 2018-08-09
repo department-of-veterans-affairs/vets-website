@@ -212,7 +212,7 @@ We’ll begin paying you within 2 weeks after we approve your claim.
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-already-receiving">How do I know if I’m already receiving compensation for my dependents?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-already-receiving">How do I know if I’m already receiving additional disability compensation for my dependents?</button>
 <div id="questions-specific-already-receiving" class="usa-accordion-content">
 
 *Note: Will need to confirm if this is changing when the new paper form is released.*
@@ -221,7 +221,7 @@ You can check this through your eBenefits account.
 
 Sign in to your account and click the “Dependents” link under the “My Profile” section. 
 
-If you see your dependents listed there, you should be receiving compensation for them. If they’re not listed, you can apply to add them. <br>
+If you see your dependents listed there, you should be eligible for additional compensation for them. If they’re not listed, you should file a claim for the additional benefit. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
 </div>
 </li>
@@ -231,12 +231,13 @@ If you see your dependents listed there, you should be receiving compensation fo
 ### Questions about adding or removing specific dependents
 
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-Veteran-spouse">What if my spouse is also a Veteran with a 30% or higher disability rating? Can we claim each other and our children? Or should only one of us add them as dependents?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-Veteran-spouse">What if my spouse is also a Veteran with a combined disability rating of at least 30%? Can we both receive additional disability compensation for each other and our children? Or can only one of us receive the additional benefit?</button>
 <div id="questions-specific-Veteran-spouse" class="usa-accordion-content">
 
-If you and your spouse are both Veterans with a 30% or higher disability rating, you can both claim each other and your children.
+If you and your spouse are both Veterans with a combined disability rating of at least 30%, you can both receive additional disability compensation for each other and your children.
 
-**You should know:** It’ll take us longer to process your application if you’re claiming a dependent spouse who’s also a Veteran. But if you apply online, and we decide you’re eligible for higher compensation, we’ll pay you back to the date you started your application.
+
+**You should know:** It’ll take us longer to process your claim if your spouse is also a Veteran. But if you apply online, and we decide you’re eligible for additional disability compensation for your dependent(s), we’ll pay you back to the date you started the online claim process.
 
 </div>
 </li>
