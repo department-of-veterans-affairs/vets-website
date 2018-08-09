@@ -59,7 +59,7 @@ export class SchoolSelectField extends React.Component {
   handleManualSchoolEntryToggled = (currentValue) => {
     this.props.toggleManualSchoolEntry(!currentValue);
     this.props.onChange({
-      facilityCode: this.props.institutionSelected.facilityCode,
+      facilityCode: this.props.facilityCodeSelected,
       manualSchoolEntryChecked: !currentValue
     });
   }
@@ -82,14 +82,14 @@ export class SchoolSelectField extends React.Component {
   }
 
   handleSearchInputKeyDown = e => {
-    if ((e.which || e.keyCode) === 13 && !this.props.manualSchoolEntryChecked) {
+    if ((e.which || e.keyCode) === 13) {
       e.preventDefault();
       e.target.blur();
 
       this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
 
       this.props.onChange({
-        facilityCode: this.props.institutionSelected.facilityCode,
+        facilityCode: this.props.facilityCodeSelected,
         manualSchoolEntryChecked: false
       });
     }
@@ -99,7 +99,7 @@ export class SchoolSelectField extends React.Component {
     e.preventDefault();
 
     this.props.onChange({
-      facilityCode: this.props.institutionSelected.facilityCode,
+      facilityCode: this.props.facilityCodeSelected,
       manualSchoolEntryChecked: false
     });
     this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
@@ -187,7 +187,7 @@ export class SchoolSelectField extends React.Component {
             {showErrors && <span
               className="usa-input-error-message"
               role="alert"
-              id="root_school_facilityCode_facilityCode-error-message">
+              id="facility-code-error-message">
               {errorMessages.map((message, index) => (
                 <span key={index}><span className="sr-only">Error</span>{message}</span>))
               }
@@ -333,13 +333,16 @@ const mapDispatchToProps = {
 
 SchoolSelectField.PropTypes = {
   currentPageNumber: React.PropTypes.number,
+  errorMessages: React.PropTypes.array,
   facilityCodeSelected: React.PropTypes.string,
   institutionQuery: React.PropTypes.string,
   institutions: React.PropTypes.array,
   institutionSelected: React.PropTypes.string,
+  manualSchoolEntryChecked: React.PropTypes.bool,
   pagesCount: React.PropTypes.number,
   searchInputValue: React.PropTypes.string,
   searchResultsCount: React.PropTypes.number,
+  showErrors: React.PropTypes.bool,
   showInstitutions: React.PropTypes.bool.required,
   showInstitutionsLoading: React.PropTypes.bool.required,
   showNoResultsFound: React.PropTypes.bool.required,

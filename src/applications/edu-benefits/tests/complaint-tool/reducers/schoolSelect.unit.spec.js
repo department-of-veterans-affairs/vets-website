@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import schoolSelect from '../../../complaint-tool/reducers/schoolSelect';
 
-describe.only('schoolSearch reducer', () => {
+describe('schoolSearch reducer', () => {
   describe('INSTITUTION_SELECTED', () => {
 
     it('should return an institution selected state', () => {
