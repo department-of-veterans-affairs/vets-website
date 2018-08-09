@@ -11,6 +11,7 @@ import formConfig from '../../../complaint-tool/config/form';
 
 describe('complaint tool school info', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolInformation.pages.schoolInformation;
+  delete uiSchema.school.facilityCode;
 
   it('should render', () => {
     const form = mount(
@@ -18,7 +19,9 @@ describe('complaint tool school info', () => {
         schema={schema}
         data={{
           school: {
-            'view:cannotFindSchool': true
+            facilityCode: {
+              manualSchoolEntryChecked: true
+            }
           }
         }}
         definitions={formConfig.defaultDefinitions}
@@ -35,7 +38,9 @@ describe('complaint tool school info', () => {
         schema={schema}
         data={{
           school: {
-            'view:cannotFindSchool': true
+            facilityCode: {
+              manualSchoolEntryChecked: true
+            }
           }
         }}
         definitions={formConfig.defaultDefinitions}
@@ -55,7 +60,9 @@ describe('complaint tool school info', () => {
         schema={schema}
         data={{
           school: {
-            'view:cannotFindSchool': true
+            facilityCode: {
+              manualSchoolEntryChecked: true
+            }
           }
         }}
         definitions={formConfig.defaultDefinitions}

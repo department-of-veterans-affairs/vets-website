@@ -387,30 +387,30 @@ const formConfig = {
               'view:manualSchoolEntry': {
                 name: {
                   'ui:title': 'Name',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 },
                 street: {
                   'ui:title': 'Address line 1',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 },
                 street2: {
                   'ui:title': 'Address line 2'
                 },
                 city: {
                   'ui:title': 'City',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 },
                 state: {
                   'ui:title': 'State',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 },
                 country: {
                   'ui:title': 'Country',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 },
                 postalCode: {
                   'ui:title': 'Postal Code',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData),
+                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                   'ui:errorMessages': {
                     pattern: 'Please enter a valid 5 digit postal code'
                   },
