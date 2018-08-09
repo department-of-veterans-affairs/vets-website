@@ -24,6 +24,7 @@ class IntroductionPage extends React.Component {
           formId={this.props.form.formId}
           pageList={this.props.route.pageList}
           startText="Start the Disability Compensation Application"
+          retentionPeriod="1 year"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
         <h4>Follow the steps below to apply for increased disability compensation.</h4>
