@@ -49,17 +49,14 @@ export class Programs extends React.Component {
         modal: 'ta',
         text: 'Military Tuition Assistance (TA)',
         link: false
-      }
-    };
+      },
 
-    if (__BUILDTYPE__ !== 'production') {
-      // move this into the above assignment when this flag is removed
-      this.programs.priorityEnrollment = {
+      priorityEnrollment: {
         modal: 'priEnroll',
         text: 'Priority Enrollment',
         link: false
-      };
-    }
+      }
+    };
   }
 
   renderProgramLabel(programKey, available) {

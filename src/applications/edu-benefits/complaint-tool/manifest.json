@@ -2,6 +2,6 @@
     "appName": "GI Bill School Feedback Tool",
     "entryFile": "./complaint-tool-entry.jsx",
     "entryName": "complaint-tool",
-    "rootUrl": "/education/complaint-tool/form",
+    "rootUrl": "/education/gi-bill-school-feedback",
     "production": false
   }
