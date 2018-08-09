@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { IntroductionPage } from '../../components/IntroductionPage';
 import formConfig from '../../config/form';
 
-describe.only('<IntroductionPage/>', () => {
+describe('<IntroductionPage/>', () => {
   const { formId, prefillEnabled } = formConfig;
   const defaultProps = {
     formId,
