@@ -2,29 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import { introActions, introSelector } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
-import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
+import SaveInProgressIntro, { introActions, introSelector } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-  }
-
-  hasSavedForm = () => {
-    const { saveInProgress: { user } } = this.props;
-    return user.profile && user.profile.savedForms
-      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
-      .find(f => f.form === this.props.formId);
-  }
-
-  authenticate = (e) => {
-    e.preventDefault();
-    this.props.toggleLoginModal(true);
   }
 
   render() {
@@ -32,21 +18,15 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for disability compensation"/>
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
-        {/* TODO: Replace alert with SaveInProgressIntro when implementing gating */}
-        <div className="usa-alert usa-alert-info">
-          <div className="usa-alert-body">
-            <p>If you’re signed in to your account, the application process can go more smoothly. Here’s why:</p>
-            <ul>
-              <li>We can prefill part of your application based on your account details.</li>
-              <li>You can save your form in progress, and come back later to finish filling it out.</li>
-            </ul>
-            <p>
-              You have 1 year from the date you start or update your application to submit
-              the form. After 1 year, the form won’t be saved and you’ll need to start over.
-            </p>
-          </div>
-        </div>
-        <button className="temporary-start">Start the Disability Compensation Application</button>
+        <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          formId={this.props.formId}
+          pageList={this.props.route.pageList}
+          startText="Start the Disability Compensation Application"
+          retentionPeriod="1 year"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
+        <h4>Follow the steps below to apply for increased disability compensation.</h4>
         <div>
           <h4>You’ll be submitting an original disability claim, if both of these are true:</h4>
           <ul className="original-disability-list">
@@ -54,8 +34,6 @@ class IntroductionPage extends React.Component {
             <span className="list-item-connector"><strong>and</strong></span>
             <li>This is the first time you’re filing a disability claim</li>
           </ul>
-          {/* <ul>
-          </ul> */}
         </div>
         <div className="process schemaform-process">
           <ol>
@@ -128,15 +106,21 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <button className="temporary-start">Start the Disability Compensation Application</button>
+        <SaveInProgressIntro
+          buttonOnly
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          formId={this.props.formId}
+          pageList={this.props.route.pageList}
+          startText="Start the Disability Compensation Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <p>
           By clicking the button to start the disability application, you’ll declare your
           intent to file. This will reserve a potential effective date for when you could
           start getting benefits. You have 1 year from the day you submit your intent to
           file to complete your application.
         </p>
-        {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+        <div className="omb-info--container">
           <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="03/31/2021"/>
         </div>
       </div>
@@ -146,7 +130,7 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form,
+    formId: state.form.formId,
     saveInProgress: introSelector(state)
   };
 }
@@ -154,17 +138,23 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     saveInProgressActions: bindActionCreators(introActions, dispatch),
-    toggleLoginModal: (update) => {
-      dispatch(toggleLoginModal(update));
-    }
   };
 }
 
 IntroductionPage.PropTypes = {
+  formId: PropTypes.string.isRequired,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool
+    }),
+    pageList: PropTypes.array.isRequired
+  }).isRequired,
   saveInProgress: PropTypes.object.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
-  verifyUrl: PropTypes.string.isRequired,
-  loginUrl: PropTypes.string.isRequired
+  saveInProgressActions: PropTypes.shape({
+    fetchInProgressForm: PropTypes.func.isRequired,
+    removeInProgressForm: PropTypes.func.isRequired,
+    toggleLoginModal: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
