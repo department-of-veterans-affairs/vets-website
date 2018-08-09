@@ -7,7 +7,6 @@ import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
-// import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
