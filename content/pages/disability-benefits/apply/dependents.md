@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Apply for Additional Disability Compensation for a Dependent
-display_title: Apply for Additional Disability Compensation for a Dependent
+title: Apply for Disability Compensation for a Dependent
+display_title: Apply for Disability Compensation for a Dependent
 description: Find out how to add a dependent family member to your VA disability compensation benefits so you can get a higher payment to help support your family.
 concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18 
@@ -92,10 +92,11 @@ You may file a claim for additional disability compensation online whenever you 
 <br>
 
 ### How do I apply? 
+You can apply online right now. 
 
 #### To file a claim for additional disability compensation for a child or spouse
 
-You can apply online. You may also need to provide more information or forms along with your application.
+You may also need to provide more information or forms along with your application.
  
 <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">File for Disability Compensation for a Dependent</a>
 	
