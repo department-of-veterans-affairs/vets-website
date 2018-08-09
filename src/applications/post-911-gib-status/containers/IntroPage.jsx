@@ -62,7 +62,7 @@ export class IntroPage extends React.Component {
     return (
       <div className="row">
         <div className="medium-8 columns">
-          <div className="usa-alert usa-alert-warning">
+          <div className="usa-alert usa-alert-warning intro-warning">
             <div className="usa-alert-body">
               We’re sorry. Something’s not working quite right with the GI Bill
               benefits tool. We’re working to fix the problem. If you encounter
