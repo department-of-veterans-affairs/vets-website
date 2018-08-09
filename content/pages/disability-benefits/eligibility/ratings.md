@@ -43,8 +43,8 @@ For example, if you had an illness or injury (also known as a condition) that wa
 
 Yes. We may increase your monthly payments if one or more of these is true for you. You have a:
 
-- Very severe disability or loss of limb, or
-- Spouse, child, or dependent parent and your combined disability is 30% or greater, or
+- Very severe disability or loss of limb, **or**
+- Spouse, child, or dependent parent and your combined disability is 30% or greater, **or**
 - Spouse with a serious disability
 
 
