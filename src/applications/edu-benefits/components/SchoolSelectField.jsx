@@ -154,6 +154,10 @@ export class SchoolSelectField extends React.Component {
       'usa-input-error-label': showErrors
     });
 
+    if (formContext.reviewMode && manualSchoolEntryChecked) {
+      return (<div></div>);
+    }
+
     if (formContext.reviewMode) {
       const {
         city,
