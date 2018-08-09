@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import bankAccountUI from 'us-forms-system/lib/js/definitions/bankAccount';
+import bankAccountUI from '../../../platform/forms/definitions/bankAccount';
 
 import {
   bankAccountChangeLabels,

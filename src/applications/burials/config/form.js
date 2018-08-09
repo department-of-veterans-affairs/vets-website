@@ -26,7 +26,7 @@ import FormFooter from '../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
 import environment from '../../../platform/utilities/environment';
 
-import * as address from 'us-forms-system/lib/js/definitions/address';
+import * as address from '../../../platform/forms/definitions/address';
 import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';

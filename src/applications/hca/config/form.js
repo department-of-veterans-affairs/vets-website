@@ -6,7 +6,7 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { validateMatch } from 'us-forms-system/lib/js/validation';
 import { createUSAStateLabels } from 'us-forms-system/lib/js/helpers';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { schema as addressSchema, uiSchema as addressUI } from 'us-forms-system/lib/js/definitions/address';
+import { schema as addressSchema, uiSchema as addressUI } from '../../../platform/forms/definitions/address';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';

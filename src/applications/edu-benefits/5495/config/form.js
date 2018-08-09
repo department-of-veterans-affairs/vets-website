@@ -13,7 +13,7 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
 
-import * as personId from 'us-forms-system/lib/js/definitions/personId';
+import * as personId from '../../../../platform/forms/definitions/personId';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

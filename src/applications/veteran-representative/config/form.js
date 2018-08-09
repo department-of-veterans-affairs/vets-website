@@ -5,7 +5,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import fullNameUI from '../../../platform/forms/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import * as addressUI from 'us-forms-system/lib/js/definitions/address.js';
+import * as addressUI from '../../../platform/forms/definitions/address.js';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 

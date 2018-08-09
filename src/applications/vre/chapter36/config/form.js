@@ -4,7 +4,7 @@ import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
 import { genderLabels } from '../../../../platform/static-data/labels.jsx';
 
-import * as address from 'us-forms-system/lib/js/definitions/address';
+import * as address from '../../../../platform/forms/definitions/address';
 import { benefitsLabels, dischargeTypeLabels } from '../../utils/labels.jsx';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
