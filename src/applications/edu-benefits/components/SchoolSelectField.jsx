@@ -285,7 +285,6 @@ export class SchoolSelectField extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const currentPageNumber = selectCurrentPageNumber(state);
-
   const errorMessages = selectFacilityCodeErrorMessages(ownProps);
   const facilityCodeSelected = ownProps.formData ? ownProps.formData.facilityCode : '';
   const institutionQuery = selectInstitutionQuery(state);
