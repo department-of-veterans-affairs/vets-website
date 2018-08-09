@@ -86,6 +86,7 @@ export default function schoolSearch(state = initialState, action) {
       const showNoResultsFound = false;
       const showPagination = action.page ? action.page > 1 : false;
       const showPaginationLoading = !!action.page;
+      const showSearchResults = true;
 
       return {
         ...state,
@@ -99,7 +100,8 @@ export default function schoolSearch(state = initialState, action) {
         showInstitutionsLoading,
         showNoResultsFound,
         showPagination,
-        showPaginationLoading
+        showPaginationLoading,
+        showSearchResults
       };
     }
 

@@ -15,6 +15,8 @@ import {
 } from '../complaint-tool/actions/schoolSearch';
 import {
   selectCurrentPageNumber,
+  selectFacilityCodeErrorMessages,
+  selectFormSubmitted,
   selectInstitutionQuery,
   selectInstitutions,
   selectInstitutionSelected,
@@ -65,7 +67,7 @@ export class SchoolSelectField extends React.Component {
   handleOptionClick = ({ city, facilityCode, name, state }) => {
     this.props.selectInstitution({ city, facilityCode, name, state });
     this.props.onChange({
-      facilityCode: facilityCode,
+      facilityCode,
       manualSchoolEntryChecked: this.props.manualSchoolEntryChecked
     });
   }
@@ -125,6 +127,7 @@ export class SchoolSelectField extends React.Component {
   render() {
     const {
       currentPageNumber,
+      errorMessages,
       facilityCodeSelected,
       formContext,
       institutionQuery,
@@ -134,6 +137,7 @@ export class SchoolSelectField extends React.Component {
       pagesCount,
       searchInputValue,
       searchResultsCount,
+      showErrors,
       showInstitutions,
       showInstitutionsLoading,
       showNoResultsFound,
@@ -142,7 +146,13 @@ export class SchoolSelectField extends React.Component {
       showSearchResults
     } = this.props;
 
-    const fieldsetClass = classNames('search-select-school-fieldset');
+    const fieldsetClassNames = classNames('search-select-school-fieldset');
+    const schoolSearchClassNames = classNames('school-search', {
+      'usa-input-error': showErrors
+    });
+    const labelClassNames = classNames('school-search-label', {
+      'usa-input-error-label': showErrors
+    });
 
     if (formContext.reviewMode) {
       const {
@@ -163,49 +173,57 @@ export class SchoolSelectField extends React.Component {
       );
     }
 
-    // <span class="usa-input-error-message" role="alert" id="root_school_facilityCode_facilityCode-error-message"><span class="sr-only">Error</span><!-- react-text: 119 --> <!-- /react-text --><!-- react-text: 120 -->Please provide a response<!-- /react-text --></span>
     return (
-      <fieldset className={fieldsetClass}>
-        <div className="usa-input-error">
-          <label
-            id="school-search-label"
-            className="school-search-label"
-            htmlFor="school-search-input">
-            {'School Information'}
-            {!manualSchoolEntryChecked && <span className="schemaform-required-span">{'(*Required)'}</span>}
-          </label>
-          <span>
-            {'Enter your school’s name or city to search for your school'}
-          </span>
-          <div className="search-controls">
-            <Element name="schoolSearch"/>
-            <div className="search-input">
-              <input
-                name="school-search-input"
-                onChange={this.handleSearchInputChange}
-                onKeyDown={this.handleSearchInputKeyDown}
-                ref={input => { this.searchInput = input; }}
-                type="text"
-                value={searchInputValue}/>
-              <button
-                className="search-schools-button usa-button-primary"
-                onClick={this.handleSearchClick}>
-                {'Search Schools'}
-              </button>
-            </div>
-            <div className="clear-search">
-              <button
-                className="va-button-link start-over"
-                onClick={this.handleStartOver}>
-                {'Start Over'}
-              </button>
+      <fieldset className={fieldsetClassNames}>
+        <div>
+          <div className={schoolSearchClassNames}>
+            <label
+              id="school-search-label"
+              className={labelClassNames}
+              htmlFor="school-search-input">
+              {'School Information'}
+              {!manualSchoolEntryChecked && <span className="schemaform-required-span">{'(*Required)'}</span>}
+            </label>
+            {showErrors && <span
+              className="usa-input-error-message"
+              role="alert"
+              id="root_school_facilityCode_facilityCode-error-message">
+              {errorMessages.map((message, index) => (
+                <span key={index}><span className="sr-only">Error</span>{message}</span>))
+              }
+            </span>}
+            <span>
+              {'Enter your school’s name or city to search for your school'}
+            </span>
+            <div className="search-controls">
+              <Element name="schoolSearch"/>
+              <div className="search-input">
+                <input
+                  name="school-search-input"
+                  onChange={this.handleSearchInputChange}
+                  onKeyDown={this.handleSearchInputKeyDown}
+                  ref={input => { this.searchInput = input; }}
+                  type="text"
+                  value={searchInputValue}/>
+                <button
+                  className="search-schools-button usa-button-primary"
+                  onClick={this.handleSearchClick}>
+                  {'Search Schools'}
+                </button>
+              </div>
+              <div className="clear-search">
+                <button
+                  className="va-button-link start-over"
+                  onClick={this.handleStartOver}>
+                  {'Start Over'}
+                </button>
+              </div>
             </div>
           </div>
-          <ErrorableCheckbox required
+          <ErrorableCheckbox
             checked={manualSchoolEntryChecked}
             onValueChange={() => this.handleManualSchoolEntryToggled(manualSchoolEntryChecked)}
-            label={<span>I’d rather type in my school information</span>}
-            required={false}/>
+            label={<span>I’d rather type in my school information</span>}/>
           <div
             aria-live="polite"
             aria-relevant="additions text">
@@ -266,8 +284,9 @@ export class SchoolSelectField extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps);
   const currentPageNumber = selectCurrentPageNumber(state);
+
+  const errorMessages = selectFacilityCodeErrorMessages(ownProps);
   const facilityCodeSelected = ownProps.formData ? ownProps.formData.facilityCode : '';
   const institutionQuery = selectInstitutionQuery(state);
   const institutions = selectInstitutions(state);
@@ -276,6 +295,7 @@ const mapStateToProps = (state, ownProps) => {
   const pagesCount = selectPagesCount(state);
   const searchInputValue = selectSearchInputValue(state);
   const searchResultsCount = selectSearchResultsCount(state);
+  const showErrors = errorMessages.length > 0 && selectFormSubmitted(ownProps) && !manualSchoolEntryChecked;
   const showInstitutions = selectShowInstitutions(state);
   const showInstitutionsLoading = selectShowInstitutionsLoading(state);
   const showNoResultsFound = selectShowNoResultsFound(state);
@@ -285,6 +305,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     currentPageNumber,
+    errorMessages,
     facilityCodeSelected,
     institutionQuery,
     institutions,
@@ -293,6 +314,7 @@ const mapStateToProps = (state, ownProps) => {
     pagesCount,
     searchInputValue,
     searchResultsCount,
+    showErrors,
     showInstitutions,
     showInstitutionsLoading,
     showNoResultsFound,
