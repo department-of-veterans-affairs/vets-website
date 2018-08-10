@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-
+import _ from 'lodash';
 import {
   DefinitionTester,
   fillData
@@ -11,7 +11,7 @@ import formConfig from '../../../complaint-tool/config/form';
 
 describe('complaint tool school info', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolInformation.pages.schoolInformation;
-  delete uiSchema.school.facilityCode;
+  _.unset(uiSchema, 'school.facilityCode');
 
   it('should render', () => {
     const form = mount(
