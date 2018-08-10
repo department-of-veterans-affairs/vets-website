@@ -24,7 +24,6 @@ const domesticSchoolAddress = schoolInformation.oneOf[0];
 const internationalSchoolAddress = schoolInformation.oneOf[1];
 
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
-const countryLabels = domesticSchoolAddress.properties.country.enumNames.concat(internationalSchoolAddress.properties.country.enumNames); // TODO access via default definition
 
 const {
   onBehalfOf,
@@ -419,13 +418,13 @@ const formConfig = {
                     updateSchema: (formData) => {
                       if (formData.address && formData.address.country && formData.address.country !== 'USA') {
                         let newSchema = _.set('properties.country.enum', countries, internationalSchoolAddress);
+                        newSchema = _.unset('required', newSchema);
                         newSchema = _.set('properties.country.default', 'USA', newSchema);
-                        newSchema = _.set('properties.country.enumNames', countryLabels, newSchema);
                         return newSchema;
                       }
                       let newSchema = _.set('properties.country.enum', countries, domesticSchoolAddress);
+                      newSchema = _.unset('required', newSchema);
                       newSchema = _.set('properties.country.default', 'USA', newSchema);
-                      newSchema = _.set('properties.country.enumNames', countryLabels, newSchema);
                       return newSchema;
                     }
                   }
