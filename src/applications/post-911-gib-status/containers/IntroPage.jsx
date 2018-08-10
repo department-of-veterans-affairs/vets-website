@@ -89,7 +89,6 @@ export class IntroPage extends React.Component {
 
 const mapStateToProps = (state) => {
   const { serviceAvailability } = state.post911GIBStatus;
-  // const { serviceAvailability } = 'down';
   return {
     serviceAvailability
   };
