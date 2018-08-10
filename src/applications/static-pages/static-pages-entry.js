@@ -7,7 +7,6 @@ import createApplicationStatus from './createApplicationStatus';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
-import create526EmailForm from '../disability-benefits/526EZ/components/create526EmailForm';
 
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
@@ -63,8 +62,4 @@ if (burialPages.has(location.pathname)) {
 
 if (disabilityPages.has(location.pathname) && __BUILDTYPE__ !== 'production') {
   createDisabilityIncreaseApplicationStatus(store);
-}
-
-if (location.pathname === '/disability-benefits/increase-claims-testing/') {
-  create526EmailForm(store);
 }
