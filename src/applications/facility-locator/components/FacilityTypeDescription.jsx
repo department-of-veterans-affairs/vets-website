@@ -3,7 +3,7 @@ import { facilityTypes } from '../config';
 
 class FacilityTypeDescription extends Component {
   renderFacilityType() {
-    const { facilityType, classification } = this.props.facility.attributes;
+    const { facilityType, classification } = this.props.location.attributes;
 
     return (facilityType === 'va_cemetery' ? classification : facilityTypes[facilityType]);
   }

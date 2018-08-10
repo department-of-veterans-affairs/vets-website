@@ -8,7 +8,7 @@ import {
 import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
-  facilities: [],
+  results: [],
   selectedFacility: null,
   pagination: {}
 };

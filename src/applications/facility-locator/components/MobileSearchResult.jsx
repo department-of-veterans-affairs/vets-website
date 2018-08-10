@@ -26,7 +26,7 @@ class MobileSearchResult extends Component {
 
   renderHours() {
     const { expandHours } = this.state;
-    const { facility } = this.props;
+    const { result } = this.props;
 
     return (
       <div>
@@ -34,23 +34,23 @@ class MobileSearchResult extends Component {
           <span className="fa fa-clock blue"></span> Hours of operation <span className={`fa ${expandHours ? 'fa-chevron-up' : 'fa-chevron-down'}`}></span>
         </p>
         <div style={{ paddingLeft: '1.3em' }}>
-          {expandHours ? <FacilityHours facility={facility}/> : null}
+          {expandHours ? <FacilityHours location={result}/> : null}
         </div>
       </div>
     );
   }
 
   render() {
-    const { facility, currentLocation } = this.props;
+    const { result, currentLocation } = this.props;
 
     return (
       <div className="facility-result">
-        <FacilityInfoBlock facility={facility} currentLocation={currentLocation}/>
+        <FacilityInfoBlock location={result} currentLocation={currentLocation}/>
         <div>
-          <FacilityPhoneLink facility={facility}/>
+          <FacilityPhoneLink location={result}/>
         </div>
         <p>
-          <FacilityDirectionsLink facility={facility}/>
+          <FacilityDirectionsLink location={result}/>
         </p>
       </div>
     );
@@ -58,7 +58,7 @@ class MobileSearchResult extends Component {
 }
 
 MobileSearchResult.propTypes = {
-  facility: PropTypes.object,
+  result: PropTypes.object,
 };
 
 export default MobileSearchResult;

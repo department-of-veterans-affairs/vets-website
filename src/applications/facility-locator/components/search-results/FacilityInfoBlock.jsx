@@ -7,13 +7,13 @@ import FacilityTypeDescription from '../FacilityTypeDescription';
 
 class FacilityInfoBlock extends Component {
   renderDistance() {
-    const { currentLocation, facility } = this.props;
+    const { currentLocation, location } = this.props;
     if (currentLocation) {
       const distance = distBetween(
         currentLocation.latitude,
         currentLocation.longitude,
-        facility.attributes.lat,
-        facility.attributes.long,
+        location.attributes.lat,
+        location.attributes.long,
       );
       return (
         <p>
@@ -26,17 +26,17 @@ class FacilityInfoBlock extends Component {
   }
 
   render() {
-    const { facility } = this.props;
-    const { name } = facility.attributes;
+    const { location } = this.props;
+    const { name } = location.attributes;
 
     return (
       <div>
-        <Link to={`facility/${facility.id}`}>
+        <Link to={`facility/${location.id}`}>
           <h5>{name}</h5>
         </Link>
-        <FacilityTypeDescription facility={facility}/>
+        <FacilityTypeDescription location={location}/>
         <p>
-          <FacilityAddress facility={facility}/>
+          <FacilityAddress location={location}/>
         </p>
         {this.renderDistance()}
       </div>
@@ -45,7 +45,7 @@ class FacilityInfoBlock extends Component {
 }
 
 FacilityInfoBlock.propTypes = {
-  facility: PropTypes.object,
+  location: PropTypes.object,
 };
 
 export default FacilityInfoBlock;

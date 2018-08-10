@@ -22,8 +22,8 @@ export default class FacilityHours extends Component {
   }
 
   renderVetCenterContent() {
-    const { facility } = this.props;
-    if (facility && facility.attributes.facilityType === 'vet_center') {
+    const { location } = this.props;
+    if (location && location.attributes.facilityType === 'vet_center') {
       return (
         <p>
           In addition to the hours listed above, all Vet Centers maintain non-traditional hours that are specific to each site and can change periodically given local Veteran, Service member & Family needs.  Please contact your Vet Center to obtain the current schedule.
@@ -34,17 +34,17 @@ export default class FacilityHours extends Component {
   }
 
   render() {
-    const { facility } = this.props;
+    const { location } = this.props;
 
-    if (!facility) {
+    if (!location) {
       return null;
     }
 
     const {
       attributes: { hours }
-    } = facility;
+    } = location;
 
-    const isVetCenter = facility.attributes.facilityType === 'vet_center';
+    const isVetCenter = location.attributes.facilityType === 'vet_center';
 
     if (every(values(hours), h => !h) && !isVetCenter) {
       return null;

@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-
+import FacilityTypeDropdown from './FacilityTypeDropdown';
 import recordEvent from '../../../platform/monitoring/record-event';
-
 import {
   healthServices,
   benefitsServices,
   vetCenterServices
 } from '../config';
-
-import FacilityTypeDropdown from './FacilityTypeDropdown';
 
 class SearchControls extends Component {
   handleEditSearch = () => {

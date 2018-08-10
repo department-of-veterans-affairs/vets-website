@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 
 class FacilityAddress extends Component {
   render() {
-    const { facility } = this.props;
-    const addressArray = buildAddressArray(facility);
+    const { location } = this.props;
+    const addressArray = buildAddressArray(location);
 
     return (
       <span>
@@ -16,7 +16,7 @@ class FacilityAddress extends Component {
 }
 
 FacilityAddress.propTypes = {
-  facility: PropTypes.object,
+  location: PropTypes.object,
 };
 
 export default FacilityAddress;

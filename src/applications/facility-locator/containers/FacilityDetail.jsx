@@ -40,15 +40,15 @@ class FacilityDetail extends Component {
       <div>
         <h1>{name}</h1>
         <div className="p1">
-          <FacilityTypeDescription facility={facility}/>
-          <FacilityAddress facility={facility}/>
+          <FacilityTypeDescription location={facility}/>
+          <FacilityAddress location={facility}/>
         </div>
         <div>
-          <FacilityPhoneLink facility={facility}/>
+          <FacilityPhoneLink location={facility}/>
         </div>
         { website && this.renderFacilityWebsite()}
         <div>
-          <FacilityDirectionsLink facility={facility}/>
+          <FacilityDirectionsLink location={facility}/>
         </div>
         <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
       </div>
@@ -78,15 +78,15 @@ class FacilityDetail extends Component {
             <ServicesAtFacility facility={facility}/>
           </div>
           <div>
-            <AppointmentInfo facility={facility}/>
-            <AccessToCare facility={facility}/>
+            <AppointmentInfo location={facility}/>
+            <AccessToCare location={facility}/>
           </div>
         </div>
         <div className="usa-width-one-third medium-4 columns">
           <div>
             <FacilityMap info={facility}/>
             <div className="mb2">
-              <FacilityHours facility={facility}/>
+              <FacilityHours location={facility}/>
             </div>
           </div>
         </div>
@@ -100,7 +100,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.searchResult.selectedFacility, currentQuery: state.searchQuery };
+  return { facility: state.searchResult.selectedResult, currentQuery: state.searchQuery };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);

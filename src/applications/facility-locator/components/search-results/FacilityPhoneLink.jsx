@@ -22,7 +22,7 @@ class FacilityPhoneLink extends Component {
   }
 
   render() {
-    const { attributes: { phone } } = this.props.facility;
+    const { attributes: { phone } } = this.props.location;
 
     return (
       <div>
@@ -34,7 +34,7 @@ class FacilityPhoneLink extends Component {
 }
 
 FacilityPhoneLink.propTypes = {
-  facility: PropTypes.object,
+  location: PropTypes.object,
 };
 
 export default FacilityPhoneLink;

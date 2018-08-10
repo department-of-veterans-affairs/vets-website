@@ -27,11 +27,11 @@ export function updateLocation(propertyPath, value) {
   };
 }
 
-export function fetchVAFacility(id, facility = null) {
-  if (facility) {
+export function fetchVAFacility(id, location = null) {
+  if (location) {
     return {
       type: FETCH_VA_FACILITY,
-      payload: facility,
+      payload: location,
     };
   }
 
@@ -49,7 +49,7 @@ export function fetchVAFacility(id, facility = null) {
       .then(res => res.json())
       .then(
         data => dispatch({ type: FETCH_VA_FACILITY, payload: data.data }),
-        err => dispatch({ type: SEARCH_FAILED, err })
+        error => dispatch({ type: SEARCH_FAILED, error })
       );
   };
 }
@@ -58,7 +58,7 @@ export const searchProviders = (bounds, serviceType, page = 1) => {
   return (dispatch, getState) => {
     const { searchString } = getState().searchQuery;
     if (searchString && searchString !== '') {
-      return fetchProviders(searchString, dispatch, serviceType, page); // eslint-disable-line
+      return fetchProviders(searchString, bounds, dispatch, serviceType, page); // eslint-disable-line no-use-before-define
     }
 
     reverseGeocodeBox(bounds).then(address => {
@@ -68,16 +68,26 @@ export const searchProviders = (bounds, serviceType, page = 1) => {
       }
       console.log('Reverse geocoded address:', address); //eslint-disable-line
 
-      return fetchProviders(address, dispatch, serviceType, page); // eslint-disable-line
+      return fetchProviders(address, bounds, dispatch, serviceType, page); // eslint-disable-line no-use-before-define
     });
 
     return null;
   };
 };
 
-const fetchProviders = (address, dispatch, serviceType, page) => {
+/**
+ * 
+ * 
+ * @param {String} address 
+ * @param {Array<String>} bounds 
+ * @param {Function<T>} dispatch 
+ * @param {String} serviceType 
+ * @param {Number} page 
+ */
+const fetchProviders = (address, bounds, dispatch, serviceType, page) => {
   const params = compact([
     `address=${address}`,
+    `bbox=${bounds}`,
     'type=cc_provider',
     serviceType ? `services[]=${serviceType}` : null,
     `page=${page}`
@@ -135,12 +145,12 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
       .then(
         (data) => {
           if (data.errors) {
-            dispatch({ type: SEARCH_FAILED, err: data.errors });
+            dispatch({ type: SEARCH_FAILED, error: data.errors });
           } else {
             dispatch({ type: FETCH_VA_FACILITIES, payload: data });
           }
         },
-        (err) => dispatch({ type: SEARCH_FAILED, err })
+        (error) => dispatch({ type: SEARCH_FAILED, error })
       );
   };
 }
@@ -149,7 +159,7 @@ export function genBBoxFromAddress(query) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query.searchString) {
-    return { type: SEARCH_FAILED };
+    return { type: SEARCH_FAILED, error: 'Empty search string/address. Search cancelled.' };
   }
 
   return (dispatch) => {
@@ -165,8 +175,8 @@ export function genBBoxFromAddress(query) {
     mapboxClient.geocodeForward(query.searchString, {
       country: 'us,pr,ph,gu,as,mp',
       types,
-    }, (err, res) => {
-      if (!err && !isEmpty(res.features)) {
+    }, (error, res) => {
+      if (!error && !isEmpty(res.features)) {
         const coordinates = res.features[0].center;
         const zipCode = (find(res.features[0].context, (v) => {
           return v.id.includes('postcode');
@@ -205,7 +215,7 @@ export function genBBoxFromAddress(query) {
 
       return dispatch({
         type: SEARCH_FAILED,
-        err,
+        error,
       });
     });
   };

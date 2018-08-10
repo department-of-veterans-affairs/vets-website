@@ -1,7 +1,7 @@
 import { compact } from 'lodash';
 
-export function buildAddressArray(facility) {
-  const { address: { physical: address } } = facility.attributes;
+export function buildAddressArray(location) {
+  const { address: { physical: address } } = location.attributes;
 
   return compact([
     address.address1,

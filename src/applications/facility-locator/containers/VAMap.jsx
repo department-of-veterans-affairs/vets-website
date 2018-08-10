@@ -45,7 +45,7 @@ class VAMap extends Component {
     const { location, currentQuery } = this.props;
 
     // navigating back from a facility page preserves previous search results
-    if (!isEmpty(this.props.facilities)) {
+    if (!isEmpty(this.props.results)) {
       return;
     }
 
@@ -98,7 +98,7 @@ class VAMap extends Component {
       this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, newQuery.currentPage);
     }
 
-    if (!isEmpty(nextProps.facilities) || newQuery.inProgress) {
+    if (!isEmpty(nextProps.results) || newQuery.inProgress) {
       this.zoomOut.cancel();
     }
   }
@@ -108,7 +108,7 @@ class VAMap extends Component {
     const newQuery = this.props.currentQuery;
 
     const shouldUpdateSearchQuery = (
-      isEmpty(this.props.facilities) &&
+      isEmpty(this.props.results) &&
       !newQuery.inProgress &&
       currentQuery.inProgress &&
       newQuery.bounds &&
@@ -131,7 +131,7 @@ class VAMap extends Component {
       }
     }
 
-    if (!isEmpty(this.props.facilities) || currentQuery.inProgress) {
+    if (!isEmpty(this.props.results) || currentQuery.inProgress) {
       this.zoomOut.cancel();
     }
   }
@@ -275,7 +275,7 @@ class VAMap extends Component {
   }
 
   renderFacilityMarkers = () => {
-    const { facilities } = this.props;
+    const { results } = this.props;
 
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, e) => {
@@ -283,7 +283,7 @@ class VAMap extends Component {
       this.context.router.push(`facility/${id}`);
     };
 
-    return facilities.map(f => {
+    return results.map(f => {
       const iconProps = {
         key: f.id,
         position: [f.attributes.lat, f.attributes.long],
@@ -342,7 +342,7 @@ class VAMap extends Component {
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, facilities, pagination, selectedFacility } = this.props;
+    const { currentQuery, results, pagination, selectedResult } = this.props;
 
     return (
       <div>
@@ -356,7 +356,7 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <p>Search Results near <strong>“{currentQuery.context}”</strong></p>
-                <ResultsList facilities={facilities} pagination={pagination} isMobile
+                <ResultsList results={results} pagination={pagination} isMobile
                   currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </TabPanel>
@@ -374,9 +374,9 @@ class VAMap extends Component {
                   {this.renderFacilityMarkers()}
                 </FeatureGroup>
               </Map>
-              { selectedFacility &&
+              { selectedResult &&
                 <div className="mobile-search-result">
-                  <MobileSearchResult facility={selectedFacility}/>
+                  <MobileSearchResult result={selectedResult}/>
                 </div>
               }
             </TabPanel>
@@ -388,7 +388,7 @@ class VAMap extends Component {
 
   renderDesktopView = () => {
     // defaults to White House coordinates initially
-    const { currentQuery, facilities, pagination } = this.props;
+    const { currentQuery, results, pagination } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
 
@@ -402,7 +402,7 @@ class VAMap extends Component {
             style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
             <div className="facility-search-results">
               <div>
-                <ResultsList facilities={facilities} pagination={pagination}
+                <ResultsList results={results} pagination={pagination}
                   currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </div>
@@ -441,9 +441,9 @@ class VAMap extends Component {
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
-    facilities: state.searchResult.facilities,
+    results: state.searchResult.results,
     pagination: state.searchResult.pagination,
-    selectedFacility: state.searchResult.selectedFacility,
+    selectedResult: state.searchResult.selectedResult,
   };
 }
 
