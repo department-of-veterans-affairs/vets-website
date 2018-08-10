@@ -155,7 +155,7 @@ export class SchoolSelectField extends React.Component {
     });
 
     if (formContext.reviewMode && manualSchoolEntryChecked) {
-      return (<div></div>);
+      return null;
     }
 
     if (formContext.reviewMode) {
