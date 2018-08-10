@@ -84,7 +84,7 @@ const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complaint-tool',
+  trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'complaint-tool',
