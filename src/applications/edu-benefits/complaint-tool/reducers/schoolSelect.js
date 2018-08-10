@@ -9,9 +9,6 @@ import {
 import _ from 'lodash';
 
 const initialState = {
-  address1: '',
-  address2: '',
-  address3: '',
   currentPageNumber: 1,
   institutions: [],
   institutionQuery: '',
