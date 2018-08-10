@@ -173,12 +173,14 @@ describe('schoolSearch reducer', () => {
         currentPageNumber: 1,
         institutionQuery: 'new',
         institutions: [{
+          address1: 'testAddress1',
+          address2: 'testAddress2',
+          address3: 'testAddress3',
           city: 'testCity',
           country: 'testCountry',
           facilityCode: 'testFacilityCode',
           name: 'testName',
           state: 'testState',
-          street: 'testStreet',
           zip: 'testZip'
         }],
         institutionSelected: {},
@@ -198,12 +200,14 @@ describe('schoolSearch reducer', () => {
         payload: {
           data: [{
             attributes: {
+              address1: 'testAddress1',
+              address2: 'testAddress2',
+              address3: 'testAddress3',
               city: 'testCity',
               country: 'testCountry',
               facilityCode: 'testFacilityCode',
               name: 'testName',
               state: 'testState',
-              street: 'testStreet',
               zip: 'testZip'
             }
           }],
@@ -235,12 +239,14 @@ describe('schoolSearch reducer', () => {
         currentPageNumber: 1,
         institutionQuery: 'new',
         institutions: [{
+          address1: '',
+          address2: '',
+          address3: '',
           city: '',
           country: '',
           facilityCode: 'testFacilityCode',
           name: '',
           state: '',
-          street: '',
           zip: ''
         }],
         institutionSelected: {},
@@ -260,12 +266,12 @@ describe('schoolSearch reducer', () => {
         payload: {
           data: [{
             attributes: {
+              address1: null,
               city: null,
               country: null,
               facilityCode: 'testFacilityCode',
               name: null,
               state: null,
-              street: null,
               zip: null
             }
           }],

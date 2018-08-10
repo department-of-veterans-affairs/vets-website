@@ -27,11 +27,13 @@ describe('<SchoolSelectField>', () => {
 
   it('should render institution results view', () => {
     const institutions = [{
+      address1: 'testStreet',
+      address2: 'testStreet',
+      address3: 'testStreet',
       city: 'testCity',
       facilityCode: 'test',
       name: 'testName',
       state: 'testState',
-      street: 'testStreet'
     }];
     const tree = mount(<SchoolSelectField
       formContext={{}}
@@ -50,7 +52,7 @@ describe('<SchoolSelectField>', () => {
     expect(tree.find('.search-controls').exists()).to.be.true;
     expect(tree.find('.institution-name').exists()).to.be.true;
     expect(tree.find('.institution-city-state').text()).to.eql('testCity, testState');
-    expect(tree.find('.institution-street').exists()).to.be.true;
+    expect(tree.find('.institution-address').length).to.eql(3);
     expect(tree.find('.va-pagination').exists()).to.be.true;
     expect(tree.find('.loading-indicator-container').exists()).to.be.false;
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be.false;

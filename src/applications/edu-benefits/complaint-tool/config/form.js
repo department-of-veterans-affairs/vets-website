@@ -12,25 +12,19 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform } from '../helpers';
+import { transform, submit } from '../helpers';
 
 const { educationDetails } = fullSchema.properties;
 
 const { school } = educationDetails;
 
-const {
-  name: schoolName,
-  address: schoolAddress
-} = school.oneOf[0].schoolInformation.properties;
+const { schoolInformation } = school.oneOf[0];
 
-const {
-  street: schoolStreet,
-  street2: schoolStreet2,
-  city: schoolCity,
-  state: schoolState,
-  country: schoolCountry,
-  postalCode: schoolPostalCode
-} = schoolAddress.properties;
+const domesticSchoolAddress = schoolInformation.oneOf[0];
+const internationalSchoolAddress = schoolInformation.oneOf[1];
+
+const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
+const countryLabels = domesticSchoolAddress.properties.country.enumNames.concat(internationalSchoolAddress.properties.country.enumNames); // TODO access via default definition
 
 const {
   onBehalfOf,
@@ -82,9 +76,9 @@ function isNotVeteranOrServiceMember(formData) {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complaint-tool',
+  submitUrl: '/v0/gi_bill_feedbacks',
+  submit,
+  trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'complaint-tool',
@@ -386,36 +380,52 @@ const formConfig = {
               },
               'view:manualSchoolEntry': {
                 name: {
-                  'ui:title': 'Name',
+                  'ui:title': 'School name',
                   'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 },
-                street: {
-                  'ui:title': 'Address line 1',
-                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
-                },
-                street2: {
-                  'ui:title': 'Address line 2'
-                },
-                city: {
-                  'ui:title': 'City',
-                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
-                },
-                state: {
-                  'ui:title': 'State',
-                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
-                },
-                country: {
-                  'ui:title': 'Country',
-                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
-                },
-                postalCode: {
-                  'ui:title': 'Postal Code',
-                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
-                  'ui:errorMessages': {
-                    pattern: 'Please enter a valid 5 digit postal code'
+                address: {
+                  street: {
+                    'ui:title': 'Address line 1',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  street2: {
+                    'ui:title': 'Address line 2'
+                  },
+                  city: {
+                    'ui:title': 'City',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  state: {
+                    'ui:title': 'State',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  country: {
+                    'ui:title': 'Country',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  postalCode: {
+                    'ui:title': 'Postal Code',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                    'ui:errorMessages': {
+                      pattern: 'Please enter a valid 5 digit postal code'
+                    },
+                    'ui:options': {
+                      widgetClassNames: 'va-input-medium-large'
+                    }
                   },
                   'ui:options': {
-                    widgetClassNames: 'va-input-medium-large'
+                    updateSchema: (formData) => {
+                      if (formData.address && formData.address.country && formData.address.country !== 'USA') {
+                        let newSchema = _.set('properties.country.enum', countries, internationalSchoolAddress);
+                        newSchema = _.set('properties.country.default', 'USA', newSchema);
+                        newSchema = _.set('properties.country.enumNames', countryLabels, newSchema);
+                        return newSchema;
+                      }
+                      let newSchema = _.set('properties.country.enum', countries, domesticSchoolAddress);
+                      newSchema = _.set('properties.country.default', 'USA', newSchema);
+                      newSchema = _.set('properties.country.enumNames', countryLabels, newSchema);
+                      return newSchema;
+                    }
                   }
                 },
                 'ui:options': {
@@ -441,13 +451,17 @@ const formConfig = {
                   'view:manualSchoolEntry': {
                     type: 'object',
                     properties: {
-                      name: schoolName,
-                      street: schoolStreet,
-                      street2: schoolStreet2,
-                      city: schoolCity,
-                      state: schoolState,
-                      country: schoolCountry,
-                      postalCode: schoolPostalCode
+                      name: schoolInformation.properties.name,
+                      address: {
+                        type: 'object',
+                        properties: _.merge(domesticSchoolAddress.properties, {
+                          country: {
+                            type: 'string',
+                            'enum': countries,
+                            'default': 'USA'
+                          }
+                        })
+                      }
                     }
                   }
                 }

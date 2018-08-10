@@ -71,11 +71,11 @@ describe('complaint tool school info', () => {
     );
 
     fillData(form, 'input[name="root_school_view:manualSchoolEntry_name"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_street"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_city"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_postalCode"]', '34343');
-    fillData(form, 'select[name="root_school_view:manualSchoolEntry_state"]', 'MA');
-    fillData(form, 'select[name="root_school_view:manualSchoolEntry_country"]', 'US');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_street"]', 'test');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_city"]', 'test');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_postalCode"]', '34343');
+    fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_state"]', 'MA');
+    fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_country"]', 'USA');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

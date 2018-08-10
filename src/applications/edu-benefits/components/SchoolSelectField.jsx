@@ -160,17 +160,21 @@ export class SchoolSelectField extends React.Component {
 
     if (formContext.reviewMode) {
       const {
+        address1,
+        address2,
+        address3,
         city,
         country,
         name,
         state,
-        street
       } = institutionSelected;
 
       return (
         <div>
           {name && <p>{name}</p>}
-          {street && <p>{street}</p>}
+          {address1 && <p>{address1}</p>}
+          {address2 && <p>{address2}</p>}
+          {address3 && <p>{address3}</p>}
           {(city || state) && <p>{`${city && city}${city && state && ', '}${state && state}`}</p>}
           {!city && !state && <p>{country}</p>}
         </div>
@@ -235,7 +239,7 @@ export class SchoolSelectField extends React.Component {
               {`${searchResultsCount} results for ${institutionQuery}`}
             </span>}
             {showSearchResults && showInstitutions && <div>
-              {institutions.map(({ city, country, facilityCode, name, state, street }, index) => (
+              {institutions.map(({ address1, address2, address3, city, country, facilityCode, name, state }, index) => (
                 <div key={index}>
                   <div className="radio-button">
                     <input
@@ -252,7 +256,9 @@ export class SchoolSelectField extends React.Component {
                       htmlFor={`page-${currentPageNumber}-${index}`}>
                       <span className="institution-information">
                         {name && <span className="institution-name">{name}</span>}
-                        {street && <span className="institution-street">{street}</span>}
+                        {address1 && <span className="institution-address">{address1}</span>}
+                        {address2 && <span className="institution-address">{address2}</span>}
+                        {address2 && <span className="institution-address">{address3}</span>}
                         {(city || state) && <span className="institution-city-state">{`${city && city}${city && state && ', '}${state && state}`}</span>}
                         {!city && !state && <span className="institution-country">{country}</span>}
                       </span>
