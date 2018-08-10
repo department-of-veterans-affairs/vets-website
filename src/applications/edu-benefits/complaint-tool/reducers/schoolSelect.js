@@ -109,14 +109,16 @@ export default function schoolSearch(state = initialState, action) {
       const institutionQuery = action.institutionQuery;
       const institutions = data.map(({ attributes }) => {
         // pull only necessary attributes from response
-        const { city, country, facilityCode, name, state: institutionState, street, zip } = attributes;
+        const { address1, address2, address3, city, country, facilityCode, name, state: institutionState, zip } = attributes;
         return {
+          address1,
+          address2,
+          address3,
           city,
           country,
           facilityCode,
           name,
           state: institutionState,
-          street,
           zip
         };
       }).map(institution => _.reduce(institution, (result, value, key) => {
