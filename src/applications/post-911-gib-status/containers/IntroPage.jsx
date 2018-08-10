@@ -58,17 +58,21 @@ export class IntroPage extends React.Component {
 
 
   render() {
+    const gibsWarning = (
+      <div className="usa-alert usa-alert-warning intro-warning">
+        <div className="usa-alert-body">
+          We’re sorry. Something’s not working quite right with the GI Bill
+          benefits tool. We’re working to fix the problem. If you encounter
+          any errors, please try again later.
+        </div>
+      </div>
+    );
+
     const content = this.getContent();
     return (
       <div className="row">
         <div className="medium-8 columns">
-          <div className="usa-alert usa-alert-warning intro-warning">
-            <div className="usa-alert-body">
-              We’re sorry. Something’s not working quite right with the GI Bill
-              benefits tool. We’re working to fix the problem. If you encounter
-              any errors, please try again later.
-            </div>
-          </div>
+          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up && gibsWarning}
           <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           <p>
             If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. Find out how to check if you have any Post-9/11 GI Bill benefits—and how to track the amount of time you have left to use for your education or training.
@@ -85,6 +89,7 @@ export class IntroPage extends React.Component {
 
 const mapStateToProps = (state) => {
   const { serviceAvailability } = state.post911GIBStatus;
+  // const { serviceAvailability } = 'down';
   return {
     serviceAvailability
   };
