@@ -40,6 +40,14 @@
     }
   }
 
+  .school-search {
+    margin-top: 0
+  }
+
+  .school-search-label {
+    margin-top: 0
+  }
+
   .search-controls {
     display: flex;
     flex-direction: column;
@@ -67,7 +75,6 @@
 
     span {
       display: inline-block;
-      margin-left: 25px;
       width: 100%;
 
       &.institution-name {
@@ -86,7 +93,8 @@
 
       .institution-information {
         background-color: #f1f1f1;
-        padding: 10px
+        margin-left: 25px;
+        padding: 10px 15px;
       }
     }
   }
