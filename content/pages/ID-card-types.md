@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Get a Veteran ID Card 
-display_title: Get a Veteran ID Card 
+title: Types of Veteran ID Cards 
+display_title: Types of Veteran ID Cards
 description: Learn about the different types of ID cards available to Veterans and how to apply for them. 
 concurrence: Incomplete
 plainlanguage: 
