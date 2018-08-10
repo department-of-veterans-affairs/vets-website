@@ -1,14 +1,14 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithBounds } from '../actions';
-import FacilityDirectionsLink from './search-results/FacilityDirectionsLink';
-import FacilityInfoBlock from './search-results/FacilityInfoBlock';
-import FacilityPhoneLink from './search-results/FacilityPhoneLink';
+import LocationDirectionsLink from './search-results/LocationDirectionsLink';
+import LocationInfoBlock from './search-results/LocationInfoBlock';
+import LocationPhoneLink from './search-results/LocationPhoneLink';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import MobileSearchResult from './MobileSearchResult';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 
 class ResultsList extends Component {
 
@@ -75,9 +75,9 @@ class ResultsList extends Component {
             results.map(r => {
               return (
                 <div key={r.id} className="facility-result" id={r.id}>
-                  <FacilityInfoBlock location={r} currentLocation={currentQuery.position}/>
-                  <FacilityPhoneLink location={r}/>
-                  <FacilityDirectionsLink location={r}/>
+                  <LocationInfoBlock location={r} currentLocation={currentQuery.position}/>
+                  <LocationPhoneLink location={r}/>
+                  <LocationDirectionsLink location={r}/>
                 </div>
               );
             })

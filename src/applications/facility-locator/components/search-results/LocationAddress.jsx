@@ -2,7 +2,7 @@ import { buildAddressArray } from '../../utils/facilityAddress';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-class FacilityAddress extends Component {
+class LocationAddress extends Component {
   render() {
     const { location } = this.props;
     const addressArray = buildAddressArray(location);
@@ -15,8 +15,8 @@ class FacilityAddress extends Component {
   }
 }
 
-FacilityAddress.propTypes = {
+LocationAddress.propTypes = {
   location: PropTypes.object,
 };
 
-export default FacilityAddress;
+export default LocationAddress;

@@ -1,11 +1,11 @@
 import { distBetween } from '../../utils/facilityDistance';
 import { Link } from 'react-router';
-import FacilityAddress from './FacilityAddress';
+import LocationAddress from './LocationAddress';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import FacilityTypeDescription from '../FacilityTypeDescription';
 
-class FacilityInfoBlock extends Component {
+class LocationInfoBlock extends Component {
   renderDistance() {
     const { currentLocation, location } = this.props;
     if (currentLocation) {
@@ -36,7 +36,7 @@ class FacilityInfoBlock extends Component {
         </Link>
         <FacilityTypeDescription location={location}/>
         <p>
-          <FacilityAddress location={location}/>
+          <LocationAddress location={location}/>
         </p>
         {this.renderDistance()}
       </div>
@@ -44,8 +44,8 @@ class FacilityInfoBlock extends Component {
   }
 }
 
-FacilityInfoBlock.propTypes = {
+LocationInfoBlock.propTypes = {
   location: PropTypes.object,
 };
 
-export default FacilityInfoBlock;
+export default LocationInfoBlock;

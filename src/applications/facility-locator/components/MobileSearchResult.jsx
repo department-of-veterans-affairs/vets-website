@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import FacilityDirectionsLink from './search-results/FacilityDirectionsLink';
-import FacilityHours from './FacilityHours';
-import FacilityInfoBlock from './search-results/FacilityInfoBlock';
-import FacilityPhoneLink from './search-results/FacilityPhoneLink';
+import LocationDirectionsLink from './search-results/LocationDirectionsLink';
+import LocationHours from './LocationHours';
+import LocationInfoBlock from './search-results/LocationInfoBlock';
+import LocationPhoneLink from './search-results/LocationPhoneLink';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
@@ -34,7 +34,7 @@ class MobileSearchResult extends Component {
           <span className="fa fa-clock blue"></span> Hours of operation <span className={`fa ${expandHours ? 'fa-chevron-up' : 'fa-chevron-down'}`}></span>
         </p>
         <div style={{ paddingLeft: '1.3em' }}>
-          {expandHours ? <FacilityHours location={result}/> : null}
+          {expandHours ? <LocationHours location={result}/> : null}
         </div>
       </div>
     );
@@ -45,12 +45,12 @@ class MobileSearchResult extends Component {
 
     return (
       <div className="facility-result">
-        <FacilityInfoBlock location={result} currentLocation={currentLocation}/>
+        <LocationInfoBlock location={result} currentLocation={currentLocation}/>
         <div>
-          <FacilityPhoneLink location={result}/>
+          <LocationPhoneLink location={result}/>
         </div>
         <p>
-          <FacilityDirectionsLink location={result}/>
+          <LocationDirectionsLink location={result}/>
         </p>
       </div>
     );

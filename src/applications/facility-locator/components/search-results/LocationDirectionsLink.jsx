@@ -2,7 +2,7 @@ import { buildAddressArray } from '../../utils/facilityAddress';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-class FacilityDirectionsLink extends Component {
+class LocationDirectionsLink extends Component {
   render() {
     const { location } = this.props;
     const address = buildAddressArray(location).join(', ');
@@ -17,8 +17,8 @@ class FacilityDirectionsLink extends Component {
   }
 }
 
-FacilityDirectionsLink.propTypes = {
+LocationDirectionsLink.propTypes = {
   location: PropTypes.object,
 };
 
-export default FacilityDirectionsLink;
+export default LocationDirectionsLink;

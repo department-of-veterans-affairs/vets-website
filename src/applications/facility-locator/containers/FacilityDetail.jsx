@@ -1,14 +1,14 @@
+import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
 import AccessToCare from '../components/AccessToCare';
-import FacilityAddress from '../components/search-results/FacilityAddress';
-import FacilityDirectionsLink from '../components/search-results/FacilityDirectionsLink';
-import FacilityHours from '../components/FacilityHours';
-import FacilityMap from '../components/FacilityMap';
-import FacilityPhoneLink from '../components/search-results/FacilityPhoneLink';
+import LocationAddress from '../components/search-results/LocationAddress';
+import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
+import LocationHours from '../components/LocationHours';
+import LocationMap from '../components/LocationMap';
+import LocationPhoneLink from '../components/search-results/LocationPhoneLink';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
@@ -41,14 +41,14 @@ class FacilityDetail extends Component {
         <h1>{name}</h1>
         <div className="p1">
           <FacilityTypeDescription location={facility}/>
-          <FacilityAddress location={facility}/>
+          <LocationAddress location={facility}/>
         </div>
         <div>
-          <FacilityPhoneLink location={facility}/>
+          <LocationPhoneLink location={facility}/>
         </div>
         { website && this.renderFacilityWebsite()}
         <div>
-          <FacilityDirectionsLink location={facility}/>
+          <LocationDirectionsLink location={facility}/>
         </div>
         <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
       </div>
@@ -84,9 +84,9 @@ class FacilityDetail extends Component {
         </div>
         <div className="usa-width-one-third medium-4 columns">
           <div>
-            <FacilityMap info={facility}/>
+            <LocationMap info={facility}/>
             <div className="mb2">
-              <FacilityHours location={facility}/>
+              <LocationHours location={facility}/>
             </div>
           </div>
         </div>

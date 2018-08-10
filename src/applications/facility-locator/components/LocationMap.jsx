@@ -2,7 +2,7 @@ import { mapboxToken } from './MapboxClient';
 import environment from '../../../platform/utilities/environment';
 import React, { Component } from 'react';
 
-class HowToGetHere extends Component {
+class LocationMap extends Component {
   render() {
     if (!this.props.info) {
       return (
@@ -34,4 +34,4 @@ class HowToGetHere extends Component {
   }
 }
 
-export default HowToGetHere;
+export default LocationMap;

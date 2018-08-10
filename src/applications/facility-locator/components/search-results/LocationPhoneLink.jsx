@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-class FacilityPhoneLink extends Component {
+class LocationPhoneLink extends Component {
   renderPhoneNumber(title, phone, icon = 'fw') {
     if (!phone) {
       return null;
@@ -33,8 +33,8 @@ class FacilityPhoneLink extends Component {
   }
 }
 
-FacilityPhoneLink.propTypes = {
+LocationPhoneLink.propTypes = {
   location: PropTypes.object,
 };
 
-export default FacilityPhoneLink;
+export default LocationPhoneLink;
