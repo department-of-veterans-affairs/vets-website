@@ -249,7 +249,7 @@ node('vetsgov-general-purpose') {
           stringParam(name: 'ref', value: commit),
         ], wait: false
       }
-      if (env.BRANCH_NAME == 'feature/11693') {
+      if (env.BRANCH_NAME == 'brand-consolidation') {
         build job: 'deploys/vets-website-devpreview', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
@@ -257,12 +257,6 @@ node('vetsgov-general-purpose') {
       }
       if (env.BRANCH_NAME == stagingBranch) {
         build job: 'deploys/vets-website-staging', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
-      }
-      if (env.BRANCH_NAME == 'feature/11693') {
-        build job: 'deploys/vets-website-preview', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false

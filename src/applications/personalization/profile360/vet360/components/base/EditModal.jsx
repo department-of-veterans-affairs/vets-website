@@ -18,7 +18,7 @@ export default class Vet360EditModal extends React.Component {
       validations: PropTypes.object
     }),
     hasValidationError: PropTypes.func,
-    isEmpty: PropTypes.func.isRequired,
+    isEmpty: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -102,7 +102,7 @@ export default class Vet360EditModal extends React.Component {
             title={title}
             analyticsSectionName={analyticsSectionName}
             transactionRequest={transactionRequest}
-            deleteEnabled={!isEmpty() && !deleteDisabled}>
+            deleteEnabled={!isEmpty && !deleteDisabled}>
             <LoadingButton data-action="save-edit" isLoading={isLoading}>Update</LoadingButton>
             <button type="button" className="usa-button-secondary" onClick={onCancel}>Cancel</button>
           </Vet360EditModalActionButtons>

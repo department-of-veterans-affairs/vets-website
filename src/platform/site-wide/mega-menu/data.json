@@ -1,6 +1,6 @@
 [
     {
-        "title": "Health Care and Benefits",
+        "title": "VA Benefits and Health Care",
         "menuSections": [
             {
                 "title": "Health Care",
@@ -547,7 +547,7 @@
                         ]
                     },
                     "columnTwo": {
-                        "title": "  ",
+                        "title": "VA",
                         "links": [
                             {
                                 "text": "Request Your Military Records (DD214)",

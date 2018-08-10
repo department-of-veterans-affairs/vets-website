@@ -38,6 +38,7 @@ export const toggleMobileDisplayHidden = (hidden) => {
 export function togglePanelOpen(currentDropdown) {
   return (dispatch, getState) => {
     const state = getState();
+
     const shouldUpdateDropdown = !state.megaMenu.currentDropdown ||
       state.megaMenu.currentDropdown !== currentDropdown;
 

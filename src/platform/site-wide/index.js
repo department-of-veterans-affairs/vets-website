@@ -12,6 +12,8 @@ import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
+import startPreviewSiteAlert from './preview-site-alert';
+import startVAGovUserNavWidget from './va-gov-user-nav';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 
@@ -44,6 +46,8 @@ export default function startSitewideComponents(commonStore) {
   startUserNavWidget(commonStore);
   startMegaMenuWidget(commonStore);
   startMobileMenuButton(commonStore);
+  startPreviewSiteAlert(commonStore);
+  startVAGovUserNavWidget(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
 }

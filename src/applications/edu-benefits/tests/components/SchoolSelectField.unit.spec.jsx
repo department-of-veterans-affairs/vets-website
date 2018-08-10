@@ -27,10 +27,11 @@ describe('<SchoolSelectField>', () => {
 
   it('should render institution results view', () => {
     const institutions = [{
-      city: 'testcity',
+      city: 'testCity',
       facilityCode: 'test',
       name: 'testName',
-      state: 'testState'
+      state: 'testState',
+      street: 'testStreet'
     }];
     const tree = mount(<SchoolSelectField
       formContext={{}}
@@ -48,10 +49,45 @@ describe('<SchoolSelectField>', () => {
 
     expect(tree.find('.search-controls').exists()).to.be.true;
     expect(tree.find('.institution-name').exists()).to.be.true;
-    expect(tree.find('.institution-city-state').exists()).to.be.true;
+    expect(tree.find('.institution-city-state').text()).to.eql('testCity, testState');
+    expect(tree.find('.institution-street').exists()).to.be.true;
     expect(tree.find('.va-pagination').exists()).to.be.true;
     expect(tree.find('.loading-indicator-container').exists()).to.be.false;
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be.false;
+  });
+
+  it('should only render available institution information', () => {
+    const institutions = [{
+      city: '',
+      facilitycode: 'test',
+      name: 'testname',
+      state: 'testState'
+    }, {
+      city: '',
+      country: 'testCountry',
+      facilitycode: 'test',
+      name: 'testname',
+      state: ''
+    }];
+    const tree = mount(<SchoolSelectField
+      formContext={{}}
+      currentPageNumber={1}
+      institutionQuery="test"
+      institutions={institutions}
+      pagesCount={2}
+      searchInputValue="test"
+      searchResultsCount={1}
+      showInstitutions
+      showInstitutionsLoading={false}
+      showPagination
+      showPaginationLoading={false}/>
+    );
+
+    const institutionsTrees = tree.find('.radio-button label');
+    expect(institutionsTrees.first().find('.institution-city-state').text()).to.eql('testState');
+    expect(institutionsTrees.first().find('.institution-country').exists()).to.be.false;
+    expect(institutionsTrees.last().find('.institution-city-state').exists()).to.be.false;
+    expect(institutionsTrees.last().find('.institution-country').text()).to.eql('testCountry');
   });
 
   it('should render institutions loading view', () => {
@@ -168,31 +204,9 @@ describe('<SchoolSelectField>', () => {
       showPaginationLoading={false}/>
     );
 
-    tree.find('#radio-buttons-0').first().simulate('change');
+    tree.find('#page-1-0').first().simulate('change');
     expect(onChange.firstCall.args[0]).to.eql('test');
     expect(selectInstitution.firstCall.args[0]).to.eql(institutions[0]);
-  });
-
-  it('should call setCannotFindSchool prop when manual entry link clicked', () => {
-    const setCannotFindSchool = sinon.spy();
-    const tree = mount(<SchoolSelectField
-      formContext={{}}
-      currentPageNumber={1}
-      institutionQuery="test"
-      institutions={[]}
-      pagesCount={2}
-      searchInputValue="test"
-      searchResultsCount={1}
-      setCannotFindSchool={setCannotFindSchool}
-      showInstitutions={false}
-      showInstitutionsLoading={false}
-      showNoResultsFound
-      showPagination={false}
-      showPaginationLoading={false}/>
-    );
-
-    tree.find('.no-results-box button').first().simulate('click');
-    expect(setCannotFindSchool.calledOnce).to.eql(true);
   });
 
   it('should call onChange and clearSearch props when start over is clicked', () => {
