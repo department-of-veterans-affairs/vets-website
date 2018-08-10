@@ -84,7 +84,7 @@ const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complaint-tool',
+  trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'complaint-tool',
@@ -116,9 +116,9 @@ const formConfig = {
               'ui:title': 'I’m submitting feedback on behalf of...',
               'ui:options': {
                 nestedContent: {
-                  [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(Your name is shared with the school, not the name of the person you’re submitting feedback for.)</i></div>,
-                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Anonymous feedback is shared with the school. Your personal information, however, isn’t shared with anyone outside of VA.)</i></div>
+                  [myself]: () => <div className="usa-alert usa-alert-info no-background-image">We’ll only share your name with the school.</div>,
+                  [someoneElse]: () => <div className="usa-alert usa-alert-info no-background-image">Your name is shared with the school, not the name of the person you’re submitting feedback for.</div>,
+                  [anonymous]: () => <div className="usa-alert usa-alert-info no-background-image">Anonymous feedback is shared with the school. Your personal information, however, isn’t shared with anyone outside of VA.</div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
