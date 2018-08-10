@@ -9,6 +9,7 @@ import conditionalStorage from '../../../platform/utilities/storage/conditionalS
 export function fetchInstitutions({ institutionQuery, page }) {
   const fetchUrl = appendQuery('/gi/institutions/search', {
     name: institutionQuery,
+    include_address: true, // eslint-disable-line camelcase
     page
   });
 
