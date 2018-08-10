@@ -12,7 +12,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform } from '../helpers';
+import { transform, submit } from '../helpers';
 
 const { educationDetails } = fullSchema.properties;
 
@@ -76,8 +76,8 @@ function isNotVeteranOrServiceMember(formData) {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: '/v0/gi_bill_feedbacks',
+  submit,
   trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
