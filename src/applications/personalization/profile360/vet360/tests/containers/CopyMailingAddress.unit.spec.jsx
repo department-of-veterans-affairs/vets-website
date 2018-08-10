@@ -8,10 +8,17 @@ import {
   mapStateToProps
 } from '../../containers/CopyMailingAddress';
 
+import {
+  convertNextValueToCleanData
+} from '../../components/AddressField';
+
 describe('<CopyMailingAddress/>', () => {
 
   describe('mapStateToProps', () => {
     let state = null;
+    const ownProps = {
+      convertNextValueToCleanData,
+    };
 
     beforeEach(() => {
       state = {
@@ -36,7 +43,7 @@ describe('<CopyMailingAddress/>', () => {
       state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = mailingAddress;
       state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = { city: 'some other city' };
 
-      const result = mapStateToProps(state);
+      const result = mapStateToProps(state, ownProps);
 
       expect(result.mailingAddress).to.be.equal(mailingAddress);
       expect(result.hasEmptyMailingAddress).to.be.false;
@@ -86,7 +93,7 @@ describe('<CopyMailingAddress/>', () => {
         }
       };
 
-      const result = mapStateToProps(state);
+      const result = mapStateToProps(state, ownProps);
       expect(result.checked).to.be.true;
     });
 

@@ -16,10 +16,6 @@ import {
   selectEditedFormField
 } from '../selectors';
 
-import {
-  cleanAddressDataForUpdate
-} from '../actions';
-
 const ADDRESS_PROPS = [
   'addressLine1',
   'addressLine2',
@@ -62,14 +58,15 @@ class CopyMailingAddress extends React.Component {
   }
 }
 
-export function mapStateToProps(state) {
+export function mapStateToProps(state, ownProps) {
+  const { convertNextValueToCleanData } = ownProps;
   const mailingAddress = selectVet360Field(state, FIELD_NAMES.MAILING_ADDRESS);
   const hasEmptyMailingAddress = isEmptyAddress(mailingAddress);
 
   const residentialAddress = selectEditedFormField(state, FIELD_NAMES.RESIDENTIAL_ADDRESS).value;
 
   const checked = !hasEmptyMailingAddress && isEqual(
-    pick(cleanAddressDataForUpdate(mailingAddress), ADDRESS_PROPS),
+    pick(convertNextValueToCleanData(mailingAddress), ADDRESS_PROPS),
     pick(residentialAddress, ADDRESS_PROPS)
   );
 
