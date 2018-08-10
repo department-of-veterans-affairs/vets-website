@@ -119,7 +119,7 @@ export class SchoolSelectField extends React.Component {
   handleStartOver = e => {
     e.preventDefault();
 
-    this.props.onChange('');
+    this.props.onChange(null);
     this.props.clearSearch();
     this.searchInput.focus();
   }
