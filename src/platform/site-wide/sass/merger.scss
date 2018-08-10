@@ -1,0 +1,625 @@
+/* MERGER-specific shame. This is not production ready; proof of concept only */
+
+/* OVERRIDE */
+.merger {
+  .panel-bottom-link {
+    border-top: 0 !important; // sorry but it's got to go and I don't have time to do it right
+  }
+
+  $color-primary-lightest: #e1f3f8;
+
+  @import 'iconography';
+  @import 'right-rail';
+
+  section.usa-grid {
+    padding-top: 3em;
+  }
+
+  /* logo size override */
+
+  .va-header-logo {
+    width: 264px;
+    height:auto;
+  }
+
+  article {
+    &:last-of-type {
+      padding-bottom: 3em;
+    }
+  }
+
+  #helpmenu {
+    a {
+      text-decoration: none;
+    }
+
+    p {
+      margin-top: 1em;
+    }
+  }
+
+  #mega-menu {
+
+    @include media($medium-large-screen) {
+      .vetnav-panel--submenu:not([hidden]) {
+        h3 {
+          font-family: Source Sans Pro, sans serif;
+          font-size: 1.6rem;
+        }
+      }
+    }
+
+    #vetnav-menu, #vetnav {
+      margin-top: 0;
+    }
+
+    .mm-marketing-container {
+      height: 350px;
+
+      p {
+        margin-top: 5px;
+      }
+    }
+  }
+
+  #menu-rule {
+    border-bottom: 1px solid $color-white;
+    margin-left: -.55em;
+    padding-bottom: 1em;
+    padding-right: 1.2em;
+
+  }
+
+  /* new pattern? where we use old VA icons with h3 */
+  .va-icon-header {
+
+    width:100%;
+    height: 40px;
+    margin-left: -6px;
+
+    .va-icon-icon {
+      margin: 0;
+      padding: 0;
+
+      display: inline;
+      float: left;
+      width:12%;
+      height:auto;
+    }
+
+    .va-icon-h {
+      display: inline;
+      width: 87%;
+    }
+
+  }
+
+  .va-icon-cols {
+    p {
+      margin-top:0;
+    }
+
+    padding-bottom: 3em;
+  }
+
+  #footer-first-child {
+    margin-top: 2em;
+  }
+
+  // we'll need to rewrite this at some point once we have business rules
+  [href^="http"], [rel="external"] {
+    background-image: none;
+  }
+
+  #homepage-hub {
+
+    background: #0071bb; /* Old browsers */
+    background: -moz-linear-gradient(top, #0071bb 0%, #112e51 63%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #0071bb 0%,#112e51 63%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #0071bb 0%,#112e51 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0071bb', endColorstr='#112e51',GradientType=0 ); /* IE6-9 */
+
+    padding-top: 3em;
+    padding-bottom: 3em;
+
+    #hub-internal {
+
+      width: 64%;
+
+      h2 {
+        color: $color-white;
+        text-align: center;
+        margin-bottom: 1.5em;
+      }
+
+      .usa-grid:first-of-type {
+        margin-bottom: 1.5rem;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 1rem;
+      }
+
+      .usa-width-one-half {
+        background-color: $color-white;
+        padding: 1.5em 0 1.5em 1.5em;
+
+        li {
+          padding: 0;
+        }
+      }
+    }
+  }
+
+  #hub-internal {
+    .header-title-1 {
+      font-size: 35px;
+    }
+     .header-title-2 {
+      font-size: 20px;
+    }
+  }
+
+  #homepage-popular {
+    padding-top: 3em;
+  }
+
+  #homepage-hero {
+    background-color: $color-primary-darker;
+    text-align: center;
+    padding-top: 1.5em;
+  }
+
+  #homepage-news {
+    padding: 0 0 3em 0;
+    margin-top: 3em;
+  }
+
+  #homepage-benefits {
+
+    .usa-grid {
+      padding-bottom: 3em;
+    }
+
+    .usa-grid:last-of-type {
+      padding-bottom: 0;
+    }
+  }
+
+  h3, h4 {
+    .fa {
+      padding-right: .35em;
+    }
+  }
+
+  // new pattern, but specific to homepage only
+  .homepage-button {
+
+    width:100%;
+    height: 85px;
+    padding: 0;
+
+    a {
+      width: 100%;
+      height: 100%;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+    }
+
+    .icon-wrapper {
+      width: 55px;
+      height: 100%;
+      float: left;
+
+      -webkit-border-top-left-radius: 6px;
+      -webkit-border-bottom-left-radius: 6px;
+      -moz-border-radius-topleft: 6px;
+      -moz-border-radius-bottomleft: 6px;
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+
+    .button-inner {
+      padding-left: 1em;
+      padding-right: 1em;
+
+      &#vcl {
+        padding-left: .5em;
+        padding-right: .5em;
+      }
+    }
+
+    .fa {
+      font-size: 1.5em;
+      display:inline-block;
+
+      &.fa-user-circle {
+        font-size: 1.5em;
+        padding-right: .3em;
+      }
+
+      &::before {
+        position: absolute;
+        margin: 0;
+        top: 15px;
+        left: -7.75px;
+      }
+    }
+
+    .vcl {
+      content: "";
+      background: url(/img/vcl-logo-white.png) no-repeat;
+      background-size: 100%;
+      display: inline-block;
+      width: 2em;
+      height: 2em;
+      margin-top:32.5px;
+    }
+
+    div {
+      display:inline-block;
+      width:80%;
+    }
+
+    &.primary-darker {
+
+      .icon-wrapper {
+        background-color: $color-primary-darker;
+      }
+
+      background-color: $color-primary;
+    }
+
+    &.secondary-dark {
+
+      .icon-wrapper {
+        background-color: $color-secondary-darkest;
+      }
+      background-color: $color-secondary-dark;
+    }
+  }
+
+  // tablet
+  @media screen and (min-width: 768px) {
+
+    .vet-toolbar {
+      flex: 0 1 35.5rem;
+    }
+  }
+
+  .footer-banner {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+  }
+
+  .footer-links {
+
+    ul {
+
+      padding-left: 0;
+      padding-bottom: 3em;
+      list-style: none;
+
+      li {
+        display: inline-block;
+
+        a {
+          color: white;
+        }
+        a:visited {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .merger-majorlinks {
+
+    .link {
+
+      margin-bottom: 1em;
+
+      p {
+        margin: 0;
+      }
+
+      a {
+        text-decoration: none;
+        padding-bottom: 0;
+      }
+    }
+
+  }
+
+  .usa-grid {
+    padding: 0;
+  }
+
+  .va-nav-breadcrumbs-list {
+    padding-left: 0;
+
+    li {
+      list-style: none;
+      padding-bottom: 1em;
+      padding-top: 1em;
+    }
+  }
+
+  .footer-banner {
+
+    padding-top: 1.5em;
+    padding-bottom: 2em;
+
+    .va-footer-logo {
+      img {
+        width:200px;
+        height:auto;
+      }
+    }
+  }
+
+  .va-footer-linkgroup {
+    li {
+      margin-bottom: 0;
+    }
+  }
+
+  .hub-main-title {
+    width: 90%;
+  }
+
+  .usa-grid {
+    .usa-width-two-thirds {
+      .hub-main-icon {
+        vertical-align: top;
+        margin-top: 8px;
+      }
+    }
+  }
+
+  .vet-toolbar {
+    .va-dropdown {
+      margin-left: -2rem;
+      width: 128px;
+    }
+  }
+
+  .sign-in-links {
+    background: $color-primary;
+    padding: 5px 20px;
+    border-radius: 4px;
+  }
+
+  #mega-menu .vetnav-panel {
+    height: 470px;
+  }
+
+  #vetnav {
+    z-index: 2;
+  }
+
+  // mobile
+  @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
+
+    #menu-rule {
+      border-bottom: 0;
+    }
+
+    #vetnav-controls {
+      margin-top: 7px;
+
+      svg {
+        margin-left: 0.8rem;
+      }
+    }
+
+    .usa-banner {
+      padding-left: .5em;
+    }
+
+    .va-header-logo-wrapper {
+      width: 55%;
+      float: left;
+      margin-right: 10px;
+      margin-bottom: 1em;
+
+      a {
+        width: 100%;
+        height: auto;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
+    .vet-toolbar {
+      margin-bottom: .5em;
+      margin-left: -10px;
+
+      .sign-in-nav {
+        margin-top: 6px;
+        font-weight: normal;
+
+        .sign-in-links {
+          background: none;
+          margin-left: 0;
+          padding-left: .75em;
+
+          .va-button-link {
+            -webkit-font-smoothing: antialiased;
+          }
+        }
+      }
+
+      .va-dropdown {
+        margin-left: 0;
+        width: auto;
+
+        .va-dropdown-trigger {
+          font-weight: normal;
+          padding-left: 0;
+          margin-right: 1.75em;
+          background-position: right 1.5rem center;
+
+          &:first-child {
+            margin-right: 1em;
+          }
+
+          span {
+            display: inline-block;
+          }
+        }
+
+      }
+    }
+
+    #homepage-hub {
+
+      padding-top: 1.5em;
+      padding-bottom: 1em;
+
+      #hub-internal {
+
+        width: 100%;
+
+        h2 {
+          margin-bottom: 1em;
+        }
+
+        .usa-grid {
+          &:first-of-type {
+            margin-bottom: 0;
+          }
+
+          .usa-width-one-half {
+            margin-bottom: .55em;
+          }
+        }
+      }
+    }
+
+    #hub-internal,
+    #homepage-benefits,
+    #homepage-news,
+    .va-h-ruled--stars,
+    .va-nav-breadcrumbs,
+    article,
+    #homepage-popular,
+    #hub-rail {
+
+      padding-left: .5em;
+      padding-right: .5em;
+    }
+
+    #homepage-popular {
+      padding-bottom: 1.5em;
+      padding-top: 1em;
+    }
+
+    // internal static-pages
+    #promo {
+      display: none;
+    }
+
+    .va-nav-breadcrumbs  {
+
+      padding-top: 0.25em;
+      padding-bottom: 0.25em;
+
+      .va-nav-breadcrumbs-list {
+        li {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+
+    #hub-rail {
+      padding-top: 0;
+    }
+
+    .va-nav-linkslist--related  {
+
+      margin-bottom: 0 !important; //hard override; what does this break elsewhere
+
+    }
+  }
+
+  // tablet
+  @media (min-width: 768px) and (max-width: $large-screen) {
+
+    .va-header-logo-wrapper {
+      margin-bottom: 0;
+    }
+
+    .vet-toolbar {
+      flex: 0 1 31rem;
+      padding-left: 2em;
+
+      .profile-nav {
+
+        width: 100%;
+
+        .va-dropdown {
+
+          &:first-child {
+          }
+
+          .va-dropdown-trigger {
+            background-position: right .8rem center;
+
+          }
+
+          width: 100%;
+
+          .va-btn-withicon {
+
+            span {
+              display: flex;
+            }
+
+            svg {
+              // margin-right: 0;
+            }
+          }
+
+          .sign-in-links {
+            padding-right: 0;
+            padding-left: 0;
+          }
+        }
+
+      }
+    }
+
+    .va-header-logo-wrapper {
+      a {
+        width: 70%;
+        height: auto;
+      }
+    }
+  }
+
+  #preview-site-alert {
+    z-index: 1;
+    color: $color-black;
+    position: relative;
+  }
+
+  .va-crisis-line {
+    top: 122px;
+    z-index: 2;
+  }
+
+  #vetnav-records-ms {
+    & + div {
+      .column-two h3{
+        visibility: hidden;
+      }
+    }
+  }
+}
