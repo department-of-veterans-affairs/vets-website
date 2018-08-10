@@ -3,9 +3,10 @@
 /* OVERRIDE */
 .merger {
 
+  $color-primary-lightest: #e1f3f8;
+
   @import 'iconography';
   @import 'right-rail';
-  $color-primary-lightest: #e1f3f8;
 
   .vetnav-panel {
     @include media($medium-large-screen) {
