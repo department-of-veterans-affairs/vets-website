@@ -30,7 +30,7 @@ const {
   onBehalfOf,
   fullName,
   serviceAffiliation,
-  // serviceBranch,
+  serviceBranch,
   serviceDateRange,
   anonymousEmail,
   applicantEmail,
@@ -189,18 +189,7 @@ const formConfig = {
               onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
               fullName,
               serviceAffiliation,
-              serviceBranch: { // TODO: use updated BE schema
-                type: 'string',
-                'enum': [
-                  'Air Force',
-                  'Army',
-                  'Coast Guard',
-                  'Marine Corps',
-                  'Navy',
-                  'NOAA',
-                  'Public Health Service'
-                ]
-              },
+              serviceBranch,
               serviceDateRange,
               anonymousEmail
             }
