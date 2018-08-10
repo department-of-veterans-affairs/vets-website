@@ -1,10 +1,10 @@
-import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
 import appendQuery from 'append-query';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import Raven from 'raven-js';
-import recordEvent from '../../../platform/monitoring/record-event';
+
+import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
+import recordEvent from '../../../platform/monitoring/record-event';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
 export function fetchInstitutions({ institutionQuery, page }) {
