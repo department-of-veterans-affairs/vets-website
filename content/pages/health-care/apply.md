@@ -116,7 +116,7 @@ You may qualify for VA health care and other benefits. View the Application for 
 
 #### What if I need long-term care?
 
-If you need community nursing home care, domiciliary care, adult day health care, geriatric evaluation, or respite care, you'll need to fill out an Application for Extended Care Services (VA Form 10-10EC). 
+If you need community nursing home care, domiciliary care, adult day health care, geriatric evaluation, or respite care, you may need to fill out an Application for Extended Care Services (VA Form 10-10EC). 
 
 [Download Form 10-10EC](https://www.va.gov/vaforms/medical/pdf/vha-10-10EC-fill.pdf).
 
