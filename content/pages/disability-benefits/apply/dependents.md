@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Apply for Disability Compensation for a Dependent
-display_title: Apply for Disability Compensation for a Dependent
+title: Apply for Additional Disability Compensation for a Dependent
+display_title: Disability Compensation for a Dependent
 description: Find out how to add a dependent family member to your VA disability compensation benefits so you can get a higher payment to help support your family.
 concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18 
@@ -79,7 +79,7 @@ If you have a combined disability rating of at least 30%, you may file your clai
 
 #### If something changes in your family status after you received a combined disability rating of at least 30%
 
-You may file a claim for additional disability compensation online whenever you gain a dependent.
+You may file a claim for additional disability compensation online whenever you add a dependent.
 
 **You can add a dependent if:**
 
@@ -111,7 +111,7 @@ You may also need to provide more information or forms along with your applicati
 You’ll need to fill out and submit a Statement of Dependency of Parent(s) (VA Form 21-509) by mail or fax. <br>
 [Download VA Form 21-509](https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf).
 
-**Print the form, fill it out, and send it to this address:**
+**Please send all correspondence related to compensation claims to this address:**
 
 <p class="va-address-block">
 Department of Veterans Affairs <br>
@@ -183,7 +183,7 @@ Apply again online. We’ll still review your paper application. If we award you
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paid-back">What if I didn’t realize I could could receive additional disability compensation for dependents after I started receiving disability compensation? Can I get paid back to the date my spouse and I got married, or the date when my child was born or adopted?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paid-back">What if I didn’t realize I could receive additional disability compensation for dependents until after I became eligible for disability compensation? Can I get paid back to the date my spouse and I got married, or the date when my child was born or adopted?</button>
 <div id="questions-apply-paid-back" class="usa-accordion-content">
 
 We may pay you back to the date of your marriage or the birth or adoption of your child if you meet all of the requirements listed below.
@@ -252,7 +252,7 @@ You can submit a request through eBenefits for VA to stop paying additional disa
 
 **If you get divorced**, you’ll want to notify VA right away. There is no need to submit or upload supporting documentation into eBenefits in this case. 
 
-This will help to make sure we don’t continue paying you additional disability compensation for your former spouse and, if applicable stepchildren, after the divorce. If we continue paying you benefits that you’re not eligible for, we may withhold money from future payments until you’ve paid them back. <br>
+This will help to make sure we don’t continue paying you additional disability compensation for your former spouse and, if applicable, stepchildren after the divorce. If we continue paying you benefits that you’re not eligible for, we may withhold money from future payments until you’ve paid them back. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </div>
