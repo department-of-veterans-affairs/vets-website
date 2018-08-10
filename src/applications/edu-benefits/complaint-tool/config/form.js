@@ -405,7 +405,7 @@ const formConfig = {
                     'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
                   },
                   postalCode: {
-                    'ui:title': 'Postal Code',
+                    'ui:title': 'Postal code',
                     'ui:required': formData => _.get('school.view:cannotFindSchool', formData),
                     'ui:errorMessages': {
                       pattern: 'Please enter a valid 5 digit postal code'
@@ -458,7 +458,7 @@ const formConfig = {
                           country: {
                             type: 'string',
                             'enum': countries,
-                            'default': 'USA'
+                            'default': 'United States'
                           }
                         })
                       }
