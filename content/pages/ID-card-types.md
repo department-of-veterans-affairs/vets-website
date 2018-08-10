@@ -16,33 +16,33 @@ relatedlinks:
 ---
 
 <div class="va-introtext">
-There are many types of identification cards available to show you’re a Veteran. If you already have an ID card that designates you as a Veteran, you don’t need to apply for another one. 
+There are many types of identification cards available to show you’re a Veteran. If you already have an ID card that designates you as a Veteran, you don’t need to apply for another one. </br>
 Learn about the different types of ID cards available to you.
 
 </div>
 
-<div class="feature" markdown="1">
 
 ### Veteran ID Card 
 A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many stores, businesses, and restaurants. With this card, you won’t need to carry around your military discharge papers or share sensitive personal information to receive these discounts. 
 If you already have a Veteran ID Card, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 #### Am I eligible for a Veteran ID Card?
-You may be eligible for a Veteran ID Card if both of these are true. You: 
-•	Served on active duty, in the military reserves, or in the National Guard (including the Coast Guard),  and
-•	Received an honorable or general discharge  
+**You may be eligible for a Veteran ID Card if both of these are true. You:** 
+- Served on active duty, in the military reserves, or in the National Guard (including the Coast Guard),  **and**
+- Received an honorable or general discharge  
+
 If you’ve received a dishonorable, other than honorable, or bad conduct character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application. 
 #### How do I apply for a Veteran ID Card?
 You can apply online to get a Veteran ID Card. 
 [Apply for a Veteran ID Card.](/veteran-id-card/)
-</div>
+
 
 ### Department of Defense (DoD) Identification Card
 A DoD Identification Card is used to show your military status and to get access to services at military bases. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. 
 #### Am I eligible for a DoD Identification Card?
-You’re eligible for a DoD Identification Card if one of these describes you. You’re:
-•	Retired from the military, or
-•	On active duty, or
-•	In the National Guard, the Reserves, Selected Reserves, or Inactive Ready Reserve
+**You’re eligible for a DoD Identification Card if one of these describes you. You’re:**
+- Retired from the military, **or**
+- On active duty, **or**
+- In the National Guard, the Reserves, Selected Reserves, or Inactive Ready Reserve
 
 Depending on your status, the DoD issues either a Common Access Card (CAC) or a Uniformed Services ID Card (USID).
 #### How do I apply for a DoD Identification Card? 
