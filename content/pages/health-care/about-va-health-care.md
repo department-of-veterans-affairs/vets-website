@@ -142,10 +142,10 @@ You may be able to get help with some non-medical services, like:
 <br>
 
 <div id="health-help" itemscope itemtype="http://schema.org/Question">
-<h4 itemprop="name">How do I get help if I don't speak English or have hearing loss?</h4>
+<h4 itemprop="name">How do I get help if I don't speak English or need American Sign Language services?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-Contact your nearest VA medical center and ask to speak to the patient advocate. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits. [Find a VA medical center near you](/facilities/).
+Contact your patient advocate. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits. [Find a VA medical center near you](/facilities/).
 
 </div>
 </div>
@@ -231,7 +231,7 @@ We'll fill prescriptions by a non-VA provider only if you meet all the requireme
 <h4 itemprop="name">Will I have a copay or is my VA health care free?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-This will depend on factors like your income level, disability rating, and military service history. If you don't already receive VA disability compensation or pension payments, you'll probably need to complete a financial assessment when you enroll. This will help us determine if you qualify for free VA health care.
+This will depend on factors like your income level, disability rating, and military service history. Most Veterans need to complete a financial assessment when you enroll. This will help us determine if you qualify for free VA health care.
   
 [Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp).
 
