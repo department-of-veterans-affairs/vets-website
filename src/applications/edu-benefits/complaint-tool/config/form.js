@@ -372,41 +372,39 @@ const formConfig = {
           uiSchema: {
             school: {
               facilityCode: {
-                'ui:title': 'School Information',
+                facilityCode: {
+                  'ui:required': formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                },
                 'ui:field': SchoolSelectField,
-                'ui:required': formData => !_.get('school.view:cannotFindSchool', formData),
-                'ui:options': {
-                  hideIf: formData => formData.school['view:cannotFindSchool']
-                }
               },
               'view:manualSchoolEntry': {
                 name: {
                   'ui:title': 'School name',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 },
                 address: {
                   street: {
                     'ui:title': 'Address line 1',
-                    'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
                   },
                   street2: {
                     'ui:title': 'Address line 2'
                   },
                   city: {
                     'ui:title': 'City',
-                    'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
                   },
                   state: {
                     'ui:title': 'State',
-                    'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
                   },
                   country: {
                     'ui:title': 'Country',
-                    'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
                   },
                   postalCode: {
                     'ui:title': 'Postal code',
-                    'ui:required': formData => _.get('school.view:cannotFindSchool', formData),
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                     'ui:errorMessages': {
                       pattern: 'Please enter a valid 5 digit postal code'
                     },
@@ -430,7 +428,7 @@ const formConfig = {
                   }
                 },
                 'ui:options': {
-                  hideIf: formData => !formData.school['view:cannotFindSchool']
+                  hideIf: formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 }
               }
             }
@@ -442,11 +440,12 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   facilityCode: { // TODO: determine whether to store facility ID
-                    type: 'string'
-                  },
-                  'view:cannotFindSchool': {
-                    title: 'I’d rather type in my school information',
-                    type: 'boolean'
+                    type: 'object',
+                    properties: {
+                      facilityCode: {
+                        type: 'string'
+                      }
+                    }
                   },
                   'view:manualSchoolEntry': {
                     type: 'object',

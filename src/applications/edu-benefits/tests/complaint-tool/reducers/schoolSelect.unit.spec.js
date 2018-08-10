@@ -81,11 +81,13 @@ describe('schoolSearch reducer', () => {
         institutionQuery: 'old',
         institutions: ['old'],
         institutionSelected: { selected: 'old' },
+        manualSchoolEntryChecked: false,
         searchResultsCount: 20,
         showInstitutions: true,
         showInstitutionsLoading: false,
         showPagination: true,
-        showPaginationLoading: false
+        showPaginationLoading: false,
+        showSearchResults: true
       };
 
       const expectedState = {
@@ -93,12 +95,14 @@ describe('schoolSearch reducer', () => {
         institutionQuery: 'new',
         institutions: [],
         institutionSelected: {},
+        manualSchoolEntryChecked: false,
         searchResultsCount: 0,
         showInstitutions: false,
         showInstitutionsLoading: true,
         showNoResultsFound: false,
         showPagination: false,
-        showPaginationLoading: false
+        showPaginationLoading: false,
+        showSearchResults: true
       };
 
       const action = {
@@ -115,25 +119,29 @@ describe('schoolSearch reducer', () => {
         currentPageNumber: 2,
         institutionQuery: 'old',
         institutions: ['old'],
+        manualSchoolEntryChecked: false,
         institutionSelected: { selected: 'old' },
         searchResultsCount: 30,
         showInstitutions: true,
         showInstitutionsLoading: false,
         showPagination: true,
-        showPaginationLoading: false
+        showPaginationLoading: false,
+        showSearchResults: true
       };
 
       const expectedState = {
         currentPageNumber: 3,
         institutionQuery: 'old',
         institutions: [],
+        manualSchoolEntryChecked: false,
         institutionSelected: {},
         searchResultsCount: 30,
         showInstitutions: false,
         showInstitutionsLoading: false,
         showNoResultsFound: false,
         showPagination: true,
-        showPaginationLoading: true
+        showPaginationLoading: true,
+        showSearchResults: true
       };
 
       const action = {
@@ -322,6 +330,30 @@ describe('schoolSearch reducer', () => {
       expect(actualState).to.eql(expectedState);
     });
   });
+  describe('MANUAL_SCHOOL_ENTRY_TOGGLED', () => {
+    it('should return a manual school entry checked state', () => {
+      const previousState = {
+        manualSchoolEntryChecked: false,
+        showInstitutionsLoading: true,
+        showSearchResults: true
+      };
+
+      const expectedState = {
+        manualSchoolEntryChecked: true,
+        showInstitutionsLoading: true,
+        showSearchResults: false
+      };
+
+      const action = {
+        type: 'MANUAL_SCHOOL_ENTRY_TOGGLED',
+        manualSchoolEntryChecked: true
+      };
+
+      const actualState = schoolSelect(previousState, action);
+
+      expect(actualState).to.eql(expectedState);
+    });
+  });
   describe('SEARCH_CLEARED', () => {
     it('should return a search cleared state', () => {
       const previousState = {
@@ -331,6 +363,7 @@ describe('schoolSearch reducer', () => {
       const expectedState = {
         currentPageNumber: 1,
         institutions: [],
+        manualSchoolEntryChecked: false,
         institutionQuery: '',
         institutionSelected: {},
         pagesCount: 0,
@@ -340,7 +373,8 @@ describe('schoolSearch reducer', () => {
         showInstitutionsLoading: false,
         showNoResultsFound: false,
         showPagination: false,
-        showPaginationLoading: false
+        showPaginationLoading: false,
+        showSearchResults: true
       };
 
       const action = {
