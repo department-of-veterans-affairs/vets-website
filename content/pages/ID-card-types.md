@@ -27,7 +27,7 @@ A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offer
 If you already have a Veteran ID Card, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 #### Am I eligible for a Veteran ID Card?
 **You may be eligible for a Veteran ID Card if both of these are true. You:** 
-- Served on active duty, in the military reserves, or in the National Guard (including the Coast Guard),  **and**
+- Served on active duty, in the military reserves, or in the National Guard (including the Coast Guard), **and**
 - Received an honorable or general discharge  
 
 If you’ve received a dishonorable, other than honorable, or bad conduct character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application. 
@@ -47,23 +47,24 @@ A DoD Identification Card is used to show your military status and to get access
 Depending on your status, the DoD issues either a Common Access Card (CAC) or a Uniformed Services ID Card (USID).
 #### How do I apply for a DoD Identification Card? 
 For both types of DoD cards, you must either be a sponsor or have a sponsor. You’ll also need to fill out an Application for Identification Card/DEERS Enrollment (DD Form 1172-2).
-[Download DD Form 1172-2.](http://www.cac.mil/Portals/53/Documents/dd1172-2.pdf)
+[Download DD Form 1172-2.](http://www.cac.mil/Portals/53/Documents/dd1172-2.pdf)</br>
 [Learn more about how to apply for a DoD Identification Card.](http://www.cac.mil/)
 ### Veteran Health Identification Card 
 If you’re enrolled in VA health care, you may have a Veteran Health Identification Card (VHIC). You use this card to check into your appointments at VA medical centers. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. 
 #### Am I eligible for a Veteran Health Identification Card?
-You need to be enrolled in VA health care to receive a Veteran Health Identification Card. To apply for VA health care benefits, you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ).  
+You need to be enrolled in VA health care to receive a Veteran Health Identification Card. To apply for VA health care benefits, you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ). </br> 
 [Learn more about how to apply for a Veteran Health Identification Card](https://www.va.gov/healthbenefits/vhic/index.asp).
 ### Veteran Choice Card 
 A Veteran Choice Card is a form of ID given to Veterans receiving care under the VA Choice program. Under this program, Veterans receive care through a community provider.
 #### Am I eligible for a Veteran Choice Card?
 Veterans receiving care under the VA Choice program are eligible for a Choice Card. 
 #### How do I apply for a Veteran Choice Card? 
-To request a Veteran Choice Card, you’ll need to call the Choice Program call center at 1-866-606-8198.
+To request a Veteran Choice Card, you’ll need to call the Choice Program call center at 1-866-606-8198.</br>
 [Learn more about the Veteran Choice program.]( https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp).
 
 ### Veteran’s designation on a state-issued license or ID
 Currently, all 50 states and Puerto Rico offer Veteran designations printed on state-issued driver’s licenses or IDs. The type of Veteran designation may vary from state to state.  
 If you have a Veteran’s designation, you may be able to get discounts offered to Veterans at many stores, businesses, and restaurants.
 #### How do I apply for a Veteran’s designation? 
-To apply for a Veteran’s designation, most states ask you to provide a copy of your discharge papers (DD214 or other separation documents). Some states may require additional documentation. Please check with your state’s Department of Motor Vehicles about what you need to apply for a Veteran’s designation for your state. 
+To apply for a Veteran’s designation, most states ask you to provide a copy of your discharge papers (DD214 or other separation documents). Some states may require additional documentation. 
+Please check with your state’s Department of Motor Vehicles about what you need to apply for a Veteran’s designation for your state. 
