@@ -24,13 +24,15 @@ const domesticSchoolAddress = schoolInformation.oneOf[0];
 const internationalSchoolAddress = schoolInformation.oneOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
-let domesticSchoolAddressSchema = _.unset('required', domesticSchoolAddress);
-domesticSchoolAddressSchema = _.set('properties.countries', countries, domesticSchoolAddressSchema);
-domesticSchoolAddressSchema = _.set('properties.country.default', 'United States', domesticSchoolAddressSchema);
+const configureSchoolAddressSchema = (schema) => {
+  let newSchema = _.unset('required', schema);
+  newSchema = _.set('properties.countries', countries, newSchema);
+  return _.set('properties.country.default', 'United States', newSchema);
+};
 
-let internationalSchoolAddressSchema = _.unset('required', internationalSchoolAddress);
-internationalSchoolAddressSchema = _.set('properties.countries', countries, internationalSchoolAddressSchema);
-internationalSchoolAddressSchema = _.set('properties.country.default', 'United States', internationalSchoolAddressSchema);
+const domesticSchoolAddressSchema = configureSchoolAddressSchema(domesticSchoolAddress);
+
+const internationalSchoolAddressSchema = configureSchoolAddressSchema(internationalSchoolAddress);
 
 const {
   onBehalfOf,
