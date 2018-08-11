@@ -26,7 +26,7 @@ const countries = domesticSchoolAddress.properties.country.enum.concat(internati
 
 const configureSchoolAddressSchema = (schema) => {
   let newSchema = _.unset('required', schema);
-  newSchema = _.set('properties.countries', countries, newSchema);
+  newSchema = _.set('properties.country.enum', countries, newSchema);
   return _.set('properties.country.default', 'United States', newSchema);
 };
 
