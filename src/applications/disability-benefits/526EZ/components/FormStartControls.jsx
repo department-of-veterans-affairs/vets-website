@@ -22,6 +22,7 @@ export default function FormStartControls(props) {
         {...props}
         buttonOnly={props.buttonOnly}
         prefillAvailable
+        noPrefill={props.noPrefill}
         verifiedPrefillAlert={VerifiedAlert}
         unverifiedPrefillAlert={UnauthenticatedAlert}
         verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}

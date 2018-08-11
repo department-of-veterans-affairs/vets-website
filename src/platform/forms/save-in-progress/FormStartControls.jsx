@@ -23,7 +23,7 @@ class FormStartControls extends React.Component {
   }
 
   handleLoadPrefill = () => {
-    if (this.props.prefillAvailable) {
+    if (this.props.prefillAvailable && !this.props.noPrefill) {
       this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
     } else {
       this.goToBeginning();
