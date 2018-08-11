@@ -24,6 +24,14 @@ const domesticSchoolAddress = schoolInformation.oneOf[0];
 const internationalSchoolAddress = schoolInformation.oneOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
+let domesticSchoolAddressSchema = _.unset('required', domesticSchoolAddress);
+domesticSchoolAddressSchema = _.set('properties.countries', countries, domesticSchoolAddressSchema);
+domesticSchoolAddressSchema = _.set('properties.country.default', 'United States', domesticSchoolAddressSchema);
+
+let internationalSchoolAddressSchema = _.unset('required', internationalSchoolAddress);
+internationalSchoolAddressSchema = _.set('properties.countries', countries, internationalSchoolAddressSchema);
+internationalSchoolAddressSchema = _.set('properties.country.default', 'United States', internationalSchoolAddressSchema);
+
 const {
   onBehalfOf,
   fullName,
@@ -415,15 +423,9 @@ const formConfig = {
                     updateSchema: (formData) => {
                       const schoolCountry = _.get('school["view:manualSchoolEntry"].address.country', formData);
                       if (schoolCountry !== 'United States') {
-                        let newSchema = _.set('properties.country.enum', countries, internationalSchoolAddress);
-                        newSchema = _.unset('required', newSchema);
-                        newSchema = _.set('properties.country.default', 'United States', newSchema);
-                        return newSchema;
+                        return internationalSchoolAddressSchema;
                       }
-                      let newSchema = _.set('properties.country.enum', countries, domesticSchoolAddress);
-                      newSchema = _.unset('required', newSchema);
-                      newSchema = _.set('properties.country.default', 'United States', newSchema);
-                      return newSchema;
+                      return domesticSchoolAddressSchema;
                     }
                   }
                 },
@@ -451,16 +453,7 @@ const formConfig = {
                     type: 'object',
                     properties: {
                       name: schoolInformation.properties.name,
-                      address: {
-                        type: 'object',
-                        properties: _.merge(domesticSchoolAddress.properties, {
-                          country: {
-                            type: 'string',
-                            'enum': countries,
-                            'default': 'United States'
-                          }
-                        })
-                      }
+                      address: domesticSchoolAddress
                     }
                   }
                 }
