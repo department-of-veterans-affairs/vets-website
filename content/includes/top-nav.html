@@ -40,8 +40,8 @@
         </button>
         <button aria-controls="vetnav" type="button" aria-expanded="false" class="vetnav-controller-open">
           <span class="va-flex">
-            {% include "assets/img/arrow-down.svg" %}
             Menu
+           {% include "assets/img/arrow-down.svg" %}
           </span>
         </button>
       </div>
@@ -51,8 +51,7 @@
 
 
     {% if body_class != 'page-playbook' %}
-    {% include "content/includes/veteran-navigation.html" %}
+      <div id="mega-menu"></div>
     {% endif %}
   </div>
-
 </header>

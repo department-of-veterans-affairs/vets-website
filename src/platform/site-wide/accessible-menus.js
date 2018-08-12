@@ -411,4 +411,3 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     }
   });
 }
-

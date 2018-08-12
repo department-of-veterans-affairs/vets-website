@@ -8,8 +8,9 @@ import './legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './accessible-VCL-modal';
 import './moment-setup';
-import addMenuListeners from './accessible-menus';
+// import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
+import startMegaMenuWidget from './mega-menu';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 
@@ -20,7 +21,7 @@ import startAnnouncementWidget from './announcements';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
-  addMenuListeners(document.querySelector('#vetnav-menu'), true);
+  // addMenuListeners(document.querySelector('#vetnav-menu'), true);
 
   // New navigation menu
   if (document.querySelector('#vetnav')) {
@@ -38,6 +39,7 @@ export default function startSitewideComponents(commonStore) {
   });
 
   startUserNavWidget(commonStore);
+  startMegaMenuWidget(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
 }

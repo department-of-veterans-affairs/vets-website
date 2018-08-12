@@ -9,6 +9,7 @@ import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import feedback from '../site-wide/feedback/reducers';
 import announcements from '../site-wide/announcements/reducers';
 import navigation from '../site-wide/user-nav/reducers';
+import megaMenu from '../site-wide/mega-menu/reducers';
 import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
 
@@ -21,7 +22,8 @@ export const commonReducer = {
   navigation,
   feedback,
   scheduledDowntime,
-  announcements
+  announcements,
+  megaMenu,
 };
 
 /**
@@ -39,4 +41,3 @@ export default function createCommonStore(appReducer = {}) {
   return createStore(combineReducers(reducer), compose(
     applyMiddleware(thunk), useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f));
 }
-

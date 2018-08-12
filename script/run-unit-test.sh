@@ -19,4 +19,3 @@ BABEL_ENV=test $MOCHA --opts src/platform/testing/unit/mocha.opts src/platform/t
 # NOTE: This is only to cut down on the visual clutter when running a single test.
 #  This WILL be the wrong status if the test actually failed, so don't rely on it.
 exit 0
-

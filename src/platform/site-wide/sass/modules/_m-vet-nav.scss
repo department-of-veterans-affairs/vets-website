@@ -142,7 +142,7 @@ body.va-pos-fixed {
   svg {
     display: inline-block;
     height: 1.6rem;
-    margin-right: 0.8rem;
+    margin-left: 0.8rem;
     width: 1rem;
     vertical-align: 0;
   }
@@ -277,7 +277,7 @@ body.va-pos-fixed {
     &:hover {
       background-color: transparent;
       border-bottom: 1px solid transparent;
-      box-shadow: -3px 0 $color-va-accent;
+      box-shadow: -3px 0 $color-gold-light;
       color: $color-primary;
       text-decoration: underline;
     }
@@ -286,7 +286,7 @@ body.va-pos-fixed {
       background-color: $color-gray-lightest;
       border-bottom-color: $color-gray-warm-light;
       border-top-color: $color-gray-warm-light;
-      box-shadow: -3px 0 $color-va-accent;
+      box-shadow: -3px 0 $color-gold-light;
       color: $color-gray-dark;
       font-weight: bold;
       text-decoration: inherit;
