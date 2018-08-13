@@ -33,15 +33,15 @@ class InitializeVet360ID extends React.Component {
 
   initializeVet360ID() {
     const route = API_ROUTES.INIT_VET360_ID;
-    const fieldName = this.props.transactionID;
+    const fieldName = INIT_VET360_ID;
     const method = 'POST';
     const body = null;
-    const analytics = this.props.analyticsSectionName;
+    const analytics = ANALYTICS_FIELD_MAP.INIT_VET360_ID;
     return this.props.createTransaction(route, method, fieldName, body, analytics);
   }
 
   refreshTransaction = () => {
-    this.props.refreshTransaction(this.props.transaction, this.props.analyticsSectionName);
+    this.props.refreshTransaction(this.props.transaction, ANALYTICS_FIELD_MAP.INIT_VET360_ID);
   }
 
   render() {
@@ -72,8 +72,8 @@ class InitializeVet360ID extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { status, transaction } = selectVet360InitializationStatus(state, ownProps);
+const mapStateToProps = (state) => {
+  const { status, transaction } = selectVet360InitializationStatus(state);
   return {
     status,
     transaction
@@ -90,11 +90,6 @@ const mapDispatchToProps = {
  * A Container for initializing the user into Vet360 if they are not already. Otherwise, this container will initialize the Vet360 app state by fetching all transactions.
  */
 const InitializeVet360IDContainer = connect(mapStateToProps, mapDispatchToProps)(InitializeVet360ID);
-
-InitializeVet360IDContainer.defaultProps = {
-  transactionID: INIT_VET360_ID,
-  analyticsSectionName: ANALYTICS_FIELD_MAP.INIT_VET360_ID
-};
 
 export default InitializeVet360IDContainer;
 export { InitializeVet360ID };

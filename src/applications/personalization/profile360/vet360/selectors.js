@@ -1,7 +1,8 @@
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
 import {
-  VET360_INITIALIZATION_STATUS
+  VET360_INITIALIZATION_STATUS,
+  INIT_VET360_ID
 } from './constants';
 
 import {
@@ -107,10 +108,10 @@ export function selectCurrentlyOpenEditModal(state) {
   return state.vet360.modal;
 }
 
-export function selectVet360InitializationStatus(state, ownProps) {
+export function selectVet360InitializationStatus(state) {
   let status = VET360_INITIALIZATION_STATUS.UNINITALIZED;
 
-  const  { transaction, transactionRequest } = selectVet360Transaction(state, ownProps.transactionID);
+  const  { transaction, transactionRequest } = selectVet360Transaction(state, INIT_VET360_ID);
   const isReady = selectIsVet360AvailableForUser(state);
   let isPending = false;
   let isFailure = false;
