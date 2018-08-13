@@ -96,11 +96,7 @@ export function submit(form, formConfig) {
   }
 
   const formData = transform(formConfig, form);
-  const body = JSON.stringify({
-    giBillFeedback: {
-      form: formData
-    }
-  });
+  const body = JSON.stringify(formData);
   return new Promise((resolve, reject) => {
     return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
       method: 'POST',
@@ -119,7 +115,6 @@ export function submit(form, formConfig) {
           event: `${formConfig.trackingPrefix}-submission-successful`,
         });
         resolve(response);
-        resolve(json);
       }, reject);
     }).catch(respOrError => {
       reject(respOrError);
