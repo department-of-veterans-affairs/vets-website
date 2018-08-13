@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Print Out Your VA Welcome Kit
 display_title: Your VA Welcome Kit
 order: 1
-plainlanguage: 
+plainlanguage:
 template: detail-page
 majorlinks:
   - heading: Explore Vets.gov to learn about your benefits

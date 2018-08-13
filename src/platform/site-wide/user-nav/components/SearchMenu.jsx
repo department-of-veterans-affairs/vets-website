@@ -24,7 +24,7 @@ class SearchMenu extends React.Component {
     return (
       <form
         acceptCharset="UTF-8"
-        action="https://search.vets.gov/search"
+        action="#"
         id="search"
         method="get">
         <div className="csp-inline-patch-header">

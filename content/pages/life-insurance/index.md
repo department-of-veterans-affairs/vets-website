@@ -13,7 +13,7 @@ majorlinks:
       title: Benefits for Policyholders Who Are Totally Disabled or Terminally Ill
       description: Learn how to file special life insurance claims if you or your spouse become totally disabled or terminally ill.
     - url: /life-insurance/manage-your-policy/
-      title: Managing Your Policy 
+      title: Managing Your Policy
       description: Check your policy’s status, update your information, or pay your bill online.
 ---
 
@@ -22,5 +22,3 @@ majorlinks:
 If you’re a Servicemember or Veteran—or the spouse or dependent child of a Servicemember—you may be able to get life insurance through VA. Explore your options, manage your policy, and file claims.
 
 </div>
-
-
