@@ -80,71 +80,65 @@ export class ITFWrapper extends React.Component {
 
   render() {
     const { location, children, itf } = this.props;
-    // If the location is the intro or confirmation pages, don't fetch an ITF
+    // If the location is the intro or confirmation pages, don't show an ITF message
+    let message;
+    let content;
+
     if (noITFPages.includes(location.pathname)) {
-      return children;
-    }
+      message = null;
+      content = children;
+    } else if (fetchWaitingStates.includes(itf.fetchCallState)) {
+      // If we get here, componentDidMount or componentWillRecieveProps called fetchITF
+      // While we're waiting, show the loading indicator...
+      content = <LoadingIndicator message="Checking your Intent to File status..."/>;
+    } else if (itf.fetchCallState === requestStates.failed) {
+      // We'll get here after the fetchITF promise is fulfilled
+      message = itfMessage('We’re sorry. Something went wrong on our end', 'We can’t access your Intent to File request right now. Please try applying again tomorrow.', 'error');
+    } else if (itf.currentITF && itf.currentITF.status === itfStatuses.active) {
+      // If we have an active ITF, we're good to go--render that form!
+      content = children;
 
-    // componentDidMount or componentWillRecieveProps called fetchITF
+      // Only show the message on the first page navigation
+      if (!this.state.hasDisplayedSuccess) {
+        if (itf.previousITF) {
+          // If there was a previous ITF, we created one; show the creation success message
+          const submitSuccessContent = (
+            <div>
+              <p>Thank you for submitting your Intent to File request for disability compensation. Your Intent to File will expire on {displayDate(itf.currentITF.expirationDate)}.</p>
+              {itf.previousITF &&
+                <p>
+                  <strong>Please note:</strong> We found a previous Intent to File request in our records that expired on {displayDate(itf.previousITF.expirationDate)}. This ITF might have been from an application you started, but didn’t finish before the ITF expired. Or, it could have been from a claim you already submitted.
+                </p>
+              }
+            </div>
+          );
 
-    // While we're waiting, show the loading indicator...
-    if (fetchWaitingStates.includes(itf.fetchCallState)) {
-      return <LoadingIndicator message="Checking your Intent to File status..."/>;
-    }
-
-    // We'll get here after the fetchITF promise is fulfilled
-
-    if (itf.fetchCallState === requestStates.failed) {
-      // TODO: Get better content for this
-      return itfMessage('We’re sorry. Something went wrong on our end', 'We can’t access your Intent to File request right now. Please try applying again tomorrow.', 'error');
-    }
-
-    // If we have an active ITF, we're good to go--render that form!
-    if (itf.currentITF && itf.currentITF.status === itfStatuses.active) {
-      if (itf.previousITF) {
-        // If there was a previous ITF, we created one; show the creation success message
-        const submitSuccessContent = (
-          <div>
-            <p>Thank you for submitting your Intent to File request for disability compensation. Your Intent to File will expire on {displayDate(itf.currentITF.expirationDate)}.</p>
-            {itf.previousITF &&
-              <p>
-                <strong>Please note:</strong> We found a previous Intent to File request in our records that expired on {displayDate(itf.previousITF.expirationDate)}. This ITF might have been from an application you started, but didn’t finish before the ITF expired. Or, it could have been from a claim you already submitted.
-              </p>
-            }
-          </div>
-        );
-
-        return (
-          <div>
-            {!this.state.hasDisplayedSuccess && itfMessage('Your Intent to File request has been submitted', submitSuccessContent, 'success')}
-            {children}
-          </div>
-        );
-      }
-
-      // We fetched an active ITF
-      return (
-        <div>
-          {!this.state.hasDisplayedSuccess && itfMessage(
+          message = itfMessage('Your Intent to File request has been submitted', submitSuccessContent, 'success');
+        } else {
+          // We fetched an active ITF
+          message = itfMessage(
             'You already have an Intent to File',
             `Our records show that you already have an Intent to File for disability compensation. Your Intent to File will expire on ${displayDate(itf.currentITF.expirationDate)}.`,
-            'success')}
-          {children}
-        </div>
-      );
+            'success');
+        }
+      }
+    } else if (fetchWaitingStates.includes(itf.creationCallState)) {
+      // componentWillRecieveProps called createITF if there was no active ITF found
+      // While we're waiting (again), show the loading indicator...again
+      content = <LoadingIndicator message="Submitting a new Intent to File..."/>;
+    } else {
+      // We'll get here after the createITF promise is fulfilled and we have no active ITF
+      //  because of a failed creation call
+      // TODO: Get better content for this
+      message = itfMessage('Your Intent to File didn’t go through', 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.', 'error');
     }
 
-    // componentWillRecieveProps called createITF if there was no active ITF found
-
-    // While we're waiting (again), show the loading indicator...again
-    if (fetchWaitingStates.includes(itf.creationCallState)) {
-      return <LoadingIndicator message="Submitting a new Intent to File..."/>;
-    }
-
-    // We'll get here after the createITF promise is fulfilled and we have no active ITF
-    //  because of a failed creation call
-    // TODO: Get better content for this
-    return itfMessage('Your Intent to File didn’t go through', 'We’re sorry. Your Intent to File request didn’t go through because something went wrong on our end. Please try applying again tomorrow.', 'error');
+    return (
+      <div>
+        {message}
+        {content}
+      </div>
+    );
   }
 }
 
