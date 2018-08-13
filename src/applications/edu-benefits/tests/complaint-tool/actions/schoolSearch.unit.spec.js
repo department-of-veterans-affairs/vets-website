@@ -5,7 +5,8 @@ import {
   clearSearch,
   searchInputChange,
   searchSchools,
-  selectInstitution
+  selectInstitution,
+  toggleManualSchoolEntry
 } from '../../../complaint-tool/actions/schoolSearch';
 
 function setFetchResponse(stub, data) {
@@ -116,6 +117,16 @@ describe('schoolSearch actions', () => {
         facilityCode: 'testFacilityCode',
         name: 'testName',
         state: 'testState'
+      });
+    });
+  });
+  describe('toggleManualSchoolEntry', () => {
+    it('should return an MANUAL_SCHOOL_ENTRY_TOGGLED action', () => {
+      const action = toggleManualSchoolEntry(true);
+
+      expect(action).to.eql({
+        type: 'MANUAL_SCHOOL_ENTRY_TOGGLED',
+        manualSchoolEntryChecked: true
       });
     });
   });
