@@ -73,10 +73,10 @@ function pollStatus(guid, onDone, onError) {
         if (!res || res.data.attributes.state === 'pending') {
           pollStatus(guid, onDone, onError);
         } else if (res.data.attributes.state === 'success') {
-          onDone(res.data.attributes.response);
+          onDone(res.data.attributes.parsed_response);
         } else {
           // needs to start with this string to get the right message on the form
-          throw new Error(`vets_server_error_edu: status ${res.data.attributes.state}`);
+          throw new Error(`vets_server_error_gi_bill_feedbacks: status ${res.data.attributes.state}`);
         }
       })
       .catch(onError);
