@@ -19,7 +19,7 @@ export function clearSearch() {
   };
 }
 
-export function restoreFromPrefill({ searchInputValue, institutionQuery, institutionSelected, page }) {
+export function restoreFromPrefill({ institutionQuery, institutionSelected, page, searchInputValue }) {
   return dispatch => {
     dispatch({
       type: RESTORE_FROM_PREFILL_STARTED,
@@ -33,7 +33,6 @@ export function restoreFromPrefill({ searchInputValue, institutionQuery, institu
       if (payload) {
         dispatch({
           type: RESTORE_FROM_PREFILL_SUCCEEDED,
-          institutionSelected,
           institutionQuery,
           payload
         });

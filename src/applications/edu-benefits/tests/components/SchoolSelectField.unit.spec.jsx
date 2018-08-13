@@ -10,6 +10,7 @@ import { SchoolSelectField } from '../../components/SchoolSelectField';
 describe('<SchoolSelectField>', () => {
   it('should render initial search view', () => {
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       showInstitutions={false}
       showInstitutionsLoading={false}
@@ -36,6 +37,7 @@ describe('<SchoolSelectField>', () => {
       state: 'testState',
     }];
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       currentPageNumber={1}
       institutionQuery="test"
@@ -72,6 +74,7 @@ describe('<SchoolSelectField>', () => {
       state: ''
     }];
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       currentPageNumber={1}
       institutionQuery="test"
@@ -94,6 +97,7 @@ describe('<SchoolSelectField>', () => {
 
   it('should render institutions loading view', () => {
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       currentPageNumber={1}
       institutionQuery="test"
@@ -117,6 +121,7 @@ describe('<SchoolSelectField>', () => {
 
   it('should render pagination loading view', () => {
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       currentPageNumber={1}
       institutionQuery="test"
@@ -140,6 +145,7 @@ describe('<SchoolSelectField>', () => {
 
   it('should render an error view', () => {
     const tree = mount(<SchoolSelectField
+      formData={{}}
       errorMessages={[]}
       formContext={{}}
       currentPageNumber={1}
@@ -171,6 +177,7 @@ describe('<SchoolSelectField>', () => {
       state: ''
     }];
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       currentPageNumber={1}
       institutions={institutions}
@@ -197,6 +204,7 @@ describe('<SchoolSelectField>', () => {
   it('should call onChange props on when manual entry is toggled', () => {
     const onChange = sinon.spy();
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       currentPageNumber={1}
       facilityCodeSelected=""
@@ -219,6 +227,7 @@ describe('<SchoolSelectField>', () => {
   it('should call searchInputChange prop on input change', () => {
     const searchInputChange = sinon.spy();
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       currentPageNumber={1}
       institutionQuery="test"
@@ -241,6 +250,7 @@ describe('<SchoolSelectField>', () => {
     const searchSchools = sinon.spy();
     const onChange = sinon.spy();
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       currentPageNumber={1}
       facilityCodeSelected=""
@@ -259,7 +269,10 @@ describe('<SchoolSelectField>', () => {
     tree.find('.search-schools-button').first().simulate('click');
     setTimeout(() => {
       expect(searchSchools.firstCall.args[0]).to.eql({ institutionQuery: 'test' });
-      expect(onChange.firstCall.args[0]).to.eql({ 'view:manualSchoolEntryChecked': false });
+      expect(onChange.firstCall.args[0]).to.eql({
+        'view:manualSchoolEntryChecked': false,
+        'view:institutionQuery': 'test'
+      });
       done();
     }, 200);
   });
@@ -269,12 +282,16 @@ describe('<SchoolSelectField>', () => {
     const selectInstitution = sinon.spy();
     const onChange = sinon.spy();
     const institutions = [{
+      address1: 'testAddress1',
+      address2: 'testAddress2',
+      address3: 'testAddress3',
       city: 'testcity',
       facilityCode: 'test',
       name: 'testName',
       state: 'testState'
     }];
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       currentPageNumber={1}
       institutionQuery="test"
@@ -292,7 +309,17 @@ describe('<SchoolSelectField>', () => {
     );
 
     tree.find('#page-1-0').first().simulate('change');
-    expect(onChange.firstCall.args[0]).to.eql({ facilityCode: 'test' });
+    expect(onChange.firstCall.args[0]).to.eql({
+      facilityCode: 'test',
+      'view:institutionSelected': {
+        address1: 'testAddress1',
+        address2: 'testAddress2',
+        address3: 'testAddress3',
+        city: 'testcity',
+        name: 'testName',
+        state: 'testState'
+      }
+    });
     expect(selectInstitution.firstCall.args[0]).to.eql(institutions[0]);
   });
 
@@ -301,6 +328,7 @@ describe('<SchoolSelectField>', () => {
     const onChange = sinon.spy();
     const clearSearch = sinon.spy();
     const tree = mount(<SchoolSelectField
+      formData={{}}
       formContext={{}}
       clearSearch={clearSearch}
       currentPageNumber={1}
