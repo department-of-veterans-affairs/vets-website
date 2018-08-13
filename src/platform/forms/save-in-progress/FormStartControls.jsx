@@ -24,7 +24,7 @@ class FormStartControls extends React.Component {
   }
 
   handleLoadPrefill = () => {
-    if (this.props.prefillAvailable && !this.props.noPrefill) {
+    if (this.props.prefillAvailable && !this.props.skipPrefill) {
       this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
     } else {
       this.goToBeginning();
@@ -101,9 +101,9 @@ FormStartControls.propTypes = {
   formSaved: PropTypes.bool.isRequired,
   // prefillAvailable = whether the form can be pre-filled
   prefillAvailable: PropTypes.bool.isRequired,
-  // noPrefill = whether the form _should_ be pre-filled
+  // skipPrefill = whether the form _should_ be pre-filled
   // This is mostly useful if we've already made the call or know we will later
-  noPrefill: PropTypes.bool,
+  skipPrefill: PropTypes.bool,
   startPage: PropTypes.string.isRequired,
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool
