@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-
+import _ from 'lodash';
 import {
   DefinitionTester,
   fillData
@@ -11,6 +11,7 @@ import formConfig from '../../../complaint-tool/config/form';
 
 describe('complaint tool school info', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolInformation.pages.schoolInformation;
+  _.unset(uiSchema, 'school.facilityCode');
 
   it('should render', () => {
     const form = mount(
@@ -18,7 +19,9 @@ describe('complaint tool school info', () => {
         schema={schema}
         data={{
           school: {
-            'view:cannotFindSchool': true
+            facilityCode: {
+              manualSchoolEntryChecked: true
+            }
           }
         }}
         definitions={formConfig.defaultDefinitions}
@@ -35,7 +38,9 @@ describe('complaint tool school info', () => {
         schema={schema}
         data={{
           school: {
-            'view:cannotFindSchool': true
+            facilityCode: {
+              manualSchoolEntryChecked: true
+            }
           }
         }}
         definitions={formConfig.defaultDefinitions}
@@ -44,7 +49,7 @@ describe('complaint tool school info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -55,7 +60,9 @@ describe('complaint tool school info', () => {
         schema={schema}
         data={{
           school: {
-            'view:cannotFindSchool': true
+            facilityCode: {
+              manualSchoolEntryChecked: true
+            }
           }
         }}
         definitions={formConfig.defaultDefinitions}
@@ -64,11 +71,11 @@ describe('complaint tool school info', () => {
     );
 
     fillData(form, 'input[name="root_school_view:manualSchoolEntry_name"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_street"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_city"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_postalCode"]', '34343');
-    fillData(form, 'select[name="root_school_view:manualSchoolEntry_state"]', 'MA');
-    fillData(form, 'select[name="root_school_view:manualSchoolEntry_country"]', 'US');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_street"]', 'test');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_city"]', 'test');
+    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_postalCode"]', '34343');
+    fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_state"]', 'MA');
+    fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_country"]', 'United States');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

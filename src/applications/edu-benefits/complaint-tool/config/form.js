@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -12,25 +12,18 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform } from '../helpers';
+import { transform, submit } from '../helpers';
 
 const { educationDetails } = fullSchema.properties;
 
 const { school } = educationDetails;
 
-const {
-  name: schoolName,
-  address: schoolAddress
-} = school.oneOf[0].schoolInformation.properties;
+const { schoolInformation } = school.oneOf[0];
 
-const {
-  street: schoolStreet,
-  street2: schoolStreet2,
-  city: schoolCity,
-  state: schoolState,
-  country: schoolCountry,
-  postalCode: schoolPostalCode
-} = schoolAddress.properties;
+const domesticSchoolAddress = schoolInformation.oneOf[0];
+const internationalSchoolAddress = schoolInformation.oneOf[1];
+
+const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
 const {
   onBehalfOf,
@@ -82,8 +75,8 @@ function isNotVeteranOrServiceMember(formData) {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: '/v0/gi_bill_feedbacks',
+  submit,
   trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -379,49 +372,63 @@ const formConfig = {
           uiSchema: {
             school: {
               facilityCode: {
-                'ui:title': 'School Information',
+                facilityCode: {
+                  'ui:required': formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                },
                 'ui:field': SchoolSelectField,
-                'ui:required': formData => !_.get('school.view:cannotFindSchool', formData),
-                'ui:options': {
-                  hideIf: formData => formData.school['view:cannotFindSchool']
-                }
               },
               'view:manualSchoolEntry': {
                 name: {
-                  'ui:title': 'Name',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                  'ui:title': 'School name',
+                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 },
-                street: {
-                  'ui:title': 'Address line 1',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                street2: {
-                  'ui:title': 'Address line 2'
-                },
-                city: {
-                  'ui:title': 'City',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                state: {
-                  'ui:title': 'State',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                country: {
-                  'ui:title': 'Country',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                postalCode: {
-                  'ui:title': 'Postal Code',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData),
-                  'ui:errorMessages': {
-                    pattern: 'Please enter a valid 5 digit postal code'
+                address: {
+                  street: {
+                    'ui:title': 'Address line 1',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  street2: {
+                    'ui:title': 'Address line 2'
+                  },
+                  city: {
+                    'ui:title': 'City',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  state: {
+                    'ui:title': 'State',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  country: {
+                    'ui:title': 'Country',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  postalCode: {
+                    'ui:title': 'Postal Code',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                    'ui:errorMessages': {
+                      pattern: 'Please enter a valid 5 digit postal code'
+                    },
+                    'ui:options': {
+                      widgetClassNames: 'va-input-medium-large'
+                    }
                   },
                   'ui:options': {
-                    widgetClassNames: 'va-input-medium-large'
+                    updateSchema: (formData) => {
+                      if (formData.address && formData.address.country && formData.address.country !== 'USA') {
+                        let newSchema = _.set('properties.country.enum', countries, internationalSchoolAddress);
+                        newSchema = _.unset('required', newSchema);
+                        newSchema = _.set('properties.country.default', 'USA', newSchema);
+                        return newSchema;
+                      }
+                      let newSchema = _.set('properties.country.enum', countries, domesticSchoolAddress);
+                      newSchema = _.unset('required', newSchema);
+                      newSchema = _.set('properties.country.default', 'USA', newSchema);
+                      return newSchema;
+                    }
                   }
                 },
                 'ui:options': {
-                  hideIf: formData => !formData.school['view:cannotFindSchool']
+                  hideIf: formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 }
               }
             }
@@ -433,22 +440,27 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   facilityCode: { // TODO: determine whether to store facility ID
-                    type: 'string'
-                  },
-                  'view:cannotFindSchool': {
-                    title: 'I’d rather type in my school information',
-                    type: 'boolean'
+                    type: 'object',
+                    properties: {
+                      facilityCode: {
+                        type: 'string'
+                      }
+                    }
                   },
                   'view:manualSchoolEntry': {
                     type: 'object',
                     properties: {
-                      name: schoolName,
-                      street: schoolStreet,
-                      street2: schoolStreet2,
-                      city: schoolCity,
-                      state: schoolState,
-                      country: schoolCountry,
-                      postalCode: schoolPostalCode
+                      name: schoolInformation.properties.name,
+                      address: {
+                        type: 'object',
+                        properties: _.merge(domesticSchoolAddress.properties, {
+                          country: {
+                            type: 'string',
+                            'enum': countries,
+                            'default': 'USA'
+                          }
+                        })
+                      }
                     }
                   }
                 }
