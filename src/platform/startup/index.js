@@ -17,7 +17,7 @@ import startReactApp from './react';
  * components (like the header menus and login widget), and wraps the provided
  * routes in the Redux and React Router boilerplate common to most applications.
  *
- * @param {object} appInfo The UI and business logic of your React application 
+ * @param {object} appInfo The UI and business logic of your React application
  * @param {Route|array<Route>} appInfo.routes The routes for the application
  * @param {ReactElement} appInfo.component A React element to render. Only used if routes
  * is not passed

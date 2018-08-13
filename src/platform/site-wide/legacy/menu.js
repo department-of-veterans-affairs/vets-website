@@ -1,5 +1,5 @@
 /*
- * Creates trigger function that opens/closes mobile menu, 
+ * Creates trigger function that opens/closes mobile menu,
  * mobile search menu, and the Veterans Crisis Line.
  */
 
@@ -10,12 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlayTarget = domEvent.currentTarget; // The overlay to open or close
     const clickTarget = domEvent.target; // The element clicked
 
-    /* 
-    overlayId will be _either_    
+    /*
+    overlayId will be _either_
     - The value of element.getAttribute('href')
     - The value of element.dataset.show
-    
-    A .va-overlay-trigger element should have either a data-show attribute 
+
+    A .va-overlay-trigger element should have either a data-show attribute
     (preferred) or an href attribute.
     */
     const overlayId = overlayTarget.getAttribute('href') || overlayTarget.dataset.show;
