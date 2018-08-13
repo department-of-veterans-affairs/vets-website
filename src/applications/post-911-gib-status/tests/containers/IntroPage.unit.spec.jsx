@@ -33,7 +33,7 @@ describe('<IntroPage/>', () => {
     expect(wrapper.find('Link').first().props().to).to.equal('status');
   });
 
-  it('should render an alert', () => {
+  it('should render an alert when GIBS status down', () => {
     const wrapper = shallow(<IntroPage {...defaultProps} serviceAvailability={SERVICE_AVAILABILITY_STATES.down}/>);
     expect(wrapper.find('.usa-alert')).to.have.lengthOf(1);
   });

@@ -29,13 +29,14 @@ describe('<Vet360ProfileField/>', () => {
       field: null,
       fieldName: 'someField',
       isEditing: false,
-      isEmpty: null,
+      isEmpty: false,
       onAdd() {},
+      onEdit() {},
       onCancel() {},
       onChange() {},
       onDelete() {},
-      onEdit() {},
       onSubmit() {},
+      openModal: sinon.spy(),
       refreshTransaction() {},
       title: 'Some field',
       transaction: null,
@@ -48,21 +49,15 @@ describe('<Vet360ProfileField/>', () => {
     expect(component.find('Content'), 'the Content was rendered').to.have.lengthOf(1);
   });
 
-  it('calls isEmpty', () => {
-    props.data = null;
-    component = enzyme.shallow(<Vet360ProfileField {...props}/>);
+  it('conditional render based on existence of data', () => {
+    const isEmptyProps = {
+      ...props,
+      isEmpty: true,
+    };
+
+    component = enzyme.shallow(<Vet360ProfileField {...isEmptyProps}/>);
     expect(component.find('Content'), 'the Content was NOT rendered').to.have.lengthOf(0);
     expect(component.html(), 'the add-button was rendered instead of the Content').to.contain('button');
-
-    props.isEmpty = sinon.stub().returns(true);
-    component.setProps(props);
-    expect(component.html(), 'the custom isEmpty prop worked').to.contain('button');
-    expect(props.isEmpty.calledWith(props), 'component props was passed to isEmpty').to.be.true;
-
-    props.isEmpty = sinon.stub().returns(false);
-    props.data = {};
-    component.setProps(props);
-    expect(component.find('Content'), 'the custom isEmpty prop worked').to.have.lengthOf(1);
   });
 
   it('renders the EditModal prop', () => {
@@ -84,7 +79,9 @@ describe('<Vet360ProfileField/>', () => {
     component = enzyme.shallow(<Vet360ProfileField {...props}/>);
 
     let onEditClick = component.find('Vet360ProfileFieldHeading').props().onEditClick;
-    expect(onEditClick, 'The resultant onEditClick prop passed to the heading should be the original onEdit prop').to.be.equal(props.onEdit);
+    onEditClick();
+    props.openModal();
+    expect(props.openModal.callCount, 'onEdit').to.be.equal(2);
 
     component.setProps({
       transaction: { data: { attributes: { transactionStatus: TRANSACTION_STATUS.RECEIVED } } }

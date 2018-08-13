@@ -1,42 +1,34 @@
 import _ from 'lodash/fp';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
+import GetFormHelp from '../../components/GetFormHelp';
+
+import { transform, submit } from '../helpers';
 
 const { educationDetails } = fullSchema.properties;
 
 const { school } = educationDetails;
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+const { schoolInformation } = school.oneOf[0];
 
-import { transform } from '../helpers';
+const domesticSchoolAddress = schoolInformation.oneOf[0];
+const internationalSchoolAddress = schoolInformation.oneOf[1];
 
-const {
-  name: schoolName,
-  address: schoolAddress
-} = school.oneOf[0].schoolInformation.properties;
-
-const {
-  street: schoolStreet,
-  street2: schoolStreet2,
-  city: schoolCity,
-  state: schoolState,
-  country: schoolCountry,
-  postalCode: schoolPostalCode
-} = schoolAddress.properties;
+const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
 const {
   onBehalfOf,
   fullName,
-  dob,
-  // serviceAffiliation,
+  serviceAffiliation,
   serviceBranch,
   serviceDateRange,
   anonymousEmail,
@@ -75,7 +67,7 @@ function hasMyself(formData) {
 }
 
 function isNotVeteranOrServiceMember(formData) {
-  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember or Veteran'))) {
+  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember') && (formData.serviceAffiliation !== 'Veteran'))) {
     return true;
   }
   return false;
@@ -83,9 +75,9 @@ function isNotVeteranOrServiceMember(formData) {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complaint-tool',
+  submitUrl: '/v0/gi_bill_feedbacks',
+  submit,
+  trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'complaint-tool',
@@ -101,6 +93,8 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'GI Bill® School Feedback Tool',
+  getHelp: GetFormHelp,
+  footerContent: FormFooter,
   transformForSubmit: transform,
   chapters: {
     applicantInformation: {
@@ -115,9 +109,9 @@ const formConfig = {
               'ui:title': 'I’m submitting feedback on behalf of...',
               'ui:options': {
                 nestedContent: {
-                  [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Your personal information won’t be shared with anyone outside of VA.)</i></div>
+                  [myself]: () => <div className="usa-alert usa-alert-info no-background-image">We’ll only share your name with the school.</div>,
+                  [someoneElse]: () => <div className="usa-alert usa-alert-info no-background-image">Your name is shared with the school, not the name of the person you’re submitting feedback for.</div>,
+                  [anonymous]: () => <div className="usa-alert usa-alert-info no-background-image">Anonymous feedback is shared with the school. Your personal information, however, isn’t shared with anyone outside of VA.</div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
@@ -144,12 +138,6 @@ const formConfig = {
                 'ui:title': 'Your suffix'
               },
               'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: isNotAnonymous
-              }
-            }),
-            dob: _.merge(dateUI('Date of birth'), {
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: isNotAnonymous
@@ -199,15 +187,7 @@ const formConfig = {
             properties: {
               onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
               fullName,
-              dob,
-              serviceAffiliation: { // TODO: update BE schema and use here
-                type: 'string',
-                'enum': [
-                  'Servicemember or Veteran',
-                  'Spouse or Child',
-                  'Family member'
-                ]
-              },
+              serviceAffiliation,
               serviceBranch,
               serviceDateRange,
               anonymousEmail
@@ -392,49 +372,63 @@ const formConfig = {
           uiSchema: {
             school: {
               facilityCode: {
-                'ui:title': 'Please click on the button to search for your school.',
+                facilityCode: {
+                  'ui:required': formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                },
                 'ui:field': SchoolSelectField,
-                'ui:required': formData => !_.get('school.view:cannotFindSchool', formData),
-                'ui:options': {
-                  hideIf: formData => formData.school['view:cannotFindSchool']
-                }
               },
               'view:manualSchoolEntry': {
                 name: {
-                  'ui:title': 'Name',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+                  'ui:title': 'School name',
+                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 },
-                street: {
-                  'ui:title': 'Address line 1',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                street2: {
-                  'ui:title': 'Address line 2'
-                },
-                city: {
-                  'ui:title': 'City',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                state: {
-                  'ui:title': 'State',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                country: {
-                  'ui:title': 'Country',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                postalCode: {
-                  'ui:title': 'Postal Code',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData),
-                  'ui:errorMessages': {
-                    pattern: 'Please enter a valid 5 digit postal code'
+                address: {
+                  street: {
+                    'ui:title': 'Address line 1',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  street2: {
+                    'ui:title': 'Address line 2'
+                  },
+                  city: {
+                    'ui:title': 'City',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  state: {
+                    'ui:title': 'State',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  country: {
+                    'ui:title': 'Country',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                  },
+                  postalCode: {
+                    'ui:title': 'Postal Code',
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                    'ui:errorMessages': {
+                      pattern: 'Please enter a valid 5 digit postal code'
+                    },
+                    'ui:options': {
+                      widgetClassNames: 'va-input-medium-large'
+                    }
                   },
                   'ui:options': {
-                    widgetClassNames: 'va-input-medium-large'
+                    updateSchema: (formData) => {
+                      if (formData.address && formData.address.country && formData.address.country !== 'USA') {
+                        let newSchema = _.set('properties.country.enum', countries, internationalSchoolAddress);
+                        newSchema = _.unset('required', newSchema);
+                        newSchema = _.set('properties.country.default', 'USA', newSchema);
+                        return newSchema;
+                      }
+                      let newSchema = _.set('properties.country.enum', countries, domesticSchoolAddress);
+                      newSchema = _.unset('required', newSchema);
+                      newSchema = _.set('properties.country.default', 'USA', newSchema);
+                      return newSchema;
+                    }
                   }
                 },
                 'ui:options': {
-                  hideIf: formData => !formData.school['view:cannotFindSchool']
+                  hideIf: formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
                 }
               }
             }
@@ -446,22 +440,27 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   facilityCode: { // TODO: determine whether to store facility ID
-                    type: 'string'
-                  },
-                  'view:cannotFindSchool': {
-                    title: 'I’d rather type in my school information',
-                    type: 'boolean'
+                    type: 'object',
+                    properties: {
+                      facilityCode: {
+                        type: 'string'
+                      }
+                    }
                   },
                   'view:manualSchoolEntry': {
                     type: 'object',
                     properties: {
-                      name: schoolName,
-                      street: schoolStreet,
-                      street2: schoolStreet2,
-                      city: schoolCity,
-                      state: schoolState,
-                      country: schoolCountry,
-                      postalCode: schoolPostalCode
+                      name: schoolInformation.properties.name,
+                      address: {
+                        type: 'object',
+                        properties: _.merge(domesticSchoolAddress.properties, {
+                          country: {
+                            type: 'string',
+                            'enum': countries,
+                            'default': 'USA'
+                          }
+                        })
+                      }
                     }
                   }
                 }

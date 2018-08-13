@@ -12,11 +12,11 @@ import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../page
 import createDirectDepositPage from '../../pages/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
-import * as address from 'us-forms-system/lib/js/definitions/address';
-import fullNameUISchema from 'us-forms-system/lib/js/definitions/fullName';
+import * as address from '../../../../platform/forms/definitions/address';
+import fullNameUISchema from '../../../../platform/forms/definitions/fullName';
 import monthYearUI from 'us-forms-system/lib/js/definitions/monthYear';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-import * as personId from 'us-forms-system/lib/js/definitions/personId';
+import * as personId from '../../../../platform/forms/definitions/personId';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
