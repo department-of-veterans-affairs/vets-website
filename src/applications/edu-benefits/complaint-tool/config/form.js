@@ -373,38 +373,38 @@ const formConfig = {
             school: {
               facilityCode: {
                 facilityCode: {
-                  'ui:required': formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                  'ui:required': formData => !_.get('school.facilityCode.view:manualSchoolEntryChecked', formData),
                 },
                 'ui:field': SchoolSelectField,
               },
               'view:manualSchoolEntry': {
                 name: {
                   'ui:title': 'School name',
-                  'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                  'ui:required': formData => _.get('school.facilityCode.view:manualSchoolEntryChecked', formData),
                 },
                 address: {
                   street: {
                     'ui:title': 'Address line 1',
-                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                    'ui:required': formData => _.get('school.facilityCode.view:manualSchoolEntryChecked', formData)
                   },
                   street2: {
                     'ui:title': 'Address line 2'
                   },
                   city: {
                     'ui:title': 'City',
-                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                    'ui:required': formData => _.get('school.facilityCode.view:manualSchoolEntryChecked', formData)
                   },
                   state: {
                     'ui:title': 'State',
-                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                    'ui:required': formData => _.get('school.facilityCode.view:manualSchoolEntryChecked', formData)
                   },
                   country: {
                     'ui:title': 'Country',
-                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                    'ui:required': formData => _.get('school.facilityCode.view:manualSchoolEntryChecked', formData)
                   },
                   postalCode: {
                     'ui:title': 'Postal Code',
-                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                    'ui:required': formData => _.get('school.facilityCode.view:manualSchoolEntryChecked', formData),
                     'ui:errorMessages': {
                       pattern: 'Please enter a valid 5 digit postal code'
                     },
@@ -428,7 +428,7 @@ const formConfig = {
                   }
                 },
                 'ui:options': {
-                  hideIf: formData => !_.get('school.facilityCode.manualSchoolEntryChecked', formData),
+                  hideIf: formData => !_.get('school.facilityCode.view:manualSchoolEntryChecked', formData),
                 }
               }
             }

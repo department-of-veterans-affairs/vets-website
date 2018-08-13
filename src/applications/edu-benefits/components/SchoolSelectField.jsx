@@ -10,8 +10,7 @@ import {
   clearSearch,
   searchInputChange,
   selectInstitution,
-  searchSchools,
-  toggleManualSchoolEntry
+  searchSchools
 } from '../complaint-tool/actions/schoolSearch';
 import {
   selectCurrentPageNumber,
@@ -57,10 +56,9 @@ export class SchoolSelectField extends React.Component {
   };
 
   handleManualSchoolEntryToggled = (currentValue) => {
-    this.props.toggleManualSchoolEntry(!currentValue);
     this.props.onChange({
       facilityCode: this.props.facilityCodeSelected,
-      manualSchoolEntryChecked: !currentValue
+      'view:manualSchoolEntryChecked': !currentValue
     });
   }
 
@@ -68,7 +66,7 @@ export class SchoolSelectField extends React.Component {
     this.props.selectInstitution({ city, facilityCode, name, state });
     this.props.onChange({
       facilityCode,
-      manualSchoolEntryChecked: this.props.manualSchoolEntryChecked
+      'view:manualSchoolEntryChecked': this.props.manualSchoolEntryChecked
     });
   }
 
@@ -90,7 +88,7 @@ export class SchoolSelectField extends React.Component {
 
       this.props.onChange({
         facilityCode: this.props.facilityCodeSelected,
-        manualSchoolEntryChecked: false
+        'view:manualSchoolEntryChecked': false
       });
     }
   }
@@ -100,7 +98,7 @@ export class SchoolSelectField extends React.Component {
 
     this.props.onChange({
       facilityCode: this.props.facilityCodeSelected,
-      manualSchoolEntryChecked: false
+      'view:manualSchoolEntryChecked': false
     });
     this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
   }
@@ -300,7 +298,7 @@ const mapStateToProps = (state, ownProps) => {
   const institutionQuery = selectInstitutionQuery(state);
   const institutions = selectInstitutions(state);
   const institutionSelected = selectInstitutionSelected(state);
-  const manualSchoolEntryChecked = selectManualSchoolEntryChecked(state);
+  const manualSchoolEntryChecked = selectManualSchoolEntryChecked(state) || false;
   const pagesCount = selectPagesCount(state);
   const searchInputValue = selectSearchInputValue(state);
   const searchResultsCount = selectSearchResultsCount(state);
@@ -336,8 +334,7 @@ const mapDispatchToProps = {
   clearSearch,
   searchInputChange,
   searchSchools,
-  selectInstitution,
-  toggleManualSchoolEntry
+  selectInstitution
 };
 
 SchoolSelectField.PropTypes = {

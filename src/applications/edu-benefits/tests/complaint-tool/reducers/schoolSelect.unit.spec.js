@@ -330,30 +330,6 @@ describe('schoolSearch reducer', () => {
       expect(actualState).to.eql(expectedState);
     });
   });
-  describe('MANUAL_SCHOOL_ENTRY_TOGGLED', () => {
-    it('should return a manual school entry checked state', () => {
-      const previousState = {
-        manualSchoolEntryChecked: false,
-        showInstitutionsLoading: true,
-        showSearchResults: true
-      };
-
-      const expectedState = {
-        manualSchoolEntryChecked: true,
-        showInstitutionsLoading: true,
-        showSearchResults: false
-      };
-
-      const action = {
-        type: 'MANUAL_SCHOOL_ENTRY_TOGGLED',
-        manualSchoolEntryChecked: true
-      };
-
-      const actualState = schoolSelect(previousState, action);
-
-      expect(actualState).to.eql(expectedState);
-    });
-  });
   describe('SEARCH_CLEARED', () => {
     it('should return a search cleared state', () => {
       const previousState = {

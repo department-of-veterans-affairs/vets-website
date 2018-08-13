@@ -2,7 +2,6 @@ import {
   LOAD_SCHOOLS_FAILED,
   LOAD_SCHOOLS_STARTED,
   LOAD_SCHOOLS_SUCCEEDED,
-  MANUAL_SCHOOL_ENTRY_TOGGLED,
   SEARCH_CLEARED,
   SEARCH_INPUT_CHANGED,
   INSTITUTION_SELECTED
@@ -155,17 +154,6 @@ export default function schoolSearch(state = initialState, action) {
         showNoResultsFound,
         showPagination,
         showPaginationLoading
-      };
-    }
-
-    case MANUAL_SCHOOL_ENTRY_TOGGLED: {
-      const manualSchoolEntryChecked = action.manualSchoolEntryChecked;
-      const showSearchResults = !manualSchoolEntryChecked;
-
-      return {
-        ...state,
-        manualSchoolEntryChecked,
-        showSearchResults
       };
     }
 

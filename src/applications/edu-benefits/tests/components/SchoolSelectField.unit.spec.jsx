@@ -194,8 +194,7 @@ describe('<SchoolSelectField>', () => {
   });
 
   // handleManualSchoolEntryToggled
-  it('should call toggleManualSchoolEntry and onChange props on input change', () => {
-    const toggleManualSchoolEntry = sinon.spy();
+  it('should call onChange props on when manual entry is toggled', () => {
     const onChange = sinon.spy();
     const tree = mount(<SchoolSelectField
       formContext={{}}
@@ -209,13 +208,11 @@ describe('<SchoolSelectField>', () => {
       showInstitutions={false}
       showInstitutionsLoading={false}
       showPagination
-      showPaginationLoading
-      toggleManualSchoolEntry={toggleManualSchoolEntry}/>
+      showPaginationLoading/>
     );
 
     tree.find('.form-checkbox input').first().simulate('change');
-    expect(toggleManualSchoolEntry.firstCall.args[0]).to.eql(true);
-    expect(onChange.firstCall.args[0]).to.eql({ facilityCode: '', manualSchoolEntryChecked: true });
+    expect(onChange.firstCall.args[0]).to.eql({ facilityCode: '', 'view:manualSchoolEntryChecked': true });
   });
 
   // handleSearchInputChange
@@ -249,7 +246,6 @@ describe('<SchoolSelectField>', () => {
       facilityCodeSelected=""
       institutionQuery="test"
       onChange={onChange}
-      manualSchoolEntryChecked
       pagesCount={2}
       searchSchools={searchSchools}
       searchInputValue="test"
@@ -263,7 +259,7 @@ describe('<SchoolSelectField>', () => {
     tree.find('.search-schools-button').first().simulate('click');
     setTimeout(() => {
       expect(searchSchools.firstCall.args[0]).to.eql({ institutionQuery: 'test' });
-      expect(onChange.firstCall.args[0]).to.eql({ facilityCode: '', manualSchoolEntryChecked: false });
+      expect(onChange.firstCall.args[0]).to.eql({ facilityCode: '', 'view:manualSchoolEntryChecked': false });
       done();
     }, 200);
   });
@@ -296,7 +292,7 @@ describe('<SchoolSelectField>', () => {
     );
 
     tree.find('#page-1-0').first().simulate('change');
-    expect(onChange.firstCall.args[0]).to.eql({ facilityCode: 'test', manualSchoolEntryChecked: false });
+    expect(onChange.firstCall.args[0]).to.eql({ facilityCode: 'test', 'view:manualSchoolEntryChecked': false });
     expect(selectInstitution.firstCall.args[0]).to.eql(institutions[0]);
   });
 

@@ -20,7 +20,7 @@ describe('complaint tool school info', () => {
         data={{
           school: {
             facilityCode: {
-              manualSchoolEntryChecked: true
+              'view:manualSchoolEntryChecked': true
             }
           }
         }}
@@ -39,7 +39,7 @@ describe('complaint tool school info', () => {
         data={{
           school: {
             facilityCode: {
-              manualSchoolEntryChecked: true
+              'view:manualSchoolEntryChecked': true
             }
           }
         }}
@@ -49,7 +49,7 @@ describe('complaint tool school info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -61,7 +61,7 @@ describe('complaint tool school info', () => {
         data={{
           school: {
             facilityCode: {
-              manualSchoolEntryChecked: true
+              'view:manualSchoolEntryChecked': true
             }
           }
         }}
@@ -75,7 +75,6 @@ describe('complaint tool school info', () => {
     fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_city"]', 'test');
     fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_postalCode"]', '34343');
     fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_state"]', 'MA');
-    fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_country"]', 'United States');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
