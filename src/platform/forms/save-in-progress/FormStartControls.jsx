@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
+
 class FormStartControls extends React.Component {
   constructor(props) {
     super(props);
@@ -46,7 +47,6 @@ class FormStartControls extends React.Component {
   }
 
   render() {
-
     if (this.props.formSaved) {
       return (
         <div>
@@ -99,7 +99,11 @@ FormStartControls.propTypes = {
   removeInProgressForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
+  // prefillAvailable = whether the form can be pre-filled
   prefillAvailable: PropTypes.bool.isRequired,
+  // noPrefill = whether the form _should_ be pre-filled
+  // This is mostly useful if we've already made the call or know we will later
+  noPrefill: PropTypes.bool,
   startPage: PropTypes.string.isRequired,
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool
