@@ -9,6 +9,7 @@ import {
 const initialState = {
   currentDropdown: '',
   currentSection: '',
+  display: {},
 };
 
 export default function megaMenuReducer(state = initialState, action) {
