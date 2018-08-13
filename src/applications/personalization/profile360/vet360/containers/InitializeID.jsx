@@ -47,12 +47,11 @@ class InitializeVet360ID extends React.Component {
   render() {
     switch (this.props.status) {
       case VET360_INITIALIZATION_STATUS.INITIALIZED:
-        return <div data-initialization-status="ready">{this.props.children}</div>;
+        return <div>{this.props.children}</div>;
 
       case VET360_INITIALIZATION_STATUS.INITIALIZATION_FAILURE:
         return (
           <AlertBox
-            data-initialization-status="failure"
             isVisible
             status="info"
             content={<p>We’re sorry. Something went wrong on our end. Please refresh this page or try again later.</p>}/>
@@ -60,7 +59,7 @@ class InitializeVet360ID extends React.Component {
 
       case VET360_INITIALIZATION_STATUS.INITIALIZING:
         return (
-          <TransactionPending data-initialization-status="initializing" refreshTransaction={this.refreshTransaction}>
+          <TransactionPending refreshTransaction={this.refreshTransaction}>
             Initialization in progress...
           </TransactionPending>
         );
