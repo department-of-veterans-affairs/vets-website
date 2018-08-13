@@ -36,7 +36,7 @@ export const VET360_STATUS = {
 
 class InitializeVet360ID extends React.Component {
   componentDidMount() {
-    if (this.props.isVet360AvailableForUser) {
+    if (this.props.status === VET360_STATUS.READY) {
       this.props.fetchTransactions();
     } else {
       this.initializeVet360ID();
