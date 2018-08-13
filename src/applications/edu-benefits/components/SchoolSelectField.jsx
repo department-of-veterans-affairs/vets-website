@@ -8,6 +8,7 @@ import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import {
   clearSearch,
+  restoreFromPrefill,
   searchInputChange,
   selectInstitution,
   searchSchools
@@ -43,6 +44,25 @@ export class SchoolSelectField extends React.Component {
       150);
   }
 
+  componentDidMount() {
+    // hydrate search if restoring from SiP
+    // if there is a seach term stored in the form data
+    // if the search term in the form data isn't already in the redux state and displayed
+    const institutionSelected = this.props.formData['view:institutionSelected'];
+    const searchTermToRestore = this.props.formData['view:institutionQuery'];
+    const pageNumberToRestore = this.props.formData['view:currentPageNumber'];
+    if (searchTermToRestore && searchTermToRestore !== this.props.institutionQuery && !this.props.showInstitutions) {
+
+      this.props.restoreFromPrefill({
+        institutionSelected,
+        institutionQuery: searchTermToRestore,
+        page: pageNumberToRestore,
+        searchInputValue: searchTermToRestore,
+      });
+
+    }
+  }
+
   componentWillUnmount() {
     this.debouncedSearchInstitutions.cancel();
   }
@@ -57,16 +77,24 @@ export class SchoolSelectField extends React.Component {
 
   handleManualSchoolEntryToggled = (currentValue) => {
     this.props.onChange({
-      facilityCode: this.props.facilityCodeSelected,
+      ...this.props.formData,
       'view:manualSchoolEntryChecked': !currentValue
     });
   }
 
-  handleOptionClick = ({ city, facilityCode, name, state }) => {
-    this.props.selectInstitution({ city, facilityCode, name, state });
+  handleOptionClick = ({ address1, address2, address3, city, facilityCode, name, state }) => {
+    this.props.selectInstitution({ address1, address2, address3, city, facilityCode, name, state });
     this.props.onChange({
+      ...this.props.formData,
       facilityCode,
-      'view:manualSchoolEntryChecked': this.props.manualSchoolEntryChecked
+      'view:institutionSelected': {
+        address1,
+        address2,
+        address3,
+        city,
+        name,
+        state
+      }
     });
   }
 
@@ -76,6 +104,10 @@ export class SchoolSelectField extends React.Component {
     this.debouncedSearchInstitutions({
       institutionQuery: this.props.institutionQuery,
       page
+    });
+    this.props.onChange({
+      ...this.props.formData,
+      'view:currentPageNumber': page
     });
   }
 
@@ -87,8 +119,9 @@ export class SchoolSelectField extends React.Component {
       this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
 
       this.props.onChange({
-        facilityCode: this.props.facilityCodeSelected,
-        'view:manualSchoolEntryChecked': false
+        ...this.props.formData,
+        'view:manualSchoolEntryChecked': false,
+        'view:institutionQuery': this.props.searchInputValue,
       });
     }
   }
@@ -97,8 +130,9 @@ export class SchoolSelectField extends React.Component {
     e.preventDefault();
 
     this.props.onChange({
-      facilityCode: this.props.facilityCodeSelected,
-      'view:manualSchoolEntryChecked': false
+      ...this.props.formData,
+      'view:manualSchoolEntryChecked': false,
+      'view:institutionQuery': this.props.searchInputValue,
     });
     this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
   }
@@ -117,7 +151,7 @@ export class SchoolSelectField extends React.Component {
   handleStartOver = e => {
     e.preventDefault();
 
-    this.props.onChange(null);
+    this.props.onChange({});
     this.props.clearSearch();
     this.searchInput.focus();
   }
@@ -247,7 +281,7 @@ export class SchoolSelectField extends React.Component {
                       name={`page-${currentPageNumber}`}
                       type="radio"
                       onKeyDown={this.onKeyDown}
-                      onChange={() => this.handleOptionClick({ city, facilityCode, name, state })}
+                      onChange={() => this.handleOptionClick({ address1, address2, address3, city, facilityCode, name, state })}
                       value={facilityCode}/>
                     <label
                       id={`institution-${index}-label`}
@@ -332,6 +366,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = {
   clearSearch,
+  restoreFromPrefill,
   searchInputChange,
   searchSchools,
   selectInstitution

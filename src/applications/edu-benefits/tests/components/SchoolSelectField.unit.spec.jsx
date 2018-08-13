@@ -212,7 +212,7 @@ describe('<SchoolSelectField>', () => {
     );
 
     tree.find('.form-checkbox input').first().simulate('change');
-    expect(onChange.firstCall.args[0]).to.eql({ facilityCode: '', 'view:manualSchoolEntryChecked': true });
+    expect(onChange.firstCall.args[0]).to.eql({ 'view:manualSchoolEntryChecked': true });
   });
 
   // handleSearchInputChange
@@ -259,7 +259,7 @@ describe('<SchoolSelectField>', () => {
     tree.find('.search-schools-button').first().simulate('click');
     setTimeout(() => {
       expect(searchSchools.firstCall.args[0]).to.eql({ institutionQuery: 'test' });
-      expect(onChange.firstCall.args[0]).to.eql({ facilityCode: '', 'view:manualSchoolEntryChecked': false });
+      expect(onChange.firstCall.args[0]).to.eql({ 'view:manualSchoolEntryChecked': false });
       done();
     }, 200);
   });
@@ -292,7 +292,7 @@ describe('<SchoolSelectField>', () => {
     );
 
     tree.find('#page-1-0').first().simulate('change');
-    expect(onChange.firstCall.args[0]).to.eql({ facilityCode: 'test', 'view:manualSchoolEntryChecked': false });
+    expect(onChange.firstCall.args[0]).to.eql({ facilityCode: 'test' });
     expect(selectInstitution.firstCall.args[0]).to.eql(institutions[0]);
   });
 
