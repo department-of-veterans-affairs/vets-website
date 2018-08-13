@@ -1,6 +1,10 @@
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
 import {
+  VET360_INITIALIZATION_STATUS
+} from './constants';
+
+import {
   isVet360Configured
 } from './util/local-vet360';
 
@@ -101,4 +105,31 @@ export function selectEditedFormField(state, fieldName) {
 
 export function selectCurrentlyOpenEditModal(state) {
   return state.vet360.modal;
+}
+
+export function selectVet360InitializationStatus(state, ownProps) {
+  let status = VET360_INITIALIZATION_STATUS.UNINITALIZED;
+
+  const  { transaction, transactionRequest } = selectVet360Transaction(state, ownProps.transactionID);
+  const isReady = selectIsVet360AvailableForUser(state);
+  let isPending = false;
+  let isFailure = false;
+
+  if (transactionRequest) {
+    isPending = transactionRequest.isPending || (transaction && isPendingTransaction(transaction));
+    isFailure = transactionRequest.isFailed || (transaction && isFailedTransaction(transaction));
+  }
+
+  if (isReady) {
+    status = VET360_INITIALIZATION_STATUS.INITIALIZED;
+  } else if (isPending) {
+    status = VET360_INITIALIZATION_STATUS.INITIALIZING;
+  } else if (isFailure) {
+    status = VET360_INITIALIZATION_STATUS.INITIALIZATION_FAILURE;
+  }
+
+  return {
+    status,
+    transaction
+  };
 }

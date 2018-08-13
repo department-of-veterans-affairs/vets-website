@@ -6,7 +6,8 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import {
   INIT_VET360_ID,
   ANALYTICS_FIELD_MAP,
-  API_ROUTES
+  API_ROUTES,
+  VET360_INITIALIZATION_STATUS
 } from '../constants';
 
 import {
@@ -16,27 +17,14 @@ import {
 } from '../actions';
 
 import {
-  selectIsVet360AvailableForUser,
-  selectVet360Transaction
+  selectVet360InitializationStatus
 } from '../selectors';
-
-import {
-  isFailedTransaction,
-  isPendingTransaction
-} from '../util/transactions';
 
 import TransactionPending from '../components/base/TransactionPending';
 
-export const VET360_STATUS = {
-  READY: 'READY',
-  UNINITALIZED: 'UNINITALIZED',
-  INITIALIZING: 'INITIALIZING',
-  INITIALIZATION_FAILURE: 'INITIALIZATION_FAILURE'
-};
-
 class InitializeVet360ID extends React.Component {
   componentDidMount() {
-    if (this.props.status === VET360_STATUS.READY) {
+    if (this.props.status === VET360_INITIALIZATION_STATUS.INITIALIZED) {
       this.props.fetchTransactions();
     } else {
       this.initializeVet360ID();
@@ -58,10 +46,10 @@ class InitializeVet360ID extends React.Component {
 
   render() {
     switch (this.props.status) {
-      case VET360_STATUS.READY:
+      case VET360_INITIALIZATION_STATUS.INITIALIZED:
         return <div data-initialization-status="ready">{this.props.children}</div>;
 
-      case VET360_STATUS.INITIALIZATION_FAILURE:
+      case VET360_INITIALIZATION_STATUS.INITIALIZATION_FAILURE:
         return (
           <AlertBox
             data-initialization-status="failure"
@@ -70,14 +58,14 @@ class InitializeVet360ID extends React.Component {
             content={<p>We’re sorry. Something went wrong on our end. Please refresh this page or try again later.</p>}/>
         );
 
-      case VET360_STATUS.INITIALIZING:
+      case VET360_INITIALIZATION_STATUS.INITIALIZING:
         return (
           <TransactionPending data-initialization-status="initializing" refreshTransaction={this.refreshTransaction}>
             Initialization in progress...
           </TransactionPending>
         );
 
-      case VET360_STATUS.UNINITALIZED:
+      case VET360_INITIALIZATION_STATUS.UNINITALIZED:
       default:
         return <div/>;
     }
@@ -85,26 +73,7 @@ class InitializeVet360ID extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let status = VET360_STATUS.UNINITALIZED;
-
-  const  { transaction, transactionRequest } = selectVet360Transaction(state, ownProps.transactionID);
-  const isReady = selectIsVet360AvailableForUser(state);
-  let isPending = false;
-  let isFailure = false;
-
-  if (transactionRequest) {
-    isPending = transactionRequest.isPending || (transaction && isPendingTransaction(transaction));
-    isFailure = transactionRequest.isFailed || (transaction && isFailedTransaction(transaction));
-  }
-
-  if (isReady) {
-    status = VET360_STATUS.READY;
-  } else if (isPending) {
-    status = VET360_STATUS.INITIALIZING;
-  } else if (isFailure) {
-    status = VET360_STATUS.INITIALIZATION_FAILURE;
-  }
-
+  const { status, transaction } = selectVet360InitializationStatus(state, ownProps);
   return {
     status,
     transaction
