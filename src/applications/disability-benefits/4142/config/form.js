@@ -3,7 +3,11 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { medicalRecDescription, documentDescription, letUsKnow } from '../helpers';
+import {
+  medicalRecDescription,
+  documentDescription,
+  letUsKnow,
+} from '../helpers';
 
 // const { } = fullSchema.properties;
 
@@ -68,10 +72,36 @@ const formConfig = {
           title: 'Second Page',
           uiSchema: {
             'view:privateRecordDescription': {
-              'ui:description': letUsKnow
+              'ui:description': letUsKnow,
             },
             privateProviderInfo: {
-              'ui:title': 'Name of private provider or hospital',
+              name: {
+                'ui:title': 'Name of private provider or hospital',
+              },
+              firstTreatmentDate: {
+                'ui:title': 'Appoximate date of first treatment',
+              },
+              lastTreatmentDate: {
+                'ui:title': 'Appoximate date of last treatment',
+              },
+              country: {
+                'ui:title': 'Country',
+              },
+              streetAddress: {
+                'ui:title': 'Street Address',
+              },
+              city: {
+                'ui:title': 'City',
+              },
+              state: {
+                'ui:title': 'State',
+              },
+              postalCode: {
+                'ui:title': 'Postal code',
+              },
+              primaryPhone: {
+                'ui:title': 'Primary Phone Number',
+              },
             },
             // 'view:limitedConsent': { //TODO
             //   'ui:description': 'limited consent description'
@@ -85,7 +115,36 @@ const formConfig = {
                 properties: {},
               },
               privateProviderInfo: {
-                type: 'string',
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string',
+                  },
+                  firstTreatmentDate: {
+                    type: 'string',
+                  },
+                  lastTreatmentDate: {
+                    type: 'string',
+                  },
+                  country: {
+                    type: 'string',
+                  },
+                  streetAddress: {
+                    type: 'string',
+                  },
+                  city: {
+                    type: 'string',
+                  },
+                  state: {
+                    type: 'string',
+                  },
+                  postalCode: {
+                    type: 'string',
+                  },
+                  primaryPhone: {
+                    type: 'string',
+                  },
+                },
               },
             },
           },
