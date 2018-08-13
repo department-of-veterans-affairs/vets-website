@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithBounds } from '../actions';
-import LocationDirectionsLink from './search-results/LocationDirectionsLink';
-import LocationInfoBlock from './search-results/LocationInfoBlock';
-import LocationPhoneLink from './search-results/LocationPhoneLink';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import MobileSearchResult from './MobileSearchResult';
+import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 
 class ResultsList extends Component {
@@ -20,27 +17,6 @@ class ResultsList extends Component {
       currentQuery.facilityType,
       currentQuery.serviceType,
       page,
-    );
-  }
-
-  renderMobileView() {
-    const { currentQuery, results, pagination: { currentPage, totalPages } } = this.props;
-
-    return (
-      <div>
-        <div>
-          {
-            results.map(r => {
-              return (
-                <div key={r.id} className="mobile-search-result">
-                  <MobileSearchResult result={r} currentLocation={currentQuery.position}/>
-                </div>
-              );
-            })
-          }
-        </div>
-        <Pagination onPageSelect={this.handlePageSelect} page={currentPage} pages={totalPages}/>
-      </div>
     );
   }
 
@@ -63,22 +39,18 @@ class ResultsList extends Component {
       );
     }
 
-    if (isMobile) {
-      return this.renderMobileView();
-    }
-
     return (
       <div>
         <p>Search Results near <strong>“{currentQuery.context}”</strong></p>
         <div>
           {
             results.map(r => {
-              return (
-                <div key={r.id} className="facility-result" id={r.id}>
-                  <LocationInfoBlock location={r} currentLocation={currentQuery.position}/>
-                  <LocationPhoneLink location={r}/>
-                  <LocationDirectionsLink location={r}/>
+              return isMobile ? (
+                <div key={r.id} className="mobile-search-result">
+                  <SearchResult result={r} currentLocation={currentQuery.position}/>
                 </div>
+              ) : (
+                <SearchResult key={r.id} result={r} currentLocation={currentQuery.position}/>
               );
             })
           }

@@ -1,6 +1,6 @@
-import { buildAddressArray } from '../../utils/facilityAddress';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { buildAddressArray } from '../../utils/facilityAddress';
 
 class LocationDirectionsLink extends Component {
   render() {

@@ -1,37 +1,49 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import { LocationType } from '../../constants';
 
-class LocationPhoneLink extends Component {
-  renderPhoneNumber(title, phone, icon = 'fw') {
-    if (!phone) {
-      return null;
-    }
+/* eslint-disable no-use-before-define */
+const LocationPhoneLink = ({ location }) => {
+  const isProvider = location.type === LocationType.CC_PROVIDER;
 
-    const re = /^(\d{3})[ -]?(\d{3})[ -]?(\d{4})[ ]?(x?)[ ]?(\d*)/;
-
+  if (isProvider) {
+    const { phone, schedPhone } = location;
     return (
       <div>
-        <i className={`fa fa-${icon}`}/>
-        <strong>{title}:</strong><br/>
-        <i className="fa fa-fw"/>
-        <a href={`tel:${phone.replace(/[ ]?x/, '')}`}>
-          {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
-        </a>
+        {renderPhoneNumber('If you have a referral', 'Call this facility at', phone, 'phone')}
+        {renderPhoneNumber("If you don't have a referral", 'Call the VA Medical Center at', schedPhone)}
       </div>
     );
   }
 
-  render() {
-    const { attributes: { phone } } = this.props.location;
+  const { attributes: { phone } } = location;
+  return (
+    <div>
+      {renderPhoneNumber('Main Number', null, phone.main, 'phone')}
+      {renderPhoneNumber('Mental Health', null, phone.mentalHealthClinic)}
+    </div>
+  );
+};
 
-    return (
-      <div>
-        {this.renderPhoneNumber('Main Number', phone.main, 'phone')}
-        {this.renderPhoneNumber('Mental Health', phone.mentalHealthClinic)}
-      </div>
-    );
+const renderPhoneNumber = (title, subTitle = null, phone, icon = 'fw') => {
+  if (!phone) {
+    return null;
   }
-}
+
+  const re = /^(\d{3})[ -]?(\d{3})[ -]?(\d{4})[ ]?(x?)[ ]?(\d*)/;
+
+  return (
+    <div>
+      <i className={`fa fa-${icon}`}/>
+      <strong>{title}:</strong><br/>
+      <i className="fa fa-fw"/>
+      { subTitle }
+      <a href={`tel:${phone.replace(/[ ]?x/, '')}`}>
+        {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
+      </a>
+    </div>
+  );
+};
 
 LocationPhoneLink.propTypes = {
   location: PropTypes.object,

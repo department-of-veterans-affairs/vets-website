@@ -1,33 +1,30 @@
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
+import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
+import { mapboxClient, mapboxToken } from '../components/MapboxClient';
+import isMobile from 'ismobilejs';
+import { map, /* find, */ compact, isEmpty, debounce } from 'lodash';
 import {
   updateSearchQuery,
   genBBoxFromAddress,
   searchWithBounds,
-  searchProviders,
   fetchVAFacility
 } from '../actions';
-import { map, /* find, */ compact, isEmpty, debounce } from 'lodash';
-import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
-import { mapboxClient, mapboxToken } from '../components/MapboxClient';
-import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
-import isMobile from 'ismobilejs';
+import SearchControls from '../components/SearchControls';
+import ResultsList from '../components/ResultsList';
+import SearchResult from '../components/SearchResult';
 import CemeteryMarker from '../components/markers/CemeteryMarker';
 import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
 import VetCenterMarker from '../components/markers/VetCenterMarker';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import ResultsList from '../components/ResultsList';
-import SearchControls from '../components/SearchControls';
-import MobileSearchResult from '../components/MobileSearchResult';
 import { facilityTypes } from '../config';
+import { LocationType, FacilityType } from '../constants';
 
 class VAMap extends Component {
-  static contextTypes = {
-    router: PropTypes.object
-  };
 
   constructor(props) {
     super(props);
@@ -44,7 +41,7 @@ class VAMap extends Component {
   componentDidMount() {
     const { location, currentQuery } = this.props;
 
-    // navigating back from a facility page preserves previous search results
+    // navigating back from *Detail page preserves previous search results
     if (!isEmpty(this.props.results)) {
       return;
     }
@@ -118,6 +115,7 @@ class VAMap extends Component {
 
     if (shouldUpdateSearchQuery) {
       if (isMobile.any) {
+        // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
             newQuery.bounds[0] - 0.75,
@@ -142,7 +140,7 @@ class VAMap extends Component {
   }
 
   /**
-   * Presumably handles the case if a user manually types a change to the
+   * Presumably handles the case if a user manually makes a change to the
    * address bar and thereby updates the location as tracked by ReactRouter?
    * (i.e. route changes not handled through the Router)
    * 
@@ -165,7 +163,7 @@ class VAMap extends Component {
    * Regenerates the URL based on the given parameters so that
    * the map link stays useful for sharing. 
    * 
-   * @param {Object} params 
+   * @param {Object} params Object containing the current search fields
    */
   updateUrlParams = (params) => {
     // TODO (bshyong): try out existing query-string npm library
@@ -187,7 +185,7 @@ class VAMap extends Component {
   }
 
   /**
-   * Generates a bounding box from a lat/long geocoordinate
+   * Generates a bounding box from a lat/long geocoordinate.
    * 
    *  @param position Has shape: `{latitude: x, longitude: y}`
    */
@@ -198,9 +196,6 @@ class VAMap extends Component {
       const coordinates = res.features[0].center;
       const placeName = res.features[0].place_name;
       const zipCode = res.features[0].context.find(v => v.id.includes('postcode')).text || '';
-      // const zipCode = find(res.features[0].context, (v) => {
-      //   return v.id.includes('postcode');
-      // }).text;
 
       this.props.updateSearchQuery({
         bounds: res.features[0].bbox || [
@@ -305,30 +300,37 @@ class VAMap extends Component {
           <a onClick={linkAction.bind(this, f.id)}>
             <h5>{f.attributes.name}</h5>
           </a>
-          <p>Facility type: <strong>{facilityTypes[f.attributes.facilityType]}</strong></p>
+          { (f.type === LocationType.CC_PROVIDER) ? (
+            <Fragment>
+              <h6>{f.attributes.orgName}</h6>
+              <p>Services: <strong>{f.attributes.specialty.map(s => s.name).join(', ')}</strong></p>
+            </Fragment>
+          ) : (
+            <p>Facility type: <strong>{facilityTypes[f.attributes.facilityType]}</strong></p>
+          )}
         </div>
       );
 
       switch (f.attributes.facilityType) {
-        case 'va_health_facility':
+        case FacilityType.VA_HEALTH_FACILITY:
           return (
             <HealthMarker {...iconProps}>
               {popupContent}
             </HealthMarker>
           );
-        case 'va_cemetery':
+        case FacilityType.VA_CEMETARY:
           return (
             <CemeteryMarker {...iconProps}>
               {popupContent}
             </CemeteryMarker>
           );
-        case 'va_benefits_facility':
+        case FacilityType.VA_BENEFITS_FACILITY:
           return (
             <BenefitsMarker {...iconProps}>
               {popupContent}
             </BenefitsMarker>
           );
-        case 'vet_center':
+        case FacilityType.VET_CENTER:
           return (
             <VetCenterMarker {...iconProps}>
               {popupContent}
@@ -355,7 +357,6 @@ class VAMap extends Component {
             </TabList>
             <TabPanel>
               <div className="facility-search-results">
-                <p>Search Results near <strong>“{currentQuery.context}”</strong></p>
                 <ResultsList results={results} pagination={pagination} isMobile
                   currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
@@ -376,7 +377,7 @@ class VAMap extends Component {
               </Map>
               { selectedResult &&
                 <div className="mobile-search-result">
-                  <MobileSearchResult result={selectedResult}/>
+                  <SearchResult result={selectedResult}/>
                 </div>
               }
             </TabPanel>
@@ -438,6 +439,10 @@ class VAMap extends Component {
   }
 }
 
+VAMap.contextTypes = {
+  router: PropTypes.object
+};
+
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
@@ -453,7 +458,6 @@ function mapDispatchToProps(dispatch) {
     updateSearchQuery,
     genBBoxFromAddress,
     searchWithBounds,
-    searchProviders,
   }, dispatch);
 }
 

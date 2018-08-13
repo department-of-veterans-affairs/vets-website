@@ -1,19 +1,16 @@
-import { buildAddressArray } from '../../utils/facilityAddress';
+import React from 'react';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import { buildAddressArray } from '../../utils/facilityAddress';
 
-class LocationAddress extends Component {
-  render() {
-    const { location } = this.props;
-    const addressArray = buildAddressArray(location);
+const LocationAddress = ({ location }) => {
+  const addressArray = buildAddressArray(location);
 
-    return (
-      <span>
-        {[].concat(...addressArray.map(e => [<br key={e}/>, e])).slice(1)}
-      </span>
-    );
-  }
-}
+  return (
+    <span>
+      {[].concat(...addressArray.map(e => [<br key={e}/>, e])).slice(1)}
+    </span>
+  );
+};
 
 LocationAddress.propTypes = {
   location: PropTypes.object,

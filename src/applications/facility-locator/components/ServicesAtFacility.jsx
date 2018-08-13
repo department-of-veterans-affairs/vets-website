@@ -1,6 +1,7 @@
+import React, { Component } from 'react';
+import { object } from 'prop-types';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
-import React, { Component } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { vetCenterServices } from '../config';
 
@@ -110,7 +111,9 @@ class ServicesAtFacility extends Component {
 
     return (
       <div>
-        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment(services.last_updated).format('MMMM D, YYYY')}</strong></p>
+        <p style={{ margin: '0 0 0.5em' }}>Services current as of
+          <strong>{moment(services.last_updated).format('MMMM D, YYYY')}</strong>
+        </p>
 
         <div className="mb2">
           <AlertBox
@@ -152,5 +155,9 @@ class ServicesAtFacility extends Component {
     );
   }
 }
+
+ServicesAtFacility.propTypes = {
+  facility: object
+};
 
 export default ServicesAtFacility;
