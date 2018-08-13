@@ -95,29 +95,25 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  const formData = transform(formConfig, form);
-  const body = JSON.stringify(formData);
-  return new Promise((resolve, reject) => {
-    return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
-      method: 'POST',
-      headers,
-      body
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    }).then(json => {
-      const guid = json.data.attributes.guid;
-      pollStatus(guid, (response) => {
-        recordEvent({
-          event: `${formConfig.trackingPrefix}-submission-successful`,
-        });
-        resolve(response);
-      }, reject);
-    }).catch(respOrError => {
-      reject(respOrError);
-    });
+  const body = transform(formConfig, form);
+  return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
+    method: 'POST',
+    headers,
+    body
+  }).then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(res);
+  }).then(json => {
+    const guid = json.data.attributes.guid;
+    pollStatus(guid, (response) => {
+      recordEvent({
+        event: `${formConfig.trackingPrefix}-submission-successful`,
+      });
+      return Promise.resolve(response);
+    }, (response) => Promise.reject(response));
+  }).catch(respOrError => {
+    return Promise.reject(respOrError);
   });
 }
