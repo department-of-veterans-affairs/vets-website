@@ -21,17 +21,65 @@ describe('complaint tool school info', () => {
           school: {
             facilityCode: {
               manualSchoolEntryChecked: true
+            },
+            'view:manualSchoolEntry': {
+              address: {
+                country: 'United States'
+              }
             }
           }
         }}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-
     expect(form.find('input').length).to.equal(6);
   });
 
+  it('should render international address fields', () => {
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          school: {
+            facilityCode: {
+              manualSchoolEntryChecked: true
+            }
+          }
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
+    );
+    expect(form.find('input').length).to.equal(7);
+  });
+
   it('should not submit without required information', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          school: {
+            facilityCode: {
+              manualSchoolEntryChecked: true
+            },
+            'view:manualSchoolEntry': {
+              address: {
+                country: 'United States'
+              }
+            }
+          }
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should not submit without required international address information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -49,7 +97,7 @@ describe('complaint tool school info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -62,6 +110,11 @@ describe('complaint tool school info', () => {
           school: {
             facilityCode: {
               manualSchoolEntryChecked: true
+            },
+            'view:manualSchoolEntry': {
+              address: {
+                country: 'United States'
+              }
             }
           }
         }}

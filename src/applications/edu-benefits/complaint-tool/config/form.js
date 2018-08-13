@@ -405,7 +405,7 @@ const formConfig = {
                   },
                   state: {
                     'ui:title': 'State',
-                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData)
+                    'ui:required': formData => _.get('school.facilityCode.manualSchoolEntryChecked', formData) &&  (_.get('school["view:manualSchoolEntry"].address.country', formData) === 'United States')
                   },
                   country: {
                     'ui:title': 'Country',
