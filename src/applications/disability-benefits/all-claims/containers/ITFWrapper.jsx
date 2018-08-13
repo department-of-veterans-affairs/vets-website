@@ -136,7 +136,7 @@ export class ITFWrapper extends React.Component {
     return (
       <div>
         {message}
-        {content};
+        {content}
       </div>
     );
   }
