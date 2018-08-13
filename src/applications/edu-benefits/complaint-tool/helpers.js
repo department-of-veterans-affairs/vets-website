@@ -107,13 +107,24 @@ export function submit(form, formConfig) {
     return Promise.reject(res);
   }).then(json => {
     const guid = json.data.attributes.guid;
-    pollStatus(guid, (response) => {
-      recordEvent({
-        event: `${formConfig.trackingPrefix}-submission-successful`,
-      });
-      return Promise.resolve(response);
-    }, (response) => Promise.reject(response));
+    return new Promise((resolve, reject) => {
+      pollStatus(guid,
+        response => {
+          recordEvent({
+            event: `${formConfig.trackingPrefix}-submission-successful`,
+          });
+          return resolve(response);
+        }, error => reject(error));
+    });
   }).catch(respOrError => {
+    if (respOrError instanceof Response) {
+      if (respOrError.status === 429) {
+        const error = new Error('vets_throttled_error_gi_bill_feedbacks');
+        error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+        return Promise.reject(error);
+      }
+    }
     return Promise.reject(respOrError);
   });
 }
