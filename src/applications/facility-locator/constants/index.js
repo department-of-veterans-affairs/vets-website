@@ -16,3 +16,5 @@ export const FacilityType = {
   VA_BENEFITS_FACILITY: 'va_benefits_facility',
   VET_CENTER: 'vet_center'
 };
+
+export const BOUNDING_RADIUS = 0.75;

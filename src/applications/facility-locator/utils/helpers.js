@@ -38,13 +38,13 @@ export const getBoxCenter = (bounds) => {
  * @returns {String} The best approximation of the address for the coordinates
  */
 export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
-  // eslint-disable-next-line no-unused-vars
-  const { entity: { features: [zero, ...rest] } } = await mapboxClient.geocodeReverse(
-    { longitude: lon, latitude: lat },
-    { types }
-  );
+  const { entity: { features: { 0: { place_name: placeName } } } } =
+    await mapboxClient.geocodeReverse(
+      { longitude: lon, latitude: lat },
+      { types }
+    );
 
-  return zero.place_name;
+  return placeName;
 };
 
 /**
@@ -64,6 +64,19 @@ export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
   // reverse geocode to get address for provLoc search
   const { lon, lat } = getBoxCenter(bounds);
   return reverseGeocode(lon, lat, types);
+};
+
+/**
+ * Position shape: `{latitude: {Number}, longitude: {Number}}`
+ * 
+ * @param {Object} pos1 
+ * @param {Object} pos2 
+ */
+export const areGeocodeEqual = (pos1, pos2) => {
+  return (
+    pos1.latitude === pos2.latitude &&
+    pos1.longitude === pos2.longitude
+  );
 };
 
 /**

@@ -22,14 +22,15 @@ import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
 import VetCenterMarker from '../components/markers/VetCenterMarker';
 import { facilityTypes } from '../config';
-import { LocationType, FacilityType } from '../constants';
+import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
+import { areGeocodeEqual } from '../utils/helpers';
 
 class VAMap extends Component {
 
   constructor(props) {
     super(props);
 
-    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.75), 2500, {
+    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS), 2500, {
       leading: true,
     });
 
@@ -46,25 +47,27 @@ class VAMap extends Component {
       return;
     }
 
+    // Relevant when loading a "shareable" URL
     this.props.updateSearchQuery({
       facilityType: location.query.facilityType,
       serviceType: location.query.serviceType,
     });
 
     if (location.query.address) {
-      this.props.updateSearchQuery({
+      // Unneccesary, genBBoxFromAddress fires the same action at the end
+      /* this.props.updateSearchQuery({
         searchString: location.query.address,
-      });
+      }); */
       this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((currentPosition) => {
-        this.props.updateSearchQuery({
-          position: currentPosition.coords,
-        });
-
+        // Unnecessary, genBBoxFromCoords updates the query too
+        // this.props.updateSearchQuery({
+        //   position: currentPosition.coords,
+        // });
         this.genBBoxFromCoords(currentPosition.coords);
       });
     } else {
@@ -76,7 +79,7 @@ class VAMap extends Component {
     const { currentQuery } = this.props;
     const newQuery = nextProps.currentQuery;
 
-    if (currentQuery.position !== newQuery.position) {
+    if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
       this.updateUrlParams({
         location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
         context: newQuery.context,
@@ -84,12 +87,12 @@ class VAMap extends Component {
       });
     }
 
+    // 'currentPage' never changes... so this never fires
+    // If this is needed should be checking `currentQuery.page`
     // reset to page 1 if zoom level changes
-    if ((currentQuery.zoomLevel !== newQuery.zoomLevel) && (currentQuery.currentPage !== 1)) {
-      this.props.updateSearchQuery({
-        currentPage: 1,
-      });
-    }
+    // if ((currentQuery.zoomLevel !== newQuery.zoomLevel) && (currentQuery.currentPage !== 1)) {
+    //   resultsPage = 1;
+    // }
 
     if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds) && !newQuery.searchBoundsInProgress) {
       this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, newQuery.currentPage);
@@ -118,10 +121,10 @@ class VAMap extends Component {
         // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
-            newQuery.bounds[0] - 0.75,
-            newQuery.bounds[1] - 0.75,
-            newQuery.bounds[2] + 0.75,
-            newQuery.bounds[3] + 0.75,
+            newQuery.bounds[0] - BOUNDING_RADIUS,
+            newQuery.bounds[1] - BOUNDING_RADIUS,
+            newQuery.bounds[2] + BOUNDING_RADIUS,
+            newQuery.bounds[3] + BOUNDING_RADIUS,
           ],
         });
       } else {
@@ -199,13 +202,14 @@ class VAMap extends Component {
 
       this.props.updateSearchQuery({
         bounds: res.features[0].bbox || [
-          coordinates[0] - 0.75,
-          coordinates[1] - 0.75,
-          coordinates[0] + 0.75,
-          coordinates[1] + 0.75,
+          coordinates[0] - BOUNDING_RADIUS,
+          coordinates[1] - BOUNDING_RADIUS,
+          coordinates[0] + BOUNDING_RADIUS,
+          coordinates[1] + BOUNDING_RADIUS,
         ],
         searchString: placeName,
         context: zipCode,
+        position
       });
 
       this.updateUrlParams({

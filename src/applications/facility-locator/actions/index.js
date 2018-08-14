@@ -3,7 +3,6 @@ import { find, compact, isEmpty } from 'lodash';
 import { mapboxClient } from '../components/MapboxClient';
 import { reverseGeocodeBox } from '../utils/helpers';
 import {
-  LOCATION_UPDATED,
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
   SEARCH_FAILED,
@@ -11,31 +10,20 @@ import {
   FETCH_VA_FACILITIES,
   FETCH_CC_PROVIDERS
 } from '../utils/actionTypes';
+import { LocationType, BOUNDING_RADIUS } from '../constants';
 
-export function updateSearchQuery(query) {
-  return {
-    type: SEARCH_QUERY_UPDATED,
-    payload: { ...query }
-  };
-}
+export const updateSearchQuery = (query) => ({
+  type: SEARCH_QUERY_UPDATED,
+  payload: { ...query }
+});
 
-export function updateLocation(propertyPath, value) {
-  return {
-    type: LOCATION_UPDATED,
-    propertyPath,
-    value
-  };
-}
-
-export function fetchVAFacility(id, location = null) {
+export const fetchVAFacility = (id, location = null) => {
   if (location) {
     return {
       type: FETCH_VA_FACILITY,
       payload: location,
     };
   }
-
-  const url = `${api.url}/${id}`;
 
   return (dispatch) => {
     dispatch({
@@ -45,6 +33,7 @@ export function fetchVAFacility(id, location = null) {
       },
     });
 
+    const url = `${api.url}/${id}`;
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
@@ -52,14 +41,18 @@ export function fetchVAFacility(id, location = null) {
         error => dispatch({ type: SEARCH_FAILED, error })
       );
   };
-}
+};
 
 export const searchProviders = (bounds, serviceType, page = 1) => {
-  return (dispatch, getState) => {
-    const { searchString } = getState().searchQuery;
-    if (searchString && searchString !== '') {
-      return fetchProviders(searchString, bounds, dispatch, serviceType, page); // eslint-disable-line no-use-before-define
-    }
+  return (dispatch/* , getState */) => {
+    // TODO: Figure out how expensive the address lookup is &
+    // if it's worth creating logic to use the searchString whilst
+    // ensuring the bounding box hasn't been changed for the map
+
+    // const { searchString } = getState().searchQuery;
+    // if (searchString && searchString !== '') {
+    //   return fetchProviders(searchString, bounds, dispatch, serviceType, page); // eslint-disable-line no-use-before-define
+    // }
 
     reverseGeocodeBox(bounds).then(address => {
       if (!address) {
@@ -76,20 +69,20 @@ export const searchProviders = (bounds, serviceType, page = 1) => {
 };
 
 /**
+ * Handles the actual `fetch` call to the API + Redux Action signaling
  * 
- * 
- * @param {String} address 
- * @param {Array<String>} bounds 
- * @param {Function<T>} dispatch 
- * @param {String} serviceType 
- * @param {Number} page 
+ * @param {String} address Search address to center the query
+ * @param {Array<String>} bounds Bounding box of the map window
+ * @param {Function<T>} dispatch Redux's dispatch method
+ * @param {String} serviceType Specific service/specialty of the Provider
+ * @param {Number} page What page of results to start from
  */
 const fetchProviders = (address, bounds, dispatch, serviceType, page) => {
   const params = compact([
     `address=${address}`,
     `bbox=${bounds}`,
-    'type=cc_provider',
-    serviceType ? `services[]=${serviceType}` : null,
+    `type=${LocationType.CC_PROVIDER}`,
+    serviceType ? `serviceType=${serviceType}` : null,
     `page=${page}`
   ]).join('&');
   const url = `${api.url}?${params}`;
@@ -118,8 +111,8 @@ const fetchProviders = (address, bounds, dispatch, serviceType, page) => {
     );
 };
 
-export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
-  if (facilityType === 'cc_provider') {
+export const searchWithBounds = (bounds, facilityType, serviceType, page = 1) => {
+  if (facilityType === LocationType.CC_PROVIDER) {
     return searchProviders(bounds, serviceType, page);
   }
 
@@ -153,9 +146,16 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
         (error) => dispatch({ type: SEARCH_FAILED, error })
       );
   };
-}
+};
 
-export function genBBoxFromAddress(query) {
+/**
+ * Calculates a bounding box (±BOUNDING_RADIUS°) centering on the current
+ * address string as typed by the user.
+ * 
+ * @param {Object<T>} query Current searchQuery state (`searchQuery.searchString` at a minimum)
+ * @returns {Function<T>} A thunk for Redux to process
+ */
+export const genBBoxFromAddress = (query) => {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query.searchString) {
@@ -184,21 +184,21 @@ export function genBBoxFromAddress(query) {
         const featureBox = res.features[0].box;
 
         let minBounds = [
-          coordinates[0] - 0.75,
-          coordinates[1] - 0.75,
-          coordinates[0] + 0.75,
-          coordinates[1] + 0.75,
+          coordinates[0] - BOUNDING_RADIUS,
+          coordinates[1] - BOUNDING_RADIUS,
+          coordinates[0] + BOUNDING_RADIUS,
+          coordinates[1] + BOUNDING_RADIUS,
         ];
 
         if (featureBox) {
           minBounds = [
-            Math.min(featureBox[0], coordinates[0] - 0.75),
-            Math.min(featureBox[1], coordinates[1] - 0.75),
-            Math.max(featureBox[2], coordinates[0] + 0.75),
-            Math.max(featureBox[3], coordinates[1] + 0.75),
+            Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
+            Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
+            Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
+            Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
           ];
         }
-        return dispatch({
+        dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
@@ -213,10 +213,10 @@ export function genBBoxFromAddress(query) {
         });
       }
 
-      return dispatch({
+      dispatch({
         type: SEARCH_FAILED,
         error,
       });
     });
   };
-}
+};
