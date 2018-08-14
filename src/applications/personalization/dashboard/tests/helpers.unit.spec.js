@@ -41,7 +41,8 @@ const schemaToConfigIds = {
   '22-5495': '5495',
   '40-10007': '40-10007',
   VIC: 'VIC',
-  'gi-bill-school-feedback': 'gi-bill-school-feedback',
+  // 'gi-bill-school-feedback': 'gi-bill-school-feedback',
+  'complaint-tool': 'complaint-tool',
   definitions: 'N/A'
 };
 
