@@ -1,0 +1,14 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+@media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+
+  #footerNav {
+
+    .mobile {
+
+      border: 1px solid pink;
+
+    }
+
+  }
+}

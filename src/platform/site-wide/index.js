@@ -16,6 +16,7 @@ import startPreviewSiteAlert from './preview-site-alert';
 import startVAGovUserNavWidget from './va-gov-user-nav';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
+import startVAFooter from './va-footer';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -50,4 +51,5 @@ export default function startSitewideComponents(commonStore) {
   startVAGovUserNavWidget(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
+  startVAFooter(commonStore);
 }
