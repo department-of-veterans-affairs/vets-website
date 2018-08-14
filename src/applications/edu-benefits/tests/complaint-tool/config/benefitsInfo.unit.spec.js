@@ -46,7 +46,7 @@ describe('complaint tool benefits info', () => {
         uiSchema={uiSchema}/>
     );
 
-    selectCheckbox(form, 'root_programs_Post-9/11 Ch 33', true);
+    selectCheckbox(form, 'root_educationDetails_programs_Post-9/11 Ch 33', true);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

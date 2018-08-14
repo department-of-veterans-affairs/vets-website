@@ -136,7 +136,7 @@ class RoutedSavableApp extends React.Component {
       const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
       const hasPrefillData = props.prefillsAvailable.includes(currentForm);
       if (isSaved || hasPrefillData) {
-        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData);
+        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData, props.formConfig.prefillTransformer);
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break
