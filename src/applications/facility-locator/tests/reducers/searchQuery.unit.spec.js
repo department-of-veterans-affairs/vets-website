@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import {
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
@@ -7,7 +6,7 @@ import {
   FETCH_VA_FACILITY,
   FETCH_VA_FACILITIES
 } from '../../utils/actionTypes';
-import searchQueryReducer from '../../reducers/searchQuery';
+import { searchQueryReducer } from '../../reducers/searchQuery';
 
 const INITIAL_STATE = {
   searchString: '',
