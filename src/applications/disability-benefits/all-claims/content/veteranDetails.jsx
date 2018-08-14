@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { genderLabels } from '../../../../../platform/static-data/labels';
-import srSubstitute from '../../utils';
-import { editNote } from '../common';
+import { genderLabels } from '../../../../platform/static-data/labels';
+import srSubstitute from '../utils';
+import { editNote } from './common';
 
 const unconnectedVetInfoView = (profile) => {
   // NOTE: ssn and vaFileNumber will be undefined for the foreseeable future; they're kept in here as a reminder.
@@ -27,4 +27,4 @@ const unconnectedVetInfoView = (profile) => {
   );
 };
 
-export default connect((state) => state.user.profile)(unconnectedVetInfoView);
+export const veteranInfoDescription = connect((state) => state.user.profile)(unconnectedVetInfoView);

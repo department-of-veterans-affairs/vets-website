@@ -3,7 +3,7 @@ import environment from '../../../../platform/utilities/environment';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import veteranInfoDescription from '../content/veteranDetails/veteranInfoDescription';
+import { veteranInfoDescription } from '../content/veteranDetails';
 
 const formConfig = {
   urlPrefix: '/',
