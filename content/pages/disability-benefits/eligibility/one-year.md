@@ -67,7 +67,7 @@ You’ll need to apply for benefits and submit your evidence (supporting documen
 - It's at least 10% disabling. (For example, you may submit a doctor’s report showing that you’re taking medicine for your high blood pressure.) 
 - It appeared within 1 year after being discharged from active service. (For example, you may submit a medical report that shows the date of your diagnosis.)
 
-If you have an illness listed in Title 38, Code of Federal Regulation, 3.09(a), you won’t need to show the problem started during—or got worse because of—your military service. This is because we believe that certain diseases that appear within 1 year of your discharge are related to your service. We refer to these as “presumptive diseases”. <br>
+If you have an illness listed in Title 38, Code of Federal Regulation, 3.09(a), you won’t need to show the problem started during—or got worse because of—your military service. This is because we believe that certain diseases that appear within 1 year of your discharge are related to your service. We refer to these as “presumptive diseases.” <br>
 [See Title 38, Code of Federal Regulation, 3.09(a) for the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc). <br>
 [Find out how to apply for benefits](/disability-benefits/apply/).
 
