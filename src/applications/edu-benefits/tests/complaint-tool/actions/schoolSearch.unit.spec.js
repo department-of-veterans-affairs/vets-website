@@ -187,6 +187,9 @@ describe('schoolSearch actions', () => {
   describe('selectInstitution', () => {
     it('should return an INSTITUTION_SELECTED action', () => {
       const action = selectInstitution({
+        address1: 'testAddress1',
+        address2: 'testAddress2',
+        address3: 'testAddress3',
         city: 'testCity',
         facilityCode: 'testFacilityCode',
         name: 'testName',
@@ -195,6 +198,9 @@ describe('schoolSearch actions', () => {
 
       expect(action).to.eql({
         type: 'INSTITUTION_SELECTED',
+        address1: 'testAddress1',
+        address2: 'testAddress2',
+        address3: 'testAddress3',
         city: 'testCity',
         facilityCode: 'testFacilityCode',
         name: 'testName',

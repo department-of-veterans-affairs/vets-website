@@ -86,9 +86,12 @@ export function searchSchools({ institutionQuery, page }) {
   };
 }
 
-export function selectInstitution({ city, facilityCode, name, state }) {
+export function selectInstitution({ address1, address2, address3, city, facilityCode, name, state }) {
   return {
     type: INSTITUTION_SELECTED,
+    address1,
+    address2,
+    address3,
     city,
     facilityCode,
     name,

@@ -441,9 +441,6 @@ const formConfig = {
                   'ui:options': {
                     hideIf: formData => !_.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
                   }
-                },
-                'ui:options': {
-                  hideIf: formData => !_.get('school.facilityCode.view:manualSchoolEntryChecked', formData),
                 }
               }
             }
