@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -12,25 +12,27 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform } from '../helpers';
+import { transform, submit } from '../helpers';
 
 const { educationDetails } = fullSchema.properties;
 
 const { school } = educationDetails;
 
-const {
-  name: schoolName,
-  address: schoolAddress
-} = school.oneOf[0].schoolInformation.properties;
+const { schoolInformation } = school.oneOf[0];
 
-const {
-  street: schoolStreet,
-  street2: schoolStreet2,
-  city: schoolCity,
-  state: schoolState,
-  country: schoolCountry,
-  postalCode: schoolPostalCode
-} = schoolAddress.properties;
+const domesticSchoolAddress = schoolInformation.oneOf[0];
+const internationalSchoolAddress = schoolInformation.oneOf[1];
+const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
+
+const configureSchoolAddressSchema = (schema) => {
+  let newSchema = _.unset('required', schema);
+  newSchema = _.set('properties.country.enum', countries, newSchema);
+  return _.set('properties.country.default', 'United States', newSchema);
+};
+
+const domesticSchoolAddressSchema = configureSchoolAddressSchema(domesticSchoolAddress);
+
+const internationalSchoolAddressSchema = configureSchoolAddressSchema(internationalSchoolAddress);
 
 const {
   onBehalfOf,
@@ -82,9 +84,9 @@ function isNotVeteranOrServiceMember(formData) {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complaint-tool',
+  submitUrl: '/v0/gi_bill_feedbacks',
+  submit,
+  trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'complaint-tool',
@@ -116,9 +118,9 @@ const formConfig = {
               'ui:title': 'I’m submitting feedback on behalf of...',
               'ui:options': {
                 nestedContent: {
-                  [myself]: () => <div className="usa-alert-info no-background-image"><i>(We’ll only share your name with the school.)</i></div>,
-                  [someoneElse]: () => <div className="usa-alert-info no-background-image"><i>(Your name is shared with the school, not the name of the person you’re submitting feedback for.)</i></div>,
-                  [anonymous]: () => <div className="usa-alert-info no-background-image"><i>(Anonymous feedback is shared with the school. Your personal information, however, isn’t shared with anyone outside of VA.)</i></div>
+                  [myself]: () => <div className="usa-alert usa-alert-info no-background-image">We’ll only share your name with the school.</div>,
+                  [someoneElse]: () => <div className="usa-alert usa-alert-info no-background-image">Your name is shared with the school, not the name of the person you’re submitting feedback for.</div>,
+                  [anonymous]: () => <div className="usa-alert usa-alert-info no-background-image">Anonymous feedback is shared with the school. Your personal information, however, isn’t shared with anyone outside of VA.</div>
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
@@ -270,96 +272,102 @@ const formConfig = {
           path: 'benefits-information',
           title: 'Benefits Information',
           uiSchema: {
-            programs: {
-              'ui:title': 'Which education benefits have you used? (Select all that apply)',
-              'ui:validations': [
-                validateBooleanGroup
-              ],
-              'ui:options': {
-                showFieldLabel: true
-              },
-              'ui:errorMessages': {
-                atLeastOne: 'Please select at least one'
-              }
-            },
-            assistance: {
-              'view:assistance': {
-                'ui:title': 'Which military tuition assistance benefits have you used? (Select all that apply)',
+            educationDetails: {
+              programs: {
+                'ui:title': 'Which education benefits have you used? (Select all that apply)',
+                'ui:validations': [
+                  validateBooleanGroup
+                ],
                 'ui:options': {
                   showFieldLabel: true
+                },
+                'ui:errorMessages': {
+                  atLeastOne: 'Please select at least one'
                 }
               },
-              'view:FFA': {
-                'ui:title': 'Have you used any of these other benefits?',
-                'ui:options': {
-                  showFieldLabel: true
+              assistance: {
+                'view:assistance': {
+                  'ui:title': 'Which military tuition assistance benefits have you used? (Select all that apply)',
+                  'ui:options': {
+                    showFieldLabel: true
+                  }
+                },
+                'view:FFA': {
+                  'ui:title': 'Have you used any of these other benefits?',
+                  'ui:options': {
+                    showFieldLabel: true
+                  }
                 }
               }
             }
           },
           schema: {
             type: 'object',
-            required: ['programs'],
             properties: {
-              programs: {
+              educationDetails: {
                 type: 'object',
                 properties: {
-                  'Post-9/11 Ch 33': { // TODO: update schema and use here
-                    type: 'boolean',
-                    title: 'Post-9/11 GI Bill (Chapter 33)'
-                  },
-                  'MGIB-AD Ch 30': {
-                    type: 'boolean',
-                    title: 'Montgomery GI Bill - Active Duty (MGIB-AD, Chapter 30)'
-                  },
-                  'MGIB-SR Ch 1606': {
-                    type: 'boolean',
-                    title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606)'
-                  },
-                  TATU: {
-                    type: 'boolean',
-                    title: 'Tuition Assistance Top-Up'
-                  },
-                  REAP: {
-                    type: 'boolean',
-                    title: 'Reserve Educational Assistance Program (REAP) (Chapter 1607)'
-                  },
-                  'DEA Ch 35': {
-                    type: 'boolean',
-                    title: 'Survivors’ and Dependents’ Assistance (DEA) (Chapter 35)'
-                  },
-                  'VRE Ch 31': {
-                    type: 'boolean',
-                    title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)'
-                  }
-                }
-              },
-              assistance: {
-                type: 'object',
-                properties: {
-                  'view:assistance': {
+                  programs: {
                     type: 'object',
                     properties: {
-                      TA: {
+                      'Post-9/11 Ch 33': { // TODO: update schema and use here
                         type: 'boolean',
-                        title: 'Federal Tuition Assistance (TA)'
+                        title: 'Post-9/11 GI Bill (Chapter 33)'
                       },
-                      'TA-AGR': {
+                      'MGIB-AD Ch 30': {
                         type: 'boolean',
-                        title: 'State-funded Tuition Assistance (TA) for Servicemembers on Active Guard and Reserve (AGR) duties'
+                        title: 'Montgomery GI Bill - Active Duty (MGIB-AD, Chapter 30)'
                       },
-                      MyCAA: {
+                      'MGIB-SR Ch 1606': {
                         type: 'boolean',
-                        title: 'Military Spouse Career Advancement Accounts (MyCAA)'
+                        title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606)'
+                      },
+                      TATU: {
+                        type: 'boolean',
+                        title: 'Tuition Assistance Top-Up'
+                      },
+                      REAP: {
+                        type: 'boolean',
+                        title: 'Reserve Educational Assistance Program (REAP) (Chapter 1607)'
+                      },
+                      'DEA Ch 35': {
+                        type: 'boolean',
+                        title: 'Survivors’ and Dependents’ Assistance (DEA) (Chapter 35)'
+                      },
+                      'VRE Ch 31': {
+                        type: 'boolean',
+                        title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)'
                       }
                     }
                   },
-                  'view:FFA': {
+                  assistance: {
                     type: 'object',
                     properties: {
-                      FFA: {
-                        type: 'boolean',
-                        title: 'Federal financial aid'
+                      'view:assistance': {
+                        type: 'object',
+                        properties: {
+                          TA: {
+                            type: 'boolean',
+                            title: 'Federal Tuition Assistance (TA)'
+                          },
+                          'TA-AGR': {
+                            type: 'boolean',
+                            title: 'State-funded Tuition Assistance (TA) for Servicemembers on Active Guard and Reserve (AGR) duties'
+                          },
+                          MyCAA: {
+                            type: 'boolean',
+                            title: 'Military Spouse Career Advancement Accounts (MyCAA)'
+                          }
+                        }
+                      },
+                      'view:FFA': {
+                        type: 'object',
+                        properties: {
+                          FFA: {
+                            type: 'boolean',
+                            title: 'Federal financial aid'
+                          }
+                        }
                       }
                     }
                   }
@@ -377,51 +385,62 @@ const formConfig = {
           path: 'school-information',
           title: 'School Information',
           uiSchema: {
-            school: {
-              facilityCode: {
-                'ui:title': 'School Information',
-                'ui:field': SchoolSelectField,
-                'ui:required': formData => !_.get('school.view:cannotFindSchool', formData),
-                'ui:options': {
-                  hideIf: formData => formData.school['view:cannotFindSchool']
-                }
-              },
-              'view:manualSchoolEntry': {
-                name: {
-                  'ui:title': 'Name',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
+            educationDetails: {
+              school: {
+                facilityCode: {
+                  facilityCode: {
+                    'ui:required': formData => !_.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                  },
+                  'ui:field': SchoolSelectField,
                 },
-                street: {
-                  'ui:title': 'Address line 1',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                street2: {
-                  'ui:title': 'Address line 2'
-                },
-                city: {
-                  'ui:title': 'City',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                state: {
-                  'ui:title': 'State',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                country: {
-                  'ui:title': 'Country',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData)
-                },
-                postalCode: {
-                  'ui:title': 'Postal Code',
-                  'ui:required': formData => _.get('school.view:cannotFindSchool', formData),
-                  'ui:errorMessages': {
-                    pattern: 'Please enter a valid 5 digit postal code'
+                'view:manualSchoolEntry': {
+                  name: {
+                    'ui:title': 'School name',
+                    'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                  },
+                  address: {
+                    street: {
+                      'ui:title': 'Address line 1',
+                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                    },
+                    street2: {
+                      'ui:title': 'Address line 2'
+                    },
+                    city: {
+                      'ui:title': 'City',
+                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                    },
+                    state: {
+                      'ui:title': 'State',
+                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData) &&  (_.get('educationDetails.school["view:manualSchoolEntry"].address.country', formData) === 'United States')
+                    },
+                    country: {
+                      'ui:title': 'Country',
+                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                    },
+                    postalCode: {
+                      'ui:title': 'Postal code',
+                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                      'ui:errorMessages': {
+                        pattern: 'Please enter a valid 5 digit postal code'
+                      },
+                      'ui:options': {
+                        widgetClassNames: 'va-input-medium-large'
+                      }
+                    },
+                    'ui:options': {
+                      updateSchema: (formData) => {
+                        const schoolCountry = _.get('educationDetails.school.view:manualSchoolEntry.address.country', formData);
+                        if (schoolCountry !== 'United States') {
+                          return internationalSchoolAddressSchema;
+                        }
+                        return domesticSchoolAddressSchema;
+                      }
+                    }
                   },
                   'ui:options': {
-                    widgetClassNames: 'va-input-medium-large'
+                    hideIf: formData => !_.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
                   }
-                },
-                'ui:options': {
-                  hideIf: formData => !formData.school['view:cannotFindSchool']
                 }
               }
             }
@@ -429,26 +448,27 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              school: {
+              educationDetails: {
                 type: 'object',
                 properties: {
-                  facilityCode: { // TODO: determine whether to store facility ID
-                    type: 'string'
-                  },
-                  'view:cannotFindSchool': {
-                    title: 'I’d rather type in my school information',
-                    type: 'boolean'
-                  },
-                  'view:manualSchoolEntry': {
+                  school: {
                     type: 'object',
                     properties: {
-                      name: schoolName,
-                      street: schoolStreet,
-                      street2: schoolStreet2,
-                      city: schoolCity,
-                      state: schoolState,
-                      country: schoolCountry,
-                      postalCode: schoolPostalCode
+                      facilityCode: { // TODO: determine whether to store facility ID
+                        type: 'object',
+                        properties: {
+                          facilityCode: {
+                            type: 'string'
+                          }
+                        }
+                      },
+                      'view:manualSchoolEntry': {
+                        type: 'object',
+                        properties: {
+                          name: schoolInformation.properties.name,
+                          address: domesticSchoolAddress
+                        }
+                      }
                     }
                   }
                 }
