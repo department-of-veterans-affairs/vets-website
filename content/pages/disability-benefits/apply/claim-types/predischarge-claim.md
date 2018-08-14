@@ -166,7 +166,7 @@ If you’re found to be medically unfit for duty, IDES will give you a proposed 
 
 ### How can I get support for myself and my family as I transition to civilian life?
 
-Our Transition Assistance Program (TAP) can help both you and your family with this transition. We'll get you up to speed on the VA benefits and services you're entitled to, like health care, career guidance, training, and counseling. <br>
+Our Transition Assistance Program (TAP) can help both you and your family with this transition. We'll help you find out which VA benefits and services you're entitled to, like health care, career guidance, training, and counseling. <br>
 [Learn more about TAP](https://www.benefits.va.gov/TAP/index.asp)
 <br>
 
