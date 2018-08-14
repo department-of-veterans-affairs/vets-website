@@ -8,10 +8,10 @@ import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import {
   clearSearch,
+  restoreFromPrefill,
   searchInputChange,
   selectInstitution,
-  searchSchools,
-  toggleManualSchoolEntry
+  searchSchools
 } from '../complaint-tool/actions/schoolSearch';
 import {
   selectCurrentPageNumber,
@@ -44,6 +44,25 @@ export class SchoolSelectField extends React.Component {
       150);
   }
 
+  componentDidMount() {
+    // hydrate search if restoring from SiP
+    // if there is a seach term stored in the form data
+    // if the search term in the form data isn't already in the redux state and displayed
+    const institutionSelected = this.props.formData['view:institutionSelected'];
+    const searchTermToRestore = this.props.formData['view:institutionQuery'];
+    const pageNumberToRestore = this.props.formData['view:currentPageNumber'];
+    if (searchTermToRestore && searchTermToRestore !== this.props.institutionQuery && !this.props.showInstitutions) {
+
+      this.props.restoreFromPrefill({
+        institutionSelected,
+        institutionQuery: searchTermToRestore,
+        page: pageNumberToRestore,
+        searchInputValue: searchTermToRestore,
+      });
+
+    }
+  }
+
   componentWillUnmount() {
     this.debouncedSearchInstitutions.cancel();
   }
@@ -57,18 +76,25 @@ export class SchoolSelectField extends React.Component {
   };
 
   handleManualSchoolEntryToggled = (currentValue) => {
-    this.props.toggleManualSchoolEntry(!currentValue);
     this.props.onChange({
-      facilityCode: this.props.facilityCodeSelected,
-      manualSchoolEntryChecked: !currentValue
+      ...this.props.formData,
+      'view:manualSchoolEntryChecked': !currentValue
     });
   }
 
-  handleOptionClick = ({ city, facilityCode, name, state }) => {
-    this.props.selectInstitution({ city, facilityCode, name, state });
+  handleOptionClick = ({ address1, address2, address3, city, facilityCode, name, state }) => {
+    this.props.selectInstitution({ address1, address2, address3, city, facilityCode, name, state });
     this.props.onChange({
+      ...this.props.formData,
       facilityCode,
-      manualSchoolEntryChecked: this.props.manualSchoolEntryChecked
+      'view:institutionSelected': {
+        address1,
+        address2,
+        address3,
+        city,
+        name,
+        state
+      }
     });
   }
 
@@ -78,6 +104,10 @@ export class SchoolSelectField extends React.Component {
     this.debouncedSearchInstitutions({
       institutionQuery: this.props.institutionQuery,
       page
+    });
+    this.props.onChange({
+      ...this.props.formData,
+      'view:currentPageNumber': page
     });
   }
 
@@ -89,8 +119,9 @@ export class SchoolSelectField extends React.Component {
       this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
 
       this.props.onChange({
-        facilityCode: this.props.facilityCodeSelected,
-        manualSchoolEntryChecked: false
+        ...this.props.formData,
+        'view:manualSchoolEntryChecked': false,
+        'view:institutionQuery': this.props.searchInputValue,
       });
     }
   }
@@ -99,8 +130,9 @@ export class SchoolSelectField extends React.Component {
     e.preventDefault();
 
     this.props.onChange({
-      facilityCode: this.props.facilityCodeSelected,
-      manualSchoolEntryChecked: false
+      ...this.props.formData,
+      'view:manualSchoolEntryChecked': false,
+      'view:institutionQuery': this.props.searchInputValue,
     });
     this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
   }
@@ -119,7 +151,7 @@ export class SchoolSelectField extends React.Component {
   handleStartOver = e => {
     e.preventDefault();
 
-    this.props.onChange(null);
+    this.props.onChange({});
     this.props.clearSearch();
     this.searchInput.focus();
   }
@@ -249,7 +281,7 @@ export class SchoolSelectField extends React.Component {
                       name={`page-${currentPageNumber}`}
                       type="radio"
                       onKeyDown={this.onKeyDown}
-                      onChange={() => this.handleOptionClick({ city, facilityCode, name, state })}
+                      onChange={() => this.handleOptionClick({ address1, address2, address3, city, facilityCode, name, state })}
                       value={facilityCode}/>
                     <label
                       id={`institution-${index}-label`}
@@ -300,7 +332,7 @@ const mapStateToProps = (state, ownProps) => {
   const institutionQuery = selectInstitutionQuery(state);
   const institutions = selectInstitutions(state);
   const institutionSelected = selectInstitutionSelected(state);
-  const manualSchoolEntryChecked = selectManualSchoolEntryChecked(state);
+  const manualSchoolEntryChecked = selectManualSchoolEntryChecked(state) || false;
   const pagesCount = selectPagesCount(state);
   const searchInputValue = selectSearchInputValue(state);
   const searchResultsCount = selectSearchResultsCount(state);
@@ -334,10 +366,10 @@ const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = {
   clearSearch,
+  restoreFromPrefill,
   searchInputChange,
   searchSchools,
-  selectInstitution,
-  toggleManualSchoolEntry
+  selectInstitution
 };
 
 SchoolSelectField.PropTypes = {

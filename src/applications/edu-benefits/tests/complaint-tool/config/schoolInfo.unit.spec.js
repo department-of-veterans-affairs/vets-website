@@ -21,7 +21,7 @@ describe('complaint tool school info', () => {
           educationDetails: {
             school: {
               facilityCode: {
-                manualSchoolEntryChecked: true
+                'view:manualSchoolEntryChecked': true
               },
               'view:manualSchoolEntry': {
                 address: {
@@ -45,7 +45,7 @@ describe('complaint tool school info', () => {
           educationDetails: {
             school: {
               facilityCode: {
-                manualSchoolEntryChecked: true
+                'view:manualSchoolEntryChecked': true
               }
             }
           }
@@ -65,7 +65,7 @@ describe('complaint tool school info', () => {
           educationDetails: {
             school: {
               facilityCode: {
-                manualSchoolEntryChecked: true
+                'view:manualSchoolEntryChecked': true
               },
               'view:manualSchoolEntry': {
                 address: {
@@ -94,7 +94,7 @@ describe('complaint tool school info', () => {
           educationDetails: {
             school: {
               facilityCode: {
-                manualSchoolEntryChecked: true
+                'view:manualSchoolEntryChecked': true
               }
             }
           }
@@ -118,7 +118,7 @@ describe('complaint tool school info', () => {
           educationDetails: {
             school: {
               facilityCode: {
-                manualSchoolEntryChecked: true
+                'view:manualSchoolEntryChecked': true
               },
               'view:manualSchoolEntry': {
                 address: {
