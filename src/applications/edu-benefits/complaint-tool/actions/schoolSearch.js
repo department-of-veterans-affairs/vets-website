@@ -29,22 +29,29 @@ export function restoreFromPrefill({ institutionQuery, institutionSelected, page
       searchInputValue
     });
 
-    fetchInstitutions({ institutionQuery, page }).then(({ error, payload }) => {
-      if (payload) {
+    fetchInstitutions({ institutionQuery, page })
+      .then(({ error, payload }) => {
+        if (payload) {
+          dispatch({
+            type: RESTORE_FROM_PREFILL_SUCCEEDED,
+            institutionQuery,
+            payload
+          });
+        }
+        if (error) {
+          dispatch({
+            type: RESTORE_FROM_PREFILL_FAILED,
+            error,
+            institutionQuery
+          });
+        }
+      })
+      .catch(error => {
         dispatch({
-          type: RESTORE_FROM_PREFILL_SUCCEEDED,
-          institutionQuery,
-          payload
+          type: LOAD_SCHOOLS_FAILED,
+          error
         });
-      }
-      if (error) {
-        dispatch({
-          type: RESTORE_FROM_PREFILL_FAILED,
-          error,
-          institutionQuery
-        });
-      }
-    });
+      });
   };
 
 }
@@ -64,22 +71,29 @@ export function searchSchools({ institutionQuery, page }) {
       page
     });
 
-    fetchInstitutions({ institutionQuery, page }).then(({ error, payload }) => {
-      if (payload) {
-        dispatch({
-          type: LOAD_SCHOOLS_SUCCEEDED,
-          institutionQuery,
-          payload
-        });
-      }
-      if (error) {
+    fetchInstitutions({ institutionQuery, page })
+      .then(({ error, payload }) => {
+        if (payload) {
+          dispatch({
+            type: LOAD_SCHOOLS_SUCCEEDED,
+            institutionQuery,
+            payload
+          });
+        }
+        if (error) {
+          dispatch({
+            type: LOAD_SCHOOLS_FAILED,
+            error,
+            institutionQuery
+          });
+        }
+      })
+      .catch(error => {
         dispatch({
           type: LOAD_SCHOOLS_FAILED,
-          error,
-          institutionQuery
+          error
         });
-      }
-    });
+      });
   };
 }
 
