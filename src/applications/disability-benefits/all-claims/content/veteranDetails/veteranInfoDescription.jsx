@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-
 import { genderLabels } from '../../../../../platform/static-data/labels';
 import srSubstitute from '../../utils';
+import { editNote } from '../common';
 
 const unconnectedVetInfoView = (profile) => {
   // NOTE: ssn and vaFileNumber will be undefined for the foreseeable future; they're kept in here as a reminder.
@@ -22,11 +22,7 @@ const unconnectedVetInfoView = (profile) => {
         <p>Date of birth: <DateWidget value={dob} options={{ monthYear: false }}/></p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
-      <p>
-        <strong>Note:</strong> If you need to update your {name}, please call Veterans
-        Benefits Assistance at <a href="tel:1-800-827-1000">1-800-827-1000</a>,
-        Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
-      </p>
+      {editNote('personal information')}
     </div>
   );
 };
