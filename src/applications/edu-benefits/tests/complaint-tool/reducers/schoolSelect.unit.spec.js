@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import schoolSelect from '../../../complaint-tool/reducers/schoolSelect';
+import schoolSelect from '../../../gi-bill-school-feedback/reducers/schoolSelect';
 
 describe('schoolSearch reducer', () => {
   describe('INSTITUTION_SELECTED', () => {

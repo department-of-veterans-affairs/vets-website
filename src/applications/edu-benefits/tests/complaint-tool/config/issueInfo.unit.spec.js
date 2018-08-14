@@ -4,9 +4,9 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester, selectCheckbox, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../complaint-tool/config/form';
+import formConfig from '../../../gi-bill-school-feedback/config/form';
 
-describe('complaint tool issue info', () => {
+describe('gi bill school feedback issue info', () => {
   const { schema, uiSchema } = formConfig.chapters.issueInformation.pages.issueInformation;
 
   it('should render', () => {

@@ -4,9 +4,9 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../complaint-tool/config/form';
+import formConfig from '../../../gi-bill-school-feedback/config/form';
 
-describe('complaint tool applicant info', () => {
+describe('gi bill school feedback applicant info', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.contactInformation;
 
   it('should render', () => {

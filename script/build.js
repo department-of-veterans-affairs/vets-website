@@ -127,7 +127,7 @@ if (options.buildtype === 'production') {
   });
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
-  ignoreList.push('education/complaint-tool.md');
+  ignoreList.push('education/gi-bill-school-feedback.md');
 }
 smith.use(ignore(ignoreList));
 

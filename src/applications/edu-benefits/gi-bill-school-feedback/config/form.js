@@ -89,7 +89,7 @@ const formConfig = {
   trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'complaint-tool',
+  formId: 'gi-bill-school-feedback',
   version: 0,
   prefillEnabled: true,
   defaultDefinitions: {

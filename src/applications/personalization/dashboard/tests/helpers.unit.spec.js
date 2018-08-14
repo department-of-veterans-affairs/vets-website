@@ -15,7 +15,7 @@ import fullSchema1990n from '../../../edu-benefits/1990n/config/form';
 import fullSchema1995 from '../../../edu-benefits/1995/config/form';
 import fullSchema5490 from '../../../edu-benefits/5490/config/form';
 import fullSchema5495 from '../../../edu-benefits/5495/config/form';
-import fullSchemaComplaintTool from '../../../edu-benefits/complaint-tool/config/form';
+import fullSchemaComplaintTool from '../../../edu-benefits/gi-bill-school-feedback/config/form';
 import fullSchema526EZ from '../../../disability-benefits/526EZ/config/form';
 import fullSchema527EZ from '../../../pensions/config/form';
 import fullSchema530 from '../../../burials/config/form';
@@ -41,7 +41,7 @@ const schemaToConfigIds = {
   '22-5495': '5495',
   '40-10007': '40-10007',
   VIC: 'VIC',
-  'complaint-tool': 'complaint-tool',
+  'gi-bill-school-feedback': 'gi-bill-school-feedback',
   definitions: 'N/A'
 };
 
