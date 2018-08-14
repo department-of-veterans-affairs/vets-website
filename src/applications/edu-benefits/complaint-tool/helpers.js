@@ -24,7 +24,7 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    educationBenefitsClaim: {
+    giBillFeedback: {
       form: formData
     }
   });
@@ -73,10 +73,10 @@ function pollStatus(guid, onDone, onError) {
         if (!res || res.data.attributes.state === 'pending') {
           pollStatus(guid, onDone, onError);
         } else if (res.data.attributes.state === 'success') {
-          onDone(res.data.attributes.response);
+          onDone(res.data.attributes.parsedResponse);
         } else {
           // needs to start with this string to get the right message on the form
-          throw new Error(`vets_server_error_edu: status ${res.data.attributes.state}`);
+          throw new Error(`vets_server_error_gi_bill_feedbacks: status ${res.data.attributes.state}`);
         }
       })
       .catch(onError);
@@ -95,34 +95,36 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  const formData = transform(formConfig, form);
-  const body = JSON.stringify({
-    giBillFeedback: {
-      form: formData
+  const body = transform(formConfig, form);
+  return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
+    method: 'POST',
+    headers,
+    body
+  }).then(res => {
+    if (res.ok) {
+      return res.json();
     }
-  });
-  return new Promise((resolve, reject) => {
-    return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
-      method: 'POST',
-      headers,
-      body
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    }).then(json => {
-      const guid = json.data.attributes.guid;
-      pollStatus(guid, (response) => {
-        recordEvent({
-          event: `${formConfig.trackingPrefix}-submission-successful`,
-        });
-        resolve(response);
-        resolve(json);
-      }, reject);
-    }).catch(respOrError => {
-      reject(respOrError);
+    return Promise.reject(res);
+  }).then(json => {
+    const guid = json.data.attributes.guid;
+    return new Promise((resolve, reject) => {
+      pollStatus(guid,
+        response => {
+          recordEvent({
+            event: `${formConfig.trackingPrefix}-submission-successful`,
+          });
+          return resolve(response);
+        }, error => reject(error));
     });
+  }).catch(respOrError => {
+    if (respOrError instanceof Response) {
+      if (respOrError.status === 429) {
+        const error = new Error('vets_throttled_error_gi_bill_feedbacks');
+        error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+        return Promise.reject(error);
+      }
+    }
+    return Promise.reject(respOrError);
   });
 }
