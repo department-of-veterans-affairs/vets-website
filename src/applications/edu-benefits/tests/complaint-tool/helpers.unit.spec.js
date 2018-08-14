@@ -7,8 +7,7 @@ import conditionalStorage from '../../../../platform/utilities/storage/condition
 import { submit } from '../../complaint-tool/helpers';
 
 function setFetchResponse(stub, data) {
-  const response = {};
-  // const response = new Response();
+  const response = new Response();
   response.ok = true;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
@@ -55,12 +54,12 @@ describe('feedback-tool helpers:', () => {
           }
         }
       });
-      const response = {};
+      const parsed_response = {}; // eslint-disable-line camelcase
       setFetchResponse(global.fetch.onThirdCall(), {
         data: {
           attributes: {
             state: 'success',
-            response
+            parsed_response // eslint-disable-line camelcase
           }
         }
       });
@@ -108,7 +107,7 @@ describe('feedback-tool helpers:', () => {
       return submit(form, formConfig).then(() => {
         expect.fail();
       }).catch(err => {
-        expect(err.message).to.equal('vets_server_error_edu: status failed');
+        expect(err.message).to.equal('vets_server_error_gi_bill_feedbacks: status failed');
       });
     });
 
