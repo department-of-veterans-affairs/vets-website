@@ -34,7 +34,7 @@ export class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>4142 Private Medical Record Release Form Claim <span className="additional">(Form 4142)</span></h4>
+          <h4>21-4142 Claim <span className="additional">(Form 22-4142)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           {response && <ul className="claim-list">

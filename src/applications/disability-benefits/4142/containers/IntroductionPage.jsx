@@ -16,8 +16,8 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="4142 Private Medical Record Release Form"/>
-        <p>Equal to VA Form 4142 (4142 Private Medical Record Release Form).</p>
+        <FormTitle title="21-4142"/>
+        <p>Equal to VA Form 22-4142 (21-4142).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
@@ -25,9 +25,9 @@ class IntroductionPage extends React.Component {
           startText="Start the Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Please complete the 4142 form to apply for private medical records release.
+          Please complete the 22-4142 form to apply for private medical records request.
         </SaveInProgressIntro>
-        <h4>Follow the steps below to apply for private medical records release.</h4>
+        <h4>Follow the steps below to apply for private medical records request.</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -40,7 +40,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <h5>Apply</h5>
-              <p>Complete this private medical records release form.</p>
+              <p>Complete this private medical records request form.</p>
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
@@ -61,7 +61,7 @@ class IntroductionPage extends React.Component {
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={30} ombNumber="4142-4142" expDate="12/31/2019"/>
+          <OMBInfo resBurden={30} ombNumber="0000-4142" expDate="12/31/2019"/>
         </div>
       </div>
     );
