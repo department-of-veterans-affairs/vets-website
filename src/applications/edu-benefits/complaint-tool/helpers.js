@@ -24,7 +24,7 @@ export function fetchInstitutions({ institutionQuery, page }) {
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    educationBenefitsClaim: {
+    giBillFeedback: {
       form: formData
     }
   });
