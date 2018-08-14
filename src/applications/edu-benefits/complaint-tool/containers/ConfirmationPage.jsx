@@ -26,7 +26,7 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { submission, data } = this.props.form;
     const { response } = submission;
-    const name = data.veteranFullName;
+    const name = data.applicantFullName;
 
     return (
       <div>
@@ -43,7 +43,11 @@ export class ConfirmationPage extends React.Component {
           {response && <ul className="claim-list">
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+              <span>{moment().format('MMM D, YYYY')}</span>
+            </li>
+            <li>
+              <strong>Confirmation number</strong><br/>
+              <span>{response.caseNumber}</span>
             </li>
           </ul>}
         </div>}

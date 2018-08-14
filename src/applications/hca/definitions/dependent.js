@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUI from '../../../platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';

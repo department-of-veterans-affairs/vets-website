@@ -13,7 +13,7 @@ const {
 } = schemaDefinitions;
 
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import * as address from 'us-forms-system/lib/js/definitions/address';
+import * as address from '../../../platform/forms/definitions/address';
 
 export default function createContactInformationPage(schema, addressField = 'veteranAddress') {
   const { homePhone, mobilePhone } = schema.properties;

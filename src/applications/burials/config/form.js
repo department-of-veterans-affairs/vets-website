@@ -23,10 +23,10 @@ import { isFullDate } from '../../../platform/forms/validations';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import fullNameUI from '../../../platform/forms/definitions/fullName';
 import environment from '../../../platform/utilities/environment';
 
-import * as address from 'us-forms-system/lib/js/definitions/address';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import * as address from '../../../platform/forms/definitions/address';
 import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
