@@ -140,7 +140,8 @@ describe('Schemaform <FormPage>', () => {
       location: {
         pathname: '/benefit/static/form/page',
         replace: sinon.spy()
-      }
+      },
+      dataLayer: []
     };
     const route = {
       pageConfig: {
@@ -196,6 +197,8 @@ describe('Schemaform <FormPage>', () => {
 
     tree.getMountedInstance().goBack();
 
+    expect(window.dataLayer.length).to.equal(1);
+    expect(window.dataLayer.pop()).to.eql({ event: 'edu-navigation', 'edu-action': 'back' });
     expect(global.window.location.replace.calledWith('/benefit/static'));
     global.window = oldWindow;
   });
