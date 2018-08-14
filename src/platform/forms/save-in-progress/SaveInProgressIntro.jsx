@@ -158,7 +158,6 @@ class SaveInProgressIntro extends React.Component {
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}
           prefillTransformer={this.props.prefillTransformer}
-          noPrefill={this.props.noPrefill}
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
@@ -191,7 +190,6 @@ SaveInProgressIntro.propTypes = {
   messages: PropTypes.object,
   migrations: PropTypes.array,
   prefillTransformer: PropTypes.func,
-  noPrefill: PropTypes.bool,
   returnUrl: PropTypes.string,
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
