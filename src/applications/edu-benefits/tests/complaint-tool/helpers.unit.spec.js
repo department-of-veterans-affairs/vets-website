@@ -54,12 +54,12 @@ describe('feedback-tool helpers:', () => {
           }
         }
       });
-      const parsed_response = {}; // eslint-disable-line camelcase
+      const parsedResponse = {};
       setFetchResponse(global.fetch.onThirdCall(), {
         data: {
           attributes: {
             state: 'success',
-            parsed_response // eslint-disable-line camelcase
+            parsedResponse
           }
         }
       });
