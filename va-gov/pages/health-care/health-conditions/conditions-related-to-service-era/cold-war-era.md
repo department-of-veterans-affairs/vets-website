@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Cold War Era
+title: Cold War Veterans Health Issues
 display_title: 
 description: Learn what health conditions you might be at risk of developing if you’re a Cold War era Veteran. Find out what to do next to take care of your health.
 concurrence: complete
