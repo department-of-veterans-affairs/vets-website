@@ -283,7 +283,8 @@ const formConfig = {
                 },
                 'ui:errorMessages': {
                   atLeastOne: 'Please select at least one'
-                }
+                },
+                'ui:required': () => true
               },
               assistance: {
                 'view:assistance': {
