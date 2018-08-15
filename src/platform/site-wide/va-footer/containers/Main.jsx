@@ -1,14 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import CollapsiblePanel from '@department-of-veterans-affairs/formation/CollapsiblePanel';
 
 export class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {isMobile: false};
-
-    //{date: new Date()};
+    this.state = { isMobile: false };
   }
 
   // check for and set state on mount
@@ -41,10 +38,12 @@ export class Main extends React.Component {
 
 
   render() {
+
+    // there is probably a better way to write this but I am going for fast, not elegant
     const className = this.state.isMobile ? 'va-footer-linkgroup usa-width-one-fourth usa-accordion' : 'va-footer-linkgroup usa-width-one-fourth';
     const innerClassName = this.state.isMobile ? 'usa-accordion-content' : '';
-
-    //const accordionButton = this.state.isMobile ? '' : '';
+    const buttonEnabled = this.state.isMobile ? '' : 'disabled';
+    const buttonClasses = this.state.isMobile ? 'usa-button-unstyled usa-accordion-button' :'va-footer-button';
 
     return (
       <div className="footer-inner">
@@ -54,11 +53,11 @@ export class Main extends React.Component {
           <ul className={className} id="footer-first-child">
             <li>
               <h4 className="va-footer-linkgroup-title">
-                <button className="usa-button-unstyled usa-accordion-button" aria-controls="veteran-programs" itemProp="name" aria-expanded="false">Veteran Programs and Services</button>
+                <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-programs" itemProp="name" aria-expanded="false">Veteran Programs and Services</button>
               </h4>
             </li>
             <li className={innerClassName} id="veteran-programs" aria-hidden="true">
-              <ul>
+              <ul className="va-footer-links">
                 <li><a href="#">For Homeless Veterans</a></li>
                 <li><a href="#">For Women Veterans</a></li>
                 <li><a href="#">For Minority Veterans</a></li>
@@ -77,12 +76,12 @@ export class Main extends React.Component {
 
             <li>
               <h4 className="va-footer-linkgroup-title">
-                <button className="usa-button-unstyled usa-accordion-button" aria-controls="veteran-resources" itemProp="name" aria-expanded="false">More VA Resources</button>
+                <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-resources" itemProp="name" aria-expanded="false">More VA Resources</button>
               </h4>
             </li>
 
             <li className={innerClassName} id="veteran-resources" aria-hidden="true">
-              <ul>
+              <ul className="va-footer-links">
                 <li><a href="#">Find a VA Form</a></li>
                 <li><a href="#">Get VA Mobile Apps</a></li>
                 <li><a href="#">Careers at VA</a></li>
@@ -98,12 +97,12 @@ export class Main extends React.Component {
           <ul className={className} id="footer-popular">
             <li>
               <h4 className="va-footer-linkgroup-title">
-                <button className="usa-button-unstyled usa-accordion-button" aria-controls="veteran-connect" itemProp="name" aria-expanded="false">Connect with Us</button>
+              <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-connect" itemProp="name" aria-expanded="false">Connect with Us</button>
               </h4>
             </li>
 
             <li className={innerClassName} id="veteran-connect" aria-hidden="true">
-              <ul>
+              <ul className="va-footer-links">
                 <li><a href="#">VAntage Point Blog</a></li>
                 <li><a href="#">Email Updates</a></li>
                 <li><a href="#">Facebook</a></li>
@@ -115,23 +114,27 @@ export class Main extends React.Component {
             </li>
           </ul>
 
-          <ul className={className}>
+          <ul className={className} id="veteran-crisis-line" aria-hidden="true">
 
-            <li>
-              <h4 className="va-footer-linkgroup-title">In Crisis? Get Help Now</h4>
+            <li className={innerClassName}>
+              <h4 className="va-footer-linkgroup-title">
+                <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-crisis-line" itemProp="name" aria-expanded="false">In Crisis? Get Help Now</button>
+              </h4>
             </li>
             <li>
               <a href="http://www.veteranscrisisline.net/">Veterans Crisis Line</a>
             </li>
+          </ul>
 
-            <li>
+          <ul className={className} id="veteran-crisis" aria-hidden="true">
+
+            <li className={innerClassName}>
               <h4 className="va-footer-linkgroup-title">
-                <button className="usa-button-unstyled usa-accordion-button" aria-controls="veteran-contact" itemProp="name" aria-expanded="false">Contact Us</button>
+                <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-contact" itemProp="name" aria-expanded="false">Contact Us</button>
               </h4>
             </li>
-
             <li className={innerClassName} id="veteran-contact" aria-hidden="true">
-              <ul>
+              <ul className="va-footer-links">
                 <li><a href="#">Find a VA Location</a></li>
                 <li><a href="#">Submit a Help Request</a></li>
                 <li><a href="#">Go to VA Help Center</a></li>
@@ -144,7 +147,7 @@ export class Main extends React.Component {
 
         <div className="usa-grid footer-banner">
           <a href="https://preview.va.gov" className="va-footer-logo" title="Go to VA.gov">
-            <img src="/img/homepage/va-logo-white.png" />
+            <img src="/img/homepage/va-logo-white.png" alt="VA logo"/>
           </a>
         </div>
 
@@ -175,4 +178,4 @@ const mapDispatchToProps = () => {
   return {};
 };
 
-export default connect (mapDispatchToProps)(Main);
+export default connect(mapDispatchToProps)(Main);
