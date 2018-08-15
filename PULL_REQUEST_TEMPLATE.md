@@ -8,3 +8,4 @@ Please explain local testing done
 Please explain testing planned
 
 ### Screenshots (if appropriate)
+Please provide screenshots of UI changes is applicable
