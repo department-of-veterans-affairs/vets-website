@@ -8,7 +8,7 @@ import {
   searchSchools,
   selectInstitution,
   toggleManualSchoolEntry
-} from '../../../complaint-tool/actions/schoolSearch';
+} from '../../../gi-bill-school-feedback/actions/schoolSearch';
 
 function setFetchResponse(stub, data) {
   const response = new Response(null, { headers: { 'content-type': ['application/json'] } });

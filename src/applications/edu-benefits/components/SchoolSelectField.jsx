@@ -12,7 +12,7 @@ import {
   searchInputChange,
   selectInstitution,
   searchSchools
-} from '../complaint-tool/actions/schoolSearch';
+} from '../gi-bill-school-feedback/actions/schoolSearch';
 import {
   selectCurrentPageNumber,
   selectFacilityCodeErrorMessages,
@@ -30,7 +30,7 @@ import {
   selectShowPagination,
   selectShowPaginationLoading,
   selectShowSearchResults
-} from '../complaint-tool/selectors/schoolSearch';
+} from '../gi-bill-school-feedback/selectors/schoolSearch';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

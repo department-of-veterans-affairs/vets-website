@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../complaint-tool/config/form';
+import { DefinitionTester, selectCheckbox, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../../gi-bill-school-feedback/config/form';
 
-describe('complaint tool benefits info', () => {
-  const { schema, uiSchema } = formConfig.chapters.benefitsInformation.pages.benefitsInformation;
+describe('gi bill school feedback issue info', () => {
+  const { schema, uiSchema } = formConfig.chapters.issueInformation.pages.issueInformation;
 
   it('should render', () => {
     const form = mount(
@@ -18,7 +18,7 @@ describe('complaint tool benefits info', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(11);
+    expect(form.find('input').length).to.equal(12);
   });
 
   it('should not submit without required information', () => {
@@ -32,7 +32,7 @@ describe('complaint tool benefits info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -46,10 +46,11 @@ describe('complaint tool benefits info', () => {
         uiSchema={uiSchema}/>
     );
 
-    selectCheckbox(form, 'root_educationDetails_programs_Post-9/11 Ch 33', true);
+    selectCheckbox(form, 'root_issue_accreditation', true);
+    fillData(form, 'textarea#root_issueDescription', 'test');
+    fillData(form, 'textarea#root_issueResolution', 'test');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-
 });

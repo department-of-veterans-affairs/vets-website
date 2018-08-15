@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers';
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
-import { submit } from '../../complaint-tool/helpers';
+import { submit } from '../../gi-bill-school-feedback/helpers';
 
 function setFetchResponse(stub, data) {
   const response = new Response();
