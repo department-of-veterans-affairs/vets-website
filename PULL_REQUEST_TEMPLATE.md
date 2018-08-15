@@ -7,5 +7,5 @@ Please explain local testing done
 ### Testing Plan
 Please explain testing planned
 
-### Screenshots (if appropriate)
-Please provide screenshots of UI changes is applicable
+### Screenshots
+Please provide screenshots of UI changes if applicable
