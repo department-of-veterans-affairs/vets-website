@@ -8,16 +8,10 @@ import {
 } from '../../../../platform/monitoring/DowntimeNotification/actions';
 
 import {
-  fetchTransactions
-} from '../vet360/actions';
-
-import {
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation
 } from '../actions';
-
-import { selectIsVet360AvailableForUser } from '../vet360/selectors';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import ProfileView from '../components/ProfileView';
@@ -33,13 +27,11 @@ class VAProfileApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <ProfileView
-            isVet360AvailableForUser={this.props.isVet360AvailableForUser}
             profile={this.props.profile}
             user={this.props.user}
             fetchHero={this.props.fetchHero}
             fetchMilitaryInformation={this.props.fetchMilitaryInformation}
             fetchPersonalInformation={this.props.fetchPersonalInformation}
-            fetchTransactions={this.props.fetchTransactions}
             downtimeData={{
               appTitle: 'profile',
               isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,
@@ -56,13 +48,11 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     profile: state.vaProfile,
-    isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile'),
-    isVet360AvailableForUser: selectIsVet360AvailableForUser(state)
+    isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes('profile')
   };
 };
 
 const mapDispatchToProps = {
-  fetchTransactions,
   fetchHero,
   fetchMilitaryInformation,
   fetchPersonalInformation,
