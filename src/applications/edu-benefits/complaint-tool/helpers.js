@@ -7,7 +7,7 @@ import environment from '../../../platform/utilities/environment';
 import recordEvent from '../../../platform/monitoring/record-event';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
-export function fetchInstitutions({ institutionQuery, page }) {
+export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   const fetchUrl = appendQuery('/gi/institutions/search', {
     name: institutionQuery,
     include_address: true, // eslint-disable-line camelcase
@@ -17,14 +17,14 @@ export function fetchInstitutions({ institutionQuery, page }) {
   return apiRequest(
     fetchUrl,
     null,
-    payload => ({ payload }),
-    error => ({ error }));
+    payload => onDone(payload),
+    error => onError(error));
 }
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    educationBenefitsClaim: {
+    giBillFeedback: {
       form: formData
     }
   });
@@ -73,7 +73,7 @@ function pollStatus(guid, onDone, onError) {
         if (!res || res.data.attributes.state === 'pending') {
           pollStatus(guid, onDone, onError);
         } else if (res.data.attributes.state === 'success') {
-          onDone(res.data.attributes.parsed_response);
+          onDone(res.data.attributes.parsedResponse);
         } else {
           // needs to start with this string to get the right message on the form
           throw new Error(`vets_server_error_gi_bill_feedbacks: status ${res.data.attributes.state}`);
