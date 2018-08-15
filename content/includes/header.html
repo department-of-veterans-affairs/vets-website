@@ -65,12 +65,12 @@
 <meta name="msapplication-TileColor" content="#144073">
 
 <!-- CSS -->
-<link rel="stylesheet" href="/generated/style.css">
+<link rel="stylesheet" href="{{ buildtype }}/generated/style.css">
 {% if entryname %}
-<link rel="stylesheet" href="/generated/{{ entryname }}.css">
+<link rel="stylesheet" href="{{ buildtype }}/generated/{{ entryname }}.css">
 
 {% else %}
-<link rel="stylesheet" href="/generated/static-pages.css">
+<link rel="stylesheet" href="{{ buildtype }}/generated/static-pages.css">
 {% endif %}
 
 <!-- Old IE -->
@@ -79,14 +79,14 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-<script src="/js/record-event.js"></script>
-<script src="/js/settings.js"></script>
+<script src="{{ buildtype }}/js/record-event.js"></script>
+<script src="{{ buildtype }}/js/settings.js"></script>
 
-<script defer src="/generated/vendor.entry.js"></script>
+<script defer src="{{ buildtype }}/generated/vendor.entry.js"></script>
 {% if entryname %}
-<script defer src="/generated/{{ entryname }}.entry.js"></script>
+<script defer src="{{ buildtype }}/generated/{{ entryname }}.entry.js"></script>
 {% else %}
-<script defer src="/generated/static-pages.entry.js"></script>
+<script defer src="{{ buildtype }}/generated/static-pages.entry.js"></script>
 {% endif %}
 
 <!-- We participate in the US government’s analytics program. See the data at analytics.usa.gov. -->
@@ -99,4 +99,4 @@
   {% include "content/includes/top-nav.html" %}
 {% endif %}
 
-<script async src="/js/usa-search.js"></script>
+<script async src="{{ buildtype }}/js/usa-search.js"></script>
