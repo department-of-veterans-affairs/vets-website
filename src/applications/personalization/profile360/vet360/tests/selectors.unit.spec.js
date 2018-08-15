@@ -3,7 +3,9 @@ import backendServices from '../../../../../platform/user/profile/constants/back
 
 import {
   TRANSACTION_STATUS,
-  TRANSACTION_CATEGORY_TYPES
+  TRANSACTION_CATEGORY_TYPES,
+  INIT_VET360_ID,
+  VET360_INITIALIZATION_STATUS
 } from '../constants';
 
 import * as selectors from '../selectors';
@@ -183,4 +185,54 @@ describe('selectors', () => {
     });
   });
 
+});
+
+describe('selectVet360InitializationStatus', () => {
+  const old = { document: global.document };
+
+  beforeEach(() => {
+    hooks.beforeEach();
+    global.document = {
+      location: {
+        hostname: 'staging.vets.gov'
+      }
+    };
+  });
+
+  afterEach(() => {
+    global.document = old.document;
+  });
+
+  it('returns UNINITIALIZED if Vet360 is not found in the services array and there is not an associated transaction', () => {
+    state.user.profile.services = [];
+    const result = selectors.selectVet360InitializationStatus(state);
+    expect(result.status).to.be.equal(VET360_INITIALIZATION_STATUS.UNINITALIZED);
+  });
+
+  it('returns INITIALIZED if Vet360 is found in the services array', () => {
+    const result = selectors.selectVet360InitializationStatus(state);
+    expect(result.status).to.be.equal(VET360_INITIALIZATION_STATUS.INITIALIZED);
+  });
+
+  it('returns INITIALIZING if there is an ongoing transaction', () => {
+    const transactionId = 'transaction_1';
+    state.user.profile.services = [];
+    state.vet360.transactions = [
+      { data: { attributes: { transactionId, transactionStatus: TRANSACTION_STATUS.RECEIVED } } }
+    ];
+    state.vet360.fieldTransactionMap[INIT_VET360_ID] = { transactionId };
+    const result = selectors.selectVet360InitializationStatus(state);
+    expect(result.status).to.be.equal(VET360_INITIALIZATION_STATUS.INITIALIZING);
+  });
+
+  it('returns INITIALIZATION_FAILURE if there is a failed transaction', () => {
+    const transactionId = 'transaction_1';
+    state.user.profile.services = [];
+    state.vet360.transactions = [
+      { data: { attributes: { transactionId, transactionStatus: TRANSACTION_STATUS.REJECTED } } }
+    ];
+    state.vet360.fieldTransactionMap[INIT_VET360_ID] = { transactionId };
+    const result = selectors.selectVet360InitializationStatus(state);
+    expect(result.status).to.be.equal(VET360_INITIALIZATION_STATUS.INITIALIZATION_FAILURE);
+  });
 });
