@@ -381,28 +381,24 @@ describe('526 helpers', () => {
       expect(global.fetch.firstCall.args[0]).to.contain('/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf');
     });
 
-    it('should return the mapped data for autosuggest if successful', (done) => {
+    it('should return the mapped data for autosuggest if successful', () => {
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
-      requestPromise.then(result => {
+      return requestPromise.then(result => {
         expect(result).to.eql([
           { id: 0, label: 'first' },
           { id: 1, label: 'second' },
         ]);
-        done();
-      }).catch(err => done(err));
+      });
     });
 
-    it('should return an empty array if unsuccesful', (done) => {
+    it('should return an empty array if unsuccesful', () => {
       global.fetch.resolves({ ok: false });
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
-      requestPromise.then(result => {
+      return requestPromise.then(result => {
         // This .then() fires after the apiRequest failure callback returns []
         expect(result).to.eql([]);
-        done();
-      }).catch(error => {
-        done(error);
       });
     });
   });

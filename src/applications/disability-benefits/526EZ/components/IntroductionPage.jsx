@@ -40,6 +40,7 @@ class IntroductionPage extends React.Component {
           pathname={this.props.location.pathname}
           user={user}
           authenticate={this.authenticate}
+          noPrefill
           {...this.props}/>
         <h4>Follow the steps below to apply for increased disability compensation.</h4>
         <div className="process schemaform-process">
@@ -86,6 +87,7 @@ class IntroductionPage extends React.Component {
           pathname={this.props.location.pathname}
           user={user}
           authenticate={this.authenticate}
+          noPrefill
           {...this.props}
           buttonOnly/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}

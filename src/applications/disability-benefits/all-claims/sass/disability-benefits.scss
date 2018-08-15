@@ -27,3 +27,12 @@ ul.original-disability-list {
   display: block;
   margin: 0;
 }
+
+.blue-bar-block {
+  border-left: 7px solid $color-primary;
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
+  }
+}
