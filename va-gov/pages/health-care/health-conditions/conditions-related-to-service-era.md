@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Health Concerns Related to When and Where You Served
+title: Veterans Health Issues Related to When and Where You Served
 display_title: Concerns Related to Service History
 description: Learn what health conditions you may be at risk of developing depending on where and when you served on active duty.  
 concurrence: complete

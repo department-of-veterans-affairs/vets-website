@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: World War II
+title: World War II Veterans Health Issues
 display_title: 
 concurrence: complete
 lastupdate: 2017-06-28
