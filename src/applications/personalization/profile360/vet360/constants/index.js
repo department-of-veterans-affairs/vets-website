@@ -77,7 +77,7 @@ export const ANALYTICS_FIELD_MAP = {
 
 export const API_ROUTES = {
   INIT_VET360_ID: '/profile/initialize_vet360_id',
-  TELEPHONES: '/profile/telephone',
+  TELEPHONES: '/profile/telephones',
   EMAILS: '/profile/email_addresses',
   ADDRESSES: '/profile/addresses'
 };
