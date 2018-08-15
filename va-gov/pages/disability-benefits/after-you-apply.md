@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: After You Apply for Disability Benefits
+title: The VA Claim Prond out cess After You File Your Claim
 display_title: After You Apply
 description: Find out what happens after you file your VA disability claim, including how long you'll wait for a decision and what steps we take before the preparation for notification.
 order: 3
@@ -12,7 +12,7 @@ majorlinks:
     links:
     - url: /disability-benefits/after-you-apply/date/
       title: Effective Date of Disability
-      description: "Find out when you’ll start getting your disability payments."
+      description: "Fiwhen you’ll start getting your disability payments."
     - url: /disability-benefits/after-you-apply/what-happens-after-rating/
       title: What to Expect After You Get a Disability Rating
       description: "Find out what happens after you get your decision notice with your rating."
