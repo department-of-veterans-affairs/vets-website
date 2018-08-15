@@ -41,20 +41,23 @@ export class Main extends React.Component {
 
 
   render() {
-    const className = this.state.isMobile ? 'mobile' : '';
+    const className = this.state.isMobile ? 'va-footer-linkgroup usa-width-one-fourth usa-accordion' : 'va-footer-linkgroup usa-width-one-fourth';
+    const innerClassName = this.state.isMobile ? 'usa-accordion-content' : '';
+
+    //const accordionButton = this.state.isMobile ? '' : '';
 
     return (
       <div className="footer-inner">
 
         <div className="usa-grid">
 
-          <ul className="va-footer-linkgroup usa-width-one-fourth usa-accordion" id="footer-first-child">
-            <li className={className}>
+          <ul className={className} id="footer-first-child">
+            <li>
               <h4 className="va-footer-linkgroup-title">
                 <button className="usa-button-unstyled usa-accordion-button" aria-controls="veteran-programs" itemProp="name" aria-expanded="false">Veteran Programs and Services</button>
               </h4>
             </li>
-            <li className="usa-accordion-content" id="veteran-programs" aria-hidden="true">
+            <li className={innerClassName} id="veteran-programs" aria-hidden="true">
               <ul>
                 <li><a href="#">For Homeless Veterans</a></li>
                 <li><a href="#">For Women Veterans</a></li>
@@ -70,7 +73,7 @@ export class Main extends React.Component {
             </li>
           </ul>
 
-          <ul className="va-footer-linkgroup usa-width-one-fourth usa-accordion" id="footer-services">
+          <ul className={className} id="footer-services">
 
             <li>
               <h4 className="va-footer-linkgroup-title">
@@ -78,7 +81,7 @@ export class Main extends React.Component {
               </h4>
             </li>
 
-            <li className="usa-accordion-content" id="veteran-resources" aria-hidden="true">
+            <li className={innerClassName} id="veteran-resources" aria-hidden="true">
               <ul>
                 <li><a href="#">Find a VA Form</a></li>
                 <li><a href="#">Get VA Mobile Apps</a></li>
@@ -92,14 +95,14 @@ export class Main extends React.Component {
 
           </ul>
 
-          <ul className="va-footer-linkgroup usa-width-one-fourth usa-accordion" id="footer-popular">
+          <ul className={className} id="footer-popular">
             <li>
               <h4 className="va-footer-linkgroup-title">
                 <button className="usa-button-unstyled usa-accordion-button" aria-controls="veteran-connect" itemProp="name" aria-expanded="false">Connect with Us</button>
               </h4>
             </li>
 
-            <li className="usa-accordion-content" id="veteran-connect" aria-hidden="true">
+            <li className={innerClassName} id="veteran-connect" aria-hidden="true">
               <ul>
                 <li><a href="#">VAntage Point Blog</a></li>
                 <li><a href="#">Email Updates</a></li>
@@ -112,7 +115,7 @@ export class Main extends React.Component {
             </li>
           </ul>
 
-          <ul className="va-footer-linkgroup usa-width-one-fourth usa-accordion">
+          <ul className={className}>
 
             <li>
               <h4 className="va-footer-linkgroup-title">In Crisis? Get Help Now</h4>
@@ -127,7 +130,7 @@ export class Main extends React.Component {
               </h4>
             </li>
 
-            <li className="usa-accordion-content" id="veteran-contact" aria-hidden="true">
+            <li className={innerClassName} id="veteran-contact" aria-hidden="true">
               <ul>
                 <li><a href="#">Find a VA Location</a></li>
                 <li><a href="#">Submit a Help Request</a></li>
