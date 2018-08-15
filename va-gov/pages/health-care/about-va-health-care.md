@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: About VA Health Care Coverage
+title: About VA Health Benefits
 display_title: VA Health Care Coverage
 concurrence: complete
 lastupdate: 2017-06-28
