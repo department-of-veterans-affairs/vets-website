@@ -7,9 +7,7 @@ export function mapRawUserDataToState(json) {
   const {
     data: {
       attributes: {
-        health_terms_current: healthTermsCurrent,
         in_progress_forms: savedForms,
-        mhv_account_state: mhvAccountState,
         prefills_available: prefillsAvailable,
         profile: {
           authn_context: authnContext,
@@ -44,14 +42,6 @@ export function mapRawUserDataToState(json) {
     gender,
     isVeteran,
     loa,
-    mhv: {
-      account: {
-        state: mhvAccountState
-      },
-      terms: {
-        accepted: healthTermsCurrent
-      }
-    },
     multifactor,
     prefillsAvailable,
     savedForms,
