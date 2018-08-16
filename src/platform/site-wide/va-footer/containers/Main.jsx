@@ -6,17 +6,7 @@ export class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isMobile: false };
-  }
 
-  // check for and set state on mount
-  // bring in the footer code (hardcoded for now)
-  // set and unset dynamic classes depending on window resize
-  // those classes should trigger uswds' accordion code
-  // you might need to rewrite the markup
-
-  componentDidMount() {
-
-    console.log('state your width: ', window.innerWidth, this.state.isMobile);
     window.addEventListener('resize', () => {
       this.setState({
         isMobile: window.innerWidth < 767
@@ -28,22 +18,96 @@ export class Main extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
-
-
   render() {
 
     // there is probably a better way to write this but I am going for fast, not elegant
-    const className = this.state.isMobile ? 'va-footer-linkgroup usa-width-one-fourth usa-accordion' : 'va-footer-linkgroup usa-width-one-fourth';
-    const innerClassName = this.state.isMobile ? 'usa-accordion-content' : '';
-    const buttonEnabled = this.state.isMobile ? '' : 'disabled';
-    const buttonClasses = this.state.isMobile ? 'usa-button-unstyled usa-accordion-button' :'va-footer-button';
+    let className = '';
+    let innerClassName = '';
+    let buttonEnabled = '';
+    let buttonClasses = '';
+
+    function buildContact(t) {
+      if (t.state.isMobile) {
+        return (
+          <div>
+            <ul className="va-footer-linkgroup usa-width-one-fourth usa-accordion" id="veteran-crisis-line" aria-hidden="true">
+              <li>
+                <h4 className="va-footer-linkgroup-title">
+                  <button className="usa-button-unstyled usa-accordion-button" aria-controls="veteran-crisis" itemProp="name" aria-expanded="false">In Crisis? Get Help Now</button>
+                </h4>
+              </li>
+              <li className="usa-accordion-content" id="veteran-crisis" aria-hidden="true">
+                <ul className="va-footer-links">
+                  <li>
+                    <a href="http://www.veteranscrisisline.net/">Veterans Crisis Line</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <ul className="va-footer-linkgroup usa-width-one-fourth usa-accordion" id="veteran-contact-us" aria-hidden="true">
+              <li id="footer-vcl">
+                <h4 className="va-footer-linkgroup-title">
+                  <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-contact" itemProp="name" aria-expanded="false">Contact Us</button>
+                </h4>
+              </li>
+              <li className={innerClassName} id="veteran-contact" aria-hidden="true">
+                <ul className="va-footer-links">
+                  <li><a href="#">Find a VA Location</a></li>
+                  <li><a href="#">Submit a Help Request</a></li>
+                  <li><a href="#">Go to VA Help Center</a></li>
+                  <li><a href="#">Call Us</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        );
+      }
+      return (
+        <ul className="va-footer-linkgroup usa-width-one-fourth" id="veteran-crisis" aria-hidden="true">
+          <li>
+            <h4 className="va-footer-linkgroup-title">
+              In Crisis? Get Help Now
+            </h4>
+          </li>
+          <li>
+            <a href="http://www.veteranscrisisline.net/">Veterans Crisis Line</a>
+          </li>
+          <li id="footer-vcl">
+            <h4 className="va-footer-linkgroup-title">
+              Contact Us
+            </h4>
+          </li>
+          <li id="veteran-contact" aria-hidden="true">
+            <ul className="va-footer-links">
+              <li><a href="#">Find a VA Location</a></li>
+              <li><a href="#">Submit a Help Request</a></li>
+              <li><a href="#">Go to VA Help Center</a></li>
+              <li><a href="#">Call Us</a></li>
+            </ul>
+          </li>
+        </ul>
+      );
+
+    }
+
+    if (this.state.isMobile) {
+
+      className = 'va-footer-linkgroup usa-width-one-fourth usa-accordion';
+      innerClassName = 'usa-accordion-content';
+      buttonEnabled = '';
+      buttonClasses = 'usa-button-unstyled usa-accordion-button';
+
+    } else {
+
+      className = 'va-footer-linkgroup usa-width-one-fourth';
+      innerClassName = '';
+      buttonEnabled = 'disabled';
+      buttonClasses = 'va-footer-button';
+
+    }
+
+    // hacky hacky
+    const contactVCL = buildContact(this);
 
     return (
       <div className="footer-inner">
@@ -97,7 +161,7 @@ export class Main extends React.Component {
           <ul className={className} id="footer-popular">
             <li>
               <h4 className="va-footer-linkgroup-title">
-              <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-connect" itemProp="name" aria-expanded="false">Connect with Us</button>
+                <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-connect" itemProp="name" aria-expanded="false">Connect with Us</button>
               </h4>
             </li>
 
@@ -114,34 +178,7 @@ export class Main extends React.Component {
             </li>
           </ul>
 
-          <ul className={className} id="veteran-crisis-line" aria-hidden="true">
-
-            <li className={innerClassName}>
-              <h4 className="va-footer-linkgroup-title">
-                <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-crisis-line" itemProp="name" aria-expanded="false">In Crisis? Get Help Now</button>
-              </h4>
-            </li>
-            <li>
-              <a href="http://www.veteranscrisisline.net/">Veterans Crisis Line</a>
-            </li>
-          </ul>
-
-          <ul className={className} id="veteran-crisis" aria-hidden="true">
-
-            <li className={innerClassName}>
-              <h4 className="va-footer-linkgroup-title">
-                <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-contact" itemProp="name" aria-expanded="false">Contact Us</button>
-              </h4>
-            </li>
-            <li className={innerClassName} id="veteran-contact" aria-hidden="true">
-              <ul className="va-footer-links">
-                <li><a href="#">Find a VA Location</a></li>
-                <li><a href="#">Submit a Help Request</a></li>
-                <li><a href="#">Go to VA Help Center</a></li>
-                <li><a href="#">Call Us</a></li>
-              </ul>
-            </li>
-          </ul>
+          {contactVCL}
 
         </div>
 

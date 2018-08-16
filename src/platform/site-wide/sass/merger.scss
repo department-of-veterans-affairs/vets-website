@@ -602,6 +602,9 @@
       padding-right: 0;
     }
 
+    #footer-vcl {
+      margin-top: 0.25em;
+    }
 
     #footerNav {
 
@@ -615,6 +618,12 @@
 
         .usa-accordion-content {
           background-color: transparent;
+
+          .va-footer-links {
+            li {
+              margin-bottom: 0.5em;
+            }
+          }
         }
       }
 
