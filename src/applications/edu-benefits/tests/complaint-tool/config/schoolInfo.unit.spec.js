@@ -11,20 +11,22 @@ import formConfig from '../../../complaint-tool/config/form';
 
 describe('complaint tool school info', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolInformation.pages.schoolInformation;
-  _.unset(uiSchema, 'school.facilityCode');
+  _.unset(uiSchema, 'educationDetails.school.facilityCode');
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         data={{
-          school: {
-            facilityCode: {
-              manualSchoolEntryChecked: true
-            },
-            'view:manualSchoolEntry': {
-              address: {
-                country: 'United States'
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              },
+              'view:manualSchoolEntry': {
+                address: {
+                  country: 'United States'
+                }
               }
             }
           }
@@ -40,9 +42,11 @@ describe('complaint tool school info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          school: {
-            facilityCode: {
-              manualSchoolEntryChecked: true
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              }
             }
           }
         }}
@@ -58,13 +62,15 @@ describe('complaint tool school info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          school: {
-            facilityCode: {
-              manualSchoolEntryChecked: true
-            },
-            'view:manualSchoolEntry': {
-              address: {
-                country: 'United States'
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              },
+              'view:manualSchoolEntry': {
+                address: {
+                  country: 'United States'
+                }
               }
             }
           }
@@ -85,9 +91,11 @@ describe('complaint tool school info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          school: {
-            facilityCode: {
-              manualSchoolEntryChecked: true
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              }
             }
           }
         }}
@@ -107,13 +115,15 @@ describe('complaint tool school info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          school: {
-            facilityCode: {
-              manualSchoolEntryChecked: true
-            },
-            'view:manualSchoolEntry': {
-              address: {
-                country: 'United States'
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              },
+              'view:manualSchoolEntry': {
+                address: {
+                  country: 'United States'
+                }
               }
             }
           }
@@ -123,12 +133,12 @@ describe('complaint tool school info', () => {
         uiSchema={uiSchema}/>
     );
 
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_name"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_street"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_city"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_postalCode"]', '34343');
-    fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_state"]', 'MA');
-    fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_country"]', 'United States');
+    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]', 'test');
+    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_address_street"]', 'test');
+    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_address_city"]', 'test');
+    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_address_postalCode"]', '34343');
+    fillData(form, 'select[name="root_educationDetails_school_view:manualSchoolEntry_address_state"]', 'MA');
+    fillData(form, 'select[name="root_educationDetails_school_view:manualSchoolEntry_address_country"]', 'United States');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

@@ -2,7 +2,9 @@ import {
   LOAD_SCHOOLS_FAILED,
   LOAD_SCHOOLS_STARTED,
   LOAD_SCHOOLS_SUCCEEDED,
-  MANUAL_SCHOOL_ENTRY_TOGGLED,
+  RESTORE_FROM_PREFILL_FAILED,
+  RESTORE_FROM_PREFILL_STARTED,
+  RESTORE_FROM_PREFILL_SUCCEEDED,
   SEARCH_CLEARED,
   SEARCH_INPUT_CHANGED,
   INSTITUTION_SELECTED
@@ -30,6 +32,9 @@ export default function schoolSearch(state = initialState, action) {
   switch (action.type) {
     case INSTITUTION_SELECTED: {
       const {
+        address1,
+        address2,
+        address3,
         city,
         facilityCode,
         name,
@@ -39,6 +44,9 @@ export default function schoolSearch(state = initialState, action) {
       return {
         ...state,
         institutionSelected: {
+          address1,
+          address2,
+          address3,
           city,
           facilityCode,
           name,
@@ -46,6 +54,7 @@ export default function schoolSearch(state = initialState, action) {
         }
       };
     }
+    case RESTORE_FROM_PREFILL_FAILED:
     case LOAD_SCHOOLS_FAILED: {
       const currentPageNumber = 0;
       const institutionSelected = {};
@@ -72,6 +81,39 @@ export default function schoolSearch(state = initialState, action) {
         showNoResultsFound,
         showPagination,
         showPaginationLoading
+      };
+    }
+
+    case RESTORE_FROM_PREFILL_STARTED: {
+      const currentPageNumber = action.page ? action.page : 1;
+      const institutionQuery = action.institutionQuery;
+      const institutions = [];
+      const institutionSelected = action.institutionSelected;
+      const manualSchoolEntryChecked = false;
+      const searchInputValue = action.institutionQuery;
+      const searchResultsCount = 0;
+      const showInstitutions = false;
+      const showInstitutionsLoading = true;
+      const showNoResultsFound = false;
+      const showPagination = false;
+      const showPaginationLoading = false;
+      const showSearchResults = true;
+
+      return {
+        ...state,
+        currentPageNumber,
+        institutionQuery,
+        institutions,
+        institutionSelected,
+        manualSchoolEntryChecked,
+        searchInputValue,
+        searchResultsCount,
+        showInstitutions,
+        showInstitutionsLoading,
+        showNoResultsFound,
+        showPagination,
+        showPaginationLoading,
+        showSearchResults
       };
     }
     case LOAD_SCHOOLS_STARTED: {
@@ -105,6 +147,7 @@ export default function schoolSearch(state = initialState, action) {
       };
     }
 
+    case RESTORE_FROM_PREFILL_SUCCEEDED:
     case LOAD_SCHOOLS_SUCCEEDED: {
       if (action.institutionQuery !== state.institutionQuery) {
         return state;
@@ -155,17 +198,6 @@ export default function schoolSearch(state = initialState, action) {
         showNoResultsFound,
         showPagination,
         showPaginationLoading
-      };
-    }
-
-    case MANUAL_SCHOOL_ENTRY_TOGGLED: {
-      const manualSchoolEntryChecked = action.manualSchoolEntryChecked;
-      const showSearchResults = !manualSchoolEntryChecked;
-
-      return {
-        ...state,
-        manualSchoolEntryChecked,
-        showSearchResults
       };
     }
 

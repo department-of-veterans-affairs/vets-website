@@ -334,5 +334,60 @@ describe('Schemaform <RoutedSavableApp>', () => {
       .to.be.true;
     __BUILDTYPE__ = buildType;
   });
-});
+  it('should skip pre-fill when skipPrefill is true', () => {
+    const formConfig = {
+      title: 'Testing',
+      formId: 'testForm'
+    };
+    const currentLocation = {
+      pathname: 'test',
+      search: ''
+    };
+    const routes = [{
+      pageList: [
+        { path: '/introduction' },
+        { path: '/first-in-form-page' },
+        { path: currentLocation.pathname }, // You are here
+        { path: '/lastPage' }
+      ]
+    }];
+    const router = {
+      replace: sinon.spy(),
+      push: sinon.spy()
+    };
+    const fetchInProgressForm = sinon.spy();
 
+    // Only redirects in production or if ?redirect is in the URL
+    const buildType = __BUILDTYPE__;
+    __BUILDTYPE__ = 'production';
+    const tree = SkinDeep.shallowRender(
+      <RoutedSavableApp
+        formConfig={formConfig}
+        routes={routes}
+        router={router}
+        currentLocation={currentLocation}
+        profileIsLoading
+        loadedStatus={LOAD_STATUSES.pending}>
+        <div className="child"/>
+      </RoutedSavableApp>
+    );
+
+    // When logged in, the component gets mounted before the profile is finished
+    //  loading, so the logic is in componentWillReceiveProps()
+    tree.getMountedInstance().componentWillReceiveProps({
+      profileIsLoading: false,
+      isLoggedIn: true,
+      skipPrefill: true,
+      savedForms: [],
+      prefillsAvailable: [formConfig.formId],
+      formConfig,
+      router,
+      routes,
+      fetchInProgressForm
+    });
+
+    expect(fetchInProgressForm.called).to.be.false;
+    expect(router.replace.calledWith('/first-in-form-page')).to.be.true;
+    __BUILDTYPE__ = buildType;
+  });
+});
