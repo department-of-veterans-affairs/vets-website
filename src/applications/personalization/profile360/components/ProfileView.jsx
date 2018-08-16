@@ -72,7 +72,7 @@ class ProfileView extends React.Component {
               <ContactInformation/>
               <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
               <MilitaryInformation
-                veteranStatus={user.profile.veteranStatus}
+                veteranStatus={user.veteranStatus}
                 fetchMilitaryInformation={fetchMilitaryInformation}
                 militaryInformation={militaryInformation}/>
             </div>
