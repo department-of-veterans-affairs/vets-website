@@ -10,7 +10,7 @@ promo:
   - image: /img/megamenu/burials-memorials-illustration.png
     heading: National Cemetery Administration Mobile Site
     url: "https://m.va.gov/"
-    description: Locate a grave, search for national cemeteries, and find benefits information and resources from your mobile phone or tablet.
+    description: Locate a grave, search for cemeteries, and find benefits information and resources from your mobile phone or tablet.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
@@ -58,7 +58,7 @@ social:
 ---
 
 <p class="va-introtext">
-VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of a Veteran. Find out how to apply for the burial benefits you've earned, and how to plan for a burial in advance or at your time of need.</p>
+VA burial benefits can help Servicemembers, Veterans, and their family members plan and pay for a burial or memorial service in a VA national cemetery. Family members can also order memorial items to honor the service of a Veteran. Find out how to apply for the burial benefits you've earned, and how to plan for a burial in advance or at time of need.</p>
 
 <h3>On This Page</h3>
 
@@ -83,7 +83,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
   <div class="link">
     <a href="#"><b>Pre-Need Burial Eligibility Determination</b></a>
-    <p>Apply for a pre-need eligibility decision letter. This can help you pre-plan for burial in a VA national cemetery, and make the process easier for your family members in their time of need.</p>
+    <p>Apply for a pre-need eligibility decision letter. This can help you pre-plan for burial in a VA national cemetery, and make the process easier for family members in their time of need.</p>
   </div>
 
   <div class="link">
