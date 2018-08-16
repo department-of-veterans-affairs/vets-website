@@ -255,11 +255,6 @@ export const evidenceTypeHelp = (
 );
 
 const capitalizeEach = (word) => {
-  // Prevent calling toUpperCase() on undefined because of a double space in the name
-  if (!word) {
-    return '';
-  }
-
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
@@ -272,9 +267,7 @@ const capitalizeEach = (word) => {
  */
 export const getDisabilityName = (name) => {
   if (name && typeof name === 'string') {
-    const splitName = name.split(' ');
-    const capitalizedsplitName = splitName.map(capitalizeEach);
-    return capitalizedsplitName.join(' ');
+    return name.split(/ +/).map(capitalizeEach).join(' ');
   }
 
   Raven.captureMessage('form_526: no name supplied for ratedDisability');
