@@ -18,7 +18,6 @@ const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
-const request = require('sync-request');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 const webpack = require('./metalsmith-webpack').webpackPlugin;
@@ -46,6 +45,7 @@ const optionDefinitions = [
   { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
+  { name: 'destination', type: String, defaultValue: null },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -63,6 +63,8 @@ if (options.buildtype === undefined) {
 }
 
 if (process.env.HEROKU_APP_NAME) {
+  const request = require('sync-request');
+  options.destination = path.resolve(__dirname, '../build/heroku');
   try {
     const pr = process.env.HEROKU_APP_NAME.match(/pr-(\d+)$/)[1];
     const res = request(
@@ -88,6 +90,8 @@ if (process.env.HEROKU_APP_NAME) {
     // eslint-disable-next-line no-console
     console.log(`Did not receive branch info from GitHub, falling back to ${options.buildtype} build type`);
   }
+} else {
+  options.destination = path.resolve(__dirname, `../build/${options.buildtype}`);
 }
 
 switch (options.buildtype) {
@@ -139,7 +143,7 @@ liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
 // add comments about any implicit dependencies you are introducing!!!
 //
 smith.source(sourceDir);
-smith.destination(`../build/${options.buildtype}`);
+smith.destination(options.destination);
 
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: options.buildtype });
@@ -502,7 +506,7 @@ if (options.watch) {
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
-    contentBase: `build/${options.buildtype}`,
+    contentBase: options.destination,
     historyApiFallback: {
       rewrites: [
         ...appRewrites,
@@ -565,14 +569,12 @@ if (options.watch) {
 
 smith.use(assets({ source: '../assets', destination: './' }));
 
-const destination = path.resolve(__dirname, `../build/${options.buildtype}`);
-
 // Webpack paths are absolute, convert to relative
 smith.use((files, metalsmith, done) => {
   Object.keys(files).forEach((file) => {
-    if (file.indexOf(destination) === 0) {
+    if (file.indexOf(options.destination) === 0) {
       /* eslint-disable no-param-reassign */
-      files[file.substr(destination.length + 1)] = files[file];
+      files[file.substr(options.destination.length + 1)] = files[file];
       delete files[file];
       /* esling-enable no-param-reassign */
     }
@@ -731,7 +733,7 @@ smith.use(nonceTransformer);
 
 function generateStaticSettings() {
   const settings = createSettings(options);
-  const settingsPath = path.join(destination, 'js/settings.js');
+  const settingsPath = path.join(options.destination, 'js/settings.js');
   const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
   fs.writeFileSync(settingsPath, settingsContent);
 }
