@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: About VA Health Care Coverage
+title: Your VA Primary Care Provider and PACT Team
 display_title: VA Health Care Coverage
 concurrence: complete
 lastupdate: 2017-06-28
