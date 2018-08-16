@@ -1,11 +1,13 @@
 import _ from 'lodash/fp';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import { get, omit, set } from '../../../../platform/utilities/data';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -39,9 +41,9 @@ const internationalSchoolAddress = schoolInformation.oneOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
 const configureSchoolAddressSchema = (schema) => {
-  let newSchema = _.unset('required', schema);
-  newSchema = _.set('properties.country.enum', countries, newSchema);
-  return _.set('properties.country.default', 'United States', newSchema);
+  let newSchema = omit('required', schema);
+  newSchema = set('properties.country.enum', countries, newSchema);
+  return set('properties.country.default', 'United States', newSchema);
 };
 
 const domesticSchoolAddressSchema = configureSchoolAddressSchema(domesticSchoolAddress);
@@ -193,7 +195,7 @@ const formConfig = {
               'onBehalfOf',
             ],
             properties: {
-              onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
+              onBehalfOf: set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
               fullName,
               serviceAffiliation,
               serviceBranch,
@@ -339,40 +341,40 @@ const formConfig = {
           uiSchema: {
             educationDetails: {
               school: {
-                facilityCode: {
+                facilityCode: { // Can we unnest this?
                   facilityCode: {
-                    'ui:required': formData => !_.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                    'ui:required': formData => !get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
                   },
                   'ui:field': SchoolSelectField,
                 },
                 'view:manualSchoolEntry': {
                   name: {
                     'ui:title': 'School name',
-                    'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                    'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
                   },
                   address: {
                     street: {
                       'ui:title': 'Address line 1',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
                     },
                     street2: {
                       'ui:title': 'Address line 2'
                     },
                     city: {
                       'ui:title': 'City',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
                     },
                     state: {
                       'ui:title': 'State',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData) &&  (_.get('educationDetails.school["view:manualSchoolEntry"].address.country', formData) === 'United States')
+                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData) &&  (get('educationDetails.school["view:manualSchoolEntry"].address.country', formData) === 'United States')
                     },
                     country: {
                       'ui:title': 'Country',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
                     },
                     postalCode: {
                       'ui:title': 'Postal code',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
                       'ui:errorMessages': {
                         pattern: 'Please enter a valid 5 digit postal code'
                       },
@@ -382,7 +384,7 @@ const formConfig = {
                     },
                     'ui:options': {
                       updateSchema: (formData) => {
-                        const schoolCountry = _.get('educationDetails.school.view:manualSchoolEntry.address.country', formData);
+                        const schoolCountry = get('educationDetails.school.view:manualSchoolEntry.address.country', formData);
                         if (schoolCountry !== 'United States') {
                           return internationalSchoolAddressSchema;
                         }
@@ -391,7 +393,7 @@ const formConfig = {
                     }
                   },
                   'ui:options': {
-                    hideIf: formData => !_.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                    hideIf: formData => !get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
                   }
                 }
               }
