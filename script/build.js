@@ -79,7 +79,7 @@ if (process.env.HEROKU_APP_NAME) {
     );
     const respObj = JSON.parse(res.getBody('utf8'));
 
-    if (/^vagov\/.*/.test(respObj.head.ref)) {
+    if (/^va-gov\/.*/.test(respObj.head.ref)) {
       // eslint-disable-next-line no-console
       console.log('Build type set to devpreview due to branch name');
       options.buildtype = 'devpreview';
