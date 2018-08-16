@@ -18,6 +18,7 @@ const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
+const request = require('sync-request');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 const webpack = require('./metalsmith-webpack').webpackPlugin;
@@ -59,6 +60,34 @@ if (options.unexpected && options.unexpected.length !== 0) {
 
 if (options.buildtype === undefined) {
   options.buildtype = 'development';
+}
+
+if (process.env.HEROKU_APP_NAME) {
+  try {
+    const pr = process.env.HEROKU_APP_NAME.match(/pr-(\d+)$/)[1];
+    const res = request(
+      'GET',
+      `https://api.github.com/repos/department-of-veterans-affairs/vets-website/pulls/${pr}`,
+      {
+        headers: {
+          'User-Agent': 'request'
+        },
+        json: true
+      }
+    );
+    const respObj = JSON.parse(res.getBody('utf8'));
+
+    if (/^ww-.*/.test(respObj.head.ref)) {
+      // eslint-disable-next-line no-console
+      console.log('Build type set to devpreview due to branch name');
+      options.buildtype = 'devpreview';
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err.message);
+    // eslint-disable-next-line no-console
+    console.log(`Did not receive branch info from GitHub, falling back to ${options.buildtype} build type`);
+  }
 }
 
 switch (options.buildtype) {
