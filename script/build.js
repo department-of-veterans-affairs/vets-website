@@ -405,6 +405,13 @@ smith.use(collections({
       name: 'Options'
     }
   },
+  millionVeteranProgram: {
+    pattern: 'million-veteran-program/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Million Veteran Program'
+    }
+  },
   pension: {
     pattern: 'pension/*.md',
     sortBy: 'order',
