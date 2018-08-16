@@ -106,16 +106,16 @@ describe('<MHVApp>', () => {
 
   it('should render children if user has the required service as an existing user', () => {
     const newProps = merge(props, {
-      mhvAccount: { accountState: 'registered' },
+      mhvAccount: { accountState: 'existing' },
       availableServices: ['rx']
     });
     const wrapper = shallow(<MHVApp {...newProps}><div id="test"/></MHVApp>);
     expect(wrapper.find('#test').exists()).to.be.true;
   });
 
-  it('should render children if user has the required service as registered user', () => {
+  it('should render children if user has the required service as a registered user', () => {
     const newProps = merge(props, {
-      mhvAccount: { accountState: 'existing' },
+      mhvAccount: { accountState: 'registered' },
       availableServices: ['rx']
     });
     const wrapper = shallow(<MHVApp {...newProps}><div id="test"/></MHVApp>);
