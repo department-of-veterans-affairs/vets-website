@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: level2-merger
+template: level2-index
 title: VA Pension Benefits
 display_title: Pension
 lastupdate:

@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: level2-merger
+template: level2-index
 title: VA Housing Assistance
 display_title: Housing
 concurrence: complete
