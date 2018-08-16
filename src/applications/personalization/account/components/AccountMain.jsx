@@ -1,8 +1,10 @@
 import React from 'react';
+
 import recordEvent from '../../../../platform/monitoring/record-event';
 import localStorage from '../../../../platform/utilities/storage/localStorage';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import AccountVerification from './AccountVerification';
 import LoginSettings from './LoginSettings';
@@ -16,6 +18,11 @@ class AccountMain extends React.Component {
     this.state = {
       'show-acct-mvi-alert': true,
     };
+  }
+
+  componentDidMount() {
+    // Get MHV account to determine what to render for Terms and Conditions.
+    this.props.fetchMHVAccount();
   }
 
   dismissMVIError = () => {
@@ -46,13 +53,16 @@ class AccountMain extends React.Component {
 
   render() {
     const {
-      profile: {
-        loa,
-        multifactor,
-        verified
-      },
-      terms
-    } = this.props;
+      loa,
+      loading,
+      mhvAccount,
+      multifactor,
+      verified
+    } = this.props.profile;
+
+    if (loading || mhvAccount.loading) {
+      return <LoadingIndicator message="Loading your account information..."/>;
+    }
 
     return (
       <div>
@@ -60,7 +70,7 @@ class AccountMain extends React.Component {
         {this.renderMVIError()}
         <MultifactorMessage multifactor={multifactor}/>
         <LoginSettings/>
-        <TermsAndConditions terms={terms} verified={verified}/>
+        {verified && <TermsAndConditions mhvAccount={mhvAccount}/>}
         <h4>Have questions about signing in to Vets.gov?</h4>
         <p>
           Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on Vets.gov.<br/>

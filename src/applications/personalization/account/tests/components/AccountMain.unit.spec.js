@@ -10,19 +10,22 @@ describe('<AccountMain/>', () => {
   beforeEach(() => {
     props = {
       profile: {
-        verified: true,
         status: 'OK',
         loa: {
           current: 3
-        }
+        },
+        loading: false,
+        mhvAccount: {
+          loading: false
+        },
+        multifactor: false,
+        verified: true
       },
-      terms: {
-        accepted: true
-      }
+      fetchMHVAccount: () => {}
     };
   });
 
-  it('should render the profile when the user is verifed and status OK', () => {
+  it('should render the profile when the user is verified and status OK', () => {
     const wrapper = enzyme.shallow(<AccountMain {...props}/>);
     expect(wrapper.find('TermsAndConditions')).to.have.lengthOf(1);
     expect(wrapper.find('LoginSettings')).to.have.lengthOf(1);

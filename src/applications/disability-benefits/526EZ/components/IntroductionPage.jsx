@@ -49,7 +49,6 @@ class IntroductionPage extends React.Component {
           pathname={this.props.location.pathname}
           user={user}
           authenticate={this.authenticate}
-          noPrefill
           {...this.props}/>
         {itfAgreement}
         <h4>Follow the steps below to file a claim for increased disability compensation.</h4>
@@ -115,7 +114,6 @@ class IntroductionPage extends React.Component {
           pathname={this.props.location.pathname}
           user={user}
           authenticate={this.authenticate}
-          noPrefill
           {...this.props}
           buttonOnly/>
         {itfAgreement}
