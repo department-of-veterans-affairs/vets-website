@@ -14,7 +14,21 @@ import GetFormHelp from '../../components/GetFormHelp';
 
 import { transform, submit } from '../helpers';
 
-const { educationDetails } = fullSchema.properties;
+const {
+  address: applicantAddress,
+  anonymousEmail,
+  applicantEmail,
+  educationDetails,
+  fullName,
+  issue,
+  issueDescription,
+  issueResolution,
+  onBehalfOf,
+  phone,
+  serviceAffiliation,
+  serviceBranch,
+  serviceDateRange,
+} = fullSchema.properties;
 
 const { school } = educationDetails;
 
@@ -35,24 +49,9 @@ const domesticSchoolAddressSchema = configureSchoolAddressSchema(domesticSchoolA
 const internationalSchoolAddressSchema = configureSchoolAddressSchema(internationalSchoolAddress);
 
 const {
-  onBehalfOf,
-  fullName,
-  serviceAffiliation,
-  serviceBranch,
-  serviceDateRange,
-  anonymousEmail,
-  applicantEmail,
-  address: applicantAddress,
-  phone,
-  issue,
-  issueDescription,
-  issueResolution
-} = fullSchema.properties;
-
-const {
-  usaPhone,
   date,
-  dateRange
+  dateRange,
+  usaPhone,
 } = fullSchema.definitions;
 
 const myself = 'Myself';
