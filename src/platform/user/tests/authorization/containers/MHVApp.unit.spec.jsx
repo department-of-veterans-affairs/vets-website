@@ -19,13 +19,17 @@ describe('<MHVApp>', () => {
     availableServices: [backendServices.FACILITIES, backendServices.HCA, backendServices.USER_PROFILE],
     serviceRequired: backendServices.RX,
     createMHVAccount: sinon.spy(),
-    fetchMHVAccount: sinon.spy()
+    fetchMHVAccount: sinon.spy(),
+    refreshProfile: sinon.spy(),
+    upgradeMHVAccount: sinon.spy()
   };
 
   const setup = () => {
     global.window.location.replace = sinon.spy();
     props.createMHVAccount.reset();
     props.fetchMHVAccount.reset();
+    props.refreshProfile.reset();
+    props.upgradeMHVAccount.reset();
   };
 
   const expectAlert = (wrapper, expectedStatus, expectedHeadline) => {
@@ -58,6 +62,27 @@ describe('<MHVApp>', () => {
     expect(global.window.location.replace.calledOnce).to.be.true;
   });
 
+  it('should invoke upgrade if the user is only registered', () => {
+    const wrapper = shallow(<MHVApp {...props}/>);
+    const mhvAccount = set('accountState', 'registered', props.mhvAccount);
+    wrapper.setProps({ mhvAccount });
+    expect(props.upgradeMHVAccount.calledOnce).to.be.true;
+  });
+
+  it('should invoke upgrade if the user is existing without access to the service', () => {
+    const wrapper = shallow(<MHVApp {...props}/>);
+    const mhvAccount = set('accountState', 'existing', props.mhvAccount);
+    wrapper.setProps({ mhvAccount });
+    expect(props.upgradeMHVAccount.calledOnce).to.be.true;
+  });
+
+  it('should refresh the profile after upgrade to update the services list', () => {
+    const wrapper = shallow(<MHVApp {...props}/>);
+    const mhvAccount = set('accountState', 'upgraded', props.mhvAccount);
+    wrapper.setProps({ mhvAccount });
+    expect(props.refreshProfile.calledOnce).to.be.true;
+  });
+
   it('should show a success message after the user accepts T&C and gets upgraded', () => {
     const newProps = merge(props, {
       mhvAccount: { ...props.mhvAccount, accountState: 'upgraded' },
@@ -79,7 +104,16 @@ describe('<MHVApp>', () => {
     expect(wrapper.find('#mhv-access-error').exists()).to.be.true;
   });
 
-  it('should render children if user has the required service', () => {
+  it('should render children if user has the required service as an existing user', () => {
+    const newProps = merge(props, {
+      mhvAccount: { accountState: 'registered' },
+      availableServices: ['rx']
+    });
+    const wrapper = shallow(<MHVApp {...newProps}><div id="test"/></MHVApp>);
+    expect(wrapper.find('#test').exists()).to.be.true;
+  });
+
+  it('should render children if user has the required service as registered user', () => {
     const newProps = merge(props, {
       mhvAccount: { accountState: 'existing' },
       availableServices: ['rx']
