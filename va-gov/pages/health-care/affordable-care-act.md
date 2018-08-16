@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: The Affordable Care Act and You
+title: About the Affordable Care Act (ACA) and VA Health Care
 display_title:
 collection: healthCare
 lastupdate: 2018-02-13
