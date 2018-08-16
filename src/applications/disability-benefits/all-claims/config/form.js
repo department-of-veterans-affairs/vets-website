@@ -34,7 +34,6 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Veteran Information',
-          description: 'This is the personal information we have on file for you.',
           path: 'veteran-information',
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} }
