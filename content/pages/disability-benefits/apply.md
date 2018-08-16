@@ -57,6 +57,7 @@ For all disability claims, please provide:
 
 - VA medical records and hospital records that relate to your claimed illnesses or injuries
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
+<br>
 **Note**: If you start your application and need time to gather more supporting documents, you can save your application and come back later to finish it. We'll recognize the date you started your application as your date of claim as long as you complete it within a year.
 </div>
 </div>
