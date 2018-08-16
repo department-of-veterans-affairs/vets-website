@@ -33,7 +33,7 @@ const configGenerator = (options, apps) => {
     entry: entryFiles,
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
-      publicPath: '/generated/',
+      publicPath: `/${options.buildtype}/generated/`,
       filename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
       chunkFilename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
     },
