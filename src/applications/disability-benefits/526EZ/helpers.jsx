@@ -579,10 +579,10 @@ export const editNote = (name) => (
  */
 export const srSubstitute = (srIgnored, substitutionText) => {
   return (
-    <div style={{ display: 'inline' }}>
+    <span>
       <span aria-hidden>{srIgnored}</span>
       <span className="sr-only">{substitutionText}</span>
-    </div>
+    </span>
   );
 };
 
