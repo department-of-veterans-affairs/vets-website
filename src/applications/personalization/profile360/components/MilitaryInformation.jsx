@@ -44,34 +44,30 @@ class MilitaryInformationContent extends React.Component {
       }
     }
 
-    if (this.props.veteranStatus.servedInMilitary) {
-      if (serviceHistory.length === 0) {
-        return (
-          <AlertBox
-            isVisible
-            status="warning"
-            content={<div>
-              <h3>We can’t access your military information</h3>
-              <p>We’re sorry. We can’t access your military service records. If you think you should be able to view your service information here, please file a request to change or correct your DD214 or other military records.</p>
-            </div>}/>
-        );
-      }
-
+    if (serviceHistory.length === 0) {
       return (
-        <div data-field-name="serviceHistory">
-          {serviceHistory.map((service, index) => {
-            return (
-              <div key={index}>
-                <h3>{service.branchOfService}</h3>
-                <div>{moment(service.beginDate).format('MMM D, YYYY')} &ndash; {moment(service.endDate).format('MMM D, YYYY')}</div>
-              </div>
-            );
-          })}
-        </div>
+        <AlertBox
+          isVisible
+          status="warning"
+          content={<div>
+            <h3>We can’t access your military information</h3>
+            <p>We’re sorry. We can’t access your military service records. If you think you should be able to view your service information here, please file a request to change or correct your DD214 or other military records.</p>
+          </div>}/>
       );
     }
 
-    return <div/>;
+    return (
+      <div data-field-name="serviceHistory">
+        {serviceHistory.map((service, index) => {
+          return (
+            <div key={index}>
+              <h3>{service.branchOfService}</h3>
+              <div>{moment(service.beginDate).format('MMM D, YYYY')} &ndash; {moment(service.endDate).format('MMM D, YYYY')}</div>
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 
   render() {
