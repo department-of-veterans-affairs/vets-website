@@ -30,7 +30,7 @@ const {
   serviceDateRange,
 } = fullSchema.properties;
 
-const { school } = educationDetails;
+const { assistance, programs, school } = educationDetails;
 
 const { schoolInformation } = school.oneOf[0];
 
@@ -305,67 +305,20 @@ const formConfig = {
             properties: {
               educationDetails: {
                 type: 'object',
+                required: ['programs'],
                 properties: {
-                  programs: {
-                    type: 'object',
-                    properties: {
-                      'Post-9/11 Ch 33': { // TODO: update schema and use here
-                        type: 'boolean',
-                        title: 'Post-9/11 GI Bill (Chapter 33)'
-                      },
-                      'MGIB-AD Ch 30': {
-                        type: 'boolean',
-                        title: 'Montgomery GI Bill - Active Duty (MGIB-AD, Chapter 30)'
-                      },
-                      'MGIB-SR Ch 1606': {
-                        type: 'boolean',
-                        title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606)'
-                      },
-                      TATU: {
-                        type: 'boolean',
-                        title: 'Tuition Assistance Top-Up'
-                      },
-                      REAP: {
-                        type: 'boolean',
-                        title: 'Reserve Educational Assistance Program (REAP) (Chapter 1607)'
-                      },
-                      'DEA Ch 35': {
-                        type: 'boolean',
-                        title: 'Survivors’ and Dependents’ Assistance (DEA) (Chapter 35)'
-                      },
-                      'VRE Ch 31': {
-                        type: 'boolean',
-                        title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)'
-                      }
-                    }
-                  },
+                  programs,
                   assistance: {
                     type: 'object',
                     properties: {
                       'view:assistance': {
                         type: 'object',
-                        properties: {
-                          TA: {
-                            type: 'boolean',
-                            title: 'Federal Tuition Assistance (TA)'
-                          },
-                          'TA-AGR': {
-                            type: 'boolean',
-                            title: 'State-funded Tuition Assistance (TA) for Servicemembers on Active Guard and Reserve (AGR) duties'
-                          },
-                          MyCAA: {
-                            type: 'boolean',
-                            title: 'Military Spouse Career Advancement Accounts (MyCAA)'
-                          }
-                        }
+                        properties: omit('FFA', assistance.properties)
                       },
                       'view:FFA': {
                         type: 'object',
                         properties: {
-                          FFA: {
-                            type: 'boolean',
-                            title: 'Federal financial aid'
-                          }
+                          FFA: get('properties.FFA', assistance)
                         }
                       }
                     }
