@@ -59,8 +59,6 @@ function initUserMock(token, level) {
             'rx',
             'messaging'
           ],
-          mhv_account_state: 'upgraded',
-          health_terms_current: true,
           va_profile: {
             status: 'OK',
             birth_date: '19511118',
