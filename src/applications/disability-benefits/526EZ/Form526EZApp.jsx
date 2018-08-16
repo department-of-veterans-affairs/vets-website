@@ -12,7 +12,11 @@ export default function Form526Entry({ location, children }) {
     <EVSSClaimsGate location={location}>
       <ITFWrapper location={location}>
         <DisabilityGate>
-          <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+          {/*
+              Skipping pre-fill because this will be re-mounted after ITFWrapper fetches the ITF data and
+              mounting on the first page will cause RoutedSavableApp to fetch the in-progress form again.
+          */}
+          <RoutedSavableApp formConfig={formConfig} currentLocation={location} skipPrefill>
             {children}
           </RoutedSavableApp>
         </DisabilityGate>
