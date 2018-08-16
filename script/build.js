@@ -72,14 +72,14 @@ if (process.env.HEROKU_APP_NAME) {
       `https://api.github.com/repos/department-of-veterans-affairs/vets-website/pulls/${pr}`,
       {
         headers: {
-          'User-Agent': 'request'
+          'User-Agent': 'vets-website-builder'
         },
         json: true
       }
     );
     const respObj = JSON.parse(res.getBody('utf8'));
 
-    if (/^ww-.*/.test(respObj.head.ref)) {
+    if (/^vagov\/.*/.test(respObj.head.ref)) {
       // eslint-disable-next-line no-console
       console.log('Build type set to devpreview due to branch name');
       options.buildtype = 'devpreview';
