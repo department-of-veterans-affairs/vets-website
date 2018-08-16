@@ -18,12 +18,12 @@ crosslinks:
     links:
     - url: "/disability/"
       title: <b>Disability Compensation (Pay)</b>
-      description: Find out how to file a claim for disability compensation and manage your disability benefits.
+      description: Learn how to file a claim for disability compensation and manage your disability benefits.
     - url: "/life-insurance/"
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
     - url: "#"
-      title: <b>Aid and Attendance or Household Allowance</b>
+      title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: Find out if you can get increased pension pay as a Veteran or surviving spouse who has disabilities.
     - url: "/burials/"
       title: <b>Burials and Memorials</b>
@@ -32,7 +32,7 @@ crosslinks:
       title: <b>Education and Training</b>
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Health Administration
     url: https://www.va.gov/health/
     subsections:
@@ -119,7 +119,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="#"><b>About VA Health Benefits</b></a>
-    <p>Find out how VA health care works and which Veterans health care services we cover.</p>
+    <p>Learn how VA health care works and which Veterans health care services we cover.</p>
   </div>
 
   <div class="link">
@@ -129,7 +129,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="#"><b>How to Apply</b></a>
-    <p>Find out how to prepare and apply for VA health care online, by phone, or by mail.</p>
+    <p>Get instructions for how to prepare and apply for VA health care online, by phone, mail, or in person.</p>
   </div>
 
   <div class="link">
@@ -144,7 +144,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="#"><b>Family and Caregiver Health Benefits</b></a>
-    <p>Find out if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.</p>
+    <p>See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.</p>
   </div>
 
 </section>
@@ -183,7 +183,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="#"><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
+    <a href="#"><b>Get Your VA Medical Records (also called "VA Blue Button")</b></a>
     <p>Set up your personal health record and download reports to share with your VA and non-VA doctors.</p>
   </div>
 
@@ -218,7 +218,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <h2>More Information and Resources</h2>
 
   <div class="link">
-    <a href="https://www.va.gov/healthbenefits/cost/index.asp/"><b>VA Health Care Cost</b></a>
+    <a href="https://www.va.gov/healthbenefits/cost/index.asp/"><b>VA Health Care Costs</b></a>
     <p>Learn about your copay, financial assessment, and how VA health care works with private health insurance.</p>
   </div>
 
@@ -229,12 +229,12 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="https://www.va.gov/health/programs/index.asp"><b>Veterans Programs for Health and Wellness</b></a>
-  <p>Learn about VA programs to help you get and stay healthy in both body and mind.</p>
+  <p>Explore VA programs to help you get and stay healthy in both body and mind.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Chemical or Hazardous Material Exposures</b></a>
-    <p>Find out about health concerns linked to exposures during military service. Learn about the special VA health registries you can join that document Veterans' exposure to Agent Orange, depleted uranium, ionizing radiation, and certain hazardous materials from the Gulf and Iraq Wars and Operation Enduring Freedom.</p>
+    <p>Learn about health concerns linked to exposures during military service. Learn about the special VA health registries you can join that document Veterans' exposure to Agent Orange, depleted uranium, ionizing radiation, airborne hazards, and other hazardous materials.</p>
   </div>
 
 <div class="link">
@@ -249,7 +249,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="https://www.research.va.gov/mvp/"><b>The Million Veteran Program</b></a>
-    <p>Find out if you can be a part of this voluntary research study to better understand the role genes play in our health.
+    <p>See if you can be a part of this voluntary research study to better understand the role genes play in our health.
   </div>
 
   <div class="link">
