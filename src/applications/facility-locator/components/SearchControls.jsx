@@ -42,7 +42,7 @@ class SearchControls extends Component {
 
   renderFacilityTypeDropdown = () => {
     return (
-      <div className="columns medium-3">
+      <div className="columns medium-4">
         <FacilityTypeDropdown
           facilityType={this.props.currentQuery.facilityType}
           onChange={this.handleFacilityTypeChange}/>
@@ -83,7 +83,7 @@ class SearchControls extends Component {
     return (
       <div className="columns medium-3">
         <label htmlFor="service-type-dropdown">
-          Filter by service
+          Service type (optional)
         </label>
         <select
           id="service-type-dropdown"
@@ -114,7 +114,7 @@ class SearchControls extends Component {
         <form className="row" onSubmit={this.handleSubmit}>
           <div className="columns medium-4">
             <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
-              Enter Street, City, State or Zip
+              Search near
             </label>
             <input
               id="street-city-state-zip"
@@ -122,11 +122,11 @@ class SearchControls extends Component {
               type="text"
               onChange={this.handleQueryChange}
               value={currentQuery.searchString}
-              title="Street, City, State or Zip"/>
+              title="Your location: Street, City, State or Zip"/>
           </div>
           {this.renderFacilityTypeDropdown()}
           {this.renderServiceTypeDropdown()}
-          <div className="columns medium-2">
+          <div className="columns medium-1">
             <input type="submit" value="Search"/>
           </div>
         </form>

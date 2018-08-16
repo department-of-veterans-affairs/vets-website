@@ -17,7 +17,7 @@ export const facilityTypes = {
   va_benefits_facility: 'Benefits',
   vet_center: 'Vet Center',
   health: 'Health',
-  cc_provider: 'Non-VA Health Providers',
+  cc_provider: 'Community Care (Non-VA Health)',
   cemetery: 'Cemetery',
   benefits: 'Benefits',
 };

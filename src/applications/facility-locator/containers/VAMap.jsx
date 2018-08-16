@@ -78,6 +78,7 @@ class VAMap extends Component {
   componentWillReceiveProps(nextProps) {
     const { currentQuery } = this.props;
     const newQuery = nextProps.currentQuery;
+    let resultsPage = newQuery.currentPage;
 
     if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
       this.updateUrlParams({
@@ -87,15 +88,13 @@ class VAMap extends Component {
       });
     }
 
-    // 'currentPage' never changes... so this never fires
-    // If this is needed should be checking `currentQuery.page`
-    // reset to page 1 if zoom level changes
-    // if ((currentQuery.zoomLevel !== newQuery.zoomLevel) && (currentQuery.currentPage !== 1)) {
-    //   resultsPage = 1;
-    // }
+    // Reset to page 1 if zoom level changes
+    if ((currentQuery.zoomLevel !== newQuery.zoomLevel) && (currentQuery.currentPage !== 1)) {
+      resultsPage = 1;
+    }
 
     if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds) && !newQuery.searchBoundsInProgress) {
-      this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, newQuery.currentPage);
+      this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, resultsPage);
     }
 
     if (!isEmpty(nextProps.results) || newQuery.inProgress) {
@@ -435,7 +434,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="title-section">
-          <h1>Facility and Service Locator</h1>
+          <h1>Find Facilities and Services</h1>
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
       </div>

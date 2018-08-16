@@ -8,7 +8,7 @@ class FacilityLocatorApp extends React.Component {
   renderBreadcrumbs(location, selectedResult) {
     const crumbs = [
       <a href="/" key="home">Home</a>,
-      <Link to="/" key="facility-locator">Facility Locator</Link>
+      <Link to="/" key="facility-locator">Find Facilities & Services</Link>
     ];
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {

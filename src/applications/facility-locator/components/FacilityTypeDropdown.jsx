@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { kebabCase } from 'lodash/fp';
 import classNames from 'classnames';
 import Downshift from 'downshift';
+// import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
@@ -43,8 +44,15 @@ const FacilityTypeDropdown = ({
 
   return (
     <div>
+      {/* { selectedItem === 'cc_provider' &&
+        <div className="pull-right top-z">
+          <AdditionalInfo triggerText={<i className="fa fa-question-circle no-marg-right"/>}>
+            More info about Community Care Goes Here.
+          </AdditionalInfo>
+        </div> */
+      }
       <label htmlFor="facility-dropdown-toggle">
-        Select Facility Type
+        Search for
       </label>
       <div id="facility-dropdown">
         <button {...getButtonProps({
