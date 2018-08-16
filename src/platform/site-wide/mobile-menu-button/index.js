@@ -21,5 +21,5 @@ export default function startMobileMenuButton(store) {
     <Provider store={store}>
       <Main/>
     </Provider>
-  ), document.getElementById('vetnav-controls'));
+  ), document.getElementById('va-nav-controls'));
 }

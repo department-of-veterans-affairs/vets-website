@@ -390,10 +390,6 @@
     border-radius: 4px;
   }
 
-  #mega-menu .vetnav-panel {
-    height: 470px;
-  }
-
   #vetnav {
     z-index: 2;
   }
@@ -692,6 +688,27 @@
       .column-two h3{
         visibility: hidden;
       }
+    }
+  }
+
+  #va-nav-controls {
+    position: relative;
+    width: 100px;
+
+    svg {
+      display: inline-block;
+      height: 1.6rem;
+      margin-left: 0.8rem;
+      width: 1rem;
+      vertical-align: 0;
+    }
+
+    path {
+      fill: $color-white;
+    }
+
+    @include media($medium-large-screen) {
+      display: none;
     }
   }
 }
