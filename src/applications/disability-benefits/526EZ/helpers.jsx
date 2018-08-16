@@ -255,6 +255,11 @@ export const evidenceTypeHelp = (
 );
 
 const capitalizeEach = (word) => {
+  // Prevent calling toUpperCase() on undefined because of a double space in the name
+  if (!word) {
+    return '';
+  }
+
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
