@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Korean War
+title: Korean War Veterans Health Issues
 display_title: Korean War
 concurrence: complete
 lastupdate: 2017-06-28
