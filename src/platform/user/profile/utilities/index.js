@@ -7,9 +7,7 @@ export function mapRawUserDataToState(json) {
   const {
     data: {
       attributes: {
-        health_terms_current: healthTermsCurrent,
         in_progress_forms: savedForms,
-        mhv_account_state: mhvAccountState,
         prefills_available: prefillsAvailable,
         profile: {
           authn_context: authnContext,
@@ -30,7 +28,8 @@ export function mapRawUserDataToState(json) {
         vet360_contact_information: vet360ContactInformation,
         veteran_status: {
           is_veteran: isVeteran,
-          status: veteranStatus
+          status: veteranStatus,
+          served_in_military: servedInMilitary,
         },
       }
     }
@@ -44,14 +43,6 @@ export function mapRawUserDataToState(json) {
     gender,
     isVeteran,
     loa,
-    mhv: {
-      account: {
-        state: mhvAccountState
-      },
-      terms: {
-        accepted: healthTermsCurrent
-      }
-    },
     multifactor,
     prefillsAvailable,
     savedForms,
@@ -66,7 +57,8 @@ export function mapRawUserDataToState(json) {
     vet360: isVet360Configured() ? camelCaseObjectKeys(vet360ContactInformation) : camelCaseObjectKeys(mockContactInformation),
     veteranStatus: {
       isVeteran,
-      veteranStatus
+      veteranStatus,
+      servedInMilitary
     }
   };
 }
