@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Operation Desert Storm and Desert Shield Gulf War Veterans Health Issues
+title: Gulf War Veterans Health Issues
 display_title: Gulf War
 description: Learn what health conditions you might be at risk of developing if you’re a Gulf War Veteran and you served during Operation Desert Shield or Operation Desert Storm. Find out what to do next and how to register your condition in the Gulf War registry.
 concurrence: complete
