@@ -1,4 +1,4 @@
-import { AlternateNameViewField } from '../content/alternateNames';
+import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
 
 export const uiSchema = {
   'view:hasAlternateName': {
@@ -8,17 +8,18 @@ export const uiSchema = {
   alternateNames: {
     'ui:description': 'What names did you serve under?',
     'ui:options': {
-      viewField: AlternateNameViewField,
+      viewField: FullNameField,
+      reviewTitle: 'Other names',
       expandUnder: 'view:hasAlternateName'
     },
     items: {
-      firstName: {
+      first: {
         'ui:title': 'First name',
       },
-      middleName: {
+      middle: {
         'ui:title': 'Middle name',
       },
-      lastName: {
+      last: {
         'ui:title': 'Last name',
       }
     }
@@ -38,21 +39,21 @@ export const schema = {
       maxItems: 100,
       items: {
         type: 'object',
-        required: ['firstName', 'lastName'],
+        required: ['first', 'last'],
         properties: {
-          firstName: {
+          first: {
             type: 'string',
             minLength: 1,
             maxLength: 30,
             pattern: "^([a-zA-Z0-9-/']+( ?))+$"
           },
-          middleName: {
+          middle: {
             type: 'string',
             minLength: 1,
             maxLength: 30,
             pattern: "^([a-zA-Z0-9-/']+( ?))+$"
           },
-          lastName: {
+          last: {
             type: 'string',
             minLength: 1,
             maxLength: 30,
