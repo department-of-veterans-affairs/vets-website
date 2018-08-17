@@ -64,6 +64,8 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h2 itemprop="name">Once I'm signed in, how do I start using this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
@@ -79,6 +81,7 @@ Choose the link you want, and follow the instructions on the next page to get st
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
 
 <h2 itemprop="name">Can I refill and track all my VA prescriptions with this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -98,6 +101,8 @@ You can’t refill some medicines, like certain pain medicines and narcotics. Yo
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h2 itemprop="name">Where will VA send my prescriptions?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
@@ -111,6 +116,8 @@ Our mail order pharmacy will send your prescriptions to the address we have on f
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h2 itemprop="name">How long will my prescriptions take to arrive, and when should I reorder?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
@@ -122,6 +129,8 @@ To make sure you have your medicine in time, you’ll want to request your refil
 </div>
 </div>
 </div>
+
+<div itemscope itemtype="http://schema.org/Question">
 
 <h2 itemprop="name">Will my personal and health information be protected?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -136,6 +145,8 @@ If you print or download anything from the website (like prescription details), 
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h2 itemprop="name">What if I have more questions?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
@@ -147,5 +158,3 @@ You can get answers to more questions about this tool within our My Health*e*Vet
 </div>
 </div>
 </div>
-
-
