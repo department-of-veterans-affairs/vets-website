@@ -9,7 +9,7 @@
     "HEROKU_APP_NAME": {
       "required": true
     },
-    "FOO": {
+    "GH_TOKEN": {
       "required": true
     }
   },
