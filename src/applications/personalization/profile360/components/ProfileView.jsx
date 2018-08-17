@@ -71,7 +71,10 @@ class ProfileView extends React.Component {
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
               <ContactInformation/>
               <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
-              <MilitaryInformation fetchMilitaryInformation={fetchMilitaryInformation} militaryInformation={militaryInformation}/>
+              <MilitaryInformation
+                veteranStatus={user.profile.veteranStatus}
+                fetchMilitaryInformation={fetchMilitaryInformation}
+                militaryInformation={militaryInformation}/>
             </div>
           </DowntimeNotification>
         );
