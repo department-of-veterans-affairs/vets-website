@@ -150,16 +150,17 @@ export function fetchClaimsSuccess(response) {
 
 const POLLING_INTERVAL = 1000;
 
-export function pollClaimsStatus({
+export function pollApi({
   onFailure,
   onSuccess,
   pollingInterval,
   request = apiRequest,
   shouldFail,
-  shouldSucceed
+  shouldSucceed,
+  target
 }) {
   return request(
-    '/evss_claims_async',
+    target,
     null,
     response => {
       if (shouldSucceed(response)) {
@@ -191,7 +192,8 @@ export function getClaimsV2(poll = pollClaimsStatus) {
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
       pollingInterval: window.VetsGov.pollTimeout || POLLING_INTERVAL,
       shouldFail: response => _.get(response, 'meta.syncStatus') === 'FAILED',
-      shouldSucceed: response => _.get(response, 'meta.syncStatus') === 'SUCCESS'
+      shouldSucceed: response => _.get(response, 'meta.syncStatus') === 'SUCCESS',
+      target: '/evss_claims_async',
     });
   };
 }
@@ -230,6 +232,7 @@ export function setUnavailable() {
 
 export function getClaimDetail(id, router) {
   return (dispatch) => {
+    console.log('get claim detail');
     dispatch({
       type: GET_CLAIM_DETAIL
     });
