@@ -62,36 +62,14 @@ if (options.buildtype === undefined) {
   options.buildtype = 'development';
 }
 
-if (process.env.HEROKU_APP_NAME) {
-  const request = require('sync-request');
-  options.destination = path.resolve(__dirname, '../build/heroku');
-  try {
-    const pr = process.env.HEROKU_APP_NAME.match(/pr-(\d+)$/)[1];
-    const res = request(
-      'GET',
-      `https://api.github.com/repos/department-of-veterans-affairs/vets-website/pulls/${pr}`,
-      {
-        headers: {
-          'User-Agent': 'vets-website-builder'
-        },
-        json: true
-      }
-    );
-    const respObj = JSON.parse(res.getBody('utf8'));
+const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
 
-    if (/^va-gov\/.*/.test(respObj.head.ref)) {
-      // eslint-disable-next-line no-console
-      console.log('Build type set to devpreview due to branch name');
-      options.buildtype = 'devpreview';
-    }
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log(err.message);
-    // eslint-disable-next-line no-console
-    console.log(`Did not receive branch info from GitHub, falling back to ${options.buildtype} build type`);
-  }
-} else {
-  options.destination = path.resolve(__dirname, `../build/${options.buildtype}`);
+// destination is dependent upon buildtype but it can also change in applyHerokuOptions
+options.destination = path.resolve(__dirname, `../build/${options.buildtype}`);
+
+if (isHerokuBuild) {
+  const applyHerokuOptions = require('./heroku-helper');
+  applyHerokuOptions(options);
 }
 
 switch (options.buildtype) {
@@ -576,7 +554,7 @@ smith.use((files, metalsmith, done) => {
       /* eslint-disable no-param-reassign */
       files[file.substr(options.destination.length + 1)] = files[file];
       delete files[file];
-      /* esling-enable no-param-reassign */
+      /* eslint-enable no-param-reassign */
     }
   });
 
