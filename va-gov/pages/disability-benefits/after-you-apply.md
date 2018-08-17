@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: The VA Claim Prond out cess After You File Your Claim
+title: The VA Claim Process After You File Your Claim
 display_title: After You Apply
 description: Find out what happens after you file your VA disability claim, including how long you'll wait for a decision and what steps we take before the preparation for notification.
 order: 3
@@ -11,8 +11,8 @@ majorlinks:
   - heading: More information about disability ratings and payments
     links:
     - url: /disability-benefits/after-you-apply/date/
-      title: Effective Date of Disability
-      description: "Fiwhen you’ll start getting your disability payments."
+      title: Disability Compensation Effective Date
+      description: "Find out when you’ll start getting your disability payments."
     - url: /disability-benefits/after-you-apply/what-happens-after-rating/
       title: What to Expect After You Get a Disability Rating
       description: "Find out what happens after you get your decision notice with your rating."
@@ -21,12 +21,12 @@ relatedlinks:
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
-      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 ---
 
 <div class="va-introtext">
 
-Find out what happens to your claim after you apply for disability benefits. 
+Find out what happens to your claim after you apply for disability benefits.
 
 </div>
 
@@ -84,7 +84,7 @@ If we need more evidence during the review, your claim may return to this step m
 
 </li>
 
-<li class="process-step list-four"> 
+<li class="process-step list-four">
 
 #### Preparation for Notification
 
