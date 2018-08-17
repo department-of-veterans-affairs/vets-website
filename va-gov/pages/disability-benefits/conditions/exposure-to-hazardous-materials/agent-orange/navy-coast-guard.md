@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Agent Orange Exposure on U.S. Navy and Cost Guard Ships
+title: Agent Orange Exposure on U.S. Navy and Coast Guard Ships
 concurrence: complete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: detail-page
