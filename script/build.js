@@ -46,6 +46,7 @@ const optionDefinitions = [
   { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
+  { name: 'destination', type: String, defaultValue: null },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -60,6 +61,16 @@ if (options.unexpected && options.unexpected.length !== 0) {
 
 if (options.buildtype === undefined) {
   options.buildtype = 'development';
+}
+
+const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
+
+// destination is dependent upon buildtype but it can also change in applyHerokuOptions
+options.destination = path.resolve(__dirname, `../build/${options.buildtype}`);
+
+if (isHerokuBuild) {
+  const applyHerokuOptions = require('./heroku-helper');
+  applyHerokuOptions(options);
 }
 
 switch (options.buildtype) {
@@ -115,7 +126,7 @@ if (options.mergedbuild) {
 // add comments about any implicit dependencies you are introducing!!!
 //
 smith.source(sourceDir);
-smith.destination(`../build/${options.buildtype}`);
+smith.destination(options.destination);
 
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: options.buildtype });
@@ -492,7 +503,7 @@ if (options.watch) {
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
-    contentBase: `build/${options.buildtype}`,
+    contentBase: options.destination,
     historyApiFallback: {
       rewrites: [
         ...appRewrites,
@@ -555,16 +566,14 @@ if (options.watch) {
 
 smith.use(assets({ source: '../assets', destination: './' }));
 
-const destination = path.resolve(__dirname, `../build/${options.buildtype}`);
-
 // Webpack paths are absolute, convert to relative
 smith.use((files, metalsmith, done) => {
   Object.keys(files).forEach((file) => {
-    if (file.indexOf(destination) === 0) {
+    if (file.indexOf(options.destination) === 0) {
       /* eslint-disable no-param-reassign */
-      files[file.substr(destination.length + 1)] = files[file];
+      files[file.substr(options.destination.length + 1)] = files[file];
       delete files[file];
-      /* esling-enable no-param-reassign */
+      /* eslint-enable no-param-reassign */
     }
   });
 
@@ -730,7 +739,7 @@ smith.use(nonceTransformer);
 
 function generateStaticSettings() {
   const settings = createSettings(options);
-  const settingsPath = path.join(destination, 'js/settings.js');
+  const settingsPath = path.join(options.destination, 'js/settings.js');
   const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
   fs.writeFileSync(settingsPath, settingsContent);
 }
