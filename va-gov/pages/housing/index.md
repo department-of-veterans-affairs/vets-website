@@ -31,7 +31,7 @@ crosslinks:
       title: <br>Life Insurance</br>
       description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
 social:
-  heading: Connect With Us
+  heading: Connect with Us
   administration:
     title: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
