@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Vietnam War-Related Diseases and Exposures
+title: Vietnam War Veterans Health Issues
 display_title: 
 description: Learn what health conditions you might be at risk of developing if you’re a Vietnam War Veteran.
 concurrence: complete
