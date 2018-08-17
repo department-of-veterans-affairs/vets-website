@@ -394,17 +394,6 @@
 
   // desktop footer stuff
 
-  .va-footer-linkgroup {
-
-    li:first-child {
-      margin-bottom: 0;
-
-      h4 {
-        padding-bottom: 0;
-      }
-    }
-  }
-
   .va-footer-linkgroup-title {
 
     button {
@@ -429,6 +418,25 @@
     .va-footer-linkgroup {
       li {
         margin-bottom: 0;
+
+        &:first-child {
+          h4 {
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  //yes repeated
+  .va-footer-linkgroup {
+    li {
+      margin-bottom: 0;
+
+      &:first-child {
+        h4 {
+          padding-bottom: 0;
+        }
       }
     }
   }
@@ -441,10 +449,6 @@
   #footer-vcl {
     margin-top: 1.5em;
     margin-bottom: 0;
-
-    h4 {
-      padding-bottom: 0;
-    }
   }
 
   // end footer stuff
@@ -639,6 +643,16 @@
         .usa-accordion-button {
           color: $color-white;
           background-color: $color-primary-darker;
+        }
+
+        .usa-accordion-button[aria-expanded=false] {
+          background-image: url("/img/plus-white.png");
+          background-image: url("/img/plus-white.svg");
+        }
+
+        .usa-accordion-button[aria-expanded=true] {
+          background-image: url("/img/minus-white.png");
+          background-image: url("/img/minus-white.svg");
         }
       }
       //.merger #footerNav .va-footer-linkgroup-title button

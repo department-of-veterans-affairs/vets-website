@@ -6,16 +6,25 @@ export class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isMobile: false };
+  }
 
-    window.addEventListener('resize', () => {
-      this.setState({
+  componentWillMount() {
+
+    function setSize(t) {
+
+      window.addEventListener('resize', () => {
+        t.setState({
+          isMobile: window.innerWidth < 767
+        });
+      }, false);
+
+      t.setState({
         isMobile: window.innerWidth < 767
       });
-    }, false);
+    }
 
-    this.setState({
-      isMobile: window.innerWidth < 767
-    });
+    setSize(this);
+
   }
 
   render() {
