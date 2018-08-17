@@ -21,7 +21,7 @@ With our VA prescription refill and tracking tool, you can refill your VA prescr
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">What is the VA prescription refill and tracking tool, and how can it help me manage my health care?</h2>
+<h2 itemprop="name">How can the VA prescription refill and tracking tool help me manage my health care?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
@@ -66,7 +66,7 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">Once I'm signed in, how do I start using this tool?</h2>
+<h2 itemprop="name">Once I'm signed in, how do I get started?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
@@ -83,7 +83,7 @@ Choose the link you want, and follow the instructions on the next page to get st
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">Can I refill and track all my VA prescriptions with this tool?</h2>
+<h2 itemprop="name">Can I use this tool to refill and track all my VA prescriptions?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
@@ -132,7 +132,7 @@ To make sure you have your medicine in time, you’ll want to request your refil
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">Will my personal and health information be protected?</h2>
+<h2 itemprop="name">Will my personal health information be protected?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
