@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Where You’ll Get Care
+title: Where You'll Go for Care
 display_title:
 description: Find out where you'll get care through VA after you sign up. Health care settings may include a VA medical center, a community clinic, or a Vet center. 
 concurrence: complete

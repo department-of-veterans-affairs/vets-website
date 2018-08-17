@@ -8,11 +8,9 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
 
 <div class='merger-r-rail'>
 
-  {% for group in social %}
-
-    {% if group.heading != empty %}
+    {% if social.heading != empty %}
       <div class='rail-heading'>
-        <h4>{{ group.heading }}</h4>
+        <h4>{{ social.heading }}</h4>
       </div>
     {% endif %}
 

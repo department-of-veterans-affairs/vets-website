@@ -14,6 +14,9 @@ describe('schoolSearch reducer', () => {
       const expectedState = {
         ...previousState,
         institutionSelected: {
+          address1: 'testaddress1',
+          address2: 'testaddress2',
+          address3: 'testaddress3',
           city: 'testCity',
           facilityCode: 'testFacilityCode',
           name: 'testName',
@@ -23,6 +26,9 @@ describe('schoolSearch reducer', () => {
 
       const action = {
         type: 'INSTITUTION_SELECTED',
+        address1: 'testaddress1',
+        address2: 'testaddress2',
+        address3: 'testaddress3',
         city: 'testCity',
         facilityCode: 'testFacilityCode',
         name: 'testName',
@@ -330,23 +336,47 @@ describe('schoolSearch reducer', () => {
       expect(actualState).to.eql(expectedState);
     });
   });
-  describe('MANUAL_SCHOOL_ENTRY_TOGGLED', () => {
-    it('should return a manual school entry checked state', () => {
+  describe('RESTORE_FROM_PREFILL_STARTED', () => {
+    it('should return a loading institution state', () => {
       const previousState = {
+        currentPageNumber: 2,
+        institutionQuery: 'old',
+        institutions: ['old'],
+        institutionSelected: { selected: 'old' },
         manualSchoolEntryChecked: false,
-        showInstitutionsLoading: true,
+        searchResultsCount: 20,
+        showInstitutions: true,
+        showInstitutionsLoading: false,
+        showPagination: true,
+        showPaginationLoading: false,
         showSearchResults: true
       };
 
       const expectedState = {
-        manualSchoolEntryChecked: true,
+        currentPageNumber: 5,
+        institutionQuery: 'new',
+        institutions: [],
+        institutionSelected: {
+          test: 'test'
+        },
+        manualSchoolEntryChecked: false,
+        searchInputValue: 'new',
+        searchResultsCount: 0,
+        showInstitutions: false,
         showInstitutionsLoading: true,
-        showSearchResults: false
+        showNoResultsFound: false,
+        showPagination: false,
+        showPaginationLoading: false,
+        showSearchResults: true
       };
 
       const action = {
-        type: 'MANUAL_SCHOOL_ENTRY_TOGGLED',
-        manualSchoolEntryChecked: true
+        type: 'RESTORE_FROM_PREFILL_STARTED',
+        institutionQuery: 'new',
+        institutionSelected: {
+          test: 'test'
+        },
+        page: 5
       };
 
       const actualState = schoolSelect(previousState, action);

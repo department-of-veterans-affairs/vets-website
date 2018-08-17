@@ -14,10 +14,6 @@
     }
   }
 
-  .panel-bottom-link {
-    border-top: 0 !important; // sorry but it's got to go and I don't have time to do it right
-  }
-
   section.usa-grid {
     padding-top: 3em;
   }
@@ -65,6 +61,26 @@
 
       p {
         margin-top: 5px;
+      }
+    }
+
+    // TODO: need to add this to formation. This is a temporary fix.
+    #vetnav-column-one-col {
+      .panel-bottom-link {
+        width: 200%;
+      }
+    }
+
+    //TODO: add this to formation
+    .column-one {
+      .mm-links {
+        padding: 5px 0px;
+      }
+    }
+
+    .column-two {
+      .mm-links {
+        padding: 5px 0px;
       }
     }
   }
@@ -369,10 +385,6 @@
     background: $color-primary;
     padding: 5px 20px;
     border-radius: 4px;
-  }
-
-  #mega-menu .vetnav-panel {
-    height: 470px;
   }
 
   #vetnav {
@@ -808,11 +820,33 @@
     z-index: 2;
   }
 
+  // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
   #vetnav-records-ms {
     & + div {
       .column-two h3{
         visibility: hidden;
       }
+    }
+  }
+
+  #va-nav-controls {
+    position: relative;
+    width: 100px;
+
+    svg {
+      display: inline-block;
+      height: 1.6rem;
+      margin-left: 0.8rem;
+      width: 1rem;
+      vertical-align: 0;
+    }
+
+    path {
+      fill: $color-white;
+    }
+
+    @include media($medium-large-screen) {
+      display: none;
     }
   }
 }

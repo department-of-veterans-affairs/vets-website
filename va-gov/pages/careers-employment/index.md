@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: level2-merger
+template: level2-index
 title: Careers and Employment
 display_title: Careers and Employment
 concurrence: complete
