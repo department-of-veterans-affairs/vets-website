@@ -7,8 +7,10 @@ function applyHerokuOptions(options) {
   try {
     const pullRequestNumber = process.env.HEROKU_APP_NAME.split('vetsgov-pr-')[1];
     var headers = {
-      'User-Agent': 'vets-website-builder',
-      'Authorization': `token ${process.env.GH_TOKEN}`
+      'User-Agent': 'vets-website-builder'
+    }
+    if (process.env.GH_TOKEN) {
+      headers['Authorization'] = `token ${process.env.GH_TOKEN}`;
     }
     const res = request(
       'GET',
