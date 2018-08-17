@@ -28,7 +28,8 @@ export function mapRawUserDataToState(json) {
         vet360_contact_information: vet360ContactInformation,
         veteran_status: {
           is_veteran: isVeteran,
-          status: veteranStatus
+          status: veteranStatus,
+          served_in_military: servedInMilitary,
         },
       }
     }
@@ -56,7 +57,8 @@ export function mapRawUserDataToState(json) {
     vet360: isVet360Configured() ? camelCaseObjectKeys(vet360ContactInformation) : camelCaseObjectKeys(mockContactInformation),
     veteranStatus: {
       isVeteran,
-      veteranStatus
+      veteranStatus,
+      servedInMilitary
     }
   };
 }

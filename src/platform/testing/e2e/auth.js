@@ -42,6 +42,7 @@ function initUserMock(token, level) {
           veteran_status: {
             status: 'OK',
             is_veteran: true,
+            served_in_military: true,
           },
           in_progress_forms: [{
             form: '1010ez',
