@@ -6,13 +6,17 @@ function applyHerokuOptions(options) {
   options.destination = path.resolve(__dirname, '../build/heroku');
   try {
     const pullRequestNumber = process.env.HEROKU_APP_NAME.split('vetsgov-pr-')[1];
+    var headers = {
+      'User-Agent': 'vets-website-builder'
+    }
+    if (process.env.GH_TOKEN) {
+      headers['Authorization'] = `token ${process.env.GH_TOKEN}`;
+    }
     const res = request(
       'GET',
       `https://api.github.com/repos/department-of-veterans-affairs/vets-website/pulls/${pullRequestNumber}`,
       {
-        headers: {
-          'User-Agent': 'vets-website-builder'
-        },
+        headers: headers,
         json: true
       }
     );
