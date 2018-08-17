@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Increased Disability Compensation for Time Spent in a Hospital
+title: Increased Disability Rating for Time Spent in a Hospital
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: detail-page
