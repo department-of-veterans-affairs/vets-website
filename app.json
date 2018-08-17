@@ -8,6 +8,9 @@
     },
     "HEROKU_APP_NAME": {
       "required": true
+    },
+    "FOO": {
+      "required": true
     }
   },
   "addons":[],
