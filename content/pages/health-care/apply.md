@@ -90,11 +90,12 @@ You can work with a trained professional called an accredited representative to 
 ##### En español
 
 *Para aplicar por correo*, llene la solicitud de beneficios de salud (VA Form 10-10 EZ), y mándelo a la dirección listado a continuación. 
-[Discharge VA Form 10-10EZ] (https://www.va.gov/vaforms/medical/pdf/10-10EZ_Spanish.pdf)
+<br>
+[Discharge VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/10-10EZ_Spanish.pdf)
 
 *Para aplicar en persona,* diríjase a un centro medico o clinica VA cerca de usted. Lleve la solicitud de beneficios de salud (VA Form 10-10EZ).
-Busque un centro médico o clínica VA cerca de usted (/facilities/).<br>
-Discharge VA Form 10-10EZ (https://www.va.gov/vaforms/medical/pdf/10-10EZ_Spanish.pdf)
+Busque un centro médico o clínica VA cerca de usted(/facilities/).<br>
+Discharge VA Form 10-10EZ(https://www.va.gov/vaforms/medical/pdf/10-10EZ_Spanish.pdf)
 </div>
 </div>
 
