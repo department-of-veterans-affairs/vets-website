@@ -124,7 +124,7 @@ No. You can only communicate with your VA providers who’ve agreed to participa
 
 Yes. This is a secure website. We follow strict security policies and practices to protect your personal health information. And only you and your VA health care team will have access to your secure messages. 
 
-If you print or download anything from the website (like prescription details), you’ll need to take responsibility for protecting that information. <br>
+If you print or download any messages, you’ll need to take responsibility for protecting that information. <br>
 [Get tips for protecting your personal health information](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information).
 
 </div>
