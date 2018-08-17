@@ -45,7 +45,10 @@ class InitializeVet360ID extends React.Component {
     // we have to make sure that isn't the case when we try to refresh the transaction because that would
     // means this.props.transaction is null.
     if (this.props.transactionRequest.isPending) return;
-    this.props.refreshTransaction(this.props.transaction, ANALYTICS_FIELD_MAP.INIT_VET360_ID);
+
+    const { transactionId } = this.props.transaction.data.attributes;
+    const initializationTransactionRefreshRoute = `/v0/profile/person/status/${transactionId}`;
+    this.props.refreshTransaction(this.props.transaction, ANALYTICS_FIELD_MAP.INIT_VET360_ID, initializationTransactionRefreshRoute);
   }
 
   render() {
