@@ -7,7 +7,9 @@ import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
-import { get, omit, set } from '../../../../platform/utilities/data';
+import dataUtils from '../../../../platform/utilities/data/index';
+
+const { get, omit, set } = dataUtils;
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -59,10 +61,9 @@ const {
 const myself = 'Myself';
 const someoneElse = 'Someone else';
 const anonymous = 'Anonymous';
-const anonymousLabel = 'I want to submit my feedback anonymously'; // Only anonymous has a label that differs form its value
 
 function isNotAnonymous(formData) {
-  if (!!formData && formData !== anonymous) {
+  if (!!formData.onBehalfOf && formData.onBehalfOf !== anonymous) {
     return true;
   }
   return false;
@@ -76,11 +77,9 @@ function hasMyself(formData) {
   return !!formData && (formData.onBehalfOf === myself);
 }
 
-function isNotVeteranOrServiceMember(formData) {
-  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember') && (formData.serviceAffiliation !== 'Veteran'))) {
-    return true;
-  }
-  return false;
+function isVeteranOrServiceMember(formData) {
+  const nonServiceMemberOrVeteranAffiliations = ['Spouse', 'Child', 'Other'];
+  return formData.serviceAffiliation && !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation); // We are defining this in the negative to prevent prefilled data from being hidden, and therefore deleted by default
 }
 
 const formConfig = {
@@ -110,9 +109,9 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
+        applicantRelationship: {
+          path: 'applicant-relationship',
+          title: 'Applicant Relationship',
           uiSchema: {
             onBehalfOf: {
               'ui:widget': 'radio',
@@ -126,6 +125,30 @@ const formConfig = {
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
             },
+            anonymousEmail: {
+              'ui:title': 'Email',
+              'ui:options': {
+                expandUnder: 'onBehalfOf',
+                expandUnderCondition: anonymous
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'onBehalfOf',
+            ],
+            properties: {
+              onBehalfOf,
+              anonymousEmail
+            }
+          }
+        },
+        applicantInformation: {
+          path: 'applicant-information',
+          title: 'Applicant Information',
+          depends: isNotAnonymous,
+          uiSchema: {
             fullName: _.merge(fullNameUI, {
               prefix: {
                 'ui:title': 'Prefix',
@@ -148,59 +171,39 @@ const formConfig = {
                 'ui:title': 'Your suffix'
               },
               'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: isNotAnonymous
-              }
             }),
             serviceAffiliation: { // could wrap service info in an object
               'ui:title': 'Service affiliation',
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: myself
-              },
               'ui:required': hasMyself,
-            },
-            serviceBranch: {
-              'ui:title': 'Branch of service',
-              'ui:options': {
-                hideIf: isNotVeteranOrServiceMember,
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: myself
-              }
-            },
-            serviceDateRange: _.merge(dateRangeUI(
-              'Service start date',
-              'Service end date',
-              'End of service must be after start of service'
-            ), {
-              'ui:options':
-              {
-                hideIf: isNotVeteranOrServiceMember,
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: myself
-              }
-            }),
-            anonymousEmail: {
-              'ui:title': 'Email',
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: anonymous
-              }
             }
           },
           schema: {
             type: 'object',
-            required: [
-              'onBehalfOf',
-            ],
             properties: {
-              onBehalfOf: set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
               fullName,
-              serviceAffiliation,
+              serviceAffiliation
+            }
+          }
+        },
+        serviceInformation: {
+          path: 'service-information',
+          title: 'Service Information',
+          depends: isVeteranOrServiceMember,
+          uiSchema: {
+            serviceBranch: {
+              'ui:title': 'Branch of service',
+            },
+            serviceDateRange: dateRangeUI(
+              'Service start date',
+              'Service end date',
+              'End of service must be after start of service'
+            )
+          },
+          schema: {
+            type: 'object',
+            properties: {
               serviceBranch,
-              serviceDateRange,
-              anonymousEmail
+              serviceDateRange
             }
           }
         },
@@ -366,7 +369,7 @@ const formConfig = {
                     },
                     state: {
                       'ui:title': 'State',
-                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData) &&  (get('educationDetails.school["view:manualSchoolEntry"].address.country', formData) === 'United States')
+                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData) && (get('educationDetails.school.view:manualSchoolEntry.address.country', formData) === 'United States')
                     },
                     country: {
                       'ui:title': 'Country',
