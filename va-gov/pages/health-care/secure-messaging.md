@@ -97,10 +97,9 @@ No. You may not receive a reply for a few days with secure messaging.
 **If you need to talk with someone right away,** contact the Veterans Crisis Line. Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.
 
 To connect with a Veterans Crisis Line responder any time day or night:
-Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.
-[Start a confidential Veterans Chat](https://www.veteranscrisisline.net/get-help/chat)..
-Text <a href="tel:+1838255">838255</a>.
-
+- Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.
+- [Start a confidential Veterans Chat](https://www.veteranscrisisline.net/get-help/chat).
+- Text <a href="tel:+1838255">838255</a>.
 
 </div>
 </div>
