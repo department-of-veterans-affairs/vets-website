@@ -94,6 +94,11 @@ Complete una solicitud de beneficios de salud:
 
 **Para aplicar por correo**, llene la solicitud de beneficios de salud (VA Form 10-10 EZ), y mándelo a la dirección listado a continuación. 
 <br>
+<p class="va-address-block">
+Health Eligibility Center<br>
+2957 Clairmont Rd., Suite 200<br>
+Atlanta, GA 30329<br>
+</p>
 
 **Para aplicar en persona**, diríjase a un centro medico o clinica VA cerca de usted. Lleve la solicitud de beneficios de salud (VA Form 10-10EZ).
 <br>
