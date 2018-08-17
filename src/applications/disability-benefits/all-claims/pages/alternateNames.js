@@ -6,7 +6,6 @@ export const uiSchema = {
     'ui:widget': 'yesNo'
   },
   alternateNames: {
-    'ui:title': 'Title goes here',
     'ui:description': 'What names did you serve under?',
     'ui:options': {
       viewField: AlternateNameViewField,
