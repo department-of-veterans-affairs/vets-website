@@ -93,7 +93,7 @@ Complete una solicitud de beneficios de salud:
 <br>
 [Discharge VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/10-10EZ_Spanish.pdf)
 
-**Para aplicar por correo**, llene la solicitud de beneficios de salud (VA Form 10-10 EZ), y mándelo a la dirección listado a continuación. 
+**Para aplicar por correo**, llene la solicitud de beneficios de salud (VA Form 10-10 EZ), envía tu solicitud aquí:
 <br>
 <p class="va-address-block">
 Health Eligibility Center<br>
@@ -104,7 +104,7 @@ Atlanta, GA 30329<br>
 **Para aplicar en persona**, diríjase a un centro medico o clinica VA cerca de usted. Lleve la solicitud de beneficios de salud (VA Form 10-10EZ).
 <br>
 [Busque un centro médico o clínica VA cerca de usted](/facilities/).<br>
-[Discharge VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/10-10EZ_Spanish.pdf)
+
 
 
 
