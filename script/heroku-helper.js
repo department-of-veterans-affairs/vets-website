@@ -10,7 +10,7 @@ function applyHerokuOptions(options) {
       'User-Agent': 'vets-website-builder'
     }
     if (process.env.GH_TOKEN) {
-      headers['Authorization'] = `token ${process.env.GH_TOKEN}a`;
+      headers['Authorization'] = `token ${process.env.GH_TOKEN}`;
     }
     const res = request(
       'GET',
