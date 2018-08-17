@@ -13,7 +13,7 @@ function applyHerokuOptions(options) {
       json: true
     };
     if (process.env.GH_TOKEN) {
-      headers.Authorization = `token ${process.env.GH_TOKEN}`;
+      requestOptions.headers.Authorization = `token ${process.env.GH_TOKEN}`;
     }
     const res = request(
       'GET',
