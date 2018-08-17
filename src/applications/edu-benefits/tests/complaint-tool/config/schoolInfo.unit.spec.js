@@ -11,24 +11,49 @@ import formConfig from '../../../complaint-tool/config/form';
 
 describe('complaint tool school info', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolInformation.pages.schoolInformation;
-  _.unset(uiSchema, 'school.facilityCode');
+  _.unset(uiSchema, 'educationDetails.school.facilityCode');
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         data={{
-          school: {
-            facilityCode: {
-              manualSchoolEntryChecked: true
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              },
+              'view:manualSchoolEntry': {
+                address: {
+                  country: 'United States'
+                }
+              }
             }
           }
         }}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-
     expect(form.find('input').length).to.equal(6);
+  });
+
+  it('should render international address fields', () => {
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              }
+            }
+          }
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
+    );
+    expect(form.find('input').length).to.equal(7);
   });
 
   it('should not submit without required information', () => {
@@ -37,9 +62,16 @@ describe('complaint tool school info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          school: {
-            facilityCode: {
-              manualSchoolEntryChecked: true
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              },
+              'view:manualSchoolEntry': {
+                address: {
+                  country: 'United States'
+                }
+              }
             }
           }
         }}
@@ -49,7 +81,31 @@ describe('complaint tool school info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should not submit without required international address information', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              }
+            }
+          }
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -59,9 +115,16 @@ describe('complaint tool school info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          school: {
-            facilityCode: {
-              manualSchoolEntryChecked: true
+          educationDetails: {
+            school: {
+              facilityCode: {
+                'view:manualSchoolEntryChecked': true
+              },
+              'view:manualSchoolEntry': {
+                address: {
+                  country: 'United States'
+                }
+              }
             }
           }
         }}
@@ -70,12 +133,12 @@ describe('complaint tool school info', () => {
         uiSchema={uiSchema}/>
     );
 
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_name"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_street"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_city"]', 'test');
-    fillData(form, 'input[name="root_school_view:manualSchoolEntry_address_postalCode"]', '34343');
-    fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_state"]', 'MA');
-    fillData(form, 'select[name="root_school_view:manualSchoolEntry_address_country"]', 'United States');
+    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]', 'test');
+    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_address_street"]', 'test');
+    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_address_city"]', 'test');
+    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_address_postalCode"]', '34343');
+    fillData(form, 'select[name="root_educationDetails_school_view:manualSchoolEntry_address_state"]', 'MA');
+    fillData(form, 'select[name="root_educationDetails_school_view:manualSchoolEntry_address_country"]', 'United States');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

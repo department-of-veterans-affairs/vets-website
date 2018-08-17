@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: level2-merger
+template: level2-index
 title: VA Education and Training Benefits
 display_title: Education and Training
 concurrence: complete

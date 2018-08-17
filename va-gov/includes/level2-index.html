@@ -1,36 +1,56 @@
 {% comment %}
 =====================
- Level 2 Index 
+Level 2 Index (Merger)
 =====================
 
-Used for index pages in top-level paths (e.g. /disability-benefits/index.html)
-
--== Maintenance notes ==-
-
-As of 2017-04-13:
-
-  - Replace the `row` class with `usa-grid` when Foundation gets replaced by USWDS
-    when the time comes.
+Used for index pages in top-level paths (e.g. /healthcare/index.html)
 
 {% endcomment %}
 
 <main>
-  <div class="row">
-    <article class="usa-content columns">
-        <h1>{{ title }}</h1>
-        {{ contents }}
-    </article>
-  </div>
-  {% if majorlinks != empty %}
-    {% include "va-gov/components/navigation-links-list.html" %}
-  {% endif %}
+  <div class="usa-grid">
+    <article class="usa-width-two-thirds">
+      <div class="inline hub-main-icon">
+        <i class="icon-large fa fa-{{icon}}"></i>
+      </div>
+      <div class="inline hub-main-title">
+        <h1>
+          {{ title }}
+        </h1>
+      </div>
+      {{ contents }}
 
-  {% if relatedlinks != empty %}
-    {% include "va-gov/components/navigation-links-list.html" with isRelated = true %}
-  {% endif %}
-  <div class="row">
-    <div class="usa-content columns">
-      {% include "va-gov/includes/last-update.html" %}
+      {% if crosslinks != empty %}
+        {% include "va-gov/components/merger-crosslinks.html" %}
+      {% endif %}
+
+    </article>
+
+    <div class="usa-width-one-third" id="hub-rail">
+
+      {% if administration != empty %}
+        {% include "va-gov/components/merger-administration.html" %}
+      {% endif %}
+
+      {% if promo != empty %}
+        {% include "va-gov/components/merger-promo.html" %}
+      {% endif %}
+
+      {% if social != empty %}
+        {% include "va-gov/components/merger-social.html" %}
+      {% endif %}
+
+      {% if mobile != empty %}
+        {% include "va-gov/components/merger-mobile.html" %}
+      {% endif %}
+
     </div>
+
   </div>
+
+  <section id="homepage-hero">
+    <div class="usa-grid">
+      <img src="/img/homepage/veterans-blue.png" width=728 height=155/>
+    </div>
+  </section>
 </main>

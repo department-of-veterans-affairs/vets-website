@@ -1,5 +1,5 @@
 ---
-title: Apply for Health Care
+title: Apply for VA Health Care Online (VA Form 10-10EZ)
 entryname: hca
 layout: page-react.html
 description: Apply for VA health care benefits. Find out which documents you’ll need, and start your online application today.

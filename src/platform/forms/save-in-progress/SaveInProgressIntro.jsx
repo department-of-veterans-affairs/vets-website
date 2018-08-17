@@ -189,6 +189,7 @@ SaveInProgressIntro.propTypes = {
   formId: PropTypes.string.isRequired,
   messages: PropTypes.object,
   migrations: PropTypes.array,
+  prefillTransformer: PropTypes.func,
   returnUrl: PropTypes.string,
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,

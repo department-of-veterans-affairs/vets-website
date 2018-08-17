@@ -41,6 +41,8 @@ export const TRANSACTION_STATUS = {
   COMPLETED_FAILURE: 'COMPLETED_FAILURE'
 };
 
+export const INIT_VET360_ID = 'initializeVet360ID';
+
 export const FIELD_NAMES = {
   HOME_PHONE: 'homePhone',
   MOBILE_PHONE: 'mobilePhone',
@@ -61,6 +63,7 @@ export const PHONE_TYPE = {
 };
 
 export const ANALYTICS_FIELD_MAP = {
+  INIT_VET360_ID: 'initialize-vet360-id',
   primaryTelephone: 'primary-telephone',
   alternateTelephone: 'alternative-telephone',
   homePhone: 'home-telephone',
@@ -73,7 +76,15 @@ export const ANALYTICS_FIELD_MAP = {
 };
 
 export const API_ROUTES = {
-  TELEPHONES: '/profile/telephone',
+  INIT_VET360_ID: '/profile/initialize_vet360_id',
+  TELEPHONES: '/profile/telephones',
   EMAILS: '/profile/email_addresses',
   ADDRESSES: '/profile/addresses'
+};
+
+export const VET360_INITIALIZATION_STATUS = {
+  INITIALIZED: 'INITIALIZED',
+  INITIALIZING: 'INITIALIZING',
+  INITIALIZATION_FAILURE: 'INITIALIZATION_FAILURE',
+  UNINITALIZED: 'UNINITALIZED'
 };
