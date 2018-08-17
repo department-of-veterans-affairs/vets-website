@@ -31,7 +31,8 @@ const {
   getAppManifests
 } = require('./manifest-helpers.js');
 
-const sourceDir = '../content/pages';
+// changed to let for using merger folder on build
+let sourceDir = '../content/pages';
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
@@ -116,6 +117,10 @@ const webpackConfig = webpackConfigGenerator(
 // Custom liquid filter(s)
 liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
 
+// If this is the mergedbuild the build will build the merger pages
+if (options.mergedbuild) {
+  sourceDir = '../va-gov/pages';
+}
 
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
@@ -139,6 +144,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
   ignoreList.push('education/complaint-tool.md');
+  ignoreList.push('disability-benefits/apply/form-526-disability-claim.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -464,16 +470,29 @@ smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 
 if (options.watch) {
-  // TODO(awong): Enable live reload of metalsmith pages per instructions at
-  //   https://www.npmjs.com/package/metalsmith-watch
-  smith.use(
-    watch({
-      paths: {
-        '../content/**/*': '**/*.{md,html}',
-      },
-      livereload: true,
-    })
-  );
+  if (options.mergedbuild) {
+    // TODO(awong): Enable live reload of metalsmith pages per instructions at
+    //   https://www.npmjs.com/package/metalsmith-watch
+    smith.use(
+      watch({
+        paths: {
+          '../va-gov/**/*': '**/*.{md,html}',
+        },
+        livereload: true,
+      })
+    );
+  } else {
+    // TODO(awong): Enable live reload of metalsmith pages per instructions at
+    //   https://www.npmjs.com/package/metalsmith-watch
+    smith.use(
+      watch({
+        paths: {
+          '../content/**/*': '**/*.{md,html}',
+        },
+        livereload: true,
+      })
+    );
+  }
 
   const appRewrites = getRoutes(manifests).map(url => {
     return {
@@ -609,14 +628,23 @@ smith.use(navigation({
   navSettings: {}
 }));
 
-// Note that there is no default layout specified.
-// All pages must explicitly declare a layout or else it will be rendered as raw html.
-smith.use(layouts({
-  engine: 'liquid',
-  directory: '../content/layouts/',
-  // Only apply layouts to markdown and html files.
-  pattern: '**/*.{md,html}'
-}));
+if (options.mergedbuild) {
+  smith.use(layouts({
+    engine: 'liquid',
+    directory: '../va-gov/layouts/',
+    // Only apply layouts to markdown and html files.
+    pattern: '**/*.{md,html}'
+  }));
+} else {
+  // Note that there is no default layout specified.
+  // All pages must explicitly declare a layout or else it will be rendered as raw html.
+  smith.use(layouts({
+    engine: 'liquid',
+    directory: '../content/layouts/',
+    // Only apply layouts to markdown and html files.
+    pattern: '**/*.{md,html}'
+  }));
+}
 
 // TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({

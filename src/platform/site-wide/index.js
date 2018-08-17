@@ -10,6 +10,10 @@ import './accessible-VCL-modal';
 import './moment-setup';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
+import startMegaMenuWidget from './mega-menu';
+import startMobileMenuButton from './mobile-menu-button';
+import startPreviewSiteAlert from './preview-site-alert';
+import startVAGovUserNavWidget from './va-gov-user-nav';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 
@@ -20,7 +24,9 @@ import startAnnouncementWidget from './announcements';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
-  addMenuListeners(document.querySelector('#vetnav-menu'), true);
+  if (document.querySelector('#vetnav-menu') !== null) {
+    addMenuListeners(document.querySelector('#vetnav-menu'), true);
+  }
 
   // New navigation menu
   if (document.querySelector('#vetnav')) {
@@ -38,6 +44,10 @@ export default function startSitewideComponents(commonStore) {
   });
 
   startUserNavWidget(commonStore);
+  startMegaMenuWidget(commonStore);
+  startMobileMenuButton(commonStore);
+  startPreviewSiteAlert(commonStore);
+  startVAGovUserNavWidget(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
 }

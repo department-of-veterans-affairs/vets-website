@@ -1,0 +1,23 @@
+{% comment %}
+======================
+Social Media - R. Rail
+======================
+
+See https://help.shopify.com/themes/liquid/tags/theme-tags#include
+{% endcomment %}
+
+<div class='merger-r-rail'>
+
+    {% if social.heading != empty %}
+      <div class='rail-heading'>
+        <h4>{{ social.heading }}</h4>
+      </div>
+    {% endif %}
+
+    {% if social.administration != empty %}
+
+      <h4><a href="{{ social.administration.url }}">{{ social.administration.title }}</a>
+
+    {% endif %}
+
+</div>
