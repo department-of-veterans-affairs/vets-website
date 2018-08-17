@@ -267,9 +267,7 @@ const capitalizeEach = (word) => {
  */
 export const getDisabilityName = (name) => {
   if (name && typeof name === 'string') {
-    const splitName = name.split(' ');
-    const capitalizedsplitName = splitName.map(capitalizeEach);
-    return capitalizedsplitName.join(' ');
+    return name.split(/ +/).map(capitalizeEach).join(' ');
   }
 
   Raven.captureMessage('form_526: no name supplied for ratedDisability');
