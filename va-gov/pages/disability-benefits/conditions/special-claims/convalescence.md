@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: VA Temporary Disability After Surgery or an Immobilizing Disability
+title: Temporary Disability Rating after Surgery or Getting a Cast
 display_title: Convalescence
 description: Find out if you can get a temporary 100% disability rating and VA convalescence pay (sometimes called "back pay") because of a surgery or service-connected disability that's left you unable to move. 
 concurrence: complete
@@ -12,7 +12,7 @@ order: 4
 
 <div class="va-introtext">
 
-Are you recovering from surgery or a disability related to your military service that’s left you unable to move? You may be able to get a temporary 100% disability rating and disability compensation or benefits if you have this kind of immobilizing  disability. Find out if you can get this benefit. 
+Are you recovering from surgery or a disability related to your military service that’s left you unable to move? You may be able to get a temporary 100% disability rating and disability compensation or benefits for this period of convalescence if you have this kind of immobilizing  disability. Find out if you can get this benefit. 
 
 </div>
 
