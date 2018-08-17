@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Substance Use Problems and Disorders Treatment for Veterans
+title: Substance Use Treatment for Veterans
 display_title:
 concurrence: complete
 lastupdate: 2017-06-28
