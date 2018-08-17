@@ -29,7 +29,7 @@ export const aboutPrivateMedicalRecs = () => {
       <p>
         You said you were treated for [condition] by a private doctor. If you
         have those records, you can upload them here, or we can get them for
-        you. If you want us to get your recotds, you'll need to authorize their
+        you. If you want us to get your records, you'll need to authorize their
         release.
       </p>
       <p>Do you want to upload your private medical records?</p>
@@ -41,14 +41,16 @@ export const summary = ({ formData }) => {
   const privateMedicalProvider = formData.privateMedicalProvider;
   return (
     <div>
-      {privateMedicalProvider.map((provider, idx) => {
-        return (
-          <div key={idx}>
-            <div>We'll get your private medical records from</div>
-            <strong>{provider.privateProviderName}.</strong>
-          </div>
-        );
-      })}
+      <li>We'll get your private medical records from</li>
+      <div>
+        {privateMedicalProvider.map((provider, idx) => {
+          return (
+            <ul key={idx}>
+              <strong>{provider.privateProviderName}</strong>
+            </ul>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -57,7 +59,7 @@ export const letUsKnow = () => {
   return (
     <div>
       <p>
-        Please let us know where and when you received treatment. We'll requiest
+        Please let us know where and when you received treatment. We'll request
         your private medical records for you. If you have records available, you
         can upload them later in the application{' '}
       </p>
