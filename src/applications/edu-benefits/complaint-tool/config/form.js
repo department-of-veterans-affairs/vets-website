@@ -77,9 +77,13 @@ function hasMyself(formData) {
   return !!formData && (formData.onBehalfOf === myself);
 }
 
+function hasNotMyself(formData) {
+  return formData.onBehalfOf === someoneElse || formData.onBehalfOf === anonymous;
+}
+
 function isVeteranOrServiceMember(formData) {
   const nonServiceMemberOrVeteranAffiliations = ['Spouse', 'Child', 'Other'];
-  return formData.serviceAffiliation && !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation); // We are defining this in the negative to prevent prefilled data from being hidden, and therefore deleted by default
+  return !hasNotMyself(formData) && !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation); // We are defining this in the negative to prevent prefilled data from being hidden, and therefore deleted by default
 }
 
 const formConfig = {
@@ -175,6 +179,9 @@ const formConfig = {
             serviceAffiliation: { // could wrap service info in an object
               'ui:title': 'Service affiliation',
               'ui:required': hasMyself,
+              'ui:options': {
+                hideIf: hasNotMyself
+              }
             }
           },
           schema: {
