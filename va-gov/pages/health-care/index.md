@@ -32,7 +32,7 @@ crosslinks:
       title: <b>Education and Training</b>
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Health Administration
     url: https://www.va.gov/health/
     subsections:
