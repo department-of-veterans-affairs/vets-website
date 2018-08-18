@@ -99,7 +99,7 @@ If you need help accessing services, call our toll-free hotline at 1-877-222-VET
 
 <span id="after-update-information">
 
-#### How do I update my personal information??
+#### How do I update my personal information?
 
 To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
@@ -158,7 +158,7 @@ Atlanta, GA 30329<br>
 </p>
 <b>Note</b>: Canceling your enrollment in VA health care may impact your health care coverage requirements under the Affordable Care Act if you don't have other health care.
 
-You may reapply at any time. Please note, we'll consider you a new applicant when you reapply, and we'll base your eligibility on the eligibility requirements at that time.
+You may reapply at any time. But please note that we'll consider you a new applicant when you reapply. We'll base your eligibility on the eligibility requirements at that time.
 
 
 <BR>
