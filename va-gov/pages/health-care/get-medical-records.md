@@ -198,6 +198,8 @@ If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-8
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h3 itemprop="name">Can I sign up for the VA Health Exchange by mail or in person?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
@@ -222,6 +224,8 @@ Bring a completed VA Form 10-0485 with you, or ask for a copy to fill out in the
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h3 itemprop="name">Will my personal health information be protected?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
@@ -231,6 +235,8 @@ Yes. The VLER Health Exchange uses secure technology to share information betwee
 </div>
 </div>
 </div>
+
+<div itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">Can I change my mind and ask VA to stop sharing my information?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -261,6 +267,8 @@ You can also ask the office for a copy of this form to fill out. Or, you can cal
 </div>
 </div>
 </div>
+
+<div itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">What if I have more questions?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
