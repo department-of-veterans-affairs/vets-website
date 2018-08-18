@@ -67,7 +67,7 @@ You should also know that being signed up for VA health care meets your Affordab
 - [What basic health care services does VA cover?](#health-about-basic)
 - [What other medical services will VA cover to support my treatment?](#health-about-other-services)
 - [Will VA cover any non-medical services to support my treatment?](#health-about-non-medical)
-- [How do I get help if I don't speak English or have hearing loss?](#health-help)
+- [How do I get help if I don't speak English or need American Sign Language services?](#health-help)
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
@@ -234,7 +234,7 @@ We'll fill prescriptions by a non-VA provider only if you meet all the requireme
 <h4 itemprop="name">Will I have a copay or is my VA health care free?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-This will depend on factors like your income level, disability rating, and military service history. Most Veterans need to complete a financial assessment when you enroll. This will help us determine if you qualify for free VA health care.
+This will depend on factors like your income level, disability rating, and military service history. Most Veterans need to complete a financial assessment when they enroll. This helps us determine if you qualify for free VA health care.
   
 [Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp).
 
