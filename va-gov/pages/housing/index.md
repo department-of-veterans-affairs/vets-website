@@ -86,13 +86,13 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <h2>Get VA Home Loan Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Home Loan Options</b></a>
-    <p>Learn how VA direct and VA-backed home loans work—and find out which loan option may be right for you.</p>
+    <a href="#"><b>About VA Home Loan Programs</b></a>
+    <p>Learn how VA direct and VA-backed home loans work—and find out which loan type may be right for you.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Eligibility</b></a>
-    <p>Find out if you're eligible for a VA direct or VA-backed home loan, based on your service history and duty status.
+    <p>Find out if you're eligible for a VA direct or VA-backed home loan, based on your service history and duty status. You can also see if you're eligible as a surviving spouse.
   </div>
 
   <div class="link">
