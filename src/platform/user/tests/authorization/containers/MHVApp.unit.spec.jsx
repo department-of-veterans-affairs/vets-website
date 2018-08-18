@@ -76,13 +76,6 @@ describe('<MHVApp>', () => {
     expect(props.upgradeMHVAccount.calledOnce).to.be.true;
   });
 
-  it('should refresh the profile after upgrade to update the services list', () => {
-    const wrapper = shallow(<MHVApp {...props}/>);
-    const mhvAccount = set('accountState', 'upgraded', props.mhvAccount);
-    wrapper.setProps({ mhvAccount });
-    expect(props.refreshProfile.calledOnce).to.be.true;
-  });
-
   it('should show a success message after the user accepts T&C and gets upgraded', () => {
     const newProps = merge(props, {
       mhvAccount: { ...props.mhvAccount, accountState: 'upgraded' },
