@@ -2,8 +2,7 @@
 layout: page-breadcrumbs.html
 title: Veterans Programs for Health and Wellness
 display title: Wellness Programs
-template: level2-index
-showactionbar: false
+template: detail-page
 majorlinks:
   - heading: VA Health and Wellness Programs to Help You Care For Your Body and Mind
     links:
