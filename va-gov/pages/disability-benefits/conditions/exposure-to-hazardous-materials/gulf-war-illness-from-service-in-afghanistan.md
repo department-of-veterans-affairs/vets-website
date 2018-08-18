@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Gulf War Illness from Service in Afghanistan
+title: Gulf War Illnesses Linked to Service in Afghanistan
 concurrence: 
 source: 
 plainlanguage: 

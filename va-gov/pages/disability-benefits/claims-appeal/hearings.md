@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Board of Veterans’ Appeals Hearings
+title: Board of Veterans' Appeals (BVA) Hearing
 concurrence: complete
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: detail-page

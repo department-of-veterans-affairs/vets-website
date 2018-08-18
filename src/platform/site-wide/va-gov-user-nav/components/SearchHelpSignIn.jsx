@@ -4,9 +4,9 @@ import classNames from 'classnames';
 
 import recordEvent from '../../../monitoring/record-event';
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
-import HelpMenu from './HelpMenu';
-import SearchMenu from './SearchMenu';
-import SignInProfileMenu from './SignInProfileMenu';
+import HelpMenu from '../../user-nav/components/HelpMenu';
+import SearchMenu from '../../user-nav/components/SearchMenu';
+import SignInProfileMenu from '../../user-nav/components/SignInProfileMenu';
 
 class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = (e) => {
@@ -78,9 +78,13 @@ SearchHelpSignIn.propTypes = {
   isLoggedIn: PropTypes.bool,
   isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
   isProfileLoading: PropTypes.bool.isRequired,
-  userGreeting: PropTypes.string.isRequired,
+  userGreeting: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
   toggleMenu: PropTypes.func.isRequired
+};
+
+SearchHelpSignIn.defaultProps = {
+  userGreeting: '',
 };
 
 export default SearchHelpSignIn;

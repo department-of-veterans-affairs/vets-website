@@ -63,6 +63,26 @@
         margin-top: 5px;
       }
     }
+
+    // TODO: need to add this to formation. This is a temporary fix.
+    #vetnav-column-one-col {
+      .panel-bottom-link {
+        width: 200%;
+      }
+    }
+
+    //TODO: add this to formation
+    .column-one {
+      .mm-links {
+        padding: 5px 0px;
+      }
+    }
+
+    .column-two {
+      .mm-links {
+        padding: 5px 0px;
+      }
+    }
   }
 
   #menu-rule {

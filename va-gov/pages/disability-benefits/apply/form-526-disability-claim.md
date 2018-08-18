@@ -1,5 +1,5 @@
 ---
-title: Apply for increased disability benefits
+title: Apply for a VA Disability Increase
 entryname: 526EZ-claims-increase
 layout: page-react.html
 description: Learn how to apply online for increased disability compensation.
