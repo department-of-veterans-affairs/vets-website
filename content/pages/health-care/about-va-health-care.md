@@ -153,7 +153,7 @@ You may be able to get help with some non-medical services, like:
 <div itemprop="text">
 Contact the patient advocate at the VA medical center where you go for care. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits.<br>
 
-To find out how to reach the patient advocate at your VA medical center, go to the website of the VA health care system that medical center is part of. In the page's navigation, click on "Patients & Visitors." A sub menu will appear. Select "Patient Information" and then "Customer Service." <br>
+To find out how to reach the patient advocate at your VA medical center, go to the website of the VA health care system that the medical center is part of. In the page's navigation, click on "Patients & Visitors." A sub menu will appear. Select "Patient Information" and then "Customer Service." <br>
 [Find your medical center's website](https://www.va.gov/health/vamc/).
 
 </div>
