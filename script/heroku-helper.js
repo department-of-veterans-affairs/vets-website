@@ -6,7 +6,7 @@ function applyHerokuOptions(options) {
   options.destination = path.resolve(__dirname, '../build/heroku');
   try {
     const pullRequestNumber = process.env.HEROKU_APP_NAME.split('vetsgov-pr-')[1];
-    let requestOptions = {
+    const requestOptions = {
       headers: {
         'User-Agent': 'vets-website-builder'
       },
