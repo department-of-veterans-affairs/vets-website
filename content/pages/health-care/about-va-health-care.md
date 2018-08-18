@@ -145,7 +145,10 @@ You may be able to get help with some non-medical services, like:
 <h4 itemprop="name">How do I get help if I don't speak English or need American Sign Language services?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-Contact your patient advocate. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits. [Find a VA medical center near you](/facilities/).
+Contact the patient advocate at the VA medical center where you go for care. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits.<br>
+
+To find out how to reach the patient advocate at your VA medical center, go to the website of the VA health care system that medical center is part of. In the page's navigation, click on "Patients & Visitors." A sub menu will appear. Select "Patient Information" and then "Customer Service." 
+[Find your medical center's website](https://www.va.gov/health/vamc/).
 
 </div>
 </div>
