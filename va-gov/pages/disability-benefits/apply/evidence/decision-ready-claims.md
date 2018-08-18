@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: VA Decision Ready Claims Program
+title: VA Decision Ready Claims (DRC) Program
 description: 
 concurrence: incomplete
 plainlanguage: 
