@@ -94,8 +94,8 @@ If you don’t have a premium **DS Logon** account, find out how to create or up
   <li class="process-step list-two">Look for the “Manage Health” category. Then click on the “Hearing Aid Batteries and Prosthetic Socks” subcategory. You’ll go to a new page. </li>
   <li class="process-step list-three">Look for the section titled “Select What You Would Like to Order” and click on the item you want. You’ll go to a new page.</li>
   <li class="process-step list-four">Fill out the form with the required information (last name, last 4 digits of your Social Security number, date of birth). You can also provide your email if you'd like. Then, you’ll be taken to a page where you can order the products you need.</li>
-  <li class="process-step list-four">Select the product you want and submit your order.</li>
-  <li class="process-step list-four">eBenefits will send a confirmation email to the address you have on file once your order is processed. If there are any issues with your order, you’ll receive an error message with instructions on how to get help.</li>  
+  <li class="process-step list-five">Select the product you want and submit your order.</li>
+  <li class="process-step list-six">eBenefits will send a confirmation email to the address you have on file once your order is processed. If there are any issues with your order, you’ll receive an error message with instructions on how to get help.</li>  
 </ol>
 
 **Note:** If you have questions or need technical help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-800-983-0937</a>, option 2. Customer service representatives are available Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
