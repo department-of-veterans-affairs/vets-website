@@ -149,7 +149,7 @@ This program is completely voluntary. You decide if we can share your informatio
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">Am I eligible to sign up for the Health Information Exchange online?</h2>
+<h3 itemprop="name">Am I eligible to sign up for the Health Information Exchange online?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
@@ -175,7 +175,7 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">Once I have a premium eBenefits account, how do I sign up for this service?</h2>
+<h3 itemprop="name">Once I have a premium eBenefits account, how do I sign up for this service?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
@@ -198,7 +198,7 @@ If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-8
 </div>
 </div>
 
-<h2 itemprop="name">Can I sign up for the VA Health Exchange by mail or in person?</h2>
+<h3 itemprop="name">Can I sign up for the VA Health Exchange by mail or in person?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
@@ -222,7 +222,7 @@ Bring a completed VA Form 10-0485 with you, or ask for a copy to fill out in the
 </div>
 </div>
 
-<h2 itemprop="name">Will my personal health information be protected?</h2>
+<h3 itemprop="name">Will my personal health information be protected?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
@@ -232,7 +232,7 @@ Yes. The VLER Health Exchange uses secure technology to share information betwee
 </div>
 </div>
 
-<h2 itemprop="name">Can I change my mind and ask VA to stop sharing my information?</h2>
+<h3 itemprop="name">Can I change my mind and ask VA to stop sharing my information?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
@@ -262,7 +262,7 @@ You can also ask the office for a copy of this form to fill out. Or, you can cal
 </div>
 </div>
 
-<h2 itemprop="name">What if I have more questions?</h2>
+<h3 itemprop="name">What if I have more questions?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
