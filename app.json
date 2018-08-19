@@ -8,6 +8,9 @@
     },
     "HEROKU_APP_NAME": {
       "required": true
+    },
+    "GH_TOKEN": {
+      "required": true
     }
   },
   "addons":[],
