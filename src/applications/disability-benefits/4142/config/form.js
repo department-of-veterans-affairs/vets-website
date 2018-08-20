@@ -110,7 +110,7 @@ const formConfig = {
             properties: {
               uploadRecs: {
                 type: 'string',
-                'enum': ['Yes', 'No'],
+                'enum': ['Yes', 'No, please get them from my doctor.'],
               },
               'view:privateRecordsChoiceHelp': {
                 type: 'object',

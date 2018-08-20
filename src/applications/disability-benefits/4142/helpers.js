@@ -41,16 +41,15 @@ export const summary = ({ formData }) => {
   const privateMedicalProvider = formData.privateMedicalProvider;
   return (
     <div>
+      <br/>
       <li>We'll get your private medical records from</li>
-      <div>
-        {privateMedicalProvider.map((provider, idx) => {
-          return (
-            <ul key={idx}>
-              <strong>{provider.privateProviderName}</strong>
-            </ul>
-          );
-        })}
-      </div>
+      {privateMedicalProvider.map((provider, idx) => {
+        return (
+          <ul key={idx}>
+            <strong>{provider.privateProviderName}</strong>
+          </ul>
+        );
+      })}
     </div>
   );
 };
@@ -61,7 +60,7 @@ export const letUsKnow = () => {
       <p>
         Please let us know where and when you received treatment. We'll request
         your private medical records for you. If you have records available, you
-        can upload them later in the application{' '}
+        can upload them later in the application.
       </p>
     </div>
   );
@@ -72,11 +71,12 @@ export const medicalRecDescription = (
     <h5>Upload your medical records</h5>
     <p>
       If you have an electronic copy of your medical records, uploading your
-      records can speed the review of your claim
+      records can speed up the review of your claim.
     </p>
     <p>
       This works best if you have a fast internet connection and time for a
-      large file upload. Records should be .pdf, .jpg, or .png files.
+      large file upload. Records should be .pdf, .jpg, or .png files and can be
+      up to 50MB each.
     </p>
     <h5>We get records for you</h5>
     <p>
