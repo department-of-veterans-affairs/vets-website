@@ -259,13 +259,13 @@ describe('Actions', () => {
       expect(pollStatusSpy.calledOnce).to.be.true;
     });
 
-    describe('onFailure callback', () => {
+    describe('onError callback', () => {
       it('should dispatch a FETCH_CLAIMS_ERROR action', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimsV2(pollStatusSpy)(dispatchSpy);
 
-        pollStatusSpy.firstCall.args[0].onFailure();
+        pollStatusSpy.firstCall.args[0].onError();
 
         expect(dispatchSpy.secondCall.args[0]).to.eql({ type: 'FETCH_CLAIMS_ERROR' });
       });
@@ -334,12 +334,12 @@ describe('Actions', () => {
         const apiRequestSpy = sinon.spy();
         const mockResponse = {};
         const onSuccessSpy = sinon.spy();
-        const onFailureSpy = sinon.spy();
+        const onErrorSpy = sinon.spy();
         const shouldSucceedStub = sinon.stub();
         shouldSucceedStub.returns(true);
 
         pollClaimsStatus({
-          onFailure: onFailureSpy,
+          onError: onErrorSpy,
           onSuccess: onSuccessSpy,
           request: apiRequestSpy,
           shouldSucceed: shouldSucceedStub
@@ -347,13 +347,13 @@ describe('Actions', () => {
         apiRequestSpy.firstCall.args[2](mockResponse);
 
         expect(onSuccessSpy.calledOnce).to.be.true;
-        expect(onFailureSpy.called).to.be.false;
+        expect(onErrorSpy.called).to.be.false;
         expect(shouldSucceedStub.firstCall.args[0]).to.eql(mockResponse);
       });
-      it('should call onFailure when shouldSuccess return false shouldFail returns true', () => {
+      it('should call onError when shouldSuccess return false shouldFail returns true', () => {
         const apiRequestSpy = sinon.spy();
         const mockResponse = {};
-        const onFailureSpy = sinon.spy();
+        const onErrorSpy = sinon.spy();
         const onSuccessSpy = sinon.spy();
         const shouldFailStub = sinon.stub();
         const shouldSucceedStub = sinon.stub();
@@ -361,7 +361,7 @@ describe('Actions', () => {
         shouldFailStub.returns(true);
 
         pollClaimsStatus({
-          onFailure: onFailureSpy,
+          onError: onErrorSpy,
           onSuccess: onSuccessSpy,
           request: apiRequestSpy,
           shouldFail: shouldFailStub,
@@ -370,7 +370,7 @@ describe('Actions', () => {
         apiRequestSpy.firstCall.args[2](mockResponse);
 
         expect(onSuccessSpy.calledOnce).to.be.false;
-        expect(onFailureSpy.calledOnce).to.be.true;
+        expect(onErrorSpy.calledOnce).to.be.true;
         expect(shouldFailStub.firstCall.args[0]).to.eql(mockResponse);
       });
       it('should call setTimeout when shouldFail and shouldSucceed return false', () => {

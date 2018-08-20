@@ -1,6 +1,6 @@
 import React from 'react';
 import Raven from 'raven-js';
-import _ from 'lodash';
+import get from '../../../platform/utilities/data/get';
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
@@ -151,7 +151,7 @@ export function fetchClaimsSuccess(response) {
 const POLLING_INTERVAL = 1000;
 
 export function pollClaimsStatus({
-  onFailure,
+  onError,
   onSuccess,
   pollingInterval,
   request = apiRequest,
@@ -168,17 +168,21 @@ export function pollClaimsStatus({
       }
 
       if (shouldFail(response)) {
-        onFailure(response);
+        onError(response);
         return;
       }
 
       setTimeout(
-        () => pollClaimsStatus({ onFailure, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }),
+        () => pollClaimsStatus({ onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }),
         pollingInterval
       );
     },
-    error => onFailure(error)
+    error => onError(error)
   );
+}
+
+export function getSyncStatus(claimsAsyncResponse) {
+  return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
 export function getClaimsV2(poll = pollClaimsStatus) {
@@ -187,11 +191,11 @@ export function getClaimsV2(poll = pollClaimsStatus) {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
     poll({
-      onFailure: () => dispatch({ type: FETCH_CLAIMS_ERROR }),
+      onError: () => dispatch({ type: FETCH_CLAIMS_ERROR }),
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
       pollingInterval: window.VetsGov.pollTimeout || POLLING_INTERVAL,
-      shouldFail: response => _.get(response, 'meta.syncStatus') === 'FAILED',
-      shouldSucceed: response => _.get(response, 'meta.syncStatus') === 'SUCCESS'
+      shouldFail: response => getSyncStatus(response) === 'FAILED',
+      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS'
     });
   };
 }
