@@ -43,7 +43,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} }
         },
         alternateNames: {
-          title: 'Other Names',
+          title: 'Service under another name',
           path: 'alternate-names',
           uiSchema: alternateNamesUISchema,
           schema: alternateNamesSchema

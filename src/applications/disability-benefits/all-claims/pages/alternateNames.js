@@ -5,7 +5,7 @@ const { alternateNames: alternateNamesSchema } = fullSchema.properties;
 
 export const uiSchema = {
   'view:hasAlternateName': {
-    'ui:title': 'Did you serve under another name?',
+    'ui:title': 'Have you served under a different name?',
     'ui:widget': 'yesNo'
   },
   alternateNames: {
@@ -34,7 +34,7 @@ export const schema = {
   type: 'object',
   properties: {
     'view:hasAlternateName': {
-      type: 'object',
+      type: 'boolean',
       properties: {}
     },
     alternateNames: alternateNamesSchema
