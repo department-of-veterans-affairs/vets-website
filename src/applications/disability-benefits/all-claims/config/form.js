@@ -9,6 +9,11 @@ import {
   schema as alternateNamesSchema
 } from '../pages/alternateNames';
 
+import {
+  uiSchema as servicePayUISchema,
+  schema as servicePaySchema
+} from '../pages/servicePay';
+
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -47,6 +52,12 @@ const formConfig = {
           path: 'alternate-names',
           uiSchema: alternateNamesUISchema,
           schema: alternateNamesSchema
+        },
+        servicePay: {
+          title: 'Service Pay',
+          path: 'service-pay',
+          uiSchema: servicePayUISchema,
+          schema: servicePaySchema
         }
       }
     }
