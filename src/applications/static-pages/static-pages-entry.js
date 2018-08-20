@@ -47,7 +47,8 @@ if (healthcarePages.has(location.pathname)) {
 }
 if (eduPages.has(location.pathname)) {
   createEducationApplicationStatus(store);
-} if (location.pathname === eduOptOutPage) {
+}
+if (location.pathname === eduOptOutPage) {
   createOptOutApplicationStatus(store);
 }
 if (burialPages.has(location.pathname)) {
