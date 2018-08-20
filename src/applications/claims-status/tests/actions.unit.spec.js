@@ -13,11 +13,9 @@ import {
   CLEAR_NOTIFICATION,
   clearNotification,
   FETCH_APPEALS,
-  FETCH_CLAIMS,
   GET_CLAIM_DETAIL,
   getAppeals,
   getClaimDetail,
-  getClaims,
   REMOVE_FILE,
   removeFile,
   RESET_UPLOADS,
@@ -26,7 +24,6 @@ import {
   SET_APPEALS,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
-  SET_CLAIMS,
   SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
   SET_FIELDS_DIRTY,
@@ -239,46 +236,6 @@ describe('Actions', () => {
         if (dispatchSpy.callCount === 2) {
           expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
           expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS_UNAVAILABLE);
-          done();
-        }
-      };
-
-      thunk(dispatch);
-    });
-    afterEach(unMockFetch);
-  });
-  describe('getClaims', () => {
-    beforeEach(mockFetch);
-    it('should fetch claims', (done) => {
-      const claims = [];
-      fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve(claims) }) }),
-      });
-      const thunk = getClaims();
-      const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_CLAIMS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_CLAIMS);
-          done();
-        }
-      };
-
-      thunk(dispatch);
-    });
-    it('should fail on error', (done) => {
-      const claims = [];
-      fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(claims) }) }),
-      });
-      const thunk = getClaims();
-      const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_CLAIMS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_CLAIMS_UNAVAILABLE);
           done();
         }
       };
