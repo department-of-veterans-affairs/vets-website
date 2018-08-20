@@ -131,6 +131,7 @@ export function selectVet360InitializationStatus(state) {
 
   return {
     status,
-    transaction
+    transaction,
+    transactionRequest
   };
 }
