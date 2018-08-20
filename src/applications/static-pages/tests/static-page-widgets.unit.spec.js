@@ -12,7 +12,7 @@ describe('static page widget', () => {
     };
 
     document.body.insertAdjacentHTML('beforeend', '<div id="testRoot"></div>');
-    mountWidgets([widget]);
+    mountWidgets([widget], 'development');
 
     expect(document.querySelector('#testRoot .loading-indicator')).to.not.be.null;
     expect(document.querySelector('#testRoot .loading-indicator-message').textContent).to.equal(widget.loadingMessage);
@@ -29,7 +29,7 @@ describe('static page widget', () => {
     };
 
     document.body.insertAdjacentHTML('beforeend', '<div id="testRoot"></div>');
-    mountWidgets([widget]);
+    mountWidgets([widget], 'development');
 
     setTimeout(() => {
       expect(document.querySelector('#testRoot .loading-indicator-message').textContent).to.equal(widget.slowMessage);
@@ -47,7 +47,7 @@ describe('static page widget', () => {
     };
 
     document.body.insertAdjacentHTML('beforeend', '<div id="testRoot"></div>');
-    mountWidgets([widget]);
+    mountWidgets([widget], 'development');
 
     setTimeout(() => {
       expect(document.querySelector('#testRoot .usa-alert-error').textContent).to.equal(widget.errorMessage);
@@ -65,7 +65,7 @@ describe('static page widget', () => {
     };
 
     document.body.insertAdjacentHTML('beforeend', '<div id="testRoot"></div>');
-    mountWidgets([widget]);
+    mountWidgets([widget], 'development');
 
     document.querySelector('#testRoot').innerHTML = '';
 

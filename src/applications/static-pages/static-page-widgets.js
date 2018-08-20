@@ -1,5 +1,21 @@
-function mountWidgets(widgets) {
+function mountWidgets(widgets, buildtype) {
   widgets
+    .filter(function (widget) {
+      if (widget.buildtype === buildtype) {
+        return true;
+      }
+
+      // Show the widget on lower environment if set to staging
+      if (widget.buildtype === 'staging' && buildtype === 'development') {
+        return true;
+      }
+
+      if (widget.buildtype) {
+        return false;
+      }
+
+      return true;
+    })
     .forEach(function (widget) {
       var root = document.getElementById(widget.root);
       var timeout = (widget.timeout || 0) * 1000;
