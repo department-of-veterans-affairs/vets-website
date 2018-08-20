@@ -1,6 +1,9 @@
 import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
+import fullSchema from '../config/schema';
 
-const uiSchema = {
+const { alternateNames: alternateNamesSchema } = fullSchema.properties;
+
+export const uiSchema = {
   'view:hasAlternateName': {
     'ui:title': 'Did you serve under another name?',
     'ui:widget': 'yesNo'
@@ -27,4 +30,13 @@ const uiSchema = {
   }
 };
 
-export default uiSchema;
+export const schema = {
+  type: 'object',
+  properties: {
+    'view:hasAlternateName': {
+      type: 'object',
+      properties: {}
+    },
+    alternateNames: alternateNamesSchema
+  }
+};
