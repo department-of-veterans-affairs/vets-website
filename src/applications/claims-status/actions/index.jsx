@@ -1,6 +1,11 @@
 import React from 'react';
 import Raven from 'raven-js';
+<<<<<<< HEAD
 import _ from 'lodash';
+||||||| merged common ancestors
+=======
+import get from '../../../platform/utilities/data/get';
+>>>>>>> 9d6d031486e0ce293258c5edfd895b25193dd3cb
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
@@ -148,19 +153,16 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-const POLLING_INTERVAL = 1000;
-
-export function pollApi({
-  onFailure,
+export function pollClaimsStatus({
+  onError,
   onSuccess,
   pollingInterval,
   request = apiRequest,
   shouldFail,
-  shouldSucceed,
-  target
+  shouldSucceed
 }) {
   return request(
-    target,
+    '/evss_claims_async',
     null,
     response => {
       if (shouldSucceed(response)) {
@@ -169,17 +171,22 @@ export function pollApi({
       }
 
       if (shouldFail(response)) {
-        onFailure(response);
+        onError(response);
         return;
       }
 
       setTimeout(
-        () => pollClaimsStatus({ onFailure, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }),
-        pollingInterval
+        pollClaimsStatus,
+        pollingInterval,
+        { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }
       );
     },
-    error => onFailure(error)
+    error => onError(error)
   );
+}
+
+export function getSyncStatus(claimsAsyncResponse) {
+  return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
 export function getClaimsV2(poll = pollClaimsStatus) {
@@ -188,12 +195,11 @@ export function getClaimsV2(poll = pollClaimsStatus) {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
     poll({
-      onFailure: () => dispatch({ type: FETCH_CLAIMS_ERROR }),
+      onError: () => dispatch({ type: FETCH_CLAIMS_ERROR }),
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
-      pollingInterval: window.VetsGov.pollTimeout || POLLING_INTERVAL,
-      shouldFail: response => _.get(response, 'meta.syncStatus') === 'FAILED',
-      shouldSucceed: response => _.get(response, 'meta.syncStatus') === 'SUCCESS',
-      target: '/evss_claims_async',
+      pollingInterval: window.VetsGov.pollTimeout || 1000,
+      shouldFail: response => getSyncStatus(response) === 'FAILED',
+      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS'
     });
   };
 }
