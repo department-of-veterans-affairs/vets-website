@@ -373,27 +373,6 @@ describe('Actions', () => {
         expect(onErrorSpy.calledOnce).to.be.true;
         expect(shouldFailStub.firstCall.args[0]).to.eql(mockResponse);
       });
-      it('should call setTimeout when shouldFail and shouldSucceed return false', () => {
-        const apiRequestSpy = sinon.spy();
-        const shouldFailStub = sinon.stub();
-        const shouldSucceedStub = sinon.stub();
-        const setTimeoutStub = sinon.stub(global, 'setTimeout');
-        shouldSucceedStub.returns(false);
-        shouldFailStub.returns(false);
-
-        pollClaimsStatus({
-          pollingInterval: 10,
-          request: apiRequestSpy,
-          shouldFail: shouldFailStub,
-          shouldSucceed: shouldSucceedStub
-        });
-        apiRequestSpy.firstCall.args[2]();
-        setTimeoutStub.firstCall.args[0]();
-        setTimeoutStub.restore();
-
-        expect(apiRequestSpy.calledTwice).to.be.true;
-        expect(setTimeoutStub.firstCall.args[1]).to.eql(10);
-      });
     });
   });
   describe('getClaims', () => {

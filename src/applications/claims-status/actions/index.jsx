@@ -148,8 +148,6 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-const POLLING_INTERVAL = 1000;
-
 export function pollClaimsStatus({
   onError,
   onSuccess,
@@ -173,8 +171,9 @@ export function pollClaimsStatus({
       }
 
       setTimeout(
-        () => pollClaimsStatus({ onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }),
-        pollingInterval
+        pollClaimsStatus,
+        pollingInterval,
+        { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }
       );
     },
     error => onError(error)
@@ -193,7 +192,7 @@ export function getClaimsV2(poll = pollClaimsStatus) {
     poll({
       onError: () => dispatch({ type: FETCH_CLAIMS_ERROR }),
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
-      pollingInterval: window.VetsGov.pollTimeout || POLLING_INTERVAL,
+      pollingInterval: window.VetsGov.pollTimeout || 1000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
       shouldSucceed: response => getSyncStatus(response) === 'SUCCESS'
     });
