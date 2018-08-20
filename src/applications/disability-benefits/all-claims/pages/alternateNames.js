@@ -10,7 +10,8 @@ const uiSchema = {
     'ui:options': {
       viewField: FullNameField,
       reviewTitle: 'Other names',
-      expandUnder: 'view:hasAlternateName'
+      expandUnder: 'view:hasAlternateName',
+      addAnotherLabel: 'Add another name'
     },
     items: {
       first: {
