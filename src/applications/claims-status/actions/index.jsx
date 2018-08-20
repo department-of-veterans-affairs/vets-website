@@ -190,7 +190,10 @@ export function getClaimsV2(poll = pollClaimsStatus) {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
     poll({
-      onError: () => dispatch({ type: FETCH_CLAIMS_ERROR }),
+      onError: response => {
+        Raven.captureException(`vets_claims_v2_err_get_claims ${getStatus(response)}`);
+        dispatch({ type: FETCH_CLAIMS_ERROR });
+      },
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
       pollingInterval: window.VetsGov.pollTimeout || 1000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
