@@ -1,11 +1,6 @@
 import React from 'react';
 import Raven from 'raven-js';
-<<<<<<< HEAD
-import _ from 'lodash';
-||||||| merged common ancestors
-=======
 import get from '../../../platform/utilities/data/get';
->>>>>>> 9d6d031486e0ce293258c5edfd895b25193dd3cb
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
@@ -153,16 +148,17 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-export function pollClaimsStatus({
+export function pollRequest({
   onError,
   onSuccess,
   pollingInterval,
   request = apiRequest,
   shouldFail,
-  shouldSucceed
+  shouldSucceed,
+  target
 }) {
   return request(
-    '/evss_claims_async',
+    target,
     null,
     response => {
       if (shouldSucceed(response)) {
@@ -176,7 +172,7 @@ export function pollClaimsStatus({
       }
 
       setTimeout(
-        pollClaimsStatus,
+        pollRequest,
         pollingInterval,
         { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }
       );
@@ -189,7 +185,7 @@ export function getSyncStatus(claimsAsyncResponse) {
   return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
-export function getClaimsV2(poll = pollClaimsStatus) {
+export function getClaimsV2(poll = pollRequest) {
 
   return (dispatch) => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
@@ -199,7 +195,8 @@ export function getClaimsV2(poll = pollClaimsStatus) {
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
       pollingInterval: window.VetsGov.pollTimeout || 1000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
-      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS'
+      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
+      target: '/evss_claims_async'
     });
   };
 }
@@ -236,24 +233,25 @@ export function setUnavailable() {
   };
 }
 
-export function getClaimDetail(id, router) {
+export function getClaimDetail(id, router, poll = pollRequest) {
   return (dispatch) => {
-    console.log('get claim detail');
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    makeAuthRequest(`/v0/evss_claims/${id}`,
-      null,
-      dispatch,
-      resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
-      resp => {
-        if (resp.status !== 404 || !router) {
+    poll({
+      onError: response => {
+        if (response.status !== 404 || !router) {
           dispatch({ type: SET_CLAIMS_UNAVAILABLE });
         } else {
           router.replace('your-claims');
         }
-      }
-    );
+      },
+      onSuccess: response => dispatch({ type: SET_CLAIM_DETAIL, claim: response.data, meta: response.meta }),
+      pollingInterval: window.VetsGov.pollTimeout || 1000,
+      shouldFail: response => getSyncStatus(response) === 'FAILED',
+      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
+      target: `/evss_claims_async/${id}`,
+    });
   };
 }
 
