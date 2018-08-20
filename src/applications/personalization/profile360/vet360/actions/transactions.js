@@ -50,7 +50,7 @@ export function clearTransactionRequest(fieldName) {
   };
 }
 
-export function refreshTransaction(transaction, analyticsSectionName) {
+export function refreshTransaction(transaction, analyticsSectionName, _route = null) {
   return async (dispatch, getState) => {
     try {
       const { transactionId } = transaction.data.attributes;
@@ -66,7 +66,8 @@ export function refreshTransaction(transaction, analyticsSectionName) {
         transaction
       });
 
-      const transactionRefreshed = isVet360Configured() ? await apiRequest(`/profile/status/${transactionId}`) : await localVet360.updateTransaction(transactionId);
+      const route = _route || `/profile/status/${transactionId}`;
+      const transactionRefreshed = isVet360Configured() ? await apiRequest(route) : await localVet360.updateTransaction(transactionId);
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
