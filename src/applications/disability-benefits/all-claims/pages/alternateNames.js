@@ -14,6 +14,7 @@ export const uiSchema = {
       viewField: FullNameField,
       reviewTitle: 'Other names',
       expandUnder: 'view:hasAlternateName',
+      itemName: 'Name'
     },
     items: {
       first: {
