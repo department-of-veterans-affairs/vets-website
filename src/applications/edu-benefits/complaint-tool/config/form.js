@@ -5,7 +5,7 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup, validateMatch } from 'us-forms-system/lib/js/validation';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -234,6 +234,9 @@ const formConfig = {
                 }
               }
             },
+            'ui:validations': [
+              validateMatch('applicantEmail', 'view:applicantEmailConfirmation')
+            ],
             applicantEmail: {
               'ui:title': 'Email address',
               'ui:errorMessages': {
