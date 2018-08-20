@@ -3,11 +3,11 @@ import environment from '../../../../platform/utilities/environment';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import fullSchema from './schema';
 import { veteranInfoDescription } from '../content/veteranDetails';
-import {
-  uiSchema as altnerateNamesUISchema,
-  schema as alternateNamesSchema
-} from '../pages/alternateNames';
+import alternateNamesUISchema from '../pages/alternateNames';
+
+const { alternateNames } = fullSchema.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -45,8 +45,8 @@ const formConfig = {
         alternateNames: {
           title: 'Other Names',
           path: 'alternate-names',
-          uiSchema: altnerateNamesUISchema,
-          schema: alternateNamesSchema
+          uiSchema: alternateNamesUISchema,
+          schema: alternateNames
         }
       }
     }

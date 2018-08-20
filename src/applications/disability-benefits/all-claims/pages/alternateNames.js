@@ -1,6 +1,6 @@
 import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
 
-export const uiSchema = {
+const uiSchema = {
   'view:hasAlternateName': {
     'ui:title': 'Did you serve under another name?',
     'ui:widget': 'yesNo'
@@ -26,41 +26,4 @@ export const uiSchema = {
   }
 };
 
-export const schema = {
-  type: 'object',
-  required: ['view:hasAlternateName'],
-  properties: {
-    'view:hasAlternateName': {
-      type: 'boolean'
-    },
-    alternateNames: {
-      type: 'array',
-      minItems: 1,
-      maxItems: 100,
-      items: {
-        type: 'object',
-        required: ['first', 'last'],
-        properties: {
-          first: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 30,
-            pattern: "^([a-zA-Z0-9-/']+( ?))+$"
-          },
-          middle: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 30,
-            pattern: "^([a-zA-Z0-9-/']+( ?))+$"
-          },
-          last: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 30,
-            pattern: "^([a-zA-Z0-9-/']+( ?))+$"
-          }
-        }
-      }
-    }
-  }
-};
+export default uiSchema;
