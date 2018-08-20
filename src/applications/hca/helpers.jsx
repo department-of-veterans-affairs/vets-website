@@ -1425,3 +1425,33 @@ export const medicarePartADescription = (
     </div>
   </div>
 );
+
+// Adapted from https://stackoverflow.com/a/46355483
+// Check daylight saving time
+export function stdTimezoneOffset(offsetDate) {
+  const jan = new Date(offsetDate.getFullYear(), 0, 1);
+  const jul = new Date(offsetDate.getFullYear(), 6, 1);
+  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+}
+
+// Adapted from https://stackoverflow.com/a/46355483
+export function isDstObserved(dstDate) {
+  return dstDate.getTimezoneOffset() < stdTimezoneOffset(dstDate);
+}
+
+// Adapted from https://stackoverflow.com/a/46355483 and https://stackoverflow.com/a/17085556
+export function getReferenceDate() {
+  const today = new Date();
+  const isDST = !!isDstObserved(today);
+  const cstOffset = isDST ? 5 : 6;
+  // create Date object for current location
+  const utcDate = new Date();
+
+  // convert to msec
+  // subtract local time zone offset
+  // get UTC time in msec
+  const utc = utcDate.getTime() + (utcDate.getTimezoneOffset() * 60000);
+
+  // create new Date object for central time
+  return new Date(utc + (3600000 * cstOffset));
+}
