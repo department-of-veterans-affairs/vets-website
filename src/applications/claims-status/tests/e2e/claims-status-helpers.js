@@ -2,7 +2,7 @@ const mock = require('../../../../platform/testing/e2e/mock-helpers');
 
 function initAskVAMock(token) {
   mock(token, {
-    path: '/v0/evss_claims_async/11/request_decision',
+    path: '/v0/evss_claims/11/request_decision',
     verb: 'post',
     value: {}
   });
@@ -207,6 +207,7 @@ function initClaimDetailMocks(token, decisionLetterSent, documentsNeeded, waiver
         }
       },
       meta: {
+        syncStatus: 'SUCCESS',
         successfulSync: true
       }
     }
