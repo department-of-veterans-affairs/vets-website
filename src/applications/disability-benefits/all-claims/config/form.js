@@ -5,9 +5,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
-  uiSchema as alternateNamesUISchema,
-  schema as alternateNamesSchema
-} from '../pages/alternateNames';
+  alternateNames
+} from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
@@ -45,8 +44,8 @@ const formConfig = {
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
-          uiSchema: alternateNamesUISchema,
-          schema: alternateNamesSchema
+          uiSchema: alternateNames.uiSchema,
+          schema: alternateNames.schema
         }
       }
     }
