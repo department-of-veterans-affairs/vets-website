@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import { chunk } from 'lodash';
+import { chunk, fill } from 'lodash';
 
 import { benefitChoices } from './helpers';
 
@@ -17,13 +17,19 @@ class PreferencesWidget extends React.Component {
             {chunk(benefitChoices, 3).map((c, i) => {
               return (
                 <div key={i} className="preferences-row">
-                  {c.map((e, ix) => {
-                    return (
-                      <div key={`{i}-${ix}`} className="preference-item-wrapper">
+                  {c.concat(fill(Array(3 - c.length), null)).map((e, ix) => {
+                    let itemContent;
+                    if (e) {
+                      itemContent = (
                         <div className="preference-item">
                           <h5>{e.title}</h5>
                           <p>{e.description}</p>
                         </div>
+                      );
+                    }
+                    return (
+                      <div key={`{i}-${ix}`} className="preference-item-wrapper">
+                        {itemContent}
                       </div>
                     );
                   })}
