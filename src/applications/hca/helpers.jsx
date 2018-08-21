@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import {
@@ -1440,7 +1441,7 @@ export function isDstObserved(dstDate) {
 }
 
 // Adapted from https://stackoverflow.com/a/46355483 and https://stackoverflow.com/a/17085556
-export function getReferenceDate() {
+export function getCentralTimeReferenceDate() {
   const today = new Date();
   const isDST = !!isDstObserved(today);
   const cstOffset = isDST ? 5 : 6;
@@ -1454,4 +1455,14 @@ export function getReferenceDate() {
 
   // create new Date object for central time
   return new Date(utc + (3600000 * cstOffset));
+}
+
+export function isAfterCentralTimeDischargeDate(formData) {
+  const lastDischargeDate = moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD');
+  const centralTimeDate = moment(getCentralTimeReferenceDate()).startOf('day');
+  return !lastDischargeDate.isAfter(centralTimeDate);
+}
+
+export function isNotAfterCentralTimeDischargeDate(formData) {
+  return !isAfterCentralTimeDischargeDate(formData);
 }

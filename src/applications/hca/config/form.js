@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import moment from 'moment';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
@@ -47,7 +46,8 @@ import {
   expensesGreaterThanIncomeWarning,
   expensesLessThanIncome,
   deductibleExpensesDescription,
-  getReferenceDate,
+  isAfterCentralTimeDischargeDate,
+  isNotAfterCentralTimeDischargeDate,
 } from '../helpers';
 
 import migrations from './migrations';
@@ -411,20 +411,10 @@ const formConfig = {
             lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
-              'ui:required': (formData) => {
-                const LDD = moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD');
-                const RDT = moment(getReferenceDate()).startOf('day');
-                const isAfter = !LDD.isAfter(RDT);
-                return isAfter;
-              },
+              'ui:required': isAfterCentralTimeDischargeDate,
               'ui:options': {
                 labels: dischargeTypeLabels,
-                hideIf: (formData) => {
-                  const LDD = moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD');
-                  const RDT = moment(getReferenceDate()).startOf('day');
-                  const isNotAfter = LDD.isAfter(RDT);
-                  return isNotAfter;
-                }
+                hideIf: isNotAfterCentralTimeDischargeDate
               }
             },
             'ui:validations': [
