@@ -41,14 +41,22 @@ export function createMHVAccount() {
 }
 
 export function upgradeMHVAccount() {
-  return dispatch => {
+  return async (dispatch) => {
     dispatch({ type: UPGRADING_MHV_ACCOUNT });
 
-    apiRequest(
-      `${baseUrl}/upgrade`,
-      { method: 'POST' },
-      ({ data }) => dispatch({ type: UPGRADE_MHV_ACCOUNT_SUCCESS, data }),
-      () => dispatch({ type: UPGRADE_MHV_ACCOUNT_FAILURE })
-    );
+    let mhvAccount;
+    let userProfile;
+
+    // If upgrade is successful, fetch user to update the list of services.
+    // Note that as long as the actual MHV upgrade responded with a success,
+    // it will count as a success even if user fetch fails for whatever reason.
+    try {
+      mhvAccount = await apiRequest(`${baseUrl}/upgrade`, { method: 'POST' });
+      userProfile = await apiRequest('/user');
+    } catch (error) {
+      if (!mhvAccount) return dispatch({ type: UPGRADE_MHV_ACCOUNT_FAILURE });
+    }
+
+    return dispatch({ type: UPGRADE_MHV_ACCOUNT_SUCCESS, mhvAccount, userProfile });
   };
 }

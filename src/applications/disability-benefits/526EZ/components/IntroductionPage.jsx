@@ -20,7 +20,7 @@ class IntroductionPage extends React.Component {
   hasSavedForm = () => {
     const { saveInProgress: { user } } = this.props;
     return user.profile && user.profile.savedForms
-      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .filter(f => moment.unix(f.metadata.expiresAt).isAfter())
       .find(f => f.form === this.props.formId);
   }
 
