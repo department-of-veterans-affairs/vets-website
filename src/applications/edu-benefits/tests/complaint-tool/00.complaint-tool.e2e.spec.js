@@ -1,5 +1,5 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-// const manifest = require('../../complaint-tool/manifest.json');
+const manifest = require('../../complaint-tool/manifest.json');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const PageHelpers = require('./complaint-tool-helpers');
 const testData = require('./schema/maximal-test.json');
@@ -86,4 +86,4 @@ module.exports = E2eHelpers.createE2eTest((client) => {
   client.end();
 });
 
-// module.exports['@disabled'] = !manifest.production;
+module.exports['@disabled'] = !manifest.production;
