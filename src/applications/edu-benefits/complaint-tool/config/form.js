@@ -3,7 +3,7 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup, validateMatch } from 'us-forms-system/lib/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
@@ -243,6 +243,9 @@ const formConfig = {
                 }
               }
             },
+            'ui:validations': [
+              validateMatch('applicantEmail', 'view:applicantEmailConfirmation')
+            ],
             applicantEmail: {
               'ui:title': 'Email address',
               'ui:errorMessages': {

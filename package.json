@@ -230,6 +230,7 @@
     "react-cropper": "^1.0.1",
     "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",
+    "sync-request": "^6.0.0",
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
     "us-forms-system": "https://github.com/usds/us-forms-system.git#84887dc7cb0ccee2ae2c8156b5664697c2850b1d",
