@@ -283,8 +283,7 @@ const formConfig = {
                 },
                 'ui:errorMessages': {
                   atLeastOne: 'Please select at least one'
-                },
-                'ui:required': () => true
+                }
               },
               assistance: {
                 'view:assistance': {
@@ -307,6 +306,7 @@ const formConfig = {
             properties: {
               educationDetails: {
                 type: 'object',
+                required: ['programs'],
                 properties: {
                   programs: {
                     type: 'object',
