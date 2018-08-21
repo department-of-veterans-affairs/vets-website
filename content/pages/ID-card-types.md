@@ -33,7 +33,7 @@ If you already have a Veteran ID Card, you don’t need to request another type 
 If you’ve received a dishonorable, other than honorable, or bad conduct character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application. 
 #### How do I apply for a Veteran ID Card?
 You can apply online to get a Veteran ID Card. 
-[Apply for a Veteran ID Card.](/veteran-id-card/)
+[Learn more about how to apply for a Veteran ID Card.](/veteran-id-card/)
 
 
 ### Department of Defense (DoD) Identification Card
