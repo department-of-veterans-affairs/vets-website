@@ -66,21 +66,6 @@ export function setNotification(message) {
   };
 }
 
-export function getClaims(filter) {
-  return (dispatch) => {
-    dispatch({ type: FETCH_CLAIMS });
-
-    makeAuthRequest('/v0/evss_claims',
-      null,
-      dispatch,
-      claims => {
-        dispatch({ type: SET_CLAIMS, filter, claims: claims.data, meta: claims.meta });
-      },
-      () => dispatch({ type: SET_CLAIMS_UNAVAILABLE })
-    );
-  };
-}
-
 export function getAppeals(filter) {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS });
