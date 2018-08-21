@@ -35,26 +35,17 @@ const schema = {
         }
       }
     },
-    servicePay: {
-      type: 'object',
-      required: ['hasMilitaryRetiredPay'],
-      properties: {
-        hasMilitaryRetiredPay: {
-          type: 'boolean'
-        },
-        militaryRetiredPayBranch: {
-          type: 'string',
-          'enum': [
-            'Air Force',
-            'Army',
-            'Coast Guard',
-            'Marine Corps',
-            'National Oceanic and Atmospheric Administration',
-            'Navy',
-            'Public Health Service'
-          ]
-        }
-      }
+    militaryRetiredPayBranch: {
+      type: 'string',
+      'enum': [
+        'Air Force',
+        'Army',
+        'Coast Guard',
+        'Marine Corps',
+        'National Oceanic and Atmospheric Administration',
+        'Navy',
+        'Public Health Service'
+      ]
     }
   }
 };
