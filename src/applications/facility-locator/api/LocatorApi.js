@@ -3,7 +3,8 @@ import { api } from '../config';
 
 class LocatorApi {
 
-  static searchWithBounds(url) {
+  static searchWithBounds(params) {
+    const url = `${api.url}?${params}`;
     return new Promise( (resolve, reject) => {
       fetch(url, api.settings)
         .then( res => res.json())
@@ -14,7 +15,8 @@ class LocatorApi {
     });
   }
 
-  static fetchVAFacility(url) {
+  static fetchVAFacility(id) {
+    const url = `${api.url}/${id}`;
     return new Promise( (resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())

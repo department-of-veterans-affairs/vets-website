@@ -106,12 +106,12 @@ class ServicesAtFacility extends Component {
       return null;
     }
 
-    const alertHeading = (<h4>This list may not include all of the services available at this location.</h4>);
-    const alertContent = (<div>Please check on the facility’s website or call them for this information.</div>);
+    const alertHeading = 'This list may not include all of the services available at this location.';
+    const alertContent = 'Please check on the facility’s website or call them for this information.';
 
     return (
       <div>
-        <p style={{ margin: '0 0 0.5em' }}>Services current as of
+        <p style={{ margin: '0 0 0.5em' }}>Services current as of&nbsp;
           <strong>{moment(services.last_updated).format('MMMM D, YYYY')}</strong>
         </p>
 

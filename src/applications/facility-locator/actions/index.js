@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { api } from '../config';
-import { find, compact, isEmpty } from 'lodash';
+import { compact, isEmpty } from 'lodash';
 import { mapboxClient } from '../components/MapboxClient';
 import { reverseGeocodeBox } from '../utils/helpers';
 import {
@@ -18,6 +17,14 @@ export const updateSearchQuery = (query) => ({
   payload: { ...query }
 });
 
+/**
+ * Get the details of a single VA facility.
+ * 
+ * @param {String} id Facility or Provider ID as provided by the data source
+ * @param {Object} location The actual location object if we already have it.
+ *                 (This is a kinda hacky way to do a force update of the Redux
+ *                  store to set the currently `selectedResult` but ¯\_(ツ)_/¯)
+ */
 export const fetchVAFacility = (id, location = null) => {
   if (location) {
     return {
@@ -34,13 +41,16 @@ export const fetchVAFacility = (id, location = null) => {
       },
     });
 
-    const url = `${api.url}/${id}`;
-    return LocatorApi.fetchVAFacility(url)
+    return LocatorApi.fetchVAFacility(id)
       .then(data => dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data }))
       .catch(error => dispatch({ type: SEARCH_FAILED, error }));
   };
 };
 
+/**
+ * 
+ * @param {{bounds: number[], facilityType: string, serviceType: string, page: number}} 
+ */
 export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }) => {
   return (dispatch) => {
     if (facilityType === LocationType.CC_PROVIDER) {
@@ -59,24 +69,25 @@ export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }
 };
 
 /**
+ * Handles the actual API call to get the type of locations closest to `address`
+ * and/or within the given `bounds`.
  * 
- * 
- * @param {String} address Address of the center-point of the search area
- * @param {Array<Number>} bounds Geo-coords of the bounding box of the search area
- * @param {String} locationType @see config.js root app dir for valid types
- * @param {String} serviceType (same as locationType)
- * @param {Number} page What page of results to request
+ * @param {string=} address Address of the center-point of the search area
+ * @param {number[]} bounds Geo-coords of the bounding box of the search area
+ * @param {string} locationType (see config.js for valid types)
+ * @param {string} serviceType (see config.js for valid types)
+ * @param {number} page What page of results to request
  * @param {Function} dispatch Redux's dispatch method
  */
 const fetchLocations = (address = null, bounds, locationType, serviceType, page, dispatch) => {
+  const filterableLocations = ['health', 'benefits'];
   const params = compact([
     address ? `address=${address}` : null,
     ...bounds.map(c => `bbox[]=${c}`),
     locationType ? `type=${locationType}` : null,
-    locationType === 'benefits' && serviceType ? `services[]=${serviceType}` : null,
+    filterableLocations.includes(locationType) && serviceType ? `services[]=${serviceType}` : null,
     `page=${page}`
   ]).join('&');
-  const url = `${api.url}?${params}`;
 
   dispatch({
     type: SEARCH_STARTED,
@@ -86,7 +97,7 @@ const fetchLocations = (address = null, bounds, locationType, serviceType, page,
     },
   });
 
-  return LocatorApi.searchWithBounds(url)
+  return LocatorApi.searchWithBounds(params)
     .then(
       (data) => {
         if (data.errors) {
@@ -130,9 +141,8 @@ export const genBBoxFromAddress = (query) => {
     }, (error, res) => {
       if (!error && !isEmpty(res.features)) {
         const coordinates = res.features[0].center;
-        const zipCode = (find(res.features[0].context, (v) => {
-          return v.id.includes('postcode');
-        }) || {}).text || res.features[0].place_name;
+        const zip = res.features[0].context.find(v => v.id.includes('postcode')) || {};
+        const zipCode = zip.text || res.features[0].place_name;
         const featureBox = res.features[0].box;
 
         let minBounds = [
@@ -163,12 +173,11 @@ export const genBBoxFromAddress = (query) => {
             zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 9,
           }
         });
+
+        return;
       }
 
-      dispatch({
-        type: SEARCH_FAILED,
-        error,
-      });
+      dispatch({ type: SEARCH_FAILED, error });
     });
   };
 };

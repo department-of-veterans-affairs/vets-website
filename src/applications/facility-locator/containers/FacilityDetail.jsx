@@ -60,6 +60,9 @@ class FacilityDetail extends Component {
 
     if (!facility) {
       return null;
+      // Shouldn't we render some sort of error message instead?
+      // Right now all the user sees is a blank page. How is a dev
+      // supposed to quickly understand what the failure was?
     }
 
     if (currentQuery.inProgress) {

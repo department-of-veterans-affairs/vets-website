@@ -6,16 +6,16 @@
 /* eslint-disable array-bracket-spacing */
 /* eslint-disable space-in-parens */
 /* eslint-disable no-use-before-define */
-const delay = 1000;
+const delay = 0;
 
 class MockLocatorApi {
 
-  static searchWithBounds(url) {
+  static searchWithBounds(params) {
     return new Promise( (resolve, reject) => {
-      if (url) {
-        const params = urlParamStringToObj(url);
+      if (params) {
+        const paramsList = urlParamStringToObj(params);
 
-        if (params.fail) {
+        if (paramsList.fail) {
           reject('Random failure due to fail flag being set');
         }
 
@@ -28,12 +28,16 @@ class MockLocatorApi {
     });
   }
 
-  static fetchVAFacility(url) {
+  static fetchVAFacility(id) {
     return new Promise( (resolve, reject) => {
-      const id = url.split('/')[1];
 
-      if (id && typeof id === 'number') {
-      resolve(facilityData.data[0]);
+      if (id && (typeof id === 'number' || typeof id === 'string')) {
+        const location = facilityData.data.filter(data => data.id === id);
+        if (location && location.length > 0) {
+          resolve({ data: location[0] });
+        } else {
+          reject(`Facility with given ID '${id}' not found!`);
+        }
     } else {
         reject('No facility ID or invalid ID specified!');
       }
@@ -41,8 +45,8 @@ class MockLocatorApi {
   }
 }
 
-const urlParamStringToObj = (urlString) => {
-  return urlString.split('?')[1].split('&').map(
+const urlParamStringToObj = (urlParams) => {
+  return urlParams.split('&').map(
     p => {
       const [ key, value ] = p.split('=');
       return { [key]: value };
