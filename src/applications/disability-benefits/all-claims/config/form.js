@@ -1,5 +1,8 @@
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+
 import environment from '../../../../platform/utilities/environment';
 
+import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -8,6 +11,14 @@ import {
   uiSchema as alternateNamesUISchema,
   schema as alternateNamesSchema
 } from '../pages/alternateNames';
+
+import fullSchema from '../config/schema';
+
+const {
+  serviceInformation: {
+    properties: { servicePeriods }
+  },
+} = fullSchema.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -47,7 +58,49 @@ const formConfig = {
           path: 'alternate-names',
           uiSchema: alternateNamesUISchema,
           schema: alternateNamesSchema
-        }
+        },
+        militaryHistory: {
+          title: 'Military service history',
+          path: 'review-veteran-details/military-service-history',
+          uiSchema: {
+            servicePeriods: {
+              'ui:title': 'Military service history',
+              'ui:description': 'This is the military service history we have on file for you.',
+              'ui:options': {
+                itemName: 'Service Period',
+                viewField: ServicePeriodView,
+                reviewMode: true
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                dateRange: dateRangeUI(
+                  'Service start date',
+                  'Service end date',
+                  'End of service must be after start of service'
+                )
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              servicePeriods,
+              'view:militaryHistoryNote': {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        },
+        reservesNationalGuardService: {
+          title: 'Reserves and National Guard Service',
+          path: 'review-veteran-details/military-service-history/reserves-national-guard',
+          depends: hasGuardOrReservePeriod,
+          uiSchema: reservesNationalGuardUISchema,
+          schema: reservesNationalGuardSchema
+        },
       }
     }
   }
