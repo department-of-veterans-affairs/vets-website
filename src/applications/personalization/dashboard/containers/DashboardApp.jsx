@@ -12,6 +12,7 @@ import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
+import PreferencesWidget from '../../preferences/PreferencesWidget';
 
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
@@ -174,6 +175,9 @@ class DashboardApp extends React.Component {
           <div className="va-introtext">
             <p>Access the tools and information you’ll need to track and manage your VA benefits and communications.</p>
           </div>
+
+          <PreferencesWidget/>
+
           <div>
             <FormList
               userProfile={this.props.profile}

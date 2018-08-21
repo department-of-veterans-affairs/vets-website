@@ -19,3 +19,14 @@
     }
   }
 }
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2rem;
+
+   div {
+     flex: 1;
+   }
+}
