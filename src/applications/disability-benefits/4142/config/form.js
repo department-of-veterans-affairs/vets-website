@@ -26,6 +26,9 @@ import {
   summary,
 } from '../helpers';
 
+
+import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
+
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
@@ -58,7 +61,7 @@ const formPages = {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api/something',
+  submitUrl: '/v0/api/something', // Test Url
   // submit: () =>
   //   Promise.resolve({ attributes: {
   // confirmationNumber: '123123123' } }),
@@ -73,7 +76,7 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  //  transformForSumbit: transform,
+  //  transformForSumbit: transform, //TODO
   title: '4142 Private Medical Record Release Form',
   defaultDefinitions: {
     fullName,
@@ -90,7 +93,7 @@ const formConfig = {
           path: 'prviate-medical-record',
           title: 'Supporting Evidence',
           uiSchema: {
-            uploadRecs: {
+            'view:uploadRecs': {
               'ui:description': aboutPrivateMedicalRecs,
               'ui:title': aboutPrivateMedicalRecs,
               'ui:widget': 'radio',
@@ -108,7 +111,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              uploadRecs: {
+              'view:uploadRecs': {
                 type: 'string',
                 'enum': ['Yes', 'No, please get them from my doctor.'],
               },
@@ -158,9 +161,19 @@ const formConfig = {
                 },
                 privateProviderPostalCode: {
                   'ui:title': 'Postal code',
+                  'ui:options': {
+                    widgetClassNames: 'usa-input-medium',
+                  },
                 },
                 privatePrimaryPhoneNumber: {
                   'ui:title': 'Primary phone number',
+                  'ui:widget': PhoneNumberWidget,
+                  'ui:options': {
+                    widgetClassNames: 'va-input-medium-large',
+                  },
+                  'ui:errorMessages': {
+                    pattern: 'Phone numbers must be 10 digits (dashes allowed)',
+                  },
                 },
                 limitedConsent: {
                   'ui:title':
@@ -213,17 +226,15 @@ const formConfig = {
                       type: 'string',
                     },
                   },
-                  //  required: ['dateRange', 'serviceBranch'], //TODO
+                  required: [
+                    'privateProviderName',
+                    'privateProviderStreetAddress',
+                  ],
                 },
               },
             },
           },
         },
-      },
-    },
-    chapterAdditionalInfo: {
-      title: 'Supporting Evidence',
-      pages: {
         [formPages.contactInfo]: {
           path: 'summary-information',
           title: 'Summary Information',
