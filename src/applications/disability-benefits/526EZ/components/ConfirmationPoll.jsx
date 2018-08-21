@@ -108,7 +108,11 @@ export default class ConfirmationPoll extends React.Component {
             statusCode: this.state.failureCode
           }
         });
-        return null;
+        return (
+          <div>
+            <p>Looks like something went wrong. That's a bummer.</p>
+          </div>
+        );
       }
       default: {
         // pending
