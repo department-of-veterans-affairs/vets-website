@@ -165,7 +165,7 @@ const formConfig = {
               },
               'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
             }),
-            serviceAffiliation: { // could wrap service info in an object
+            serviceAffiliation: {
               'ui:title': 'Service affiliation',
               'ui:required': isMyself,
               'ui:options': {
