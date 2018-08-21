@@ -9,7 +9,7 @@ template: level2-index
 widgets:
   - root: react-applicationStatus
     timeout: 20
-    buildtype: staging
+    production: false
     loadingMessage: Checking your application status.
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:

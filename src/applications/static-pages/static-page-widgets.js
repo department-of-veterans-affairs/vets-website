@@ -1,16 +1,7 @@
-function mountWidgets(widgets, buildtype) {
+function mountWidgets(widgets, isProduction) {
   widgets
     .filter(function (widget) {
-      if (widget.buildtype === buildtype) {
-        return true;
-      }
-
-      // Show the widget on lower environment if set to staging
-      if (widget.buildtype === 'staging' && buildtype === 'development') {
-        return true;
-      }
-
-      if (widget.buildtype) {
+      if (widget.production === false && isProduction) {
         return false;
       }
 
