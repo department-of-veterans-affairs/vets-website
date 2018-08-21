@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Service Pay', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.servicePay;
+  const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.waiveRetirementPay;
 
   it('should render two radio options by default', () => {
     const form = mount(
@@ -21,14 +21,14 @@ describe('Service Pay', () => {
     expect(form.find('input[type="radio"]').length).to.equal(2);
   });
 
-  it("should submit when 'no' option is selected", () => {
+  it('should submit when an option is selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{ 'view:hasMilitaryRetiredPay': false }}
+        data={{ waiveRetirementPay: false }}
         formData={{}}
         onSubmit={onSubmit}/>
     );
@@ -38,14 +38,14 @@ describe('Service Pay', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it("should fail to submit when 'Yes' option selected and no branch provided", () => {
+  it('should fail to submit when neither option is selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{ 'view:hasMilitaryRetiredPay': true }}
+        data={{}}
         formData={{}}
         onSubmit={onSubmit}/>
     );
@@ -53,25 +53,5 @@ describe('Service Pay', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
-  });
-
-  it('should submit when all info provided', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:hasMilitaryRetiredPay': true,
-          militaryRetiredPayBranch: 'Army'
-        }}
-        formData={{}}
-        onSubmit={onSubmit}/>
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
   });
 });
