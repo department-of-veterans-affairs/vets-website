@@ -10,6 +10,11 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 
+
+.form-checkbox > input[type="checkbox"] + .schemaform-label { // TODO: add > to .schemaform-first-field .schemaform-label, .schemaform-first-field > .usa-input-error in us-forms-system
+  margin-top: 0;
+}
+
 // Privacy agreement?
 .form-required-span {
   font-size: 1.7em;

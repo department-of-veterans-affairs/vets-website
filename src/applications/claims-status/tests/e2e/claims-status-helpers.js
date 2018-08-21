@@ -10,7 +10,7 @@ function initAskVAMock(token) {
 
 function initClaimsListMock(token) {
   mock(token, {
-    path: '/v0/evss_claims',
+    path: '/v0/evss_claims_async',
     verb: 'get',
     value: {
       data: [
@@ -52,6 +52,7 @@ function initClaimsListMock(token) {
         }
       ],
       meta: {
+        syncStatus: 'SUCCESS',
         successfulSync: false
       }
     }
