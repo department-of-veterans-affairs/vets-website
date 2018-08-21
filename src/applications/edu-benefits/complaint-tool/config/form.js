@@ -35,21 +35,19 @@ const {
 } = fullSchema.properties;
 
 const { assistance, programs, school } = educationDetails;
-
-const { schoolInformation } = school.oneOf[0];
-
-const domesticSchoolAddress = schoolInformation.oneOf[0];
-const internationalSchoolAddress = schoolInformation.oneOf[1];
+const { address: schoolAddress, name: schoolName } = school.oneOf[0].properties;
+const domesticSchoolAddress = schoolAddress.oneOf[0];
+const internationalSchoolAddress = schoolAddress.oneOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
 const configureSchoolAddressSchema = (schema) => {
   let newSchema = omit('required', schema);
+  newSchema = set('type', 'object', newSchema);
   newSchema = set('properties.country.enum', countries, newSchema);
   return set('properties.country.default', 'United States', newSchema);
 };
 
 const domesticSchoolAddressSchema = configureSchoolAddressSchema(domesticSchoolAddress);
-
 const internationalSchoolAddressSchema = configureSchoolAddressSchema(internationalSchoolAddress);
 
 const {
@@ -418,7 +416,7 @@ const formConfig = {
                   school: {
                     type: 'object',
                     properties: {
-                      facilityCode: { // TODO: determine whether to store facility ID
+                      facilityCode: {
                         type: 'object',
                         properties: {
                           facilityCode: {
@@ -429,8 +427,8 @@ const formConfig = {
                       'view:manualSchoolEntry': {
                         type: 'object',
                         properties: {
-                          name: schoolInformation.properties.name,
-                          address: domesticSchoolAddress
+                          name: schoolName,
+                          address: domesticSchoolAddressSchema
                         }
                       }
                     }
