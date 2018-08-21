@@ -3,9 +3,7 @@ import {
   schema as alternateNamesSchema
 } from '../pages/alternateNames';
 
-export default {
-  alternateNames: {
-    uiSchema: alternateNamesUISchema,
-    schema: alternateNamesSchema
-  }
+export const alternateNames = {
+  uiSchema: alternateNamesUISchema,
+  schema: alternateNamesSchema
 };
