@@ -6,7 +6,13 @@ import { chunk, fill } from 'lodash';
 
 import { benefitChoices } from './helpers';
 
+import localStorage from '../../../platform/utilities/storage/localStorage';
+
 class PreferencesWidget extends React.Component {
+  componentDidMount() {
+    localStorage.setItem('dashboardLastVisitedAt', Date.now());
+  }
+
   render() {
     return (
       <div className="row user-profile-row">

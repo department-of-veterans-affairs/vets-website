@@ -50,7 +50,9 @@ class DashboardApp extends React.Component {
 
   componentDidMount() {
     scrollToTop();
-    // this.props.router.push('preferences');
+    if (!localStorage.getItem('dashboardLastVisitedAt')) {
+      this.props.router.push('preferences');
+    }
   }
 
   dismissAlertBox = (name) => {
