@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import { withRouter } from 'react-router';
 
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../../platform/monitoring/record-event';
@@ -12,9 +13,7 @@ import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 
-import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import profileManifest from '../../profile360/manifest.json';
@@ -44,7 +43,6 @@ class DashboardApp extends React.Component {
     super(props);
 
     this.state = {
-      modalDismissed: false,
       'show-loa-alert': true,
       'show-mvi-alert': true,
     };
@@ -52,12 +50,7 @@ class DashboardApp extends React.Component {
 
   componentDidMount() {
     scrollToTop();
-  }
-
-  dismissModal = () => {
-    this.setState({
-      modalDismissed: true,
-    });
+    // this.props.router.push('preferences');
   }
 
   dismissAlertBox = (name) => {
@@ -67,27 +60,6 @@ class DashboardApp extends React.Component {
       });
       localStorage.setItem(`hide-${name}-alert`, true);
     };
-  }
-
-  renderDowntimeNotification = (downtime, children) => {
-    switch (downtime.status) {
-      case 'downtimeApproaching':
-        return (
-          <div className="downtime-notification row-padded" data-status={status}>
-            <Modal id="downtime-approaching-modal"
-              title="Some parts of your homepage will be down for maintenance soon"
-              status="info"
-              onClose={this.dismissModal}
-              visible={!this.state.modalDismissed}>
-              <p>We’ll be making updates to some tools and features on {downtime.startTime.format('MMMM Do')} between {downtime.startTime.format('LT')} and {downtime.endTime.format('LT')} If you have trouble using parts of the dashboard during that time, please check back soon.</p>
-              <button type="button" className="usa-button-secondary" onClick={this.dismissModal}>Continue</button>
-            </Modal>
-            {children}
-          </div>
-        );
-      default:
-        return children;
-    }
   }
 
   renderWidgetDowntimeNotification = (appName, sectionTitle) => {
@@ -279,13 +251,7 @@ class DashboardApp extends React.Component {
 
     return (
       <div name="topScrollElement">
-        <RequiredLoginView
-          serviceRequired={[backendServices.USER_PROFILE]}
-          user={this.props.user}>
-          <DowntimeNotification appTitle="user dashboard" dependencies={[externalServices.mvi, externalServices.mhv, externalServices.appeals]} render={this.renderDowntimeNotification}>
-            {view}
-          </DowntimeNotification>
-        </RequiredLoginView>
+        {view}
       </div>
     );
   }
@@ -313,5 +279,5 @@ const mapDispatchToProps = {
   removeSavedForm
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardApp);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DashboardApp));
 export { DashboardApp };
