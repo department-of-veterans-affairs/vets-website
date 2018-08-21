@@ -5,6 +5,12 @@
     "CHECK_BROKEN_LINKS": "no",
     "YARN_PRODUCTION":{
       "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "GH_TOKEN": {
+      "required": true
     }
   },
   "addons":[],

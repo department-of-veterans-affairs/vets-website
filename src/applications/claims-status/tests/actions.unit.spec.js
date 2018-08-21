@@ -16,6 +16,8 @@ import {
   GET_CLAIM_DETAIL,
   getAppeals,
   getClaimDetail,
+  getClaimsV2,
+  pollClaimsStatus,
   REMOVE_FILE,
   removeFile,
   RESET_UPLOADS,
@@ -243,6 +245,132 @@ describe('Actions', () => {
       thunk(dispatch);
     });
     afterEach(unMockFetch);
+  });
+  describe('getClaimsV2', () => {
+    it('should call dispatch and pollStatus', () => {
+      const dispatchSpy = sinon.spy();
+      const pollStatusSpy = sinon.spy();
+      getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+      expect(dispatchSpy.firstCall.args[0]).to.eql({ type: 'FETCH_CLAIMS_PENDING' });
+      expect(pollStatusSpy.calledOnce).to.be.true;
+    });
+
+    describe('onError callback', () => {
+      it('should dispatch a FETCH_CLAIMS_ERROR action', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        pollStatusSpy.firstCall.args[0].onError();
+
+        expect(dispatchSpy.secondCall.args[0]).to.eql({ type: 'FETCH_CLAIMS_ERROR' });
+      });
+    });
+    describe('onSuccess callback', () => {
+      it('should dispatch a FETCH_CLAIMS_SUCCESS action', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        pollStatusSpy.firstCall.args[0].onSuccess({ data: [] });
+
+        expect(dispatchSpy.secondCall.args[0]).to.eql({ type: 'FETCH_CLAIMS_SUCCESS', claims: [], pages: 0 });
+      });
+    });
+    describe('shouldFail predicate', () => {
+      it('should return true when response.meta.syncStatus is FAILED', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({ meta: { syncStatus: 'FAILED' } });
+
+        expect(shouldFail).to.be.true;
+      });
+      it('should return false when response.meta.syncStatus is not FAILED', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({});
+
+        expect(shouldFail).to.be.false;
+      });
+    });
+    describe('shouldSucceed predicate', () => {
+      it('should return true when response.meta.syncStatus is SUCCESS', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({ meta: { syncStatus: 'SUCCESS' } });
+
+        expect(shouldSucceed).to.be.true;
+      });
+      it('should return false when response.meta.syncStatus is not SUCCESS', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
+
+        expect(shouldSucceed).to.be.false;
+      });
+    });
+  });
+  describe('pollClaimStatus', () => {
+    it('should call apiRequest', () => {
+      const apiRequestSpy = sinon.spy();
+
+      pollClaimsStatus({ request: apiRequestSpy });
+      expect(apiRequestSpy.calledOnce).to.be.true;
+    });
+    describe('apiRequest response handler', () => {
+      it('should call onSuccess when shouldSucceed returns true', () => {
+        const apiRequestSpy = sinon.spy();
+        const mockResponse = {};
+        const onSuccessSpy = sinon.spy();
+        const onErrorSpy = sinon.spy();
+        const shouldSucceedStub = sinon.stub();
+        shouldSucceedStub.returns(true);
+
+        pollClaimsStatus({
+          onError: onErrorSpy,
+          onSuccess: onSuccessSpy,
+          request: apiRequestSpy,
+          shouldSucceed: shouldSucceedStub
+        });
+        apiRequestSpy.firstCall.args[2](mockResponse);
+
+        expect(onSuccessSpy.calledOnce).to.be.true;
+        expect(onErrorSpy.called).to.be.false;
+        expect(shouldSucceedStub.firstCall.args[0]).to.eql(mockResponse);
+      });
+      it('should call onError when shouldSuccess return false shouldFail returns true', () => {
+        const apiRequestSpy = sinon.spy();
+        const mockResponse = {};
+        const onErrorSpy = sinon.spy();
+        const onSuccessSpy = sinon.spy();
+        const shouldFailStub = sinon.stub();
+        const shouldSucceedStub = sinon.stub();
+        shouldSucceedStub.returns(false);
+        shouldFailStub.returns(true);
+
+        pollClaimsStatus({
+          onError: onErrorSpy,
+          onSuccess: onSuccessSpy,
+          request: apiRequestSpy,
+          shouldFail: shouldFailStub,
+          shouldSucceed: shouldSucceedStub
+        });
+        apiRequestSpy.firstCall.args[2](mockResponse);
+
+        expect(onSuccessSpy.calledOnce).to.be.false;
+        expect(onErrorSpy.calledOnce).to.be.true;
+        expect(shouldFailStub.firstCall.args[0]).to.eql(mockResponse);
+      });
+    });
   });
   describe('getClaimDetail', () => {
     beforeEach(mockFetch);

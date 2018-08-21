@@ -1,5 +1,6 @@
 import React from 'react';
 import Raven from 'raven-js';
+import get from '../../../platform/utilities/data/get';
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
@@ -132,16 +133,54 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-export function getClaimsV2() {
+export function pollClaimsStatus({
+  onError,
+  onSuccess,
+  pollingInterval,
+  request = apiRequest,
+  shouldFail,
+  shouldSucceed
+}) {
+  return request(
+    '/evss_claims_async',
+    null,
+    response => {
+      if (shouldSucceed(response)) {
+        onSuccess(response);
+        return;
+      }
+
+      if (shouldFail(response)) {
+        onError(response);
+        return;
+      }
+
+      setTimeout(
+        pollClaimsStatus,
+        pollingInterval,
+        { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }
+      );
+    },
+    error => onError(error)
+  );
+}
+
+export function getSyncStatus(claimsAsyncResponse) {
+  return get('meta.syncStatus', claimsAsyncResponse, null);
+}
+
+export function getClaimsV2(poll = pollClaimsStatus) {
+
   return (dispatch) => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
-    return apiRequest(
-      '/evss_claims',
-      null,
-      (response) => dispatch(fetchClaimsSuccess(response)),
-      // TO-DO: parse out errors, log in Sentry
-      () => dispatch({ type: FETCH_CLAIMS_ERROR })
-    );
+
+    poll({
+      onError: () => dispatch({ type: FETCH_CLAIMS_ERROR }),
+      onSuccess: response => dispatch(fetchClaimsSuccess(response)),
+      pollingInterval: window.VetsGov.pollTimeout || 1000,
+      shouldFail: response => getSyncStatus(response) === 'FAILED',
+      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS'
+    });
   };
 }
 
@@ -151,7 +190,6 @@ export function filterClaims(filter) {
     filter
   };
 }
-
 export function sortClaims(sortProperty) {
   return {
     type: SORT_CLAIMS,
