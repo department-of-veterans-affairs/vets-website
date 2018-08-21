@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: View Your VA Test and Lab Results Online
-display_title: View Test and Lab Results
+title: View Your VA Lab and Test Results Online
+display_title: View Lab and Test Results
 description: 
 concurrence: 
 lastupdate: 2018-08-17
@@ -13,7 +13,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-View your VA test and lab results online through your My Health*e*Vet personal health record. Find out if you're eligible to use this tool, and how to sign in.
+View your VA lab and test results online through your My Health*e*Vet personal health record. Find out if you're eligible to use this tool and how to sign in.
 
 </div>
 
@@ -21,11 +21,11 @@ View your VA test and lab results online through your My Health*e*Vet personal h
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">How can the VA labs and tests tool help me manage my health care?</h2>
+<h2 itemprop="name">How can the tool for VA labs and tests help me manage my health care?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-This tool (also called "Labs + Tests") is part of the My Health*e*Vet personal health record. It can help you view and keep a record of your test and lab results.
+This tool, called "Labs + Tests," is part of the My Health*e*Vet personal health record. It can help you view and keep a record of your lab and test results.
  
 **You can use it to:**
 - View some of your VA lab and test results (like blood tests)
@@ -41,7 +41,7 @@ This tool (also called "Labs + Tests") is part of the My Health*e*Vet personal h
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-You can use this tool to view your VA results and self-entered information if you meet all of the requirements listed below.
+You can use this tool to view your VA results and information you enter yourself if you meet all of the requirements listed below.
  
 **Both of these must be true. You're:**
 - Enrolled in VA health care, **and**
@@ -49,14 +49,16 @@ You can use this tool to view your VA results and self-entered information if yo
 
 [Find out how to apply for VA health care](/health-care/apply/).
 
-**And, you must have one of these free accounts:**
-- A premium **My Health*e*Vet** account, **or**
-- A **DS Logon** account (used for eBenefits and milConnect) and you verify your identity online as part of our sign-in process, **or**
+**And you must have one of these free accounts:**
+- A premium **My Health<em>e</em>Vet** account, **or**
+- A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
+
+**Note:** If you use DS Logon, you'll need to verify your identity online as part of our sign-in process.
 
 Please see the blue sign-in module above to learn more about signing in, creating or upgrading an account, and verifying your identity.
 
-**Note:** If you sign in with an unverified account, you’ll only see any results you entered yourself.
+If you sign in with an unverified account, you’ll see only the results you've entered yourself.
 
 </div>
 </div>
@@ -68,7 +70,7 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-At this time, you can only view your VA chemistry/hematology results. These include tests like blood sugar, liver function, or blood cell counts. We’ll add more VA labs and tests in the future.
+At this time, you can view only your VA chemistry/hematology results. These include tests like blood sugar, liver function, or blood cell counts. We’ll add more VA labs and tests in the future.
 </div>
 </div>
 </div>
@@ -79,7 +81,7 @@ At this time, you can only view your VA chemistry/hematology results. These incl
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-No. But you can enter this information yourself so that you can keep all your results in one place.
+No. But you can enter this information yourself so you can keep all your results in one place.
 
 </div>
 </div>
