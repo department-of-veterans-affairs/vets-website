@@ -3,6 +3,7 @@ import '../profile360/sass/user-profile.scss';
 import '../../claims-status/sass/claims-status.scss';
 import './sass/dashboard.scss';
 import '../../messaging/sass/messaging.scss';
+import '../preferences/preferences.scss';
 
 import startApp from '../../../platform/startup';
 

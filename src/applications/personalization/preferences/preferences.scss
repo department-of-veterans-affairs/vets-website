@@ -1,0 +1,21 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.preferences-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: stretch;
+  margin: 0 -1rem;
+
+  .preference-item-wrapper {
+    display: flex;
+    flex: 1;
+
+    .preference-item {
+      flex: 1;
+      margin: 1rem;
+      padding: 1.5rem;
+      background: $color-gray-lightest;
+    }
+  }
+}
