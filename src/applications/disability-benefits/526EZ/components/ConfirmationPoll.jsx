@@ -1,14 +1,17 @@
 import React from 'react';
 import Raven from 'raven-js';
 
+import get from '../../../../platform/utilities/data/get';
+
 import { apiRequest } from '../../../../platform/utilities/api';
 
 export const submissionStatuses = {
-  // The status returned by the API
-  pending: 'pending',
-  retry: 'retry',
-  succeeded: 'succeeded',
-  failed: 'failed',
+  // Statuses returned by the API
+  pending: 'submitted', // Submitted to EVSS, waiting response
+  retry: 'retrying',
+  succeeded: 'received', // Submitted to EVSS, received response
+  exhausted: 'exhausted', // EVSS is down or something; ran out of retries
+  failed: 'non_retryable_error', // EVSS responded with some error
   // When the api serves a failure
   apiFailure: 'apiFailure'
 };
@@ -23,7 +26,7 @@ export default class ConfirmationPoll extends React.Component {
 
     this.state = {
       submissionStatus: submissionStatuses.pending,
-      confirmationNumber: null,
+      claimId: null,
       failureCode: null,
     };
   }
@@ -43,15 +46,14 @@ export default class ConfirmationPoll extends React.Component {
       return;
     }
 
-    apiRequest('')
+    apiRequest(`disability_compensation_form/submission_status/${this.props.jobId}`)
       .then((response) => {
         // Check status
-        // TODO: Get where this actually comes from in the response
-        if (response.status !== submissionStatuses.pending) {
+        const status = response.data.attributes.transactionStatus;
+        if (status !== submissionStatuses.pending) {
           this.setState({
-            submissionStatus: response.status,
-            // TODO: Get where this actually comes from in the response
-            confirmationNumber: response.confirmationNumber || null
+            submissionStatus: status,
+            claimId: get('data.attributes.metadata.claimId', response) || null
           });
         } else {
           // Wait for 5 seconds and recurse
@@ -63,7 +65,7 @@ export default class ConfirmationPoll extends React.Component {
         this.setState({
           submissionStatus: submissionStatuses.apiFailure,
           // NOTE: I don't know that it'll always take this shape.
-          failureCode: response.errors[0].status
+          failureCode: get('errors[0].status', response)
         });
       });
   }
@@ -79,13 +81,25 @@ export default class ConfirmationPoll extends React.Component {
           <div>
             <strong>Confirmation number</strong>
             <br/>
-            {this.state.confirmationNumber}
+            {this.state.claimId}
+          </div>
+        );
+      }
+      case submissionStatuses.exhausted: {
+        // TODO: What should we do here?
+        return (
+          <div>
+            <p>This is taking a while; check back later.</p>
           </div>
         );
       }
       case submissionStatuses.failed: {
-        // What should we do here?
-        return null;
+        // TODO: What should we do here?
+        return (
+          <div>
+            <p>There was an error submitting to EVSS. Please try again later</p>
+          </div>
+        );
       }
       case submissionStatuses.apiFailure: {
         // What should we do here?
