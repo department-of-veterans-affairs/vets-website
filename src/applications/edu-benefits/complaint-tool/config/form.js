@@ -61,27 +61,20 @@ const someoneElse = 'Someone else';
 const anonymous = 'Anonymous';
 
 function isNotAnonymous(formData) {
-  if (!!formData.onBehalfOf && formData.onBehalfOf !== anonymous) {
-    return true;
-  }
-  return false;
+  return formData.onBehalfOf !== anonymous;
 }
 
-function hasNotAnonymous(formData) {
-  return !!formData && (formData.onBehalfOf !== anonymous);
+function isMyself(formData) {
+  return formData.onBehalfOf === myself;
 }
 
-function hasMyself(formData) {
-  return !!formData && (formData.onBehalfOf === myself);
-}
-
-function hasNotMyself(formData) {
+function isNotMyself(formData) {
   return formData.onBehalfOf === someoneElse || formData.onBehalfOf === anonymous;
 }
 
 function isVeteranOrServiceMember(formData) {
   const nonServiceMemberOrVeteranAffiliations = ['Spouse', 'Child', 'Other'];
-  return !hasNotMyself(formData) && !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation); // We are defining this in the negative to prevent prefilled data from being hidden, and therefore deleted by default
+  return !isNotMyself(formData) && !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation); // We are defining this in the negative to prevent prefilled data from being hidden, and therefore deleted by default
 }
 
 const formConfig = {
@@ -159,12 +152,10 @@ const formConfig = {
                 }
               },
               first: {
-                'ui:title': 'Your first name',
-                'ui:required': hasNotAnonymous
+                'ui:title': 'Your first name'
               },
               last: {
-                'ui:title': 'Your last name',
-                'ui:required': hasNotAnonymous
+                'ui:title': 'Your last name'
               },
               middle: {
                 'ui:title': 'Your middle name'
@@ -176,9 +167,9 @@ const formConfig = {
             }),
             serviceAffiliation: { // could wrap service info in an object
               'ui:title': 'Service affiliation',
-              'ui:required': hasMyself,
+              'ui:required': isMyself,
               'ui:options': {
-                hideIf: hasNotMyself
+                hideIf: isNotMyself
               }
             }
           },
