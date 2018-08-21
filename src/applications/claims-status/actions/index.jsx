@@ -148,16 +148,17 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-export function pollClaimsStatus({
+export function pollRequest({
   onError,
   onSuccess,
   pollingInterval,
   request = apiRequest,
   shouldFail,
-  shouldSucceed
+  shouldSucceed,
+  target
 }) {
   return request(
-    '/evss_claims_async',
+    target,
     null,
     response => {
       if (shouldSucceed(response)) {
@@ -171,9 +172,9 @@ export function pollClaimsStatus({
       }
 
       setTimeout(
-        pollClaimsStatus,
+        pollRequest,
         pollingInterval,
-        { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }
+        { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed, target }
       );
     },
     error => onError(error)
@@ -184,7 +185,7 @@ export function getSyncStatus(claimsAsyncResponse) {
   return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
-export function getClaimsV2(poll = pollClaimsStatus) {
+export function getClaimsV2(poll = pollRequest) {
 
   return (dispatch) => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
@@ -194,7 +195,8 @@ export function getClaimsV2(poll = pollClaimsStatus) {
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
       pollingInterval: window.VetsGov.pollTimeout || 1000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
-      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS'
+      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
+      target: '/evss_claims_async'
     });
   };
 }
@@ -231,23 +233,25 @@ export function setUnavailable() {
   };
 }
 
-export function getClaimDetail(id, router) {
+export function getClaimDetail(id, router, poll = pollRequest) {
   return (dispatch) => {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    makeAuthRequest(`/v0/evss_claims/${id}`,
-      null,
-      dispatch,
-      resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
-      resp => {
-        if (resp.status !== 404 || !router) {
+    poll({
+      onError: response => {
+        if (response.status !== 404 || !router) {
           dispatch({ type: SET_CLAIMS_UNAVAILABLE });
         } else {
           router.replace('your-claims');
         }
-      }
-    );
+      },
+      onSuccess: response => dispatch({ type: SET_CLAIM_DETAIL, claim: response.data, meta: response.meta }),
+      pollingInterval: window.VetsGov.pollTimeout || 1000,
+      shouldFail: response => getSyncStatus(response) === 'FAILED',
+      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
+      target: `/evss_claims_async/${id}`,
+    });
   };
 }
 
