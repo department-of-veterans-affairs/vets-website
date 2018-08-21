@@ -26,7 +26,7 @@ Use the Health Benefits Update Form (VA Form 10-10EZR) to update your personal, 
 Fill out, sign, and date a copy of the form.<br> 
 [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
-Then, send the completed form and any supporting documents to:
+Send the completed form and any supporting documents to:
 
 <p class="va-address-block">
 VA Health Eligibility Center<br>
@@ -44,12 +44,12 @@ Atlanta, GA 30329<br>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-**You can use VA Form 10-10EZR to update your:**
+**You can update your:**
 
 - Personal information (like your marital status or self-identified gender identity)
-- Contact information (like your phone number, email, or mailing or home address)
+- Contact information (like your phone number, email, or mailing address)
 - Insurance information (including current coverage through private insurance, Medicare, or Medicaid)
-- Dependent information (information about a spouse or dependent child)
+- Dependent information (about a spouse or dependent child)
 - Financial information (like your income and deductible expenses from the previous year)
 
 </div>
@@ -64,7 +64,7 @@ Atlanta, GA 30329<br>
 
 Yes. You can use this form to update information about your income and deductible expenses.
 
-**We’ll use this information to determine if you’re currently eligible for:**
+**We’ll use this information to determine if you’re eligible for:**
 
 - Cost-free medical services for non-service-connected conditions
 - Beneficiary travel to reimburse you for the cost of traveling to a VA facility to receive care
@@ -80,7 +80,7 @@ Yes. You can use this form to update information about your income and deductibl
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-No. You can only use this form to update your information if you’re already enrolled in VA health care.<br> 
+No. You can use this form only to update your information if you’re already enrolled in VA health care.<br> 
 [Find out how to apply for VA health care](https://www.vets.gov/health-care/apply/).
 
 </div>
@@ -97,7 +97,7 @@ We ask for this information because we have to bill your private health insuranc
 
 We don’t bill Medicare or Medicaid, but we may bill Medicare supplemental health insurance for covered services.
 
-Having other health insurance coverage doesn’t affect the VA health care benefits you can get. And telling us about your other insurance may help to offset your costs.<br>
+If you have other health insurance coverage, it doesn’t affect the VA health care benefits you can get. And telling us about your other insurance may help to offset your costs.<br>
 [Learn more about VA health care and other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
 
 </div>
