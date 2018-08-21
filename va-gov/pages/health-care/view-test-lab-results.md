@@ -47,7 +47,7 @@ You can use this tool to view your VA results and information you enter yourself
 - Enrolled in VA health care, **and**
 - Registered as a patient at a VA health facility
 
-[Find out how to apply for VA health care](/health-care/apply/).
+[Find out how to apply for VA health care](/health-care/apply/)
 
 **And you must have one of these free accounts:**
 - A premium **My Health<em>e</em>Vet** account, **or**
@@ -114,7 +114,7 @@ This will take you to a new page with links to view test results. If you’re si
 Yes. This is a secure website. We follow strict security policies and practices to protect your personal health information.
 
 If you print or download anything from the website (like lab results), you’ll need to take responsibility for protecting that information. <br>
-[Get tips for protecting your personal health information](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information).
+[Get tips for protecting your personal health information](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information)
 
 </div>
 </div>
@@ -127,7 +127,7 @@ If you print or download anything from the website (like lab results), you’ll 
 <div itemprop="text"> 
 
 You can get answers to your questions about this tool within our My Health*e*Vet web portal. <br>
-[Read the labs and tests FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests).
+[Read the labs and tests FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests)
 
 </div>
 </div>
