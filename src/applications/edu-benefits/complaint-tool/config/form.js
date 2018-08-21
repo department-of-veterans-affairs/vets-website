@@ -40,12 +40,12 @@ const domesticSchoolAddress = schoolAddress.oneOf[0];
 const internationalSchoolAddress = schoolAddress.oneOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
-const configureSchoolAddressSchema = (schema) => {
+function configureSchoolAddressSchema(schema) {
   let newSchema = omit('required', schema);
   newSchema = set('type', 'object', newSchema);
   newSchema = set('properties.country.enum', countries, newSchema);
   return set('properties.country.default', 'United States', newSchema);
-};
+}
 
 const domesticSchoolAddressSchema = configureSchoolAddressSchema(domesticSchoolAddress);
 const internationalSchoolAddressSchema = configureSchoolAddressSchema(internationalSchoolAddress);
@@ -75,6 +75,22 @@ function isNotMyself(formData) {
 function isVeteranOrServiceMember(formData) {
   const nonServiceMemberOrVeteranAffiliations = ['Spouse', 'Child', 'Other'];
   return !isNotMyself(formData) && !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation); // We are defining this in the negative to prevent prefilled data from being hidden, and therefore deleted by default
+}
+
+function manualSchoolEntryIsChecked(formData) {
+  return get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData);
+}
+
+function manualSchoolEntryIsNotChecked(formData) {
+  return !manualSchoolEntryIsChecked(formData);
+}
+
+function isUS(formData) {
+  return get('educationDetails.school.view:manualSchoolEntry.address.country', formData) === 'United States';
+}
+
+function manualSchoolEntryIsCheckedAndIsUS(formData) {
+  return manualSchoolEntryIsChecked(formData) && isUS(formData);
 }
 
 const formConfig = {
@@ -345,38 +361,38 @@ const formConfig = {
               school: {
                 facilityCode: { // Can we unnest this?
                   facilityCode: {
-                    'ui:required': formData => !get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                    'ui:required': manualSchoolEntryIsNotChecked,
                   },
                   'ui:field': SchoolSelectField,
                 },
                 'view:manualSchoolEntry': {
                   name: {
                     'ui:title': 'School name',
-                    'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                    'ui:required': manualSchoolEntryIsChecked
                   },
                   address: {
                     street: {
                       'ui:title': 'Address line 1',
-                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                      'ui:required': manualSchoolEntryIsChecked
                     },
                     street2: {
                       'ui:title': 'Address line 2'
                     },
                     city: {
                       'ui:title': 'City',
-                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                      'ui:required': manualSchoolEntryIsChecked
                     },
                     state: {
                       'ui:title': 'State',
-                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData) && (get('educationDetails.school.view:manualSchoolEntry.address.country', formData) === 'United States')
+                      'ui:required': manualSchoolEntryIsCheckedAndIsUS
                     },
                     country: {
                       'ui:title': 'Country',
-                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                      'ui:required': manualSchoolEntryIsChecked
                     },
                     postalCode: {
                       'ui:title': 'Postal code',
-                      'ui:required': formData => get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                      'ui:required': manualSchoolEntryIsCheckedAndIsUS,
                       'ui:errorMessages': {
                         pattern: 'Please enter a valid 5 digit postal code'
                       },
@@ -386,16 +402,15 @@ const formConfig = {
                     },
                     'ui:options': {
                       updateSchema: (formData) => {
-                        const schoolCountry = get('educationDetails.school.view:manualSchoolEntry.address.country', formData);
-                        if (schoolCountry !== 'United States') {
-                          return internationalSchoolAddressSchema;
+                        if (isUS(formData)) {
+                          return domesticSchoolAddressSchema;
                         }
-                        return domesticSchoolAddressSchema;
+                        return internationalSchoolAddressSchema;
                       }
                     }
                   },
                   'ui:options': {
-                    hideIf: formData => !get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                    hideIf: manualSchoolEntryIsNotChecked,
                   }
                 }
               }
