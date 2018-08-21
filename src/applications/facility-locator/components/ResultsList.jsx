@@ -12,12 +12,12 @@ class ResultsList extends Component {
   handlePageSelect = (page) => {
     const { currentQuery } = this.props;
 
-    this.props.searchWithBounds(
-      currentQuery.bounds,
-      currentQuery.facilityType,
-      currentQuery.serviceType,
+    this.props.searchWithBounds({
+      bounds: currentQuery.bounds,
+      facilityType: currentQuery.facilityType,
+      serviceType: currentQuery.serviceType,
       page,
-    );
+    });
   }
 
   render() {

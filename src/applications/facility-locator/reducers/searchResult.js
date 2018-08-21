@@ -1,7 +1,6 @@
 import {
-  FETCH_VA_FACILITY,
-  FETCH_VA_FACILITIES,
-  FETCH_CC_PROVIDERS,
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS,
   SEARCH_FAILED
 } from '../utils/actionTypes';
 
@@ -13,22 +12,16 @@ const INITIAL_STATE = {
 
 export const SearchResultReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case FETCH_VA_FACILITY:
-      return {
-        ...state,
-        selectedResult: action.payload,
-      };
-    case FETCH_VA_FACILITIES:
+    case FETCH_LOCATIONS:
       return {
         ...state,
         results: action.payload.data,
         pagination: action.payload.meta.pagination,
       };
-    case FETCH_CC_PROVIDERS:
+    case FETCH_LOCATION_DETAIL:
       return {
         ...state,
-        results: action.payload.data,
-        pagination: action.payload.meta.pagination
+        selectedResult: action.payload,
       };
     case SEARCH_FAILED:
       return INITIAL_STATE;

@@ -2,9 +2,8 @@ import {
   SEARCH_STARTED,
   SEARCH_FAILED,
   SEARCH_QUERY_UPDATED,
-  FETCH_VA_FACILITY,
-  FETCH_VA_FACILITIES,
-  FETCH_CC_PROVIDERS
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
@@ -38,25 +37,18 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         error: false,
         inProgress: true,
       };
-    case FETCH_VA_FACILITIES:
+    case FETCH_LOCATIONS:
       return {
         ...state,
         error: false,
         inProgress: false,
         searchBoundsInProgress: false,
       };
-    case FETCH_VA_FACILITY:
+    case FETCH_LOCATION_DETAIL:
       return {
         ...state,
         error: false,
         inProgress: false,
-      };
-    case FETCH_CC_PROVIDERS:
-      return {
-        ...state,
-        error: false,
-        searchProvidersInProgress: false,
-        inProgress: false
       };
     case SEARCH_FAILED:
       return {

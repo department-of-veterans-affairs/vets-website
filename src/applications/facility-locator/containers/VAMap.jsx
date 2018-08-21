@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
@@ -71,7 +71,12 @@ class VAMap extends Component {
         this.genBBoxFromCoords(currentPosition.coords);
       });
     } else {
-      this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
+      this.props.searchWithBounds({
+        bounds: currentQuery.bounds,
+        facilityType: currentQuery.facilityType,
+        serviceType: currentQuery.serviceType,
+        page: currentQuery.currentPage
+      });
     }
   }
 
@@ -94,7 +99,12 @@ class VAMap extends Component {
     }
 
     if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds) && !newQuery.searchBoundsInProgress) {
-      this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, resultsPage);
+      this.props.searchWithBounds({
+        bounds: newQuery.bounds,
+        facilityType: newQuery.facilityType,
+        serviceType: newQuery.serviceType,
+        page: resultsPage
+      });
     }
 
     if (!isEmpty(nextProps.results) || newQuery.inProgress) {
@@ -304,10 +314,10 @@ class VAMap extends Component {
             <h5>{f.attributes.name}</h5>
           </a>
           { (f.type === LocationType.CC_PROVIDER) ? (
-            <Fragment>
+            <div>
               <h6>{f.attributes.orgName}</h6>
               <p>Services: <strong>{f.attributes.specialty.map(s => s.name).join(', ')}</strong></p>
-            </Fragment>
+            </div>
           ) : (
             <p>Facility type: <strong>{facilityTypes[f.attributes.facilityType]}</strong></p>
           )}

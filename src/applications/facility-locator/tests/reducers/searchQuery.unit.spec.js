@@ -3,8 +3,8 @@ import {
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
   SEARCH_FAILED,
-  FETCH_VA_FACILITY,
-  FETCH_VA_FACILITIES
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS
 } from '../../utils/actionTypes';
 import { SearchQueryReducer } from '../../reducers/searchQuery';
 
@@ -45,7 +45,7 @@ describe('search query reducer', () => {
       error: true,
       searchBoundsInProgress: true,
     }, {
-      type: FETCH_VA_FACILITIES,
+      type: FETCH_LOCATIONS,
     });
 
     expect(state.error).to.eql(false);
@@ -58,7 +58,7 @@ describe('search query reducer', () => {
       error: true,
       inProgress: true,
     }, {
-      type: FETCH_VA_FACILITY,
+      type: FETCH_LOCATION_DETAIL,
     });
 
     expect(state.error).to.eql(false);

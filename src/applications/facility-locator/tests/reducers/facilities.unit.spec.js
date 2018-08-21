@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
 import {
-  FETCH_VA_FACILITY,
-  FETCH_VA_FACILITIES,
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS,
   SEARCH_FAILED
 } from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
@@ -16,7 +16,7 @@ const INITIAL_STATE = {
 describe('facilities reducer', () => {
   it('should handle fetching a single facility', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
-      type: FETCH_VA_FACILITY,
+      type: FETCH_LOCATION_DETAIL,
       payload: {
         name: 'selectedResult'
       },
@@ -27,7 +27,7 @@ describe('facilities reducer', () => {
 
   it('should handle fetching a list of facilities', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
-      type: FETCH_VA_FACILITIES,
+      type: FETCH_LOCATIONS,
       payload: {
         data: [
           { name: 'selectedResult1' },

@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { api } from '../config';
 import { find, compact, isEmpty } from 'lodash';
 import { mapboxClient } from '../components/MapboxClient';
@@ -6,11 +7,11 @@ import {
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
   SEARCH_FAILED,
-  FETCH_VA_FACILITY,
-  FETCH_VA_FACILITIES,
-  FETCH_CC_PROVIDERS
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS,
 } from '../utils/actionTypes';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
+import LocatorApi from '../api';
 
 export const updateSearchQuery = (query) => ({
   type: SEARCH_QUERY_UPDATED,
@@ -20,7 +21,7 @@ export const updateSearchQuery = (query) => ({
 export const fetchVAFacility = (id, location = null) => {
   if (location) {
     return {
-      type: FETCH_VA_FACILITY,
+      type: FETCH_LOCATION_DETAIL,
       payload: location,
     };
   }
@@ -34,55 +35,45 @@ export const fetchVAFacility = (id, location = null) => {
     });
 
     const url = `${api.url}/${id}`;
-    return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        data => dispatch({ type: FETCH_VA_FACILITY, payload: data.data }),
-        error => dispatch({ type: SEARCH_FAILED, error })
-      );
+    return LocatorApi.fetchVAFacility(url)
+      .then(data => dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data }))
+      .catch(error => dispatch({ type: SEARCH_FAILED, error }));
   };
 };
 
-export const searchProviders = (bounds, serviceType, page = 1) => {
-  return (dispatch/* , getState */) => {
-    // TODO: Figure out how expensive the address lookup is &
-    // if it's worth creating logic to use the searchString whilst
-    // ensuring the bounding box hasn't been changed for the map
+export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }) => {
+  return (dispatch) => {
+    if (facilityType === LocationType.CC_PROVIDER) {
+      reverseGeocodeBox(bounds).then(address => {
+        if (!address) {
+          dispatch({ type: SEARCH_FAILED, error: 'Reverse geocoding failed. See previous errors.' });
+          return null;
+        }
 
-    // const { searchString } = getState().searchQuery;
-    // if (searchString && searchString !== '') {
-    //   return fetchProviders(searchString, bounds, dispatch, serviceType, page); // eslint-disable-line no-use-before-define
-    // }
+        return fetchLocations(address, bounds, facilityType, serviceType, page, dispatch);
+      });
+    }
 
-    reverseGeocodeBox(bounds).then(address => {
-      if (!address) {
-        dispatch({ type: SEARCH_FAILED, error: 'Reverse geocoding failed. See previous errors.' });
-        return null;
-      }
-      console.log('Reverse geocoded address:', address); //eslint-disable-line
-
-      return fetchProviders(address, bounds, dispatch, serviceType, page); // eslint-disable-line no-use-before-define
-    });
-
-    return null;
+    return fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
   };
 };
 
 /**
- * Handles the actual `fetch` call to the API + Redux Action signaling
  * 
- * @param {String} address Search address to center the query
- * @param {Array<String>} bounds Bounding box of the map window
- * @param {Function<T>} dispatch Redux's dispatch method
- * @param {String} serviceType Specific service/specialty of the Provider
- * @param {Number} page What page of results to start from
+ * 
+ * @param {String} address Address of the center-point of the search area
+ * @param {Array<Number>} bounds Geo-coords of the bounding box of the search area
+ * @param {String} locationType @see config.js root app dir for valid types
+ * @param {String} serviceType (same as locationType)
+ * @param {Number} page What page of results to request
+ * @param {Function} dispatch Redux's dispatch method
  */
-const fetchProviders = (address, bounds, dispatch, serviceType, page) => {
+const fetchLocations = (address = null, bounds, locationType, serviceType, page, dispatch) => {
   const params = compact([
-    `address=${address}`,
-    `bbox=${bounds}`,
-    `type=${LocationType.CC_PROVIDER}`,
-    serviceType ? `serviceType=${serviceType}` : null,
+    address ? `address=${address}` : null,
+    ...bounds.map(c => `bbox[]=${c}`),
+    locationType ? `type=${locationType}` : null,
+    locationType === 'benefits' && serviceType ? `services[]=${serviceType}` : null,
     `page=${page}`
   ]).join('&');
   const url = `${api.url}?${params}`;
@@ -90,62 +81,23 @@ const fetchProviders = (address, bounds, dispatch, serviceType, page) => {
   dispatch({
     type: SEARCH_STARTED,
     payload: {
-      page,
-      searchProvidersInProgress: true,
+      currentPage: page,
+      searchBoundsInProgress: true,
     },
   });
 
-  return fetch(url, api.settings)
-    .then(res => res.json())
+  return LocatorApi.searchWithBounds(url)
     .then(
       (data) => {
         if (data.errors) {
           dispatch({ type: SEARCH_FAILED, error: data.errors });
         } else {
-          dispatch({ type: FETCH_CC_PROVIDERS, payload: data });
+          dispatch({ type: FETCH_LOCATIONS, payload: data });
         }
-      },
-      (error) => {
-        dispatch({ type: SEARCH_FAILED, error });
-      }
+      })
+    .catch(
+      (error) => dispatch({ type: SEARCH_FAILED, error })
     );
-};
-
-export const searchWithBounds = (bounds, facilityType, serviceType, page = 1) => {
-  if (facilityType === LocationType.CC_PROVIDER) {
-    return searchProviders(bounds, serviceType, page);
-  }
-
-  const params = compact([
-    ...bounds.map(c => `bbox[]=${c}`),
-    facilityType ? `type=${facilityType}` : null,
-    facilityType === 'benefits' && serviceType ? `services[]=${serviceType}` : null,
-    `page=${page}`
-  ]).join('&');
-  const url = `${api.url}?${params}`;
-
-  return (dispatch) => {
-    dispatch({
-      type: SEARCH_STARTED,
-      payload: {
-        currentPage: page,
-        searchBoundsInProgress: true,
-      },
-    });
-
-    return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        (data) => {
-          if (data.errors) {
-            dispatch({ type: SEARCH_FAILED, error: data.errors });
-          } else {
-            dispatch({ type: FETCH_VA_FACILITIES, payload: data });
-          }
-        },
-        (error) => dispatch({ type: SEARCH_FAILED, error })
-      );
-  };
 };
 
 /**

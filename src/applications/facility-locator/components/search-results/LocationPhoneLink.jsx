@@ -7,11 +7,11 @@ const LocationPhoneLink = ({ location }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
 
   if (isProvider) {
-    const { phone, schedPhone } = location;
+    const { phone, schedPhone } = location.attributes;
     return (
       <div>
-        {renderPhoneNumber('If you have a referral', 'Call this facility at', phone, 'phone')}
-        {renderPhoneNumber("If you don't have a referral", 'Call the VA Medical Center at', schedPhone)}
+        {renderPhoneNumber('If you have a referral', 'Call this facility at ', phone, 'phone')}
+        {renderPhoneNumber("If you don't have a referral", 'Call the VA Medical Center at ', schedPhone)}
       </div>
     );
   }
