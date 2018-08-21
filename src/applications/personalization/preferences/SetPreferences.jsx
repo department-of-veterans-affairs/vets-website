@@ -8,7 +8,7 @@ import { benefitChoices } from './helpers';
 
 import localStorage from '../../../platform/utilities/storage/localStorage';
 
-class PreferencesWidget extends React.Component {
+class SetPreferences extends React.Component {
   componentDidMount() {
     localStorage.setItem('dashboardLastVisitedAt', Date.now());
   }
@@ -60,5 +60,5 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PreferencesWidget);
-export { PreferencesWidget };
+export default connect(mapStateToProps, mapDispatchToProps)(SetPreferences);
+export { SetPreferences };

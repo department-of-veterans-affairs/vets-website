@@ -1,13 +1,13 @@
 import DashboardApp from './containers/DashboardApp';
 import DashboardAppWrapper from './containers/DashboardAppWrapper';
-import PreferencesWidget from '../preferences/PreferencesWidget';
+import SetPreferences from '../preferences/SetPreferences';
 
 const routes = {
   path: '/',
   component: DashboardAppWrapper,
   indexRoute: { component: DashboardApp },
   childRoutes: [
-    { path: 'preferences', component: PreferencesWidget, key: 'preferences', name: 'Find VA Benefits' },
+    { path: 'preferences', component: SetPreferences, key: 'preferences', name: 'Find VA Benefits' },
   ]
 };
 
