@@ -70,7 +70,7 @@ If you sign in with an unverified account, you’ll see only the results you've 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-At this time, you can view only your VA chemistry/hematology results. These include tests like blood sugar, liver function, or blood cell counts. We’ll add more VA labs and tests in the future.
+At this time, you can view only your VA chemistry/hematology results. These include tests for blood sugar, liver function, or blood cell counts. We’ll add more VA labs and tests in the future.
 </div>
 </div>
 </div>
@@ -81,7 +81,7 @@ At this time, you can view only your VA chemistry/hematology results. These incl
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-No. But you can enter this information yourself so you can keep all your results in one place.
+No. But you can enter this information yourself to keep all your results in one place.
 
 </div>
 </div>
@@ -95,11 +95,11 @@ No. But you can enter this information yourself so you can keep all your results
 
 On your welcome page dashboard, you’ll see a module for “Health Records.” Within that module, click on “Labs and Tests.” 
  
-You’ll go to a new page with links to view test information. If you’re signed in with a verified account, you’ll see:
-- **VA chemistry/hematology results:** Here, you’ll see tests listed by date and specimen. A specimen is the sample studied by the test (like blood, urine, or a tissue biopsy or throat swab). You can click on each to view details from your VA medical record.
-- **Self-entered tests:** Here, you can add and view results from non-VA providers and labs. 
+This will take you to a new page with links to view test results. If you’re signed in with a verified account, you’ll see:
+- **VA chemistry/hematology results:** Your tests will be listed by date and specimen. A specimen is the sample studied by the test (like blood, urine, a tissue biopsy, or a throat swab). You can click on each to view details from your VA medical record.
+- **Test results you've entered yourself:** You can add and view results from non-VA providers and labs. 
 
-**Note:** If you’re signed in with an unverified account, you’ll only see self-entered tests.
+**Note:** If you’re signed in with an unverified account, you’ll see only the test results you've entered yourself.
 
 </div>
 </div>
@@ -113,7 +113,7 @@ You’ll go to a new page with links to view test information. If you’re signe
 
 Yes. This is a secure website. We follow strict security policies and practices to protect your personal health information.
 
-If you print or download anything from the website (like lab result details), you’ll need to take responsibility for protecting that information. <br>
+If you print or download anything from the website (like lab results), you’ll need to take responsibility for protecting that information. <br>
 [Get tips for protecting your personal health information](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information).
 
 </div>
@@ -126,8 +126,8 @@ If you print or download anything from the website (like lab result details), yo
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-You can get answers to more questions about this tool within our My Health*e*Vet web portal. <br>
-[Read labs and tests FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests).
+You can get answers to your questions about this tool within our My Health*e*Vet web portal. <br>
+[Read the labs and tests FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests).
 
 </div>
 </div>
