@@ -174,7 +174,7 @@ export function pollRequest({
       setTimeout(
         pollRequest,
         pollingInterval,
-        { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed }
+        { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed, target }
       );
     },
     error => onError(error)
