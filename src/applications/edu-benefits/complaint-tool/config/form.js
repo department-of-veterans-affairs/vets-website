@@ -176,7 +176,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              fullName,
+              fullName: set('required', ['first', 'last'], fullName),
               serviceAffiliation
             }
           }
