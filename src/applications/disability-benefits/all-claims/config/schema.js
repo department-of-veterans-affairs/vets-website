@@ -46,6 +46,9 @@ const schema = {
         'Navy',
         'Public Health Service'
       ]
+    },
+    waiveRetirementPay: {
+      type: 'boolean'
     }
   }
 };
