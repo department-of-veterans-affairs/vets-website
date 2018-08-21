@@ -38,6 +38,8 @@ Atlanta, GA 30329<br>
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h2 itemprop="name">What information can I update with this form?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
@@ -53,6 +55,8 @@ Atlanta, GA 30329<br>
 </div>
 </div>
 </div>
+
+<div itemscope itemtype="http://schema.org/Question">
 
 <h2 itemprop="name">Can I use this form to see if I’m eligible for more benefits based on my financial situation?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -70,6 +74,8 @@ Yes. You can use this form to update information about your income and deductibl
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h2 itemprop="name">Can I use this form to apply for VA health care?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
@@ -80,6 +86,8 @@ No. You can only use this form to update your information if you’re already en
 </div>
 </div>
 </div>
+
+<div itemscope itemtype="http://schema.org/Question">
 
 <h2 itemprop="name">Why does this form ask about my other insurance?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
