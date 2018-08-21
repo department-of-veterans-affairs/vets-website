@@ -4,6 +4,10 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
+import {
+  uiSchema as alternateNamesUISchema,
+  schema as alternateNamesSchema
+} from '../pages/alternateNames';
 
 const formConfig = {
   urlPrefix: '/',
@@ -34,11 +38,16 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Veteran Information',
-          description: 'This is the personal information we have on file for you.',
           path: 'veteran-information',
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} }
         },
+        alternateNames: {
+          title: 'Service under another name',
+          path: 'alternate-names',
+          uiSchema: alternateNamesUISchema,
+          schema: alternateNamesSchema
+        }
       }
     }
   }
