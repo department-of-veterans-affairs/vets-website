@@ -265,7 +265,7 @@ describe('Actions', () => {
         const pollStatusSpy = sinon.spy();
         getClaimsV2(pollStatusSpy)(dispatchSpy);
 
-        pollStatusSpy.firstCall.args[0].onError();
+        pollStatusSpy.firstCall.args[0].onError({ errors: [] });
 
         expect(dispatchSpy.secondCall.args[0]).to.eql({ type: 'FETCH_CLAIMS_ERROR' });
       });
