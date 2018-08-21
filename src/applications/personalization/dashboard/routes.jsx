@@ -1,6 +1,6 @@
 import DashboardApp from './containers/DashboardApp';
 import DashboardAppWrapper from './containers/DashboardAppWrapper';
-import PreferencesWidget from './containers/PreferencesWidget';
+import PreferencesWidget from '../preferences/PreferencesWidget';
 
 const routes = {
   path: '/',
