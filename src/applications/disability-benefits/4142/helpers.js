@@ -1,6 +1,12 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+// import {
+//   isValidUSZipCode,
+//   isValidCanPostalCode,
+// } from '../../../platform/forms/address';
+// import { stateRequiredCountries } from '../../../platform/forms/definitions/address';
+
 export const directDepositWarning = (
   <div className="pension-dd-warning">
     The Department of Treasury requires all federal benefit payments be made by
@@ -123,3 +129,15 @@ export const evidenceTypeHelp = (
     </p>
   </AdditionalInfo>
 );
+
+function isValidZIP(value) {
+  if (value) {
+    return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
+  }
+  return true;
+}
+export function validateZIP(errors, fieldData) {
+  if (fieldData && !isValidZIP(fieldData)) {
+    errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
+  }
+}

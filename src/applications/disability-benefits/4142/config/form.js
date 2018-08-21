@@ -24,7 +24,10 @@ import {
   aboutPrivateMedicalRecs,
   limitedConsentDescription,
   summary,
+  validateZIP,
 } from '../helpers';
+
+import { validateDate } from 'us-forms-system/lib/js/validation';
 
 
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -139,6 +142,7 @@ const formConfig = {
                 hideTitle: true,
               },
               items: {
+                'ui:validations': [validateDate],
                 dateRange: dateRangeUI(
                   'Approximate date of first treatment',
                   'Approximate date of last treatment',
@@ -164,6 +168,9 @@ const formConfig = {
                   'ui:options': {
                     widgetClassNames: 'usa-input-medium',
                   },
+                  'ui:validations': [{
+                    validator: validateZIP
+                  }],
                 },
                 privatePrimaryPhoneNumber: {
                   'ui:title': 'Primary phone number',
@@ -221,6 +228,7 @@ const formConfig = {
                     },
                     privateProviderPostalCode: {
                       type: 'string',
+                    //  pattern: '^d+$',
                     },
                     privatePrimaryPhoneNumber: {
                       type: 'string',
