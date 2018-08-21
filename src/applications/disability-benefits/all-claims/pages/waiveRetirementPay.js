@@ -23,6 +23,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['waiveRetirementPay'],
   properties: {
     'view:waiveRetirementPayDescription': {
       type: 'object',
