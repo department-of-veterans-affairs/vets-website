@@ -61,14 +61,11 @@ const formPages = {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api/something', // Test Url
-  // submit: () =>
-  //   Promise.resolve({ attributes: {
-  // confirmationNumber: '123123123' } }),
+  submitUrl: '/v0/private_medical_record_auth/submit',
   trackingPrefix: 'complex-form-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '1234',
+  formId: '21-4142',
   version: 0,
   prefillEnabled: true,
   //  prefillTransformer, //TODO: DO WE NEED THIS?
