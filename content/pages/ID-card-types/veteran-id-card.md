@@ -17,8 +17,9 @@ A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offer
 **You may be eligible for a Veteran ID Card if both of these are true. You:**
 - Served on active duty, in the military reserves, or in the National Guard (including the Coast Guard), **and**
 - Received an honorable or general discharge
-<br>
-If you’ve received an other than honorable, bad conduct, or dishonorable character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application.<br>
+</br>
+
+If you’ve received an other than honorable, bad conduct, or dishonorable character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application.</br>
 You’ll need to provide a copy of your discharge papers when you apply for a VIC to prove your character of discharge.
 </br>
 #### How do I apply for a Veteran ID Card?
