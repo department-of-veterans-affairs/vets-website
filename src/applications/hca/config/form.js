@@ -412,19 +412,10 @@ const formConfig = {
             lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
-              'ui:required': ({ lastDischargeDate: LDD }) => {
-                const hasCompleteDate = validateDate(LDD);
-                const isBefore = isBeforeCentralTimeDate(LDD);
-                return hasCompleteDate && isBefore;
-              },
+              'ui:required': ({ lastDischargeDate: LDD }) => validateDate(LDD) && isBeforeCentralTimeDate(LDD),
               'ui:options': {
                 labels: dischargeTypeLabels,
-                hideIf: (formData) => {
-                  const { lastDischargeDate: LDD } = formData;
-                  const hasInvalidDate = !validateDate(LDD);
-                  const isAfter = isAfterCentralTimeDate(LDD);
-                  return hasInvalidDate || isAfter;
-                }
+                hideIf: ({ lastDischargeDate: LDD }) => !validateDate(LDD) || isAfterCentralTimeDate(LDD),
               }
             },
             'ui:validations': [
