@@ -30,7 +30,7 @@ If you already have a Veteran ID Card, you don’t need to request another type 
 - Served on active duty, in the military reserves, or in the National Guard (including the Coast Guard), **and**
 - Received an honorable or general discharge  
 
-If you’ve received a dishonorable, other than honorable, or bad conduct character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application. 
+If you’ve received an other than honorable, bad conduct or dishonorable character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application. 
 #### How do I apply for a Veteran ID Card?
 You can apply online to get a Veteran ID Card. 
 [Learn more about how to apply for a Veteran ID Card.](/veteran-id-card/)
