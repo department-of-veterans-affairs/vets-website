@@ -9,14 +9,14 @@ export const uiSchema = {
   'ui:order': [
     'view:separationPayDescription',
     'separationPayDate',
-    'separationBranch'
+    'separationPayBranch'
   ],
   'view:separationPayDescription': {
     'ui:title': 'Separation or Severance Pay',
     'ui:description': separationPayDetailsDescription
   },
   separationPayDate: dateUI('When did you get a separation or severance payment?'),
-  separationBranch: {
+  separationPayBranch: {
     'ui:title': 'Please choose the branch of service that gave you separation or severance pay'
   }
 };

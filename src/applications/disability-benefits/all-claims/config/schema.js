@@ -54,12 +54,12 @@ const schema = {
     },
     separationPayDetails: {
       type: 'object',
-      required: ['separationPayDate', 'separationBranch'],
+      required: ['separationPayDate', 'separationPayBranch'],
       properties: {
         separationPayDate: {
           type: 'string'
         },
-        separationBranch: {
+        separationPayBranch: {
           type: 'string',
           'enum': serviceBranches
         }
