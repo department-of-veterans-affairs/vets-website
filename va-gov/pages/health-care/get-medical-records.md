@@ -249,7 +249,7 @@ Yes. You can ask us online, by mail, or in person to stop sharing your informati
 ### To make your request online
 
 <ol class="process">
-  <li class="process-step list-one"><a href="https://www.ebenefits.va.gov/">Sign into eBenefits</a>.</li>
+  <li class="process-step list-one"><a href="https://www.ebenefits.va.gov/">Sign in to eBenefits</a>.</li>
   <li class="process-step list-two">Click “Manage Health.”</li>
   <li class="process-step list-three">Go to “Share your VA Health Record.”</li>
   <li class="process-step list-four">Click “Manage My Authorizations and Preferences.”</li>
