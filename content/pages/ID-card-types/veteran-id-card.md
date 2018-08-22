@@ -96,8 +96,8 @@ If you already have one of these, you don’t need a Veteran ID Card, but you ca
 <div id="use-veteran-id-card" class="usa-accordion-content">
 
 You can’t use your Veteran ID Card to:
-•	Prove your eligibility for any federal benefits, **or**
-•	Access military installations
+- Prove your eligibility for any federal benefits, **or**
+-	Access military installations
 
 </div>
 </li>
