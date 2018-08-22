@@ -101,6 +101,12 @@ const formConfig = {
           uiSchema: reservesNationalGuardUISchema,
           schema: reservesNationalGuardSchema
         },
+        alternateNames: {
+          title: 'Service under another name',
+          path: 'alternate-names',
+          uiSchema: alternateNamesUISchema,
+          schema: alternateNamesSchema
+        }
       }
     }
   }

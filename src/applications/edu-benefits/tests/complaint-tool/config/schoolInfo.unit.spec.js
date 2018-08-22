@@ -105,7 +105,7 @@ describe('complaint tool school info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
