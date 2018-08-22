@@ -1,16 +1,23 @@
-import fullConfig from '../config/schema';
-
-const { separationTrainingPay: separationTrainingPaySchema } = fullConfig.properties;
-
 export const uiSchema = {
-  separationPay: {
+  'view:hasSeparationPay': {
     'ui:title': 'Did you receive separation pay or severance pay?',
     'ui:widget': 'yesNo'
   },
-  trainingPay: {
+  'view:hasTrainingPay': {
     'ui:title': 'Did you receive active or inactive training pay?',
     'ui:widget': 'yesNo'
   }
 };
 
-export const schema = separationTrainingPaySchema;
+export const schema = {
+  type: 'object',
+  required: ['view:hasSeparationPay', 'view:hasTrainingPay'],
+  properties: {
+    'view:hasSeparationPay': {
+      type: 'boolean'
+    },
+    'view:hasTrainingPay': {
+      type: 'boolean'
+    }
+  }
+};

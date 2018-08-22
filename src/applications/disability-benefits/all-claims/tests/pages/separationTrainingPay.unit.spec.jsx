@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-describe('Separation or Training Pay', () => {
+describe.only('Separation or Training Pay', () => {
   const {
     schema,
     uiSchema
@@ -52,8 +52,8 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          trainingPay: false,
-          separationPay: false
+          'view:hasTrainingPay': false,
+          'view:hasSeparationPay': false
         }}
         formData={{}}
         onSubmit={onSubmit}/>

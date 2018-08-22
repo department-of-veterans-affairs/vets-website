@@ -49,18 +49,6 @@ const schema = {
     },
     waiveRetirementPay: {
       type: 'boolean'
-    },
-    separationTrainingPay: {
-      type: 'object',
-      required: ['separationPay', 'trainingPay'],
-      properties: {
-        separationPay: {
-          type: 'boolean'
-        },
-        trainingPay: {
-          type: 'boolean'
-        }
-      }
     }
   }
 };

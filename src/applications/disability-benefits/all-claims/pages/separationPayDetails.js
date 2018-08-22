@@ -1,5 +1,10 @@
-export const uiSchema = {
+import { separationPayDetailsDescription } from '../content/separationPayDetails';
 
+export const uiSchema = {
+  'view:separationPayDescription': {
+    'ui:title': 'Separation or Severance Pay',
+    'ui:description': separationPayDetailsDescription
+  }
 };
 
 export const schema = {

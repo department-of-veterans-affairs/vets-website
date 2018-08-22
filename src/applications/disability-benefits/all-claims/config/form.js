@@ -2,7 +2,10 @@ import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { hasMilitaryRetiredPay } from '../validations';
+import {
+  hasMilitaryRetiredPay,
+  hasSeparationPay
+} from '../validations';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
@@ -91,6 +94,7 @@ const formConfig = {
         separationPayDetails: {
           title: 'Separation or Severence Pay',
           path: 'separation-pay-details',
+          depends: hasSeparationPay,
           uiSchema: separationPayDetailsUISchema,
           schema: separationPayDetailsSchema
         }
