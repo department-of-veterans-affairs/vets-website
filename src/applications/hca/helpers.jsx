@@ -10,6 +10,7 @@ import {
   createFormPageList
 } from 'us-forms-system/lib/js/helpers';
 import { getInactivePages } from '../../platform/forms/helpers';
+import { isValidDate } from '../../platform/forms/validations';
 
 export function transform(formConfig, form) {
   const inactivePages = getInactivePages(createFormPageList(formConfig), form.data);
@@ -1454,10 +1455,10 @@ export function getOffsetTime(offset) {
  * Determines UTC time from a local time and its offset
  * @export
  * @param {number} time (in milliseconds)
- * @param {number} offset (in minutes)
+ * @param {number} offset (in milliseconds)
  */
 export function getUTCTime(time, offset) {
-  return time + (getOffsetTime(offset));
+  return time + offset;
 }
 
 /**
@@ -1469,17 +1470,29 @@ export function getCSTDate() {
   const isDST = moment().isDST();
   const cstOffset = getCSTOffset(isDST);
 
-  const utc = getUTCTime(today.getTime(), today.getTimezoneOffset());
+  // The UTC and Central Time times are defined in milliseconds
+  // UTC time is determined by adding the local offset to the local time
+  const utcTime = getUTCTime(today.getTime(), getOffsetTime(today.getTimezoneOffset()));
 
-  return new Date(utc + getOffsetTime(cstOffset));
+  // Central Time is determined by subtracting the CST offset from the UTC time derived above
+  const centralTime = utcTime - getOffsetTime(cstOffset);
+  return new Date(centralTime);
 }
 
-export function isBeforeCentralTimeDate(formData) {
-  const lastDischargeDate = moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD');
+export function isBeforeCentralTimeDate(date) {
+  const lastDischargeDate = moment(date, 'YYYY-MM-DD');
   const centralTimeDate = moment(getCSTDate());
   return !lastDischargeDate.isAfter(centralTimeDate.startOf('day'));
 }
 
-export function isAfterCentralTimeDate(formData) {
-  return !isBeforeCentralTimeDate(formData);
+export function isAfterCentralTimeDate(date) {
+  return !isBeforeCentralTimeDate(date);
+}
+
+export function validateDate(date) {
+  const newDate = moment(date, 'YYYY-MM-DD');
+  const day = newDate.date();
+  const month = newDate.month() + 1; // Note: Months are zero indexed, so January is month 0.
+  const year = newDate.year();
+  return isValidDate(day, month, year);
 }

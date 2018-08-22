@@ -48,6 +48,7 @@ import {
   deductibleExpensesDescription,
   isAfterCentralTimeDate,
   isBeforeCentralTimeDate,
+  validateDate,
 } from '../helpers';
 
 import migrations from './migrations';
@@ -411,10 +412,19 @@ const formConfig = {
             lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
-              'ui:required': isAfterCentralTimeDate,
+              'ui:required': ({ lastDischargeDate: LDD }) => {
+                const hasCompleteDate = validateDate(LDD);
+                const isBefore = isBeforeCentralTimeDate(LDD);
+                return hasCompleteDate && isBefore;
+              },
               'ui:options': {
                 labels: dischargeTypeLabels,
-                hideIf: isBeforeCentralTimeDate
+                hideIf: (formData) => {
+                  const { lastDischargeDate: LDD } = formData;
+                  const hasInvalidDate = !validateDate(LDD);
+                  const isAfter = isAfterCentralTimeDate(LDD);
+                  return hasInvalidDate || isAfter;
+                }
               }
             },
             'ui:validations': [
