@@ -5,7 +5,7 @@ title: Order Hearing Aid Batteries and Prosthetic Socks from VA
 display_title: Order Hearing Aid Batteries and Prosthetic Socks
 description: 
 concurrence: 
-lastupdate: 2018-08-17
+lastupdate: 2018-08-22
 collection: healthCare
 order: 
 children: 
