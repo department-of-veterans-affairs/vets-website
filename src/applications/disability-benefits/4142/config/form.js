@@ -156,6 +156,9 @@ const formConfig = {
                 ),
                 privateProviderName: {
                   'ui:title': 'Name of private provider or hospital',
+                  'ui:errorMessages': {
+                    pattern: 'Provider name must be less than 100 characters.',
+                  },
                 },
                 privateProviderCountry: {
                   'ui:title': 'Country',
@@ -211,6 +214,8 @@ const formConfig = {
                   properties: {
                     privateProviderName: {
                       type: 'string',
+                      pattern: '^(.{1,100})$',
+
                     },
                     limitedConsent: {
                       type: 'boolean',
