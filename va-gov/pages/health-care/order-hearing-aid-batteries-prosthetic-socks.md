@@ -60,7 +60,7 @@ You can order prosthetic socks from us online if you meet all of the requirement
 
 [Find out how to apply for VA health care](/health-care/apply).
 
-**And you’ll need to have a premium DS Logon account** (used for eBenefits and MilConnect). 
+**And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect). 
 
 If you don’t have a premium **DS Logon** account, find out how to create or upgrade an account on eBenefits.
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks).
