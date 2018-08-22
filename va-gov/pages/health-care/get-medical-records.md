@@ -5,7 +5,7 @@ title: Get Your VA Medical Records Online
 display_title: Get Medical Records
 description: 
 concurrence: 
-lastupdate: 2018-08-17
+lastupdate: 2018-08-22
 collection: healthCare
 order: 
 children: 
