@@ -7,6 +7,7 @@ import { validateBooleanGroup, validateMatch } from 'us-forms-system/lib/js/vali
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 import dataUtils from '../../../../platform/utilities/data/index';
 
 const { get, omit, set } = dataUtils;
@@ -160,6 +161,7 @@ const formConfig = {
           title: 'Applicant Information',
           depends: isNotAnonymous,
           uiSchema: {
+            'ui:description': PrefillMessage,
             fullName: _.merge(fullNameUI, {
               prefix: {
                 'ui:title': 'Prefix',
@@ -202,6 +204,7 @@ const formConfig = {
           title: 'Service Information',
           depends: isVeteranOrServiceMember,
           uiSchema: {
+            'ui:description': PrefillMessage,
             serviceBranch: {
               'ui:title': 'Branch of service',
             },
@@ -224,6 +227,7 @@ const formConfig = {
           title: 'Contact Information',
           depends: (formData) => formData.onBehalfOf !== anonymous,
           uiSchema: {
+            'ui:description': PrefillMessage,
             address: {
               street: {
                 'ui:title': 'Address line 1'
