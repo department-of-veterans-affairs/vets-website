@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-describe.only('Separation or Training Pay', () => {
+describe('Separation or Training Pay', () => {
   const {
     schema,
     uiSchema
