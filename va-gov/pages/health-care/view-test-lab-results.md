@@ -5,7 +5,7 @@ title: View Your VA Lab and Test Results Online
 display_title: View Lab and Test Results
 description: 
 concurrence: 
-lastupdate: 2018-08-17
+lastupdate: 2018-08-22
 collection: healthCare
 order: 
 children: 
