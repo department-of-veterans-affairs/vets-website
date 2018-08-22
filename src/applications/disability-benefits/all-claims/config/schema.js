@@ -1,5 +1,15 @@
 // This file to be moved to vets-json-schema repo before form hits production
 
+const serviceBranches = [
+  'Air Force',
+  'Army',
+  'Coast Guard',
+  'Marine Corps',
+  'National Oceanic and Atmospheric Administration',
+  'Navy',
+  'Public Health Service'
+];
+
 const schema = {
   $schema: 'http://json-schema.org/draft-04/schema#',
   title: 'APPLICATION FOR DISABILITY BENEFITS',
@@ -37,18 +47,23 @@ const schema = {
     },
     militaryRetiredPayBranch: {
       type: 'string',
-      'enum': [
-        'Air Force',
-        'Army',
-        'Coast Guard',
-        'Marine Corps',
-        'National Oceanic and Atmospheric Administration',
-        'Navy',
-        'Public Health Service'
-      ]
+      'enum': serviceBranches
     },
     waiveRetirementPay: {
       type: 'boolean'
+    },
+    separationPayDetails: {
+      type: 'object',
+      required: ['separationPayDate', 'separationBranch'],
+      properties: {
+        separationPayDate: {
+          type: 'string'
+        },
+        separationBranch: {
+          type: 'string',
+          'enum': serviceBranches
+        }
+      }
     }
   }
 };
