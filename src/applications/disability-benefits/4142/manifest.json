@@ -1,0 +1,7 @@
+{
+  "appName": "21-4142",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "4142-entry",
+  "rootUrl": "/disability-benefits/private-medical-records",
+  "production": false
+}
