@@ -14,6 +14,11 @@ import {
   schema as separationTrainingPaySchema
 } from '../pages/separationTrainingPay';
 
+import {
+  uiSchema as separationPayDetailsUISchema,
+  schema as separationPayDetailsSchema
+} from '../pages/separationPayDetails';
+
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -58,6 +63,12 @@ const formConfig = {
           path: 'separation-training-pay',
           uiSchema: separationTrainingPayUISchema,
           schema: separationTrainingPaySchema
+        },
+        separationPayDetails: {
+          title: 'Separation or Severence Pay',
+          path: 'separation-pay-details',
+          uiSchema: separationPayDetailsUISchema,
+          schema: separationPayDetailsSchema
         }
       }
     }
