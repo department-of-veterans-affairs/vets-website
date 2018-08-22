@@ -35,6 +35,21 @@ const schema = {
         }
       }
     },
+    militaryRetiredPayBranch: {
+      type: 'string',
+      'enum': [
+        'Air Force',
+        'Army',
+        'Coast Guard',
+        'Marine Corps',
+        'National Oceanic and Atmospheric Administration',
+        'Navy',
+        'Public Health Service'
+      ]
+    },
+    waiveRetirementPay: {
+      type: 'boolean'
+    },
     separationTrainingPay: {
       type: 'object',
       required: ['separationPay', 'trainingPay'],

@@ -9,7 +9,7 @@ export const uiSchema = {
     'ui:widget': 'yesNo'
   },
   alternateNames: {
-    'ui:description': 'What names did you serve under?',
+    'ui:description': 'What name did you serve under?',
     'ui:options': {
       viewField: FullNameField,
       reviewTitle: 'Other names',
