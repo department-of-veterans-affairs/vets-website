@@ -91,23 +91,23 @@ describe('HCA helpers', () => {
   });
   describe('getUTCTime', () => {
     it('should determine utc time', () => {
-      expect(getUTCTime(1, 1)).to.equal(60001);
+      expect(getUTCTime(1, 1)).to.equal(2);
     });
   });
   describe('isAfterCentralTimeDate', () => {
     it('should return true if the discharge date is after the Central Time reference date', () => {
-      expect(isAfterCentralTimeDate({ lastDischargeDate: '9999-12-24' })).to.be.true;
+      expect(isAfterCentralTimeDate('9999-12-24')).to.be.true;
     });
     it('should return false if the discharge date is not after the Central Time reference date', () => {
-      expect(isAfterCentralTimeDate({ lastDischargeDate: '2000-12-12' })).to.be.false;
+      expect(isAfterCentralTimeDate('2000-12-12')).to.be.false;
     });
   });
   describe('isBeforeCentralTimeDate', () => {
     it('should return true if the discharge date is after the Central Time reference date', () => {
-      expect(isBeforeCentralTimeDate({ lastDischargeDate: '9999-12-24' })).to.be.false;
+      expect(isBeforeCentralTimeDate('9999-12-24')).to.be.false;
     });
     it('should return false if the discharge date is not after the Central Time reference date', () => {
-      expect(isBeforeCentralTimeDate({ lastDischargeDate: '2000-12-12' })).to.be.true;
+      expect(isBeforeCentralTimeDate('2000-12-12')).to.be.true;
     });
   });
 });
