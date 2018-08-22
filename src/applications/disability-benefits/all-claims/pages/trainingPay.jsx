@@ -1,37 +1,27 @@
-import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
-// import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema from '../config/schema';
 import _ from 'lodash/fp';
 
 import dateUI from 'us-forms-system/lib/js/definitions/date';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import {
-  ReservesGuardDescription,
   title10DatesRequired,
   isInFuture
-} from '../../all-claims/utils';
+} from '../utils';
 
-const { reservesNationalGuardService } = fullSchema526EZ.properties.serviceInformation.properties;
+const {
+  title10Activation,
+  waiveVABenefitsToRetainTrainingPay
+} = fullSchema.properties.serviceInformation.properties.reservesNationalGuardService.properties;
 
 export const uiSchema = {
   'ui:order': [
-    'unitName',
-    'obligationTermOfServiceDateRange',
     'view:isTitle10Activated',
     'title10Activation',
     'waiveVABenefitsToRetainTrainingPay'
   ],
-  'ui:title': 'Reserves and National Guard Information',
-  'ui:description': ReservesGuardDescription,
-  unitName: {
-    'ui:title': 'Unit name',
-  },
-  obligationTermOfServiceDateRange: dateRangeUI(
-    'Obligation start date',
-    'Obligation end date',
-    'End date must be after start date'
-  ),
+  'ui:title': 'Federal Orders and Training Pay',
   'view:isTitle10Activated': {
-    'ui:title': "I'm currently activated on federal orders"
+    'ui:title': 'Are you currently activated on federal orders in the Reserves or the National Guard?',
+    'ui:widget': 'yesNo'
   },
   title10Activation: {
     'ui:options': {
@@ -55,8 +45,14 @@ export const uiSchema = {
   }
 };
 
-export const schema = _.merge(reservesNationalGuardService, {
+export const schema = {
+  type: 'object',
   properties: {
-    'view:isTitle10Activated': { type: 'boolean' }
+    'view:isTitle10Activated': {
+      type: 'boolean'
+    },
+    title10Activation,
+    waiveVABenefitsToRetainTrainingPay
   }
-});
+};
+

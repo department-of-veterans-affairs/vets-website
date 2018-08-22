@@ -5,3 +5,8 @@ export const itfStatuses = {
   duplicate: 'duplicate',
   incomplete: 'incomplete'
 };
+
+export const RESERVE_GUARD_TYPES = {
+  nationalGuard: 'National Guard',
+  reserve: 'Reserve'
+};

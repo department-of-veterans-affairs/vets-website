@@ -2,7 +2,6 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -911,42 +910,6 @@ export const PaymentDescription = () => (
   </p>
 );
 
-export const ReservesGuardDescription = ({ formData }) => {
-  const { servicePeriods } = formData;
-  if (!servicePeriods || !Array.isArray(servicePeriods) || !servicePeriods[0].serviceBranch) {
-    return null;
-  }
-
-  const mostRecentPeriod = servicePeriods.filter(({ serviceBranch }) => {
-    const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
-    return (serviceBranch.includes(nationalGuard) || serviceBranch.includes(reserve));
-  }).map(({ serviceBranch, dateRange }) => {
-    const dateTo = new Date(dateRange.to);
-    return {
-      serviceBranch,
-      to: dateTo
-    };
-  }).sort((periodA, periodB) => (periodB.to - periodA.to))[0];
-
-  if (!mostRecentPeriod) {
-    return null;
-  }
-  const { serviceBranch, to } = mostRecentPeriod;
-  return (
-    <div>
-      Please tell us more about your {serviceBranch} service that ended on {moment(to).format('MMMM DD, YYYY')}.
-    </div>
-  );
-};
-
-export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);
-
-export const isInFuture = (errors, fieldData) => {
-  const enteredDate = new Date(fieldData);
-  if (enteredDate < Date.now()) {
-    errors.addError('Expected separation date must be in the future');
-  }
-};
 
 export const disabilitiesClarification = (
   <p>

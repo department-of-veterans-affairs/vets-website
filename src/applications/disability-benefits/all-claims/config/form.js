@@ -1,10 +1,11 @@
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-
 import environment from '../../../../platform/utilities/environment';
 
-import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+
+import {
+  hasGuardOrReservePeriod
+} from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
@@ -12,13 +13,27 @@ import {
   schema as alternateNamesSchema
 } from '../pages/alternateNames';
 
-import fullSchema from '../config/schema';
+import {
+  uiSchema as militaryHistoryUISchema,
+  schema as militaryHistorySchema
+} from '../pages/militaryHistory';
 
-const {
-  serviceInformation: {
-    properties: { servicePeriods }
-  },
-} = fullSchema.properties;
+import {
+  uiSchema as reservesNationalGuardUISchema,
+  schema as reservesNationalGuardSchema
+} from '../pages/reservesNationalGuardService';
+
+import {
+  uiSchema as trainingPayUISchema,
+  schema as trainingPaySchema
+} from '../pages/trainingPay';
+
+import {
+  uiSchema as prisonerOfWarUISchema,
+  schema as prisonerOfWarSchema
+} from '../pages/prisonerOfWar';
+
+import fullSchema from './schema';
 
 const formConfig = {
   urlPrefix: '/',
@@ -40,7 +55,9 @@ const formConfig = {
   confirmation: ConfirmationPage,
   // footerContent: FormFooter,
   // getHelp: GetFormHelp,
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    ...fullSchema.definitions
+  },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
   chapters: {
@@ -62,37 +79,8 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          uiSchema: {
-            servicePeriods: {
-              'ui:title': 'Military service history',
-              'ui:description': 'This is the military service history we have on file for you.',
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView,
-                reviewMode: true
-              },
-              items: {
-                serviceBranch: {
-                  'ui:title': 'Branch of service'
-                },
-                dateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'End of service must be after start of service'
-                )
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              servicePeriods,
-              'view:militaryHistoryNote': {
-                type: 'object',
-                properties: {}
-              }
-            }
-          }
+          uiSchema: militaryHistoryUISchema,
+          schema: militaryHistorySchema
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard Service',
@@ -101,11 +89,18 @@ const formConfig = {
           uiSchema: reservesNationalGuardUISchema,
           schema: reservesNationalGuardSchema
         },
-        alternateNames: {
-          title: 'Service under another name',
-          path: 'alternate-names',
-          uiSchema: alternateNamesUISchema,
-          schema: alternateNamesSchema
+        trainingPay: {
+          title: 'Federal orders and training pay',
+          path: 'review-veteran-details/military-service-history/training-pay',
+          depends: hasGuardOrReservePeriod,
+          uiSchema: trainingPayUISchema,
+          schema: trainingPaySchema
+        },
+        pow: {
+          title: 'Prisoner of War (POW)',
+          path: 'review-veteran-details/military-service-history/pow',
+          uiSchema: prisonerOfWarUISchema,
+          schema: prisonerOfWarSchema
         }
       }
     }
