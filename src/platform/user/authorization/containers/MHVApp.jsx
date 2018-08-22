@@ -13,7 +13,6 @@ import { selectProfile } from '../../selectors';
 import {
   createMHVAccount,
   fetchMHVAccount,
-  refreshProfile,
   upgradeMHVAccount
 } from '../../../../platform/user/profile/actions';
 
@@ -107,12 +106,6 @@ export class MHVApp extends React.Component {
       case 'registered':
         this.props.upgradeMHVAccount();
         break;
-
-      case 'upgraded': {
-        const forceCacheClear = true;
-        this.props.refreshProfile(forceCacheClear);
-        break;
-      }
 
       default: // Do nothing.
     }
@@ -279,7 +272,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   createMHVAccount,
   fetchMHVAccount,
-  refreshProfile,
   upgradeMHVAccount
 };
 

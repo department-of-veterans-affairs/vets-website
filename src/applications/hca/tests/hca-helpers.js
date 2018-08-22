@@ -237,10 +237,10 @@ function initSaveInProgressMock(url, client) {
 
   /* eslint-disable camelcase */
   mock(token, {
-    path: '/v0/sessions',
-    verb: 'delete',
+    path: '/v0/sessions/slo/new',
+    verb: 'get',
     value: {
-      logout_via_get: 'http://fake'
+      url: 'http://fake'
     }
   });
 
@@ -248,7 +248,7 @@ function initSaveInProgressMock(url, client) {
     path: '/v0/sessions/new',
     verb: 'get',
     value: {
-      logout_via_get: 'http://fake'
+      url: 'http://fake'
     }
   });
 
@@ -259,19 +259,20 @@ function initSaveInProgressMock(url, client) {
       data: {
         attributes: {
           profile: {
+            authn_context: 'idme',
             email: 'fake@fake.com',
-            loa: {
-              current: 3
-            },
+            loa: { current: 3 },
             first_name: 'Jane',
             middle_name: '',
             last_name: 'Doe',
             gender: 'F',
             birth_date: '1985-01-01',
+            verified: true
           },
           veteran_status: {
             is_veteran: true,
             status: 'OK',
+            served_in_military: true
           },
           in_progress_forms: [{
             form: '1010ez',
