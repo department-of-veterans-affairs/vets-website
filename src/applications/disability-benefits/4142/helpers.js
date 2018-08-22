@@ -1,11 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-// import {
-//   isValidUSZipCode,
-//   isValidCanPostalCode,
-// } from '../../../platform/forms/address';
-// import { stateRequiredCountries } from '../../../platform/forms/definitions/address';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">

@@ -14,6 +14,11 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import  {
+  STATES,
+  COUNTRIES,
+} from '../constants';
+
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -219,6 +224,7 @@ const formConfig = {
                     },
                     privateProviderCountry: {
                       type: 'string',
+                      'enum': COUNTRIES
                     },
 
                     privateProviderStreetAddress: {
@@ -229,6 +235,8 @@ const formConfig = {
                     },
                     privateProviderState: {
                       type: 'string',
+                      'enum':
+                        STATES.map(state => state.label)
                     },
                     privateProviderPostalCode: {
                       type: 'string',
