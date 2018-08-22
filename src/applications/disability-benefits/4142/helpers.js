@@ -1,7 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-
 export const directDepositWarning = (
   <div className="pension-dd-warning">
     The Department of Treasury requires all federal benefit payments be made by
@@ -134,17 +133,5 @@ function isValidZIP(value) {
 export function validateZIP(errors, fieldData) {
   if (fieldData && !isValidZIP(fieldData)) {
     errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
-  }
-}
-
-function isValidPhone(value) {
-  if (value) {
-    return /^[0-9+\s-]{8,13}$/.test(value);
-  }
-  return true;
-}
-export function validatePhone(errors, fieldData) {
-  if (fieldData && !isValidPhone(fieldData)) {
-    errors.addError('Please enter a valid 10 digit phone number (dashes allowed)');
   }
 }

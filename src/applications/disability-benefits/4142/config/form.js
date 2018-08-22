@@ -14,10 +14,7 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import  {
-  STATES,
-  COUNTRIES,
-} from '../constants';
+import { STATES, COUNTRIES } from '../constants';
 
 // const { } = fullSchema.properties;
 
@@ -30,11 +27,9 @@ import {
   limitedConsentDescription,
   summary,
   validateZIP,
-  validatePhone,
 } from '../helpers';
 
 import { validateDate } from 'us-forms-system/lib/js/validation';
-
 
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
@@ -163,8 +158,18 @@ const formConfig = {
                 privateProviderCountry: {
                   'ui:title': 'Country',
                 },
-                privateProviderStreetAddress: {
+                privateProviderStreetAddressLine1: {
                   'ui:title': 'Street address',
+                  'ui:errorMessages': {
+                    pattern: 'Street address must be less than 20 characters.',
+                  },
+
+                },
+                privateProviderStreetAddressLine2: {
+                  'ui:title': 'Street address (optional)',
+                  'ui:errorMessages': {
+                    pattern: 'Street address must be less than 20 characters.',
+                  },
                 },
                 privateProviderState: {
                   'ui:title': 'State',
@@ -177,9 +182,11 @@ const formConfig = {
                   'ui:options': {
                     widgetClassNames: 'usa-input-medium',
                   },
-                  'ui:validations': [{
-                    validator: validateZIP
-                  }],
+                  'ui:validations': [
+                    {
+                      validator: validateZIP,
+                    },
+                  ],
                 },
                 privatePrimaryPhoneNumber: {
                   'ui:title': 'Primary phone number',
@@ -187,9 +194,6 @@ const formConfig = {
                   'ui:options': {
                     widgetClassNames: 'va-input-medium-large',
                   },
-                  'ui:validations': [{ // TODO: WHICH IS BEST VALIDATOR OR PATTERN?
-                    validator: validatePhone
-                  }],
                   'ui:errorMessages': {
                     pattern: 'Phone numbers must be 10 digits (dashes allowed)',
                   },
@@ -215,7 +219,6 @@ const formConfig = {
                     privateProviderName: {
                       type: 'string',
                       pattern: '^(.{1,100})$',
-
                     },
                     limitedConsent: {
                       type: 'boolean',
@@ -229,19 +232,24 @@ const formConfig = {
                     },
                     privateProviderCountry: {
                       type: 'string',
-                      'enum': COUNTRIES
+                      'enum': COUNTRIES,
                     },
-
-                    privateProviderStreetAddress: {
+                    privateProviderStreetAddressLine1: {
                       type: 'string',
+                      pattern: '^(.{1,20})$',
+
+                    },
+                    privateProviderStreetAddressLine2: {
+                      type: 'string',
+                      pattern: '^(.{1,20})$',
+
                     },
                     privateProviderCity: {
                       type: 'string',
                     },
                     privateProviderState: {
                       type: 'string',
-                      'enum':
-                        STATES.map(state => state.label)
+                      'enum': STATES.map(state => state.label),
                     },
                     privateProviderPostalCode: {
                       type: 'string',
@@ -253,7 +261,11 @@ const formConfig = {
                   },
                   required: [
                     'privateProviderName',
-                    'privateProviderStreetAddress',
+                    'privateProviderStreetAddressLine1',
+                    'privateProviderCity',
+                    'privateProviderPostalCode',
+                    'privateProviderCountry',
+                    'privateProviderState'
                   ],
                 },
               },
