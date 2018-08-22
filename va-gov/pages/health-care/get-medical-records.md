@@ -13,7 +13,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-Our online tools can help you view, organize, and share your VA medical records and personal health information. Find out if you’re eligible, and how to sign up to start using these tools.
+Our online tools can help you view, organize, and share your VA medical records and personal health information. Find out if you’re eligible and how to sign in to start using these tools.
 
 </div>
 
@@ -30,7 +30,7 @@ Our online tools can help you view, organize, and share your VA medical records 
 
 <span id="more-blue-button"></span>
 
-## More About VA Blue Button
+## More about VA Blue Button
 
 <div itemscope itemtype="http://schema.org/Question">
 
@@ -38,14 +38,14 @@ Our online tools can help you view, organize, and share your VA medical records 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-VA Blue Button is a feature of our MyHealth*e*Vet health-management portal. It lets you view, print, save, download, and share information from your VA medical record and personal health record. So you can better manage your health needs and communicate with your health care team.
+VA Blue Button is a feature of the health-management portal within MyHealth*e*Vet. It lets you view, print, save, download, and share information from your VA medical record and personal health record. With these features, you can better manage your health needs and communicate with your health care team.
 
 **With VA Blue Button, you can:**
 - Build your own personal health record that includes information like your medical history, emergency contacts,  and medicines
 - Monitor your vital signs and track your diet and exercise with our online journals
 - Download a customized report with information from your VA medical records, personal health record, and in some cases your military service record
 - Download a summary of your VA medical record that includes your most important health information (like your known allergies, medications, and recent lab results)
-- Share a digital copy of your self-entered personal health information with your VA health care team through secure messaging
+- Share a digital copy of the personal health information you entered yourself with your VA health care team through secure messaging
 
 </div>
 </div>
@@ -65,10 +65,12 @@ You can use all the features of this tool if you meet all of the requirements li
 
 [Find out how to apply for VA health care](/health-care/apply/).
 
-**And, you must have one of these free accounts:**
-- A premium **My Health*e*Vet** account, **or**
-- A **DS Logon** account (used for eBenefits and milConnect) and you verify your identity online as part of our sign-in process, **or**
+**And you must have one of these free accounts:**
+- A premium **My Health<em>e</em>Vet** account, **or**
+- A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
+
+**Note:** If you use DS Logon, you'll need to verify your identity online as part of our sign-in process.
 
 Please see the blue sign-in module above to learn more about signing in, creating or upgrading an account, and verifying your identity.
 
@@ -82,11 +84,11 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-Go to your welcome page dashboard, and click on “Health Records.”
+Go to your welcome page dashboard, and click on “Health Records.” You’ll go to a new page. 
 
-You’ll go to a new page. Here, you can choose to access your VA Blue Button report, your VA health summary, or your VA medical images and reports.
+From here, you can choose to access your VA Blue Button report, your VA health summary, or your VA medical images and reports.
 
-If you’d like to add information to your personal health record, go back to your welcome page dashboard. Under “Health Records,” click on “Track Health.” You’ll go to a new page, where you can choose to record information like your vital signs, health history, goals, and food and exercise efforts.
+If you’d like to add information to your personal health record, go back to your welcome page dashboard. Under “Health Records,” click on “Track Health.” You’ll go to a new page where you can choose to record information like your vital signs, health history, goals, and food and exercise efforts.
 
 </div>
 </div>
@@ -137,7 +139,7 @@ The Veterans Health Information Exchange (also called the “Virtual Lifetime El
 **This can help to:**
 - Keep your personal health information more secure
 - Improve your care by helping your providers make more informed decisions
-- Increase your safety by providing your providers with up-to-date information like your current medications and allergies
+- Keep you safe by making sure your providers have up-to-date information, like your current medications and allergies
 - Save you time and money
 - Improve how your VA and non-VA providers coordinate your care
 
@@ -161,12 +163,12 @@ You can sign up for this service online if you meet all of the requirements list
 
 [Find out how to apply for VA health care](/health-care/apply/).
 
-**And, you’ll need to have a premium DS Logon account** (used for eBenefits and MilConnect). 
+**And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect). 
 
 If you don’t have a premium DS Logon account, find out how to create or upgrade an account on eBenefits.<br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vapii).
 
-**Note:** We can only share information with participating community care providers who are in our approved trust network.<br>
+**Note:** We can share information only with participating community care providers who are in our approved trust network.<br>
 [See the list of our current partners](https://www.va.gov/VLER/vler-health-your-area.asp).
 
 </div>
@@ -180,16 +182,16 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 <div itemprop="text"> 
 
 <ol class="process">
-  <li class="process-step list-one">Log into eBenefits with your premium account.</li>
+  <li class="process-step list-one">Log in to eBenefits with your premium account.</li>
   <li class="process-step list-two">Go to “Manage Health.”</li>
   <li class="process-step list-three">Select “Share your VA Medical Records.”</li>
   <li class="process-step list-four">Select “Login to Manage My Consent (Authorizations) and Preferences.” Then select “Start Consent (Authorization).”</li>
-  <li class="process-step list-five">Select Accept the terms and conditions. You must click “Yes” to continue. Then, select “Save and Continue.”</li>
-  <li class="process-step list-six">Mark the box and select “Sign.” Then, re-enter your username and password when prompted.</li>
-  <li class="process-step list-seven">Click “Reauthenticate.” Note that this next step may take a couple of minutes to process.</li>
+  <li class="process-step list-five">Select "Accept the terms and conditions." You must click “Yes” to continue. Then, select “Save and Continue.”</li>
+  <li class="process-step list-six">Mark the box and select “Sign.” Then, you'll be asked to re-enter your username and password.</li>
+  <li class="process-step list-seven">Click “Reauthenticate.” Note that this next step may take a couple minutes to process.</li>
 </ol>
 
-If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-800-983-0937</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
+If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-800-983-0937</a>, Monday through Friday, 8:00 a.m. - 8:00 p.m. (ET)
 
 **Please note:** Some providers and states request another consent form to exchange information with us. Please contact your provider or the Release of Information office at your nearest VA medical center to ask about any other consent forms you may need.<br> 
 [Find your nearest VA medical center](/facilities/).
@@ -206,12 +208,12 @@ If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-8
 
 Yes. If you’ve received care at a VA health facility, follow the steps below to sign up by mail or in person.
 
-###To sign up by mail
+### To sign up by mail
 
 Fill out, sign, and date a Request for and Authorization to Release Protected Health Information to Health Information Exchanges (VA Form 10-0485).<br>
 [Download VA Form 10-0485](https://www.va.gov/vaforms/medical/pdf/10-0485-fill.pdf).
 
-Then, send the completed form to the Release of Information Office at your nearest VA medical center.<br>
+Send the completed form to the Release of Information Office at your nearest VA medical center.<br>
 [Find the address for your nearest VA medical center](/facilities/).
 
 ### To sign up in person
@@ -230,7 +232,7 @@ Bring a completed VA Form 10-0485 with you, or ask for a copy to fill out in the
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-Yes. The VLER Health Exchange uses secure technology to share information between VA and community health care providers. We only share information with community care providers and organizations that have partnership agreements with us and are part of our approved, trusted network.
+Yes. The VLER Veterans Health Information Exchange uses secure technology to share information between VA and community health care providers. We share information only with community care providers and organizations that have partnership agreements with us and are part of our approved, trusted network.
 
 </div>
 </div>
@@ -242,12 +244,12 @@ Yes. The VLER Health Exchange uses secure technology to share information betwee
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-Yes. You can ask us to stop sharing your information online, by mail, or in person.
+Yes. You can ask us online, by mail, or in person to stop sharing your information.
 
 ### To make your request online
 
 <ol class="process">
-  <li class="process-step list-one">[Sign into ebenefits](https://www.ebenefits.va.gov/).</li>
+  <li class="process-step list-one"><a href="https://www.ebenefits.va.gov/">Sign into eBenefits</a>.</li>
   <li class="process-step list-two">Click “Manage Health.”</li>
   <li class="process-step list-three">Go to “Share your VA Health Record.”</li>
   <li class="process-step list-four">Click “Manage My Authorizations and Preferences.”</li>
@@ -259,10 +261,10 @@ Yes. You can ask us to stop sharing your information online, by mail, or in pers
 Fill out a Revocation for Release of Individually-Identifiable Health Information Through eHealth Exchange (VA Form 10-0484). This is also called a “Stop Sharing” form.<br>
 [Download VA Form 10-0484](https://www.va.gov/VLER/docs/vha100484fillStopSharing.pdf).
 
-Mail or take this form in person to your nearest VA medical center’s Release of Information Office office.<br>
+Mail or take this form in person to your nearest VA medical center’s Release of Information Office.<br>
 [Find your nearest VA medical center](/facilities/).
 
-You can also ask the office for a copy of this form to fill out. Or, you can call our toll-free VLER Health Information line at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. to 7:00 p.m. (CST) to request a form. 
+You can also ask the office for a copy of this form to fill out. Or you can call our toll-free VLER Health Information line at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. - 7:00 p.m. (CST) to request a form. 
 
 </div>
 </div>
@@ -274,7 +276,7 @@ You can also ask the office for a copy of this form to fill out. Or, you can cal
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
 
-Call us at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. to 7:00 p.m. (CST)
+Call us at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. - 7:00 p.m. (CST)
 
 </div>
 </div>
