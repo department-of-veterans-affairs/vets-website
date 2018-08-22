@@ -17,7 +17,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform, submit } from '../helpers';
+import { transform, submit, recordApplicantRelationship } from '../helpers';
 
 const {
   address: applicantAddress,
@@ -125,6 +125,7 @@ const formConfig = {
           path: 'applicant-relationship',
           title: 'Applicant Relationship',
           uiSchema: {
+            'ui:description': recordApplicantRelationship,
             onBehalfOf: {
               'ui:widget': 'radio',
               'ui:title': 'I’m submitting feedback on behalf of...',
