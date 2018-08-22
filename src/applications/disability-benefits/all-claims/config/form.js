@@ -9,6 +9,11 @@ import {
   schema as alternateNamesSchema
 } from '../pages/alternateNames';
 
+import {
+  uiSchema as separationTrainingPayUISchema,
+  schema as separationTrainingPaySchema
+} from '../pages/separationTrainingPay';
+
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -47,6 +52,12 @@ const formConfig = {
           path: 'alternate-names',
           uiSchema: alternateNamesUISchema,
           schema: alternateNamesSchema
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPayUISchema,
+          schema: separationTrainingPaySchema
         }
       }
     }
