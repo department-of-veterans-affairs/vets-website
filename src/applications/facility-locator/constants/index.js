@@ -17,4 +17,13 @@ export const FacilityType = {
   VET_CENTER: 'vet_center'
 };
 
+export const LOCATION_OPTIONS = [
+  'all',
+  'health',
+  'cc_provider',
+  'benefits',
+  'cemetery',
+  'vet_center'
+];
+
 export const BOUNDING_RADIUS = 0.75;

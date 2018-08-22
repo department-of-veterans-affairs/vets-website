@@ -3,6 +3,7 @@ import {
   FETCH_LOCATIONS,
   SEARCH_FAILED
 } from '../utils/actionTypes';
+import { captureMessage } from 'raven-js';
 
 const INITIAL_STATE = {
   results: [],
@@ -24,6 +25,10 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
         selectedResult: action.payload,
       };
     case SEARCH_FAILED:
+      if (action.error) {
+        // Log error with Sentry
+        captureMessage(`Locator Search Failed: ${action.error}`);
+      }
       return INITIAL_STATE;
     default:
       return state;

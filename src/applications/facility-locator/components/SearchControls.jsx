@@ -40,16 +40,6 @@ class SearchControls extends Component {
     this.props.onSubmit();
   }
 
-  renderFacilityTypeDropdown = () => {
-    return (
-      <div className="columns medium-4">
-        <FacilityTypeDropdown
-          facilityType={this.props.currentQuery.facilityType}
-          onChange={this.handleFacilityTypeChange}/>
-      </div>
-    );
-  }
-
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
     const disabled = !['health', 'benefits', 'vet_center'].includes(facilityType);
@@ -124,7 +114,11 @@ class SearchControls extends Component {
               value={currentQuery.searchString}
               title="Your location: Street, City, State or Zip"/>
           </div>
-          {this.renderFacilityTypeDropdown()}
+          <div className="columns medium-4">
+            <FacilityTypeDropdown
+              facilityType={this.props.currentQuery.facilityType}
+              onChange={this.handleFacilityTypeChange}/>
+          </div>
           {this.renderServiceTypeDropdown()}
           <div className="columns medium-1">
             <input type="submit" value="Search"/>

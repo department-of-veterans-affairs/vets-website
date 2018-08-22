@@ -15,6 +15,7 @@ class LocationMap extends Component {
     /* eslint-disable camelcase */
     const pinNames = {
       va_health_facility: 'health',
+      cc_provider: 'cc-provider',
       va_cemetery: 'cemetery',
       va_benefits_facility: 'benefits',
       vet_center: 'vet-centers',

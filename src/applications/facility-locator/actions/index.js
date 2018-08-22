@@ -56,7 +56,7 @@ export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }
     if (facilityType === LocationType.CC_PROVIDER) {
       reverseGeocodeBox(bounds).then(address => {
         if (!address) {
-          dispatch({ type: SEARCH_FAILED, error: 'Reverse geocoding failed. See previous errors.' });
+          dispatch({ type: SEARCH_FAILED, error: 'Reverse geocoding failed. See previous errors or network log.' });
           return null;
         }
 

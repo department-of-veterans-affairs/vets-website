@@ -21,11 +21,10 @@ const INITIAL_STATE = {
     39.3976763,
   ],
   context: 20004,
-  inProgress: false,
   currentPage: 1,
   zoomLevel: 4,
+  inProgress: false,
   searchBoundsInProgress: false,
-  searchProvidersInProgress: false
 };
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
@@ -54,8 +53,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: true,
-        inProgress: false,
-        searchProvidersInProgress: false
+        inProgress: false
       };
     case SEARCH_QUERY_UPDATED:
       return {
