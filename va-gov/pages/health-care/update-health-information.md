@@ -5,7 +5,7 @@ title: Update Your Health Benefits Information (VA Form 10-10EZR)
 display_title: Update Health Benefits Info
 description: 
 concurrence: 
-lastupdate: 2018-08-17
+lastupdate: 2018-08-22
 collection: healthCare
 order: 
 children: 
