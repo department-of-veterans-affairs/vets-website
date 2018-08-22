@@ -1,5 +1,6 @@
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+
 import recordEvent from '../../../monitoring/record-event';
-import camelCaseObjectKeys from '../../../utilities/data/camelCaseObjectKeys';
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import { isVet360Configured, mockContactInformation } from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
 
@@ -7,33 +8,33 @@ export function mapRawUserDataToState(json) {
   const {
     data: {
       attributes: {
-        in_progress_forms: savedForms,
-        prefills_available: prefillsAvailable,
+        inProgressForms: savedForms,
+        prefillsAvailable,
         profile: {
-          authn_context: authnContext,
-          birth_date: dob,
+          authnContext,
+          birthDate: dob,
           email,
-          first_name: first,
+          firstName: first,
           gender,
-          last_name: last,
+          lastName: last,
           loa,
-          middle_name: middle,
+          middleName: middle,
           multifactor,
           verified
         },
         services,
-        va_profile: {
+        vaProfile: {
           status
         },
-        vet360_contact_information: vet360ContactInformation,
-        veteran_status: {
-          is_veteran: isVeteran,
+        vet360ContactInformation,
+        veteranStatus: {
+          isVeteran,
           status: veteranStatus,
-          served_in_military: servedInMilitary,
+          servedInMilitary,
         },
       }
     }
-  } = json;
+  } = camelCaseKeysRecursive(json);
 
   return {
     accountType: loa.current,
@@ -54,7 +55,7 @@ export function mapRawUserDataToState(json) {
       last
     },
     verified,
-    vet360: isVet360Configured() ? camelCaseObjectKeys(vet360ContactInformation) : camelCaseObjectKeys(mockContactInformation),
+    vet360: isVet360Configured() ? vet360ContactInformation : mockContactInformation,
     veteranStatus: {
       isVeteran,
       veteranStatus,
