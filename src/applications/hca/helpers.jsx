@@ -1427,42 +1427,59 @@ export const medicarePartADescription = (
   </div>
 );
 
-// Adapted from https://stackoverflow.com/a/46355483
-// Check daylight saving time
-export function stdTimezoneOffset(offsetDate) {
-  const jan = new Date(offsetDate.getFullYear(), 0, 1);
-  const jul = new Date(offsetDate.getFullYear(), 6, 1);
-  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+/**
+ *
+ * Provides the current Central Time (CT) offset according to whether or not daylight savings is in effect
+ * @export
+ * @param {boolean} isDST
+ * @returns {number} offset in minutes
+ */
+export function getCSTOffset(isDST) {
+  const offsetHours = isDST ? 5 : 6;
+  return offsetHours * 60;
 }
 
-// Adapted from https://stackoverflow.com/a/46355483
-export function isDstObserved(dstDate) {
-  return dstDate.getTimezoneOffset() < stdTimezoneOffset(dstDate);
+/**
+ *
+ * Converts a timezone offset into milliseconds
+ * @export
+ * @param {number} offset (in minutes)
+ */
+export function getOffsetTime(offset) {
+  return 60000 * offset;
 }
 
-// Adapted from https://stackoverflow.com/a/46355483 and https://stackoverflow.com/a/17085556
-export function getCentralTimeReferenceDate() {
+/**
+ *
+ * Determines UTC time from a local time and its offset
+ * @export
+ * @param {number} time (in milliseconds)
+ * @param {number} offset (in minutes)
+ */
+export function getUTCTime(time, offset) {
+  return time + (getOffsetTime(offset));
+}
+
+/**
+ * Provides a current date object in Central Time (CT)
+ * Adapted from https://stackoverflow.com/a/46355483 and https://stackoverflow.com/a/17085556
+ */
+export function getCSTDate() {
   const today = new Date();
-  const isDST = !!isDstObserved(today);
-  const cstOffset = isDST ? 5 : 6;
-  // create Date object for current location
-  const utcDate = new Date();
+  const isDST = moment().isDST();
+  const cstOffset = getCSTOffset(isDST);
 
-  // convert to msec
-  // subtract local time zone offset
-  // get UTC time in msec
-  const utc = utcDate.getTime() + (utcDate.getTimezoneOffset() * 60000);
+  const utc = getUTCTime(today.getTime(), today.getTimezoneOffset());
 
-  // create new Date object for central time
-  return new Date(utc + (3600000 * cstOffset));
+  return new Date(utc + getOffsetTime(cstOffset));
 }
 
-export function isAfterCentralTimeDischargeDate(formData) {
+export function isBeforeCentralTimeDate(formData) {
   const lastDischargeDate = moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD');
-  const centralTimeDate = moment(getCentralTimeReferenceDate()).startOf('day');
-  return !lastDischargeDate.isAfter(centralTimeDate);
+  const centralTimeDate = moment(getCSTDate());
+  return !lastDischargeDate.isAfter(centralTimeDate.startOf('day'));
 }
 
-export function isNotAfterCentralTimeDischargeDate(formData) {
-  return !isAfterCentralTimeDischargeDate(formData);
+export function isAfterCentralTimeDate(formData) {
+  return !isBeforeCentralTimeDate(formData);
 }

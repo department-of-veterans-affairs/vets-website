@@ -46,8 +46,8 @@ import {
   expensesGreaterThanIncomeWarning,
   expensesLessThanIncome,
   deductibleExpensesDescription,
-  isAfterCentralTimeDischargeDate,
-  isNotAfterCentralTimeDischargeDate,
+  isAfterCentralTimeDate,
+  isBeforeCentralTimeDate,
 } from '../helpers';
 
 import migrations from './migrations';
@@ -411,10 +411,10 @@ const formConfig = {
             lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
-              'ui:required': isAfterCentralTimeDischargeDate,
+              'ui:required': isAfterCentralTimeDate,
               'ui:options': {
                 labels: dischargeTypeLabels,
-                hideIf: isNotAfterCentralTimeDischargeDate
+                hideIf: isBeforeCentralTimeDate
               }
             },
             'ui:validations': [
