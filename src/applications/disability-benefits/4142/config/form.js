@@ -25,6 +25,7 @@ import {
   limitedConsentDescription,
   summary,
   validateZIP,
+  validatePhone,
 } from '../helpers';
 
 import { validateDate } from 'us-forms-system/lib/js/validation';
@@ -178,6 +179,9 @@ const formConfig = {
                   'ui:options': {
                     widgetClassNames: 'va-input-medium-large',
                   },
+                  'ui:validations': [{ // TODO: WHICH IS BEST VALIDATOR OR PATTERN?
+                    validator: validatePhone
+                  }],
                   'ui:errorMessages': {
                     pattern: 'Phone numbers must be 10 digits (dashes allowed)',
                   },
@@ -228,10 +232,10 @@ const formConfig = {
                     },
                     privateProviderPostalCode: {
                       type: 'string',
-                    //  pattern: '^d+$',
                     },
                     privatePrimaryPhoneNumber: {
                       type: 'string',
+                      pattern: '^\\d{10}$',
                     },
                   },
                   required: [
