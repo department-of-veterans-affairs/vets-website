@@ -13,6 +13,8 @@ import {
   fetchRecipients,
 } from '../../../messaging/actions';
 
+import messagingManifest from '../../../messaging/manifest.json';
+
 function recordDashboardClick(product) {
   return () => {
     recordEvent({
@@ -38,7 +40,7 @@ class MessagingWidget extends React.Component {
     ];
 
     const makeMessageLink = (content, id) => {
-      return <Link href={`/health-care/messaging/inbox/${id}`}>{content}</Link>;
+      return <Link href={`${messagingManifest.rootUrl}/inbox/${id}`}>{content}</Link>;
     };
 
     let { messages } = this.props;

@@ -3,6 +3,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const MessagingHelpers = require('./messaging-helpers');
 const Auth = require('../../../platform/testing/e2e/auth');
 const AccountCreationHelpers = require('../../../platform/testing/e2e/account-creation-helpers');
+const MESSAGING = require('../manifest.json').rootUrl;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -17,7 +18,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure messaging home page renders
     client
-      .url(`${E2eHelpers.baseUrl}/health-care/messaging`)
+      .url(`${E2eHelpers.baseUrl}${MESSAGING}`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Message Your Health Care Team: Vets.gov')
       .waitForElementVisible('#messaging-app', Timeouts.slow);

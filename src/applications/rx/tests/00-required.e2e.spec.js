@@ -3,6 +3,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const RxHelpers = require('./rx-helpers');
 const Auth = require('../../../platform/testing/e2e/auth');
 const AccountCreationHelpers = require('../../../platform/testing/e2e/account-creation-helpers');
+const MESSAGING_ROOT = require('../../messaging/manifest.json').rootUrl;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -54,7 +55,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#rx-prescription h1').text.to.equal('ACETAMINOPHEN 325MG TAB');
 
     // Assert existence of correct message provider link
-    client.expect.element('a.rx-message-provider-link').to.have.attribute('href').which.contains('/health-care/messaging/compose');
+    client.expect.element('a.rx-message-provider-link').to.have.attribute('href').which.contains(`${MESSAGING_ROOT}/compose`);
 
     // Ensure track package page renders
     client
