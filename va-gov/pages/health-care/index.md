@@ -129,7 +129,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="#"><b>How to Apply</b></a>
-    <p>Get instructions for how to prepare and apply for VA health care online, by phone, mail, or in person.</p>
+    <p>Get instructions for how to prepare and apply for VA health care online, by phone, by mail, or in person.</p>
   </div>
 
   <div class="link">
