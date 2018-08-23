@@ -107,21 +107,7 @@ const formConfig = {
           path: 'separation-training-pay',
           uiSchema: separationTrainingPayUISchema,
           schema: separationTrainingPaySchema
-        },
-        // separationPayDetails: {
-        //   title: 'Separation or Severence Pay',
-        //   path: 'separation-pay-details',
-        //   depends: hasSeparationPay,
-        //   uiSchema: separationPayDetailsUISchema,
-        //   schema: separationPayDetailsSchema
-        // },
-        // waiveTrainingPay: {
-        //   title: 'Training Pay Waiver',
-        //   path: 'training-pay-waiver',
-        //   depends: hasTrainingPay,
-        //   uiSchema: waiveTrainingPayUISchema,
-        //   schema: waiveTrainingPaySchema
-        // }
+        }
       }
     }
   }
