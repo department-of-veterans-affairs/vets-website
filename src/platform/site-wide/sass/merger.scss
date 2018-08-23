@@ -7,6 +7,10 @@
 
   @import 'iconography';
   @import 'right-rail';
+  // TODO: add this into formation
+  .va-sidebarnav h4 {
+    vertical-align: middle;
+  }
 
   .vetnav-panel {
     @include media($medium-large-screen) {
