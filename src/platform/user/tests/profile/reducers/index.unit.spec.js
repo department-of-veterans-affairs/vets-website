@@ -96,19 +96,33 @@ describe('Profile reducer', () => {
       mhvAccount: {
         accountLevel: 'Advanced',
         accountState: 'registered'
-      }
+      },
+      services: ['health-records', 'rx']
     }, {
       type: UPGRADE_MHV_ACCOUNT_SUCCESS,
-      data: {
-        attributes: {
-          accountLevel: 'Premium',
-          accountState: 'upgraded'
+      mhvAccount: {
+        data: {
+          attributes: {
+            accountLevel: 'Premium',
+            accountState: 'upgraded'
+          }
+        }
+      },
+      userProfile: {
+        data: {
+          attributes: {
+            profile: { loa: { current: 3 } },
+            vaProfile: {},
+            veteranStatus: {},
+            services: ['health-records', 'rx', 'messaging']
+          }
         }
       }
     });
 
     expect(state.mhvAccount.accountLevel).to.eq('Premium');
     expect(state.mhvAccount.accountState).to.eq('upgraded');
+    expect(state.services).to.contain('messaging');
   });
 
   it('should handle failure to fetch MHV account', () => {

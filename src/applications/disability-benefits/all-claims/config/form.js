@@ -2,6 +2,7 @@ import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { hasMilitaryRetiredPay } from '../validations';
 
 import {
   hasGuardOrReservePeriod
@@ -12,6 +13,16 @@ import {
   uiSchema as alternateNamesUISchema,
   schema as alternateNamesSchema
 } from '../pages/alternateNames';
+
+import {
+  uiSchema as servicePayUISchema,
+  schema as servicePaySchema
+} from '../pages/servicePay';
+
+import {
+  uiSchema as waiveRetirementPayUISchema,
+  schema as waiveRetirementPaySchema
+} from '../pages/waiveRetirementPay';
 
 import {
   uiSchema as militaryHistoryUISchema,
@@ -75,6 +86,19 @@ const formConfig = {
           path: 'alternate-names',
           uiSchema: alternateNamesUISchema,
           schema: alternateNamesSchema
+        },
+        servicePay: {
+          title: 'Service Pay',
+          path: 'service-pay',
+          uiSchema: servicePayUISchema,
+          schema: servicePaySchema
+        },
+        waiveRetirementPay: {
+          title: 'Waiving Retirement Pay',
+          path: 'waive-retirement-pay',
+          depends: hasMilitaryRetiredPay,
+          uiSchema: waiveRetirementPayUISchema,
+          schema: waiveRetirementPaySchema
         },
         militaryHistory: {
           title: 'Military service history',
