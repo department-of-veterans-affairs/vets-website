@@ -40,9 +40,9 @@ import {
 } from '../pages/separationPayDetails';
 
 import {
-  uiSchema as trainingPayWaiverUISchema,
-  schema as trainingPayWaiverSchema
-} from '../pages/trainingPayWaiver';
+  uiSchema as waiveTrainingPayUISchema,
+  schema as waiveTrainingPaySchema
+} from '../pages/waiveTrainingPay';
 
 const formConfig = {
   urlPrefix: '/',
@@ -84,7 +84,7 @@ const formConfig = {
           schema: alternateNamesSchema
         },
         servicePayIntroduction: {
-          title: 'VA Compensation and Service Pay',
+          title: '',
           path: 'service-pay-introduction',
           uiSchema: servicePayIntroductionUISchema,
           schema: servicePayIntroductionSchema
@@ -108,20 +108,20 @@ const formConfig = {
           uiSchema: separationTrainingPayUISchema,
           schema: separationTrainingPaySchema
         },
-        separationPayDetails: {
-          title: 'Separation or Severence Pay',
-          path: 'separation-pay-details',
-          depends: hasSeparationPay,
-          uiSchema: separationPayDetailsUISchema,
-          schema: separationPayDetailsSchema
-        },
-        trainingPayWaiver: {
-          title: 'Training Pay Waiver',
-          path: 'training-pay-waiver',
-          depends: hasTrainingPay,
-          uiSchema: trainingPayWaiverUISchema,
-          schema: trainingPayWaiverSchema
-        }
+        // separationPayDetails: {
+        //   title: 'Separation or Severence Pay',
+        //   path: 'separation-pay-details',
+        //   depends: hasSeparationPay,
+        //   uiSchema: separationPayDetailsUISchema,
+        //   schema: separationPayDetailsSchema
+        // },
+        // waiveTrainingPay: {
+        //   title: 'Training Pay Waiver',
+        //   path: 'training-pay-waiver',
+        //   depends: hasTrainingPay,
+        //   uiSchema: waiveTrainingPayUISchema,
+        //   schema: waiveTrainingPaySchema
+        // }
       }
     }
   }

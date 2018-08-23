@@ -1,12 +1,12 @@
 import fullSchema from '../config/schema';
-import { trainingPayWaiverDescription } from '../content/trainingPayWaiver';
+import { waiveTrainingPayDescription } from '../content/waiveTrainingPay';
 
 const { waiveTrainingPay: waiveTrainingPaySchema } = fullSchema.properties;
 
 export const uiSchema = {
   'view:waiveTrainingPayDescription': {
     'ui:title': 'Training pay waiver',
-    'ui:description': trainingPayWaiverDescription
+    'ui:description': waiveTrainingPayDescription
   },
   waiveTrainingPay: {
     'ui:title':

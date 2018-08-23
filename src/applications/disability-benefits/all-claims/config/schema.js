@@ -52,18 +52,12 @@ const schema = {
     waiveRetirementPay: {
       type: 'boolean'
     },
-    separationPayDetails: {
-      type: 'object',
-      required: ['separationPayDate', 'separationPayBranch'],
-      properties: {
-        separationPayDate: {
-          type: 'string'
-        },
-        separationPayBranch: {
-          type: 'string',
-          'enum': serviceBranches
-        }
-      }
+    separationPayDate: {
+      type: 'string'
+    },
+    separationPayBranch: {
+      type: 'string',
+      'enum': serviceBranches
     },
     waiveTrainingPay: {
       type: 'boolean'

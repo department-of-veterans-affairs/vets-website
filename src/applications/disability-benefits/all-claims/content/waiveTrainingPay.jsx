@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const trainingPayWaiverDescription = (
+export const waiveTrainingPayDescription = (
   <p>
     The amount you get for VA compensation may be reduced or withheld if you’re
     also receiving active or inactive duty training pay. To keep your training
