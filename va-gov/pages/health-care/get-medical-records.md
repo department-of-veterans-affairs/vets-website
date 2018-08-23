@@ -63,7 +63,7 @@ You can use all the features of this tool if you meet all of the requirements li
 - Enrolled in VA health care, **and**
 - Registered as a patient in a VA health facility
 
-[Find out how to apply for VA health care](/health-care/apply/).
+[Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
 - A premium **My Health<em>e</em>Vet** account, **or**
@@ -161,7 +161,7 @@ You can sign up for this service online if you meet all of the requirements list
 - Enrolled in VA health care, **and**
 - Registered as a patient in a VA health facility
 
-[Find out how to apply for VA health care](/health-care/apply/).
+[Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect). 
 

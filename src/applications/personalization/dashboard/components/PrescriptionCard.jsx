@@ -4,6 +4,7 @@ import React from 'react';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { formatDate } from '../../../rx/utils/helpers';
+import rxManifest from '../../../rx/manifest.json';
 
 function recordDashboardClick(product) {
   return () => {
@@ -36,14 +37,14 @@ export default function PrescriptionCard({ prescription }) {
           <Link
             key={`rx-${prescription.id}-track`}
             className="rx-track-package-link usa-button"
-            href={`/health-care/prescriptions/${prescription.id}/track`}
+            href={`${rxManifest.rootUrl}/${prescription.id}/track`}
             onClick={recordDashboardClick('track-your-package')}>
               Track Your Package
           </Link>
         ) : (
           <Link
             className="usa-button usa-button-primary"
-            href={`/health-care/prescriptions/${prescription.id}`} onClick={recordDashboardClick('view-your-prescription')}>
+            href={`${rxManifest.rootUrl}/${prescription.id}`} onClick={recordDashboardClick('view-your-prescription')}>
             View Your Prescription<i className="fa fa-chevron-right"/>
           </Link>
         )}

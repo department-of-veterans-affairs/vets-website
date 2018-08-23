@@ -51,7 +51,7 @@ You can use this tool if you meet all of the requirements listed below.
 - Are registered as a patient in a VA health facility, **and**
 - Have a prescription from a VA doctor that you’ve filled at a VA pharmacy and that’s being handled by the VA Mail Order Pharmacy
 
-[Find out how to apply for VA health care](/health-care/apply/).
+[Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
 - An advanced or premium **My Health<em>e</em>Vet** account, **or**

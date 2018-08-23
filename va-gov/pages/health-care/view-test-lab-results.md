@@ -47,7 +47,7 @@ You can use this tool to view your VA results and information you enter yourself
 - Enrolled in VA health care, **and**
 - Registered as a patient at a VA health facility
 
-[Find out how to apply for VA health care](/health-care/apply/).
+[Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
 - A premium **My Health<em>e</em>Vet** account, **or**

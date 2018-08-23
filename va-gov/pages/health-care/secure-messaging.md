@@ -52,7 +52,7 @@ You can use this tool if you meet all of the requirements listed below.
 - You’re registered as a patient at a VA health facility, **and**
 - Your VA health care provider has agreed to communicate with you through secure messaging
 
-[Find out how to apply for VA health care](/health-care/apply/).
+[Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
 - A premium **My Health<em>e</em>Vet** account, **or**
