@@ -1,6 +1,8 @@
 import React from 'react';
 import Raven from 'raven-js';
 
+// import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+
 import get from '../../../../platform/utilities/data/get';
 
 import { apiRequest } from '../../../../platform/utilities/api';
@@ -15,6 +17,47 @@ export const submissionStatuses = {
   // When the api serves a failure
   apiFailure: 'apiFailure'
 };
+
+const messageTemplate = (idSection) => (
+  <div>
+    <h3>We’ve received your application</h3>
+    <p>Thank you for filing a claim for increased disability compensation.</p>
+    {idSection}
+    <p>You can check the status of your claim online. Please allow 24 hours for your increased disability claim to show up there.</p>
+    <p><a href="/track-claims">Check the status of your claim.</a></p>
+    <p>If you don’t see your increased disability claim online after 24 hours, please call Veterans Benefits Assistance at <a href="tel:+18008271000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. – 9:00 a.m. (ET).</p>
+  </div>
+);
+
+const successMessage = (claimId) => messageTemplate(
+  <div>
+    <strong>Claim ID number</strong>
+    <div>{claimId}</div>
+  </div>
+);
+
+/* const checkLaterMessage = (jobId) => messageTemplate(
+ *   <div>
+ *     <strong>Confirmation number</strong>
+ *     <div>{jobId}</div>
+ *   </div>
+ * );
+ *
+ * const errorMessage = (jobId) => (
+ *   <div>
+ *     <h3>Thank you for filing a claim for increased disability compensation.</h3>
+ *     <strong>Confirmation number</strong>
+ *     <div>{jobId}</div>
+ *     <p>We're sorry. Something went wrong on our end when we tried to submit your application. For help, please call the Vets.gov Help Desk at <a href="tel:+18008271000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. – 9:00 a.m. (ET).</p>
+ *   </div>
+ * );
+ *
+ * const pendingMessage = (
+ *   <AlertBox
+ *     isVisible
+ *     status="info"
+ *     content="Please wait while we submit your application."/>
+ * ); */
 
 export default class ConfirmationPoll extends React.Component {
   static defaultProps = {
@@ -46,7 +89,8 @@ export default class ConfirmationPoll extends React.Component {
       return;
     }
 
-    apiRequest(`disability_compensation_form/submission_status/${this.props.jobId}`)
+    // apiRequest(`/disability_compensation_form/submission_status/${this.props.jobId}`)
+    apiRequest('/disability_compensation_form/submission_status/1f67ef1799012b1972d3772c')
       .then((response) => {
         // Check status
         const status = response.data.attributes.transactionStatus;
@@ -72,18 +116,11 @@ export default class ConfirmationPoll extends React.Component {
 
   render() {
     switch (this.state.submissionStatus) {
+      case submissionStatuses.succeeded:
+        return successMessage(this.state.claimId);
       case submissionStatuses.retry: {
         // What should we do here?
-        return <p><strong>This is taking a while.</strong> Please check on the Claims Status tool later.</p>;
-      }
-      case submissionStatuses.succeeded: {
-        return (
-          <div>
-            <strong>Confirmation number</strong>
-            <br/>
-            {this.state.claimId}
-          </div>
-        );
+        return null;
       }
       case submissionStatuses.exhausted: {
         // TODO: What should we do here?

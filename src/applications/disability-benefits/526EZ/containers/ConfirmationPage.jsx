@@ -64,6 +64,7 @@ class ConfirmationPage extends React.Component {
         <p>We usually process claims within <strong>99 days</strong>.</p>
         <p>We may contact you if we have questions or need more information.
         You can print this page for your records.</p>
+        <ConfirmationPoll jobId={this.props.jobId}/>
         { selected4142 && privateRecordReleaseContent}
         <h4 className="confirmation-guidance-heading">
           What happens after I apply?
@@ -81,7 +82,7 @@ class ConfirmationPage extends React.Component {
           Learn more about what happens after you file a disability claim.
         </a>
         <div className="inset">
-          <h4>Disability Compensation Claim for Increase <span className="additional">(Form 21-526EZ)</span></h4>
+          <h4>Disability Compensation Claim <span className="additional">(Form 21-526EZ)</span></h4>
           <span>
             For {first} {middle} {last} {suffix}
           </span>
@@ -93,9 +94,6 @@ class ConfirmationPage extends React.Component {
                 return <li key={i}>{disability.name}</li>;
                 })}
                 </ul> */}
-            <li>
-              <ConfirmationPoll/>
-            </li>
             <li>
               <strong>Date submitted</strong>
               <br/>
@@ -127,7 +125,8 @@ function mapStateToProps(state) {
   return {
     fullName: state.user.profile.userFullName,
     disabilities: state.form.data.disabilities,
-    submittedAt: state.form.submission.submittedAt
+    submittedAt: state.form.submission.submittedAt,
+    jobId: state.form.submission.response.attributes.jobId
   };
 }
 
