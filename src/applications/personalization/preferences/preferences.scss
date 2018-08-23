@@ -16,6 +16,17 @@
       margin: 1rem;
       padding: 1.5rem;
       background: $color-gray-lightest;
+      cursor: pointer;
+
+      .form-checkbox {
+        input[type=checkbox] {
+          cursor: pointer;
+        }
+
+        label {
+          margin-top: 0;
+        }
+      }
     }
   }
 }

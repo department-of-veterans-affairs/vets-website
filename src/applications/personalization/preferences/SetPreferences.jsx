@@ -6,11 +6,21 @@ import { chunk, fill } from 'lodash';
 
 import { benefitChoices } from './helpers';
 
+import { setPreference, savePreferences } from './actions';
+
 import localStorage from '../../../platform/utilities/storage/localStorage';
+
+import Checkbox from '../../gi/components/Checkbox.jsx';
 
 class SetPreferences extends React.Component {
   componentDidMount() {
     localStorage.setItem('dashboardLastVisitedAt', Date.now());
+  }
+
+  handlePreferenceToggle = (slug) => {
+    return () => {
+      this.props.setPreference(slug, !this.props.preferences.dashboard[slug]);
+    };
   }
 
   render() {
@@ -27,7 +37,14 @@ class SetPreferences extends React.Component {
                     let itemContent;
                     if (e) {
                       itemContent = (
-                        <div className="preference-item">
+                        <div className="preference-item" onClick={this.handlePreferenceToggle(e.slug)}>
+                          <div className="right">
+                            <Checkbox
+                              name={e.slug}
+                              checked={!!this.props.preferences.dashboard[e.slug]}
+                              label=""
+                              onChange={this.handlePreferenceToggle(e.slug)}/>
+                          </div>
                           <h5>{e.title}</h5>
                           <p>{e.description}</p>
                         </div>
@@ -52,12 +69,13 @@ class SetPreferences extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    ...state,
+    preferences: state.preferences,
   };
 };
 
 const mapDispatchToProps = {
-
+  setPreference,
+  savePreferences,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetPreferences);
