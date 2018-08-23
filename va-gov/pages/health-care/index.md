@@ -218,7 +218,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <h2>More Information and Resources</h2>
 
   <div class="link">
-    <a href="https://www.va.gov/healthbenefits/cost/index.asp/"><b>VA Health Care Costs</b></a>
+    <a href="https://www.va.gov/healthbenefits/cost/index.asp"><b>VA Health Care Costs</b></a>
     <p>Learn about your copay, financial assessment, and how VA health care works with private health insurance.</p>
   </div>
 
