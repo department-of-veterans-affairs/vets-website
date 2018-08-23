@@ -11,6 +11,7 @@ import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
+import AppointmentsWidget from './AppointmentsWidget';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
@@ -208,6 +209,8 @@ class DashboardApp extends React.Component {
 
             {this.renderLOAPrompt()}
             {this.renderMVIWarning()}
+
+            {(document.location.hostname === 'staging.vets.gov') && <AppointmentsWidget/>}
 
             <ClaimsAppealsWidget/>
 
