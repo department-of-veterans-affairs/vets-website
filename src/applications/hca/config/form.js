@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import moment from 'moment';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
@@ -46,7 +45,10 @@ import {
   disclosureWarning,
   expensesGreaterThanIncomeWarning,
   expensesLessThanIncome,
-  deductibleExpensesDescription
+  deductibleExpensesDescription,
+  isAfterCentralTimeDate,
+  isBeforeCentralTimeDate,
+  validateDate,
 } from '../helpers';
 
 import migrations from './migrations';
@@ -410,10 +412,10 @@ const formConfig = {
             lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
-              'ui:required': (formData) => !moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day')),
+              'ui:required': ({ lastDischargeDate: LDD }) => validateDate(LDD) && isBeforeCentralTimeDate(LDD),
               'ui:options': {
                 labels: dischargeTypeLabels,
-                hideIf: (formData) => moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day'))
+                hideIf: ({ lastDischargeDate: LDD }) => !validateDate(LDD) || isAfterCentralTimeDate(LDD),
               }
             },
             'ui:validations': [
@@ -924,7 +926,7 @@ const formConfig = {
           }
         }
       }
-    },
+    }
   }
 };
 
