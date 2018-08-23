@@ -7,10 +7,6 @@
 
   @import 'iconography';
   @import 'right-rail';
-  // TODO: add this into formation
-  .va-sidebarnav h4 {
-    vertical-align: middle;
-  }
 
   .vetnav-panel {
     @include media($medium-large-screen) {
@@ -857,6 +853,24 @@
   .va-l-detail-page {
     a {
       padding-right: 0;
+    }
+  }
+
+  // TODO: add this into formation
+  .va-sidebarnav {
+    h4 {
+      vertical-align: middle;
+    }
+
+    .usa-sidenav-list > li {
+      i {
+        position: relative;
+        right: -20px;
+      }
+    }
+
+    .usa-sidenav-sub_list a {
+      width: 100% !important; // sorry this is temporary
     }
   }
 }
