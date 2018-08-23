@@ -42,7 +42,7 @@ You may be able to get benefits if you served in Afghanistan, you didn't receive
 
 *Indicates that there are exceptions to how we decide if these illnesses qualify you for benefits and these conditions may be covered even after a year has passed.
 
-[Find out what other health risks may be connected to your service in Afghanistan](/health-care/health-conditions/conditions-related-to-service-era/operation-enduring-freedom/).
+[Find out what other health risks may be connected to your service in Afghanistan](/health-care/health-needs-conditions/health-issues-related-to-service-era/operation-enduring-freedom/).
 
 <br>
 

@@ -81,7 +81,7 @@ Yes. You can use this form to update information about your income and deductibl
 <div itemprop="text"> 
 
 No. You can use this form only to update your information if you’re already enrolled in VA health care.<br> 
-[Find out how to apply for VA health care](https://www.vets.gov/health-care/apply/).
+[Find out how to apply for VA health care](https://www.vets.gov/health-care/how-to-apply/).
 
 </div>
 </div>
@@ -98,7 +98,7 @@ We ask for this information because we have to bill your private health insuranc
 We don’t bill Medicare or Medicaid, but we may bill Medicare supplemental health insurance for covered services.
 
 If you have other health insurance coverage, it doesn’t affect the VA health care benefits you can get. And telling us about your other insurance may help to offset your costs.<br>
-[Learn more about VA health care and other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
+[Learn more about VA health care and other insurance](/health-care/about-va-health-benefits/va-health-care-and-other-insurance/).
 
 </div>
 </div>

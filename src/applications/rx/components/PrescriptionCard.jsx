@@ -8,6 +8,7 @@ import GlossaryLink from '../components/GlossaryLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
+import messagingManifest from '../../messaging/manifest.json';
 
 class PrescriptionCard extends React.Component {
   constructor() {
@@ -52,7 +53,7 @@ class PrescriptionCard extends React.Component {
         <div
           className="rx-call-provider"
           key={`rx-${id}-call`}>
-          <a href="/health-care/messaging/compose">Message Provider</a>
+          <a href={`${messagingManifest.rootUrl}/compose`}>Message Provider</a>
         </div>
       );
     }
