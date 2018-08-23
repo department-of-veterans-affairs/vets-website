@@ -53,6 +53,11 @@ class PreferencesWidget extends React.Component {
                 <p>TBD benefit content</p>
               </AccordionItem>
             </AccordionWrapper>
+            <AccordionWrapper>
+              <AccordionItem onToggle={this.handleAccordionToggle} name="exampleBenefitTwo" buttonText="Example Benefit Two" expanded={this.state.exampleBenefitTwo}>
+                <p>TBD benefit content</p>
+              </AccordionItem>
+            </AccordionWrapper>
           </div>
         </div>
       </div>

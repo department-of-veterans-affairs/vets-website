@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import { chunk, fill } from 'lodash';
 
 import { benefitChoices } from './helpers';
 
-import { setPreference, savePreferences } from './actions';
+import { setPreference, savePreferences, fetchPreferences } from './actions';
 
 import localStorage from '../../../platform/utilities/storage/localStorage';
 
@@ -14,7 +14,13 @@ import Checkbox from '../../gi/components/Checkbox.jsx';
 
 class SetPreferences extends React.Component {
   componentDidMount() {
+    this.props.fetchPreferences();
     localStorage.setItem('dashboardLastVisitedAt', Date.now());
+  }
+
+  handleSave = () => {
+    this.props.savePreferences(this.props.preferences.dashboard);
+    this.props.router.push('/');
   }
 
   handlePreferenceToggle = (slug) => {
@@ -60,7 +66,10 @@ class SetPreferences extends React.Component {
               );
             })}
           </div>
-          <Link to="/">Cancel</Link>
+          <div>
+            <button type="button" className="usa-button" onClick={this.handleSave}>Save Preferences</button>
+            <Link to="/" className="usa-button usa-button-secondary">Cancel</Link>
+          </div>
         </div>
       </div>
     );
@@ -76,7 +85,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setPreference,
   savePreferences,
+  fetchPreferences,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SetPreferences);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SetPreferences));
 export { SetPreferences };
