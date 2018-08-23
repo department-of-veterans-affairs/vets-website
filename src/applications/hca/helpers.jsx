@@ -1436,7 +1436,7 @@ export const medicarePartADescription = (
  * @returns {number} offset in minutes
  */
 export function getCSTOffset(isDST) {
-  const offsetHours = isDST ? 5 : 6;
+  const offsetHours = isDST ? -5 : -6;
   return offsetHours * 60;
 }
 
@@ -1452,12 +1452,12 @@ export function getOffsetTime(offset) {
 
 /**
  *
- * Determines UTC time from a local time and its offset
+ * Adjusts a given time using an offset
  * @export
  * @param {number} time (in milliseconds)
  * @param {number} offset (in milliseconds)
  */
-export function getUTCTime(time, offset) {
+export function getAdjustedTime(time, offset) {
   return time + offset;
 }
 
@@ -1472,10 +1472,10 @@ export function getCSTDate() {
 
   // The UTC and Central Time times are defined in milliseconds
   // UTC time is determined by adding the local offset to the local time
-  const utcTime = getUTCTime(today.getTime(), getOffsetTime(today.getTimezoneOffset()));
+  const utcTime = getAdjustedTime(today.getTime(), getOffsetTime(today.getTimezoneOffset()));
 
-  // Central Time is determined by subtracting the CST offset from the UTC time derived above
-  const centralTime = utcTime - getOffsetTime(cstOffset);
+  // Central Time is determined by adjusting the UTC time (derived above) using the CST offset
+  const centralTime = getAdjustedTime(utcTime, getOffsetTime(cstOffset));
   return new Date(centralTime);
 }
 

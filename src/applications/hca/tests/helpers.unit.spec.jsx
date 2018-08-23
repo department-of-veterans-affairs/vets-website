@@ -4,7 +4,7 @@ import {
   expensesLessThanIncome,
   getCSTOffset,
   getOffsetTime,
-  getUTCTime,
+  getAdjustedTime,
   isAfterCentralTimeDate,
   isBeforeCentralTimeDate,
 } from '../helpers.jsx';
@@ -77,11 +77,11 @@ describe('HCA helpers', () => {
     });
   });
   describe('getCSTOffset', () => {
-    it('should return 300 if is daylight savings time', () => {
-      expect(getCSTOffset(true)).to.equal(300);
+    it('should return -300 if is daylight savings time', () => {
+      expect(getCSTOffset(true)).to.equal(-300);
     });
-    it('should return 360 if is not daylight savings time', () => {
-      expect(getCSTOffset(false)).to.equal(360);
+    it('should return -360 if is not daylight savings time', () => {
+      expect(getCSTOffset(false)).to.equal(-360);
     });
   });
   describe('getOffsetTime', () => {
@@ -89,9 +89,9 @@ describe('HCA helpers', () => {
       expect(getOffsetTime(1)).to.equal(60000);
     });
   });
-  describe('getUTCTime', () => {
+  describe('getAdjustedTime', () => {
     it('should determine utc time', () => {
-      expect(getUTCTime(1, 1)).to.equal(2);
+      expect(getAdjustedTime(1, 1)).to.equal(2);
     });
   });
   describe('isAfterCentralTimeDate', () => {
