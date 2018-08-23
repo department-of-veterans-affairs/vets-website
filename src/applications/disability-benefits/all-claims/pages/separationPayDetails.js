@@ -6,11 +6,6 @@ import fullSchema from '../config/schema';
 const { separationPayDetails: separationPayDetailsSchema } = fullSchema.properties;
 
 export const uiSchema = {
-  'ui:order': [
-    'view:separationPayDescription',
-    'separationPayDate',
-    'separationPayBranch'
-  ],
   'view:separationPayDescription': {
     'ui:title': 'Separation or Severance Pay',
     'ui:description': separationPayDetailsDescription
