@@ -13,11 +13,9 @@ import {
   CLEAR_NOTIFICATION,
   clearNotification,
   FETCH_APPEALS,
-  FETCH_CLAIMS,
   GET_CLAIM_DETAIL,
   getAppeals,
   getClaimDetail,
-  getClaims,
   getClaimsV2,
   pollRequest,
   REMOVE_FILE,
@@ -28,7 +26,6 @@ import {
   SET_APPEALS,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
-  SET_CLAIMS,
   SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
   SET_FIELDS_DIRTY,
@@ -265,7 +262,7 @@ describe('Actions', () => {
         const pollStatusSpy = sinon.spy();
         getClaimsV2(pollStatusSpy)(dispatchSpy);
 
-        pollStatusSpy.firstCall.args[0].onError();
+        pollStatusSpy.firstCall.args[0].onError({ errors: [] });
 
         expect(dispatchSpy.secondCall.args[0]).to.eql({ type: 'FETCH_CLAIMS_ERROR' });
       });
@@ -449,46 +446,6 @@ describe('Actions', () => {
         expect(shouldFailStub.firstCall.args[0]).to.eql(mockResponse);
       });
     });
-  });
-  describe('getClaims', () => {
-    beforeEach(mockFetch);
-    it('should fetch claims', (done) => {
-      const claims = [];
-      fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve(claims) }) }),
-      });
-      const thunk = getClaims();
-      const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_CLAIMS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_CLAIMS);
-          done();
-        }
-      };
-
-      thunk(dispatch);
-    });
-    it('should fail on error', (done) => {
-      const claims = [];
-      fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(claims) }) }),
-      });
-      const thunk = getClaims();
-      const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_CLAIMS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_CLAIMS_UNAVAILABLE);
-          done();
-        }
-      };
-
-      thunk(dispatch);
-    });
-    afterEach(unMockFetch);
   });
   describe('submitRequest', () => {
     beforeEach(mockFetch);

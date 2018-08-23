@@ -66,21 +66,6 @@ export function setNotification(message) {
   };
 }
 
-export function getClaims(filter) {
-  return (dispatch) => {
-    dispatch({ type: FETCH_CLAIMS });
-
-    makeAuthRequest('/v0/evss_claims',
-      null,
-      dispatch,
-      claims => {
-        dispatch({ type: SET_CLAIMS, filter, claims: claims.data, meta: claims.meta });
-      },
-      () => dispatch({ type: SET_CLAIMS_UNAVAILABLE })
-    );
-  };
-}
-
 export function getAppeals(filter) {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS });
@@ -191,7 +176,10 @@ export function getClaimsV2(poll = pollRequest) {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
     poll({
-      onError: () => dispatch({ type: FETCH_CLAIMS_ERROR }),
+      onError: response => {
+        Raven.captureException(`vets_claims_v2_err_get_claims ${getStatus(response)}`);
+        dispatch({ type: FETCH_CLAIMS_ERROR });
+      },
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
       pollingInterval: window.VetsGov.pollTimeout || 1000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
