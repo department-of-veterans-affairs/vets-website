@@ -9,7 +9,8 @@
     'mocha': true
   },
   'globals': {
-    '__BUILDTYPE__': true
+    '__BUILDTYPE__': true,
+    'pageMetaData': true
   },
   'rules': {
     // Override airbnb style.
@@ -104,4 +105,3 @@
     'sourceType': 'module'
   }
 }
-
