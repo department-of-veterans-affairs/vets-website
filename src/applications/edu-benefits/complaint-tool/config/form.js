@@ -100,7 +100,7 @@ const formConfig = {
   trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'complaint-tool',
+  formId: 'COMPLAINT-TOOL',
   version: 0,
   prefillEnabled: true,
   defaultDefinitions: {
