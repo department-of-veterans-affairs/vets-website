@@ -500,10 +500,7 @@ const schema = {
             obligationTermOfServiceDateRange: {
               $ref: '#/definitions/dateRangeAllRequired'
             },
-            waiveVABenefitsToRetainTrainingPay: {
-              // I elect to waive VA benefits for the days I accrued
-              // inactive duty training pay in order to retain my inactive
-              // duty training pay.
+            receivingTrainingPay: {
               type: 'boolean',
             },
             title10Activation: {

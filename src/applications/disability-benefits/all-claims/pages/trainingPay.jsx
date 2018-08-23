@@ -9,15 +9,10 @@ import {
 
 const {
   title10Activation,
-  waiveVABenefitsToRetainTrainingPay
+  receivingTrainingPay
 } = fullSchema.properties.serviceInformation.properties.reservesNationalGuardService.properties;
 
 export const uiSchema = {
-  'ui:order': [
-    'view:isTitle10Activated',
-    'title10Activation',
-    'waiveVABenefitsToRetainTrainingPay'
-  ],
   'ui:title': 'Federal Orders and Training Pay',
   'view:isTitle10Activated': {
     'ui:title': 'Are you currently activated on federal orders in the Reserves or the National Guard?',
@@ -39,8 +34,8 @@ export const uiSchema = {
       },
     ),
   },
-  waiveVABenefitsToRetainTrainingPay: {
-    'ui:title': 'I choose to waive VA compensation pay for the days I receive inactive duty training pay, so I can keep my inactive duty training pay.',
+  receivingTrainingPay: {
+    'ui:title': 'Are you currently receiving inactive-duty training pay?',
     'ui:widget': 'yesNo'
   }
 };
@@ -52,7 +47,7 @@ export const schema = {
       type: 'boolean'
     },
     title10Activation,
-    waiveVABenefitsToRetainTrainingPay
+    receivingTrainingPay
   }
 };
 
