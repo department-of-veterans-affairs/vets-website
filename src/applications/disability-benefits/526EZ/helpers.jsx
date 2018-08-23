@@ -20,8 +20,7 @@ import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
   USA,
-  VA_FORM4142_URL,
-  RESERVE_GUARD_TYPES
+  VA_FORM4142_URL
 } from './constants';
 
 
