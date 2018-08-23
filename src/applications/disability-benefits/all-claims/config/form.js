@@ -11,11 +11,6 @@ import {
 } from '../pages/alternateNames';
 
 import {
-  uiSchema as servicePayIntroductionUISchema,
-  schema as servicePayIntroductionSchema
-} from '../pages/servicePayIntroduction';
-
-import {
   uiSchema as servicePayUISchema,
   schema as servicePaySchema
 } from '../pages/servicePay';
@@ -68,12 +63,6 @@ const formConfig = {
           path: 'alternate-names',
           uiSchema: alternateNamesUISchema,
           schema: alternateNamesSchema
-        },
-        servicePayIntroduction: {
-          title: '',
-          path: 'service-pay-introduction',
-          uiSchema: servicePayIntroductionUISchema,
-          schema: servicePayIntroductionSchema
         },
         servicePay: {
           title: 'Service Pay',
