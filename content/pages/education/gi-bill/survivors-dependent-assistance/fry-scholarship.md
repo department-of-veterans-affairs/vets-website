@@ -36,7 +36,7 @@ You may be able to get up to 36 months of benefits, including:
 
 - Children qualify as of their 18th birthday or after graduating high school, whichever comes first. 
 
-- Children who qualify for Post-9/11 GI Bill benefits before January 1, 2013 will no longer qualify as of their 33rd birthday. 
+- Children who qualify for Post-9/11 GI Bill benefits before January 1, 2013, will no longer qualify as of their 33rd birthday. 
 
 - Children of deceased Servicemembers who qualify for Post-9/11 GI Bill benefits on or after January 1, 2013, and all Fry spouses no longer have a time limit to use Post-9/11 GI Bill benefits. 
 
