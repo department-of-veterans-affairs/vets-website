@@ -8,12 +8,11 @@ import {
 } from '../utils';
 
 const {
-  title10Activation,
-  receivingTrainingPay
+  title10Activation
 } = fullSchema.properties.serviceInformation.properties.reservesNationalGuardService.properties;
 
 export const uiSchema = {
-  'ui:title': 'Federal Orders and Training Pay',
+  'ui:title': 'Federal Orders',
   'view:isTitle10Activated': {
     'ui:title': 'Are you currently activated on federal orders in the Reserves or the National Guard?',
     'ui:widget': 'yesNo'
@@ -33,21 +32,17 @@ export const uiSchema = {
         'ui:required': title10DatesRequired
       },
     ),
-  },
-  receivingTrainingPay: {
-    'ui:title': 'Are you currently receiving inactive-duty training pay?',
-    'ui:widget': 'yesNo'
   }
 };
 
 export const schema = {
   type: 'object',
+  required: ['view:isTitle10Activated'],
   properties: {
     'view:isTitle10Activated': {
       type: 'boolean'
     },
-    title10Activation,
-    receivingTrainingPay
+    title10Activation
   }
 };
 

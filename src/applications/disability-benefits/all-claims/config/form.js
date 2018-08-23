@@ -35,9 +35,9 @@ import {
 } from '../pages/reservesNationalGuardService';
 
 import {
-  uiSchema as trainingPayUISchema,
-  schema as trainingPaySchema
-} from '../pages/trainingPay';
+  uiSchema as federalOrdersUISchema,
+  schema as federalOrdersSchema
+} from '../pages/federalOrders';
 
 import {
   uiSchema as prisonerOfWarUISchema,
@@ -113,12 +113,12 @@ const formConfig = {
           uiSchema: reservesNationalGuardUISchema,
           schema: reservesNationalGuardSchema
         },
-        trainingPay: {
+        federalOrders: {
           title: 'Federal orders and training pay',
-          path: 'review-veteran-details/military-service-history/training-pay',
+          path: 'review-veteran-details/military-service-history/federal-orders',
           depends: hasGuardOrReservePeriod,
-          uiSchema: trainingPayUISchema,
-          schema: trainingPaySchema
+          uiSchema: federalOrdersUISchema,
+          schema: federalOrdersSchema
         },
         pow: {
           title: 'Prisoner of War (POW)',

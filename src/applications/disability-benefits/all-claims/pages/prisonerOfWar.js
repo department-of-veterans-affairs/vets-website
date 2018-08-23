@@ -11,7 +11,7 @@ export const uiSchema = {
     'ui:title': 'Have you ever been a POW?',
     'ui:widget': 'yesNo'
   },
-  prisonerOfWar: {
+  confinements: {
     'ui:options': {
       viewField: PeriodOfConfinement,
       reviewTitle: 'Periods of confinement',
@@ -32,7 +32,7 @@ export const schema = {
     'view:powStatus': {
       type: 'boolean'
     },
-    prisonerOfWar: fullSchema.properties.prisonerOfWar
+    confinements: fullSchema.properties.confinements
   }
 };
 

@@ -518,7 +518,7 @@ const schema = {
         }
       }
     },
-    prisonerOfWar: {
+    confinements: {
       type: 'array',
       items: {
         $ref: '#/definitions/dateRangeAllRequired'
