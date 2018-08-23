@@ -365,25 +365,6 @@
     }
   }
 
-  .footer-banner {
-
-    padding-top: 1.5em;
-    padding-bottom: 2em;
-
-    .va-footer-logo {
-      img {
-        width:200px;
-        height:auto;
-      }
-    }
-  }
-
-  .va-footer-linkgroup {
-    li {
-      margin-bottom: 0;
-    }
-  }
-
   .hub-main-title {
     width: 90%;
   }
@@ -413,6 +394,80 @@
   #vetnav {
     z-index: 2;
   }
+
+  .footer-banner {
+
+    padding-top: 1.5em;
+    padding-bottom: 2em;
+
+    .va-footer-logo {
+      img {
+        width:200px;
+        height:auto;
+      }
+    }
+  }
+
+  // desktop footer stuff
+
+  .va-footer-linkgroup-title {
+
+    button {
+      -webkit-font-smoothing: antialiased;
+      font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+      line-height: 1.3;
+      font-weight: 700;
+      font-size: 1.1em;
+      margin: 0;
+      padding: 0 0 1em 0;
+      text-align: left;
+    }
+
+  }
+
+  .va-footer-button {
+
+    &:disabled {
+      background-color: transparent !important;
+    }
+
+    .va-footer-linkgroup {
+      li {
+        margin-bottom: 0;
+
+        &:first-child {
+          h4 {
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  //yes repeated
+  .va-footer-linkgroup {
+    li {
+      margin-bottom: 0;
+
+      &:first-child {
+        h4 {
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .va-footer-links {
+    padding-left: 0;
+    margin-top: 0;
+  }
+
+  #footer-vcl {
+    margin-top: 1.5em;
+    margin-bottom: 0;
+  }
+
+  // end footer stuff
 
   // mobile
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
@@ -522,7 +577,9 @@
     .va-nav-breadcrumbs,
     article,
     #homepage-popular,
-    #hub-rail {
+    #hub-rail,
+    .footer-banner,
+    .footer-links {
 
       padding-left: .5em;
       padding-right: .5em;
@@ -558,7 +615,71 @@
     .va-nav-linkslist--related  {
       margin-bottom: 0 !important; //hard override; what does this break elsewhere
     }
+
+    .footer-inner {
+      padding-top: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    #footer-vcl {
+      margin-top: 0.25em;
+    }
+
+    #footerNav {
+
+      #footer-first-child {
+        padding-top: .25em;
+      }
+
+      .va-footer-linkgroup {
+        margin-top: 0;
+        margin-bottom: .25em;
+
+        .usa-accordion-content {
+          background-color: transparent;
+
+          .va-footer-links {
+            li {
+              margin-bottom: 0.5em;
+            }
+          }
+        }
+      }
+
+      .va-footer-linkgroup-title {
+
+        button {
+          padding: 0.5em;
+          font-size: 1em;
+          font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+          color: $color-white;
+        }
+
+        .usa-accordion-button {
+          color: $color-white;
+          background-color: $color-primary-darker;
+        }
+
+        .usa-accordion-button[aria-expanded=false] {
+          background-image: url("/img/plus-white.png");
+          background-image: url("/img/plus-white.svg");
+        }
+
+        .usa-accordion-button[aria-expanded=true] {
+          background-image: url("/img/minus-white.png");
+          background-image: url("/img/minus-white.svg");
+        }
+      }
+      //.merger #footerNav .va-footer-linkgroup-title button
+
+
+    }
+
+
   }
+
+
 
   // tablet
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
@@ -730,6 +851,12 @@
 
     @include media($medium-large-screen) {
       display: none;
+    }
+  }
+
+  .va-l-detail-page {
+    a {
+      padding-right: 0;
     }
   }
 }
