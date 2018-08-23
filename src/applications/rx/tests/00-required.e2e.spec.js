@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(
     AccountCreationHelpers.initMHVTermsMocks(token);
 
     // Ensure active page renders
-    Auth.logIn(token, client, '/health-care/prescriptions', 3)
+    Auth.logIn(token, client, '/health-care/refill-track-prescriptions', 3)
       .assert.title('Refill Prescriptions: Vets.gov')
       .waitForElementVisible('#rx-active', Timeouts.normal)
       .axeCheck('.main');
@@ -72,7 +72,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure history card renders
     client
-      .click('.va-nav-breadcrumbs a[href="/health-care/prescriptions/"]')
+      .click('.va-nav-breadcrumbs a[href="/health-care/refill-track-prescriptions"]')
       .waitForElementVisible('#rx-active', Timeouts.slow)
       .click('.va-tabs li:last-child a')
       .waitForElementVisible('#rx-history', Timeouts.normal)

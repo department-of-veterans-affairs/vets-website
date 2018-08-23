@@ -225,7 +225,7 @@ class DashboardApp extends React.Component {
 
             <ul className="va-nav-linkslist-list">
               <li>
-                <a href="/health-care/schedule-an-appointment/" onClick={recordDashboardClick('schedule-appointment')}>
+                <a href="/health-care/schedule-view-va-appointments/" onClick={recordDashboardClick('schedule-appointment')}>
                   <h4 className="va-nav-linkslist-title">Schedule a VA Appointment</h4>
                   <p className="va-nav-linkslist-description">Find out how to make a doctor’s appointment with a member of your VA health care team online or by phone.</p>
                 </a>

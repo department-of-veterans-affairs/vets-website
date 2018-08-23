@@ -346,42 +346,42 @@ smith.use(collections({
     }
   },
   healthCareCoverage: {
-    pattern: 'health-care/about-va-health-care/*.md',
+    pattern: 'health-care/about-va-health-benefits/*.md',
     sortBy: 'order',
     metadata: {
       name: 'VA Health Care Coverage'
     }
   },
   healthCareCoverageFamily: {
-    pattern: 'health-care/family-caregiver-health-benefits/*.md',
+    pattern: 'health-care/family-caregiver-benefits/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Family and Caregiver Health Benefits'
     }
   },
   healthCareCoverageVision: {
-    pattern: 'health-care/about-va-health-care/vision-care/*.md',
+    pattern: 'health-care/about-va-health-benefits/vision-care/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Vision Care'
     }
   },
   healthCareConditions: {
-    pattern: 'health-care/health-conditions/*.md',
+    pattern: 'health-care/health-needs-conditions/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Health Needs and Conditions'
     }
   },
   healthCareMentalHealth: {
-    pattern: 'health-care/health-conditions/mental-health/*.md',
+    pattern: 'health-care/health-needs-conditions/mental-health/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Mental Health'
     }
   },
   healthCareServiceRelated: {
-    pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
+    pattern: 'health-care/health-needs-conditions/health-issues-related-to-service-era/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Concerns Related to Service Era'

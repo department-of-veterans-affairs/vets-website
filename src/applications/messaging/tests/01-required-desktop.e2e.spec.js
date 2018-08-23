@@ -10,7 +10,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     MessagingHelpers.initApplicationSubmitMock(token);
     AccountCreationHelpers.initMHVTermsMocks(token);
-    Auth.logIn(token, client, '/health-care/messaging', 3);
+    Auth.logIn(token, client, '/health-care/secure-messaging', 3);
 
     // Desktop test
     client.resizeWindow(1000, 800);

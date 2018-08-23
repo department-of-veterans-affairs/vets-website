@@ -2,6 +2,6 @@
   "appName": "Prescription Refill",
   "entryFile": "./rx-entry.jsx",
   "entryName": "rx",
-  "rootUrl": "/health-care/prescriptions",
+  "rootUrl": "/health-care/refill-track-prescriptions",
   "production": true
 }
