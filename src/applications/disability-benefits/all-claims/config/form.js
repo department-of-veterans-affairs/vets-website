@@ -4,7 +4,8 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   hasMilitaryRetiredPay,
-  hasSeparationPay
+  hasSeparationPay,
+  hasTrainingPay
 } from '../validations';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -12,6 +13,11 @@ import {
   uiSchema as alternateNamesUISchema,
   schema as alternateNamesSchema
 } from '../pages/alternateNames';
+
+import {
+  uiSchema as servicePayIntroductionUISchema,
+  schema as servicePayIntroductionSchema
+} from '../pages/servicePayIntroduction';
 
 import {
   uiSchema as servicePayUISchema,
@@ -32,6 +38,11 @@ import {
   uiSchema as separationPayDetailsUISchema,
   schema as separationPayDetailsSchema
 } from '../pages/separationPayDetails';
+
+import {
+  uiSchema as trainingPayWaiverUISchema,
+  schema as trainingPayWaiverSchema
+} from '../pages/trainingPayWaiver';
 
 const formConfig = {
   urlPrefix: '/',
@@ -72,6 +83,12 @@ const formConfig = {
           uiSchema: alternateNamesUISchema,
           schema: alternateNamesSchema
         },
+        servicePayIntroduction: {
+          title: 'VA Compensation and Service Pay',
+          path: 'service-pay-introduction',
+          uiSchema: servicePayIntroductionUISchema,
+          schema: servicePayIntroductionSchema
+        },
         servicePay: {
           title: 'Service Pay',
           path: 'service-pay',
@@ -97,6 +114,13 @@ const formConfig = {
           depends: hasSeparationPay,
           uiSchema: separationPayDetailsUISchema,
           schema: separationPayDetailsSchema
+        },
+        trainingPayWaiver: {
+          title: 'Training Pay Waiver',
+          path: 'training-pay-waiver',
+          depends: hasTrainingPay,
+          uiSchema: trainingPayWaiverUISchema,
+          schema: trainingPayWaiverSchema
         }
       }
     }

@@ -64,6 +64,9 @@ const schema = {
           'enum': serviceBranches
         }
       }
+    },
+    waiveTrainingPay: {
+      type: 'boolean'
     }
   }
 };
