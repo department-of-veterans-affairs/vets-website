@@ -7,6 +7,7 @@ import set from '../../../../platform/utilities/data/set';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
 
 export const uiSchema = {
+  'ui:title': 'Prisoner of War (POW)',
   'view:powStatus': {
     'ui:title': 'Have you ever been a POW?',
     'ui:widget': 'yesNo'

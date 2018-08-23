@@ -114,7 +114,7 @@ const formConfig = {
           schema: reservesNationalGuardSchema
         },
         federalOrders: {
-          title: 'Federal orders and training pay',
+          title: 'Federal orders',
           path: 'review-veteran-details/military-service-history/federal-orders',
           depends: hasGuardOrReservePeriod,
           uiSchema: federalOrdersUISchema,
