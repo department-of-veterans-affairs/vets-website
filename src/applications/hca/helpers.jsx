@@ -1482,7 +1482,7 @@ export function getCSTDate() {
 export function isBeforeCentralTimeDate(date) {
   const lastDischargeDate = moment(date, 'YYYY-MM-DD');
   const centralTimeDate = moment(getCSTDate());
-  return !lastDischargeDate.isAfter(centralTimeDate.startOf('day'));
+  return lastDischargeDate.isBefore(centralTimeDate.startOf('day'));
 }
 
 export function isAfterCentralTimeDate(date) {
