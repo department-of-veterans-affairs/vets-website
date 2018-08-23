@@ -2,11 +2,7 @@ import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import {
-  hasMilitaryRetiredPay,
-  hasSeparationPay,
-  hasTrainingPay
-} from '../validations';
+import { hasMilitaryRetiredPay } from '../validations';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
@@ -33,16 +29,6 @@ import {
   uiSchema as separationTrainingPayUISchema,
   schema as separationTrainingPaySchema
 } from '../pages/separationTrainingPay';
-
-import {
-  uiSchema as separationPayDetailsUISchema,
-  schema as separationPayDetailsSchema
-} from '../pages/separationPayDetails';
-
-import {
-  uiSchema as waiveTrainingPayUISchema,
-  schema as waiveTrainingPaySchema
-} from '../pages/waiveTrainingPay';
 
 const formConfig = {
   urlPrefix: '/',

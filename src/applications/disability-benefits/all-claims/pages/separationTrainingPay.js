@@ -2,7 +2,10 @@ import dateUI from 'us-forms-system/lib/js/definitions/date';
 import fullSchema from '../config/schema';
 import merge from 'lodash/merge';
 import { hasSeparationPay } from '../validations';
-import { waiveTrainingPayDescription } from '../content/waiveTrainingPay';
+import {
+  waiveTrainingPayDescription,
+  separationPayDetailsDescription
+} from '../content/separationTrainingPay';
 
 const {
   separationPayDate: separationPayDateSchema,
@@ -18,6 +21,10 @@ export const uiSchema = {
   'view:separationPayDetails': {
     'ui:options': {
       expandUnder: 'view:hasSeparationPay'
+    },
+    'view:separationPayDetailsDescription': {
+      'ui:title': 'Separation or Severance Pay',
+      'ui:description': separationPayDetailsDescription
     },
     separationPayDate: merge(
       {},
@@ -59,6 +66,10 @@ export const schema = {
     'view:separationPayDetails': {
       type: 'object',
       properties: {
+        'view:separationPayDetailsDescription': {
+          type: 'object',
+          properties: {}
+        },
         separationPayDate: separationPayDateSchema,
         separationPayBranch: separationPayBranchSchema
       }
