@@ -2,8 +2,6 @@ import fullSchema from '../config/schema';
 
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
-import set from '../../../../platform/utilities/data/set';
-
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
 
 export const uiSchema = {
@@ -19,16 +17,17 @@ export const uiSchema = {
       expandUnder: 'view:powStatus',
       itemName: 'Period'
     },
-    items: set('ui:options.expandUnder', 'view:powStatus', dateRangeUI(
+    items: dateRangeUI(
       'Start of confinement',
       'End of confinement',
       'Confinement start date must be before end date'
-    ))
+    )
   }
 };
 
 export const schema = {
   type: 'object',
+  required: ['view:powStatus'],
   properties: {
     'view:powStatus': {
       type: 'boolean'
