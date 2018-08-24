@@ -1,8 +1,6 @@
 import React from 'react';
-import LeftRailNav from '../../components/LeftRailNav';
+import LeftRailNav from '../components/LeftRailNav';
 import navData from '../data';
-
-// const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 export class Main extends React.Component {
   getMenuSections() {
@@ -12,11 +10,14 @@ export class Main extends React.Component {
 
     if (page.childPages.length > 0) {
       const newData = navData.reduce((acc, item) => {
-        const linksHasPage = item.links.some((link) => page.href.includes(link.href));
+        const linksHasPage = item.links.some((link) => {
+          return link.href.includes(page.href);
+        });
 
         if (linksHasPage) {
           const newLinks = item.links.map((linkItem) => {
-            if (page.href.includes(linkItem.href)) {
+            // TODO: Need to change this logic because it is very brittle.
+            if (linkItem.href.includes(page.href)) {
               return {
                 title: linkItem.text,
                 href: linkItem.href,
