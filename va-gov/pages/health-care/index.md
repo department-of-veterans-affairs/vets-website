@@ -173,7 +173,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/view-test-lab-results/"><b>View Your VA Lab and Test Results</b></a>
+    <a href="/health-care/view-test-and-lab-results/"><b>View Your VA Lab and Test Results</b></a>
     <p>View, download, and print your labs and test results.</p>
   </div>
 
