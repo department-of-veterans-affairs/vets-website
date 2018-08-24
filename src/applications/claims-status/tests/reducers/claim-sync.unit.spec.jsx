@@ -28,7 +28,7 @@ describe('Claim sync reducer', () => {
         }
       },
       meta: {
-        successfulSync: false
+        syncStatus: 'FAILED'
       }
     });
 
@@ -48,7 +48,7 @@ describe('Claim sync reducer', () => {
         }
       ],
       meta: {
-        successfulSync: false
+        syncStatus: 'FAILED'
       }
     });
 
