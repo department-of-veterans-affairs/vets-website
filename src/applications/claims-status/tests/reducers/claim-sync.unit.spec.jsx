@@ -36,7 +36,23 @@ describe('Claim sync reducer', () => {
     expect(state.available).to.true;
     expect(state.authorized).to.true;
   });
+  it('should set in sync', () => {
+    const state = claimSync(undefined, {
+      type: SET_CLAIM_DETAIL,
+      claim: {
+        attributes: {
+          updatedAt: 'test',
+        }
+      },
+      meta: {
+        syncStatus: 'SUCCESS'
+      }
+    });
 
+    expect(state.synced).to.be.true;
+    expect(state.available).to.true;
+    expect(state.authorized).to.true;
+  });
   it('should set out of sync on list request', () => {
     const state = claimSync(undefined, {
       type: SET_CLAIMS,
@@ -53,6 +69,25 @@ describe('Claim sync reducer', () => {
     });
 
     expect(state.synced).to.be.false;
+    expect(state.available).to.true;
+    expect(state.authorized).to.true;
+  });
+  it('should set in sync on list request', () => {
+    const state = claimSync(undefined, {
+      type: SET_CLAIMS,
+      claims: [
+        {
+          attributes: {
+            updatedAt: 'test'
+          }
+        }
+      ],
+      meta: {
+        syncStatus: 'SUCCESS'
+      }
+    });
+
+    expect(state.synced).to.be.true;
     expect(state.available).to.true;
     expect(state.authorized).to.true;
   });
