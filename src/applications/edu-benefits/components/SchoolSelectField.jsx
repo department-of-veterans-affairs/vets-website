@@ -46,7 +46,7 @@ export class SchoolSelectField extends React.Component {
 
   componentDidMount() {
     // hydrate search if restoring from SiP
-    // if there is a seach term stored in the form data
+    // if there is a search term stored in the form data
     // if the search term in the form data isn't already in the redux state and displayed
     const institutionSelected = this.props.formData['view:institutionSelected'];
     const searchTermToRestore = this.props.formData['view:institutionQuery'];
@@ -82,18 +82,19 @@ export class SchoolSelectField extends React.Component {
     });
   }
 
-  handleOptionClick = ({ address1, address2, address3, city, facilityCode, name, state }) => {
+  handleOptionClick = ({ address1, address2, address3, city, facilityCode, name, state, zip, country }) => {
     this.props.selectInstitution({ address1, address2, address3, city, facilityCode, name, state });
     this.props.onChange({
       ...this.props.formData,
-      facilityCode,
-      'view:institutionSelected': {
-        address1,
-        address2,
-        address3,
+      name,
+      'view:facilityCode': facilityCode,
+      address: {
+        country,
+        street: address1,
+        street2: address2,
         city,
-        name,
-        state
+        state,
+        postalCode: zip,
       }
     });
   }
@@ -271,7 +272,7 @@ export class SchoolSelectField extends React.Component {
               {`${searchResultsCount} results for ${institutionQuery}`}
             </span>}
             {showSearchResults && showInstitutions && <div>
-              {institutions.map(({ address1, address2, address3, city, country, facilityCode, name, state }, index) => (
+              {institutions.map(({ address1, address2, address3, city, country, facilityCode, name, state, zip }, index) => (
                 <div key={index}>
                   <div className="radio-button">
                     <input
@@ -281,7 +282,7 @@ export class SchoolSelectField extends React.Component {
                       name={`page-${currentPageNumber}`}
                       type="radio"
                       onKeyDown={this.onKeyDown}
-                      onChange={() => this.handleOptionClick({ address1, address2, address3, city, facilityCode, name, state })}
+                      onChange={() => this.handleOptionClick({ address1, address2, address3, city, country, facilityCode, name, state, zip })}
                       value={facilityCode}/>
                     <label
                       id={`institution-${index}-label`}
@@ -328,7 +329,7 @@ export class SchoolSelectField extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const currentPageNumber = selectCurrentPageNumber(state);
   const errorMessages = selectFacilityCodeErrorMessages(ownProps);
-  const facilityCodeSelected = ownProps.formData ? ownProps.formData.facilityCode : '';
+  const facilityCodeSelected = ownProps.formData ? ownProps.formData['view:facilityCode'] : '';
   const institutionQuery = selectInstitutionQuery(state);
   const institutions = selectInstitutions(state);
   const institutionSelected = selectInstitutionSelected(state);

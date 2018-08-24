@@ -288,7 +288,9 @@ describe('<SchoolSelectField>', () => {
       city: 'testcity',
       facilityCode: 'test',
       name: 'testName',
-      state: 'testState'
+      state: 'testState',
+      zip: '12345',
+      country: 'United States'
     }];
     const tree = mount(<SchoolSelectField
       formData={{}}
@@ -310,17 +312,26 @@ describe('<SchoolSelectField>', () => {
 
     tree.find('#page-1-0').first().simulate('change');
     expect(onChange.firstCall.args[0]).to.eql({
-      facilityCode: 'test',
-      'view:institutionSelected': {
-        address1: 'testAddress1',
-        address2: 'testAddress2',
-        address3: 'testAddress3',
+      address: {
         city: 'testcity',
-        name: 'testName',
-        state: 'testState'
-      }
+        country: 'United States',
+        postalCode: '12345',
+        state: 'testState',
+        street: 'testAddress1',
+        street2: 'testAddress2'
+      },
+      name: 'testName',
+      'view:facilityCode': 'test'
     });
-    expect(selectInstitution.firstCall.args[0]).to.eql(institutions[0]);
+    expect(selectInstitution.firstCall.args[0]).to.eql({
+      address1: 'testAddress1',
+      address2: 'testAddress2',
+      address3: 'testAddress3',
+      city: 'testcity',
+      facilityCode: 'test',
+      name: 'testName',
+      state: 'testState'
+    });
   });
 
   // handleStartOver

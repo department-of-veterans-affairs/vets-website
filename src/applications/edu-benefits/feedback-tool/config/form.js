@@ -360,7 +360,7 @@ const formConfig = {
             educationDetails: {
               school: {
                 'view:searchSchoolSelect': {
-                  facilityCode: {
+                  'view:facilityCode': {
                     'ui:required': manualSchoolEntryIsNotChecked,
                   },
                   'ui:field': SchoolSelectField,
@@ -428,7 +428,7 @@ const formConfig = {
                       'view:searchSchoolSelect': {
                         type: 'object',
                         properties: {
-                          facilityCode: {
+                          'view:facilityCode': {
                             type: 'string'
                           }
                         }
