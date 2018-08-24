@@ -89,7 +89,7 @@ We may refer you to a community provider. Your eligibility for community care wi
 [Learn about skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp). <br>
 [Find out about remote telehealth services](https://www.telehealth.va.gov/).
 
-If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances. 
+If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances.
 
 **We may refer you to a community provider if any one of these is true for you:**
 - We can’t provide the services you need, **or**
@@ -154,7 +154,7 @@ For more information, contact your care team or the Traveling Veteran Coordinato
 #### How do I schedule an appointment?
 
 You can schedule VA health care appointments by phone or through our online scheduling tool. <br>
-[Find out how to schedule VA appointments by phone or online](/health-care/schedule-an-appointment).
+[Find out how to schedule VA appointments by phone or online](/health-care/schedule-view-va-appointments).
 
 <br>
 

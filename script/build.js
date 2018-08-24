@@ -353,7 +353,7 @@ smith.use(collections({
     }
   },
   healthCareCoverageFamily: {
-    pattern: 'health-care/family-caregiver-benefits/*.md',
+    pattern: 'health-care/family-caregiver-health-benefits/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Family and Caregiver Health Benefits'
