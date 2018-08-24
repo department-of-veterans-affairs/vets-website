@@ -41,7 +41,7 @@ const schemaToConfigIds = {
   '22-5495': '5495',
   '40-10007': '40-10007',
   VIC: 'VIC',
-  'complaint-tool': 'complaint-tool',
+  'complaint-tool': 'COMPLAINT-TOOL',
   definitions: 'N/A'
 };
 

@@ -63,6 +63,7 @@ describe('form migrations:', () => {
     const allFormIds = Object.keys(schemas).filter(formId => !excludedForms.has(formId));
     const reformattedIds = mappedIds.slice(0);
     reformattedIds.splice(0, 1, '1010ez');
+    reformattedIds.splice(-2, 1, 'COMPLAINT-TOOL');
     reformattedIds.pop();
     const includedFormIds = configs.map(form => form.formId);
     expect(allFormIds).to.deep.equal(mappedIds);
