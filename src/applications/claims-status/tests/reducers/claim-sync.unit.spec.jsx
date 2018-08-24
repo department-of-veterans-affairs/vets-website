@@ -33,8 +33,8 @@ describe('Claim sync reducer', () => {
     });
 
     expect(state.synced).to.be.false;
-    expect(state.available).to.true;
-    expect(state.authorized).to.true;
+    expect(state.available).to.be.true;
+    expect(state.authorized).to.be.true;
   });
   it('should set in sync', () => {
     const state = claimSync(undefined, {
@@ -50,8 +50,8 @@ describe('Claim sync reducer', () => {
     });
 
     expect(state.synced).to.be.true;
-    expect(state.available).to.true;
-    expect(state.authorized).to.true;
+    expect(state.available).to.be.true;
+    expect(state.authorized).to.be.true;
   });
   it('should set out of sync on list request', () => {
     const state = claimSync(undefined, {
@@ -69,8 +69,8 @@ describe('Claim sync reducer', () => {
     });
 
     expect(state.synced).to.be.false;
-    expect(state.available).to.true;
-    expect(state.authorized).to.true;
+    expect(state.available).to.be.true;
+    expect(state.authorized).to.be.true;
   });
   it('should set in sync on list request', () => {
     const state = claimSync(undefined, {
@@ -88,7 +88,7 @@ describe('Claim sync reducer', () => {
     });
 
     expect(state.synced).to.be.true;
-    expect(state.available).to.true;
-    expect(state.authorized).to.true;
+    expect(state.available).to.be.true;
+    expect(state.authorized).to.be.true;
   });
 });
