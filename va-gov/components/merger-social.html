@@ -1,0 +1,56 @@
+{% comment %}
+======================
+Social Media - R. Rail
+======================
+
+See https://help.shopify.com/themes/liquid/tags/theme-tags#include
+{% endcomment %}
+
+<div class='merger-r-rail'>
+
+  {% for group in social %}
+
+    {% if group.heading != empty %}
+      <div class='rail-heading'>
+        <h4>{{ group.heading }}</h4>
+      </div>
+    {% endif %}
+
+    <h4 class='va-nav-linkslist-list'>
+      <a href="{{group.url}}">{{group.admin}}</a>
+    </h4>
+
+
+    {% if group.subsections.length > 0 %}
+
+      {% for subs in group.subsections %}
+
+      <section>
+        <ul class="va-nav-linkslist-list social">
+          <h4>{{ subs.subhead }}</h4>
+          {% for link in subs.links %}
+            {% if link.url != empty %}
+              <li>
+                <a href="{{link.url}}">
+                  {% if link.icon != empty %}
+                    <i class="fa fab {{link.icon}}"></i>
+                  {% endif %}
+
+                  {% if link.label != empty %}
+                    {{link.label}}
+                  {% else %}
+                    <span>{{link.title}}</span><br>
+                    <span>{{link.number}}</span>
+                  {% endif %}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </section>
+
+      {% endfor %}
+
+    {% endif %}
+
+</div>

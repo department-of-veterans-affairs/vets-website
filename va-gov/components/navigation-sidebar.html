@@ -1,0 +1,55 @@
+{% comment %}
+
+=====================
+ Navigation side bar
+=====================
+
+Used to display a side navigation bar of pages in a collection.
+
+1. To define a collection, edit `build.js`.
+2. Look for the line that begins `smith.use(collections` and edit as desired.
+3. OR add a `collection` property to those pages you wish to group into a
+   collection.
+
+{% endcomment %}
+
+{% assign relatedPages = collections | get: collection %}
+
+<nav {% if relatedPages != empty %}class="usa-width-one-fourth va-sidebarnav"{% endif %} id="bc-va-detailpage-sidebar">
+  <div>
+    <button type="button" class="va-btn-close-icon va-sidebarnav-close">Close this menu</button>
+
+  {% if relatedPages != empty %}
+    {% if relatedPages.metadata.name != empty %}
+      <h4>{{ relatedPages.metadata.name }}</h4>
+    {% endif %}
+    <ul class="usa-sidenav-list">
+    </ul>
+  {% endif %}
+  </div>
+</nav>
+
+<script type="text/javascript">
+  const pageMetaData = {
+    collections: [],
+    mainRouteName: {{ relatedPages.metadata.name | json }}
+  };
+
+  {% for page in relatedPages %}
+    {% assign childPages = collections | get: page.children %}
+
+    pageMetaData.collections.push({
+      text: {{ page.title | json }},
+      href: {{ page.path | json }},
+      childPages: []
+    })
+
+    {% for cpage in childPages %}
+      pageMetaData.collections[pageMetaData.collections.length - 1].childPages.push({
+        displayTitle: {{ cpage.display_title | json }},
+        text: {{ cpage.title | json }},
+        href: {{ cpage.path | json }},
+      })
+    {% endfor %}
+  {% endfor %}
+</script>

@@ -31,7 +31,8 @@ const {
   getAppManifests
 } = require('./manifest-helpers.js');
 
-const sourceDir = '../content/pages';
+// changed to let for using merger folder on build
+let sourceDir = '../content/pages';
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
@@ -116,6 +117,10 @@ const webpackConfig = webpackConfigGenerator(
 // Custom liquid filter(s)
 liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
 
+// If this is the mergedbuild the build will build the merger pages
+if (options.mergedbuild) {
+  sourceDir = '../va-gov/pages';
+}
 
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
@@ -139,6 +144,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
   ignoreList.push('education/complaint-tool.md');
+  ignoreList.push('disability-benefits/apply/form-526-disability-claim.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -340,7 +346,7 @@ smith.use(collections({
     }
   },
   healthCareCoverage: {
-    pattern: 'health-care/about-va-health-care/*.md',
+    pattern: 'health-care/about-va-health-benefits/*.md',
     sortBy: 'order',
     metadata: {
       name: 'VA Health Care Coverage'
@@ -354,28 +360,28 @@ smith.use(collections({
     }
   },
   healthCareCoverageVision: {
-    pattern: 'health-care/about-va-health-care/vision-care/*.md',
+    pattern: 'health-care/about-va-health-benefits/vision-care/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Vision Care'
     }
   },
   healthCareConditions: {
-    pattern: 'health-care/health-conditions/*.md',
+    pattern: 'health-care/health-needs-conditions/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Health Needs and Conditions'
     }
   },
   healthCareMentalHealth: {
-    pattern: 'health-care/health-conditions/mental-health/*.md',
+    pattern: 'health-care/health-needs-conditions/mental-health/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Mental Health'
     }
   },
   healthCareServiceRelated: {
-    pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
+    pattern: 'health-care/health-needs-conditions/health-issues-related-to-service-era/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Concerns Related to Service Era'
@@ -464,16 +470,29 @@ smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 
 if (options.watch) {
-  // TODO(awong): Enable live reload of metalsmith pages per instructions at
-  //   https://www.npmjs.com/package/metalsmith-watch
-  smith.use(
-    watch({
-      paths: {
-        '../content/**/*': '**/*.{md,html}',
-      },
-      livereload: true,
-    })
-  );
+  if (options.mergedbuild) {
+    // TODO(awong): Enable live reload of metalsmith pages per instructions at
+    //   https://www.npmjs.com/package/metalsmith-watch
+    smith.use(
+      watch({
+        paths: {
+          '../va-gov/**/*': '**/*.{md,html}',
+        },
+        livereload: true,
+      })
+    );
+  } else {
+    // TODO(awong): Enable live reload of metalsmith pages per instructions at
+    //   https://www.npmjs.com/package/metalsmith-watch
+    smith.use(
+      watch({
+        paths: {
+          '../content/**/*': '**/*.{md,html}',
+        },
+        livereload: true,
+      })
+    );
+  }
 
   const appRewrites = getRoutes(manifests).map(url => {
     return {
@@ -609,14 +628,23 @@ smith.use(navigation({
   navSettings: {}
 }));
 
-// Note that there is no default layout specified.
-// All pages must explicitly declare a layout or else it will be rendered as raw html.
-smith.use(layouts({
-  engine: 'liquid',
-  directory: '../content/layouts/',
-  // Only apply layouts to markdown and html files.
-  pattern: '**/*.{md,html}'
-}));
+if (options.mergedbuild) {
+  smith.use(layouts({
+    engine: 'liquid',
+    directory: '../va-gov/layouts/',
+    // Only apply layouts to markdown and html files.
+    pattern: '**/*.{md,html}'
+  }));
+} else {
+  // Note that there is no default layout specified.
+  // All pages must explicitly declare a layout or else it will be rendered as raw html.
+  smith.use(layouts({
+    engine: 'liquid',
+    directory: '../content/layouts/',
+    // Only apply layouts to markdown and html files.
+    pattern: '**/*.{md,html}'
+  }));
+}
 
 // TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({
@@ -639,7 +667,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/education/apply-for-education-benefits/application',
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
-        '/health-care/apply/application',
+        '/health-care/apply-for-health-care-form-10-10ez',
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
         '/download-va-letters/letters'].join('|'))
