@@ -40,7 +40,7 @@ const schemaToConfigIds = {
   '22-5490': '5490',
   '22-5495': '5495',
   '40-10007': '40-10007',
-  'FEEDBACK-TOOL': 'gi_bill_feedback',
+  'FEEDBACK-TOOL': 'COMPLAINT-TOOL',
   VIC: 'VIC',
   definitions: 'N/A'
 };

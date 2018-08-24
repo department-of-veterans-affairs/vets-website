@@ -64,6 +64,7 @@ describe('form migrations:', () => {
     const reformattedIds = mappedIds.slice(0);
     reformattedIds.splice(0, 1, '1010ez');
     reformattedIds.pop();
+    reformattedIds.splice(-1, 1, 'COMPLAINT-TOOL');
     const includedFormIds = configs.map(form => form.formId);
     expect(allFormIds).to.deep.equal(mappedIds);
     expect(includedFormIds).to.deep.equal(reformattedIds);
