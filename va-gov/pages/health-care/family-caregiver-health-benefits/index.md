@@ -27,14 +27,14 @@ TRICARE provides comprehensive health coverage, including health plans, prescrip
 ### The Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)
 
 Are you the current or surviving spouse or child of a Veteran with disabilities or a Veteran who has died? If you don’t qualify for TRICARE, you may be able to get health insurance through CHAMPVA. Through this program, we cover the cost of some of your health care services and supplies. This is called cost sharing. <br>
-[Find out if you qualify for CHAMPVA and how to apply](/health-care/family-caregiver-benefits/champva/).
+[Find out if you qualify for CHAMPVA and how to apply](/health-care/family-caregiver-health-benefits/champva/).
 
 <br>
 
 ### The Program of Comprehensive Assistance to Family Caregivers of Post-9/11 Veterans
 
 If you’re a family member caring for a Veteran with disabilities who was injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers. <br>
-[Find out if you qualify for this program and how to apply](/health-care/family-caregiver-benefits/comprehensive-assistance/).
+[Find out if you qualify for this program and how to apply](/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers/).
 
 <br>
 
