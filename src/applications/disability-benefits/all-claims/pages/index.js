@@ -1,7 +1,7 @@
 import {
   uiSchema as alternateNamesUISchema,
   schema as alternateNamesSchema
-} from '../pages/alternateNames';
+} from './alternateNames';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
