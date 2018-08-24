@@ -26,7 +26,7 @@ crosslinks:
       title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: Find out if you can get increased pension pay as a Veteran or surviving spouse who has disabilities.
     - url: "/burials/"
-      title: <b>Burials and Memorials</b>
+      title: <b>Burial Benefits and Memorial Items</b>
       description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
     - url: "/education-training/"
       title: <b>Education and Training</b>
@@ -173,12 +173,12 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/view-test-lab-results/"><b>View Your VA Test and Lab Results</b></a>
+    <a href="/health-care/view-test-lab-results/"><b>View Your VA Lab and Test Results</b></a>
     <p>View, download, and print your labs and test results.</p>
   </div>
 
   <div class="link">
-    <a href="/health-care/order-hearing-aid-batteries-prosthetic-socks/"><b>Order Hearing Aid Batteries or Prosthetic Socks</b></a>
+    <a href="/health-care/order-hearing-aid-batteries-prosthetic-socks/"><b>Order Hearing Aid Batteries and Prosthetic Socks</b></a>
     <p>Order these items online for home delivery.</p>
   </div>
 
@@ -188,7 +188,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf"><b>Update Your Health Benefits Information (Form 10-10EZR)</b></a>
+    <a href="/health-care/update-health-information/"><b>Update Your Health Benefits Information (Form 10-10EZR)</b></a>
     <p>Update your personal, financial, or insurance information after you’re enrolled in the VA health care program.</p>
   </div>
 
@@ -223,17 +223,17 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/health-needs-conditions/health-issues-related-to-service-era/"><b>VA Health Services for Specific Needs and Conditions</b></a>
+    <a href="/health-care/health-needs-conditions/health-issues-related-to-service-era/"><b>Veterans Health Issues Related to Service History</b></a>
     <p>Find out how to get care for specific needs (like mental health), and learn about service-related health concerns you should be aware of (like Agent Orange-related diseases or Camp Lejeune water contamination).</p>
   </div>
 
   <div class="link">
-    <a href="https://www.va.gov/health/programs/index.asp"><b>Veterans Programs for Health and Wellness</b></a>
+    <a href="/health-care/wellness-programs/"><b>Veterans Programs for Health and Wellness</b></a>
   <p>Explore VA programs to help you get and stay healthy in both body and mind.</p>
   </div>
 
   <div class="link">
-    <a href="/health-care/health-needs-conditions/chemical-hazardous-materials-exposure/"><b>Chemical or Hazardous Material Exposures</b></a>
+    <a href="/health-care/health-needs-conditions/chemical-hazardous-materials-exposure/"><b>Chemical or Hazardous Material Exposure</b></a>
     <p>Learn about health concerns linked to exposures during military service. Learn about the special VA health registries you can join that document Veterans' exposure to Agent Orange, depleted uranium, ionizing radiation, airborne hazards, and other hazardous materials.</p>
   </div>
 
@@ -243,7 +243,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
 <div class="link">
-    <a href="/health-care/about-affordable-care-act/"><b>The Affordable Care Act (ACA) and Your Benefits</b></a>
+    <a href="/health-care/about-affordable-care-act/"><b>The Affordable Care Act (ACA) and Your Health Coverage</b></a>
     <p>Find out what you need to know about the Affordable Care Act and what it means for Veterans.
   </div>
 

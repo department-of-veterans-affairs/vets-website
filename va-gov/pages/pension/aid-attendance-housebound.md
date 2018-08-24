@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Aid and Attendance or Housebound Allowance
+title: Aid and Attendance Benefits and Housebound Allowance
 concurrence: ""
 order: 3
 ---
