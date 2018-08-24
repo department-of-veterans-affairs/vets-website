@@ -143,7 +143,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/family-caregiver-health-benefits/"><b>Family and Caregiver Health Benefits</b></a>
+    <a href="/health-care/family-caregiver-benefits/"><b>Family and Caregiver Health Benefits</b></a>
     <p>See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.</p>
   </div>
 

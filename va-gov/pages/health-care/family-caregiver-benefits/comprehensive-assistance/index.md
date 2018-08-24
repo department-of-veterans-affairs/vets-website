@@ -38,7 +38,7 @@ Your Veteran can appoint 1 primary (main) caregiver and up to 2 secondary caregi
 - A monthly stipend (payment)
 - Travel, lodging, and financial assistance when traveling with the Veteran to receive care
 - Access to health care benefits through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)—if you don't already qualify for care or services under another health care plan.<br>
-[Learn more about CHAMPVA](/health-care/family-caregiver-health-benefits/champva/).
+[Learn more about CHAMPVA](/health-care/family-caregiver-benefits/champva/).
 - Mental health services and counseling
 - Up to 30 days per year of respite care
 
@@ -57,7 +57,7 @@ Health Eligibility Center<br>
 Atlanta, GA 30329-1647
 </p>
 
-Or apply in person by bringing the application to your local VA Medical Center Caregiver Support Coordinator.
+Or apply in person by bringing the application to your local VA Medical Center Caregiver Support Coordinator. 
 
 **To find the name of your local coordinator:**
 
