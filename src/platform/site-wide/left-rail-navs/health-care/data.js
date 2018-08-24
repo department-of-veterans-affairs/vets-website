@@ -4,27 +4,27 @@ const data = [
     links: [
       {
         text: 'About VA Health Benefits',
-        href: 'health-care/about-va-health-care'
+        href: '/health-care/about-va-health-benefits/'
       },
       {
         text: 'Eligibility',
-        href: 'health-care/eligibility/'
+        href: '/health-care/eligibility/'
       },
       {
         text: 'How to Apply',
-        href: 'health-care/apply'
+        href: '/health-care/how-to-apply/'
       },
       {
         text: 'Apply Now',
-        href: 'health-care/apply/application/introduction'
+        href: '/health-care/apply-for-health-care-form-10-10ez'
       },
       {
         text: 'After You Apply',
-        href: 'health-care/after-you-apply'
+        href: '/health-care/after-you-apply'
       },
       {
         text: 'Family and Caregiver Benefits',
-        href: 'health-care/family-caregiver-health-benefits'
+        href: '/health-care/family-caregiver-health-benefits'
       },
     ]
   },
@@ -45,7 +45,7 @@ const data = [
       },
       {
         text: 'View Test and Lab Results',
-        href: '/health-care/view-test-and-lab-results/'
+        href: '/health-care/view-test-lab-results/'
       },
       {
         text: 'Order Hearing Aid Batteries and Prosthetic Socks',
@@ -61,19 +61,19 @@ const data = [
       },
       {
         text: 'Make a Payment',
-        href: '#'
+        href: 'https://www.pay.gov/public/form/start/25987221'
       },
       {
         text: 'Check Appeal Status',
-        href: '#'
+        href: '/track-claims'
       },
       {
         text: 'Get Travel Pay',
-        href: '#'
+        href: 'https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp'
       },
       {
         text: 'Request a Health ID Card',
-        href: '#'
+        href: 'https://www.va.gov/HEALTHBENEFITS/vhic/index.asp'
       },
     ]
   },
@@ -82,15 +82,15 @@ const data = [
     links: [
       {
         text: 'Costs of Care',
-        href: '#',
+        href: 'https://www.va.gov/healthbenefits/cost/index.asp',
       },
       {
         text: 'Health Needs and Conditions',
-        href: '#',
+        href: '/health-care/health-needs-conditions/',
       },
       {
         text: 'Health Benefits Explorer',
-        href: '#',
+        href: 'https://hbexplorer.vacloud.us/',
       },
       {
         text: 'Wellness Programs',
@@ -102,7 +102,7 @@ const data = [
       },
       {
         text: 'Veterans Choice Program',
-        href: '#',
+        href: 'https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp',
       },
       {
         text: 'Affordable Care Act',
@@ -110,19 +110,19 @@ const data = [
       },
       {
         text: 'The Million Veteran Program',
-        href: '#',
+        href: 'https://www.research.va.gov/mvp/',
       },
       {
         text: 'Access and Quality in VA Health Care',
-        href: '#',
+        href: 'https://www.accesstocare.va.gov/',
       },
       {
         text: 'Patient Rights and Responsibilities',
-        href: '#',
+        href: 'https://www.va.gov/health/rights/patientrights.asp',
       },
       {
         text: 'Community Care',
-        href: '#',
+        href: 'https://www.va.gov/communitycare/index.asp',
       },
     ]
   },
