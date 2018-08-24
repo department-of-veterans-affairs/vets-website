@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import recordEvent from '../../../monitoring/record-event';
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
-import HelpMenu from '../../user-nav/components/HelpMenu';
+import HelpMenu from '../../va-gov-user-nav/components/HelpMenu';
 import SearchMenu from '../../user-nav/components/SearchMenu';
 import SignInProfileMenu from '../../user-nav/components/SignInProfileMenu';
 
