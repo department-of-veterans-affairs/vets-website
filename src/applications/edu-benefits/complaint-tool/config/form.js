@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import React from 'react';
-import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
+import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import { validateBooleanGroup, validateMatch } from 'us-forms-system/lib/js/validation';
@@ -100,7 +100,7 @@ const formConfig = {
   trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'complaint-tool',
+  formId: 'FEEDBACK-TOOL',
   version: 0,
   prefillEnabled: true,
   defaultDefinitions: {
