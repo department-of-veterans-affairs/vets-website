@@ -4,7 +4,7 @@ const data = [
     links: [
       {
         text: 'About VA Health Benefits',
-        href: 'health-care/about-va-health-care'
+        href: 'health-care/about-va-health-benefits'
       },
       {
         text: 'Eligibility',

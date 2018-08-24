@@ -40,7 +40,7 @@ Used to display a side navigation bar of pages in a collection.
 
     pageMetaData.collections.push({
       text: {{ page.title | json }},
-      href: {{ page.path | json }},
+      href: '/' + {{ page.path | json }},
       childPages: []
     })
 
@@ -48,7 +48,7 @@ Used to display a side navigation bar of pages in a collection.
       pageMetaData.collections[pageMetaData.collections.length - 1].childPages.push({
         displayTitle: {{ cpage.display_title | json }},
         text: {{ cpage.title | json }},
-        href: {{ cpage.path | json }},
+        href: '/' + {{ cpage.path | json }},
       })
     {% endfor %}
   {% endfor %}

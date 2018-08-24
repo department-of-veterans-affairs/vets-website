@@ -3,12 +3,12 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: View Your VA Lab and Test Results Online
 display_title: View Lab and Test Results
-description: 
-concurrence: 
+description:
+concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order: 
-children: 
+order: 10
+children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
@@ -23,10 +23,10 @@ View your VA lab and test results online through your My Health*e*Vet personal h
 
 <h2 itemprop="name">How can the tool for VA labs and tests help me manage my health care?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 This tool, called "Labs + Tests," is part of the My Health*e*Vet personal health record. It can help you view and keep a record of your lab and test results.
- 
+
 **You can use it to:**
 - View some of your VA lab and test results (like blood tests)
 - Add results from non-VA health care providers and labs
@@ -39,10 +39,10 @@ This tool, called "Labs + Tests," is part of the My Health*e*Vet personal health
 
 <h2 itemprop="name">Am I eligible to use this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 You can use this tool to view your VA results and information you enter yourself if you meet all of the requirements listed below.
- 
+
 **Both of these must be true. You're:**
 - Enrolled in VA health care, **and**
 - Registered as a patient at a VA health facility
@@ -68,7 +68,7 @@ If you sign in with an unverified account, you’ll see only the results you've 
 
 <h2 itemprop="name">Can I view all my VA lab and test information using this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 At this time, you can view only your VA chemistry/hematology results. These include tests for blood sugar, liver function, or blood cell counts. We’ll add more VA labs and tests in the future.
 </div>
@@ -79,7 +79,7 @@ At this time, you can view only your VA chemistry/hematology results. These incl
 
 <h2 itemprop="name">Can I view results from non-VA providers or labs?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 No. But you can enter this information yourself to keep all your results in one place.
 
@@ -91,13 +91,13 @@ No. But you can enter this information yourself to keep all your results in one 
 
 <h2 itemprop="name">Once I'm signed in within My Health<em>e</em>Vet, how do I view my results?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
-On your welcome page dashboard, you’ll see a module for “Health Records.” Within that module, click on “Labs and Tests.” 
- 
+On your welcome page dashboard, you’ll see a module for “Health Records.” Within that module, click on “Labs and Tests.”
+
 This will take you to a new page with links to view test results. If you’re signed in with a verified account, you’ll see:
 - **VA chemistry/hematology results:** Your tests will be listed by date and specimen. A specimen is the sample studied by the test (like blood, urine, a tissue biopsy, or a throat swab). You can click on each to view details from your VA medical record.
-- **Test results you've entered yourself:** You can add and view results from non-VA providers and labs. 
+- **Test results you've entered yourself:** You can add and view results from non-VA providers and labs.
 
 **Note:** If you’re signed in with an unverified account, you’ll see only the test results you've entered yourself.
 
@@ -109,7 +109,7 @@ This will take you to a new page with links to view test results. If you’re si
 
 <h2 itemprop="name">Will my personal health information be protected?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 Yes. This is a secure website. We follow strict security policies and practices to protect your personal health information.
 
@@ -124,7 +124,7 @@ If you print or download anything from the website (like lab results), you’ll 
 
 <h2 itemprop="name">What if I have more questions?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 You can get answers to your questions about this tool within our My Health*e*Vet web portal. <br>
 [Read the labs and tests FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests).

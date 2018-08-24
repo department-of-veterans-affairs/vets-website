@@ -10,22 +10,38 @@ export class Main extends React.Component {
       return location.pathname.includes(collection.href);
     })[0];
 
-    if (page.href.split('/').length > 2) {
-      return pageMetaData.collections.map((pageData) => {
+    if (page.childPages.length > 0) {
+      const newData = navData.reduce((acc, item) => {
+        const linksHasPage = item.links.some((link) => page.href.includes(link.href));
 
-        if (pageData.childPages.length > 0) {
-          return {
-            title: pageData.text,
-            href: pageData.href,
-            links: pageData.childPages,
-          };
+        if (linksHasPage) {
+          const newLinks = item.links.map((linkItem) => {
+            if (page.href.includes(linkItem.href)) {
+              return {
+                title: linkItem.text,
+                href: linkItem.href,
+                links: page.childPages,
+              };
+            }
+
+            return linkItem;
+          });
+
+          acc.push({
+            ...item,
+            links: newLinks,
+          });
+        } else {
+          acc.push(item);
         }
 
-        return pageData;
-      });
+        return acc;
+      }, []);
+
+      return newData;
     }
 
-    if (page.childPages.length > 0) {
+    if (page.href.split('/').length > 3) {
       return pageMetaData.collections.map((pageData) => {
 
         if (pageData.childPages.length > 0) {
@@ -45,7 +61,7 @@ export class Main extends React.Component {
 
   isHidden(links) {
     return !links.some((link) => {
-      return link.href.includes(location.pathname.slice(1));
+      return location.pathname.includes(link.href);
     });
   }
 
