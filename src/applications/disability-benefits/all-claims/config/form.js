@@ -2,11 +2,22 @@ import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { hasMilitaryRetiredPay } from '../validations';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
   alternateNames
 } from '../pages';
+
+import {
+  uiSchema as servicePayUISchema,
+  schema as servicePaySchema
+} from '../pages/servicePay';
+
+import {
+  uiSchema as waiveRetirementPayUISchema,
+  schema as waiveRetirementPaySchema
+} from '../pages/waiveRetirementPay';
 
 const formConfig = {
   urlPrefix: '/',
@@ -46,6 +57,19 @@ const formConfig = {
           path: 'alternate-names',
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema
+        },
+        servicePay: {
+          title: 'Service Pay',
+          path: 'service-pay',
+          uiSchema: servicePayUISchema,
+          schema: servicePaySchema
+        },
+        waiveRetirementPay: {
+          title: 'Waiving Retirement Pay',
+          path: 'waive-retirement-pay',
+          depends: hasMilitaryRetiredPay,
+          uiSchema: waiveRetirementPayUISchema,
+          schema: waiveRetirementPaySchema
         }
       }
     }

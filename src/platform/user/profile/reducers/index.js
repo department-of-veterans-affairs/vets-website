@@ -48,6 +48,15 @@ const initialState = {
   services: []
 };
 
+const updateMhvAccountState = (state, mhvAccount) => {
+  return set('mhvAccount', {
+    ...state.mhvAccount,
+    ...mhvAccount,
+    errors: null,
+    loading: false
+  }, state);
+};
+
 function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS: {
@@ -62,10 +71,7 @@ function profileInformation(state = initialState, action) {
     case FETCHING_MHV_ACCOUNT:
     case CREATING_MHV_ACCOUNT:
     case UPGRADING_MHV_ACCOUNT:
-      return set('mhvAccount', {
-        ...state.mhvAccount,
-        loading: true
-      }, state);
+      return set('mhvAccount.loading', true, state);
 
     case FETCH_MHV_ACCOUNT_FAILURE:
       return set('mhvAccount', {
@@ -73,22 +79,6 @@ function profileInformation(state = initialState, action) {
         errors: action.errors,
         loading: false
       }, state);
-
-    case FETCH_MHV_ACCOUNT_SUCCESS: {
-      const {
-        accountState,
-        accountLevel,
-        termsAndConditionsAccepted
-      } = action.data.attributes;
-
-      return set('mhvAccount', {
-        accountLevel,
-        accountState,
-        errors: null,
-        loading: false,
-        termsAndConditionsAccepted
-      }, state);
-    }
 
     case CREATE_MHV_ACCOUNT_FAILURE:
       return set('mhvAccount', {
@@ -104,16 +94,15 @@ function profileInformation(state = initialState, action) {
         loading: false
       }, state);
 
+
+    case FETCH_MHV_ACCOUNT_SUCCESS:
     case CREATE_MHV_ACCOUNT_SUCCESS:
+      return updateMhvAccountState(state, action.data.attributes);
+
     case UPGRADE_MHV_ACCOUNT_SUCCESS: {
-      const { accountLevel, accountState } = action.data.attributes;
-      return set('mhvAccount', {
-        ...state.mhvAccount,
-        accountLevel,
-        accountState,
-        errors: null,
-        loading: false
-      }, state);
+      const newState = (!action.userProfile) ?
+        state : merge(state, mapRawUserDataToState(action.userProfile));
+      return updateMhvAccountState(newState, action.mhvAccount.data.attributes);
     }
 
     case REMOVING_SAVED_FORM_SUCCESS: {

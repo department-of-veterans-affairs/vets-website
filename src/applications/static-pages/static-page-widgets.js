@@ -1,5 +1,12 @@
-function mountWidgets(widgets) {
+function mountWidgets(widgets, isProduction) {
   widgets
+    .filter(function (widget) {
+      if (widget.production === false && isProduction) {
+        return false;
+      }
+
+      return true;
+    })
     .forEach(function (widget) {
       var root = document.getElementById(widget.root);
       var timeout = (widget.timeout || 0) * 1000;

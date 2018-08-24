@@ -23,8 +23,8 @@ class SaveInProgressIntro extends React.Component {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
-          : moment.unix(savedForm.last_updated);
-        const expirationDate = moment.unix(savedForm.metadata.expires_at).format('M/D/YYYY');
+          : moment.unix(savedForm.lastUpdated);
+        const expirationDate = moment.unix(savedForm.metadata.expiresAt).format('M/D/YYYY');
 
         alert = (
           <div>
@@ -127,7 +127,7 @@ class SaveInProgressIntro extends React.Component {
     const { profile } = this.props.user;
     const startPage = this.getStartPage();
     const savedForm = profile && profile.savedForms
-      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .filter(f => moment.unix(f.metadata.expiresAt).isAfter())
       .find(f => f.form === this.props.formId);
     const prefillAvailable = this.props.prefillAvailable ||
       // TODO: remove 1st clause once 526 added to list
