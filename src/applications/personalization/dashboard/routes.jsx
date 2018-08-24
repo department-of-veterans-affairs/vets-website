@@ -6,9 +6,16 @@ const routes = {
   path: '/',
   component: DashboardAppWrapper,
   indexRoute: { component: DashboardApp },
-  childRoutes: [
-    { path: 'preferences', component: SetPreferences, key: 'preferences', name: 'Find VA Benefits' },
-  ]
+  childRoutes: []
 };
+
+if (document.location.hostname === 'staging.vets.gov') {
+  routes.childRoutes.push({
+    path: 'preferences',
+    component: SetPreferences,
+    key: 'preferences',
+    name: 'Find VA Benefits',
+  });
+}
 
 export default routes;
