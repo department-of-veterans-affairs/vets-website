@@ -74,9 +74,9 @@ Compensation (monthly payments)
 
 <span id="ways-to-file"></span>
 
-### How do I apply for disability compensation before I leave the service?
+### How do I file a claim for disability compensation before I leave the service?
 
-Choose the scenario below that matches your situation to find out how to apply for disability benefits before discharge.
+Choose the scenario below that matches your situation to find out how to file a claim for disability compensation before discharge.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -101,7 +101,7 @@ You can apply for benefits online, by mail, or in person. <br>
 ### If you're stationed overseas
 
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
-[Find out how to apply overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
+[Find out how to file a claim overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
 
 #### Need help applying?
 
