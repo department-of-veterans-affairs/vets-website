@@ -7,10 +7,6 @@
 
   @import 'iconography';
   @import 'right-rail';
-  // TODO: add this into formation
-  .va-sidebarnav h4 {
-    vertical-align: middle;
-  }
 
   .vetnav-panel {
     @include media($medium-large-screen) {
@@ -58,6 +54,7 @@
 
     #vetnav-menu, #vetnav {
       margin-top: 0;
+      min-height: 0;
     }
 
     .mm-marketing-container {
@@ -484,6 +481,14 @@
       }
     }
 
+    .mm-link-container {
+      padding-left: 10px;
+    }
+
+    .vetnav-panel a {
+      padding: 0.8rem 1.0rem;
+    }
+
     .usa-banner {
       padding-left: .5em;
     }
@@ -857,6 +862,33 @@
   .va-l-detail-page {
     a {
       padding-right: 0;
+    }
+  }
+
+  // TODO: add this into formation
+  .va-sidebarnav {
+    h4 {
+      vertical-align: middle;
+    }
+
+    .usa-sidenav-list > li {
+      i {
+        position: relative;
+        right: -20px;
+      }
+    }
+
+    .usa-sidenav-sub_list a {
+      width: 100% !important; // sorry this is temporary
+    }
+  }
+
+  .va-btn-sidebarnav-trigger {
+    &.fixed-trigger {
+      position: fixed;
+      top: 0;
+      margin: 0;
+      width: 100%;
     }
   }
 }

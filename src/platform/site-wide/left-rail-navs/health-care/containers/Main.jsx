@@ -1,6 +1,6 @@
 import React from 'react';
 import LeftRailNav from '@department-of-veterans-affairs/formation/LeftRailNav';
-import megaMenuData from '../../../mega-menu/data.json';
+import navData from '../data';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
@@ -40,11 +40,7 @@ export class Main extends React.Component {
       });
     }
 
-    const section = megaMenuData[0].menuSections.filter((menuSection) => {
-      return menuSection.title === 'Health Care';
-    })[0];
-
-    return [section.links.columnOne, section.links.columnTwo];
+    return navData;
   }
 
   isHidden(links) {
