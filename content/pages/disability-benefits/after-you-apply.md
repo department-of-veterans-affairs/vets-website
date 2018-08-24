@@ -51,7 +51,7 @@ You don’t need to do anything unless we send you a letter asking for more info
 
 <div markdown="0"><br></div>
 
-### What happens after I file?
+### What happens after I file a claim?
 
 <ol class="process">
 <li class="process-step list-one">
