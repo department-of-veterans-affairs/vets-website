@@ -120,7 +120,7 @@ const formConfig = {
           uiSchema: federalOrdersUISchema,
           schema: federalOrdersSchema
         },
-        pow: {
+        prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'review-veteran-details/military-service-history/pow',
           uiSchema: prisonerOfWarUISchema,

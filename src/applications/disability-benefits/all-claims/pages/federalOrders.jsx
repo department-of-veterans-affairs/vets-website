@@ -13,36 +13,50 @@ const {
 
 export const uiSchema = {
   'ui:title': 'Federal Orders',
-  'view:isTitle10Activated': {
-    'ui:title': 'Are you currently activated on federal orders in the Reserves or the National Guard?',
-    'ui:widget': 'yesNo'
-  },
-  title10Activation: {
-    'ui:options': {
-      expandUnder: 'view:isTitle10Activated',
-    },
-    title10ActivationDate: _.merge(
-      dateUI('Activation date'),
-      { 'ui:required': title10DatesRequired }
-    ),
-    anticipatedSeparationDate: _.merge(
-      dateUI('Expected separation date'),
-      {
-        'ui:validations': [isInFuture],
-        'ui:required': title10DatesRequired
+  serviceInformation: {
+    reservesNationalGuardService: {
+      'view:isTitle10Activated': {
+        'ui:title': 'Are you currently activated on federal orders in the Reserves or the National Guard?',
+        'ui:widget': 'yesNo'
       },
-    ),
+      title10Activation: {
+        'ui:options': {
+          expandUnder: 'view:isTitle10Activated',
+        },
+        title10ActivationDate: _.merge(
+          dateUI('Activation date'),
+          { 'ui:required': title10DatesRequired }
+        ),
+        anticipatedSeparationDate: _.merge(
+          dateUI('Expected separation date'),
+          {
+            'ui:validations': [isInFuture],
+            'ui:required': title10DatesRequired
+          },
+        ),
+      }
+    }
   }
 };
 
 export const schema = {
   type: 'object',
-  required: ['view:isTitle10Activated'],
   properties: {
-    'view:isTitle10Activated': {
-      type: 'boolean'
-    },
-    title10Activation
+    serviceInformation: {
+      type: 'object',
+      properties: {
+        reservesNationalGuardService: {
+          type: 'object',
+          required: ['view:isTitle10Activated'],
+          properties: {
+            'view:isTitle10Activated': {
+              type: 'boolean'
+            },
+            title10Activation
+          }
+        }
+      }
+    }
   }
 };
 
