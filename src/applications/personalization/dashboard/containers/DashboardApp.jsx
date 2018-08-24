@@ -210,7 +210,7 @@ class DashboardApp extends React.Component {
             {this.renderLOAPrompt()}
             {this.renderMVIWarning()}
 
-            {(document.location.hostname === 'staging.vets.gov') && <AppointmentsWidget/>}
+            <AppointmentsWidget/>
 
             <ClaimsAppealsWidget/>
 

@@ -18,6 +18,11 @@ class AppointmentsWidget extends React.Component {
   }
 
   render() {
+    // do not show in production
+    if (document.location.hostname === 'www.vets.gov') {
+      return null;
+    }
+
     if (this.props.loading) {
       return <LoadingIndicator message="Loading your appointments..."/>;
     }
