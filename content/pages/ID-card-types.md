@@ -22,7 +22,7 @@ Learn about the different types of ID cards available to you.
 </div>
 
 
-### Veteran ID Card 
+## Veteran ID Card 
 A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many stores, businesses, and restaurants. With this card, you won’t need to carry around your military discharge papers or share sensitive personal information to receive these discounts. 
 If you already have a Veteran ID Card, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 #### Am I eligible for a Veteran ID Card?
@@ -36,7 +36,7 @@ You can apply online to get a Veteran ID Card.
 [Learn more about how to apply for a Veteran ID Card.](/veteran-id-card/)
 
 
-### Department of Defense (DoD) Identification Card
+## Department of Defense (DoD) Identification Card
 A DoD Identification Card is used to show your military status and to get access to services at military bases. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. 
 #### Am I eligible for a DoD Identification Card?
 **You’re eligible for a DoD Identification Card if one of these describes you. You’re:**
@@ -49,12 +49,12 @@ Depending on your status, the DoD issues either a Common Access Card (CAC) or a 
 For both types of DoD cards, you must either be a sponsor or have a sponsor. You’ll also need to fill out an Application for Identification Card/DEERS Enrollment (DD Form 1172-2).
 [Download DD Form 1172-2.](http://www.cac.mil/Portals/53/Documents/dd1172-2.pdf)</br>
 [Learn more about how to apply for a DoD Identification Card.](http://www.cac.mil/)
-### Veteran Health Identification Card 
+## Veteran Health Identification Card 
 If you’re enrolled in VA health care, you may have a Veteran Health Identification Card (VHIC). You use this card to check into your appointments at VA medical centers. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. 
 #### Am I eligible for a Veteran Health Identification Card?
 You need to be enrolled in VA health care to receive a Veteran Health Identification Card. To apply for VA health care benefits, you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ). </br> 
 [Learn more about how to apply for a Veteran Health Identification Card](https://www.va.gov/healthbenefits/vhic/index.asp).
-### Veteran Choice Card 
+## Veteran Choice Card 
 A Veteran Choice Card is a form of ID given to Veterans receiving care under the VA Choice program. Under this program, Veterans receive care through a community provider.
 #### Am I eligible for a Veteran Choice Card?
 Veterans receiving care under the VA Choice program are eligible for a Choice Card. 
@@ -62,7 +62,7 @@ Veterans receiving care under the VA Choice program are eligible for a Choice Ca
 To request a Veteran Choice Card, you’ll need to call the Choice Program call center at 1-866-606-8198.</br>
 [Learn more about the Veteran Choice program.]( https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp).
 
-### Veteran’s designation on a state-issued license or ID
+## Veteran’s designation on a state-issued license or ID
 Currently, all 50 states and Puerto Rico offer Veteran designations printed on state-issued driver’s licenses or IDs. The type of Veteran designation may vary from state to state.  
 If you have a Veteran’s designation, you may be able to get discounts offered to Veterans at many stores, businesses, and restaurants.
 #### How do I apply for a Veteran’s designation? 
