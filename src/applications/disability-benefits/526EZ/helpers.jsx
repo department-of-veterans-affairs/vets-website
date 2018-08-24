@@ -19,10 +19,12 @@ import { genderLabels } from '../../../platform/static-data/labels';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
-  USA,
   VA_FORM4142_URL
 } from './constants';
 
+import {
+  USA,
+} from '../all-claims/constants';
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
