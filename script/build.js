@@ -346,7 +346,7 @@ smith.use(collections({
     }
   },
   healthCareCoverage: {
-    pattern: 'health-care/about-va-health-benefits/**/*.md',
+    pattern: 'health-care/about-va-health-benefits/*.md',
     sortBy: 'order',
     metadata: {
       name: 'VA Health Care Coverage'
