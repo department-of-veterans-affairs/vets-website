@@ -33,31 +33,31 @@ const data = [
     links: [
       {
         text: 'Refill and Track Prescriptions',
-        href: '#'
+        href: '/health-care/refill-track-prescriptions/'
       },
       {
         text: 'Use Secure Messaging',
-        href: '#'
+        href: '/health-care/secure-messaging/'
       },
       {
         text: 'Schedule and View Appointments',
-        href: '#'
+        href: '/health-care/schedule-view-va-appointments/'
       },
       {
         text: 'View Test and Lab Results',
-        href: '#'
+        href: '/health-care/view-test-and-lab-results/'
       },
       {
         text: 'Order Hearing Aid Batteries and Prosthetic Socks',
-        href: '#'
+        href: '/health-care/order-hearing-aid-batteries-prosthetic-socks/'
       },
       {
         text: 'Get Medical Records',
-        href: '#'
+        href: '/health-care/get-medical-records/'
       },
       {
         text: 'Update Health Benefits Info',
-        href: '#'
+        href: '/health-care/update-health-information/'
       },
       {
         text: 'Make a Payment',
@@ -94,11 +94,11 @@ const data = [
       },
       {
         text: 'Wellness Programs',
-        href: '#',
+        href: '/health-care/wellness-programs/',
       },
       {
         text: 'Chemical or Hazardous Material Exposures',
-        href: '#',
+        href: '/health-care/health-needs-conditions/chemical-hazardous-materials-exposure/',
       },
       {
         text: 'Veterans Choice Program',
@@ -106,7 +106,7 @@ const data = [
       },
       {
         text: 'Affordable Care Act',
-        href: '#',
+        href: '/health-care/about-affordable-care-act/',
       },
       {
         text: 'The Million Veteran Program',

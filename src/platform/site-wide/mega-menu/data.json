@@ -21,16 +21,16 @@
                                 "href": "/health-care/how-to-apply/"
                             },
                             {
-                                "text": "Family and Caregiver Health Benefits",
-                                "href": "/health-care/family-caregiver-health-benefits/"
-                            },
-                            {
-                                "text": "Apply Now for Health Care",
+                                "text": "Apply Now",
                                 "href": "/health-care/apply-for-health-care-form-10-10ez"
                             },
                             {
-                                "text": "Apply for Health Care",
-                                "href": "#"
+                                "text": "After You Apply",
+                                "href": "/health-care/after-you-apply/"
+                            },
+                            {
+                                "text": "Family and Caregiver Health Benefits",
+                                "href": "/health-care/family-caregiver-health-benefits/"
                             }
                         ]
                     },
@@ -42,20 +42,20 @@
                                 "href": "/health-care/refill-track-prescriptions"
                             },
                             {
-                                "text": "Send a Secure Message to Your Health Care Team",
+                                "text": "Use Secure Messaging",
                                 "href": "/health-care/secure-messaging"
                             },
                             {
-                                "text": "Schedule and View VA Appointments",
+                                "text": "Schedule and View Appointments",
                                 "href": "/health-care/schedule-view-va-appointments/"
                             },
                             {
-                                "text": "View Your Test and Lab Results",
-                                "href": "#"
+                                "text": "View Test and Lab Results",
+                                "href": "/health-care/view-test-and-lab-results/"
                             },
                             {
-                                "text": "Order Hearing Aid Batteries or Prosthetic Socks",
-                                "href": "#"
+                                "text": "Order Hearing Aid Batteries and Prosthetic Socks",
+                                "href": "/health-care/order-hearing-aid-batteries-prosthetic-socks/"
                             }
                         ]
                     },
