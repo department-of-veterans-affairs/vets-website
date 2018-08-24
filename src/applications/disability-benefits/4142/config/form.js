@@ -1,4 +1,4 @@
-// _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 
 // Example of an imported schema:
 // import fullSchema from '../22-4142-schema.json';
@@ -25,7 +25,6 @@ import {
   limitedConsentDescription,
   summary,
 } from '../helpers';
-
 
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
@@ -62,7 +61,7 @@ const formPages = {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/private_medical_record_auth/submit',
-  trackingPrefix: 'complex-form-',
+  trackingPrefix: '21-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-4142',
