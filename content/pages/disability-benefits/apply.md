@@ -32,13 +32,13 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to file for VA disability compensation.
+Find out how to file a claim for disability compensation.
 
 </div>
 
 ### How do I prepare before starting my application?
 
-- [Find out if you're eligible for VA disability benefits](/disability-benefits/eligibility/).
+- [Find out if you're eligible for VA disability compensation](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/evidence/).
 
@@ -69,7 +69,7 @@ For all disability claims, please provide:
 
 You can file online right now.
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to File</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to File a Claim</a>
 
 </div>
 </div>
@@ -78,12 +78,12 @@ You can file online right now.
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h4 itemprop="name">You can also file:</h4>
+<h4 itemprop="name">You can also file your claim:</h4>
 <div itemprop="itemListElement">
 
 ##### By mail
 
-File by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). <br>[Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
+File your claim by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). <br>[Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -101,7 +101,7 @@ Bring your application to a regional benefit office near you. <br>
 
 ##### With the help of a trained professional
 
-You can work with a trained professional called an accredited representative to get help filing for disability compensation. <br>
+You can work with a trained professional called an accredited representative to get help filing a claim for disability compensation. <br>
 [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
@@ -109,7 +109,7 @@ You can work with a trained professional called an accredited representative to 
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h3 itemprop="name">What happens after I file?</h3>
+<h3 itemprop="name">What happens after I file a claim?</h3>
 <div itemprop="itemListElement">
 
 [Find out what happens after you file](/disability-benefits/after-you-apply/).
