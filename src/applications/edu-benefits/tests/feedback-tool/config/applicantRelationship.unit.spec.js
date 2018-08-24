@@ -4,9 +4,9 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils';
-import formConfig from '../../../complaint-tool/config/form';
+import formConfig from '../../../feedback-tool/config/form';
 
-describe('complaint tool applicant info', () => {
+describe('feedback tool applicant info', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantRelationship;
 
   it('should render', () => {
