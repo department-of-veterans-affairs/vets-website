@@ -58,7 +58,7 @@ var LeftRailNav = function (_React$Component) {
             if (href.indexOf('http') === -1) {
               // Make sure it starts with a slash
               if (href[0] !== '/') {
-                href = href += '/';
+                href = '/' + href;
               }
             }
 
