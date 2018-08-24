@@ -52,7 +52,7 @@ class DashboardApp extends React.Component {
   componentDidMount() {
     scrollToTop();
 
-    if (document.location.hostname === 'staging.vets.gov') {
+    if (document.location.hostname !== 'www.vets.gov') {
       if (!localStorage.getItem('dashboardLastVisitedAt')) {
         this.props.router.push('preferences');
       }
@@ -179,7 +179,7 @@ class DashboardApp extends React.Component {
             <p>Access the tools and information you’ll need to track and manage your VA benefits and communications.</p>
           </div>
 
-          {(document.location.hostname === 'staging.vets.gov') && <PreferencesWidget/>}
+          <PreferencesWidget/>
 
           <div>
             <FormList

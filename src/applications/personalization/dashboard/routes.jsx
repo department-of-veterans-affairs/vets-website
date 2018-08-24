@@ -9,7 +9,8 @@ const preferencesRoute = {
   name: 'Find VA Benefits',
 };
 
-if (document.location.hostname !== 'staging.vets.gov') {
+// do not allow route in production
+if (document.location.hostname === 'www.vets.gov') {
   preferencesRoute.onEnter = (nextState, replace) => replace('/');
 }
 

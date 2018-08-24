@@ -40,6 +40,11 @@ class PreferencesWidget extends React.Component {
   }
 
   render() {
+    // do not show in production
+    if (document.location.hostname === 'www.vets.gov') {
+      return null;
+    }
+
     return (
       <div className="row user-profile-row">
         <div className="small-12 columns">
