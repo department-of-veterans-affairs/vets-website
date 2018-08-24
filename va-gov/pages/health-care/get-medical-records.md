@@ -3,12 +3,12 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Get Your VA Medical Records Online
 display_title: Get Medical Records
-description: 
-concurrence: 
+description:
+concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order: 
-children: 
+order: 12
+children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
@@ -36,7 +36,7 @@ Our online tools can help you view, organize, and share your VA medical records 
 
 <h3 itemprop="name">What is VA Blue Button, and how can it help me manage my health care?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 VA Blue Button is a feature of the health-management portal within MyHealth*e*Vet. It lets you view, print, save, download, and share information from your VA medical record and personal health record. With these features, you can better manage your health needs and communicate with your health care team.
 
@@ -55,10 +55,10 @@ VA Blue Button is a feature of the health-management portal within MyHealth*e*Ve
 
 <h3 itemprop="name">Am I eligible to use all the features of VA Blue Button?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 You can use all the features of this tool if you meet all of the requirements listed below.
- 
+
 **Both of these must be true. You're:**
 - Enrolled in VA health care, **and**
 - Registered as a patient in a VA health facility
@@ -82,9 +82,9 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 
 <h3 itemprop="name">Once I'm signed in, how do I get to my medical records?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
-Go to your welcome page dashboard, and click on “Health Records.” You’ll go to a new page. 
+Go to your welcome page dashboard, and click on “Health Records.” You’ll go to a new page.
 
 From here, you can choose to access your VA Blue Button report, your VA health summary, or your VA medical images and reports.
 
@@ -98,7 +98,7 @@ If you’d like to add information to your personal health record, go back to yo
 
 <h3 itemprop="name">Will my personal health information be protected?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 Yes. This is a secure website. We follow strict security policies and practices to protect your personal health information.
 
@@ -113,13 +113,13 @@ If you print or download anything from the website, you’ll need to take respon
 
 <h3 itemprop="name">What if I have more questions?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 You can get answers to frequently asked questions about VA Blue Button and related tools within My Health*e*Vet.
 <br>
 [Read VA Blue Button FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop). <br>
 [Read VA health summary FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD). <br>
-[Read VA medical images and reports FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR). 
+[Read VA medical images and reports FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR).
 </div>
 </div>
 </div>
@@ -132,7 +132,7 @@ You can get answers to frequently asked questions about VA Blue Button and relat
 
 <h3 itemprop="name">What is the Veterans Health Information Exchange, and how can it help me manage my health care?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 The Veterans Health Information Exchange (also called the “Virtual Lifetime Electronic Record” or VLER) is a program that lets us share Veteran health information electronically with non-VA community health care providers who are part of our approved trust network.
 
@@ -153,7 +153,7 @@ This program is completely voluntary. You decide if we can share your informatio
 
 <h3 itemprop="name">Am I eligible to sign up for the Health Information Exchange online?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 You can sign up for this service online if you meet all of the requirements listed below.
 
@@ -163,7 +163,7 @@ You can sign up for this service online if you meet all of the requirements list
 
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
-**And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect). 
+**And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect).
 
 If you don’t have a premium DS Logon account, find out how to create or upgrade an account on eBenefits.<br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vapii).
@@ -179,7 +179,7 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 
 <h3 itemprop="name">Once I have a premium eBenefits account, how do I sign up for this service?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 <ol class="process">
   <li class="process-step list-one">Log in to eBenefits with your premium account.</li>
@@ -193,7 +193,7 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 
 If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-800-983-0937</a>, Monday through Friday, 8:00 a.m. - 8:00 p.m. (ET)
 
-**Please note:** Some providers and states request another consent form to exchange information with us. Please contact your provider or the Release of Information office at your nearest VA medical center to ask about any other consent forms you may need.<br> 
+**Please note:** Some providers and states request another consent form to exchange information with us. Please contact your provider or the Release of Information office at your nearest VA medical center to ask about any other consent forms you may need.<br>
 [Find your nearest VA medical center](/facilities/).
 
 </div>
@@ -204,7 +204,7 @@ If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-8
 
 <h3 itemprop="name">Can I sign up for the VA Health Exchange by mail or in person?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 Yes. If you’ve received care at a VA health facility, follow the steps below to sign up by mail or in person.
 
@@ -230,7 +230,7 @@ Bring a completed VA Form 10-0485 with you, or ask for a copy to fill out in the
 
 <h3 itemprop="name">Will my personal health information be protected?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 Yes. The VLER Veterans Health Information Exchange uses secure technology to share information between VA and community health care providers. We share information only with community care providers and organizations that have partnership agreements with us and are part of our approved, trusted network.
 
@@ -242,7 +242,7 @@ Yes. The VLER Veterans Health Information Exchange uses secure technology to sha
 
 <h3 itemprop="name">Can I change my mind and ask VA to stop sharing my information?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 Yes. You can ask us online, by mail, or in person to stop sharing your information.
 
@@ -264,7 +264,7 @@ Fill out a Revocation for Release of Individually-Identifiable Health Informatio
 Mail or take this form in person to your nearest VA medical center’s Release of Information Office.<br>
 [Find your nearest VA medical center](/facilities/).
 
-You can also ask the office for a copy of this form to fill out. Or you can call our toll-free VLER Health Information line at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. - 7:00 p.m. (CST) to request a form. 
+You can also ask the office for a copy of this form to fill out. Or you can call our toll-free VLER Health Information line at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. - 7:00 p.m. (CST) to request a form.
 
 </div>
 </div>
@@ -274,7 +274,7 @@ You can also ask the office for a copy of this form to fill out. Or you can call
 
 <h3 itemprop="name">What if I have more questions?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 Call us at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. - 7:00 p.m. (CST)
 
