@@ -1,5 +1,5 @@
 import React from 'react';
-import LeftRailNav from '@department-of-veterans-affairs/formation/LeftRailNav';
+import LeftRailNav from '../../components/LeftRailNav';
 import navData from '../data';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;

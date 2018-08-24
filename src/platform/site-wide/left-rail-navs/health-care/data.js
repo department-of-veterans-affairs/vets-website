@@ -4,27 +4,27 @@ const data = [
     links: [
       {
         text: 'About VA Health Benefits',
-        href: 'health-care/about-va-health-benefits'
+        href: '/health-care/about-va-health-benefits'
       },
       {
         text: 'Eligibility',
-        href: 'health-care/eligibility/'
+        href: '/health-care/eligibility/'
       },
       {
         text: 'How to Apply',
-        href: 'health-care/apply'
+        href: '/health-care/apply'
       },
       {
         text: 'Apply Now',
-        href: 'health-care/apply/application/introduction'
+        href: '/health-care/apply/application/introduction'
       },
       {
         text: 'After You Apply',
-        href: 'health-care/after-you-apply'
+        href: '/health-care/after-you-apply'
       },
       {
         text: 'Family and Caregiver Benefits',
-        href: 'health-care/family-caregiver-health-benefits'
+        href: '/health-care/family-caregiver-health-benefits'
       },
     ]
   },
