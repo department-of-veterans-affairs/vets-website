@@ -36,8 +36,8 @@ You can apply online to get a Veteran ID Card.
 [Learn more about how to apply for a Veteran ID Card.](/veteran-id-card/)
 
 
-## Department of Defense (DoD) Identification Card
-A DoD Identification Card is used to show your military status and to get access to services at military bases. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. 
+## Department of Defense Identification Card
+A Department of Defense (DoD) Identification Card is used to show your military status and to get access to services at military bases. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. 
 #### Am I eligible for a DoD Identification Card?
 **You’re eligible for a DoD Identification Card if one of these describes you. You’re:**
 - Retired from the military, **or**
