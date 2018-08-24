@@ -6,19 +6,11 @@ import { hasMilitaryRetiredPay } from '../validations';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
-  uiSchema as alternateNamesUISchema,
-  schema as alternateNamesSchema
-} from '../pages/alternateNames';
+  alternateNames,
+  servicePay,
+  waiveRetirementPay
+} from '../pages';
 
-import {
-  uiSchema as servicePayUISchema,
-  schema as servicePaySchema
-} from '../pages/servicePay';
-
-import {
-  uiSchema as waiveRetirementPayUISchema,
-  schema as waiveRetirementPaySchema
-} from '../pages/waiveRetirementPay';
 
 const formConfig = {
   urlPrefix: '/',
@@ -56,21 +48,21 @@ const formConfig = {
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
-          uiSchema: alternateNamesUISchema,
-          schema: alternateNamesSchema
+          uiSchema: alternateNames.uiSchema,
+          schema: alternateNames.schema
         },
         servicePay: {
           title: 'Service Pay',
           path: 'service-pay',
-          uiSchema: servicePayUISchema,
-          schema: servicePaySchema
+          uiSchema: servicePay.uiSchema,
+          schema: servicePay.schema
         },
         waiveRetirementPay: {
           title: 'Waiving Retirement Pay',
           path: 'waive-retirement-pay',
           depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPayUISchema,
-          schema: waiveRetirementPaySchema
+          uiSchema: waiveRetirementPay.uiSchema,
+          schema: waiveRetirementPay.schema
         }
       }
     }
