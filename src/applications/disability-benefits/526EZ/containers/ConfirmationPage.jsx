@@ -34,6 +34,7 @@ class ConfirmationPage extends React.Component {
       submittedAt
     } = this.props;
 
+    // TODO: Verify we need this
     const selected4142 = get4142Selection(disabilities || []);
 
     const privateRecordReleaseContent = (
@@ -61,49 +62,50 @@ class ConfirmationPage extends React.Component {
     return (
       <div>
         <h3 className="confirmation-page-title">Your claim has been submitted.</h3>
-        <p>We usually process claims within <strong>99 days</strong>.</p>
-        <p>We may contact you if we have questions or need more information.
-        You can print this page for your records.</p>
-        <ConfirmationPoll jobId={this.props.jobId}/>
-        { selected4142 && privateRecordReleaseContent}
-        <h4 className="confirmation-guidance-heading">
-          What happens after I apply?
-        </h4>
-        <p className="confirmation-guidance-message">
-          You don’t need to do anything unless we send you a letter asking for
-          more information. You can check the status of your claim online. The
-          time frame you see may vary based on how complex your claim is.
+        <p>
+          We process applications in the order we receive them.
+          We may contact you if we have questions or need more information.
+          You can print this page for your records.
         </p>
-        <a href="/disability-benefits/track-claims">
-          Check the status of your disability claim.
-        </a>
-        <br/>
-        <a href="/disability-benefits/after-you-apply/">
-          Learn more about what happens after you file a disability claim.
-        </a>
+        { selected4142 && privateRecordReleaseContent}
+
         <div className="inset">
           <h4>Disability Compensation Claim <span className="additional">(Form 21-526EZ)</span></h4>
           <span>
             For {first} {middle} {last} {suffix}
           </span>
           <ul className="claim-list">
-            <strong>Conditions claimed</strong>
+            <strong>Conditions claimed for increase</strong>
             <br/>
             {/* <ul className="disability-list">
                 {disabilities.filter(item => item['view:selected']).map((disability, i) => {
                 return <li key={i}>{disability.name}</li>;
                 })}
                 </ul> */}
+            <ConfirmationPoll jobId={this.props.jobId}/>
             <li>
               <strong>Date submitted</strong>
               <br/>
               <span>{moment(submittedAt).format('MMM D, YYYY')}</span>
             </li>
+            <ConfirmationPoll jobId={this.props.jobId}/>
           </ul>
         </div>
+
+        <h4 className="confirmation-guidance-heading">
+          What happens after I apply?
+        </h4>
+        <p className="confirmation-guidance-message">
+          You don’t need to do anything unless we send you a letter asking for more information.
+        </p>
+        <br/>
+        <a href="/disability-benefits/after-you-apply/">
+          Learn more about what happens after you file a disability claim.
+        </a>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">If you have questions, please call <a href="tel:+18772228387">1-877-222-8387</a>, Monday &#8211;
+          <p className="confirmation-guidance-message">
+            If you have questions, please call <a href="tel:+18772228387">1-877-222-8387</a>, Monday &#8211;
             Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
           </p>
         </div>
