@@ -37,7 +37,7 @@ const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
-  { name: 'mergedbuild', type: Boolean, defaultValue: false },
+  { name: 'is-brand-consolidated-build', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
@@ -89,11 +89,8 @@ switch (options.buildtype) {
     break;
 
   case 'devpreview':
-    options.mergedbuild = true;
-    break;
-
   case 'preview':
-    options.mergedbuild = true;
+    options['is-brand-consolidated-build'] = true;
     break;
 
   default:
@@ -124,8 +121,13 @@ smith.source(sourceDir);
 smith.destination(options.destination);
 
 // This lets us access the {{buildtype}} variable within liquid templates.
-smith.metadata({ buildtype: options.buildtype });
-smith.metadata({ mergedbuild: options.mergedbuild });
+smith.metadata({
+  buildtype: options.buildtype,
+  IS_BRAND_CONSOLIDATED_BUILD: options['is-brand-consolidated-build'],
+
+  // @todo The property below is deprecated and will be removed very very soon. Use IS_BRAND_CONSOLIDATED_BUILD instead.
+  mergedbuild: options.mergedbuild
+});
 
 // To block an app from production add the following to the below list:
 //  ignoreList.push('<path-to-content-file>');

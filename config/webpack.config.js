@@ -165,6 +165,7 @@ const configGenerator = (options, apps) => {
           WEB_PORT: (process.env.WEB_PORT || 3333),
           API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
           BASE_URL: process.env.BASE_URL ? JSON.stringify(process.env.BASE_URL) : null,
+          IS_BRAND_CONSOLIDATED_BUILD: JSON.stringify(options['is-brand-consolidated-build'])
         }
       }),
 
