@@ -5,11 +5,13 @@ import SubLevel from './SubLevel';
 
 export default class LeftRailNav extends React.Component {
   getSubLevel(section, i) {
+
     if (section.links) {
       return (
         <SubLevel
           key={`${section.title} ${i}`}
           title={section.title}
+          href={section.href}
           hidden={this.props.hidden(section.links)}
           isCurrentPage={(link) => this.props.isCurrentPage(link)}>
           {

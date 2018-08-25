@@ -6,6 +6,7 @@ display_title:
 description: Find out if you're eligible for VA vision benefits, and if VA vision care will cover the cost of eyeglasses.
 concurrence: complete
 lastupdate: 2017-06-28
+collection: healthCareCoverage
 children: healthCareCoverageVision
 order: 6
 relatedlinks:
