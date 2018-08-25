@@ -35,6 +35,8 @@ Used to display a side navigation bar of pages in a collection.
     mainRouteName: {{ relatedPages.metadata.name | json }}
   };
 
+  {{ JSON.stringify(relatedPages) }}
+
   {% for page in relatedPages %}
     {% assign childPages = collections | get: page.children %}
 
