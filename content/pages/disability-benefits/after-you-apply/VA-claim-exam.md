@@ -235,7 +235,7 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 
 ### What if I have more questions about my exam?
 
-**Download helpful PDFs:**
+#### Download helpful PDFs
 
 **[VA claim exam fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-factsheet.pdf#)**<br>
 A quick guide on the claim exam process, and what you can expect during and after your exam
@@ -255,7 +255,7 @@ Information about how we evaluate mental health claims for compensation, and why
 **[Review exams fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-reviewexams.pdf#)<br>**
 Information about why and when we request review exams, what will happen at the exam, and why it's important to go to your exam
 
-**Watch informational videos:**
+#### Watch informational videos
 
 You can also watch our VA claim exams video series. This series offers videos on how to prepare for your VA claim exam, how to use disability benefits questionnaires (DBQs), and what to expect at claim exams for the most common disability claims.
 
