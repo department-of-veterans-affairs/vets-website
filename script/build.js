@@ -352,6 +352,13 @@ smith.use(collections({
       name: 'VA Health Care Coverage'
     }
   },
+  healthCostOfCare: {
+    pattern: 'health-care/about-va-health-benefits/cost-of-care/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Cost of Care'
+    }
+  },
   healthCareCoverageFamily: {
     pattern: 'health-care/family-caregiver-benefits/*.md',
     sortBy: 'order',
@@ -371,6 +378,13 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'Health Needs and Conditions'
+    }
+  },
+  healthEligibility: {
+    pattern: 'health-care/eligibility/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Eligibility'
     }
   },
   healthCareMentalHealth: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import LeftRailNav from '../components/LeftRailNav';
+import LeftRailNav from '../../components/LeftRailNav';
 import navData from '../data';
 
 export class Main extends React.Component {
@@ -7,6 +7,21 @@ export class Main extends React.Component {
     const page = pageMetaData.collections.filter((collection) => {
       return location.pathname.includes(collection.href);
     })[0];
+
+    if (page.href.split('/').length > 3) {
+      return pageMetaData.collections.map((pageData) => {
+
+        if (pageData.childPages.length > 0) {
+          return {
+            title: pageData.text,
+            href: pageData.href,
+            links: pageData.childPages,
+          };
+        }
+
+        return pageData;
+      });
+    }
 
     if (page.childPages.length > 0) {
       const newData = navData.reduce((acc, item) => {
@@ -42,32 +57,21 @@ export class Main extends React.Component {
       return newData;
     }
 
-    if (page.href.split('/').length > 3) {
-      return pageMetaData.collections.map((pageData) => {
-
-        if (pageData.childPages.length > 0) {
-          return {
-            title: pageData.text,
-            href: pageData.href,
-            links: pageData.childPages,
-          };
-        }
-
-        return pageData;
-      });
-    }
-
     return navData;
   }
 
   isHidden(links) {
     return !links.some((link) => {
-      return location.pathname.includes(link.href);
+      return link.href.includes(location.pathname);
     });
   }
 
   isCurrentPage(page) {
-    return location.pathname.includes(page.href);
+    if (page.href) {
+      return location.pathname.includes(page.href);
+    }
+
+    return false;
   }
 
   render() {
