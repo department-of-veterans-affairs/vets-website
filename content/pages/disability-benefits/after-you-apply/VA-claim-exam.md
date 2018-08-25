@@ -238,15 +238,20 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 **Download helpful PDFs:**
 
 **[VA claim exam fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-factsheet.pdf#)**<br>
-A quick guide on the claim exam process, and what you can expect during and after your exam <br>
+A quick guide on the claim exam process, and what you can expect during and after your exam
+
 **[VA claim exam tips](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-tipssheet.pdf#)**<br>
-Tips to help make the claim exam process easier and less stressful<br>
+Tips to help make the claim exam process easier and less stressful
+
 **[VA claim exam FAQs](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-faq.pdf#)**<br>
-Answers to frequently asked questions about the claim exam process<br>
-**[VA claim process step-by-step](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-stepbystep.pdf#)**<br>
-A quick, step-by-step overview of the claim process and exam<br>
+Answers to frequently asked questions about the claim exam process
+
+**[Step-by-step VA claim process](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-stepbystep.pdf#)**<br>
+A quick, step-by-step overview of the claim process and exam
+
 **[Mental health exam fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-mentalhealth-exams.pdf#)**<br>
-Information about how we evaluate mental health claims for compensation, and why it's important to go to your exam<br>
+Information about how we evaluate mental health claims for compensation, and why it's important to go to your exam
+
 **[Review exams fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-reviewexams.pdf#)<br>**
 Information about why and when we request review exams, what will happen at the exam, and why it's important to go to your exam
 
