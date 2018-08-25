@@ -78,7 +78,7 @@ function isVeteranOrServiceMember(formData) {
 }
 
 function manualSchoolEntryIsChecked(formData) {
-  return get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData);
+  return get('educationDetails.school.view:searchSchoolSelect.view:manualSchoolEntryChecked', formData);
 }
 
 function manualSchoolEntryIsNotChecked(formData) {
@@ -359,7 +359,7 @@ const formConfig = {
           uiSchema: {
             educationDetails: {
               school: {
-                facilityCode: { // Can we unnest this?
+                'view:searchSchoolSelect': {
                   facilityCode: {
                     'ui:required': manualSchoolEntryIsNotChecked,
                   },
@@ -425,7 +425,7 @@ const formConfig = {
                   school: {
                     type: 'object',
                     properties: {
-                      facilityCode: {
+                      'view:searchSchoolSelect': {
                         type: 'object',
                         properties: {
                           facilityCode: {

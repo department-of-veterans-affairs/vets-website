@@ -11,7 +11,7 @@ import formConfig from '../../../feedback-tool/config/form';
 
 describe('feedback tool school info', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolInformation.pages.schoolInformation;
-  _.unset(uiSchema, 'educationDetails.school.facilityCode');
+  _.unset(uiSchema, 'educationDetails.school.view:searchSchoolSelect');
 
   it('should render', () => {
     const form = mount(
@@ -20,7 +20,7 @@ describe('feedback tool school info', () => {
         data={{
           educationDetails: {
             school: {
-              facilityCode: {
+              'view:searchSchoolSelect': {
                 'view:manualSchoolEntryChecked': true
               },
               'view:manualSchoolEntry': {
@@ -44,7 +44,7 @@ describe('feedback tool school info', () => {
         data={{
           educationDetails: {
             school: {
-              facilityCode: {
+              'view:searchSchoolSelect': {
                 'view:manualSchoolEntryChecked': true
               }
             }
@@ -64,7 +64,7 @@ describe('feedback tool school info', () => {
         data={{
           educationDetails: {
             school: {
-              facilityCode: {
+              'view:searchSchoolSelect': {
                 'view:manualSchoolEntryChecked': true
               },
               'view:manualSchoolEntry': {
@@ -93,7 +93,7 @@ describe('feedback tool school info', () => {
         data={{
           educationDetails: {
             school: {
-              facilityCode: {
+              'view:searchSchoolSelect': {
                 'view:manualSchoolEntryChecked': true
               }
             }
@@ -117,7 +117,7 @@ describe('feedback tool school info', () => {
         data={{
           educationDetails: {
             school: {
-              facilityCode: {
+              'view:searchSchoolSelect': {
                 'view:manualSchoolEntryChecked': true
               },
               'view:manualSchoolEntry': {
