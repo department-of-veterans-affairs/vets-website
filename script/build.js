@@ -37,7 +37,7 @@ const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
-  { name: 'is-brand-consolidated-build', type: Boolean, defaultValue: false },
+  { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
@@ -90,7 +90,7 @@ switch (options.buildtype) {
 
   case 'devpreview':
   case 'preview':
-    options['is-brand-consolidated-build'] = true;
+    options['brand-consolidation-enabled'] = true;
     break;
 
   default:
@@ -123,9 +123,9 @@ smith.destination(options.destination);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({
   buildtype: options.buildtype,
-  IS_BRAND_CONSOLIDATED_BUILD: options['is-brand-consolidated-build'],
+  BRAND_CONSOLIDATION_ENABLED: options['brand-consolidation-enabled'],
 
-  // @todo The property below is deprecated and will be removed very very soon. Use IS_BRAND_CONSOLIDATED_BUILD instead.
+  // @todo The property below is deprecated and will be removed very very soon. Use BRAND_CONSOLIDATION_ENABLED instead.
   mergedbuild: options.mergedbuild
 });
 

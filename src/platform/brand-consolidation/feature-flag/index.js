@@ -3,6 +3,6 @@
  * @returns {boolean}
  * @module platform/brand-consolidation/feature-flag
  */
-export default function isBrandConsolidation() {
-  return process.env.IS_BRAND_CONSOLIDATED_BUILD !== undefined;
+export default function isBrandConsolidationEnabled() {
+  return process.env.BRAND_CONSOLIDATION_ENABLED !== undefined;
 }
