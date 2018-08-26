@@ -862,6 +862,10 @@
   .va-l-detail-page {
     a {
       padding-right: 0;
+
+      &.va-button-primary {
+        padding: 1rem 2rem;
+      }
     }
   }
 

@@ -61,7 +61,8 @@ const data = [
       },
       {
         text: 'Make a Payment',
-        href: 'https://www.pay.gov/public/form/start/25987221'
+        href: 'https://www.pay.gov/public/form/start/25987221',
+        target: '_blank',
       },
       {
         text: 'Check Appeal Status',
@@ -91,6 +92,7 @@ const data = [
       {
         text: 'Health Benefits Explorer',
         href: 'https://hbexplorer.vacloud.us/',
+        target: '_blank',
       },
       {
         text: 'Wellness Programs',
@@ -111,10 +113,12 @@ const data = [
       {
         text: 'The Million Veteran Program',
         href: 'https://www.research.va.gov/mvp/',
+        target: '_blank',
       },
       {
         text: 'Access and Quality in VA Health Care',
         href: 'https://www.accesstocare.va.gov/',
+        target: '_blank',
       },
       {
         text: 'Patient Rights and Responsibilities',

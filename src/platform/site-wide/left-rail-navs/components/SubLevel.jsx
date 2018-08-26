@@ -27,10 +27,30 @@ export default class SubLevel extends React.Component {
   }
 
   getLinkTag() {
+    if (this.props.href && this.props.children) {
+      return (
+        <div
+          className={`menu-item-container ${this.getLinkClassNames()}`}
+          onClick={() => this.toggleMenu()}
+          href={this.props.href}
+          role="button"
+          tabIndex={0}>
+          <a className={`level-one ${this.props.isCurrentPage(this.props) ? ' usa-current' : ''}`}>
+            {this.props.title}
+          </a>
+          {this.getIconElement()}
+        </div>
+      );
+    }
+
     if (this.props.href) {
+
       return (
         <div className="menu-item-container">
-          <a className={`level-one ${this.props.isCurrentPage(this.props) ? ' usa-current' : ''}`} href={`${this.props.href}`}>
+          <a
+            className={`level-one ${this.props.isCurrentPage(this.props) ? ' usa-current' : ''}`}
+            href={`${this.props.href}`}
+            target={this.props.target ? this.props.target : ''}>
             {this.props.title}
           </a>
         </div>
