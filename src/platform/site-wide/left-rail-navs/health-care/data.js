@@ -40,11 +40,11 @@ const data = [
         href: '/health-care/schedule-view-va-appointments/'
       },
       {
-        text: 'View Your Test and Lab Results',
+        text: 'View Your Lab and Test Results',
         href: '/health-care/view-test-and-lab-results/'
       },
       {
-        text: 'Order Hearing Aid Batteries or Prosthetic Socks',
+        text: 'Order Hearing Aid Batteries and Prosthetic Socks',
         href: '/health-care/order-hearing-aid-batteries-prosthetic-socks/'
       },
       {
