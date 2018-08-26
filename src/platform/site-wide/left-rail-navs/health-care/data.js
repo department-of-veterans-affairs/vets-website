@@ -15,12 +15,8 @@ const data = [
         href: '/health-care/how-to-apply/'
       },
       {
-        text: 'Apply Now',
+        text: 'Apply Now for Health Care',
         href: '/health-care/apply-for-health-care-form-10-10ez'
-      },
-      {
-        text: 'After You Apply',
-        href: '/health-care/after-you-apply'
       },
       {
         text: 'Family and Caregiver Benefits',
@@ -36,7 +32,7 @@ const data = [
         href: '/health-care/refill-track-prescriptions/'
       },
       {
-        text: 'Use Secure Messaging',
+        text: 'Send a Secure Message to Your Health Care Team',
         href: '/health-care/secure-messaging/'
       },
       {
@@ -44,11 +40,11 @@ const data = [
         href: '/health-care/schedule-view-va-appointments/'
       },
       {
-        text: 'View Test and Lab Results',
+        text: 'View Your Test and Lab Results',
         href: '/health-care/view-test-and-lab-results/'
       },
       {
-        text: 'Order Hearing Aid Batteries and Prosthetic Socks',
+        text: 'Order Hearing Aid Batteries or Prosthetic Socks',
         href: '/health-care/order-hearing-aid-batteries-prosthetic-socks/'
       },
       {
