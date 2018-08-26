@@ -1,6 +1,6 @@
 ---
-title: Dispute Medical Charges
+title: Cost Overview
 href: https://www.va.gov/HEALTHBENEFITS/cost/disputes.asp
 display_title:
-order: 6
+order: 1
 ---

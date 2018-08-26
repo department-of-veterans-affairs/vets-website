@@ -42,7 +42,7 @@ Used to display a side navigation bar of pages in a collection.
 
     pageMetaData.collections.push({
       text: {{ page.title | json }},
-      href: '/' + {{ page.path | json }},
+      href: {{ page.href | json }} ? {{ page.href | json }} : '/' + {{ page.path | json }},
       childPages: []
     })
 

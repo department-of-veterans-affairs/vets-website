@@ -15,12 +15,8 @@ const data = [
         href: '/health-care/how-to-apply/'
       },
       {
-        text: 'Apply Now',
+        text: 'Apply Now for Health Care',
         href: '/health-care/apply-for-health-care-form-10-10ez'
-      },
-      {
-        text: 'After You Apply',
-        href: '/health-care/after-you-apply'
       },
       {
         text: 'Family and Caregiver Benefits',
@@ -36,7 +32,7 @@ const data = [
         href: '/health-care/refill-track-prescriptions/'
       },
       {
-        text: 'Use Secure Messaging',
+        text: 'Send a Secure Message to Your Health Care Team',
         href: '/health-care/secure-messaging/'
       },
       {
@@ -44,7 +40,7 @@ const data = [
         href: '/health-care/schedule-view-va-appointments/'
       },
       {
-        text: 'View Test and Lab Results',
+        text: 'View Your Lab and Test Results',
         href: '/health-care/view-test-and-lab-results/'
       },
       {
@@ -61,7 +57,8 @@ const data = [
       },
       {
         text: 'Make a Payment',
-        href: 'https://www.pay.gov/public/form/start/25987221'
+        href: 'https://www.pay.gov/public/form/start/25987221',
+        target: '_blank',
       },
       {
         text: 'Check Appeal Status',
@@ -91,6 +88,7 @@ const data = [
       {
         text: 'Health Benefits Explorer',
         href: 'https://hbexplorer.vacloud.us/',
+        target: '_blank',
       },
       {
         text: 'Wellness Programs',
@@ -111,10 +109,12 @@ const data = [
       {
         text: 'The Million Veteran Program',
         href: 'https://www.research.va.gov/mvp/',
+        target: '_blank',
       },
       {
         text: 'Access and Quality in VA Health Care',
         href: 'https://www.accesstocare.va.gov/',
+        target: '_blank',
       },
       {
         text: 'Patient Rights and Responsibilities',

@@ -28,9 +28,13 @@ export default class SubLevel extends React.Component {
 
   getLinkTag() {
     if (this.props.href) {
+
       return (
         <div className="menu-item-container">
-          <a className={`level-one ${this.props.isCurrentPage(this.props) ? ' usa-current' : ''}`} href={`${this.props.href}`}>
+          <a
+            className={`level-one ${this.props.isCurrentPage(this.props) ? ' usa-current' : ''}`}
+            href={`${this.props.href}`}
+            target={this.props.target ? this.props.target : ''}>
             {this.props.title}
           </a>
         </div>

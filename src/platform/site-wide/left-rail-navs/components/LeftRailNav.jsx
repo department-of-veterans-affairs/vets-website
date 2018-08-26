@@ -5,7 +5,6 @@ import SubLevel from './SubLevel';
 
 export default class LeftRailNav extends React.Component {
   getSubLevel(section, i) {
-
     if (section.links) {
       return (
         <SubLevel
@@ -24,12 +23,16 @@ export default class LeftRailNav extends React.Component {
                     hidden={false}
                     icon={false}
                     href={link.href}
+                    target={link.target}
                     isCurrentPage={(sublink) => this.props.isCurrentPage(sublink)}>
                     {
                       link.links.map((subLink, k) => {
                         return (
                           <li key={`${subLink.text} ${k}`}>
-                            <a className={this.props.isCurrentPage(subLink) && 'usa-current'} href={`${subLink.href}`}>
+                            <a
+                              className={this.props.isCurrentPage(subLink) && 'usa-current'}
+                              href={`${subLink.href}`}
+                              target={subLink.target}>
                               {subLink.text}
                             </a>
                           </li>
@@ -42,7 +45,10 @@ export default class LeftRailNav extends React.Component {
 
               return (
                 <li key={`${link.text} ${j}`}>
-                  <a className={this.props.isCurrentPage(link) && 'usa-current'} href={`${link.href}`}>
+                  <a
+                    className={this.props.isCurrentPage(link) && 'usa-current'}
+                    href={`${link.href}`}
+                    target={link.target}>
                     {link.text}
                   </a>
                 </li>
@@ -55,9 +61,9 @@ export default class LeftRailNav extends React.Component {
 
     return (
       <SubLevel
-        key={`${section.title} ${i}`}
-        title={section.text}
+        key={`${section.text} ${i}`}
         href={section.href}
+        title={section.text}
         isCurrentPage={(link) => this.props.isCurrentPage(link)}></SubLevel>
     );
   }

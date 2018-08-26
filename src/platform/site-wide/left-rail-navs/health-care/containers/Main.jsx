@@ -7,7 +7,7 @@ export class Main extends React.Component {
     const page = pageMetaData.collections.filter((collection) => {
       return location.pathname.includes(collection.href);
     })[0];
-
+    // TODO: brittle. Need to refactor
     if (page.href.split('/').length > 3) {
       return pageMetaData.collections.map((pageData) => {
 
