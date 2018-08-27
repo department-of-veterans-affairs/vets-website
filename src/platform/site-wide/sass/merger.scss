@@ -681,7 +681,10 @@
 
     }
 
-
+    .va-sidebarnav--opened {
+      position: fixed;
+      z-index: 1;
+    }
   }
 
 
