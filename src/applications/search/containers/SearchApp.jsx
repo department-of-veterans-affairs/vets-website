@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import {
@@ -16,9 +17,22 @@ class SearchApp extends React.Component {
 
   constructor(props) {
     super(props);
+
+    let userInputFromAddress = '';
+    if (this.props.router.location.query) {
+      userInputFromAddress = this.props.router.location.query.term;
+    }
+
     this.state = {
-      userInput: ''
+      userInput: userInputFromAddress
     };
+  }
+
+  componentDidMount() {
+    // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
+    if (this.state.userInput) {
+      this.props.fetchSearchResults(this.state.userInput);
+    }
   }
 
   handleInputChange = (event) => {
@@ -29,7 +43,10 @@ class SearchApp extends React.Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    this.props.fetchSearchResults(this.state.userInput);
+    const userInput = this.state.userInput;
+    // @todo figure out how to sychronize the term in the search bar with the value being submitted, so that the search results are bookmarkable.
+    // this.props.router.location.query.term = encodeURIComponent(userInput);
+    this.props.fetchSearchResults(userInput);
   }
 
   render() {
@@ -60,6 +77,6 @@ const mapDispatchToProps = {
   fetchSearchResults
 };
 
-const SearchAppContainer = connect(mapStateToProps, mapDispatchToProps)(SearchApp);
+const SearchAppContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchApp));
 
 export default SearchAppContainer;
