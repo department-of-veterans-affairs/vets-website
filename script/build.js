@@ -72,6 +72,10 @@ if (isHerokuBuild) {
   applyHerokuOptions(options);
 }
 
+if (options['brand-consolidation-enabled']) {
+  process.env.BRAND_CONSOLIDATION_ENABLED = 'ENABLED';
+}
+
 switch (options.buildtype) {
   case 'development':
   // No extra checks needed in dev.
@@ -90,7 +94,7 @@ switch (options.buildtype) {
 
   case 'devpreview':
   case 'preview':
-    options['brand-consolidation-enabled'] = true;
+    process.env.BRAND_CONSOLIDATION_ENABLED = true;
     break;
 
   default:
@@ -123,7 +127,7 @@ smith.destination(options.destination);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({
   buildtype: options.buildtype,
-  BRAND_CONSOLIDATION_ENABLED: options['brand-consolidation-enabled'],
+  BRAND_CONSOLIDATION_ENABLED: process.env.BRAND_CONSOLIDATION_ENABLED,
 
   // @todo The property below is deprecated and will be removed very very soon. Use BRAND_CONSOLIDATION_ENABLED instead.
   mergedbuild: options.mergedbuild
