@@ -913,6 +913,106 @@
       z-index: 2;
     }
   }
+
+  .va-sidebarnav {
+    h4 {
+      display: inline-block;
+      width: 75%;
+    }
+
+    .left-side-nav-title {
+      padding-bottom: 35px;
+    }
+
+    .usa-sidenav-list {
+      & > li {
+        &:last-child {
+          border-bottom: 1px solid $color-gray-lighter;
+        }
+
+        &:first-child {
+          border-top: 1px solid $color-gray-lighter;
+        }
+
+        .active-menu {
+          border-bottom: none;
+        }
+
+        a {
+          display: inline-block;
+          vertical-align: middle;
+          width: 75%;
+        }
+
+        i {
+          color: $color-black;
+          vertical-align: middle;
+          font-size: 15px;
+          padding-left: 0;
+        }
+      }
+
+      & .menu-item-container {
+        & > a {
+          font-weight: bold;
+        }
+
+        &:hover {
+          background-color: $color-gray-lightest;
+          color: $color-blue;
+        }
+
+        &:focus {
+          outline: 2px solid $color-gold;
+          outline-offset: 3px;
+        }
+      }
+    }
+
+    .usa-sidenav-list {
+      a.usa-current {
+        border-left: 0.4rem solid #0071BB;
+        padding-left: 8px;
+        margin-left: 16px;
+
+        &.level-one {
+          padding-left: 14px;
+          margin-left: 0;
+        }
+      }
+    }
+
+    .fa {
+      position: relative;
+      color: $color-white;
+      border-radius: 50%;
+
+      &.icon-small {
+        vertical-align: middle;
+        padding-left: initial;
+        height: 32px;
+        width: 32px;
+        margin-right: 5px;
+
+        &::before {
+          position: absolute;
+          margin-top: 6.5px;
+          margin-left: 8.47px;
+        }
+      }
+
+      &.fa-medkit {
+        background-color: $color-primary;
+
+        &.icon-small {
+          &::before {
+            margin-top: 6px;
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+  }
 }
 
 .va-sign-in-alert {
