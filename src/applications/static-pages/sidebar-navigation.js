@@ -31,7 +31,7 @@ class SideBarMenu {
 
   openMenu(trigger) {
     this.getMenu(trigger).classList.add('va-sidebarnav--opened');
-    document.getElementsByClassName('fixed-trigger')[0].setAttribute('hidden',  'true');
+    document.getElementsByClassName('va-btn-sidebarnav-trigger')[0].setAttribute('hidden',  'true');
     document.getElementsByTagName('body')[0].style.overflow = 'hidden';
     this.closeMenu(trigger);
   }
@@ -41,7 +41,7 @@ class SideBarMenu {
     close.addEventListener('click', () => {
       this.menu.classList.remove('va-sidebarnav--opened');
       document.getElementsByTagName('body')[0].style.overflow = 'initial';
-      document.getElementsByClassName('fixed-trigger')[0].removeAttribute('hidden');
+      document.getElementsByClassName('va-btn-sidebarnav-trigger')[0].removeAttribute('hidden');
     });
   }
 }

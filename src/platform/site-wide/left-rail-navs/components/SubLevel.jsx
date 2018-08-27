@@ -32,7 +32,7 @@ export default class SubLevel extends React.Component {
       return (
         <div className="menu-item-container">
           <a
-            className={`level-one ${this.props.isCurrentPage(this.props) ? ' usa-current' : ''}`}
+            className={`${this.props.levelOne ? 'level-one' : ''}${this.props.isCurrentPage(this.props) ? ' usa-current' : ''}`}
             href={`${this.props.href}`}
             target={this.props.target ? this.props.target : ''}>
             {this.props.title}
@@ -47,7 +47,7 @@ export default class SubLevel extends React.Component {
         onClick={() => this.toggleMenu()}
         role="button"
         tabIndex={0}>
-        <a className={`level-one ${this.props.isCurrentPage(this.props) ? ' usa-current' : ''}`}>
+        <a className={`${this.props.levelOne ? 'level-one' : ''}${this.props.isCurrentPage(this.props) ? ' usa-current' : ''}`}>
           {this.props.title}
         </a>
         {this.getIconElement()}

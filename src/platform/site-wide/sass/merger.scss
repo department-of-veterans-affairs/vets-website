@@ -883,10 +883,25 @@
         position: relative;
         right: -20px;
       }
+
+      .menu-item-container > a {
+        font-weight: initial;
+      }
+
+      a.usa-current {
+        font-weight: bold;
+        margin-left: 0;
+      }
     }
 
-    .usa-sidenav-sub_list a {
-      width: 100% !important; // sorry this is temporary
+    .usa-sidenav-sub_list{
+      a {
+        width: 100% !important; // sorry this is temporary
+
+        &.usa-current {
+          margin-left: 16px !important;;
+        }
+      }
     }
   }
 
