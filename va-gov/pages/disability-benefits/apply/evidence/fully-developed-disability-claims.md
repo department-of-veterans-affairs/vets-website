@@ -1,19 +1,19 @@
 ---
 layout: page-breadcrumbs.html
 title: VA Fully Developed Claim Program
-plainlanguage: 
+plainlanguage:
 template: detail-page
 order: 2
 relatedlinks:
-  - heading: 
+  - heading:
     links:
-    - url: 
-      title: 
-      description: 
+    - url:
+      title:
+      description:
 ---
 <div itemprop="description" class="va-introtext">
-  
-Find out how you can use the Fully Developed Claims program to get a faster decision on your disability benefits claim by submitting evidence along with your claim. 
+
+Find out how you can use the Fully Developed Claims program to get a faster decision on your disability benefits claim by submitting evidence along with your claim.
 
 </div>
 
@@ -67,7 +67,7 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 
 No. Filing a fully developed claim won't affect the attention we give to your claim or the benefits you're entitled to receive.
 
-If we determine that we need other non-federal records to make a decision on your claim, we'll simply remove the claim from the Fully Developed Claims program and process it as a standard claim. 
+If we determine that we need other non-federal records to make a decision on your claim, we'll simply remove the claim from the Fully Developed Claims program and process it as a standard claim.
 
 Once you start your fully developed claim, you'll have up to 1 year to complete it. If we approve your claim, you'll be paid back to the day you started it.
 
@@ -182,7 +182,7 @@ You'll need to submit current medical evidence that shows your disability has go
 
 Yes. We can help you through the Fully Developed Claims program.
 
-**We'll:** 
+**We'll:**
 - Request your military service records (with your permission), **and**
 - Request relevant Social Security benefits information and medical records that you identify and authorize us to get from a federal facility, like a VA medical center, **and**
 - Schedule a health exam for you or get a medical opinion from a health care provider if we decide we need it for your claim
@@ -191,7 +191,7 @@ Yes. We can help you through the Fully Developed Claims program.
 
 <br>
 
-### When should I turn in my evidence? 
+### When should I turn in my evidence?
 
 To submit your claim through the Fully Developed Claims program, you’ll need to turn in the information and evidence at the same time as you file your claim.
 
@@ -214,6 +214,4 @@ For some types of claims, you can work with a VSO to submit a decision-ready cla
 You can start your online application right now, or find out how to apply by mail, in person, or with the help of a trained professional.<br>
 [Find out how to apply for disability benefits](/disability-benefits/apply/).
 
-**Note:** Please be sure to upload all medical evidence or supporting documents at the end of the form. 
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+**Note:** Please be sure to upload all medical evidence or supporting documents at the end of the form.
