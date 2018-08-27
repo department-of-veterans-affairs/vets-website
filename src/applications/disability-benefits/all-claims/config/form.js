@@ -6,24 +6,11 @@ import { hasMilitaryRetiredPay } from '../validations';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
-  uiSchema as alternateNamesUISchema,
-  schema as alternateNamesSchema
-} from '../pages/alternateNames';
-
-import {
-  uiSchema as servicePayUISchema,
-  schema as servicePaySchema
-} from '../pages/servicePay';
-
-import {
-  uiSchema as waiveRetirementPayUISchema,
-  schema as waiveRetirementPaySchema
-} from '../pages/waiveRetirementPay';
-
-import {
-  uiSchema as separationTrainingPayUISchema,
-  schema as separationTrainingPaySchema
-} from '../pages/separationTrainingPay';
+  alternateNames,
+  servicePay,
+  waiveRetirementPay,
+  separationTrainingPay
+} from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
@@ -61,27 +48,27 @@ const formConfig = {
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
-          uiSchema: alternateNamesUISchema,
-          schema: alternateNamesSchema
+          uiSchema: alternateNames.uiSchema,
+          schema: alternateNames.schema
         },
         servicePay: {
           title: 'Service Pay',
           path: 'service-pay',
-          uiSchema: servicePayUISchema,
-          schema: servicePaySchema
+          uiSchema: servicePay.uiSchema,
+          schema: servicePay.schema
         },
         waiveRetirementPay: {
           title: 'Waiving Retirement Pay',
           path: 'waive-retirement-pay',
           depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPayUISchema,
-          schema: waiveRetirementPaySchema
+          uiSchema: waiveRetirementPay.uiSchema,
+          schema: waiveRetirementPay.schema
         },
         separationTrainingPay: {
           title: 'Separation, Severance or Training Pay',
           path: 'separation-training-pay',
-          uiSchema: separationTrainingPayUISchema,
-          schema: separationTrainingPaySchema
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema
         }
       }
     }
