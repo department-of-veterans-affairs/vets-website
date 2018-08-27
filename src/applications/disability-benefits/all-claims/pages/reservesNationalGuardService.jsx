@@ -3,6 +3,8 @@ import { get } from 'lodash';
 import fullSchema from '../config/schema';
 
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
+
 import {
   ReservesGuardDescription,
 } from '../utils';
@@ -134,9 +136,7 @@ export const uiSchema = {
           }
         }
       },
-      unitPhone: {
-        'ui:title': 'Unit phone number',
-      }
+      unitPhone: phoneUI('Unit phone number')
     }
   }
 };

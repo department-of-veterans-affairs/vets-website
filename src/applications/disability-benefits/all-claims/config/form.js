@@ -12,29 +12,12 @@ import { veteranInfoDescription } from '../content/veteranDetails';
 import {
   alternateNames,
   servicePay,
-  waiveRetirementPay
+  waiveRetirementPay,
+  militaryHistory,
+  reservesNationalGuardService,
+  federalOrders,
+  prisonerOfWar
 } from '../pages';
-
-
-import {
-  uiSchema as militaryHistoryUISchema,
-  schema as militaryHistorySchema
-} from '../pages/militaryHistory';
-
-import {
-  uiSchema as reservesNationalGuardUISchema,
-  schema as reservesNationalGuardSchema
-} from '../pages/reservesNationalGuardService';
-
-import {
-  uiSchema as federalOrdersUISchema,
-  schema as federalOrdersSchema
-} from '../pages/federalOrders';
-
-import {
-  uiSchema as prisonerOfWarUISchema,
-  schema as prisonerOfWarSchema
-} from '../pages/prisonerOfWar';
 
 import fullSchema from './schema';
 
@@ -95,28 +78,28 @@ const formConfig = {
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
-          uiSchema: militaryHistoryUISchema,
-          schema: militaryHistorySchema
+          uiSchema: militaryHistory.uiSchema,
+          schema: militaryHistory.schema
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard Service',
           path: 'review-veteran-details/military-service-history/reserves-national-guard',
-          depends: hasGuardOrReservePeriod,
-          uiSchema: reservesNationalGuardUISchema,
-          schema: reservesNationalGuardSchema
+          depends: form => hasGuardOrReservePeriod(form.serviceInformation),
+          uiSchema: reservesNationalGuardService.uiSchema,
+          schema: reservesNationalGuardService.schema
         },
         federalOrders: {
           title: 'Federal orders',
           path: 'review-veteran-details/military-service-history/federal-orders',
-          depends: hasGuardOrReservePeriod,
-          uiSchema: federalOrdersUISchema,
-          schema: federalOrdersSchema
+          depends: form => hasGuardOrReservePeriod(form.serviceInformation),
+          uiSchema: federalOrders.uiSchema,
+          schema: federalOrders.schema
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'review-veteran-details/military-service-history/pow',
-          uiSchema: prisonerOfWarUISchema,
-          schema: prisonerOfWarSchema
+          uiSchema: prisonerOfWar.uiSchema,
+          schema: prisonerOfWar.schema
         }
       }
     }
