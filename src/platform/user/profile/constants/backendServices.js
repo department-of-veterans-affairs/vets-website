@@ -23,6 +23,6 @@ export default {
   FORM_PREFILL: 'form-prefill',
 
   // 526 beta
-  CLAIM_INCREASE: 'claim-increase',
-  CLAIM_INCREASE_AVAIL: 'claim-increase-avail'
+  CLAIM_INCREASE: 'claim_increase',
+  CLAIM_INCREASE_AVAILABLE: 'claim-increase-available'
 };
