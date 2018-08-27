@@ -205,7 +205,7 @@ You can expect a decision within 30 days or less from the time you submit your c
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet.pdf">Decision Ready Claims Fact Sheet</a><br>
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-predischarge.pdf">Pre-discharge Decision Ready Claim Fact Sheet</a><br>
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf">Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet</a><br>
-<a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-predischarge.pdf">Pre-discharge Decision Ready Claim Fact Sheet</a><br>
+<a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-faqs.pdf">Decision Ready Claims FAQs</a><br>
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-poster.pdf">Decision Ready Claims Process Infographic</a><br>
 
 
