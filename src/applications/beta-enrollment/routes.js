@@ -5,7 +5,7 @@ export const features = {
   veteranIdCard: 'veteran_id_card',
   profile: 'profile',
   dashboard: 'dashboard',
-  claimIncrease: 'claim_increase_beta'
+  claimIncrease: 'claim_increase'
 };
 
 const routes = {

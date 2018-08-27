@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
-export function EVSSClaimsGate({ user, location, children }) {
+export function BetaGate({ user, location, children }) {
   if (!user.login.currentlyLoggedIn) {
     return (
       <div className="usa-grid full-page-alert">
@@ -63,4 +63,4 @@ const mapStateToProps = (store) => ({
   user: store.user
 });
 
-export default connect(mapStateToProps)(EVSSClaimsGate);
+export default connect(mapStateToProps)(BetaGate);
