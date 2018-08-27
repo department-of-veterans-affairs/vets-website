@@ -73,7 +73,7 @@ import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
 const {
-  treatments: treatmentsSchema,
+  treatments,
   // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation: {
     properties: { servicePeriods }
@@ -101,24 +101,6 @@ const {
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
-
-// TODO: Remove once typeahead supports auto-filling address and treatment center type
-const treatments = ((treatmentsCommonDef) => {
-  const { type, maxItems, items } = treatmentsCommonDef;
-
-  return {
-    type,
-    maxItems,
-    items: {
-      type: items.type,
-      // TODO: use standard required property once treatmentCenterType added
-      // back in schema (because it's required)
-      required: ['treatmentCenterName'],
-      properties: _.omit(['treatmentCenterType'], items.properties)
-    }
-  };
-
-})(treatmentsSchema);
 
 const formConfig = {
   urlPrefix: '/',

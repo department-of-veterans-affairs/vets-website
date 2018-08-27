@@ -1,10 +1,10 @@
 import { createRoutesWithSaveInProgress } from '../../../platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
-import ComplaintToolApp from './containers/ComplaintToolApp.jsx';
+import FeedbackToolApp from './containers/FeedbackToolApp';
 
 const route = {
   path: '/',
-  component: ComplaintToolApp,
+  component: FeedbackToolApp,
   indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
   childRoutes: createRoutesWithSaveInProgress(formConfig)
 };
