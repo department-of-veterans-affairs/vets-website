@@ -13,6 +13,10 @@ import {
   schema as waiveRetirementPaySchema
 } from '../pages/waiveRetirementPay';
 
+import {
+  uiSchema as separationTrainingPayUISchema,
+  schema as separationTrainingPaySchema
+} from '../pages/separationTrainingPay';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -27,4 +31,9 @@ export const servicePay = {
 export const waiveRetirementPay = {
   uiSchema: waiveRetirementPayUISchema,
   schema: waiveRetirementPaySchema
+};
+
+export const separationTrainingPay = {
+  uiSchema: separationTrainingPayUISchema,
+  schema: separationTrainingPaySchema
 };
