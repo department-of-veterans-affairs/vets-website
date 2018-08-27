@@ -47,7 +47,7 @@
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "watch": "node script/build.js --watch",
     "watch:brand-consolidation": "node script/build.js --brand-consolidation-enabled --watch",
-    "watch:devpreview": "npm run watch:brand-consolidated",
+    "watch:devpreview": "npm run watch:brand-consolidation",
     "watch:static": "npm run watch -- --entry static-pages"
   },
   "repository": {
