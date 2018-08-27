@@ -311,14 +311,6 @@ describe('<SchoolSelectField>', () => {
     tree.find('#page-1-0').first().simulate('change');
     expect(onChange.firstCall.args[0]).to.eql({
       facilityCode: 'test',
-      'view:institutionSelected': {
-        address1: 'testAddress1',
-        address2: 'testAddress2',
-        address3: 'testAddress3',
-        city: 'testcity',
-        name: 'testName',
-        state: 'testState'
-      }
     });
     expect(selectInstitution.firstCall.args[0]).to.eql(institutions[0]);
   });

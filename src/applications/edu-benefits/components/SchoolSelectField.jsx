@@ -46,7 +46,7 @@ export class SchoolSelectField extends React.Component {
 
   componentDidMount() {
     // hydrate search if restoring from SiP
-    // if there is a seach term stored in the form data
+    // if there is a search term stored in the form data
     // if the search term in the form data isn't already in the redux state and displayed
     const institutionSelected = this.props.formData['view:institutionSelected'];
     const searchTermToRestore = this.props.formData['view:institutionQuery'];
@@ -82,19 +82,11 @@ export class SchoolSelectField extends React.Component {
     });
   }
 
-  handleOptionClick = ({ address1, address2, address3, city, facilityCode, name, state }) => {
-    this.props.selectInstitution({ address1, address2, address3, city, facilityCode, name, state });
+  handleOptionClick = ({ facilityCode }) => {
+    this.props.selectInstitution({ facilityCode });
     this.props.onChange({
       ...this.props.formData,
       facilityCode,
-      'view:institutionSelected': {
-        address1,
-        address2,
-        address3,
-        city,
-        name,
-        state
-      }
     });
   }
 
@@ -281,7 +273,7 @@ export class SchoolSelectField extends React.Component {
                       name={`page-${currentPageNumber}`}
                       type="radio"
                       onKeyDown={this.onKeyDown}
-                      onChange={() => this.handleOptionClick({ address1, address2, address3, city, facilityCode, name, state })}
+                      onChange={() => this.handleOptionClick({ facilityCode })}
                       value={facilityCode}/>
                     <label
                       id={`institution-${index}-label`}
