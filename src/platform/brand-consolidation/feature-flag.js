@@ -4,5 +4,5 @@
  * @module platform/brand-consolidation/feature-flag
  */
 export default function isBrandConsolidationEnabled() {
-  return process.env.BRAND_CONSOLIDATION_ENABLED;
+  return process.env.BRAND_CONSOLIDATION_ENABLED !== undefined;
 }
