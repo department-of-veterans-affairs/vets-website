@@ -19,6 +19,11 @@ import {
 } from './militaryHistory';
 
 import {
+  uiSchema as separationTrainingPayUISchema,
+  schema as separationTrainingPaySchema
+} from '../pages/separationTrainingPay';
+
+import {
   uiSchema as reservesNationalGuardUISchema,
   schema as reservesNationalGuardSchema
 } from './reservesNationalGuardService';
@@ -46,6 +51,11 @@ export const servicePay = {
 export const waiveRetirementPay = {
   uiSchema: waiveRetirementPayUISchema,
   schema: waiveRetirementPaySchema
+};
+
+export const separationTrainingPay = {
+  uiSchema: separationTrainingPayUISchema,
+  schema: separationTrainingPaySchema
 };
 
 export const militaryHistory = {

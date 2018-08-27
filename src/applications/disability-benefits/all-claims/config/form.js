@@ -14,6 +14,7 @@ import {
   servicePay,
   waiveRetirementPay,
   militaryHistory,
+  separationTrainingPay,
   reservesNationalGuardService,
   federalOrders,
   prisonerOfWar
@@ -44,7 +45,7 @@ const formConfig = {
   defaultDefinitions: {
     ...fullSchema.definitions
   },
-  title: 'Apply for increased disability compensation',
+  title: 'Apply for disability compensation',
   subTitle: 'Form 21-526EZ',
   chapters: {
     veteranDetails: {
@@ -74,6 +75,12 @@ const formConfig = {
           depends: hasMilitaryRetiredPay,
           uiSchema: waiveRetirementPay.uiSchema,
           schema: waiveRetirementPay.schema
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema
         },
         militaryHistory: {
           title: 'Military service history',
