@@ -54,7 +54,6 @@
 
     #vetnav-menu, #vetnav {
       margin-top: 0;
-      min-height: 0;
     }
 
     .mm-marketing-container {
@@ -911,6 +910,7 @@
       top: 0;
       margin: 0;
       width: 100%;
+      z-index: 2;
     }
   }
 }
