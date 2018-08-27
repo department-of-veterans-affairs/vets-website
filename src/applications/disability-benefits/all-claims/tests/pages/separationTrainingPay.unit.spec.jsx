@@ -101,28 +101,4 @@ describe('Separation or Training Pay', () => {
     expect(form.find('input').length).to.equal(6); // 4 radios + year input + checkbox
     expect(form.find('select').length).to.equal(3); // month, day, service branch
   });
-
-  it('should submit when all required info filled', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={definitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:hasTrainingPay': true,
-          'view:hasSeparationPay': true,
-          'view:separationPayDetails': {
-            separationPayDate: '2011-01-01',
-            separationPayBranch: 'Army'
-          }
-        }}
-        formData={{}}
-        onSubmit={onSubmit}/>
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-  });
 });
