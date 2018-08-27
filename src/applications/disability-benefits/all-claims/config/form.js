@@ -6,19 +6,11 @@ import { hasMilitaryRetiredPay } from '../validations';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
-  uiSchema as alternateNamesUISchema,
-  schema as alternateNamesSchema
-} from '../pages/alternateNames';
-
-import {
-  uiSchema as servicePayUISchema,
-  schema as servicePaySchema
-} from '../pages/servicePay';
-
-import {
-  uiSchema as waiveRetirementPayUISchema,
-  schema as waiveRetirementPaySchema
-} from '../pages/waiveRetirementPay';
+  alternateNames,
+  servicePay,
+  waiveRetirementPay,
+  separationTrainingPay
+} from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
@@ -41,7 +33,7 @@ const formConfig = {
   // footerContent: FormFooter,
   // getHelp: GetFormHelp,
   defaultDefinitions: {},
-  title: 'Apply for increased disability compensation',
+  title: 'Apply for disability compensation',
   subTitle: 'Form 21-526EZ',
   chapters: {
     veteranDetails: {
@@ -56,21 +48,27 @@ const formConfig = {
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
-          uiSchema: alternateNamesUISchema,
-          schema: alternateNamesSchema
+          uiSchema: alternateNames.uiSchema,
+          schema: alternateNames.schema
         },
         servicePay: {
           title: 'Service Pay',
           path: 'service-pay',
-          uiSchema: servicePayUISchema,
-          schema: servicePaySchema
+          uiSchema: servicePay.uiSchema,
+          schema: servicePay.schema
         },
         waiveRetirementPay: {
           title: 'Waiving Retirement Pay',
           path: 'waive-retirement-pay',
           depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPayUISchema,
-          schema: waiveRetirementPaySchema
+          uiSchema: waiveRetirementPay.uiSchema,
+          schema: waiveRetirementPay.schema
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema
         }
       }
     }

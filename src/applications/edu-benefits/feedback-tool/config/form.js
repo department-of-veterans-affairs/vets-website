@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import React from 'react';
-import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
+import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import { validateBooleanGroup, validateMatch } from 'us-forms-system/lib/js/validation';
@@ -78,7 +78,7 @@ function isVeteranOrServiceMember(formData) {
 }
 
 function manualSchoolEntryIsChecked(formData) {
-  return get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData);
+  return get('educationDetails.school.view:searchSchoolSelect.view:manualSchoolEntryChecked', formData);
 }
 
 function manualSchoolEntryIsNotChecked(formData) {
@@ -100,7 +100,7 @@ const formConfig = {
   trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'complaint-tool',
+  formId: 'COMPLAINT-TOOL', // TODO: rename to feedback-tool once renamed on BE
   version: 0,
   prefillEnabled: true,
   defaultDefinitions: {
@@ -359,7 +359,7 @@ const formConfig = {
           uiSchema: {
             educationDetails: {
               school: {
-                facilityCode: { // Can we unnest this?
+                'view:searchSchoolSelect': {
                   facilityCode: {
                     'ui:required': manualSchoolEntryIsNotChecked,
                   },
@@ -425,7 +425,7 @@ const formConfig = {
                   school: {
                     type: 'object',
                     properties: {
-                      facilityCode: {
+                      'view:searchSchoolSelect': {
                         type: 'object',
                         properties: {
                           facilityCode: {
