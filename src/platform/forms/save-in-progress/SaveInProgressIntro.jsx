@@ -24,7 +24,7 @@ class SaveInProgressIntro extends React.Component {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
           : moment.unix(savedForm.lastUpdated);
-        const expirationDate = moment.unix(savedForm.metadata.expiresAt).format('MMM D, YYY');
+        const expirationDate = moment.unix(savedForm.metadata.expiresAt).format('MMM D, YYYY');
 
         alert = (
           <div>
