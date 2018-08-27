@@ -20,5 +20,9 @@ export default {
 
   // Core Form Features
   SAVE_IN_PROGRESS: 'form-save-in-progress',
-  FORM_PREFILL: 'form-prefill'
+  FORM_PREFILL: 'form-prefill',
+
+  // 526 beta
+  CLAIM_INCREASE: 'claim-increase',
+  CLAIM_INCREASE_AVAIL: 'claim-increase-avail'
 };
