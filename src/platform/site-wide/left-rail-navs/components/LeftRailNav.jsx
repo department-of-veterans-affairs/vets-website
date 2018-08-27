@@ -12,6 +12,7 @@ export default class LeftRailNav extends React.Component {
           title={section.title}
           href={section.href}
           hidden={this.props.hidden(section.links)}
+          levelOne
           isCurrentPage={(link) => this.props.isCurrentPage(link)}>
           {
             section.links.map((link, j) => {

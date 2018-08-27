@@ -9,8 +9,16 @@ export class Main extends React.Component {
     })[0];
     // TODO: brittle. Need to refactor
     if (page.href.split('/').length > 3) {
-      return pageMetaData.collections.map((pageData) => {
 
+      if (page.childPages.length > 0) {
+        return [{
+          title: page.text,
+          href: page.href,
+          links: page.childPages,
+        }];
+      }
+
+      return pageMetaData.collections.map((pageData) => {
         if (pageData.childPages.length > 0) {
           return {
             title: pageData.text,
