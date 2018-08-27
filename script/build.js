@@ -73,7 +73,7 @@ if (isHerokuBuild) {
 }
 
 if (options['brand-consolidation-enabled']) {
-  process.env.BRAND_CONSOLIDATION_ENABLED = 'ENABLED';
+  process.env.BRAND_CONSOLIDATION_ENABLED = true;
 }
 
 switch (options.buildtype) {
