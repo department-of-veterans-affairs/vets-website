@@ -196,6 +196,3 @@ If you send us only the required documents, it may take 2 to 8 months since weâ€
 <br>
 <br>
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
-
-<!--- TODO: find a proper place to import USWDS JS for static pages -->

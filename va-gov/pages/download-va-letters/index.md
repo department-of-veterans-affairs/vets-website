@@ -36,7 +36,7 @@ This address will be listed on your letter. If this address isn’t correct, you
 
 ### What if I want to download a letter or document that isn’t available from this tool?
 
-Right now, you can only download the VA letters you see listed when you click the blue **Access Your VA Letters** button above. 
+Right now, you can only download the VA letters you see listed when you click the blue **Access Your VA Letters** button above.
 
 Use these links to get access to other common VA letters and documents you may be eligible for:
 
@@ -67,5 +67,3 @@ We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern
 <br>
 <br>
 <br>
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>

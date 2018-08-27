@@ -17,7 +17,7 @@ relatedlinks:
       description: Find out how to use the Fully Developed Claims program to get a faster decision on your disability benefits claim by submitting your evidence (supporting documents) along with your claim.
     - url: /disability-benefits/apply/evidence/decision-ready-claims/
       title: Decision Ready Claims Program
-      description: Find out if you can use the Decision Ready Claims program to get a decision on your claim in 30 days or less by working with an accredited Veterans Service Organization (VSO).      
+      description: Find out if you can use the Decision Ready Claims program to get a decision on your claim in 30 days or less by working with an accredited Veterans Service Organization (VSO).
 ---
 
 <div class="va-introtext">
@@ -62,7 +62,7 @@ Learn more about disabilities that may be related to your active-duty service bu
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-special">Special Claim—File a claim for special needs linked to your service-connected disability.</button>
 <div id="claim-special" class="usa-accordion-content">
 
-You can file a special claim to request compensation for special needs. 
+You can file a special claim to request compensation for special needs.
 
 **These may include needs like:**
 - A specially equipped vehicle if your service-connected disability prevents you from driving, **or**
@@ -124,6 +124,3 @@ You can file a secondary claim to get more disability benefits for a new disabil
 </li>
 </ul>
 </div>
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
-<!--- TODO: find a proper place to import USWDS JS for static pages -->

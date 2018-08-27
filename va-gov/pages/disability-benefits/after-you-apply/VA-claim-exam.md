@@ -86,7 +86,7 @@ If you canâ€™t make it to your appointment, let us know right away. You can most
 </ul>
 </div>
 
-<br>  
+<br>
 
 ### What to expect at your VA claim exam
 
@@ -177,7 +177,7 @@ If you have what we consider to be a good reason for missing your exam (called â
 </ul>
 </div>
 
-<br>  
+<br>
 
 ### After your VA claim exam
 
@@ -238,5 +238,3 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 * [Get answers to your questions about the VA claim exam](https://www.benefits.va.gov/compensation/claimexam.asp).
 * [Download the VA claim exam fact sheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
 * [Download the VA claim exam tip sheet](https://www.benefits.va.gov/compensation/docs/claimexam-tipssheet.pdf#).
-
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
