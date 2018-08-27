@@ -19,11 +19,25 @@ Our online tools can help you view, organize, and share your VA medical records 
 
 ## VA Blue Button
 
-***PLACEHOLDER: SIGN-IN MODULE***
+<div class="va-sign-in-alert usa-alert usa-alert-info">
+  <div class="usa-alert-body">
+    <h4 class="usa-alert-heading">You’ll need to sign in before you can get your medical records online through VA Blue Button.</h4>
+    <p class="usa-alert-text">
+      <button class="usa-button-primary">Sign In or Create an Account</button>
+    </p>
+  </div>
+</div>
 
 ## The Veterans Health Information Exchange
 
-***PLACEHOLDER: SIGN-IN MODULE***
+<div class="va-sign-in-alert usa-alert usa-alert-info">
+  <div class="usa-alert-body">
+    <h4 class="usa-alert-heading">You’ll need to sign in before you can get your medical records online through VA Blue Button.</h4>
+    <p class="usa-alert-text">
+      <button class="usa-button-primary">Sign In or Create an Account</button>
+    </p>
+  </div>
+</div>
 
 [Learn more about VA Blue Button](#more-blue-button). <br>
 [Learn more about the Veterans Health Information Exchange](#more-health-info-exchange).
@@ -253,7 +267,7 @@ Yes. You can ask us online, by mail, or in person to stop sharing your informati
   <li class="process-step list-two">Click “Manage Health.”</li>
   <li class="process-step list-three">Go to “Share your VA Health Record.”</li>
   <li class="process-step list-four">Click “Manage My Authorizations and Preferences.”</li>
-  <li class="process-step list-five">Click “Revoke Authorization.” </li>  
+  <li class="process-step list-five">Click “Revoke Authorization.” </li>
 </ol>
 
 ### To make your request by mail or in person
