@@ -1,11 +1,13 @@
 import React from 'react';
 import Raven from 'raven-js';
+import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import get from '../../../../platform/utilities/data/get';
-
 import { apiRequest } from '../../../../platform/utilities/api';
+
+import ConfirmationPage from '../containers/ConfirmationPage';
 
 export const submissionStatuses = {
   // Statuses returned by the API
@@ -21,6 +23,7 @@ export const submissionStatuses = {
 const terminalStatuses = [
   submissionStatuses.succeeded,
   submissionStatuses.exhausted,
+  submissionStatuses.retry,
   submissionStatuses.failed
 ];
 
@@ -48,20 +51,22 @@ const checkLaterMessage = (jobId) => (
 
 const errorMessage = (jobId) => (
   <div>
-    <p>We're sorry. Something went wrong on our end when we tried to submit your application. For help, please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m. – 9:00 a.m. (ET).</p>
+    <p>We’re sorry. Something went wrong on our end when we tried to submit your application. For help, please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m. – 9:00 a.m. (ET).</p>
     <strong>Confirmation number</strong>
     <div>{jobId}</div>
   </div>
 );
 
-const pendingMessage = (
-  <AlertBox
-    isVisible
-    status="info"
-    content="Please wait while we submit your application."/>
-);
+// TODO: Make this a loading spinner
+const pendingMessage = (longWait) => {
+  const message = !longWait
+    ? 'Please wait while we submit your application and give you a confirmation number.'
+    : 'We’re sorry. It’s taking us longer than expected to submit your application. Thank you for your patience.';
+  return <LoadingIndicator message={message}/>;
+};
 
-export default class ConfirmationPoll extends React.Component {
+export class ConfirmationPoll extends React.Component {
+  // Using it as a prop for easy testing
   static defaultProps = {
     pollRate: 5000
   }
@@ -69,16 +74,17 @@ export default class ConfirmationPoll extends React.Component {
   constructor(props) {
     super(props);
 
-    this.__pollCount = 0;
     this.state = {
       submissionStatus: submissionStatuses.pending,
       claimId: null,
       failureCode: null,
+      longWait: false
     };
   }
 
   componentDidMount() {
     this.__isMounted = true;
+    this.__startTime = Date.now();
     this.poll();
   }
 
@@ -92,11 +98,14 @@ export default class ConfirmationPoll extends React.Component {
       return;
     }
 
-    this.__pollCount++;
-
     // apiRequest(`/disability_compensation_form/submission_status/${this.props.jobId}`)
     apiRequest('/disability_compensation_form/submission_status/1f67ef1799012b1972d3772c')
       .then((response) => {
+        // Don't process the request once it comes back if the component is no longer mounted
+        if (!this.__isMounted) {
+          return;
+        }
+
         // Check status
         const status = response.data.attributes.transactionStatus;
         if (terminalStatuses.includes(status)) {
@@ -109,6 +118,11 @@ export default class ConfirmationPoll extends React.Component {
           const waitTime = status === submissionStatuses.pending
             ? this.props.pollRate
             : this.props.pollRate * 2; // Seems like we don't need to poll as frequently when we get here
+
+          // Force a re-render to update the pending message if necessary
+          if (Date.now() - this.__startTime >= 30000) {
+            this.setState({ longWait: true });
+          }
           setTimeout(this.poll, waitTime);
         }
       })
@@ -121,6 +135,11 @@ export default class ConfirmationPoll extends React.Component {
           }
         });
 
+        // Don't process the request once it comes back if the component is no longer mounted
+        if (!this.__isMounted) {
+          return;
+        }
+
         this.setState({
           submissionStatus: submissionStatuses.apiFailure,
           // NOTE: I don't know that it'll always take this shape.
@@ -130,18 +149,44 @@ export default class ConfirmationPoll extends React.Component {
   }
 
   render() {
+    if (this.state.submissionStatus === submissionStatuses.pending) {
+      return pendingMessage(this.state.longWait);
+    }
+
+    const { fullName, disabilities, submittedAt, jobId } = this.props;
+
+    let submissionMessage;
     switch (this.state.submissionStatus) {
       case submissionStatuses.succeeded:
-        return successMessage(this.state.claimId);
+        submissionMessage = successMessage(this.state.claimId);
+        break;
       case submissionStatuses.retry:
       case submissionStatuses.exhausted:
       case submissionStatuses.apiFailure:
-        return checkLaterMessage(this.props.jobId);
-      case submissionStatuses.failed:
-        return errorMessage(this.props.jobId);
+        submissionMessage = checkLaterMessage(jobId);
+        break;
       default:
-        // pending
-        return pendingMessage(this.__pollCount);
+        submissionMessage = errorMessage(jobId);
     }
+
+    return (
+      <ConfirmationPage
+        submissionMessage={submissionMessage}
+        fullName={fullName}
+        disabilities={disabilities}
+        submittedAt={submittedAt}/>
+    );
   }
 }
+
+
+function mapStateToProps(state) {
+  return {
+    fullName: state.user.profile.userFullName,
+    disabilities: state.form.data.disabilities,
+    submittedAt: state.form.submission.submittedAt,
+    jobId: state.form.submission.response.attributes.jobId
+  };
+}
+
+export default connect(mapStateToProps)(ConfirmationPoll);

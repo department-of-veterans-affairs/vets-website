@@ -13,7 +13,7 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPoll from '../components/ConfirmationPoll';
 
 import {
   uiSchema as primaryAddressUiSchema,
@@ -134,7 +134,7 @@ const formConfig = {
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {

@@ -1,11 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import { get4142Selection } from '../helpers';
-import ConfirmationPoll from '../components/ConfirmationPoll';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -16,7 +14,7 @@ const scrollToTop = () => {
   });
 };
 
-class ConfirmationPage extends React.Component {
+export default class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isExpanded: false };
@@ -82,13 +80,12 @@ class ConfirmationPage extends React.Component {
                 return <li key={i}>{disability.name}</li>;
                 })}
                 </ul> */}
-            <ConfirmationPoll jobId={this.props.jobId}/>
+            {this.props.submissionMessage}
             <li>
               <strong>Date submitted</strong>
               <br/>
               <span>{moment(submittedAt).format('MMM D, YYYY')}</span>
             </li>
-            <ConfirmationPoll jobId={this.props.jobId}/>
           </ul>
         </div>
 
@@ -122,15 +119,3 @@ class ConfirmationPage extends React.Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    fullName: state.user.profile.userFullName,
-    disabilities: state.form.data.disabilities,
-    submittedAt: state.form.submission.submittedAt,
-    jobId: state.form.submission.response.attributes.jobId
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
-export { ConfirmationPage };
