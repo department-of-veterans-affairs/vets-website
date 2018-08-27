@@ -10,16 +10,20 @@ import {
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
+const IS_PRODUCTION = document.location.hostname === 'www.vets.gov';
+
 class AppointmentsWidget extends React.Component {
   componentDidMount() {
-    if (!this.props.loading) {
-      this.props.fetchAppointments();
+    if (!IS_PRODUCTION) {
+      if (!this.props.loading) {
+        this.props.fetchAppointments();
+      }
     }
   }
 
   render() {
     // do not show in production
-    if (document.location.hostname === 'www.vets.gov') {
+    if (IS_PRODUCTION) {
       return null;
     }
 
