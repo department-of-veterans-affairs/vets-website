@@ -32,7 +32,7 @@ Our online tools can help you view, organize, and share your VA medical records 
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">Sign up for the Veterans Health Information Exchange so we can share your health information with your non-VA community health care providers.</h4>
+    <h4 class="usa-alert-heading">You'll need to sign in before you can authorize us to share your health information through the Veterans Health Information Exchange.</h4>
     <p class="usa-alert-text">
       <button class="usa-button-primary">Sign In or Create an Account</button>
     </p>
