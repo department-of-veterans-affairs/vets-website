@@ -1,5 +1,4 @@
 import React from 'react';
-import Raven from 'raven-js';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
@@ -20,12 +19,12 @@ export const submissionStatuses = {
   apiFailure: 'apiFailure'
 };
 
-const terminalStatuses = [
+const terminalStatuses = new Set([
   submissionStatuses.succeeded,
   submissionStatuses.exhausted,
   submissionStatuses.retry,
   submissionStatuses.failed
-];
+]);
 
 const successMessage = (claimId) => (
   <div>
@@ -58,7 +57,6 @@ const errorMessage = (jobId) => (
   </div>
 );
 
-// TODO: Make this a loading spinner
 const pendingMessage = (longWait) => {
   const message = !longWait
     ? 'Please wait while we submit your application and give you a confirmation number.'
@@ -84,31 +82,31 @@ export class ConfirmationPoll extends React.Component {
   }
 
   componentDidMount() {
-    this.__isMounted = true;
-    this.__startTime = Date.now();
+    this.isMounted = true;
+    this.startTime = Date.now();
     this.poll();
   }
 
   componentWillUnmount() {
-    this.__isMounted = false;
+    this.isMounted = false;
   }
 
   poll = () => {
     // Don't continue to request after the component is unmounted
-    if (!this.__isMounted) {
+    if (!this.isMounted) {
       return;
     }
 
     apiRequest(`/disability_compensation_form/submission_status/${this.props.jobId}`)
       .then((response) => {
         // Don't process the request once it comes back if the component is no longer mounted
-        if (!this.__isMounted) {
+        if (!this.isMounted) {
           return;
         }
 
         // Check status
         const status = response.data.attributes.transactionStatus;
-        if (terminalStatuses.includes(status)) {
+        if (terminalStatuses.has(status)) {
           this.setState({
             submissionStatus: status,
             claimId: get('data.attributes.metadata.claimId', response) || null
@@ -120,23 +118,15 @@ export class ConfirmationPoll extends React.Component {
             : this.props.pollRate * 2; // Seems like we don't need to poll as frequently when we get here
 
           // Force a re-render to update the pending message if necessary
-          if (Date.now() - this.__startTime >= 30000) {
+          if (Date.now() - this.startTime >= 30000) {
             this.setState({ longWait: true });
           }
           setTimeout(this.poll, waitTime);
         }
       })
       .catch((response) => {
-        // The call to the API failed
-        Raven.captureMessage('526_submission_status_poll_failure', {
-          context: {
-            jobId: this.props.jobId,
-            statusCode: this.state.failureCode
-          }
-        });
-
         // Don't process the request once it comes back if the component is no longer mounted
-        if (!this.__isMounted) {
+        if (!this.isMounted) {
           return;
         }
 
