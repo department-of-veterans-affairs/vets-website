@@ -27,25 +27,26 @@ export class ConfirmationPoll extends React.Component {
   }
 
   componentDidMount() {
-    this.isMounted = true;
+    // Using __ because it fails the unit test without it; something about enzyme using that property, I'm sure
+    this.__isMounted = true;
     this.startTime = Date.now();
     this.poll();
   }
 
   componentWillUnmount() {
-    this.isMounted = false;
+    this.__isMounted = false;
   }
 
   poll = () => {
     // Don't continue to request after the component is unmounted
-    if (!this.isMounted) {
+    if (!this.__isMounted) {
       return;
     }
 
     apiRequest(`/disability_compensation_form/submission_status/${this.props.jobId}`)
       .then((response) => {
         // Don't process the request once it comes back if the component is no longer mounted
-        if (!this.isMounted) {
+        if (!this.__isMounted) {
           return;
         }
 
@@ -71,7 +72,7 @@ export class ConfirmationPoll extends React.Component {
       })
       .catch((response) => {
         // Don't process the request once it comes back if the component is no longer mounted
-        if (!this.isMounted) {
+        if (!this.__isMounted) {
           return;
         }
 
