@@ -19,7 +19,7 @@ export function BetaGate({ user, location, children }) {
     );
   }
 
-  if (!user.profile.services.includes(backendServices.CLAIM_INCREASE_AVAIL)
+  if (!user.profile.services.includes(backendServices.CLAIM_INCREASE_AVAILABLE)
     || !user.profile.services.includes(backendServices.CLAIM_INCREASE)) {
     return (
       <div className="usa-grid full-page-alert">

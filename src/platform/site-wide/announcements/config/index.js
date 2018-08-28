@@ -19,7 +19,7 @@ const config = {
     },
     {
       name: 'claim-increase',
-      paths: /(.)/,
+      paths: /disability-benefits\/apply\/$/,
       component: ClaimIncreaseBanner
     },
     {

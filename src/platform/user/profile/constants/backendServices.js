@@ -23,6 +23,9 @@ export default {
   FORM_PREFILL: 'form-prefill',
 
   // 526 beta
+  // If the user is enrolled in the 526 increase form beta
   CLAIM_INCREASE: 'claim_increase',
+  // If the 526 increase form is still available for the day/week and
+  // hasn't hit the submission limit
   CLAIM_INCREASE_AVAILABLE: 'claim-increase-available'
 };

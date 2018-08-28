@@ -3,7 +3,7 @@ import backendServices from '../../../../platform/user/profile/constants/backend
 
 export default function ClaimIncreaseBanner({ dismiss, isLoggedIn, profile }) {
   if (!isLoggedIn) return <div/>;
-  if (!profile.services.includes(backendServices.CLAIM_INCREASE_AVAIL)) return <div/>;
+  if (!profile.services.includes(backendServices.CLAIM_INCREASE_AVAILABLE)) return <div/>;
 
   return (
     <div className="personalization-announcement">
