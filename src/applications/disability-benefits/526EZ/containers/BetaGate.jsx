@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
+import { isLoggedIn, isProfileLoading, createIsServiceAvailableSelector } from '../../../../platform/user/selectors';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
-export function BetaGate({ user, location, children }) {
-  if (user.profile.loading) {
+export function BetaGate({ user, claimsAccess, loading, betaUser, formAvailable, loggedIn, location, children }) {
+  if (loading) {
     return (
       <div className="usa-grid full-page-alert">
         <LoadingIndicator message="Loading your profile information..."/>
@@ -16,7 +17,7 @@ export function BetaGate({ user, location, children }) {
     );
   }
 
-  if (!user.login.currentlyLoggedIn) {
+  if (!loggedIn) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox
@@ -28,7 +29,7 @@ export function BetaGate({ user, location, children }) {
     );
   }
 
-  if (!user.profile.services.includes(backendServices.CLAIM_INCREASE_AVAILABLE)) {
+  if (!formAvailable) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox status="warning"
@@ -38,7 +39,7 @@ export function BetaGate({ user, location, children }) {
     );
   }
 
-  if (!user.profile.services.includes(backendServices.CLAIM_INCREASE)) {
+  if (!betaUser) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox status="warning"
@@ -53,7 +54,7 @@ export function BetaGate({ user, location, children }) {
     return children;
   }
 
-  if (!user.profile.services.includes(backendServices.EVSS_CLAIMS)) {
+  if (!claimsAccess) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox
@@ -75,8 +76,17 @@ export function BetaGate({ user, location, children }) {
   );
 }
 
-const mapStateToProps = (store) => ({
-  user: store.user
+const isBetaUser = createIsServiceAvailableSelector(backendServices.CLAIM_INCREASE);
+const isFormAvailable = createIsServiceAvailableSelector(backendServices.CLAIM_INCREASE_AVAILABLE);
+const hasClaimsAccess = createIsServiceAvailableSelector(backendServices.EVSS_CLAIMS);
+
+const mapStateToProps = (state) => ({
+  loggedIn: isLoggedIn(state),
+  loading: isProfileLoading(state),
+  formAvailable: isFormAvailable(state),
+  claimsAccess: hasClaimsAccess(state),
+  betaUser: isBetaUser(state),
+  user: state.user
 });
 
 export default connect(mapStateToProps)(BetaGate);
