@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 export const selectCurrentPageNumber = state => _.get(state, 'schoolSelect.currentPageNumber');
-export const selectFacilityCodeErrorMessages = ownProps => _.get(ownProps, 'errorSchema.facilityCode.__errors');
+export const selectFacilityCodeErrorMessages = ownProps => _.get(ownProps, 'errorSchema.view:facilityCode.__errors');
 export const selectFormSubmitted = ownProps => _.get(ownProps, 'formContext.submitted');
 export const selectInstitutionQuery = state => _.get(state, 'schoolSelect.institutionQuery');
 export const selectInstitutions = state => _.get(state, 'schoolSelect.institutions');
