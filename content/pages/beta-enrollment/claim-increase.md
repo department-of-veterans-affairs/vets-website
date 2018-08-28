@@ -4,7 +4,6 @@ layout: page-react.html
 custom_react_root: true
 entryname: beta-enrollment
 ---
-<div id="main">
   <nav class="va-nav-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
@@ -39,6 +38,5 @@ Use the beta tool to file a claim for increased disability compensation.
 
 <br>
 
-</div>
 </div>
 </div>
