@@ -54,13 +54,13 @@ export const medicalRecDescription = (
     </p>
     <p>
       This works best if you have a fast internet connection and time for a
-      large file upload. Records should be .pdf, .jpg, or .png files and can be
+      large file to upload. Records should be .pdf, .jpg, or .png files and can be
       up to 50MB each.
     </p>
     <h5>We get records for you</h5>
     <p>
       If you tell us which VA medical center treated you for your condition, we
-      can get your medical reocrds for you. Getting your records may take us
+      can get your medical records for you. Getting your records may take us
       some time. This could take us longer to make a decision on your claim.
     </p>
   </AdditionalInfo>
