@@ -122,10 +122,8 @@ smith.destination(options.destination);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({
   buildtype: options.buildtype,
-  BRAND_CONSOLIDATION_ENABLED: !!options['brand-consolidation-enabled'],
-
-  // @todo The property below is deprecated and will be removed very very soon. Use BRAND_CONSOLIDATION_ENABLED instead.
-  mergedbuild: options.mergedbuild
+  // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
+  mergedbuild: !!options['brand-consolidation-enabled']
 });
 
 // To block an app from production add the following to the below list:
