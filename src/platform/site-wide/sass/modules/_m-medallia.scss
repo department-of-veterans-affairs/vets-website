@@ -1,0 +1,11 @@
+button {
+  &.va-sidebarnav-close {
+    position: absolute;
+  }
+
+  &#nebula_div_btn {
+    &:focus {
+      position: fixed;
+    }
+  }
+}
