@@ -1,11 +1,15 @@
 import appendQuery from 'append-query';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import Raven from 'raven-js';
+import React from 'react';
 
 import { apiRequest } from '../../../platform/utilities/api';
+
 import environment from '../../../platform/utilities/environment';
 import recordEvent from '../../../platform/monitoring/record-event';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
+
+import UserInteractionRecorder from '../components/UserInteractionRecorder';
 
 export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   const fetchUrl = appendQuery('/gi/institutions/search', {
@@ -127,4 +131,39 @@ export function submit(form, formConfig) {
     }
     return Promise.reject(respOrError);
   });
+}
+
+/**
+ * The base object all the onBehalfOf tracking event objects extend
+ */
+const baseOnBehalfOfEventObject = {
+  event: 'edu-complaint-tool-applicant-selection'
+};
+
+/**
+ * Map of possible onBehalfOf values and the tracking event object to send to
+ * Google Analytics
+ */
+const applicantRelationshipEventMap = {
+  Myself: {
+    ...baseOnBehalfOfEventObject,
+    completingForm: 'myself'
+  },
+  'Someone else': {
+    ...baseOnBehalfOfEventObject,
+    completingForm: 'someone-else'
+  },
+  Anonymous: {
+    ...baseOnBehalfOfEventObject,
+    completingForm: 'anonymous'
+  },
+};
+
+/**
+ *
+ * @param {*} _ - Object with a formData.onBehalfOf property (from GIBFT
+ * form)
+ */
+export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
+  return <UserInteractionRecorder eventRecorder={recordEvent} selectedValue={onBehalfOf} trackingEventMap={applicantRelationshipEventMap}></UserInteractionRecorder>;
 }
