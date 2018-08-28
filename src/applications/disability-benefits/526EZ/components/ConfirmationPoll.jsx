@@ -1,68 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-
 import get from '../../../../platform/utilities/data/get';
 import { apiRequest } from '../../../../platform/utilities/api';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { pendingMessage } from '../content/confirmation-poll';
 
-export const submissionStatuses = {
-  // Statuses returned by the API
-  pending: 'submitted', // Submitted to EVSS, waiting response
-  retry: 'retrying',
-  succeeded: 'received', // Submitted to EVSS, received response
-  exhausted: 'exhausted', // EVSS is down or something; ran out of retries
-  failed: 'non_retryable_error', // EVSS responded with some error
-  // When the api serves a failure
-  apiFailure: 'apiFailure'
-};
-
-const terminalStatuses = new Set([
-  submissionStatuses.succeeded,
-  submissionStatuses.exhausted,
-  submissionStatuses.retry,
-  submissionStatuses.failed
-]);
-
-const successMessage = (claimId) => (
-  <div>
-    <p>Thank you for filing a claim for increased disability compensation.</p>
-    <strong>Claim ID number</strong>
-    <div>{claimId}</div>
-    <p>You can check the status of your claim online. Please allow 24 hours for your increased disability claim to show up there.</p>
-    <p><a href="/track-claims">Check the status of your claim.</a></p>
-    <p>If you don’t see your increased disability claim online after 24 hours, please call Veterans Benefits Assistance at <a href="tel:+18008271000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m. – 9:00 a.m. (ET).</p>
-  </div>
-);
-
-const checkLaterMessage = (jobId) => (
-  <div>
-    <p>Thank you for filing a claim for increased disability compensation.</p>
-    <strong>Confirmation number</strong>
-    <div>{jobId}</div>
-    <p>You can check the status of your claim online. Please allow 24 hours for your increased disability claim to show up there.</p>
-    <p><a href="/track-claims">Check the status of your claim.</a></p>
-    <p>If you don’t see your increased disability claim online after 24 hours, please call Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m. – 9:00 a.m. (ET).</p>
-  </div>
-);
-
-const errorMessage = (jobId) => (
-  <div>
-    <p>We’re sorry. Something went wrong on our end when we tried to submit your application. For help, please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m. – 9:00 a.m. (ET).</p>
-    <strong>Confirmation number</strong>
-    <div>{jobId}</div>
-    <br/>
-  </div>
-);
-
-const pendingMessage = (longWait) => {
-  const message = !longWait
-    ? 'Please wait while we submit your application and give you a confirmation number.'
-    : 'We’re sorry. It’s taking us longer than expected to submit your application. Thank you for your patience.';
-  return <LoadingIndicator message={message}/>;
-};
+import { submissionStatuses, terminalStatuses } from '../constants';
 
 export class ConfirmationPoll extends React.Component {
   // Using it as a prop for easy testing
@@ -139,29 +84,18 @@ export class ConfirmationPoll extends React.Component {
   }
 
   render() {
-    if (this.state.submissionStatus === submissionStatuses.pending) {
+    const { submissionStatus, claimId } = this.state;
+    if (submissionStatus === submissionStatuses.pending) {
       return pendingMessage(this.state.longWait);
     }
 
     const { fullName, disabilities, submittedAt, jobId } = this.props;
 
-    let submissionMessage;
-    switch (this.state.submissionStatus) {
-      case submissionStatuses.succeeded:
-        submissionMessage = successMessage(this.state.claimId);
-        break;
-      case submissionStatuses.retry:
-      case submissionStatuses.exhausted:
-      case submissionStatuses.apiFailure:
-        submissionMessage = checkLaterMessage(jobId);
-        break;
-      default:
-        submissionMessage = errorMessage(jobId);
-    }
-
     return (
       <ConfirmationPage
-        submissionMessage={submissionMessage}
+        submissionStatus={submissionStatus}
+        claimId={claimId}
+        jobId={jobId}
         fullName={fullName}
         disabilities={disabilities}
         submittedAt={submittedAt}/>

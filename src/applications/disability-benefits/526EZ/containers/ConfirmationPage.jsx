@@ -4,6 +4,13 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import { get4142Selection } from '../helpers';
+import {
+  successMessage,
+  checkLaterMessage,
+  errorMessage
+} from '../content/confirmation-poll';
+
+import { submissionStatuses } from '../constants';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -29,8 +36,25 @@ export default class ConfirmationPage extends React.Component {
     const {
       fullName: { first, middle, last, suffix },
       disabilities,
-      submittedAt
+      submittedAt,
+      claimId,
+      jobId,
+      submissionStatus
     } = this.props;
+
+    let submissionMessage;
+    switch (submissionStatus) {
+      case submissionStatuses.succeeded:
+        submissionMessage = successMessage(claimId);
+        break;
+      case submissionStatuses.retry:
+      case submissionStatuses.exhausted:
+      case submissionStatuses.apiFailure:
+        submissionMessage = checkLaterMessage(jobId);
+        break;
+      default:
+        submissionMessage = errorMessage(jobId);
+    }
 
     // TODO: Verify we need this
     const selected4142 = get4142Selection(disabilities || []);
@@ -80,7 +104,7 @@ export default class ConfirmationPage extends React.Component {
                 return <li key={i}>{disability.name}</li>;
                 })}
                 </ul> */}
-            {this.props.submissionMessage}
+            {submissionMessage}
             <li>
               <strong>Date submitted</strong>
               <br/>
