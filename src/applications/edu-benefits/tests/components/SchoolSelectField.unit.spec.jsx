@@ -290,7 +290,7 @@ describe('<SchoolSelectField>', () => {
       name: 'testName',
       state: 'testState',
       zip: '12345',
-      country: 'United States'
+      country: 'USA'
     }];
     const tree = mount(<SchoolSelectField
       formData={{}}

@@ -84,12 +84,15 @@ export class SchoolSelectField extends React.Component {
 
   handleOptionClick = ({ address1, address2, address3, city, facilityCode, name, state, zip, country }) => {
     this.props.selectInstitution({ address1, address2, address3, city, facilityCode, name, state });
+    const backendFriendlyCountries = {
+      USA: 'United States'
+    };
     this.props.onChange({
       ...this.props.formData,
       name,
       'view:facilityCode': facilityCode,
       address: {
-        country,
+        country: backendFriendlyCountries[country] || country,
         street: address1,
         street2: address2,
         city,
