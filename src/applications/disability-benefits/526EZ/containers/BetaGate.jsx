@@ -33,7 +33,7 @@ export function BetaGate({ user, location, children }) {
       <div className="usa-grid full-page-alert">
         <AlertBox status="warning"
           isVisible
-          content={<div><h3>Sorry, the increased compensation tool is currently unavailable.</h3><p>We only allow a limited number of submissions per day while in beta. Please check back again soon.</p></div>}/>
+          content={<div><h3>We’re sorry. The increased disability compensation tool is unavailable right now.</h3><p>We can accept only a limited number of submissions a day while we’re in beta. Please check back again soon.</p></div>}/>
       </div>
     );
   }
@@ -43,7 +43,7 @@ export function BetaGate({ user, location, children }) {
       <div className="usa-grid full-page-alert">
         <AlertBox status="warning"
           isVisible
-          content={<div><h3>The increased compensation application is a beta tool.</h3><p>Please visit the <a href="/beta-enrollment/claim-increase">beta enrollment page</a> for more information about enrolling in the beta.</p></div>}/>
+          content={<div><h3>The increased disability compensation application is a beta tool.</h3><p>Please visit the beta enrollment page for information on how to try out the beta tool. <a href="/beta-enrollment/claim-increase">Go to the beta enrollment page</a>.</p></div>}/>
       </div>
     );
   }
@@ -53,7 +53,7 @@ export function BetaGate({ user, location, children }) {
     return children;
   }
 
-  if (user.login.currentlyLoggedIn && !user.profile.services.includes(backendServices.EVSS_CLAIMS)) {
+  if (!user.profile.services.includes(backendServices.EVSS_CLAIMS)) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox

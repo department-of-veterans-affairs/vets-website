@@ -11,9 +11,8 @@ function renderGatedButton(user, isEnrolling, onClick) {
     return (
       <AlertBox status="warning"
         isVisible
-        content={<div><h3>Sorry, the increased compensation tool is currently unavailable.</h3><p>We only allow a limited number of submissions per day while in beta. Please check back again soon.</p></div>}/>
+        content={<div><h3>We’re sorry. The increased disability compensation tool is unavailable right now.</h3><p>We can accept only a limited number of submissions a day while we’re in beta. Please check back again soon.</p></div>}/>
     );
-
   }
 
   if (user.profile.loading) buttonText = 'Loading Profile...';
