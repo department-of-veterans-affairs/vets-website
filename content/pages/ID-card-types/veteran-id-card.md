@@ -11,26 +11,29 @@ order: 1
 
 <div class="va-introtext">
 A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. Find out if you’re eligible for a Veteran ID Card—and how to apply.
-</div>
 
 #### Am I eligible for a Veteran ID Card?
-**You may be eligible for a Veteran ID Card if both of these are true. You:**
-- Served on active duty, in the military reserves, or in the National Guard (including the Coast Guard), **and**
-- Received an honorable or general discharge
-</br>
 
-If you’ve received an other than honorable, bad conduct, or dishonorable character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application.</br>
+You may be eligible if you meet both of the requirements listed below.
+
+**Both of these must be true. You:**
+- Served on active duty, in the Reserves, or in the National Guard (including the Coast Guard), **and**
+- Received an honorable or general discharge
+
+If you received an other than honorable, bad conduct, or dishonorable character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application.
+
 You’ll need to provide a copy of your discharge papers when you apply for a VIC to prove your character of discharge.
-</br>
+
 #### How do I apply for a Veteran ID Card?
 
-You can apply online to get a Veteran ID Card. 
+You can apply online now. 
 
 **[PLACEHOLDER FOR SIGN-IN MODULE: GRIFFINS TO HANDLE]** 
 
 {Green button} Apply for a Veteran ID Card(https://vicbdc.ppd.vba.va.gov/VIC)
-</br>
+
 #### What do I need to apply for a Veteran ID Card? 
+
 When you apply, be sure to have these on hand:
 * Your Social Security number
 * A digital copy of your DD214, DD256, DD257, or NGB22 that you can upload. This could be in a .pdf, .jpeg, or .png file format.
@@ -46,7 +49,7 @@ When you apply, be sure to have these on hand:
   * Be uploaded as a .jpeg, .png, .bmp, or .tiff file
   <br>
 #### What happens after I apply for a Veteran ID Card?
-Once you’ve successfully submitted your VIC application, we’ll check your eligibility and verify that:
+Once you’ve submitted your VIC application, we’ll check your eligibility and verify that:
 - Your character of discharge meets eligibility requirements, **and**
 - The ID you submitted (driver’s license or passport) is valid, **and**
 - The image you’ve chosen to appear on the card meets the photo requirements
@@ -64,7 +67,8 @@ You can sign in to your Vets.gov or AccessVA account to check the status of your
 To request a new card, please contact us at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>). Or, <a href="mailto:mustardgas@vba.va.gov">email us at vic@va.gov</a>. 
 
 #### What if I have questions or need help with my application? 
-If you have any questions or need help, please send us an email. <a href="mailto:mustardgas@vba.va.gov">Email us at vic@va.gov</a>.
+If you have any questions or need help, please send us an email. <br>
+<a href="mailto:mustardgas@vba.va.gov">Email us at vic@va.gov</a>.
 
 #### Learn more about how the Veteran ID Card works
 
@@ -85,9 +89,11 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 **You can use any of these forms of ID to get the same discounts:**
 -	A Veteran Health Identification Card (VHIC), **or**
 - A Department of Defense (DoD) Identification Card—either a Common Access Card (CAC) or Uniformed Services ID Card, **or**
-- A Veterans designation on a state-issued driver’s license or ID
+- A state-issued driver’s license or ID with a Veterans designation 
+
 <br>
-If you already have one of these, you don’t need a Veteran ID Card, but you can still apply for it if you’d like.
+
+<em>Note:</em>If you already have one of these, you don’t need a Veteran ID Card, but you can still apply for it if you’d like.
 
 
 </div>
