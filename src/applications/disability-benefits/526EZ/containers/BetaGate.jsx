@@ -11,7 +11,7 @@ export function BetaGate({ user, location, children }) {
   if (user.profile.loading) {
     return (
       <div className="usa-grid full-page-alert">
-        <LoadingIndicator message="Loading your profile information..."/>;
+        <LoadingIndicator message="Loading your profile information..."/>
       </div>
     );
   }
