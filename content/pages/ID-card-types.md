@@ -34,8 +34,8 @@ You may be eligible if you meet both of the requirements listed below.
 If you received an other than honorable, bad conduct, or dishonorable character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application. 
 
 #### How do I apply for a Veteran ID Card?
-You can apply online. <br>
-[Learn more about how to apply for a VIC](/veteran-id-card/).
+You can apply now online. <br>
+[Learn more about how to apply for a VIC](/ID-card-types/veteran-id-card/).
 
 <br>
 
@@ -43,28 +43,38 @@ You can apply online. <br>
 A Department of Defense (DoD) Identification Card is used to show your military status and to get access to services at military bases. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. If you have a DoD Identification Card, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 
 #### Am I eligible for a DoD Identification Card?
-You’re eligible if one of the descriptions below is true for you. 
+You may be eligible if one of the descriptions below is true for you. 
 
 **One of these must describe you. You're:**
 - Retired from the military, **or**
 - On active duty, **or**
 - In the National Guard, the Reserves, the Selected Reserves, or Inactive Ready Reserve
 
-Depending on your status, the DoD issues either a Common Access Card (CAC) or a Uniformed Services ID Card (USID).
+**Note:** Depending on your status, the DoD issues either a Common Access Card (CAC) or a Uniformed Services ID Card (USID). For both types of DoD cards, you'll need to either be a sponsor or have a sponsor. 
 
 #### How do I apply for a DoD Identification Card? 
-For both types of DoD cards, you'll need to either be a sponsor or have a sponsor. You’ll also need to fill out an Application for Identification Card/DEERS Enrollment (DD Form 1172-2). <br>
+You’ll need to fill out an Application for Identification Card/DEERS Enrollment (DD Form 1172-2). <br>
 [Download DD Form 1172-2](http://www.cac.mil/Portals/53/Documents/dd1172-2.pdf).</br>
+
+Send your completed application here:
+<p class="va-address-block">
+Address line 1<br>
+Address line 2<br>
+City, ST 00000<br>
+</p>
+
 [Learn more about how to apply for a DoD Identification Card](http://www.cac.mil/).
 
 <br>
 
 ### Veteran Health Identification Card 
-If you’re enrolled in VA health care, you may have a Veteran Health Identification Card (VHIC) that you use to check in to your appointments at VA medical centers. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. If you have a VHIC, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
+If you’re enrolled in VA health care, you should have a Veteran Health Identification Card (VHIC) that you use to check in to your appointments at VA medical centers. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. If you have a VHIC, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 
 #### Am I eligible for a Veteran Health Identification Card?
-You need to be enrolled in VA health care to receive a Veteran Health Identification Card. To apply for VA health care benefits, you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ). </br> 
-[Learn more about how to apply for a VHIC](https://www.va.gov/healthbenefits/vhic/index.asp).
+You need to be enrolled in VA health care to receive a Veteran Health Identification Card. If you aren't signed up for VA health care, you can apply online now. <br>
+[Find out how to apply for VA health care](/health-care/how-to-apply/). <br>
+[Learn more about the VHIC](https://www.va.gov/healthbenefits/vhic/index.asp).
+
 
 <br>
 
@@ -72,18 +82,20 @@ You need to be enrolled in VA health care to receive a Veteran Health Identifica
 If you receive care under the VA Choice program through a community provider, you should have been given a Veteran Choice Card. If you have this ID card, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 
 #### Am I eligible for a Veteran Choice Card?
-Veterans receiving care under the VA Choice program are sent a Choice Card. 
+You need to be receiving care under the VA Choice program to get a Choice Card. 
 
 #### How do I apply for a Veteran Choice Card? 
-You’ll need to call the Choice Program call center at 1-866-606-8198.<br>
-[Learn more about the Veteran Choice program.](https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp).
+You’ll need to call the Choice Program call center at <a href="tel:+18666068198">1-866-606-8198</a>.<br>
+[Learn more about the Veteran Choice program](https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp).
 
 <br>
 
 ### Veteran’s designation on a state-issued license or ID
-At this time, all 50 states and Puerto Rico offer a Veteran designation (an identifying mark) printed on state-issued driver’s licenses or IDs. The type of Veteran designation may vary from state to state.  
+At this time, all 50 states and Puerto Rico offer a Veteran designation (an identifying mark) printed on state-issued driver’s licenses or IDs. The type of Veteran designation may vary from state to state.
+
 If you have a Veteran’s designation, you may be able to get discounts offered to Veterans at many stores, businesses, and restaurants.
 
 #### How do I apply for a Veteran’s designation? 
 To apply for a Veteran’s designation, most states ask you to provide a copy of your discharge papers (DD214 or other separation documents). Some states may require additional documents. 
+
 Please check with your state’s Department of Motor Vehicles about what you need to apply for a Veteran’s designation for your state. 
