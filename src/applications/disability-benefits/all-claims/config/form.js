@@ -8,9 +8,9 @@ import { veteranInfoDescription } from '../content/veteranDetails';
 import {
   alternateNames,
   servicePay,
-  waiveRetirementPay
+  waiveRetirementPay,
+  separationTrainingPay
 } from '../pages';
-
 
 const formConfig = {
   urlPrefix: '/',
@@ -33,7 +33,7 @@ const formConfig = {
   // footerContent: FormFooter,
   // getHelp: GetFormHelp,
   defaultDefinitions: {},
-  title: 'Apply for increased disability compensation',
+  title: 'Apply for disability compensation',
   subTitle: 'Form 21-526EZ',
   chapters: {
     veteranDetails: {
@@ -63,6 +63,12 @@ const formConfig = {
           depends: hasMilitaryRetiredPay,
           uiSchema: waiveRetirementPay.uiSchema,
           schema: waiveRetirementPay.schema
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema
         }
       }
     }
