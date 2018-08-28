@@ -2,11 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
 export function BetaGate({ user, location, children }) {
+  if (user.profile.loading) {
+    return (
+      <div className="usa-grid full-page-alert">
+        <LoadingIndicator message="Loading your profile information..."/>;
+      </div>
+    );
+  }
+
   if (!user.login.currentlyLoggedIn) {
     return (
       <div className="usa-grid full-page-alert">
@@ -19,15 +28,22 @@ export function BetaGate({ user, location, children }) {
     );
   }
 
-  if (!user.profile.services.includes(backendServices.CLAIM_INCREASE_AVAILABLE)
-    || !user.profile.services.includes(backendServices.CLAIM_INCREASE)) {
+  if (!user.profile.services.includes(backendServices.CLAIM_INCREASE_AVAILABLE)) {
     return (
       <div className="usa-grid full-page-alert">
-        <AlertBox
+        <AlertBox status="warning"
           isVisible
-          headline="We're sorry, this application isn't available right now."
-          content="Please check back again later."
-          status="warning"/>
+          content={<div><h3>Sorry, the increased compensation tool is currently unavailable.</h3><p>We only allow a limited number of submissions per day while in beta. Please check back again soon.</p></div>}/>
+      </div>
+    );
+  }
+
+  if (!user.profile.services.includes(backendServices.CLAIM_INCREASE)) {
+    return (
+      <div className="usa-grid full-page-alert">
+        <AlertBox status="warning"
+          isVisible
+          content={<div><h3>The increased compensation application is a beta tool.</h3><p>Please visit the <a href="/beta-enrollment/claim-increase">beta enrollment page</a> for more information about enrolling in the beta.</p></div>}/>
       </div>
     );
   }

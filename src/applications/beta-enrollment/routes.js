@@ -1,4 +1,5 @@
 import createBetaEnrollmentButton from './createBetaEnrollmentButton';
+import create526EnrollmentButton from './create526EnrollmentButton';
 
 export const features = {
   healthAccount: 'health_account',
@@ -12,7 +13,7 @@ const routes = {
   path: '/',
   childRoutes: [
     { path: 'personalization', component: createBetaEnrollmentButton(features.dashboard, '/dashboard') },
-    { path: 'claim-increase', component: createBetaEnrollmentButton(features.claimIncrease, '/disability-benefits/apply/form-526-disability-claim') }
+    { path: 'claim-increase', component: create526EnrollmentButton() }
   ]
 };
 

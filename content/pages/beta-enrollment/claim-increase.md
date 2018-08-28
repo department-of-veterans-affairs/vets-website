@@ -14,26 +14,25 @@ entryname: beta-enrollment
 <div class="row">
 <div class="columns usa-width-two-thirds medium-8">
 
-# Try Our New Beta Tools
+# Try Our New Tool to File a Claim for Increased Disability Compensation
 
 <div itemprop="description"  class="va-introtext">
 
-We invite you to try out our new beta tools—designed to make it easier for you to see important updates and manage your benefits and information on Vets.gov.
+We invite you to use our new beta tool—an online application for increased disability compensation.
 
 </div>
 
-### What are beta tools?
+### What’s a beta tool?
 
-These are new tools we're testing out to make sure they're working the way they should before we make them available to all Vets.gov users. We'll preview these tools together, and your feedback will help us make them better for others in the Veteran community.
+A beta tool is a new tool we’re testing to make sure it works the way it should before we give all Vets.gov users access to it. Your feedback will help us make the tool better for all Veterans.
 
-### What will happen when I try out the beta tools?
+### What will happen when I try the new tool?
 
-You'll still have access to all the tools and information you've always had on Vets.gov. Plus, you'll gain temporary access to 3 new pages when you sign in:
+When you agree to test out the new tool, you’ll use our online application to file a claim for increased disability compensation. You’ll have the same access to all the other Vets.gov tools and information as you have right now.
 
-- **A personalized homepage** where you'll see all your latest updates in one place—like the status of your prescription refills and disability claims and new secure messages from your health care team
-- **A redesigned profile page** where you can review your personal and contact information—and find out how to update it as needed
-- **A new account page** where you can review your settings for signing in to Vets.gov—and add extra security to your account if you want to
+You’ll need to be signed in to your verified DS Logon or My HealtheVet account. If you don’t have one of these accounts, you can create an ID.me account to complete the verification process.
 
+Use the beta tool to file a claim for increased disability compensation.
 <br>
 
 <div id="react-root"></div>
