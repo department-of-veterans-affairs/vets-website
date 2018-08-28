@@ -13,13 +13,13 @@ describe('BrandConsolidation', () => {
       }
     };
     const props = mapStateToProps(state);
-    const wrapper = enzyme.shallow(
+    const wrapper = enzyme.render(
       <BrandConsolidation {...props}>
-        <h1>Hello there!</h1>
+        <h1>Brand-Consolidation Only</h1>
       </BrandConsolidation>
     );
 
-    expect(wrapper.get(0)).to.be.null;
+    expect(wrapper.html()).to.be.null;
   });
 
   it('does render children when brandConsolidationEnabled is true', () => {
@@ -29,12 +29,12 @@ describe('BrandConsolidation', () => {
       }
     };
     const props = mapStateToProps(state);
-    const wrapper = enzyme.shallow(
+    const wrapper = enzyme.render(
       <BrandConsolidation {...props}>
-        <h1>Hello there!</h1>
+        <h1>Brand-Consolidation Only</h1>
       </BrandConsolidation>
     );
-    expect(wrapper.text()).to.be.equal('Hello there!');
+    expect(wrapper.html()).to.contain('Brand-Consolidation Only');
   });
 
 });

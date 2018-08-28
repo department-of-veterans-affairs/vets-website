@@ -19,7 +19,7 @@ describe('VetsDotGov', () => {
       </VetsDotGov>
     );
 
-    expect(wrapper.text()).to.be.equal('Vets.Gov Only');
+    expect(wrapper.html()).to.contain('Vets.Gov Only');
   });
 
   it('does not render children when brandConsolidationEnabled is true', () => {
