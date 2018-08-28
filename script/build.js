@@ -1,5 +1,4 @@
 // Builds the site using Metalsmith as the top-level build runner.
-const fs = require('fs');
 const path = require('path');
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
@@ -23,7 +22,7 @@ const watch = require('metalsmith-watch');
 const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
-const createSettings = require('../config/create-settings');
+const createBuildSettings = require('./create-build-settings');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const {
   getRoutes,
@@ -72,10 +71,6 @@ if (isHerokuBuild) {
   applyHerokuOptions(options);
 }
 
-if (options['brand-consolidation-enabled']) {
-  process.env.BRAND_CONSOLIDATION_ENABLED = true;
-}
-
 switch (options.buildtype) {
   case 'development':
   // No extra checks needed in dev.
@@ -94,7 +89,7 @@ switch (options.buildtype) {
 
   case 'devpreview':
   case 'preview':
-    process.env.BRAND_CONSOLIDATION_ENABLED = true;
+    options['brand-consolidation-enabled'] = true;
     break;
 
   default:
@@ -127,7 +122,7 @@ smith.destination(options.destination);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({
   buildtype: options.buildtype,
-  BRAND_CONSOLIDATION_ENABLED: process.env.BRAND_CONSOLIDATION_ENABLED,
+  BRAND_CONSOLIDATION_ENABLED: !!options['brand-consolidation-enabled'],
 
   // @todo The property below is deprecated and will be removed very very soon. Use BRAND_CONSOLIDATION_ENABLED instead.
   mergedbuild: options.mergedbuild
@@ -715,18 +710,11 @@ Convert onclick event handles into nonced script tags
 */
 smith.use(nonceTransformer);
 
-function generateStaticSettings() {
-  const settings = createSettings(options);
-  const settingsPath = path.join(options.destination, 'js/settings.js');
-  const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
-  fs.writeFileSync(settingsPath, settingsContent);
-}
-
 /* eslint-disable no-console */
 smith.build((err) => {
   if (err) throw err;
 
-  generateStaticSettings();
+  createBuildSettings(options);
 
   if (options.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
