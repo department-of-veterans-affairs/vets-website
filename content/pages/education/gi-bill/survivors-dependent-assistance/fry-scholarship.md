@@ -34,9 +34,11 @@ You may be able to get up to 36 months of benefits, including:
 
 ### Do I qualify for these benefits?
 
-- Children qualify as of their 18th birthday or after graduating high school, whichever comes first. Children no longer qualify as of their 33rd birthday. A spouse has 15 years from the Servicemember’s death to use the benefit.
+- Children qualify as of their 18th birthday or after graduating high school, whichever comes first. 
 
-**Note:** A new provision of the law extends benefit eligibility to January 1, 2021, for spouses of Servicemembers who died in the line of duty between September 11, 2001, and December 31, 2005.
+- Children who qualify for Post-9/11 GI Bill benefits before January 1, 2013, will no longer qualify as of their 33rd birthday. 
+
+- Children of deceased Servicemembers who qualify for Post-9/11 GI Bill benefits on or after January 1, 2013, and all Fry spouses no longer have a time limit to use Post-9/11 GI Bill benefits. 
 
 - If you’re a dependent and your parent died in the line of duty before August 1, 2011, you may qualify for both the Fry Scholarship and the Survivors’ and Dependents’ Educational Assistance (DEA) program. But you can use only 1 program at a time. We cap combined benefits at 81 months of full-time training. [Read about the DEA program](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
 
