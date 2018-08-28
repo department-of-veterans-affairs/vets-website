@@ -236,7 +236,7 @@
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
     "us-forms-system": "https://github.com/usds/us-forms-system.git#84887dc7cb0ccee2ae2c8156b5664697c2850b1d",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d90c85a4d9540bbb45e0f5ad55d6483d7291aba6",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#986cb1080339c19630ee2c36f0abc7f5a13c0d3a",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }
