@@ -4,13 +4,23 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { hasMilitaryRetiredPay } from '../validations';
 
+import {
+  hasGuardOrReservePeriod
+} from '../utils';
+
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
   alternateNames,
   servicePay,
-  waiveRetirementPay
+  waiveRetirementPay,
+  militaryHistory,
+  separationTrainingPay,
+  reservesNationalGuardService,
+  federalOrders,
+  prisonerOfWar
 } from '../pages';
 
+import fullSchema from './schema';
 
 const formConfig = {
   urlPrefix: '/',
@@ -32,8 +42,10 @@ const formConfig = {
   confirmation: ConfirmationPage,
   // footerContent: FormFooter,
   // getHelp: GetFormHelp,
-  defaultDefinitions: {},
-  title: 'Apply for increased disability compensation',
+  defaultDefinitions: {
+    ...fullSchema.definitions
+  },
+  title: 'Apply for disability compensation',
   subTitle: 'Form 21-526EZ',
   chapters: {
     veteranDetails: {
@@ -63,6 +75,38 @@ const formConfig = {
           depends: hasMilitaryRetiredPay,
           uiSchema: waiveRetirementPay.uiSchema,
           schema: waiveRetirementPay.schema
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema
+        },
+        militaryHistory: {
+          title: 'Military service history',
+          path: 'review-veteran-details/military-service-history',
+          uiSchema: militaryHistory.uiSchema,
+          schema: militaryHistory.schema
+        },
+        reservesNationalGuardService: {
+          title: 'Reserves and National Guard Service',
+          path: 'review-veteran-details/military-service-history/reserves-national-guard',
+          depends: form => hasGuardOrReservePeriod(form.serviceInformation),
+          uiSchema: reservesNationalGuardService.uiSchema,
+          schema: reservesNationalGuardService.schema
+        },
+        federalOrders: {
+          title: 'Federal orders',
+          path: 'review-veteran-details/military-service-history/federal-orders',
+          depends: form => hasGuardOrReservePeriod(form.serviceInformation),
+          uiSchema: federalOrders.uiSchema,
+          schema: federalOrders.schema
+        },
+        prisonerOfWar: {
+          title: 'Prisoner of War (POW)',
+          path: 'review-veteran-details/military-service-history/pow',
+          uiSchema: prisonerOfWar.uiSchema,
+          schema: prisonerOfWar.schema
         }
       }
     }

@@ -137,7 +137,6 @@ if (options.buildtype === 'production') {
   });
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
-  ignoreList.push('education/complaint-tool.md');
 }
 smith.use(ignore(ignoreList));
 
