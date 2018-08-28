@@ -23,38 +23,38 @@ majorlinks:
       description: Help with paying for a tutor if you’re struggling with coursework
   - heading: Train for a Specific Career, Trade, or Industry
     links:
-    - url: 
+    - url: /education/advanced-training-and-certifications/licensing-certification/
       title: Licensing, Certification, and National Testing
       description: Reimbursement for the cost of tests to become a licensed or certified professional, or to apply for college or a training course
-    - url: 
+    - url: /education/work-learn/non-traditional/accelerated-payments/
       title: Accelerated Payments for High-Technology Programs
       description: A lump-sum payment to help cover the cost of courses in high-tech degree or non-degree programs
-    - url: 
+    - url: /education/work-learn/non-college-degree-program/
       title: Non-College Degree Programs
       description: Funding for specific training programs (like HVAC repair, truck driving, or EMT training)
-    - url: 
+    - url: /education/advanced-training-and-certifications/flight-training/
       title: Flight Training
       description: Help with paying for training to become a pilot
-    - url: 
-      title: On-the-Job Training
-      description: Money to cover books, supplies, and housing while learning a trade through on-the-job training or an apprenticeship in certain fiels (like plumbing, hotel management, or firefighting)
-    - url: 
+    - url: /education/work-learn/job-and-apprenticeship/
+      title: On-the-Job Training and Apprenticeships
+      description: Money to cover books, supplies, and housing while learning a trade or skill (like plumbing, hotel management, or firefighting)
+    - url: /education/advanced-training-and-certifications/entrepreneurship-training/
       title: Entrepreneurship Training
       description: Access to training to help you start your own business
   - heading: Work While You Study
     links:
-    - url: 
+    - url: /education/work-learn/workstudy/
       title: Work Study
       description: The opportunity to get paid for part-time work while you study at a college, vocational, or professional school 
-    - url: 
+    - url: /education/work-learn/co-op-training/
       title: Co-op Training
       description: Money to help pay for tuition, books, and housing if you’re part of a college or university co-op training program
   - heading: Take Classes from Home
     links:
-    - url: 
+    - url: /education/work-learn/non-traditional/correspondence-training/
       title: Correspondence Training
       description: Help with paying for correspondence training (coursework completed by mail) if you want to take classes from home or live far from any schools
-    - url: 
+    - url: /education/work-learn/non-traditional/independent-distance-learning/
       title: Independent and Distance Learning
       description: Tuition assistance for online courses      
 ---
