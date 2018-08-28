@@ -16,7 +16,7 @@ relatedlinks:
 ---
 
 <div class="va-introtext">
-There are many types of identification cards you can use to show you’re a Veteran. You only need to have one of them for this purpose, so if you already have a Veteran Health Identification Card for example, you don't need to apply for a Veteran ID Card (VIC). Learn about the different types of ID cards you can get.
+There are many types of identification cards you can use to show you’re a Veteran. You only need to have one of them for this purpose. Learn about the different types of ID cards you can get.
 
 </div>
 
