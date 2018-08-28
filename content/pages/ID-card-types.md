@@ -70,7 +70,7 @@ City, ST 00000<br>
 ### Veteran Health Identification Card 
 If you’re enrolled in VA health care, you should have a Veteran Health Identification Card (VHIC) that you use to check in to your appointments at VA medical centers. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. If you have a VHIC, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 
-#### Am I eligible for a Veteran Health Identification Card?
+#### How do I get a Veteran Health Identification Card?
 You need to be enrolled in VA health care to receive a Veteran Health Identification Card. If you aren't signed up for VA health care, you can apply online now. <br>
 [Find out how to apply for VA health care](/health-care/how-to-apply/). <br>
 [Learn more about the VHIC](https://www.va.gov/healthbenefits/vhic/index.asp).
