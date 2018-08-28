@@ -54,6 +54,7 @@ const errorMessage = (jobId) => (
     <p>We’re sorry. Something went wrong on our end when we tried to submit your application. For help, please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m. – 9:00 a.m. (ET).</p>
     <strong>Confirmation number</strong>
     <div>{jobId}</div>
+    <br/>
   </div>
 );
 
@@ -98,8 +99,7 @@ export class ConfirmationPoll extends React.Component {
       return;
     }
 
-    // apiRequest(`/disability_compensation_form/submission_status/${this.props.jobId}`)
-    apiRequest('/disability_compensation_form/submission_status/1f67ef1799012b1972d3772c')
+    apiRequest(`/disability_compensation_form/submission_status/${this.props.jobId}`)
       .then((response) => {
         // Don't process the request once it comes back if the component is no longer mounted
         if (!this.__isMounted) {
