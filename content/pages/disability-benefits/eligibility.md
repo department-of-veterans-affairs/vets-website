@@ -87,15 +87,15 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">How do I file my claim for disability compensation?</h3>
+<h3 itemprop="name">How do I file my claim?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
 You can file online right now.
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to File</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to File a Claim</a>
 
-[Learn more about how to apply for disability compensation](/disability-benefits/apply/).
+[Learn more about how to file a claim for disability compensation](/disability-benefits/apply/).
 
 </div>
 </div>
