@@ -12,6 +12,7 @@ import navigation from '../site-wide/user-nav/reducers';
 import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
 import buildSettings from '../monitoring/BuildSettings/reducer';
+import setupBrandConsolidationUtilities from '../brand-consolidation/setup-utilities';
 
 /**
  * Reducer object containing all of the site-wide reducers
@@ -38,7 +39,10 @@ export default function createCommonStore(appReducer = {}) {
   const reducer = Object.assign({}, appReducer, commonReducer);
   const useDevTools = __BUILDTYPE__ === 'development' && window.__REDUX_DEVTOOLS_EXTENSION__;
 
-  return createStore(combineReducers(reducer), compose(
+  const store = createStore(combineReducers(reducer), compose(
     applyMiddleware(thunk), useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f));
+
+  setupBrandConsolidationUtilities(store);
+  return store;
 }
 
