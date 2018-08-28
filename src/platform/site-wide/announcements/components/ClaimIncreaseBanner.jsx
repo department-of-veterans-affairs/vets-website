@@ -2,6 +2,7 @@ import React from 'react';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
 export default function ClaimIncreaseBanner({ dismiss, isLoggedIn, profile }) {
+  if (profile.loading) return <div/>;
   if (isLoggedIn && !profile.services.includes(backendServices.CLAIM_INCREASE_AVAILABLE)) return <div/>;
 
   return (
