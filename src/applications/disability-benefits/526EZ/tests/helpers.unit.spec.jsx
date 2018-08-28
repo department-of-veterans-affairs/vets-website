@@ -29,12 +29,6 @@ describe('526 helpers', () => {
           {
             name: 'Diabetes mellitus0',
             disabilityActionType: 'INCREASE',
-            specialIssues: [
-              {
-                code: 'TRM',
-                name: 'Personal Trauma PTSD'
-              }
-            ],
             ratedDisabilityId: '0',
             ratingDecisionId: '63655',
             diagnosticCode: 5238
@@ -42,12 +36,6 @@ describe('526 helpers', () => {
           {
             name: 'Diabetes mellitus1',
             disabilityActionType: 'INCREASE',
-            specialIssues: [
-              {
-                code: 'TRM',
-                name: 'Personal Trauma PTSD'
-              }
-            ],
             ratedDisabilityId: '1',
             ratingDecisionId: '63655',
             diagnosticCode: 5238
