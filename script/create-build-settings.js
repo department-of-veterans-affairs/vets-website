@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const brandConsolidatedRedirects = require('./brand-consolidated/redirects.json');
 
 /**
  * The result of this function will become globally available under window.settings in a totally static file at /js/settings.js.
@@ -10,6 +11,10 @@ function getBuildSettings(options) {
   return {
     type: options.buildtype,
     brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
+    brandConsolidated: {
+      enabled: !!options['brand-consolidation-enabled'],
+      routes: brandConsolidatedRedirects
+    },
     vic: {
       rateLimitAuthed: 1,
       rateLimitUnauthed: 1
