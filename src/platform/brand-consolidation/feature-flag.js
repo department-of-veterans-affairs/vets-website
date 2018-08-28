@@ -4,5 +4,5 @@
  * @module platform/brand-consolidation/feature-flag
  */
 export default function isBrandConsolidationEnabled() {
-  return window.settings.build.brandConsolidationEnabled;
+  return window.settings.brandConsolidationEnabled;
 }
