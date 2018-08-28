@@ -44,7 +44,9 @@ You’ll need to file a claim and provide the evidence (supporting documents) li
 
 - Medical records that state your illness or disability, <b>and</b>
 - Service records that list your job or specialty, <b>and</b>
-- A doctor's statement that there's a connection between your contact with asbestos during military service and the illness or disability <br>
+- A doctor's statement that there's a connection between your contact with asbestos during military service and the illness or disability
+<br>
+
 [Apply for benefits](/disability-benefits/apply/).
 
 ##### How do I know if I have an illness caused by my contact with asbestos?
