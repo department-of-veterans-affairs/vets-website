@@ -81,21 +81,19 @@ You need to be enrolled in VA health care to receive a Veteran Health Identifica
 ### Veteran Choice Card 
 If you receive care under the VA Choice program through a community provider, you should have been given a Veteran Choice Card. If you have this ID card, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 
-#### Am I eligible for a Veteran Choice Card?
-You need to be receiving care under the VA Choice program to get a Choice Card. 
-
-#### How do I apply for a Veteran Choice Card? 
-You’ll need to call the Choice Program call center at <a href="tel:+18666068198">1-866-606-8198</a>.<br>
-[Learn more about the Veteran Choice program](https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp).
+#### How do I get a Veteran Choice Card?
+You need to be receiving care under the VA Choice program to get a Choice Card. <br>
+[Learn more about the Veteran Choice program](https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp).<br>
+Contact the Choice Program call center at <a href="tel:+18666068198">1-866-606-8198</a>.
 
 <br>
 
-### Veteran’s designation on a state-issued license or ID
+### Veteran’s designation on a state-issued driver's license or ID
 At this time, all 50 states and Puerto Rico offer a Veteran designation (an identifying mark) printed on state-issued driver’s licenses or IDs. The type of Veteran designation may vary from state to state.
 
 If you have a Veteran’s designation, you may be able to get discounts offered to Veterans at many stores, businesses, and restaurants.
 
-#### How do I apply for a Veteran’s designation? 
-To apply for a Veteran’s designation, most states ask you to provide a copy of your discharge papers (DD214 or other separation documents). Some states may require additional documents. 
+#### How do I get a Veteran’s designation on my state-issued ID? 
+Most states ask you to provide a copy of your discharge papers (DD214 or other separation documents). Some states may require additional documents. 
 
 Please check with your state’s Department of Motor Vehicles about what you need to apply for a Veteran’s designation for your state. 
