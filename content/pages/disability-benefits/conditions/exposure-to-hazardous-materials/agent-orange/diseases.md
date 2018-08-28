@@ -38,4 +38,4 @@ We believe that contact with Agent Orange, a toxic chemical used to clear trees 
 
 If you have an illness you think is caused by contact with Agent Orange—and you don’t see it listed here—you can still apply for benefits. You’ll need to show that you have a disability and include a doctor’s report or a hospital report stating that your illness is believed to be caused by contact with Agent Orange.
 
-[Find out how to file a claim for disability compensation](https://www.vets.gov/disability-benefits/apply/).
+[Find out how to file a claim for disability compensation](/disability-benefits/apply/).
