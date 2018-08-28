@@ -13,7 +13,7 @@ relatedlinks:
       description: "File a fully developed claim and get a faster decision on your disability benefits claim."
     - url: /disability-benefits/apply/
       title: How to Apply for Disability Benefits
-      description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
+      description: "Apply online now, or find out how to file a claim in person, by mail, or with the help of a trained professional."
     - url: /disability-benefits/apply/help/
       title: Get Help Filing Your Claim
       description: "Learn how an accredited representative with a Veterans Service Organization can help you file a disability claim."
