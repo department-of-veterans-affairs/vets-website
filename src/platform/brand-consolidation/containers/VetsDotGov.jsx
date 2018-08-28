@@ -15,8 +15,8 @@ export function mapStateToProps(state) {
 }
 
 /**
- * A component that renders its children only during brand-consolidation builds.
- * @property {object|array} children The React nodes that should be visible for brand-consolidation builds.
+ * A component that renders its children only during regular/non-brand-consolidation builds.
+ * @property {object|array} children The React nodes that should be visible for regular/non-brand-consolidation builds.
  */
 const VetsDotGovContainer = connect(mapStateToProps, null)(VetsDotGov);
 export { VetsDotGov };
