@@ -12,7 +12,10 @@ describe('VetsDotGov', () => {
         brandConsolidationEnabled: false
       }
     };
+
     const props = mapStateToProps(state);
+    expect(props.vetsDotGovEnabled).to.be.true;
+
     const wrapper = enzyme.render(
       <VetsDotGov {...props}>
         <h1>Vets.Gov Only</h1>
@@ -28,7 +31,10 @@ describe('VetsDotGov', () => {
         brandConsolidationEnabled: true
       }
     };
+
     const props = mapStateToProps(state);
+    expect(props.vetsDotGovEnabled).to.be.false;
+
     const wrapper = enzyme.render(
       <VetsDotGov {...props}>
         <h1>Vets.Gov Only</h1>

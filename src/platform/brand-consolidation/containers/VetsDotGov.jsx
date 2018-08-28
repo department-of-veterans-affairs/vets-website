@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-function VetsDotGov({ isVetsDotGov, children }) {
-  if (isVetsDotGov) {
+function VetsDotGov({ vetsDotGovEnabled, children }) {
+  if (vetsDotGovEnabled) {
     return <div data-brand-consolidation-enabled>{children}</div>;
   }
   return null;
@@ -10,7 +10,7 @@ function VetsDotGov({ isVetsDotGov, children }) {
 
 export function mapStateToProps(state) {
   return {
-    isVetsDotGov: !state.buildSettings.brandConsolidationEnabled
+    vetsDotGovEnabled: !state.buildSettings.brandConsolidationEnabled
   };
 }
 

@@ -12,7 +12,10 @@ describe('BrandConsolidation', () => {
         brandConsolidationEnabled: false
       }
     };
+
     const props = mapStateToProps(state);
+    expect(props.brandConsolidationEnabled).to.be.false;
+
     const wrapper = enzyme.render(
       <BrandConsolidation {...props}>
         <h1>Brand-Consolidation Only</h1>
@@ -28,7 +31,10 @@ describe('BrandConsolidation', () => {
         brandConsolidationEnabled: true
       }
     };
+
     const props = mapStateToProps(state);
+    expect(props.brandConsolidationEnabled).to.be.true;
+
     const wrapper = enzyme.render(
       <BrandConsolidation {...props}>
         <h1>Brand-Consolidation Only</h1>
