@@ -100,7 +100,7 @@ const formConfig = {
   trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'COMPLAINT-TOOL', // TODO: rename to feedback-tool once renamed on BE
+  formId: 'FEEDBACK-TOOL',
   version: 0,
   prefillEnabled: true,
   defaultDefinitions: {
