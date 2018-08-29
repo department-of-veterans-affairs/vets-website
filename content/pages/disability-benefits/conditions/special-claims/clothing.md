@@ -37,7 +37,7 @@ Veterans
 - A one-time payment, **or**
 - A yearly payment <br>
 
-**Note:** The current clothing allowance rate is $795.21. <br
+**Note:** The current clothing allowance rate is $795.21. <br>
 
 [View current rates for special allowances](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
 
