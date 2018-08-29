@@ -17,7 +17,8 @@ import {
   separationTrainingPay,
   reservesNationalGuardService,
   federalOrders,
-  prisonerOfWar
+  prisonerOfWar,
+  ratedDisabilities
 } from '../pages';
 
 import fullSchema from './schema';
@@ -107,6 +108,17 @@ const formConfig = {
           path: 'review-veteran-details/military-service-history/pow',
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema
+        }
+      }
+    },
+    disabilities: {
+      title: 'Disabilities', // this probably needs to change
+      pages: {
+        ratedDisabilities: {
+          title: 'Existing Conditions (Rated Disabilities)',
+          path: 'disabilities/rated-disabilities',
+          uiSchema: ratedDisabilities.uiSchema,
+          schema: ratedDisabilities.schema
         }
       }
     }
