@@ -5,10 +5,9 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import { isLoggedIn, isProfileLoading, createIsServiceAvailableSelector } from '../../../../platform/user/selectors';
-import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 
-export function BetaGate({ user, claimsAccess, loading, betaUser, formAvailable, loggedIn, location, children }) {
+export function BetaGate({ loading, betaUser, formAvailable, loggedIn, children }) {
   if (loading) {
     return (
       <div className="usa-grid full-page-alert">
@@ -17,19 +16,7 @@ export function BetaGate({ user, claimsAccess, loading, betaUser, formAvailable,
     );
   }
 
-  if (!loggedIn) {
-    return (
-      <div className="usa-grid full-page-alert">
-        <AlertBox
-          isVisible
-          headline="You are not signed in"
-          content="Please sign in to view this application."
-          status="warning"/>
-      </div>
-    );
-  }
-
-  if (!formAvailable) {
+  if (loggedIn && !formAvailable) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox status="warning"
@@ -39,7 +26,7 @@ export function BetaGate({ user, claimsAccess, loading, betaUser, formAvailable,
     );
   }
 
-  if (!betaUser) {
+  if (loggedIn && !betaUser) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox status="warning"
@@ -49,31 +36,7 @@ export function BetaGate({ user, claimsAccess, loading, betaUser, formAvailable,
     );
   }
 
-  // Short-circuit the check on the intro page
-  if (location.pathname === '/introduction') {
-    return children;
-  }
-
-  if (!claimsAccess) {
-    return (
-      <div className="usa-grid full-page-alert">
-        <AlertBox
-          isVisible
-          headline="We’re sorry. It looks like we’re missing some information needed for your application"
-          content="For help with your application, please call Veterans Benefits Assistance at 1-800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET)."
-          status="error"/>
-      </div>
-    );
-  }
-
-  return (
-    <RequiredLoginView
-      serviceRequired={backendServices.EVSS_CLAIMS}
-      user={user}
-      verify>
-      {children}
-    </RequiredLoginView>
-  );
+  return <div>{children}</div>;
 }
 
 const isBetaUser = createIsServiceAvailableSelector(backendServices.CLAIM_INCREASE);

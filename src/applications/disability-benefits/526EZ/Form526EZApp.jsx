@@ -5,12 +5,11 @@ import formConfig from './config/form';
 
 import ITFWrapper from '../all-claims/containers/ITFWrapper';
 import DisabilityGate from './containers/DisabilityGate';
-import BetaGate from './containers/BetaGate';
-// import EVSSClaimsGate from '../all-claims/containers/EVSSClaimsGate';
+import EVSSClaimsGate from '../all-claims/containers/EVSSClaimsGate';
 
 export default function Form526Entry({ location, children }) {
   return (
-    <BetaGate location={location}>
+    <EVSSClaimsGate location={location}>
       <ITFWrapper location={location}>
         <DisabilityGate>
           {/*
@@ -22,6 +21,6 @@ export default function Form526Entry({ location, children }) {
           </RoutedSavableApp>
         </DisabilityGate>
       </ITFWrapper>
-    </BetaGate>
+    </EVSSClaimsGate>
   );
 }
