@@ -35,7 +35,8 @@ Veterans
 ### What disability benefits can I get?
 
 - A one-time payment, **or**
-- A yearly payment
+- A yearly payment <br>
+
 **Note:** The current clothing allowance rate is $795.21.
 [View current rates for special allowances](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
 
