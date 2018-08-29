@@ -9,7 +9,7 @@ describe('VetsDotGov', () => {
   it('renders children when brandConsolidationEnabled is false', () => {
     const state = {
       buildSettings: {
-        brandConsolidationEnabled: false
+        brandConsolidation: { enabled: false }
       }
     };
 
@@ -28,7 +28,7 @@ describe('VetsDotGov', () => {
   it('does not render children when brandConsolidationEnabled is true', () => {
     const state = {
       buildSettings: {
-        brandConsolidationEnabled: true
+        brandConsolidation: { enabled: true }
       }
     };
 
