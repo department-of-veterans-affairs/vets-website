@@ -52,7 +52,7 @@ You may be able to get disability benefits if you meet all of the requirements l
 - Medical records showing stating that you have one or more of the 8 illnesses on the presumptive conditions list (see above)
 
 **You can apply in 1 of 3 ways:**
-- Apply online at eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage). Be sure to note that you’re applying for one or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results), **or**
+- [Apply online at eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage). Be sure to note that you’re applying for one or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results), **or**
 - [Get help from an accredited representative, like a Veterans Service Officer (VSO)](https://www.vets.gov/disability-benefits/apply/help/), **or**
 - [Get help at a VA regional benefit office](https://www.vets.gov/facilities/)
 
