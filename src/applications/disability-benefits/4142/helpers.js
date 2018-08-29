@@ -8,7 +8,7 @@ export const aboutPrivateMedicalRecs = () => {
       <p>
         You said you were treated for [condition] by a private doctor. If you
         have those records, you can upload them here, or we can get them for
-        you. If you want us to get your records, you'll need to authorize their
+        you. If you want us to get your records, you‘ll need to authorize their
         release.
       </p>
       <p>Do you want to upload your private medical records?</p>
