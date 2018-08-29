@@ -1,10 +1,13 @@
-import { setupRoutes } from './routes';
 import { setupFeatureFlag } from './feature-flag';
 
 export default function setupBrandConsolidationUtilities(store) {
-  store.subscribe(() => {
+
+  function setup() {
     const state = store.getState();
     setupFeatureFlag(state);
-    setupRoutes(state);
-  });
+  }
+
+  store.subscribe(setup);
+
+  setup();
 }
