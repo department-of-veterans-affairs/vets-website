@@ -13,7 +13,7 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPoll from '../components/ConfirmationPoll';
 
 import {
   uiSchema as primaryAddressUiSchema,
@@ -96,7 +96,6 @@ const {
   dateRangeFromRequired,
   dateRangeAllRequired,
   disabilities,
-  specialIssues,
   vaTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
 
@@ -119,7 +118,7 @@ const formConfig = {
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -133,7 +132,6 @@ const formConfig = {
     dateRangeFromRequired,
     dateRangeAllRequired,
     disabilities,
-    specialIssues,
   },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
