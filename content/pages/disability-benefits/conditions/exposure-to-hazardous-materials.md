@@ -45,6 +45,7 @@ majorlinks:
 <div class="va-introtext">
 
 Find out if you can get disability compensation or benefits for illnesses or other conditions, like the ones listed below, believed to be caused by contact with harmful chemicals or other hazardous materials while serving in the military.
+</div>
 <div class="feature" markdown="1">
 
 ### Medical Care for Volunteers Involved in Chemical and Biological Testing
@@ -59,6 +60,6 @@ As many as 60,000 Veterans volunteered for medical research for the U.S. Biologi
 If you have questions or need help getting medical care: 
 - [Visit the U.S. Army web page](https://armymedicine.health.mil/CBTP), **or** 
 - Call <a href="tel:+18009848523">1-800-984-8523</a>
-</div>
+
 
 </div>
