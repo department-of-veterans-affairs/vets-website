@@ -7,6 +7,7 @@ import { validateBooleanGroup, validateMatch } from 'us-forms-system/lib/js/vali
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 import dataUtils from '../../../../platform/utilities/data/index';
 
 const { get, omit, set } = dataUtils;
@@ -16,7 +17,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform, submit } from '../helpers';
+import { transform, submit, recordApplicantRelationship } from '../helpers';
 
 const {
   address: applicantAddress,
@@ -35,7 +36,7 @@ const {
 } = fullSchema.properties;
 
 const { assistance, programs, school } = educationDetails;
-const { address: schoolAddress, name: schoolName } = school.oneOf[0].properties;
+const { address: schoolAddress, name: schoolName } = school.properties;
 const domesticSchoolAddress = schoolAddress.oneOf[0];
 const internationalSchoolAddress = schoolAddress.oneOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
@@ -100,7 +101,7 @@ const formConfig = {
   trackingPrefix: 'gi_bill_feedback',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'COMPLAINT-TOOL', // TODO: rename to feedback-tool once renamed on BE
+  formId: 'FEEDBACK-TOOL',
   version: 0,
   prefillEnabled: true,
   defaultDefinitions: {
@@ -124,6 +125,7 @@ const formConfig = {
           path: 'applicant-relationship',
           title: 'Applicant Relationship',
           uiSchema: {
+            'ui:description': recordApplicantRelationship,
             onBehalfOf: {
               'ui:widget': 'radio',
               'ui:title': 'I’m submitting feedback on behalf of...',
@@ -160,6 +162,7 @@ const formConfig = {
           title: 'Applicant Information',
           depends: isNotAnonymous,
           uiSchema: {
+            'ui:description': PrefillMessage,
             fullName: _.merge(fullNameUI, {
               prefix: {
                 'ui:title': 'Prefix',
@@ -202,6 +205,7 @@ const formConfig = {
           title: 'Service Information',
           depends: isVeteranOrServiceMember,
           uiSchema: {
+            'ui:description': PrefillMessage,
             serviceBranch: {
               'ui:title': 'Branch of service',
             },
@@ -224,6 +228,7 @@ const formConfig = {
           title: 'Contact Information',
           depends: (formData) => formData.onBehalfOf !== anonymous,
           uiSchema: {
+            'ui:description': PrefillMessage,
             address: {
               street: {
                 'ui:title': 'Address line 1'
@@ -360,7 +365,7 @@ const formConfig = {
             educationDetails: {
               school: {
                 'view:searchSchoolSelect': {
-                  facilityCode: {
+                  'view:facilityCode': {
                     'ui:required': manualSchoolEntryIsNotChecked,
                   },
                   'ui:field': SchoolSelectField,
@@ -428,7 +433,7 @@ const formConfig = {
                       'view:searchSchoolSelect': {
                         type: 'object',
                         properties: {
-                          facilityCode: {
+                          'view:facilityCode': {
                             type: 'string'
                           }
                         }
