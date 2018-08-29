@@ -56,4 +56,5 @@ If you have questions or need help getting medical care:
 - [Visit the U.S. Army web page](https://armymedicine.health.mil/CBTP), **or** 
 - Call <a href="tel:+18009848523">1-800-984-8523</a>
 </div>
+
 </div>
