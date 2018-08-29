@@ -6,7 +6,7 @@ import Downshift from 'downshift';
 
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
-import { LOCATION_OPTIONS } from '../constants';
+import { LOCATION_OPTIONS, LocationType } from '../constants';
 
 const facilityOptionClasses = (item, selected) => classNames(
   'dropdown-option',
@@ -43,13 +43,6 @@ const FacilityTypeDropdown = ({
 
   return (
     <div>
-      {/* { selectedItem === 'cc_provider' &&
-        <div className="pull-right top-z">
-          <AdditionalInfo triggerText={<i className="fa fa-question-circle no-marg-right"/>}>
-            More info about Community Care Goes Here.
-          </AdditionalInfo>
-        </div> */
-      }
       <label htmlFor="facility-dropdown-toggle">
         Search for
       </label>
@@ -68,6 +61,14 @@ const FacilityTypeDropdown = ({
         </button>
         {isOpen && (<ul className="dropdown" role="listbox">{options}</ul>)}
       </div>
+      { selectedItem === LocationType.CC_PROVIDER &&
+        <div className="pull-left">
+          <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
+            rel="noopener noreferrer" target="_blank" className="cc-info-link">
+            What's Community Care and am I eligible?
+          </a>
+        </div>
+      }
     </div>
   );
 };
