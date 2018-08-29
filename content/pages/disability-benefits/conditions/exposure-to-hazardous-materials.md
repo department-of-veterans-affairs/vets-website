@@ -46,6 +46,7 @@ majorlinks:
 
 Find out if you can get disability compensation or benefits for illnesses or other conditions, like the ones listed below, believed to be caused by contact with harmful chemicals or other hazardous materials while serving in the military.
 <div class="feature" markdown="1">
+
 ### Medical Care for Volunteers Involved in Chemical and Biological Testing
 
 As many as 60,000 Veterans volunteered for medical research for the U.S. Biological and Chemical Programs. If you were involved in this research, you can get medical care through the U.S. Army if you meet both of the requirements listed below.
