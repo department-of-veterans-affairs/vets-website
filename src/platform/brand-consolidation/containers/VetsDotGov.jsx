@@ -10,7 +10,7 @@ function VetsDotGov({ vetsDotGovEnabled, children }) {
 
 export function mapStateToProps(state) {
   return {
-    vetsDotGovEnabled: !state.buildSettings.brandConsolidationEnabled
+    vetsDotGovEnabled: !state.buildSettings.brandConsolidation.enabled
   };
 }
 

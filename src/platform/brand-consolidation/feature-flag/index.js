@@ -10,5 +10,5 @@ export function setupFeatureFlag(_state) {
  * @module platform/brand-consolidation/feature-flag
  */
 export default function isBrandConsolidationEnabled() {
-  return state.buildSettings.brandConsolidationEnabled;
+  return state.buildSettings.brandConsolidation.enabled;
 }
