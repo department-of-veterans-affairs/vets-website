@@ -66,12 +66,6 @@
 
            },
            "name":"Diabetes mellitus0",
-           "specialIssues":[
-              {
-                 "code":"TRM",
-                 "name":"Personal Trauma PTSD"
-              }
-           ],
            "ratedDisabilityId":"0",
            "ratingDecisionId":"63655",
            "diagnosticCode":5238,
@@ -95,12 +89,6 @@
 
            },
            "name":"Diabetes mellitus1",
-           "specialIssues":[
-              {
-                 "code":"TRM",
-                 "name":"Personal Trauma PTSD"
-              }
-           ],
            "ratedDisabilityId":"1",
            "ratingDecisionId":"63655",
            "diagnosticCode":5238,
