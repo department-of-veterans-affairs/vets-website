@@ -99,11 +99,11 @@ export default class ConfirmationPage extends React.Component {
           <ul className="claim-list">
             <strong>Conditions claimed for increase</strong>
             <br/>
-            {/* <ul className="disability-list">
-                {disabilities.filter(item => item['view:selected']).map((disability, i) => {
+            <ul className="disability-list">
+              {disabilities.filter(item => item['view:selected']).map((disability, i) => {
                 return <li key={i}>{disability.name}</li>;
-                })}
-                </ul> */}
+              })}
+            </ul>
             {submissionMessage}
             <li>
               <strong>Date submitted</strong>
