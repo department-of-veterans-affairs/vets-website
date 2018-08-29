@@ -1,4 +1,4 @@
-// _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 
 // Example of an imported schema:
 // import fullSchema from '../22-4142-schema.json';
@@ -8,7 +8,9 @@
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import PrivateProviderTreatmentView from '../../../../platform/forms/components/ServicePeriodView';
+import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
+
+
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -25,7 +27,6 @@ import {
   limitedConsentDescription,
   summary,
 } from '../helpers';
-
 
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
@@ -51,24 +52,28 @@ const formFields = {
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
-  applicantInfo: 'applicantInfo',
-  uploadInfo: 'uploadInfo',
+  applicantInformation: 'applicantInformation',
+  uploadInformation: 'uploadInformation',
   serviceHistory: 'serviceHistory',
   treatmentHistory: 'treatmentHistory',
-  contactInfo: 'contactInfo',
-  directDeposit: 'directDeposit',
+  contactInformation: 'contactInformation',
 };
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/private_medical_record_auth/submit',
-  trackingPrefix: 'complex-form-',
+  // submitUrl: '${environment.API_URL}/v0/private_medical_record_auth/submit', //TODO When BE is ready
+  submit: () =>
+    Promise.resolve({
+      attributes: { confirmationNumber: '123123123', timestamp: Date.now() },
+    }),
+
+  trackingPrefix: '21-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-4142',
   version: 0,
   prefillEnabled: true,
-  //  prefillTransformer, //TODO: DO WE NEED THIS?
+  //  prefillTransformer, //TODO: Will enable this when BE is ready
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -83,10 +88,10 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    chapterApplicantInfo: {
+    applicantInformation: {
       title: 'Apply for disability increase',
       pages: {
-        [formPages.uploadInfo]: {
+        [formPages.uploadInformation]: {
           path: 'prviate-medical-record',
           title: 'Supporting Evidence',
           uiSchema: {
@@ -121,7 +126,7 @@ const formConfig = {
         },
       },
     },
-    chapterServiceHistory: {
+    treatmentHistory: {
       title: 'Supporting Evidence',
       pages: {
         [formPages.treatmentHistory]: {
@@ -232,7 +237,7 @@ const formConfig = {
             },
           },
         },
-        [formPages.contactInfo]: {
+        [formPages.contactInformation]: {
           path: 'summary-information',
           title: 'Summary Information',
           uiSchema: {
