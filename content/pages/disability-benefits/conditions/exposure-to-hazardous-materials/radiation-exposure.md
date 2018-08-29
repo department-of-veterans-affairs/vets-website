@@ -22,7 +22,7 @@ You may be able to get disability benefits if you didn’t receive a dishonorabl
 **Both of these must be true:**
 - You have an illness that's on our list of illnesses believed to be caused by radiation or that doctors say may be caused by radiation, **and**
 - Your illness started within a certain period of time (as shown along with the list of illnesses)
-<br>
+
 [See the list of radiation-related illnesses](https://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309).
 
 
