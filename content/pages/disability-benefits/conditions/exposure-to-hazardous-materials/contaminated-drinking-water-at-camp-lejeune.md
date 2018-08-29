@@ -56,13 +56,6 @@ You may be able to get disability benefits if you meet all of the requirements l
 - [Get help from an accredited representative, like a Veterans Service Officer (VSO)](https://www.vets.gov/disability-benefits/apply/help/), **or**
 - [Get help at a VA regional benefit office](https://www.vets.gov/facilities/)
 
-**When you apply, you’ll also need to give us:**
-
-- Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
-**and**
-- Evidence stating that you have one or more of the 8 illnesses on the presumptive conditions list (see above)
-
-
 ### Are Veterans and their family members covered for health care?
 
 Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987—and their family members—can get health care benefits. We may pay you back for your out-of-pocket health care costs that were related to any of these 15 conditions:
