@@ -17,8 +17,13 @@ Find out if you can get disability compensation or benefits for illnesses—incl
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you didn't receive a dishonorable discharge and have an illness that’s on the list of those believed to be caused by radiation—or that doctors say may be caused by radiation. <br>
-[See the list of radiation-related illnesses](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309). 
+You may be able to get disability benefits if you didn’t receive a dishonorable discharge and you meet the requirements listed below. 
+
+**Both of these must be true:**
+- You have an illness that's on our list of illnesses believed to be caused by radiation or that doctors say may be caused by radiation, **and**
+- Your illness started within a certain period of time (as shown along with the list of illnesses)
+[See the list of radiation-related illnesses](https://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309).
+
 
 You must also have had contact with ionizing radiation while serving in the military in at least one of the below ways.
 
@@ -54,12 +59,15 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. <br>
+You’ll need to file a claim and provide the evidence (supporting documents) listed below:
+- Medical records showing that you've been diagnosed with one of the illnesses on our list of those believed to be caused by radiation—or that your doctor states may be caused by radiation exposure, **and**
+- Service records showing that you were part of one of the radiation risk activities described above
+
+**Note:** When you file your claim, we’ll ask the military branch that you served with (or the Defense Threat Reduction Agency) to give us a range of how much radiation they think you may have come into contact with. We’ll use the highest level of the range they report to decide on your benefits.
+
+You'll also need to claim an illness or disability believed to be caused by contact with radiation. It’s not enough to state that you had contact with radiation during service.
+
 [Apply for benefits](/disability-benefits/apply/).
-
-Your service records must show that you were part of 1 of the radiation risk activities described above. You’ll also need to claim an illness or disability believed to be caused by contact with radiation. It’s not enough to state that you had contact with radiation during service.
-
-When you apply, we’ll ask the military branch that you served with (or the Defense Threat Reduction Agency) to give us a range of how much radiation they think you may have come into contact with. We’ll use the highest level of the range they report to decide on your benefits.
 
 
 
