@@ -10,7 +10,6 @@ const brandConsolidatedRedirects = require('./brand-consolidated/redirects.json'
 function getBuildSettings(options) {
   return {
     type: options.buildtype,
-    brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
     brandConsolidation: {
       enabled: !!options['brand-consolidation-enabled'],
       routes: brandConsolidatedRedirects
