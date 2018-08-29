@@ -20,8 +20,8 @@ You may be able to get disability benefits if you meet all of the requirements l
 
 **All of these must be true. You:**
 
-- Served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987, and
-- Didn’t receive a dishonorable discharge when you separated from the military, and
+- Served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987, **and**
+- Didn’t receive a dishonorable discharge when you separated from the military, **and**
 - Have a diagnosis of one or more of these presumptive conditions:
     - Adult leukemia
     - Aplastic anemia and other myelodysplastic syndromes
