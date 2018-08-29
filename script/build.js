@@ -1,5 +1,4 @@
 // Builds the site using Metalsmith as the top-level build runner.
-const fs = require('fs');
 const path = require('path');
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
@@ -23,7 +22,7 @@ const watch = require('metalsmith-watch');
 const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
-const createSettings = require('../config/create-settings');
+const createBuildSettings = require('./create-build-settings');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const {
   getRoutes,
@@ -37,7 +36,7 @@ const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
-  { name: 'mergedbuild', type: Boolean, defaultValue: false },
+  { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
@@ -89,11 +88,8 @@ switch (options.buildtype) {
     break;
 
   case 'devpreview':
-    options.mergedbuild = true;
-    break;
-
   case 'preview':
-    options.mergedbuild = true;
+    options['brand-consolidation-enabled'] = true;
     break;
 
   default:
@@ -124,8 +120,11 @@ smith.source(sourceDir);
 smith.destination(options.destination);
 
 // This lets us access the {{buildtype}} variable within liquid templates.
-smith.metadata({ buildtype: options.buildtype });
-smith.metadata({ mergedbuild: options.mergedbuild });
+smith.metadata({
+  buildtype: options.buildtype,
+  // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
+  mergedbuild: !!options['brand-consolidation-enabled']
+});
 
 // To block an app from production add the following to the below list:
 //  ignoreList.push('<path-to-content-file>');
@@ -708,18 +707,11 @@ Convert onclick event handles into nonced script tags
 */
 smith.use(nonceTransformer);
 
-function generateStaticSettings() {
-  const settings = createSettings(options);
-  const settingsPath = path.join(options.destination, 'js/settings.js');
-  const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
-  fs.writeFileSync(settingsPath, settingsContent);
-}
-
 /* eslint-disable no-console */
 smith.build((err) => {
   if (err) throw err;
 
-  generateStaticSettings();
+  createBuildSettings(options);
 
   if (options.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');

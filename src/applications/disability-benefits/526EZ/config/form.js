@@ -61,9 +61,12 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  hasGuardOrReservePeriod,
   disabilitiesClarification
 } from '../helpers';
+
+import {
+  hasGuardOrReservePeriod
+} from '../../all-claims/utils';
 
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -93,7 +96,6 @@ const {
   dateRangeFromRequired,
   dateRangeAllRequired,
   disabilities,
-  specialIssues,
   vaTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
 
@@ -130,7 +132,6 @@ const formConfig = {
     dateRangeFromRequired,
     dateRangeAllRequired,
     disabilities,
-    specialIssues,
   },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',

@@ -4,7 +4,7 @@ import  {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   USA,
-} from '../constants';
+} from '../../all-claims/constants';
 
 function validateMilitaryCity(errors, city, formData, schema, messages, index) {
   const isMilitaryState = MILITARY_STATE_VALUES.includes(

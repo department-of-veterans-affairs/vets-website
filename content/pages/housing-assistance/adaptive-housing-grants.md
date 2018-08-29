@@ -25,11 +25,10 @@ You may be able to get an SAH grant if you’re using the grant money to buy, bu
   - The loss or loss of use of a lower leg along with the residuals (lasting effects) of an organic (natural) disease or injury
   - Blindness in both eyes having only light perception along with the loss or loss of use of 1 leg
   - Certain severe burns
-  - The loss or loss of use of 1 or both lower extremities (feet or legs) after September 11, 2001, that makes it so you can’t balance or walk without the help of braces, crutches, canes, or a wheelchair
+  - The loss or loss of use of 1 or both lower extremities (feet or legs) after September 11, 2001, so you can’t balance or walk without the help of braces, crutches, canes, or a wheelchair <br>
+**Note:** We can only give this grant to 30 Veterans and Servicemembers each fiscal year (FY). We've already given out all of the available grants for 2018. If you qualify for but don't receive a grant in 2018 because the cap was reached, you may be able to use this benefit in FY 2019 or future years if the law continues to give us the authority to offer these grants and we don't go beyond the new FY cap.
 
 For FY 2018, you may be able to get up to 3 grants—for a total of up to $81,080—through the SAH grant program.
-
-**Please note:** We can only give this grant to 30 Veterans and Servicemembers each fiscal year (FY). We've already given out all of the available grants for 2018. If you qualify for but don't receive a grant in 2018 because the cap was reached, you may be able to use this benefit in FY 2019 or future years if the law continues to give us the authority to offer these grants and we don't go beyond the new FY cap.
 
 <br>
 
