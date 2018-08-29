@@ -21,7 +21,7 @@ export const summary = ({ formData }) => {
   return (
     <div>
       <br/>
-      <li>We'll get your private medical records from</li>
+      <li>We‘ll get your private medical records from</li>
       {privateMedicalProvider.map((provider, idx) => {
         return (
           <ul key={idx}>
