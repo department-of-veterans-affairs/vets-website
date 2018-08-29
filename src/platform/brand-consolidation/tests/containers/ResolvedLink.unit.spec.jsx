@@ -2,7 +2,7 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import { ResolveLink, mapStateToProps } from '../../containers/ResolvedLink';
+import { ResolvedLink, mapStateToProps } from '../../containers/ResolvedLink';
 
 describe('<ResolvedLink/>', () => {
   let state = null;
@@ -28,9 +28,9 @@ describe('<ResolvedLink/>', () => {
     const link = <a className="test" href="/health-care/apply/">Apply now</a>;
     const props = mapStateToProps(state, { children: link }, ROUTES);
     const wrapper = enzyme.shallow(
-      <ResolveLink {...props}>
+      <ResolvedLink {...props}>
         {link}
-      </ResolveLink>
+      </ResolvedLink>
     );
 
     expect(wrapper.html()).to.be.equal('<a class="test" href="/health-care/how-to-apply/">Apply now</a>');
@@ -41,9 +41,9 @@ describe('<ResolvedLink/>', () => {
     const link = <a className="test" href="/health-care/apply/">Apply now</a>;
     const props = mapStateToProps(state, { children: link }, ROUTES);
     const wrapper = enzyme.shallow(
-      <ResolveLink {...props}>
+      <ResolvedLink {...props}>
         {link}
-      </ResolveLink>
+      </ResolvedLink>
     );
 
     expect(wrapper.html()).to.be.equal('<a class="test" href="/health-care/apply/">Apply now</a>');
@@ -53,9 +53,9 @@ describe('<ResolvedLink/>', () => {
     const link = <a className="test" href="/health-care/apply/">Apply now</a>;
     const props = mapStateToProps(state, { children: link }, []);
     const wrapper = enzyme.shallow(
-      <ResolveLink {...props}>
+      <ResolvedLink {...props}>
         {link}
-      </ResolveLink>
+      </ResolvedLink>
     );
 
     expect(wrapper.html()).to.be.equal('<a class="test" href="/health-care/apply/">Apply now</a>');

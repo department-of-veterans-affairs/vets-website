@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import ROUTES from '../constants/redirects.json';
 
-function ResolveLink({ resolvedHref, children }) {
+function ResolvedLink({ resolvedHref, children }) {
   if (resolvedHref === children.props.href) return children;
   return React.cloneElement(children, {
     ...children.props,
@@ -35,14 +35,14 @@ export function mapStateToProps(state, ownProps, routesData = ROUTES) {
  * A wrapper around anchor tags to invisibly convert HREF values from the Vets.gov page path to the brand-consolidation page path.
  * @property {element} children A single link tagging containing an HREF property to be resolved based on the brand-consolidation feature flag.
  */
-const ResolveLinkContainer = connect(mapStateToProps, null)(ResolveLink);
+const ResolvedLinkContainer = connect(mapStateToProps, null)(ResolvedLink);
 
-ResolveLinkContainer.propTypes = {
+ResolvedLinkContainer.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.element
   ])
 };
 
-export default ResolveLinkContainer;
-export { ResolveLink };
+export default ResolvedLinkContainer;
+export { ResolvedLink };
