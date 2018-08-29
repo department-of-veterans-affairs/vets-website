@@ -1,3 +1,7 @@
-export const uiSchema = {};
+export const uiSchema = {
+};
 
-export const schema = {};
+export const schema = {
+  type: 'object',
+  properties: {}
+};
