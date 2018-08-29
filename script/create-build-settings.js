@@ -11,7 +11,7 @@ function getBuildSettings(options) {
   return {
     type: options.buildtype,
     brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
-    brandConsolidated: {
+    brandConsolidation: {
       enabled: !!options['brand-consolidation-enabled'],
       routes: brandConsolidatedRedirects
     },
