@@ -22,6 +22,8 @@ import  {
   STATE_LABELS,
   STATE_VALUES,
   USA,
+} from '../../all-claims/constants';
+import  {
   ADDRESS_TYPES
 } from '../constants';
 
