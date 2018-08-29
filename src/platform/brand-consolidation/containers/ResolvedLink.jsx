@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import ROUTES from '../constants/redirects.json';
+
 function ResolveLink({ resolvedHref, children }) {
   return React.cloneElement(children, {
     ...children.props,
@@ -19,7 +21,7 @@ function mapStateToProps(state, ownProps) {
   if (!brandConsolidation.enabled) {
     resolvedHref = vetsPagePath;
   } else {
-    const route = brandConsolidation.routes.find(r => r['vets.gov'] === vetsPagePath);
+    const route = ROUTES.find(r => r['vets.gov'] === vetsPagePath);
     resolvedHref = route ? route['va.gov'] : vetsPagePath;
   }
 

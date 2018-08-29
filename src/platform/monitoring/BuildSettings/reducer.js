@@ -4,8 +4,7 @@ import {
 
 const initialState = {
   brandConsolidation: {
-    enabled: false,
-    routes: []
+    enabled: false
   },
   ...window.settings
 };
