@@ -86,4 +86,4 @@ module.exports = E2eHelpers.createE2eTest((client) => {
   client.end();
 });
 
-module.exports['@disabled'] = manifest.production;
+module.exports['@disabled'] = !manifest.production;
