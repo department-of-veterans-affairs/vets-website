@@ -90,17 +90,7 @@ Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumul
 [Download VA Form 10-10068b](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b).
 
 If you need help with your application, call our Camp Lejeune Family Member program staff at <a href="tel:+18663721144">1-866-372-1144</a>. <br>
-
-
-**When you apply, you'll also need to give us:**
-
-- Proof of your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license or a birth certificate), **and**
-
-- Proof that you lived at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 (like utility bills, base housing records, military orders, or tax forms), **and**
-
-- Medical records that show you have one of the 15 conditions listed above, **and**
-
-- [A Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
+(https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
 
 <div class="feature" markdown="1">
 
