@@ -17,15 +17,15 @@ export const aboutPrivateMedicalRecs = () => {
 };
 
 export const summary = ({ formData }) => {
-  const privateMedicalProvider = formData.privateMedicalProvider;
+  const providerFacility = formData.providerFacility;
   return (
     <div>
       <br/>
       <li>We'll get your private medical records from</li>
-      {privateMedicalProvider.map((provider, idx) => {
+      {providerFacility.map((provider, idx) => {
         return (
           <ul key={idx}>
-            <strong>{provider.privateProviderName}</strong>
+            <strong>{provider.providerFacilityName}</strong>
           </ul>
         );
       })}
