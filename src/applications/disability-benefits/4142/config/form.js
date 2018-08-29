@@ -92,7 +92,7 @@ const formConfig = {
       title: 'Apply for disability increase',
       pages: {
         [formPages.uploadInformation]: {
-          path: 'prviate-medical-record',
+          path: 'private-medical-record',
           title: 'Supporting Evidence',
           uiSchema: {
             'view:uploadRecs': {
