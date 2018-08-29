@@ -40,7 +40,6 @@ You may be able to get disability benefits if you have a disability that’s rel
 - In some situations, one or more adaptive-equipment grants to change a vehicle so it has features like power steering, brakes, seats, windows, or lift equipment to help you get into and out of the vehicle
 
 <br>
-
 [View current rates for special allowances](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
 
 -----
