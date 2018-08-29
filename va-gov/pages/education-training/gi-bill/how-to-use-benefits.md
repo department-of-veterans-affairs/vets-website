@@ -11,7 +11,7 @@ majorlinks:
     links:
     - url: /education/gi-bill/higher-learning/
       title: Undergraduate and Graduate Degrees
-      description: Money for your tuition, books, and housing at an institution of higher learning (like a 4-year university, community college, or graduate school)
+      description: Help with paying for tuition, books, and housing at an institution of higher learning (like a 4-year university, community college, or graduate school)
     - url: /education/gi-bill/foreign-programs/
       title: Foreign Programs
       description: Funding for tuition and housing at a school located outside the U.S.
@@ -37,23 +37,23 @@ majorlinks:
       description: Help with paying for training to become a pilot
     - url: /education/work-learn/job-and-apprenticeship/
       title: On-the-Job Training and Apprenticeships
-      description: Money to cover books, supplies, and housing while learning a trade or skill (like plumbing, hotel management, or firefighting)
+      description: Money to help cover books, supplies, and housing while learning a trade or skill (like plumbing, hotel management, or firefighting)
     - url: /education/advanced-training-and-certifications/entrepreneurship-training/
       title: Entrepreneurship Training
       description: Access to training to help you start your own business
-  - heading: Work While You Study
-    links:
+  - heading: Work while You Study
+    links:    
+    - url: /education/work-learn/co-op-training/
+      title: Co-op Training
+      description: Help with paying for tuition, books, and housing if you’re part of a college or university co-op training program
     - url: /education/work-learn/workstudy/
       title: Work Study
       description: The opportunity to get paid for part-time work while you study at a college, vocational, or professional school 
-    - url: /education/work-learn/co-op-training/
-      title: Co-op Training
-      description: Money to help pay for tuition, books, and housing if you’re part of a college or university co-op training program
   - heading: Take Classes from Home
     links:
     - url: /education/work-learn/non-traditional/correspondence-training/
       title: Correspondence Training
-      description: Help with paying for correspondence training (coursework completed by mail) if you want to take classes from home or live far from any schools
+      description: Funding for correspondence training (coursework completed by mail) if you want to take classes from home or live far from any schools
     - url: /education/work-learn/non-traditional/independent-distance-learning/
       title: Independent and Distance Learning
       description: Tuition assistance for online courses      
@@ -63,9 +63,4 @@ majorlinks:
 You have many options for how to use your GI Bill benefits to advance your education and training. Explore different ways you may be able to use your benefits.
 
 </div>
-
-
-
-
-
 
