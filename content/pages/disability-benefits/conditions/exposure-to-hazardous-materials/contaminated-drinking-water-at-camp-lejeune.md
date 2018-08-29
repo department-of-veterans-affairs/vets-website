@@ -118,13 +118,13 @@ Two on-base water wells that were shut down in 1985 had these chemicals:
 
 ## Get more information
 
-[Download a fact sheet about Camp Lejeune-related benefits](https://www.publichealth.va.gov/docs/exposures/camp_lejeune_brochure.pdf).
-[Learn more about Camp Lejeune water contamination](https://www.publichealth.va.gov/exposures/camp-lejeune/). 
-[Learn more about the Camp Lejeune Family Member program](https://www.clfamilymembers.fsc.va.gov/).
-Sign up to receive notifications from the Marine Corps with the latest updates on issues related to Camp Lejeune water contamination.
-[Sign up for Marine Corps notifications](https://clnr.hqi.usmc.mil/clwater/index.html).
-Read about the Agency for Toxic Substances and Disease Registry public health studies and other efforts to help Marines and their families affected by Camp Lejeune water contamination. 
-[Read more from the Agency for Toxic Substances and Disease Registry](https://www.atsdr.cdc.gov/sites/lejeune/).
-Read a report from the National Academies of Sciences, Engineering, and Medicine. This report offers a summary of research on the historical Camp Lejeune water contamination up to 2009. 
+[Download a fact sheet about Camp Lejeune-related benefits](https://www.publichealth.va.gov/docs/exposures/camp_lejeune_brochure.pdf).<br>
+[Learn more about Camp Lejeune water contamination](https://www.publichealth.va.gov/exposures/camp-lejeune/). <br>
+[Learn more about the Camp Lejeune Family Member program](https://www.clfamilymembers.fsc.va.gov/).<br>
+Sign up to receive notifications from the Marine Corps with the latest updates on issues related to Camp Lejeune water contamination.<br>
+[Sign up for Marine Corps notifications](https://clnr.hqi.usmc.mil/clwater/index.html).<br>
+Read about the Agency for Toxic Substances and Disease Registry public health studies and other efforts to help Marines and their families affected by Camp Lejeune water contamination. <br>
+[Read more from the Agency for Toxic Substances and Disease Registry](https://www.atsdr.cdc.gov/sites/lejeune/).<br>
+Read a report from the National Academies of Sciences, Engineering, and Medicine. This report offers a summary of research on the historical Camp Lejeune water contamination up to 2009. <br>
 [Read the National Academies Camp Lejeune report](http://dels.nas.edu/Report/Contaminated-Water-Supplies-Camp-Lejeune/12618).
 
