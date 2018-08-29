@@ -47,7 +47,7 @@ If you received an other than honorable, bad conduct, or dishonorable character 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-Veteran-card">How do I apply for a Veteran ID Card?</button>
 <div id="apply-Veteran-card" class="usa-accordion-content">
 
-You can apply now online. <br>
+You can apply online now. <br>
 [Learn more about how to apply for a VIC](/ID-card-types/veteran-id-card/).
 
 </div>
@@ -106,7 +106,7 @@ If you’re enrolled in VA health care, you should have a Veteran Health Identif
  
 
 You need to be enrolled in VA health care to receive a Veteran Health Identification Card. If you aren't signed up for VA health care, you can apply online now. <br>
-[Find out how to apply for VA health care](/health-care/how-to-apply/). <br>
+[Find out how to apply for VA health care](/health-care/how-to-apply/). </br>
 [Learn more about the VHIC](https://www.va.gov/healthbenefits/vhic/index.asp).
 
 </div>
@@ -123,7 +123,7 @@ If you receive care under the VA Choice program through a community provider, yo
 <div id="get-Veteran-Choice-card" class="usa-accordion-content">
 
 You need to be receiving care under the VA Choice program to get a Choice Card. <br>
-[Learn more about the Veteran Choice program](https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp).<br>
+[Learn more about the Veteran Choice program](https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp).</br>
 Contact the Choice Program call center at <a href="tel:+18666068198">1-866-606-8198</a>.
 
 </div>
