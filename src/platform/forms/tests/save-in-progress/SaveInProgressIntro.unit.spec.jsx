@@ -20,15 +20,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          {
-            form: '1010ez',
-            /* eslint-disable camelcase */
-            metadata: {
-              last_updated: 3000,
-              expires_at: moment().unix() + 2000
-            }
-            /* eslint-enable camelcase */
-          }
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 } }
         ],
         prefillsAvailable: []
       },
@@ -61,7 +53,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 } }
         ],
         prefillsAvailable: ['1010ez']
       },
@@ -87,7 +79,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 } }
         ],
         prefillsAvailable: []
       },
@@ -119,7 +111,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 } }
         ],
         prefillsAvailable: []
       },
@@ -200,11 +192,45 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
   });
 
+  it('should over-ride the default retentionPeriod prop when one supplied', () => {
+    const prefillEnabled = true;
+    const user = {
+      profile: {
+        savedForms: [
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 } }
+        ],
+        prefillsAvailable: []
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl'
+        }
+      }
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        prefillEnabled={prefillEnabled}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        retentionPeriod={'1 year'}/>
+    );
+
+    expect(tree.find('.usa-alert').text()).to.contain('1 year');
+    expect(tree.find('.usa-alert').text()).to.not.contain('60 days');
+  });
+
   it('should render loading indicator while profile is loading', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 } }
         ],
         prefillsAvailable: [],
         loading: true
@@ -233,7 +259,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() - 1000 } } // eslint-disable-line camelcase
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() - 1000 } }
         ],
         prefillsAvailable: []
       },
@@ -260,7 +286,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 } }
         ],
         prefillsAvailable: []
       },
@@ -294,7 +320,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 } }
         ],
         prefillsAvailable: []
       },
@@ -327,7 +353,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
+          { form: '1010ez', metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 } }
         ],
         prefillsAvailable: []
       },

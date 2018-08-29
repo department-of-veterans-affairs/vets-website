@@ -12,10 +12,11 @@ import {
   CREATING_MHV_ACCOUNT,
   CREATE_MHV_ACCOUNT_FAILURE,
   CREATE_MHV_ACCOUNT_SUCCESS,
+  UPGRADING_MHV_ACCOUNT,
+  UPGRADE_MHV_ACCOUNT_FAILURE,
+  UPGRADE_MHV_ACCOUNT_SUCCESS,
   REMOVING_SAVED_FORM_SUCCESS,
 } from '../actions';
-
-const MAX_POLL_TIMES = 10;
 
 const initialState = {
   userFullName: {
@@ -33,25 +34,27 @@ const initialState = {
     highest: null
   },
   verified: false,
-  mhv: {
-    account: {
-      errors: null,
-      loading: false,
-      polling: false,
-      polledTimes: 0,
-      state: 'unknown'
-    },
-    terms: {
-      accepted: false,
-      errors: null,
-      loading: false
-    }
+  mhvAccount: {
+    accountLevel: null,
+    accountState: null,
+    errors: null,
+    loading: false,
+    termsAndConditionsAccepted: false
   },
   vet360: {},
   savedForms: [],
   prefillsAvailable: [],
   loading: true,
   services: []
+};
+
+const updateMhvAccountState = (state, mhvAccount) => {
+  return set('mhvAccount', {
+    ...state.mhvAccount,
+    ...mhvAccount,
+    errors: null,
+    loading: false
+  }, state);
 };
 
 function profileInformation(state = initialState, action) {
@@ -67,47 +70,39 @@ function profileInformation(state = initialState, action) {
 
     case FETCHING_MHV_ACCOUNT:
     case CREATING_MHV_ACCOUNT:
-      return set('mhv.account', {
-        ...state.mhv.account,
-        errors: null,
-        loading: true
-      }, state);
+    case UPGRADING_MHV_ACCOUNT:
+      return set('mhvAccount.loading', true, state);
 
     case FETCH_MHV_ACCOUNT_FAILURE:
-    case CREATE_MHV_ACCOUNT_FAILURE:
-      return set('mhv.account', {
-        ...state.mhv.account,
+      return set('mhvAccount', {
+        ...state.mhvAccount,
         errors: action.errors,
         loading: false
       }, state);
 
-    case FETCH_MHV_ACCOUNT_SUCCESS: {
-      const { accountState } = action.data.attributes;
-      const { polling, polledTimes } = state.mhv.account;
-      const shouldPoll =
-        accountState !== 'upgraded' &&
-        polling &&
-        polledTimes < MAX_POLL_TIMES;
-
-      return set('mhv.account', {
-        errors: null,
-        loading: false,
-        polling: shouldPoll,
-        polledTimes: shouldPoll ? polledTimes + 1 : 0,
-        state: accountState
+    case CREATE_MHV_ACCOUNT_FAILURE:
+      return set('mhvAccount', {
+        ...state.mhvAccount,
+        accountState: 'register_failed',
+        loading: false
       }, state);
-    }
 
-    case CREATE_MHV_ACCOUNT_SUCCESS: {
-      const { accountState } = action.data.attributes;
-      return set('mhv.account', {
-        ...state.mhv.account,
-        errors: null,
-        loading: false,
-        polling: accountState !== 'upgraded',
-        polledTimes: 0,
-        state: accountState
+    case UPGRADE_MHV_ACCOUNT_FAILURE:
+      return set('mhvAccount', {
+        ...state.mhvAccount,
+        accountState: 'upgrade_failed',
+        loading: false
       }, state);
+
+
+    case FETCH_MHV_ACCOUNT_SUCCESS:
+    case CREATE_MHV_ACCOUNT_SUCCESS:
+      return updateMhvAccountState(state, action.data.attributes);
+
+    case UPGRADE_MHV_ACCOUNT_SUCCESS: {
+      const newState = (!action.userProfile) ?
+        state : merge(state, mapRawUserDataToState(action.userProfile));
+      return updateMhvAccountState(newState, action.mhvAccount.data.attributes);
     }
 
     case REMOVING_SAVED_FORM_SUCCESS: {

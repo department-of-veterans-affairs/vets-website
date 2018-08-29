@@ -1,5 +1,4 @@
 // Builds the site using Metalsmith as the top-level build runner.
-const fs = require('fs');
 const path = require('path');
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
@@ -23,7 +22,7 @@ const watch = require('metalsmith-watch');
 const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
-const createSettings = require('../config/create-settings');
+const createBuildSettings = require('./create-build-settings');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const {
   getRoutes,
@@ -37,7 +36,7 @@ const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
-  { name: 'mergedbuild', type: Boolean, defaultValue: false },
+  { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
@@ -45,6 +44,7 @@ const optionDefinitions = [
   { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
+  { name: 'destination', type: String, defaultValue: null },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -59,6 +59,16 @@ if (options.unexpected && options.unexpected.length !== 0) {
 
 if (options.buildtype === undefined) {
   options.buildtype = 'development';
+}
+
+const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
+
+// destination is dependent upon buildtype but it can also change in applyHerokuOptions
+options.destination = path.resolve(__dirname, `../build/${options.buildtype}`);
+
+if (isHerokuBuild) {
+  const applyHerokuOptions = require('./heroku-helper');
+  applyHerokuOptions(options);
 }
 
 switch (options.buildtype) {
@@ -78,11 +88,8 @@ switch (options.buildtype) {
     break;
 
   case 'devpreview':
-    options.mergedbuild = true;
-    break;
-
   case 'preview':
-    options.mergedbuild = true;
+    options['brand-consolidation-enabled'] = true;
     break;
 
   default:
@@ -110,11 +117,14 @@ liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
 // add comments about any implicit dependencies you are introducing!!!
 //
 smith.source(sourceDir);
-smith.destination(`../build/${options.buildtype}`);
+smith.destination(options.destination);
 
 // This lets us access the {{buildtype}} variable within liquid templates.
-smith.metadata({ buildtype: options.buildtype });
-smith.metadata({ mergedbuild: options.mergedbuild });
+smith.metadata({
+  buildtype: options.buildtype,
+  // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
+  mergedbuild: !!options['brand-consolidation-enabled']
+});
 
 // To block an app from production add the following to the below list:
 //  ignoreList.push('<path-to-content-file>');
@@ -127,8 +137,6 @@ if (options.buildtype === 'production') {
   });
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
-  ignoreList.push('education/complaint-tool.md');
-  ignoreList.push('disability-benefits/apply/form-526-disability-claim.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -474,7 +482,7 @@ if (options.watch) {
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
-    contentBase: `build/${options.buildtype}`,
+    contentBase: options.destination,
     historyApiFallback: {
       rewrites: [
         ...appRewrites,
@@ -537,16 +545,14 @@ if (options.watch) {
 
 smith.use(assets({ source: '../assets', destination: './' }));
 
-const destination = path.resolve(__dirname, `../build/${options.buildtype}`);
-
 // Webpack paths are absolute, convert to relative
 smith.use((files, metalsmith, done) => {
   Object.keys(files).forEach((file) => {
-    if (file.indexOf(destination) === 0) {
+    if (file.indexOf(options.destination) === 0) {
       /* eslint-disable no-param-reassign */
-      files[file.substr(destination.length + 1)] = files[file];
+      files[file.substr(options.destination.length + 1)] = files[file];
       delete files[file];
-      /* esling-enable no-param-reassign */
+      /* eslint-enable no-param-reassign */
     }
   });
 
@@ -701,18 +707,11 @@ Convert onclick event handles into nonced script tags
 */
 smith.use(nonceTransformer);
 
-function generateStaticSettings() {
-  const settings = createSettings(options);
-  const settingsPath = path.join(destination, 'js/settings.js');
-  const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
-  fs.writeFileSync(settingsPath, settingsContent);
-}
-
 /* eslint-disable no-console */
 smith.build((err) => {
   if (err) throw err;
 
-  generateStaticSettings();
+  createBuildSettings(options);
 
   if (options.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');

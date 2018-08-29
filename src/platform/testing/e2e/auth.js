@@ -42,6 +42,7 @@ function initUserMock(token, level) {
           veteran_status: {
             status: 'OK',
             is_veteran: true,
+            served_in_military: true,
           },
           in_progress_forms: [{
             form: '1010ez',
@@ -58,8 +59,6 @@ function initUserMock(token, level) {
             'rx',
             'messaging'
           ],
-          mhv_account_state: 'upgraded',
-          health_terms_current: true,
           va_profile: {
             status: 'OK',
             birth_date: '19511118',

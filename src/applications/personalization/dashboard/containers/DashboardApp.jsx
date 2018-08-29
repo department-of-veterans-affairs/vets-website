@@ -11,6 +11,7 @@ import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
+import AppointmentsWidget from './AppointmentsWidget';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
@@ -196,7 +197,7 @@ class DashboardApp extends React.Component {
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1>Your Homepage</h1>
+          <h1 id="dashboard-title">Your Homepage</h1>
           <div className="va-introtext">
             <p>Access the tools and information you’ll need to track and manage your VA benefits and communications.</p>
           </div>
@@ -208,6 +209,8 @@ class DashboardApp extends React.Component {
 
             {this.renderLOAPrompt()}
             {this.renderMVIWarning()}
+
+            <AppointmentsWidget/>
 
             <ClaimsAppealsWidget/>
 

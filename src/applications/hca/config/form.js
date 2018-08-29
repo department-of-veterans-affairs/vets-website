@@ -1,13 +1,11 @@
 import _ from 'lodash/fp';
-import moment from 'moment';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import { validateMatch } from 'us-forms-system/lib/js/validation';
 import { createUSAStateLabels } from 'us-forms-system/lib/js/helpers';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { schema as addressSchema, uiSchema as addressUI } from 'us-forms-system/lib/js/definitions/address';
+import { schema as addressSchema, uiSchema as addressUI } from '../../../platform/forms/definitions/address';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
@@ -19,6 +17,7 @@ import {
 import {
   states
 } from '../../../platform/forms/address';
+import fullNameUI from '../../../platform/forms/definitions/fullName';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
@@ -46,7 +45,10 @@ import {
   disclosureWarning,
   expensesGreaterThanIncomeWarning,
   expensesLessThanIncome,
-  deductibleExpensesDescription
+  deductibleExpensesDescription,
+  isAfterCentralTimeDate,
+  isBeforeCentralTimeDate,
+  validateDate,
 } from '../helpers';
 
 import migrations from './migrations';
@@ -410,10 +412,10 @@ const formConfig = {
             lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
-              'ui:required': (formData) => !moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day')),
+              'ui:required': ({ lastDischargeDate: LDD }) => validateDate(LDD) && isBeforeCentralTimeDate(LDD),
               'ui:options': {
                 labels: dischargeTypeLabels,
-                hideIf: (formData) => moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day'))
+                hideIf: ({ lastDischargeDate: LDD }) => !validateDate(LDD) || isAfterCentralTimeDate(LDD),
               }
             },
             'ui:validations': [
@@ -924,7 +926,7 @@ const formConfig = {
           }
         }
       }
-    },
+    }
   }
 };
 

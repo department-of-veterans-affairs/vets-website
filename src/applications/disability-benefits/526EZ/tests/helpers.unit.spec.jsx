@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 import _ from 'lodash';
 
 import {
@@ -12,10 +11,7 @@ import {
   get4142Selection,
   queryForFacilities,
   transform,
-  hasGuardOrReservePeriod,
-  ReservesGuardDescription,
   transformObligationDates,
-  isInFuture,
   getReservesGuardData
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
@@ -33,12 +29,6 @@ describe('526 helpers', () => {
           {
             name: 'Diabetes mellitus0',
             disabilityActionType: 'INCREASE',
-            specialIssues: [
-              {
-                code: 'TRM',
-                name: 'Personal Trauma PTSD'
-              }
-            ],
             ratedDisabilityId: '0',
             ratingDecisionId: '63655',
             diagnosticCode: 5238
@@ -46,12 +36,6 @@ describe('526 helpers', () => {
           {
             name: 'Diabetes mellitus1',
             disabilityActionType: 'INCREASE',
-            specialIssues: [
-              {
-                code: 'TRM',
-                name: 'Personal Trauma PTSD'
-              }
-            ],
             ratedDisabilityId: '1',
             ratingDecisionId: '63655',
             diagnosticCode: 5238
@@ -381,140 +365,25 @@ describe('526 helpers', () => {
       expect(global.fetch.firstCall.args[0]).to.contain('/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf');
     });
 
-    it('should return the mapped data for autosuggest if successful', (done) => {
+    it('should return the mapped data for autosuggest if successful', () => {
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
-      requestPromise.then(result => {
+      return requestPromise.then(result => {
         expect(result).to.eql([
           { id: 0, label: 'first' },
           { id: 1, label: 'second' },
         ]);
-        done();
-      }).catch(err => done(err));
+      });
     });
 
-    it('should return an empty array if unsuccesful', (done) => {
+    it('should return an empty array if unsuccesful', () => {
       global.fetch.resolves({ ok: false });
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
-      requestPromise.then(result => {
+      return requestPromise.then(result => {
         // This .then() fires after the apiRequest failure callback returns []
         expect(result).to.eql([]);
-        done();
-      }).catch(error => {
-        done(error);
       });
-    });
-  });
-
-  describe('hasGuardOrReservePeriod', () => {
-    it('should return true when reserve period present', () => {
-      const formData = {
-        servicePeriods: [{
-          serviceBranch: 'Air Force Reserve',
-          dateRange: {
-            to: '2011-05-06',
-            from: '2015-05-06'
-          }
-        }]
-      };
-
-      expect(hasGuardOrReservePeriod(formData)).to.be.true;
-    });
-
-    it('should return true when national guard period present', () => {
-      const formData = {
-        servicePeriods: [{
-          serviceBranch: 'Air National Guard',
-          dateRange: {
-            to: '2011-05-06',
-            from: '2015-05-06'
-          }
-        }]
-      };
-
-      expect(hasGuardOrReservePeriod(formData)).to.be.true;
-    });
-
-    it('should return false when no reserves or guard period present', () => {
-      const formData = {
-        servicePeriods: [{
-          serviceBranch: 'Air Force',
-          dateRange: {
-            from: '2011-05-06',
-            to: '2015-05-06'
-          }
-        }]
-      };
-
-      expect(hasGuardOrReservePeriod(formData)).to.be.false;
-    });
-
-    it('should return false when no service history present', () => {
-      const formData = {};
-
-      expect(hasGuardOrReservePeriod(formData)).to.be.false;
-    });
-  });
-
-  describe('reservesGuardDescription', () => {
-    it('should pick the most recent service branch', () => {
-      const form = {
-        formData: {
-          servicePeriods: [{
-            serviceBranch: 'Air Force',
-            dateRange: {
-              from: '2010-05-08',
-              to: '2018-10-08',
-            }
-          },
-          {
-            serviceBranch: 'Air Force Reserve',
-            dateRange: {
-              from: '2000-05-08',
-              to: '2011-10-08',
-            }
-          },
-          {
-            serviceBranch: 'Marine Corps Reserve',
-            dateRange: {
-              from: '2000-05-08',
-              to: '2018-10-08',
-            }
-          }]
-        }
-      };
-
-      const renderedText = shallow(ReservesGuardDescription(form)).render().text();
-      expect(renderedText).to.contain('Marine Corps Reserve');
-    });
-
-    it('should return null when no service periods present', () => {
-      const form = {
-        formData: {}
-      };
-
-      expect(ReservesGuardDescription(form)).to.equal(null);
-    });
-  });
-
-  describe('isInFuture', () => {
-    it('adds an error when entered date is today or earlier', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2018-04-12';
-
-      isInFuture(errors, fieldData);
-      expect(addError.calledOnce).to.be.true;
-    });
-
-    it('does not add an error when the entered date is in the future', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2099-04-12';
-
-      isInFuture(errors, fieldData);
-      expect(addError.callCount).to.equal(0);
     });
   });
 

@@ -2,13 +2,12 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
-import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
+import { stateRequiredCountries } from '../../../platform/forms/definitions/address';
 import { filterViewFields } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
@@ -20,11 +19,12 @@ import { genderLabels } from '../../../platform/static-data/labels';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import {
-  USA,
-  VA_FORM4142_URL,
-  RESERVE_GUARD_TYPES
+  VA_FORM4142_URL
 } from './constants';
 
+import {
+  USA,
+} from '../all-claims/constants';
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
@@ -267,9 +267,7 @@ const capitalizeEach = (word) => {
  */
 export const getDisabilityName = (name) => {
   if (name && typeof name === 'string') {
-    const splitName = name.split(' ');
-    const capitalizedsplitName = splitName.map(capitalizeEach);
-    return capitalizedsplitName.join(' ');
+    return name.split(/ +/).map(capitalizeEach).join(' ');
   }
 
   Raven.captureMessage('form_526: no name supplied for ratedDisability');
@@ -579,10 +577,10 @@ export const editNote = (name) => (
  */
 export const srSubstitute = (srIgnored, substitutionText) => {
   return (
-    <div style={{ display: 'inline' }}>
+    <span>
       <span aria-hidden>{srIgnored}</span>
       <span className="sr-only">{substitutionText}</span>
-    </div>
+    </span>
   );
 };
 
@@ -913,60 +911,6 @@ export const PaymentDescription = () => (
   </p>
 );
 
-export const hasGuardOrReservePeriod = (formData) => {
-  const serviceHistory = formData.servicePeriods;
-  if (!serviceHistory || !Array.isArray(serviceHistory)) {
-    return false;
-  }
-
-  return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
-    // For a new service period, service branch defaults to undefined
-    if (!serviceBranch) {
-      return false;
-    }
-    const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
-    return isGuardReserve
-        || serviceBranch.includes(reserve)
-        || serviceBranch.includes(nationalGuard);
-  }, false);
-};
-
-export const ReservesGuardDescription = ({ formData }) => {
-  const { servicePeriods } = formData;
-  if (!servicePeriods || !Array.isArray(servicePeriods) || !servicePeriods[0].serviceBranch) {
-    return null;
-  }
-
-  const mostRecentPeriod = servicePeriods.filter(({ serviceBranch }) => {
-    const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
-    return (serviceBranch.includes(nationalGuard) || serviceBranch.includes(reserve));
-  }).map(({ serviceBranch, dateRange }) => {
-    const dateTo = new Date(dateRange.to);
-    return {
-      serviceBranch,
-      to: dateTo
-    };
-  }).sort((periodA, periodB) => (periodB.to - periodA.to))[0];
-
-  if (!mostRecentPeriod) {
-    return null;
-  }
-  const { serviceBranch, to } = mostRecentPeriod;
-  return (
-    <div>
-      Please tell us more about your {serviceBranch} service that ended on {moment(to).format('MMMM DD, YYYY')}.
-    </div>
-  );
-};
-
-export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);
-
-export const isInFuture = (errors, fieldData) => {
-  const enteredDate = new Date(fieldData);
-  if (enteredDate < Date.now()) {
-    errors.addError('Expected separation date must be in the future');
-  }
-};
 
 export const disabilitiesClarification = (
   <p>

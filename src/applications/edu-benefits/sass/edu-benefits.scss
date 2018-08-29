@@ -10,6 +10,11 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 
+
+.form-checkbox > input[type="checkbox"] + .schemaform-label { // TODO: add > to .schemaform-first-field .schemaform-label, .schemaform-first-field > .usa-input-error in us-forms-system
+  margin-top: 0;
+}
+
 // Privacy agreement?
 .form-required-span {
   font-size: 1.7em;
@@ -33,46 +38,51 @@
 .search-select-school-fieldset {
   .no-results-box {
     background-color: $color-gray-lightest;
-    margin: 25px 0;
+    margin: 25px 0 0 0;
     padding: 20px;
     p {
       margin: 0;
     }
   }
 
+  .school-search {
+    margin-top: 0
+  }
+
+  .school-search-label {
+    margin-top: 0
+  }
+
   .search-controls {
     display: flex;
-    flex-wrap: nowrap;
-    input {
-      margin-right: 10px;
+    flex-direction: column;
+    .clear-search{
+      display: flex;
     }
-
-    button {
+    .search-input {
+      align-items: center;
+      width: "100%";
+      display: flex;
+    }
+    .search-schools-button {
+      margin: 3px 0 0 15px;
       max-width: 150px;
+      width: 100%;
+    }
+    .start-over {
+      font-weight: normal
     }
   }
 
   .radio-button {
-    input[type="radio"] {
-    }
-
     span {
-      background-color: #f1f1f1;
       display: inline-block;
-      margin-left: 25px;
       width: 100%;
 
       &.institution-name {
         color: #0071BC;
-        font-size: 35;
         font-weight: bold;
-        padding: 10px 0 0 10px;
         text-decoration: underline;
-      }
-      &.institution-city-state {
-        font-size: 30;
-        font-weight: bold;
-        padding: 0 0 10px 10px;
       }
     }
 
@@ -81,6 +91,12 @@
       &::before {
         position: relative;
         top: 45px;
+      }
+
+      .institution-information {
+        background-color: #f1f1f1;
+        margin-left: 25px;
+        padding: 10px 15px;
       }
     }
   }

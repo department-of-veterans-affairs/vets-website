@@ -43,7 +43,8 @@ export default class AsyncDisplayWidget extends React.Component {
   componentDidMount() {
     // TODO: Don't call the callback _every_ time the component is mounted
     const cbPromise = this.props.options.callback();
-    if (cbPromise instanceof Promise) {
+    // instanceof Promise doesn't work in Firefox, so we just check for .then() and hope it's a promise
+    if (cbPromise && typeof cbPromise.then === 'function') {
       cbPromise.then((data) => {
         this.setState({
           data,

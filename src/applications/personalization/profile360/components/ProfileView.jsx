@@ -18,8 +18,6 @@ import MVIError from './MVIError';
 class ProfileView extends React.Component {
   static propTypes = {
     downtimeData: PropTypes.object,
-    isVet360AvailableForUser: PropTypes.bool,
-    fetchTransactions: PropTypes.func.isRequired,
     fetchMilitaryInformation: PropTypes.func.isRequired,
     fetchHero: PropTypes.func.isRequired,
     fetchPersonalInformation: PropTypes.func.isRequired,
@@ -30,14 +28,6 @@ class ProfileView extends React.Component {
     }),
     user: PropTypes.object
   };
-
-  componentDidMount() {
-    if (this.props.isVet360AvailableForUser) {
-      this.props.fetchTransactions();
-    } else {
-      // this.props.initializeUserToVet360()
-    }
-  }
 
   handleDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.downtimeApproaching) {
@@ -57,7 +47,6 @@ class ProfileView extends React.Component {
   render() {
     const {
       user,
-      isVet360AvailableForUser,
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
@@ -80,9 +69,12 @@ class ProfileView extends React.Component {
             <div>
               <Vet360TransactionReporter/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
-              <ContactInformation isVet360AvailableForUser={isVet360AvailableForUser} user={user}/>
+              <ContactInformation/>
               <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
-              <MilitaryInformation fetchMilitaryInformation={fetchMilitaryInformation} militaryInformation={militaryInformation}/>
+              <MilitaryInformation
+                veteranStatus={user.profile.veteranStatus}
+                fetchMilitaryInformation={fetchMilitaryInformation}
+                militaryInformation={militaryInformation}/>
             </div>
           </DowntimeNotification>
         );

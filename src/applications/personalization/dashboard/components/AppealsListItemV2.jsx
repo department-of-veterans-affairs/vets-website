@@ -28,15 +28,14 @@ export default function AppealListItem({ appeal, name }) {
   // always show merged event on top
   const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
   const firstEvent = events[events.length - 1];
-  const lastEvent = events[0];
 
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">
-        Appeal of {appealTypeMap[appeal.attributes.programArea]} - Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
+        Appeal of {appealTypeMap[appeal.attributes.programArea]} Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
       </h3>
       <div className="card-status">
-        <p><strong>{moment(lastEvent.date).format('MMM D, YYYY')}</strong> - {getStatusContents(status.type, status.details, name).title}</p>
+        <p><strong>Status</strong>: {getStatusContents(status.type, status.details, name).title}</p>
       </div>
       <p>
         <Link className="usa-button usa-button-primary" href={`/track-claims/appeals/${appeal.id}/status`}>View appeal<i className="fa fa-chevron-right"/></Link>

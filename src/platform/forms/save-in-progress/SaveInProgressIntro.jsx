@@ -23,15 +23,15 @@ class SaveInProgressIntro extends React.Component {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
-          : moment.unix(savedForm.last_updated);
-        const expirationDate = moment.unix(savedForm.metadata.expires_at).format('M/D/YYYY');
+          : moment.unix(savedForm.lastUpdated);
+        const expirationDate = moment.unix(savedForm.metadata.expiresAt).format('MMM D, YYYY');
 
         alert = (
           <div>
             <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
               <div className="schemaform-sip-alert-title">Application status: <strong>In progress</strong></div>
               <div className="saved-form-metadata-container">
-                <span className="saved-form-metadata">Last saved on {savedAt.format('M/D/YYYY [at] h:mm a')}</span>
+                <span className="saved-form-metadata">Last saved on {savedAt.format('MMM D, YYYY [at] h:mm a')}</span>
                 <div className="expires-container">Your saved application <span className="expires">will expire on {expirationDate}.</span></div>
               </div>
               <div>{this.props.children}</div>
@@ -67,6 +67,7 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
+      const { retentionPeriod } = this.props;
       alert = (
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -74,7 +75,7 @@ class SaveInProgressIntro extends React.Component {
               <strong>If you’re signed in to your account, your application process can go more smoothly. Here’s why:</strong><br/>
               <ul>
                 <li>We can prefill part of your application based on your account details.</li>
-                <li>You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.</li>
+                <li>You can save your form in progress, and come back later to finish filling it out. You have {retentionPeriod} from the date you start or update your application to submit the form. After {retentionPeriod}, the form won’t be saved, and you’ll need to start over.</li>
               </ul><br/>
               <button className="va-button-link" onClick={() => this.props.toggleLoginModal(true)}>Sign in to your account.</button>
             </div>
@@ -126,7 +127,7 @@ class SaveInProgressIntro extends React.Component {
     const { profile } = this.props.user;
     const startPage = this.getStartPage();
     const savedForm = profile && profile.savedForms
-      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .filter(f => moment.unix(f.metadata.expiresAt).isAfter())
       .find(f => f.form === this.props.formId);
     const prefillAvailable = this.props.prefillAvailable ||
       // TODO: remove 1st clause once 526 added to list
@@ -188,6 +189,7 @@ SaveInProgressIntro.propTypes = {
   formId: PropTypes.string.isRequired,
   messages: PropTypes.object,
   migrations: PropTypes.array,
+  prefillTransformer: PropTypes.func,
   returnUrl: PropTypes.string,
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
@@ -195,6 +197,7 @@ SaveInProgressIntro.propTypes = {
   saveInProgress: PropTypes.object.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
+  retentionPeriod: PropTypes.string,
   startText: PropTypes.string,
   pathname: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
@@ -203,6 +206,10 @@ SaveInProgressIntro.propTypes = {
   verifiedPrefillAlert: PropTypes.element,
   unverifiedPrefillAlert: PropTypes.element,
   downtime: PropTypes.object
+};
+
+SaveInProgressIntro.defaultProps = {
+  retentionPeriod: '60 days'
 };
 
 export const introSelector = getIntroState;

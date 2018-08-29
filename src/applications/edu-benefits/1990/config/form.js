@@ -7,7 +7,7 @@ import applicantInformation from '../../../../platform/forms/pages/applicantInfo
 import GetFormHelp from '../../components/GetFormHelp';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import { schema as addressSchema, uiSchema as addressUI } from 'us-forms-system/lib/js/definitions/address';
+import { schema as addressSchema, uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
