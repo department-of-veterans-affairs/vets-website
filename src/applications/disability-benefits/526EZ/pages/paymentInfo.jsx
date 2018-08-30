@@ -18,17 +18,17 @@ const NOBANK = 'NOBANK';
 
 export const viewComponent = (response) => {
   const {
-    accountType,
-    accountNumber,
-    financialInstitutionRoutingNumber: routingNumber,
-    financialInstitutionName: bankName,
+    accountType = '',
+    accountNumber = '',
+    financialInstitutionRoutingNumber: routingNumber = '',
+    financialInstitutionName: bankName = '',
   } = response;
   let accountNumberString;
   let routingNumberString;
   let bankNameString;
   const mask = (string, unmaskedLength) => {
     // If no string is given, tell the screen reader users the account or routing number is blank
-    if (string === '') {
+    if (!string) {
       return srSubstitute('', 'is blank');
     }
     const repeatCount = string.length > unmaskedLength ? string.length - unmaskedLength : 0;
