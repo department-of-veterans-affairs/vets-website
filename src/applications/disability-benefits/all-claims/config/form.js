@@ -8,6 +8,8 @@ import {
   hasGuardOrReservePeriod
 } from '../utils';
 
+import disabilityLabels from '../content/disabilityLabels';
+
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
   alternateNames,
@@ -17,10 +19,19 @@ import {
   separationTrainingPay,
   reservesNationalGuardService,
   federalOrders,
-  prisonerOfWar
+  prisonerOfWar,
+  addDisabilities,
+  newDisabilityFollowUp
 } from '../pages';
 
 import fullSchema from './schema';
+
+const ptsdDisabilityIds = new Set([
+  5420,
+  7290,
+  9010,
+  9011
+]);
 
 const formConfig = {
   urlPrefix: '/',
@@ -108,6 +119,50 @@ const formConfig = {
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema
         }
+      }
+    },
+    disabilities: {
+      title: 'Disabilities',
+      pages: {
+        newDisabilities: {
+          title: 'New disabilities',
+          path: 'new-disabilities',
+          uiSchema: {
+            'ui:description': 'Next, we’ll ask you to tell us what disabilities you’re claiming. Once we have your list of disabilities, we’ll ask you more specific questions about each of them.'
+          },
+          schema: { type: 'object', properties: {} }
+        },
+        addDisabilities: {
+          title: 'Add a new disability',
+          path: 'add-new-disabilities',
+          uiSchema: addDisabilities.uiSchema,
+          schema: addDisabilities.schema
+        },
+        followUpDesc: {
+          title: 'Follow-up questions',
+          path: 'follow-up',
+          uiSchema: {
+            'ui:description': 'Now we’re going to ask you some follow-up questions about each of your disabilities. We’ll go through them one by one.'
+          },
+          schema: { type: 'object', properties: {} }
+        },
+        newDisabilityFollowUp: {
+          initialData: {
+            disabilities: [
+              {
+                diagnosticCode: '1',
+                name: 'Test name'
+              }
+            ]
+          },
+          title: (formData, { pagePerItemIndex }) => disabilityLabels[formData.newDisabilities[pagePerItemIndex].diagnosticCode],
+          path: 'follow-up/:index',
+          showPagePerItem: true,
+          itemFilter: (item) => !ptsdDisabilityIds.has(item.diagnosticCode),
+          arrayPath: 'newDisabilities',
+          uiSchema: newDisabilityFollowUp.uiSchema,
+          schema: newDisabilityFollowUp.schema
+        },
       }
     }
   }
