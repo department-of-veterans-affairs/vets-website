@@ -82,11 +82,11 @@ Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumul
 You'll need to apply for benefits and provide the evidence (supporting documents) listed below:
 - A document proving your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license, birth certificate, or adoption papers), **and**
 - A document proving that you lived at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 (like utility bills, base housing records, military orders, or tax forms), **and**
-- Medical records that show you have one of the 15 conditions listed above (as well as the date the illness was diagnosed and that you're being treated or have been treated in the past for this illness), **and**
+- Medical records that show you have one of the 15 conditions listed above (as well as the date the illness was diagnosed and that you're being treated or have been treated in the past for this illness)
 
 And you must provide evidence that you paid health care expenses for your claimed condition during one of these time periods: 
-- If you lived on Camp Lejeune between January 1, 1957 and December 31, 1987, we'll reimburse you for care received on or after August 6, 2012 and up to 2 years before the date of your application, **or**
-- If you lived on Camp Lejeune between August 1, 1953 and December 31, 1956, we'll reimburse you for care received on or after December 16, 2014 and up to 2 years before the date you apply for benefits.
+- Between January 1, 1957 and December 31, 1987 (if you lived on Camp Lejeune during this time period, we'll reimburse you for care received on or after August 6, 2012 and up to 2 years before the date of your application), **or**
+- Between August 1, 1953 and December 31, 1956 (if you lived on Camp Lejeune during this time period, we'll reimburse you for care received on or after December 16, 2014 and up to 2 years before the date you apply for benefits)
 
 **You may also want to provide a Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b).** <br>
 You'll need to ask your doctor to fill out and sign this form before submitting it to us. We don't require this form, but it can help give us important information to determine your eligibility for benefits.<br>
