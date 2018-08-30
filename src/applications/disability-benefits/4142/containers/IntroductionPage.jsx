@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="21-4142"/>
-        <p>Equal to VA Form 22-4142 (21-4142).</p>
+        <p>Equal to VA Form 21-4142 (21-4142).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
@@ -25,7 +25,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Please complete the 22-4142 form to apply for private medical records request.
+          Please complete the 21-4142 form to apply for private medical records request.
         </SaveInProgressIntro>
         <h4>Follow the steps below to apply for private medical records request.</h4>
         <div className="process schemaform-process">

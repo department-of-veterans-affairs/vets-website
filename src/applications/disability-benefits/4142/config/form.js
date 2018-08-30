@@ -1,4 +1,4 @@
-// _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 
 // Example of an imported schema:
 // import fullSchema from '../22-4142-schema.json';
@@ -8,7 +8,8 @@
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import PrivateProviderTreatmentView from '../../../../platform/forms/components/ServicePeriodView';
+import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
+
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -21,67 +22,56 @@ import { STATES, COUNTRIES } from '../constants';
 // const { } = fullSchema.definitions;
 
 import {
-  medicalRecDescription,
-  letUsKnow,
-  aboutPrivateMedicalRecs,
+  recordHelp,
+  recordReleaseDescription,
+  aboutPrivateMedicalRecords,
   limitedConsentDescription,
-  summary,
+  recordReleaseSummary,
   validateZIP,
 } from '../helpers';
 
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
+
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions; // TODO replace with 4142 specific definitions
 
 // Define all the fields in the form to aid reuse
 const formFields = {
-  fullName: 'fullName',
-  ssn: 'ssn',
-  toursOfDuty: 'toursOfDuty',
-  privateMedicalProvider: 'privateMedicalProvider',
-  viewNoDirectDeposit: 'view:noDirectDeposit',
-  viewStopWarning: 'view:stopWarning',
-  bankAccount: 'bankAccount',
-  accountType: 'accountType',
-  accountNumber: 'accountNumber',
-  routingNumber: 'routingNumber',
-  address: 'address',
-  email: 'email',
-  altEmail: 'altEmail',
-  phoneNumber: 'phoneNumber',
+  privateMedicalProviders: 'privateMedicalProviders',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
-  applicantInfo: 'applicantInfo',
-  uploadInfo: 'uploadInfo',
+  applicantInformation: 'applicantInformation',
+  uploadInformation: 'uploadInformation',
   serviceHistory: 'serviceHistory',
   treatmentHistory: 'treatmentHistory',
-  contactInfo: 'contactInfo',
-  directDeposit: 'directDeposit',
+  recordReleaseSummary: 'recordReleaseSummary',
 };
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api/something', // Test Url
-  // submit: () =>
-  //   Promise.resolve({ attributes: {
-  // confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complex-form-',
+  // submitUrl: '${environment.API_URL}/v0/private_medical_record_auth/submit', //TODO When BE is ready
+  submit: () =>
+    Promise.resolve({
+      attributes: { confirmationNumber: '123123123', timestamp: Date.now() },
+    }),
+
+  trackingPrefix: '21-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '1234',
+  formId: '21-4142',
   version: 0,
   prefillEnabled: true,
-  //  prefillTransformer, //TODO: DO WE NEED THIS?
+  //  prefillTransformer, //TODO: Will enable this when BE is ready
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   //  transformForSumbit: transform, //TODO
-  title: '4142 Private Medical Record Release Form',
+  title: '4142 Private Medical Record Release Form', // TODO: Verify the title and subtitle
   defaultDefinitions: {
     fullName,
     ssn,
@@ -90,18 +80,20 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    chapterApplicantInfo: {
-      title: 'Apply for disability increase',
+    applicantInformation: {
+      title: 'Apply for disability increase', // TODO: Verify title
       pages: {
-        [formPages.uploadInfo]: {
-          path: 'prviate-medical-record',
+        [formPages.uploadInformation]: {
+          // THIS IS NOT A REAL PAGE; WILL BE THROWN OUT IN 526 INTEGRATION TODO
+          path: 'prviate-medical-record-upload',
           title: 'Supporting Evidence',
           uiSchema: {
-            'view:uploadRecs': {
-              'ui:description': aboutPrivateMedicalRecs,
-              'ui:title': aboutPrivateMedicalRecs,
+            'view:uploadRecords': {
+              'ui:description': aboutPrivateMedicalRecords,
+              'ui:title': aboutPrivateMedicalRecords,
               'ui:widget': 'radio',
               'ui:options': {
+                // TODO depends: (formData) => !formData.view:uploadRecs
                 labels: {
                   yes: 'Yes',
                   no: 'No, please get them from my doctor.',
@@ -109,13 +101,13 @@ const formConfig = {
               },
             },
             'view:privateRecordsChoiceHelp': {
-              'ui:description': medicalRecDescription,
+              'ui:description': recordHelp,
             },
           },
           schema: {
             type: 'object',
             properties: {
-              'view:uploadRecs': {
+              'view:uploadRecords': {
                 type: 'string',
                 'enum': ['Yes', 'No, please get them from my doctor.'],
               },
@@ -125,18 +117,18 @@ const formConfig = {
               },
             },
           },
-        },
+        }, // THIS IS NOT A REAL PAGE; WILL BE THROWN OUT IN 526 INTEGRATION TODO
       },
     },
-    chapterServiceHistory: {
+    treatmentHistory: {
       title: 'Supporting Evidence',
       pages: {
         [formPages.treatmentHistory]: {
-          path: 'treatment-history',
+          path: 'private-medical-record-request',
           title: 'Supporting Evidence',
           uiSchema: {
-            'ui:description': letUsKnow,
-            [formFields.privateMedicalProvider]: {
+            'ui:description': recordReleaseDescription,
+            [formFields.privateMedicalProviders]: {
               'ui:options': {
                 itemName: 'Provider',
                 viewField: PrivateProviderTreatmentView,
@@ -211,7 +203,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [formFields.privateMedicalProvider]: {
+              [formFields.privateMedicalProviders]: {
                 type: 'array',
                 items: {
                   type: 'object',
@@ -228,7 +220,16 @@ const formConfig = {
                       properties: {},
                     },
                     dateRange: {
-                      $ref: '#/definitions/dateRange',
+                      type: 'object',
+                      properties: {
+                        from: {
+                          $ref: '#/definitions/date',
+                        },
+                        to: {
+                          $ref: '#/definitions/date',
+                        },
+                      },
+                      required: ['from', 'to'],
                     },
                     privateProviderCountry: {
                       type: 'string',
@@ -272,12 +273,12 @@ const formConfig = {
             },
           },
         },
-        [formPages.contactInfo]: {
-          path: 'summary-information',
+        [formPages.recordReleaseSummary]: {
+          path: 'private-medical-record-summary',
           title: 'Summary Information',
           uiSchema: {
             'ui:title': 'Summary of evidence',
-            'ui:description': summary,
+            'ui:description': recordReleaseSummary,
           },
           schema: {
             type: 'object',
