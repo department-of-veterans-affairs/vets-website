@@ -6,4 +6,4 @@ export const hasSeparationPay = (data) => _.get('view:hasSeparationPay', data, f
 
 export const hasTrainingPay = (data) => _.get('view:hasTrainingPay', data, false);
 
-export const hasRatedDisabilities = (data) => !!_.get('disabilities', data, []).length;
+export const hasRatedDisabilities = (data) => !!_.get('ratedDisabilities', data, []).length;

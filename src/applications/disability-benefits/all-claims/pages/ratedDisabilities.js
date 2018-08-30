@@ -12,7 +12,7 @@ export const uiSchema = {
   'ui:description':
     `Below are your rated disabilities. Please choose the disability that 
     you’re filing for an increase because the condition has gotten worse.`,
-  disabilities: {
+  ratedDisabilities: {
     'ui:field': 'StringField',
     'ui:widget': SelectArrayItemsWidget,
     'ui:options': {
@@ -30,7 +30,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    disabilities: disabilitiesSchema,
+    ratedDisabilities: disabilitiesSchema,
     'view:disabilitiesClarification': {
       type: 'object',
       properties: {}

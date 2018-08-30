@@ -8,7 +8,8 @@ import {
 } from '../validations';
 
 import {
-  hasGuardOrReservePeriod
+  hasGuardOrReservePeriod,
+  prefillTransformer
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -32,10 +33,10 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
   // formId: '21-526EZ-all-claims',
-  formId: '21-526EZ', // Test prefill
+  formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
   version: 1,
   migrations: [],
-  // prefillTransformer,
+  prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
   savedFormMessages: {

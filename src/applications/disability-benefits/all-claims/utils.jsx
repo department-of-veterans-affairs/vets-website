@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Raven from 'raven-js';
 
-import get from '../../../platform/utilities/data/get';
+import _ from '../../../platform/utilities/data';
 
 import { RESERVE_GUARD_TYPES } from './constants';
 /**
@@ -70,7 +70,7 @@ export const ReservesGuardDescription = ({ formData }) => {
   );
 };
 
-export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);
+export const title10DatesRequired = (formData) => _.get('view:isTitle10Activated', formData, false);
 
 export const isInFuture = (errors, fieldData) => {
   const enteredDate = new Date(fieldData);
@@ -98,3 +98,43 @@ export const getDisabilityName = (name) => {
   Raven.captureMessage('form_526: no name supplied for ratedDisability');
   return 'Unknown Condition';
 };
+
+export function transformDisabilities(disabilities = []) {
+  return disabilities
+    // We want to remove disabilities without a rating, but 0 counts as a valid rating
+    // TODO: Log the disabilities if they're not service connected
+    // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
+    //  it gets here and we can't tell whether it is service connected or not. This happens in
+    //  the api
+    .filter(disability => {
+      if (disability.ratingPercentage || disability.ratingPercentage === 0) {
+        return true;
+      }
+
+      // TODO: Only log it if the decision code indicates the condition is not non-service-connected
+      const { decisionCode } = disability;
+      if (decisionCode) {
+        Raven.captureMessage('526_increase_disability_filter', {
+          extra: { decisionCode }
+        });
+      }
+
+      return false;
+    }).map(disability => _.set('disabilityActionType', 'INCREASE', disability));
+}
+
+export function prefillTransformer(pages, formData, metadata) {
+  const { disabilities } = formData;
+  if (!disabilities || !Array.isArray(disabilities)) {
+    Raven.captureMessage('vets-disability-increase-no-rated-disabilities-found');
+    return { metadata, formData, pages };
+  }
+  const newFormData = _.set('ratedDisabilities', transformDisabilities(disabilities), formData);
+  delete newFormData.disabilities;
+
+  return {
+    metadata,
+    formData: newFormData,
+    pages
+  };
+}
