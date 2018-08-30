@@ -1,7 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-export const aboutPrivateMedicalRecs = () => {
+export const aboutPrivateMedicalRecords = () => {
   return (
     <div>
       <h4>About private medical records</h4>
@@ -16,13 +16,13 @@ export const aboutPrivateMedicalRecs = () => {
   );
 };
 
-export const summary = ({ formData }) => {
-  const privateMedicalProvider = formData.privateMedicalProvider;
+export const recordReleaseSummary = ({ formData }) => {
+  const privateMedicalProviders = formData.privateMedicalProviders;
   return (
     <div>
       <br/>
       <li>We‘ll get your private medical records from</li>
-      {privateMedicalProvider.map((provider, idx) => {
+      {privateMedicalProviders.map((provider, idx) => {
         return (
           <ul key={idx}>
             <strong>{provider.privateProviderName}</strong>
@@ -33,7 +33,7 @@ export const summary = ({ formData }) => {
   );
 };
 
-export const letUsKnow = () => {
+export const recordReleaseDescription = () => {
   return (
     <div>
       <p>
@@ -45,7 +45,7 @@ export const letUsKnow = () => {
   );
 };
 
-export const medicalRecDescription = (
+export const recordHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
     <h5>Upload your medical records</h5>
     <p>
