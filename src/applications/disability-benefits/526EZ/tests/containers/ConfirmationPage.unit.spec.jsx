@@ -77,4 +77,27 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     const wrapper = shallow(<ConfirmationPage {...defaultProps}/>);
     expect(wrapper.render().text()).to.contain('April 12, 2018');
   });
+
+  it('should render a success message', () => {
+    const wrapper = shallow(<ConfirmationPage {...defaultProps}/>);
+    const text = wrapper.render().text();
+    expect(text).to.contain('Claim ID number');
+    expect(text).to.contain(defaultProps.claimId);
+  });
+
+  it('should render a "check later" message', () => {
+    const wrapper = shallow(<ConfirmationPage {...defaultProps} submissionStatus={submissionStatuses.retry}/>);
+    const text = wrapper.render().text();
+    expect(text).to.contain('Please allow 24 hours');
+    expect(text).to.contain('Confirmation number');
+    expect(text).to.contain(defaultProps.jobId);
+  });
+
+  it('should render a failure message', () => {
+    const wrapper = shallow(<ConfirmationPage {...defaultProps} submissionStatus={submissionStatuses.failed}/>);
+    const text = wrapper.render().text();
+    expect(text).to.not.contain('Please allow 24 hours');
+    expect(text).to.contain('Confirmation number');
+    expect(text).to.contain(defaultProps.jobId);
+  });
 });
