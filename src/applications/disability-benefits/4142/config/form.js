@@ -1,4 +1,4 @@
-// _ from 'lodash/fp';
+import _ from 'lodash/fp';
 
 // Example of an imported schema:
 import fullSchema4142 from '../../../../../../vets-json-schema/dist/21-4142-schema.json';
@@ -16,16 +16,11 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-const {
-  veteranFullName,
-  veteranSocialSecurityNumber,
-  veteranDateOfBirth,
-  veteranAddress,
-  email,
-  limitedConsent,
-  providerFacility,
-  treatmentDateRange
-} = fullSchema4142.properties;
+// const {
+//   limitedConsent,
+//   providerFacility,
+//   treatmentDateRange
+// } = fullSchema4142.properties;
 
 const {
   fullName,
@@ -33,8 +28,7 @@ const {
   date,
   address,
   phone,
-  dateRange,
-  privacyAgreementAccepted
+  dateRange
 } = fullSchema4142.definitions;
 
 import {
@@ -146,9 +140,6 @@ const formConfig = {
                   'Approximate date of last treatment',
                   'End of treatment must be after start of treatment',
                 ),
-                // privateProviderCountry: {
-                //   'ui:title': 'Country',
-                // },
                 providerFacilityAddress: _.merge(addressUI('', false), {
                   street: {
                     'ui:errorMessages': {
@@ -164,18 +155,6 @@ const formConfig = {
                     }
                   }
                 }),
-                // privateProviderState: {
-                //   'ui:title': 'State',
-                // },
-                // privateProviderCity: {
-                //   'ui:title': 'City',
-                // },
-                // privateProviderPostalCode: {
-                //   'ui:title': 'Postal code',
-                //   'ui:options': {
-                //     widgetClassNames: 'usa-input-medium',
-                //   },
-                // },
                 phone: {
                   'ui:title': 'Primary phone number',
                   'ui:widget': PhoneNumberWidget,
@@ -208,17 +187,26 @@ const formConfig = {
                       properties: {},
                     },
                     treatmentDateRange: {
-                      $ref: '#/definitions/dateRange',
+                      type: 'object',
+                      properties: {
+                        from: {
+                          $ref: '#/definitions/date',
+                        },
+                        to: {
+                          $ref: '#/definitions/date',
+                        }
+                      },
+                      required: [
+                        'from',
+                        'to'
+                      ]
                     },
-                    // privateProviderCountry: {
-                    //   type: 'string',
-                    // },
                     providerFacilityAddress: _.merge(addressSchema(fullSchema4142, true), {
                       properties: {
                         street: {
                           minLength: 1,
                           maxLength: 30,
-                          type:'string'
+                          type: 'string'
                         },
                         street2: {
                           minLength: 1,
@@ -232,23 +220,13 @@ const formConfig = {
                         }
                       }
                     }),
-                    // privateProviderCity: {
-                    //   type: 'string',
-                    // },
-                    // privateProviderState: {
-                    //   type: 'string',
-                    // },
-                    // privateProviderPostalCode: {
-                    //   type: 'string',
-                    // },
                     phone: {
                       type: 'string',
                     },
                   },
                   required: [
                     'providerFacilityName',
-                    'providerFacilityAddress',
-                    'treatmentDateRange'
+                    'providerFacilityAddress'
                   ],
                 },
               },
