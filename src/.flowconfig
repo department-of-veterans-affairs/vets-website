@@ -3,6 +3,7 @@
 [include]
 
 [libs]
+./custom-types/
 
 [lints]
 

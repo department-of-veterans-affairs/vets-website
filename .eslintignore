@@ -13,3 +13,4 @@ src/applications/static-pages/static-page-widgets.js
 script/watch.js
 script/mocha.js
 src/flow-typed/*
+src/custom-types/*

@@ -1,3 +1,4 @@
+// @flow
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',
@@ -11,7 +12,7 @@ export const RESERVE_GUARD_TYPES = {
   reserve: 'Reserve'
 };
 
-export const PCIU_STATES = [
+export const PCIU_STATES: Array<{ label: string, value: string}> = [
   { label: 'Alabama', value: 'AL' },
   { label: 'Alaska', value: 'AK' },
   { label: 'American Samoa', value: 'AS' },
@@ -78,6 +79,8 @@ export const PCIU_STATES = [
   { label: 'Wyoming', value: 'WY' }
 ];
 
+// Not sure what the deal is here, but I'm getting the following from flow for the next two lines:
+// Error: Missing type annotation for `U`.
 export const STATE_LABELS = PCIU_STATES.map(state => state.label);
 export const STATE_VALUES = PCIU_STATES.map(state => state.value);
 
