@@ -1,3 +1,4 @@
+// @flow
 import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
 import fullSchema from '../config/schema';
 
