@@ -19,7 +19,7 @@ If you’ve filed a claim for disability compensation, you can continue to uploa
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
     <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to upload evidence.</h4>
-    <p class="usa-alert-text"> To use this feature, you'll need to have a premium <b>DS Logon</b> account. Your MyHealth<em>e</em>Vet or ID.me credentials won’t work. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
+    <p class="usa-alert-text"> To use this feature, you'll need to have a premium <b>DS Logon</b> account. Your MyHealth<em>e</em>Vet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
       <button class="usa-button-primary">Go to eBenefits</button>
     </p>
   </div>
