@@ -59,8 +59,7 @@ import {
   queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
-  editNote,
-  disabilitiesClarification
+  editNote
 } from '../helpers';
 
 import {
@@ -68,7 +67,8 @@ import {
 } from '../../all-claims/utils';
 
 import {
-  disabilityOption
+  disabilityOption,
+  disabilitiesClarification
 } from '../../all-claims/content/ratedDisabilities';
 
 import { requireOneSelected } from '../validations';
