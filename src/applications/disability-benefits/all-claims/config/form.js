@@ -2,7 +2,10 @@ import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { hasMilitaryRetiredPay } from '../validations';
+import {
+  hasMilitaryRetiredPay,
+  hasRatedDisabilities
+} from '../validations';
 
 import {
   hasGuardOrReservePeriod
@@ -28,7 +31,8 @@ const formConfig = {
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
-  formId: '21-526EZ-all-claims',
+  // formId: '21-526EZ-all-claims',
+  formId: '21-526EZ', // Test prefill
   version: 1,
   migrations: [],
   // prefillTransformer,
@@ -117,6 +121,7 @@ const formConfig = {
         ratedDisabilities: {
           title: 'Existing Conditions (Rated Disabilities)',
           path: 'disabilities/rated-disabilities',
+          depends: hasRatedDisabilities,
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema
         }

@@ -25,7 +25,6 @@ export const uiSchema = {
   'view:disabilitiesClarification': {
     'ui:description': disabilitiesClarification
   }
-
 };
 
 export const schema = {
