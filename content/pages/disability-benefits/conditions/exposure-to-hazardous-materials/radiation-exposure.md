@@ -25,10 +25,7 @@ You may be able to get disability benefits if you didn’t receive a dishonorabl
 
 [See the list of radiation-related illnesses](https://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309).
 
-
-You must also have had contact with ionizing radiation while serving in the military in at least one of the below ways.
-
-**One of these must describe your contact with ionizing radiation while serving in the military. You:**
+**And you must have had contact with ionizing radiation in one of these ways while serving in the military. You:**
 
 - Were part of atmospheric nuclear weapons testing, **or**
 - Served in the postwar occupation of Hiroshima or Nagasaki, **or**
@@ -65,8 +62,6 @@ You’ll need to file a claim and provide the evidence (supporting documents) li
 - Service records showing that you were part of one of the radiation risk activities described above
 
 **Note:** When you file your claim, we’ll ask the military branch that you served with (or the Defense Threat Reduction Agency) to give us a range of how much radiation they think you may have come into contact with. We’ll use the highest level of the range they report to decide on your benefits.
-
-You'll also need to claim an illness or disability believed to be caused by contact with radiation. It’s not enough to state that you had contact with radiation during service.
 
 [Apply for benefits](/disability-benefits/apply/).
 
