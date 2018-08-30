@@ -1,18 +1,34 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import moment from 'moment';
 
 import get from '../../../platform/utilities/data/get';
 
 import { RESERVE_GUARD_TYPES } from './constants';
+
+
+// Would be good to pull these type definitions into a common file
+type DateRangeType = {
+  from: string,
+  to: string
+};
+
+type FormDataType = {
+  servicePeriods: Array<{
+    serviceBranch: string,
+    serviceHistory: Array<{}>,
+    dateRange: DateRangeType,
+  }>
+};
+
+
 /**
  * Show one thing, have a screen reader say another.
- * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
  *
- * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
- *                                                           but ignored by screen readers
- * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
+ * @param srIgnored -- Thing to be displayed visually, but ignored by screen readers
+ * @param substitutionText -- Text for screen readers to say instead of srIgnored
  */
-const srSubstitute = (srIgnored, substitutionText) => {
+const srSubstitute = (srIgnored: React.Node, substitutionText: string): React.Node => {
   return (
     <div style={{ display: 'inline' }}>
       <span aria-hidden>{srIgnored}</span>
@@ -23,7 +39,7 @@ const srSubstitute = (srIgnored, substitutionText) => {
 
 export default srSubstitute;
 
-export const hasGuardOrReservePeriod = (formData) => {
+export const hasGuardOrReservePeriod = (formData: FormDataType): boolean => {
   const serviceHistory = formData.servicePeriods;
   if (!serviceHistory || !Array.isArray(serviceHistory)) {
     return false;
@@ -41,7 +57,7 @@ export const hasGuardOrReservePeriod = (formData) => {
   }, false);
 };
 
-export const ReservesGuardDescription = ({ formData }) => {
+export const ReservesGuardDescription = ({ formData }: { formData: FormDataType }): React.Node => {
   const { servicePeriods } = formData;
   if (!servicePeriods || !Array.isArray(servicePeriods) || !servicePeriods[0].serviceBranch) {
     return null;
@@ -69,9 +85,9 @@ export const ReservesGuardDescription = ({ formData }) => {
   );
 };
 
-export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);
+export const title10DatesRequired = (formData: FormDataType): boolean => get('view:isTitle10Activated', formData, false);
 
-export const isInFuture = (errors, fieldData) => {
+export const isInFuture = (errors: { addError: (string) => mixed }, fieldData: string): void => {
   const enteredDate = new Date(fieldData);
   if (enteredDate < Date.now()) {
     errors.addError('Expected separation date must be in the future');

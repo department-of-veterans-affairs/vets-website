@@ -11,6 +11,7 @@
     }],
     "react",
     "stage-2",
+    "flow"
   ],
   "plugins": [
     "lodash"
@@ -19,7 +20,7 @@
   "env": {
     "test": {
       "presets": ["env", "stage-2"],
-      "plugins": [ 
+      "plugins": [
         "istanbul",
         "dynamic-import-node",
         "transform-react-remove-prop-types"
