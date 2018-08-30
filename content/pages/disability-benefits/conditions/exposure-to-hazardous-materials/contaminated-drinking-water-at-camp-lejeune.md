@@ -88,6 +88,7 @@ Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumul
 
 **You may also want to provide a Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b).** You'll need to ask your doctor to fill out and sign this form before submitting it to us. We don't require this form, but it can help give us important information to determine your eligibility for benefits.<br>
 [Download VA Form 10-10068b](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b).
+Have your doctor fill out and sign this form before submitting. 
 
 **You can apply in 1 of 2 ways:**
 
@@ -105,7 +106,7 @@ Austin, TX 78714-9200<br>
 </p>
 
 If you need help with your application, call our Camp Lejeune Family Member program staff at <a href="tel:+18663721144">1-866-372-1144</a>. <br>
-(https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
+(https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b).  
 
 <div class="feature" markdown="1">
 
