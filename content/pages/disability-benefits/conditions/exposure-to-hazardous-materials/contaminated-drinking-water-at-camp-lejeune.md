@@ -106,8 +106,6 @@ Austin, TX 78714-9200<br>
 </p>
 
 If you need help with your application, call our Camp Lejeune Family Member program staff at <a href="tel:+18663721144">1-866-372-1144</a>. <br>
-(https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b).  
-
 <div class="feature" markdown="1">
 
 ### What was in the drinking water?
