@@ -10,28 +10,37 @@ function SharedComponent() {
 }
 
 describe('brand-consolidation/feature-flag', () => {
-  let windowSettings = null;
+  let windowRef = null;
 
   before(() => {
-    windowSettings = window.settings;
+    windowRef = global.window;
   });
 
   after(() => {
-    window.settings = windowSettings;
+    global.window = windowRef;
   });
 
   it('renders Vets.gov when the feature-flag is false', () => {
-    window.settings = { brandConsolidationEnabled: false };
-
+    global.window = {
+      settings: {
+        brandConsolidation: {
+          enabled: false
+        }
+      }
+    };
     const component = enzyme.shallow(<SharedComponent/>);
     expect(component.text()).to.be.equal('Vets.gov');
   });
 
   it('renders VA.gov when the feature-flag is true', () => {
-    window.settings = { brandConsolidationEnabled: true };
-
+    global.window = {
+      settings: {
+        brandConsolidation: {
+          enabled: true
+        }
+      }
+    };
     const component = enzyme.shallow(<SharedComponent/>);
     expect(component.text()).to.be.equal('VA.gov');
   });
-
 });
