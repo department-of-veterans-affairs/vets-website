@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import Raven from 'raven-js';
 
 import get from '../../../platform/utilities/data/get';
 
@@ -76,4 +77,24 @@ export const isInFuture = (errors, fieldData) => {
   if (enteredDate < Date.now()) {
     errors.addError('Expected separation date must be in the future');
   }
+};
+
+const capitalizeEach = (word) => {
+  const capFirstLetter = word[0].toUpperCase();
+  return `${capFirstLetter}${word.slice(1)}`;
+};
+
+/**
+ * Takes a string and returns the same string with every word capitalized. If no valid
+ * string is given as input, returns 'Unknown Condition' and logs to Sentry.
+ * @param {string} name the lower-case name of a disability
+ * @returns {string} the input name, but with all words capitalized
+ */
+export const getDisabilityName = (name) => {
+  if (name && typeof name === 'string') {
+    return name.split(/ +/).map(capitalizeEach).join(' ');
+  }
+
+  Raven.captureMessage('form_526: no name supplied for ratedDisability');
+  return 'Unknown Condition';
 };

@@ -52,7 +52,6 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
-  disabilityOption,
   GetFormHelp,
   FDCDescription,
   FDCWarning,
@@ -67,6 +66,10 @@ import {
 import {
   hasGuardOrReservePeriod
 } from '../../all-claims/utils';
+
+import {
+  disabilityOption
+} from '../../all-claims/content/ratedDisabilities';
 
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';

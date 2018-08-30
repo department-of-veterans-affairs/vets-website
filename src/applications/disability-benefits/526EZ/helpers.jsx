@@ -17,6 +17,7 @@ import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
+import { getDisabilityName } from '../all-claims/utils';
 
 import {
   VA_FORM4142_URL
@@ -253,26 +254,6 @@ export const evidenceTypeHelp = (
     <p>A lay statement is a written statement from family, friends, or coworkers to help support your claim. Lay statements are also called “buddy statements.” In most cases, you’ll only need your medical records to support your disability claim. Some claims, for example, for Posttraumatic Stress Disorder or for military sexual trauma, could benefit from a lay or buddy statement.</p>
   </AdditionalInfo>
 );
-
-const capitalizeEach = (word) => {
-  const capFirstLetter = word[0].toUpperCase();
-  return `${capFirstLetter}${word.slice(1)}`;
-};
-
-/**
- * Takes a string and returns the same string with every word capitalized. If no valid
- * string is given as input, returns 'Unknown Condition' and logs to Sentry.
- * @param {string} name the lower-case name of a disability
- * @returns {string} the input name, but with all words capitalized
- */
-export const getDisabilityName = (name) => {
-  if (name && typeof name === 'string') {
-    return name.split(/ +/).map(capitalizeEach).join(' ');
-  }
-
-  Raven.captureMessage('form_526: no name supplied for ratedDisability');
-  return 'Unknown Condition';
-};
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
@@ -609,27 +590,6 @@ const unconnectedVetInfoView = (profile) => {
 
 
 export const veteranInfoDescription = connect((state) => state.user.profile)(unconnectedVetInfoView);
-
-
-/**
- * @typedef {Object} Disability
- * @property {String} diagnosticCode
- * @property {String} name
- * @property {String} ratingPercentage
- * @param {Disability} disability
- */
-export const disabilityOption = ({ name, ratingPercentage }) => {
-  // May need to throw an error to Sentry if any of these doesn't exist
-  // A valid rated disability *can* have a rating percentage of 0%
-  const showRatingPercentage = Number.isInteger(ratingPercentage);
-
-  return (
-    <div>
-      <h4>{getDisabilityName(name)}</h4>
-      {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
-    </div>
-  );
-};
 
 
 export const ITFErrorAlert = (
