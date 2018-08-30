@@ -32,7 +32,7 @@ import {
   schema as reservesNationalGuardSchema
 } from '../pages/reservesNationalGuardService';
 
-import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItemsWidget';
 
 import {
   transform,
