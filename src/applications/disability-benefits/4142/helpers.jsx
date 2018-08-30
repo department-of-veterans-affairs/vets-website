@@ -1,14 +1,14 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-export const aboutPrivateMedicalRecs = () => {
+export const aboutPrivateMedicalRecords = () => {
   return (
     <div>
       <h4>About private medical records</h4>
       <p>
         You said you were treated for [condition] by a private doctor. If you
         have those records, you can upload them here, or we can get them for
-        you. If you want us to get your records, you'll need to authorize their
+        you. If you want us to get your records, you‘ll need to authorize their
         release.
       </p>
       <p>Do you want to upload your private medical records?</p>
@@ -16,7 +16,7 @@ export const aboutPrivateMedicalRecs = () => {
   );
 };
 
-export const summary = ({ formData }) => {
+export const recordReleaseSummary = ({ formData }) => {
   const providerFacility = formData.providerFacility;
   return (
     <div>
@@ -33,7 +33,7 @@ export const summary = ({ formData }) => {
   );
 };
 
-export const letUsKnow = () => {
+export const recordReleaseDescription = () => {
   return (
     <div>
       <p>
@@ -45,7 +45,7 @@ export const letUsKnow = () => {
   );
 };
 
-export const medicalRecDescription = (
+export const recordHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
     <h5>Upload your medical records</h5>
     <p>
@@ -54,13 +54,13 @@ export const medicalRecDescription = (
     </p>
     <p>
       This works best if you have a fast internet connection and time for a
-      large file upload. Records should be .pdf, .jpg, or .png files and can be
+      large file to upload. Records should be .pdf, .jpg, or .png files and can be
       up to 50MB each.
     </p>
     <h5>We get records for you</h5>
     <p>
       If you tell us which VA medical center treated you for your condition, we
-      can get your medical reocrds for you. Getting your records may take us
+      can get your medical records for you. Getting your records may take us
       some time. This could take us longer to make a decision on your claim.
     </p>
   </AdditionalInfo>
