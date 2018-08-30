@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { compact, isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { mapboxClient } from '../components/MapboxClient';
 import { reverseGeocodeBox } from '../utils/helpers';
 import {
@@ -80,15 +80,6 @@ export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }
  * @param {Function} dispatch Redux's dispatch method
  */
 const fetchLocations = (address = null, bounds, locationType, serviceType, page, dispatch) => {
-  const filterableLocations = ['health', 'benefits'];
-  const params = compact([
-    address ? `address=${address}` : null,
-    ...bounds.map(c => `bbox[]=${c}`),
-    locationType ? `type=${locationType}` : null,
-    filterableLocations.includes(locationType) && serviceType ? `services[]=${serviceType}` : null,
-    `page=${page}`
-  ]).join('&');
-
   dispatch({
     type: SEARCH_STARTED,
     payload: {
@@ -97,7 +88,7 @@ const fetchLocations = (address = null, bounds, locationType, serviceType, page,
     },
   });
 
-  return LocatorApi.searchWithBounds(params)
+  return LocatorApi.searchWithBounds(address, bounds, locationType, serviceType, page)
     .then(
       (data) => {
         if (data.errors) {

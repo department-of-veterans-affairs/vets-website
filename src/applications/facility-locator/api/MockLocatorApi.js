@@ -6,6 +6,8 @@
 /* eslint-disable array-bracket-spacing */
 /* eslint-disable space-in-parens */
 /* eslint-disable no-use-before-define */
+
+// Immitate network delay
 const delay = 0;
 
 class MockLocatorApi {

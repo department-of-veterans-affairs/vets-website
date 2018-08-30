@@ -21,6 +21,7 @@ import CemeteryMarker from '../components/markers/CemeteryMarker';
 import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
 import VetCenterMarker from '../components/markers/VetCenterMarker';
+import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual } from '../utils/helpers';
@@ -349,6 +350,15 @@ class VAMap extends Component {
               {popupContent}
             </VetCenterMarker>
           );
+        case undefined:
+          if (r.type === LocationType.CC_PROVIDER) {
+            return (
+              <ProviderMarker {...iconProps}>
+                {popupContent}
+              </ProviderMarker>
+            );
+          }
+          return null;
         default: return null;
       }
     });
