@@ -17,7 +17,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
       uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input[type="checkbox"]').length).to.equal(initialData.disabilities.length);
+    expect(form.find('input[type="checkbox"]').length).to.equal(initialData.ratedDisabilities.length);
   });
 
   it('successfully submits when at least one condition is selected', () => {
@@ -29,7 +29,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     );
 
     // Simulating a click event doesn't trigger onChange, so we have to call it explicitly
-    form.find('input#root_disabilities_0').props().onChange({ target: { checked: true } });
+    form.find('input#root_ratedDisabilities_0').props().onChange({ target: { checked: true } });
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
   });
