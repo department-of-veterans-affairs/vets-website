@@ -34,7 +34,7 @@ export default {
       }
     }
   ],
-  disabilities: [
+  ratedDisabilities: [
     {
       diagnosticCode: 5420,
       name: 'Post traumatic stress disorder',
