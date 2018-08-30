@@ -51,7 +51,7 @@ Find out if you can get disability compensation or benefits for illnesses or oth
 
 ### Medical Care for Volunteers Involved in Chemical and Biological Testing
 
-As many as 60,000 Veterans volunteered for medical research for the U.S. Biological and Chemical Programs between 1942 and 1975. If you volunteered for this research, you can get medical care through the U.S. Army if you have an injury or illness directly caused by your participation in this testing.
+As many as 60,000 Veterans volunteered for medical research for the U.S. Biological and Chemical Programs between 1942 and 1975. You can get medical care through the U.S. Army if you volunteered for this research and have an injury or illness directly caused by your participation.
 
 If you have questions or need help getting medical care: 
 - [Visit the U.S. Army web page](https://armymedicine.health.mil/CBTP), **or** 
