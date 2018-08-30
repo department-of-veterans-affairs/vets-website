@@ -6,6 +6,7 @@ import {
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
   isInFuture,
+  getDisabilityName
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -117,6 +118,21 @@ describe('526 helpers', () => {
 
       isInFuture(errors, fieldData);
       expect(addError.callCount).to.equal(0);
+    });
+  });
+
+  describe('getDisabilityName', () => {
+    it('should return string with each word capitalized when name supplied', () => {
+      expect(getDisabilityName('some disability - some detail')).to.equal('Some Disability - Some Detail');
+    });
+    it('should return Unknown Condition with undefined name', () => {
+      expect(getDisabilityName()).to.equal('Unknown Condition');
+    });
+    it('should return Unknown Condition when input is empty string', () => {
+      expect(getDisabilityName('')).to.equal('Unknown Condition');
+    });
+    it('should return Unknown Condition when name is not a string', () => {
+      expect(getDisabilityName(249481)).to.equal('Unknown Condition');
     });
   });
 });
