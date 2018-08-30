@@ -34,7 +34,9 @@ If you’ve filed a claim for disability compensation, you can continue to uploa
 
 Upload any information or evidence as soon as you can. 
 
-You can continue uploading documents for up to one year from the date we receive your claim. But, if you don’t provide any evidence or give us the information we need to help you get evidence within 30 days, we may make a decision on your claim earlier. If we decide your claim early, you’ll still have the rest of the one year period to provide additional information or evidence. </div>
+You can continue uploading documents for up to one year from the date we receive your claim. But, if you don’t provide any evidence or give us the information we need to help you get evidence within 30 days, we may make a decision on your claim earlier.
+
+If we decide your claim early, you’ll still have the rest of the one-year period to provide more information or evidence. </div>
 </div>
 </div>
 </div>
@@ -45,7 +47,9 @@ You can continue uploading documents for up to one year from the date we receive
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-We’ll remove your claim from the Fully Developed Claim program and process it as a standard claim. If we decide your claim earlier than one year from the date we received the claim, you’ll still have the rest of the year to provide any additional information or evidence.
+We’ll remove your claim from the Fully Developed Claims program and process it as a standard claim. 
+
+If we decide your claim earlier than one year from the date we received the claim, you’ll still have the rest of the year to provide any additional information or evidence.
 </div>
 </div>
 </div>
@@ -61,25 +65,26 @@ We’ll remove your claim from the Fully Developed Claim program and process it 
 **These include copies of:**
 - Your military medical records
 - Your military personnel records
-- Any Social Security Administration medical treatment records
-- All relevant treatment and personnel records your National or Reserve unit may have for you (if applicable)
+- Any Social Security Administration or other federal or state medical treatment records
+- Any treatment or personnel records from your National Guard or Reserve unit that support your claim (if you've served in either of these branches)
 
-If you don’t have copies of these records, you can ask us to request these for you as part of the claims process.
+If you don’t have copies of these records, you can ask us to request them for you as part of the claim process.
 
 ### Private Medical Treatment Records 
 
-If you’ve seen a non-VA health care provider for care, you’ll need to upload copies of all medical treatment records that can provide information about the disability you’re claiming. 
+If you’ve seen a non-VA health care provider for diagnosis or treatment, you’ll need to upload copies of all medical records that can provide information about the disability you’re claiming. 
 
 **These may include evidence like:**
-
 - Doctor’s reports
 - X-rays
-- Medical test results
+- Medical lab or test results
 
 ### Supporting Statements
 
-If you’re claiming a disability for an injury or illness that you don’t think we have in your military records, you’ll also want to upload statements that support your claim. These statements should be from people who know about, or who you’ve talked to about, your claimed medical condition(s) and how and when it occurred. This may include:
+If you’re claiming a disability for an injury or illness that you don’t think we have in your military records, you’ll also want to upload statements that support your claim. These statements should be from people who know about, or who you’ve talked to about, your claimed medical condition and how and when it occurred. 
 
+**You can ask for supporting statements from people like:**
+- Servicemembers who served with you 
 - Your family and friends
 - Clergy members
 - Law enforcement officers
@@ -90,9 +95,6 @@ You can help speed up your claim by using disability benefits questionnaires (DB
 
 You can search for DBQs to download by form name or by symptom. <br>
 [Find VA DBQs to take to your health care provider](https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp).
-
-**Note:** You can also ask your health care provider to fax or mail your completed DBQs to your nearest VA regional benefit office.
-[Find your nearest VA regional benefit office](/facilities/).
 
 ### Any Supplemental Forms Needed to Support Your Claim
 
