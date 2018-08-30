@@ -12,7 +12,7 @@ describe('Disability benefits 4142 provider primary address', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.chapterServiceHistory.pages.treatmentHistory;
+  } = formConfig.chapters.treatmentHistory.pages.treatmentHistory;
 
   it('should render 4142 form', () => {
     const form = mount(
@@ -34,7 +34,7 @@ describe('Disability benefits 4142 provider primary address', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          privateMedicalProvider: [
+          privateMedicalProviders: [
             {
               privateProviderName: '',
               privateProviderStreetAddressLine1: '',
