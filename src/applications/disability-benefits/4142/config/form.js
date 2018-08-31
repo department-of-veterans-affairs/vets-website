@@ -39,7 +39,7 @@ import {
   disabilityNameTitle
 } from '../helpers';
 
-import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
+// import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
@@ -50,11 +50,11 @@ const formPages = {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '${environment.API_URL}/v0/private_medical_record_auth/submit', //TODO When BE is ready
-  submit: () =>
-    Promise.resolve({
-      attributes: { confirmationNumber: '123123123', timestamp: Date.now() },
-    }),
+  submitUrl: 'http://localhost:3001/v0/private_medical_records/submit',
+  // submit: () =>
+  //   Promise.resolve({
+  //     attributes: { confirmationNumber: '123123123', timestamp: Date.now() },
+  //   }),
 
   trackingPrefix: '21-4142-',
   introduction: IntroductionPage,
@@ -128,6 +128,13 @@ const formConfig = {
           uiSchema: {
             'ui:description': recordReleaseDescription,
             'ui:title': disabilityNameTitle,
+            limitedConsent: {
+              'ui:title':
+                'I give consent, or permission, to my doctor to release only records related to [condition].',
+            },
+            'view:privateRecordsChoiceHelp': {
+              'ui:description': limitedConsentDescription,
+            },
             providerFacility: {
               'ui:options': {
                 itemName: 'Provider',
@@ -137,13 +144,6 @@ const formConfig = {
               items: {
                 providerFacilityName: {
                   'ui:title': 'Name of private provider or hospital',
-                },
-                limitedConsent: {
-                  'ui:title':
-                    'I give consent, or permission, to my doctor to release only records related to [condition].',
-                },
-                'view:privateRecordsChoiceHelp': {
-                  'ui:description': limitedConsentDescription,
                 },
                 treatmentDateRange: dateRangeUI(
                   'Approximate date of first treatment',
@@ -165,16 +165,23 @@ const formConfig = {
                     }
                   }
                 }),
-                phone: {
-                  'ui:title': 'Primary phone number',
-                  'ui:widget': PhoneNumberWidget,
-                  'ui:options': {
-                    widgetClassNames: 'va-input-medium-large',
-                  },
-                  'ui:errorMessages': {
-                    pattern: 'Phone numbers must be 10 digits (dashes allowed)',
-                  },
-                }
+                limitedConsent: {
+                  'ui:title':
+                    'I give consent, or permission, to my doctor to release only records related to [condition].',
+                },
+                'view:privateRecordsChoiceHelp': {
+                  'ui:description': limitedConsentDescription,
+                },
+                // phone: {
+                //   'ui:title': 'Primary phone number',
+                //   'ui:widget': PhoneNumberWidget,
+                //   'ui:options': {
+                //     widgetClassNames: 'va-input-medium-large',
+                //   },
+                //   'ui:errorMessages': {
+                //     pattern: 'Phone numbers must be 10 digits (dashes allowed)',
+                //   },
+                // }
               },
             }
           },
@@ -188,9 +195,6 @@ const formConfig = {
                   properties: {
                     providerFacilityName: {
                       type: 'string',
-                    },
-                    limitedConsent: {
-                      type: 'boolean',
                     },
                     treatmentDateRange: {
                       type: 'object',
@@ -223,15 +227,18 @@ const formConfig = {
                         }
                       }
                     }),
-                    phone: {
-                      type: 'string',
-                    }
+                    // phone: {
+                    //   type: 'string',
+                    // }
                   },
                   required: [
                     'providerFacilityName',
                     'providerFacilityAddress'
                   ],
                 },
+              },
+              limitedConsent: {
+                type: 'boolean',
               },
               // 'view:privateRecordsChoiceHelp': {
               //   type: 'object',
