@@ -92,7 +92,7 @@ Once you’ve signed up:
   - Chat online with a trained Women Veterans Call Center representative Monday through Friday, 8:00 a.m. – 10:00 p.m. (<abbr title="eastern time">ET</abbr>). This chat function is private and anonymous. Please don't include any personal information, like your Social Security number. <br>
 [Start a chat with the Women Veterans Call Center](https://productionchat.vrm.vba.va.gov/system/templates/chat/wvcc/chat.html?entryPointId=1009&templateName=wvcc&languageCode=en&countryCode=US&ver=v11).
 
-You can also look for women's health services specific to your nearest VA medical center. To do this, go to the website of the VA health care system that the medical center is part of. In the page's navigation, click on "Health Care Services." A sub menu will appear. Select "Women Veterans." <br>
+You can also look for women's health services specific to your nearest VA medical center. To do this, go to the website of the VA health care system that the medical center is part of. In the page's navigation, click on "Health Care Services." A submenu will appear. Select "Women Veterans." <br>
 [Find your medical center's website](https://www.va.gov/health/vamc/).
 
 <br>
