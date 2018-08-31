@@ -1,12 +1,15 @@
 const assets = require('../assets/resources.json');
 
-function createResourceConfig(options) {
-  const resources = {
-    ...assets,
-    pages: {}
-  };
+/* eslint-disable no-param-reassign, no-continue */
 
+function createResourceConfig(options) {
   return (files, metalsmith, done) => {
+
+    const resources = {
+      ...assets,
+      pages: {}
+    };
+
     for (const fileName of Object.keys(files)) {
       const fileData = files[fileName];
       const {
@@ -20,10 +23,11 @@ function createResourceConfig(options) {
         location: `/${fileName}`,
         redirects
       };
-
     }
+
     metalsmith.metadata({ resources });
     options.resources = resources;
+
     done();
   };
 }
