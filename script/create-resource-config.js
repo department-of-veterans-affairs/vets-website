@@ -1,29 +1,29 @@
-const assets = require('../assets/resources.json');
-
 /* eslint-disable no-param-reassign, no-continue */
+
+const assets = require('../assets/resources.json');
 
 function createResourceConfig(options) {
   return (files, metalsmith, done) => {
 
-    const resources = {
-      ...assets,
-      pages: {}
-    };
+    const pages = {};
 
     for (const fileName of Object.keys(files)) {
       const fileData = files[fileName];
       const {
-        resource_id: resourceId,
-        redirects
+        resource_id: resourceId
       } = fileData;
 
       if (!resourceId) continue;
 
-      resources.pages[resourceId] = {
-        location: `/${fileName}`,
-        redirects
-      };
+      const fileNameWithoutExtension = fileName.slice(0, fileName.indexOf('.md'));
+
+      pages[resourceId] = `/${fileNameWithoutExtension}/`;
     }
+
+    const resources = {
+      ...assets,
+      pages
+    };
 
     metalsmith.metadata({ resources });
     options.resources = resources;
