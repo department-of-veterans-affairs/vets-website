@@ -11,6 +11,7 @@ import PrivateProviderTreatmentView from '../components/PrivateProviderTreatment
 import { schema as addressSchema, uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -50,7 +51,7 @@ const formPages = {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: 'http://localhost:3001/v0/private_medical_records/submit',
+  submitUrl: `${environment.API_URL}/v0/private_medical_records/submit`,
   // submit: () =>
   //   Promise.resolve({
   //     attributes: { confirmationNumber: '123123123', timestamp: Date.now() },
