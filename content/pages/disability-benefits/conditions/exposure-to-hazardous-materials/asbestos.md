@@ -41,7 +41,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that your illness was likely caused by your contact with asbestos while serving in the military. <br>
+You’ll need to file a claim for benefits. When you file, you’ll have to show that your illness was likely caused by your contact with asbestos while serving in the military. <br>
 [Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 If you think you’ve had contact with asbestos, talk to your doctor about getting tested for certain illnesses that affect your lungs.
