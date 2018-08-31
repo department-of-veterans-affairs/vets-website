@@ -61,7 +61,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. <br>
+You’ll need to file a claim for benefits. <br>
 [Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 ### What if I need help filing my disability claim?
