@@ -132,9 +132,6 @@ No. You'll only need to apply once. If you're enrolled, you'll stay in the VA he
 
 <br>
 
-<span id="after-cancel-enrollment">
-  
-
 <span id="after-removed-enrollment">
 
 #### What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I'm not eligible and will be removed from enrollment?
@@ -147,6 +144,8 @@ If we decide not to keep you enrolled in VA health care after this time, you hav
 [Learn how to appeal a VA decision.](https://www.va.gov/vaforms/va/pdf/VA4107VHA.pdf)
 
 <br>
+
+<span id="after-cancel-enrollment">
   
 #### How do I cancel my VA health care enrollment if I no longer want or need it?
 
