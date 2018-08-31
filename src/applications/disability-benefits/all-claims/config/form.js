@@ -13,6 +13,7 @@ import {
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
+import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import {
   alternateNames,
   servicePay,
@@ -119,6 +120,12 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
+        disabilitiesOrientation: {
+          title: '',
+          path: 'disabilities/orientation',
+          uiSchema: { 'ui:description': disabilitiesOrientation },
+          schema: { type: 'object', properties: {} }
+        },
         ratedDisabilities: {
           title: 'Existing Conditions (Rated Disabilities)',
           path: 'disabilities/rated-disabilities',

@@ -13,6 +13,7 @@ export const uiSchema = {
     `Below are your rated disabilities. Please choose the disability that 
     you’re filing for an increase because the condition has gotten worse.`,
   ratedDisabilities: {
+    'ui:title': ' ',
     'ui:field': 'StringField',
     'ui:widget': SelectArrayItemsWidget,
     'ui:options': {
