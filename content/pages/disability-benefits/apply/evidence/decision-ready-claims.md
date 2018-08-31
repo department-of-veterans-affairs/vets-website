@@ -14,7 +14,7 @@ relatedlinks:
       description: "Find out what evidence we’ll need—and what your options are for gathering documents to support your claim."
     - url: /disability-benefits/apply/
       title: How to Apply for Disability Benefits
-      description: "Apply online now, or find out how to file a claim in person, by mail, or with the help of a trained professional."
+      description: "File a claim online now, or find out how to file a claim in person, by mail, or with the help of a trained professional."
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Pre-discharge Claim
       description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
