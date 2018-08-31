@@ -45,7 +45,7 @@ You may be able to get disability benefits if you have one or more illnesses bel
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military. If you were exposed outside of the areas listed, please give your location and timeframe of service so we can review your claim. <br>
+You’ll need to file a claim for benefits. When you file, you’ll have to show that you had contact with Agent Orange while serving in the military. If you were exposed outside of the areas listed, please give your location and timeframe of service so we can review your claim. <br>
 [Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 **Exception:**<br>
