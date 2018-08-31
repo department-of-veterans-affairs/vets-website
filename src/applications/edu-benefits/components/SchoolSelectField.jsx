@@ -243,6 +243,7 @@ export class SchoolSelectField extends React.Component {
               <Element name="schoolSearch"/>
               <div className="search-input">
                 <input
+                  id="school-search-input"
                   name="school-search-input"
                   onChange={this.handleSearchInputChange}
                   onKeyDown={this.handleSearchInputKeyDown}
