@@ -31,34 +31,39 @@ Looking to transfer colleges or training programs? Find out how to request a cha
 
 </div>
 
-<h2>Request Changes to Your GI Bill Benefits As a Veteran or Servicemember</h2>
+<h2>How do I request changes to my GI Bill benefits?</h2>
 
-You'll need to fill out a Request for Change of Program or Place of Training (VA Form 22-1885).
+<h3>If you're a Veteran or Servicemember</h3>
 
-[Complete VA Form 22-1885 Online Now](/education/apply-for-education-benefits/application/1995/introduction).
+You'll need to submit a Request for Change of Program or Place of Training (VA Form 22-1995).You can complete this form online now.
 
-<b>To complete this form, you'll need:</b>
-- Your Social Security number
-- Your VA file number
-- Your bank account direct deposit information
-- Information about your education or training plans and goals 
-- Basic information about both your current or old school or training program and the new school or training program you plan to attend
+[Complete VA Form 22-1995 Online Now](/education/apply-for-education-benefits/application/1995/introduction).
 
-<h2>Request Changes to Your GI Bill Benefits As a Dependent</h2>
+<h3>If you're the dependent of a Veteran or Servicemember</h3>
 
-You'll need to submit a Dependent's Request for Change of Program or Place of Training (VA Form 22-1885). You can complete this form online now.
+You'll need to submit a Dependent's Request for Change of Program or Place of Training (VA Form 22-15495). You can complete this form online now.
 
-[Complete VA Form 22-1885 Online](/education/apply-for-education-benefits/application/5495/introduction).
+[Complete VA Form 22-5495 Online](/education/apply-for-education-benefits/application/5495/introduction).
 
-<b>To complete this form, you'll need:</b>
-- Your Social Security number
-- Your VA file number
-- Your bank account direct deposit information
-- The Social Security number or VA file number of the qualifying Veteran or Servicemember
-- Information about your education or training plans and goals 
-- Basic information about both your current or old school or training program and the new school or training program you plan to attend
+<h2>What information will I need to fill out the request?</h2>
 
-<h2>Other Ways to Submit Your Request</h2>
+<b>You'll need your:</b>
+- Social Security number
+- VA file number
+- Bank account direct deposit information
+
+<b>You'll also need basic information about your:</b>
+- Service history
+- Education or training plans and goals 
+- Current or old school or training program and the new school or training program you plan to attend
+
+<b>If you're the dependent of a Veteran or Servicemember, you'll also need the Veteran or Servicemember's:</b>
+- Social Security number or VA file number
+- Basic service history information
+
+<h2>What if I don't want to submit my request online?</h2>
+
+Follow the steps below to submit your request by mail, in person, or with the help of a trained professional. 
 
 <h3>By mail</h3>
 
