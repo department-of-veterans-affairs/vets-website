@@ -44,7 +44,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to provide evidence (supporting documents like a doctor’s report or medical test results) showing that your disability prevents you from holding down a steady job. We’ll also review your work and education history. <br>
+You’ll need to file a claim for benefits. When you file, you’ll have to provide evidence (supporting documents like a doctor’s report or medical test results) showing that your disability prevents you from holding down a steady job. We’ll also review your work and education history. <br>
 [Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 **Example:** A Veteran has a service-connected heart condition and a 60% disability rating. She was still able to work until last year when she began to get chest pain when doing anything physical, like walking or lifting boxes. Her doctor told her to retire as soon as possible. She filed a claim for more disability compensation. We reviewed her work and education history and agreed that she was individually unemployable because of her service-connected disability. So we increased her disability compensation to the same rate as a 100% disabled Veteran.
