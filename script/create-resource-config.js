@@ -10,14 +10,15 @@ function createResourceConfig(options) {
     for (const fileName of Object.keys(files)) {
       const fileData = files[fileName];
       const {
-        resource_id: resourceId
+        resource_id: resourceId,
+        permalink
       } = fileData;
 
       if (!resourceId) continue;
 
-      const fileNameWithoutExtension = fileName.slice(0, fileName.indexOf('.md'));
+      const path = permalink ? permalink.replace('index.html', '') : `/${fileName.replace('.md', '')}/`;
 
-      pages[resourceId] = `/${fileNameWithoutExtension}/`;
+      pages[resourceId] = path;
     }
 
     const resources = {
