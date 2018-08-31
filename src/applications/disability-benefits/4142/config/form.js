@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 // Example of an imported schema:
-import fullSchema4142 from '../../../../../../vets-json-schema/dist/21-4142-schema.json';
+import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-4142-schema.json';
 
