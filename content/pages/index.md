@@ -43,7 +43,7 @@ majorlinks:
 you’ve earned.</div>
   </div>
 </div>
-{{ resources | json }}
+
 <div class="popular-container usa-grid-full">
 <h3>Get started with Vets.gov</h3>
 <div class="popular-container-links">
