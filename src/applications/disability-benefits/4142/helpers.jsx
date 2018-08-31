@@ -102,3 +102,9 @@ export const evidenceTypeHelp = (
     </p>
   </AdditionalInfo>
 );
+
+export const disabilityNameTitle = ({  }) => {
+  return (
+    <legend className="schemaform-block-title schemaform-title-underline">[condition]</legend>
+  );
+};

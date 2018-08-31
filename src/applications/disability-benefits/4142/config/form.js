@@ -1,13 +1,12 @@
 import _ from 'lodash/fp';
 
 // Example of an imported schema:
-import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
+// import fullSchema4142 from '../../../../vets-json-schema/dist/21-4142-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-4142-schema.json';
+import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
-// import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { schema as addressSchema, uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 
@@ -37,6 +36,7 @@ import {
   aboutPrivateMedicalRecords,
   limitedConsentDescription,
   recordReleaseSummary,
+  disabilityNameTitle
 } from '../helpers';
 
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -86,6 +86,7 @@ const formConfig = {
           path: 'private-medical-record-upload',
           title: 'Supporting Evidence',
           uiSchema: {
+            'ui:title': disabilityNameTitle,
             'view:uploadRecords': {
               'ui:description': aboutPrivateMedicalRecords,
               'ui:title': aboutPrivateMedicalRecords,
@@ -126,6 +127,7 @@ const formConfig = {
           title: 'Supporting Evidence',
           uiSchema: {
             'ui:description': recordReleaseDescription,
+            'ui:title': disabilityNameTitle,
             providerFacility: {
               'ui:options': {
                 itemName: 'Provider',
@@ -135,6 +137,10 @@ const formConfig = {
               items: {
                 providerFacilityName: {
                   'ui:title': 'Name of private provider or hospital',
+                },
+                limitedConsent: {
+                  'ui:title':
+                    'I give consent, or permission, to my doctor to release only records related to [condition].',
                 },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': limitedConsentDescription,
@@ -158,24 +164,17 @@ const formConfig = {
                       pattern: 'Please provide a valid city. Must be at least 1 character.'
                     }
                   }
-                })
-              },
-            },
-            limitedConsent: {
-              'ui:title':
-                'I give consent, or permission, to my doctor to release only records related to [condition].',
-            },
-            'view:privateRecordsChoiceHelp': {
-              'ui:description': limitedConsentDescription,
-            },
-            phone: {
-              'ui:title': 'Primary phone number',
-              'ui:widget': PhoneNumberWidget,
-              'ui:options': {
-                widgetClassNames: 'va-input-medium-large',
-              },
-              'ui:errorMessages': {
-                pattern: 'Phone numbers must be 10 digits (dashes allowed)',
+                }),
+                phone: {
+                  'ui:title': 'Primary phone number',
+                  'ui:widget': PhoneNumberWidget,
+                  'ui:options': {
+                    widgetClassNames: 'va-input-medium-large',
+                  },
+                  'ui:errorMessages': {
+                    pattern: 'Phone numbers must be 10 digits (dashes allowed)',
+                  },
+                }
               },
             }
           },
@@ -189,6 +188,9 @@ const formConfig = {
                   properties: {
                     providerFacilityName: {
                       type: 'string',
+                    },
+                    limitedConsent: {
+                      type: 'boolean',
                     },
                     treatmentDateRange: {
                       type: 'object',
@@ -220,7 +222,10 @@ const formConfig = {
                           type: 'string'
                         }
                       }
-                    })
+                    }),
+                    phone: {
+                      type: 'string',
+                    }
                   },
                   required: [
                     'providerFacilityName',
@@ -228,16 +233,10 @@ const formConfig = {
                   ],
                 },
               },
-              limitedConsent: {
-                type: 'boolean',
-              },
               // 'view:privateRecordsChoiceHelp': {
               //   type: 'object',
               //   properties: {},
               // },
-              phone: {
-                type: 'string',
-              }
             },
           },
         },
