@@ -12,6 +12,7 @@ function getBuildSettings(options) {
     brandConsolidation: {
       enabled: !!options['brand-consolidation-enabled']
     },
+    resources: options.resources,
     vic: {
       rateLimitAuthed: 1,
       rateLimitUnauthed: 1
