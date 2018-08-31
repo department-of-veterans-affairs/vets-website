@@ -7,6 +7,7 @@ collection: healthCare
 children: healthCareCoverageFamily
 lastupdate: 2018-02-13
 order: 9
+resource_id: HealthCare_FamilyCaregiverBenefits
 ---
 
 <div class="va-introtext">

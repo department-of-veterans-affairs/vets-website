@@ -5,6 +5,7 @@ title: Vision Care for Blind and Low Vision Veterans
 display_title: Care for Blind and Low Vision Veterans
 concurrence: complete
 lastupdate: 2017-06-28
+resource_id: HealthCare_BlindAndLowVisionVeterans
 relatedlinks:
   - heading: More information about your benefits
     links:

@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, no-continue */
+/* eslint-disable no-param-reassign, no-continue, no-console */
 
 const assets = require('../assets/resources.json');
 
@@ -17,6 +17,10 @@ function createResourceConfig(options) {
       if (!resourceId) continue;
 
       const path = permalink ? permalink.replace('index.html', '') : `/${fileName.replace('.md', '')}/`;
+
+      if (pages[resourceId]) {
+        console.warn(`Detected duplicate resource_id's: ${resourceId}`);
+      }
 
       pages[resourceId] = path;
     }

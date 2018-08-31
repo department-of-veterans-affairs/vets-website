@@ -7,6 +7,7 @@ concurrence: complete
 lastupdate: 2017-06-28
 collection: healthCare
 children: healthCareCoverage
+resource_id: HealthCare_About
 order: 1
 relatedlinks:
   - heading: Related benefits you may qualify for

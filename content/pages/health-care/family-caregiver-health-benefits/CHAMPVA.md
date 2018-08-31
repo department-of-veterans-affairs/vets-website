@@ -6,6 +6,7 @@ display_title:
 concurrence: complete
 lastupdate: 2018-02-13
 order: 1
+resource_id: HealthCare_CHAMPVA
 ---
 
 <div class="va-introtext">

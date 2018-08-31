@@ -7,6 +7,7 @@ description: Find out how to get VA health care benefits and services for posttr
 concurrence: complete
 lastupdate: 2017-06-28
 order: 1
+resource_id: HealthCare_PTSD
 relatedlinks:
   - heading: Related health problems you may want to learn about
     links:
@@ -39,13 +40,13 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
 	    <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
-	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
+	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
 	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
   	      <li>Text <a href="sms:838255">838255</a>.</li>
             </ul>
-     	    <p><strong>You can also:</strong></p>	  
+     	    <p><strong>You can also:</strong></p>
             <ul>
               <li>Call <a href="tel:911">911</a>.</li>
 	      <li>Go to the nearest emergency room.</li>

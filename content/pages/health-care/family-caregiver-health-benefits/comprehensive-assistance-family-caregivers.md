@@ -6,6 +6,7 @@ display_title: Comprehensive Assistance to Family Caregivers
 concurrence: complete
 lastupdate: 2018-02-13
 order: 2
+resource_id: HealthCare_FamilyCaregiverComprehensiveAssistance
 ---
 <div class="va-introtext">
 
@@ -57,7 +58,7 @@ Health Eligibility Center<br>
 Atlanta, GA 30329-1647
 </p>
 
-Or apply in person by bringing the application to your local VA Medical Center Caregiver Support Coordinator. 
+Or apply in person by bringing the application to your local VA Medical Center Caregiver Support Coordinator.
 
 **To find the name of your local coordinator:**
 

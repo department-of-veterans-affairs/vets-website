@@ -3,10 +3,11 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Dental Care
 display_title:
-description: Find out if you qualify for VA dental benefits, or how to buy dental insurance if you're not eligible for VA dental care.  
+description: Find out if you qualify for VA dental benefits, or how to buy dental insurance if you're not eligible for VA dental care.
 concurrence: complete
 lastupdate: 2017-06-28
 order: 5
+resource_id: HealthCare_DentalCare
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -104,7 +105,7 @@ Click on the statement below that describes you best to find out your benefits c
 - You apply for dental care within 180 days of discharge or release, **and**
 - Your DD214 certificate of discharge doesn’t show that you had a complete dental exam and all needed dental treatment before you were discharged\*
 
-**Please note:** If you got a dental award letter from VBA dated before 1955 stating that your dental conditions aren't compensable, then you are no longer eligible for Class II outpatient dental treatment. This is because of Public Law 83, which was enacted June 16, 1955, and which amended Veterans’ eligibility for outpatient dental services. 
+**Please note:** If you got a dental award letter from VBA dated before 1955 stating that your dental conditions aren't compensable, then you are no longer eligible for Class II outpatient dental treatment. This is because of Public Law 83, which was enacted June 16, 1955, and which amended Veterans’ eligibility for outpatient dental services.
 
 </div>
 </li>

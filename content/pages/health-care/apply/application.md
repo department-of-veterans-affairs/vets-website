@@ -2,6 +2,7 @@
 title: Apply for Health Care
 entryname: hca
 layout: page-react.html
+resource_id: HealthCare_Apply
 description: Apply for VA health care benefits. Find out which documents you’ll need, and start your online application today.
 body_class: page-healthcare
 in_maintenance: false
