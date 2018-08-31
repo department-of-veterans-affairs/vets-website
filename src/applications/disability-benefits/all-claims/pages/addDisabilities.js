@@ -1,6 +1,6 @@
-import React from 'react';
 import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 import disabilityLabels from '../content/disabilityLabels';
+import NewDisability from '../components/NewDisability';
 
 import fullSchema from '../config/schema';
 
@@ -12,7 +12,7 @@ export const uiSchema = {
   newDisabilities: {
     'ui:description': 'Add a new disability',
     'ui:options': {
-      viewField: ({ formData }) => <div>{disabilityLabels[formData.diagnosticCode]}</div>,
+      viewField: NewDisability,
       reviewTitle: 'New Disabilities',
       itemName: 'Disability'
     },
