@@ -30,7 +30,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
   const settings = merge(defaultSettings, optionalSettings);
 
-  const fetchPromise = fetch(url, settings)
+  return fetch(url, settings)
     .catch(err => {
       Raven.captureMessage(`vets_client_error: ${err.message}`, {
         extra: {
@@ -60,14 +60,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       }
 
       return data;
-    });
-
-  if (success) {
-    fetchPromise.then(success);
-  }
-  if (error) {
-    fetchPromise.catch(error);
-  }
-
-  return fetchPromise;
+    })
+    .then(success)
+    .catch(error);
 }
