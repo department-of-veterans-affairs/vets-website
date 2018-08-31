@@ -7,7 +7,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
-require('babel-polyfill');
+require('@babel/polyfill');
 
 const timestamp = new Date().getTime();
 
