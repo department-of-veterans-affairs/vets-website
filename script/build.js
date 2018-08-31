@@ -23,6 +23,7 @@ const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createBuildSettings = require('./create-build-settings');
+const createResourceConfig = require('./create-resource-config');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const {
   getRoutes,
@@ -70,6 +71,8 @@ if (isHerokuBuild) {
   const applyHerokuOptions = require('./heroku-helper');
   applyHerokuOptions(options);
 }
+
+smith.use(createResourceConfig(options));
 
 switch (options.buildtype) {
   case 'development':
