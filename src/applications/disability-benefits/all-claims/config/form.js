@@ -5,10 +5,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { hasMilitaryRetiredPay } from '../validations';
 
 import {
-  hasGuardOrReservePeriod
+  hasGuardOrReservePeriod,
+  getNewDisabilityName
 } from '../utils';
-
-import disabilityLabels from '../content/disabilityLabels';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import {
@@ -147,15 +146,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} }
         },
         newDisabilityFollowUp: {
-          initialData: {
-            disabilities: [
-              {
-                diagnosticCode: '1',
-                name: 'Test name'
-              }
-            ]
-          },
-          title: (formData, { pagePerItemIndex }) => disabilityLabels[formData.newDisabilities[pagePerItemIndex].diagnosticCode],
+          title: (formData, { pagePerItemIndex }) => getNewDisabilityName(formData.newDisabilities[pagePerItemIndex].diagnosticCode),
           path: 'follow-up/:index',
           showPagePerItem: true,
           itemFilter: (item) => !ptsdDisabilityIds.has(item.diagnosticCode),

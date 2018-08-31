@@ -2,6 +2,7 @@ import React from 'react';
 import { createSelector } from 'reselect';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 
+import { getNewDisabilityName } from '../utils';
 import disabilityLabels from '../content/disabilityLabels';
 
 import fullSchema from '../config/schema';
@@ -15,7 +16,7 @@ const {
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{disabilityLabels[formData.diagnosticCode]}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{getNewDisabilityName(formData.diagnosticCode)}</legend>
   );
 };
 
@@ -41,15 +42,21 @@ export const uiSchema = {
       },
       primaryDisability: {
         'ui:title': 'Which disability caused the disability you’re claiming here?',
+        'ui:required': (formData, index) => formData.newDisabilities[index].cause === 'SECONDARY',
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'SECONDARY',
           updateSchema: createSelector(
-            formData => formData.disabilities,
-            (disabilities = []) => {
+            formData => formData.ratedDisabilities,
+            formData => formData.newDisabilities,
+            (formData, primarySchema, primaryUISchema, index) => index,
+            (disabilities = [], newDisabilities, currentIndex) => {
+              const newDisabilitiesWithoutCurrent = newDisabilities.filter((item, index) => index !== currentIndex);
               return {
-                'enum': disabilities.map(disability => disability.diagnosticCode),
+                'enum': disabilities.map(disability => disability.diagnosticCode)
+                  .concat(newDisabilitiesWithoutCurrent.map(disability => disability.diagnosticCode)),
                 enumNames: disabilities.map(disability => disability.name)
+                  .concat(newDisabilitiesWithoutCurrent.map(disability => getNewDisabilityName(disability.diagnosticCode))),
               };
             }
           )
@@ -57,6 +64,7 @@ export const uiSchema = {
       },
       mistreatmentDescription: {
         'ui:title': 'Please describe the VA mistreatment that caused your disability',
+        'ui:required': (formData, index) => formData.newDisabilities[index].cause === 'VA',
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'VA'
@@ -76,6 +84,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        required: ['cause'],
         properties: {
           cause,
           primaryDisability,

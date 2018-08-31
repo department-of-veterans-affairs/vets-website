@@ -1410,7 +1410,7 @@ const schema = {
             format: 'date'
           },
           primaryDisability: {
-            type: 'string'
+            type: 'number'
           },
           mistreatmentDescription: {
             type: 'string'

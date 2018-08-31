@@ -3,6 +3,8 @@ import moment from 'moment';
 
 import get from '../../../platform/utilities/data/get';
 
+import disabilityLabels from './content/disabilityLabels';
+
 import { RESERVE_GUARD_TYPES } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -77,3 +79,16 @@ export const isInFuture = (errors, fieldData) => {
     errors.addError('Expected separation date must be in the future');
   }
 };
+
+export function capitalizeEachWord(phrase) {
+  return phrase.split(/ +/)
+    .map(word => {
+      const capFirstLetter = word[0].toUpperCase();
+      return `${capFirstLetter}${word.slice(1)}`;
+    })
+    .join(' ');
+}
+
+export function getNewDisabilityName(id) {
+  return capitalizeEachWord(disabilityLabels[id]);
+}
