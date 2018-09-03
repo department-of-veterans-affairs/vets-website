@@ -23,6 +23,7 @@ const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createBuildSettings = require('./create-build-settings');
+const convertMarkdownToJavaScript = require('./convert-md-to-js');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const {
   getRoutes,
@@ -615,6 +616,10 @@ smith.use(layouts({
   // Only apply layouts to markdown and html files.
   pattern: '**/*.{md,html}'
 }));
+
+// Middleware to create JS files out of the content directory. This is useful
+// for JS files that need access to the Metalsmith build pipeline.
+smith.use(convertMarkdownToJavaScript());
 
 // TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({
