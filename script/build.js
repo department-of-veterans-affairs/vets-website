@@ -23,6 +23,7 @@ const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createBuildSettings = require('./create-build-settings');
+const createRedirects = require('./create-redirects');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const {
   getRoutes,
@@ -70,6 +71,10 @@ if (isHerokuBuild) {
   const applyHerokuOptions = require('./heroku-helper');
   applyHerokuOptions(options);
 }
+
+// Pages can contain an "alias" property in their metadata, which is processed into
+// separate pages that will each redirect to the original page.
+smith.use(createRedirects(options));
 
 switch (options.buildtype) {
   case 'development':
