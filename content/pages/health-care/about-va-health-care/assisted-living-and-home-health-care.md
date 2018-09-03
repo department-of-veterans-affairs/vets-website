@@ -7,6 +7,7 @@ description: Find out how to access VA home health care benefits if you're a sic
 concurrence: complete
 lastupdate: 2017-06-28
 order: 4
+resource_id: HealthCare_AssistedLiving
 relatedlinks:
   - heading: More information about your benefits
     links:

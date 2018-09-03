@@ -6,6 +6,7 @@ display_title: Women’s Health Care
 concurrence: complete
 lastupdate: 2017-06-28
 order: 4
+resource_id: HealthCare_WomensHealthCareNeeds
 relatedlinks:
   - heading: More information about your benefits
     links:

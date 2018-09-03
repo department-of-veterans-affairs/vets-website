@@ -8,6 +8,7 @@ concurrence: complete
 lastupdate: 2017-06-28
 children: healthCareCoverageVision
 order: 6
+resource_id: HealthCare_VisionCare
 relatedlinks:
   - heading: More information about your benefits
     links:

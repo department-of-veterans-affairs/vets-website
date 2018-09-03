@@ -8,6 +8,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2018-01-02
 collection: healthCare
 order: 2
+resource_id: HealthCare_Eligibility
 widgets:
   - root: react-applicationStatus
     timeout: 20
@@ -59,7 +60,7 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if you meet at least one of the requirements listed below.
 
-**At least one of these must be true. You:** 
+**At least one of these must be true. You:**
 
 - Receive financial compensation (payments) from VA for a service-connected disability
 - Were discharged for a disability resulting from something that happened to you in the line of duty
@@ -188,7 +189,7 @@ Visit healthcare.gov to find out if you qualify for health insurance.<br/>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Yes. 
+Yes.
 
 **Find out how you may still be able to get care for:**
 
@@ -201,7 +202,7 @@ Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a
 </div>
 </div>
 </div>
-<br>  
+<br>
 
 <span id="vision-care"></span>
 

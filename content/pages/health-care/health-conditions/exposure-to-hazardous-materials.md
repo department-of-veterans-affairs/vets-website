@@ -6,6 +6,7 @@ display_title: Exposure to Hazardous Materials
 concurrence: complete
 lastupdate: 2017-06-28
 order: 5
+resource_id: HealthCare_ExposureToHazardousMaterial
 relatedlinks:
   - heading: More information about your benefits
     links:

@@ -6,6 +6,7 @@ display_title:
 description: Learn  about the VA health care providers on your VA health care team. Find out how to change your primary care provider and how to schedule an appointment.
 concurrence: complete
 lastupdate: 2018-01-09
+resource_id: HealthCare_YourCareTeam
 order: 1
 relatedlinks:
   - heading: More information about your benefits
@@ -21,7 +22,7 @@ relatedlinks:
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
     - url: /disability-benefits/
       title: Disability Benefits
-      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.  
+      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
 <div class="va-introtext">
@@ -111,7 +112,7 @@ Your health care team will have a plan in place if your primary care provider is
 
 #### Can I see a local community care provider, paid for by VA?
 
-It depends. If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances. 
+It depends. If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances.
 
 **We may refer you to a community provider if any one of these is true for you:**
 - We can’t provide the services you need, **or**

@@ -10,7 +10,7 @@ function BrandConsolidation({ brandConsolidationEnabled, children }) {
 
 export function mapStateToProps(state) {
   return {
-    brandConsolidationEnabled: state.buildSettings.brandConsolidationEnabled
+    brandConsolidationEnabled: state.buildSettings.brandConsolidation.enabled
   };
 }
 

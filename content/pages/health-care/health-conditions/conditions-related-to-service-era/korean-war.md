@@ -6,6 +6,7 @@ display_title: Korean War
 concurrence: complete
 lastupdate: 2017-06-28
 order: 6
+resource_id: HealthCare_KoreanWar
 relatedlinks:
   - heading: More information about your benefits
     links:

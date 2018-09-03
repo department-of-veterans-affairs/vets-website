@@ -7,6 +7,7 @@ description: Find out what to do after applying for VA health care benefits, inc
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: healthCare
 order: 4
+resource_id: HealthCare_AfterYouApply
 lastupdate: 2017-08-28
 ---
 

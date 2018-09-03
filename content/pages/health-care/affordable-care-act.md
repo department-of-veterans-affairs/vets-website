@@ -6,6 +6,7 @@ display_title:
 collection: healthCare
 lastupdate: 2018-02-13
 order: 10
+resource_id: HealthCare_AffordableCareAct
 ---
 
 <div class="va-introtext">

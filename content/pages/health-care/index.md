@@ -4,6 +4,7 @@ template: level2-index
 title: Health Care Benefits
 display_title: Health Care
 permalink: /health-care/index.html
+resource_id: HealthCare
 widgets:
   - root: react-applicationStatus
     timeout: 20
@@ -11,12 +12,12 @@ widgets:
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading: Apply for Health Care Benefits
-    links:    
+    links:
     - url: /health-care/eligibility/
       title: Eligibility
       description: Find out if you can get VA health care benefits.
     - url: /health-care/apply/
-      title: How to Apply 
+      title: How to Apply
       description: Apply online now, or find out how to apply in person, by phone, or by mail.
     - url: /health-care/family-caregiver-health-benefits/
       title: Family and Caregiver Health Benefits
@@ -61,7 +62,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 </div>
 
 <div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
-  
+
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
     <h4 class="usa-alert-title">How do I get help if I'm homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">We may be able to help</a>.</h4>
@@ -69,7 +70,7 @@ With VA health care, you’re covered for regular checkups with your primary car
       <div class="expander-content-inner usa-alert-text">
 
 We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.
-  
+
 **Find the support you need:**
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
@@ -77,7 +78,7 @@ We offer many programs and services that may help—including free health care a
 [Find the nearest VA medical center](/facilities/).
 
 **Talk with someone right now:**
- 
+
 Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
 [Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
 
