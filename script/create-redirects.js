@@ -31,14 +31,13 @@ function createRedirects(options) {
         contents: new Buffer(getRedirectPage(redirectToPath))
       };
 
-      for (let alias of aliases) {
-        if (!path.extname(alias)) alias = path.join(alias, 'index.html');
+      for (const alias of aliases) {
+        let absolutePath = path.join(options.destination, alias);
+        if (!path.extname(absolutePath)) absolutePath = path.join(absolutePath, 'index.html');
 
-        alias = path.join(options.destination, alias);
-
-        files[alias] = {
+        files[absolutePath] = {
           ...redirectPage,
-          path: alias
+          path: absolutePath
         };
       }
     }
