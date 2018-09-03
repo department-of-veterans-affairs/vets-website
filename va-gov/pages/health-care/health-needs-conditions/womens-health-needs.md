@@ -6,6 +6,8 @@ display_title: Women’s Health Care
 concurrence: complete
 lastupdate: 2017-06-28
 order: 4
+aliases:
+  - /health-care/health-conditions/womens-health-care-needs/
 relatedlinks:
   - heading: More information about your benefits
     links:

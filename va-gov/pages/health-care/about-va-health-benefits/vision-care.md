@@ -9,6 +9,8 @@ lastupdate: 2017-06-28
 collection: healthCareCoverage
 children: healthCareCoverageVision
 order: 6
+aliases:
+  - /health-care/about-va-health-care/vision-care/
 relatedlinks:
   - heading: More information about your benefits
     links:

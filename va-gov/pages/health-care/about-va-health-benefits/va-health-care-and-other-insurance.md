@@ -7,6 +7,8 @@ description: Find out how your VA health care benefits work with other health in
 concurrence: complete
 lastupdate: 2017-06-28
 order: 3
+aliases:
+  - /health-care/about-va-health-care/va-health-care-and-other-insurance/
 relatedlinks:
   - heading: More information about your benefits
     links:

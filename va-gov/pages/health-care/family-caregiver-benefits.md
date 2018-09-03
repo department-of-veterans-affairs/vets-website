@@ -7,6 +7,8 @@ collection: healthCare
 children: healthCareCoverageFamily
 lastupdate: 2018-02-13
 order: 9
+aliases:
+  - /health-care/family-caregiver-health-benefits/
 ---
 
 <div class="va-introtext">

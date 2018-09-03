@@ -7,6 +7,8 @@ description: Find out where you'll get care through VA after you sign up. Health
 concurrence: complete
 lastupdate: 2018-01-09
 order: 2
+aliases:
+  - /health-care/about-va-health-care/where-you-get-care/
 relatedlinks:
   - heading: More information about your benefits
     links:

@@ -8,6 +8,8 @@ concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
 order: 6
+aliases:
+  - /health-care/prescriptions
 children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
