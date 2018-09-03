@@ -1,21 +1,17 @@
-/* eslint-disable no-param-reassign, no-continue, no-console */
+/* eslint-disable no-param-reassign, no-continue */
 const path = require('path');
 
-function getPagePath(fileName, fileData) {
-  const { permalink } = fileData;
-  return permalink ? permalink.replace('index.html', '') : `/${fileName.replace('.md', '')}/`;
-}
-
 function getRedirectPage(redirectToPath) {
+  const absolutePath = `/${redirectToPath}/`;
   return `
     <!doctype html>
     <head>
-      <meta http-equiv=refresh content="1; url=${redirectToPath}">
-      <link rel=canonical href="${redirectToPath}">
+      <meta http-equiv=refresh content="1; url=${absolutePath}">
+      <link rel=canonical href="${absolutePath}">
       <title>Page Moved</title>
     </head>
     <body>
-      New location: <a href="${redirectToPath}">${redirectToPath}</a>
+      New location: <a href="${absolutePath}">${absolutePath}</a>
     </body>`;
 }
 
@@ -25,12 +21,12 @@ function createRedirects(options) {
     for (const fileName of Object.keys(files)) {
       const fileData = files[fileName];
       const {
-        aliases
+        aliases,
+        path: redirectToPath
       } = fileData;
 
       if (!aliases) continue;
 
-      const redirectToPath = getPagePath(fileName, fileData);
       const redirectPage = {
         contents: new Buffer(getRedirectPage(redirectToPath))
       };
@@ -39,7 +35,11 @@ function createRedirects(options) {
         if (!path.extname(alias)) alias = path.join(alias, 'index.html');
 
         alias = path.join(options.destination, alias);
-        files[alias] = redirectPage;
+
+        files[alias] = {
+          ...redirectPage,
+          path: alias
+        };
       }
     }
 
