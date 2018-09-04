@@ -13,6 +13,7 @@ const timestamp = new Date().getTime();
 
 const globalEntryFiles = {
   style: './src/platform/site-wide/sass/style.scss',
+  styleConsolidated: './src/platform/site-wide/sass/style-consolidated.scss',
   vendor: [
     './src/platform/polyfills',
     'history',
