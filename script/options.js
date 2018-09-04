@@ -75,8 +75,6 @@ function applyEnvironmentOverrides(options) {
 }
 
 function applyBrandConsolidationOverrides(options) {
-  if (!options['brand-consolidation-enabled']) return;
-
   Object.assign(options, {
     contentRoot: '../va-gov',
     collections: require('./collections/brand-consolidation.json')
