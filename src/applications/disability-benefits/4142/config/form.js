@@ -225,10 +225,10 @@ const formConfig = {
               limitedConsent: {
                 type: 'boolean',
               },
-              // 'view:privateRecordsChoiceHelp': {
-              //   type: 'object',
-              //   properties: {},
-              // },
+              'view:privateRecordsChoiceHelp': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },
