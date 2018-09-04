@@ -23,6 +23,7 @@ const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createBuildSettings = require('./create-build-settings');
+const createRedirects = require('./create-redirects');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const {
   getRoutes,
@@ -700,6 +701,10 @@ smith.use(redirect({
   '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
+
+// Pages can contain an "alias" property in their metadata, which is processed into
+// separate pages that will each redirect to the original page.
+smith.use(createRedirects(options));
 
 /*
 Add nonce attribute with substition string to all inline script tags
