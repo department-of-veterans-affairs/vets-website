@@ -70,8 +70,7 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    saveInProgress: introSelector(state),
-    user: state.user,
+    saveInProgress: introSelector(state)
   };
 }
 

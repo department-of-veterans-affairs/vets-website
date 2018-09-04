@@ -1,25 +1,31 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
 
 // Example of an imported schema:
-// import fullSchema from '../22-4142-schema.json';
+// import fullSchema4142 from '../../../../vets-json-schema/dist/21-4142-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-4142-schema.json';
+import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
+import { schema as addressSchema, uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { STATES, COUNTRIES } from '../constants';
+// const { } = fullSchema4142.properties;
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
+const {
+  fullName,
+  ssn,
+  date,
+  address,
+  phone,
+  dateRange
+} = fullSchema4142.definitions;
 
 import {
   recordHelp,
@@ -27,57 +33,40 @@ import {
   aboutPrivateMedicalRecords,
   limitedConsentDescription,
   recordReleaseSummary,
+  disabilityNameTitle,
   validateZIP,
 } from '../helpers';
 
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
-
-import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
-
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions; // TODO replace with 4142 specific definitions
-
-// Define all the fields in the form to aid reuse
-const formFields = {
-  privateMedicalProviders: 'privateMedicalProviders',
-};
-
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
-  applicantInformation: 'applicantInformation',
   uploadInformation: 'uploadInformation',
-  serviceHistory: 'serviceHistory',
   treatmentHistory: 'treatmentHistory',
   recordReleaseSummary: 'recordReleaseSummary',
 };
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '${environment.API_URL}/v0/private_medical_record_auth/submit', //TODO When BE is ready
-  submit: () =>
-    Promise.resolve({
-      attributes: { confirmationNumber: '123123123', timestamp: Date.now() },
-    }),
-
+  submitUrl: `${environment.API_URL}/v0/private_medical_records/submit`,
   trackingPrefix: '21-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-4142',
   version: 0,
   prefillEnabled: true,
-  //  prefillTransformer, //TODO: Will enable this when BE is ready
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  //  transformForSumbit: transform, //TODO
   title: '4142 Private Medical Record Release Form', // TODO: Verify the title and subtitle
   defaultDefinitions: {
     fullName,
     ssn,
     date,
     dateRange,
-    usaPhone,
+    phone,
+    address
   },
   chapters: {
     applicantInformation: {
@@ -85,9 +74,10 @@ const formConfig = {
       pages: {
         [formPages.uploadInformation]: {
           // THIS IS NOT A REAL PAGE; WILL BE THROWN OUT IN 526 INTEGRATION TODO
-          path: 'prviate-medical-record-upload',
+          path: 'private-medical-record-upload',
           title: 'Supporting Evidence',
           uiSchema: {
+            'ui:title': disabilityNameTitle,
             'view:uploadRecords': {
               'ui:description': aboutPrivateMedicalRecords,
               'ui:title': aboutPrivateMedicalRecords,
@@ -114,7 +104,7 @@ const formConfig = {
               'view:privateRecordsChoiceHelp': {
                 type: 'object',
                 properties: {},
-              },
+              }
             },
           },
         }, // THIS IS NOT A REAL PAGE; WILL BE THROWN OUT IN 526 INTEGRATION TODO
@@ -128,48 +118,55 @@ const formConfig = {
           title: 'Supporting Evidence',
           uiSchema: {
             'ui:description': recordReleaseDescription,
-            [formFields.privateMedicalProviders]: {
+            'ui:title': disabilityNameTitle,
+            limitedConsent: {
+              'ui:title':
+                'I give consent, or permission, to my doctor to release only records related to [condition].',
+            },
+            'view:privateRecordsChoiceHelp': {
+              'ui:description': limitedConsentDescription,
+            },
+            providerFacility: {
               'ui:options': {
                 itemName: 'Provider',
                 viewField: PrivateProviderTreatmentView,
                 hideTitle: true,
               },
               items: {
+                providerFacilityName: {
+                  'ui:title': 'Name of private provider or hospital',
+                  'ui:errorMessages': {
+                    pattern: 'Provider name must be less than 100 characters.',
+                  }
+                },
                 'ui:validations': [validateDate],
-                dateRange: dateRangeUI(
+                treatmentDateRange: dateRangeUI(
                   'Approximate date of first treatment',
                   'Approximate date of last treatment',
                   'End of treatment must be after start of treatment',
                 ),
-                privateProviderName: {
-                  'ui:title': 'Name of private provider or hospital',
-                  'ui:errorMessages': {
-                    pattern: 'Provider name must be less than 100 characters.',
+                providerFacilityAddress: _.merge(addressUI('', false), {
+                  street: {
+                    'ui:errorMessages': {
+                      pattern: 'Street address must be less than 20 characters.',
+                    },
                   },
-                },
-                privateProviderCountry: {
-                  'ui:title': 'Country',
-                },
-                privateProviderStreetAddressLine1: {
-                  'ui:title': 'Street address',
-                  'ui:errorMessages': {
-                    pattern: 'Street address must be less than 20 characters.',
+                  street2: {
+                    'ui:title': 'Street 2',
+                    'ui:errorMessages': {
+                      pattern: 'Street address must be less than 20 characters.',
+                    }
                   },
-
+                  city: {
+                    'ui:errorMessages': {
+                      pattern: 'Please provide a valid city. Must be at least 1 character.'
+                    }
+                  }
+                }),
+                state: {
+                  'ui:title': 'State'
                 },
-                privateProviderStreetAddressLine2: {
-                  'ui:title': 'Street address (optional)',
-                  'ui:errorMessages': {
-                    pattern: 'Street address must be less than 20 characters.',
-                  },
-                },
-                privateProviderState: {
-                  'ui:title': 'State',
-                },
-                privateProviderCity: {
-                  'ui:title': 'City',
-                },
-                privateProviderPostalCode: {
+                postalCode: {
                   'ui:title': 'Postal code',
                   'ui:options': {
                     widgetClassNames: 'usa-input-medium',
@@ -180,46 +177,29 @@ const formConfig = {
                     },
                   ],
                 },
-                privatePrimaryPhoneNumber: {
-                  'ui:title': 'Primary phone number',
-                  'ui:widget': PhoneNumberWidget,
-                  'ui:options': {
-                    widgetClassNames: 'va-input-medium-large',
-                  },
-                  'ui:errorMessages': {
-                    pattern: 'Phone numbers must be 10 digits (dashes allowed)',
-                  },
-                },
                 limitedConsent: {
                   'ui:title':
                     'I give consent, or permission, to my doctor to release only records related to [condition].',
                 },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': limitedConsentDescription,
-                },
+                }
               },
-            },
+            }
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.privateMedicalProviders]: {
+              providerFacility: {
                 type: 'array',
                 items: {
                   type: 'object',
                   properties: {
-                    privateProviderName: {
+                    providerFacilityName: {
                       type: 'string',
                       pattern: '^(.{1,100})$',
                     },
-                    limitedConsent: {
-                      type: 'boolean',
-                    },
-                    'view:privateRecordsChoiceHelp': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    dateRange: {
+                    treatmentDateRange: {
                       type: 'object',
                       properties: {
                         from: {
@@ -227,48 +207,51 @@ const formConfig = {
                         },
                         to: {
                           $ref: '#/definitions/date',
-                        },
+                        }
                       },
-                      required: ['from', 'to'],
+                      required: ['from', 'to']
                     },
-                    privateProviderCountry: {
-                      type: 'string',
-                      'enum': COUNTRIES,
-                    },
-                    privateProviderStreetAddressLine1: {
-                      type: 'string',
-                      pattern: '^(.{1,20})$',
-
-                    },
-                    privateProviderStreetAddressLine2: {
-                      type: 'string',
-                      pattern: '^(.{1,20})$',
-
-                    },
-                    privateProviderCity: {
-                      type: 'string',
-                    },
-                    privateProviderState: {
-                      type: 'string',
-                      'enum': STATES.map(state => state.label),
-                    },
-                    privateProviderPostalCode: {
-                      type: 'string',
-                    },
-                    privatePrimaryPhoneNumber: {
-                      type: 'string',
-                      pattern: '^\\d{10}$',
-                    },
+                    providerFacilityAddress: _.merge(addressSchema(fullSchema4142, true), {
+                      properties: {
+                        street: {
+                          minLength: 1,
+                          maxLength: 50,
+                          type: 'string'
+                        },
+                        street2: {
+                          minLength: 1,
+                          maxLength: 50,
+                          type: 'string'
+                        },
+                        city: {
+                          minLength: 1,
+                          maxLength: 51,
+                          type: 'string'
+                        },
+                        postalCode: {
+                          type: 'string'
+                        },
+                        country: {
+                          type: 'string'
+                        },
+                        state: {
+                          type: 'string'
+                        }
+                      }
+                    })
                   },
                   required: [
-                    'privateProviderName',
-                    'privateProviderStreetAddressLine1',
-                    'privateProviderCity',
-                    'privateProviderPostalCode',
-                    'privateProviderCountry',
-                    'privateProviderState'
+                    'providerFacilityName',
+                    'providerFacilityAddress'
                   ],
                 },
+              },
+              limitedConsent: {
+                type: 'boolean',
+              },
+              'view:privateRecordsChoiceHelp': {
+                type: 'object',
+                properties: {},
               },
             },
           },

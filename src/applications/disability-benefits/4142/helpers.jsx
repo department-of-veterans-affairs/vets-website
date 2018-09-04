@@ -17,15 +17,15 @@ export const aboutPrivateMedicalRecords = () => {
 };
 
 export const recordReleaseSummary = ({ formData }) => {
-  const privateMedicalProviders = formData.privateMedicalProviders;
+  const providerFacility = formData.providerFacility;
   return (
     <div>
       <br/>
-      <li>We‘ll get your private medical records from</li>
-      {privateMedicalProviders.map((provider, idx) => {
+      <li>We'll get your private medical records from</li>
+      {providerFacility.map((provider, idx) => {
         return (
           <ul key={idx}>
-            <strong>{provider.privateProviderName}</strong>
+            <strong>{provider.providerFacilityName}</strong>
           </ul>
         );
       })}
@@ -114,3 +114,9 @@ export function validateZIP(errors, fieldData) {
     errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
   }
 }
+
+export const disabilityNameTitle = () => {
+  return (
+    <legend className="schemaform-block-title schemaform-title-underline">[condition]</legend>
+  );
+};
