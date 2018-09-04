@@ -17,9 +17,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const {
-//   limitedConsent,
-//   providerFacility,
-//   treatmentDateRange
 // } = fullSchema4142.properties;
 
 const {
@@ -40,8 +37,6 @@ import {
   disabilityNameTitle
 } from '../helpers';
 
-// import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
-
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   uploadInformation: 'uploadInformation',
@@ -52,23 +47,16 @@ const formPages = {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/private_medical_records/submit`,
-  // submit: () =>
-  //   Promise.resolve({
-  //     attributes: { confirmationNumber: '123123123', timestamp: Date.now() },
-  //   }),
-
   trackingPrefix: '21-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-4142',
   version: 0,
   prefillEnabled: true,
-  //  prefillTransformer, //TODO: Will enable this when BE is ready
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  //  transformForSumbit: transform, //TODO
   title: '4142 Private Medical Record Release Form', // TODO: Verify the title and subtitle
   defaultDefinitions: {
     fullName,
@@ -172,17 +160,7 @@ const formConfig = {
                 },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': limitedConsentDescription,
-                },
-                // phone: {
-                //   'ui:title': 'Primary phone number',
-                //   'ui:widget': PhoneNumberWidget,
-                //   'ui:options': {
-                //     widgetClassNames: 'va-input-medium-large',
-                //   },
-                //   'ui:errorMessages': {
-                //     pattern: 'Phone numbers must be 10 digits (dashes allowed)',
-                //   },
-                // }
+                }
               },
             }
           },
@@ -213,24 +191,30 @@ const formConfig = {
                       properties: {
                         street: {
                           minLength: 1,
-                          maxLength: 30,
+                          maxLength: 50,
                           type: 'string'
                         },
                         street2: {
                           minLength: 1,
-                          maxLength: 30,
+                          maxLength: 50,
                           type: 'string'
                         },
                         city: {
                           minLength: 1,
-                          maxLength: 30,
+                          maxLength: 51,
+                          type: 'string'
+                        },
+                        postalCode: {
+                          type: 'string'
+                        },
+                        country: {
+                          type: 'string'
+                        },
+                        state: {
                           type: 'string'
                         }
                       }
-                    }),
-                    // phone: {
-                    //   type: 'string',
-                    // }
+                    })
                   },
                   required: [
                     'providerFacilityName',
