@@ -85,7 +85,7 @@ export class MHVApp extends React.Component {
     // rendered, but if it hasn't for some reason, we will redirect now.
     if (accountState === 'needs_identity_verification') {
       const nextQuery = { next: window.location.pathname };
-      const verifyUrl = appendQuery('/verify', nextQuery);
+      const verifyUrl = appendQuery('/verify/', nextQuery);
       window.location.replace(verifyUrl);
       return;
     }
@@ -93,7 +93,7 @@ export class MHVApp extends React.Component {
     switch (accountState) {
       case 'needs_terms_acceptance': {
         const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
-        const termsConditionsUrl = appendQuery('/health-care/medical-information-terms-conditions', redirectQuery);
+        const termsConditionsUrl = appendQuery('/health-care/medical-information-terms-conditions/', redirectQuery);
         window.location.replace(termsConditionsUrl);
         break;
       }
