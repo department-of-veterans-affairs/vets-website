@@ -102,3 +102,15 @@ export const evidenceTypeHelp = (
     </p>
   </AdditionalInfo>
 );
+
+function isValidZIP(value) {
+  if (value) {
+    return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
+  }
+  return true;
+}
+export function validateZIP(errors, fieldData) {
+  if (fieldData && !isValidZIP(fieldData)) {
+    errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
+  }
+}
