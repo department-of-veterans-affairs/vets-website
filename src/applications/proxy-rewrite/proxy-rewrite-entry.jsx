@@ -1,9 +1,18 @@
 import '../../platform/polyfills';
 import createCommonStore from '../../platform/startup/store';
-import startSitewideComponents from '../../platform/site-wide';
 
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
+
+// import startUserNavWidget from '../../platform/site-wide/user-nav';
+import startMegaMenuWidget from '../../platform/site-wide/mega-menu';
+import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
+import startPreviewSiteAlert from '../../platform/site-wide/preview-site-alert';
+import startVAGovUserNavWidget from '../../platform/site-wide/va-gov-user-nav';
+// import startLRNHealthCarWidget from '../../platform/site-wide/left-rail-navs/health-care';
+import startFeedbackWidget from '../../platform/site-wide/feedback';
+// import startAnnouncementWidget from '../../platform/site-wide/announcements';
+import startVAFooter from '../../platform/site-wide/va-footer';
 
 // Find native header, footer, etc based on page path
 const DEPRECATED_SELECTOR_CONFIG = [
@@ -37,20 +46,30 @@ const observer = new MutationObserver(mutationObserved);
 observer.observe(document, { attributes: true, childList: true, subtree: true });
 
 // Set up elements for the new header and footer
-const headerEl = document.createElement('div');
-headerEl.innerHTML = headerPartial;
+const headerContainer = document.createElement('div');
+headerContainer.innerHTML = headerPartial;
+headerContainer.classList.add('consolidated');
 
 const footerContainer = document.createElement('div');
 footerContainer.innerHTML = footerPartial;
+footerContainer.classList.add('consolidated');
 
 document.addEventListener('DOMContentLoaded', (_e) => {
   observer.disconnect();
-  document.body.insertBefore(headerEl, document.body.firstChild);
+  document.body.insertBefore(headerContainer, document.body.firstChild);
   document.body.appendChild(footerContainer);
 });
 
 // Mount react components
 const commonStore = createCommonStore();
 document.addEventListener('DOMContentLoaded', (_e) => {
-  startSitewideComponents(commonStore);
+  // startUserNavWidget(commonStore);
+  startMegaMenuWidget(commonStore);
+  startMobileMenuButton(commonStore);
+  startPreviewSiteAlert(commonStore);
+  startVAGovUserNavWidget(commonStore);
+  // startLRNHealthCarWidget(commonStore);
+  startFeedbackWidget(commonStore);
+  // startAnnouncementWidget(commonStore);
+  startVAFooter(commonStore);
 });

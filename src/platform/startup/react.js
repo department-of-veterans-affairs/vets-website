@@ -39,8 +39,13 @@ export default function startReactApp(component, root = null) {
     mountElement = document.getElementById('react-root');
   }
   // eslint-disable-next-line scanjs-rules/call_addEventListener
-  document.addEventListener('DOMContentLoaded', () => {
+
+  if (document.readyState !== 'loading') {
     ReactDOM.render(component, mountElement);
-  });
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      ReactDOM.render(component, mountElement);
+    });
+  }
 }
 

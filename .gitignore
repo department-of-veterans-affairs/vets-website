@@ -26,3 +26,5 @@ package-lock.json
 # Ignore user's editor/IDE prefs
 .vscode/
 .idea/
+.swp
+.swo
