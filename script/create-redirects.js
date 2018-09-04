@@ -2,7 +2,9 @@
 const path = require('path');
 
 function getRedirectPage(redirectToPath) {
-  const absolutePath = `/${redirectToPath}/`;
+  let absolutePath = `/${redirectToPath}`;
+  if (!absolutePath.endsWith('/')) absolutePath += '/';
+
   return `
     <!doctype html>
     <head>
