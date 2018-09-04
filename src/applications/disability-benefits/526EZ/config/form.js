@@ -32,7 +32,7 @@ import {
   schema as reservesNationalGuardSchema
 } from '../pages/reservesNationalGuardService';
 
-import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItemsWidget';
 
 import {
   transform,
@@ -52,7 +52,6 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
-  disabilityOption,
   GetFormHelp,
   FDCDescription,
   FDCWarning,
@@ -60,13 +59,17 @@ import {
   queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
-  editNote,
-  disabilitiesClarification
+  editNote
 } from '../helpers';
 
 import {
   hasGuardOrReservePeriod
 } from '../../all-claims/utils';
+
+import {
+  disabilityOption,
+  disabilitiesClarification
+} from '../../all-claims/content/ratedDisabilities';
 
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
