@@ -10,7 +10,7 @@ const {
 
 export const uiSchema = {
   newDisabilities: {
-    'ui:description': 'Add a new disability',
+    'ui:title': 'Add a new disability',
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'New Disabilities',

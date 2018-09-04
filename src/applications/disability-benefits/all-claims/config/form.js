@@ -127,19 +127,20 @@ const formConfig = {
           title: 'New disabilities',
           path: 'new-disabilities',
           uiSchema: {
-            'ui:description': 'Next, we’ll ask you to tell us what disabilities you’re claiming. Once we have your list of disabilities, we’ll ask you more specific questions about each of them.'
+            'ui:title': 'New disabilities',
+            'ui:description': 'Now we’ll ask you about your new service-connected disabilities or conditions.'
           },
           schema: { type: 'object', properties: {} }
         },
         addDisabilities: {
           title: 'Add a new disability',
-          path: 'add-new-disabilities',
+          path: 'new-disabilities/add',
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          path: 'follow-up',
+          path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description': 'Now we’re going to ask you some follow-up questions about each of your disabilities. We’ll go through them one by one.'
           },
@@ -147,7 +148,7 @@ const formConfig = {
         },
         newDisabilityFollowUp: {
           title: (formData, { pagePerItemIndex }) => getNewDisabilityName(formData.newDisabilities[pagePerItemIndex].diagnosticCode),
-          path: 'follow-up/:index',
+          path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: (item) => !ptsdDisabilityIds.has(item.diagnosticCode),
           arrayPath: 'newDisabilities',

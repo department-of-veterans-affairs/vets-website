@@ -20,6 +20,22 @@ export const disabilityNameTitle = ({ formData }) => {
   );
 };
 
+const getDisabilitiesList = createSelector(
+  formData => formData.ratedDisabilities,
+  formData => formData.newDisabilities,
+  (formData, index) => index,
+  (ratedDisabilities = [], newDisabilities = [], currentIndex) => {
+    const newDisabilitiesWithoutCurrent = newDisabilities.filter((item, index) => index !== currentIndex);
+    return ratedDisabilities
+      .concat(newDisabilitiesWithoutCurrent)
+      .filter(disability => disability.diagnosticCode)
+      .map(disability => disability.diagnosticCode);
+  }
+);
+
+const allCauses = cause.enum;
+const causesWithoutSecondary = allCauses.filter(causeCode => causeCode !== 'SECONDARY');
+
 export const uiSchema = {
   newDisabilities: {
     items: {
@@ -35,35 +51,37 @@ export const uiSchema = {
           },
           updateSchema: (formData, causeSchema, causeUISchema, index) => {
             return {
-              title: `Please tell us what caused your ${disabilityLabels[formData.newDisabilities[index].diagnosticCode]}`
+              'enum': getDisabilitiesList(formData, index).length ? allCauses : causesWithoutSecondary,
+              title: `Please tell us what caused your ${disabilityLabels[formData.newDisabilities[index].diagnosticCode]}.`
             };
           }
         }
       },
       primaryDisability: {
-        'ui:title': 'Which disability caused the disability you’re claiming here?',
-        'ui:required': (formData, index) => formData.newDisabilities[index].cause === 'SECONDARY',
+        'ui:title': 'Please choose the disability that caused the disability you’re claiming here.',
+        'ui:required': (formData, index) => formData.newDisabilities[index].cause === 'SECONDARY'
+          && getDisabilitiesList(formData, index).length > 0,
         'ui:options': {
+          labels: disabilityLabels,
           expandUnder: 'cause',
           expandUnderCondition: 'SECONDARY',
-          updateSchema: createSelector(
-            formData => formData.ratedDisabilities,
-            formData => formData.newDisabilities,
-            (formData, primarySchema, primaryUISchema, index) => index,
-            (disabilities = [], newDisabilities, currentIndex) => {
-              const newDisabilitiesWithoutCurrent = newDisabilities.filter((item, index) => index !== currentIndex);
+          updateSchema: (formData, primarySchema, primaryUISchema, index) => {
+            const disabilitiesList = getDisabilitiesList(formData, index);
+
+            if (!disabilitiesList.length) {
               return {
-                'enum': disabilities.map(disability => disability.diagnosticCode)
-                  .concat(newDisabilitiesWithoutCurrent.map(disability => disability.diagnosticCode)),
-                enumNames: disabilities.map(disability => disability.name)
-                  .concat(newDisabilitiesWithoutCurrent.map(disability => getNewDisabilityName(disability.diagnosticCode))),
+                'ui:hidden': true
               };
             }
-          )
+
+            return {
+              'enum': disabilitiesList
+            };
+          }
         }
       },
       mistreatmentDescription: {
-        'ui:title': 'Please describe the VA mistreatment that caused your disability',
+        'ui:title': 'Please describe the VA mistreatment that caused your disability.',
         'ui:required': (formData, index) => formData.newDisabilities[index].cause === 'VA',
         'ui:options': {
           expandUnder: 'cause',
