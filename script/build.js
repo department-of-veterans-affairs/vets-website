@@ -261,6 +261,7 @@ if (!BUILD_OPTIONS.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/education/apply-for-education-benefits/application',
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
+        '/health-care/apply/application',
         '/health-care/apply-for-health-care-form-10-10ez',
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
