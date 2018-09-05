@@ -32,7 +32,7 @@ import {
  * @param {array} dataArray array of objects to inspect
  * @param {string} property the property to inspect in each array item
  * @returns {array} a list of aggregated items pulled from different arrays
-*/
+ */
 const aggregate = (dataArray: Array<{}>, property: string): Array<{}> => {
   const masterList = [];
   dataArray.forEach(item => {

@@ -4,6 +4,7 @@ import moment from 'moment';
 import get from '../../../platform/utilities/data/get';
 
 import { RESERVE_GUARD_TYPES } from './constants';
+
 /**
  * Show one thing, have a screen reader say another.
  * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
