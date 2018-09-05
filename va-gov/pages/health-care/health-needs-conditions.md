@@ -9,6 +9,8 @@ lastupdate: 2017-06-28
 collection: healthCare
 order: 5
 children: healthCareConditions
+aliases:
+  - /health-care/health-conditions/
 relatedlinks:
   - heading: Other helpful information
     links:
@@ -33,12 +35,12 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 </div>
 
 <div class="feature" markdown=“1”>
-  
+
 ### Are there any health concerns I should be aware of based on my service history?
 
 Yes. Certain health concerns may be more likely to affect Veterans who served in a specific time and place. Find out which health concerns you should be aware of depending on when and where you served. <br>
 
-[Get health information by service dates and locations](/health-care/health-needs-conditions/health-issues-related-to-service-era/). 
+[Get health information by service dates and locations](/health-care/health-needs-conditions/health-issues-related-to-service-era/).
 
 </div>
 
@@ -46,7 +48,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 <h4 itemprop="name">How do I find out how to get health services for a specific condition or need?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 **Mental health problems**
 

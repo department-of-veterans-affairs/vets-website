@@ -7,6 +7,8 @@ description: Find out if you qualify for VA dental benefits, or how to buy denta
 concurrence: complete
 lastupdate: 2017-06-28
 order: 5
+aliases:
+  - /health-care/about-va-health-care/dental-care/
 relatedlinks:
   - heading: More information about your benefits
     links:

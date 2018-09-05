@@ -6,6 +6,8 @@ display_title:
 collection: healthCare
 lastupdate: 2018-02-13
 order: 10
+aliases:
+  - /health-care/affordable-care-act/
 ---
 
 <div class="va-introtext">

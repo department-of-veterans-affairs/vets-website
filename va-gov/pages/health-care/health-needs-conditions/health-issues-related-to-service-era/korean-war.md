@@ -6,6 +6,8 @@ display_title: Korean War
 concurrence: complete
 lastupdate: 2017-06-28
 order: 6
+aliases:
+  - /health-care/health-conditions/conditions-related-to-service-era/korean-war/
 relatedlinks:
   - heading: More information about your benefits
     links:

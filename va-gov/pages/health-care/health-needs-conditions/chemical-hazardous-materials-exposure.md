@@ -6,6 +6,8 @@ display_title: Exposure to Hazardous Materials
 concurrence: complete
 lastupdate: 2017-06-28
 order: 5
+aliases:
+  - /health-care/health-conditions/exposure-to-hazardous-materials/
 relatedlinks:
   - heading: More information about your benefits
     links:
