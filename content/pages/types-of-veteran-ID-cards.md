@@ -7,6 +7,7 @@ concurrence: Incomplete
 plainlanguage: 
 template: detail-page
 order: 	
+collection: types-of-veteran-ID-cards
 relatedlinks:
  - heading: 
    links: 
