@@ -48,15 +48,15 @@ module.exports = E2eHelpers.createE2eTest((client) => {
   E2eHelpers.expectNavigateAwayFrom(client, '/contact-information');
 
   // Benefit information
-  client.waitForElementPresent('input[name="root_educationDetails_programs_TATU"]', Timeouts.normal);
-  // .axeCheck('.main'); // TODO: enable after updated schema with labels used
+  client.waitForElementPresent('input[name="root_educationDetails_programs_TATU"]', Timeouts.normal)
+    .axeCheck('.main');
   PageHelpers.completeBenefitInformation(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');  E2eHelpers.expectNavigateAwayFrom(client, '/benefits-information');
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/benefits-information');
 
   // School information
-  client.waitForElementPresent('input[type="checkbox"]', Timeouts.normal);
-  // .axeCheck('.main'); // TODO:  Failed [fail]: ([n/a]: [critical] Form elements must have labels
-  // See https://dequeuniversity.com/rules/axe/2.3/label?application=axeAPI
+  client.waitForElementPresent('input[type="checkbox"]', Timeouts.normal)
+    .axeCheck('.main');
   PageHelpers.completeSchoolInformation(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/school-information');
