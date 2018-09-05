@@ -81,8 +81,8 @@ export const PCIU_STATES: Array<{ label: string, value: string}> = [
 
 // Not sure what the deal is here, but I'm getting the following from flow for the next two lines:
 // Error: Missing type annotation for `U`.
-export const STATE_LABELS = PCIU_STATES.map(state => state.label);
-export const STATE_VALUES = PCIU_STATES.map(state => state.value);
+export const STATE_LABELS: Array<string> = PCIU_STATES.map((state: { label: string }): string => state.label);
+export const STATE_VALUES: Array<string> = PCIU_STATES.map((state: { value: string }): string => state.value);
 
 export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 export const MILITARY_STATE_LABELS = [
