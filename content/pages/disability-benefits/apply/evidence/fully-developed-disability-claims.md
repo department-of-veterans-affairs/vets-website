@@ -58,6 +58,9 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 
 **If you think your service records don't include a description of your disability**, you can also submit letters from family members, friends, clergy members, law enforcement personnel, or those you served with that can tell us more about your claimed condition and how and when it happened.
 
+**Note:** In 1973, a fire at the National Personnel Records Center (NPRC) in St. Louis destroyed records held for Veterans who were discharged from the Army and Air Force during certain periods of time. Your records may have been destroyed in the fire if you were discharged from the Army between November 1, 1912 and January 1, 1960, or if you were discharged from the Air Force between September 25, 1947 and January 1, 1964. If you think your records may have been involved in this fire, you can learn more about the fire and how to get help filing a claim. <br>
+[Learn more about the fire at the NPRC](https://www.benefits.va.gov/COMPENSATION/NPRC1973Fire.asp).
+
 </div>
 </div>
 
