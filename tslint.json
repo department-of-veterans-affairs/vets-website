@@ -13,7 +13,8 @@
     "arrow-parens": false,
     "max-line-length": false,
     "object-literal-key-quotes": [true, "as-needed"],
-    "no-shadowed-variable": false
+    "no-shadowed-variable": false,
+    "interface-name": false
   },
   "rulesDirectory": []
 }
