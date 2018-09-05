@@ -155,7 +155,17 @@ export class SchoolSelectField extends React.Component {
   handleStartOver = e => {
     e.preventDefault();
 
-    this.props.onChange({});
+    this.props.onChange({
+      address1: '',
+      address2: '',
+      address3: '',
+      city: '',
+      country: '',
+      name: '',
+      state: '',
+      zip: '',
+      'view:facilityCode': '',
+    });
     this.props.clearSearch();
     this.searchInput.focus();
   }
