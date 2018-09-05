@@ -8,6 +8,7 @@ import {
   SEARCH_FAILED,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
+  SEARCH_COMPLETE,
 } from '../utils/actionTypes';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 import LocatorApi from '../api';
@@ -117,9 +118,8 @@ export const genBBoxFromAddress = (query) => {
   }
 
   return (dispatch) => {
-    dispatch({
-      type: SEARCH_STARTED,
-    });
+    dispatch({ type: SEARCH_STARTED });
+
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = 'place,address,region,postcode,locality';
     // check for postcode search
@@ -170,5 +170,27 @@ export const genBBoxFromAddress = (query) => {
 
       dispatch({ type: SEARCH_FAILED, error });
     });
+  };
+};
+
+export const getProviderSvcs = () => {
+  return (dispatch) => {
+    dispatch({ type: SEARCH_STARTED });
+
+    return LocatorApi.getProviderSvcs()
+      .then(
+        (data) => {
+          if (data.errors) {
+            dispatch({ type: SEARCH_FAILED, error: data.errors });
+            return [];
+          }
+          // Great Success!
+          dispatch({ type: SEARCH_COMPLETE });
+          return data;
+        }
+      )
+      .catch(
+        (error) => dispatch({ type: SEARCH_FAILED, error })
+      );
   };
 };

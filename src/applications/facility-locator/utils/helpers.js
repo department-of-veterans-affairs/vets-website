@@ -67,7 +67,7 @@ export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
 };
 
 /**
- * Position shape: `{latitude: {Number}, longitude: {Number}}`
+ * Position shape: `{latitude: {number}, longitude: {number}}`
  * 
  * @param {Object} pos1 
  * @param {Object} pos2 
@@ -77,6 +77,19 @@ export const areGeocodeEqual = (pos1, pos2) => {
     pos1.latitude === pos2.latitude &&
     pos1.longitude === pos2.longitude
   );
+};
+
+/**
+ * A utility to break URL query strings up into a queriable object
+ * 
+ * @param {string} urlParams A URL query string (e.g. key=value&key2=value2...)
+ */
+export const urlParamStringToObj = (urlParams) => {
+  return urlParams.split('&').map(
+    p => {
+      const [key, value] = p.split('=');
+      return { [key]: value };
+    });
 };
 
 /**

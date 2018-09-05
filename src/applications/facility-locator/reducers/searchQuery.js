@@ -4,6 +4,7 @@ import {
   SEARCH_QUERY_UPDATED,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
+  SEARCH_COMPLETE,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
@@ -53,6 +54,12 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: true,
+        inProgress: false
+      };
+    case SEARCH_COMPLETE:
+      return {
+        ...state,
+        error: false,
         inProgress: false
       };
     case SEARCH_QUERY_UPDATED:

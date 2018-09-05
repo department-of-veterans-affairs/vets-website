@@ -6,6 +6,7 @@ import {
   benefitsServices,
   vetCenterServices
 } from '../config';
+// import ServiceTypeAhead from './ServiceTypeAhead';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
@@ -21,8 +22,8 @@ class SearchControls extends Component {
     this.props.onChange({ facilityType, serviceType: null });
   }
 
-  handleServiceTypeChange = (e) => {
-    const option = e.target.value;
+  handleServiceTypeChange = ({ target }) => {
+    const option = target.value;
     const serviceType = (option === 'All') ? null : option;
     this.props.onChange({ serviceType });
   }
@@ -42,7 +43,7 @@ class SearchControls extends Component {
 
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
-    const disabled = !['health', 'benefits', 'vet_center'].includes(facilityType);
+    const disabled = !['health', 'benefits', 'vet_center'/* , 'cc_provider' */].includes(facilityType);
     let services;
 
     // Determine what service types to display for the facility type.
@@ -59,6 +60,8 @@ class SearchControls extends Component {
           return result;
         }, { All: 'Show all facilities' });
         break;
+      // case 'cc_provider':
+      //   return <ServiceTypeAhead onSelect={this.handleServiceTypeChange}/>;
       default:
         services = {};
     }
