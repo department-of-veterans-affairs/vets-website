@@ -18,7 +18,22 @@ describe('Add new disabilities', () => {
         formData={{}}/>
     );
 
-    expect(form.find('input').length).to.equal(1);
+    expect(form.find('input').length).to.equal(2);
+  });
+
+  it('should render autosuggest', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:newDisabilities': true
+        }}
+        formData={{}}/>
+    );
+
+    expect(form.find('input').length).to.equal(3);
   });
 
   it('should add another disability', () => {
@@ -29,6 +44,7 @@ describe('Add new disabilities', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          'view:newDisabilities': true,
           newDisabilities: [{
             diagnosticCode: 10
           }]
@@ -50,6 +66,7 @@ describe('Add new disabilities', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          'view:newDisabilities': true,
           newDisabilities: [{
             diagnosticCode: 10
           }]

@@ -20,16 +20,20 @@ export const disabilityNameTitle = ({ formData }) => {
   );
 };
 
-const getDisabilitiesList = createSelector(
+const getDisabilitiesListSchema = createSelector(
   formData => formData.ratedDisabilities,
   formData => formData.newDisabilities,
   (formData, index) => index,
   (ratedDisabilities = [], newDisabilities = [], currentIndex) => {
     const newDisabilitiesWithoutCurrent = newDisabilities.filter((item, index) => index !== currentIndex);
-    return ratedDisabilities
+    const fullList = ratedDisabilities
       .concat(newDisabilitiesWithoutCurrent)
-      .filter(disability => disability.diagnosticCode)
-      .map(disability => disability.diagnosticCode);
+      .filter(disability => disability.diagnosticCode);
+
+    return {
+      'enum': fullList.map(disability => disability.diagnosticCode),
+      enumNames: fullList.map(disability => disability.name || disabilityLabels[disability.diagnosticCode])
+    };
   }
 );
 
@@ -51,7 +55,7 @@ export const uiSchema = {
           },
           updateSchema: (formData, causeSchema, causeUISchema, index) => {
             return {
-              'enum': getDisabilitiesList(formData, index).length ? allCauses : causesWithoutSecondary,
+              'enum': getDisabilitiesListSchema(formData, index).enum.length ? allCauses : causesWithoutSecondary,
               title: `Please tell us what caused your ${disabilityLabels[formData.newDisabilities[index].diagnosticCode]}.`
             };
           }
@@ -60,23 +64,21 @@ export const uiSchema = {
       primaryDisability: {
         'ui:title': 'Please choose the disability that caused the disability you’re claiming here.',
         'ui:required': (formData, index) => formData.newDisabilities[index].cause === 'SECONDARY'
-          && getDisabilitiesList(formData, index).length > 0,
+          && getDisabilitiesListSchema(formData, index).enum.length > 0,
         'ui:options': {
           labels: disabilityLabels,
           expandUnder: 'cause',
           expandUnderCondition: 'SECONDARY',
           updateSchema: (formData, primarySchema, primaryUISchema, index) => {
-            const disabilitiesList = getDisabilitiesList(formData, index);
+            const disabilitiesListSchema = getDisabilitiesListSchema(formData, index);
 
-            if (!disabilitiesList.length) {
+            if (!disabilitiesListSchema.enum.length) {
               return {
                 'ui:hidden': true
               };
             }
 
-            return {
-              'enum': disabilitiesList
-            };
+            return disabilitiesListSchema;
           }
         }
       },

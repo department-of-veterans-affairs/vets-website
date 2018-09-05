@@ -9,9 +9,14 @@ const {
 } = fullSchema.properties.newDisabilities.items.properties;
 
 export const uiSchema = {
+  'view:newDisabilities': {
+    'ui:title': 'Do you have new disabilities to add?',
+    'ui:widget': 'yesNo'
+  },
   newDisabilities: {
     'ui:title': 'Add a new disability',
     'ui:options': {
+      expandUnder: 'view:newDisabilities',
       viewField: NewDisability,
       reviewTitle: 'New Disabilities',
       itemName: 'Disability'
@@ -31,11 +36,17 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['view:newDisabilities'],
   properties: {
+    'view:newDisabilities': {
+      type: 'boolean'
+    },
     newDisabilities: {
       type: 'array',
+      minItems: 1,
       items: {
         type: 'object',
+        required: ['diagnosticCode'],
         properties: {
           diagnosticCode
         }
