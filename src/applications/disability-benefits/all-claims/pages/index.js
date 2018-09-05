@@ -44,6 +44,11 @@ import {
 } from './addDisabilities';
 
 import {
+  uiSchema as ratedDisabilitiesUISchema,
+  schema as ratedDisabilitiesSchema
+} from './ratedDisabilities';
+
+import {
   uiSchema as newDisabilityFollowUpUISchema,
   schema as newDisabilityFollowUpSchema
 } from './newDisabilityFollowUp';
@@ -86,6 +91,11 @@ export const federalOrders = {
 export const prisonerOfWar = {
   uiSchema: prisonerOfWarUISchema,
   schema: prisonerOfWarSchema
+};
+
+export const ratedDisabilities = {
+  uiSchema: ratedDisabilitiesUISchema,
+  schema: ratedDisabilitiesSchema
 };
 
 export const addDisabilities = {

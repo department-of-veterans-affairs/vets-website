@@ -552,6 +552,68 @@ const schema = {
     waiveTrainingPay: {
       type: 'boolean'
     },
+    disabilities: {
+      type: 'array',
+      minItems: 1,
+      maxItems: 100,
+      items: {
+        type: 'object',
+        required: ['name', 'disabilityActionType'],
+        properties: {
+          name: {
+            type: 'string'
+          },
+          disabilityActionType: {
+            type: 'string',
+            'enum': ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN']
+          },
+          ratedDisabilityId: {
+            type: 'string'
+          },
+          ratingDecisionId: {
+            type: 'string'
+          },
+          diagnosticCode: {
+            type: 'number'
+          },
+          classificationCode: {
+            type: 'string'
+          },
+          secondaryDisabilities: {
+            type: 'array',
+            maxItems: 100,
+            items: {
+              type: 'object',
+              required: [
+                'name',
+                'disabilityActionType'
+              ],
+              properties: {
+                name: {
+                  type: 'string'
+                },
+                disabilityActionType: {
+                  type: 'string',
+                  'enum': ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN']
+                },
+                ratedDisabilityId: {
+                  type: 'string'
+                },
+                ratingDecisionId: {
+                  type: 'string'
+                },
+                diagnosticCode: {
+                  type: 'number'
+                },
+                classificationCode: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     newDisabilities: {
       type: 'array',
       items: {
