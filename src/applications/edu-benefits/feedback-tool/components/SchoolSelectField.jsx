@@ -38,7 +38,6 @@ const scroller = Scroll.scroller;
 export class SchoolSelectField extends React.Component {
   constructor(props) {
     super(props);
-
     this.debouncedSearchInstitutions = _.debounce(
       value => this.props.searchSchools(value),
       150);
@@ -103,7 +102,7 @@ export class SchoolSelectField extends React.Component {
   }
 
   handlePageSelect = page => {
-    this.scrollToTop();
+    this.resultCount.focus();
 
     this.debouncedSearchInstitutions({
       institutionQuery: this.props.institutionQuery,
@@ -282,9 +281,12 @@ export class SchoolSelectField extends React.Component {
           <div
             aria-live="polite"
             aria-relevant="additions text">
-            {showSearchResults && searchResultsCount > 0 && <span>
+            {showSearchResults && searchResultsCount > 0 && <div
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+              tabIndex="0"
+              ref={el => { this.resultCount = el; }}>
               {`${searchResultsCount} results for ${institutionQuery}`}
-            </span>}
+            </div>}
             {showSearchResults && showInstitutions && <div>
               {institutions.map(({ address1, address2, address3, city, country, facilityCode, name, state, zip }, index) => (
                 <div key={index}>
