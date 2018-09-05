@@ -2,13 +2,18 @@ import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { hasMilitaryRetiredPay } from '../validations';
+import {
+  hasMilitaryRetiredPay,
+  hasRatedDisabilities
+} from '../validations';
 
 import {
-  hasGuardOrReservePeriod
+  hasGuardOrReservePeriod,
+  prefillTransformer
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
+import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import {
   alternateNames,
   servicePay,
@@ -17,7 +22,8 @@ import {
   separationTrainingPay,
   reservesNationalGuardService,
   federalOrders,
-  prisonerOfWar
+  prisonerOfWar,
+  ratedDisabilities
 } from '../pages';
 
 import fullSchema from './schema';
@@ -27,10 +33,11 @@ const formConfig = {
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
-  formId: '21-526EZ-all-claims',
+  // formId: '21-526EZ-all-claims',
+  formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
   version: 1,
   migrations: [],
-  // prefillTransformer,
+  prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
   savedFormMessages: {
@@ -107,6 +114,24 @@ const formConfig = {
           path: 'review-veteran-details/military-service-history/pow',
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema
+        }
+      }
+    },
+    disabilities: {
+      title: 'Disabilities', // this probably needs to change
+      pages: {
+        disabilitiesOrientation: {
+          title: '',
+          path: 'disabilities/orientation',
+          uiSchema: { 'ui:description': disabilitiesOrientation },
+          schema: { type: 'object', properties: {} }
+        },
+        ratedDisabilities: {
+          title: 'Existing Conditions (Rated Disabilities)',
+          path: 'disabilities/rated-disabilities',
+          depends: hasRatedDisabilities,
+          uiSchema: ratedDisabilities.uiSchema,
+          schema: ratedDisabilities.schema
         }
       }
     }

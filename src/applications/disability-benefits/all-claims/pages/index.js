@@ -38,6 +38,11 @@ import {
   schema as prisonerOfWarSchema
 } from './prisonerOfWar';
 
+import {
+  uiSchema as ratedDisabilitiesUISchema,
+  schema as ratedDisabilitiesSchema
+} from './ratedDisabilities';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema
@@ -76,4 +81,9 @@ export const federalOrders = {
 export const prisonerOfWar = {
   uiSchema: prisonerOfWarUISchema,
   schema: prisonerOfWarSchema
+};
+
+export const ratedDisabilities = {
+  uiSchema: ratedDisabilitiesUISchema,
+  schema: ratedDisabilitiesSchema
 };
