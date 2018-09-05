@@ -188,7 +188,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/update-health-information/"><b>Update Your Health Benefits Information (Form 10-10EZR)</b></a>
+    <a href="/health-care/update-health-information/"><b>Update Your Health Benefits Information (VA Form 10-10EZR)</b></a>
     <p>Update your personal, financial, or insurance information after you’re enrolled in the VA health care program.</p>
   </div>
 
@@ -223,7 +223,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/health-needs-conditions/health-issues-related-to-service-era/"><b>Veterans Health Issues Related to Service History</b></a>
+    <a href="/health-care/health-needs-conditions/"><b>Mental Health and Other Health Needs and Conditions</b></a>
     <p>Find out how to get care for specific needs (like mental health), and learn about service-related health concerns you should be aware of (like Agent Orange-related diseases or Camp Lejeune water contamination).</p>
   </div>
 
