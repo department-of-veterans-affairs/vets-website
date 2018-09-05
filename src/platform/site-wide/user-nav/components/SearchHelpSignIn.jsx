@@ -53,8 +53,8 @@ class SearchHelpSignIn extends React.Component {
     return (
       <div className="sign-in-links">
         <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign In</button>
-        {!isBrandConsolidationEnabled && <span className="sign-in-spacer">|</span>}
-        {!isBrandConsolidationEnabled && <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign Up</button>}
+        {!isBrandConsolidationEnabled() && <span className="sign-in-spacer">|</span>}
+        {!isBrandConsolidationEnabled() && <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign Up</button>}
       </div>
     );
   }
