@@ -161,22 +161,19 @@ const formConfig = {
                     'ui:errorMessages': {
                       pattern: 'Please provide a valid city. Must be at least 1 character.'
                     }
-                  }
-                }),
-                state: {
-                  'ui:title': 'State'
-                },
-                postalCode: {
-                  'ui:title': 'Postal code',
-                  'ui:options': {
-                    widgetClassNames: 'usa-input-medium',
                   },
-                  'ui:validations': [
-                    {
-                      validator: validateZIP,
+                  postalCode: {
+                    'ui:title': 'Postal code',
+                    'ui:options': {
+                      widgetClassNames: 'usa-input-medium',
                     },
-                  ],
-                },
+                    'ui:validations': [
+                      {
+                        validator: validateZIP,
+                      },
+                    ],
+                  },
+                }),
                 limitedConsent: {
                   'ui:title':
                     'I give consent, or permission, to my doctor to release only records related to [condition].',
