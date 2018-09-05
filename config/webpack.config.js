@@ -40,19 +40,7 @@ const configGenerator = (options, apps) => {
     module: {
       rules: [
         {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              // Speed up compilation.
-              cacheDirectory: '.babelcache'
-              // Also see .babelrc
-            }
-          }
-        },
-        {
-          test: /\.jsx$/,
+          test: /\.(j|t)sx?$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
@@ -130,7 +118,7 @@ const configGenerator = (options, apps) => {
       alias: {
         modernizr$: path.resolve(__dirname, './modernizrrc.js')
       },
-      extensions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx', '.ts', '.tsx']
     },
     optimization: {
       minimizer: [new UglifyJSPlugin({
