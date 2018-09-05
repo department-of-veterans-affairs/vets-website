@@ -479,6 +479,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['treatments'],
                   properties: {
                     treatments
                   }
