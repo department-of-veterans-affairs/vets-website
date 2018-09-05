@@ -1,16 +1,18 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: How to Apply for a Veteran ID Card
 display_title: Veteran ID Card
 description: Find out if you're eligible for a printed Veteran ID Card--and how to apply.  
-concurrence: Incomplete
 plainlanguage: 
-template: detail-page
 order: 1	
 ---
 
 <div class="va-introtext">
+ 
 A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. Find out if you’re eligible for a Veteran ID Card—and how to apply.
+</div>
+
 
 #### Am I eligible for a Veteran ID Card?
 
@@ -30,7 +32,7 @@ You can apply online now.
 
 **[PLACEHOLDER FOR SIGN-IN MODULE: GRIFFINS TO HANDLE]** 
 
-{Green button} Apply for a Veteran ID Card(https://vicbdc.ppd.vba.va.gov/VIC)
+Apply for a Veteran ID Card(https://vicbdc.ppd.vba.va.gov/VIC)
 
 #### What do I need to apply for a Veteran ID Card? 
 
