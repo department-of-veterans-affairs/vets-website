@@ -27,6 +27,11 @@ import {
   schema as paymentInfoSchema
 } from '../pages/paymentInfo';
 
+// import {
+//   uiSchema as facilityAddressUiSchema,
+//   schema as facilityAddressSchema
+// } from '../../4142/pages/facilityAddress';
+
 import {
   uiSchema as reservesNationalGuardUISchema,
   schema as reservesNationalGuardSchema
@@ -610,6 +615,17 @@ const formConfig = {
             }
           }
         },
+        // treatmentHistory: {
+        //   title: 'Supporting Evidence',
+        // //  pages: {
+        //   privateMedicalRecordRelease: {
+        //     path: 'private-medical-record-request',
+        //     title: 'Supporting Evidence',
+        //     uiSchema: facilityAddressUiSchema,
+        //     schema: facilityAddressSchema,
+        //   //  },
+        //   },
+        // },
         // TODO: Re-enable after 4142 PDF integration
         // privateMedicalRecordRelease: {
         //   title: '',
