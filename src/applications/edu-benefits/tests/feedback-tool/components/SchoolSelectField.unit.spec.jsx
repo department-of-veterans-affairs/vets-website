@@ -358,6 +358,17 @@ describe('<SchoolSelectField>', () => {
 
     tree.find('.clear-search button').first().simulate('click');
     expect(onChange.calledOnce).to.eql(true);
+    expect(onChange.firstCall.args[0]).to.eql({
+      address1: '',
+      address2: '',
+      address3: '',
+      city: '',
+      country: '',
+      name: '',
+      state: '',
+      'view:facilityCode': '',
+      zip: ''
+    });
     expect(clearSearch.calledOnce).to.eql(true);
   });
 });
