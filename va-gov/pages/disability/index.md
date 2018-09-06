@@ -32,7 +32,7 @@ crosslinks:
       title: <b>Aid and Attendance or Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -93,11 +93,6 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <div class="link">
     <a href="#"><b>How to File a Claim</b></a>
     <p>Find out how to prepare and file a claim for disability compensation online or by phone or mail.</p>
-  </div>
-
-  <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><b>File a Claim Online (VA Form 21-526EZ)</b></a>
-    <p>Start your VA disability claim online now.</p>
   </div>
 
   <div class="link">
