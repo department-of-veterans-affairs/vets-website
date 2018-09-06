@@ -33,6 +33,26 @@
     }
   },
   "disability": {
+    "pattern": "disability/get-disability-benefits/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Disability Benefits 2",
+      "spokes": [
+        "Get Disability Benefits",
+        "Manage Your Veterans Disability Benefits",
+        "More Information and Resources"
+      ],
+      "icon": "fa-handshake"
+    }
+  },
+  "getDisabilityBenefits": {
+    "pattern": "disability/get-disability-benefits/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Disability Benefits"
+    }
+  },
+  "disabilityBenefits": {
     "pattern": "disability-benefits/*.md",
     "sortBy": "order",
     "metadata": {

@@ -1,0 +1,104 @@
+{% comment %}
+
+=====================
+ Navigation side bar
+=====================
+
+Used to display a side navigation bar of pages in a collection.
+
+1. To define a collection, edit `build.js`.
+2. Look for the line that begins `smith.use(collections` and edit as desired.
+3. OR add a `collection` property to those pages you wish to group into a
+   collection.
+
+{% endcomment %}
+
+{% assign relatedPages = collections | get: collection %}
+
+<nav {% if relatedPages != empty %}class="usa-width-one-fourth va-sidebarnav"{% endif %} id="va-detailpage-sidebar">
+  {% if relatedPages != empty %}
+    {% if relatedPages.metadata.name != empty %}
+      <div className="left-side-nav-title"><i class="icon-small fa {{ relatedPages.metadata.icon }}"></i><h4>{{ relatedPages.metadata.name }}</h4></div>
+    {% endif %}
+
+    <ul class="usa-accordion">
+      {% for spoke in relatedPages.metadata.spokes %}
+        <li>
+          <button class="usa-accordion-button"
+            aria-expanded="false"
+            aria-controls="a{{ forloop.index }}">
+            {{ spoke }}
+          </button>
+          <div id="a{{ forloop.index }}" class="usa-accordion-content">
+            <button type="button" class="va-btn-close-icon va-sidebarnav-close">Close this menu</button>
+
+            <ul class="usa-sidenav-list">
+              {% assign spokeName = spoke %}
+
+              {% for page in relatedPages %}
+                {% if spokeName == page.spoke %}
+                  <li>
+                    <a {% if page.path == path %}class="usa-current"{% endif %}
+                        href="/{{ page.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">
+                      {% if page.display_title != empty %}
+                        {{ page.display_title }}
+                      {% else %}
+                        {{ page.title }}
+                      {% endif %}
+                    </a>
+                    {% if page.children != empty %}
+                      {% assign childPages = collections | get: page.children %}
+                        <ul class="usa-sidenav-sub_list">
+                        {% for cpage in childPages %}
+                          {% unless cpage.hideFromSidebar %}
+                            <li>
+                              <a {% if cpage.path == path %}class="usa-current"{% endif %}
+                                  href="/{{ cpage.path }}" onClick="recordEvent({ event: 'nav-sidenav-child' });">
+                                {% if cpage.display_title != empty %}
+                                  {{ cpage.display_title }}
+                                {% else %}
+                                  {{ cpage.title }}
+                                {% endif %}
+                              </a>
+                            </li>
+                          {% endunless %}
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</nav>
+
+<script type="text/javascript">
+  const pageMetaData = {
+    collections: [],
+    mainRouteName: {{ relatedPages.metadata.name | json }}
+  };
+
+  {{ JSON.stringify(relatedPages) }}
+
+  {% for page in relatedPages %}
+    {% assign childPages = collections | get: page.children %}
+    {{ page | json }}
+    pageMetaData.collections.push({
+      text: {{ page.title | json }},
+      href: {{ page.href | json }} ? {{ page.href | json }} : '/' + {{ page.path | json }},
+      childPages: []
+    })
+
+    {% for cpage in childPages %}
+      pageMetaData.collections[pageMetaData.collections.length - 1].childPages.push({
+        displayTitle: {{ cpage.display_title | json }},
+        text: {{ cpage.title | json }},
+        href: {{ cpage.href | json }} ? {{ cpage.href | json }} : '/' + {{ cpage.path | json }},
+      })
+    {% endfor %}
+  {% endfor %}
+</script>
