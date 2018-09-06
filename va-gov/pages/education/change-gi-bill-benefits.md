@@ -54,7 +54,7 @@ You'll need to submit a Dependent's Request for Change of Program or Place of Tr
 [Complete VA Form 22-5495 Online](/education/apply-for-education-benefits/application/5495/introduction).
 
 <div class="feature" markdown=“1”>
-<h2>What information do I need to complete my request?</h2>
+<h3>What information do I need to complete my request?</h3>
 
 <b>You'll need your:</b>
 - Social Security number
