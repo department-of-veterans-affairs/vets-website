@@ -27,11 +27,21 @@ majorlinks:
 
 <div class="va-introtext">
 
-Transferring to a different college or training program? Find out how to request a change to your GI Bill school or program so you can keep receiving funding to help pay for your education or training.
+Find out when and how to request a change to your GI Bill or other VA education benefits so you can keep receiving funding to help pay for your education or training.
 
 </div>
 
-<h2>How do I request changes to my GI Bill benefits?</h2>
+<h2>When do I need to request changes to my GI Bill or other VA education benefits?</h2>
+
+You'll need to request changes to your benefits if any of the descriptions below are true for you.
+
+**Request changes to your benefit if you:**
+- Are transferring to a different school, **or**
+- Are changing your educational, professional, or vocational goal, **or**
+- Left your school or training program due to unsatisfactory attendance, progress, or conduct, and you're now reentering the same program, **or**
+- Were receiving VA education benefits as a Veteran and now want to receive benefits while on active duty
+
+<h2>How do I request changes to my benefits?</h2>
 
 <h3>If you're a Veteran or Servicemember</h3>
 
@@ -44,7 +54,6 @@ You'll need to submit a Dependent's Request for Change of Program or Place of Tr
 [Complete VA Form 22-5495 Online](/education/apply-for-education-benefits/application/5495/introduction).
 
 <div class="feature" markdown=“1”>
-
 <h2>What information do I need to complete my request?</h2>
 
 <b>You'll need your:</b>
@@ -73,7 +82,7 @@ Download the form you'll need:<br>
 [Download VA Form 22-1995 for Veterans and Servicemembers](https://www.vba.va.gov/pubs/forms/vba-22-1995-are.pdf).<br>
 [Download VA Form 22-5495 for Dependents](https://www.vba.va.gov/pubs/forms/vba-22-5495-are.pdf).
 
-Fill out the form and mail it to the VA regional claims processing office that’s in the same location as your school.<br>
+Fill out the form and mail it to the VA regional claims processing office that’s in the same region as your school.<br>
 [See a list of regional claims processing offices](https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 <h3>In person</h3>
