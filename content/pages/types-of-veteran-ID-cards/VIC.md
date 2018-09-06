@@ -42,9 +42,7 @@ When you apply, be sure to have these on hand:
 * A digital copy of your DD214, DD256, DD257, or NGB22 that you can upload. This could be in a .pdf, .jpeg, or .png file format.
 * A copy of a current and valid government-issued ID, such as a driver’s license, passport, or state-issued identification card.     
 
-You'll also need a digital color photo of yourself from the shoulders up. 
-
-**The photo should follow all these standards:**
+You'll also need a digital color photo of yourself from the shoulders up. The photo should follow all these standards:
 * Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
 * Be cropped from your shoulders up (much like a passport photo), **and**
 * Show you with your eyes open and a neutral expression, **and**
