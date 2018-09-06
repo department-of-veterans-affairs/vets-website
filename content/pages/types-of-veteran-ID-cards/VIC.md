@@ -42,7 +42,9 @@ When you apply, be sure to have these on hand:
 * A digital copy of your DD214, DD256, DD257, or NGB22 that you can upload. This could be in a .pdf, .jpeg, or .png file format.
 * A copy of a current and valid government-issued ID, such as a driver’s license, passport, or state-issued identification card.     
 * A digital color photo of yourself from the shoulders up. The photo should follow all the standards listed below. 
+
 <br>
+
 **The photo must:**
   * Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
   * Be cropped from your shoulders up (much like a passport photo), **and**
@@ -95,9 +97,7 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 -	A Veteran Health Identification Card (VHIC), **or**
 - A Department of Defense (DoD) Identification Card—either a Common Access Card (CAC) or Uniformed Services ID Card, **or**
 - A state-issued driver’s license or ID with a Veterans designation 
-
 <br>
-
 **Note:** If you already have one of these, you don’t need a Veteran ID Card, but you can still apply for it if you’d like.
 
 
