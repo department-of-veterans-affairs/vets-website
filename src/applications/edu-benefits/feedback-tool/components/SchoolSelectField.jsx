@@ -83,21 +83,27 @@ export class SchoolSelectField extends React.Component {
 
   handleOptionClick = ({ address1, address2, address3, city, facilityCode, name, state, zip, country }) => {
     this.props.selectInstitution({ address1, address2, address3, city, facilityCode, name, state });
-    const backendFriendlyCountries = {
-      USA: 'United States'
+    const isDomesticAddress = country === 'USA';
+    let street2 = address2;
+    if (address3) {
+      street2 = `${street2} ${address3}`;
+    }
+    const address = {
+      country: isDomesticAddress ? 'United States' : country,
+      street: address1,
+      street2,
+      city,
+      state,
+      postalCode: zip,
     };
+    if (!isDomesticAddress) {
+      address.viaSearchTool = true;
+    }
     this.props.onChange({
       ...this.props.formData,
       name,
       'view:facilityCode': facilityCode,
-      address: {
-        country: backendFriendlyCountries[country] || country,
-        street: address1,
-        street2: address2,
-        city,
-        state,
-        postalCode: zip,
-      }
+      address
     });
   }
 
