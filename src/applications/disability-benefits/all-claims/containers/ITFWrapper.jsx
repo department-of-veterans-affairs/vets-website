@@ -76,7 +76,7 @@ export class ITFWrapper extends React.Component {
       content = <LoadingIndicator message="Please wait while we check your ITF status."/>;
     } else if (itf.fetchCallState === requestStates.failed) {
       // We'll get here after the fetchITF promise is fulfilled
-      message = itfMessage('We’re sorry. Something went wrong on our end', itfError, 'error');
+      message = itfMessage('We’re sorry. Something went wrong on our end.', itfError, 'error');
     } else if (itf.currentITF && itf.currentITF.status === itfStatuses.active) {
       // If we have an active ITF, we're good to go--render that form!
       content = children;
@@ -107,7 +107,7 @@ export class ITFWrapper extends React.Component {
     } else {
       // We'll get here after the createITF promise is fulfilled and we have no active ITF
       //  because of a failed creation call
-      message = itfMessage('We’re sorry. Something went wrong on our end', itfError, 'error');
+      message = itfMessage('We’re sorry. Something went wrong on our end.', itfError, 'error');
     }
 
     return (
