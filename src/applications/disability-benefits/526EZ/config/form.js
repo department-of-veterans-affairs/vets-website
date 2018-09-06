@@ -145,7 +145,6 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
-          description: 'This is the personal information we have on file for you.',
           path: 'veteran-information',
           uiSchema: {
             'ui:description': veteranInfoDescription
@@ -158,7 +157,6 @@ const formConfig = {
         primaryAddress: {
           title: 'Address information',
           path: 'veteran-details/address-information',
-          description: 'This is the contact information we have on file for you. We’ll send any important information about your disability claim to the address listed here. Any updates you make here to your contact information will only apply to this application.',
           uiSchema: primaryAddressUiSchema,
           schema: primaryAddressSchema
         },
