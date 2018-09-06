@@ -27,7 +27,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-Looking to transfer colleges or training programs? Find out how to request a change to your GI Bill school or program so you can keep receiving funding to help pay for your education or training.
+Transferring to a different college or training program? Find out how to request a change to your GI Bill school or program so you can keep receiving funding to help pay for your education or training.
 
 </div>
 
