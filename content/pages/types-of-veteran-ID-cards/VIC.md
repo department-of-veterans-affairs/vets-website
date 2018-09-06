@@ -41,15 +41,18 @@ When you apply, be sure to have these on hand:
 * Your Social Security number
 * A digital copy of your DD214, DD256, DD257, or NGB22 that you can upload. This could be in a .pdf, .jpeg, or .png file format.
 * A copy of a current and valid government-issued ID, such as a driver’s license, passport, or state-issued identification card.     
-* A digital color photo of yourself from the shoulders up. The photo should follow all these standards:
-  * Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
-  * Be cropped from your shoulders up (much like a passport photo), **and**
-  * Show you with your eyes open and a neutral expression, **and**
-  * Be taken in clothing you’d wear for a driver’s license photo, **and**
-  * Be a square size and have a white or plain-color background (with no scenery or other people in the photo), **and**
-  * Show what you look like now (a photo taken sometime in the last 10 years), **and**
-  * Be uploaded as a .jpeg, .png, .bmp, or .tiff file
-  <br>
+
+You'll also need a digital color photo of yourself from the shoulders up. 
+
+**The photo should follow all these standards:**
+* Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
+* Be cropped from your shoulders up (much like a passport photo), **and**
+* Show you with your eyes open and a neutral expression, **and**
+* Be taken in clothing you’d wear for a driver’s license photo, **and**
+* Be a square size and have a white or plain-color background (with no scenery or other people in the photo), **and**
+* Show what you look like now (a photo taken sometime in the last 10 years), **and**
+* Be uploaded as a .jpeg, .png, .bmp, or .tiff file
+
 ### What happens after I apply for a Veteran ID Card?
 Once you’ve submitted your VIC application, we’ll check your eligibility and verify that:
 - Your character of discharge meets eligibility requirements, **and**
