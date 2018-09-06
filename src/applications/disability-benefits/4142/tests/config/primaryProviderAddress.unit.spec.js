@@ -19,12 +19,11 @@ describe('Disability benefits 4142 provider primary address', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{ }}
+        data={{}}
         uiSchema={uiSchema}/>,
     );
 
     expect(form.find('input').length).to.equal(9);
-    expect(form.find('select').length).to.equal(6);
   });
 
   it('does not submit without required info', () => {
@@ -34,14 +33,18 @@ describe('Disability benefits 4142 provider primary address', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          privateMedicalProviders: [
+          providerFacility: [
             {
-              privateProviderName: '',
-              privateProviderStreetAddressLine1: '',
-              privateProviderCity: null,
-              privateProviderPostalCode: null,
-              privateProviderCountry: '',
-              privateProviderState: '',
+              providerFacilityName: '',
+              treatmentDateRange: {
+                from: '',
+                to: '',
+              },
+              providerFacilityAddress: {
+                street: '',
+                city: '',
+                postalCode: null,
+              },
             },
           ],
         }}
@@ -51,7 +54,7 @@ describe('Disability benefits 4142 provider primary address', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(8);
 
     expect(onSubmit.called).to.be.false;
   });
@@ -63,14 +66,20 @@ describe('Disability benefits 4142 provider primary address', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          privateMedicalProvider: [
+          providerFacility: [
             {
-              privateProviderName: 'Testy',
-              privateProviderStreetAddressLine1: '123 Nonesuch Street',
-              privateProviderCity: 'No',
-              privateProviderPostalCode: '29445',
-              privateProviderCountry: 'USA',
-              privateProviderState: 'South Carolina',
+              providerFacilityName: 'Facility Name',
+              treatmentDateRange: {
+                from: '2017-05-05',
+                to: '2018-05-05',
+              },
+              providerFacilityAddress: {
+                street: '100 Main Street',
+                city: 'City',
+                state: 'WI',
+                country: 'USA',
+                postalCode: '12345'
+              },
             },
           ],
         }}
