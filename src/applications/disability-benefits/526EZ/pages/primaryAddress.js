@@ -104,20 +104,32 @@ const addressUISchema = (addressType, title) => {
       'ui:title': 'Country'
     },
     addressLine1: {
-      'ui:title': 'Street address'
+      'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address'
+      }
     },
     addressLine2: {
-      'ui:title': 'Street address (optional)'
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address'
+      }
     },
     addressLine3: {
-      'ui:title': 'Street address (optional)'
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address'
+      }
     },
     city: {
       'ui:title': 'City',
       'ui:validations': [{
         options: { addressPath: addressType },
         validator: validateMilitaryCity
-      }]
+      }],
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid city'
+      }
     },
     state: {
       'ui:title': 'State',
