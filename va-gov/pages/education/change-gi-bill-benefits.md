@@ -35,17 +35,17 @@ Transferring to a different college or training program? Find out how to request
 
 <h3>If you're a Veteran or Servicemember</h3>
 
-You'll need to submit a Request for Change of Program or Place of Training (VA Form 22-1995).You can complete this form online now.
-
-[Complete VA Form 22-1995 Online Now](/education/apply-for-education-benefits/application/1995/introduction).
+You'll need to submit a Request for Change of Program or Place of Training (VA Form 22-1995). You can complete this form online now.<br>
+[Complete VA Form 22-1995 Online](/education/apply-for-education-benefits/application/1995/introduction).
 
 <h3>If you're the dependent of a Veteran or Servicemember</h3>
 
-You'll need to submit a Dependent's Request for Change of Program or Place of Training (VA Form 22-15495). You can complete this form online now.
-
+You'll need to submit a Dependent's Request for Change of Program or Place of Training (VA Form 22-15495). You can complete this form online now.<br>
 [Complete VA Form 22-5495 Online](/education/apply-for-education-benefits/application/5495/introduction).
 
-<h2>What information will I need to fill out the request?</h2>
+<div class="feature" markdown=“1”>
+
+<h2>What information do I need to complete my request?</h2>
 
 <b>You'll need your:</b>
 - Social Security number
@@ -61,24 +61,26 @@ You'll need to submit a Dependent's Request for Change of Program or Place of Tr
 - Social Security number or VA file number
 - Basic service history information
 
-<h2>What if I don't want to submit my request online?</h2>
+</div>
 
-Follow the steps below to submit your request by mail, in person, or with the help of a trained professional. 
+<h2>Are there other ways to submit my request?</h2>
+
+Yes. Follow the steps below to submit your request by mail, in person, or with the help of a trained professional. 
 
 <h3>By mail</h3>
 
 Download the form you'll need:<br>
 [Download VA Form 22-1995 for Veterans and Servicemembers](https://www.vba.va.gov/pubs/forms/vba-22-1995-are.pdf).<br>
-[Download VA Form 22-1885 for Dependents](https://www.vba.va.gov/pubs/forms/vba-22-5495-are.pdf).
+[Download VA Form 22-5495 for Dependents](https://www.vba.va.gov/pubs/forms/vba-22-5495-are.pdf).
 
 Fill out the form and mail it to the VA regional claims processing office that’s in the same location as your school.<br>
 [See a list of regional claims processing offices](https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 <h3>In person</h3>
-Go to a VA regional office and have a VA employee help you.<br>
-[Find a VA regional benefit office near you](/facilities/).
+Go to a VA regional benefit office and ask a staff member to help you.<br>
+[Find a regional benefit office near you](/facilities/).
 
-Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
+Or, work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
 <h3>With the help of a trained professional</h3>
 You can work with a trained professional called an accredited representative to get help requesting a change to your benefits.<br> 
