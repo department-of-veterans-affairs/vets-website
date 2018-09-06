@@ -5,7 +5,7 @@ import {
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { SchoolSelectField } from '../../components/SchoolSelectField';
+import { SchoolSelectField } from '../../../feedback-tool/components/SchoolSelectField';
 
 describe('<SchoolSelectField>', () => {
   it('should render initial search view', () => {
