@@ -5,7 +5,6 @@ const archive = require('metalsmith-archive');
 const assets = require('metalsmith-assets');
 const blc = require('metalsmith-broken-link-checker');
 const collections = require('metalsmith-collections');
-const commandLineArgs = require('command-line-args');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
@@ -31,100 +30,36 @@ const {
   getAppManifests
 } = require('./manifest-helpers.js');
 
-const sourceDir = '../content/pages';
+const BUILD_OPTIONS = require('./options');
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
-
-const optionDefinitions = [
-  { name: 'buildtype', type: String, defaultValue: 'development' },
-  { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
-  { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
-  { name: 'port', type: Number, defaultValue: 3001 },
-  { name: 'watch', type: Boolean, defaultValue: false },
-  { name: 'entry', type: String, defaultValue: null },
-  { name: 'analyzer', type: Boolean, defaultValue: false },
-  { name: 'host', type: String, defaultValue: 'localhost' },
-  { name: 'public', type: String, defaultValue: null },
-  { name: 'destination', type: String, defaultValue: null },
-
-  // Catch-all for bad arguments.
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
-];
-const options = commandLineArgs(optionDefinitions);
-
-const env = require('get-env')();
-
-if (options.unexpected && options.unexpected.length !== 0) {
-  throw new Error(`Unexpected arguments: '${options.unexpected}'`);
-}
-
-if (options.buildtype === undefined) {
-  options.buildtype = 'development';
-}
-
-const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
-
-// destination is dependent upon buildtype but it can also change in applyHerokuOptions
-options.destination = path.resolve(__dirname, `../build/${options.buildtype}`);
-
-if (isHerokuBuild) {
-  const applyHerokuOptions = require('./heroku-helper');
-  applyHerokuOptions(options);
-}
-
-switch (options.buildtype) {
-  case 'development':
-  // No extra checks needed in dev.
-    break;
-
-  case 'staging':
-    break;
-
-  case 'production':
-    if (options['no-sanity-check-node-env'] === false) {
-      if (env !== 'prod') {
-        throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
-      }
-    }
-    break;
-
-  case 'devpreview':
-  case 'preview':
-    options['brand-consolidation-enabled'] = true;
-    break;
-
-  default:
-    throw new Error(`Unknown buildtype: '${options.buildtype}'`);
-}
 const manifests = getAppManifests(path.join(__dirname, '..'));
 
 let manifestsToBuild = manifests;
-if (options.entry) {
-  const entryNames = options.entry.split(',').map(name => name.trim());
+if (BUILD_OPTIONS.entry) {
+  const entryNames = BUILD_OPTIONS.entry.split(',').map(name => name.trim());
   manifestsToBuild = manifests
     .filter(manifest => entryNames.includes(manifest.entryName));
 }
 
 const webpackConfig = webpackConfigGenerator(
-  options,
+  BUILD_OPTIONS,
   getWebpackEntryPoints(manifestsToBuild)
 );
 
 // Custom liquid filter(s)
 liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
 
-
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
 //
-smith.source(sourceDir);
-smith.destination(options.destination);
+smith.source(`${BUILD_OPTIONS.contentRoot}/pages`);
+smith.destination(BUILD_OPTIONS.destination);
 
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({
-  buildtype: options.buildtype,
-  // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
-  mergedbuild: !!options['brand-consolidation-enabled']
+  buildtype: BUILD_OPTIONS.buildtype,
+  mergedbuild: !!BUILD_OPTIONS['brand-consolidation-enabled'] // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
 });
 
 // To block an app from production add the following to the below list:
@@ -132,7 +67,7 @@ smith.metadata({
 const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
-if (options.buildtype === 'production') {
+if (BUILD_OPTIONS.buildtype === 'production') {
   manifests.filter(m => !m.production).forEach(m => {
     ignoreList.push(m.contentPage);
   });
@@ -149,330 +84,20 @@ smith.use(filenames());
 smith.use(define({
   // Does anything even look at `site`?
   site: require('../config/site'),
-  buildtype: options.buildtype
+  buildtype: BUILD_OPTIONS.buildtype
 }));
 
-// See the collections documentation here:
-// https://github.com/segmentio/metalsmith-collections
-// Can sort by any front matter property you'd like, or by function.
-// Can define a collection by its path or by adding a `collection`
-// property to the Markdown document.
-
-smith.use(collections({
-  burials: {
-    sortBy: 'order',
-    metadata: {
-      name: 'Burials and Memorials'
-    }
-  },
-  burialsHonor: {
-    pattern: 'burials-and-memorials/honor/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Honor a Deceased Veteran'
-    }
-  },
-  burialsPreNeed: {
-    pattern: 'burials-and-memorials/pre-need/after*.md',
-    sortBy: 'title',
-    metadata: {
-      name: 'Pre-need Determination'
-    }
-  },
-  burialsPlanning: {
-    sortBy: 'title',
-    metadata: {
-      name: 'Burial Planning'
-    }
-  },
-  burialsSurvivors: {
-    pattern: 'burials-and-memorials/survivor-and-dependent-benefits/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Survivor and Dependent Benefits'
-    }
-  },
-  disability: {
-    pattern: 'disability-benefits/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Disability Benefits'
-    }
-  },
-  disabilityAfterYouApply: {
-    pattern: 'disability-benefits/after-you-apply/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'After You Apply'
-    }
-  },
-  disabilityApply: {
-    pattern: 'disability-benefits/apply/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'How to Apply'
-    }
-  },
-  disabilityClaimsAppeal: {
-    pattern: 'disability-benefits/claims-appeal/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Appeals'
-    }
-  },
-  disabilityClaimTypes: {
-    pattern: 'disability-benefits/apply/claim-types/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Claim Types'
-    }
-  },
-  disabilityClaimTypesPredischarge: {
-    pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Pre-discharge Claim'
-    }
-  },
-  disabilityConditions: {
-    pattern: 'disability-benefits/conditions/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Conditions'
-    }
-  },
-  disabilityConditionsExposure: {
-    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
-    sortBy: 'title',
-    metadata: {
-      name: 'Contact with Hazardous Materials'
-    }
-  },
-  disabilityConditionsSpecial: {
-    pattern: 'disability-benefits/conditions/special-claims/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Special Claims'
-    }
-  },
-  disabilityConditionsAgentOrange: {
-    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Agent Orange'
-    }
-  },
-  disabilityEligibility: {
-    pattern: 'disability-benefits/eligibility/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Eligibility'
-    }
-  },
-  disabilityEvidence: {
-    pattern: 'disability-benefits/apply/evidence/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'How to Gather Evidence for Your Claim'
-    }
-  },
-  education: {
-    pattern: '',
-    sortBy: 'order',
-    metadata: {
-      name: 'Education and Training'
-    }
-  },
-  educationAdvancedTraining: {
-    pattern: 'education/advanced-training-and-certifications/*.md',
-    sortBy: 'title',
-    metadata: {
-      name: 'Advanced Training and Certifications'
-    }
-  },
-  educationGIBill: {
-    pattern: 'education/gi-bill/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'GI Bill'
-    }
-  },
-  educationGIBillSurvivors: {
-    pattern: 'education/gi-bill/survivors-dependent-assistance/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Survivors and Dependents'
-    }
-  },
-  educationNonTraditional: {
-    pattern: 'education/work-learn/non-traditional/*.md',
-    sortBy: 'title',
-    metadata: {
-      name: 'Non-Traditional Options'
-    }
-  },
-  educationOtherPrograms: {
-    pattern: 'education/other-educational-assistance-programs/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Other Educational Assistance Programs'
-    }
-  },
-  educationToolsPrograms: {
-    pattern: 'education/tools-programs/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Career Counseling'
-    }
-  },
-  educationWorkLearn: {
-    pattern: 'education/work-learn/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Work and Learn'
-    }
-  },
-  healthCare: {
-    sortBy: 'order',
-    metadata: {
-      name: 'Health Care'
-    }
-  },
-  healthCareCoverage: {
-    pattern: 'health-care/about-va-health-care/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'VA Health Care Coverage'
-    }
-  },
-  healthCareCoverageFamily: {
-    pattern: 'health-care/family-caregiver-health-benefits/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Family and Caregiver Health Benefits'
-    }
-  },
-  healthCareCoverageVision: {
-    pattern: 'health-care/about-va-health-care/vision-care/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Vision Care'
-    }
-  },
-  healthCareConditions: {
-    pattern: 'health-care/health-conditions/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Health Needs and Conditions'
-    }
-  },
-  healthCareMentalHealth: {
-    pattern: 'health-care/health-conditions/mental-health/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Mental Health'
-    }
-  },
-  healthCareServiceRelated: {
-    pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Concerns Related to Service Era'
-    }
-  },
-  housing: {
-    pattern: 'housing-assistance/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Housing Assistance'
-    }
-  },
-  housingHomeLoans: {
-    pattern: 'housing-assistance/home-loans/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Home Loans'
-    }
-  },
-  housingVALoans: {
-    pattern: 'housing-assistance/home-loans/loan-options/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Loan Options'
-    }
-  },
-  lifeInsurance: {
-    pattern: 'life-insurance/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Life Insurance'
-    }
-  },
-  lifeInsuranceOptions: {
-    pattern: 'life-insurance/options-and-eligibility/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Options'
-    }
-  },
-  pension: {
-    pattern: 'pension/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Pension Benefits'
-    }
-  },
-  pensionEligibility: {
-    pattern: 'pension/eligibility/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Eligibility'
-    }
-  },
-  pensionSurvivors: {
-    pattern: 'pension/survivors-pension/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Survivors Pension'
-    }
-  },
-  pensionApplication: {
-    pattern: 'pension/apply/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'How to Apply'
-    }
-  },
-  vre: {
-    pattern: 'employment/vocational-rehab-and-employment/*md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Vocational Rehab &amp; Employment'
-    }
-  },
-  vreServiceDisabled: {
-    pattern: 'employment/vocational-rehab-and-employment/service-disabled/*md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Servicemember & Veteran Programs'
-    }
-  },
-}));
-
+smith.use(collections(BUILD_OPTIONS.collections));
 smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 
-if (options.watch) {
-  // TODO(awong): Enable live reload of metalsmith pages per instructions at
-  //   https://www.npmjs.com/package/metalsmith-watch
-  smith.use(
-    watch({
-      paths: {
-        '../content/**/*': '**/*.{md,html}',
-      },
-      livereload: true,
-    })
-  );
+if (BUILD_OPTIONS.watch) {
+  smith.use(watch({
+    paths: {
+      [`${BUILD_OPTIONS.contentRoot}/**/*`]: '**/*.{md,html}'
+    },
+    livereload: true
+  }));
 
   const appRewrites = getRoutes(manifests).map(url => {
     return {
@@ -483,7 +108,7 @@ if (options.watch) {
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
-    contentBase: options.destination,
+    contentBase: BUILD_OPTIONS.destination,
     historyApiFallback: {
       rewrites: [
         ...appRewrites,
@@ -491,10 +116,10 @@ if (options.watch) {
       ],
     },
     hot: true,
-    port: options.port,
+    port: BUILD_OPTIONS.port,
     publicPath: '/generated/',
-    host: options.host,
-    'public': options.public || undefined,
+    host: BUILD_OPTIONS.host,
+    'public': BUILD_OPTIONS.public || undefined,
     stats: {
       colors: true,
       assets: false,
@@ -544,14 +169,14 @@ if (options.watch) {
   smith.use(webpack(webpackConfig));
 }
 
-smith.use(assets({ source: '../assets', destination: './' }));
+smith.use(assets(BUILD_OPTIONS.assets));
 
 // Webpack paths are absolute, convert to relative
 smith.use((files, metalsmith, done) => {
   Object.keys(files).forEach((file) => {
-    if (file.indexOf(options.destination) === 0) {
+    if (file.indexOf(BUILD_OPTIONS.destination) === 0) {
       /* eslint-disable no-param-reassign */
-      files[file.substr(options.destination.length + 1)] = files[file];
+      files[file.substr(BUILD_OPTIONS.destination.length + 1)] = files[file];
       delete files[file];
       /* eslint-enable no-param-reassign */
     }
@@ -608,11 +233,9 @@ smith.use(navigation({
   navSettings: {}
 }));
 
-// Note that there is no default layout specified.
-// All pages must explicitly declare a layout or else it will be rendered as raw html.
 smith.use(layouts({
   engine: 'liquid',
-  directory: '../content/layouts/',
+  directory: `${BUILD_OPTIONS.contentRoot}/layouts/`,
   // Only apply layouts to markdown and html files.
   pattern: '**/*.{md,html}'
 }));
@@ -623,7 +246,7 @@ smith.use(sitemap({
   omitIndex: true
 }));
 
-if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
+if (!BUILD_OPTIONS.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   smith.use(blc({
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
@@ -639,13 +262,14 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
+        '/health-care/apply-for-health-care-form-10-10ez',
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
         '/download-va-letters/letters'].join('|'))
   }));
 }
 
-if (options.buildtype !== 'development' && options.buildtype !== 'devpreview') {
+if (BUILD_OPTIONS.buildtype !== 'development' && BUILD_OPTIONS.buildtype !== 'devpreview') {
 
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
@@ -704,7 +328,7 @@ smith.use(redirect({
 
 // Pages can contain an "alias" property in their metadata, which is processed into
 // separate pages that will each redirect to the original page.
-smith.use(createRedirects(options));
+smith.use(createRedirects(BUILD_OPTIONS));
 
 /*
 Add nonce attribute with substition string to all inline script tags
@@ -716,9 +340,9 @@ smith.use(nonceTransformer);
 smith.build((err) => {
   if (err) throw err;
 
-  createBuildSettings(options);
+  createBuildSettings(BUILD_OPTIONS);
 
-  if (options.watch) {
+  if (BUILD_OPTIONS.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
   } else {
     console.log('Build finished!');

@@ -3,23 +3,37 @@ import React from 'react';
 
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
 import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
 class HelpMenu extends React.Component {
   render() {
+    const buttonText = isBrandConsolidationEnabled() ? 'Contact Us' : 'Help';
     const icon = <IconHelp color="#fff"/>;
+    let dropDownContents;
 
-    const dropDownContents = (
-      <div>
-        <p><b>Call the Vets.gov Help Desk</b></p>
-        <p><a href="tel:18555747286">1-855-574-7286</a></p>
-        <p>TTY: <a href="tel:+18008778339">1-800-877-8339</a></p>
-        <p>Monday &ndash; Friday, 8:00 a.m. &ndash; 8:00 p.m. (ET)</p>
-      </div>
-    );
+    if (isBrandConsolidationEnabled()) {
+      dropDownContents = (
+        <div>
+          <p><a href="https://preview.va.gov/facilities/">Find a VA Location</a></p>
+          <p><a href="#">Submit a Help Request</a></p>
+          <p><a href="#">Go to VA Help Center</a></p>
+          <p><a href="#">Call Us </a></p>
+        </div>
+      );
+    } else {
+      dropDownContents = (
+        <div>
+          <p><b>Call the Vets.gov Help Desk</b></p>
+          <p><a href="tel:18555747286">1-855-574-7286</a></p>
+          <p>TTY: <a href="tel:+18008778339">1-800-877-8339</a></p>
+          <p>Monday &ndash; Friday, 8:00 a.m. &ndash; 8:00 p.m. (ET)</p>
+        </div>
+      );
+    }
 
     return (
       <DropDownPanel
-        buttonText="Help"
+        buttonText={buttonText}
         clickHandler={this.props.clickHandler}
         cssClass={this.props.cssClass}
         id="helpmenu"
