@@ -67,19 +67,19 @@ Follow the steps below to submit your request by mail, in person, or with the he
 
 <h3>By mail</h3>
 
-Download your form:
-[Download VA Form 22-1995 for Veterans and Servicemembers](https://www.vba.va.gov/pubs/forms/vba-22-1995-are.pdf).
+Download the form you'll need:<br>
+[Download VA Form 22-1995 for Veterans and Servicemembers](https://www.vba.va.gov/pubs/forms/vba-22-1995-are.pdf).<br>
 [Download VA Form 22-1885 for Dependents](https://www.vba.va.gov/pubs/forms/vba-22-5495-are.pdf).
 
-Fill out the form and mail it to the VA regional claims processing office that’s in the same location as your school.
+Fill out the form and mail it to the VA regional claims processing office that’s in the same location as your school.<br>
 [See a list of regional claims processing offices](https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 <h3>In person</h3>
-Go to a VA regional office and have a VA employee help you.
+Go to a VA regional office and have a VA employee help you.<br>
 [Find a VA regional benefit office near you](/facilities/).
 
 Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
 <h3>With the help of a trained professional</h3>
-You can work with a trained professional called an accredited representative to get help requesting a change to your benefits. 
+You can work with a trained professional called an accredited representative to get help requesting a change to your benefits.<br> 
 [Get help submitting your request](/disability-benefits/apply/help/index.html).
