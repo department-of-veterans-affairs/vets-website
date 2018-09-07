@@ -75,8 +75,8 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 Your Post-9/11 GI Bill Statement of Benefits might not be available if one of these is true:
 
 - The name on the account you're signed in with doesn't exactly match the name we have in our Post-9/11 GI Bill records.
-- We're still processing your education benefits application and we haven't yet created a record for you. We usually process applications within 60 days. If you applied less than 60 days ago, please check back soon.
-- You haven't yet applied for Post-9/11 GI Bill education benefits. <br>
+- We're still processing your education benefits application, so we haven't created a record yet for you. We usually process applications within 60 days. If you applied less than 60 days ago, please check back soon.
+- You haven't applied yet for Post-9/11 GI Bill education benefits. <br>
 [Apply for education benefits](/education/apply/).
 - You're not eligible for Post-9/11 GI Bill benefits.
 - You're trying to access the tool during its scheduled downtime. This tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
