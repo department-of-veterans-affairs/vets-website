@@ -335,7 +335,7 @@ export class SchoolSelectField extends React.Component {
             }
           </div>
           {showSearchResults && showPagination && <Pagination
-            page={currentPageNumber} pages={pagesCount} ariaLabelSpecifier="of school results" onPageSelect={this.handlePageSelect}/>}
+            page={currentPageNumber} pages={pagesCount} ariaLabelSuffix="of school results" onPageSelect={this.handlePageSelect}/>}
         </div>
       </fieldset>
     );
