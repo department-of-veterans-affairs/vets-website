@@ -302,8 +302,8 @@ describe('<SchoolSelectField>', () => {
       city: 'testcity',
       facilityCode: 'test',
       name: 'testName',
-      state: 'testState',
-      zip: '12345',
+      state: null,
+      zip: null,
       country: 'NOT THE UNITED STATES'
     };
     const institutions = [domesticInstitution, internationalInstitution];
@@ -338,7 +338,8 @@ describe('<SchoolSelectField>', () => {
           postalCode: domesticInstitution.zip,
           state: domesticInstitution.state,
           street: domesticInstitution.address1,
-          street2: `${domesticInstitution.address2} ${domesticInstitution.address3}`
+          street2: domesticInstitution.address2,
+          street3: domesticInstitution.address3
         },
         name: domesticInstitution.name,
         'view:facilityCode': domesticInstitution.facilityCode
@@ -364,7 +365,8 @@ describe('<SchoolSelectField>', () => {
           postalCode: internationalInstitution.zip,
           state: internationalInstitution.state,
           street: internationalInstitution.address1,
-          street2: `${internationalInstitution.address2} ${internationalInstitution.address3}`
+          street2: internationalInstitution.address2,
+          street3: internationalInstitution.address3,
         },
         name: internationalInstitution.name,
         'view:facilityCode': internationalInstitution.facilityCode
