@@ -516,7 +516,6 @@
       width: 55%;
       float: left;
       margin-right: 10px;
-      // margin-bottom: 1em;
 
       a {
         width: 100%;
@@ -1000,7 +999,36 @@
         }
       }
     }
+    .fa {
+      position: relative;
+      color: $color-white;
+      border-radius: 50%;
 
+      &.icon-small {
+        vertical-align: middle;
+        padding-left: initial;
+        height: 32px;
+        width: 32px;
+        margin-right: 5px;
+
+        &::before {
+          position: absolute;
+          margin-top: 6.5px;
+          margin-left: 8.47px;
+        }
+      }
+
+      &.fa-medkit {
+        background-color: $color-primary;
+
+        &.icon-small {
+          &::before {
+            margin-top: 6px;
+            margin-left: 8px;
+          }
+        }
+      }
+    }
   }
 
 }
