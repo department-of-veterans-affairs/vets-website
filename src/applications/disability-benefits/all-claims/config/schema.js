@@ -23,6 +23,12 @@ const schema = {
       pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
       type: 'string'
     },
+    email: {
+      type: 'string',
+      minLength: 6,
+      maxLength: 80,
+      pattern: '^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'
+    },
     address: {
       type: 'object',
       required: [
@@ -1003,6 +1009,12 @@ const schema = {
     },
     forwardingAddress: {
       $ref: '#/definitions/forwardingAddress'
+    },
+    emailAddress: {
+      $ref: '#/definitions/email'
+    },
+    primaryPhone: {
+      $ref: '#/definitions/phone'
     }
   }
 };

@@ -6,9 +6,9 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
-import ReviewCardField from '../components/ReviewCardField';
+import ReviewCardField from '../components/ReviewCardField'; // point to all-claims
 
-import {
+import { // point these to all-claims
   PrimaryAddressViewField,
   ForwardingAddressViewField,
   contactInfoDescription,
@@ -16,6 +16,7 @@ import {
   phoneEmailViewField
 } from '../helpers';
 import  {
+  ADDRESS_TYPES,
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
@@ -23,9 +24,6 @@ import  {
   STATE_VALUES,
   USA,
 } from '../../all-claims/constants';
-import  {
-  ADDRESS_TYPES
-} from '../constants';
 
 function isValidZIP(value) {
   if (value !== null) {

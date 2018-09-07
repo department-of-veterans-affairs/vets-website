@@ -24,7 +24,7 @@ import {
   federalOrders,
   prisonerOfWar,
   ratedDisabilities,
-  additionalInformation
+  contactInformation
 } from '../pages';
 
 import fullSchema from './schema';
@@ -141,8 +141,8 @@ const formConfig = {
         contactInformation: {
           title: 'Veteran contact information',
           path: 'contact-information',
-          uiSchema: additionalInformation.uiSchema,
-          schema: additionalInformation.schema
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema
         }
       }
     }

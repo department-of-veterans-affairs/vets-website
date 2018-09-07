@@ -44,9 +44,9 @@ import {
 } from './ratedDisabilities';
 
 import {
-  uiSchema as additionalInformationUISchema,
-  schema as additionalInformationSchema
-} from './additionalInformation';
+  uiSchema as contactInformationUISchema,
+  schema as contactInformationSchema
+} from './contactInformation';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -93,7 +93,7 @@ export const ratedDisabilities = {
   schema: ratedDisabilitiesSchema
 };
 
-export const additionalInformation = {
-  uiSchema: additionalInformationUISchema,
-  schema: additionalInformationSchema
+export const contactInformation = {
+  uiSchema: contactInformationUISchema,
+  schema: contactInformationSchema
 };

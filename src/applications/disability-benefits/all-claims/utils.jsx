@@ -2,9 +2,11 @@ import React from 'react';
 import moment from 'moment';
 import Raven from 'raven-js';
 
-import _ from '../../../platform/utilities/data';
+import _ from 'lodash';
 
-import { RESERVE_GUARD_TYPES } from './constants';
+import {
+  RESERVE_GUARD_TYPES,
+  USA } from './constants';
 /**
  * Show one thing, have a screen reader say another.
  * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
@@ -138,3 +140,7 @@ export function prefillTransformer(pages, formData, metadata) {
     pages
   };
 }
+
+export const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
+
+export const forwardingCountryIsUSA = (formData) => (_.get(formData, 'veteran.forwardingAddress.country', '') === USA);
