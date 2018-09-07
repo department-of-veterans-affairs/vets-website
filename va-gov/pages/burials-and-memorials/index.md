@@ -12,26 +12,26 @@ widgets:
 majorlinks:
   - heading: Who Can Get Benefits
     links:
-    - url: /burials-and-memorials/eligibility/
+    - url: /burials-memorials/eligibility/
       title: Eligibility
       description: Find out if you—or a family member—can be buried in a VA national cemetery or get other burial honors.
   - heading: How to Plan in Advance for Your Burial
     links:
-    - url: /burials-and-memorials/pre-need/
+    - url: /burials-memorials/pre-need-eligibility/
       title: Pre-Need Eligibility Determination for Burial in a VA National Cemetery
       description: Find out ahead of time if you can be buried in a VA national cemetery—and make the process of planning your burial easier for your family members in the event of your death. 
   - heading: What to Do When a Family Member Dies
     links:
-    - url: /burials-and-memorials/burial-planning/
+    - url: /burials-memorials/plan-a-burial/
       title: Plan a Burial for a Family Member
       description: Find out the steps you'll need to take to arrange for a family member's burial.
-    - url: /burials-and-memorials/honor/
+    - url: /burials-memorials/memorial-items/
       title: Honor the Deceased with Memorial Items
       description: Find out how to honor the military service of a deceased Servicemember or Veteran with memorial items such as a headstone, medallion, flag, or Presidential Memorial Certificate. Spouses and other family members may qualify for certain memorial items as well.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/
       title: Learn about Burial Allowances and Survivor Compensation
       description: Find out if you can get help paying for funeral costs or other tax-free monetary benefits.
-    - url: /burials-and-memorials/bereavement-counseling/
+    - url: /burials-memorials/bereavement-counseling/
       title: Bereavement Counseling
       description: Find out if you qualify for assistance and support to help you through the emotional and psychological stress of a loved one’s death.
   - heading: More Helpful Information

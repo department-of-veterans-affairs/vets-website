@@ -26,7 +26,7 @@ You may be able to get disability benefits if you have one or more illnesses bel
   - You had regular and repeated contact with a C-123 aircraft that had traces of Agent Orange, **or**
   - You took part in projects that tested, disposed of, or stored Agent Orange
 
-[See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See a list of Agent Orange‒related illnesses](/disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases/).
 
 
 ### Who’s covered?
@@ -39,23 +39,23 @@ You may be able to get disability benefits if you have one or more illnesses bel
 
 - Health care
 - Compensation (payments)
-- [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
+- [An Agent Orange Registry health exam](/disability/eligibility/hazardous-materials-exposure/agent-orange/registry-health-exam/)
 
 -----
 
 ### How do I get these benefits?
 
 You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military. If you were exposed outside of the areas listed, please give your location and timeframe of service so we can review your claim. <br>
-[Apply for benefits](/disability-benefits/apply/).
+[Apply for benefits](/disability/how-to-file-claim/).
 
 **Exception:**<br>
 If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma, you don’t need to show that you had contact with Agent Orange. We recognize non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era. <br>
-[Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
+[Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability/eligibility/hazardous-materials-exposure/agent-orange/non-hodgkins-lymphoma/).
 
 ### Need help?
 
 Want to connect with a trained professional who can help you with VA-related claims? <br>
-[Get help filing your claim](/disability-benefits/apply/help/).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 ### Get more information
 Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? <br>
