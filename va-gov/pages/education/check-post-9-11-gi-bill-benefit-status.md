@@ -13,7 +13,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training.  Find out how to check if you have any Post-9/11 GI Bill benefits—and how to track how much money you have left to use for your education or training. 
+If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. Find out how to check if you have any Post-9/11 GI Bill benefits—and how to track how much money you have left to use for your education or training. 
 
 </div>
 
@@ -26,11 +26,30 @@ If you served on active duty after September 10, 2001, you and your dependents m
   </div>
 </div>
 
-<h2 itemprop="name">When can I use this tool to check my Post-9/11 GI Bill benefits?</h2>
+**Note:** This tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
+
+<h2 itemprop="name">Am I eligible to use this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use this tool any time Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
+You can use this tool if you meet all of the requirements listed below.
+
+**Both of these must be true. You:**
+
+- Have applied for Post 9/11 Bill Benefits, **and**
+- Received a decision from us on your application
+
+[Find out how to apply for Post-9/11 GI Bill benefits](https://www.vets.gov/education/apply/).
+
+**And you must have one of these free accounts:**
+
+- A premium My Health*e*Vet account, **or**
+- A **DS Logon** account (used for eBenefits and milConnect), **or**
+- A verified **ID.me** account that you can create here on VA.gov
+
+**Note:** If you use DS Logon, you’ll need to verify your identity online as part of our sign-in process.
+
+Please see the blue sign-in module above to learn more about signing in, creating or upgrading an account, and verifying your identity.
 
 </div>
 </div>
@@ -43,6 +62,7 @@ You can use this tool any time Sunday through Friday, 6:00 a.m. to 10:00 p.m. (E
 **In your Post-9/11 Bill Statement of Benefits, you'll see:**
 - If you have any Post-GI Bill benefits
 - How much money you have left to use for your education or training
+- How much time you have left to use these benefits
 
 </div>
 </div>
