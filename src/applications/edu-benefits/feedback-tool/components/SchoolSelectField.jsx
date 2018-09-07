@@ -269,7 +269,8 @@ export class SchoolSelectField extends React.Component {
           <ErrorableCheckbox
             checked={manualSchoolEntryChecked}
             onValueChange={() => this.handleManualSchoolEntryToggled(manualSchoolEntryChecked)}
-            label={<span>Check the box to manually type in your school's name and address</span>}/>
+            labelAboveCheckbox="If you don’t find your school in the search results, then check the box to enter in your school information manually."
+            label={<span>I want to type in my school’s name and address.</span>}/>
           <div
             aria-live="polite"
             aria-relevant="additions text">
