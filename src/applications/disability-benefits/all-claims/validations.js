@@ -4,13 +4,13 @@ import {
   MILITARY_STATE_VALUES,
 } from './constants';
 
-export const hasMilitaryRetiredPay = (data) => get('view:hasMilitaryRetiredPay', data, false);
+export const hasMilitaryRetiredPay = (data) => get(data, 'view:hasMilitaryRetiredPay', false);
 
-export const hasSeparationPay = (data) => get('view:hasSeparationPay', data, false);
+export const hasSeparationPay = (data) => get(data, 'view:hasSeparationPay', false);
 
-export const hasTrainingPay = (data) => get('view:hasTrainingPay', data, false);
+export const hasTrainingPay = (data) => get(data, 'view:hasTrainingPay', false);
 
-export const hasRatedDisabilities = (data) => !!get('ratedDisabilities', data, []).length;
+export const hasRatedDisabilities = (data) => !!get(data, 'ratedDisabilities', []).length;
 
 export function isValidZIP(value) {
   if (value !== null) {
