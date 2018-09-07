@@ -6,15 +6,15 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
-import ReviewCardField from '../components/ReviewCardField'; // point to all-claims
+import ReviewCardField from '../../all-claims/components/ReviewCardField';
 
-import { // point these to all-claims
+import {
   PrimaryAddressViewField,
   ForwardingAddressViewField,
   contactInfoDescription,
   contactInfoUpdateHelp,
   phoneEmailViewField
-} from '../helpers';
+} from '../../all-claims/content/contactInformation';
 import  {
   ADDRESS_TYPES,
   MILITARY_CITIES,
@@ -25,6 +25,9 @@ import  {
   USA,
 } from '../../all-claims/constants';
 
+// These validators are staying in the increase-only form because most of them
+// rely on the data structure of the increase-only form. The all-claims form
+// has a different structure so it's easier to just keep the validations separate
 function isValidZIP(value) {
   if (value !== null) {
     return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
