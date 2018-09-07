@@ -40,7 +40,7 @@ export function MVIError(props) {
       status="error"
       content={(
         <div>
-          <h4>We can’t access your contact information right now.</h4>
+          <h4>We can’t access your contact information right now</h4>
           <p>We’re sorry. Something went wrong on our end. Please refresh this page or try again later.</p>
         </div>
       )}/>
