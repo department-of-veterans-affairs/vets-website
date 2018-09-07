@@ -5,7 +5,8 @@ title: Schedule a VA Appointment
 display_title:
 collection: healthCare
 lastupdate: 2017-10-23
-order: 8
+spoke: Manage Benefits
+order: 9
 aliases:
   - /health-care/schedule-an-appointment/
 relatedlinks:

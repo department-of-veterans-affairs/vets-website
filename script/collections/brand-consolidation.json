@@ -33,26 +33,6 @@
     }
   },
   "disability": {
-    "pattern": "disability/get-disability-benefits/*.md",
-    "sortBy": "order",
-    "metadata": {
-      "name": "Disability Benefits 2",
-      "spokes": [
-        "Get Disability Benefits",
-        "Manage Your Veterans Disability Benefits",
-        "More Information and Resources"
-      ],
-      "icon": "fa-handshake"
-    }
-  },
-  "getDisabilityBenefits": {
-    "pattern": "disability/get-disability-benefits/*.md",
-    "sortBy": "order",
-    "metadata": {
-      "name": "Disability Benefits"
-    }
-  },
-  "disabilityBenefits": {
     "pattern": "disability-benefits/*.md",
     "sortBy": "order",
     "metadata": {
@@ -126,7 +106,8 @@
     "pattern": "disability-benefits/eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Eligibility"
+      "name": "Eligibility",
+      "icon": "fa-handshake"
     }
   },
   "disabilityEvidence": {
@@ -195,63 +176,72 @@
   "healthCare": {
     "sortBy": "order",
     "metadata": {
-      "name": "Health Care"
+      "name": "Health Care",
+      "icon": "fa-medkit"
     }
   },
   "healthCareCoverage": {
     "pattern": "health-care/about-va-health-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "VA Health Care Coverage"
+      "name": "VA Health Care Coverage",
+      "icon": "fa-medkit"
     }
   },
   "healthCostOfCare": {
     "pattern": "health-care/about-va-health-benefits/cost-of-care/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Cost of Care"
+      "name": "Cost of Care",
+      "icon": "fa-medkit"
     }
   },
   "healthCareCoverageFamily": {
     "pattern": "health-care/family-caregiver-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Family and Caregiver Health Benefits"
+      "name": "Family and Caregiver Health Benefits",
+      "icon": "fa-medkit"
     }
   },
   "healthCareCoverageVision": {
     "pattern": "health-care/about-va-health-benefits/vision-care/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Vision Care"
+      "name": "Vision Care",
+      "icon": "fa-medkit"
     }
   },
   "healthCareConditions": {
     "pattern": "health-care/health-needs-conditions/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Health Needs and Conditions"
+      "name": "Health Needs and Conditions",
+      "icon": "fa-medkit"
     }
   },
   "healthEligibility": {
     "pattern": "health-care/eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Eligibility"
+      "name": "Eligibility",
+      "icon": "fa-medkit"
     }
   },
   "healthCareMentalHealth": {
     "pattern": "health-care/health-needs-conditions/mental-health/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Mental Health"
+      "name": "Mental Health",
+      "icon": "fa-medkit"
     }
   },
   "healthCareServiceRelated": {
     "pattern": "health-care/health-needs-conditions/health-issues-related-to-service-era/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Concerns Related to Service Era"
+      "name": "Concerns Related to Service Era",
+      "icon": "fa-medkit"
     }
   },
   "housing": {
