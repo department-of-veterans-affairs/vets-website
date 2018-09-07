@@ -270,6 +270,9 @@ describe('<SchoolSelectField>', () => {
     setTimeout(() => {
       expect(searchSchools.firstCall.args[0]).to.eql({ institutionQuery: 'test' });
       expect(onChange.firstCall.args[0]).to.eql({
+        address: {},
+        name: null,
+        'view:facilityCode': null,
         'view:manualSchoolEntryChecked': false,
         'view:institutionQuery': 'test'
       });
@@ -358,17 +361,7 @@ describe('<SchoolSelectField>', () => {
 
     tree.find('.clear-search button').first().simulate('click');
     expect(onChange.calledOnce).to.eql(true);
-    expect(onChange.firstCall.args[0]).to.eql({
-      address1: '',
-      address2: '',
-      address3: '',
-      city: '',
-      country: '',
-      name: '',
-      state: '',
-      'view:facilityCode': '',
-      zip: ''
-    });
+    expect(onChange.firstCall.args[0]).to.eql({});
     expect(clearSearch.calledOnce).to.eql(true);
   });
 });

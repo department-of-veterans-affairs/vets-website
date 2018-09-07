@@ -131,9 +131,11 @@ export class SchoolSelectField extends React.Component {
 
   handleSearchClick = e => {
     e.preventDefault();
-
     this.props.onChange({
       ...this.props.formData,
+      name: null,
+      'view:facilityCode': null,
+      address: {},
       'view:manualSchoolEntryChecked': false,
       'view:institutionQuery': this.props.searchInputValue,
     });
@@ -154,17 +156,7 @@ export class SchoolSelectField extends React.Component {
   handleStartOver = e => {
     e.preventDefault();
 
-    this.props.onChange({
-      address1: '',
-      address2: '',
-      address3: '',
-      city: '',
-      country: '',
-      name: '',
-      state: '',
-      zip: '',
-      'view:facilityCode': '',
-    });
+    this.props.onChange({});
     this.props.clearSearch();
     this.searchInput.focus();
   }
