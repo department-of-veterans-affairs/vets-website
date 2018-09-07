@@ -3,9 +3,9 @@
 /* OVERRIDE */
 .merger {
 
-#va-header-logo-menu {
-  align-items: center;
-}
+  #va-header-logo-menu {
+    align-items: center;
+  }
   $color-primary-lightest: #e1f3f8;
 
   @import 'iconography';
@@ -470,9 +470,6 @@
 
   // mobile
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
-#va-header-logo-menu {
-  align-items: normal;
-}
 
     button {
       &.va-sidebarnav-close {
@@ -519,7 +516,7 @@
       width: 55%;
       float: left;
       margin-right: 10px;
-      margin-bottom: 1em;
+      // margin-bottom: 1em;
 
       a {
         width: 100%;
@@ -712,9 +709,6 @@
 
   // tablet
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
-#va-header-logo-menu {
-  align-items: normal;
-}
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
@@ -1008,14 +1002,18 @@
     }
 
   }
-  .va-crisis-panel > button.va-modal-close > .fa.fa-close{
-        color: $color-black;
-  }
 
+}
+button.va-modal-close > i.fa.fa-close{
+      color: $color-black;
 }
 
 .va-sign-in-alert {
   .usa-button-primary {
     margin-top: 10px;
   }
+}
+
+[class^="vetnav-controller"] {
+  position: relative !important;
 }
