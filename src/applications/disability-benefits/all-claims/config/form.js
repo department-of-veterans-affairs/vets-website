@@ -23,7 +23,8 @@ import {
   reservesNationalGuardService,
   federalOrders,
   prisonerOfWar,
-  ratedDisabilities
+  ratedDisabilities,
+  additionalInformation
 } from '../pages';
 
 import fullSchema from './schema';
@@ -132,6 +133,16 @@ const formConfig = {
           depends: hasRatedDisabilities,
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema
+        }
+      }
+    },
+    additionalInformation: {
+      pages: {
+        contactInformation: {
+          title: 'Veteran contact information',
+          path: 'contact-information',
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema
         }
       }
     }
