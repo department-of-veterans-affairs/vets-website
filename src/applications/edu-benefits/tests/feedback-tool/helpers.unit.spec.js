@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers';
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
-import { submit } from '../../feedback-tool/helpers';
+import { submit, transformSearchToolAddress } from '../../feedback-tool/helpers';
 
 function setFetchResponse(stub, data) {
   const response = new Response();
@@ -14,6 +14,54 @@ function setFetchResponse(stub, data) {
 }
 
 describe('feedback-tool helpers:', () => {
+  describe('transformSearchToolAddress', () => {
+    it('converts international address data to the proper format', () => {
+      const inputData = {
+        address1: '254 PHAYATHAI ROAD',
+        address2: 'ENGINEERING BLDG 2',
+        address3: 'ROOM 107   10330',
+        city: 'BANGKOK',
+        country: 'THAILAND',
+        state: null,
+        zip: null,
+      };
+      const expectedAddress = {
+        street: '254 PHAYATHAI ROAD',
+        street2: 'ENGINEERING BLDG 2',
+        street3: 'ROOM 107   10330',
+        city: 'BANGKOK',
+        country: 'THAILAND',
+        state: null,
+        postalCode: null,
+        viaSearchTool: true,
+      };
+      const address = transformSearchToolAddress(inputData);
+      expect(address).to.eql(expectedAddress);
+    });
+    it('converts domestic address data to the proper format', () => {
+      const inputData = {
+        address1: '1840 NE ARGYLE',
+        address2: null,
+        address3: null,
+        city: 'PORTLAND',
+        country: 'USA',
+        state: 'OR',
+        zip: '97211',
+      };
+      const expectedAddress = {
+        street: '1840 NE ARGYLE',
+        street2: null,
+        street3: null,
+        city: 'PORTLAND',
+        country: 'United States',
+        state: 'OR',
+        postalCode: '97211',
+      };
+      const address = transformSearchToolAddress(inputData);
+      expect(address).to.eql(expectedAddress);
+    });
+  });
+
   describe('submit', () => {
     beforeEach(() => {
       conditionalStorage().setItem('userToken', 'testing');

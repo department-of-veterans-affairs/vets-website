@@ -167,3 +167,29 @@ const applicantRelationshipEventMap = {
 export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
   return <UserInteractionRecorder eventRecorder={recordEvent} selectedValue={onBehalfOf} trackingEventMap={applicantRelationshipEventMap}></UserInteractionRecorder>;
 }
+
+/**
+ * A helper that takes data from the SchoolSelectField back end and transforms
+ * it to a valid format as specified by the FEEDBACK-TOOL's
+ * educationDetails.school.address schema.
+ *
+ * @param {*} _ - Object with address fields
+ * @returns {Object} An Object that passes the FEEDBACK-TOOL's educationDetails.
+ * school.address schema.
+ */
+export function transformSearchToolAddress({ address1, address2, address3, city, country, state, zip }) {
+  const isDomesticAddress = country === 'USA';
+  const address = {
+    country: isDomesticAddress ? 'United States' : country,
+    street: address1,
+    street2: address2,
+    street3: address3,
+    city,
+    state,
+    postalCode: zip,
+  };
+  if (!isDomesticAddress) {
+    address.viaSearchTool = true;
+  }
+  return address;
+}

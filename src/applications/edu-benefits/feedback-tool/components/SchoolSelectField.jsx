@@ -31,6 +31,9 @@ import {
   selectShowPaginationLoading,
   selectShowSearchResults
 } from '../selectors/schoolSearch';
+import {
+  transformSearchToolAddress
+} from '../helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -81,21 +84,9 @@ export class SchoolSelectField extends React.Component {
     });
   }
 
-  handleOptionClick = ({ address1, address2, address3, city, facilityCode, name, state, zip, country }) => {
+  handleOptionClick = ({ address1, address2, address3, city, country, facilityCode, name, state, zip }) => {
     this.props.selectInstitution({ address1, address2, address3, city, facilityCode, name, state });
-    const isDomesticAddress = country === 'USA';
-    const address = {
-      country: isDomesticAddress ? 'United States' : country,
-      street: address1,
-      street2: address2,
-      street3: address3,
-      city,
-      state,
-      postalCode: zip,
-    };
-    if (!isDomesticAddress) {
-      address.viaSearchTool = true;
-    }
+    const address = transformSearchToolAddress({ address1, address2, address3, city, country, state, zip });
     this.props.onChange({
       ...this.props.formData,
       name,
