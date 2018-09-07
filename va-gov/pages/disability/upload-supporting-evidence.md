@@ -12,7 +12,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you’ve filed a claim for disability compensation, you can continue to upload more evidence to support your claim for up to one year. Evidence may include supporting documents like medical test results, doctor’s reports, and other records. Upload your evidence online now.
+If you’ve filed a claim for disability compensation, you can continue for up to one year uploading more evidence to support your claim. Evidence may include supporting documents like medical test results, doctor’s reports, and other records. Upload your evidence online now.
 
 </div>
 
@@ -31,7 +31,7 @@ If you’ve filed a claim for disability compensation, you can continue to uploa
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Upload any information or evidence as soon as you can. 
+Upload your evidence as soon as you can. 
 
 You can continue uploading documents for up to one year from the date we receive your claim. But, if you don’t provide any evidence or give us the information we need to help you get evidence within 30 days, we may make a decision on your claim earlier.
 
@@ -59,7 +59,7 @@ If we decide your claim earlier than one year from the date we received the clai
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-### Federal and/or State Records
+### Federal and State Records
 
 **These include copies of:**
 - Your military medical records
@@ -90,7 +90,7 @@ If you’re claiming a disability for an injury or illness that you don’t thin
 
 ### Disability Benefits Questionnaires (DBQs)
 
-You can help speed up your claim by using disability benefits questionnaires (DBQs). These forms ask for specific information we need to determine a disability rating for different medical conditions. By asking your VA or non-VA community health care provider fill out one or more DBQs, you can help to make sure that our ratings specialists have exactly what they need to make a decision on your claim.
+You can help speed up your claim by using Disability Benefits Questionnaires (DBQs). These forms ask for specific information we need to determine a disability rating for different medical conditions. You can help to make sure that our ratings specialists have exactly what they need to make a decision on your claim by asking your VA or non-VA community health care provider to fill out one or more DBQs.
 
 You can search for DBQs to download by form name or by symptom. <br>
 [Find VA DBQs to take to your health care provider](https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp).
