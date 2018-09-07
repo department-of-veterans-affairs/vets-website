@@ -43,11 +43,11 @@ You can use this tool if you meet all of the requirements listed below.
 
 **And you must have one of these free accounts:**
 
-- A premium My Health*e*Vet account, **or**
+- A premium **My Health*e*Vet** account, **or**
 - A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
-**Note:** If you use DS Logon, you’ll need to verify your identity online as part of our sign-in process.
+**Note:** If you use **DS Logon**, you’ll need to verify your identity online as part of our sign-in process.
 
 Please see the blue sign-in module above to learn more about signing in, creating or upgrading an account, and verifying your identity.
 
