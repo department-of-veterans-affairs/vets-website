@@ -39,6 +39,7 @@ const allCauses = cause.enum;
 const causesWithoutSecondary = allCauses.filter(causeCode => causeCode !== 'SECONDARY');
 
 export const uiSchema = {
+  'ui:title': 'Disability details',
   newDisabilities: {
     items: {
       'ui:title': disabilityNameTitle,
@@ -48,7 +49,7 @@ export const uiSchema = {
         'ui:options': {
           labels: {
             NEW: 'My disability was caused by—or got worse because of—an injury or exposure during my service in the military.',
-            SECONDARY: 'My disability was caused by another disability (for example, I have a limp that caused a bad back).',
+            SECONDARY: 'My disability was caused by another disability (for example, I have a limp that caused lower-back problems).',
             VA: 'My disability was caused by VA mistreatment.'
           },
           updateSchema: (formData, causeSchema, causeUISchema, index) => {
@@ -82,7 +83,8 @@ export const uiSchema = {
         }
       },
       primaryDescription: {
-        'ui:title': 'Please briefly describe the event or exposure that lead to your condition',
+        'ui:title': 'Please briefly describe the injury or event that caused your disability.',
+        'ui:widget': 'textarea',
         'ui:required': (formData, index) => formData.newDisabilities[index].cause === 'NEW',
         'ui:options': {
           expandUnder: 'cause',
@@ -90,7 +92,7 @@ export const uiSchema = {
         }
       },
       disabilityStartDate: dateUI(
-        'What was the approximate date that this happened?'
+        'Date this injury or event happened (This date doesn’t have to be exact.)'
       )
     }
   }
