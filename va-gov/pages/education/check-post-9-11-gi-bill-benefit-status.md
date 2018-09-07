@@ -5,7 +5,7 @@ title: Check Your Post-9/11 GI Bill Benefits
 display_title: Check Post-9/11 GI Bill Benefits
 description:
 concurrence:
-collection: 
+collection: education
 order: 
 aliases:  
 children:
