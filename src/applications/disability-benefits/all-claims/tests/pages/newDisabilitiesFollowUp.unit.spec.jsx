@@ -78,7 +78,8 @@ describe('New disabilities follow up info', () => {
 
     selectRadio(form, 'root_cause', 'NEW');
 
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(4);
+    expect(form.find('textarea').length).to.equal(1);
   });
 
   it('should submit when data filled in', () => {
@@ -101,7 +102,7 @@ describe('New disabilities follow up info', () => {
 
     selectRadio(form, 'root_cause', 'NEW');
     fillDate(form, 'root_disabilityStartDate', '2010-02-04');
-    fillData(form, 'input#root_primaryDescription', 'Testing');
+    fillData(form, 'textarea#root_primaryDescription', 'Testing');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
