@@ -46,7 +46,7 @@
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "watch": "node script/build.js --watch",
-    "watch:brand-consolidation": "node --max_old_space_size=4096 --optimize_for_size --stack_size=4096 script/build.js --brand-consolidation-enabled --watch",
+    "watch:brand-consolidation": "node script/build.js --brand-consolidation-enabled --watch",
     "watch:devpreview": "npm run watch:brand-consolidation",
     "watch:static": "npm run watch -- --entry static-pages"
   },
