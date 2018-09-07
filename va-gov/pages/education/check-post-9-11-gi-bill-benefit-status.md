@@ -68,15 +68,20 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 </div>
 </div>
 
-<h2 itemprop="name">What if I have trouble seeing my benefit statement?</h2>
+<h2 itemprop="name">What if I'm having trouble seeing my Statement of Benefits?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-First, make sure you're trying to view your benefit statement during the hours this tool is available: Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
+Your Post-9/11 GI Bill Statement of Benefits might not be available if one of these is true:
 
-If you have trouble using the tool during these hours, please try again. 
+- The name on the account you're signed in with doesn't exactly match the name we have in our Post-9/11 GI Bill records.
+- We're still processing your education benefits application and we haven't yet created a record for you. We usually process applications within 60 days. If you applied less than 60 days ago, please check back soon.
+- You haven't yet applied for Post-9/11 GI Bill education benefits. <br>
+[Apply for education benefits](/education/apply/).
+- You're not eligible for Post-9/11 GI Bill benefits.
+- You're trying to access the tool during its scheduled downtime. This tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
 
-If it still doesn't work, please call the VA.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>.
+If none of the above situations applies to you, and you think your Statement of Benefits should be here, please call the VA.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
 
 </div>
 </div>
