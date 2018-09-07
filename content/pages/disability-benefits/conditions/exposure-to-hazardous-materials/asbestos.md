@@ -52,7 +52,6 @@ You’ll need to file a claim and provide the evidence (supporting documents) li
 ### How do I know if I have an illness caused by my contact with asbestos?
 If you worked in certain jobs or with certain products, talk to your doctor about getting tested for illnesses that affect your lungs.
 
-<br>
 
 Get tested if you’ve worked in:
 - Mining
