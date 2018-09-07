@@ -68,13 +68,13 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 </div>
 </div>
 
-<h2 itemprop="name">When can I access my benefit statement?</h2>
+<h2 itemprop="name">What if I have trouble seeing my benefit statement?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use this tool to view your benefit statement any time from Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
+First, make sure you're trying to view your benefit statement during the hours this tool is available: Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
 
-If you're having trouble using the tool during these hours, please try again. 
+If you have trouble using the tool during these hours, please try again. 
 
 If it still doesn't work, please call the VA.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>.
 
