@@ -56,7 +56,7 @@ We’ll make a monthly payment to the school of up to $1,041 for up to 45 months
 [View current payment rates](https://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
 
 For both children and spouses, if you qualify for both DEA and the Fry Scholarship, you must pick one or the other. Once you make this choice, you can’t switch to the other program. <br>
-[Learn about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
+[Learn about the Fry Scholarship](/education/survivor-dependent-benefits/fry-scholarship/).
 
 **Exception:**
 If you’re the child of a Servicemember who died in the line of duty before August 1, 2011, you can use both DEA and the Fry Scholarship and get up to 81 months of education and training.
@@ -79,7 +79,7 @@ First, contact your school’s certifying official to make sure your program is 
 - Get help from a trained professional trusted to help with VA-related claims. <br>
 [Get help filing your claim](/disability-benefits/apply/help/index.html).
 - Get more information about schools and see if we’ve approved your program. <br>
-[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+[Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
 
 #### If you’ve already started your program:
 - Take your application to your school or employer.

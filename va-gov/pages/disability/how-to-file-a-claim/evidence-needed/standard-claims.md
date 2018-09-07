@@ -76,7 +76,7 @@ You have up to 1 year from the date we receive your claim to turn in any informa
 ### How do I get started filing my standard claim?
 
 You can start your online application right now, or find out how to apply by mail, in person, or with the help of a trained professional. <br>
-[Find out how to file a disability claim](/disability-benefits/apply/).
+[Find out how to file a disability claim](/disability/how-to-file-claim/).
 
 <br>
 
@@ -85,7 +85,7 @@ You can start your online application right now, or find out how to apply by mai
 Yes. The process is slower for getting a decision on a standard disability claim. This is because we need time to gather evidence for your claim. 
 
 If you'd like to get a decision on your claim faster, you can submit a fully developed claim. For this type of claim, you gather all of the evidence—or as much as you can get easily—and submit it at the same time as your claim. <br>
-[Learn more about submitting a fully developed disability claim](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
+[Learn more about submitting a fully developed disability claim](/disability/how-to-file-a-claim/evidence-needed/fully-developed-claims/).
 
 For certain types of claims, you can work with an accredited Veterans Service Organization (VSO) to submit a decision-ready claim and get a decision within 30 days or less from when you file your claim.<br>
-[Learn more about submitting a decision-ready disability claim](/disability-benefits/apply/evidence/decision-ready-claims/).
+[Learn more about submitting a decision-ready disability claim](/disability/how-to-file-a-claim/evidence-needed/decision-ready-claims/).

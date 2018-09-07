@@ -40,7 +40,7 @@ You may be able to get up to 36 months of benefits, including:
 
 **Note:** A new provision of the law extends benefit eligibility to January 1, 2021, for spouses of Servicemembers who died in the line of duty between September 11, 2001, and December 31, 2005.
 
-- If you’re a dependent and your parent died in the line of duty before August 1, 2011, you may qualify for both the Fry Scholarship and the Survivors’ and Dependents’ Educational Assistance (DEA) program. But you can use only 1 program at a time. We cap combined benefits at 81 months of full-time training. [Read about the DEA program](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
+- If you’re a dependent and your parent died in the line of duty before August 1, 2011, you may qualify for both the Fry Scholarship and the Survivors’ and Dependents’ Educational Assistance (DEA) program. But you can use only 1 program at a time. We cap combined benefits at 81 months of full-time training. [Read about the DEA program](/education/survivor-dependent-benefits/dependents-education-assistance/).
 
 - Surviving spouses qualify to get Dependency and Indemnity Compensation (DIC) while using the Fry Scholarship. Children over age 18 who get DIC benefits have to give up those payments when they start to use the Fry Scholarship. [Read about DIC](https://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp).
 
@@ -56,7 +56,7 @@ Spouses who remarry can’t get the Fry Scholarship.
 
 ##### Choose a school
 
-- The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+- The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
 - You should contact your school’s certifying official to make sure your program is approved for VA benefits.  
 
 </li>

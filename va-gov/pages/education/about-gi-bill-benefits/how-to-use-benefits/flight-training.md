@@ -51,8 +51,8 @@ Anyone who qualifies for any of the GI Bill programs. <br />
 The benefits depend on the benefit program you use:
 
 **If you use the Montgomery GI Bill Active Duty (MGIB-AD) or the Reserve Educational Assistance Program (REAP)**, we’ll pay you back for 60% of the approved fees.<br />
-[Learn about MGIB-AD](/education/gi-bill/montgomery-active-duty/).<br />
-[Learn about REAP](/education/other-educational-assistance-programs/reap/).<br />
+[Learn about MGIB-AD](/education/about-gi-bill-benefits/montgomery-active-duty/).<br />
+[Learn about REAP](/education/other-va-education-benefits/reap/).<br />
 [View the current payment rates for MGIB-AD and REAP](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp). 
 
 **If you use the Post-9/11 GI Bill**, your payment depends on the program and the type of school you’re going to: 
@@ -64,7 +64,7 @@ The benefits depend on the benefit program you use:
 
 \*Your level of eligibility and/or your remaining entitlement limits the payment amount. 
 
-[Find out more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/). 
+[Find out more about the Post-9/11 GI Bill](/education/about-gi-bill-benefits/post-9-11/). 
 
 
 </div>

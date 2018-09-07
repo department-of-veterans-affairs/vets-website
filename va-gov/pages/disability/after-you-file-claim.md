@@ -10,10 +10,10 @@ children: disabilityAfterYouApply
 majorlinks:
   - heading: More information about disability ratings and payments
     links:
-    - url: /disability-benefits/after-you-apply/date/
+    - url: /disability/about-disability-ratings/effective-date/
       title: Effective Date of Disability
       description: "Find out when you’ll start getting your disability payments."
-    - url: /disability-benefits/after-you-apply/what-happens-after-rating/
+    - url: /disability/about-disability-ratings/after-you-get-a-rating/
       title: What to Expect After You Get a Disability Rating
       description: "Find out what happens after you get your decision notice with your rating."
 relatedlinks:
@@ -105,6 +105,6 @@ We’ll send you a packet by U.S. mail that includes details of the decision on 
 
 ### What should I do if I disagree with your decision on my claim?
 
-If you disagree with our decision, you can appeal it. The decision notice will have instructions on how to file an appeal. [File an appeal now](/disability-benefits/claims-appeal/).
+If you disagree with our decision, you can appeal it. The decision notice will have instructions on how to file an appeal. [File an appeal now](/disability/file-an-appeal/).
 
 <div markdown="0"><br></div>

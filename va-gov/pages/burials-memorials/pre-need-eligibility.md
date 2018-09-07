@@ -29,7 +29,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 </div>
 
 **Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died.<br/>
-[Find out how to plan a burial for someone who has died](/burials-and-memorials/burial-planning/).
+[Find out how to plan a burial for someone who has died](/burials-memorials/plan-a-burial/).
 
 <br>
 
@@ -108,7 +108,7 @@ To apply, you’ll need your (or your sponsor's):
 ### How do I apply?
 You can apply online right now.
 
-<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/">Apply for Pre-need Eligibility</a>
+<a class="usa-button-primary va-button-primary" href="/burials-memorials/pre-need-eligibility/apply-for-pre-need-form-40-10007">Apply for Pre-need Eligibility</a>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h4 itemprop="name">You can also apply:</h4>
@@ -144,7 +144,7 @@ Get help from an accredited representative (a trained professional trusted to he
 
 ### What happens after I apply?
 
-[Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/after-you-apply/).</br>
+[Find out what happens after you apply for a pre-need eligibility determination](/burials-memorials/pre-need-eligibility/after-you-apply/).</br>
 **Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
 
 For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.

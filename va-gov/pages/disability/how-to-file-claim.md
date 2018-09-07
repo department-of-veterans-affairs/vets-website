@@ -10,16 +10,16 @@ children: disabilityApply
 majorlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/claim-types/
+    - url: /disability/how-to-file-a-claim/when-to-file/
       title: Claim Types and When to File 
       description: Learn about standard claims, reopened claims, secondary claims, and more. 
-    - url: /disability-benefits/apply/evidence/
+    - url: /disability/how-to-file-a-claim/evidence-needed/
       title: How to Gather Evidence for Your Claim
       description: Find out your options for gathering documents to support your disability claim.
-    - url: /disability-benefits/eligibility/one-year/
+    - url: /disability/eligibility/illnesses-within-one-year-of-discharge/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
-    - url: /disability-benefits/apply/help/
+    - url: /disability/get-help-filing-claim/
       title: Get Help Filing a Claim
       description: Find out how to work with a trained professional called an accredited representative to file your claim.
 relatedlinks:
@@ -40,10 +40,10 @@ Find out how to apply for VA disability benefits.
 
 ### How do I prepare before starting my application?
 
-- [Find out if you're eligible for VA disability benefits](/disability-benefits/eligibility/).
+- [Find out if you're eligible for VA disability benefits](/disability/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/evidence/).
-- [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability-benefits/apply/supplemental-forms/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability/how-to-file-a-claim/evidence-needed/).
+- [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability/how-to-file-a-claim/supplemental-forms/).
 
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
@@ -115,7 +115,7 @@ You can work with a trained professional called an accredited representative to 
 <h3 itemprop="name">What happens after I apply?</h3>
 <div itemprop="itemListElement">
 
-[Find out what happens after you apply](/disability-benefits/after-you-apply/).
+[Find out what happens after you apply](/disability/after-you-file-claim/).
 
 You don’t need to do anything while you’re waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 

@@ -44,10 +44,10 @@ You may be able to get disability benefits if you have a disability that’s rel
 ### How do I get these benefits?
 
 You’ll need to apply for benefits and get our approval **before** buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge. <br>
-[Apply for benefits](/disability-benefits/apply/).
+[Apply for benefits](/disability/how-to-file-claim/).
 
 When you apply, you’ll need to show that your disability is service connected or treated as if service connected under 38 U.S.C. 1151. <br>
-[Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
+[Learn more about 38 U.S.C. 1151](/disability/eligibility/special-claims/1151-claims-title-38/).
 
 #### For the one-time payment to help you buy a specially equipped vehicle 
 - You’ll need to fill out an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502). <br>

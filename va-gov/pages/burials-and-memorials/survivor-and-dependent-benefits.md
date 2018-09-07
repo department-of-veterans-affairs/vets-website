@@ -9,10 +9,10 @@ order: 5
 majorlinks:
   - heading:
     links:
-    - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs/
+    - url: /burials-memorials/veterans-burial-allowance/
       title: How to Apply for a Burial Allowance
       description: Find out if you can get paid back for funeral and other burial costs.
-    - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation/
+    - url: /burials-memorials/dependency-indemnity-compensation/
       title: Compensation for Survivors and Dependents
       description: Find out if you can get tax-free monetary benefits.
 relatedlinks:

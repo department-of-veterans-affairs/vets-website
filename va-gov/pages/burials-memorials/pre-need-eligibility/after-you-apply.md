@@ -67,7 +67,7 @@ When you die, the person arranging your burial will need to call the National Ce
 
 We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements in your family's time of need. When your family member or authorized representative requests your burial, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
 
-[Learn more about planning a burial for a family member who has died](/burials-and-memorials/burial-planning/).
+[Learn more about planning a burial for a family member who has died](/burials-memorials/plan-a-burial/).
 
 <br>
 
@@ -80,7 +80,7 @@ No. If you qualify for burial in a VA national cemetery, you’ll receive burial
 - A headstone or marker provided by the government
 - Perpetual (ongoing) care of the gravesite
 
-After your death, the person arranging your burial can also request additional honors and memorials. [Learn more about honors and memorials](/burials-and-memorials/honor/).
+After your death, the person arranging your burial can also request additional honors and memorials. [Learn more about honors and memorials](/burials-memorials/memorial-items/).
 
 If you're a Veteran, your surviving spouse or other family members may also qualify for survivor benefits, including help paying for funeral costs. [Learn more about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
 

@@ -27,7 +27,7 @@ You can get this benefit if you meet both of the requirements listed below.
 - Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us
 
 You may be able to get this benefit if you’re the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. <br />
-[Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).<br />
+[Find out about transferring Post-9/11 GI Bill benefits](/education/transfer-post-9-11-gi-bill-benefits/).<br />
 [See the list of schools that offer the Yellow Ribbon Program](https://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2017.asp). <br />
 
 

@@ -8,13 +8,13 @@ collection: burials
 relatedlinks:
   - heading: Other helpful information
     links:
-    - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs/
+    - url: /burials-memorials/veterans-burial-allowance/
       title: How to Apply for a Burial Allowance
       description: Find out if you can get paid back for funeral and other burial costs.
-    - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation/
+    - url: /burials-memorials/dependency-indemnity-compensation/
       title: Compensation for Survivors and Dependents
       description: Find out if you can get tax-free monetary benefits.
-    - url: /burials-and-memorials/burial-planning/
+    - url: /burials-memorials/plan-a-burial/
       title: Burial Planning
       description: Find out the steps you’ll need to take to arrange for a Servicemember, Veteran, or eligible family member’s burial.
     - url: /burials-and-memorials/what-to-expect-at-a-funeral/

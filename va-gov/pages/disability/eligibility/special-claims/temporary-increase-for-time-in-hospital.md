@@ -40,7 +40,7 @@ Veterans
 ### How do I get these benefits?
 
 You’ll need to apply for benefits. <br>
-[Apply for disability benefits](/disability-benefits/apply/).
+[Apply for disability benefits](/disability/how-to-file-claim/).
 
 **Note:** If you weren’t in a VA hospital, when filing your claim you’ll need to give us your hospital discharge summary showing the length and cause of your hospital stay. 
 

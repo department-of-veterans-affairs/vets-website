@@ -40,7 +40,7 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
   - WPB (Patrol Boat)
   - YFU (Harbor Utility Craft)
 
-[See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See a list of Agent Orange‒related illnesses](/disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases/).
 
 **Note:** Even if your ship or boat is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in our alphabetized list of ships that had contact with Agent Orange.<br>
 [Check the list of ships that had contact with Agent Orange](https://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
@@ -58,14 +58,14 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 - Health care
 - Compensation (payments)
-- [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
+- [An Agent Orange Registry health exam](/disability/eligibility/hazardous-materials-exposure/agent-orange/registry-health-exam/)
 
 -----
 
 ### How do I get these benefits?
 
 You’ll need to apply for benefits.<br>
-[Apply for disability benefits](/disability-benefits/apply/).
+[Apply for disability benefits](/disability/how-to-file-claim/).
 
 If you served on 1 of the ships or boats listed above—and you have 1 or more illnesses believed to be caused by Agent Orange—we’ll conclude that your illness is likely caused by contact with Agent Orange.
 
@@ -79,7 +79,7 @@ Get help from us in 1 of 2 ways:
 Get more information about ships that may have been exposed to Agent Orange.
 
 Want to connect with a trained professional who can help you with VA-related claims? <br>
-[Get help filing your claim](/disability-benefits/apply/help/).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 ### Get more information
 Want to find out if the ship you were on had contact with Agent Orange?<br>

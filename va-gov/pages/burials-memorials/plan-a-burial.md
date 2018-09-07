@@ -87,11 +87,11 @@ You'll need to tell us:
  [Find a VA national cemetery](/facilities/).<br />
  [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).
  - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
- - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/honor/headstones-markers-medallions/)
- - [Whether you'd like a burial flag or Presidential Memorial Certificate for the deceased](/burials-and-memorials/honor/flags-and-memorial-certificates/)
+ - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-memorials/memorial-items/headstones-markers-medallions/)
+ - [Whether you'd like a burial flag or Presidential Memorial Certificate for the deceased](/burials-memorials/memorial-items/presidential-memorial-certificates/)
  - [If you're interested in other possible military honors beyond the playing of Taps and flag folding and presentation](https://www.dmdc.osd.mil/mfh/)
 
- [Request gravesite memorials and burial honors](/burials-and-memorials/honor/).<br/>
+ [Request gravesite memorials and burial honors](/burials-memorials/memorial-items/).<br/>
 
 </li>
 
@@ -116,4 +116,4 @@ If you have questions about the Burial at Sea program, please contact the United
 
 ### Can I get help paying for burial costs?
 
-If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, you may be able to get financial help for burial and funeral costs. [Apply for burial allowances](/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/).
+If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, you may be able to get financial help for burial and funeral costs. [Apply for burial allowances](/burials-memorials/veterans-burial-allowance/).
