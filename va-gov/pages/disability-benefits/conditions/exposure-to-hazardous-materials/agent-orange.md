@@ -8,25 +8,25 @@ children: disabilityConditionsAgentOrange
 majorlinks:
   - heading: You may have had contact with Agent Orange if you served in any of these ways
     links:
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/
+    - url: /disability/eligibility/hazardous-materials-exposure/agent-orange/c-123-aircraft/
       title: On C-123 Airplanes
       description: Between January 9, 1962, and May 7, 1975
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/thailand-military-bases/
+    - url: /disability/eligibility/hazardous-materials-exposure/agent-orange/thailand-military-bases/
       title: On Thailand Military Bases
       description: Between January 9, 1962, and May 7, 1975
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-inside/
+    - url: /disability/eligibility/hazardous-materials-exposure/agent-orange/service-in-vietnam-korea/
       title: In Vietnam or Korea
       description: Between January 9, 1962, and May 7, 1975
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-outside/
+    - url: /disability/eligibility/hazardous-materials-exposure/agent-orange/service-outside-vietnam-korea/
       title: Outside of Vietnam or Korea
       description: Between January 9, 1962, and May 7, 1975
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/
+    - url: /disability/eligibility/hazardous-materials-exposure/agent-orange/testing-storage-areas/
       title: In Testing and Storage Areas Outside of Vietnam
       description: Between 1944 and a yet-to-be-determined date
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/
+    - url: /disability/eligibility/hazardous-materials-exposure/agent-orange/navy-coast-guard-ships-vietnam/
       title: On U.S. Navy and Coast Guard Ships in Vietnam
       description: Between January 9, 1962, and May 7, 1975
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/
+    - url: /disability/eligibility/hazardous-materials-exposure/agent-orange/vietnam-waters/
       title: In Waters in or near Vietnam
       description: Between January 9, 1962, and May 7, 1975
 ---
@@ -47,7 +47,7 @@ You may be able to get disability benefits if both of the below descriptions are
 - You have an illness believed to be caused by Agent Orange, **and**
 - You came into contact with Agent Orange while serving in the military
 
-[See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See the list of Agent Orange‒related illnesses](/disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases/).
 
 
 #### Who’s covered?
@@ -65,18 +65,18 @@ You may be able to get disability benefits if both of the below descriptions are
 ### How do I get these benefits?
 
 You’ll need to apply for benefits. <br>
-[Apply for disability benefits](/disability-benefits/apply/).
+[Apply for disability benefits](/disability/how-to-file-claim/).
 
 **Note:**
 - If you have an illness believed to be caused by Agent Orange, you won’t need to show the problem started during—or got worse because of—your military service. <br>
-[See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See the list of Agent Orange‒related illnesses](/disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases/).
 - If you have an illness that’s not on this list, but you believe it was caused by Agent Orange, you’ll need to show the problem started during—or got worse because of—your military service.
 
 
 ### Get more information
 
 Do you think you may have had contact with Agent Orange or other herbicides while serving in the military? <br>
-[Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
+[Get an Agent Orange Registry Health Exam](/disability/eligibility/hazardous-materials-exposure/agent-orange/registry-health-exam/).
 
 Do you have non-Hodgkin’s lymphoma (a type of cancer)? You can get VA support. <br>
-[Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
+[Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability/eligibility/hazardous-materials-exposure/agent-orange/non-hodgkins-lymphoma/).

@@ -10,10 +10,10 @@ children: disabilityEligibility
 majorlinks:
   - heading:
     links:
-    - url: /disability-benefits/eligibility/ratings/
+    - url: /disability/about-disability-ratings/
       title: How VA Assigns Disability Ratings
       description: Learn how we assign severity ratings and how they affect your disability payments.
-    - url: /disability-benefits/eligibility/one-year/
+    - url: /disability/eligibility/illnesses-within-one-year-of-discharge/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: If you have signs of an illness that started within a year after you were discharged from active service, find out if you can get disability benefits.
 relatedlinks:
@@ -50,8 +50,8 @@ You may be able to get disability benefits if you have a current illness or inju
 
 <h4>Presumed disabilities</h4>
 If you have a disability that's been diagnosed by a doctor and that we consider to be related to your military service because of a specific aspect of that service, you may be able to get disability benefits based on this presumed disability. This usually applies to:
-- [A chronic (long-lasting) illness that appears within 1 year after discharge](/disability-benefits/eligibility/one-year/), **or**
-- [An illness caused by contact with contaminants (toxic chemicals) or other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
+- [A chronic (long-lasting) illness that appears within 1 year after discharge](/disability/eligibility/illnesses-within-one-year-of-discharge/), **or**
+- [An illness caused by contact with contaminants (toxic chemicals) or other hazardous materials](/disability/eligibility/hazardous-materials-exposure/)
 
 <h4>Who's covered?</h4>
 - Veterans
@@ -95,7 +95,7 @@ You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
-[Learn more about how to apply for disability benefits](/disability-benefits/apply/).
+[Learn more about how to apply for disability benefits](/disability/how-to-file-claim/).
 
 </div>
 </div>

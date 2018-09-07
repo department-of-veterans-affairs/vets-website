@@ -14,10 +14,10 @@ widgets:
 majorlinks:
   - heading: Apply for Disability Benefits
     links:
-    - url: /disability-benefits/eligibility/
+    - url: /disability/eligibility/
       title: Eligibility
       description: Find out if you can get disability benefits, like financial support and health care, from VA.
-    - url: /disability-benefits/apply/
+    - url: /disability/how-to-file-claim/
       title: How to Apply
       description: Apply online now, or find out how to apply in person or get help from a trained professional.
     - url: /disability-benefits/conditions/
@@ -26,7 +26,7 @@ majorlinks:
     - url: /track-claims/
       title: Track Your Claims and Appeals
       description: Track the status of your disability claims and appeals.
-    - url: /disability-benefits/claims-appeal/
+    - url: /disability/file-an-appeal/
       title: Appeals Process
       description: Find out what to do if you disagree with your disability rating decision.
   - heading: More VA Benefits

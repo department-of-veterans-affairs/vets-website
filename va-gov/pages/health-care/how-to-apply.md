@@ -8,6 +8,8 @@ lastupdate: 2017-08-28
 collection: healthCare
 order: 3
 description: Find out what documents you'll need to apply for VA health care benefits. Apply online for VA health care benefits today.
+aliases:
+  - /health-care/apply
 widgets:
   - root: react-applicationStatus
     timeout: 20
@@ -45,7 +47,7 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 
 </div>
 </div>
-</div> 
+</div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <div id="react-applicationStatus" class="static-page-widget">
@@ -84,7 +86,7 @@ Or get help through your state's Department of Veterans Affairs. <br>
 
 ##### With the help of a trained professional
 
-You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br> 
+You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
 [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>

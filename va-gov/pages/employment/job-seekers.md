@@ -38,7 +38,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 - ##### Are you already in the workforce?
 
-  Search for a [new career](https://www.careeronestop.org/JobSearch/job-search.aspx) or consider [additional education](/education/gi-bill/).
+  Search for a [new career](https://www.careeronestop.org/JobSearch/job-search.aspx) or consider [additional education](/education/about-gi-bill-benefits/).
 
 </div>
 
@@ -95,7 +95,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs/) available 
 
 
 ### Consider furthering your education
-- The [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
+- The [Post-9/11 GI Bill](/education/about-gi-bill-benefits/post-9-11/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 - Fill in any gaps in your education or skill set by taking classes and getting [advanced training and certifications](/education/advanced-training-and-certifications/).
 - Consider military [tuition assistance](https://www.militaryonesource.mil/-/how-to-use-the-military-tuition-assistance-program) (for active duty).
 - Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with [LinkedIn&trade; Learning](https://veterans.linkedin.com).
@@ -114,7 +114,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs/) available 
 ### Take a different approach to starting your career
 
 - If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business. [Register your business now](/employment/job-seekers/register-your-business/).
-- If you need more training or job experience, consider non-traditional programs like apprenticeships, work study, and on-the-job training. [Explore non-traditional programs](/education/work-learn/job-and-apprenticeship/).
+- If you need more training or job experience, consider non-traditional programs like apprenticeships, work study, and on-the-job training. [Explore non-traditional programs](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/).
 
 <br>
 
