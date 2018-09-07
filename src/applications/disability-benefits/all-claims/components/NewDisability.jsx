@@ -1,10 +1,10 @@
 import React from 'react';
-import { getNewDisabilityName } from '../utils';
+import { getDisabilityName } from '../utils';
 
 export default function NewDisability({ formData }) {
   return (
     <div>
-      {getNewDisabilityName(formData.diagnosticCode)}
+      {getDisabilityName(formData.condition)}
     </div>
   );
 }

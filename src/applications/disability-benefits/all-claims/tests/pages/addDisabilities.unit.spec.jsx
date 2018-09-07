@@ -46,7 +46,7 @@ describe('Add new disabilities', () => {
         data={{
           'view:newDisabilities': true,
           newDisabilities: [{
-            diagnosticCode: 10
+            condition: 'Abnormal Heart'
           }]
         }}
         formData={{}}
@@ -68,7 +68,7 @@ describe('Add new disabilities', () => {
         data={{
           'view:newDisabilities': true,
           newDisabilities: [{
-            diagnosticCode: 10
+            condition: 'Test'
           }]
         }}
         formData={{}}

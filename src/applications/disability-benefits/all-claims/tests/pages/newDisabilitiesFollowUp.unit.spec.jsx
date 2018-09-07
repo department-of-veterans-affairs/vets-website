@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester, selectRadio, fillDate, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
@@ -19,10 +19,9 @@ describe('New disabilities follow up info', () => {
         data={{
           ratedDisabilities: [{
             name: 'Test',
-            diagnosticCode: 10
           }],
           newDisabilities: [{
-            diagnosticCode: 10
+            condition: 'New condition'
           }]
         }}
         formData={{}}/>
@@ -43,10 +42,9 @@ describe('New disabilities follow up info', () => {
         data={{
           ratedDisabilities: [{
             name: 'Test',
-            diagnosticCode: 10
           }],
           newDisabilities: [{
-            diagnosticCode: 10
+            condition: 'New condition'
           }]
         }}
         formData={{}}/>
@@ -59,7 +57,7 @@ describe('New disabilities follow up info', () => {
     expect(form.find('select').first().find('option').length).to.equal(2);
   });
 
-  it('should render mistreatment question', () => {
+  it('should render primary description question', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -70,16 +68,15 @@ describe('New disabilities follow up info', () => {
         data={{
           ratedDisabilities: [{
             name: 'Test',
-            diagnosticCode: 10
           }],
           newDisabilities: [{
-            diagnosticCode: 10
+            condition: 'New condition'
           }]
         }}
         formData={{}}/>
     );
 
-    selectRadio(form, 'root_cause', 'VA');
+    selectRadio(form, 'root_cause', 'NEW');
 
     expect(form.find('input').length).to.equal(5);
   });
@@ -95,7 +92,7 @@ describe('New disabilities follow up info', () => {
         uiSchema={uiSchema}
         data={{
           newDisabilities: [{
-            diagnosticCode: 10
+            condition: 'Test'
           }]
         }}
         formData={{}}
@@ -103,6 +100,8 @@ describe('New disabilities follow up info', () => {
     );
 
     selectRadio(form, 'root_cause', 'NEW');
+    fillDate(form, 'root_disabilityStartDate', '2010-02-04');
+    fillData(form, 'input#root_primaryDescription', 'Testing');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);

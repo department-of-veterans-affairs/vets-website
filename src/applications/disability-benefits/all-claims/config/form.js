@@ -9,7 +9,7 @@ import {
 
 import {
   hasGuardOrReservePeriod,
-  getNewDisabilityName,
+  getDisabilityName,
   prefillTransformer
 } from '../utils';
 
@@ -168,7 +168,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} }
         },
         newDisabilityFollowUp: {
-          title: (formData, { pagePerItemIndex }) => getNewDisabilityName(formData.newDisabilities[pagePerItemIndex].diagnosticCode),
+          title: (formData) => getDisabilityName(formData.condition),
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: (item) => !ptsdDisabilityIds.has(item.diagnosticCode),
