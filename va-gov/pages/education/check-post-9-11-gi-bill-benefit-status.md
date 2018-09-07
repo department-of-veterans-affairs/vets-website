@@ -13,7 +13,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. Find out how to check if you have any Post-9/11 GI Bill benefits—and how to track how much money you have left to use for your education or training. 
+If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. Check to see if you have any Post-9/11 GI Bill benefits, and find out how much money you have left to use for your education or training. 
 
 </div>
 
@@ -36,14 +36,14 @@ You can use this tool if you meet all of the requirements listed below.
 
 **Both of these must be true. You:**
 
-- Have applied for Post 9/11 Bill Benefits, **and**
+- Have applied for Post-9/11 GI Bill Benefits, **and**
 - Received a decision from us on your application
 
 [Find out how to apply for Post-9/11 GI Bill benefits](https://www.vets.gov/education/apply/).
 
 **And you must have one of these free accounts:**
 
-- A premium **My Health*e*Vet** account, **or**
+- A premium **My Health<em>e</em>Vet** account, **or**
 - A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
@@ -55,12 +55,12 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 </div>
 </div>
 
-<h2 itemprop="name">What information will I find out about my benefits?</h2>
+<h2 itemprop="name">What benefits information will I be able to see?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**In your Post-9/11 Bill Statement of Benefits, you'll see:**
-- If you have any Post-GI Bill benefits
+**In your Post-9/11 GI Bill Statement of Benefits, you'll see:**
+- If you have any Post-9/11 GI Bill benefits
 - How much money you have left to use for your education or training
 - How much time you have left to use these benefits
 
@@ -68,7 +68,7 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 </div>
 </div>
 
-<h2 itemprop="name">What if I have trouble seeing my benefit statement?</h2>
+<h2 itemprop="name">When can I access my benefit statement?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
