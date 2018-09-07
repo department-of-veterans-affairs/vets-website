@@ -1026,16 +1026,16 @@
       }
     }
   }
+
+  .va-modal-close {
+    .fa {
+      color: inherit;
+    }
+  }
 }
 
 .va-sign-in-alert {
   .usa-button-primary {
     margin-top: 10px;
-  }
-}
-
-#signin-signup-modal {
-  .fa {
-    color: inherit;
   }
 }
