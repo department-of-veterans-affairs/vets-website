@@ -9,16 +9,16 @@ order: 1
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/evidence/
+    - url: /disability/how-to-file-a-claim/evidence-needed/
       title: How to Gather Evidence for Your Claim
       description: "Find out what evidence we’ll need—and what your options are for gathering documents to support your claim."
-    - url: /disability-benefits/apply/
+    - url: /disability/how-to-file-claim/
       title: How to Apply for Disability Benefits
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
-    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+    - url: /disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/
       title: Pre-discharge Claim
       description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
-    - url: /disability-benefits/eligibility/one-year/
+    - url: /disability/eligibility/illnesses-within-one-year-of-discharge/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: "You may be able to get disability benefits if you have an illness that started within a year after you were discharged from service."
 ---
@@ -40,7 +40,7 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 - **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link
 - **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
-- **[Dependency and Indemnity Compensation (DIC) claim](/burials-and-memorials/survivor-and-dependent-benefits/compensation/)** as the eligible surviving spouse of a Veteran
+- **[Dependency and Indemnity Compensation (DIC) claim](/burials-memorials/dependency-indemnity-compensation/)** as the eligible surviving spouse of a Veteran
 - **Pre-discharge claim** for disability compensation as a Servicemember who has less than 90 days before your separation from military service
 
 **Note:** We're working to expand the DRC program to include more types of claims. Come back soon, or check with your VSO, to find out about updates.

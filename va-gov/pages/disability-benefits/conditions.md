@@ -11,16 +11,16 @@ children: disabilityConditions
 majorlinks:
   - heading: More information about disability benefits for certain service-connected conditions
     links:
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
+    - url: /disability/eligibility/hazardous-materials-exposure/
       title: Contact with Harmful Chemicals or Other Hazardous Materials
       description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have.
-    - url: /disability-benefits/conditions/ptsd/
+    - url: /disability/eligibility/ptsd/
       title: Posttraumatic Stress Disorder (PTSD)
       description: Learn about the symptoms of PTSD—and how to get help.
-    - url: /disability-benefits/conditions/pow/
+    - url: /disability/eligibility/former-pows/
       title: Disability Benefits for Former Prisoners of War (POWs)
       description: Get support for illnesses or injuries resulting from your time in captivity.
-    - url: /disability-benefits/conditions/special-claims/
+    - url: /disability/eligibility/special-claims/
       title: Special Claims
       description: Get help with needs like special equipment, hospital or rehab care, dental care, being unable to work, and more.
 ---
@@ -83,7 +83,7 @@ You may be able to get disability benefits if you have a current illness or inju
 <div itemprop="text">
 
 You’ll need to apply for benefits. When you apply, you’ll have to show that your conditions were likely caused by—or got worse because of—your service. <br>
-[Apply for benefits](/disability-benefits/apply/).
+[Apply for benefits](/disability/how-to-file-claim/).
 
 <div itemscope itemtype="http://schema.org/Question">
 

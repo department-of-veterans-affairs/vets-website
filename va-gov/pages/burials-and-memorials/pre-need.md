@@ -27,7 +27,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 </div>
 
 **Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. <br>
-[Find out how to plan a burial for someone who has died](/burials-and-memorials/burial-planning/).
+[Find out how to plan a burial for someone who has died](/burials-memorials/plan-a-burial/).
 
 <br>
 
@@ -136,12 +136,12 @@ Fax your form to: 1-855-840-8299.
 #### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 
 ### What happens after I apply?
 
-[Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/after-you-apply/).
+[Find out what happens after you apply for a pre-need eligibility determination](/burials-memorials/pre-need-eligibility/after-you-apply/).
 
 **Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
 

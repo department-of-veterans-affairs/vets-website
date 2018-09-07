@@ -35,7 +35,7 @@ This program is also available to dependents of Veterans who meet at least one o
 
 **To qualify as a dependent, at least one of these must be true. You:**
 
-- [Are eligible for the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), **or**
-- [Are eligible for the Survivors’ and Dependents’ Educational Assistance Program](/education/gi-bill/survivors-dependent-assistance/dependents-education/), **or**
+- [Are eligible for the Fry Scholarship](/education/survivor-dependent-benefits/fry-scholarship/), **or**
+- [Are eligible for the Survivors’ and Dependents’ Educational Assistance Program](/education/survivor-dependent-benefits/dependents-education-assistance/), **or**
 - Have had GI Bill benefits transferred from a spouse or parent, **or**
-- [Are eligible for educational assistance under any GI Bill program](/education/gi-bill/)
+- [Are eligible for educational assistance under any GI Bill program](/education/about-gi-bill-benefits/)

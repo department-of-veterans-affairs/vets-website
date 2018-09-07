@@ -23,7 +23,7 @@ relatedlinks:
     - url: /health-care/how-to-apply/
       title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
-    - url: /disability-benefits/
+    - url: /disability/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---

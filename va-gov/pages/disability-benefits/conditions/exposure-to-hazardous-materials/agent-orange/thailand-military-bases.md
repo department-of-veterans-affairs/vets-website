@@ -32,7 +32,7 @@ You may be able to get disability benefits if you have an illness believed to be
 ### What kind of disability benefits can I get?
 - Heath care
 - Compensation (payments)
-- [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
+- [An Agent Orange Registry health exam](/disability/eligibility/hazardous-materials-exposure/agent-orange/registry-health-exam/)
 
 -----
 
@@ -44,12 +44,12 @@ To prove that you had contact with Agent Orange during your Thailand service, yo
 - Performance evaluation reports, **or**
 - Job records (for example, records showing you worked as a dog handler or a member of a security squadron or military police unit)
 
-[Apply for benefits](/disability-benefits/apply/).
+[Apply for benefits](/disability/how-to-file-claim/).
 
 ### Need help?
 
 Want to connect with a trained professional who can help you with VA-related claims? <br>
-[Get help filing your claim](/disability-benefits/apply/help/).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 ### Get more information
 Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? <br>

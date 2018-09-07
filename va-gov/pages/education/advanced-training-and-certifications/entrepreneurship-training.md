@@ -18,9 +18,9 @@ Want to start a business? We offer entrepreneurship training through the Small B
 
 You can get this training if you qualify for any of these programs:
 
-- [The Post-9/11 GI Bill](/education/gi-bill/post-9-11/)
-- The Montgomery GI Bill, [Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) or [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR)
-- [The Veterans' Educational Assistance Program (VEAP)](/education/other-educational-assistance-programs/veap/)
+- [The Post-9/11 GI Bill](/education/about-gi-bill-benefits/post-9-11/)
+- The Montgomery GI Bill, [Active Duty](/education/about-gi-bill-benefits/montgomery-active-duty/) (MGIB-AD) or [Selected Reserve](/education/about-gi-bill-benefits/montgomery-selected-reserve/) (MGIB-SR)
+- [The Veterans' Educational Assistance Program (VEAP)](/education/other-va-education-benefits/veap/)
 
 **Note:** Dependents can’t get this training under the Survivors’ and Dependents’ Educational Assistance (DEA) program.
 
