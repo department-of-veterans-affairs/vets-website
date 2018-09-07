@@ -141,6 +141,6 @@ export function prefillTransformer(pages, formData, metadata) {
   };
 }
 
-export const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
+export const hasForwardingAddress = (formData) => (_.get(formData, 'view:hasForwardingAddress', false));
 
-export const forwardingCountryIsUSA = (formData) => (_.get(formData, 'veteran.forwardingAddress.country', '') === USA);
+export const forwardingCountryIsUSA = (formData) => (_.get(formData, 'forwardingAddress.country', '') === USA);

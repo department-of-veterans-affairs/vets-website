@@ -1,16 +1,16 @@
-import _ from '../../../platform/utilities/data';
+import get from 'lodash/get';
 import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
 } from './constants';
 
-export const hasMilitaryRetiredPay = (data) => _.get('view:hasMilitaryRetiredPay', data, false);
+export const hasMilitaryRetiredPay = (data) => get('view:hasMilitaryRetiredPay', data, false);
 
-export const hasSeparationPay = (data) => _.get('view:hasSeparationPay', data, false);
+export const hasSeparationPay = (data) => get('view:hasSeparationPay', data, false);
 
-export const hasTrainingPay = (data) => _.get('view:hasTrainingPay', data, false);
+export const hasTrainingPay = (data) => get('view:hasTrainingPay', data, false);
 
-export const hasRatedDisabilities = (data) => !!_.get('ratedDisabilities', data, []).length;
+export const hasRatedDisabilities = (data) => !!get('ratedDisabilities', data, []).length;
 
 export function isValidZIP(value) {
   if (value !== null) {
@@ -27,7 +27,7 @@ export function validateZIP(errors, zip) {
 
 export function validateMilitaryCity(errors, city, formData, schema, messages, options) {
   const isMilitaryState = MILITARY_STATE_VALUES.includes(
-    _.get(formData, `veteran.${options.addressPath}.state`, '')
+    get(formData, `${options.addressPath}.state`, '')
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
@@ -37,7 +37,7 @@ export function validateMilitaryCity(errors, city, formData, schema, messages, o
 
 export function validateMilitaryState(errors, state, formData, schema, messages, options) {
   const isMilitaryCity = MILITARY_CITIES.includes(
-    _.get(formData, `veteran.${options.addressPath}.city`, '').trim().toUpperCase()
+    get(formData, `${options.addressPath}.city`, '').trim().toUpperCase()
   );
   const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
   if (isMilitaryCity && !isMilitaryState) {

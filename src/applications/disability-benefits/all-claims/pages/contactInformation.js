@@ -44,7 +44,7 @@ import {
  */
 const addressUISchema = (addressType, title) => {
   const updateStates = (form) => {
-    const currentCity = _.get(form, `veteran.${addressType}.city`, '').trim().toUpperCase();
+    const currentCity = _.get(form, `${addressType}.city`, '').trim().toUpperCase();
     if (MILITARY_CITIES.includes(currentCity)) {
       return {
         'enum': MILITARY_STATE_VALUES,
@@ -106,9 +106,9 @@ const addressUISchema = (addressType, title) => {
     },
     state: {
       'ui:title': 'State',
-      'ui:required': ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') === USA),
+      'ui:required': (formData) => (_.get(formData, `${addressType}.country`, '') === USA),
       'ui:options': {
-        hideIf: ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') !== USA),
+        hideIf: (formData) => (_.get(formData, `${addressType}.country`, '') !== USA),
         updateSchema: updateStates
       },
       'ui:validations': [{
@@ -119,13 +119,13 @@ const addressUISchema = (addressType, title) => {
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
-      'ui:required': ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') === USA),
+      'ui:required': (formData) => (_.get(formData, `${addressType}.country`, '') === USA),
       'ui:errorMessages': {
         pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)'
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') !== USA)
+        hideIf: (formData) => (_.get(formData, `${addressType}.country`, '') !== USA)
       }
     },
   };
