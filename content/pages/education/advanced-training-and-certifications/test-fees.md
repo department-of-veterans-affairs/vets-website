@@ -73,7 +73,7 @@ First, fill out an Application for Reimbursement of Licensing or Certification T
 **Note:** You’ll need to turn in proof of payment (a receipt showing you paid the testing fee) with your application.
 Then, either upload your form to the GI Bill site or mail it to the nearest VA regional processing office.
 Upload your completed application to the GI Bill website.
-[Find the address of the nearest VA regional processing office]( https://www.benefits.va.gov/gibill/regional_processing.asp).
+[Find the nearest VA regional processing office]( https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 #### For national testing
 First, fill out an Application for Reimbursement of National Exam Fee (VA Form 22-0810 ). <br>
