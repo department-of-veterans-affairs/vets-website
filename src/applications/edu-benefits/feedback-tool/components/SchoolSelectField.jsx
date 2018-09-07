@@ -269,7 +269,7 @@ export class SchoolSelectField extends React.Component {
           <ErrorableCheckbox
             checked={manualSchoolEntryChecked}
             onValueChange={() => this.handleManualSchoolEntryToggled(manualSchoolEntryChecked)}
-            label={<span>I want to type in my school's name and address.</span>}/>
+            label={<span>I want to type in my school’s name and address.</span>}/>
           <div
             aria-live="polite"
             aria-relevant="additions text">
