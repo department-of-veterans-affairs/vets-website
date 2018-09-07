@@ -12,7 +12,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you’ve filed a claim for disability compensation, you can continue for up to one year uploading more evidence to support your claim. Evidence may include supporting documents like medical test results, doctor’s reports, and other records. Upload your evidence online now.
+If you’ve filed a claim for disability compensation, you can continue uploading more evidence for up to one year to support your claim. Evidence may include supporting documents like medical test results, doctor’s reports, and other records. Upload your evidence online now.
 
 </div>
 
