@@ -140,6 +140,7 @@ const {
 } = fullSchema.properties;
 
 export const uiSchema = {
+  'ui:title': 'Contact information',
   'ui:description': contactInfoDescription,
   phoneEmailCard: {
     'ui:title': 'Phone & email',

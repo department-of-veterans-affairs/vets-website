@@ -137,6 +137,7 @@ const formConfig = {
       }
     },
     additionalInformation: {
+      title: 'Additional information',
       pages: {
         contactInformation: {
           title: 'Veteran contact information',
