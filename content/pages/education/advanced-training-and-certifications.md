@@ -19,9 +19,9 @@ majorlinks:
     - url: /education/advanced-training-and-certifications/licensing-certification/
       title: Licensing and Certification
       description: If you paid for tests to become a licensed or certified professional, find out if you can get paid back for the cost of the tests.
-    - url: /education/advanced-training-and-certifications/national-testing-program/
-      title: National Testing Program
-      description: If you took a test when you applied to a college or a training course, find out if you can get paid back for the cost of the test.
+    - url: /education/advanced-training-and-certifications/test-fees
+      title: Testing Fees
+      description: If you paid for tests to become a licensed or certified professional, or to apply to college or a training course, find out if you can get paid back for the cost of the tests.
 ---
 
 <div class="va-introtext">
