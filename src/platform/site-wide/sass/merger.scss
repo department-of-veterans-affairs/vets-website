@@ -999,36 +999,9 @@
       }
     }
 
-    .fa {
-      position: relative;
-      color: $color-white;
-      border-radius: 50%;
-
-      &.icon-small {
-        vertical-align: middle;
-        padding-left: initial;
-        height: 32px;
-        width: 32px;
-        margin-right: 5px;
-
-        &::before {
-          position: absolute;
-          margin-top: 6.5px;
-          margin-left: 8.47px;
-        }
-      }
-
-      &.fa-medkit {
-        background-color: $color-primary;
-
-        &.icon-small {
-          &::before {
-            margin-top: 6px;
-            margin-left: 8px;
-          }
-        }
-      }
-    }
+  }
+  .va-crisis-panel > button.va-modal-close > .fa.fa-close{
+        color: $color-black;
   }
 }
 
