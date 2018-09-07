@@ -3,6 +3,9 @@
 /* OVERRIDE */
 .merger {
 
+#va-header-logo-menu {
+  align-items: center;
+}
   $color-primary-lightest: #e1f3f8;
 
   @import 'iconography';
@@ -467,6 +470,9 @@
 
   // mobile
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+#va-header-logo-menu {
+  align-items: normal;
+}
 
     button {
       &.va-sidebarnav-close {
@@ -707,13 +713,15 @@
 
   // tablet
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
-
+#va-header-logo-menu {
+  align-items: normal;
+}
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
 
     .vet-toolbar {
-      flex: 0 1 35.5rem;
+      flex: 0 1 30.5rem;
       padding-left: 2em;
 
       .profile-nav {
@@ -798,11 +806,12 @@
   }
 
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: landscape){
-
+    #va-header-logo-menu {
+      align-items: center;
+    }
     .vet-toolbar {
       flex: 0 1 25.5rem;
     }
-
     #hub-internal {
       .usa-width-one-half {
         min-height: 285px;
@@ -1003,6 +1012,7 @@
   .va-crisis-panel > button.va-modal-close > .fa.fa-close{
         color: $color-black;
   }
+
 }
 
 .va-sign-in-alert {
