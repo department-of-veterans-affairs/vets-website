@@ -2,7 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import Raven from 'raven-js';
 
-import _ from 'lodash';
+import get from 'lodash/get';
+import _ from '../../../platform/utilities/data';
+
 
 import {
   RESERVE_GUARD_TYPES,
@@ -72,7 +74,7 @@ export const ReservesGuardDescription = ({ formData }) => {
   );
 };
 
-export const title10DatesRequired = (formData) => _.get('view:isTitle10Activated', formData, false);
+export const title10DatesRequired = (formData) => get(formData, 'view:isTitle10Activated', false);
 
 export const isInFuture = (errors, fieldData) => {
   const enteredDate = new Date(fieldData);
@@ -141,6 +143,6 @@ export function prefillTransformer(pages, formData, metadata) {
   };
 }
 
-export const hasForwardingAddress = (formData) => (_.get(formData, 'view:hasForwardingAddress', false));
+export const hasForwardingAddress = (formData) => (get(formData, 'view:hasForwardingAddress', false));
 
-export const forwardingCountryIsUSA = (formData) => (_.get(formData, 'forwardingAddress.country', '') === USA);
+export const forwardingCountryIsUSA = (formData) => (get(formData, 'forwardingAddress.country', '') === USA);
