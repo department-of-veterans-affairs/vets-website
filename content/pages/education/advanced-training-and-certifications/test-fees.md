@@ -14,14 +14,16 @@ If you’re a Veteran and you qualify for the GI Bill, we may pay you back for t
 
 You can get paid back for testing related to these kinds of jobs:
 
-•	Mechanic
-•	Medical technician
-•	Attorney
-•	Therapist
-•	Website developer
-•	Computer network engineer
+- Mechanic
+- Medical technician
+- Attorney
+- Therapist
+- Website developer
+- Computer network engineer
+
 We’ll pay you back:
-- 	For an unlimited number of tests
+
+- For an unlimited number of tests
 -	For you to take the same test a many times as you need to
 -	Even when you don’t score high enough to get your license or certification
 
