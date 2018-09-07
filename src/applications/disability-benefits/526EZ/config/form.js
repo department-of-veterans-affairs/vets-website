@@ -360,6 +360,9 @@ const formConfig = {
                   },
                   'view:otherEvidence': {
                     'ui:title': 'Lay statements or other evidence'
+                  },
+                  'view:noEvidence': {
+                    'ui:title': 'I don’t have any evidence, but I still want to submit a claim.'
                   }
                 },
                 'view:evidenceTypeHelp': {
@@ -386,6 +389,9 @@ const formConfig = {
                           type: 'boolean'
                         },
                         'view:otherEvidence': {
+                          type: 'boolean'
+                        },
+                        'view:noEvidence': {
                           type: 'boolean'
                         }
                       }
