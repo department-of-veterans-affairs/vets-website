@@ -79,7 +79,7 @@ Upload your completed application to the GI Bill website.
 First, fill out an Application for Reimbursement of National Exam Fee (VA Form 22-0810 ). <br>
 [Download VA Form 22-0810]( https://www.vba.va.gov/pubs/forms/VBA-22-0810-ARE.pdf)
 Then, mail your form to the nearest VA regional processing office. <br>
-[Find the address of the nearest VA regional processing office] (https://www.benefits.va.gov/gibill/regional_processing.asp).
+[Find the address of the nearest VA regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 **Please note:**
 - You may need to provide your proof of payment.
