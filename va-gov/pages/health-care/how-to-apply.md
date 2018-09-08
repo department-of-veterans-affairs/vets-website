@@ -6,6 +6,7 @@ display_title: How to Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-08-28
 collection: healthCare
+spoke: Get Benefits
 order: 3
 description: Find out what documents you'll need to apply for VA health care benefits. Apply online for VA health care benefits today.
 aliases:

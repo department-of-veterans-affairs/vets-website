@@ -939,14 +939,6 @@
 
     .usa-sidenav-list {
       & > li {
-        &:last-child {
-          border-bottom: 1px solid $color-gray-lighter;
-        }
-
-        &:first-child {
-          border-top: 1px solid $color-gray-lighter;
-        }
-
         .active-menu {
           border-bottom: none;
         }
@@ -1027,15 +1019,28 @@
     }
   }
 
+  .usa-accordion-button {
+    background-color: white;
+    border-top: 1px solid $color-gray-lighter;
+    border-bottom: 1px solid $color-gray-lighter;
+    background-size: 1.1rem;
+  }
+
+  .usa-accordion {
+    & > li {
+      margin-bottom: -1px;
+    }
+  }
+
+  .va-sign-in-alert {
+    .usa-button-primary {
+      margin-top: 10px;
+    }
+  }
+
   .va-modal-close {
     .fa {
       color: inherit;
     }
-  }
-}
-
-.va-sign-in-alert {
-  .usa-button-primary {
-    margin-top: 10px;
   }
 }

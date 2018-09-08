@@ -7,7 +7,8 @@ description: Find out if a specific health care condition or need is covered und
 concurrence: complete
 lastupdate: 2017-06-28
 collection: healthCare
-order: 5
+spoke: More Resources
+order: 18
 children: healthCareConditions
 aliases:
   - /health-care/health-conditions/

@@ -5,7 +5,7 @@ description: Track the status of your VA claims and appeals by signing in to you
 entryname: claims-status
 layout: page-react.html
 gatePage: true
-collection: [disability, disabilityBeta]
+collection: [disabilityBeta]
 order: 5
 includeBreadcrumbs: true
 ---
