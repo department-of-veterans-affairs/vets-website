@@ -2,10 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Substance Use Treatment for Veterans
-display_title:
+display_title: Substance Use Problems
 concurrence: complete
 lastupdate: 2017-06-28
-order: 6
+order: 5
 aliases:
   - /health-care/health-conditions/substance-use-problems
 relatedlinks:

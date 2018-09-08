@@ -5,7 +5,7 @@ title: Chemical or Hazardous Material Exposure
 display_title: Exposure to Hazardous Materials
 concurrence: complete
 lastupdate: 2017-06-28
-order: 5
+order: 6
 aliases:
   - /health-care/health-conditions/exposure-to-hazardous-materials/
 relatedlinks:
