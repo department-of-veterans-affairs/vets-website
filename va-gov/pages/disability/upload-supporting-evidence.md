@@ -98,7 +98,7 @@ You can search for DBQs to download by form name or by symptom. <br>
 ### Any Supplemental Forms Needed to Support Your Claim
 
 In some cases, you may need to turn in one or more supplemental forms to support your disability claim.
-[See if you need to complete any supplemental forms](https://www.vets.gov/disability-benefits/apply/supplemental-forms/).
+[See if you need to complete any supplemental forms](/disability/apply/supplemental-forms/).
 </div>
 </div>
 </div>
