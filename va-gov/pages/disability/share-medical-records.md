@@ -1,6 +1,6 @@
 ---
 title: Share Medical Records
 href: /health-care/get-medical-records/
-order: 7
+order: 8
 spoke: Manage Benefits
 ---

@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: How to Gather Evidence for Your Claim
-display_title: How to Gather Evidence for Your Claim
+display_title: Evidence Needed
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityEvidence

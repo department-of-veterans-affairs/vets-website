@@ -117,6 +117,21 @@
       "name": "How to Gather Evidence for Your Claim"
     }
   },
+  "disabilityAboutRatings": {
+    "pattern": "disability/about-disability-ratings/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "About Disability Ratings"
+    }
+  },
+  "disabilityFullyDevelopedClaims": {
+    "pattern": "disability/how-to-file-a-claim/evidence-needed/fully-developed-claims/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Fully Developed Claims"
+    }
+
+  },
   "education": {
     "pattern": "",
     "sortBy": "order",

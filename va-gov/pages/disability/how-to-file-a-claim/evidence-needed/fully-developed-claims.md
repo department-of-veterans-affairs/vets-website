@@ -1,6 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 title: Fully Developed Disability Claims
+display_title: Fully Developed Claims
+children: disabilityFullyDevelopedClaims
 plainlanguage: 
 template: detail-page
 order: 2

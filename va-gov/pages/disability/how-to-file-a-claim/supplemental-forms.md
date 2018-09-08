@@ -1,12 +1,12 @@
 ---
 layout: page-breadcrumbs.html
 title: Supplemental Disability Forms
-display_title: Supplemental Disability Forms
+display_title: Supplemental Forms
 description: Download additional forms you may need to apply for some VA disability benefits.
 concurrence: Incomplete
 plainlanguage: 
 template: detail-page
-order: 	
+order: 3
 relatedlinks:
  - heading: 
    links: 
@@ -15,8 +15,6 @@ relatedlinks:
       description:
 aliases:
   - /disability-benefits/apply/supplemental-forms/
-order: 6 
-spoke: Manage Benefits
 ---
 
 <div class="va-introtext">

@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: VA Decision Ready Claims Program
+display_title: Decision Ready Claims
 description: 
 concurrence: incomplete
 plainlanguage: 

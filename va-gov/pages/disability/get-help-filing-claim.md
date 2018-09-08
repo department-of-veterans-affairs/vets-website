@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Get Help Filing Your Claim or Appeal
+display_title: Get Help Filing a Claim
 description: Get help filing a VA claim or appeal by working with an accredited attorney, a claims agent, or a Veterans Service Officer (VSO) who's certified to help you with the VA claims process.
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
@@ -26,6 +27,7 @@ relatedlinks:
       description: Find out if you're eligible for disability compensation for a disability that appeared within a year after you were discharged from service.      
 aliases:
   - /disability-benefits/apply/help/
+spoke: More Resources
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">

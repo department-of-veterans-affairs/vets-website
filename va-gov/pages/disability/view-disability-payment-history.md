@@ -1,6 +1,6 @@
 ---
 title: View Disability Payment History
 href: /
-order: 9
+order: 10
 spoke: Manage Benefits
 ---
