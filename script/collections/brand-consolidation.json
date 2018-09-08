@@ -3,7 +3,8 @@
     "sortBy": "order",
     "metadata": {
       "name": "Burials and Memorials",
-      "icon": "fa-star"
+      "icon": "fa-star",
+      "spokes": ["Get Benefits", "Plan a Burial", "More Resources"]
     }
   },
   "burialsHonor": {
@@ -11,6 +12,14 @@
     "sortBy": "order",
     "metadata": {
       "name": "Honor a Deceased Veteran",
+      "icon": "fa-star"
+    }
+  },
+  "burialsPlanABurial": {
+    "pattern": "burials-memorials/plan-a-burial/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Plan A Burial",
       "icon": "fa-star"
     }
   },

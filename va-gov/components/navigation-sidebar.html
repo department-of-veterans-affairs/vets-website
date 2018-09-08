@@ -14,7 +14,12 @@ Used to display a side navigation bar of pages in a collection.
 {% endcomment %}
 
 {% assign relatedPages = collections | get: collection %}
-{% assign spokes = "Get Benefits,Manage Benefits,More Resources" | split: ',' %}
+
+{% if relatedPages.metadata.spokes != empty %}
+  {% assign spokes = relatedPages.metadata.spokes %}
+{% else %}
+  {% assign spokes = "Get Benefits,Manage Benefits,More Resources" | split: ',' %}
+{% endif %}
 
 <nav {% if relatedPages != empty %}class="usa-width-one-fourth va-sidebarnav"{% endif %} id="va-detailpage-sidebar">
   <div>
