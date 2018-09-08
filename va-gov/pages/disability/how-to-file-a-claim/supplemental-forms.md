@@ -15,6 +15,8 @@ relatedlinks:
       description:
 aliases:
   - /disability-benefits/apply/supplemental-forms/
+order: 6 
+spoke: Manage Benefits
 ---
 
 <div class="va-introtext">

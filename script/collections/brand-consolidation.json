@@ -47,7 +47,7 @@
     }
   },
   "disabilityApply": {
-    "pattern": "disability/how-to-file-claim/*.md",
+    "pattern": "disability/how-to-file-a-claim/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "How to Apply"

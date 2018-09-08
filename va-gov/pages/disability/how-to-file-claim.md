@@ -6,6 +6,7 @@ description: Find out how to apply online for VA disability compensation, and wh
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
+collection: disability
 children: disabilityApply
 spoke: Get Benefits
 majorlinks:

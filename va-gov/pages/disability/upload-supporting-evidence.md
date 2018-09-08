@@ -6,8 +6,9 @@ display_title: Upload Evidence to Support Your Claim
 description:
 concurrence:
 collection: 
-order: 
+order: 5 
 children:
+spoke: Manage Benefits
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
