@@ -31,7 +31,7 @@ crosslinks:
       title: <br>Life Insurance</br>
       description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -125,12 +125,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <div class="link">
     <a href="#"><b>How to Apply for Your Certificate of Eligibility</b></a>
     <p>Get instructions for how to apply for your VA home loan Certificate of Eligibility (COE)—and what to do next depending on your loan type.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Apply Online for Your COE (VA Form 26-1880)</b></a>
-    <p>Start your online application now.</p>
-  </div>
+  </div>  
 
   <div class="link">
     <a href="#"><b>Check Your Appeal Status</b></a>
