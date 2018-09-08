@@ -7,7 +7,8 @@ description:
 concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order:
+spoke: Manage Benefits
+order: 8
 children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
