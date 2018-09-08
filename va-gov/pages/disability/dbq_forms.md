@@ -1,6 +1,7 @@
 ---
 title: DBQ Forms
-href: /
+href: https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp
+target: _blank
 order: 5
 spoke: More Resources
 ---

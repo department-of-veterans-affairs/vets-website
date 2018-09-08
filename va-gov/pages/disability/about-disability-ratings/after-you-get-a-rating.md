@@ -7,7 +7,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 aliases:
   - /disability-benefits/after-you-apply/what-happens-after-rating/
-order: 1
+order: 2
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">

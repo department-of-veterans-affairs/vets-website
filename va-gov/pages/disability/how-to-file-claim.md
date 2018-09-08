@@ -12,10 +12,10 @@ spoke: Get Benefits
 majorlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability/how-to-file-a-claim/when-to-file/
+    - url: /disability/how-to-file-claim/when-to-file/
       title: Claim Types and When to File 
       description: Learn about standard claims, reopened claims, secondary claims, and more. 
-    - url: /disability/how-to-file-a-claim/evidence-needed/
+    - url: /disability/how-to-file-claim/evidence-needed/
       title: How to Gather Evidence for Your Claim
       description: Find out your options for gathering documents to support your disability claim.
     - url: /disability/eligibility/illnesses-within-one-year-of-discharge/
@@ -32,7 +32,7 @@ relatedlinks:
       description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 aliases:
   - /disability-benefits/apply/
-  - /disability/how-to-file-a-claim/
+  - /disability/how-to-file-claim/
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
@@ -45,8 +45,8 @@ Find out how to apply for VA disability benefits.
 
 - [Find out if you're eligible for VA disability benefits](/disability/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability/how-to-file-a-claim/evidence-needed/).
-- [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability/how-to-file-a-claim/supplemental-forms/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability/how-to-file-claim/evidence-needed/).
+- [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability/how-to-file-claim/supplemental-forms/).
 
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">

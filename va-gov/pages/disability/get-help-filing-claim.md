@@ -6,17 +6,17 @@ description: Get help filing a VA claim or appeal by working with an accredited 
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 3
+order: 4
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability/how-to-file-a-claim/evidence-needed/fully-developed-claims/
+    - url: /disability/how-to-file-claim/evidence-needed/fully-developed-claims/
       title: Fully Developed Disability Claims
       description: Find out how to use the Fully Developed Claims program to get a faster decision on your claim by sending in all the evidence you have—or can easily get—when you file your claim.
-    - url: /disability/how-to-file-a-claim/evidence-needed/decision-ready-claims/
+    - url: /disability/how-to-file-claim/evidence-needed/decision-ready-claims/
       title: Decision Ready Claims Program
       description: Find out if you can use the DRC program to get a decision on your claim in 30 days or less by working with an accredited VSO.
-    - url: /disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/
+    - url: /disability/how-to-file-claim/when-to-file/pre-discharge-claim/
       title: Pre-discharge Claim
       description: If you have 90 to 180 days left on active duty, find out how to file a disability claim through the Benefits Delivery at Discharge (BDD) program to get your benefits sooner.
     - url: /disability/about-disability-ratings/
@@ -155,7 +155,7 @@ For certain types of claims, you may be able to work with your VSO to submit a c
 - Attend a VA claim exam, if needed, before submitting your claim
 
 When you work with an accredited VSO and provide all the needed evidence with your application, you can get a decision on your claim in 30 days or less. <br>
-[Find out if you're eligible for the Decision Ready Claims program](/disability/how-to-file-a-claim/evidence-needed/decision-ready-claims/).
+[Find out if you're eligible for the Decision Ready Claims program](/disability/how-to-file-claim/evidence-needed/decision-ready-claims/).
 
 </div>
 </div>

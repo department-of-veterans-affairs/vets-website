@@ -95,11 +95,6 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" target="_blank"><b>File a Claim Online (VA Form 21-526EZ)</b></a>
-    <p>Start your VA disability claim online now.</p>
-  </div>
-
-  <div class="link">
     <a href="/disability/after-you-file-claim/"><b>After You File Your Claim</b></a>
     <p>Find out what happens after you file for VA disability compensation, how long it takes us to make a decision, and what to do if you disagree.</p>
   </div>
@@ -125,17 +120,17 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
     </div>
 
   <div class="link">
-    <a href="/disability/file-for-increase-form-21-526ez/"><b>Apply for a VA Disability Increase</b></a>
+    <a href="/disability/file-for-increase-form-21-526ez/"><b>File for a VA Disability Increase</b></a>
     <p>If your service-connected disability has gotten worse, find out how to file a claim to increase your disability rating.</p>
     </div>
 
   <div class="link">
-    <a href="/disability/file-an-appeal/"><b>File a Disability Appeal</b></a>
+    <a href="/disability/file-an-appeal/"><b>File an Appeal</b></a>
     <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Add or Remove a Dependent</b></a>
+    <a href="/disability/add-remove-dependent/"><b>Add or Remove a Dependent</b></a>
     <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits. Also learn how to remove a dependent from your benefits.</p>
   </div>
 
@@ -145,7 +140,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
 </div>
 
   <div class="link">
-    <a href="/disability/how-to-file-a-claim/supplemental-forms/"><b>File Supplemental Forms for Special Claims</b></a>
+    <a href="/disability/how-to-file-claim/supplemental-forms/"><b>File Supplemental Forms for Special Claims</b></a>
     <p>Find out if you'll need to turn in any additional forms to support your disability claim.</p>
   </div>
 

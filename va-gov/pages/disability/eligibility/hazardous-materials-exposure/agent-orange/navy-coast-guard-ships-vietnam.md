@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Navy or Coast Guard Ships in Vietnamm
+title: Navy or Coast Guard Ships in Vietnam
 concurrence: complete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: detail-page

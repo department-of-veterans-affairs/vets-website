@@ -7,6 +7,7 @@ plainlanguage:
 template: detail-page
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan/
+order: 9
 ---
 
 <div class="va-introtext">

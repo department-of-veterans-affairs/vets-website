@@ -47,7 +47,7 @@
     }
   },
   "disabilityApply": {
-    "pattern": "disability/how-to-file-a-claim/*.md",
+    "pattern": "disability/how-to-file-claim/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "How to Apply"
@@ -61,14 +61,14 @@
     }
   },
   "disabilityClaimTypes": {
-    "pattern": "disability/how-to-file-a-claim/when-to-file/*.md",
+    "pattern": "disability/how-to-file-claim/when-to-file/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Claim Types"
     }
   },
   "disabilityClaimTypesPredischarge": {
-    "pattern": "disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/*.md",
+    "pattern": "disability/how-to-file-claim/when-to-file/pre-discharge-claim/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Pre-discharge Claim"
@@ -83,7 +83,7 @@
   },
   "disabilityConditionsExposure": {
     "pattern": "disability/eligibility/hazardous-materials-exposure/*.md",
-    "sortBy": "title",
+    "sortBy": "order",
     "metadata": {
       "name": "Contact with Hazardous Materials"
     }
@@ -111,7 +111,7 @@
     }
   },
   "disabilityEvidence": {
-    "pattern": "disability/how-to-file-a-claim/evidence-needed/*.md",
+    "pattern": "disability/how-to-file-claim/evidence-needed/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "How to Gather Evidence for Your Claim"
@@ -125,12 +125,18 @@
     }
   },
   "disabilityFullyDevelopedClaims": {
-    "pattern": "disability/how-to-file-a-claim/evidence-needed/fully-developed-claims/*.md",
+    "pattern": "disability/how-to-file-claim/evidence-needed/fully-developed-claims/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Fully Developed Claims"
     }
-
+  },
+  "disabilityAddRemoveDependents": {
+    "pattern": "/disability/add-remove-dependent/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Add remove Dependents"
+    }
   },
   "education": {
     "pattern": "",
