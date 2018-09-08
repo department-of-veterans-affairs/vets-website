@@ -1,7 +1,9 @@
 ---
 title: Apply online for pre-need determination of eligibility in a VA National Cemetery
+display_title: Apply Now
 entryname: pre-need
 layout: page-react.html
+order: 1
 aliases:
   - /burials-and-memorials/pre-need/form-10007-apply-for-eligibility
 ---
