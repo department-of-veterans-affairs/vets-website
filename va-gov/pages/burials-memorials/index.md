@@ -133,7 +133,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="www.cem.va.gov/recmed_records.asp"><b>Request Military Records</b></a>
+    <a href="https://www.cem.va.gov/recmed_records.asp"><b>Request Military Records</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
@@ -148,21 +148,21 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
 
   <h2>More Information and Resources</h2>
 
-  <div class="https://www.cem.va.gov/dailyburialschedule/">
-    <a href="www.cem.va.gov/cem/dailyburialschedule/ "><b>VA National Cemetery Daily Burial Schedule</b></a>
+  <div class="link">
+    <a href="https://www.cem.va.gov/dailyburialschedule/"><b>VA National Cemetery Daily Burial Schedule</b></a>
     <p>Find the date, time, and location of the committal service for the scheduled burial of a Veteran, spouse, or other eligible family member.</p>
   </div>
 
-  <div class="https://benefits.va.gov/Compensation/current_rates_dic.asp">
-    <a href="www.benefits.va.gov/COMPENSATION/resources-rates-read-dic.asp"><b>VA Survivor Benefits Rates (VA DIC)</b></a>
+  <div class="link">
+    <a href="https://benefits.va.gov/Compensation/current_rates_dic.asp"><b>VA Survivor Benefits Rates (VA DIC)</b></a>
     <p>View current dependency and indemnity compensation rates for surviving spouses and children.</p>
 
-  <div class="https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp">
-    <a href="#"><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
+  <div class="link">
+    <a href="https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp"><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current survivor benefit rates for parents.</p>
 
-  <div class="https://www.archives.gov/veterans/replace-medals.html">
-    <a href="#"><b>Replace Medals, Awards, and Decorations</b></a>
+  <div class="link">
+    <a href="https://www.archives.gov/veterans/replace-medals.html"><b>Replace Medals, Awards, and Decorations</b></a>
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
 
   <div class="link">
