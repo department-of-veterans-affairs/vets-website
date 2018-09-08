@@ -4,5 +4,4 @@ href: https://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity_pa
 order: 13
 collection: burials
 spoke: More Resources
-target: _blank
 ---
