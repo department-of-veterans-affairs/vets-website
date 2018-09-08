@@ -1,5 +1,4 @@
 ---
-<<<<<<< HEAD
 layout: page-breadcrumbs.html
 template: detail-page
 title: Check Your Post-9/11 GI Bill Benefits
@@ -7,14 +6,14 @@ display_title: Check Post-9/11 GI Bill Benefits
 description:
 concurrence:
 collection: education
-order: 
-aliases:  
+order:
+aliases:
 children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. Check to see if you have any Post-9/11 GI Bill benefits, and find out how much money you have left to use for your education or training. 
+If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. Check to see if you have any Post-9/11 GI Bill benefits, and find out how much money you have left to use for your education or training.
 
 </div>
 
@@ -88,14 +87,3 @@ If none of the above situations applies to you, and you think your Statement of 
 </div>
 </div>
 </div>
-=======
-title: Check Benefit
-entryname: post-911-gib-status
-layout: page-react.html
-includeBreadcrumbs: true
-in_maintenance: false
-maintenance_line1: We’re sorry. Our system is temporarily down while we fix a few things. Please try again later.
-aliases:
-  - /education/gi-bill/post-9-11/ch-33-benefit
----
->>>>>>> brand-consolidation
