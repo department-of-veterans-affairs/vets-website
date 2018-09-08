@@ -17,7 +17,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform, submit, recordApplicantRelationship } from '../helpers';
+import { transform, submit, recordApplicantRelationship, getIssueExample } from '../helpers';
 
 const {
   address: applicantAddress,
@@ -487,37 +487,48 @@ const formConfig = {
                 'other'
               ],
               recruiting: {
-                'ui:title': 'Recruiting or marketing practices'
+                'ui:title': 'Recruiting or marketing practices',
+                'ui:description': getIssueExample('The school made inaccurate claims about the quality of its education or its school requirements.')
               },
               studentLoans: {
-                'ui:title': 'Student loan'
+                'ui:title': 'Student loan',
+                'ui:description': getIssueExample('The school didn’t provide you total a cost of your school loan.')
               },
               quality: {
-                'ui:title': 'Quality of education'
+                'ui:title': 'Quality of education',
+                'ui:description': getIssueExample('The school doesn’t have qualified teachers.')
               },
               creditTransfer: {
-                'ui:title': 'Transfer of credits'
+                'ui:title': 'Transfer of credits',
+                'ui:description': getIssueExample('The school isn’t accredited for transfer of credits.')
               },
               accreditation: {
-                'ui:title': 'Accreditation'
+                'ui:title': 'Accreditation',
+                'ui:description': getIssueExample('The school is unable to get or keep accreditation.')
               },
               jobOpportunities: {
-                'ui:title': 'Post-graduation job opportunity'
+                'ui:title': 'Post-graduation job opportunity',
+                'ui:description': getIssueExample('The school made promises to you about job placement or salary after graduation.')
               },
               gradePolicy: {
-                'ui:title': 'Grade policy'
+                'ui:title': 'Grade policy',
+                'ui:description': getIssueExample('The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.')
               },
               refundIssues: {
-                'ui:title': 'Refund issues'
+                'ui:title': 'Refund issues',
+                'ui:description': getIssueExample('The school won’t refund your GI Bill payment.')
               },
               financialIssues: {
-                'ui:title': 'Financial concern (for example, tuition or fee changes)'
+                'ui:title': 'Financial concern (for example, tuition or fee changes)',
+                'ui:description': getIssueExample('The school is charging you a higher tuition or extra fees.')
               },
               changeInDegree: {
-                'ui:title': 'Change in degree plan or requirements'
+                'ui:title': 'Change in degree plan or requirements',
+                'ui:description': getIssueExample('The school added new hour or course requirements after you enrolled.')
               },
               transcriptRelease: {
-                'ui:title': 'Release of transcripts'
+                'ui:title': 'Release of transcripts',
+                'ui:description': getIssueExample('The school won’t release your transcripts.')
               },
               other: {
                 'ui:title': 'Other'

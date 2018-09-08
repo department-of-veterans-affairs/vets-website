@@ -1,4 +1,5 @@
 import appendQuery from 'append-query';
+import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import Raven from 'raven-js';
 import React from 'react';
@@ -167,3 +168,13 @@ const applicantRelationshipEventMap = {
 export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
   return <UserInteractionRecorder eventRecorder={recordEvent} selectedValue={onBehalfOf} trackingEventMap={applicantRelationshipEventMap}></UserInteractionRecorder>;
 }
+
+/**
+ * Provides an issue example tooltip with the provided text
+ * @param {string} Example text
+ */
+export const getIssueExample = (exampleText) => {
+  return (<AdditionalInfo triggerText="See an example">
+    <p>{exampleText}</p>
+  </AdditionalInfo>);
+};
