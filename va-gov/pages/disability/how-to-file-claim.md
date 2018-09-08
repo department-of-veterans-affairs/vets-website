@@ -1,12 +1,13 @@
 ---
 layout: page-breadcrumbs.html
 title: How to Apply for Disability Benefits
-display_title: How to Apply
+display_title: How to File a Claim
 description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today.
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityApply
+spoke: Get Benefits
 majorlinks:
   - heading: More information about filing disability claims
     links:

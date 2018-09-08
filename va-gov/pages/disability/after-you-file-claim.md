@@ -7,6 +7,7 @@ order: 3
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityAfterYouApply
+spoke: Get Benefits
 majorlinks:
   - heading: More information about disability ratings and payments
     links:

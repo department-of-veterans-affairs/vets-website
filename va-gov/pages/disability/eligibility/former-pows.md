@@ -6,7 +6,7 @@ concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: detail-page
-order: 3
+order: 2
 aliases:
   - /disability-benefits/conditions/pow/
 ---
