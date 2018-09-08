@@ -185,7 +185,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/compensation/resources_comp01.asp"><b>View VA Disability Compensation Rates</b></a>
+    <a href="https://www.benefits.va.gov/compensation/resources_comp01.asp" target="_blank"><b>View VA Disability Compensation Rates</b></a>
     <p>See the Veterans compensation benefits rates tables to find your rate based on your disability rating and dependents.</p>
   </div>
 
@@ -200,7 +200,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-  <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp"><b>Disability Evaluation Questionnaires (VA DBQ Forms)</b></a>
+  <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp" target="_blank"><b>Disability Evaluation Questionnaires (VA DBQ Forms)</b></a>
   <p>Find and download the right disability benefits questionnaire for your health care provider to complete in support of your claim.</p>
   </div>
 
