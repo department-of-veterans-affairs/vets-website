@@ -8,13 +8,13 @@ template: detail-page
 majorlinks:
   - heading: More information about what happens after you file your claim
     links:
-    - url: /disability-benefits/eligibility/ratings/
+    - url: /disability/about-disability-ratings/
       title: How VA Assigns Disability Ratings
       description: "Learn how we assign severity ratings and how they affect your disability payments."
     - url: /track-claims/
       title: Check Claim and Appeal Status
       description: "Track the status of your disability claims and appeals."
-    - url: /disability-benefits/claims-appeal/
+    - url: /disability/file-an-appeal/
       title: Appeals Process
       description: "Find out what to do if you disagree with your disability rating decision."
 ---
@@ -191,7 +191,7 @@ We’ll review all the evidence in your file, assign your disability rating, and
 
 Each claim is different, but it usually takes us about 3 to 4 months to process a claim from start to finish. The processing time for your claim depends on how complex your claim is and how many conditions you’ve claimed.
 
-[See our most recent estimate for the average number of days to complete a claim](/disability-benefits/apply/#days-to-complete-claim).
+[See our most recent estimate for the average number of days to complete a claim](/disability/how-to-file-claim/#days-to-complete-claim).
 
 [Sign in to Vets.gov to track your claim](/track-claims/).
 
@@ -226,7 +226,7 @@ Our VA claims processors will review:
 <div id="VA-claim-exam-another" class="usa-accordion-content">
 
 We may ask you to have a claim exam if you appeal your disability benefits decision. <br>
-[Learn more about appealing a decision](/disability-benefits/claims-appeal/).
+[Learn more about appealing a decision](/disability/file-an-appeal/).
 
 </div>
 </li>

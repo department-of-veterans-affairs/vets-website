@@ -24,9 +24,9 @@ You can get these services if you’ll be discharged from active duty within 6 m
 -	Qualify as a Veteran for educational assistance under a VA educational program. 
 
 **Note:** Dependents who qualify for educational assistance may get these services under the following programs:
-- [Post-9/11 GI Bill](/education/gi-bill/post-9-11/)
-- [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/)
-- [The Survivors’ and Dependents’ Educational Assistance Program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/)
+- [Post-9/11 GI Bill](/education/about-gi-bill-benefits/post-9-11/)
+- [Fry Scholarship](/education/survivor-dependent-benefits/fry-scholarship/)
+- [The Survivors’ and Dependents’ Educational Assistance Program (DEA)](/education/survivor-dependent-benefits/dependents-education-assistance/)
 
 ### Who’s covered? 
 
@@ -52,4 +52,4 @@ You’ll need to apply:
 3. Select “Vocational Rehabilitation and Employment Benefits.”
 4. Apply for “Educational and Career Counseling.”<br /><br />
 
-If you qualify, we’ll invite you to an orientation session at a VA regional office near you. You can also use CareerScope&reg; to find careers you might enjoy. [Learn more about CareerScope](/education/tools-programs/careerscope/). 
+If you qualify, we’ll invite you to an orientation session at a VA regional office near you. You can also use CareerScope&reg; to find careers you might enjoy. [Learn more about CareerScope](/education/careerscope-skills-assessment/). 

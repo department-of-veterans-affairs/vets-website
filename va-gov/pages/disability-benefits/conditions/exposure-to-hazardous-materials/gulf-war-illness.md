@@ -11,7 +11,7 @@ template: detail-page
 
 If you served in the Southwest Asia theater of military operations, you may suffer from illnesses or other conditions related to service in this region. Find out if you can get disability compensation or benefits.
 
-[Learn about service in Afghanistan and Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan/).  
+[Learn about service in Afghanistan and Gulf War Illness](/disability/eligibility/hazardous-materials-exposure/gulf-war-illness-afghanistan/).  
 
 </div>
 
@@ -48,8 +48,8 @@ We consider these illnesses to be presumed disabilities:
 - Shigella
 - West Nile Virus
 
-[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/eligibility/one-year/). <br>
-[Learn more about presumed disabilities](/disability-benefits/eligibility/).
+[Learn more about disabilities that appear within 1 year after discharge](/disability/eligibility/illnesses-within-one-year-of-discharge/). <br>
+[Learn more about presumed disabilities](/disability/eligibility/).
 <br>
 
 ### Who’s covered?
@@ -68,7 +68,7 @@ Veterans
 ### How do I get these benefits?
 
 You’ll need to apply for benefits. <br>
-[Apply for disability benefits](/disability-benefits/apply/).
+[Apply for disability benefits](/disability/how-to-file-claim/).
 
 [Learn more about service in Southwest Asia](https://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
 
@@ -84,4 +84,4 @@ You’ll need to apply for benefits. <br>
 ### What if I need help filing my disability claim?
 
 You can get help from a trained professional trusted to help with VA-related claims. <br>
-[Get help filing your claim](/disability-benefits/apply/help/).
+[Get help filing your claim](/disability/get-help-filing-claim/).

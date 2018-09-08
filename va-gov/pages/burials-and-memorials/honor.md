@@ -9,10 +9,10 @@ order: 4
 majorlinks:
   - heading:
     links:
-    - url: /burials-and-memorials/honor/headstones-markers-medallions/
+    - url: /burials-memorials/memorial-items/headstones-markers-medallions/
       title: Headstones, Markers, Niche Covers, and Medallions
       description: Apply for one of these memorial items to identify the place of burial of a deceased Veteran or eligible spouse or other family member.
-    - url: /burials-and-memorials/honor/flags-and-memorial-certificates/
+    - url: /burials-memorials/memorial-items/presidential-memorial-certificates/
       title: Burial Flags and Presidential Certificates
       description: Apply for one or both of these items to honor the military service of a deceased Veteran or Reservist.
 ---

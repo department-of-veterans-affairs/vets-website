@@ -8,6 +8,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2018-01-02
 collection: healthCare
 children: healthEligibility
+spoke: Get Benefits
 order: 2
 widgets:
   - root: react-applicationStatus
@@ -245,7 +246,7 @@ In certain cases, you may receive dental care as part of your VA health benefits
 <div itemprop="text">
 
 If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. <br/>
-[Find out if you qualify for disability benefits](/disability-benefits/eligibility/).
+[Find out if you qualify for disability benefits](/disability/eligibility/).
 
 </div>
 </div>

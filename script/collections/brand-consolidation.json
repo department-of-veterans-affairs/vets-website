@@ -6,7 +6,7 @@
     }
   },
   "burialsHonor": {
-    "pattern": "burials-and-memorials/honor/*.md",
+    "pattern": "burials-memorials/memorial-items/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Honor a Deceased Veteran"
@@ -33,42 +33,42 @@
     }
   },
   "disability": {
-    "pattern": "disability-benefits/*.md",
+    "pattern": "disability/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits"
     }
   },
   "disabilityAfterYouApply": {
-    "pattern": "disability-benefits/after-you-apply/*.md",
+    "pattern": "disability/after-you-file-claim/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "After You Apply"
     }
   },
   "disabilityApply": {
-    "pattern": "disability-benefits/apply/*.md",
+    "pattern": "disability/how-to-file-claim/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "How to Apply"
     }
   },
   "disabilityClaimsAppeal": {
-    "pattern": "disability-benefits/claims-appeal/*.md",
+    "pattern": "disability/file-an-appeal/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Appeals"
     }
   },
   "disabilityClaimTypes": {
-    "pattern": "disability-benefits/apply/claim-types/*.md",
+    "pattern": "disability/how-to-file-a-claim/when-to-file/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Claim Types"
     }
   },
   "disabilityClaimTypesPredischarge": {
-    "pattern": "disability-benefits/apply/claim-types/predischarge-claim/*.md",
+    "pattern": "disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Pre-discharge Claim"
@@ -82,35 +82,36 @@
     }
   },
   "disabilityConditionsExposure": {
-    "pattern": "disability-benefits/conditions/exposure-to-hazardous-materials/*.md",
+    "pattern": "disability/eligibility/hazardous-materials-exposure/*.md",
     "sortBy": "title",
     "metadata": {
       "name": "Contact with Hazardous Materials"
     }
   },
   "disabilityConditionsSpecial": {
-    "pattern": "disability-benefits/conditions/special-claims/*.md",
+    "pattern": "disability/eligibility/special-claims/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Special Claims"
     }
   },
   "disabilityConditionsAgentOrange": {
-    "pattern": "disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md",
+    "pattern": "disability/eligibility/hazardous-materials-exposure/agent-orange/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Agent Orange"
     }
   },
   "disabilityEligibility": {
-    "pattern": "disability-benefits/eligibility/*.md",
+    "pattern": "disability/eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Eligibility"
+      "name": "Eligibility",
+      "icon": "fa-handshake"
     }
   },
   "disabilityEvidence": {
-    "pattern": "disability-benefits/apply/evidence/*.md",
+    "pattern": "disability/how-to-file-a-claim/evidence-needed/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "How to Gather Evidence for Your Claim"
@@ -131,14 +132,14 @@
     }
   },
   "educationGIBill": {
-    "pattern": "education/gi-bill/*.md",
+    "pattern": "education/about-gi-bill-benefits/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "GI Bill"
     }
   },
   "educationGIBillSurvivors": {
-    "pattern": "education/gi-bill/survivors-dependent-assistance/*.md",
+    "pattern": "education/survivor-dependent-benefits/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Survivors and Dependents"
@@ -152,7 +153,7 @@
     }
   },
   "educationOtherPrograms": {
-    "pattern": "education/other-educational-assistance-programs/*.md",
+    "pattern": "education/other-va-education-benefits/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Other Educational Assistance Programs"
@@ -175,63 +176,72 @@
   "healthCare": {
     "sortBy": "order",
     "metadata": {
-      "name": "Health Care"
+      "name": "Health Care",
+      "icon": "fa-medkit"
     }
   },
   "healthCareCoverage": {
     "pattern": "health-care/about-va-health-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "VA Health Care Coverage"
+      "name": "VA Health Care Coverage",
+      "icon": "fa-medkit"
     }
   },
   "healthCostOfCare": {
     "pattern": "health-care/about-va-health-benefits/cost-of-care/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Cost of Care"
+      "name": "Cost of Care",
+      "icon": "fa-medkit"
     }
   },
   "healthCareCoverageFamily": {
     "pattern": "health-care/family-caregiver-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Family and Caregiver Health Benefits"
+      "name": "Family and Caregiver Health Benefits",
+      "icon": "fa-medkit"
     }
   },
   "healthCareCoverageVision": {
     "pattern": "health-care/about-va-health-benefits/vision-care/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Vision Care"
+      "name": "Vision Care",
+      "icon": "fa-medkit"
     }
   },
   "healthCareConditions": {
     "pattern": "health-care/health-needs-conditions/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Health Needs and Conditions"
+      "name": "Health Needs and Conditions",
+      "icon": "fa-medkit"
     }
   },
   "healthEligibility": {
     "pattern": "health-care/eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Eligibility"
+      "name": "Eligibility",
+      "icon": "fa-medkit"
     }
   },
   "healthCareMentalHealth": {
     "pattern": "health-care/health-needs-conditions/mental-health/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Mental Health"
+      "name": "Mental Health",
+      "icon": "fa-medkit"
     }
   },
   "healthCareServiceRelated": {
     "pattern": "health-care/health-needs-conditions/health-issues-related-to-service-era/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Concerns Related to Service Era"
+      "name": "Concerns Related to Service Era",
+      "icon": "fa-medkit"
     }
   },
   "housing": {

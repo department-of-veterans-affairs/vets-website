@@ -25,7 +25,7 @@ Unless you opt out, we share basic information about your eligibility and benefi
 - The amount of money you’re receiving for tuition and school fees
 - The amount of money you get and the time you have left to use your benefits
 - If you’re getting money through the Yellow Ribbon Program.
-[Learn about the Yellow Ribbon program](/education/gi-bill/yellow-ribbon/).
+[Learn about the Yellow Ribbon program](/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/).
 - Residence hours (your time spent in the classroom)
 - Distance hours (your time spent in online classes)
 - Benefit percentage (amount of education benefits based on active-duty service time)

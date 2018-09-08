@@ -53,12 +53,12 @@ If you qualify for burial in a VA national cemetery, you'll receive burial benef
 - Perpetual (ongoing) care of the gravesite
 
 In the event of your death, the person planning your burial can also request other honors and memorials. These may include a:
-- [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-and-memorials/honor/flags-and-memorial-certificates/)
-- [Presidential Memorial Certificate signed by the current President of the United States](/burials-and-memorials/honor/flags-and-memorial-certificates/)
-- [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-and-memorials/honor/headstones-markers-medallions/)
+- [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-memorials/memorial-items/presidential-memorial-certificates/)
+- [Presidential Memorial Certificate signed by the current President of the United States](/burials-memorials/memorial-items/presidential-memorial-certificates/)
+- [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-memorials/memorial-items/headstones-markers-medallions/)
 
-[Learn about the burial planning process](/burials-and-memorials/burial-planning/). <br />
-[Learn about memorials and burial honors](/burials-and-memorials/honor/).
+[Learn about the burial planning process](/burials-memorials/plan-a-burial/). <br />
+[Learn about memorials and burial honors](/burials-memorials/memorial-items/).
 
 <br>
 
@@ -70,6 +70,6 @@ We give the surviving spouse, children, and parents of deceased Servicemembers a
 
 ### Can I plan ahead for my burial in a VA national cemetery?
 
-Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in the event of your death. To do this, you’ll need to apply for a pre-need eligibility determination. [Find out how to apply](/burials-and-memorials/pre-need/).
+Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in the event of your death. To do this, you’ll need to apply for a pre-need eligibility determination. [Find out how to apply](/burials-memorials/pre-need-eligibility/).
 
 **Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp).

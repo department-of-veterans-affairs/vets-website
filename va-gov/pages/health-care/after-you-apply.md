@@ -6,7 +6,8 @@ display_title: After You Apply
 description: Find out what to do after applying for VA health care benefits, including when to schedule your first VA medical appointment.
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: healthCare
-order: 4
+spoke: Get Benefits
+order: 5
 lastupdate: 2017-08-28
 ---
 

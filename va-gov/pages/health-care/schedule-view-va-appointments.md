@@ -5,7 +5,8 @@ title: Schedule a VA Appointment
 display_title:
 collection: healthCare
 lastupdate: 2017-10-23
-order: 8
+spoke: Manage Benefits
+order: 9
 aliases:
   - /health-care/schedule-an-appointment/
 relatedlinks:
@@ -20,7 +21,7 @@ relatedlinks:
     - url: /health-care/health-needs-conditions/
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
-    - url: /disability-benefits/
+    - url: /disability/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
