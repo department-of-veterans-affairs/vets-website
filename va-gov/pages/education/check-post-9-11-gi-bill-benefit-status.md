@@ -8,6 +8,7 @@ concurrence:
 collection: education
 order:
 aliases:
+  - /education/gi-bill/post-9-11/ch-33-benefit
 children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
