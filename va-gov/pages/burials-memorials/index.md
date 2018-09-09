@@ -17,10 +17,10 @@ crosslinks:
     - url: "#"
       title: <b>Survivors Pension</b>
       description: Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.
-    - url: "https://benefits.va.gov/insurance/bfcs.asp"
+    - url: "https://www.benefits.va.gov/insurance/bfcs.asp"
       title: <b>Beneficiary Financial Counseling and Online Will Preparation</b>
       description: If you're enrolled in VA life insurance, find out if you can get free financial planning and online will preparation services.
-    - url: "https://benefits.va.gov/fiduciary/"
+    - url: "https://www.benefits.va.gov/fiduciary/"
       title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
 social:
@@ -133,7 +133,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://www.cem.va.gov/recmed_records.asp"><b>Request Military Records</b></a>
+    <a href="#"><b>Request Military Records</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
@@ -154,11 +154,11 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/Compensation/current_rates_dic.asp"><b>VA Survivor Benefits Rates (VA DIC)</b></a>
+    <a href="https://www.benefits.va.gov/Compensation/current_rates_dic.asp"><b>VA Survivor Benefits Rates (VA DIC)</b></a>
     <p>View current dependency and indemnity compensation rates for surviving spouses and children.</p>
 
   <div class="link">
-    <a href="https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp"><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
+    <a href="https://www.benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp"><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current survivor benefit rates for parents.</p>
 
   <div class="link">
