@@ -54,7 +54,6 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 
 </div>
 </div>
-</div>
 
 <h2 itemprop="name">What benefits information will I be able to see?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -65,7 +64,6 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 - How much money you have left to use for your education or training
 - How much time you have left to use these benefits
 
-</div>
 </div>
 </div>
 
@@ -84,7 +82,6 @@ Your Post-9/11 GI Bill Statement of Benefits might not be available if one of th
 
 If none of the above situations applies to you, and you think your Statement of Benefits should be here, please call the VA.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
 
-</div>
 </div>
 </div>
 </div>
