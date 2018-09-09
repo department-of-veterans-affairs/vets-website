@@ -156,7 +156,7 @@
     }
   },
   "education": {
-    "pattern": "",
+    "pattern": "education/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training"
@@ -209,6 +209,13 @@
     "sortBy": "order",
     "metadata": {
       "name": "Work and Learn"
+    }
+  },
+  "educationChooseSchool": {
+    "pattern": "education/choosing-a-school/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Choosing a School"
     }
   },
   "healthCare": {

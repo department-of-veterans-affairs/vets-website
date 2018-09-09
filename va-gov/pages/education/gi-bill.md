@@ -6,6 +6,7 @@ concurrence: incomplete
 plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act.
 collection: education
 children: educationGIBill
+spoke: Get Benefits
 order: 4
 gibsAlert: false
 majorlinks:

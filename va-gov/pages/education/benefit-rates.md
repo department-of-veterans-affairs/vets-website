@@ -2,11 +2,13 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Rates
+display_title: Benefit Rates
 concurrence: incomplete
 collection: educationGIBill
-order: 8
+order: 2
 aliases:
   - /education/rates/
+spoke: More Resources
 ---
 
 <div class="va-introtext">

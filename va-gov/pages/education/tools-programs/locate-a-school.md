@@ -5,6 +5,8 @@ title: Locate a School
 plainlanguage: 11-27-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 order: 4
+spoke: More Resources
+children: educationChooseSchool
 ---
 
 <div class="va-introtext">
