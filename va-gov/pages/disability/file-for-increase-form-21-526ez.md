@@ -7,8 +7,6 @@ description: Learn how to apply online for increased disability compensation.
 hideFromSidebar: true
 spoke: Manage Benefits
 order: 2
-aliases:
-  - /disability-benefits/apply/form-526-disability-claim
 ---
 <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"
 id="va-breadcrumbs">

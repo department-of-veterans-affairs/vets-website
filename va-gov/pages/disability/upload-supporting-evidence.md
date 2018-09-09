@@ -94,12 +94,12 @@ If you’re claiming a disability for an injury or illness that you don’t thin
 You can help speed up your claim by using Disability Benefits Questionnaires (DBQs). These forms ask for specific information we need to determine a disability rating for different medical conditions. You can help to make sure that our ratings specialists have exactly what they need to make a decision on your claim by asking your VA or non-VA community health care provider to fill out one or more DBQs.
 
 You can search for DBQs to download by form name or by symptom. <br>
-[Find VA DBQs to take to your health care provider](https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp).
+<a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp" target="_blank">Find VA DBQs to take to your health care provider</a>
 
 ### Any Supplemental Forms Needed to Support Your Claim
 
 In some cases, you may need to turn in one or more supplemental forms to support your disability claim.
-[See if you need to complete any supplemental forms](/disability/supplemental-forms/).
+[See if you need to complete any supplemental forms](/disability/how-to-file-claim/supplemental-forms/).
 </div>
 </div>
 </div>

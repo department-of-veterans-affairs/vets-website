@@ -32,7 +32,6 @@ relatedlinks:
       description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 aliases:
   - /disability-benefits/apply/
-  - /disability/how-to-file-claim/
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
