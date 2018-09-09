@@ -1,7 +1,9 @@
 ---
 title: Apply for burial benefits
+display_title: Apply Now
 entryname: burials
 layout: page-react.html
+order: 1
 aliases:
   - /burials-and-memorials/application/530
 ---

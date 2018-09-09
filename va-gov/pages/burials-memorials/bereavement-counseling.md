@@ -4,6 +4,7 @@ template: detail-page
 title: Bereavement Counseling
 display_title:
 order: 6
+spoke: Get Benefits
 collection: burials
 relatedlinks:
   - heading: Other helpful information
@@ -41,7 +42,7 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died w
 ### Can I get bereavement counseling?
 
 You may qualify for bereavement counseling if you’re the surviving spouse, child, or parent of:
-- A Servicemember who died while serving their country 
+- A Servicemember who died while serving their country
 - A Reservist who died while on active duty
 - A National Guard Soldier who died while on active duty
 

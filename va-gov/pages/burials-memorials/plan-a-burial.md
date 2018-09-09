@@ -2,9 +2,11 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Plan a Burial for a Family Member
-display_title:
+display_title: Plan a Burial
 collection: burials
-order: 3
+children: burialsPlanABurial
+spoke: Plan a Burial
+order: 7
 relatedlinks:
   - heading: Other helpful information
     links:
