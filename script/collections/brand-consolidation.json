@@ -159,63 +159,72 @@
     "pattern": "education/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Education and Training"
+      "name": "Education and Training",
+      "icon": "fa-book"
     }
   },
   "educationAdvancedTraining": {
     "pattern": "education/advanced-training-and-certifications/*.md",
     "sortBy": "title",
     "metadata": {
-      "name": "Advanced Training and Certifications"
+      "name": "Advanced Training and Certifications",
+      "icon": "fa-book"
     }
   },
   "educationGIBill": {
     "pattern": "education/about-gi-bill-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "GI Bill"
+      "name": "GI Bill",
+      "icon": "fa-book"
     }
   },
   "educationGIBillSurvivors": {
     "pattern": "education/survivor-dependent-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Survivors and Dependents"
+      "name": "Survivors and Dependents",
+      "icon": "fa-book"
     }
   },
   "educationNonTraditional": {
     "pattern": "education/work-learn/non-traditional/*.md",
     "sortBy": "title",
     "metadata": {
-      "name": "Non-Traditional Options"
+      "name": "Non-Traditional Options",
+      "icon": "fa-book"
     }
   },
   "educationOtherPrograms": {
     "pattern": "education/other-va-education-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Other Educational Assistance Programs"
+      "name": "Other Educational Assistance Programs",
+      "icon": "fa-book"
     }
   },
   "educationToolsPrograms": {
     "pattern": "education/tools-programs/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Career Counseling"
+      "name": "Career Counseling",
+      "icon": "fa-book"
     }
   },
   "educationWorkLearn": {
     "pattern": "education/work-learn/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Work and Learn"
+      "name": "Work and Learn",
+      "icon": "fa-book"
     }
   },
   "educationChooseSchool": {
     "pattern": "education/choosing-a-school/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Choosing a School"
+      "name": "Choosing a School",
+      "icon": "fa-book"
     }
   },
   "healthCare": {
