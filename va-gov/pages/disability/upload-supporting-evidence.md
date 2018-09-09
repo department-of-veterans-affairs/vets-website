@@ -96,6 +96,7 @@ You can help speed up your claim by using Disability Benefits Questionnaires (DB
 You can search for DBQs to download by form name or by symptom. <br>
 <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp" target="_blank">Find VA DBQs to take to your health care provider</a>
 
+
 ### Any Supplemental Forms Needed to Support Your Claim
 
 In some cases, you may need to turn in one or more supplemental forms to support your disability claim.
