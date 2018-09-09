@@ -644,9 +644,6 @@
     }
 
     #footerNav {
-
-      left: -0.9rem;
-      width: 103%;
       #footer-first-child {
         padding-top: .25em;
       }
@@ -674,7 +671,6 @@
 
       // mobile footer stuff
       .va-footer-linkgroup-title {
-        font-size: 1em;
         font-weight: 400;
 
         button {
@@ -683,8 +679,8 @@
           cursor: pointer;
           display: block;
           margin: 0;
-          padding: 1.6rem .5rem;
-          font-size: 1em;
+          padding: 1.6rem 0.8rem;
+          font-size: 1.6rem;
           font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
           color: $color-white;
         }
