@@ -127,7 +127,7 @@ If a Servicemember, Veteran, or eligible spouse or dependent child in your famil
 
 [Learn about how to plan a burial for a deceased family member](/burials-memorials/plan-a-burial/).<br>
 [See if the deceased qualifies for burial in a VA national cemetery and other burial honors](/burials-memorials/eligibility/).<br>
-[Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). <br>
+[Find out what to expect at a memorial service](/burials-memorials/what-to-expect-at-military-funeral/). <br>
 [Get support through bereavement counseling after the death of a loved one](/burials-memorials/bereavement-counseling/).
 
 #### Survivor and Dependent Benefits

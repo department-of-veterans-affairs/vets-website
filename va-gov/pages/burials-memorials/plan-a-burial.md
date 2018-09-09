@@ -8,7 +8,7 @@ order: 3
 relatedlinks:
   - heading: Other helpful information
     links:
-    - url: /burials-and-memorials/what-to-expect-at-a-funeral/
+    - url: /burials-memorials/what-to-expect-at-military-funeral/
       title: What to Expect at a Funeral
       description: Find out what will happen to help you prepare for this day.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/
@@ -34,7 +34,7 @@ When a Servicemember or Veteran, spouse, or dependent child dies, the person who
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a> to request a burial.
 
-You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/).
+You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-memorials/what-to-expect-at-military-funeral/).
 
 <br>
 
