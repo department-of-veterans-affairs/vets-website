@@ -9,13 +9,13 @@ order: 1
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability/how-to-file-a-claim/evidence-needed/
+    - url: /disability/how-to-file-claim/evidence-needed/
       title: How to Gather Evidence for Your Claim
       description: "Find out what evidence we’ll need—and what your options are for gathering documents to support your claim."
     - url: /disability/how-to-file-claim/
       title: How to Apply for Disability Benefits
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
-    - url: /disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/
+    - url: /disability/how-to-file-claim/when-to-file/pre-discharge-claim/
       title: Pre-discharge Claim
       description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
     - url: /disability/eligibility/illnesses-within-one-year-of-discharge/

@@ -1005,6 +1005,15 @@
           margin-left: 8.47px;
         }
       }
+      &.fa-handshake {
+        &.icon-small {
+          &::before {
+          margin-top: 7.5px;
+          margin-left: 7px;
+
+          }
+        }
+      }
 
       &.fa-medkit {
         background-color: $color-primary;

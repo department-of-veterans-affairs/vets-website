@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: C-123 Aircraft
 template: detail-page
-order: 1
+order: 4
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/
 ---

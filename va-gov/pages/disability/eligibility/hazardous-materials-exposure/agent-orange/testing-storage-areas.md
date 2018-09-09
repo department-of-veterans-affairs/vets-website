@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: Testing and Storage Areas Outside of Vietnam
+title: Testing and Storage
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 template: detail-page
-order: 5
+order: 10
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/
 ---
