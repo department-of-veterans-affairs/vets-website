@@ -41,7 +41,7 @@ Requires a collection.
     {% if next != empty %}
     <li class="va-navigation-nextprevious-next">
       <strong>Next</strong>
-      {% if previous.href != empty %}
+      {% if next.href != empty %}
         <a href="{{ next.href }}" target="{{ next.target }}" onClick="recordEvent({ event: 'nav-next-link-clicked' });">
       {% else %}
         <a href="/{{ next.path }}" onClick="recordEvent({ event: 'nav-next-link-clicked' });">
