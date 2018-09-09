@@ -2,8 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Compensation for Survivors and Dependents
-display_title: Compensation
-order: 2
+display_title: Survivor and Dependent Compensation (DIC)
+order: 5
+collection: burials
+spoke: Get Benefits
 aliases:
   - /burials-and-memorials/survivor-and-dependent-benefits/compensation/
 ---

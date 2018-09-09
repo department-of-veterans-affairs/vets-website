@@ -4,6 +4,8 @@ template: detail-page
 title: Burial and Memorial Benefits Eligibility
 display_title: Eligibility
 collection: burials
+children: burialsEligibility
+spoke: Get Benefits
 order: 1
 
 aliases:

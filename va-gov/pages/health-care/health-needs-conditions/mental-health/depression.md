@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Depression Treatment for Veterans
-display_title:
+display_title: Depression
 concurrence: complete
 lastupdate: 2017-06-28
 order: 2
