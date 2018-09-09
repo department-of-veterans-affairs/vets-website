@@ -18,7 +18,7 @@ crosslinks:
     - url: "#"
       title: <b>Disability Housing Grants for Veterans</b>
       description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
-    - url:  https://benefits.va.gov/fiduciary/index.asp
+    - url:  https://www.benefits.va.gov/fiduciary/index.asp
       title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
     - url: "/health-care/about-va-health-benefits/long-term-care/"
@@ -180,7 +180,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/compensation/resources_comp01.asp" target="_blank"><b>View VA Disability Compensation Rates</b></a>
+    <a href="https://www.benefits.va.gov/compensation/rates-index.asp" target="_blank"><b>View VA Disability Compensation Rates</b></a>
     <p>See the Veterans compensation benefits rates tables to find your rate based on your disability rating and dependents.</p>
   </div>
 
