@@ -5,7 +5,7 @@ display_title: Illnesses within 1 Year of Disharge
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 3
+order: 4
 relatedlinks:
   - heading: More information about filing disability claims
     links:
