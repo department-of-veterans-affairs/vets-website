@@ -36,70 +36,82 @@
     "pattern": "disability/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Disability Benefits"
+      "name": "Disability Benefits",
+      "icon": "fa-handshake"
     }
   },
   "disabilityAfterYouApply": {
     "pattern": "disability/after-you-file-claim/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "After You Apply"
+      "name": "After You Apply",
+      "icon": "fa-handshake"
+
     }
   },
   "disabilityApply": {
     "pattern": "disability/how-to-file-claim/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "How to Apply"
+      "name": "How to Apply",
+      "icon": "fa-handshake"
     }
   },
   "disabilityClaimsAppeal": {
     "pattern": "disability/file-an-appeal/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Appeals"
+      "name": "Appeals",
+      "icon": "fa-handshake"
     }
   },
   "disabilityClaimTypes": {
     "pattern": "disability/how-to-file-claim/when-to-file/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Claim Types"
+      "name": "Claim Types",
+      "icon": "fa-handshake"
+
     }
   },
   "disabilityClaimTypesPredischarge": {
     "pattern": "disability/how-to-file-claim/when-to-file/pre-discharge-claim/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Pre-discharge Claim"
+      "name": "Pre-discharge Claim",
+      "icon": "fa-handshake"
     }
   },
   "disabilityConditions": {
     "pattern": "disability-benefits/conditions/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Conditions"
+      "name": "Conditions",
+      "icon": "fa-handshake"
     }
   },
   "disabilityConditionsExposure": {
     "pattern": "disability/eligibility/hazardous-materials-exposure/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Contact with Hazardous Materials"
+      "name": "Contact with Hazardous Materials",
+      "icon": "fa-handshake"
     }
   },
   "disabilityConditionsSpecial": {
     "pattern": "disability/eligibility/special-claims/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Special Claims"
+      "name": "Special Claims",
+      "icon": "fa-handshake"
     }
   },
   "disabilityConditionsAgentOrange": {
     "pattern": "disability/eligibility/hazardous-materials-exposure/agent-orange/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Agent Orange"
+      "name": "Agent Orange",
+      "icon": "fa-handshake"
     }
   },
   "disabilityEligibility": {
@@ -114,28 +126,32 @@
     "pattern": "disability/how-to-file-claim/evidence-needed/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "How to Gather Evidence for Your Claim"
+      "name": "How to Gather Evidence for Your Claim",
+      "icon": "fa-handshake"
     }
   },
   "disabilityAboutRatings": {
     "pattern": "disability/about-disability-ratings/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "About Disability Ratings"
+      "name": "About Disability Ratings",
+      "icon": "fa-handshake"
     }
   },
   "disabilityFullyDevelopedClaims": {
     "pattern": "disability/how-to-file-claim/evidence-needed/fully-developed-claims/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Fully Developed Claims"
+      "name": "Fully Developed Claims",
+      "icon": "fa-handshake"
     }
   },
   "disabilityAddRemoveDependents": {
     "pattern": "/disability/add-remove-dependent/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Add remove Dependents"
+      "name": "Add remove Dependents",
+      "icon": "fa-handshake"
     }
   },
   "education": {
