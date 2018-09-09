@@ -18,7 +18,7 @@ relatedlinks:
     - url: /burials-memorials/plan-a-burial/
       title: Burial Planning
       description: Find out the steps you’ll need to take to arrange for a Servicemember, Veteran, or eligible family member’s burial.
-    - url: /burials-and-memorials/what-to-expect-at-a-funeral/
+    - url: /burials-memorials/what-to-expect-at-military-funeral/
       title: What to Expect at a Memorial Service
       description: Find out what will happen to help you prepare for this day.
     - url: /pension/survivors-pension/
