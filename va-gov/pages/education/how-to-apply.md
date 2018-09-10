@@ -78,7 +78,7 @@ Work with your school’s certifying official. This person is usually in the Reg
 
 #### With the help of a trained professional
 You can work with a trained professional called an accredited representative to get help applying for education benefits. <br/>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 </div>
 </div>

@@ -79,7 +79,7 @@ First, contact your school’s certifying official to make sure your program is 
 
 #### If you haven’t started school or a training program:
 - Get help from a trained professional trusted to help with VA-related claims. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 - Get more information about schools and see if we’ve approved your program. <br>
 [Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
 
