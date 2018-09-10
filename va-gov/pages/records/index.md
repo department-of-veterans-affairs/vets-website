@@ -13,7 +13,7 @@ promo:
     url: "#"
     description: Apply for your Veteran ID Card to get Veteran discounts on goods and services.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: All VA Organizations
     url: https://va.gov/landing_organizations.htm
     subsections:
