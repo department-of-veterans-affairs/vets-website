@@ -169,11 +169,15 @@ export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
 }
 
 /**
- * Provides an issue example tooltip with the provided text
+ * Provides an issue example label and description with the provided text
+ * @param {string} Label text
  * @param {string} Example text
  */
 export const getIssueLabel = (labelText, exampleText) => {
-  return (<div><p>{labelText}</p><p><i>{exampleText}</i></p></div>);
+  return (<div>
+    {labelText}<br/>
+    <span><i>{exampleText}</i></span>
+  </div>);
 };
 
 export const transcriptReleaseLabel = getIssueLabel('Release of transcripts', 'The school won’t release your transcripts.');
