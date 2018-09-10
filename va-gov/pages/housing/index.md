@@ -22,10 +22,37 @@ crosslinks:
       title: <b>Pension Benefits</b>
       description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
 social:
-  heading: Connect with Us
-  administration:
-    title: Veterans Benefits Administration
+  - heading: Connect with Us
+    admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: tel:1-800-827-1000
+          number: 1-800-827-1000
+          title: "VA Benefits Hotline:"
+        - url: tel:1-800-983-0937
+          number: 1-800-983-0937
+          title: "eBenefits Technical Support:"
+        - url: tel:1-877-4AID-VET (1-877-424-3838)
+          number: 1-877-4AID-VET (1-877-424-3838)
+          title: "National Call Center for Homeless Veterans:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+          label: Veterans Benefits Email Updates
+          icon: fa-envelope-square
+        - url: https://twitter.com/VAVetBenefits
+          label: Veterans Benefits Twitter
+          icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransBenefits"
+          label: Veterans Benefits Facebook
+          icon: fa-facebook
+        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+          label: Veterans Benefits YouTube
+          icon: fa-youtube
 
 ---
 <p class="va-introtext">
@@ -89,11 +116,6 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <div class="link">
     <a href="#"><b>How to Apply for Your Certificate of Eligibility</b></a>
     <p>Get instructions for how to apply for your VA home loan Certificate of Eligibility (COE)—and what to do next depending on your loan type.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Apply Online for Your COE (VA Form 26-1880)</b></a>
-    <p>Start your online application now.</p>
   </div>
 
   <div class="link">

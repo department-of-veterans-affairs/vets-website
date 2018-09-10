@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 
-import ErrorableCheckboxes from './ErrorableCheckboxes';
+import ErrorableCheckboxGroup from '@department-of-veterans-affairs/formation/ErrorableCheckboxGroup';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
 
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
@@ -183,7 +183,7 @@ class DisabilityWizard extends React.Component {
               value={{ value: this.groupDisabilityStatus() }}/>
             }
             {isChoosingUpdate() &&
-            <ErrorableCheckboxes
+            <ErrorableCheckboxGroup
               name="disabilityUpdate"
               label={labelText}
               id="disabilityUpdate"

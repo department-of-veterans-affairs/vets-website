@@ -7,10 +7,10 @@ order: 4
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links: 
-    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+    - url: /disability/how-to-file-claim/when-to-file/pre-discharge-claim/
       title: Disability Benefits Pre-discharge Claim
       description: Find out how to file a disability claim as you're getting ready to leave the military to speed up the decision process.
-    - url: /health-care/apply/
+    - url: /health-care/how-to-apply/
       title: How to Apply for Health Care Benefits
       description: Find out how to apply for VA health care.
     - url: /life-insurance/options-and-eligibility/s-dvi/

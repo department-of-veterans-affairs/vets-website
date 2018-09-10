@@ -8,15 +8,48 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
 
 <div class='merger-r-rail'>
 
-    {% if social.heading != empty %}
+  {% for group in social %}
+
+    {% if group.heading != empty %}
       <div class='rail-heading'>
-        <h4>{{ social.heading }}</h4>
+        <h4>{{ group.heading }}</h4>
       </div>
     {% endif %}
 
-    {% if social.administration != empty %}
+    <h4 class='va-nav-linkslist-list'>
+      <a href="{{group.url}}">{{group.admin}}</a>
+    </h4>
 
-      <h4><a href="{{ social.administration.url }}">{{ social.administration.title }}</a>
+
+    {% if group.subsections.length > 0 %}
+
+      {% for subs in group.subsections %}
+
+      <section>
+        <ul class="va-nav-linkslist-list social">
+          <h4>{{ subs.subhead }}</h4>
+          {% for link in subs.links %}
+            {% if link.url != empty %}
+              <li>
+                <a href="{{link.url}}">
+                  {% if link.icon != empty %}
+                    <i class="fa fab {{link.icon}}"></i>
+                  {% endif %}
+
+                  {% if link.label != empty %}
+                    {{link.label}}
+                  {% else %}
+                    <span>{{link.title}}</span><br>
+                    <span>{{link.number}}</span>
+                  {% endif %}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </section>
+
+      {% endfor %}
 
     {% endif %}
 

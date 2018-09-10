@@ -14,7 +14,7 @@ majorlinks:
     - url: /health-care/
       title: Health Care
       description: Apply for VA health care, find out how to access services, and manage your health and benefits online.
-    - url: /education-training/
+    - url: /education/
       title: Education and Training
       description: Apply for and manage your GI Bill and other education benefits to help pay for college and training programs.
     - url: /housing/
@@ -29,9 +29,9 @@ majorlinks:
     - url: /pension/
       title: Pension
       description: Apply for monthly payments for wartime Veterans and survivors with limited or no income who meet certain age and disability requirements.
-    - url: /burials/
+    - url: /burials-memorials/
       title: Burials and Memorials
-      description: Get help planning a burial in a VA national cemetery, order a headstone or other memorial item to honor a Veteran's service, and apply for survivor and dependent benefits.      
+      description: Get help planning a burial in a VA national cemetery, order a headstone or other memorial item to honor a Veteran's service, and apply for survivor and dependent benefits.
     - url: /records/
       title: Records
       description: Apply for a printed Veteran ID card, get your VA benefit letters and medical records, and learn how to apply for a discharge upgrade.

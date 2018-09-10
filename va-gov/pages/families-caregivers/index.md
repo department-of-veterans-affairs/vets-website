@@ -30,28 +30,28 @@ As the family member of a Servicemember or Veteran, you may qualify for certain 
 
 ### Health Care Benefits
 If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. <br>
-[Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/).
+[Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-benefits/).
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
 - [Learn about health care benefits for Servicemembers and Veterans](/health-care/). <br>
-- [Learn about disability benefits for Servicemembers and Veterans](/disability-benefits/).
+- [Learn about disability benefits for Servicemembers and Veterans](/disability/).
 
 <span id="education-benefits">
 
 ### Education Benefits
-If you’re the dependent or surviving spouse or child of a Veteran, you may qualify for education and training benefits. 
+If you’re the dependent or surviving spouse or child of a Veteran, you may qualify for education and training benefits.
 Find out if you qualify for:
 
 - [Survivors’ and Dependents’ Assistance
-(education and training opportunities, plus help paying for school)](/education/gi-bill/survivors-dependent-assistance/)<br>
+(education and training opportunities, plus help paying for school)](/education/survivor-dependent-benefits/)<br>
 - [Free educational and career counseling services](/education/tools-programs/education-career-counseling/)<br>
-- [Work study (a part-time job while you're in school)](/education/work-learn/workstudy/)<br>
+- [Work study (a part-time job while you're in school)](/education/about-gi-bill-benefits/how-to-use-benefits/work-study/)<br>
 
-[Use the GI Bill Comparison Tool to see what benefits you’ll get at different schools](/gi-bill-comparison-tool/).<br>
-[Find out how to apply for education benefits](/education/apply/).<br>
+[Use the GI Bill Comparison Tool to see what benefits you’ll get at different schools](/education/gi-bill-school-comparison-tool).<br>
+[Find out how to apply for education benefits](/education/how-to-apply/).<br>
 
 If your Veteran qualifies for the Post-9/11 GI Bill but doesn’t use all their benefits, they may be able to transfer up to 36 months of those unused benefits to you. <br>
-[Find out if your Veteran can transfer benefits to you](/education/gi-bill/transfer/).
+[Find out if your Veteran can transfer benefits to you](/education/transfer-post-9-11-gi-bill-benefits/).
 
 **Looking for education and training information on behalf of a Servicemember or Veteran?**<br>
 [Learn about education and training benefits for Servicemembers and Veterans](/education/).
@@ -121,19 +121,19 @@ If you need help with your daily activities—or you’re housebound—you may a
 
 ### Burials and Memorials
 
-If you’d like to find out in advance if you can be buried in a VA national cemetery, you can apply for a pre-need determination of eligibility. [Apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/).
+If you’d like to find out in advance if you can be buried in a VA national cemetery, you can apply for a pre-need determination of eligibility. [Apply for a pre-need eligibility determination](/burials-memorials/pre-need-eligibility/).
 
 If a Servicemember, Veteran, or eligible spouse or dependent child in your family dies, we’re here to help you through the process of planning their burial and memorial.
 
-[Learn about how to plan a burial for a deceased family member](/burials-and-memorials/burial-planning/).<br>
-[See if the deceased qualifies for burial in a VA national cemetery and other burial honors](/burials-and-memorials/eligibility/).<br>
-[Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). <br>
-[Get support through bereavement counseling after the death of a loved one](/burials-and-memorials/bereavement-counseling/).
+[Learn about how to plan a burial for a deceased family member](/burials-memorials/plan-a-burial/).<br>
+[See if the deceased qualifies for burial in a VA national cemetery and other burial honors](/burials-memorials/eligibility/).<br>
+[Find out what to expect at a memorial service](/burials-memorials/what-to-expect-at-military-funeral/). <br>
+[Get support through bereavement counseling after the death of a loved one](/burials-memorials/bereavement-counseling/).
 
 #### Survivor and Dependent Benefits
-If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral. [Find out if you qualify for burial allowances and survivor compensation](/burials-and-memorials/survivor-and-dependent-benefits/).
+If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral. [Find out if you qualify for burial allowances and survivor compensation](/burials-memorials/dependency-indemnity-compensation/).
 
-If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/). 
+If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-memorials/bereavement-counseling/). 
 <br>
 
 <span id="housing-assistance">
@@ -155,9 +155,9 @@ If you have a VA-backed home loan and you’re having trouble making your mortga
 
 ### Caregiver Support
 
-If you’re a family member caring for a Veteran with disabilities who was injured in the line of duty on or after September 11, 2001, you may qualify for supportive benefits and services through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for comprehensive assistance and how to apply](/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers).
+If you’re a family member caring for a Veteran with disabilities who was injured in the line of duty on or after September 11, 2001, you may qualify for supportive benefits and services through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for comprehensive assistance and how to apply](/health-care/family-caregiver-benefits/comprehensive-assistance).
 
-Your Veteran may also qualify for assisted living, residential (live-in), or home health care through VA. This may include support for you as the caregiver if you need skilled help or a break so you can work, travel, or run errands. [Learn more about these long-term care services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
+Your Veteran may also qualify for assisted living, residential (live-in), or home health care through VA. This may include support for you as the caregiver if you need skilled help or a break so you can work, travel, or run errands. [Learn more about these long-term care services](/health-care/about-va-health-benefits/long-term-care/).
 
 We also have trained Caregiver Support Coordinators at each of our VA medical centers and a Caregiver Peer Support Mentoring Program to help connect caregivers to one another for support and learning.
 If you need help accessing services, help connecting with your local Caregiver Support Coordinator, or just a listening ear, call our toll-free Caregiver Support Line at 1-855-260-3274. Our caring, licensed professionals are ready to help.

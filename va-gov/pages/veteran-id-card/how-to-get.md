@@ -120,5 +120,3 @@ No. At this time, you don't qualify for a Veteran ID Card based on your service 
 </div>
 
 <br>
-
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>

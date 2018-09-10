@@ -6,7 +6,7 @@
 
 Requires a collection.
 
-  - To define a collection, edit `script/build.js`. Look for the line that
+  - To define a collection, add an object to the .json file in script/collections. Look for the line that
     begins `smith.use(collections`
 
   - Collections are global, and available in a `collections` object.
@@ -24,7 +24,11 @@ Requires a collection.
     {% if previous != empty %}
     <li class="va-navigation-nextprevious-previous">
       <strong>Previous</strong>
-      <a href="/{{ previous.path }}" onClick="recordEvent({ event: 'nav-prev-link-clicked' });">
+      {% if previous.href != empty %}
+        <a href="{{ previous.href }}" target="{{ previous.target }}" onClick="recordEvent({ event: 'nav-prev-link-clicked' });">
+      {% else %}
+        <a href="/{{ previous.path }}" onClick="recordEvent({ event: 'nav-prev-link-clicked' });">
+      {% endif %}
         {% if previous.display_title %}
           {{ previous.display_title }}
         {% else %}
@@ -37,7 +41,11 @@ Requires a collection.
     {% if next != empty %}
     <li class="va-navigation-nextprevious-next">
       <strong>Next</strong>
-      <a href="/{{ next.path }}" onClick="recordEvent({ event: 'nav-next-link-clicked' });">
+      {% if next.href != empty %}
+        <a href="{{ next.href }}" target="{{ next.target }}" onClick="recordEvent({ event: 'nav-next-link-clicked' });">
+      {% else %}
+        <a href="/{{ next.path }}" onClick="recordEvent({ event: 'nav-next-link-clicked' });">
+      {% endif %}
         {% if next.display_title %}
           {{ next.display_title }}
         {% else %}
