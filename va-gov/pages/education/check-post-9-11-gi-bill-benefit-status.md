@@ -6,14 +6,13 @@ layout: page-react.html
 description:
 concurrence:
 collection: education
-order:
 aliases:
   - /education/gi-bill/post-9-11/ch-33-benefit
 includeBreadcrumbs: true
 in_maintenance: false
 maintenance_line1: We’re sorry. Our system is temporarily down while we fix a few things. Please try again later.
 spoke: Manage Benefits
-order: 2
+order: 9
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">

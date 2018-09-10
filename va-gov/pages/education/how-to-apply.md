@@ -5,7 +5,8 @@ title: How to Apply for Education Benefits
 display_title: How to Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act.
 collection: education
-order: 2
+spoke: Get Benefits
+order: 3
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
@@ -30,7 +31,7 @@ aliases:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for VA education benefits as a Veteran, Servicemember, or qualified family member. 
+Find out how to apply for VA education benefits as a Veteran, Servicemember, or qualified family member.
 
 </div>
 

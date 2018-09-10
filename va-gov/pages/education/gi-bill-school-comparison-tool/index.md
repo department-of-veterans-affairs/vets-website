@@ -10,4 +10,3 @@ aliases:
   - /gi-bill-comparison-tool
 spoke: More Resources
 ---
-

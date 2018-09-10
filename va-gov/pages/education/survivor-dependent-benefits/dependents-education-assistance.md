@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Survivors’ and Dependents’ Educational Assistance Program
-display_title: Educational Assistance Program
+display_title: Dependents Education Assistance (DEA)
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 order: 2
@@ -12,7 +12,7 @@ aliases:
 
 <div class="va-introtext">
 
-Find out if you can get help paying for school or job training through the Survivors’ and Dependents’ Educational Assistance (DEA) program—also called Chapter 35—if you’re the child or spouse of a Veteran who has died or is disabled. 
+Find out if you can get help paying for school or job training through the Survivors’ and Dependents’ Educational Assistance (DEA) program—also called Chapter 35—if you’re the child or spouse of a Veteran who has died or is disabled.
 
 </div>
 

@@ -264,6 +264,54 @@
       "icon": "fa-book"
     }
   },
+  "eductionHowToUseBenefits": {
+    "pattern": "education/about-gi-bill-benefits/how-to-use-benefits/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Choosing a School",
+      "icon": "fa-book"
+    }
+  },
+  "educationYellowRibbonProgram": {
+    "pattern": "education/about-gi-bill-benefits/yellow-ribbon-program/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Yellow Ribbon Program",
+      "icon": "fa-book"
+    }
+  },
+  "educationPost911": {
+    "pattern": "education/about-gi-bill-benefits/post-9-11/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Post 9/11",
+      "icon": "fa-book"
+    }
+  },
+  "educationNationalCallToServiceProgram": {
+    "pattern": "education/other-va-education-benefits/national-call-to-service-program/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "National Call To Service Program",
+      "icon": "fa-book"
+    }
+  },
+  "educationInformationSharingOptOut": {
+    "pattern": "education/information-sharing-opt-out/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Information Sharing Opt Out",
+      "icon": "fa-book"
+    }
+  },
+  "educationChangeGIBillBenefits": {
+    "pattern": "education/change-gi-bill-benefits/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Change GI Bill Benefits",
+      "icon": "fa-book"
+    }
+  },
   "healthCare": {
     "sortBy": "order",
     "metadata": {

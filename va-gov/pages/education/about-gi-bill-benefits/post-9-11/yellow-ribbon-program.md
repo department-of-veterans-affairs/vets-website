@@ -4,7 +4,8 @@ template: detail-page
 title: Yellow Ribbon Program
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
-order: 9
+children: educationYellowRibbonProgram
+order: 1
 aliases:
   - /education/gi-bill/yellow-ribbon/
 ---
