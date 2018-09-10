@@ -507,8 +507,67 @@
   width: 100%;
 }
 
+.facility-phone-alt {
+  display: table;
+  margin-left: 33px;
+}
+
+.cc-info-link-span {
+  float: right;
+  text-align: right;
+}
+
 .cc-info-link {
+  display: inline-block;
+  font-size: 1.2rem;
+  background-image: none;
+  text-align: right;
   text-decoration: none;
+  text-align: right;
+  padding: 0!important;
+}
+
+.cc-info-link-icon {
+  margin: 0!important;
+  font-size: 2.2rem!important;
+  vertical-align: -0.2rem;
+  cursor: pointer;
+}
+
+#facility-dropdown-label {
+  position: relative;
+}
+
+#infoBubble {
+  background-color: yellow;
+  color: inherit;
+  text-align: left;
+  width: 84%;
+  position: absolute;
+  top: 0rem;
+  right: 2.1rem;
+  padding: 0.5rem;
+  box-shadow: 1px 1px 2px grey;
+  border-radius: 4px;
+  z-index: 9999;
+  span { 
+    float: right;
+    margin: 0;
+    font-size: 1.5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    cursor: pointer;
+  }
+  h6 { 
+    font-size: 1.4rem!important;
+    line-height: 1.6rem;
+    margin: 0 0 0.3rem 0;
+  }
+  p { 
+    margin: 0!important;
+    font-size: 1.3rem;
+    line-height: 1.6rem;
+  }
+  a { font-size: 1.1rem; }
 }
 
 .no-marg-right {
