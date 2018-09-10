@@ -9,12 +9,13 @@ import createOptOutApplicationStatus from '../edu-benefits/components/createOptO
 import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
 
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
-const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
+const healthcarePages = new Set(['/health-care/', '/health-care/how-to-apply/', '/health-care/eligibility/']);
 const burialPages = new Set([
   '/burials-and-memorials/',
-  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/'
+  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/',
+  '/burials-memorials/veterans-burial-allowance/'
 ]);
-const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
+const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/', '/education/how-to-apply/']);
 const eduOptOutPage = '/education/opt-out-information-sharing/';
 const disabilityPages = new Set(['/disability-benefits/', '/disability-benefits/apply/', '/disability-benefits/eligibility/']);
 
@@ -41,7 +42,7 @@ if (healthcarePages.has(location.pathname)) {
     formId: '1010ez',
     applyHeading: 'How do I apply?',
     additionalText: 'You can apply online right now.',
-    applyLink: '/health-care/apply/',
+    applyLink: '/health-care/how-to-apply/',
     applyText: 'Apply for Health Care Benefits'
   });
 }

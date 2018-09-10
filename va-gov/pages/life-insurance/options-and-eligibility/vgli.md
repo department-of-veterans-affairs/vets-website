@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Veterans’ Group Life Insurance (VGLI)
 display_title: Veterans’ Group (VGLI)
-concurrence: 
+concurrence:
 order: 4
 relatedlinks:
   - heading: More information about your benefits
@@ -80,7 +80,7 @@ Fax the form to 1-800-236-6142, or mail it to:
 
 ### How much will I pay for these benefits?
 
-VGLI premium rates are based on your age and the amount of insurance coverage you want. 
+VGLI premium rates are based on your age and the amount of insurance coverage you want.
 
 **Choose your age to find monthly premium rates as of July 1, 2014.**
 
@@ -643,22 +643,22 @@ Yes. You can convert your policy into a commercial (civilian) policy at any time
 <ol class="process" markdown="1">
 
   <li class="process-step list-one">
-  
+
   Choose your new insurance company. <br>
   [View our list of companies that take part in this program]( https://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2016-06.pdf).
-  
+
   </li>
-  
+
   <li class="process-step list-two">
-  
+
   Apply at the local sales office of your chosen company.
-  
+
   </li>
-  
+
   <li class="process-step list-three">
-  
+
   Get a letter from OSGLI confirming that you have VGLI coverage (called a VGLI Conversion Notice) and give the letter to the agent who takes your application.
-  
+
   </li>
 </ol>
 
@@ -679,7 +679,3 @@ If you have a severe service-connected disability that we’ve concluded was cau
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](https://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
-
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
-
-<!--- TODO: find a proper place to import USWDS JS for static pages -->

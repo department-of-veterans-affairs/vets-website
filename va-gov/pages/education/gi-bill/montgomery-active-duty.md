@@ -82,7 +82,7 @@ Money for tuition or training
 -----
 
 ### How do I get these benefits?
-[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
+[Apply online now](/education/apply-for-gi-bill-form-1990/introduction).
 
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 
@@ -94,22 +94,22 @@ You may get up to 36 months of education benefits. We pay the benefits monthly a
 
 #### Related funding or training programs that fall under MGIB-AD
 
-- [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
-- [Co-op training](/education/work-learn/co-op-training/)
-- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
-- [Flight training](/education/advanced-training-and-certifications/flight-training/)
-- [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
-- [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
-- [Licensing and certification reimbursement](/education/advanced-training-and-certifications/licensing-certification/)
-- [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
-- [National testing reimbursement](/education/advanced-training-and-certifications/national-testing-program/)
-- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
-- [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
-- [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
-- [Accelerated payments for high-tech programs](/education/work-learn/non-traditional/accelerated-payments/)
-- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
+- [Correspondence training](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
+- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
+- [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
+- [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
+- [Independent and distance learning](/education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning/)
+- [Undergraduate and graduate degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/)
+- [Licensing and certification reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
+- [Non-college degree programs (technical or vocational courses)](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
+- [National testing reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
+- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
+- [Tuition Assistance Top-Up](/education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/)
+- [Tutorial Assistance](/education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/)
+- [Accelerated payments for high-tech programs](/education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs/)
+- [$600 Buy-Up program](/education/about-gi-bill-benefits/montgomery-active-duty/buy-up/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
 
-[Use the GI Bill Comparison Tool to compare benefits at schools](/gi-bill-comparison-tool/). <br>
+[Use the GI Bill Comparison Tool to compare benefits at schools](/education/gi-bill-school-comparison-tool). <br>
 [Read the Montgomery GI Bill Active Duty pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf).
 
 “GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” [Read our Terms of Use](https://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).

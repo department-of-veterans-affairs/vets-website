@@ -1,5 +1,6 @@
 import React from 'react';
 import Raven from 'raven-js';
+import get from '../../../platform/utilities/data/get';
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
@@ -62,21 +63,6 @@ export function setNotification(message) {
   return {
     type: SET_NOTIFICATION,
     message
-  };
-}
-
-export function getClaims(filter) {
-  return (dispatch) => {
-    dispatch({ type: FETCH_CLAIMS });
-
-    makeAuthRequest('/v0/evss_claims',
-      null,
-      dispatch,
-      claims => {
-        dispatch({ type: SET_CLAIMS, filter, claims: claims.data, meta: claims.meta });
-      },
-      () => dispatch({ type: SET_CLAIMS_UNAVAILABLE })
-    );
   };
 }
 
@@ -147,16 +133,59 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-export function getClaimsV2() {
+export function pollRequest({
+  onError,
+  onSuccess,
+  pollingInterval,
+  request = apiRequest,
+  shouldFail,
+  shouldSucceed,
+  target
+}) {
+  return request(
+    target,
+    null,
+    response => {
+      if (shouldSucceed(response)) {
+        onSuccess(response);
+        return;
+      }
+
+      if (shouldFail(response)) {
+        onError(response);
+        return;
+      }
+
+      setTimeout(
+        pollRequest,
+        pollingInterval,
+        { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed, target }
+      );
+    },
+    error => onError(error)
+  );
+}
+
+export function getSyncStatus(claimsAsyncResponse) {
+  return get('meta.syncStatus', claimsAsyncResponse, null);
+}
+
+export function getClaimsV2(poll = pollRequest) {
+
   return (dispatch) => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
-    return apiRequest(
-      '/evss_claims',
-      null,
-      (response) => dispatch(fetchClaimsSuccess(response)),
-      // TO-DO: parse out errors, log in Sentry
-      () => dispatch({ type: FETCH_CLAIMS_ERROR })
-    );
+
+    poll({
+      onError: response => {
+        Raven.captureException(`vets_claims_v2_err_get_claims ${getStatus(response)}`);
+        dispatch({ type: FETCH_CLAIMS_ERROR });
+      },
+      onSuccess: response => dispatch(fetchClaimsSuccess(response)),
+      pollingInterval: window.VetsGov.pollTimeout || 1000,
+      shouldFail: response => getSyncStatus(response) === 'FAILED',
+      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
+      target: '/evss_claims_async'
+    });
   };
 }
 
@@ -166,7 +195,6 @@ export function filterClaims(filter) {
     filter
   };
 }
-
 export function sortClaims(sortProperty) {
   return {
     type: SORT_CLAIMS,
@@ -193,23 +221,25 @@ export function setUnavailable() {
   };
 }
 
-export function getClaimDetail(id, router) {
+export function getClaimDetail(id, router, poll = pollRequest) {
   return (dispatch) => {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    makeAuthRequest(`/v0/evss_claims/${id}`,
-      null,
-      dispatch,
-      resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
-      resp => {
-        if (resp.status !== 404 || !router) {
+    poll({
+      onError: response => {
+        if (response.status !== 404 || !router) {
           dispatch({ type: SET_CLAIMS_UNAVAILABLE });
         } else {
           router.replace('your-claims');
         }
-      }
-    );
+      },
+      onSuccess: response => dispatch({ type: SET_CLAIM_DETAIL, claim: response.data, meta: response.meta }),
+      pollingInterval: window.VetsGov.pollTimeout || 1000,
+      shouldFail: response => getSyncStatus(response) === 'FAILED',
+      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
+      target: `/evss_claims_async/${id}`,
+    });
   };
 }
 

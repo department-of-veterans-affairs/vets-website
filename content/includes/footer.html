@@ -141,7 +141,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
   var widgets = {{ widgets | json }};
   var module = {};
   {% include "src/applications/static-pages/static-page-widgets.js" %}
-  mountWidgets(widgets);
+  mountWidgets(widgets, '{{ buildtype }}' === 'production');
 })();
 </script>
 {% endif %}

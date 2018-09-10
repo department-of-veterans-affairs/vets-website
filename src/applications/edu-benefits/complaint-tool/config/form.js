@@ -1,11 +1,15 @@
 import _ from 'lodash/fp';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/complaint-tool-schema.json';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup, validateMatch } from 'us-forms-system/lib/js/validation';
+
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import dataUtils from '../../../../platform/utilities/data/index';
+
+const { get, omit, set } = dataUtils;
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -14,72 +18,79 @@ import GetFormHelp from '../../components/GetFormHelp';
 
 import { transform, submit } from '../helpers';
 
-const { educationDetails } = fullSchema.properties;
-
-const { school } = educationDetails;
-
-const { schoolInformation } = school.oneOf[0];
-
-const domesticSchoolAddress = schoolInformation.oneOf[0];
-const internationalSchoolAddress = schoolInformation.oneOf[1];
-const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
-
-const configureSchoolAddressSchema = (schema) => {
-  let newSchema = _.unset('required', schema);
-  newSchema = _.set('properties.country.enum', countries, newSchema);
-  return _.set('properties.country.default', 'United States', newSchema);
-};
-
-const domesticSchoolAddressSchema = configureSchoolAddressSchema(domesticSchoolAddress);
-
-const internationalSchoolAddressSchema = configureSchoolAddressSchema(internationalSchoolAddress);
-
 const {
-  onBehalfOf,
+  address: applicantAddress,
+  anonymousEmail,
+  applicantEmail,
+  educationDetails,
   fullName,
+  issue,
+  issueDescription,
+  issueResolution,
+  onBehalfOf,
+  phone,
   serviceAffiliation,
   serviceBranch,
   serviceDateRange,
-  anonymousEmail,
-  applicantEmail,
-  address: applicantAddress,
-  phone,
-  issue,
-  issueDescription,
-  issueResolution
 } = fullSchema.properties;
 
+const { assistance, programs, school } = educationDetails;
+const { address: schoolAddress, name: schoolName } = school.oneOf[0].properties;
+const domesticSchoolAddress = schoolAddress.oneOf[0];
+const internationalSchoolAddress = schoolAddress.oneOf[1];
+const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
+
+function configureSchoolAddressSchema(schema) {
+  let newSchema = omit('required', schema);
+  newSchema = set('type', 'object', newSchema);
+  newSchema = set('properties.country.enum', countries, newSchema);
+  return set('properties.country.default', 'United States', newSchema);
+}
+
+const domesticSchoolAddressSchema = configureSchoolAddressSchema(domesticSchoolAddress);
+const internationalSchoolAddressSchema = configureSchoolAddressSchema(internationalSchoolAddress);
+
 const {
-  usaPhone,
   date,
-  dateRange
+  dateRange,
+  usaPhone,
 } = fullSchema.definitions;
 
 const myself = 'Myself';
 const someoneElse = 'Someone else';
 const anonymous = 'Anonymous';
-const anonymousLabel = 'I want to submit my feedback anonymously'; // Only anonymous has a label that differs form its value
 
 function isNotAnonymous(formData) {
-  if (!!formData && formData !== anonymous) {
-    return true;
-  }
-  return false;
+  return formData.onBehalfOf !== anonymous;
 }
 
-function hasNotAnonymous(formData) {
-  return !!formData && (formData.onBehalfOf !== anonymous);
+function isMyself(formData) {
+  return formData.onBehalfOf === myself;
 }
 
-function hasMyself(formData) {
-  return !!formData && (formData.onBehalfOf === myself);
+function isNotMyself(formData) {
+  return formData.onBehalfOf === someoneElse || formData.onBehalfOf === anonymous;
 }
 
-function isNotVeteranOrServiceMember(formData) {
-  if (!formData.serviceAffiliation || ((formData.serviceAffiliation !== 'Servicemember') && (formData.serviceAffiliation !== 'Veteran'))) {
-    return true;
-  }
-  return false;
+function isVeteranOrServiceMember(formData) {
+  const nonServiceMemberOrVeteranAffiliations = ['Spouse', 'Child', 'Other'];
+  return !isNotMyself(formData) && !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation); // We are defining this in the negative to prevent prefilled data from being hidden, and therefore deleted by default
+}
+
+function manualSchoolEntryIsChecked(formData) {
+  return get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData);
+}
+
+function manualSchoolEntryIsNotChecked(formData) {
+  return !manualSchoolEntryIsChecked(formData);
+}
+
+function isUS(formData) {
+  return get('educationDetails.school.view:manualSchoolEntry.address.country', formData) === 'United States';
+}
+
+function manualSchoolEntryIsCheckedAndIsUS(formData) {
+  return manualSchoolEntryIsChecked(formData) && isUS(formData);
 }
 
 const formConfig = {
@@ -109,9 +120,9 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
+        applicantRelationship: {
+          path: 'applicant-relationship',
+          title: 'Applicant Relationship',
           uiSchema: {
             onBehalfOf: {
               'ui:widget': 'radio',
@@ -125,61 +136,6 @@ const formConfig = {
                 expandUnderClassNames: 'schemaform-expandUnder',
               }
             },
-            fullName: _.merge(fullNameUI, {
-              prefix: {
-                'ui:title': 'Prefix',
-                'ui:options': {
-                  widgetClassNames: 'form-select-medium'
-                }
-              },
-              first: {
-                'ui:title': 'Your first name',
-                'ui:required': hasNotAnonymous
-              },
-              last: {
-                'ui:title': 'Your last name',
-                'ui:required': hasNotAnonymous
-              },
-              middle: {
-                'ui:title': 'Your middle name'
-              },
-              suffix: {
-                'ui:title': 'Your suffix'
-              },
-              'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: isNotAnonymous
-              }
-            }),
-            serviceAffiliation: { // could wrap service info in an object
-              'ui:title': 'Service affiliation',
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: myself
-              },
-              'ui:required': hasMyself,
-            },
-            serviceBranch: {
-              'ui:title': 'Branch of service',
-              'ui:options': {
-                hideIf: isNotVeteranOrServiceMember,
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: myself
-              }
-            },
-            serviceDateRange: _.merge(dateRangeUI(
-              'Service start date',
-              'Service end date',
-              'End of service must be after start of service'
-            ), {
-              'ui:options':
-              {
-                hideIf: isNotVeteranOrServiceMember,
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: myself
-              }
-            }),
             anonymousEmail: {
               'ui:title': 'Email',
               'ui:options': {
@@ -194,12 +150,72 @@ const formConfig = {
               'onBehalfOf',
             ],
             properties: {
-              onBehalfOf: _.set('enumNames', [myself, someoneElse, anonymousLabel], onBehalfOf),
-              fullName,
-              serviceAffiliation,
-              serviceBranch,
-              serviceDateRange,
+              onBehalfOf,
               anonymousEmail
+            }
+          }
+        },
+        applicantInformation: {
+          path: 'applicant-information',
+          title: 'Applicant Information',
+          depends: isNotAnonymous,
+          uiSchema: {
+            fullName: _.merge(fullNameUI, {
+              prefix: {
+                'ui:title': 'Prefix',
+                'ui:options': {
+                  widgetClassNames: 'form-select-medium'
+                }
+              },
+              first: {
+                'ui:title': 'Your first name'
+              },
+              last: {
+                'ui:title': 'Your last name'
+              },
+              middle: {
+                'ui:title': 'Your middle name'
+              },
+              suffix: {
+                'ui:title': 'Your suffix'
+              },
+              'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
+            }),
+            serviceAffiliation: {
+              'ui:title': 'Service affiliation',
+              'ui:required': isMyself,
+              'ui:options': {
+                hideIf: isNotMyself
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              fullName: set('required', ['first', 'last'], fullName),
+              serviceAffiliation
+            }
+          }
+        },
+        serviceInformation: {
+          path: 'service-information',
+          title: 'Service Information',
+          depends: isVeteranOrServiceMember,
+          uiSchema: {
+            serviceBranch: {
+              'ui:title': 'Branch of service',
+            },
+            serviceDateRange: dateRangeUI(
+              'Service start date',
+              'Service end date',
+              'End of service must be after start of service'
+            )
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              serviceBranch,
+              serviceDateRange
             }
           }
         },
@@ -234,6 +250,9 @@ const formConfig = {
                 }
               }
             },
+            'ui:validations': [
+              validateMatch('applicantEmail', 'view:applicantEmailConfirmation')
+            ],
             applicantEmail: {
               'ui:title': 'Email address',
               'ui:errorMessages': {
@@ -306,67 +325,20 @@ const formConfig = {
             properties: {
               educationDetails: {
                 type: 'object',
+                required: ['programs'],
                 properties: {
-                  programs: {
-                    type: 'object',
-                    properties: {
-                      'Post-9/11 Ch 33': { // TODO: update schema and use here
-                        type: 'boolean',
-                        title: 'Post-9/11 GI Bill (Chapter 33)'
-                      },
-                      'MGIB-AD Ch 30': {
-                        type: 'boolean',
-                        title: 'Montgomery GI Bill - Active Duty (MGIB-AD, Chapter 30)'
-                      },
-                      'MGIB-SR Ch 1606': {
-                        type: 'boolean',
-                        title: 'Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606)'
-                      },
-                      TATU: {
-                        type: 'boolean',
-                        title: 'Tuition Assistance Top-Up'
-                      },
-                      REAP: {
-                        type: 'boolean',
-                        title: 'Reserve Educational Assistance Program (REAP) (Chapter 1607)'
-                      },
-                      'DEA Ch 35': {
-                        type: 'boolean',
-                        title: 'Survivors’ and Dependents’ Assistance (DEA) (Chapter 35)'
-                      },
-                      'VRE Ch 31': {
-                        type: 'boolean',
-                        title: 'Vocational Rehabilitation and Employment (VR&E) (Chapter 31)'
-                      }
-                    }
-                  },
+                  programs,
                   assistance: {
                     type: 'object',
                     properties: {
                       'view:assistance': {
                         type: 'object',
-                        properties: {
-                          TA: {
-                            type: 'boolean',
-                            title: 'Federal Tuition Assistance (TA)'
-                          },
-                          'TA-AGR': {
-                            type: 'boolean',
-                            title: 'State-funded Tuition Assistance (TA) for Servicemembers on Active Guard and Reserve (AGR) duties'
-                          },
-                          MyCAA: {
-                            type: 'boolean',
-                            title: 'Military Spouse Career Advancement Accounts (MyCAA)'
-                          }
-                        }
+                        properties: omit('FFA', assistance.properties)
                       },
                       'view:FFA': {
                         type: 'object',
                         properties: {
-                          FFA: {
-                            type: 'boolean',
-                            title: 'Federal financial aid'
-                          }
+                          FFA: get('properties.FFA', assistance)
                         }
                       }
                     }
@@ -387,40 +359,40 @@ const formConfig = {
           uiSchema: {
             educationDetails: {
               school: {
-                facilityCode: {
+                facilityCode: { // Can we unnest this?
                   facilityCode: {
-                    'ui:required': formData => !_.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                    'ui:required': manualSchoolEntryIsNotChecked,
                   },
                   'ui:field': SchoolSelectField,
                 },
                 'view:manualSchoolEntry': {
                   name: {
                     'ui:title': 'School name',
-                    'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                    'ui:required': manualSchoolEntryIsChecked
                   },
                   address: {
                     street: {
                       'ui:title': 'Address line 1',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                      'ui:required': manualSchoolEntryIsChecked
                     },
                     street2: {
                       'ui:title': 'Address line 2'
                     },
                     city: {
                       'ui:title': 'City',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                      'ui:required': manualSchoolEntryIsChecked
                     },
                     state: {
                       'ui:title': 'State',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData) &&  (_.get('educationDetails.school["view:manualSchoolEntry"].address.country', formData) === 'United States')
+                      'ui:required': manualSchoolEntryIsCheckedAndIsUS
                     },
                     country: {
                       'ui:title': 'Country',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData)
+                      'ui:required': manualSchoolEntryIsChecked
                     },
                     postalCode: {
                       'ui:title': 'Postal code',
-                      'ui:required': formData => _.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                      'ui:required': manualSchoolEntryIsCheckedAndIsUS,
                       'ui:errorMessages': {
                         pattern: 'Please enter a valid 5 digit postal code'
                       },
@@ -430,16 +402,15 @@ const formConfig = {
                     },
                     'ui:options': {
                       updateSchema: (formData) => {
-                        const schoolCountry = _.get('educationDetails.school.view:manualSchoolEntry.address.country', formData);
-                        if (schoolCountry !== 'United States') {
-                          return internationalSchoolAddressSchema;
+                        if (isUS(formData)) {
+                          return domesticSchoolAddressSchema;
                         }
-                        return domesticSchoolAddressSchema;
+                        return internationalSchoolAddressSchema;
                       }
                     }
                   },
                   'ui:options': {
-                    hideIf: formData => !_.get('educationDetails.school.facilityCode.view:manualSchoolEntryChecked', formData),
+                    hideIf: manualSchoolEntryIsNotChecked,
                   }
                 }
               }
@@ -454,7 +425,7 @@ const formConfig = {
                   school: {
                     type: 'object',
                     properties: {
-                      facilityCode: { // TODO: determine whether to store facility ID
+                      facilityCode: {
                         type: 'object',
                         properties: {
                           facilityCode: {
@@ -465,8 +436,8 @@ const formConfig = {
                       'view:manualSchoolEntry': {
                         type: 'object',
                         properties: {
-                          name: schoolInformation.properties.name,
-                          address: domesticSchoolAddress
+                          name: schoolName,
+                          address: domesticSchoolAddressSchema
                         }
                       }
                     }

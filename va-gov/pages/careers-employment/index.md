@@ -131,11 +131,6 @@ We can support you in all stages of your job search—from returning to work wit
   </div>  
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"><b>Apply Online for Vocational Rehab and Employment Benefits</b></a>
-    <p>Start your online application now.</p>
-  </div>
-
-  <div class="link">
     <a href="#"><b>Educational and Career Counseling (Chapter 36)</b></a>
     <p>Find out how to get free educational and career counseling as a recently discharged Veteran or a dependent family member. </p>
   </div>
