@@ -120,14 +120,6 @@
       "icon": "fa-handshake"
     }
   },
-  "disabilityConditions": {
-    "pattern": "disability-benefits/conditions/*.md",
-    "sortBy": "order",
-    "metadata": {
-      "name": "Conditions",
-      "icon": "fa-handshake"
-    }
-  },
   "disabilityConditionsExposure": {
     "pattern": "disability/eligibility/hazardous-materials-exposure/*.md",
     "sortBy": "order",
