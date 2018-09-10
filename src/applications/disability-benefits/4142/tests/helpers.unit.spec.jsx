@@ -41,7 +41,7 @@ describe('4142 helpers', () => {
         middle: 'A',
         last: 'Anderson'
       },
-      veteranSocialSecurityNumber: '796121200',
+      veteranSocialSecurityNumber: '111111111',
       veteranDateOfBirth: '1933-04-05',
       veteranAddress: {
         street: 'MILITARY ADDY 3',
