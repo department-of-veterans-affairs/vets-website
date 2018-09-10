@@ -1,4 +1,5 @@
 // import _ from 'lodash/fp';
+import React from 'react';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
@@ -24,3 +25,14 @@ export function transform(formConfig, form) {
     }
   });
 }
+/* eslint-disable */
+export const tabbableTitle = title => (<div
+  className="schemaform-block-header"
+  tabIndex="0">
+  <p
+    className="schemaform-block-title schemaform-block-subtitle"
+    id="root_view:optOutMessage__title">
+    {title}
+  </p>
+</div>);
+/* eslint-enable */
