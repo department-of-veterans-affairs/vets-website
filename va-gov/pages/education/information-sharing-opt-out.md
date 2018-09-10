@@ -8,7 +8,6 @@ plainlanguage: Certified plain language 4.20.18
 template: detail-page
 collection: education
 children: educationInformationSharingOptOut
-spoke: Manage Benefits
 order: 15
 widgets:
   - root: react-applicationStatus

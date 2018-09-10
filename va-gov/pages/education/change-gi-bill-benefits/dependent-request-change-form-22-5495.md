@@ -6,6 +6,7 @@ description: Use your VA education benefits to pay for college or training progr
 aliases:
   - /education/apply-for-education-benefits/application/5495
 order: 2
+hideFromSidebar: true
 ---
 <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"
 id="va-breadcrumbs">
