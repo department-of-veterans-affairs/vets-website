@@ -1,31 +1,29 @@
 ---
 layout: page-breadcrumbs.html
-title: VA Decision Ready Claims Program
-description: 
+title: VA Decision Ready Claims (DRC) Program
+description:
 concurrence: incomplete
-plainlanguage: 
+plainlanguage:
 template: detail-page
 order: 1
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability/how-to-file-a-claim/evidence-needed/
+    - url: /disability/how-to-file-claim/evidence-needed/
       title: How to Gather Evidence for Your Claim
       description: "Find out what evidence we’ll need—and what your options are for gathering documents to support your claim."
     - url: /disability/how-to-file-claim/
       title: How to Apply for Disability Benefits
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
-    - url: /disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/
+    - url: /disability/how-to-file-claim/when-to-file/pre-discharge-claim/
       title: Pre-discharge Claim
       description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
     - url: /disability/eligibility/illnesses-within-one-year-of-discharge/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: "You may be able to get disability benefits if you have an illness that started within a year after you were discharged from service."
-aliases:
-  - /disability-benefits/apply/evidence/decision-ready-claims/
 ---
 <div itemprop="description" class="va-introtext">
-  
+
 The Decision Ready Claims (DRC) program is the fastest way to get your VA claim processed. Find out if you can use the DRC program to get a decision on your claim in 30 days or less by working with an accredited Veterans Service Organization (VSO).
 
 </div>
@@ -42,7 +40,7 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 - **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link
 - **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
-- **[Dependency and Indemnity Compensation (DIC) claim](/burials-memorials/dependency-indemnity-compensation/)** as the eligible surviving spouse of a Veteran 
+- **[Dependency and Indemnity Compensation (DIC) claim](/burials-memorials/dependency-indemnity-compensation/)** as the eligible surviving spouse of a Veteran
 - **Pre-discharge claim** for disability compensation as a Servicemember who has less than 90 days before your separation from military service
 
 **Note:** We're working to expand the DRC program to include more types of claims. Come back soon, or check with your VSO, to find out about updates.
@@ -147,7 +145,7 @@ You'll need to follow the steps below. When you work with an accredited VSO and 
   <li class="process-step list-one"><strong>Appoint and work with an accredited VSO</strong><br>
     Accredited VSOs are fully trained on the DRC program. They can help you determine if a DRC is right for you.<br>
     <a href="https://www.ebenefits.va.gov/ebenefits/vso-search">Go to eBenefits to find a VSO near you</a>.
-    </li>  
+    </li>
   <li class="process-step list-two"><strong>Gather all relevant evidence needed to support your claim</strong><br>
     This includes your federal and medical records as well as any related Disability Benefits Questionnaires (DBQs). Your VSO will help you gather everything you need.
     </li>
@@ -156,7 +154,7 @@ You'll need to follow the steps below. When you work with an accredited VSO and 
     </li>
   <li class="process-step list-four"><strong>Submit your claim</strong><br>
     Your VSO will check to make sure your application includes all the needed information and will help you submit your claim online. Giving us all the relevant evidence when you submit your DRC allows us to send your claim directly to a VA Rating Specialist for a decision.
-    </li>  
+    </li>
 </ol>
 
 ### When can I expect a decision on my DRC?
@@ -170,7 +168,7 @@ You can expect a decision within 30 days or less from the time you submit your c
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="more-vso">How do I find an accredited VSO?</button>
 <div id="more-vso" class="usa-accordion-content">
- 
+
 **You can find an accredited VSO in couple ways:**
 - Go to eBenefits to find a local VSO by state/territory, zip code, or the organization’s name.<br>
 <a href="https://www.ebenefits.va.gov/ebenefits/vso-search">Go to eBenefits</a>.
@@ -194,13 +192,13 @@ You can expect a decision within 30 days or less from the time you submit your c
 - The Veteran's death certificate
 - The Veteran's medical records
 - The report from your VA claim exam
-    
+
 </div>
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="more-info">What if I have more questions or want more information?</button>
 <div id="more-info" class="usa-accordion-content">
-  
+
 <a href="https://www.benefits.va.gov/compensation/DRC.asp">Watch a video on the DRC program</a>.
 
 **Download helpful PDFs:**<br>
@@ -215,6 +213,4 @@ Reach out to your local VSO or call our toll-free number at <a href="tel:+1phone
 </li>
 </ul>
 </div>
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 

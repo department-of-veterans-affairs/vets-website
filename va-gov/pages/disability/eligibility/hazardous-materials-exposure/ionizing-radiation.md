@@ -6,6 +6,7 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: detail-page
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/
+order: 6
 ---
 
 <div class="va-introtext">

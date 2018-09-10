@@ -1,6 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 title: Fully Developed Disability Claims
+display_title: Fully Developed Claims
+children: disabilityFullyDevelopedClaims
 plainlanguage: 
 template: detail-page
 order: 2
@@ -207,7 +209,7 @@ You don't have to, but we encourage you to work with an accredited VSO. These tr
 [Find out how to get help filing your claim](/disability/get-help-filing-claim/).
 
 For some types of claims, you can work with a VSO to submit a decision-ready claim and get your decision in 30 days or less.<br>
-[Find out if you're eligible for the Decision Ready Claims program](/disability/how-to-file-a-claim/evidence-needed/decision-ready-claims/).
+[Find out if you're eligible for the Decision Ready Claims program](/disability/how-to-file-claim/evidence-needed/decision-ready-claims/).
 
 <br>
 

@@ -1,13 +1,13 @@
 ---
 layout: page-breadcrumbs.html
 title: Being Unable to Work (Individual Unemployability)
-display_title: Individual Unemployability
+display_title: Unemployability
 description: Find out if you can get VA disability compensation because of a service-connected disability that's left you unable to work (called "individual unemployability"). 
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unemployability.asp
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 7
+order: 9
 aliases:
   - /disability-benefits/conditions/special-claims/individual-unemployability/
 ---

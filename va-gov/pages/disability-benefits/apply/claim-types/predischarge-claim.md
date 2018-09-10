@@ -18,8 +18,6 @@ relatedlinks:
     - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
-aliases:
-  - /disability-benefits/apply/claim-types/predischarge-claim/
 ---
 
 <div class="va-introtext">
@@ -103,7 +101,7 @@ You can apply for benefits online, by mail, or in person. <br>
 ### If you're stationed overseas
 
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
-[Find out how to apply overseas](/disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/file-while-overseas/).
+[Find out how to apply overseas](/disability/how-to-file-claim/when-to-file/pre-discharge-claim/file-while-overseas/).
 
 #### Need help applying?
 
@@ -146,7 +144,7 @@ Or contact your local VSO.<br>
 
 The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
 [Learn about the application process](/disability/how-to-file-claim/).<br>
-[Find out what evidence you need for fully developed and standard claims](/disability/how-to-file-a-claim/evidence-needed/).
+[Find out what evidence you need for fully developed and standard claims](/disability/how-to-file-claim/evidence-needed/).
 
 </div>
 </li>
@@ -166,5 +164,3 @@ If you’re found to be medically unfit for duty, IDES will give you a proposed 
 </div>
 
 <br>
-
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
