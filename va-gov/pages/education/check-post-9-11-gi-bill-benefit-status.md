@@ -1,5 +1,5 @@
 ---
-title: Check Benefit
+title: Check Your Post-9/11 GI Bill Benefits Status
 display_title: Check Post-9/11 GI Bill Benefits
 entryname: post-911-gib-status
 layout: page-react.html
