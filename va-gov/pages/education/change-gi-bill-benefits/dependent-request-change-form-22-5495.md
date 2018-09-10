@@ -12,6 +12,6 @@ id="va-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     <li><a href="/">Home</a></li>
     <li><a href="/education/">Education</a></li>
-    <li><a aria-current="page" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a></li>
+    <li><a aria-current="page" href="/education/change-gi-bill-benefits/">Change GI Bill Benefits</a></li>
   </ul>
 </nav>
