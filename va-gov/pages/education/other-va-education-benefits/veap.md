@@ -2,9 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Veterans’ Educational Assistance Program (VEAP)
+display_title: VEAP
 concurrence: complete
 plainlanguage: 12-12-16 certified in compliance with the Plain Writing Act
-order: 3
+order: 2
 aliases:
   - /education/other-educational-assistance-programs/veap/
 ---
@@ -38,7 +39,7 @@ Money for tuition
 ### How do I get this benefit?
 
 You’ll need to apply. <br>
-[Apply for benefits](/education/apply-for-education-benefits/). 
+[Apply for benefits](/education/how-to-apply/).
 
 You can use VEAP benefits for these programs:
 

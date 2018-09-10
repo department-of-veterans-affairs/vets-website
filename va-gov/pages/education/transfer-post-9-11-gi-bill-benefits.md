@@ -2,12 +2,13 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Transferring Post-9/11 GI Bill Benefits
-display_title: Transferring Benefits
+display_title: Transfer Post-9/11 GI Bill Benefits
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: complete
-order: 4
+order: 10
 aliases:
   - /education/gi-bill/transfer/
+spoke: Manage Benefits
 ---
 
 
@@ -113,7 +114,7 @@ While you’re still on active duty, you’ll request to transfer, change, or re
 
 If the DoD approves the TOE, your family members may apply for benefits.
 
-- [Apply online now](/education/apply-for-education-benefits/application/1990e/introduction), **or**
+- [Apply online now](/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/introduction), **or**
 - Apply by mail. Fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. <br>
 [Download VA Form 22-1990E](https://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
 

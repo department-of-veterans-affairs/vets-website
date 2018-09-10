@@ -4,7 +4,8 @@ template: detail-page
 title: Yellow Ribbon Program
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
-order: 9
+children: educationYellowRibbonProgram
+order: 1
 aliases:
   - /education/gi-bill/yellow-ribbon/
 ---
@@ -65,7 +66,7 @@ Money for tuition
 
 ##### Apply for benefits
 
-[Apply for Post-9/11 GI Bill benefits](/education/apply-for-education-benefits/). <br>
+[Apply for Post-9/11 GI Bill benefits](/education/how-to-apply/). <br>
 If you qualify for benefits, you’ll get a Certificate of Eligibility (COE).
 
 </li>

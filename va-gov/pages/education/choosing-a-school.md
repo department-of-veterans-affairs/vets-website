@@ -2,9 +2,12 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Locate a School
+display_title: Choosing a School
 plainlanguage: 11-27-16 certified in compliance with the Plain Writing Act
+children: educationChooseSchool
 concurrence: incomplete
-order: 4
+spoke: More Resources
+order: 3
 aliases:
   - /education/tools-programs/locate-a-school/
 ---

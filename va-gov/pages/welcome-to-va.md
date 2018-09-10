@@ -14,7 +14,7 @@ majorlinks:
     - url: /health-care/
       title: Health Care
       description: Apply for VA health care, find out how to access services, and manage your health and benefits online.
-    - url: /education-training/
+    - url: /education/
       title: Education and Training
       description: Apply for and manage your GI Bill and other education benefits to help pay for college and training programs.
     - url: /housing/

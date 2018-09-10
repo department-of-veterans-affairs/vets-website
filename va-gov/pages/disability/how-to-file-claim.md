@@ -13,8 +13,8 @@ majorlinks:
   - heading: More information about filing disability claims
     links:
     - url: /disability/how-to-file-claim/when-to-file/
-      title: Claim Types and When to File 
-      description: Learn about standard claims, reopened claims, secondary claims, and more. 
+      title: Claim Types and When to File
+      description: Learn about standard claims, reopened claims, secondary claims, and more.
     - url: /disability/how-to-file-claim/evidence-needed/
       title: How to Gather Evidence for Your Claim
       description: Find out your options for gathering documents to support your disability claim.
@@ -107,7 +107,7 @@ Bring your application to a regional benefit office near you. <br>
 ##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 </div>
 </div>

@@ -2,9 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Montgomery GI Bill Active Duty (MGIB-AD)
+display_title: Montgomery GI Bill Active Duty
 plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
-order: 5
+order: 2
 aliases:
   - /education/gi-bill/montgomery-active-duty/
 ---
@@ -84,7 +85,7 @@ Money for tuition or training
 -----
 
 ### How do I get these benefits?
-[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
+[Apply online now](/education/apply-for-gi-bill-form-1990/introduction).
 
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 

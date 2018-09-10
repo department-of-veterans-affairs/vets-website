@@ -22,10 +22,11 @@ const healthcareTools = new Set([
 
 const burialPages = new Set([
   '/burials-and-memorials/',
-  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/'
+  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/',
+  '/burials-memorials/veterans-burial-allowance/'
 ]);
 
-const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
+const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/', '/education/how-to-apply/']);
 
 const eduOptOutPage = '/education/opt-out-information-sharing/';
 

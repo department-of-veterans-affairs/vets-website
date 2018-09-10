@@ -5,19 +5,20 @@ title: After You Apply for Education Benefits
 display_title: After You Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
-order: 3
+spoke: Get Benefits
+order: 5
 
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
-      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
+      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 ---
 
 <div class="va-introtext">
 
-Getting a degree, certificate, or other professional license can help you make a sucessful transition from military to civilian life. Find out what happens after you apply for education benefits. 
+Getting a degree, certificate, or other professional license can help you make a sucessful transition from military to civilian life. Find out what happens after you apply for education benefits.
 
 </div>
 

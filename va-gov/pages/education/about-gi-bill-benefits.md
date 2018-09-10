@@ -6,7 +6,8 @@ concurrence: incomplete
 plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act.
 collection: education
 children: educationGIBill
-order: 4
+spoke: Get Benefits
+order: 1
 gibsAlert: false
 majorlinks:
   - heading: Post-9/11 GI Bill Benefits
@@ -53,9 +54,9 @@ majorlinks:
     - url: /education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/
       title: Tutorial Assistance
       description: If you’re using VA educational benefits and you're struggling with the coursework, find out if you can get help paying for a tutor.
-    - url: /education/opt-out-information-sharing/
+    - url: /education/information-sharing-opt-out/
       title: Opt Out of Sharing VA Education Benefits Information
-      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing. 
+      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing.
 
 aliases:
   - /education/gi-bill/
