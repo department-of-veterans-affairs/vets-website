@@ -28,6 +28,7 @@ relatedlinks:
 
 aliases:
   - /disability-benefits/eligibility/
+  - /disability-benefits/conditions/
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description"  class="va-introtext">
