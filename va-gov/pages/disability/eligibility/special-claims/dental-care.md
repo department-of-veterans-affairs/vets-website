@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Dental Care
-display_title: Dental Care
+title: Dental Benefits for Veterans with Disabilities
+description: Find out if you qualify for VA dental benefits. Learn more about this disability benefit from the VA dental benefits fact sheet.
 description: Find out if you qualify for VA dental benefits. Learn more about this disability benefit from the VA dental benefits fact sheet.
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-dental.asp
