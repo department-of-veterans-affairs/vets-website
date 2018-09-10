@@ -46,8 +46,8 @@ import {
   privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
-  download4142Notice,
-  authorizationToDisclose,
+  // download4142Notice, related to authorization to disclose section below
+  // authorizationToDisclose,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
   evidenceSummaryView,
@@ -538,13 +538,13 @@ const formConfig = {
                     }
                   }
                 },
-                'view:privateRecords4142Notice': {
-                  'ui:description': download4142Notice,
-                  'ui:options': {
-                    expandUnder: 'view:uploadPrivateRecords',
-                    expandUnderCondition: 'no'
-                  }
-                },
+                // 'view:privateRecords4142Notice': {
+                //   'ui:description': download4142Notice,
+                //   'ui:options': {
+                //     expandUnder: 'view:uploadPrivateRecords',
+                //     expandUnderCondition: 'no'
+                //   }
+                // },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp
                 }
@@ -564,11 +564,11 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no']
                     },
-                    'view:privateRecords4142Notice': {
-                      type: 'object',
-                      'ui:collapsed': true,
-                      properties: {}
-                    },
+                    // 'view:privateRecords4142Notice': {
+                    //   type: 'object',
+                    //   'ui:collapsed': true,
+                    //   properties: {}
+                    // },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
                       properties: {}
@@ -579,9 +579,9 @@ const formConfig = {
             }
           }
         },
-        authorizationToDisclose: {
+        privateMedicalRecordFacilities: {
           title: '',
-          path: 'supporting-evidence/:index/authorization-to-disclose',
+          path: 'supporting-evidence/:index/private-medical-record-request',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
           arrayPath: 'disabilities',
@@ -593,7 +593,7 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:description': authorizationToDisclose
+                'ui:title': disabilityNameTitle
               }
             }
           },
@@ -610,6 +610,39 @@ const formConfig = {
             }
           }
         },
+        // Commented out for now. Will most likely remove, but want to make sure.
+        // authorizationToDisclose: {
+        //   title: '',
+        //   path: 'supporting-evidence/:index/authorization-to-disclose',
+        //   showPagePerItem: true,
+        //   itemFilter: (item) => _.get('view:selected', item),
+        //   arrayPath: 'disabilities',
+        //   depends: (formData, index) => {
+        //     const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+        //     const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+        //     return hasRecords && requestsRecords;
+        //   },
+        //   uiSchema: {
+        //     disabilities: {
+        //       items: {
+        //         'ui:description': authorizationToDisclose
+        //       }
+        //     }
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {
+        //       disabilities: {
+        //         type: 'array',
+        //         items: {
+        //           type: 'object',
+        //           properties: {}
+        //         }
+        //       }
+        //     }
+        //   }
+        // },
+        // Leaving this in just for a reference while building out the form.
         // TODO: Re-enable after 4142 PDF integration
         // privateMedicalRecordRelease: {
         //   title: '',
