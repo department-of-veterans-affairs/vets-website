@@ -29,7 +29,11 @@ We’ll pay you back:
 
 **Note:** We won’t pay for fees or costs related to getting the actual license or certification document.
 
-#### For national testing
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="nt-program">For national testing: <br>
+<div id="nt-program" class="usa-accordion-content">
 
 If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may pay you back for testing fees, including:
 
@@ -63,10 +67,20 @@ We won’t pay you back for these costs:
 - Optional items not required to take an approved test
 
 ### How do I get this benefit?
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="nt-program">For national testing: <br>
+<div id="nt-program" class="usa-accordion-content">
+
 We’ll charge your GI Bill benefit package for the cost of the test.
 For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for actual amount of the testing fee.
 
-#### For licensing and certification
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="lcc-program">For licensing and certification: <br>
+<div id="bdd-program" class="usa-accordion-content">
 First, fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). 
 [Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
 
@@ -84,6 +98,9 @@ Then, mail your form to the nearest VA regional processing office. <br>
 **Please note:**
 - You may need to provide your proof of payment.
 - We’ll pay you back only for mandatory test fees.
+
+
+
 
 
 
