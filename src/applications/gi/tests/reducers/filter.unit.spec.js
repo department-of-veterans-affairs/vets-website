@@ -25,6 +25,7 @@ describe('filter reducer', () => {
         type: 'INSTITUTION_FILTER_CHANGED',
         filter: {
           category: 'ALL',
+          distanceLearning: false,
           type: 'ALL',
           country: 'ALL',
           state: 'WA',
@@ -32,6 +33,7 @@ describe('filter reducer', () => {
           yellowRibbonScholarship: false,
           principlesOfExcellence: true,
           eightKeysToVeteranSuccess: false,
+          onlineOnly: false,
           priorityEnrollment: false,
           independentStudy: false,
           stemOffered: true,
@@ -41,11 +43,13 @@ describe('filter reducer', () => {
     );
 
     expect(state.category).to.eql('ALL');
+    expect(state.distanceLearning).to.eql(false);
     expect(state.type).to.eql('ALL');
     expect(state.country).to.eql('ALL');
     expect(state.state).to.eql('WA');
     expect(state.studentVeteranGroup).to.eql(false);
     expect(state.yellowRibbonScholarship).to.eql(false);
+    expect(state.onlineOnly).to.eql(false);
     expect(state.principlesOfExcellence).to.eql(true);
     expect(state.eightKeysToVeteranSuccess).to.eql(false);
     expect(state.independentStudy).to.eql(false);
