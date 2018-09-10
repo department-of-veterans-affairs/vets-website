@@ -34,7 +34,7 @@ You can get benefits for flight training if you meet the requirements listed bel
 <div itemprop="text">
 
 Anyone who qualifies for any of the GI Bill programs. <br />
-**Exception:** You aren’t covered if you’re using Survivors’ and Dependents’ Educational Assistance (DEA).  
+**Exception:** You aren’t covered if you’re using Survivors’ and Dependents’ Educational Assistance (DEA).
 
 </div>
 </div>
@@ -49,20 +49,20 @@ Anyone who qualifies for any of the GI Bill programs. <br />
 The benefits depend on the benefit program you use:
 
 **If you use the Montgomery GI Bill Active Duty (MGIB-AD) or the Reserve Educational Assistance Program (REAP)**, we’ll pay you back for 60% of the approved fees.<br />
-[Learn about MGIB-AD](/education/gi-bill/montgomery-active-duty/).<br />
-[Learn about REAP](/education/other-educational-assistance-programs/reap/).<br />
-[View the current payment rates for MGIB-AD and REAP](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp). 
+[Learn about MGIB-AD](/education/about-gi-bill-benefits/montgomery-active-duty/).<br />
+[Learn about REAP](/education/other-va-education-benefits/reap/).<br />
+[View the current payment rates for MGIB-AD and REAP](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
-**If you use the Post-9/11 GI Bill**, your payment depends on the program and the type of school you’re going to: 
-- If your school is a stand-alone Part 141 pilot school, we’ll pay the school for the net cost of training up to a yearly limit.\* 
+**If you use the Post-9/11 GI Bill**, your payment depends on the program and the type of school you’re going to:
+- If your school is a stand-alone Part 141 pilot school, we’ll pay the school for the net cost of training up to a yearly limit.\*
 - If you’re enrolled in a degree program that consists of flight training at a public college or university, we’ll pay back the school for the net cost of tuition and fees.\*
-- If you’re enrolled in a degree program that consists of flight training at a private college or university, we’ll pay back the school for the net cost of tuition and fees up to a yearly limit.\* 
+- If you’re enrolled in a degree program that consists of flight training at a private college or university, we’ll pay back the school for the net cost of tuition and fees up to a yearly limit.\*
 
 [View the current payment rates for the Post-9/11 GI Bill](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
-\*Your level of eligibility and/or your remaining entitlement limits the payment amount. 
+\*Your level of eligibility and/or your remaining entitlement limits the payment amount.
 
-[Find out more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/). 
+[Find out more about the Post-9/11 GI Bill](/education/about-gi-bill-benefits/post-9-11/).
 
 
 </div>
@@ -76,7 +76,7 @@ The benefits depend on the benefit program you use:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’ll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/).
+You’ll need to apply for benefits. [Apply for education benefits](/education/how-to-apply/).
 
 </div>
 </div>

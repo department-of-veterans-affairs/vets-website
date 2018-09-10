@@ -12,9 +12,10 @@ const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibil
 const healthcarePages = new Set(['/health-care/', '/health-care/how-to-apply/', '/health-care/eligibility/']);
 const burialPages = new Set([
   '/burials-and-memorials/',
-  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/'
+  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/',
+  '/burials-memorials/veterans-burial-allowance/'
 ]);
-const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
+const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/', '/education/how-to-apply/']);
 const eduOptOutPage = '/education/opt-out-information-sharing/';
 const disabilityPages = new Set(['/disability-benefits/', '/disability-benefits/apply/', '/disability-benefits/eligibility/']);
 

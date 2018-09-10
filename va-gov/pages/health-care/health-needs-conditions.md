@@ -7,7 +7,8 @@ description: Find out if a specific health care condition or need is covered und
 concurrence: complete
 lastupdate: 2017-06-28
 collection: healthCare
-order: 5
+spoke: More Resources
+order: 18
 children: healthCareConditions
 aliases:
   - /health-care/health-conditions/
@@ -23,7 +24,7 @@ relatedlinks:
     - url: /health-care/how-to-apply/
       title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
-    - url: /disability-benefits/
+    - url: /disability/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---

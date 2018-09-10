@@ -36,19 +36,19 @@ Money for tuition
 ### How do I get this benefit?
 
 You’ll need to apply. <br>
-[Apply for benefits](/education/apply-for-education-benefits/). 
+[Apply for benefits](/education/how-to-apply/).
 
 You can use VEAP benefits for these programs:
 
-- [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
-- [Co-op training](/education/work-learn/co-op-training/)
-- [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
-- [Flight training](/education/advanced-training-and-certifications/flight-training/)
-- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
-- [Licensing and certification tests](/education/advanced-training-and-certifications/licensing-certification/)
-- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
-- [Certain entrance examinations (national testing)](/education/advanced-training-and-certifications/national-testing-program/)
-- [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
+- [Undergraduate and graduate degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/)
+- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
+- [Non-college degree programs (technical or vocational courses)](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
+- [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
+- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
+- [Licensing and certification tests](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
+- [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
+- [Certain entrance examinations (national testing)](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
+- [Correspondence training](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
 - In some cases:
   - Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
   - Deficiency courses (classes some student must take in order to be admitted to a certain college)

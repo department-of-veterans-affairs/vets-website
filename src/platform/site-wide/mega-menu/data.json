@@ -80,19 +80,19 @@
                         "links": [
                             {
                                 "text": "Eligibility",
-                                "href": "#"
+                                "href": "/disability/eligibility/"
                             },
                             {
                                 "text": "How to File a Claim",
-                                "href": "#"
+                                "href": "/disability/how-to-file-claim/when-to-file/"
                             },
                             {
                                 "text": "Survivor and Dependent Compensation (DIC)",
-                                "href": "#"
+                                "href": "/burials-memorials/dependency-indemnity-compensation/"
                             },
                             {
                                 "text": "File a Claim for Disability Compensation",
-                                "href": "#"
+                                "href": "/disability/after-you-file-claim/"
                             }
                         ]
                     },
@@ -105,19 +105,19 @@
                             },
                             {
                                 "text": "File for a VA Disability Increase",
-                                "href": "#"
+                                "href": "/disability/file-for-increase-form-21-526ez/"
                             },
                             {
                                 "text": "File an Appeal",
-                                "href": "#"
+                                "href": "/disability/file-an-appeal/"
                             },
                             {
                                 "text": "Add or Remove a Dependent",
-                                "href": "#"
+                                "href": "/disability/add-remove-dependent/"
                             },
                             {
                                 "text": "Upload Evidence to Support Your Claim",
-                                "href": "#"
+                                "href": "/disability/upload-supporting-evidence/"
                             }
                         ]
                     },
@@ -146,11 +146,11 @@
                         "links": [
                             {
                                 "text": "About GI Bill Benefits",
-                                "href": "#"
+                                "href": "/education/about-gi-bill-benefits/"
                             },
                             {
                                 "text": "How to Apply",
-                                "href": "#"
+                                "href": "/education/how-to-apply/"
                             },
                             {
                                 "text": "Vocational Rehabilitation and Employment",
@@ -158,11 +158,11 @@
                             },
                             {
                                 "text": "Survivor and Dependent Education Benefits",
-                                "href": "#"
+                                "href": "/education/survivor-dependent-benefits/"
                             },
                             {
                                 "text": "Apply Now for GI Bill Benefits",
-                                "href": "#"
+                                "href": "/education/apply-for-gi-bill-form-1990/"
                             }
                         ]
                     },
@@ -171,19 +171,19 @@
                         "links": [
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "#"
+                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
                             },
                             {
                                 "text": "Check Your Post-9/11 GI Bill Benefits",
-                                "href": "#"
+                                "href": "/education/check-post-9-11-gi-bill-benefit-status/"
                             },
                             {
                                 "text": "Transfer Your Post-9/11 GI Bill Benefits",
-                                "href": "#"
+                                "href": "/education/transfer-post-9-11-gi-bill-benefits/"
                             },
                             {
                                 "text": "Change Your GI Bill School or Program",
-                                "href": "#"
+                                "href": "/education/change-gi-bill-benefits/"
                             },
                             {
                                 "text": "Change Your Direct Deposit Information",
@@ -204,7 +204,7 @@
                     },
                     "seeAllLink": {
                       "text": "Education",
-                      "href": "/education-training/"
+                      "href": "/education/"
                     }
                 }
             },
@@ -307,7 +307,7 @@
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "#"
+                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
                             },
                             {
                                 "text": "File an Appeal",
@@ -460,23 +460,23 @@
                         "links": [
                             {
                                 "text": "Eligibility",
-                                "href": "#"
+                                "href": "/burials-memorials/eligibility/"
                             },
                             {
                                 "text": "Pre-Need Burial Eligibility Determination",
-                                "href": "#"
+                                "href": "/burials-memorials/pre-need-eligibility/"
                             },
                             {
                                 "text": "Veteran Burial Allowance",
-                                "href": "#"
+                                "href": "/burials-memorials/veterans-burial-allowance/"
                             },
                             {
                                 "text": "Memorial Items",
-                                "href": "#"
+                                "href": "/burials-memorials/memorial-items/"
                             },
                             {
                                 "text": "Survivor and Dependent Compensation (DIC)",
-                                "href": "#"
+                                "href": "/burials-memorials/dependency-indemnity-compensation/"
                             }
                         ]
                     },
@@ -485,19 +485,19 @@
                         "links": [
                             {
                                 "text": "Plan a Burial for a Family Member",
-                                "href": "#"
+                                "href": "/burials-memorials/plan-a-burial/"
                             },
                             {
                                 "text": "Schedule a Burial in a VA National Cemetery",
-                                "href": "#"
+                                "href": "https://www.cem.va.gov/cem/burial_benefits/need.asp"
                             },
                             {
                                 "text": "Find a Cemetery",
-                                "href": "#"
+                                "href": "https://www.cem.va.gov/cems/listcem.asp"
                             },
                             {
                                 "text": "Request Military Records",
-                                "href": "#"
+                                "href": "https://www.cem.va.gov/recmed_records.asp"
                             }
                         ]
                     },
@@ -510,7 +510,7 @@
                             "text": "National Cemetery Administration Mobile Site",
                             "href": "https://m.va.gov/"
                         },
-                        "description": "Locate a grave, search for national cemeteries, and find benefits information and resources from your mobile phone or tablet."
+                        "description": "Locate a grave, search for cemeteries, and find benefits information and resources from your mobile phone or tablet."
                     },
                     "seeAllLink": {
                       "text": "Burials and Memorials",
@@ -555,7 +555,7 @@
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "#"
+                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
                             },
                             {
                                 "text": "Search Historical Military Records (National Archives)",

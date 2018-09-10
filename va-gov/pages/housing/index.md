@@ -21,17 +21,8 @@ crosslinks:
     - url: /pension/
       title: <b>Pension Benefits</b>
       description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
-    - url: "#"
-      title: <br>Vocational Rehabilitation and Employment</br>
-      description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url: "#"
-      title: <br>Family and Caregiver Benefits</br>
-      description: Learn about benefits for spouses, dependents, and caregivers of Veterans and Servicemembers.
-    - url: /life-insurance/
-      title: <br>Life Insurance</br>
-      description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -113,23 +104,18 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <h2>Get VA Home Loan Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Home Loan Options</b></a>
-    <p>Learn how VA direct and VA-backed home loans work—and find out which loan option may be right for you.</p>
+    <a href="#"><b>About VA Home Loan Types</b></a>
+    <p>Learn how VA direct and VA-backed home loans work—and find out which loan type may be right for you.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>Eligibility</b></a>
-    <p>Find out if you're eligible for a VA direct or VA-backed home loan, based on your service history and duty status.
+    <p>Find out if you're eligible for a VA direct or VA-backed home loan, based on your service history and duty status. You can also see if you're eligible as a surviving spouse.
   </div>
 
   <div class="link">
     <a href="#"><b>How to Apply for Your Certificate of Eligibility</b></a>
     <p>Get instructions for how to apply for your VA home loan Certificate of Eligibility (COE)—and what to do next depending on your loan type.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>Apply Online for Your COE (VA Form 26-1880)</b></a>
-    <p>Start your online application now.</p>
   </div>
 
   <div class="link">

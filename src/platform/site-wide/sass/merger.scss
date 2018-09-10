@@ -644,7 +644,6 @@
     }
 
     #footerNav {
-
       #footer-first-child {
         padding-top: .25em;
       }
@@ -652,6 +651,9 @@
       .va-footer-linkgroup {
         margin-top: 0;
         margin-bottom: .25em;
+        li {
+          margin-bottom: 6px;
+        }
 
         .usa-accordion-content {
           background-color: transparent;
@@ -659,16 +661,26 @@
           .va-footer-links {
             li {
               margin-bottom: 0.5em;
+              a {
+                text-decoration: none;
+              }
             }
           }
         }
       }
 
+      // mobile footer stuff
       .va-footer-linkgroup-title {
+        font-weight: 400;
 
         button {
-          padding: 0.5em;
-          font-size: 1em;
+          border-top: 3px solid transparent;
+          color: #fff;
+          cursor: pointer;
+          display: block;
+          margin: 0;
+          padding: 1.6rem 0.8rem;
+          font-size: 1.6rem;
           font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
           color: $color-white;
         }
@@ -874,7 +886,7 @@
     }
   }
 
-  .va-l-detail-page {
+  .usa-sidenav-list {
     a {
       padding-right: 0;
 
@@ -888,6 +900,8 @@
   .va-sidebarnav {
     h4 {
       vertical-align: middle;
+      margin-top: 0;
+      margin-bottom: 0;
     }
 
     .usa-sidenav-list > li {
@@ -939,14 +953,6 @@
 
     .usa-sidenav-list {
       & > li {
-        &:last-child {
-          border-bottom: 1px solid $color-gray-lighter;
-        }
-
-        &:first-child {
-          border-top: 1px solid $color-gray-lighter;
-        }
-
         .active-menu {
           border-bottom: none;
         }
@@ -1013,6 +1019,15 @@
           margin-left: 8.47px;
         }
       }
+      &.fa-handshake {
+        &.icon-small {
+          &::before {
+          margin-top: 7.5px;
+          margin-left: 7px;
+
+          }
+        }
+      }
 
       &.fa-medkit {
         background-color: $color-primary;
@@ -1026,10 +1041,29 @@
       }
     }
   }
-}
 
-.va-sign-in-alert {
-  .usa-button-primary {
-    margin-top: 10px;
+  .usa-accordion-button {
+    background-color: white;
+    border-top: 1px solid $color-gray-lighter;
+    border-bottom: 1px solid $color-gray-lighter;
+    background-size: 1.1rem;
+  }
+
+  .usa-accordion {
+    & > li {
+      margin-bottom: -1px;
+    }
+  }
+
+  .va-sign-in-alert {
+    .usa-button-primary {
+      margin-top: 10px;
+    }
+  }
+
+  .va-modal-close {
+    .fa {
+      color: inherit;
+    }
   }
 }

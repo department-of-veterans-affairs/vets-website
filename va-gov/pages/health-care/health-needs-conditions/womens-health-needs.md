@@ -2,10 +2,9 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Women’s Health Care Needs
-display_title: Women’s Health Care
 concurrence: complete
 lastupdate: 2017-06-28
-order: 4
+order: 7
 aliases:
   - /health-care/health-conditions/womens-health-care-needs/
 relatedlinks:
@@ -20,7 +19,7 @@ relatedlinks:
     - url: /health-care/how-to-apply/
       title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
-    - url: /disability-benefits/
+    - url: /disability/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
