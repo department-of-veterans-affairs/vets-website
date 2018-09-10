@@ -89,10 +89,6 @@
                             {
                                 "text": "Survivor and Dependent Compensation (DIC)",
                                 "href": "/burials-memorials/dependency-indemnity-compensation/"
-                            },
-                            {
-                                "text": "File a Claim for Disability Compensation",
-                                "href": "/disability/after-you-file-claim/"
                             }
                         ]
                     },
@@ -128,7 +124,7 @@
                         },
                         "link": {
                             "text": "Decision Ready Claims (DRC) Program",
-                            "href": "#"
+                            "href": "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
                         },
                         "description": "Find out if you can use the DRC program to get a decision on your disability claim in 30 days or less."
                     },
@@ -159,10 +155,6 @@
                             {
                                 "text": "Survivor and Dependent Education Benefits",
                                 "href": "/education/survivor-dependent-benefits/"
-                            },
-                            {
-                                "text": "Apply Now for GI Bill Benefits",
-                                "href": "/education/apply-for-gi-bill-form-1990/"
                             }
                         ]
                     },
@@ -198,7 +190,7 @@
                         },
                         "link": {
                             "text": "GI Bill® School Feedback Tool",
-                            "href": "#"
+                            "href": "https://www.benefits.va.gov/GIBILL/Feedback.asp"
                         },
                         "description": "Find out how to give us feedback about your GI Bill school."
                     },
@@ -307,7 +299,7 @@
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
+                                "href": "#"
                             },
                             {
                                 "text": "File an Appeal",
@@ -497,7 +489,7 @@
                             },
                             {
                                 "text": "Request Military Records",
-                                "href": "https://www.cem.va.gov/recmed_records.asp"
+                                "href": "#"
                             }
                         ]
                     },
@@ -514,7 +506,7 @@
                     },
                     "seeAllLink": {
                       "text": "Burials and Memorials",
-                      "href": "/burials/"
+                      "href": "/burials-memorials/"
                     }
                 }
             },
