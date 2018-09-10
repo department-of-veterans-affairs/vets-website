@@ -138,9 +138,9 @@ const transformProviderFacility = (providerFacility) => {
 
   providerFacility.forEach((facility) => {
     newProviderFacility.push({
-      providerFacilityAddress: facility.providerFacilityAddress,
       providerFacilityName: facility.providerFacilityName,
-      treatmentDateRange: transformDateRange(facility.treatmentDateRange)
+      treatmentDateRange: transformDateRange(facility.treatmentDateRange),
+      providerFacilityAddress: facility.providerFacilityAddress
     });
   });
 
@@ -163,14 +163,14 @@ export function transform(formConfig, form) {
 
   const transformedData = {
     providerFacility: transformProviderFacility(providerFacility), // This will be the only line that needs to go into the transform function for 526EZ
-    veteranAddress,
-    veteranDateOfBirth,
+    privacyAgreementAccepted,
     veteranFullName,
-    veteranPhone,
     veteranSocialSecurityNumber,
+    veteranDateOfBirth,
+    veteranAddress,
+    veteranPhone,
     vaFileNumber,
-    limitedConsent,
-    privacyAgreementAccepted
+    limitedConsent
   };
 
   return JSON.stringify(transformedData);
