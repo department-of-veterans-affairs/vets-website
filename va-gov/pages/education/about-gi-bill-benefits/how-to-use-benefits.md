@@ -1,8 +1,8 @@
 ---
-title: How to Use Your Benefits
+title: How to Use Your GI Bill Benefits
 href: \#
-display_title:
-children: eductionHowToUseBenefits
+display_title: How to Use Your Benefits
+children: educationHowToUseBenefits
 order: 4
 layout: page-breadcrumbs.html
 template: detail-page
