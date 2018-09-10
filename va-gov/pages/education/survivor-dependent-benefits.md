@@ -60,7 +60,7 @@ If you’re a dependent who doesn’t meet the above criteria, you may still qua
 ### How do I get these benefits?
 
 You’ll need to apply. <br>
-[Apply for education benefits](/education/apply-for-education-benefits).
+[Apply for education benefits](/education/how-to-apply/).
 
 There are 2 main GI Bill programs offering educational assistance to survivors and dependents of Veterans:
 

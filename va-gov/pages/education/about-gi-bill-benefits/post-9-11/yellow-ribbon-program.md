@@ -66,7 +66,7 @@ Money for tuition
 
 ##### Apply for benefits
 
-[Apply for Post-9/11 GI Bill benefits](/education/apply-for-education-benefits/). <br>
+[Apply for Post-9/11 GI Bill benefits](/education/how-to-apply/). <br>
 If you qualify for benefits, you’ll get a Certificate of Eligibility (COE).
 
 </li>
