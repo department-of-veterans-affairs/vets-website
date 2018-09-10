@@ -34,11 +34,11 @@ export class IntroPage extends React.Component {
             <h2>How can I review my Post-9/11 GI Bill benefits?</h2>
             <p>The Post-9/11 GI Bill Benefits tool is available for you during these hours, Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
             <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View Your GI Bill Benefits</Link>
+            <h2>What if I’m having trouble accessing my benefit statement?</h2>
             <p>Your Post-9/11 GI Bill Statement of Benefits might not be available if one of these is true:
               <ul>
                 <li>The name on your Vets.gov account doesn’t exactly match the name we have in our Post-9/11 GI Bill records.</li>
                 <li>We’re still processing your education benefits application and we haven’t yet created a record for you. We usually process applications within 60 days. If you applied less than 60 days ago, please check back soon.</li>
-                <li>A family member or dependent is trying to access your benefit statement, and they might not be authorized to use the tool.</li>
                 <li>You haven’t yet applied for Post-9/11 GI Bill education benefits. <a href="/education/apply/" target="_blank">Apply for education benefits.</a>
                 </li>
                 <li>You’re not eligible for Post-9/11 GI Bill education benefits.</li>
