@@ -1,12 +1,14 @@
 ---
 layout: page-breadcrumbs.html
 title: Gulf War Illness
+display_title: Gulf War Illness SW Asia
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: detail-page
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/
+order: 8
 ---
 
 <div class="va-introtext">

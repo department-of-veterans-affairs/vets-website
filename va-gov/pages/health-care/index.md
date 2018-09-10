@@ -25,7 +25,7 @@ crosslinks:
     - url: "/pension/aid-attendance-housebound/"
       title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: Find out if you can get increased pension pay as a Veteran or surviving spouse who has disabilities.
-    - url: "/burials/"
+    - url: "/burials-memorials/"
       title: <b>Burial Benefits and Memorial Items</b>
       description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
     - url: "/education-training/"

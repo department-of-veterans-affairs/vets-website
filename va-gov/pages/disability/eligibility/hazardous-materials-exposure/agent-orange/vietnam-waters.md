@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: Waters in or near Vietnam
+title: Vietnam Waters
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: detail-page
-order: 7
+order: 6
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/
 ---

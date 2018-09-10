@@ -5,6 +5,7 @@ description: Find out if you can get VA disability benefits if you have an illne
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityConditionsAgentOrange
+order: 2
 majorlinks:
   - heading: You may have had contact with Agent Orange if you served in any of these ways
     links:

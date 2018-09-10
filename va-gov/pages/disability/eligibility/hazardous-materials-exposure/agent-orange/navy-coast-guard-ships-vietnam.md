@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: U.S. Navy and Coast Guard Ships in Vietnam
+title: Navy or Coast Guard Ships in Vietnam
 concurrence: complete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 6
+order: 9
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/
 ---

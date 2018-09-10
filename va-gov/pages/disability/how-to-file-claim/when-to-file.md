@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Claim Types and When to File
-display_title: Claim Types and When to File
+display_title: When to File
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityClaimTypes
@@ -9,13 +9,13 @@ order: 1
 relatedlinks:
   - heading: Programs to help speed up your claim decision
     links:
-    - url: /disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/
+    - url: /disability/how-to-file-claim/when-to-file/pre-discharge-claim/
       title: Pre-discharge Claim
       description: If you have 180 to 90 days left on active duty, find out how to file a disability claim through the Benefits Delivery at Discharge (BDD) program to get your benefits sooner.
-    - url: /disability/how-to-file-a-claim/evidence-needed/fully-developed-claims/
+    - url: /disability/how-to-file-claim/evidence-needed/fully-developed-claims/
       title: Fully Developed Disability Claims
       description: Find out how to use the Fully Developed Claims program to get a faster decision on your disability benefits claim by submitting your evidence (supporting documents) along with your claim.
-    - url: /disability/how-to-file-a-claim/evidence-needed/decision-ready-claims/
+    - url: /disability/how-to-file-claim/evidence-needed/decision-ready-claims/
       title: Decision Ready Claims Program
       description: Find out if you can use the Decision Ready Claims program to get a decision on your claim in 30 days or less by working with an accredited Veterans Service Organization (VSO).      
 aliases:
@@ -39,10 +39,10 @@ We refer to the first claim you file for a disability as your original claim.
 **You can file a claim up to 180 days before leaving the service:**
 
 - **If you have 180-90 days left on active duty**, you may be able to file a pre-discharge claim through the Benefits Delivery at Discharge (BDD) program. This may help speed up the claim decision process so you can get your benefits sooner.<br>
-[Find out how to file a pre-discharge claim](/disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/).
+[Find out how to file a pre-discharge claim](/disability/how-to-file-claim/when-to-file/pre-discharge-claim/).
 
 - **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file before you're discharged, and your claim will be processed after separation as a fully developed or standard claim.<br>
-[Learn more about gathering evidence for standard and fully developed claims](/disability/how-to-file-a-claim/evidence-needed/).
+[Learn more about gathering evidence for standard and fully developed claims](/disability/how-to-file-claim/evidence-needed/).
 
 **You can also file a claim for a disability that appears after discharge:**
 
