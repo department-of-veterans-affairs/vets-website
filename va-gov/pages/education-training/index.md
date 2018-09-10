@@ -58,7 +58,7 @@ social:
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
-          icon: fa-youtube  
+          icon: fa-youtube
 ---
 
 <p class="va-introtext">
@@ -133,7 +133,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>Manage Your Veterans Education Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>View Your VA Payment History</b></a>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
     <p>See your payment history for VA education and other benefits you may have like disability compensation and pension.</p>
   </div>
 
@@ -176,7 +176,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
-</section>  
+</section>
 
 <section id="more" class="merger-majorlinks">
   <h2>More Information and Resources</h2>
@@ -209,7 +209,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <div class="link">
     <a href="https://www.benefits.va.gov/gibill/contact_us.asp"><b>GI Bill Questions and Customer Help</b></a>
     <p>Contact us to ask questions and get help with your benefits online or by phone.</p>
-  </div>  
+  </div>
 
   <div class="link">
     <a href="https://www.benefits.va.gov/GIBILL/Feedback.asp"><b>GI Bill School Feedback Tool</b></a>
