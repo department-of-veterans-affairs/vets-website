@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: How to Apply for a Burial Allowance
+title: How to Apply for a Veterans Burial Allowance
 display_title: Burial Allowance
 order: 3
 spoke: Get Benefits
@@ -24,9 +24,9 @@ Find out how to get allowances to help cover burial, funeral, and transportation
 
 <div class="feature" markdown="0">
 
-### Can I get burial allowances?
+### Can I get burial allowances to help pay for Veteran burial or funeral costs?
 
-You may be able to get burial allowances if you're paying for the burial and funeral costs, and if any of the below relationships or professional roles describes your connection to the deceased.
+You may be able to get burial allowances if you're paying for the burial and funeral costs, and if any of the below relationships or professional roles describes your connection to the Veteran.
 
 **One of these must describe your relationship or role. You’re:**
 
@@ -39,7 +39,7 @@ You may be able to get burial allowances if you're paying for the burial and fun
 
 To get this benefit, the Veteran must not have received a dishonorable discharge, and one of the below circumstances must be true.
 
-**One of these must be true of the deceased Veteran. They:**
+**One of these must be true of the Veteran. They:**
 
 - Died as a result of a service-connected disability (a disability related to service), **or**
 - Had been getting a VA pension or compensation when they died, **or**
