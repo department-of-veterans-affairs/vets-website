@@ -287,9 +287,13 @@ class VAMap extends Component {
     const { results } = this.props;
 
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
-    const linkAction = (id, e) => {
+    const linkAction = (id, isProvider = false, e) => {
       e.preventDefault();
-      this.context.router.push(`facility/${id}`);
+      if (isProvider) {
+        this.context.router.push(`provider/${id}`);
+      } else {
+        this.context.router.push(`facility/${id}`);
+      }
     };
 
     return results.map(r => {
@@ -311,16 +315,21 @@ class VAMap extends Component {
 
       const popupContent = (
         <div>
-          <a onClick={linkAction.bind(this, r.id)}>
-            <h5>{r.attributes.name}</h5>
-          </a>
           { (r.type === LocationType.CC_PROVIDER) ? (
             <div>
+              <a onClick={linkAction.bind(this, r.id, true)}>
+                <h5>{r.attributes.name}</h5>
+              </a>
               <h6>{r.attributes.orgName}</h6>
               <p>Services: <strong>{r.attributes.specialty.map(s => s.name).join(', ')}</strong></p>
             </div>
           ) : (
-            <p>Facility type: <strong>{facilityTypes[r.attributes.facilityType]}</strong></p>
+            <div>
+              <a onClick={linkAction.bind(this, r.id)}>
+                <h5>{r.attributes.name}</h5>
+              </a>
+              <p>Facility type: <strong>{facilityTypes[r.attributes.facilityType]}</strong></p>
+            </div>
           )}
         </div>
       );

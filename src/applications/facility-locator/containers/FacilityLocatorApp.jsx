@@ -13,6 +13,8 @@ class FacilityLocatorApp extends React.Component {
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
       crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Facility Details</Link>);
+    } else if (location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
+      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Provider Details</Link>);
     }
 
     return crumbs;
