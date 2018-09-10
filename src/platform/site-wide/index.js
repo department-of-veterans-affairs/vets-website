@@ -13,7 +13,7 @@ import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
 import startPreviewSiteAlert from './preview-site-alert';
-import startLRNHealthCarWidget from './left-rail-navs/health-care';
+import startLRNHealthCareWidget from './left-rail-navs/health-care';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
@@ -50,6 +50,6 @@ export default function startSitewideComponents(commonStore) {
   startPreviewSiteAlert(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
-  startLRNHealthCarWidget(commonStore);
+  startLRNHealthCareWidget(commonStore);
   startVAFooter(commonStore);
 }
