@@ -1,11 +1,15 @@
 ---
+title: How to Use Your Benefits
+href: \#
+display_title:
+children: eductionHowToUseBenefits
+order: 4
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Use Your GI Bill Benefits
 display title: How to Use Benefits
 plainlanguage:
 concurrence:
-order:
 majorlinks:
   - heading: Work toward a Degree
     links:
