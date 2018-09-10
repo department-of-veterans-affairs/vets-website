@@ -1,6 +1,7 @@
 import DashboardIntro from '../components/DashboardIntro';
 import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
+import ClaimIncreaseBanner from '../components/ClaimIncreaseBanner';
 
 const config = {
   announcements: [
@@ -15,6 +16,11 @@ const config = {
       paths: /^(\/profile\/)$/,
       component: Profile360Intro,
       relatedAnnouncements: ['personalization']
+    },
+    {
+      name: 'claim-increase',
+      paths: /disability-benefits\/apply\/$/,
+      component: ClaimIncreaseBanner
     },
     {
       name: 'personalization',
