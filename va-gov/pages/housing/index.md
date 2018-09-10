@@ -21,15 +21,6 @@ crosslinks:
     - url: /pension/
       title: <b>Pension Benefits</b>
       description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
-    - url: "#"
-      title: <br>Vocational Rehabilitation and Employment</br>
-      description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url: "#"
-      title: <br>Family and Caregiver Benefits</br>
-      description: Learn about benefits for spouses, dependents, and caregivers of Veterans and Servicemembers.
-    - url: /life-insurance/
-      title: <br>Life Insurance</br>
-      description: Explore your life insurance options, and find out how to apply for and manage your policy as a Servicemember, Veteran, or family member.
 social:
   heading: Connect with Us
   administration:
