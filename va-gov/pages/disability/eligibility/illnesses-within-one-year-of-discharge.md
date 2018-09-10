@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Disabilities That Appear Within 1 Year After Discharge
-display_title: Illnesses within 1 Year of Disharge
+display_title: Illnesses within 1 Year of Discharge
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page

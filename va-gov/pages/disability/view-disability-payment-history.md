@@ -1,7 +1,6 @@
 ---
-layout: page-breadcrumbs.html
+href: /records
 title: View Disability Payment History
 order: 10
 spoke: Manage Benefits
-template: detail-page
 ---
