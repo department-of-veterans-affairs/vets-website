@@ -10,7 +10,7 @@ function initAskVAMock(token) {
 
 function initClaimsListMock(token) {
   mock(token, {
-    path: '/v0/evss_claims',
+    path: '/v0/evss_claims_async',
     verb: 'get',
     value: {
       data: [
@@ -52,6 +52,7 @@ function initClaimsListMock(token) {
         }
       ],
       meta: {
+        syncStatus: 'SUCCESS',
         successfulSync: false
       }
     }
@@ -60,7 +61,7 @@ function initClaimsListMock(token) {
 
 function initClaimDetailMocks(token, decisionLetterSent, documentsNeeded, waiverSubmitted, phase, estDate) {
   mock(token, {
-    path: '/v0/evss_claims/11',
+    path: '/v0/evss_claims_async/11',
     verb: 'get',
     value: {
       data: {
@@ -206,6 +207,7 @@ function initClaimDetailMocks(token, decisionLetterSent, documentsNeeded, waiver
         }
       },
       meta: {
+        syncStatus: 'SUCCESS',
         successfulSync: true
       }
     }

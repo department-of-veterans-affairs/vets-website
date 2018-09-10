@@ -7,6 +7,8 @@ description: If you served on active duty and didn’t receive a dishonorable di
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2018-01-02
 collection: healthCare
+children: healthEligibility
+spoke: Get Benefits
 order: 2
 widgets:
   - root: react-applicationStatus
@@ -59,7 +61,7 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if you meet at least one of the requirements listed below.
 
-**At least one of these must be true. You:** 
+**At least one of these must be true. You:**
 
 - Receive financial compensation (payments) from VA for a service-connected disability
 - Were discharged for a disability resulting from something that happened to you in the line of duty
@@ -83,7 +85,7 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 <div markdown="0"><br></div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply-for-health-care-form-10-10ez">Apply for Health Care Benefits</a>
 </div>
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -158,7 +160,7 @@ We assign Veterans with service-connected disabilities the highest priority. We 
 <div itemprop="text">
 
 No. Whether or not you have other health insurance coverage doesn’t affect the VA health care benefits you can get. <br/>
-[Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
+[Learn more about how VA works with other insurance](/health-care/about-va-health-benefits/va-health-care-and-other-insurance/).
 
 </div>
 </div>
@@ -188,13 +190,13 @@ Visit healthcare.gov to find out if you qualify for health insurance.<br/>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Yes. 
+Yes.
 
 **Find out how you may still be able to get care for:**
 
-- [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/#no-benefits)
-- [Other mental health problems (like depression or substance abuse)](/health-care/health-conditions/mental-health/#no-benefits)
-- [Mental and physical health problems linked to military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/#no-benefits)
+- [Posttraumatic stress disorder (PTSD)](/health-care/health-needs-conditions/mental-health/ptsd/#no-benefits)
+- [Other mental health problems (like depression or substance abuse)](/health-care/health-needs-conditions/mental-health/#no-benefits)
+- [Mental and physical health problems linked to military sexual trauma (MST)](/health-care/health-needs-conditions/military-sexual-trauma/#no-benefits)
 
 Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
 
@@ -212,7 +214,7 @@ Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a
 <div itemprop="text">
 
 We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. <br/>
-[Learn more about vision care through VA](/health-care/about-va-health-care/vision-care/).
+[Learn more about vision care through VA](/health-care/about-va-health-benefits/vision-care/).
 
 </div>
 </div>
@@ -228,7 +230,7 @@ We cover routine eye exams and preventive tests under VA health care benefits. I
 <div itemprop="text">
 
 In certain cases, you may receive dental care as part of your VA health benefits. <br/>
-[Find out if you can get dental care through VA](/health-care/about-va-health-care/dental-care/).
+[Find out if you can get dental care through VA](/health-care/about-va-health-benefits/dental-care/).
 
 </div>
 </div>
@@ -244,7 +246,7 @@ In certain cases, you may receive dental care as part of your VA health benefits
 <div itemprop="text">
 
 If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. <br/>
-[Find out if you qualify for disability benefits](/disability-benefits/eligibility/).
+[Find out if you qualify for disability benefits](/disability/eligibility/).
 
 </div>
 </div>

@@ -5,8 +5,19 @@ import recordEvent from '../../monitoring/record-event';
 import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
 
+import brandConsolidation from '../../brand-consolidation';
+
+let successRelay = 'vetsgov';
+if (brandConsolidation.isEnabled()) {
+  if (brandConsolidation.isPreview() || brandConsolidation.isDevPreview()) {
+    successRelay = 'preview_vagov';
+  } else {
+    successRelay = 'vagov';
+  }
+}
+
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
-const redirectUrl = (type) => `${SESSIONS_URI}/${type}/new`;
+const redirectUrl = (type) => `${SESSIONS_URI}/${type}/new?success_relay=${successRelay}`;
 
 const MHV_URL = redirectUrl('mhv');
 const DSLOGON_URL = redirectUrl('dslogon');

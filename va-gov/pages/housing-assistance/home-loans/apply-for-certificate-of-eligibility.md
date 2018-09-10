@@ -2,20 +2,20 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Apply for Your COE
-concurrence: 
+concurrence:
 order: 3
 relatedlinks:
   - heading: Loan Options
     links:
     - url: /housing-assistance/home-loans/loan-options/purchase-loan/
-      title: Purchase Loan 
-      description: Find out how to get a VA-backed purchase loan to buy a home. 
+      title: Purchase Loan
+      description: Find out how to get a VA-backed purchase loan to buy a home.
     - url: /housing-assistance/home-loans/loan-options/nadl/
-      title: Native American Direct Loan (NADL) 
-      description: Find out if you can get a NADL loan to buy, build, or improve a home on Federal Trust Land. 
+      title: Native American Direct Loan (NADL)
+      description: Find out if you can get a NADL loan to buy, build, or improve a home on Federal Trust Land.
     - url: /housing-assistance/home-loans/loan-options/irrrl/
-      title: Interest Rate Reduction Refinance Loan (IRRRL) 
-      description: Find out how to get an IRRRL loan to refinance an existing loan. 
+      title: Interest Rate Reduction Refinance Loan (IRRRL)
+      description: Find out how to get an IRRRL loan to refinance an existing loan.
     - url: /housing-assistance/home-loans/loan-options/cash-out-refinance/
       title: Cash-Out Refinance Loan
       description: Learn how to get cash from your home equity to pay off debts, pay for school, or take care of other needs.
@@ -117,13 +117,13 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 - **If you’re not receiving DIC benefits,** you’ll need to fill out and send an Application for DIC, Death Pension and/or Accrued Benefits (VA Form 21P-534EZ), **and**
   - A copy of your marriage license, **and**
   - The Veteran’s death certificate
-  
+
   <br>
- [Download VA Form 21P-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
- 
- <br> 
- 
- [Find out if you qualify for home loan benefits](/housing-assistance/home-loans/eligibility/). <br /> 
+ [Download VA Form 21P-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf).
+
+ <br>
+
+ [Find out if you qualify for home loan benefits](/housing-assistance/home-loans/eligibility/). <br />
  [Get military service records online](https://www.archives.gov/veterans/military-service-records/).
 
 </div>
@@ -160,7 +160,3 @@ To apply by mail, fill out a Request for a Certificate of Eligibility (VA Form 2
 ### Next steps for getting a VA direct or VA-backed home loan
 
 Applying for your COE is only one part of the process for getting a VA direct or VA-backed home loan. Your next steps will depend on the type of loan you’re looking to get—and on your lender (for most loans, the lender will be a private bank or mortgage company; for the Native American Direct Loan, we’ll be your lender).
-
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
-
-<!--- TODO: find a proper place to import USWDS JS for static pages -->

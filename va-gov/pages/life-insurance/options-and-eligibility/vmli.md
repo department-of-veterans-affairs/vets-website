@@ -21,7 +21,7 @@ If you have a severe service-connected disability that we’ve concluded was cau
 
 <div class="feature">
 
-### Can I get VMLI? 
+### Can I get VMLI?
 
 You may be able to get VMLI if you have a severe disability, and you meet all of the requirements listed below.
 
@@ -47,13 +47,13 @@ You may be able to get VMLI if you have a severe disability, and you meet all of
 
 ### What kind of life insurance benefits can I get with VMLI?
 
-Up to $200,000 in mortgage life insurance—paid directly to the bank or other lender that holds your mortgage. 
+Up to $200,000 in mortgage life insurance—paid directly to the bank or other lender that holds your mortgage.
 
 #### Important details about VMLI:
 
 - The money will be paid directly to the bank or other lender that holds your mortgage—not to a life insurance beneficiary (a person chosen to receive the money from a policy when the insured dies).
-- The amount of coverage will equal the amount you still owe on your mortgage, but won’t be more than $200,000. 
-- VMLI is a decreasing-term insurance. This means your coverage amount goes down as your mortgage balance goes down. If you pay off your mortgage, your VMLI coverage will end. 
+- The amount of coverage will equal the amount you still owe on your mortgage, but won’t be more than $200,000.
+- VMLI is a decreasing-term insurance. This means your coverage amount goes down as your mortgage balance goes down. If you pay off your mortgage, your VMLI coverage will end.
 - VMLI has no loan or cash value—and it doesn’t pay dividends (cash payments made to policy holders when the company makes a profit).
 
 <br>
@@ -63,7 +63,7 @@ Up to $200,000 in mortgage life insurance—paid directly to the bank or other l
 First, you’ll need to apply for an SAH grant. If you get the SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI. If you already have an SAH grant, ask your agent about VMLI.
 
 Your agent will help you fill out a Veterans’ Mortgage Life Insurance Statement (VA Form 29-8636).<br>
-[Download VA Form 29-8636](https://www.benefits.va.gov/INSURANCE/forms/29-8636_08-2011.pdf). 
+[Download VA Form 29-8636](https://www.benefits.va.gov/INSURANCE/forms/29-8636_08-2011.pdf).
 
 **Note:** Remember, you must apply for VMLI before your 70th birthday.
 
@@ -103,7 +103,4 @@ Send notice of any changes to:
   Philadelphia, PA 19101<br>
 </p>
 
-[Read our life insurance publications for more guidance](https://www.benefits.va.gov/INSURANCE/ins_publications.asp). 
-
-
-<!--- TODO: find a proper place to import USWDS JS for static pages -->
+[Read our life insurance publications for more guidance](https://www.benefits.va.gov/INSURANCE/ins_publications.asp).

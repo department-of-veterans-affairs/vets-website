@@ -6,7 +6,8 @@ display_title: After You Apply
 description: Find out what to do after applying for VA health care benefits, including when to schedule your first VA medical appointment.
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: healthCare
-order: 4
+spoke: Get Benefits
+order: 5
 lastupdate: 2017-08-28
 ---
 
@@ -83,11 +84,11 @@ Contact your local VA medical center or clinic and ask for:
 
 #### What if I need help understanding my benefits or accessing services?
 
-If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
+If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-benefits/).
 
 If you’re signed up for VA health care, you can manage your VA health and benefits online through Vets.gov: <br />
-[Refill your prescriptions](/health-care/prescriptions/). <br />
-[Send a secure message to your health care team](/health-care/messaging/). <br />
+[Refill your prescriptions](/health-care/refill-track-prescriptions). <br />
+[Send a secure message to your health care team](/health-care/secure-messaging). <br />
 [Check the status of a disability or pension claim](/track-claims/).
 
 If you need help accessing services, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).

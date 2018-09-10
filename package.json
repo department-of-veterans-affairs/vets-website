@@ -46,7 +46,8 @@
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "watch": "node script/build.js --watch",
-    "watch:devpreview": "node script/build.js --buildtype=devpreview --watch",
+    "watch:brand-consolidation": "node script/build.js --brand-consolidation-enabled --watch",
+    "watch:devpreview": "npm run watch:brand-consolidation",
     "watch:static": "npm run watch -- --entry static-pages"
   },
   "repository": {
@@ -212,7 +213,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^1.4.4",
+    "@department-of-veterans-affairs/formation": "^1.4.6",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
@@ -235,7 +236,7 @@
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
     "us-forms-system": "https://github.com/usds/us-forms-system.git#84887dc7cb0ccee2ae2c8156b5664697c2850b1d",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#2b1e3463725279589728e666f478a756769bf580",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a87b73d66112a7f4279e92b4eafe8fff14e27fc2",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }

@@ -32,5 +32,5 @@ Federal, state, or local government offices can set up a Non-paid Work Experienc
 
 ### Learn more about how to support your Veteran employees with disabilities:
 
-- Some Veterans may have disabilities that were acquired or aggravated during their military service; these are called service-related or [service-connected disabilities](/disability-benefits/conditions/).
+- Some Veterans may have disabilities that were acquired or aggravated during their military service; these are called service-related or [service-connected disabilities](/disability/eligibility/).
 - [Understanding Your Employment Rights Under the Americans with Disabilities Act (ADA): A Guide for Veterans](http://www.eeoc.gov/eeoc/publications/ada_veterans.cfm) briefly explains how protections for Veterans with service-connected disabilities differ under USERRA and the ADA. It also describes how the ADA, in particular, applies to recruiting, hiring, and accommodating Veterans with service-connected disabilities.
