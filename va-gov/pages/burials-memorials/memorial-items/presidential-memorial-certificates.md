@@ -11,7 +11,7 @@ aliases:
 
 <div class="va-introtext">
 
-To honor the military service of a deceased Veteran or Reservist, we provide the next of kin or a close friend a United States flag to drape on the casket (or coffin) or to place with the urn. We also provide a Presidential Memorial Certificate (PMC). Find out how to get one or both of these honors.
+To honor the military service of a Veteran or Reservist, we provide the next of kin or a close friend a United States flag to drape on the casket (or coffin) or to place with the urn. We also provide a Presidential Memorial Certificate (PMC). Find out how to get one or both of these honors.
 
 </div>
 
@@ -19,7 +19,7 @@ To honor the military service of a deceased Veteran or Reservist, we provide the
 
 ### Can I get a burial flag?
 
-You can get a burial flag if you’re the next of kin or a close friend of the deceased, and any one of the descriptions below is true for that person.
+You can get a burial flag if you’re the next of kin or a close friend of the Veteran or Reservist, and any one of the descriptions below is true for that person.
 
 **One of these must describe the service of the Veteran or Reservist:**
 
