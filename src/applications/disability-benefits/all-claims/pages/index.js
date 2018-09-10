@@ -39,9 +39,19 @@ import {
 } from './prisonerOfWar';
 
 import {
+  uiSchema as addDisabilitiesUISchema,
+  schema as addDisabilitiesSchema
+} from './addDisabilities';
+
+import {
   uiSchema as ratedDisabilitiesUISchema,
   schema as ratedDisabilitiesSchema
 } from './ratedDisabilities';
+
+import {
+  uiSchema as newDisabilityFollowUpUISchema,
+  schema as newDisabilityFollowUpSchema
+} from './newDisabilityFollowUp';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -86,4 +96,14 @@ export const prisonerOfWar = {
 export const ratedDisabilities = {
   uiSchema: ratedDisabilitiesUISchema,
   schema: ratedDisabilitiesSchema
+};
+
+export const addDisabilities = {
+  uiSchema: addDisabilitiesUISchema,
+  schema: addDisabilitiesSchema
+};
+
+export const newDisabilityFollowUp = {
+  uiSchema: newDisabilityFollowUpUISchema,
+  schema: newDisabilityFollowUpSchema
 };

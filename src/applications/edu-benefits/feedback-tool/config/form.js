@@ -14,7 +14,7 @@ const { get, omit, set } = dataUtils;
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import SchoolSelectField from '../../components/SchoolSelectField.jsx';
+import SchoolSelectField from '../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
 import { transform, submit, recordApplicantRelationship } from '../helpers';

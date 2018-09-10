@@ -99,6 +99,10 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
   {% include "content/includes/modal.html" %}
 {% endif %}
 
+{% if buildtype === 'staging' %}
+  <script src="/js/foresee/staging.js"></script>
+{% endif %}
+
 <!-- htmllint attr-bans="[]" -->
 {% if buildtype === 'development' %}
   <script>
@@ -144,6 +148,10 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
   mountWidgets(widgets, '{{ buildtype }}' === 'production');
 })();
 </script>
+{% endif %}
+
+{% if buildtype !== 'production' %}
+<script type="text/javascript" src="https://resources.digital-cloud-gov.voice.medallia.com/wdcgov/2/onsite/embed.js" async></script>
 {% endif %}
 
 </body>

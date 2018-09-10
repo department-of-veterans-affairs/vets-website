@@ -53,7 +53,7 @@ export default class ConfirmationPage extends React.Component {
         submissionMessage = checkLaterMessage(jobId);
         break;
       default:
-        submissionMessage = errorMessage(jobId);
+        submissionMessage = errorMessage();
     }
 
     // TODO: Verify we need this
