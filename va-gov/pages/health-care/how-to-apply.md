@@ -88,7 +88,7 @@ Or get help through your state's Department of Veterans Affairs. <br>
 ##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 </div>
 </div>
