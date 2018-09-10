@@ -516,6 +516,12 @@ const listDocuments = (documents) => {
 
 
 export const evidenceSummaryView = ({ formData }) => {
+  if (formData['view:selectableEvidenceTypes']['view:noEvidence']) {
+    return (
+      <p>You chose to not include any evidence with your claim.</p>
+    );
+  }
+
   const {
     treatments,
     privateRecordReleases,
