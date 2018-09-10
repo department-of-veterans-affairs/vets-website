@@ -5,7 +5,7 @@ import {
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { SchoolSelectField } from '../../components/SchoolSelectField';
+import { SchoolSelectField } from '../../../feedback-tool/components/SchoolSelectField';
 
 describe('<SchoolSelectField>', () => {
   it('should render initial search view', () => {
@@ -270,6 +270,9 @@ describe('<SchoolSelectField>', () => {
     setTimeout(() => {
       expect(searchSchools.firstCall.args[0]).to.eql({ institutionQuery: 'test' });
       expect(onChange.firstCall.args[0]).to.eql({
+        address: {},
+        name: null,
+        'view:facilityCode': null,
         'view:manualSchoolEntryChecked': false,
         'view:institutionQuery': 'test'
       });
@@ -358,6 +361,7 @@ describe('<SchoolSelectField>', () => {
 
     tree.find('.clear-search button').first().simulate('click');
     expect(onChange.calledOnce).to.eql(true);
+    expect(onChange.firstCall.args[0]).to.eql({});
     expect(clearSearch.calledOnce).to.eql(true);
   });
 });
