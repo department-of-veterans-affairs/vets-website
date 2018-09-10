@@ -1,5 +1,5 @@
 ---
-title: Apply for burial benefits
+title: Apply for Burial Benefits (VA Form 21P-530)
 display_title: Apply Now
 entryname: burials
 layout: page-react.html
