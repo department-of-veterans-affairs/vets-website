@@ -35,7 +35,7 @@ const {
   serviceDateRange,
 } = fullSchema.properties;
 
-const { assistance, programs, school } = educationDetails;
+const { assistance, programs, school } = educationDetails.properties;
 const { address: schoolAddress, name: schoolName } = school.properties;
 const domesticSchoolAddress = schoolAddress.oneOf[0];
 const internationalSchoolAddress = schoolAddress.oneOf[1];
@@ -382,6 +382,9 @@ const formConfig = {
                     },
                     street2: {
                       'ui:title': 'Address line 2'
+                    },
+                    street3: {
+                      'ui:title': 'Address line 3'
                     },
                     city: {
                       'ui:title': 'City',
