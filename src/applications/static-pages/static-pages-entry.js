@@ -12,7 +12,8 @@ const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibil
 const healthcarePages = new Set(['/health-care/', '/health-care/how-to-apply/', '/health-care/eligibility/']);
 const burialPages = new Set([
   '/burials-and-memorials/',
-  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/'
+  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/',
+  '/burials-memorials/veterans-burial-allowance/'
 ]);
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
 const eduOptOutPage = '/education/opt-out-information-sharing/';
