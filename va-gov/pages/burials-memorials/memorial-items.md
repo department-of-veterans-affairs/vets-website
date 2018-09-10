@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Honor the Deceased with Memorial Items
+title: Honor a Veteran, Reservist, or Family Member with Memorial Items
 display_title: Memorial Items
 collection: burials
 children: burialsHonor
@@ -12,10 +12,10 @@ majorlinks:
     links:
     - url: /burials-memorials/memorial-items/headstones-markers-medallions/
       title: Headstones, Markers, Niche Covers, and Medallions
-      description: Apply for one of these memorial items to identify the place of burial of a deceased Veteran or eligible spouse or other family member.
+      description: Apply for one of these memorial items to identify the place of burial of a Veteran or eligible spouse or other family member.
     - url: /burials-memorials/memorial-items/presidential-memorial-certificates/
       title: Burial Flags and Presidential Certificates
-      description: Apply for one or both of these items to honor the military service of a deceased Veteran or Reservist.
+      description: Apply for one or both of these items to honor the military service of a Veteran or Reservist.
 aliases:
   - /burials-and-memorials/honor/
 ---
