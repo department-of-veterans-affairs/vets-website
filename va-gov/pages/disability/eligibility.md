@@ -7,6 +7,7 @@ order: 1
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityEligibility
+spoke: Get Benefits
 majorlinks:
   - heading:
     links:

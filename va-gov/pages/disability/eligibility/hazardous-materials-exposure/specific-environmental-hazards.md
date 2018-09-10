@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 title: Specific Environmental Hazards
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: detail-page
+order: 1
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/specific-environmental-hazards/
 ---
