@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Headstones, Markers, Niche Covers, and Medallions
+title: Veterans Grave Markers, Headstones, and Medallions
 display_title: Headstones, Markers or Medallions
 order: 1
 concurrence: incomplete
@@ -12,7 +12,7 @@ aliases:
 
 <div class="va-introtext">
 
-To honor the military service of a deceased Veteran, we may provide a headstone, marker, or niche cover to identify the burial place in a federal, Department of Defense, or state Veterans cemetery. We may also provide a headstone, marker, or medallion (to attach to a privately purchased headstone or marker) for Veterans buried in private or public cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, national cemetery, or cemetery at a military post or base. Find out how to arrange for one of these memorial items.
+To honor the military service of a Veteran, we may provide a headstone, marker, or niche cover to identify the burial place in a federal, Department of Defense, or state Veterans cemetery. We may also provide a headstone, marker, or medallion (to attach to a privately purchased headstone or marker) for Veterans buried in private or public cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, national cemetery, or cemetery at a military post or base. Find out how to arrange for one of these memorial items.
 
 </div>
 
@@ -39,17 +39,17 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 
 ### Can I apply for one of these memorial items?
 
-You can apply for this benefit if you're representing the deceased Veteran in any of the below relationships or professional roles.
+You can apply for this benefit if you're representing the Veteran in any of the below relationships or professional roles.
 
 **One of these must describe your relationship or role:**
-- A family member of the deceased Veteran, **or**
+- A family member of the Veteran, **or**
 - A personal representative (someone who officially represents the deceased), **or**
 - A representative of an accredited Veterans Service Organization, **or**
 - An employee of a state or local government whose official responsibilities include serving Veterans, **or**
-- Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the deceased’s interment or memorialization, **or**
-- Any individual representing the deceased, if their service ended before April 6, 1917
+- Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the Veteran’s interment or memorialization, **or**
+- Any individual representing the Veteran, if their service ended before April 6, 1917
 
-**Note:** For memorial headstones and markers that honor the memory of the deceased, the person who applies must be a member of the deceased’s family.
+**Note:** For memorial headstones and markers that honor the memory of the Veteran, the person who applies must be a member of the Veteran’s family.
 
 <br>
 
@@ -76,7 +76,7 @@ You can apply for this benefit if you're representing the deceased Veteran in an
 
 ### What information goes on the headstone or marker?
 
-You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the deceased’s full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
+You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the Veteran’s or eligible family member's full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
 
 </div>
 
