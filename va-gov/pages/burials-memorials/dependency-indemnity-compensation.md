@@ -104,7 +104,7 @@ First you’ll need to fill out an application for benefits. The application you
 [Find your PMC](/pension/pension-management-center/).
 
 - Work with an accredited representative. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/facilities/).

@@ -1,10 +1,11 @@
 ---
-title: Apply for education benefits
+title: Veteran Request for Change
 entryname: 1995-edu-benefits
 layout: page-react.html
 description: Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.
 aliases:
   - /education/apply-for-education-benefits/application/1995
+order: 1
 ---
 <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"
 id="va-breadcrumbs">
