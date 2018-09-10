@@ -259,6 +259,11 @@ node('vetsgov-general-purpose') {
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+
+        build job: 'deploys/vets-website-vagovstaging', parameters: [
+          booleanParam(name: 'notify_slack', value: true),
+          stringParam(name: 'ref', value: commit),
+        ], wait: false
       }
       if (env.BRANCH_NAME == stagingBranch) {
         build job: 'deploys/vets-website-staging', parameters: [
