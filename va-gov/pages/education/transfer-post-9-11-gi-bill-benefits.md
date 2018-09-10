@@ -2,12 +2,13 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Transferring Post-9/11 GI Bill Benefits
-display_title: Transferring Benefits
+display_title: Transfer Post-9/11 GI Bill Benefits
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: complete
-order: 4
+order: 10
 aliases:
   - /education/gi-bill/transfer/
+spoke: Manage Benefits
 ---
 
 

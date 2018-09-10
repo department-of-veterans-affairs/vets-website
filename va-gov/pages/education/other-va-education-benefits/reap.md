@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Reserve Educational Assistance Program (REAP)
+display_title: REAP
 concurrence: incomplete
 order: 1
 aliases:

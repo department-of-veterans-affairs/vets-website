@@ -28,7 +28,7 @@ crosslinks:
     - url: "/burials-memorials/"
       title: <b>Burial Benefits and Memorial Items</b>
       description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
-    - url: "/education-training/"
+    - url: "/education/"
       title: <b>Education and Training</b>
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
 social:

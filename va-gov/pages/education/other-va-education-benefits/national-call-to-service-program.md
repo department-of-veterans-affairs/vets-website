@@ -3,9 +3,10 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: National Call to Service Program
 concurrence: incomplete
-order: 2
+order: 3
 aliases:
   - /education/other-educational-assistance-programs/call-to-service/
+children: educationNationalCallToServiceProgram
 ---
 
 <div class="va-introtext">
