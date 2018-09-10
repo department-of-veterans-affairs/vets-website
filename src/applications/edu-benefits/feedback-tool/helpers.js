@@ -1,15 +1,26 @@
 import appendQuery from 'append-query';
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import Raven from 'raven-js';
 import React from 'react';
+import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
+import dataUtils from '../../../platform/utilities/data/index';
 import { apiRequest } from '../../../platform/utilities/api';
-
 import environment from '../../../platform/utilities/environment';
 import recordEvent from '../../../platform/monitoring/record-event';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
+
+const { get } = dataUtils;
+const domesticSchoolAddressFields = get(
+  'properties.educationDetails.properties.school.properties.address.oneOf[0].properties',
+  fullSchema
+);
+const searchToolSchoolAddressFields = get(
+  'properties.educationDetails.properties.school.properties.address.oneOf[2].properties',
+  fullSchema
+);
 
 export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   const fetchUrl = appendQuery('/gi/institutions/search', {
@@ -179,17 +190,50 @@ export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
  */
 export function transformSearchToolAddress({ address1, address2, address3, city, country, state, zip }) {
   const isDomesticAddress = country === 'USA';
-  const address = {
-    country: isDomesticAddress ? 'United States' : country,
-    street: address1,
-    street2: address2,
-    street3: address3,
-    city,
-    state,
-    postalCode: zip,
-  };
-  if (!isDomesticAddress) {
-    address.viaSearchTool = true;
+  if (isDomesticAddress) {
+    return {
+      country: 'United States',
+      street: typeof address1 === 'string'
+        ? address1.slice(0, domesticSchoolAddressFields.street.maxLength)
+        : address1,
+      street2: typeof address2 === 'string'
+        ? address2.slice(0, domesticSchoolAddressFields.street2.maxLength)
+        : address2,
+      street3: typeof address3 === 'string'
+        ? address3.slice(0, domesticSchoolAddressFields.street3.maxLength)
+        : address3,
+      city: typeof city === 'string'
+        ? city.slice(0, domesticSchoolAddressFields.city.maxLength)
+        : city,
+      state: typeof state === 'string'
+        ? state.slice(0, domesticSchoolAddressFields.state.maxLength)
+        : state,
+      postalCode: typeof zip === 'string'
+        ? zip.slice(0, domesticSchoolAddressFields.postalCode.maxLength)
+        : zip,
+    };
   }
-  return address;
+  return {
+    viaSearchTool: true,
+    country,
+    street: typeof address1 === 'string'
+      ? address1.slice(0, searchToolSchoolAddressFields.street.maxLength)
+      : address1,
+    street2: typeof address2 === 'string'
+      ? address2.slice(0, searchToolSchoolAddressFields.street2.maxLength)
+      : address2,
+    street3: typeof address3 === 'string'
+      ? address3.slice(0, searchToolSchoolAddressFields.street3.maxLength)
+      : address3,
+    city: typeof city === 'string'
+      ? city.slice(0, searchToolSchoolAddressFields.city.maxLength)
+      : city,
+    state: typeof state === 'string'
+      ? state.slice(0, searchToolSchoolAddressFields.state.maxLength)
+      : state,
+    postalCode: typeof zip === 'string'
+      ? zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength)
+      : zip,
+  };
+
 }
