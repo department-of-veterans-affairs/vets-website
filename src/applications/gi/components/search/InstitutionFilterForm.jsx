@@ -128,6 +128,16 @@ class InstitutionFilterForm extends React.Component {
           name="independentStudy"
           label="Independent Study"
           onChange={this.handleCheckboxChange}/>
+        {__BUILDTYPE__ !== 'production' && <Checkbox
+          checked={filters.onlineOnly}
+          name="onlineOnly"
+          label="Online Only"
+          onChange={this.handleCheckboxChange}/>}
+        {__BUILDTYPE__ !== 'production' && <Checkbox
+          checked={filters.distanceLearning}
+          name="distanceLearning"
+          label="Distance Learning"
+          onChange={this.handleCheckboxChange}/>}
       </div>
     );
   }
@@ -171,6 +181,7 @@ class InstitutionFilterForm extends React.Component {
 InstitutionFilterForm.propTypes = {
   filters: PropTypes.shape({
     category: PropTypes.string,
+    distanceLearning: PropTypes.bool,
     type: PropTypes.string,
     country: PropTypes.string,
     priorityEnrollment: PropTypes.bool,
@@ -178,6 +189,7 @@ InstitutionFilterForm.propTypes = {
     state: PropTypes.string,
     studentVetGroup: PropTypes.bool,
     yellowRibbonScholarship: PropTypes.bool,
+    onlineLearning: PropTypes.bool,
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemOffered: PropTypes.bool
@@ -185,6 +197,7 @@ InstitutionFilterForm.propTypes = {
   onFilterChange: PropTypes.func,
   search: PropTypes.shape({
     category: PropTypes.object,
+    distanceLearning: PropTypes.object,
     type: PropTypes.object,
     state: PropTypes.object,
     country: PropTypes.object,
@@ -192,6 +205,7 @@ InstitutionFilterForm.propTypes = {
     yellowRibbonScholarship: PropTypes.object,
     principlesOfExcellence: PropTypes.object,
     eightKeysToVeteranSuccess: PropTypes.object,
+    onlineLearning: PropTypes.bool,
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
     stemOffered: PropTypes.object

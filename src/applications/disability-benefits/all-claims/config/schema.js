@@ -1004,6 +1004,36 @@ const schema = {
         }
       }
     },
+    newDisabilities: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['condition', 'cause', 'disabilityStartDate'],
+        properties: {
+          condition: {
+            type: 'string'
+          },
+          cause: {
+            type: 'string',
+            'enum': [
+              'NEW',
+              'SECONDARY',
+              'VA'
+            ]
+          },
+          disabilityStartDate: {
+            type: 'string',
+            format: 'date'
+          },
+          primaryDisability: {
+            type: 'string'
+          },
+          primaryDescription: {
+            type: 'string'
+          }
+        }
+      }
+    },
     mailingAddress: {
       $ref: '#/definitions/address'
     },
