@@ -28,7 +28,7 @@ export function transform(formConfig, form) {
 
 // disabling jsx-ally/no-noninteractive-tabindex for warning that screen readers should stop on
 /* eslint-disable */
-export const tabbableTitle = title => (<div
+export const tabIndexedTitle = title => (<div
   tabIndex="0">
   <p>
     {title}

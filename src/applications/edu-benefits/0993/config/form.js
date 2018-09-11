@@ -15,7 +15,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   prefillTransformer,
-  tabbableTitle,
+  tabIndexedTitle,
   transform
 } from '../helpers';
 
@@ -95,7 +95,7 @@ const formConfig = {
               }
             },
             'view:optOutMessage': {
-              'ui:title': tabbableTitle('By clicking the Continue button, you’re asking VA to not share your education benefits information.')
+              'ui:title': tabIndexedTitle('By clicking the Continue button, you’re asking VA to not share your education benefits information.')
             }
           },
           schema: {
