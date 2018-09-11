@@ -68,11 +68,11 @@ You can sign in to your Vets.gov or AccessVA account to check the status of your
 
 ### How do I replace my Veteran ID Card if it’s lost or stolen? 
 To request a new card, please call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>). <br>
-Or <a href="mailto:mustardgas@vba.va.gov">email us at vic@va.gov</a>. 
+Or <a href="mailto:vic@va.gov">email us at vic@va.gov</a>. 
 
 ### What if I have questions or need help with my application? 
 If you have any questions or need help, please send us an email. <br>
-<a href="mailto:mustardgas@vba.va.gov">Email us at vic@va.gov</a>.
+<a href="mailto:vic@va.gov">Email us at vic@va.gov</a>.
 
 ### Learn more about how the Veteran ID Card works
 
