@@ -28,6 +28,7 @@ import  {
 // These validators are staying in the increase-only form because most of them
 // rely on the data structure of the increase-only form. The all-claims form
 // has a different structure so it's easier to just keep the validations separate
+// and delete these when the time comes
 function isValidZIP(value) {
   if (value !== null) {
     return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
