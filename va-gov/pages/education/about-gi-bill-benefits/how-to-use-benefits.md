@@ -1,13 +1,10 @@
 ---
-title: How to Use Your GI Bill Benefits
-href: \#
-display_title: How to Use Your Benefits
-children: educationHowToUseBenefits
-order: 4
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Use Your GI Bill Benefits
-display title: How to Use Benefits
+display_title: How to Use Your Benefits
+children: educationHowToUseBenefits
+order: 4
 plainlanguage:
 concurrence:
 majorlinks:
@@ -62,6 +59,7 @@ majorlinks:
       title: Independent and Distance Learning
       description: Tuition assistance for online courses
 ---
+
 <div class="va-introtext">
 
 You have many options for how to use your GI Bill benefits to advance your education and training. Explore different ways you may be able to use your benefits.

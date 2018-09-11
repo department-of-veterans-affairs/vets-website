@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Independent and Distance Learning
+order: 3
 plainlanguage: 11-21-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 aliases:

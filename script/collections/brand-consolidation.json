@@ -256,7 +256,7 @@
       "icon": "fa-book"
     }
   },
-  "eductionHowToUseBenefits": {
+  "educationHowToUseBenefits": {
     "pattern": "education/about-gi-bill-benefits/how-to-use-benefits/*.md",
     "sortBy": "order",
     "metadata": {

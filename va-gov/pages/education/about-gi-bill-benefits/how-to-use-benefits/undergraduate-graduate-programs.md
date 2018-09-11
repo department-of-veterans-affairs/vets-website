@@ -4,7 +4,7 @@ template: detail-page
 title: Undergraduate and Graduate Degrees
 plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
-order: 2
+order: 1
 aliases:
   - /education/gi-bill/higher-learning/
 ---

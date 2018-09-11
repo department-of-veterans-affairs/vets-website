@@ -4,7 +4,7 @@ template: detail-page
 title: Co-op Training
 concurrence: complete
 plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
-order: 3
+order: 12
 aliases:
   - /education/work-learn/co-op-training/
 ---

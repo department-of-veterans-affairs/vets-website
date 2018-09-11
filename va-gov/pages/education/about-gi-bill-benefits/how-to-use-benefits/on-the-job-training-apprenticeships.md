@@ -5,7 +5,7 @@ title: On-the-Job Training and Apprenticeships
 display_title: On-the-Job Training
 concurrence: incomplete
 plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
-order: 2
+order: 13
 aliases:
   - /education/work-learn/job-and-apprenticeship/
 ---

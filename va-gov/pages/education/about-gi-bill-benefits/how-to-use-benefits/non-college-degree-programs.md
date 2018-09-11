@@ -4,7 +4,7 @@ template: detail-page
 title: Non-College Degree Programs
 concurrence: incomplete
 plainlanguage: 11-22-16 certified in compliance with the Plain Writing Act
-order: 4
+order: 7
 aliases:
   - /education/work-learn/non-college-degree-program/
 ---
