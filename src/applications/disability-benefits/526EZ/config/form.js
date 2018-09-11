@@ -46,7 +46,6 @@ import {
   privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
-  // download4142Notice, related to authorization to disclose section below
   // authorizationToDisclose,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
@@ -61,6 +60,10 @@ import {
   veteranInfoDescription,
   editNote
 } from '../helpers';
+
+import {
+  patientAcknowledgement,
+} from '../../4142/helpers';
 
 import {
   hasGuardOrReservePeriod
@@ -538,13 +541,13 @@ const formConfig = {
                     }
                   }
                 },
-                // 'view:privateRecords4142Notice': {
-                //   'ui:description': download4142Notice,
-                //   'ui:options': {
-                //     expandUnder: 'view:uploadPrivateRecords',
-                //     expandUnderCondition: 'no'
-                //   }
-                // },
+                'view:patientAcknowledgement': {
+                  'ui:title': 'Patient Acknowledgement',
+                  'ui:options': {
+                    expandUnder: 'view:uploadPrivateRecords',
+                    expandUnderCondition: 'no',
+                  }
+                },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp
                 }
@@ -564,11 +567,9 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no']
                     },
-                    // 'view:privateRecords4142Notice': {
-                    //   type: 'object',
-                    //   'ui:collapsed': true,
-                    //   properties: {}
-                    // },
+                    'view:patientAcknowledgement': {
+                      type: 'boolean',
+                    },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
                       properties: {}
