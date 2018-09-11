@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Flight Training
+order: 9
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 template: detail-page

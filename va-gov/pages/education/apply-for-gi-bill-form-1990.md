@@ -7,6 +7,7 @@ aliases:
   - /education/apply-for-gi-bill-form-1990
 spoke: Get Benefits
 order: 4
+hideFromSidebar: true
 ---
 <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"
 id="va-breadcrumbs">

@@ -13,20 +13,16 @@
                                 "href": "/health-care/about-va-health-benefits/"
                             },
                             {
-                                "text": "Eligibility",
-                                "href": "/health-care/eligibility/"
-                            },
-                            {
                                 "text": "How to Apply",
                                 "href": "/health-care/how-to-apply/"
                             },
                             {
-                                "text": "Apply Now for Health Care",
-                                "href": "/health-care/apply-for-health-care-form-10-10ez"
-                            },
-                            {
                                 "text": "Family and Caregiver Health Benefits",
                                 "href": "/health-care/family-caregiver-benefits/"
+                            },
+                            {
+                                "text": "Apply Now for Health Care",
+                                "href": "/health-care/apply-for-health-care-form-10-10ez"
                             }
                         ]
                     },
@@ -89,10 +85,6 @@
                             {
                                 "text": "Survivor and Dependent Compensation (DIC)",
                                 "href": "/burials-memorials/dependency-indemnity-compensation/"
-                            },
-                            {
-                                "text": "File a Claim for Disability Compensation",
-                                "href": "/disability/after-you-file-claim/"
                             }
                         ]
                     },
@@ -128,7 +120,7 @@
                         },
                         "link": {
                             "text": "Decision Ready Claims (DRC) Program",
-                            "href": "#"
+                            "href": "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
                         },
                         "description": "Find out if you can use the DRC program to get a decision on your disability claim in 30 days or less."
                     },
@@ -159,10 +151,6 @@
                             {
                                 "text": "Survivor and Dependent Education Benefits",
                                 "href": "/education/survivor-dependent-benefits/"
-                            },
-                            {
-                                "text": "Apply Now for GI Bill Benefits",
-                                "href": "/education/apply-for-gi-bill-form-1990/"
                             }
                         ]
                     },
@@ -198,7 +186,7 @@
                         },
                         "link": {
                             "text": "GI Bill® School Feedback Tool",
-                            "href": "#"
+                            "href": "https://www.benefits.va.gov/GIBILL/Feedback.asp"
                         },
                         "description": "Find out how to give us feedback about your GI Bill school."
                     },
@@ -307,7 +295,7 @@
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
+                                "href": "#"
                             },
                             {
                                 "text": "File an Appeal",
@@ -497,7 +485,7 @@
                             },
                             {
                                 "text": "Request Military Records",
-                                "href": "https://www.cem.va.gov/recmed_records.asp"
+                                "href": "#"
                             }
                         ]
                     },
@@ -514,7 +502,7 @@
                     },
                     "seeAllLink": {
                       "text": "Burials and Memorials",
-                      "href": "/burials/"
+                      "href": "/burials-memorials/"
                     }
                 }
             },
@@ -672,11 +660,11 @@
                   },
                   {
                       "text": "National Cemetery History Program",
-                      "href": "https://cem.va.gov/cem/history/index.asp"
+                      "href": "https://www.cem.va.gov/cem/history/index.asp"
                   },
                   {
                       "text": "Veterans Legacy Program",
-                      "href": "https://cem.va.gov/cem/legacy/index.asp"
+                      "href": "https://www.cem.va.gov/cem/legacy/index.asp"
                   },
                   {
                       "text": "Volunteer or Donate",

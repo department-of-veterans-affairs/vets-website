@@ -33,9 +33,9 @@ Our online tools can help you view, organize, and share your VA medical records 
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You'll need to sign in before you can authorize us to share your health information through the Veterans Health Information Exchange.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
+    <h4 class="usa-alert-heading">You'll need to go to eBenefits to authorize us to share your health information through the Veterans Health Information Exchange.</h4>
+    <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
+      <button class="usa-button-primary">Go to eBenefits</button>
     </p>
   </div>
 </div>
