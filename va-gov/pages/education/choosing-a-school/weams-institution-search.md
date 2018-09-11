@@ -1,5 +1,6 @@
 ---
 title: WEAMS Institution Search
 order: 2
-href: "#"
+href: https://www.benefits.va.gov/gibill/school_locator.asp
+collection: educationChooseSchool
 ---

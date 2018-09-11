@@ -4,4 +4,5 @@ href: "#"
 display_title:
 collection: educationYellowRibbonProgram
 order: 2
+hideFromSidebar: true
 ---

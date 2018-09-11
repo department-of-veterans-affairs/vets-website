@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: VA Blind and Low Vision Rehabilitation Services
-display_title: Care for Blind and Low Vision Veterans
+display_title: Blind and Low-Vision Services
 concurrence: complete
 lastupdate: 2017-06-28
 order: 1
