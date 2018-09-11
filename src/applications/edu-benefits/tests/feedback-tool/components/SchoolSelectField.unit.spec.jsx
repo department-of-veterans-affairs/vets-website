@@ -359,7 +359,6 @@ describe('<SchoolSelectField>', () => {
       tree.find('#page-1-1').first().simulate('change');
       expect(onChange.firstCall.args[0]).to.eql({
         address: {
-          viaSearchTool: true,
           city: internationalInstitution.city,
           country: internationalInstitution.country,
           postalCode: internationalInstitution.zip,

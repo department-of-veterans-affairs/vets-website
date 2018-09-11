@@ -37,8 +37,8 @@ const {
 
 const { assistance, programs, school } = educationDetails.properties;
 const { address: schoolAddress, name: schoolName } = school.properties;
-const domesticSchoolAddress = schoolAddress.oneOf[0];
-const internationalSchoolAddress = schoolAddress.oneOf[1];
+const domesticSchoolAddress = schoolAddress.anyOf[0];
+const internationalSchoolAddress = schoolAddress.anyOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
 function configureSchoolAddressSchema(schema) {

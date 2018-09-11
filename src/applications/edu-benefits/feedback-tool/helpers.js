@@ -14,11 +14,11 @@ import UserInteractionRecorder from '../components/UserInteractionRecorder';
 
 const { get } = dataUtils;
 const domesticSchoolAddressFields = get(
-  'properties.educationDetails.properties.school.properties.address.oneOf[0].properties',
+  'properties.educationDetails.properties.school.properties.address.anyOf[0].properties',
   fullSchema
 );
 const searchToolSchoolAddressFields = get(
-  'properties.educationDetails.properties.school.properties.address.oneOf[2].properties',
+  'properties.educationDetails.properties.school.properties.address.anyOf[2].properties',
   fullSchema
 );
 
@@ -214,7 +214,6 @@ export function transformSearchToolAddress({ address1, address2, address3, city,
     };
   }
   return {
-    viaSearchTool: true,
     country,
     street: typeof address1 === 'string'
       ? address1.slice(0, searchToolSchoolAddressFields.street.maxLength)

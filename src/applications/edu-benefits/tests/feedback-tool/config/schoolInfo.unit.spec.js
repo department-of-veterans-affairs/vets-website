@@ -34,7 +34,7 @@ describe('feedback tool school info', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(7);
   });
 
   it('should render international address fields', () => {
@@ -53,7 +53,7 @@ describe('feedback tool school info', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}/>
     );
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(8);
   });
 
   it('should not submit without required information', () => {

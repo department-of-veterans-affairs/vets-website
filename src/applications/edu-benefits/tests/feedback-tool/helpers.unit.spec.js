@@ -33,7 +33,6 @@ describe('feedback-tool helpers:', () => {
         country: 'THAILAND',
         state: null,
         postalCode: null,
-        viaSearchTool: true,
       };
       const address = transformSearchToolAddress(inputData);
       expect(address).to.eql(expectedAddress);
@@ -78,7 +77,6 @@ describe('feedback-tool helpers:', () => {
         country: 'THAILAND',
         state: null,
         postalCode: null,
-        viaSearchTool: true,
       };
       const inputData2 = {
         address1: '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG STREET NAME',
