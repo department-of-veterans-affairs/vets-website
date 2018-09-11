@@ -73,9 +73,10 @@ import {
 
 import {
   // recordHelp,
-  // recordReleaseDescription,
+  recordReleaseDescription,
   // aboutPrivateMedicalRecords,
-  // limitedConsentDescription,
+  limitedConsentDescription,
+  // limitedConsentTitle,
   // recordReleaseSummary,
   // disabilityNameTitle,
   validateZIP,
@@ -599,16 +600,6 @@ const formConfig = {
                     },
                   },
                 },
-                // 'view:privateRecords4142Notice': {
-                //   'ui:description': download4142Notice,
-                //   'ui:options': {
-                //     expandUnder: 'view:uploadPrivateRecords',
-                //     expandUnderCondition: 'no'
-                //   }
-                // },
-                // 'view:privateRecordsChoiceHelp': {
-                //   'ui:description': privateRecordsChoiceHelp
-                // }
               },
             },
           },
@@ -625,24 +616,15 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no'],
                     },
-                    // 'view:privateRecords4142Notice': {
-                    //   type: 'object',
-                    //   'ui:collapsed': true,
-                    //   properties: {}
-                    // },
-                    // 'view:privateRecordsChoiceHelp': {
-                    //   type: 'object',
-                    //   properties: {}
-                    // }
                   },
                 },
               },
             },
           },
         },
-        authorizationToDisclose: {
+        privateMedicalRecordRelease: {
           title: '',
-          path: 'supporting-evidence/:index/authorization-to-disclose',
+          path: 'supporting-evidence/:index/private-medical-records-release',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
@@ -660,15 +642,16 @@ const formConfig = {
               ) === 'no';
             return hasRecords && requestsRecords;
           },
-          // uiSchema: facilityAddressUiSchema,
-          // schema: facilityAddressSchema,
           uiSchema: {
             disabilities: {
               items: {
-                'ui:description': 'description',
+                'ui:description': recordReleaseDescription,
                 'ui:title': disabilityNameTitle,
                 limitedConsent: {
-                  'ui:title': 'I give consent blah',
+                  'ui:title': `I give consent, or permission, to my doctor to release only records related to ${disabilityNameTitle}.`,
+                },
+                'view:privateRecordsChoiceHelp': {
+                  'ui:description': limitedConsentDescription,
                 },
                 providerFacility: {
                   'ui:options': {
@@ -694,6 +677,7 @@ const formConfig = {
                       addressUI('', false),
                       {
                         street: {
+                          'ui:title': 'Street',
                           'ui:errorMessages': {
                             pattern:
                               'Street address must be less than 20 characters.',
@@ -707,13 +691,14 @@ const formConfig = {
                           },
                         },
                         city: {
+                          'ui:title': 'City',
                           'ui:errorMessages': {
                             pattern:
                               'Please provide a valid city. Must be at least 1 character.',
                           },
                         },
                         postalCode: {
-                          'ui:title': 'Postal code',
+                          'ui:title': 'Postal Code',
                           'ui:options': {
                             widgetClassNames: 'usa-input-medium',
                           },
@@ -727,12 +712,6 @@ const formConfig = {
                     ),
                   },
                 },
-                // providerFacilityName: {
-                //   'ui:title': 'Name of private provider or hospital',
-                //   'ui:errorMessages': {
-                //     pattern: 'Provider name must be less than 100 characters.',
-                //   },
-                // },
               },
             },
           },
@@ -797,7 +776,18 @@ const formConfig = {
                             },
                           ),
                         },
+                        required: [
+                          'providerFacilityName',
+                          'providerFacilityAddress',
+                        ],
                       },
+                    },
+                    limitedConsent: {
+                      type: 'boolean',
+                    },
+                    'view:privateRecordsChoiceHelp': {
+                      type: 'object',
+                      properties: {},
                     },
                   },
                 },
@@ -805,17 +795,6 @@ const formConfig = {
             },
           },
         },
-        // treatmentHistory: {
-        //   title: 'Supporting Evidence',
-        // //  pages: {
-        //   privateMedicalRecordRelease: {
-        //     path: 'private-medical-record-request',
-        //     title: 'Supporting Evidence',
-        //     uiSchema: facilityAddressUiSchema,
-        //     schema: facilityAddressSchema,
-        //   //  },
-        //   },
-        // },
         // TODO: Re-enable after 4142 PDF integration
         // privateMedicalRecordRelease: {
         //   title: '',

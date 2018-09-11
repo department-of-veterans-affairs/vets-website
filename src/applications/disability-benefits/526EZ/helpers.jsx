@@ -136,7 +136,7 @@ export function transform(formConfig, form) {
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
-    providerFacility,
+    form4142: { providerFacility },
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -287,6 +287,21 @@ export const evidenceTypeHelp = (
     </p>
   </AdditionalInfo>
 );
+
+export const limitedConsentTitle = ({ formData }) => {
+  return (
+
+    <legend className="schemaform-block-title schemaform-title-underline">
+      {getDisabilityName(formData.name)}
+    </legend>
+    // <div>
+    //   <p>
+    //     I give consent, or permission, to my doctor to release only records related to
+    //   </p>
+    // <span>{getDisabilityName(formData.name)}</span>
+    // </div>
+  );
+};
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
@@ -584,9 +599,9 @@ const listDocuments = documents => {
 export const evidenceSummaryView = ({ formData }) => {
   const {
     treatments,
-    privateRecordReleases,
     privateRecords,
     additionalDocuments,
+    providerFacility
   } = formData;
 
   return (
@@ -597,10 +612,14 @@ export const evidenceSummaryView = ({ formData }) => {
             We’ll get your medical records from {listCenters(treatments)}.
           </li>
         )}
-        {privateRecordReleases && (
+        {providerFacility && (
           <li>
             We’ll get your private medical records from{' '}
-            {listCenters(privateRecordReleases)}.
+            {providerFacility.map((facility, idx) => {
+              return (
+                <div key={idx}>{facility.providerFacilityName}</div>
+              );
+            })}
           </li>
         )}
         {privateRecords && (
