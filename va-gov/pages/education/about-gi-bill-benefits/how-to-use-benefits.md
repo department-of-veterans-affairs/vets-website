@@ -10,16 +10,16 @@ concurrence:
 majorlinks:
   - heading: Work toward a Degree
     links:
-    - url: /education/gi-bill/higher-learning/
+    - url: /education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/
       title: Undergraduate and Graduate Degrees
       description: Help paying for tuition, books, and housing at an institution of higher learning (like a 4-year university, community college, or graduate school)
-    - url: /education/gi-bill/foreign-programs/
+    - url: /education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools/
       title: Foreign Programs
       description: Funding for tuition and housing at a school located outside the U.S.
-    - url: /education/gi-bill/tuition-assistance/
+    - url: /education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/
       title: Tuition Assistance Top-Up
       description: Additional funds to help pay for school if your tuition costs more than what's covered by the active-duty Tuition Assistance program
-    - url: /education/gi-bill/tutorial-assistance/
+    - url: /education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/
       title: Tutorial Assistance
       description: Help paying for a tutor if you’re struggling with coursework
   - heading: Train for a Specific Career, Trade, or Industry
@@ -68,4 +68,3 @@ You can use your GI Bill benefits in many ways to advance your education and tra
 
 
 </div>
-
