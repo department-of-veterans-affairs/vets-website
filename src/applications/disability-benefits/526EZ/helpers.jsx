@@ -784,14 +784,6 @@ export const contactInfoUpdateHelp = () => (
   </div>
 );
 
-
-export const PaymentDescription = () => (
-  <p>
-    This is the bank account information we have on file for you. We’ll pay your
-    disability benefit to this account.
-  </p>
-);
-
 export const validateBooleanIfEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
   const { wrappedValidator } = options;
   if (get('view:hasEvidence', formData, true)) {
