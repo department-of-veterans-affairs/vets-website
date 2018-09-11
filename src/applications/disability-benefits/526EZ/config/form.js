@@ -69,6 +69,7 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
+  getlimitedConsentTitle
 } from '../helpers';
 
 import {
@@ -648,7 +649,10 @@ const formConfig = {
                 'ui:description': recordReleaseDescription,
                 'ui:title': disabilityNameTitle,
                 limitedConsent: {
-                  'ui:title': `I give consent, or permission, to my doctor to release only records related to ${disabilityNameTitle}.`,
+                  'ui:options': {
+                    // Only way to get access to the disability info like 'name' within this nested schema. Similar to ln 381
+                    updateSchema: (form, schema, uiSchema, index) => ({ title: getlimitedConsentTitle(form, index) })
+                  }
                 },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': limitedConsentDescription,

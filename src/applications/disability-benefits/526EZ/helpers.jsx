@@ -288,19 +288,24 @@ export const evidenceTypeHelp = (
   </AdditionalInfo>
 );
 
-export const limitedConsentTitle = ({ formData }) => {
+/**
+ * Disability/contention display HTML. 
+ * @param {string} disabilityName Name of the contention/disability that the user is giving consent to
+ */
+const limitedConsentTitle = (disabilityName) => {
   return (
-
-    <legend className="schemaform-block-title schemaform-title-underline">
-      {getDisabilityName(formData.name)}
-    </legend>
-    // <div>
-    //   <p>
-    //     I give consent, or permission, to my doctor to release only records related to
-    //   </p>
-    // <span>{getDisabilityName(formData.name)}</span>
-    // </div>
+    <p>I give consent, or permission, to my doctor to release only records related to {disabilityName}.</p>
   );
+};
+
+/**
+ * Grabbing the disbility string and returning a display content. Similar to getEvidenceTypesDescription. Maybe refactor?
+ * @param {object} form Form data
+ * @param {*} index identifier for which disability/contention is being evaluated
+ */
+export const getlimitedConsentTitle = (form, index) => {
+  const { name } = form.disabilities[index];
+  return limitedConsentTitle(getDisabilityName(name));
 };
 
 export const disabilityNameTitle = ({ formData }) => {
