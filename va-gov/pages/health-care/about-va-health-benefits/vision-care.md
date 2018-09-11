@@ -59,7 +59,7 @@ We’ll cover the cost of your eyeglasses if you meet at least one of the requir
 - Have a compensable service-connected disability (a disability linked to your military service for which you’re receiving VA disability payments), **or**
 - Are a former Prisoner of War (POW), **or**
 - Were awarded a Purple Heart, **or**
-- [Receive benefits under Title 38 United States Code (U.S.C.) 1151](https://www.vets.gov/disability/eligibility/special-claims/1151-claims-title-38/), **or**
+- [Receive benefits under Title 38 United States Code (U.S.C.) 1151](/disability/eligibility/special-claims/1151-claims-title-38/), **or**
 - Receive an increased pension based on your being permanently housebound and in need of regular aid and attendance
 
 **Or, you must have at least one of these issues:**
