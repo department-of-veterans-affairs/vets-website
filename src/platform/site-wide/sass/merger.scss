@@ -805,7 +805,7 @@
         width: 85%;
         .usa-grid {
           .usa-width-one-half {
-            min-height: 276px;
+            min-height: 300px;
           }
         }
       }
@@ -820,7 +820,7 @@
 
     #hub-internal {
       .usa-width-one-half {
-        min-height: 285px;
+        min-height: 300px;
         padding-right: 1em;
       }
     }
@@ -1072,5 +1072,9 @@
     .fa {
       color: inherit;
     }
+  }
+
+  .hub-links-container {
+    min-height: 250px;
   }
 }
