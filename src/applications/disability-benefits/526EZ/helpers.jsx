@@ -23,10 +23,6 @@ import {
   VA_FORM4142_URL
 } from './constants';
 
-import {
-  USA,
-} from '../all-claims/constants';
-
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
  * of each object into one array
