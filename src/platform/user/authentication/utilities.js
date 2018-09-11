@@ -9,7 +9,7 @@ import brandConsolidation from '../../brand-consolidation';
 
 let successRelay = 'vetsgov';
 if (brandConsolidation.isEnabled()) {
-  if (brandConsolidation.isPreview() || brandConsolidation.isDevPreview()) {
+  if (brandConsolidation.isPreview()) {
     successRelay = 'preview_vagov';
   } else {
     successRelay = 'vagov';

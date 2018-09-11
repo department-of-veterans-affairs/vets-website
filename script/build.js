@@ -276,7 +276,7 @@ if (!BUILD_OPTIONS.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   }));
 }
 
-if (!['development', 'devpreview', 'vagovdev'].includes(BUILD_OPTIONS.buildtype)) {
+if (!['development', 'vagovdev'].includes(BUILD_OPTIONS.buildtype)) {
 
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
