@@ -4,9 +4,9 @@ import moment from 'moment';
 moment.updateLocale('en', {
   meridiem: (hour) => {
     if (hour < 12) {
-      return 'am';
+      return 'a.m.';
     }
-    return 'pm';
+    return 'p.m.';
   },
   monthsShort: [
     'Jan.',

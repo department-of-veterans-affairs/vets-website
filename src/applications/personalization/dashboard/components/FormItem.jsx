@@ -20,8 +20,8 @@ class FormItem extends React.Component {
     const savedFormData = this.props.savedFormData;
     const formId = savedFormData.form;
     const { lastUpdated: lastSaved, expiresAt: expirationTime } = savedFormData.metadata;
-    const lastSavedDateTime = moment.unix(lastSaved).format('MMMM DD [at] h:mm a');
-    const expirationDate = moment.unix(expirationTime).format('MMMM DD');
+    const lastSavedDateTime = moment.unix(lastSaved).format('MMMM D, YYYY [at] h:m a');
+    const expirationDate = moment.unix(expirationTime).format('MMMM D, YYYY');
     const isExpired = moment.unix(expirationTime).isBefore();
     const itemTitle = `Application for ${formTitles[formId]}`;
 
