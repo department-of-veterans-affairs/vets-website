@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Schedule a VA Appointment
-display_title:
+display_title: Schedule and View Appointments
 collection: healthCare
 lastupdate: 2017-10-23
 spoke: Manage Benefits
