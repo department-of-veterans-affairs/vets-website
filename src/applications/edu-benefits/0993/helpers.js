@@ -25,13 +25,12 @@ export function transform(formConfig, form) {
     }
   });
 }
+
+// disabling jsx-ally/no-noninteractive-tabindex for warning that screen readers should stop on
 /* eslint-disable */
 export const tabbableTitle = title => (<div
-  className="schemaform-block-header"
   tabIndex="0">
-  <p
-    className="schemaform-block-title schemaform-block-subtitle"
-    id="root_view:optOutMessage__title">
+  <p>
     {title}
   </p>
 </div>);
