@@ -9,10 +9,15 @@ template: detail-page
 
 The GI Bill covers more than just tuition. We may pay you back for the cost of any test you need to take to become a licensed or certified professional—or to apply for college or a training course. Find out what’s covered with this benefit.
 ### What kind of benefits can I get?
-#### For licensing and certification
-If you’re a Veteran and you qualify for the GI Bill, we may pay you back for testing fees under $2,000. 
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="lc-program">For licensing and certification <br>
 
-You can get paid back for testing related to these kinds of jobs:
+If you’re a Veteran and you qualify for the GI Bill, we may pay you back for testing fees under $2,000.
+
+You can get paid back for testing related to these kinds of jobs:</button>
+<div id="bdd-program" class="usa-accordion-content">
 
 - Mechanic
 - Medical technician
@@ -28,14 +33,15 @@ We’ll pay you back:
 -	Even when you don’t score high enough to get your license or certification
 
 **Note:** We won’t pay for fees or costs related to getting the actual license or certification document.
-
+</div>
+</li>
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="nt-program">For national testing: <br>
-<div id="nt-program" class="usa-accordion-content">
 
-If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may pay you back for testing fees, including:
+If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may pay you back for testing fees, including</button>
+<div id="bdd-program" class="usa-accordion-content">
 
 - The cost to register
 - The cost of specialized tests
@@ -65,7 +71,8 @@ We won’t pay you back for these costs:
 - Pretest costs (such as Kaplan tests)
 - Fees to get scores quickly
 - Optional items not required to take an approved test
-
+</div>
+</li>
 ### How do I get this benefit?
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
