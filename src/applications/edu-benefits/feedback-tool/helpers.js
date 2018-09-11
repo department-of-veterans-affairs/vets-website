@@ -193,46 +193,22 @@ export function transformSearchToolAddress({ address1, address2, address3, city,
   if (isDomesticAddress) {
     return {
       country: 'United States',
-      street: typeof address1 === 'string'
-        ? address1.slice(0, domesticSchoolAddressFields.street.maxLength)
-        : address1,
-      street2: typeof address2 === 'string'
-        ? address2.slice(0, domesticSchoolAddressFields.street2.maxLength)
-        : address2,
-      street3: typeof address3 === 'string'
-        ? address3.slice(0, domesticSchoolAddressFields.street3.maxLength)
-        : address3,
-      city: typeof city === 'string'
-        ? city.slice(0, domesticSchoolAddressFields.city.maxLength)
-        : city,
-      state: typeof state === 'string'
-        ? state.slice(0, domesticSchoolAddressFields.state.maxLength)
-        : state,
-      postalCode: typeof zip === 'string'
-        ? zip.slice(0, domesticSchoolAddressFields.postalCode.maxLength)
-        : zip,
+      street: address1 && address1.slice(0, domesticSchoolAddressFields.street.maxLength),
+      street2: address2 && address2.slice(0, domesticSchoolAddressFields.street2.maxLength),
+      street3: address3 && address3.slice(0, domesticSchoolAddressFields.street3.maxLength),
+      city: city && city.slice(0, domesticSchoolAddressFields.city.maxLength),
+      state: state && state.slice(0, domesticSchoolAddressFields.state.maxLength),
+      postalCode: zip && zip.slice(0, domesticSchoolAddressFields.postalCode.maxLength),
     };
   }
   return {
     country,
-    street: typeof address1 === 'string'
-      ? address1.slice(0, searchToolSchoolAddressFields.street.maxLength)
-      : address1,
-    street2: typeof address2 === 'string'
-      ? address2.slice(0, searchToolSchoolAddressFields.street2.maxLength)
-      : address2,
-    street3: typeof address3 === 'string'
-      ? address3.slice(0, searchToolSchoolAddressFields.street3.maxLength)
-      : address3,
-    city: typeof city === 'string'
-      ? city.slice(0, searchToolSchoolAddressFields.city.maxLength)
-      : city,
-    state: typeof state === 'string'
-      ? state.slice(0, searchToolSchoolAddressFields.state.maxLength)
-      : state,
-    postalCode: typeof zip === 'string'
-      ? zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength)
-      : zip,
+    street: address1 && address1.slice(0, searchToolSchoolAddressFields.street.maxLength),
+    street2: address2 && address2.slice(0, searchToolSchoolAddressFields.street2.maxLength),
+    street3: address3 && address3.slice(0, searchToolSchoolAddressFields.street3.maxLength),
+    city: city && city.slice(0, searchToolSchoolAddressFields.city.maxLength),
+    state: state && state.slice(0, searchToolSchoolAddressFields.state.maxLength),
+    postalCode: zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
   };
 
 }
