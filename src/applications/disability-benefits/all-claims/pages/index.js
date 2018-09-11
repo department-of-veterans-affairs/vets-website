@@ -58,6 +58,11 @@ import {
   schema as contactInformationSchema
 } from './contactInformation';
 
+import {
+  uiSchema as paymentInformationUISchema,
+  schema as paymentInformationSchema
+} from './paymentInformation';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema
@@ -116,4 +121,9 @@ export const newDisabilityFollowUp = {
 export const contactInformation = {
   uiSchema: contactInformationUISchema,
   schema: contactInformationSchema
+};
+
+export const paymentInformation = {
+  uiSchema: paymentInformationUISchema,
+  schema: paymentInformationSchema
 };

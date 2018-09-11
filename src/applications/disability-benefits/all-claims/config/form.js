@@ -27,7 +27,8 @@ import {
   ratedDisabilities,
   contactInformation,
   addDisabilities,
-  newDisabilityFollowUp
+  newDisabilityFollowUp,
+  paymentInformation
 } from '../pages';
 
 import fullSchema from './schema';
@@ -187,6 +188,12 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema
+        },
+        paymentInformation: {
+          title: 'Payment information',
+          path: 'payment-information',
+          uiSchema: paymentInformation.uiSchema,
+          schema: paymentInformation.schema
         }
       }
     }

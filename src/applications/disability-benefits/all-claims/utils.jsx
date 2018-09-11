@@ -3,6 +3,7 @@ import moment from 'moment';
 import Raven from 'raven-js';
 
 import get from 'lodash/get';
+import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
 
 
@@ -17,7 +18,7 @@ import {
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
-const srSubstitute = (srIgnored, substitutionText) => {
+export const srSubstitute = (srIgnored, substitutionText) => {
   return (
     <div style={{ display: 'inline' }}>
       <span aria-hidden>{srIgnored}</span>
@@ -26,7 +27,7 @@ const srSubstitute = (srIgnored, substitutionText) => {
   );
 };
 
-export default srSubstitute;
+export default srSubstitute; // TODO: Fix double export
 
 export const hasGuardOrReservePeriod = (formData) => {
   const serviceHistory = formData.servicePeriods;
@@ -146,3 +147,17 @@ export function prefillTransformer(pages, formData, metadata) {
 export const hasForwardingAddress = (formData) => (get(formData, 'view:hasForwardingAddress', false));
 
 export const forwardingCountryIsUSA = (formData) => (get(formData, 'forwardingAddress.country', '') === USA);
+
+export function fetchPaymentInformation() {
+  return apiRequest('/ppiu/payment_information',
+    {},
+    response => {
+      // Return only the bit the UI cares about
+      return response.data.attributes.responses[0].paymentAccount;
+    },
+    () => {
+      Raven.captureMessage('vets_payment_information_fetch_failure');
+      return Promise.reject();
+    }
+  );
+}
