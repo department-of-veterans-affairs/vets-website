@@ -13,20 +13,16 @@
                                 "href": "/health-care/about-va-health-benefits/"
                             },
                             {
-                                "text": "Eligibility",
-                                "href": "/health-care/eligibility/"
-                            },
-                            {
                                 "text": "How to Apply",
                                 "href": "/health-care/how-to-apply/"
                             },
                             {
-                                "text": "Apply Now for Health Care",
-                                "href": "/health-care/apply-for-health-care-form-10-10ez"
-                            },
-                            {
                                 "text": "Family and Caregiver Health Benefits",
                                 "href": "/health-care/family-caregiver-benefits/"
+                            },
+                            {
+                                "text": "Apply Now for Health Care",
+                                "href": "/health-care/apply-for-health-care-form-10-10ez"
                             }
                         ]
                     },
