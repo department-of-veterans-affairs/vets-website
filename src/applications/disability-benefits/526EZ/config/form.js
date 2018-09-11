@@ -55,8 +55,6 @@ import {
   //  privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
-  //  download4142Notice,
-  //  authorizationToDisclose,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
   evidenceSummaryView,

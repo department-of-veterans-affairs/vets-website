@@ -12,7 +12,7 @@ import {
   searchInputChange,
   selectInstitution,
   searchSchools
-} from '../feedback-tool/actions/schoolSearch';
+} from '../actions/schoolSearch';
 import {
   selectCurrentPageNumber,
   selectFacilityCodeErrorMessages,
@@ -30,7 +30,7 @@ import {
   selectShowPagination,
   selectShowPaginationLoading,
   selectShowSearchResults
-} from '../feedback-tool/selectors/schoolSearch';
+} from '../selectors/schoolSearch';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -38,7 +38,6 @@ const scroller = Scroll.scroller;
 export class SchoolSelectField extends React.Component {
   constructor(props) {
     super(props);
-
     this.debouncedSearchInstitutions = _.debounce(
       value => this.props.searchSchools(value),
       150);
@@ -103,7 +102,7 @@ export class SchoolSelectField extends React.Component {
   }
 
   handlePageSelect = page => {
-    this.scrollToTop();
+    this.resultCount.focus();
 
     this.debouncedSearchInstitutions({
       institutionQuery: this.props.institutionQuery,
@@ -132,9 +131,11 @@ export class SchoolSelectField extends React.Component {
 
   handleSearchClick = e => {
     e.preventDefault();
-
     this.props.onChange({
       ...this.props.formData,
+      name: null,
+      'view:facilityCode': null,
+      address: {},
       'view:manualSchoolEntryChecked': false,
       'view:institutionQuery': this.props.searchInputValue,
     });
@@ -268,13 +269,17 @@ export class SchoolSelectField extends React.Component {
           <ErrorableCheckbox
             checked={manualSchoolEntryChecked}
             onValueChange={() => this.handleManualSchoolEntryToggled(manualSchoolEntryChecked)}
-            label={<span>Check the box to manually type in your school's name and address</span>}/>
+            labelAboveCheckbox="If you don’t find your school in the search results, then check the box to enter in your school information manually."
+            label={<span>I want to type in my school’s name and address.</span>}/>
           <div
             aria-live="polite"
             aria-relevant="additions text">
-            {showSearchResults && searchResultsCount > 0 && <span>
+            {showSearchResults && searchResultsCount > 0 && <div
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+              tabIndex="0"
+              ref={el => { this.resultCount = el; }}>
               {`${searchResultsCount} results for ${institutionQuery}`}
-            </span>}
+            </div>}
             {showSearchResults && showInstitutions && <div>
               {institutions.map(({ address1, address2, address3, city, country, facilityCode, name, state, zip }, index) => (
                 <div key={index}>
@@ -323,7 +328,7 @@ export class SchoolSelectField extends React.Component {
             }
           </div>
           {showSearchResults && showPagination && <Pagination
-            page={currentPageNumber} pages={pagesCount} onPageSelect={this.handlePageSelect}/>}
+            page={currentPageNumber} pages={pagesCount} ariaLabelSuffix="of school results" onPageSelect={this.handlePageSelect}/>}
         </div>
       </fieldset>
     );
