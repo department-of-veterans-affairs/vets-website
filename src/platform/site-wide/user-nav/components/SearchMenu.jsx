@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
+
 
 class SearchMenu extends React.Component {
   constructor(props) {
@@ -20,17 +22,17 @@ class SearchMenu extends React.Component {
     this.props.clickHandler();
   }
 
-  makeForm() {
+  makeForm(action, affiliate) {
     return (
       <form
         acceptCharset="UTF-8"
-        action="https://search.vets.gov/search"
+        action={action}
         id="search"
         method="get">
         <div className="csp-inline-patch-header">
           <input name="utf8" type="hidden" value="&#x2713;"/>
         </div>
-        <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search"/>
+        <input id="affiliate" name="affiliate" type="hidden" value={affiliate}/>
         <label htmlFor="query" className="usa-sr-only">Search:</label>
 
         <div className="va-flex">
@@ -52,6 +54,9 @@ class SearchMenu extends React.Component {
 
     const icon = <IconSearch color="#fff"/>;
 
+    const searchAction = isBrandConsolidationEnabled() ? 'https://search.usa.gov/search' : 'https://search.vets.gov/search';
+    const searchAffiliate = isBrandConsolidationEnabled() ? 'va' : 'vets.gov_search';
+
     return (
       <DropDownPanel
         buttonText="Search"
@@ -60,7 +65,7 @@ class SearchMenu extends React.Component {
         id="searchmenu"
         icon={icon}
         isOpen={this.props.isOpen}>
-        {this.makeForm()}
+        {this.makeForm(searchAction, searchAffiliate)}
       </DropDownPanel>
     );
   }
