@@ -2,6 +2,6 @@
   "appName": "22-1990N Education benefits form",
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "1990n-edu-benefits",
-  "rootUrl": "/education/apply-for-education-benefits/application/1990N",
+  "rootUrl": "/education/other-va-education-benefits/national-call-to-service-program/apply-for-benefits-under-ncs-form-1990n",
   "production": true
 }
