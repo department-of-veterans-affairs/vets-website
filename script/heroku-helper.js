@@ -26,9 +26,9 @@ function applyHerokuOptions(options) {
 
     if (/^va-gov\/.*/.test(branchName)) {
       // eslint-disable-next-line no-console
-      console.log('Build type set to devpreview due to branch name');
+      console.log('Build type set to vagovdev due to branch name');
       // eslint-disable-next-line no-param-reassign
-      options.buildtype = 'devpreview';
+      options.buildtype = 'vagovdev';
     }
   } catch (err) {
     // eslint-disable-next-line no-console
