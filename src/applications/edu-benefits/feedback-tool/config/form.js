@@ -478,6 +478,7 @@ const formConfig = {
           uiSchema: {
             issue: {
               'ui:title': 'Which topic best describes your feedback? (Select all that apply)',
+              'ui:description': 'Please note, below the topics are examples of what the feedback could include.',
               'ui:validations': [
                 validateBooleanGroup
               ],

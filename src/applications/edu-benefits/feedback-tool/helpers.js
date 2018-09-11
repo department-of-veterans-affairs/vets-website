@@ -198,6 +198,6 @@ export const gradePolicyLabel = getIssueLabel('Grade policy', 'The school didnâ€
 
 export const refundIssuesLabel = getIssueLabel('Refund issues', 'The school wonâ€™t refund your GI Bill payment.');
 
-export const financialIssuesLabel = getIssueLabel('Financial concern (for example, tuition or fee changes)', 'The school is charging you a higher tuition or extra fees.');
+export const financialIssuesLabel = getIssueLabel('Financial concern', 'The school is charging you a higher tuition or extra fees.');
 
 export const changeInDegreeLabel = getIssueLabel('Change in degree plan or requirements', 'The school added new hour or course requirements after you enrolled.');
