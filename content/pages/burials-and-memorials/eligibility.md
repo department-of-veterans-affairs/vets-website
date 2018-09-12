@@ -59,6 +59,7 @@ In the event of your death, the person planning your burial can also request oth
 
 [Learn about the burial planning process](/burials-and-memorials/burial-planning/). <br />
 [Learn about memorials and burial honors](/burials-and-memorials/honor/).
+[See our National Cemetery Administration brochure](https://www.cem.va.gov/cem/docs/factsheets/NCA_Brochure.pdf).
 
 <br>
 
