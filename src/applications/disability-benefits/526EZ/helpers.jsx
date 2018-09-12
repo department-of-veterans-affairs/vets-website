@@ -516,6 +516,7 @@ const listDocuments = (documents) => {
 
 
 export const evidenceSummaryView = ({ formData }) => {
+
   const {
     treatments,
     privateRecordReleases,
@@ -870,3 +871,10 @@ export const PaymentDescription = () => (
     disability benefit to this account.
   </p>
 );
+
+export const validateBooleanIfEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
+  const { wrappedValidator } = options;
+  if (get('view:hasEvidence', formData, true)) {
+    wrappedValidator(errors, fieldData, formData, schema, messages, index);
+  }
+};
