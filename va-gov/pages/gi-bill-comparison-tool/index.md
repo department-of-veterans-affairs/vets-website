@@ -7,4 +7,3 @@ entryname: gi
 collection: education
 order: 4
 ---
-

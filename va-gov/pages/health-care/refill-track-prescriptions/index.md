@@ -7,7 +7,8 @@ description:
 concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order: 6
+spoke: Manage Benefits
+order: 7
 aliases:
   - /health-care/prescriptions
 children:
@@ -15,7 +16,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-With our VA prescription refill and tracking tool, you can refill your VA prescriptions, track their delivery, and create lists to organize your medicines. Find out if you’re eligible and how to sign up to begin using this tool in our health-management portal within My Health*e*Vet.
+With our VA prescription refill and tracking tool, you can refill your VA prescriptions, track their delivery, and create lists to organize your medicines. Find out if you’re eligible and how to sign up to begin using this tool in our health-management portal within My HealtheVet.
 
 </div>
 
@@ -63,7 +64,7 @@ You can use this tool if you meet all of the requirements listed below.
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- An advanced or premium **My Health<em>e</em>Vet** account, **or**
+- An advanced or premium **My HealtheVet** account, **or**
 - A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
@@ -120,7 +121,7 @@ You can’t refill some medicines, like certain pain medication and narcotics. Y
 
 Our mail order pharmacy will send your prescriptions to the address we have on file for you. We ship to all addresses in the United States and its territories. We don’t ship prescriptions to foreign countries.
 
-**Important note:** If you change your address within My Health*e*Vet, it does **not** change your address for prescription shipments. Please contact the VA health facility where you get care to have them update your address on file. <br>
+**Important note:** If you change your address within My HealtheVet, it does **not** change your address for prescription shipments. Please contact the VA health facility where you get care to have them update your address on file. <br>
 [Find your VA health facility](/facilities).
 
 </div>
@@ -162,7 +163,7 @@ If you print or download anything from the website (like prescription details), 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get answers to your questions about this tool within our My Health*e*Vet web portal. <br>
+You can get answers to your questions about this tool within our My HealtheVet web portal. <br>
 [Read Prescription Refill FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#PrescriptionRefill).
 
 </div>

@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Veterans Health Issues Related to Service History
-display_title: Concerns Related to Service History
+display_title: Health Issues Related to Service Era
 description: Learn what health conditions you may be at risk of developing depending on where and when you served on active duty.
 concurrence: complete
 lastupdate: 2017-06-28
@@ -41,5 +41,3 @@ majorlinks:
 Certain health concerns may be more likely to affect Veterans who served in a specific time and place. Find out which health concerns you should be aware of depending on when and where you served.
 
 </div>
-
-

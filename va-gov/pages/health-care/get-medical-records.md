@@ -7,7 +7,8 @@ description:
 concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order: 12
+spoke: Manage Benefits
+order: 13
 children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
@@ -80,7 +81,7 @@ You can use all the features of this tool if you meet all of the requirements li
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- A premium **My Health<em>e</em>Vet** account, **or**
+- A premium **My HealtheVet** account, **or**
 - A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
@@ -129,7 +130,7 @@ If you print or download anything from the website, you’ll need to take respon
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get answers to frequently asked questions about VA Blue Button and related tools within My Health*e*Vet.
+You can get answers to frequently asked questions about VA Blue Button and related tools within My HealtheVet.
 <br>
 [Read VA Blue Button FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop). <br>
 [Read VA health summary FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD). <br>

@@ -43,4 +43,4 @@ Credentialing and job training will help in your search. Check your [military tr
 -----
 
 ### Learn more
-Contact your local [Veteran Employment Specialist (VES)](https://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp) or your [policy and benefits advocate](/disability-benefits/apply/help/) for more information.
+Contact your local [Veteran Employment Specialist (VES)](https://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp) or your [policy and benefits advocate](/disability/get-help-filing-claim/) for more information.

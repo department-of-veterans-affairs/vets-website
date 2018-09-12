@@ -1,6 +1,6 @@
 import org.kohsuke.github.GitHub
 
-def envNames = ['devpreview', 'preview']
+def envNames = ['devpreview', 'preview', 'vagovdev', 'vagovstaging']
 
 def devBranch = 'master'
 def stagingBranch = 'master'
@@ -251,6 +251,16 @@ node('vetsgov-general-purpose') {
       }
       if (env.BRANCH_NAME == 'brand-consolidation') {
         build job: 'deploys/vets-website-devpreview', parameters: [
+          booleanParam(name: 'notify_slack', value: true),
+          stringParam(name: 'ref', value: commit),
+        ], wait: false
+
+        build job: 'deploys/vets-website-vagovdev', parameters: [
+          booleanParam(name: 'notify_slack', value: true),
+          stringParam(name: 'ref', value: commit),
+        ], wait: false
+
+        build job: 'deploys/vets-website-vagovstaging', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false

@@ -23,7 +23,7 @@ As you navigate the civilian marketplace, you may encounter challenges. The Vete
 
 </div>
 
-More private-sector businesses are committing each day to hire Veterans and military family members. Search the [Veterans Job Bank](https://www.careeronestop.org/JobSearch/job-search.aspx) for new job openings. Or if you are considering pursuing [education, licensure, or certifications](/education/advanced-training-and-certifications/licensing-certification/), VA can help guide you through the process.
+More private-sector businesses are committing each day to hire Veterans and military family members. Search the [Veterans Job Bank](https://www.careeronestop.org/JobSearch/job-search.aspx) for new job openings. Or if you are considering pursuing [education, licensure, or certifications](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/), VA can help guide you through the process.
 
 If you own your own business or want to start a company, [VA](/employment/job-seekers/register-your-business/), the [Small Business Administration Boots to Business program](https://www.sba.gov/offices/headquarters/ovbd/resources/160511), and organizations like [Syracuse University’s Institute for Veterans and Military Families](http://vets.syr.edu/education/) offer mentorship, counseling, and training.
 
