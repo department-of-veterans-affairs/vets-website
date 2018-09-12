@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 // Example of an imported schema:
-// import fullSchema4142 from '../../../../vets-json-schema/dist/21-4142-schema.json';
+// import fullSchema4142 from '../21-4142-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
 
@@ -35,6 +35,7 @@ import {
   recordReleaseSummary,
   disabilityNameTitle,
   validateZIP,
+  transform,
 } from '../helpers';
 
 import { validateDate } from 'us-forms-system/lib/js/validation';
@@ -59,6 +60,7 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
+  transformForSubmit: transform,
   title: '4142 Private Medical Record Release Form', // TODO: Verify the title and subtitle
   defaultDefinitions: {
     fullName,
@@ -119,13 +121,6 @@ const formConfig = {
           uiSchema: {
             'ui:description': recordReleaseDescription,
             'ui:title': disabilityNameTitle,
-            limitedConsent: {
-              'ui:title':
-                'I give consent, or permission, to my doctor to release only records related to [condition].',
-            },
-            'view:privateRecordsChoiceHelp': {
-              'ui:description': limitedConsentDescription,
-            },
             providerFacility: {
               'ui:options': {
                 itemName: 'Provider',
@@ -174,15 +169,15 @@ const formConfig = {
                     ],
                   },
                 }),
-                limitedConsent: {
-                  'ui:title':
-                    'I give consent, or permission, to my doctor to release only records related to [condition].',
-                },
-                'view:privateRecordsChoiceHelp': {
-                  'ui:description': limitedConsentDescription,
-                }
               },
-            }
+            },
+            limitedConsent: {
+              'ui:title':
+                'I give consent, or permission, to my doctor to release only records related to [condition].',
+            },
+            'view:privateRecordsChoiceHelp': {
+              'ui:description': limitedConsentDescription,
+            },
           },
           schema: {
             type: 'object',

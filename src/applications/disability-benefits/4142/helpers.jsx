@@ -120,3 +120,58 @@ export const disabilityNameTitle = () => {
     <legend className="schemaform-block-title schemaform-title-underline">[condition]</legend>
   );
 };
+
+/** Note: This function will be moved to the 526EZ helper file
+ * Converts the treatment date range into an array of objects from just an object
+ * @param {object} treatmentDateRange object containing from/to date range
+ */
+const transformDateRange = (treatmentDateRange) => {
+  return [treatmentDateRange];
+};
+
+/** Note: This function will be moved to the 526EZ helper file
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacility array of objects being transformed
+ */
+const transformProviderFacility = (providerFacility) => {
+  const newProviderFacility = [];
+
+  providerFacility.forEach((facility) => {
+    newProviderFacility.push({
+      providerFacilityName: facility.providerFacilityName,
+      treatmentDateRange: transformDateRange(facility.treatmentDateRange),
+      providerFacilityAddress: facility.providerFacilityAddress
+    });
+  });
+
+  return newProviderFacility;
+};
+
+// Note: This function will be merged into the existing 526EZ transform function.
+export function transform(formConfig, form) {
+  const {
+    providerFacility,
+    veteranAddress,
+    veteranDateOfBirth,
+    veteranFullName,
+    veteranPhone,
+    veteranSocialSecurityNumber,
+    vaFileNumber,
+    limitedConsent,
+    privacyAgreementAccepted
+  } = form.data;
+
+  const transformedData = {
+    providerFacility: transformProviderFacility(providerFacility), // This will be the only line that needs to go into the transform function for 526EZ
+    privacyAgreementAccepted,
+    veteranFullName,
+    veteranSocialSecurityNumber,
+    veteranDateOfBirth,
+    veteranAddress,
+    veteranPhone,
+    vaFileNumber,
+    limitedConsent
+  };
+
+  return JSON.stringify(transformedData);
+}
