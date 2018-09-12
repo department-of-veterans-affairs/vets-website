@@ -265,11 +265,18 @@ if (!BUILD_OPTIONS.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/health-care/apply-for-health-care-form-10-10ez',
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
-        '/download-va-letters/letters'].join('|'))
+        '/download-va-letters/letters',
+        '/education/apply-for-gi-bill-form-1990/',
+        '/education/survivor-dependent-benefits/apply-for-dependent-benefits-form-22-5490/',
+        '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/',
+        '/education/other-va-education-benefits/national-call-to-service-program/apply-for-benefits-under-ncs-form-1990n/',
+        '/education/change-gi-bill-benefits/request-change-form-22-1995/',
+        '/education/change-gi-bill-benefits/dependent-request-change-form-22-5495/',
+      ].join('|'))
   }));
 }
 
-if (BUILD_OPTIONS.buildtype !== 'development' && BUILD_OPTIONS.buildtype !== 'devpreview') {
+if (!['development', 'vagovdev'].includes(BUILD_OPTIONS.buildtype)) {
 
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
