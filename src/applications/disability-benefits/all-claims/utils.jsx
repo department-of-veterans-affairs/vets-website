@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import Raven from 'raven-js';
 
-import get from 'lodash/get';
 import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
 
@@ -73,7 +72,12 @@ export const ReservesGuardDescription = ({ formData }) => {
   );
 };
 
-export const title10DatesRequired = (formData) => get(formData, 'view:isTitle10Activated', false);
+export const title10DatesRequired = (formData) => (
+  _.get(
+    'serviceInformation.reservesNationalGuardService.view:isTitle10Activated',
+    formData,
+    false)
+);
 
 export const isInFuture = (errors, fieldData) => {
   const enteredDate = new Date(fieldData);
@@ -142,9 +146,9 @@ export function prefillTransformer(pages, formData, metadata) {
   };
 }
 
-export const hasForwardingAddress = (formData) => (get(formData, 'view:hasForwardingAddress', false));
+export const hasForwardingAddress = (formData) => (_.get('view:hasForwardingAddress', formData, false));
 
-export const forwardingCountryIsUSA = (formData) => (get(formData, 'forwardingAddress.country', '') === USA);
+export const forwardingCountryIsUSA = (formData) => (_.get('forwardingAddress.country', formData, '') === USA);
 
 export function fetchPaymentInformation() {
   return apiRequest('/ppiu/payment_information',
