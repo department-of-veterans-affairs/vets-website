@@ -579,7 +579,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: ['view:uploadPrivateRecords'],
+                  required: ['view:uploadPrivateRecords', 'view:patientAcknowledgement'],
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
