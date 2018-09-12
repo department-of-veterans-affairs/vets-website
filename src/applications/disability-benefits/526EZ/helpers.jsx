@@ -394,6 +394,9 @@ const claimsIntakeAddress = (
   </p>
 );
 
+export const patientAcknowledgementText = (
+  <div><a href="">Read the full text</a></div>
+);
 
 export const download4142Notice = (
   <div className="usa-alert usa-alert-warning no-background-image">

@@ -59,7 +59,8 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  validateBooleanIfEvidence
+  validateBooleanIfEvidence,
+  patientAcknowledgementText,
 } from '../helpers';
 
 import {
@@ -561,6 +562,7 @@ const formConfig = {
                 },
                 'view:patientAcknowledgement': {
                   'ui:title': 'Patient Acknowledgement',
+                  'ui:description': patientAcknowledgementText,
                   'ui:options': {
                     expandUnder: 'view:uploadPrivateRecords',
                     expandUnderCondition: 'no',
