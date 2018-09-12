@@ -8,6 +8,9 @@
     }
   }
 
+  #va-header-logo-menu {
+    align-items: center;
+  }
   $color-primary-lightest: #e1f3f8;
 
   @import 'iconography';
@@ -478,9 +481,9 @@
         top: -50px;
       }
     }
-
     #menu-rule {
       border-bottom: 0;
+      padding-bottom: 0px;
     }
 
     #vetnav-controls {
@@ -501,13 +504,16 @@
 
     .usa-banner {
       padding-left: .5em;
+      .usa-banner-content {
+        padding-bottom: 2.3rem;
+        padding-top: 4rem;
+      }
     }
 
     .va-header-logo-wrapper {
       width: 55%;
       float: left;
       margin-right: 10px;
-      margin-bottom: 1em;
 
       a {
         width: 100%;
@@ -521,7 +527,6 @@
     }
 
     .vet-toolbar {
-      margin-bottom: .5em;
       margin-left: -10px;
 
       .sign-in-nav {
@@ -534,6 +539,7 @@
           padding-left: .75em;
 
           .va-button-link {
+            font-weight: 600;
             -webkit-font-smoothing: antialiased;
           }
         }
@@ -544,7 +550,7 @@
         width: auto;
 
         .va-dropdown-trigger {
-          font-weight: normal;
+          font-weight: 600;
           padding-left: 0;
           margin-right: 1.75em;
           background-position: right 1.5rem center;
@@ -713,13 +719,12 @@
 
   // tablet
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
-
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
 
     .vet-toolbar {
-      flex: 0 1 35.5rem;
+      flex: 0 1 30.5rem;
       padding-left: 2em;
 
       .profile-nav {
@@ -804,11 +809,12 @@
   }
 
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: landscape){
-
+    #va-header-logo-menu {
+      align-items: center;
+    }
     .vet-toolbar {
       flex: 0 1 25.5rem;
     }
-
     #hub-internal {
       .usa-width-one-half {
         min-height: 300px;
@@ -998,7 +1004,6 @@
         }
       }
     }
-
     .fa {
       position: relative;
       color: $color-white;
@@ -1039,6 +1044,9 @@
       }
     }
   }
+  button.va-modal-close > i.fa.fa-close{
+        color: $color-black;
+  }
 
   .usa-accordion-button {
     background-color: white;
@@ -1068,4 +1076,8 @@
   .hub-links-container {
     min-height: 250px;
   }
+}
+
+[class^="vetnav-controller"] {
+  position: relative !important;
 }
