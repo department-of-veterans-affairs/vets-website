@@ -1,11 +1,12 @@
 ---
 layout: page-breadcrumbs.html
-title: How to Apply for a Specially Adapted Housing (SAH) or Special Home Adaptation (SHA) Grant
-display_title: How to Apply
-description: order: 2
-plainlanguage: 
 template: detail-page
+title: How to Apply for a Specially Adapted Housing (SAH) or Special Home Adaptation (SHA) Grant
+display title: How to Apply
+concurrence:
+order: 1
 ---
+
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
