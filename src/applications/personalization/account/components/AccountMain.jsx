@@ -1,8 +1,10 @@
 import React from 'react';
+
 import recordEvent from '../../../../platform/monitoring/record-event';
 import localStorage from '../../../../platform/utilities/storage/localStorage';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import AccountVerification from './AccountVerification';
 import LoginSettings from './LoginSettings';
@@ -16,6 +18,11 @@ class AccountMain extends React.Component {
     this.state = {
       'show-acct-mvi-alert': true,
     };
+  }
+
+  componentDidMount() {
+    // Get MHV account to determine what to render for Terms and Conditions.
+    this.props.fetchMHVAccount();
   }
 
   dismissMVIError = () => {
@@ -35,7 +42,7 @@ class AccountMain extends React.Component {
         content={<div>
           <h4 className="usa-alert-heading">We’re having trouble matching your information to our Veteran records</h4>
           <p>We’re sorry. We’re having trouble matching your information to our Veteran records, so we can’t give you access to tools for managing your health and benefits.</p>
-          <p>If you’d like to use these tools on Vets.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect with you with the right person who can help.</p>
+          <p>If you’d like to use these tools on Vets.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect you with the right person who can help.</p>
           <p><a href="/facilities">Find your nearest VA Medical Center</a></p>
         </div>}
         onCloseAlert={this.dismissMVIError}
@@ -46,13 +53,16 @@ class AccountMain extends React.Component {
 
   render() {
     const {
-      profile: {
-        loa,
-        multifactor,
-        verified
-      },
-      terms
-    } = this.props;
+      loa,
+      loading,
+      mhvAccount,
+      multifactor,
+      verified
+    } = this.props.profile;
+
+    if (loading || mhvAccount.loading) {
+      return <LoadingIndicator message="Loading your account information..."/>;
+    }
 
     return (
       <div>
@@ -60,7 +70,7 @@ class AccountMain extends React.Component {
         {this.renderMVIError()}
         <MultifactorMessage multifactor={multifactor}/>
         <LoginSettings/>
-        <TermsAndConditions terms={terms} verified={verified}/>
+        {verified && <TermsAndConditions mhvAccount={mhvAccount}/>}
         <h4>Have questions about signing in to Vets.gov?</h4>
         <p>
           Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on Vets.gov.<br/>

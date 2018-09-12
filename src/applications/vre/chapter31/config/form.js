@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
-import * as address from 'us-forms-system/lib/js/definitions/address';
+import * as address from '../../../../platform/forms/definitions/address';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import DD214Description from '../components/DD214Description';

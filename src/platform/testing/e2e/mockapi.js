@@ -50,10 +50,12 @@ function makeMockApiRouter(opts) {
     res.status(200).json(result);
   });
 
-  // Handle CORS preflight.
-  router.options('*', cors());
+  const corsOptions = { origin: true, credentials: true };
 
-  router.all('*', cors(), (req, res) => {
+  // Handle CORS preflight.
+  router.options('*', cors(corsOptions));
+
+  router.all('*', cors(corsOptions), (req, res) => {
     const auth = req.get('Authorization') || '_global';
     const verb = req.method.toLowerCase();
     const verbResponses = (mockResponses[auth] || {})[verb];

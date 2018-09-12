@@ -1,83 +1,49 @@
-import { every } from 'lodash';
-
 import React from 'react';
+
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import recordEvent from '../../../../platform/monitoring/record-event';
+
 import accountManifest from '../../account/manifest.json';
-import { FIELD_NAMES, TRANSACTION_CATEGORY_TYPES } from '../constants/vet360';
-import Vet360PendingTransactionCategory from '../containers/Vet360PendingTransactionCategory';
-import PhoneSection from './PhoneSection';
-import AddressSection from './AddressSection';
-import EmailSection from './EmailSection';
-import LoadFail from './LoadFail';
+
+import { TRANSACTION_CATEGORY_TYPES } from '../vet360/constants';
+
+import Vet360InitializeID from '../vet360/containers/InitializeID';
+import Vet360PendingTransactionCategory from '../vet360/containers/PendingTransactionCategory';
+
+import MailingAddress from '../vet360/components/MailingAddress';
+import ResidentialAddress from '../vet360/components/ResidentialAddress';
+import HomePhone from '../vet360/components/HomePhone';
+import MobilePhone from '../vet360/components/MobilePhone';
+import WorkPhone from '../vet360/components/WorkPhone';
+import FaxNumber from '../vet360/components/FaxNumber';
+import Email from '../vet360/components/Email';
+
 import { handleDowntimeForSection } from './DowntimeBanner';
-import MissingVet360IDError from './MissingVet360IDError';
 import ContactInformationExplanation from './ContactInformationExplanation';
 
 export default class ContactInformation extends React.Component {
 
-  componentDidMount() {
-    this.props.fetchAddressConstants();
-  }
-
   renderContent = () => {
-    if (every(Object.keys(this.props.user.profile.vet360), false)) {
-      return <LoadFail information="contact"/>;
-    }
-
-    const {
-      addressConstants,
-      isVet360AvailableForUser,
-    } =  this.props;
-
-    if (!isVet360AvailableForUser) {
-      return <MissingVet360IDError/>;
-    }
-
     return (
-      <div>
+      <Vet360InitializeID>
         <ContactInformationExplanation/>
 
         <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}>
-          <AddressSection
-            title="Mailing address"
-            fieldName={FIELD_NAMES.MAILING_ADDRESS}
-            analyticsSectionName="mailing-address"
-            deleteDisabled
-            addressConstants={addressConstants}/>
-          <AddressSection
-            title="Home address"
-            fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS}
-            analyticsSectionName="home-address"
-            addressConstants={addressConstants}/>
+          <MailingAddress/>
+          <ResidentialAddress/>
         </Vet360PendingTransactionCategory>
 
         <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}>
-          <PhoneSection
-            title="Home phone number"
-            fieldName={FIELD_NAMES.HOME_PHONE}
-            analyticsSectionName="home-telephone"/>
-          <PhoneSection
-            title="Mobile phone number"
-            fieldName={FIELD_NAMES.MOBILE_PHONE}
-            analyticsSectionName="mobile-telephone"/>
-          <PhoneSection
-            title="Work phone number"
-            fieldName={FIELD_NAMES.WORK_PHONE}
-            analyticsSectionName="work-telephone"/>
-          <PhoneSection
-            title="Fax number"
-            fieldName={FIELD_NAMES.FAX_NUMBER}
-            analyticsSectionName="fax-telephone"/>
+          <HomePhone/>
+          <MobilePhone/>
+          <WorkPhone/>
+          <FaxNumber/>
         </Vet360PendingTransactionCategory>
 
         <Vet360PendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.EMAIL}>
-          <EmailSection
-            title="Email address"
-            fieldName={FIELD_NAMES.EMAIL}
-            analyticsSectionName="email"/>
+          <Email/>
         </Vet360PendingTransactionCategory>
-      </div>
+      </Vet360InitializeID>
     );
   }
 

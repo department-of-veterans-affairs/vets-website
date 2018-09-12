@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import DowntimeNotification, { externalServices, externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
-import Vet360TransactionReporter from '../containers/Vet360TransactionReporter';
+import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
 
 import Hero from './Hero';
 import ContactInformation from './ContactInformation';
@@ -15,6 +16,18 @@ import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
 
 class ProfileView extends React.Component {
+  static propTypes = {
+    downtimeData: PropTypes.object,
+    fetchMilitaryInformation: PropTypes.func.isRequired,
+    fetchHero: PropTypes.func.isRequired,
+    fetchPersonalInformation: PropTypes.func.isRequired,
+    profile: PropTypes.shape({
+      hero: PropTypes.object,
+      personalInformation: PropTypes.object,
+      militaryInformation: PropTypes.object
+    }),
+    user: PropTypes.object
+  };
 
   handleDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.downtimeApproaching) {
@@ -34,13 +47,10 @@ class ProfileView extends React.Component {
   render() {
     const {
       user,
-      isVet360AvailableForUser,
-      fetchAddressConstants,
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
       profile: {
-        addressConstants,
         hero,
         personalInformation,
         militaryInformation
@@ -59,9 +69,12 @@ class ProfileView extends React.Component {
             <div>
               <Vet360TransactionReporter/>
               <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
-              <ContactInformation fetchAddressConstants={fetchAddressConstants} addressConstants={addressConstants} isVet360AvailableForUser={isVet360AvailableForUser} user={user}/>
+              <ContactInformation/>
               <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
-              <MilitaryInformation fetchMilitaryInformation={fetchMilitaryInformation} militaryInformation={militaryInformation}/>
+              <MilitaryInformation
+                veteranStatus={user.profile.veteranStatus}
+                fetchMilitaryInformation={fetchMilitaryInformation}
+                militaryInformation={militaryInformation}/>
             </div>
           </DowntimeNotification>
         );

@@ -14,7 +14,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // log in & wait for little person icon to appear next to the username
     Auth.logIn(token, client, '/dashboard', 3)
-      .assert.title('Your Vets.gov Dashboard: Vets.gov')
+      .assert.title('Your Homepage: Vets.gov')
       .waitForElementVisible(selectors.menu, Timeouts.slow);
 
     // click dropdown on username

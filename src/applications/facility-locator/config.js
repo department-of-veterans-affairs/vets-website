@@ -26,6 +26,7 @@ export const healthServices = {
   All: 'Show all facilities',
   PrimaryCare: 'Primary Care',
   MentalHealthCare: 'Mental Health Care',
+  DentalServices: 'Dental Services',
   UrgentCare: 'Urgent Care',
   EmergencyCare: 'Emergency Care',
   Audiology: 'Audiology',

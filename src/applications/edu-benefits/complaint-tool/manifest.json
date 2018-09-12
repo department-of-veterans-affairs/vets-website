@@ -1,7 +1,0 @@
-{
-    "appName": "Opt Out of Sharing VA Education Benefits Information",
-    "entryFile": "./complaint-tool-entry.jsx",
-    "entryName": "complaint-tool",
-    "rootUrl": "/education/complaint-tool/form",
-    "production": false
-  }

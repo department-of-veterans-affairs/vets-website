@@ -7,10 +7,11 @@ import {
   transformDisabilities,
   addPhoneEmailToCard,
   prefillTransformer,
-  getDisabilityName,
   get4142Selection,
   queryForFacilities,
-  transform
+  transform,
+  transformObligationDates,
+  getReservesGuardData
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
@@ -27,12 +28,6 @@ describe('526 helpers', () => {
           {
             name: 'Diabetes mellitus0',
             disabilityActionType: 'INCREASE',
-            specialIssues: [
-              {
-                code: 'TRM',
-                name: 'Personal Trauma PTSD'
-              }
-            ],
             ratedDisabilityId: '0',
             ratingDecisionId: '63655',
             diagnosticCode: 5238
@@ -40,12 +35,6 @@ describe('526 helpers', () => {
           {
             name: 'Diabetes mellitus1',
             disabilityActionType: 'INCREASE',
-            specialIssues: [
-              {
-                code: 'TRM',
-                name: 'Personal Trauma PTSD'
-              }
-            ],
             ratedDisabilityId: '1',
             ratingDecisionId: '63655',
             diagnosticCode: 5238
@@ -96,6 +85,28 @@ describe('526 helpers', () => {
             }
           }
         ],
+        attachments: [
+          {
+            name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
+            confirmationCode: '9664f488-1243-4b25-805e-75ad7e4cf765',
+            attachmentId: 'L105'
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 11.24.39 AM.png',
+            confirmationCode: '66bfab89-6e2b-4361-a905-754dfbff7df7',
+            attachmentId: 'L105'
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 3.29.08 PM.png',
+            confirmationCode: 'a58ae568-d190-49cd-aa04-b1b1da5eae35',
+            attachmentId: 'L105'
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 2.02.39 PM.png',
+            confirmationCode: 'f23194e4-c534-42c6-9e96-16c08d8230a5',
+            attachmentId: 'L105'
+          }
+        ],
         privacyAgreementAccepted: true,
         serviceInformation: {
           servicePeriods: [
@@ -113,7 +124,19 @@ describe('526 helpers', () => {
                 to: '2000-02-04'
               }
             }
-          ]
+          ],
+          reservesNationalGuardService: {
+            unitName: 'Alpha Bravo Charlie',
+            obligationTermOfServiceDateRange: {
+              from: '2015-05-12',
+              to: '2017-05-12'
+            },
+            title10Activation: {
+              title10ActivationDate: '2014-054-12',
+              anticipatedSeparationDate: '2019-09-02'
+            },
+            waiveVABenefitsToRetainTrainingPay: true
+          }
         },
         standardClaim: false
       }
@@ -137,6 +160,10 @@ describe('526 helpers', () => {
     it('should return an empty array when given undefined input', () => {
       expect(transformDisabilities(undefined)).to.deep.equal([]);
     });
+    it('should remove ineligible disabilities', () => {
+      const ineligibleDisability = _.omit(invalidDisability, 'ratingPercentage');
+      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
+    });
   });
   describe('addPhoneEmailToCard', () => {
     it('should return formData when veteran property does not exist', () => {
@@ -155,6 +182,34 @@ describe('526 helpers', () => {
       const { primaryPhone, emailAddress } = newFormData.veteran.phoneEmailCard;
       expect(primaryPhone).to.equal(formData.veteran.primaryPhone);
       expect(emailAddress).to.equal(formData.veteran.emailAddress);
+    });
+  });
+  describe('transformObligationDates', () => {
+    const dateRange = {
+      from: '2012-04-01',
+      to: '2015-04-01'
+    };
+
+    const formData = {
+      reservesNationalGuardService: {
+        obligationTermOfServiceDateRange: {
+          from: dateRange.from,
+          to: dateRange.to
+        }
+      }
+    };
+
+    it('adds obligation dates to the top level formData', () => {
+      expect(transformObligationDates(formData)).to.deep.equal({
+        obligationTermOfServiceDateRange: {
+          from: dateRange.from,
+          to: dateRange.to
+        }
+      });
+    });
+    it('returns original form data if reserves data is missing', () => {
+      const newFormData = { someOtherProperty: 'someOtherValue' };
+      expect(transformObligationDates(newFormData)).to.equal(newFormData);
     });
   });
   describe('prefillTransformer', () => {
@@ -194,21 +249,26 @@ describe('526 helpers', () => {
       const prefill = prefillTransformer([], dataClone, {});
       expect(prefill.formData.disabilities[0].name).to.equal(newName);
     });
+    it('should put obligation dates into the parent level', () => {
+      const dateRange = {
+        from: '2015-05-07',
+        to: '2018-05-07'
+      };
+
+      const pages = [];
+      const metadata = {};
+      const formData = _.set(_.cloneDeep(initialData), 'reservesNationalGuardService', {
+        obligationTermOfServiceDateRange: {
+          from: dateRange.from,
+          to: dateRange.to
+        }
+      });
+
+      const newData = prefillTransformer(pages, formData, metadata);
+      expect(newData.formData.obligationTermOfServiceDateRange).to.deep.equal(dateRange);
+    });
   });
-  describe('getDisabilityName', () => {
-    it('should return string with each word capitalized when name supplied', () => {
-      expect(getDisabilityName('some disability - some detail')).to.equal('Some Disability - Some Detail');
-    });
-    it('should return Unknown Condition with undefined name', () => {
-      expect(getDisabilityName()).to.equal('Unknown Condition');
-    });
-    it('should return Unknown Condition when input is empty string', () => {
-      expect(getDisabilityName('')).to.equal('Unknown Condition');
-    });
-    it('should return Unknown Condition when name is not a string', () => {
-      expect(getDisabilityName(249481)).to.equal('Unknown Condition');
-    });
-  });
+
   describe('get4142Selection', () => {
     const fullDisabilities = [
       {
@@ -291,29 +351,68 @@ describe('526 helpers', () => {
       expect(global.fetch.firstCall.args[0]).to.contain('/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf');
     });
 
-    it('should return the mapped data for autosuggest if successful', (done) => {
+    it('should return the mapped data for autosuggest if successful', () => {
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
-      requestPromise.then(result => {
+      return requestPromise.then(result => {
         expect(result).to.eql([
           { id: 0, label: 'first' },
           { id: 1, label: 'second' },
         ]);
-        done();
-      }).catch(err => done(err));
+      });
     });
 
-    it('should return an empty array if unsuccesful', (done) => {
+    it('should return an empty array if unsuccesful', () => {
       global.fetch.resolves({ ok: false });
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
-      requestPromise.then(result => {
+      return requestPromise.then(result => {
         // This .then() fires after the apiRequest failure callback returns []
         expect(result).to.eql([]);
-        done();
-      }).catch(error => {
-        done(error);
       });
+    });
+  });
+
+  describe('getReservesGuardData', () => {
+    it('gets reserve & national guard data when available', () => {
+      const formData = {
+        unitName: 'Alpha Bravo',
+        obligationTermOfServiceDateRange: {
+          from: '2012-02-02',
+          to: '2018-02-02'
+        },
+        waiveVABenefitsToRetainTrainingPay: false
+      };
+
+      expect(getReservesGuardData(formData)).to.deep.equal(formData);
+    });
+    it('get title 10 data when available', () => {
+      const formData = {
+        unitName: 'Alpha Bravo',
+        obligationTermOfServiceDateRange: {
+          from: '2012-02-02',
+          to: '2018-02-02'
+        },
+        waiveVABenefitsToRetainTrainingPay: false,
+        'view:isTitle10Activated': true,
+        title10Activation: {
+          title10ActivationDate: '2016-05-04',
+          anticipatedSeparationDate: '2099-05-03'
+        }
+      };
+
+      expect(getReservesGuardData(formData)).to.deep.equal(_.omit(formData, 'view:isTitle10Activated'));
+    });
+    it('returns null when some required data is missing', () => {
+      const formData = {
+        obligationTermOfServiceDateRange: {
+          from: '2012-02-02',
+          to: '2018-02-02'
+        },
+        waiveVABenefitsToRetainTrainingPay: false
+      };
+
+      expect(getReservesGuardData(formData)).to.equal(null);
     });
   });
 });

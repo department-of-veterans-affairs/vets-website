@@ -11,7 +11,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
-import { facilityTypes } from '../config';
+import FacilityTypeDescription from '../components/FacilityTypeDescription';
 
 class FacilityDetail extends Component {
   componentWillMount() {
@@ -38,15 +38,13 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name, facilityType } = facility.attributes;
+    const { name } = facility.attributes;
 
     return (
       <div>
         <h1>{name}</h1>
         <div className="p1">
-          <p>
-            <span><strong>Facility type:</strong> {facilityTypes[facilityType]}</span>
-          </p>
+          <FacilityTypeDescription facility={facility}/>
           <FacilityAddress facility={facility}/>
         </div>
         <div>

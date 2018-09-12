@@ -48,10 +48,7 @@ describe('schemaform <ApplicationStatus>', () => {
           loading: false,
           savedForms: [{
             form: '21P-527EZ',
-            metadata: {
-              // eslint-disable-next-line camelcase
-              expires_at: moment().add(1, 'day').unix()
-            }
+            metadata: { expiresAt: moment().add(1, 'day').unix() }
           }]
         }}/>
     );
@@ -74,8 +71,7 @@ describe('schemaform <ApplicationStatus>', () => {
           savedForms: [{
             form: '21P-527EZ',
             metadata: {
-              // eslint-disable-next-line camelcase
-              expires_at: moment().add(-1, 'day').unix()
+              expiresAt: moment().add(-1, 'day').unix()
             }
           }]
         }}/>
@@ -98,8 +94,7 @@ describe('schemaform <ApplicationStatus>', () => {
           savedForms: [{
             form: '22-1990',
             metadata: {
-              // eslint-disable-next-line camelcase
-              expires_at: moment().add(1, 'day').unix()
+              expiresAt: moment().add(1, 'day').unix()
             }
           }]
         }}/>
@@ -123,14 +118,12 @@ describe('schemaform <ApplicationStatus>', () => {
           savedForms: [{
             form: '22-1990',
             metadata: {
-              // eslint-disable-next-line camelcase
-              expires_at: moment().add(1, 'day').unix()
+              expiresAt: moment().add(1, 'day').unix()
             }
           }, {
             form: '22-1995',
             metadata: {
-              // eslint-disable-next-line camelcase
-              expires_at: moment().add(1, 'day').unix()
+              expiresAt: moment().add(1, 'day').unix()
             }
           }]
         }}/>

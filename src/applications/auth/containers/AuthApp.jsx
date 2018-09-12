@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+
 import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
+import localStorage from '../../../platform/utilities/storage/localStorage';
 
 export class AuthApp extends React.Component {
   constructor(props) {
@@ -31,10 +33,16 @@ export class AuthApp extends React.Component {
 
     const { token } = this.props.location.query;
     const parent = window.opener;
-    parent.sessionStorage.removeItem('userToken');
-    parent.sessionStorage.setItem('userToken', token);
-    parent.sessionStorage.removeItem('entryTime');
-    parent.sessionStorage.setItem('entryTime', new Date());
+
+    const storageType = localStorage.getItem('storageType');
+    const storage = (storageType === 'localStorage')
+      ? localStorage
+      : parent.sessionStorage;
+
+    storage.removeItem('userToken');
+    storage.setItem('userToken', token);
+    storage.removeItem('entryTime');
+    storage.setItem('entryTime', new Date());
     parent.postMessage(token, environment.BASE_URL);
 
     // This will trigger a browser reload if the user is using IE or Edge.

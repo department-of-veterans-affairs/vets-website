@@ -25,14 +25,14 @@ import {
   validateFutureDateIfExpectedGrad
 } from 'us-forms-system/lib/js/validation';
 
-import * as address from 'us-forms-system/lib/js/definitions/address';
+import * as address from '../../../../platform/forms/definitions/address';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import monthYearUI from 'us-forms-system/lib/js/definitions/monthYear';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import * as personId from 'us-forms-system/lib/js/definitions/personId';
+import * as personId from '../../../../platform/forms/definitions/personId';
 import dateRangeUi from 'us-forms-system/lib/js/definitions/dateRange';
-import fullNameUi from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUi from '../../../../platform/forms/definitions/fullName';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -50,7 +50,7 @@ import employmentHistoryPage from '../../pages/employmentHistory';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
-import createNonRequiredFullName from 'us-forms-system/lib/js/definitions/nonRequiredFullName';
+import createNonRequiredFullName from '../../../../platform/forms/definitions/nonRequiredFullName';
 
 const {
   benefit,

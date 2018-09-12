@@ -2,8 +2,8 @@ import _ from 'lodash/fp';
 import applicantDescription from '../components/ApplicantDescription';
 
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
-import * as personId from 'us-forms-system/lib/js/definitions/personId';
+import fullNameUI from '../definitions/fullName';
+import * as personId from '../definitions/personId';
 
 import { relationshipLabels, genderLabels } from '../../static-data/labels';
 

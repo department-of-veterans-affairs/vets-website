@@ -288,6 +288,18 @@ function isValidRoutingNumber(value) {
   return false;
 }
 
+function getFileError(file) {
+  if (file.errorMessage) {
+    return file.errorMessage;
+  } else if (file.uploading) {
+    return 'Uploading file...';
+  } else if (!file.confirmationCode) {
+    return 'Something went wrong...';
+  }
+
+  return null;
+}
+
 export {
   isBlank,
   isBlankDateField,
@@ -325,5 +337,6 @@ export {
   validateCustomFormComponent,
   validateIfDirty,
   validateIfDirtyDate,
-  isValidRoutingNumber
+  isValidRoutingNumber,
+  getFileError
 };

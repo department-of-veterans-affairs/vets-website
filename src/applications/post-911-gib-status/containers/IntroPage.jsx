@@ -31,11 +31,22 @@ export class IntroPage extends React.Component {
         // TODO: Determine whether h2 is right--accessibility-wise, it is, but it's larger than the design
         content = (
           <div>
-            <h2>How can I check if I have Post-9/11 GI Bill benefits?</h2>
+            <h2>How can I review my Post-9/11 GI Bill benefits?</h2>
             <p>The Post-9/11 GI Bill Benefits tool is available for you during these hours, Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
             <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View Your GI Bill Benefits</Link>
-            <h2>What if I have trouble accessing my benefit statement?</h2>
-            <p>If you're having trouble accessing the tool during the hours above, please try again. If it still doesn't work, please call the Vets.gov Help Desk at 1-855-574-7286.</p>
+            <h2>What if I’m having trouble accessing my benefit statement?</h2>
+            <p>Your Post-9/11 GI Bill Statement of Benefits might not be available if one of these is true:
+              <ul>
+                <li>The name on your Vets.gov account doesn’t exactly match the name we have in our Post-9/11 GI Bill records.</li>
+                <li>We’re still processing your education benefits application and we haven’t yet created a record for you. We usually process applications within 60 days. If you applied less than 60 days ago, please check back soon.</li>
+                <li>You haven’t yet applied for Post-9/11 GI Bill education benefits. <a href="/education/apply/" target="_blank">Apply for education benefits.</a>
+                </li>
+                <li>You’re not eligible for Post-9/11 GI Bill education benefits.</li>
+                <li>You’re trying to access the tool during its scheduled downtime. The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</li>
+              </ul>
+              If none of the above situations applies to you, and you think your Statement of Benefits should be here, please call the Vets.gov Help Desk at 1-855-574-7286. We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+
+            </p>
           </div>
         );
         break;
@@ -58,13 +69,24 @@ export class IntroPage extends React.Component {
 
 
   render() {
+    const gibsWarning = (
+      <div className="usa-alert usa-alert-warning intro-warning">
+        <div className="usa-alert-body">
+          We’re sorry. Something’s not working quite right with the GI Bill
+          benefits tool. We’re working to fix the problem. If you encounter
+          any errors, please try again later.
+        </div>
+      </div>
+    );
+
     const content = this.getContent();
     return (
       <div className="row">
         <div className="medium-8 columns">
+          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up && gibsWarning}
           <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           <p>
-            If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. Find out how to check if you have any Post-9/11 GI Bill benefits—and how to track the amount of time you have left to use for your education or training.
+            If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. If you’ve been awarded Post-9/11 GI Bill benefits, you can review your GI Bill Statement of Benefits and track the amount of time you have left to use for your education or training.
           </p>
           {content}
           <br/>

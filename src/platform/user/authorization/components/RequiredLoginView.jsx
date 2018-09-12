@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intersection } from 'lodash';
 
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import backendServices from '../../profile/constants/backendServices';
 
-const healthTools = [backendServices.HEALTH_RECORDS, backendServices.RX, backendServices.MESSAGING];
 const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
 const verifyUrl = appendQuery('/verify', nextQuery);
@@ -26,17 +25,13 @@ class RequiredLoginView extends React.Component {
   shouldSignIn = () => !this.props.user.login.currentlyLoggedIn;
 
   shouldVerify = () => {
-    const { serviceRequired, user, verify } = this.props;
+    const { user, verify } = this.props;
 
-    if (verify) {
-      // Ignore required verification when accessing health tools with MHV sign-in.
-      const hasMhvAccess =
-        healthTools.includes(serviceRequired) &&
-        user.profile.authnContext === 'myhealthevet';
-      return !(user.profile.verified || hasMhvAccess);
-    }
-
-    return false;
+    // Certain sign-in methods can grant access to the service,
+    // bypassing the identity proofing requirement.
+    // In particular, MHV sign-in users that are Advanced are not LOA3 but
+    // should have access to Rx, which would normally require verification.
+    return !this.isAccessible() && verify && !user.profile.verified;
   }
 
   redirectIfNeeded = () => {
@@ -57,7 +52,7 @@ class RequiredLoginView extends React.Component {
         userServices.includes(serviceRequired)
     );
 
-    return sessionStorage.userToken && hasRequiredServices;
+    return conditionalStorage().getItem('userToken') && hasRequiredServices;
   }
 
   renderVerifiedContent = () => {

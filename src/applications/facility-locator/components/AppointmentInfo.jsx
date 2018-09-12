@@ -24,7 +24,8 @@ export default class AppointmentInfo extends Component {
   }
 
   hasPrimaryCare(accessAttrs, category) {
-    return get(accessAttrs, ['primaryCare', category]);
+    const value = get(accessAttrs, ['primaryCare', category]);
+    return value || value === 0;
   }
 
   render() {

@@ -9,7 +9,7 @@ import * as address from '../definitions/address';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUI from '../../../platform/forms/definitions/fullName';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 import applicantDescription from '../../../platform/forms/components/ApplicantDescription';

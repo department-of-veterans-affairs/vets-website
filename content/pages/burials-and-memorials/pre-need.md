@@ -26,7 +26,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 </div>
 
-**Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. <br>
+**Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died.<br/>
 [Find out how to plan a burial for someone who has died](/burials-and-memorials/burial-planning/).
 
 <br>
@@ -94,55 +94,55 @@ To apply, you’ll need your (or your sponsor's):
 
 #### More information needed for certain applicants
 
-- **If you’re applying as a spouse, surviving spouse, or unmarried adult child**, you’ll also need your personal information, including your Social Security number.
-- **If you're applying on behalf of someone else**, you'll also need supporting documents showing you have the authority to apply for that person.
-- **If you're applying for an unmarried adult child of a Servicemember or Veteran**, you'll also need to provide supporting documents with information about the child's disability.
-
-<br>
+- **If you’re applying as a spouse, surviving spouse, or unmarried adult child,** you’ll also need your personal information, including your Social Security number.
+- **If you're applying on behalf of someone else,** you'll also need supporting documents showing you have the authority to apply for that person.
+- **If you're applying for an unmarried adult child of a Servicemember or Veteran,** you'll also need to provide supporting documents with information about the child's disability.
 
 </div>
 
 <div markdown="0"><br></div>
 
+
 ### How do I apply?
+You can apply online right now.
 
-You can apply in any of these ways:
+<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/">Apply for Pre-need Eligibility</a>
 
-#### By phone
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>) to get help with your application.
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+<h4 itemprop="name">You can also apply:</h4>
+<div itemprop="itemListElement">
 
 #### By mail
 
-Fill out an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <br>
-[Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+Apply by mail using an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <br> [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
-Send it here:
+Print the form, fill it out, and send it (with copies of your supporting documents) to:
+
 <p class="va-address-block">
 	    National Cemetery Scheduling Office<br>
 	    PO Box 510543<br>
 	    St. Louis, MO 63151<br>
 </p>
 
-**Please note:** Don't send us the originals of your DD214 and other supporting documents. Send copies only.
-
+Please don't send us the originals of your DD214 and other supporting documents since we can't return them. Send copies only.
 
 #### By fax
 
-Fill out an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <br>
-[Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+You can also fax your application to us at 1-855-840-8299.
 
-Fax your form to: 1-855-840-8299.
+<br>
 
-#### With the help of a trained professional
+### What if I need help filling out my application?
 
-You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
+
+[Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 ### What happens after I apply?
 
-[Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/after-you-apply/).
-
+[Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/after-you-apply/).</br>
 **Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
 
 For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.

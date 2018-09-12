@@ -8,7 +8,7 @@ import {
 
 import { urlMigration } from '../../config/migrations';
 
-import * as address from 'us-forms-system/lib/js/definitions/address';
+import * as address from '../../../../platform/forms/definitions/address';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';

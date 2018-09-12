@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import HelpMenu from './HelpMenu';
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
@@ -22,10 +24,7 @@ class SearchHelpSignIn extends React.Component {
   handleHelpMenuClick = this.handleMenuClick('help');
   handleAccountMenuClick = this.handleMenuClick('account');
 
-  hasSession = () => {
-    // Includes a safety check because sessionStorage is not defined during e2e testing
-    return !!(window.sessionStorage && window.sessionStorage.getItem('userFirstName'));
-  }
+  hasSession = () => conditionalStorage().getItem('userFirstName');
 
   renderSignInContent = () => {
     const isLoading = this.props.isProfileLoading;
@@ -54,8 +53,8 @@ class SearchHelpSignIn extends React.Component {
     return (
       <div className="sign-in-links">
         <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign In</button>
-        <span className="sign-in-spacer">|</span>
-        <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign Up</button>
+        {!isBrandConsolidationEnabled() && <span className="sign-in-spacer">|</span>}
+        {!isBrandConsolidationEnabled() && <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign Up</button>}
       </div>
     );
   }
@@ -82,7 +81,7 @@ SearchHelpSignIn.propTypes = {
   isLoggedIn: PropTypes.bool,
   isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
   isProfileLoading: PropTypes.bool.isRequired,
-  userGreeting: PropTypes.string.isRequired,
+  userGreeting: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
   toggleMenu: PropTypes.func.isRequired
 };

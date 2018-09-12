@@ -1,92 +1,46 @@
 import { apiRequest } from '../../../../platform/utilities/api';
-import { isVet360Configured } from '../util/local-vet360';
-import sendAndMergeApiRequests from '../util/sendAndMergeApiRequests';
-import _ from 'lodash';
-import countries from '../constants/countries.json';
-import states from '../constants/states.json';
 
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS = 'FETCH_PERSONAL_INFORMATION_SUCCESS';
 export const FETCH_MILITARY_INFORMATION_SUCCESS = 'FETCH_MILITARY_INFORMATION_SUCCESS';
 export const FETCH_ADDRESS_CONSTANTS_SUCCESS = 'FETCH_ADDRESS_CONSTANTS_SUCCESS';
 
-export const VET360_TRANSACTIONS_FETCH_SUCCESS = 'VET360_TRANSACTIONS_FETCH_SUCCESS';
-
-export * from './updaters';
-export * from './misc';
+async function getData(apiRoute) {
+  try {
+    const response = await apiRequest(apiRoute);
+    return response.data.attributes;
+  } catch (error) {
+    return { error };
+  }
+}
 
 export function fetchHero() {
   return async (dispatch) => {
-    const hero = await sendAndMergeApiRequests({
-      userFullName: '/profile/full_name'
-    });
     dispatch({
       type: FETCH_HERO_SUCCESS,
-      hero
+      hero: {
+        userFullName: await getData('/profile/full_name')
+      }
     });
   };
 }
 
 export function fetchPersonalInformation() {
   return async (dispatch) => {
-    const result = await sendAndMergeApiRequests({
-      personalInformation: '/profile/personal_information'
-    });
     dispatch({
       type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-      personalInformation: result.personalInformation
+      personalInformation: await getData('/profile/personal_information')
     });
   };
 }
 
 export function fetchMilitaryInformation() {
   return async (dispatch) => {
-    const militaryInformation = await sendAndMergeApiRequests({
-      serviceHistory: '/profile/service_history'
-    });
     dispatch({
       type: FETCH_MILITARY_INFORMATION_SUCCESS,
-      militaryInformation
-    });
-  };
-}
-
-export function fetchAddressConstants() {
-  return ({
-    type: FETCH_ADDRESS_CONSTANTS_SUCCESS,
-    addressConstants: {
-      states: _.map(states, 'stateCode'),
-      countries: _.map(countries, 'countryName'),
-    }
-  });
-}
-
-export function fetchTransactions() {
-  return async (dispatch) => {
-    try {
-      let response;
-      if (isVet360Configured()) {
-        response = await apiRequest('/profile/status/');
-      } else {
-        response = { data: [] };
-        // Uncomment the line below to simulate transactions being processed during initialization
-        // response = localVet360.getUserTransactions();
+      militaryInformation: {
+        serviceHistory: await getData('/profile/service_history')
       }
-      dispatch({
-        type: VET360_TRANSACTIONS_FETCH_SUCCESS,
-        data: response.data
-      });
-    } catch (err) {
-      // If we sync transactions in the background and fail, is it worth telling the user?
-    }
-  };
-}
-
-export function startup() {
-  return async (dispatch) => {
-    dispatch(fetchHero());
-    dispatch(fetchAddressConstants());
-    dispatch(fetchPersonalInformation());
-    dispatch(fetchMilitaryInformation());
+    });
   };
 }

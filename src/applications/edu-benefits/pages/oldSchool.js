@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import * as address from 'us-forms-system/lib/js/definitions/address';
+import * as address from '../../../platform/forms/definitions/address';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 
 export default function createOldSchoolPage(schema) {

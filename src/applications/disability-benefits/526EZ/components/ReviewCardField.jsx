@@ -132,7 +132,10 @@ export default class ReviewCardField extends React.Component {
       <div className="review-card">
         <div className="review-card--header">
           <h4 className="review-card--title">{title}</h4>
-          <button className="usa-button-secondary edit-button" onClick={this.startEditing}>Edit</button>
+          <button
+            className="usa-button-secondary edit-button"
+            onClick={this.startEditing}
+            aria-label={`Edit ${title}`}>Edit</button>
         </div>
         <div className="review-card--body">
           <ViewComponent formData={this.props.formData}/>

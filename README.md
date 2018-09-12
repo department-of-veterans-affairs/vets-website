@@ -31,8 +31,8 @@ very secret.
 | run only unit tests | `npm run test:unit` |
 | run all unit tests and watch | `npm run test:watch` |
 | run only unit tests for a subset of tests | `npm run test:unit -- path/to/my/test.unit.spec.jsx` <br> or <br> `npm run test:unit -- --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
-| run only e2e tests                       | `npm run test:e2e`                       |
-| run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
+| run only e2e tests | Make sure the site is running locally (`npm run watch`) and run the tests with `npm run test:e2e` |
+| run only e2e tests for a subset of tests | Make sure the site is running locally (`npm run watch`) and run the desired tests with `npm run test:e2e -- src/applications/edu-benefits/tests/1995/*.e2e.spec.js` (provide file paths) |
 | run e2e tests in headless mode           | `npm run test:e2e:headless`              |
 | run all linters                          | `npm run lint`                           |
 | run only javascript linter               | `npm run lint:js`                        |

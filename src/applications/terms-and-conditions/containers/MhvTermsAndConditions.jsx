@@ -7,6 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import recordEvent from '../../../platform/monitoring/record-event';
+import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 
 import {
@@ -39,7 +40,7 @@ export class MhvTermsAndConditions extends React.Component {
 
   componentDidMount() {
     this.props.fetchLatestTerms(TERMS_NAME);
-    if (sessionStorage.userToken) { this.props.fetchTermsAcceptance(TERMS_NAME); }
+    if (conditionalStorage().getItem('userToken')) { this.props.fetchTermsAcceptance(TERMS_NAME); }
   }
 
   componentDidUpdate(prevProps) {

@@ -2,6 +2,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
+import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+
 import {
   groupTimelineActivity,
   isPopulatedClaim,
@@ -407,15 +409,16 @@ describe('Disability benefits helpers: ', () => {
     let fetchMock = sinon.stub();
     let oldFetch = global.fetch;
     beforeEach(() => {
+      conditionalStorage().setItem('userToken', '1234');
       oldFetch = global.fetch;
       fetchMock = sinon.stub();
       global.fetch = fetchMock;
     });
     afterEach(() => {
       global.fetch = oldFetch;
+      conditionalStorage().clear();
     });
     it('should make a fetch request', (done) => {
-      global.sessionStorage = { userToken: '1234' };
       fetchMock.returns({
         'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve() }) })
       });
@@ -428,7 +431,6 @@ describe('Disability benefits helpers: ', () => {
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
     it('should reject promise when there is an error', (done) => {
-      global.sessionStorage = { userToken: '1234' };
       fetchMock.returns({
         'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() }) })
       });
@@ -444,7 +446,6 @@ describe('Disability benefits helpers: ', () => {
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
     it('should dispatch auth error', (done) => {
-      global.sessionStorage = { userToken: '1234' };
       fetchMock.returns({
         'catch': () => ({ then: (fn) => fn({ ok: false, status: 401, json: () => Promise.resolve() }) })
       });

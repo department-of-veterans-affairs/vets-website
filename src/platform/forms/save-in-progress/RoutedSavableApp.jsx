@@ -128,15 +128,21 @@ class RoutedSavableApp extends React.Component {
     // Stop a user that's been redirected to be redirected again after logging in
     this.shouldRedirectOrLoad = false;
 
-
     const firstPagePath = props.routes[props.routes.length - 1].pageList[0].path;
+    const firstNonIntroPagePath = props.routes[props.routes.length - 1].pageList[1].path;
     // If we're logged in and have a saved / pre-filled form, load that
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
       const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
       const hasPrefillData = props.prefillsAvailable.includes(currentForm);
-      if (isSaved || hasPrefillData) {
-        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData);
+
+      if (isSaved) {
+        props.fetchInProgressForm(currentForm, props.formConfig.migrations, false, props.formConfig.prefillTransformer);
+      } else if (props.skipPrefill) {
+        // Just need to go to the page after the introduction
+        props.router.replace(firstNonIntroPagePath);
+      } else if (hasPrefillData) {
+        props.fetchInProgressForm(currentForm, props.formConfig.migrations, true, props.formConfig.prefillTransformer);
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break

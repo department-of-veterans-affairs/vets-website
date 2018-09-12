@@ -9,8 +9,8 @@ import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 
-import * as address from 'us-forms-system/lib/js/definitions/address';
-import bankAccountUI from 'us-forms-system/lib/js/definitions/bankAccount';
+import * as address from '../../../platform/forms/definitions/address';
+import bankAccountUI from '../../../platform/forms/definitions/bankAccount';
 import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
 
 import {
@@ -55,12 +55,12 @@ import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import fullNameUI from 'us-forms-system/lib/js/definitions/fullName';
+import fullNameUI from '../../../platform/forms/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import createNonRequiredFullName from 'us-forms-system/lib/js/definitions/nonRequiredFullName';
+import createNonRequiredFullName from '../../../platform/forms/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 

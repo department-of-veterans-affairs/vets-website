@@ -15,6 +15,7 @@ import fullSchema1990n from '../../../edu-benefits/1990n/config/form';
 import fullSchema1995 from '../../../edu-benefits/1995/config/form';
 import fullSchema5490 from '../../../edu-benefits/5490/config/form';
 import fullSchema5495 from '../../../edu-benefits/5495/config/form';
+import fullSchemaFeedbackTool from '../../../edu-benefits/feedback-tool/config/form';
 import fullSchema526EZ from '../../../disability-benefits/526EZ/config/form';
 import fullSchema527EZ from '../../../pensions/config/form';
 import fullSchema530 from '../../../burials/config/form';
@@ -39,6 +40,7 @@ const schemaToConfigIds = {
   '22-5490': '5490',
   '22-5495': '5495',
   '40-10007': '40-10007',
+  'FEEDBACK-TOOL': 'FEEDBACK-TOOL',
   VIC: 'VIC',
   definitions: 'N/A'
 };
@@ -46,7 +48,8 @@ const schemaToConfigIds = {
 const excludedForms = new Set([
   '28-1900',
   '28-8832',
-  '24-0296'
+  '24-0296',
+  '21-4142'
 ]);
 
 describe('profile helpers:', () => {
@@ -76,6 +79,7 @@ describe('profile helpers:', () => {
         fullSchema1995,
         fullSchema5490,
         fullSchema5495,
+        fullSchemaFeedbackTool,
         fullSchema526EZ,
         fullSchema527EZ,
         fullSchema530,

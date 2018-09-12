@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: GI Bill
 concurrence: incomplete
-plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
+plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act.
 collection: education
 children: educationGIBill
 order: 4
@@ -59,7 +59,6 @@ majorlinks:
     - url: /education/opt-out-information-sharing/
       title: Opt Out of Sharing VA Education Benefits Information
       description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing. 
-
 
 ---
 

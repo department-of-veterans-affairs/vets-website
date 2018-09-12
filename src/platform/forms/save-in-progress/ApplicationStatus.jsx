@@ -62,7 +62,7 @@ export class ApplicationStatus extends React.Component {
     if (formIds) {
       const matchingForms = profile.savedForms.filter(({ form }) => formIds.has(form));
       if (matchingForms.length) {
-        savedForm = matchingForms.sort(({ metadata }) => -1 * metadata.last_updated)[0];
+        savedForm = matchingForms.sort(({ metadata }) => -1 * metadata.lastUpdated)[0];
         formId = savedForm.form;
         multipleForms = matchingForms.length > 1;
       }
@@ -71,7 +71,7 @@ export class ApplicationStatus extends React.Component {
     }
 
     if (login.currentlyLoggedIn && savedForm) {
-      const { last_updated: lastSaved, expires_at: expirationTime } = savedForm.metadata;
+      const { lastUpdated: lastSaved, expiresAt: expirationTime } = savedForm.metadata;
       const expirationDate = moment.unix(expirationTime);
       const isExpired = expirationDate.isBefore();
 

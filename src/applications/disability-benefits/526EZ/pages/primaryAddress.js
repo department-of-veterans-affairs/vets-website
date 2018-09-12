@@ -22,6 +22,8 @@ import  {
   STATE_LABELS,
   STATE_VALUES,
   USA,
+} from '../../all-claims/constants';
+import  {
   ADDRESS_TYPES
 } from '../constants';
 
@@ -102,20 +104,32 @@ const addressUISchema = (addressType, title) => {
       'ui:title': 'Country'
     },
     addressLine1: {
-      'ui:title': 'Street address'
+      'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address'
+      }
     },
     addressLine2: {
-      'ui:title': 'Street address (optional)'
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address'
+      }
     },
     addressLine3: {
-      'ui:title': 'Street address (optional)'
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address'
+      }
     },
     city: {
       'ui:title': 'City',
       'ui:validations': [{
         options: { addressPath: addressType },
         validator: validateMilitaryCity
-      }]
+      }],
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid city'
+      }
     },
     state: {
       'ui:title': 'State',
@@ -144,7 +158,12 @@ const addressUISchema = (addressType, title) => {
   };
 };
 
-const { mailingAddress, forwardingAddress } = fullSchema526EZ.properties.veteran.properties;
+const {
+  mailingAddress,
+  forwardingAddress,
+  emailAddress,
+  primaryPhone
+} = fullSchema526EZ.properties.veteran.properties;
 
 export const uiSchema = {
   veteran: {
@@ -168,7 +187,7 @@ export const uiSchema = {
       emailAddress: {
         'ui:title': 'Email address',
         'ui:errorMessages': {
-          pattern: 'Please put your email in this format x@x.xxx'
+          pattern: 'The email you enter should be in this format x@x.xx'
         }
       },
     },
@@ -238,14 +257,8 @@ export const schema = {
           type: 'object',
           required: ['primaryPhone', 'emailAddress'],
           properties: {
-            primaryPhone: {
-              type: 'string',
-              pattern: '^\\d{10}$'
-            },
-            emailAddress: {
-              type: 'string',
-              format: 'email'
-            }
+            primaryPhone,
+            emailAddress
           }
         },
         mailingAddress,

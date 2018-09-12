@@ -7,7 +7,7 @@ import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
-import { stateRequiredCountries } from 'us-forms-system/lib/js/definitions/address';
+import { stateRequiredCountries } from '../../../platform/forms/definitions/address';
 import { filterViewFields } from 'us-forms-system/lib/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
@@ -17,12 +17,15 @@ import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
+import { getDisabilityName } from '../all-claims/utils';
 
 import {
-  USA,
   VA_FORM4142_URL
 } from './constants';
 
+import {
+  USA,
+} from '../all-claims/constants';
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
@@ -55,6 +58,50 @@ const setPhoneEmailPaths = (veteran) => {
 };
 
 
+export const getReservesGuardData = (formData) => {
+  const {
+    unitName,
+    obligationTermOfServiceDateRange,
+    title10Activation,
+    waiveVABenefitsToRetainTrainingPay
+  } = formData;
+
+  // Ensure all required fields are present
+  if (
+    !unitName
+    || !obligationTermOfServiceDateRange
+    || !obligationTermOfServiceDateRange.from
+    || !obligationTermOfServiceDateRange.to
+    || typeof waiveVABenefitsToRetainTrainingPay === 'undefined'
+  ) {
+    return null;
+  }
+
+  const obligationDateRange = {
+    from: obligationTermOfServiceDateRange.from,
+    to: obligationTermOfServiceDateRange.to
+  };
+
+  if (formData['view:isTitle10Activated']) {
+    return {
+      unitName,
+      obligationTermOfServiceDateRange: obligationDateRange,
+      title10Activation: {
+        title10ActivationDate: title10Activation.title10ActivationDate,
+        anticipatedSeparationDate: title10Activation.anticipatedSeparationDate
+      },
+      waiveVABenefitsToRetainTrainingPay
+    };
+  }
+
+  return {
+    unitName,
+    obligationTermOfServiceDateRange: obligationDateRange,
+    waiveVABenefitsToRetainTrainingPay
+  };
+};
+
+
 export function transform(formConfig, form) {
   const {
     disabilities,
@@ -63,10 +110,17 @@ export function transform(formConfig, form) {
     servicePeriods,
     standardClaim,
   } = form.data;
-
+  const reservesNationalGuardService = getReservesGuardData(form.data);
   const disabilityProperties = Object.keys(
     fullSchemaIncrease.definitions.disabilities.items.properties
   );
+
+  const serviceInformation = reservesNationalGuardService
+    ? { servicePeriods, reservesNationalGuardService }
+    : { servicePeriods };
+
+  const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
+  const privateRecords = aggregate(disabilities, 'privateRecords');
 
   const transformedData = {
     disabilities: disabilities
@@ -76,8 +130,9 @@ export function transform(formConfig, form) {
     veteran: setPhoneEmailPaths(veteran),
     // Extract treatments into one top-level array
     treatments: aggregate(disabilities, 'treatments'),
+    attachments: additionalDocuments.concat(privateRecords),
     privacyAgreementAccepted,
-    serviceInformation: { servicePeriods },
+    serviceInformation,
     standardClaim,
   };
 
@@ -103,16 +158,27 @@ export function validateDisability(disability) {
 
 
 export function transformDisabilities(disabilities = []) {
-  return disabilities.map(disability => {
-    const newDisability = set('disabilityActionType', 'INCREASE', disability);
-    // Mark disabilities for which the veteran cannot claim an increase
-    // We'll use this to mark the disability as disabled in the UI and gate the form if necessary
-    // As far as we know, only disabilities without a rating are ineligible (but a rating of 0% is eligible)
-    if ([undefined, null].includes(newDisability.ratingPercentage)) {
-      newDisability.ineligible = true;
-    }
-    return newDisability;
-  });
+  return disabilities
+    // We want to remove disabilities without a rating, but 0 counts as a valid rating
+    // TODO: Log the disabilities if they're not service connected
+    // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
+    //  it gets here and we can't tell whether it is service connected or not. This happens in
+    //  the api
+    .filter(disability => {
+      if (disability.ratingPercentage || disability.ratingPercentage === 0) {
+        return true;
+      }
+
+      // TODO: Only log it if the decision code indicates the condition is not non-service-connected
+      const { decisionCode } = disability;
+      if (decisionCode) {
+        Raven.captureMessage('526_increase_disability_filter', {
+          extra: { decisionCode }
+        });
+      }
+
+      return false;
+    }).map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
 
@@ -134,6 +200,18 @@ export function addPhoneEmailToCard(formData) {
   return newFormData;
 }
 
+export function transformObligationDates(formData) {
+  const { reservesNationalGuardService } = formData;
+  if (!reservesNationalGuardService || !reservesNationalGuardService.obligationTermOfServiceDateRange) {
+    return formData;
+  }
+
+  const { obligationTermOfServiceDateRange: { from, to } } = reservesNationalGuardService;
+  const newFormData = set('obligationTermOfServiceDateRange', { from, to }, formData);
+  delete newFormData.reservesNationalGuardService;
+
+  return newFormData;
+}
 
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
@@ -144,9 +222,10 @@ export function prefillTransformer(pages, formData, metadata) {
   const newFormData = set('disabilities', transformDisabilities(disabilities), formData);
   newFormData.disabilities.forEach(validateDisability);
   const withPhoneEmailCard = addPhoneEmailToCard(newFormData);
+  const withObligationDates = transformObligationDates(withPhoneEmailCard);
   return {
     metadata,
-    formData: withPhoneEmailCard,
+    formData: withObligationDates,
     pages
   };
 }
@@ -175,28 +254,6 @@ export const evidenceTypeHelp = (
     <p>A lay statement is a written statement from family, friends, or coworkers to help support your claim. Lay statements are also called “buddy statements.” In most cases, you’ll only need your medical records to support your disability claim. Some claims, for example, for Posttraumatic Stress Disorder or for military sexual trauma, could benefit from a lay or buddy statement.</p>
   </AdditionalInfo>
 );
-
-const capitalizeEach = (word) => {
-  const capFirstLetter = word[0].toUpperCase();
-  return `${capFirstLetter}${word.slice(1)}`;
-};
-
-/**
- * Takes a string and returns the same string with every word capitalized. If no valid
- * string is given as input, returns 'Unknown Condition' and logs to Sentry.
- * @param {string} name the lower-case name of a disability
- * @returns {string} the input name, but with all words capitalized
- */
-export const getDisabilityName = (name) => {
-  if (name && typeof name === 'string') {
-    const splitName = name.split(' ');
-    const capitalizedsplitName = splitName.map(capitalizeEach);
-    return capitalizedsplitName.join(' ');
-  }
-
-  Raven.captureMessage('form_526: no name supplied for ratedDisability');
-  return 'Unknown Condition';
-};
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
@@ -459,6 +516,7 @@ const listDocuments = (documents) => {
 
 
 export const evidenceSummaryView = ({ formData }) => {
+
   const {
     treatments,
     privateRecordReleases,
@@ -501,10 +559,10 @@ export const editNote = (name) => (
  */
 export const srSubstitute = (srIgnored, substitutionText) => {
   return (
-    <div style={{ display: 'inline' }}>
+    <span>
       <span aria-hidden>{srIgnored}</span>
       <span className="sr-only">{substitutionText}</span>
-    </div>
+    </span>
   );
 };
 
@@ -533,27 +591,6 @@ const unconnectedVetInfoView = (profile) => {
 
 
 export const veteranInfoDescription = connect((state) => state.user.profile)(unconnectedVetInfoView);
-
-
-/**
- * @typedef {Object} Disability
- * @property {String} diagnosticCode
- * @property {String} name
- * @property {String} ratingPercentage
- * @param {Disability} disability
- */
-export const disabilityOption = ({ name, ratingPercentage }) => {
-  // May need to throw an error to Sentry if any of these doesn't exist
-  // A valid rated disability *can* have a rating percentage of 0%
-  const showRatingPercentage = Number.isInteger(ratingPercentage);
-
-  return (
-    <div>
-      <h4>{getDisabilityName(name)}</h4>
-      {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
-    </div>
-  );
-};
 
 
 export const ITFErrorAlert = (
@@ -834,3 +871,10 @@ export const PaymentDescription = () => (
     disability benefit to this account.
   </p>
 );
+
+export const validateBooleanIfEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
+  const { wrappedValidator } = options;
+  if (get('view:hasEvidence', formData, true)) {
+    wrappedValidator(errors, fieldData, formData, schema, messages, index);
+  }
+};

@@ -6,10 +6,11 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../../platform/user/authentication/utilities';
+import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
 export class VerifyApp extends React.Component {
   componentDidMount() {
-    if (!sessionStorage.userToken) {
+    if (!conditionalStorage().getItem('userToken')) {
       return window.location.replace('/');
     }
     return recordEvent({ event: 'verify-prompt-displayed' });

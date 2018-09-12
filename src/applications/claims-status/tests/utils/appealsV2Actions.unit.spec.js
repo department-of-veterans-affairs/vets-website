@@ -1,8 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+
 import {
   getAppealsV2,
 } from '../../actions';
+
 import {
   FETCH_APPEALS_PENDING,
   FETCH_APPEALS_SUCCESS,
@@ -14,12 +18,10 @@ import {
 } from '../../utils/appeals-v2-helpers';
 
 let oldFetch;
-let oldSessionStorage;
 
 const setup = () => {
-  oldSessionStorage = global.sessionStorage;
+  conditionalStorage().setItem('userToken', '123');
   oldFetch = global.fetch;
-  global.sessionStorage = { userToken: '123' };
   global.fetch = sinon.stub();
   global.fetch.returns(Promise.resolve({
     headers: { get: () => 'application/json' },
@@ -32,7 +34,7 @@ const setup = () => {
 
 const teardown = () => {
   global.fetch = oldFetch;
-  global.sessionStorage = oldSessionStorage;
+  conditionalStorage().clear();
 };
 
 describe('getAppealsV2', () => {

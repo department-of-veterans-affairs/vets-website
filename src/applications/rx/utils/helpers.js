@@ -14,7 +14,7 @@ export function formatDate(date, options = {}) {
     momentDate.isSameOrBefore(moment().endOf('day')));
 
   return isValidDate
-    ? momentDate.format(options.format || 'MMM DD, YYYY')
+    ? momentDate.format(options.format || 'MMMM DD, YYYY')
     : 'Not available';
 }
 

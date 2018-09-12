@@ -1,25 +1,40 @@
 {
   "data":{
+     "obligationTermOfServiceDateRange": {
+      "from": "2015-05-12",
+      "to": "2017-05-12"
+     },
+     "unitName": "Alpha Bravo Charlie",
+     "view:isTitle10Activated": true,
+     "title10Activation": {
+       "title10ActivationDate": "2014-054-12",
+       "anticipatedSeparationDate": "2019-09-02"
+     },
+     "waiveVABenefitsToRetainTrainingPay": true,
      "disabilities":[
         {
            "additionalDocuments":[
               {
                  "name":"Screen Shot 2018-07-09 at 11.25.49 AM.png",
-                 "confirmationCode":"9664f488-1243-4b25-805e-75ad7e4cf765"
+                 "confirmationCode":"9664f488-1243-4b25-805e-75ad7e4cf765",
+                 "attachmentId": "L105"
               },
               {
                  "name":"Screen Shot 2018-07-09 at 11.24.39 AM.png",
-                 "confirmationCode":"66bfab89-6e2b-4361-a905-754dfbff7df7"
+                 "confirmationCode":"66bfab89-6e2b-4361-a905-754dfbff7df7",
+                 "attachmentId": "L105"
               }
            ],
            "privateRecords":[
               {
                  "name":"Screen Shot 2018-07-09 at 3.29.08 PM.png",
-                 "confirmationCode":"a58ae568-d190-49cd-aa04-b1b1da5eae35"
+                 "confirmationCode":"a58ae568-d190-49cd-aa04-b1b1da5eae35",
+                 "attachmentId": "L105"
               },
               {
                  "name":"Screen Shot 2018-07-09 at 2.02.39 PM.png",
-                 "confirmationCode":"f23194e4-c534-42c6-9e96-16c08d8230a5"
+                 "confirmationCode":"f23194e4-c534-42c6-9e96-16c08d8230a5",
+                 "attachmentId": "L105"
               }
            ],
            "view:uploadPrivateRecords":"yes",
@@ -51,12 +66,6 @@
 
            },
            "name":"Diabetes mellitus0",
-           "specialIssues":[
-              {
-                 "code":"TRM",
-                 "name":"Personal Trauma PTSD"
-              }
-           ],
            "ratedDisabilityId":"0",
            "ratingDecisionId":"63655",
            "diagnosticCode":5238,
@@ -80,12 +89,6 @@
 
            },
            "name":"Diabetes mellitus1",
-           "specialIssues":[
-              {
-                 "code":"TRM",
-                 "name":"Personal Trauma PTSD"
-              }
-           ],
            "ratedDisabilityId":"1",
            "ratingDecisionId":"63655",
            "diagnosticCode":5238,

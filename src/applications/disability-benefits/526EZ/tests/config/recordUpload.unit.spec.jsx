@@ -12,7 +12,8 @@ const invalidDocumentData = {
   disabilities: [
     {
       privateRecords: [{
-        confirmationCode: 'testing'
+        confirmationCode: 'testing',
+        name: 'someDocument.pdf'
       }],
       disability: { // Is this extra nesting necessary?
         diagnosticText: 'PTSD',
@@ -73,7 +74,8 @@ const validDocumentData = {
     {
       privateRecords: [{
         name: 'Form526.pdf',
-        confirmationCode: 'testing'
+        confirmationCode: '123456',
+        attachmentId: 'L015'
       }],
       disability: { // Is this extra nesting necessary?
         diagnosticText: 'PTSD',

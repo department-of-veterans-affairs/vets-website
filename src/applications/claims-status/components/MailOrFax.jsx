@@ -8,9 +8,9 @@ export default function MailOrFax({ onClose }) {
       <button
         className="va-modal-close"
         type="button"
+        aria-label="Close this modal"
         onClick={onClose}>
         <i className="fa fa-close"></i>
-        <span className="usa-sr-only">Close this modal</span>
       </button>
       <p>
         Please upload your documents online here to help us process your claim quickly.

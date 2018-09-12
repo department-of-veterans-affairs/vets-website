@@ -78,6 +78,10 @@
     border-color: $color-primary;
   }
 
+  &:last-child {
+    margin-bottom: 1em;
+  }
+
   input[type="checkbox"] + label {
     // The former margin was to separate the checkbox from the elements above it, but now
     //  that we have the outline, we need to move the whitespace to the outside of the border.
@@ -155,4 +159,12 @@
   p {
     margin: 0.5em 0;
   }
+}
+
+.full-page-alert {
+  margin-bottom: 2em;
+}
+
+.itf-agreement {
+  margin-top: 0;
 }

@@ -19,14 +19,16 @@ class FormItem extends React.Component {
   render() {
     const savedFormData = this.props.savedFormData;
     const formId = savedFormData.form;
-    const { last_updated: lastSaved, expires_at: expirationTime } = savedFormData.metadata;
-    const lastSavedDateTime = moment.unix(lastSaved).format('MMM DD [at] h:mm a');
-    const expirationDate = moment.unix(expirationTime).format('MMM DD');
+    const { lastUpdated: lastSaved, expiresAt: expirationTime } = savedFormData.metadata;
+    const lastSavedDateTime = moment.unix(lastSaved).format('MMMM D, YYYY [at] h:m a');
+    const expirationDate = moment.unix(expirationTime).format('MMMM D, YYYY');
     const isExpired = moment.unix(expirationTime).isBefore();
+    const itemTitle = `Application for ${formTitles[formId]}`;
+
     const activeView = (
       <div className="card information">
         <div className="saved-form-information">
-          <h5 className="form-title saved">Application for {formTitles[formId]}</h5>
+          <h5 className="form-title saved">{itemTitle}</h5>
           {!!lastSaved && !!expirationDate && <div className="saved-form-metadata-container">
             <span><strong>Last saved on:</strong> {lastSavedDateTime}</span>
             <p><strong>Expires on:</strong> {expirationDate}</p>
@@ -35,15 +37,23 @@ class FormItem extends React.Component {
         <div className="row small-collapse">
           <div className="small-12 medium-8 large-8 columns">
             <div className="application-route-container resume">
-              <a className="usa-button-primary application-route" href={`${formLinks[formId]}resume`} onClick={this.recordDashboardClick(formId)}>Continue Your Application</a>
+              <a
+                className="usa-button-primary application-route"
+                aria-label={`Continue your ${itemTitle}`}
+                href={`${formLinks[formId]}resume`}
+                onClick={this.recordDashboardClick(formId)}>
+                  Continue Your Application
+              </a>
             </div>
           </div>
           <div className="small-12 medium-4 large-4 columns">
             <div className="remove-saved-application-container">
-              <button className="va-button-link remove-saved-application-button" onClick={() => {
-                this.props.toggleModal(formId);
-                this.recordDashboardClick(formId, 'delete-link');
-              }}>
+              <button className="va-button-link remove-saved-application-button"
+                aria-label={`Delete ${itemTitle}`}
+                onClick={() => {
+                  this.props.toggleModal(formId);
+                  this.recordDashboardClick(formId, 'delete-link');
+                }}>
                 <i className="fa fa-trash"></i><span className="remove-saved-application-label">Delete</span>
               </button>
             </div>

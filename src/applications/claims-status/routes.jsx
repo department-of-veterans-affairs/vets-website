@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, IndexRedirect, Redirect } from 'react-router';
 
-// import YourClaimsPage from './containers/YourClaimsPage';
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import ClaimPage from './containers/ClaimPage';
 import ClaimStatusPage from './containers/ClaimStatusPage';
@@ -27,15 +26,6 @@ const routes = [
     key="/your-claims"
     path="/your-claims"/>,
   /*
-  <Route
-    component={YourClaimsPage}
-    key="/your-claims"
-    path="/your-claims"/>,
-  <Route
-    component={YourClaimsPage}
-    showClosedClaims
-    key="/your-claims/closed"
-    path="/your-claims/closed"/>,
   <Route
     component={AppealLayout}
     key="/appeals"

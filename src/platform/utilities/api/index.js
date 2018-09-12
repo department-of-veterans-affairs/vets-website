@@ -3,6 +3,7 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import environment from '../environment';
+import conditionalStorage from '../storage/conditionalStorage';
 
 function isJson(response) {
   const contentType = response.headers.get('content-type');
@@ -17,13 +18,14 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
   const defaultSettings = {
     method: 'GET',
+    credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel'
     }
   };
 
-  if (sessionStorage.userToken) {
-    defaultSettings.headers.Authorization = `Token token=${sessionStorage.userToken}`;
+  if (conditionalStorage().getItem('userToken')) {
+    defaultSettings.headers.Authorization = `Token token=${conditionalStorage().getItem('userToken')}`;
   }
 
   const settings = merge(defaultSettings, optionalSettings);
