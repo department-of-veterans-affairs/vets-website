@@ -1,4 +1,5 @@
 // import _ from 'lodash/fp';
+import React from 'react';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
@@ -24,3 +25,13 @@ export function transform(formConfig, form) {
     }
   });
 }
+
+// disabling jsx-ally/no-noninteractive-tabindex for warning that screen readers should stop on
+/* eslint-disable */
+export const tabIndexedTitle = title => (<div
+  tabIndex="0">
+  <p>
+    {title}
+  </p>
+</div>);
+/* eslint-enable */
