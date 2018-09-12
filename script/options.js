@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 
-const environments = require('./environments');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 const applyHerokuOptions = require('./heroku-helper');
+const environments = require('./constants/environments');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: environments.DEVELOPMENT },
