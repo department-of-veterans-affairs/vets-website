@@ -13,20 +13,18 @@ We offer grants to Servicemembers and Veterans with certain service-connected di
 
 </div>
 
-<div class="feature" markdown=“1”>
-
-### Can I get a Specially Adapted Housing (SAH) grant—and how much funding does this grant offer?
+## Can I get a Specially Adapted Housing (SAH) grant—and how much funding does this grant offer?
 
 You may be able to get an SAH grant if you’re using the grant money to buy, build, or change your permanent home (a home you plan to live in for a long time), and you meet both of the requirements listed below.
 
 **Both of these must be true. You:**
 - Own or will own the home, **and**
-- Have 1 of these service-connected disabilities (disabilities related to your service):
+- Have one of these service-connected disabilities (disabilities related to your service):
   - The loss or loss of use of both legs, both arms, or an arm and a leg
   - The loss or loss of use of a lower leg along with the residuals (lasting effects) of an organic (natural) disease or injury
-  - Blindness in both eyes having only light perception along with the loss or loss of use of 1 leg
+  - Blindness in both eyes having only light perception along with the loss or loss of use of one leg
   - Certain severe burns
-  - The loss or loss of use of 1 or both lower extremities (feet or legs) after September 11, 2001, that makes it so you can’t balance or walk without the help of braces, crutches, canes, or a wheelchair
+  - The loss or loss of use of one or both lower extremities (feet or legs) after September 11, 2001, that makes it so you can’t balance or walk without the help of braces, crutches, canes, or a wheelchair
 
 For FY 2018, you may be able to get up to 3 grants—for a total of up to $81,080—through the SAH grant program.
 
@@ -34,14 +32,14 @@ For FY 2018, you may be able to get up to 3 grants—for a total of up to $81,08
 
 <br>
 
-### Can I get a Special Housing Adaptation (SHA) grant—and how much funding does this grant offer?
+## Can I get a Special Housing Adaptation (SHA) grant—and how much funding does this grant offer?
 
 You may be able to get an SHA grant if you’re using the grant money to buy, build, or change your permanent home (a home you plan to live in for a long time) and you meet both of the requirements listed below.
 
 **Both of these must be true:**
 
 - You or a family member own or will own the home, **and**
-- You have 1 of these service-connected disabilities (disabilities related to your service):
+- You have one of these service-connected disabilities (disabilities related to your service):
   - Blindness in both eyes (with 20/200 visual acuity or less)
   - The loss or loss of use of both hands
   - Certain severe burns
@@ -49,7 +47,7 @@ You may be able to get an SHA grant if you’re using the grant money to buy, bu
   
 For FY 2018, you may be able to get up to 3 grants—for a total of up to $16,217—through the SHA grant program.
 
-<br>
+<div class="feature" markdown=“1”>
 
 ### What if I need money to make changes to a family member’s home that I’m living in for a short period of time?
 
@@ -66,7 +64,16 @@ You may be able to get a Temporary Residence Adaptation (TRA) grant if you meet 
 
 </div>
 
-### How do I get an SAH, SHA, or TRA grant?
+## How do I get an SAH, SHA, or TRA grant?
 
-[Find out how to apply for a housing grant](/housing-assistance/disability-housing-grants/how-to-apply
-).
+You can apply online right now by going to our eBenefits website.
+
+You’ll need to sign in to eBenefits with your <b>DS Logon</b> basic or premium account. If you don’t have a <b>DS Logon</b> account, you can register for one on the site.
+
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+</div>
+</div>
+ 
+<div id="react-applicationStatus"></div>
+
+[Learn more about how to apply for a housing grant](/housing-assistance/disability-housing-grants/how-to-apply).
