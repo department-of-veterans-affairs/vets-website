@@ -566,6 +566,9 @@ const formConfig = {
                     expandUnderCondition: 'no',
                   }
                 },
+                'view:acknowledgement': {
+                  'ui:title': 'Patient Acknowledgement'
+                },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp
                 }
@@ -579,14 +582,20 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: ['view:uploadPrivateRecords', 'view:patientAcknowledgement'],
+                  required: ['view:uploadPrivateRecords', 'view:acknowledgement'],
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
                       'enum': ['yes', 'no']
                     },
                     'view:patientAcknowledgement': {
-                      type: 'boolean',
+                      type: 'object',
+                      properties: {
+                        'view:acknowledgement': {
+                          type: 'boolean',
+                          default: true
+                        }
+                      }
                     },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
