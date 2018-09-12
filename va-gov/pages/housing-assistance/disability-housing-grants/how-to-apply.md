@@ -52,13 +52,15 @@ You’ll need to sign in to eBenefits with your <b>DS Logon</b> basic or premium
  
 <h3 itemprop="name">You can also apply:</h3>
 <div itemprop="itemListElement">
-#### By mail
+
+<h4>By mail</h4>
 Fill out an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). <br>
 [Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf).
 Mail it to your nearest regional loan center. <br>
 [Find a regional loan center near you](https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp).
 If you have trouble accessing the form, call us toll-free at <a href="tel:+18008271000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to have a claim form mailed to you.
-#### In person
+
+<h4>In person</h4>
 Fill out VA Form 26-4555 and bring it to your nearest VA regional benefit office. To find a regional benefit office near you:
 - [Use our online locator tool](/facilities), <b>or</b> <br>
 - Call us at <a href="tel:+18008271000">1-800-827-1000</a>.
