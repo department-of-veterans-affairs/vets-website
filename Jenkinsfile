@@ -1,6 +1,6 @@
 import org.kohsuke.github.GitHub
 
-def envNames = ['development', 'staging', 'production', 'vagovdev', 'preview']
+def envNames = ['development', 'staging', 'production', 'preview']
 
 def devBranch = 'master'
 def stagingBranch = 'master'
