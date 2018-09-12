@@ -281,10 +281,10 @@ describe('<SchoolSelectField>', () => {
   });
 
   // handleOptionClick
-  it('should call selectInstitution and onChange props when institution selected', () => {
-    const selectInstitution = sinon.spy();
-    const onChange = sinon.spy();
-    const institutions = [{
+  describe('handleOptionClick', () => {
+    let selectInstitution = sinon.spy();
+    let onChange = sinon.spy();
+    const domesticInstitution = {
       address1: 'testAddress1',
       address2: 'testAddress2',
       address3: 'testAddress3',
@@ -294,46 +294,91 @@ describe('<SchoolSelectField>', () => {
       state: 'testState',
       zip: '12345',
       country: 'USA'
-    }];
-    const tree = mount(<SchoolSelectField
-      formData={{}}
-      formContext={{}}
-      currentPageNumber={1}
-      institutionQuery="test"
-      institutions={institutions}
-      onChange={onChange}
-      manualSchoolEntryChecked={false}
-      pagesCount={2}
-      searchInputValue="test"
-      searchResultsCount={1}
-      selectInstitution={selectInstitution}
-      showInstitutions
-      showInstitutionsLoading={false}
-      showPagination
-      showPaginationLoading={false}/>
-    );
-
-    tree.find('#page-1-0').first().simulate('change');
-    expect(onChange.firstCall.args[0]).to.eql({
-      address: {
-        city: 'testcity',
-        country: 'United States',
-        postalCode: '12345',
-        state: 'testState',
-        street: 'testAddress1',
-        street2: 'testAddress2'
-      },
-      name: 'testName',
-      'view:facilityCode': 'test'
-    });
-    expect(selectInstitution.firstCall.args[0]).to.eql({
+    };
+    const internationalInstitution = {
       address1: 'testAddress1',
       address2: 'testAddress2',
       address3: 'testAddress3',
       city: 'testcity',
       facilityCode: 'test',
       name: 'testName',
-      state: 'testState'
+      state: null,
+      zip: null,
+      country: 'NOT THE UNITED STATES'
+    };
+    const institutions = [domesticInstitution, internationalInstitution];
+    let tree;
+    beforeEach(() => {
+      selectInstitution = sinon.spy();
+      onChange = sinon.spy();
+      tree = mount(<SchoolSelectField
+        formData={{}}
+        formContext={{}}
+        currentPageNumber={1}
+        institutionQuery="test"
+        institutions={institutions}
+        onChange={onChange}
+        manualSchoolEntryChecked={false}
+        pagesCount={2}
+        searchInputValue="test"
+        searchResultsCount={2}
+        selectInstitution={selectInstitution}
+        showInstitutions
+        showInstitutionsLoading={false}
+        showPagination
+        showPaginationLoading={false}/>
+      );
+    });
+    it('should call `selectInstitution` and `onChange` props properly when domestic institution selected', () => {
+      tree.find('#page-1-0').first().simulate('change');
+      expect(onChange.firstCall.args[0]).to.eql({
+        address: {
+          city: domesticInstitution.city,
+          country: 'United States',
+          postalCode: domesticInstitution.zip,
+          state: domesticInstitution.state,
+          street: domesticInstitution.address1,
+          street2: domesticInstitution.address2,
+          street3: domesticInstitution.address3
+        },
+        name: domesticInstitution.name,
+        'view:facilityCode': domesticInstitution.facilityCode
+      });
+      expect(selectInstitution.firstCall.args[0]).to.eql({
+        address1: domesticInstitution.address1,
+        address2: domesticInstitution.address2,
+        address3: domesticInstitution.address3,
+        city: domesticInstitution.city,
+        facilityCode: domesticInstitution.facilityCode,
+        name: domesticInstitution.name,
+        state: domesticInstitution.state
+      });
+    });
+
+    it('should call `selectInstitution` and `onChange` props properly when non-domestic institution selected', () => {
+      tree.find('#page-1-1').first().simulate('change');
+      expect(onChange.firstCall.args[0]).to.eql({
+        address: {
+          city: internationalInstitution.city,
+          country: internationalInstitution.country,
+          postalCode: internationalInstitution.zip,
+          state: internationalInstitution.state,
+          street: internationalInstitution.address1,
+          street2: internationalInstitution.address2,
+          street3: internationalInstitution.address3,
+        },
+        name: internationalInstitution.name,
+        'view:facilityCode': internationalInstitution.facilityCode
+      });
+      expect(selectInstitution.firstCall.args[0]).to.eql({
+        address1: internationalInstitution.address1,
+        address2: internationalInstitution.address2,
+        address3: internationalInstitution.address3,
+        city: internationalInstitution.city,
+        facilityCode: internationalInstitution.facilityCode,
+        name: internationalInstitution.name,
+        state: internationalInstitution.state
+      });
     });
   });
 

@@ -808,3 +808,5 @@ export const validateBooleanIfEvidence = (errors, fieldData, formData, schema, m
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
 };
+
+export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);
