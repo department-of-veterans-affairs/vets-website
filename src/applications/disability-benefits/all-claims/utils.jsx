@@ -27,8 +27,6 @@ export const srSubstitute = (srIgnored, substitutionText) => {
   );
 };
 
-export default srSubstitute; // TODO: Fix double export
-
 export const hasGuardOrReservePeriod = (formData) => {
   const serviceHistory = formData.servicePeriods;
   if (!serviceHistory || !Array.isArray(serviceHistory)) {
