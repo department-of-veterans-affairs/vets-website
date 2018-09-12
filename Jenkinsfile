@@ -1,6 +1,6 @@
 import org.kohsuke.github.GitHub
 
-def envNames = ['development', 'staging', 'production', 'devpreview', 'preview']
+def envNames = ['development', 'staging', 'production', 'vagovdev', 'preview']
 
 def devBranch = 'master'
 def stagingBranch = 'master'
@@ -247,7 +247,7 @@ node('vetsgov-general-purpose') {
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
-        //build job: 'deploys/vets-website-devpreview', parameters: [
+        //build job: 'deploys/vets-website-vagovdev', parameters: [
         //  booleanParam(name: 'notify_slack', value: true),
         //  stringParam(name: 'ref', value: commit),
         //], wait: false
