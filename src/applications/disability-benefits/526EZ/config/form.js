@@ -903,7 +903,7 @@ const formConfig = {
               'ui:options': {
                 yesNoReverse: true,
                 labels: {
-                  Y: 'Yes, I’ve uploaded all my supporting documents.',
+                  Y: 'Yes, I have uploaded all my supporting documents.',
                   N: 'No, I have some extra information that I will submit to VA later.'
                 }
               }
@@ -911,15 +911,13 @@ const formConfig = {
             'view:fdcWarning': {
               'ui:description': FDCWarning,
               'ui:options': {
-                expandUnder: 'standardClaim',
-                expandUnderCondition: false
+                hideIf: (formData) => _.get('standardClaim', formData)
               }
             },
             'view:noFDCWarning': {
               'ui:description': noFDCWarning,
               'ui:options': {
-                expandUnder: 'standardClaim',
-                expandUnderCondition: true
+                hideIf: (formData) => !_.get('standardClaim', formData)
               }
             }
           },
