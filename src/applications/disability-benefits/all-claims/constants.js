@@ -90,3 +90,20 @@ export const MILITARY_STATE_LABELS = [
 
 export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 export const USA = 'USA';
+
+export const ADDRESS_TYPES = {
+  mailingAddress: 'mailingAddress',
+  forwardingAddress: 'forwardingAddress'
+};
+
+export const accountTitleLabels = {
+  CHECKING: 'Checking Account',
+  SAVINGS: 'Savings Account',
+  NOBANK: 'No Bank Account'
+};
+
+export const NOBANK = 'NOBANK';
+
+export const PENDING = 'PENDING';
+export const RESOLVED = 'RESOLVED';
+export const REJECTED = 'REJECTED';
