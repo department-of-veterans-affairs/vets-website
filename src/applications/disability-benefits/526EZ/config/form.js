@@ -566,10 +566,10 @@ const formConfig = {
                   'ui:options': {
                     expandUnder: 'view:uploadPrivateRecords',
                     expandUnderCondition: 'no',
-                  }
-                },
-                'view:acknowledgement': {
-                  'ui:title': 'Patient Acknowledgement'
+                  },
+                  'view:acknowledgement': {
+                    'ui:title': 'Patient Acknowledgement'
+                  },
                 },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp
