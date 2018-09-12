@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { groupBy, orderBy } from 'lodash'
+import links from '../../../static-data/footer-links.json'
 
 export class Main extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { isMobile: false };
+    this._linkObj = groupBy(links, "column")
   }
 
   componentWillMount() {
@@ -26,6 +29,13 @@ export class Main extends React.Component {
     setSize(this);
 
   }
+  _generateLinkItems = (column, direction="desc") => (
+    <ul className="va-footer-links">
+      {orderBy(this._linkObj[column],"order", direction).map(link => 
+        <li><a href={link.href} target={link.target}>{link.title}</a></li>
+      )}
+    </ul>
+  )
 
   render() {
 
@@ -130,18 +140,7 @@ export class Main extends React.Component {
               </h4>
             </li>
             <li className={innerClassName} id="veteran-programs" aria-hidden="true">
-              <ul className="va-footer-links">
-                <li><a href="#">For Homeless Veterans</a></li>
-                <li><a href="#">For Women Veterans</a></li>
-                <li><a href="#">For Minority Veterans</a></li>
-                <li><a href="#">PTSD</a></li>
-                <li><a href="#">Mental Health</a></li>
-                <li><a href="#">Adaptive Sports and Special Events</a></li>
-                <li><a href="#">Veterans Service Organizations (VSO)</a></li>
-                <li><a href="#">State Veterans Affairs Offices</a></li>
-                <li><a href="#">National Resource Directory</a></li>
-                <li><a href="#">Print Your VA Welcome Kit</a></li>
-              </ul>
+              {this._generateLinkItems("1")}
             </li>
           </ul>
 
@@ -154,15 +153,7 @@ export class Main extends React.Component {
             </li>
 
             <li className={innerClassName} id="veteran-resources" aria-hidden="true">
-              <ul className="va-footer-links">
-                <li><a href="#">Find a VA Form</a></li>
-                <li><a href="#">Get VA Mobile Apps</a></li>
-                <li><a href="#">Careers at VA</a></li>
-                <li><a href="#">Doing Business with VA</a></li>
-                <li><a href="#">Grants Management Services</a></li>
-                <li><a href="#">VA Claims Accreditation</a></li>
-                <li><a href="#">VA Information Technology and PIV Card</a></li>
-              </ul>
+              {this._generateLinkItems("2")}
             </li>
 
           </ul>
@@ -175,15 +166,7 @@ export class Main extends React.Component {
             </li>
 
             <li className={innerClassName} id="veteran-connect" aria-hidden="true">
-              <ul className="va-footer-links">
-                <li><a href="#">VAntage Point Blog</a></li>
-                <li><a href="#">Email Updates</a></li>
-                <li><a href="#">Facebook</a></li>
-                <li><a href="#">Instagram</a></li>
-                <li><a href="#">Twitter</a></li>
-                <li><a href="#">Flickr</a></li>
-                <li><a href="#">YouTube</a></li>
-              </ul>
+              {this._generateLinkItems("3")}
             </li>
           </ul>
 
@@ -199,20 +182,9 @@ export class Main extends React.Component {
 
         <div className="usa-grid footer-links">
           <ul>
-            <li><a href="#">Accessibility</a> | </li>
-            <li><a href="#">FOIA</a> | </li>
-            <li><a href="#">Inspector General</a> | </li>
-            <li><a href="#">No FEAR Act</a> | </li>
-            <li><a href="#">Notices</a> | </li>
-            <li><a href="#">Plain Language</a> | </li>
-            <li><a href="#">Privacy</a> | </li>
-            <li><a href="#">Regulations</a> | </li>
-            <li><a href="#">Site Index</a> | </li>
-            <li><a href="#">USA.gov</a> | </li>
-            <li><a href="#">VA.gov Playbook</a> | </li>
-            <li><a href="#">Web Policies</a> | </li>
-            <li><a href="#">Whistleblower Rights and Protections</a> | </li>
-            <li><a href="#">White House</a></li>
+            {orderBy(this._linkObj["bottom_rail"],"order", 'desc').map(link => {
+              return(<li><a href={link.href} target={link.target}>{link.title}</a> | </li>)
+            })}
           </ul>
         </div>
       </div>
