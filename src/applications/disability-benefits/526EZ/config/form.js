@@ -71,13 +71,15 @@ import {
 } from '../helpers';
 
 import {
-  // recordHelp,
+  recordHelp,
   recordReleaseDescription,
+  countries,
+  states,
+  stateNames,
   // aboutPrivateMedicalRecords,
   limitedConsentDescription,
   // limitedConsentTitle,
   // recordReleaseSummary,
-  // disabilityNameTitle,
   validateZIP,
 } from '../../4142/helpers';
 
@@ -599,6 +601,9 @@ const formConfig = {
                     },
                   },
                 },
+                'view:privateRecordsChoiceHelp': {
+                  'ui:description': recordHelp,
+                },
               },
             },
           },
@@ -615,6 +620,10 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no'],
                     },
+                    'view:privateRecordsChoiceHelp': {
+                      type: 'object',
+                      properties: {},
+                    }
                   },
                 },
               },
@@ -773,9 +782,14 @@ const formConfig = {
                                 },
                                 country: {
                                   type: 'string',
+                                  'enum': countries,
+                                  'default': 'USA'
+
                                 },
                                 state: {
                                   type: 'string',
+                                  'enum': states,
+                                  enumNames: stateNames,
                                 },
                               },
                             },

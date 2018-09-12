@@ -234,7 +234,7 @@ const formConfig = {
                           type: 'string'
                         },
                         country: {
-                          type: 'string'
+                          type: 'string',
                         },
                         state: {
                           type: 'string'
