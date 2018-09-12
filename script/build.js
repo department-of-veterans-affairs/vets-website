@@ -25,6 +25,7 @@ const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
+const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const {
   processEntryNamesFromFileManifest
@@ -68,19 +69,7 @@ smith.metadata({
   mergedbuild: !!BUILD_OPTIONS['brand-consolidation-enabled'] // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
 });
 
-// To block an app from production add the following to the below list:
-//  ignoreList.push('<path-to-content-file>');
-const ignore = require('metalsmith-ignore');
-
-const ignoreList = [];
-if (BUILD_OPTIONS.buildtype === environments.PRODUCTION) {
-  manifests.filter(m => !m.production).forEach(m => {
-    ignoreList.push(m.contentPage);
-  });
-  ignoreList.push('veteran-id-card/how-to-get.md');
-  ignoreList.push('veteran-id-card/how-to-upload-photo.md');
-}
-smith.use(ignore(ignoreList));
+smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
