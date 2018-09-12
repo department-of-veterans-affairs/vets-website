@@ -18,12 +18,18 @@ const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
+
+const environments = require('./constants/environments');
 const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
+const {
+  processEntryNamesFromFileManifest
+} = require('./webpack-connect-helpers');
+
 const {
   getRoutes,
   getWebpackEntryPoints,
@@ -67,7 +73,7 @@ smith.metadata({
 const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
-if (BUILD_OPTIONS.buildtype === 'production') {
+if (BUILD_OPTIONS.buildtype === environments.PRODUCTION) {
   manifests.filter(m => !m.production).forEach(m => {
     ignoreList.push(m.contentPage);
   });
@@ -276,53 +282,8 @@ if (!BUILD_OPTIONS.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   }));
 }
 
-if (!['development', 'vagovdev'].includes(BUILD_OPTIONS.buildtype)) {
-
-  // In non-development modes, we add hashes to the names of asset files in order to support
-  // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
-  // files, so we have to replace the references to those files in HTML and CSS files after the
-  // rest of the build has completed. This is done by reading in a manifest file created by
-  // WebPack that maps the original file names to their hashed versions. Metalsmith actions
-  // are passed a list of files that are included in the build. Those files are not yet written
-  // to disk, but the contents are held in memory.
-
-  smith.use((files, metalsmith, done) => {
-    // Read in the data from the manifest file.
-    const manifestKey = Object.keys(files).find((filename) => {
-      return filename.match(/file-manifest.json$/) !== null;
-    });
-
-    const originalManifest = JSON.parse(files[manifestKey].contents.toString());
-
-    // The manifest contains the original filenames without the addition of .entry
-    // on the JS files. This finds all of those and modifies them to add .entry.
-    const manifest = {};
-    Object.keys(originalManifest).forEach((originalManifestKey) => {
-      const matchData = originalManifestKey.match(/(.*)\.js$/);
-      if (matchData !== null) {
-        const newKey = `${matchData[1]}.entry.js`;
-        manifest[newKey] = originalManifest[originalManifestKey];
-      } else {
-        manifest[originalManifestKey] = originalManifest[originalManifestKey];
-      }
-    });
-
-    // For each file in the build, if it is a HTML or CSS file, loop over all
-    // the keys in the manifest object and do a search and replace for the
-    // key with the value.
-    Object.keys(files).forEach((filename) => {
-      if (filename.match(/\.(html|css)$/) !== null) {
-        Object.keys(manifest).forEach((originalAssetFilename) => {
-          const newAssetFilename = manifest[originalAssetFilename].replace('/generated/', '');
-          const file = files[filename];
-          const contents = file.contents.toString();
-          const regex = new RegExp(originalAssetFilename, 'g');
-          file.contents = new Buffer(contents.replace(regex, newAssetFilename));
-        });
-      }
-    });
-    done();
-  });
+if (![environments.DEVELOPMENT, environments.VAGOVDEV].includes(BUILD_OPTIONS.buildtype)) {
+  smith.use(processEntryNamesFromFileManifest());
 }
 
 /*
