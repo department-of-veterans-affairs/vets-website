@@ -14,14 +14,12 @@ Find out how to apply for a Specially Adapted Housing (SAH) or Special Home Adap
 
 </div>
 
-<div itemscope itemtype ="http://schema.org/HowTo">
-<div itemprop="description" class="va-introtext">
 <div itemscope itemtype="http://schema.org/Question">
 <h2 itemprop="name">How do I prepare before starting my application?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-[Find out if you’re eligible for an SAH or SHA Grant](/housing-assistance/adaptive-housing-grants/). <br>
-Make sure you have the information listed below that you’ll need to fill out an  Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). 
+- <a href="/housing-assistance/disability-housing-grants/">Find out if you’re eligible for an SAH or SHA Grant</a>. 
+- Make sure you have the information listed below that you’ll need to fill out an  Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). 
 </div>
 </div>
 </div>
