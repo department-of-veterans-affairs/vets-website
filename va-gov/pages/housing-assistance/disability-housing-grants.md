@@ -1,14 +1,15 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Adaptive Housing Grants
+title: About Disability Housing Grants for Veterans
+display title: 
 concurrence:
 order: 2
 ---
 
 <div class="va-introtext">
 
-We offer grants to Servicemembers and Veterans with certain service-connected disabilities to buy or change a home to meet their needs and live more independently. Changing a home might involve installing ramps or widening doorways. If you’re a disabled Servicemember or Veteran, find out if you can get a grant to help meet your housing needs.
+We offer grants to Servicemembers and Veterans with certain service-connected disabilities to buy or change a home to meet their needs and live more independently. Changing a home might involve installing ramps or widening doorways. Find out if you can get a grant to help meet your housing needs.
 
 </div>
 
@@ -67,33 +68,5 @@ You may be able to get a Temporary Residence Adaptation (TRA) grant if you meet 
 
 ### How do I get an SAH, SHA, or TRA grant?
 
-You’ll need to apply for a grant. 
-
-**You can apply in 1 of 3 ways:**
-
-#### Apply online
-
-Apply through eBenefits. <br>
-[Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
-
-#### Apply by mail
-
-Fill out an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). <br>
-[Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf).
-
-Mail it to your nearest regional loan center. <br>
-[Find a regional loan center near you](https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp).
-
-If you have trouble accessing the form, call us toll-free at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>) to have a claim form mailed to you.
-
-#### Apply in person
-
-Fill out VA Form 26-4555 and bring it to your nearest VA regional office. To find a regional office near you:
-- [Use our online locator tool](https://www.va.gov/directory/guide/home.asp), **or**
-- Call us at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
-
-### Need help?
-
-<a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>
-
-Or, call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.
+[Find out how to apply for a housing grant](/housing-assistance/disability-housing-grants/how-to-apply
+).
