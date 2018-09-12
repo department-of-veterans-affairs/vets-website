@@ -568,7 +568,8 @@ const formConfig = {
                     expandUnderCondition: 'no',
                   },
                   'view:acknowledgement': {
-                    'ui:title': 'Patient Acknowledgement'
+                    'ui:title': 'Patient Acknowledgement',
+                    'ui:required': ({ disabilities }, index) => (_.get(disabilities, `disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, '')),
                   },
                 },
                 'view:privateRecordsChoiceHelp': {
@@ -584,7 +585,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: ['view:uploadPrivateRecords', 'view:acknowledgement'],
+                  required: ['view:uploadPrivateRecords'],
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
