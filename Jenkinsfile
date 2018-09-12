@@ -1,6 +1,6 @@
 import org.kohsuke.github.GitHub
 
-def envNames = ['devpreview', 'preview', 'vagovdev', 'vagovstaging']
+def envNames = ['development', 'staging', 'production', 'devpreview', 'preview']
 
 def devBranch = 'master'
 def stagingBranch = 'master'
@@ -105,38 +105,38 @@ node('vetsgov-general-purpose') {
     }
   }
 
-//  stage('Lint|Security|Unit') {
-//    try {
-//      parallel (
-//        lint: {
-//          dockerImage.inside(args) {
-//            sh "cd /application && npm --no-color run lint"
-//          }
-//        },
-//
-//        // Check package.json for known vulnerabilities
-//        security: {
-//          retry(3) {
-//            dockerImage.inside(args) {
-//              sh "cd /application && nsp check"
-//            }
-//          }
-//        },
-//
-//        unit: {
-//          dockerImage.inside(args) {
-//            sh "cd /application && npm --no-color run test:coverage"
-//            sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
-//          }
-//        }
-//      )
-//    } catch (error) {
-//      notify()
-//      throw error
-//    } finally {
-//      step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
-//    }
-//  }
+  stage('Lint|Security|Unit') {
+    try {
+      parallel (
+        lint: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run lint"
+          }
+        },
+
+        // Check package.json for known vulnerabilities
+        security: {
+          retry(3) {
+            dockerImage.inside(args) {
+              sh "cd /application && nsp check"
+            }
+          }
+        },
+
+        unit: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run test:coverage"
+            sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
+          }
+        }
+      )
+    } catch (error) {
+      notify()
+      throw error
+    } finally {
+      step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+    }
+  }
 
   // Perform a build for each build type
 
@@ -170,28 +170,28 @@ node('vetsgov-general-purpose') {
   }
 
   // Run E2E and accessibility tests
-//  stage('Integration') {
-//    if (shouldBail()) { return }
-//
-//    try {
-//      parallel (
-//        e2e: {
-//          sh "export IMAGE_TAG=${imageTag} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker"
-//        },
-//
-//        accessibility: {
-//          sh "export IMAGE_TAG=${imageTag} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility"
-//        }
-//      )
-//    } catch (error) {
-//      notify()
-//      throw error
-//    } finally {
-//      sh "docker-compose -p e2e down --remove-orphans"
-//      sh "docker-compose -p accessibility down --remove-orphans"
-//      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
-//    }
-//  }
+  stage('Integration') {
+    if (shouldBail()) { return }
+
+    try {
+      parallel (
+        e2e: {
+          sh "export IMAGE_TAG=${imageTag} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker"
+        },
+
+        accessibility: {
+          sh "export IMAGE_TAG=${imageTag} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility"
+        }
+      )
+    } catch (error) {
+      notify()
+      throw error
+    } finally {
+      sh "docker-compose -p e2e down --remove-orphans"
+      sh "docker-compose -p accessibility down --remove-orphans"
+      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+    }
+  }
 
   stage('Archive') {
     if (shouldBail()) { return }
@@ -235,11 +235,10 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Deploy dev or staging') {
-    if (shouldBail()) { return }
     try {
-      //if (!isDeployable()) {
-      //  return
-      //}
+      if (!isDeployable()) {
+        return
+      }
       script {
         commit = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
       }
@@ -248,28 +247,20 @@ node('vetsgov-general-purpose') {
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
-      }
-      if (env.BRANCH_NAME == 'brand-consolidation') {
-        build job: 'deploys/vets-website-devpreview', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
-
-        build job: 'deploys/vets-website-vagovdev', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
-
-        build job: 'deploys/vets-website-vagovstaging', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
+        //build job: 'deploys/vets-website-devpreview', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
       }
       if (env.BRANCH_NAME == stagingBranch) {
         build job: 'deploys/vets-website-staging', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+        //build job: 'deploys/vets-website-preview', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
       }
     } catch (error) {
       notify()
