@@ -585,7 +585,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: ['view:uploadPrivateRecords'],
+                  required: ['view:uploadPrivateRecords', 'view:acknowledgement'],
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
