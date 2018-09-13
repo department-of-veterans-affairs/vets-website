@@ -7,7 +7,7 @@ function createEnvironmentFilter(options) {
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
       if (file[environmentName] === false) {
-        delete [files[fileName]];
+        delete files[fileName];
       }
     }
     done();
