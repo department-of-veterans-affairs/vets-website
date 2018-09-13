@@ -20,10 +20,13 @@ import GetFormHelp from '../../components/GetFormHelp';
 import {
   accreditationLabel,
   changeInDegreeLabel,
+  conditionalPrefillMessage,
   creditTransferLabel,
   financialIssuesLabel,
   gradePolicyLabel,
   jobOpportunitiesLabel,
+  PREFILL_FLAGS,
+  prefillTransformer,
   qualityLabel,
   recordApplicantRelationship,
   recruitingLabel,
@@ -121,6 +124,7 @@ const formConfig = {
   formId: 'FEEDBACK-TOOL',
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   defaultDefinitions: {
     date,
     dateRange,
@@ -179,7 +183,7 @@ const formConfig = {
           title: 'Applicant Information',
           depends: isNotAnonymous,
           uiSchema: {
-            'ui:description': PrefillMessage,
+            'ui:description': data => conditionalPrefillMessage(PREFILL_FLAGS.APPLICANT_INFORMATION, data, PrefillMessage),
             fullName: _.merge(fullNameUI, {
               prefix: {
                 'ui:title': 'Prefix',
@@ -222,7 +226,7 @@ const formConfig = {
           title: 'Service Information',
           depends: isVeteranOrServiceMember,
           uiSchema: {
-            'ui:description': PrefillMessage,
+            'ui:description': data => conditionalPrefillMessage(PREFILL_FLAGS.SERVICE_INFORMATION, data, PrefillMessage),
             serviceBranch: {
               'ui:title': 'Branch of service',
             },
@@ -245,7 +249,7 @@ const formConfig = {
           title: 'Contact Information',
           depends: (formData) => formData.onBehalfOf !== anonymous,
           uiSchema: {
-            'ui:description': PrefillMessage,
+            'ui:description': data => conditionalPrefillMessage(PREFILL_FLAGS.CONTACT_INFORMATION, data, PrefillMessage),
             address: {
               street: {
                 'ui:title': 'Address line 1'

@@ -4,7 +4,12 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers';
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
-import { submit, transformSearchToolAddress } from '../../feedback-tool/helpers';
+import {
+  conditionalPrefillMessage,
+  prefillTransformer,
+  submit,
+  transformSearchToolAddress,
+} from '../../feedback-tool/helpers';
 
 function setFetchResponse(stub, data) {
   const response = new Response();
@@ -206,4 +211,140 @@ describe('feedback-tool helpers:', () => {
       delete window.URL;
     });
   });
+
+  describe('prefillTransformer', () => {
+    let pages;
+    let formData;
+    let metadata;
+    beforeEach(() => {
+      pages = {};
+      formData = {};
+      metadata = {};
+    });
+    describe('"view:prefilledApplicantInformation" flag', () => {
+      it('is added when a `fullName` is set on the formData', () => {
+        formData.fullName = { first: 'Pat' };
+        const expectedFormData = {
+          ...formData,
+          'view:prefilledApplicantInformation': true
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).to.eql(metadata);
+        expect(result.pages).to.eql(pages);
+        expect(result.formData).to.eql(expectedFormData);
+      });
+      it('is not added when a `fullName` is not set on the formData', () => {
+        const expectedFormData = {
+          ...formData,
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).to.eql(metadata);
+        expect(result.pages).to.eql(pages);
+        expect(result.formData).to.eql(expectedFormData);
+      });
+    });
+    describe('"view:prefilledServiceInformation" flag', () => {
+      it('is added when a `serviceBranch` is set on the formData', () => {
+        formData.serviceBranch = 'Air Force';
+        const expectedFormData = {
+          ...formData,
+          'view:prefilledServiceInformation': true
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).to.eql(metadata);
+        expect(result.pages).to.eql(pages);
+        expect(result.formData).to.eql(expectedFormData);
+      });
+      it('is added when a `serviceDateRange` is set on the formData', () => {
+        formData.serviceDateRange = {
+          from: '2001-03-21',
+          to: '2014-07-21',
+        };
+        const expectedFormData = {
+          ...formData,
+          'view:prefilledServiceInformation': true
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).to.eql(metadata);
+        expect(result.pages).to.eql(pages);
+        expect(result.formData).to.eql(expectedFormData);
+      });
+      it('is not added when neither `serviceBranch` or `serviceDateRange` are not set on the formData', () => {
+        const expectedFormData = {
+          ...formData,
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).to.eql(metadata);
+        expect(result.pages).to.eql(pages);
+        expect(result.formData).to.eql(expectedFormData);
+      });
+    });
+    describe('"view:prefilledContactInfo" flag', () => {
+      it('is added when an `applicantEmail` is set on the formData', () => {
+        formData.applicantEmail = 'foo@bar.com';
+        const expectedFormData = {
+          ...formData,
+          'view:prefilledContactInformation': true
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).to.eql(metadata);
+        expect(result.pages).to.eql(pages);
+        expect(result.formData).to.eql(expectedFormData);
+      });
+      it('is added when a `phone` is set on the formData', () => {
+        formData.phone = '4151234567';
+        const expectedFormData = {
+          ...formData,
+          'view:prefilledContactInformation': true
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).to.eql(metadata);
+        expect(result.pages).to.eql(pages);
+        expect(result.formData).to.eql(expectedFormData);
+      });
+      it('is added when an `address` is set on the formData', () => {
+        formData.address = { country: 'US' };
+        const expectedFormData = {
+          ...formData,
+          'view:prefilledContactInformation': true
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).to.eql(metadata);
+        expect(result.pages).to.eql(pages);
+        expect(result.formData).to.eql(expectedFormData);
+      });
+      it('is not added when neither `address`, `phone`, or `applicantEmail` are set on the formData', () => {
+        const expectedFormData = {
+          ...formData,
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).to.eql(metadata);
+        expect(result.pages).to.eql(pages);
+        expect(result.formData).to.eql(expectedFormData);
+      });
+    });
+  });
+
+  describe('conditionalPrefillMessage', () => {
+    let messageComponent;
+    const data = {
+      formData: {
+        goodFlag: true
+      }
+    };
+    beforeEach(() => {
+      messageComponent = sinon.spy(() => 'dom');
+    });
+    it('calls the `messageComponent` param if the correct flag is set on data.formData', () => {
+      const result = conditionalPrefillMessage('goodFlag', data, messageComponent);
+      expect(messageComponent.called).to.be.true;
+      expect(result).to.eql('dom');
+    });
+    it('does not call the `messageComponent` param if the correct flag is not set data.formData', () => {
+      const result = conditionalPrefillMessage('badFlag', data, messageComponent);
+      expect(messageComponent.called).to.be.false;
+      expect(result).to.eql(null);
+    });
+  });
+
 });
