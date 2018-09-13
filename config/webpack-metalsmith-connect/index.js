@@ -9,7 +9,7 @@ const convertPathsToRelative = require('./convert-paths-to-relative');
 const {
   webpackPlugin,
   webpackDevServerPlugin
-} = require('./metalsmith-webpack').webpackPlugin;
+} = require('./metalsmith-webpack');
 
 const generateWebpackConfig = require('../webpack.config');
 const generateWebpackDevConfig = require('../webpack.dev.config');
@@ -27,8 +27,8 @@ function getEntryPoints(buildOptions) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-function connectToMetalsmith(webpackMiddleware) {
-  const convertPathsMiddleware = convertPathsToRelative();
+function connectToMetalsmith(buildOptions, webpackMiddleware) {
+  const convertPathsMiddleware = convertPathsToRelative(buildOptions);
   return (files, metalsmith, done) => {
     webpackMiddleware(files, metalsmith, (err) => {
       if (err) throw err;
@@ -38,18 +38,18 @@ function connectToMetalsmith(webpackMiddleware) {
 }
 
 function compileAssets(buildOptions) {
-  const apps = getEntryPoints();
+  const apps = getEntryPoints(buildOptions);
   const webpackConfig = generateWebpackConfig(buildOptions, apps);
   const webpackMiddleware = webpackPlugin(webpackConfig);
-  return connectToMetalsmith(webpackMiddleware);
+  return connectToMetalsmith(buildOptions, webpackMiddleware);
 }
 
 function watchAssets(buildOptions) {
-  const apps = getEntryPoints();
+  const apps = getEntryPoints(buildOptions);
   const webpackConfig = generateWebpackConfig(buildOptions, apps);
   const webpackDevServerConfig = generateWebpackDevConfig(buildOptions, manifests);
   const webpackMiddleware = webpackDevServerPlugin(webpackConfig, webpackDevServerConfig);
-  return connectToMetalsmith(webpackMiddleware);
+  return connectToMetalsmith(buildOptions, webpackMiddleware);
 }
 
 module.exports = {
