@@ -204,21 +204,21 @@
   },
   {
     "column": "4",
-    "href": "iris.custhelp.va.gov/app/ask ",
+    "href": "https://iris.custhelp.va.gov/app/ask",
     "order": "2",
     "target": null,
     "title": "Submit a Help Request"
   },
   {
     "column": "4",
-    "href": "iris.custhelp.va.gov ",
+    "href": "https://iris.custhelp.va.gov ",
     "order": "3",
     "target": null,
     "title": "Go to the VA Help Center"
   },
   {
     "column": "4",
-    "href": "iris.custhelp.va.gov/app/answers/detail/a_id/1703 ",
+    "href": "https://iris.custhelp.va.gov/app/answers/detail/a_id/1703 ",
     "order": "4",
     "target": null,
     "title": "Call Us"
