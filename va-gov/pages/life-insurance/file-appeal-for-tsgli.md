@@ -9,7 +9,6 @@ spoke:
 order: 
 aliases:
 
-
 ---
 
 <div class="va-introtext">intro copy</div>
@@ -109,7 +108,6 @@ You’ll need to complete an Application for TSGLI Benefits (SGLV-8600).<br>
 
 Your branch of service TSGLI office, or its higher appeal authority, will make the decision on your appeal based upon the information provided on this form and any supporting documentation you provide. They will then forward their decision to the Office of Servicemembers’ Group Life Insurance (OSGLI) for appropriate action.
 
-</div>
 </div>
 </div>
 </div>
