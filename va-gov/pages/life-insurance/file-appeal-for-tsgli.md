@@ -11,7 +11,7 @@ aliases:
 
 ---
 
-<div class="va-introtext">intro copy</div>
+<div class="va-introtext">
 Find out how to file an appeal if you disagree with the decision on your claim for Servicemembers’ Group Life Insurance Traumatic Injury Protection (TSGLI).
 </div>
 
@@ -37,7 +37,7 @@ You can download the form now.<br>
 Or, you can request a paper form by contacting:
 
 <ul>
-<li><a href="https://www.benefits.va.gov/INSURANCE/popups/TSGLIPOC.htm">Your service department point of contact</a>, <b>or</b></li>, or <br>
+<li><a href="https://www.benefits.va.gov/INSURANCE/popups/TSGLIPOC.htm">Your service department point of contact</a>, <b>or</b>
 <li>The Office of Servicemembers’ Group Life Insurance by phone at <a href="tel:+18004191473">1-800-419-1473</a> or by email at <a href="mailto:osgli.claims@prudential.com">osgli.claims@prudential.com</a></li>
 </ul>
 
