@@ -1,7 +1,8 @@
 import AuthApp from './containers/AuthApp';
+import AuthManifest from './manifest.json';
 
 const routes = {
-  path: '/auth/login/callback',
+  path: AuthManifest.rootUrl,
   component: AuthApp
 };
 
