@@ -880,8 +880,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  properties: {
-                  }
+                  properties: {}
                 }
               }
             }
