@@ -1,12 +1,7 @@
 import _ from 'lodash/fp';
 
-// Example of an imported schema:
-// import fullSchema4142 from '../../../../vets-json-schema/dist/21-4142-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
 import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
 
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import {
   schema as addressSchema,
@@ -14,28 +9,10 @@ import {
 } from '../../../../platform/forms/definitions/address';
 
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-// import environment from '../../../../platform/utilities/environment';
-
-// import IntroductionPage from '../containers/IntroductionPage';
-// import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema4142.properties;
-
-// const {
-//   fullName,
-//   ssn,
-//   date,
-//   address,
-//   phone,
-//   dateRange,
-// } = fullSchema4142.definitions;
 
 import {
-  //  recordHelp,
   recordReleaseDescription,
-  //  aboutPrivateMedicalRecords,
   limitedConsentDescription,
-  //  recordReleaseSummary,
   disabilityNameTitle,
   validateZIP,
 } from '../helpers';

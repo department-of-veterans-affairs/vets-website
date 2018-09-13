@@ -52,7 +52,6 @@ import {
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
   privateRecordsChoice,
-  //  privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
@@ -71,13 +70,8 @@ import {
 } from '../helpers';
 
 import {
-  // recordHelp,
   recordReleaseDescription,
-  // aboutPrivateMedicalRecords,
   limitedConsentDescription,
-  // limitedConsentTitle,
-  // recordReleaseSummary,
-  // disabilityNameTitle,
   validateZIP,
 } from '../../4142/helpers';
 
@@ -97,7 +91,6 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 
 const {
   treatments,
-  // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation: { properties: { servicePeriods } },
   standardClaim,
   veteran: { properties: { homelessness } },
@@ -628,17 +621,8 @@ const formConfig = {
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
-            const hasRecords = _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            );
-            const requestsRecords =
-              _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'no';
+            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
+            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
             return hasRecords && requestsRecords;
           },
           uiSchema: {

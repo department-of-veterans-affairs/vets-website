@@ -97,6 +97,33 @@ export const getReservesGuardData = formData => {
   };
 };
 
+/**
+* Converts the treatment date range into an array of objects from just an object
+* @param {object} treatmentDateRange object containing from/to date range
+* @returns {array} of treatmentDateRange's
+*/
+const transformDateRange = (treatmentDateRange) => {
+  return [treatmentDateRange];
+};
+
+/** Note: This function will be moved to the 526EZ helper file
+* Cycles through the list of provider facilities and performs transformations on each property as needed
+* @param {array} providerFacility array of objects being transformed
+* @returns {object} containing the new Provider Facility structure
+*/
+const transformProviderFacility = (providerFacility) => {
+  const newProviderFacility = [];
+  providerFacility.forEach((facility) => {
+    newProviderFacility.push({
+      providerFacilityName: facility.providerFacilityName,
+      treatmentDateRange: transformDateRange(facility.treatmentDateRange),
+      providerFacilityAddress: facility.providerFacilityAddress
+    });
+  });
+
+  return newProviderFacility;
+};
+
 export function transform(formConfig, form) {
   const {
     disabilities,
@@ -107,7 +134,7 @@ export function transform(formConfig, form) {
   } = form.data;
   const reservesNationalGuardService = getReservesGuardData(form.data);
   const disabilityProperties = Object.keys(
-    fullSchemaIncrease.definitions.disabilities.items.properties,
+    fullSchemaIncrease.definitions.disabilities.items.properties
   );
 
   const serviceInformation = reservesNationalGuardService
@@ -122,7 +149,11 @@ export function transform(formConfig, form) {
     .reduce((accumulator, item) => {
       return accumulator.concat(item);
     }, []);
-  //  console.log(providerFacility);
+
+  const limitedConsent = disabilities
+    .filter((disability) => {
+      return disability.limitedConsent === true;
+    });
 
   const transformedData = {
     disabilities: disabilities
@@ -136,7 +167,10 @@ export function transform(formConfig, form) {
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
-    form4142: { providerFacility },
+    form4142: {
+      limitedConsent: limitedConsent.length > 0,
+      providerFacility: transformProviderFacility(providerFacility)
+    }
   };
 
   const withoutViewFields = filterViewFields(transformedData);
