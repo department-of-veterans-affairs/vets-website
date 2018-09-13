@@ -18,3 +18,11 @@ typings.json
 typings/
 coverage
 .nyc_output
+.yalc
+yalc.lock
+/test-results.xml
+package-lock.json
+
+# Ignore user's editor/IDE prefs
+.vscode/
+.idea/

@@ -24,7 +24,7 @@ Requires a collection.
     {% if previous != empty %}
     <li class="va-navigation-nextprevious-previous">
       <strong>Previous</strong>
-      <a href="/{{ previous.path }}" onClick="window.dataLayer.push({ event: 'nav-prev-link-clicked' });">
+      <a href="/{{ previous.path }}" onClick="recordEvent({ event: 'nav-prev-link-clicked' });">
         {% if previous.display_title %}
           {{ previous.display_title }}
         {% else %}
@@ -37,7 +37,7 @@ Requires a collection.
     {% if next != empty %}
     <li class="va-navigation-nextprevious-next">
       <strong>Next</strong>
-      <a href="/{{ next.path }}" onClick="window.dataLayer.push({ event: 'nav-next-link-clicked' });"> 
+      <a href="/{{ next.path }}" onClick="recordEvent({ event: 'nav-next-link-clicked' });">
         {% if next.display_title %}
           {{ next.display_title }}
         {% else %}

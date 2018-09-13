@@ -21,8 +21,8 @@ majorlinks:
 
 <div class="va-introtext">
 
-After you file your disability benefits claim, we may ask you to have a claim exam (also known as a compensation and pension, or C&P, exam). Get answers to commonly asked questions about the VA claim exam below. 
- 
+After you file your disability benefits claim, we may ask you to have a claim exam (also known as a compensation and pension, or C&P, exam). Get answers to commonly asked questions about the VA claim exam below.
+
 </div>
 
 <div class="usa-alert usa-alert-warning va-alert">
@@ -41,7 +41,7 @@ This exam will help us rate your disability. Your rating will be based on how se
 
 ### Does everyone who files a claim need to have a VA claim exam?
 
-No. We’ll ask you to have a claim exam only if we need more information to decide your claim. 
+No. We’ll ask you to have a claim exam only if we need more information to decide your claim.
 
 If you have enough medical evidence in your file to support your claim, we won't ask you to have a claim exam. Medical evidence may include doctor and hospital reports, test results, and other documents.
 
@@ -77,10 +77,10 @@ If you can’t make it to your appointment, let us know right away. You can most
 
 **To reschedule your appointment:**
 
-- Call 1-800-827-1000, **or**
-- Go to your nearest regional benefit office. <br>
-  [Find your local regional benefit office](/facilities/).	
-  
+* Call 1-800-827-1000, **or**
+* Go to your nearest regional benefit office. <br>
+  [Find your local regional benefit office](/facilities/).
+
 </div>
 </li>
 </ul>
@@ -114,15 +114,15 @@ On the day of the exam, you’ll want to wear comfortable clothes so you can mov
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happens">What happens at a VA claim exam?</button>
 <div id="VA-claim-exam-happens" class="usa-accordion-content">
 
-A VA claim exam isn’t like a normal medical exam or other VA health care visits. The doctor won’t treat you for any illness or injury, give you referrals to other health care providers, or prescribe medicine. That’s because the purpose of the exam is to gather information that will help us make a decision on your claim. Each exam is different, depending on the information we need. 
+A VA claim exam isn’t like a normal medical exam or other VA health care visits. The doctor won’t treat you for any illness or injury, give you referrals to other health care providers, or prescribe medicine. That’s because the purpose of the exam is to gather information that will help us make a decision on your claim. Each exam is different, depending on the information we need.
 
 **During your exam, the doctor may do any or all of these things:**
 
- -	Review your claim file with you
- -	Ask you questions based on the medical records in your claim file. These may include questions from the Disability Benefits Questionnaire for each service-connected condition you’re claiming. <br>
-[Take a look at the Disability Benefits Questionnaires (DBQs)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp).
- - Perform a basic physical exam
- - Ask you to get other tests—like X-rays or blood work—if needed
+* Review your claim file with you
+* Ask you questions based on the medical records in your claim file. These may include questions from the Disability Benefits Questionnaire for each service-connected condition you’re claiming. <br>
+  [Take a look at the Disability Benefits Questionnaires (DBQs)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp).
+* Perform a basic physical exam
+* Ask you to get other tests—like X-rays or blood work—if needed
 
 If you have any questions about what’s happening during your exam, feel free to ask the doctor. But keep in mind that the doctor’s job is to examine you, not to make any decisions about your claim. They won’t be able to answer questions about the claims process.
 
@@ -134,7 +134,7 @@ After your exam, the doctor will write up a report and send it to a VA claims pr
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-long">How long will the exam take?</button>
 <div id="VA-claim-exam-long" class="usa-accordion-content">
 
-Your exam may be very short, or it may last an hour or more. It all depends on the conditions you’ve claimed and whether we need more information to make a decision. 
+Your exam may be very short, or it may last an hour or more. It all depends on the conditions you’ve claimed and whether we need more information to make a decision.
 
 For example, the required questions the doctor asks about a knee injury may take only a few minutes. But the questions for a more complex illness or injury could take much longer. A mental health evaluation usually lasts 2 to 4 hours.
 
@@ -187,9 +187,9 @@ If you have what we consider to be a good reason for missing your exam (called �
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happen">What happens after my exam?</button>
 <div id="VA-claim-exam-happen" class="usa-accordion-content">
 
-We’ll review all the evidence in your file, assign your disability rating, and send you a decision notice (a letter letting you know your disability rating). 
+We’ll review all the evidence in your file, assign your disability rating, and send you a decision notice (a letter letting you know your disability rating).
 
-Each claim is different, but it usually takes us about 3 to 4 months to process a claim from start to finish. The processing time for your claim depends on how complex your claim is and how many conditions you’ve claimed. 
+Each claim is different, but it usually takes us about 3 to 4 months to process a claim from start to finish. The processing time for your claim depends on how complex your claim is and how many conditions you’ve claimed.
 
 [See our most recent estimate for the average number of days to complete a claim](/disability-benefits/apply/#days-to-complete-claim).
 
@@ -203,8 +203,8 @@ Each claim is different, but it usually takes us about 3 to 4 months to process 
 
 Yes. To get a copy of the final report from your exam, you can:
 
- - [Contact your nearest VA regional office](/facilities/), **or**
- - Call us at 1-800-827-1000 and request an appointment to view your file
+* [Contact your nearest VA regional office](/facilities/), **or**
+* Call us at 1-800-827-1000 and request an appointment to view your file
 
 </div>
 </li>
@@ -213,10 +213,11 @@ Yes. To get a copy of the final report from your exam, you can:
 <div id="VA-claim-exam-information" class="usa-accordion-content">
 
 Our VA claims processors will review:
-- The medical records you’ve given us
-- The report from the doctor who handled your claim exam, and the results of any ordered medical tests
-- Statements from you and others about your claim
-- Your military medical and personnel records 
+
+* The medical records you’ve given us
+* The report from the doctor who handled your claim exam, and the results of any ordered medical tests
+* Statements from you and others about your claim
+* Your military medical and personnel records
 
 </div>
 </li>
@@ -234,10 +235,8 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 
 ### What if I have more questions about my exam?
 
-- [Get answers to your questions about the VA claim exam](https://www.benefits.va.gov/compensation/claimexam.asp).
-- [Download the VA claim exam fact sheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
-- [Download the VA claim exam tip sheet](https://www.benefits.va.gov/compensation/docs/claimexam-tipssheet.pdf#).
+* [Get answers to your questions about the VA claim exam](https://www.benefits.va.gov/compensation/claimexam.asp).
+* [Download the VA claim exam fact sheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
+* [Download the VA claim exam tip sheet](https://www.benefits.va.gov/compensation/docs/claimexam-tipssheet.pdf#).
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script> 
-
-
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>

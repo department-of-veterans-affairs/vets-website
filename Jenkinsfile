@@ -1,6 +1,6 @@
 import org.kohsuke.github.GitHub
 
-def envNames = ['development', 'staging', 'production']
+def envNames = ['development', 'staging', 'production', 'preview']
 
 def devBranch = 'master'
 def stagingBranch = 'master'
@@ -42,12 +42,13 @@ def buildDetails = { vars ->
   """.stripIndent()
 }
 
-def notify = { message, color='good' ->
+def notify = { ->
   if (env.BRANCH_NAME == devBranch ||
       env.BRANCH_NAME == stagingBranch ||
       env.BRANCH_NAME == prodBranch) {
+    message = "vets-website ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin()
     slackSend message: message,
-    color: color,
+    color: 'danger',
     failOnError: true
   }
 }
@@ -93,11 +94,13 @@ node('vetsgov-general-purpose') {
 
       dockerImage = docker.build("vets-website:${imageTag}")
       args = "-v ${pwd()}:/application"
-      dockerImage.inside(args) {
-        sh "cd /application && yarn install --production=false"
+      retry(5) {
+        dockerImage.inside(args) {
+          sh "cd /application && yarn install --production=false"
+        }
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in setup stage!", 'danger')
+      notify()
       throw error
     }
   }
@@ -113,8 +116,10 @@ node('vetsgov-general-purpose') {
 
         // Check package.json for known vulnerabilities
         security: {
-          dockerImage.inside(args) {
-            sh "cd /application && nsp check"
+          retry(3) {
+            dockerImage.inside(args) {
+              sh "cd /application && nsp check"
+            }
           }
         },
 
@@ -126,8 +131,10 @@ node('vetsgov-general-purpose') {
         }
       )
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in lint|security|unit stage!", 'danger')
+      notify()
       throw error
+    } finally {
+      step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
     }
   }
 
@@ -152,7 +159,7 @@ node('vetsgov-general-purpose') {
 
       parallel builds
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
+      notify()
 
       // For content team PRs, add comment in GH so they don't need direct Jenkins access to find broken links
       if (env.BRANCH_NAME.startsWith("content")) {
@@ -177,7 +184,7 @@ node('vetsgov-general-purpose') {
         }
       )
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
+      notify()
       throw error
     } finally {
       sh "docker-compose -p e2e down --remove-orphans"
@@ -190,19 +197,17 @@ node('vetsgov-general-purpose') {
     if (shouldBail()) { return }
 
     try {
-      def builds = [ 'development', 'staging', 'production' ]
-
       dockerImage.inside(args) {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                           usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          for (int i=0; i<builds.size(); i++) {
-            sh "tar -C /application/build/${builds.get(i)} -cf /application/build/${builds.get(i)}.tar.bz2 ."
-            sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${builds.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${builds.get(i)}.tar.bz2"
+          for (int i=0; i<envNames.size(); i++) {
+            sh "tar -C /application/build/${envNames.get(i)} -cf /application/build/${envNames.get(i)}.tar.bz2 ."
+            sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envNames.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envNames.get(i)}.tar.bz2"
           }
         }
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in archive stage!", 'danger')
+      notify()
       throw error
     }
   }
@@ -224,7 +229,7 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in review stage!", 'danger')
+      notify()
       throw error
     }
   }
@@ -242,15 +247,23 @@ node('vetsgov-general-purpose') {
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+        //build job: 'deploys/vets-website-vagovdev', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
       }
       if (env.BRANCH_NAME == stagingBranch) {
         build job: 'deploys/vets-website-staging', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+        //build job: 'deploys/vets-website-preview', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
+      notify()
       throw error
     }
   }

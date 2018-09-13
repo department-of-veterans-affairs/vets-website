@@ -19,18 +19,26 @@ If you’re a dependent spouse or child—or the surviving spouse or child—of 
 <div class="feature" markdown="1">
 
 ### Can I get education benefits?
-You may qualify for education benefits if you’re the child or spouse of a Servicemember who:
+
+**You may qualify for education benefits if you’re the child or spouse of a Servicemember** and one of the below descriptions is true of the Servicemember.
+
+**One of these must be true. The Servicemember:**
+
 - Died in the line of duty after September 10, 2001, **or**
 - Is missing in action or was captured in the line of duty by a hostile force, **or**
 -	Was detained (held) by force while in the line of duty by a foreign government or power, **or**
 -	Is in the hospital or getting outpatient treatment for a service-connected permanent and total disability, and is likely to be discharged for that disability. A service-connected permanent and total disability is a disability resulting from your service that doesn’t go away.
   
-You may qualify for education benefits if you’re the child or spouse of a Veteran who:
+**You may qualify for education benefits if you’re the child or spouse of a Veteran** and one of the below descriptions is true of the Veteran.
+
+**One of these must be true. The Veteran:**
 - Is permanently and totally disabled due to a service-connected disability, **or**
 -	Died while on active duty or as a result of a service-connected disability
 
-If you’re a dependent who doesn’t meet the above criteria, you may still qualify for education benefits if the Veteran or Servicemember transferred some or all of their Post-9/11 GI Bill entitlement to you while they were on active duty. [Learn about transferred benefits](/education/gi-bill/transfer/).
+If you’re a dependent who doesn’t meet the above criteria, you may still qualify for education benefits if the Veteran or Servicemember transferred some or all of their Post-9/11 GI Bill entitlement to you while they were on active duty. <br>
+[Learn about transferred benefits](/education/gi-bill/transfer/).
 
+<br>
 
 ### Who’s covered?
 - Qualified spouses
@@ -48,12 +56,15 @@ If you’re a dependent who doesn’t meet the above criteria, you may still qua
 
 ### How do I get these benefits?
 
-You’ll need to apply. [Apply for education benefits](/education/apply-for-education-benefits).
+You’ll need to apply. <br>
+[Apply for education benefits](/education/apply-for-education-benefits).
 
 There are 2 main GI Bill programs offering educational assistance to survivors and dependents of Veterans:
 
-- The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) is for children and spouses of Servicemembers who died in the line of duty after September 10, 2001. [Get more information about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
-- The Survivors' and Dependents' Educational Assistance (DEA) program offers education and training to qualified dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition. [Get more information about the DEA program](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
+- The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) is for children and spouses of Servicemembers who died in the line of duty after September 10, 2001. <br>
+[Get more information about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
+- The Survivors' and Dependents' Educational Assistance (DEA) program offers education and training to qualified dependents of Veterans who are permanently and totally disabled because of a service-related condition or who died while on active duty or as a result of a service-related condition. <br>
+[Get more information about the DEA program](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
 
 **Note:** You may qualify for both the Fry Scholarship and the DEA program, but you can use only one of them. You’ll have to pick one when you apply. Once you’ve made this decision, you can’t switch to the other program. 
 
@@ -71,10 +82,10 @@ There are 2 main GI Bill programs offering educational assistance to survivors a
 <tbody>
   <tr>
     <th scope="row"><strong>Benefit Payments</strong></th>
-    <td>We pay the monthly amount directly to the student. The current monthly payment for full-time training is $1,024.</td>
+    <td>We pay the monthly amount directly to the student. The current monthly payment for full-time training is $1,041.</td>
     <td>
     <ul>
-      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: We cover the full in-state tuition costs for training at public schools and up to $22,805.34 per year at private or foreign schools.<br /><br /></li>
+      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: We cover the full in-state tuition costs for training at public schools and up to $23,671.94 per year at private or foreign schools.<br /><br /></li>
       <li><strong>Money for Books and Supplies (paid to the student)</strong>:
     We cover up to $1,000 a year, divided up equally among the terms, for books and supplies.<br /><br /></li>
       <li><strong>Monthly Housing Allowance (paid to the student)</strong>:

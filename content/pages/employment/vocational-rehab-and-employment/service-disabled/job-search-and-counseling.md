@@ -23,7 +23,9 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you want to follow an employment path that uses your existing skill set, the Vocational Rehabilitation and Employment (VR&amp;E) Rapid Access to Employment track can help you with your job search. We offer counseling and rehabilitation services that address your abilities, aptitudes, and interests. Find out if you can get VR&amp;E benefits and services to help you use your existing skill set to find a job.
+If you want to follow an employment path that uses your existing skill set, the Vocational Rehabilitation and Employment (VR&amp;E) Rapid Access to Employment track can help you with your job search. We offer counseling and rehabilitation services that address your abilities, aptitudes, and interests. 
+
+Find out if you can get VR&amp;E benefits and services to help you use your existing skill set to find a job.
 
 </div>
 
@@ -31,7 +33,9 @@ If you want to follow an employment path that uses your existing skill set, the 
 
 ### Can I get employment counseling and job-search support through VR&amp;E?
 
-You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and you:
+You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability, and you meet all of the requirements listed below.
+
+**All of these must be true. You:**
 - Have an employment handicap or barrier, **and**
 - Are enrolled in VR&E, **and**
 - Already have experience, education, or training in your field of interest
@@ -94,18 +98,25 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 [Find out how to apply if you haven’t yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
-Some dependents of Servicemembers or Veterans with service-connected disabilities may also be eligible for education and career counseling. [Learn about services for family members](/employment/vocational-rehab-and-employment/family-members/).
+Some dependents of Servicemembers or Veterans with service-connected disabilities may also be eligible for education and career counseling. <br>
+[Learn about services for family members](/employment/vocational-rehab-and-employment/family-members/).
 
 <br>
 
 ### Get more information
 
-We offer:
+**We offer opportunities to get training and practical hands-on work experience at the same time through programs like:**
+- **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
+  [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
+- **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. <br>
+  [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
 
-- Opportunities to get training and practical hands-on work experience at the same time through programs like:
-  - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
-  - **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
-- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
-- Counselors to help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
-- Other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
-- Links to more resources outside VA that can help you in your job search. [See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
+**We also offer:**
+- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." <br>
+[Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
+- Counselors to help you transition from military to college life. <br>
+[Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+- Other employment resources for Servicemembers and Veterans. <br>
+[Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
+- Links to more resources outside VA that can help you in your job search. <br>
+[See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).

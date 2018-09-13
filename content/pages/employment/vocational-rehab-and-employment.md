@@ -11,7 +11,7 @@ majorlinks:
       title: Eligibility
       description: Find out if you can get VR&E benefits and services as a Servicemember or Veteran.
     - url: /employment/vocational-rehab-and-employment/apply-vre/
-      title: Application Process
+      title: How to Apply
       description: Find out how to apply for VR&amp;E benefits and services as a Servicemember or Veteran.
     - url: /employment/vocational-rehab-and-employment/service-disabled/
       title: VR&E Programs for Servicemembers and Veterans
@@ -36,6 +36,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability that limits your ability to work or prevents you from working, the Vocational Rehabilitation and Employment (VR&amp;E) program—also referred to as Chapter 31—can help. Find out if you're eligible and how to apply for VR&E benefits and services—like help exploring employment options and getting more training if required. In some cases, your family members may also be eligible for certain VR&E benefits.
+If you have a service-connected disability that limits your ability to work or prevents you from working, the Vocational Rehabilitation and Employment (VR&amp;E) program—also referred to as Chapter 31—can help. Find out if you're eligible and how to apply for VR&E benefits and services, like help exploring employment options and any required training needs. In some cases, your family members may also be eligible for certain VR&E benefits.
 
 </div>

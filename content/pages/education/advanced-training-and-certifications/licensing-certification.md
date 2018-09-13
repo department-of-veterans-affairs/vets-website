@@ -15,8 +15,10 @@ If you paid for one or more tests to become a licensed or certified professional
 <div class="feature" markdown="1">
 
 ### Can I get paid back for licensing and certification test fees?
-We’ll pay you back if:
 
+We’ll pay you back if you meet both of the requirements listed below.
+
+**Both of these must be true:**
   -	You qualify for the GI Bill, **and** 
   -	You’re taking a test or an exam that costs less than $2,000.
 
@@ -32,7 +34,8 @@ If you paid for a test to become a licensed or certified mechanic, medical techn
 -----
 
 ### How do I get this benefit?
-You have to turn in proof of payment. First, fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). [Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
+You have to turn in proof of payment. First, fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). <br>
+[Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
 
 Then, either upload the form to the GI Bill site or mail it to your nearest VA regional processing office.<br> 
 [Upload VA Form 22-0803 to the GI Bill website](https://gibill.custhelp.com/app/utils/login_form/).<br>

@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Health Needs and Conditions
 display_title:
+description: Find out if a specific health care condition or need is covered under VA health care benefits. Learn how to access services.
 concurrence: complete
 lastupdate: 2017-06-28
 collection: healthCare
@@ -18,7 +19,7 @@ relatedlinks:
       title: Health Care Benefits Eligibility
       description: Not sure if you qualify? Find out if you can get VA health care benefits.
     - url: /health-care/apply/
-      title: Health Care Application Process
+      title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
     - url: /disability-benefits/
       title: Disability Benefits

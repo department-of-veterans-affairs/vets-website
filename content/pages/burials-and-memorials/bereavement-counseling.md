@@ -9,7 +9,7 @@ relatedlinks:
   - heading: Other helpful information
     links:
     - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs/
-      title: Burial Allowance Application Process
+      title: How to Apply for a Burial Allowance
       description: Find out if you can get paid back for funeral and other burial costs.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation/
       title: Compensation for Survivors and Dependents
@@ -21,7 +21,7 @@ relatedlinks:
       title: What to Expect at a Memorial Service
       description: Find out what will happen to help you prepare for this day.
     - url: /pension/survivors-pension/
-      title: Survivors Pension
+      title: How to Apply for a Survivors Pension
       description: If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, find out if you can get monthly payments.
 
 ---
