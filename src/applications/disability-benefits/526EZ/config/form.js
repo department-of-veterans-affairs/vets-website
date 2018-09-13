@@ -417,7 +417,7 @@ const formConfig = {
           }
         },
         vaMedicalRecordsIntro: {
-          title: 'Testing',
+          title: '',
           path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
@@ -445,7 +445,7 @@ const formConfig = {
           }
         },
         vaFacilities: {
-          title: 'Testing',
+          title: '',
           path: 'supporting-evidence/:index/va-facilities',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
