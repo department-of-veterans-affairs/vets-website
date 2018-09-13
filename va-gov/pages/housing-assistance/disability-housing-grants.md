@@ -6,7 +6,7 @@ display title: Housing Grants
 children: housingAssistanceDisabilityHousingGrants
 lastupdate: 
 spoke: 
-order: 
+order: 2
 aliases:
   - /housing-assistance/adaptive-housing-grants/
 concurrence:
@@ -14,7 +14,7 @@ concurrence:
 
 <div class="va-introtext">
 
-We offer grants to Servicemembers and Veterans with certain service-connected disabilities to buy or change a home to meet their needs and live more independently. Changing a home might involve installing ramps or widening doorways. Find out if you can get a grant to help meet your housing needs.
+We offer grants to Veterans and Servicemembers with certain service-connected disabilities to buy or change a home to meet their needs and live more independently. Changing a home might involve installing ramps or widening doorways. Find out if you can get a grant to help meet your housing needs.
 
 </div>
 
@@ -24,12 +24,14 @@ You may be able to get an SAH grant if you’re using the grant money to buy, bu
 
 **Both of these must be true. You:**
 - Own or will own the home, **and**
-- Have one of these service-connected disabilities (disabilities related to your service):
-  - The loss or loss of use of both legs, both arms, or an arm and a leg
-  - The loss or loss of use of a lower leg along with the residuals (lasting effects) of an organic (natural) disease or injury
-  - Blindness in both eyes having only light perception along with the loss or loss of use of one leg
-  - Certain severe burns
-  - The loss or loss of use of one or both lower extremities (feet or legs) after September 11, 2001, that makes it so you can’t balance or walk without the help of braces, crutches, canes, or a wheelchair
+- Have a qualifying service-connected disability
+
+**Qualifying service-connected disabilities include:**
+- The loss or loss of use of more than one limb
+- The loss or loss of use of a lower leg along with the residuals (lasting effects) of an organic (natural) disease or injury
+- Blindness in both eyes (having only light perception) along with the loss or loss of use of a leg
+- Certain severe burns
+- The loss or loss of use of one or both lower extremities (feet or legs) after September 11, 2001, that makes it so you can’t balance or walk without the help of braces, crutches, canes, or a wheelchair
 
 For FY 2018, you may be able to get up to 3 grants—for a total of up to $81,080—through the SAH grant program.
 
@@ -44,11 +46,13 @@ You may be able to get an SHA grant if you’re using the grant money to buy, bu
 **Both of these must be true:**
 
 - You or a family member own or will own the home, **and**
-- You have one of these service-connected disabilities (disabilities related to your service):
-  - Blindness in both eyes (with 20/200 visual acuity or less)
-  - The loss or loss of use of both hands
-  - Certain severe burns
-  - Certain respiratory or breathing injuries
+- You have a qualifying service-connected disability
+
+**Qualifying service-connected disabilities include:**
+- Blindness in both eyes (with 20/200 visual acuity or less)
+- The loss or loss of use of both hands
+- Certain severe burns
+- Certain respiratory or breathing injuries
   
 For FY 2018, you may be able to get up to 3 grants—for a total of up to $16,217—through the SHA grant program.
 
@@ -78,4 +82,4 @@ You’ll need to sign in to eBenefits with your <b>DS Logon</b> basic or premium
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant">Go to eBenefits to Apply</a>
  
 <br>
-[Learn more about how to apply for a housing grant](/housing-assistance/disability-housing-grants/how-to-apply).
+<a href="/housing-assistance/disability-housing-grants/how-to-apply/">Learn more about how to apply for a housing grant</a>.
