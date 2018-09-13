@@ -12,6 +12,14 @@ lastupdate:
 Change your direct deposit and contact information for certain VA benefits online.
 
 </div>
+
+<div class="va-sign-in-alert usa-alert usa-alert-info">
+  <div class="usa-alert-body">
+    <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to change your direct deposit and contact information online.</h4>
+  <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
+      <button class="usa-button-primary">Go to eBenefits to Change Your Information</button>
+    </p>
+  </div>
 </div>
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -70,6 +78,7 @@ Muskogee OK 74401-7004
 
 Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TDD 1-800-829-4833). We’re here Monday through Friday, 8:00 am - 9:00 p.m. (ET).
 
+</div>
 </div>
 </div>
 </div>
