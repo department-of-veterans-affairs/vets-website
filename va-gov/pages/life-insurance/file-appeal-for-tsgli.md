@@ -38,7 +38,7 @@ Or, you can request a paper form by contacting:
 
 <ul>
 <li><a href="https://www.benefits.va.gov/INSURANCE/popups/TSGLIPOC.htm">Your service department point of contact</a>, <b>or</b>
-<li>The Office of Servicemembers’ Group Life Insurance by phone at <a href="tel:+18004191473">1-800-419-1473</a> or by email at <a href="mailto:osgli.claims@prudential.com">osgli.claims@prudential.com</a></li>
+<li>The Office of Servicemembers’ Group Life Insurance. You can reach the office by phone at <a href="tel:+18004191473">1-800-419-1473</a> or by email at <a href="mailto:osgli.claims@prudential.com">osgli.claims@prudential.com</a>.</li>
 </ul>
 
 </div>
@@ -50,13 +50,15 @@ Or, you can request a paper form by contacting:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
+This will depend on whether you have any new evidence or documentation to support your appeal, or if you're filing an appeal for a Veteran as their guardian, power of attorney, or military trustee.
+
 <h3>If you have new evidence or documentation to support your appeal</h3>
 You can send this along with your form. Evidence may include documents like a doctor’s report, police report, or supporting statement from someone familiar with your condition or situation. 
 
 <b>Be sure to:</b>
 <ul>
-<li>Check the box on the form that fits what your new evidence is supporting, and write a brief description of the evidence. Include information like the specific page number(s) where the new information appears in your medical record, or the specific date of a police report.</li>
-<li>Highlight any new evidence in your medical records</li>
+<li>Check the box on the form that fits the description of what your new evidence is supporting, and write a brief description of the evidence. Include details like the specific page number(s) where the new information appears in your medical record, or the specific date of a police report.</li>
+<li>Highlight any new evidence in your medical records.</li>
 <li>Submit only the new evidence or documentation that supports your appeal. You don’t need to resend documents you sent before. If you send everything again, this will delay your appeal.</li>
 </ul>
 
@@ -71,9 +73,10 @@ You’ll need to include copies of the letters confirming your status, such as a
 <h2 itemprop="name">How long do I have to file my appeal?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
+  
+Your denial letter will tell you low long you have to file your appeal.
 
-You’ll need to submit your appeal request form to your branch’s TSGLI or Appeal office within one year of the date your claim was denied. Your letter will give you specific details about low long you have to file your appeal.
-
+In general, you’ll need to submit your appeal request form to your branch’s TSGLI or Appeal office within one year of the date your claim was denied. 
 </div>
 </div>
 </div>
@@ -106,7 +109,9 @@ You’ll need to complete an Application for TSGLI Benefits (SGLV-8600).<br>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Your branch of service TSGLI office, or its higher appeal authority, will make the decision on your appeal based upon the information provided on this form and any supporting documentation you provide. They will then forward their decision to the Office of Servicemembers’ Group Life Insurance (OSGLI) for appropriate action.
+Your branch of service TSGLI office, or its higher appeal authority, will make the decision on your appeal. 
+
+They'll decide your appeal based on the information you provide, including your TSGLI Appeal Request Form and any supporting evidence or documentation. Then, they'll send their decision to the Office of Servicemembers’ Group Life Insurance (OSGLI).
 
 </div>
 </div>
