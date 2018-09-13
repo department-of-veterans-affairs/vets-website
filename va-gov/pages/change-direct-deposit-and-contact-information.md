@@ -68,7 +68,7 @@ Muskogee OK 74401-7004
 
 <h3>By phone</h3>
 
-Call us at 1-800-827-1000 (TDD 1-800-829-4833). We’re here Monday through Friday, 8:00 am - 9:00 p.m. (ET).
+Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TDD 1-800-829-4833). We’re here Monday through Friday, 8:00 am - 9:00 p.m. (ET).
 
 </div>
 </div>
