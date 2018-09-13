@@ -10,7 +10,6 @@ order:
 aliases:
   - /housing-assistance/adaptive-housing-grants/
 concurrence:
-order: 2
 ---
 
 <div class="va-introtext">
