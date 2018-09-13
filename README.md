@@ -68,11 +68,9 @@ accidentally modify copies of upstream.
 
 ### Requirements
 
-
+Users with government furnished equipment may not have admin account access. [These instructions might help](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Design/run_vets.gov_locally_for_designers.md).
 
 The requirements for running this application are Node.js 6.11.1 and yarn 0.27.5
-
-If you don't have admin access to your machine. [These instructions might help](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Design/run_vets.gov_locally_for_designers.md).
 
 Once you have nvm installed you should now install node.js version 6.11.1 by running:
 
