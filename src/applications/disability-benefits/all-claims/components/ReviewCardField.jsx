@@ -153,7 +153,8 @@ export default class ReviewCardField extends React.Component {
           <button
             className="usa-button-secondary edit-button"
             onClick={this.startEditing}
-            aria-label={`Edit ${title}`}>Edit</button>
+            aria-label={`Edit ${title}`}>Edit
+          </button>
         </div>
         <div className="review-card--body">
           <ViewComponent formData={this.props.formData}/>

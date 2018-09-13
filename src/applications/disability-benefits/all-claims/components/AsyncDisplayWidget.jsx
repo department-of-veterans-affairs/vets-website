@@ -2,11 +2,7 @@ import React from 'react';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-
-const PENDING = 'PENDING';
-const RESOLVED = 'RESOLVED';
-const REJECTED = 'REJECTED';
-
+import { PENDING, RESOLVED, REJECTED } from '../constants';
 
 /**
  * Handles the various display statuses when calling an asynchronous function.
