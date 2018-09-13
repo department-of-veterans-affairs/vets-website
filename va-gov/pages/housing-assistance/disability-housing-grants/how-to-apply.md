@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: How to Apply for a Specially Adapted Housing (SAH) Grant
 display title: How to Apply
+collection: housingAssistanceDisabilityHousingGrants
 concurrence:
 order: 1
 ---
@@ -47,11 +48,9 @@ You can apply online right now by going to our eBenefits website.
 
 You’ll need to sign in to eBenefits with your <b>DS Logon</b> basic or premium account. If you don’t have a <b>DS Logon</b> account, you can register for one on the site.
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
-</div>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant">Go to eBenefits to Apply</a></div>
 </div>
  
-<div id="react-applicationStatus"></div>
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
  
 <h3 itemprop="name">You can also apply:</h3>
