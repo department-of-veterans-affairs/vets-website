@@ -8,15 +8,6 @@ const path = require('path');
  */
 function getBuildSettings(options) {
   return {
-    __BUILDTYPE__: options.buildtype,
-    process: {
-      env: {
-        API_PORT: (process.env.API_PORT || 3000),
-        WEB_PORT: (process.env.WEB_PORT || 3333),
-        API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
-        BASE_URL: process.env.BASE_URL ? JSON.stringify(process.env.BASE_URL) : null,
-      }
-    },
     brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
     vic: {
       rateLimitAuthed: 1,
