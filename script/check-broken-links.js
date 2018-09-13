@@ -33,7 +33,8 @@ function checkBrokenLinks() {
       allowRegex: ignoreLinks
     });
 
-    brokenLinkChecker(files, metalsmith, done);
+    brokenLinkChecker(files);
+    done();
   };
 }
 
