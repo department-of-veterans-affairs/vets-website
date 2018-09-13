@@ -869,7 +869,7 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': 'Summary of evidence',
-                'ui:description': evidenceSummaryView
+                'ui:field': evidenceSummaryView
               }
             }
           },
@@ -880,7 +880,8 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  properties: {}
+                  properties: {
+                  }
                 }
               }
             }
