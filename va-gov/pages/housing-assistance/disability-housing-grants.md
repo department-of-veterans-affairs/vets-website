@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: About Disability Housing Grants for Veterans
 display title: Housing Grants
-children: housingAssistanceDisabilityHousingGrants
+children: housingassistanceDisabilityhousinggrants
 concurrence:
 order: 2
 ---
@@ -74,5 +74,5 @@ You’ll need to sign in to eBenefits with your <b>DS Logon</b> basic or premium
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
  
 <div id="react-applicationStatus"></div>
-
+<br>
 [Learn more about how to apply for a housing grant](/housing-assistance/disability-housing-grants/how-to-apply).
