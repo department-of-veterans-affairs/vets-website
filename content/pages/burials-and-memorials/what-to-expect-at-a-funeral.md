@@ -17,6 +17,7 @@ We carry out memorial services at national cemeteries with dignity and respect. 
 The ceremony, including any readings or military honors, takes place at a special area called a committal shelter (not at the gravesite). The family chooses someone to perform this short ceremony. A cemetery official is there to show guests and family members where they should go.
 
 The family may choose to have military funeral honors. This may include the playing of “Taps,” a rifle detail, a color guard, or uniformed Servicemembers who present the burial flag.
+[Read more about the "Honoring Those Who Served" program](https://www.cem.va.gov/cem/docs/factsheets/honors.pdf).
 
 People attending the ceremony may:
 - Bring flowers, which may go with the casket or urn when it’s taken from the committal shelter to the gravesite, **and**

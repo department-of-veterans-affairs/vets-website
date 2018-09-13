@@ -28,6 +28,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 - Any Veteran who died before November 1, 1990
 - Any Veteran who served on or after April 6, 1917
 - Any Veteran whose grave is privately marked
+**Note**: Spouses and dependents buried in a private cemetery aren't eligible for these memorial items.
 
 </div>
 
@@ -68,20 +69,26 @@ You can apply for this benefit if you're representing the deceased Veteran in an
     Quantico, VA 22134-3903<br>
 </p>
 
-<div class="feature">
 
 ### What information goes on the headstone or marker?
 
 You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the deceased’s full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
 
-</div>
+[Learn more about these memorial items--and see what they look like](https://www.cem.va.gov/cem/docs/factsheets/HeadstoneMarkerMedallion_Brochure.pdf).
+
+
 
 <br>
 
-### Special arrangements
+### How do I make special arrangements?
 
 We provide memorial headstones and markers for qualified Veterans when their remains are missing, not identified, donated to science, buried at sea, or scattered.
 
 For Veterans, dependents, and Servicemembers who qualify for a memorial headstone or marker, the words engraved on the memorial item must begin, “IN MEMORY OF,” and the headstone or marker must be placed in a national cemetery, state Veterans cemetery, or military base cemetery.
 
 Get help applying for a headstone, marker, niche cover, or medallion by calling <a href="tel:+8006976947">1-800-697-6947</a>.
+
+
+### What do I need to know about burial in a private cemetery?
+You may have additional costs, restrictions on the type of headstone or marker you can use, and other requirements you should know about when preparing for burial in a private cemetery. 
+[Find out what to ask when planning a burial in a private cemetery](https://www.cem.va.gov/cem/burial_benefits/private_cemetery.asp).
