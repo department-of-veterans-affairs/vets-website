@@ -5,7 +5,6 @@ title: About Disability Housing Grants for Veterans
 display title: Housing Grants
 children: housingAssistanceDisabilityHousingGrants
 lastupdate: 
-spoke: 
 order: 2
 aliases:
   - /housing-assistance/adaptive-housing-grants/
