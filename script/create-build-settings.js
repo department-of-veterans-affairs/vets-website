@@ -8,6 +8,7 @@ const path = require('path');
  */
 function getBuildSettings(options) {
   return {
+    type: options.buildtype,
     brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
     vic: {
       rateLimitAuthed: 1,
