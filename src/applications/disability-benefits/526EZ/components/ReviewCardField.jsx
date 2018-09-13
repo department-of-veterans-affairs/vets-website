@@ -127,7 +127,7 @@ export default class ReviewCardField extends React.Component {
 
 
   getReviewView = (title) => {
-    if (this.props.formContext.reviewMode) {
+    if (this.props.formContext.onReviewPage) {
       // Check the data type and use the appropriate review field
       const dataType = this.props.schema.type;
       if (dataType === 'object') {

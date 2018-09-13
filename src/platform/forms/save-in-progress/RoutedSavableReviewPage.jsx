@@ -10,6 +10,7 @@ import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
 
 import DowntimeNotification, { externalServiceStatus } from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
+import set from '../../utilities/data/set';
 import { focusElement } from '../../utilities/ui';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import SaveFormLink from './SaveFormLink';
@@ -166,7 +167,7 @@ function mapStateToProps(state, ownProps) {
     user
   } = state;
 
-  const formContext = getFormContext({ form, user });
+  const formContext = set('onReviewPage', true, getFormContext({ form, user }));
 
   return {
     form,

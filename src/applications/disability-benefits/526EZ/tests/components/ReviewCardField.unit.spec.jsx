@@ -138,7 +138,7 @@ describe('Schemaform: ReviewCardField', () => {
 
 
   it('should render the appropriate field in reviewMode according to the data type', () => {
-    const props = set('formContext.reviewMode', true, defaultProps);
+    const props = set('formContext.onReviewPage', true, defaultProps);
     const tree = shallow(<ReviewCardField {...props}/>);
     expect(tree.find('ObjectField').length).to.equal(1);
   });
