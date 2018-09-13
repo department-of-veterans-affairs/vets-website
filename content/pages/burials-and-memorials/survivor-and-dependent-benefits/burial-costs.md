@@ -66,6 +66,8 @@ You may need a copy of:
 - The Veteran’s death certificate
 - Any documents you have for the cost of transporting the Veteran’s remains
 
+**Note**: The Veteran's family will need to cover the cost of funeral director services.
+
 </div>
 
 <div id="react-applicationStatus" class="static-page-widget">
