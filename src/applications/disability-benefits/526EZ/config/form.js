@@ -332,7 +332,7 @@ const formConfig = {
           }
         },
         evidenceType: {
-          title: (formData, { pagePerItemIndex }) => _.get(`disabilities.${pagePerItemIndex}.name`, formData),
+          title: (formData) => `${formData.name} supporting evidence`,
           path: 'supporting-evidence/:index/evidence-type',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
@@ -417,7 +417,7 @@ const formConfig = {
           }
         },
         vaMedicalRecordsIntro: {
-          title: '',
+          title: 'Testing',
           path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
@@ -445,7 +445,7 @@ const formConfig = {
           }
         },
         vaFacilities: {
-          title: '',
+          title: 'Testing',
           path: 'supporting-evidence/:index/va-facilities',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
@@ -860,7 +860,7 @@ const formConfig = {
           }
         },
         evidenceSummary: {
-          title: 'Summary of evidence',
+          title: (formData) => `${formData.name} evidence summary`,
           path: 'supporting-evidence/:index/evidence-summary',
           showPagePerItem: true,
           itemFilter: (item) => (_.get('view:hasEvidence', item) && _.get('view:selected', item)),
