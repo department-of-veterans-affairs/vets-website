@@ -37,8 +37,9 @@ You can download the form now.<br>
 Or, you can request a paper form by contacting:
 
 <ul>
-<li><a href="https://www.benefits.va.gov/INSURANCE/popups/TSGLIPOC.htm">Your service department point of contact</a>, <b>or</b>
-<li>The Office of Servicemembers’ Group Life Insurance. You can reach the office by phone at <a href="tel:+18004191473">1-800-419-1473</a> or by email at <a href="mailto:osgli.claims@prudential.com">osgli.claims@prudential.com</a>.</li>
+<li>Your service department<br>
+  <a href="https://www.benefits.va.gov/INSURANCE/popups/TSGLIPOC.htm">Find your department's point of contact</a>.</li>
+<li>Or, the Office of Servicemembers’ Group Life Insurance. You can reach the office by phone at <a href="tel:+18004191473">1-800-419-1473</a> or by email at <a href="mailto:osgli.claims@prudential.com">osgli.claims@prudential.com</a>.</li>
 </ul>
 
 </div>
@@ -57,7 +58,7 @@ You can send this along with your form. Evidence may include documents like a do
 
 <b>Be sure to:</b>
 <ul>
-<li>Check the box on the form that fits the description of what your new evidence is supporting, and write a brief description of the evidence. Include details like the specific page number(s) where the new information appears in your medical record, or the specific date of a police report.</li>
+<li>Check the box on the form that fits the description of what your new evidence supports, and write a brief description of the evidence. Include details like the specific page number(s) where the new information appears in your medical record, or the specific date of a police report.</li>
 <li>Highlight any new evidence in your medical records.</li>
 <li>Submit only the new evidence or documentation that supports your appeal. You don’t need to resend documents you sent before. If you send everything again, this will delay your appeal.</li>
 </ul>
