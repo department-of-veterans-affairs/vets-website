@@ -9,7 +9,7 @@ lastupdate:
 spoke: 
 order: 
 aliases:
- - /housing-assistance/adaptive-housing-grants/
+  - /housing-assistance/adaptive-housing-grants/
 concurrence:
 order: 2
 ---
