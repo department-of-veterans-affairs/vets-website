@@ -2,6 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
+import set from '../../../../../platform/utilities/data/set';
+
 import ReviewCardField from '../../components/ReviewCardField';
 
 
@@ -132,5 +134,12 @@ describe('Schemaform: ReviewCardField', () => {
 
     // Also check that the validation error is rendered while we're at it
     expect(wrapper.text()).to.contain('Arbitrary error string here');
+  });
+
+
+  it('should render the appropriate field in reviewMode according to the data type', () => {
+    const props = set('formContext.reviewMode', true, defaultProps);
+    const tree = shallow(<ReviewCardField {...props}/>);
+    expect(tree.find('ObjectField').length).to.equal(1);
   });
 });
