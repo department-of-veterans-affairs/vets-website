@@ -1,4 +1,4 @@
-function processEntryNamesFromFileManifest() {
+function processFileManifest() {
 
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
@@ -47,6 +47,4 @@ function processEntryNamesFromFileManifest() {
   };
 }
 
-module.exports = {
-  processEntryNamesFromFileManifest
-};
+module.exports = processFileManifest;
