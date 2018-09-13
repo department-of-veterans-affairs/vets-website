@@ -37,9 +37,9 @@ You can download the form now.<br>
 Or, you can request a paper form by contacting:
 
 <ul>
-<li>Your service department<br>
+  <li>Your service department, <b>or</b><br>
   <a href="https://www.benefits.va.gov/INSURANCE/popups/TSGLIPOC.htm">Find your department's point of contact</a>.</li>
-<li>Or, the Office of Servicemembers’ Group Life Insurance. You can reach the office by phone at <a href="tel:+18004191473">1-800-419-1473</a> or by email at <a href="mailto:osgli.claims@prudential.com">osgli.claims@prudential.com</a>.</li>
+<li>The Office of Servicemembers’ Group Life Insurance. You can reach the office by phone at <a href="tel:+18004191473">1-800-419-1473</a> or by email at <a href="mailto:osgli.claims@prudential.com">osgli.claims@prudential.com</a>.</li>
 </ul>
 
 </div>
