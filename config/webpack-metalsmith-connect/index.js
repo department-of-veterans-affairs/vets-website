@@ -3,7 +3,7 @@ const path = require('path');
 const {
   getAppManifests,
   getWebpackEntryPoints
-} = require('./manifest-helpers');
+} = require('../manifest-helpers');
 
 const convertPathsToRelative = require('./convert-paths-to-relative');
 const {

@@ -1,6 +1,6 @@
 const {
   getRoutes
-} = require('./webpack-metalsmith-connect/manifest-helpers');
+} = require('./manifest-helpers');
 
 function generateWebpackDevConfig(buildOptions, manifests) {
   const appRewrites = getRoutes(manifests).map(url => {
