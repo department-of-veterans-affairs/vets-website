@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: About Disability Housing Grants for Veterans
 display title: Housing Grants
-collection: housingAssistance
+collection: 
 children: housingAssistanceDisabilityHousingGrants
 lastupdate: 
 spoke: 
