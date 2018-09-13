@@ -395,7 +395,46 @@ const claimsIntakeAddress = (
 );
 
 export const patientAcknowledgementText = (
-  <div><a href="">Read the full text</a></div>
+  <AdditionalInfo triggerText="Read the full text.">
+    <h4>PATIENT ACKNOWLEDGMENT:</h4>
+    <p>
+      I HEREBY AUTHORIZE the sources listed in Section IV, to release
+      any information that may have been obtained in connection with
+      a physical, psychological or psychiatric examination or treatment,
+      with the understanding that VA will use this information in determining
+      my eligibility to veterans benefits I have claimed.
+    </p>
+    <p>
+      I understand that the source being asked to provide the Veterans
+      Benefits Administration with records under this authorization may
+      not require me to execute this authorization before it provides me
+      with treatment, payment for health care, enrollment in a health plan,
+      or eligibility for benefits provided by it.
+    </p>
+    <p>
+      I understand that once my source sends this information to VA under
+      this authorization, the information will no longer be protected by
+      the HIPAA Privacy Rule, but will be protected by the Federal Privacy Act,
+      5 USC 552a, and VA may disclose this information as authorized by law.
+    </p>
+    <p>
+      I also understand that I may revoke this authorization in writing,
+      at any time except to the extent a source of information has already
+      relied on it to take an action. To revoke, I must send a written
+      statement to the VA Regional Office handling my claim or the Board
+      of Veterans' Appeals (if my claim is related to an appeal) and also
+      send a copy directly to any of my sources that I no longer wish to
+      disclose information about me.
+    </p>
+    <p>
+      I understand that VA may use information disclosed prior to revocation
+      to decide my claim.
+    </p>
+    <p>
+      NOTE: For additional information regarding VA Form 21-4142, refer to
+      the following website: <a href="https://www.benefits.va.gov/privateproviders/">https://www.benefits.va.gov/privateproviders/</a>.
+    </p>
+  </AdditionalInfo>
 );
 
 export const download4142Notice = (
