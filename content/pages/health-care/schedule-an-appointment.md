@@ -13,7 +13,7 @@ relatedlinks:
       title: Health Care Benefits Eligibility
       description: Not sure if you qualify? Find out if you can get VA health care benefits.
     - url: /health-care/apply/
-      title: Health Care Application Process
+      title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
     - url: /health-care/health-conditions/
       title: Health Needs and Conditions
@@ -26,24 +26,32 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a>
+If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now.<br>
+<a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
+
 <div class="usa-alert usa-alert-warning">
-  <div class="usa-alert-body">
-	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
-	<div id="crisis-expander-content" class="expander-content expander-content-closed">
-	  <div class="expander-content-inner usa-alert-text">
-	    <ul>
-	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
-  		  <li>Call <a href="tel:911">911</a>.</li>
-  		  <li>Go to the nearest emergency room.</li>
-		  </ul>
-	  </div>
-  	</div>
-  </div>
+ <div class="usa-alert-body">
+    <h4 class="usa-alert-title">How do I talk to someone right now?</h4>
+    <a id="crisis-expander-link">Find out how to get support any time day or night.</a></h4>
+    <div id="crisis-expander-content" class="expander-content expander-content-closed">
+      <div class="expander-content-inner usa-alert-text">
+        <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+        <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>      
+        <ul>
+             <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+          <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+           <li>Text <a href="sms:838255">838255</a>.</li>
+           </ul>
+            <p><strong>You can also:</strong></p>      
+           <ul>
+             <li>Call <a href="tel:911">911</a>.</li>
+          <li>Go to the nearest emergency room.</li>
+        </ul>
+      </div>
+     </div>
+ </div>
 </div>
 
 <br>
@@ -55,7 +63,8 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 
 <div itemprop="itemListElement">
 
-You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. [Find your VA health facility’s phone number](/facilities).
+You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. <br>
+[Find your VA health facility’s phone number](/facilities).
 </div>
 </div>
 
@@ -67,16 +76,19 @@ You can call the VA health facility where you want to receive care. This is usu
 
 VA now offers online scheduling for some appointments and facilities. We hope to expand the number of VA facilities and types of appointments in the future.
 
-If you have VA health care benefits, you can schedule a VA primary care appointment online if:
+If you have VA health care benefits, you can schedule a VA primary care appointment online if you meet all of the requirements listed below.
 
-- You're scheduling your appointment with a [VA medical facility that accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
+**Both of these must be true:**
+
+- You're scheduling your appointment with a VA medical facility that accepts online scheduling.<br>
+[Find out if your VA medical center accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
 - You've had an appointment at that VA medical facility within the last 2 years
 
-**To schedule online, you must have one of these free accounts:**
-- My Health*e*Vet Premium account <br>
-[Get a free My Health*e*Vet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
-- DS Logon Premium account (used for eBenefits and milConnect) <br>
-[Get a free DS Logon Premium account](https://mobile.va.gov/dslogon).
+**And, you must have one of these free accounts:**
+- A premium My Health<em>e</em>Vet account <br>
+[Sign up for a My Health*e*Vet account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
+- Or, a premium DS Logon account (used for eBenefits and milConnect) <br>
+[Sign up for a DS Logon account](https://mobile.va.gov/dslogon).
 
 <div>
   <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/">Schedule a VA Appointment Online</a>
@@ -90,11 +102,13 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 
 <div itemprop="itemListElement">
 
-If you have a Vets.gov account or a My Health*e*Vet Premium account, you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments. Send a secure message or sign up now through:
+If you have a Vets.gov account or a My Health*e*Vet Premium account, you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments.
+
+**Send a secure message or sign up now through:**
 - [Vets.gov](/?next=%2Fhealth-care%2Fmessaging), **or** <br>
 - [My Health*e*Vet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
 
-**Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly.
+**Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly.<br>
 [Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 </div>
@@ -107,6 +121,14 @@ If you have a Vets.gov account or a My Health*e*Vet Premium account, you can sen
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')
     .addEventListener('click', function () {
-      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+      var ariaExpandedValue = this.getAttribute('aria-expanded') === 'false'
+                                                                     ? 'true'
+                                                                     : 'false';
+
+      document.getElementById('crisis-expander-content')
+        .classList
+        .toggle('expander-content-closed');
+
+      this.setAttribute('aria-expanded', ariaExpandedValue);
     });
 </script>

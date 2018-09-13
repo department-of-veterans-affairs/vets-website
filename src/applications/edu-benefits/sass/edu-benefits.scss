@@ -1,0 +1,103 @@
+// Variables
+
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+
+
+.form-checkbox > input[type="checkbox"] + .schemaform-label { // TODO: add > to .schemaform-first-field .schemaform-label, .schemaform-first-field > .usa-input-error in us-forms-system
+  margin-top: 0;
+}
+
+// Privacy agreement?
+.form-required-span {
+  font-size: 1.7em;
+  line-height: 0;
+  position: relative;
+  top: 10px;
+}
+
+.edu-benefits-dependents-desc {
+  margin-top: 5px;
+}
+
+.edu-dd-warning {
+  margin-top: 3rem;
+}
+
+.row .edu-intro-spacing {
+  margin-bottom: 7rem;
+}
+
+.search-select-school-fieldset {
+  .no-results-box {
+    background-color: $color-gray-lightest;
+    margin: 25px 0 0 0;
+    padding: 20px;
+    p {
+      margin: 0;
+    }
+  }
+
+  .school-search {
+    margin-top: 0
+  }
+
+  .school-search-label {
+    margin-top: 0
+  }
+
+  .search-controls {
+    display: flex;
+    flex-direction: column;
+    .clear-search{
+      display: flex;
+    }
+    .search-input {
+      align-items: center;
+      width: "100%";
+      display: flex;
+    }
+    .search-schools-button {
+      margin: 3px 0 0 15px;
+      max-width: 150px;
+      width: 100%;
+    }
+    .start-over {
+      font-weight: normal
+    }
+  }
+
+  .radio-button {
+    span {
+      display: inline-block;
+      width: 100%;
+
+      &.institution-name {
+        color: #0071BC;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
+
+    label {
+      margin: 0;
+      &::before {
+        position: relative;
+        top: 45px;
+      }
+
+      .institution-information {
+        background-color: #f1f1f1;
+        margin-left: 25px;
+        padding: 10px 15px;
+      }
+    }
+  }
+}

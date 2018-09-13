@@ -1,0 +1,35 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
+
+#dashboard-title {
+  margin-top: 1.5em;
+}
+
+.profile-section {
+  .section-header:first-of-type {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+}
+
+.appointment-item {
+  h4:first-child {
+    margin-top: 0;
+  }
+
+  background: $color-gray-lightest;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+
+  .appointment-info {
+    h4:first-child {
+      margin-top: 0;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    padding: 0 2rem;
+  }
+}

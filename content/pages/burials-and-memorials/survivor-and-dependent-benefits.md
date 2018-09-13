@@ -10,7 +10,7 @@ majorlinks:
   - heading:
     links:
     - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs/
-      title: Burial Allowance Application Process
+      title: How to Apply for a Burial Allowance
       description: Find out if you can get paid back for funeral and other burial costs.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation/
       title: Compensation for Survivors and Dependents
@@ -29,3 +29,4 @@ relatedlinks:
 We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the deceased's funeral service.
 
 </div>
+

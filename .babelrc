@@ -19,7 +19,11 @@
   "env": {
     "test": {
       "presets": ["env", "stage-2"],
-      "plugins": [ "istanbul" ]
+      "plugins": [ 
+        "istanbul",
+        "dynamic-import-node",
+        "transform-react-remove-prop-types"
+      ]
     },
     "production": {
       "plugins": [

@@ -7,7 +7,7 @@ collection: burials
 children: burialsHonor
 order: 4
 majorlinks:
-  - heading: 
+  - heading:
     links:
     - url: /burials-and-memorials/honor/headstones-markers-medallions/
       title: Headstones, Markers, Niche Covers, and Medallions
@@ -20,5 +20,3 @@ majorlinks:
 While planning a burial for a Veteran or Reservist, you can apply for certain memorial items to honor their military service. An eligible spouse or other family member buried in a national cemetery, or certain other Veterans or military cemeteries, may also qualify for a headstone, marker, or niche cover to identify the place of burial.
 
 </div>
-
-

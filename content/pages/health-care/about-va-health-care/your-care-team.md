@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Your Care Team
 display_title:
+description: Learn  about the VA health care providers on your VA health care team. Find out how to change your primary care provider and how to schedule an appointment.
 concurrence: complete
 lastupdate: 2018-01-09
 order: 1
@@ -13,7 +14,7 @@ relatedlinks:
       title: Health Care Benefits Eligibility
       description: Not sure if you qualify? Find out if you can get VA health care benefits.
     - url: /health-care/apply/
-      title: Health Care Application Process
+      title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
     - url: /health-care/health-conditions/
       title: Health Needs and Conditions
@@ -112,7 +113,7 @@ Your health care team will have a plan in place if your primary care provider is
 
 It depends. If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances. 
 
-**We may refer you to a community provider if any of these is true for you:**
+**We may refer you to a community provider if any one of these is true for you:**
 - We can’t provide the services you need, **or**
 - We can’t make an appointment for you at the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date, the date you’d prefer to be seen next, **or**
 - You live more than 40 miles (driving distance) from the nearest VA medical facility, **or**

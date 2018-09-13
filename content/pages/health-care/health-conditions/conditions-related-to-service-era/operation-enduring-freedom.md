@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Operation Enduring Freedom in Afghanistan
 display_title: Operation Enduring Freedom
+description: Learn what health conditions you might be at risk of developing if you served in Afghanistan during Operation Enduring Freedom.  Find out what to do next to take care of your health.
 concurrence: complete
 lastupdate: 2017-06-28
 order: 1
@@ -16,7 +17,7 @@ relatedlinks:
       title: Health Care Benefits Eligibility
       description: Not sure if you qualify? Find out if you can get VA health care benefits.
     - url: /health-care/apply/
-      title: Health Care Application Process
+      title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
 ---
 <div class="va-introtext">
@@ -78,7 +79,7 @@ Talk to your primary health care provider or your local VA environmental health 
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. 
 <br>
-[See if you qualify for disability benefits due to Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
+[See if you qualify for disability benefits due to Gulf War Illness from service in Afghanistan](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan/).
 <br>
 [See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
 

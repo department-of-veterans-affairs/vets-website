@@ -15,7 +15,8 @@ very secret.
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
 | clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
-| deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Jenkins will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
+| Use the git hooks provided               | You can either copy the hooks as-is right now with `cp hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s ../hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
+| deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Production deploys are executed by creating a release of vets-website via Jenkins. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site.      | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build`                          |
@@ -23,14 +24,16 @@ very secret.
 | build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
-| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
-| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
+| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in `config/webpack.config.js` |
+| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
-| run only unit tests for a subset of tests | `BABEL_ENV=test ./node_modules/.bin/mocha path/to/my/test.unit.spec.jsx` <br> or <br> `BABEL_ENV=test ./node_modules/.bin/mocha --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
-| run only e2e tests                       | `npm run test:e2e`                       |
-| run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
+| run all unit tests and watch | `npm run test:watch` |
+| run only unit tests for a subset of tests | `npm run test:unit -- path/to/my/test.unit.spec.jsx` <br> or <br> `npm run test:unit -- --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
+| run only e2e tests | Make sure the site is running locally (`npm run watch`) and run the tests with `npm run test:e2e` |
+| run only e2e tests for a subset of tests | Make sure the site is running locally (`npm run watch`) and run the desired tests with `npm run test:e2e -- src/applications/edu-benefits/tests/1995/*.e2e.spec.js` (provide file paths) |
+| run e2e tests in headless mode           | `npm run test:e2e:headless`              |
 | run all linters                          | `npm run lint`                           |
 | run only javascript linter               | `npm run lint:js`                        |
 | run only sass linter                     | `npm run lint:sass`                      |
@@ -40,6 +43,9 @@ very secret.
 | add new npm modules                      | `yarn add my-module --dev`. There are no non-dev modules here. |
 | get the latest json schema               | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
 | check test coverage                      | `npm run test:coverage`                  |
+| run bundle analyzer on our production JS bundles | `npm run build-analyze`                  |
+| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production npm run build -- -- buildtype production --analyzer`                  |
+| load the analyzer tool on a stats file  | `npm run analyze`                  |
 
 ## Directory structure
 
@@ -53,59 +59,51 @@ very secret.
 | content/includes | Collection of HTML fragments shared between layouts. Must be html. No Markdown. |
 | logs             | Directory for log output from build tools. Currently only used by nightwatch and selenium for end-to-end testing. |
 | node\_modules    | install location of npm modules. Managed by npm. |
-| old              | Directories from the original Jekyll site that still need to be examined for possibly useful content before being deleted. |
-| script           | Scripts for building the repostiory. The most commonly used script is `build.js` which runs Metalsmith |
-| src              | Any source files that require compilation. This is all our Javascript and Sass currently. |
-| test             | Tests for files inside `src`.  The directory structure of `test` should mirror that of `src`. |
+| script           | Scripts for building the repository. The most commonly used script is `build.js` which runs Metalsmith |
+| src              | All of our application code, including styles and tests |
 
-### Where are the Javascript and Sass `vendor` or `libs` directories?
-
-There are none!!
-
-All third-party styles and javascript are handled via npm using package.json. This allows
-strong versioning of third-party libraries and makes it impossible for developers to
-accidentally modify copies of upstream.
+Inside the `src` directory, we have two folders `applications` and `platform`. `applications` contains the individual applications used on Vets.gov, typically associated with a particular URL. `platform` contains the shared code used by those applications: the platform we build applications on top of.
 
 ### Requirements
 
 Users with government furnished equipment may not have admin account access. [These instructions might help](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Design/run_vets.gov_locally_for_designers.md).
 
-The requirements for running this application are Node.js 6.11.1 and yarn 0.27.5
+The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
 
-Once you have nvm installed you should now install node.js version 6.11.1 by running:
+Once you have nvm installed you should now install node.js version 8.10.0 by running:
 
 We use `nvm` to manage Node.js and other tools. Keeping your tools in sync with everyone else will reduce errors. To install please visit: https://github.com/creationix/nvm
 
 > If you are on a mac and use [homebrew](http://brew.sh/), you can install `nvm` by typing in the Terminal:
 > ```bash
-> brew update && brew install nvm		
+> brew update && brew install nvm
 > ```
-> _There will be some further instructions in the success message after install "finishes"._ 
+> _There will be some further instructions in the success message after install "finishes"._
 
 Once you have `nvm` installed, you should install Node.js:
 
 
 ```bash
-nvm install 6.11.1
+nvm install 8.10.0
 ```
 _This will also install `npm`_
 
 
-Once you have node.js 6.11.1 you should set as the default version for nvm, you do that by running:
+Once you have node.js 8.10.0 you should set as the default version for nvm, you do that by running:
 
 ```bash
-nvm alias default 6.11.1
+nvm alias default 8.10.0
 ```
 
 Next install Yarn:
 ```bash
-npm i -g yarn@0.27.5
+npm i -g yarn@1.5.1
 ```
 ### Verify your local requirements are set
 
 ```bash
-node --version // 6.11.1
-yarn --version // 0.27.5
+node --version // 8.10.0
+yarn --version // 1.5.1
 ```
 
 Once you use one of the correct commands above (like `npm run watch`), the site will be available locally by typing `localhost:3001` into your browser. If you get weird errors, try `yarn install` as your first step.
@@ -153,13 +151,13 @@ Webpack's configuration is stored in `config/webpack.config.js` and declares a s
 loaders which are Webpack's version of plugins. The loaders are used to compile ES2015
 to ES5 via Babel, and to process the sass into CSS.
 
-Webpack is configured to handle multiple different entrypoints (see `entry`
-in `webpack.config.js`). In general, there should be one entrypoint
-`non-react.entry.js` used by most of the static content pages. Each react app
-should have their own entrypoint.
+Webpack is configured to create a bundle for each application, as defined in the manifest.json files
+found in `src/applications`. There are three "special" bundles: `vendor`, which contains dependencies
+shared across all bundles; `styles`, which has no JS and is used to create a common CSS file shared
+across applications, and `static-pages`, which is the bundle used by all static pages.
 
-Sass and styles are loaded *via Javascript*. Each entrypoint `require()` an appropriate
-top-level sass file which the imports the rest of the css dependency tree as needed.
+Sass and styles are loaded *via Javascript*. Each entry file typically imports an appropriate
+top-level sass file which the imports some shared variables and individual Sass files as needed.
 Webpack then generates a separate css bundle for each of these entrypoints allowing
 the site to have app-specific css.
 
@@ -189,25 +187,21 @@ Quirks:
 
 Overall, this runs pretty well.
 
-In a future TODO, hooking ESlint and Sass lint into metalsmith or webpack dev
-server would allow them to execute during incremental builds as well.
-
-
 ### Unit Test -- Mocha
-All unittests re under `test/\*` and are named with the suffix `.unit.spec.js`.
+All unit tests are named with the suffix `.unit.spec.js` and live in `tests` directories inside
+`src/applications` and `src/platform`. Keeping tests near application code keeps applications self contained
+and allows easier switching the files relevant to particular features on Vets.gov.
 
-Unittests are done via `mocha` with the `chai` assertion library run directly via
-the mocha test runner without going through karma or PhantomJS. This means they run very fast.
+Unit tests are done via `mocha` with the `chai` assertion library run directly via
+the mocha test runner in Node.
 
 Unfortunately, it also means there is no true `window` or `document` provided which
-breaks `ReactTestUtils`'s simulate calls. To rememdy, a fake `window` and
-`document` are provided using `jsdom` and bootstrapped in `test/util/mocha-setup.js`
-which is required via `test/mocha.opts`.
+breaks `ReactTestUtils`'s simulate calls. To remedy, a fake `window` and
+`document` are provided using `jsdom` and bootstrapped in `src/platform/testing/unit/mocha-setup.js`
+which is required via `src/platform/testing/unit/mocha.opts`.
 
-With this, most everything (except code that accesses HTML5 `dataset`) is testable
-without the overhead of starting a browser.
-
-The `mocha-setup.js` file can be thought of as the init script for mocha tests.
+If you need to polyfill additional browser functionality, `mocha-setup.js` is the place to do that
+globally. The `mocha-setup.js` file can be thought of as the init script for mocha tests.
 
 Note that because mocha is running the test files directly, it needs to use
 `babel-register` (see `compilers` option in `mocha.opts`) to execute babel on
@@ -217,10 +211,11 @@ be shared between build and test.
 ### End-to-end Test -- nightwatch
 
 All end-to-end tests are under `test/\*` and are named with the suffix `.e2e.spec.js`.
+All end-to-end tests are named with the suffix `.e2e.spec.js` and live in `tests` directories inside
+`src/applications` and `src/platform`.
 
-Nightwatch is being used for browser-based testing. On the default configuration,
-PhantomJS is used as the default browser for faster testing and to prevent
-nightwatch from interfering with the developer's UI.
+Nightwatch is being used for browser-based testing. By default, Chrome is used as the browser
+for tests. On Jenkins, Headless Chrome is used.
 
 Nightwatch is a wrapper on Selenium. It is configured in `config/nightwatch.js`.
 To run a nightwatch test, 3 things need to execute:
@@ -235,10 +230,6 @@ for starting up and controlling web browser.  For mocha tests that we want to
 run on real browser, either because the tests is exercising browser quirks or because
 the test requries features that jsdom does not provide, putting them into a
 `e2e.spec.js` file is completely valid and good.
-
-TODO(awong): Figure out sauce labs integrations. Not all e2e tests should always be
-run on all browsers. That's wasteful. How do we determine what should be run on
-multiple browsers as opposed to on PhantomJS in Jenkins?
 
 #### E2E Troubleshooting
 Try running your `selenium` server manually:
@@ -260,12 +251,9 @@ There are some [limitations](https://github.com/department-of-veterans-affairs/v
 
 ### Automated Accessibility Testing -- aXe
 
-The automated accessibility tests are contained within the `test/accessibility`
-directory. All URLs from the generated sitemap are scanned with aXe
-rules for 508 compliance.
-
-Automated accessibility tests are run by Jenkins on PRs for the production build
-type.
+All end-to-end tests should also run our accessibility checking tool, aXe. There's a Nightwatch command
+written for this, which should be run for any page that you test in an end-to-end tests. We also run aXe
+on all pages in the sitemap, to ensure 508 and WCAG compliance.
 
 ### Continuous Integration
 Continuous integration and deployment is done via
@@ -293,11 +281,6 @@ all builds regardless of the build type. The important distinction is that your
 feature is still active within the code base, but the UI is either enabled or
 disabled by the feature flag.
 
-To enable or disable the feature in a specific build type, toggle the feature
-in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
-[`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
-example implementation.
-
 ### Supported Browsers
 | Browser                   | Minimum version | Note                                   |
 | ------------------------- | --------------- | -------------------------------------- |
@@ -319,6 +302,4 @@ example implementation.
 - React JSON Schemaform
   - [Schemaform Walkthrough](docs/schemaform/walkthrough.md)
   - [Form Config](docs/schemaform/form-config.md)
-
-##### *Verify if these are still relevant.
 

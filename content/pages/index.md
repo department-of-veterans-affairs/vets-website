@@ -3,7 +3,7 @@ layout: home.html
 body_class: home
 title: Home
 plainlanguage: 11-1-16 Ready for Beth review
-enablewarning: false
+enablewarning: true
 description: Apply for and manage the VA benefits and services you’ve earned as a Veteran, Servicemember, or family member—like health care, disability, education, and more.
 majorlinks:
   - heading:
@@ -32,6 +32,9 @@ majorlinks:
     - url: /burials-and-memorials/
       title: Burials and Memorials
       description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
+    - url: /families-caregivers/
+      title: Family and Caregiver Benefits
+      description: As the family member of a Servicemember or Veteran, find out if you qualify for benefits like health care, VA-backed home loans, life insurance, or money to help pay for college. If you’re caring for a Veteran with disabilities, find out if you can get added support.
 ---
 <div class="homepage-hero">
   <div class="homepage-hero-image usa-grid">
@@ -44,15 +47,15 @@ you’ve earned.</div>
 <div class="popular-container usa-grid-full">
 <h3>Get started with Vets.gov</h3>
 <div class="popular-container-links">
-  <a href="/health-care/apply/" class="usa-button usa-button-secondary" onClick="window.dataLayer.push({ event: 'nav-main-healthcare' });">
+  <a href="/health-care/apply/" class="usa-button usa-button-secondary" onClick="recordEvent({ event: 'nav-main-healthcare' });">
     Apply for health care
   </a>
 
-  <a href="/education/apply/" class="usa-button usa-button-secondary" onClick="window.dataLayer.push({ event: 'nav-main-education' });">
+  <a href="/education/apply/" class="usa-button usa-button-secondary" onClick="recordEvent({ event: 'nav-main-education' });">
     Apply for education benefits
   </a>
 
-  <button data-show="#modal-crisisline" class="va-overlay-trigger usa-button usa-button-secondary" onClick="window.dataLayer.push({ event: 'nav-main-vcl' });">
+  <button data-show="#modal-crisisline" class="va-overlay-trigger usa-button usa-button-secondary" onClick="recordEvent({ event: 'nav-main-vcl' });">
     In crisis? Get help now
   </button>
 </div>

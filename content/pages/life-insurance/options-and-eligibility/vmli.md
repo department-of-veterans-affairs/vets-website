@@ -23,7 +23,9 @@ If you have a severe service-connected disability that we’ve concluded was cau
 
 ### Can I get VMLI? 
 
-You may be able to get VMLI if you have a severe disability, and you:
+You may be able to get VMLI if you have a severe disability, and you meet all of the requirements listed below.
+
+**All of these must be true. You:**
 
 - Received a Specially Adapted Housing (SAH) grant to buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently, **and**
 - Have the title of the home, **and**
@@ -60,7 +62,8 @@ Up to $200,000 in mortgage life insurance—paid directly to the bank or other l
 
 First, you’ll need to apply for an SAH grant. If you get the SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI. If you already have an SAH grant, ask your agent about VMLI.
 
-Your agent will help you fill out a Veterans’ Mortgage Life Insurance Statement (VA Form 29-8636). [Download VA Form 29-8636](https://www.benefits.va.gov/INSURANCE/forms/29-8636_08-2011.pdf). 
+Your agent will help you fill out a Veterans’ Mortgage Life Insurance Statement (VA Form 29-8636).<br>
+[Download VA Form 29-8636](https://www.benefits.va.gov/INSURANCE/forms/29-8636_08-2011.pdf). 
 
 **Note:** Remember, you must apply for VMLI before your 70th birthday.
 
@@ -68,7 +71,7 @@ Your agent will help you fill out a Veterans’ Mortgage Life Insurance Statemen
 
 ### How much will I pay for these benefits?
 
-Your VMLI premium will be based on:
+**Your VMLI premium will be based on all of these factors:**
 
 - Your age, **and**
 - The current balance of your mortgage loan, **and**
@@ -83,7 +86,7 @@ Use our VMLI Premium Calculator to figure out what your premium may be. [Go to t
 
 The home covered by VMLI must be your primary residence (the home where you live most of the time).
 
-To keep your VMLI coverage, you’ll need to let us know if you:
+**To keep your VMLI coverage, you’ll need to let us know if you make any of these changes:**
 
 - Move, **or**
 - Transfer your mortgage from one lender to another, **or**

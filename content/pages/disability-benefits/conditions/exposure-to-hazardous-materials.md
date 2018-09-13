@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Contact with Harmful Chemicals or Other Hazardous Materials
 display_title: Contact with Hazardous Materials
+description: Find out if you can get VA disability compensation for conditions believed to be caused by contact with environmental hazards while serving in the military.
 plainlanguage: 10-24-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 1

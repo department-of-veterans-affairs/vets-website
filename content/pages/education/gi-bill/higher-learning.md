@@ -63,11 +63,11 @@ You can take classes at more than one school under the GI Bill as long as:
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Can I get more than one degree under the GI Bill?</h3>
+<h3 itemprop="name">Can I use the GI Bill to pay for classes toward more than one degree?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-The GI Bill will pay you for the classes you need to get more than one degree. Once you earn a degree, you can work toward another one if you still have GI Bill benefits left.
+Yes. After earning your first degree, you can use any GI Bill benefits you have left over to pay for classes for another degree.
 
 </div>
 </div>

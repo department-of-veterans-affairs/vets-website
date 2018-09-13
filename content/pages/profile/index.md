@@ -1,23 +1,11 @@
 ---
-title: Your Vets.gov Account
+title: Your Profile
 layout: page-react.html
-entryname: user-profile
+entryname: profile-360
 ---
-<div id="main">
-  <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
-      <li><a href="/">Home</a></li>
-    </ul>
-  </nav>
-
-  <div class="section">
-    <div id="react-root">
-      <div class="loading-message">
-        <div class="loading-indicator-container">
-          <div class="loading-indicator" role="progressbar" aria-valuetext="Please wait while we load the application for you." tabIndex="0"></div> Please wait while we load the application for you.
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- HCA Application End -->
-</div>
+<nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
+  <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
+    <li><a href="/" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">Home</a></li>
+    <li><a aria-current="page" href="/profile/">Your Profile</a></li>
+  </ul>
+</nav>

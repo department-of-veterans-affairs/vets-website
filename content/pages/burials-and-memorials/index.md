@@ -4,6 +4,11 @@ title: Burials and Memorials
 permalink: /burials-and-memorials/index.md
 template: level2-index
 showactionbar: false
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading: Who Can Get Benefits
     links:
@@ -26,6 +31,9 @@ majorlinks:
     - url: /burials-and-memorials/survivor-and-dependent-benefits/
       title: Learn about Burial Allowances and Survivor Compensation
       description: Find out if you can get help paying for funeral costs or other tax-free monetary benefits.
+    - url: /burials-and-memorials/bereavement-counseling/
+      title: Bereavement Counseling
+      description: Find out if you qualify for assistance and support to help you through the emotional and psychological stress of a loved one’s death.
   - heading: More Helpful Information
     links:
     - url: /burials-and-memorials/what-to-expect-at-a-funeral/
@@ -41,3 +49,5 @@ majorlinks:
 We can help Servicemembers, Veterans, and family members plan a burial or memorial service. Find out how to get burial benefits.
 
 </div>
+
+<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
