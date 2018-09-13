@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: How to Apply for a Specially Adapted Housing (SAH) or Special Home Adaptation (SHA) Grant
+title: How to Apply for a Specially Adapted Housing Grant
 display title: How to Apply
 concurrence:
 order: 1
