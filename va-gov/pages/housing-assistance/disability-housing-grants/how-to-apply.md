@@ -29,8 +29,11 @@ Find out how to apply for a Specially Adapted Housing (SAH) or Special Home Adap
 <h3 itemprop="name">What documents do I need to apply?</h3>
 <div itemprop="itemListElement">
 You'll need your:
-- Social Security number
-- Your VA file or claim number (if you have one)
+<ul>
+<li>Social Security number</li>
+<li>Your VA file or claim number (if you have one)</li>
+</ul>
+
 
 </div>
 </div>
@@ -66,23 +69,26 @@ If you have trouble accessing the form, call us toll-free at <a href="tel:+18008
 Fill out VA Form 26-4555 and bring it to your nearest VA regional benefit office.
 
 To find a regional benefit office near you:
-- [Use our online locator tool](/facilities), <b>or</b> <br>
-- Call us at <a href="tel:+18008271000">1-800-827-1000</a>.
+<ul>
+<li><a href="/facilities/">Use our online locator tool</a>.</li>
+<li>Or, call us at <a href="tel:+18008271000">1-800-827-1000</a>.</li>
+</ul>
 </div>
 </div>
 
 <h2 itemprop="name">What if I need help with my application?</h2>
 <div itemprop="itemListElement">
 
-- <a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>. <br>
-- Or, call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.
+<ul>
+<li><a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>.</li>
+ <li>Or, call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.</li>
 </div>
 </div>
 
 <h2 itemprop="name">What happens after I apply?</h2>
 <div itemprop="itemListElement">
 We’ll process your claim and send you a letter with our decision. You can check the status of your claim by signing in to eBenefits. <br>
-[Go to eBenefits to check your claim status](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant).
+<a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant">Go to eBenefits to check your claim status</a>.
 
 </div>
 </div>
