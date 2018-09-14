@@ -49,6 +49,7 @@ You can apply for this benefit if you're representing the deceased Veteran in an
 **Note:** For memorial headstones and markers that honor the memory of the deceased, the person who applies must be a member of the deceased’s family.
 
 <br>
+
 ### How do I apply for a memorial item?
 
 **For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
