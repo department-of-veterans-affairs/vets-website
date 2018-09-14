@@ -54,7 +54,6 @@ import {
   privateRecordsChoice,
   facilityDescription,
   treatmentView,
-  // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
@@ -67,20 +66,18 @@ import {
   veteranInfoDescription,
   editNote,
   validateBooleanIfEvidence,
-  getlimitedConsentTitle
+  getlimitedConsentTitle,
+  privateRecordsChoiceHelp,
+  patientAcknowledgmentText
 } from '../helpers';
 
 import {
-  recordHelp,
   recordReleaseDescription,
   countries,
   states,
   stateNames,
-  // aboutPrivateMedicalRecords,
   limitedConsentDescription,
-  // limitedConsentTitle,
-  // recordReleaseSummary,
-  validateZIP,
+  validateZIP
 } from '../../4142/helpers';
 
 import { hasGuardOrReservePeriod } from '../../all-claims/utils';
@@ -587,8 +584,20 @@ const formConfig = {
                     },
                   },
                 },
+                'view:patientAcknowledgment': {
+                  'ui:title': 'Patient Acknowledgment',
+                  'ui:description': patientAcknowledgmentText,
+                  'ui:options': {
+                    expandUnder: 'view:uploadPrivateRecords',
+                    expandUnderCondition: 'no',
+                  },
+                  'view:acknowledgment': {
+                    'ui:title': 'Patient Acknowledgment',
+                    'ui:required': (formData, index) => (_.get(`disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, formData.disabilities)),
+                  },
+                },
                 'view:privateRecordsChoiceHelp': {
-                  'ui:description': recordHelp,
+                  'ui:description': privateRecordsChoiceHelp,
                 },
               },
             },
@@ -605,6 +614,15 @@ const formConfig = {
                     'view:uploadPrivateRecords': {
                       type: 'string',
                       'enum': ['yes', 'no'],
+                    },
+                    'view:patientAcknowledgment': {
+                      type: 'object',
+                      properties: {
+                        'view:acknowledgment': {
+                          type: 'boolean',
+                          'default': true
+                        }
+                      }
                     },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
