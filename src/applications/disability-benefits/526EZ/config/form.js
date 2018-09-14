@@ -64,10 +64,6 @@ import {
 } from '../helpers';
 
 import {
-  patientAcknowledgement,
-} from '../../4142/helpers';
-
-import {
   hasGuardOrReservePeriod
 } from '../../all-claims/utils';
 
@@ -569,7 +565,7 @@ const formConfig = {
                   },
                   'view:acknowledgment': {
                     'ui:title': 'Patient Acknowledgment',
-                    'ui:required': ({ disabilities }, index) => (_.get(disabilities, `disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, '')),
+                    'ui:required': (formData, index) => (_.get(`disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, formData.disabilities)),
                   },
                 },
                 'view:privateRecordsChoiceHelp': {
@@ -596,7 +592,7 @@ const formConfig = {
                       properties: {
                         'view:acknowledgment': {
                           type: 'boolean',
-                          default: true
+                          'default': true
                         }
                       }
                     },
