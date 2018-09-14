@@ -469,6 +469,7 @@ export const stateNames = [
   'Philippine Islands',
   'Missouri'
 ];
+
 /** Note: This function will be moved to the 526EZ helper file
  * Converts the treatment date range into an array of objects from just an object
  * @param {object} treatmentDateRange object containing from/to date range

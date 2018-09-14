@@ -132,7 +132,7 @@ export function transform(formConfig, form) {
   } = form.data;
   const reservesNationalGuardService = getReservesGuardData(form.data);
   const disabilityProperties = Object.keys(
-    fullSchemaIncrease.definitions.disabilities.items.properties
+    fullSchemaIncrease.definitions.disabilities.items.properties,
   );
 
   const serviceInformation = reservesNationalGuardService

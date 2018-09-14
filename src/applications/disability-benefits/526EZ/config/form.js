@@ -65,8 +65,8 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  validateBooleanIfEvidence,
   getlimitedConsentTitle,
+  validateBooleanIfEvidence,
   privateRecordsChoiceHelp,
   patientAcknowledgmentText
 } from '../helpers';
@@ -450,7 +450,13 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`, formData),
+          depends: (formData, index) =>
+            _.get(
+              `disabilities.${
+                index
+              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+              formData,
+            ),
           uiSchema: {
             disabilities: {
               items: {
@@ -478,7 +484,13 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`, formData),
+          depends: (formData, index) =>
+            _.get(
+              `disabilities.${
+                index
+              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+              formData,
+            ),
           uiSchema: {
             disabilities: {
               items: {
@@ -539,7 +551,13 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData),
+          depends: (formData, index) =>
+            _.get(
+              `disabilities.${
+                index
+              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData,
+            ),
           uiSchema: {
             disabilities: {
               items: {
@@ -567,7 +585,13 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData),
+          depends: (formData, index) =>
+            _.get(
+              `disabilities.${
+                index
+              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData,
+            ),
           uiSchema: {
             disabilities: {
               items: {
@@ -641,8 +665,17 @@ const formConfig = {
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
-            const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
-            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
+            const hasRecords = _.get(
+              `disabilities.${
+                index
+              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData,
+            );
+            const requestsRecords =
+              _.get(
+                `disabilities.${index}.view:uploadPrivateRecords`,
+                formData,
+              ) === 'no';
             return hasRecords && requestsRecords;
           },
           uiSchema: {
