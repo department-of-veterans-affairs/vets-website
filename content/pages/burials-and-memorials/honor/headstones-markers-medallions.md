@@ -27,7 +27,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 
 - Any Veteran who died before November 1, 1990
 - Any Veteran who served on or after April 6, 1917
-- Any Veteran whose grave is privately marked
+- Any Veteran whose grave is privately marked <br>
 **Note**: Spouses and dependents buried in a private cemetery aren't eligible for these memorial items.
 
 </div>
@@ -49,7 +49,6 @@ You can apply for this benefit if you're representing the deceased Veteran in an
 **Note:** For memorial headstones and markers that honor the memory of the deceased, the person who applies must be a member of the deceased’s family.
 
 <br>
-
 ### How do I apply for a memorial item?
 
 **For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
@@ -90,5 +89,5 @@ Get help applying for a headstone, marker, niche cover, or medallion by calling 
 
 
 ### What do I need to know about burial in a private cemetery?
-You may have additional costs, restrictions on the type of headstone or marker you can use, and other requirements you should know about when preparing for burial in a private cemetery. 
+You may have additional costs, restrictions on the type of headstone or marker you can use, and other requirements you should know about when preparing for burial in a private cemetery. <br>
 [Find out what to ask when planning a burial in a private cemetery](https://www.cem.va.gov/cem/burial_benefits/private_cemetery.asp).
