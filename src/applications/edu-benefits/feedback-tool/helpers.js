@@ -201,3 +201,10 @@ export const refundIssuesLabel = getIssueLabel('Refund issues', 'The school wonâ
 export const financialIssuesLabel = getIssueLabel('Financial concern', 'The school is charging you a higher tuition or extra fees.');
 
 export const changeInDegreeLabel = getIssueLabel('Change in degree plan or requirements', 'The school added new hour or course requirements after you enrolled.');
+
+export function issueUIDescription({ formContext }) {
+  if (!formContext) { // HACK: due to https://github.com/usds/us-forms-system/issues/260
+    return <div>Please note, below the topics are examples of what the feedback could include.</div>;
+  }
+  return null;
+}
