@@ -24,6 +24,8 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
     formNumber = '';
   } else if (key === '1010ez') {
     formNumber = ' (10-10EZ)';
+  } else if (key === 'FEEDBACK-TOOL') {
+    formNumber = ' (GI Bill School Feedback Tool)';
   } else {
     formNumber = ` (${key})`;
   }

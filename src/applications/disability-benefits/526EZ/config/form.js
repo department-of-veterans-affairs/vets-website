@@ -67,6 +67,7 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
+  validateBooleanIfEvidence,
   getlimitedConsentTitle
 } from '../helpers';
 
@@ -376,15 +377,26 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
+                'view:hasEvidence': {
+                  'ui:title': 'Do you have any evidence that you would like to submit with your claim?',
+                  'ui:description': '',
+                  'ui:widget': 'yesNo',
+                },
                 'view:selectableEvidenceTypes': {
                   'ui:options': {
                     // Only way to get access to the disability info like 'name' within this nested schema
-                    updateSchema: (form, schema, uiSchema, index) => ({
-                      title: getEvidenceTypesDescription(form, index),
-                    }),
+                    updateSchema: (form, schema, uiSchema, index) => ({ title: getEvidenceTypesDescription(form, index) }),
                     showFieldLabel: true,
+                    hideIf: (formData, index) => {
+                      return !_.get(`disabilities[${index}].view:hasEvidence`, formData, true);
+                    }
                   },
-                  'ui:validations': [validateBooleanGroup],
+                  'ui:validations': [{
+                    validator: validateBooleanIfEvidence,
+                    options: {
+                      wrappedValidator: validateBooleanGroup
+                    }
+                  }],
                   'ui:errorMessages': {
                     atLeastOne:
                       'Please select at least one type of supporting evidence',
@@ -396,7 +408,7 @@ const formConfig = {
                     'ui:title': 'Private medical records',
                   },
                   'view:otherEvidence': {
-                    'ui:title': 'Lay statements or other evidence',
+                    'ui:title': 'Lay statements or other evidence'
                   },
                 },
                 'view:evidenceTypeHelp': {
@@ -413,6 +425,10 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
+                    'view:hasEvidence': {
+                      type: 'boolean',
+                      'default': true
+                    },
                     'view:selectableEvidenceTypes': {
                       type: 'object',
                       properties: {
@@ -991,7 +1007,7 @@ const formConfig = {
           title: 'Summary of evidence',
           path: 'supporting-evidence/:index/evidence-summary',
           showPagePerItem: true,
-          itemFilter: item => _.get('view:selected', item),
+          itemFilter: (item) => (_.get('view:hasEvidence', item) && _.get('view:selected', item)),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
