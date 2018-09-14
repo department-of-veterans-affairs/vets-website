@@ -117,9 +117,7 @@ export class Main extends React.Component {
     return (
       <div id="modal-crisisline" className="va-overlay va-modal va-modal-large va-overlay--open" role="alertdialog">
         <div className="va-crisis-panel va-modal-inner">
-
           <h3>Get help from Veterans Crisis Line</h3>
-
           <button className="va-modal-close va-overlay-close" onClick={this.closeModal} type="button">
             <i className="fa fa-close va-overlay-close"></i>
             <span className="usa-sr-only va-overlay-close">Close this modal</span>
@@ -135,9 +133,7 @@ export class Main extends React.Component {
           </div>
         </div>
       </div>
-
     );
-
   }
   render() {
     // there is probably a better way to write this but I am going for fast, not elegant
@@ -164,7 +160,6 @@ export class Main extends React.Component {
       <div>
         {this.state.modalOpen && this.renderModal()}
         <div className="footer-inner">
-
           <div className="usa-grid">
             <ul className={className} id="footer-first-child">
               <li>
