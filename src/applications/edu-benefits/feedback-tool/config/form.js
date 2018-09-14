@@ -17,7 +17,22 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform, submit, recordApplicantRelationship } from '../helpers';
+import {
+  transform,
+  submit,
+  recordApplicantRelationship,
+  recruitingLabel,
+  accreditationLabel,
+  financialIssuesLabel,
+  studentLoansLabel,
+  jobOpportunitiesLabel,
+  changeInDegreeLabel,
+  qualityLabel,
+  gradePolicyLabel,
+  transcriptReleaseLabel,
+  creditTransferLabel,
+  refundIssuesLabel
+} from '../helpers';
 
 const {
   address: applicantAddress,
@@ -28,6 +43,7 @@ const {
   issue,
   issueDescription,
   issueResolution,
+  issueUIDescription,
   onBehalfOf,
   phone,
   serviceAffiliation,
@@ -466,6 +482,7 @@ const formConfig = {
           uiSchema: {
             issue: {
               'ui:title': 'Which topic best describes your feedback? (Select all that apply)',
+              'ui:description': issueUIDescription,
               'ui:validations': [
                 validateBooleanGroup
               ],
@@ -490,37 +507,37 @@ const formConfig = {
                 'other'
               ],
               recruiting: {
-                'ui:title': 'Recruiting or marketing practices'
+                'ui:title': recruitingLabel
               },
               studentLoans: {
-                'ui:title': 'Student loan'
+                'ui:title': studentLoansLabel
               },
               quality: {
-                'ui:title': 'Quality of education'
+                'ui:title': qualityLabel
               },
               creditTransfer: {
-                'ui:title': 'Transfer of credits'
+                'ui:title': creditTransferLabel
               },
               accreditation: {
-                'ui:title': 'Accreditation'
+                'ui:title': accreditationLabel
               },
               jobOpportunities: {
-                'ui:title': 'Post-graduation job opportunity'
+                'ui:title': jobOpportunitiesLabel
               },
               gradePolicy: {
-                'ui:title': 'Grade policy'
+                'ui:title': gradePolicyLabel
               },
               refundIssues: {
-                'ui:title': 'Refund issues'
+                'ui:title': refundIssuesLabel
               },
               financialIssues: {
-                'ui:title': 'Financial concern (for example, tuition or fee changes)'
+                'ui:title': financialIssuesLabel
               },
               changeInDegree: {
-                'ui:title': 'Change in degree plan or requirements'
+                'ui:title': changeInDegreeLabel
               },
               transcriptRelease: {
-                'ui:title': 'Release of transcripts'
+                'ui:title': transcriptReleaseLabel
               },
               other: {
                 'ui:title': 'Other'

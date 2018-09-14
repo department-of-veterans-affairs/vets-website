@@ -511,8 +511,7 @@ const listDocuments = (documents) => {
 };
 
 
-export const evidenceSummaryView = ({ formData }) => {
-
+export const evidenceSummaryView = ({ formContext, formData }) => {
   const {
     treatments,
     privateRecordReleases,
@@ -522,6 +521,9 @@ export const evidenceSummaryView = ({ formData }) => {
 
   return (
     <div>
+      {formContext.reviewMode && <div className="form-review-panel-page-header-row">
+        <h5 className="form-review-panel-page-header">{formContext.pageTitle(formData)}</h5>
+      </div>}
       <ul>
         {treatments &&
         <li>We’ll get your medical records from {listCenters(treatments)}.</li>}
