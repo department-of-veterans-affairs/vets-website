@@ -1,29 +1,102 @@
 import _ from '../../../../platform/utilities/data';
 import fullSchema from '../config/schema';
+import merge from 'lodash/fp/merge';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
-const { isHomeless, isAtRisk } = fullSchema.properties;
+const {
+  homelessOrAtRisk,
+  homelessHousingSituation,
+  otherHomelessHousing,
+  needToLeaveHousing,
+  atRiskHousingSituation,
+  otherAtRiskHousing,
+  homelessnessContact
+} = fullSchema.properties;
 
 export const uiSchema = {
-  isHomeless: {
-    'ui:title': 'Are you currently homeless?',
-    'ui:widget': 'yesNo',
+  homelessOrAtRisk: {
+    'ui:title': 'Are you homeless or at risk of becoming homeless?',
+    'ui:widget': 'radio'
   },
-  isAtRisk: {
-    'ui:title': 'Are you currently at risk of becoming homeless?',
-    'ui:widget': 'yesNo',
+  'view:isHomeless': {
     'ui:options': {
-      expandUnder: 'isHomeless',
-      expandUnderCondition: false
+      expandUnder: 'homelessOrAtRisk',
+      expandUnderCondition: (housing) => housing === 'Yes, I am homeless'
     },
-    'ui:required': (formData) => !_.get('isHomeless', formData)
+    homelessHousingSituation: {
+      'ui:title': 'Please describe your current living situation.',
+      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'Yes, I am homeless',
+      'ui:widget': 'radio'
+    },
+    otherHomelessHousing: {
+      'ui:title': 'Please describe',
+      'ui:required': (formData) => _.get('view:isHomeless.homelessHousingSituation', formData, '') === 'Other',
+      'ui:options': {
+        hideIf: (formData) => _.get('view:isHomeless.homelessHousingSituation', formData, '') !== 'Other',
+      }
+    },
+    needToLeaveHousing: {
+      'ui:title': 'Do you need to quickly leave your current living situation?',
+      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'Yes, I am homeless',
+      'ui:widget': 'radio'
+    }
+  },
+  'view:isAtRisk': {
+    'ui:options': {
+      expandUnder: 'homelessOrAtRisk',
+      expandUnderCondition: (housing) => housing === 'Yes, I am at risk of becoming homeless'
+    },
+    atRiskHousingSituation: {
+      'ui:title': 'Please describe your housing situation',
+      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'Yes, I am at risk of becoming homeless',
+      'ui:widget': 'radio'
+    },
+    otherAtRiskHousing: {
+      'ui:title': 'Please describe',
+      'ui:required': (formData) => _.get('view:isAtRisk.atRiskHousingSituation', formData, '') === 'Other',
+      'ui:options': {
+        hideIf: (formData) => _.get('view:isAtRisk.atRiskHousingSituation', formData, '') !== 'Other'
+      }
+    }
+  },
+  homelessnessContact: {
+    'ui:title': ' ',
+    'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
+    'ui:options': {
+      expandUnder: 'homelessOrAtRisk',
+      expandUnderCondition: (housing) => housing === 'Yes, I am homeless' || housing === 'Yes, I am at risk of becoming homeless'
+    },
+    name: {
+      'ui:title': 'Name of person we should contact',
+      'ui:required': (formData) => !!_.get('homelessnessContact.phoneNumber', formData, null)
+    },
+    phoneNumber: merge(
+      phoneUI('Phone number'),
+      { 'ui:required': (formData) => !!_.get('homelessnessContact.name', formData, null) }
+    )
   }
 };
 
 export const schema = {
   type: 'object',
-  required: ['isHomeless'],
+  required: ['homelessOrAtRisk'],
   properties: {
-    isHomeless,
-    isAtRisk
+    homelessOrAtRisk,
+    'view:isHomeless': {
+      type: 'object',
+      properties: {
+        homelessHousingSituation,
+        otherHomelessHousing,
+        needToLeaveHousing
+      }
+    },
+    'view:isAtRisk': {
+      type: 'object',
+      properties: {
+        atRiskHousingSituation,
+        otherAtRiskHousing
+      }
+    },
+    homelessnessContact
   }
 };

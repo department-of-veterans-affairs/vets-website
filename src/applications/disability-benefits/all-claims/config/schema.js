@@ -1046,11 +1046,13 @@ const schema = {
     primaryPhone: {
       $ref: '#/definitions/phone'
     },
-    isHomeless: {
-      type: 'boolean'
-    },
-    isAtRisk: {
-      type: 'boolean'
+    homelessOrAtRisk: {
+      type: 'string',
+      'enum': [
+        'No',
+        'Yes, I am at risk of becoming homeless',
+        'Yes, I am homeless',
+      ]
     },
     homelessHousingSituation: {
       type: 'string',
