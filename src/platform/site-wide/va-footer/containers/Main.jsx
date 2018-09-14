@@ -2,6 +2,7 @@ import React from 'react';
 import groupBy from 'lodash/groupBy';
 import orderBy from 'lodash/orderBy';
 import links from '../../../static-data/footer-links.json';
+import { isWideScreen } from '../../../utilities/accessibility/index';
 
 export class Main extends React.Component {
   constructor(props) {
@@ -12,12 +13,12 @@ export class Main extends React.Component {
   componentWillMount() {
     window.addEventListener('resize', () => {
       this.setState({
-        isMobile: window.innerWidth < 767
+        isMobile: !isWideScreen()
       });
     }, false);
 
     this.setState({
-      isMobile: window.innerWidth < 767
+      isMobile: !isWideScreen()
     });
   }
   openModal = () => {
