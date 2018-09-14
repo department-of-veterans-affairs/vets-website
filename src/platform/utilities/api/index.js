@@ -1,4 +1,3 @@
-import merge from 'lodash/fp/merge';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
@@ -28,7 +27,9 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     defaultSettings.headers.Authorization = `Token token=${conditionalStorage().getItem('userToken')}`;
   }
 
-  const settings = merge(defaultSettings, optionalSettings);
+  const newHeaders = Object.assign({}, defaultSettings.headers, optionalSettings.headers);
+  const settings = Object.assign({}, defaultSettings, optionalSettings);
+  settings.headers = newHeaders;
 
   return fetch(url, settings)
     .catch(err => {

@@ -4,7 +4,7 @@
     ["env", {
       "targets": {
         "uglify": true,
-        "browsers": ["last 2 versions", "ie 11", "not ie 10"]
+        "browsers": ["last 2 versions", "not ie 11", "not ie 10"]
       },
       "useBuiltIns": true,
       "modules": false,

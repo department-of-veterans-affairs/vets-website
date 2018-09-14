@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import _ from 'lodash';
+import { startCase, toLower } from 'lodash-es';
 
 import conditionalStorage from '../../utilities/storage/conditionalStorage';
 import { selectProfile } from '../../user/selectors';
@@ -10,7 +10,7 @@ export const selectUserGreeting = createSelector(
   () => conditionalStorage().getItem('userFirstName'),
   (name, email, sessionFirstName) => {
     if (name.first || sessionFirstName) {
-      return _.startCase(_.toLower(
+      return startCase(toLower(
         name.first || sessionFirstName
       ));
     }
