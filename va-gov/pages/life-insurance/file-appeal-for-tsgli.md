@@ -112,7 +112,7 @@ You’ll need to complete an Application for TSGLI Benefits (SGLV-8600).<br>
 
 Your branch of service TSGLI office, or its higher appeal authority, will make the decision on your appeal. 
 
-They'll decide your appeal based on the information you provide, including your TSGLI Appeal Request Form and any supporting evidence or documentation. Then, they'll send their decision to the Office of Servicemembers’ Group Life Insurance (OSGLI).
+They'll decide your appeal based on the information you provide, including your TSGLI Appeal Request Form and any supporting evidence or documentation. Then, they'll send their decision to the Office of Servicemembers’ Group Life Insurance (OSGLI). You'll hear from the OSGLI about the decision and next steps.
 
 </div>
 </div>
