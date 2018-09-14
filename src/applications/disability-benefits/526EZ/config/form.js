@@ -46,7 +46,6 @@ import {
   privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
-  // download4142Notice, related to authorization to disclose section below
   // authorizationToDisclose,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
@@ -60,7 +59,8 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  validateBooleanIfEvidence
+  validateBooleanIfEvidence,
+  patientAcknowledgmentText,
 } from '../helpers';
 
 import {
@@ -556,13 +556,18 @@ const formConfig = {
                     }
                   }
                 },
-                // 'view:privateRecords4142Notice': {
-                //   'ui:description': download4142Notice,
-                //   'ui:options': {
-                //     expandUnder: 'view:uploadPrivateRecords',
-                //     expandUnderCondition: 'no'
-                //   }
-                // },
+                'view:patientAcknowledgment': {
+                  'ui:title': 'Patient Acknowledgment',
+                  'ui:description': patientAcknowledgmentText,
+                  'ui:options': {
+                    expandUnder: 'view:uploadPrivateRecords',
+                    expandUnderCondition: 'no',
+                  },
+                  'view:acknowledgment': {
+                    'ui:title': 'Patient Acknowledgment',
+                    'ui:required': (formData, index) => (_.get(`disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, formData.disabilities)),
+                  },
+                },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp
                 }
@@ -582,11 +587,15 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no']
                     },
-                    // 'view:privateRecords4142Notice': {
-                    //   type: 'object',
-                    //   'ui:collapsed': true,
-                    //   properties: {}
-                    // },
+                    'view:patientAcknowledgment': {
+                      type: 'object',
+                      properties: {
+                        'view:acknowledgment': {
+                          type: 'boolean',
+                          'default': true
+                        }
+                      }
+                    },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
                       properties: {}
