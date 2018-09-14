@@ -1045,6 +1045,52 @@ const schema = {
     },
     primaryPhone: {
       $ref: '#/definitions/phone'
+    },
+    isHomeless: {
+      type: 'boolean'
+    },
+    isAtRisk: {
+      type: 'boolean'
+    },
+    homelessHousingSituation: {
+      type: 'string',
+      'enum': [
+        'I’m living in a homeless shelter.',
+        'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
+        'I’m living with another person.',
+        'Other'
+      ]
+    },
+    otherHomelessHousing: {
+      type: 'string'
+    },
+    needToLeaveHousing: {
+      type: 'boolean'
+    },
+    atRiskHousingSituation: {
+      type: 'string',
+      'enum': [
+        'I’m losing my housing in 30 days.',
+        'I’m leaving a publicly funded homeless shelter soon.',
+        'Other'
+      ]
+    },
+    otherAtRiskHousing: {
+      type: 'string'
+    },
+    homelessnessContact: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 100,
+          pattern: "([a-zA-Z0-9-/']+( ?))*$"
+        },
+        phoneNumber: {
+          $ref: '#/definitions/phone'
+        }
+      }
     }
   }
 };

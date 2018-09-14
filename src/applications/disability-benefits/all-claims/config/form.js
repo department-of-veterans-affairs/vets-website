@@ -28,7 +28,9 @@ import {
   contactInformation,
   addDisabilities,
   newDisabilityFollowUp,
-  paymentInformation
+  paymentInformation,
+  homelessOrAtRisk,
+  housingDetails
 } from '../pages';
 
 import fullSchema from './schema';
@@ -194,6 +196,19 @@ const formConfig = {
           path: 'payment-information',
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema
+        },
+        homelessOrAtRisk: {
+          title: 'Housing situation',
+          path: 'housing-situation',
+          uiSchema: homelessOrAtRisk.uiSchema,
+          schema: homelessOrAtRisk.schema
+        },
+        housingDetails: {
+          title: 'Housing details',
+          depends: (formData) => (formData.isHomeless || formData.isAtRisk),
+          path: 'housing-details',
+          uiSchema: housingDetails.uiSchema,
+          schema: housingDetails.schema
         }
       }
     }
