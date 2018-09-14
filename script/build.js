@@ -22,7 +22,7 @@ const createRedirects = require('./create-redirects');
 const checkBrokenLinks = require('./check-broken-links');
 const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
-const processFileManifest = require('./process-file-manifest');
+const addAssetHashes = require('./configure-assets');
 const BUILD_OPTIONS = require('./options');
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -130,7 +130,7 @@ if (!BUILD_OPTIONS.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
 }
 
 if (![environments.DEVELOPMENT, environments.VAGOVDEV].includes(BUILD_OPTIONS.buildtype)) {
-  smith.use(processFileManifest(BUILD_OPTIONS));
+  smith.use(addAssetHashes(BUILD_OPTIONS));
 }
 
 // Pages can contain an "alias" property in their metadata, which is processed into
