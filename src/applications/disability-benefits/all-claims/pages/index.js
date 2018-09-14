@@ -68,11 +68,6 @@ import {
   schema as homelessOrAtRiskSchema
 } from './homelessOrAtRisk';
 
-import {
-  uiSchema as housingDetailsUISchema,
-  schema as housingDetailsSchema
-} from './housingDetails';
-
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema
@@ -141,9 +136,4 @@ export const paymentInformation = {
 export const homelessOrAtRisk = {
   uiSchema: homelessOrAtRiskUISchema,
   schema: homelessOrAtRiskSchema
-};
-
-export const housingDetails = {
-  uiSchema: housingDetailsUISchema,
-  schema: housingDetailsSchema
 };

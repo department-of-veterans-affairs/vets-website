@@ -30,7 +30,6 @@ import {
   newDisabilityFollowUp,
   paymentInformation,
   homelessOrAtRisk,
-  housingDetails
 } from '../pages';
 
 import fullSchema from './schema';
@@ -202,13 +201,6 @@ const formConfig = {
           path: 'housing-situation',
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema
-        },
-        housingDetails: {
-          title: 'Housing details',
-          depends: (formData) => (formData.isHomeless || formData.isAtRisk),
-          path: 'housing-details',
-          uiSchema: housingDetails.uiSchema,
-          schema: housingDetails.schema
         }
       }
     }
