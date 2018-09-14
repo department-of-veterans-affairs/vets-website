@@ -75,7 +75,7 @@ import {
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
-import { TextWidget } from 'us-forms-system/lib/js/review/widgets';
+import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
 const {
   treatments,
@@ -245,7 +245,7 @@ const formConfig = {
                   primaryPhone: {
                     'ui:title': 'Phone number',
                     'ui:widget': PhoneNumberWidget,
-                    'ui:reviewWidget': TextWidget,
+                    'ui:reviewWidget': PhoneNumberReviewWidget,
                     'ui:options': {
                       widgetClassNames: 'va-input-medium-large'
                     },

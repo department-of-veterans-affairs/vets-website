@@ -5,7 +5,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
-import { TextWidget } from 'us-forms-system/lib/js/review/widgets';
+import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
 
@@ -180,7 +180,7 @@ export const uiSchema = {
       primaryPhone: {
         'ui:title': 'Phone number',
         'ui:widget': PhoneNumberWidget,
-        'ui:reviewWidget': TextWidget,
+        'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:errorMessages': {
           pattern: 'Phone numbers must be 10 digits (dashes allowed)'
         },
