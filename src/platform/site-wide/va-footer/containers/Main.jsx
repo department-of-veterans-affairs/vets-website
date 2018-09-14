@@ -10,19 +10,15 @@ export class Main extends React.Component {
     this.linkObj = groupBy(links, 'column');
   }
   componentWillMount() {
-    function setSize(t) {
-
-      window.addEventListener('resize', () => {
-        t.setState({
-          isMobile: window.innerWidth < 767
-        });
-      }, false);
-
-      t.setState({
+    window.addEventListener('resize', () => {
+      this.setState({
         isMobile: window.innerWidth < 767
       });
-    }
-    setSize(this);
+    }, false);
+
+    this.setState({
+      isMobile: window.innerWidth < 767
+    });
   }
   openModal = () => {
     this.setState({ modalOpen: true });
