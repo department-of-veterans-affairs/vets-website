@@ -453,13 +453,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -487,13 +481,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -554,13 +542,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -588,13 +570,7 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
@@ -641,7 +617,7 @@ const formConfig = {
           },
         },
         privateMedicalRecordRelease: {
-          title: '',
+          title: 'Private Medical Records Release',
           path: 'supporting-evidence/:index/private-medical-records-release',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
@@ -770,7 +746,7 @@ const formConfig = {
                                 },
                                 street2: {
                                   minLength: 1,
-                                  maxLength: 50,
+                                  maxLength: 5,
                                   type: 'string',
                                 },
                                 city: {
