@@ -17,7 +17,22 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform, submit, recordApplicantRelationship } from '../helpers';
+import {
+  transform,
+  submit,
+  recordApplicantRelationship,
+  recruitingLabel,
+  accreditationLabel,
+  financialIssuesLabel,
+  studentLoansLabel,
+  jobOpportunitiesLabel,
+  changeInDegreeLabel,
+  qualityLabel,
+  gradePolicyLabel,
+  transcriptReleaseLabel,
+  creditTransferLabel,
+  refundIssuesLabel
+} from '../helpers';
 
 const {
   address: applicantAddress,
@@ -28,6 +43,7 @@ const {
   issue,
   issueDescription,
   issueResolution,
+  issueUIDescription,
   onBehalfOf,
   phone,
   serviceAffiliation,
@@ -35,10 +51,10 @@ const {
   serviceDateRange,
 } = fullSchema.properties;
 
-const { assistance, programs, school } = educationDetails;
+const { assistance, programs, school } = educationDetails.properties;
 const { address: schoolAddress, name: schoolName } = school.properties;
-const domesticSchoolAddress = schoolAddress.oneOf[0];
-const internationalSchoolAddress = schoolAddress.oneOf[1];
+const domesticSchoolAddress = schoolAddress.anyOf[0];
+const internationalSchoolAddress = schoolAddress.anyOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
 function configureSchoolAddressSchema(schema) {
@@ -383,6 +399,9 @@ const formConfig = {
                     street2: {
                       'ui:title': 'Address line 2'
                     },
+                    street3: {
+                      'ui:title': 'Address line 3'
+                    },
                     city: {
                       'ui:title': 'City',
                       'ui:required': manualSchoolEntryIsChecked
@@ -463,6 +482,7 @@ const formConfig = {
           uiSchema: {
             issue: {
               'ui:title': 'Which topic best describes your feedback? (Select all that apply)',
+              'ui:description': issueUIDescription,
               'ui:validations': [
                 validateBooleanGroup
               ],
@@ -487,37 +507,37 @@ const formConfig = {
                 'other'
               ],
               recruiting: {
-                'ui:title': 'Recruiting or marketing practices'
+                'ui:title': recruitingLabel
               },
               studentLoans: {
-                'ui:title': 'Student loan'
+                'ui:title': studentLoansLabel
               },
               quality: {
-                'ui:title': 'Quality of education'
+                'ui:title': qualityLabel
               },
               creditTransfer: {
-                'ui:title': 'Transfer of credits'
+                'ui:title': creditTransferLabel
               },
               accreditation: {
-                'ui:title': 'Accreditation'
+                'ui:title': accreditationLabel
               },
               jobOpportunities: {
-                'ui:title': 'Post-graduation job opportunity'
+                'ui:title': jobOpportunitiesLabel
               },
               gradePolicy: {
-                'ui:title': 'Grade policy'
+                'ui:title': gradePolicyLabel
               },
               refundIssues: {
-                'ui:title': 'Refund issues'
+                'ui:title': refundIssuesLabel
               },
               financialIssues: {
-                'ui:title': 'Financial concern (for example, tuition or fee changes)'
+                'ui:title': financialIssuesLabel
               },
               changeInDegree: {
-                'ui:title': 'Change in degree plan or requirements'
+                'ui:title': changeInDegreeLabel
               },
               transcriptRelease: {
-                'ui:title': 'Release of transcripts'
+                'ui:title': transcriptReleaseLabel
               },
               other: {
                 'ui:title': 'Other'

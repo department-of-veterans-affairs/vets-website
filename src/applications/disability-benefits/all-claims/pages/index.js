@@ -53,6 +53,16 @@ import {
   schema as newDisabilityFollowUpSchema
 } from './newDisabilityFollowUp';
 
+import {
+  uiSchema as contactInformationUISchema,
+  schema as contactInformationSchema
+} from './contactInformation';
+
+import {
+  uiSchema as paymentInformationUISchema,
+  schema as paymentInformationSchema
+} from './paymentInformation';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema
@@ -106,4 +116,14 @@ export const addDisabilities = {
 export const newDisabilityFollowUp = {
   uiSchema: newDisabilityFollowUpUISchema,
   schema: newDisabilityFollowUpSchema
+};
+
+export const contactInformation = {
+  uiSchema: contactInformationUISchema,
+  schema: contactInformationSchema
+};
+
+export const paymentInformation = {
+  uiSchema: paymentInformationUISchema,
+  schema: paymentInformationSchema
 };

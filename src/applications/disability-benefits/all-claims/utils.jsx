@@ -2,9 +2,13 @@ import React from 'react';
 import moment from 'moment';
 import Raven from 'raven-js';
 
+import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
 
-import { RESERVE_GUARD_TYPES } from './constants';
+
+import {
+  RESERVE_GUARD_TYPES,
+  USA } from './constants';
 /**
  * Show one thing, have a screen reader say another.
  * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
@@ -13,7 +17,7 @@ import { RESERVE_GUARD_TYPES } from './constants';
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
-const srSubstitute = (srIgnored, substitutionText) => {
+export const srSubstitute = (srIgnored, substitutionText) => {
   return (
     <div style={{ display: 'inline' }}>
       <span aria-hidden>{srIgnored}</span>
@@ -21,8 +25,6 @@ const srSubstitute = (srIgnored, substitutionText) => {
     </div>
   );
 };
-
-export default srSubstitute;
 
 export const hasGuardOrReservePeriod = (formData) => {
   const serviceHistory = formData.servicePeriods;
@@ -70,7 +72,12 @@ export const ReservesGuardDescription = ({ formData }) => {
   );
 };
 
-export const title10DatesRequired = (formData) => _.get('view:isTitle10Activated', formData, false);
+export const title10DatesRequired = (formData) => (
+  _.get(
+    'serviceInformation.reservesNationalGuardService.view:isTitle10Activated',
+    formData,
+    false)
+);
 
 export const isInFuture = (errors, fieldData) => {
   const enteredDate = new Date(fieldData);
@@ -137,4 +144,22 @@ export function prefillTransformer(pages, formData, metadata) {
     formData: newFormData,
     pages
   };
+}
+
+export const hasForwardingAddress = (formData) => (_.get('view:hasForwardingAddress', formData, false));
+
+export const forwardingCountryIsUSA = (formData) => (_.get('forwardingAddress.country', formData, '') === USA);
+
+export function fetchPaymentInformation() {
+  return apiRequest('/ppiu/payment_information',
+    {},
+    response => {
+      // Return only the bit the UI cares about
+      return response.data.attributes.responses[0].paymentAccount;
+    },
+    () => {
+      Raven.captureMessage('vets_payment_information_fetch_failure');
+      return Promise.reject();
+    }
+  );
 }

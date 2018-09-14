@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 import { genderLabels } from '../../../../platform/static-data/labels';
-import srSubstitute from '../utils';
+import { srSubstitute } from '../utils';
 import { editNote } from './common';
 
 const unconnectedVetInfoView = (profile) => {

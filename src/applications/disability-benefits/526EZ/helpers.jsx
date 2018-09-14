@@ -23,10 +23,6 @@ import {
   VA_FORM4142_URL
 } from './constants';
 
-import {
-  USA,
-} from '../all-claims/constants';
-
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
  * of each object into one array
@@ -515,7 +511,7 @@ const listDocuments = (documents) => {
 };
 
 
-export const evidenceSummaryView = ({ formData }) => {
+export const evidenceSummaryView = ({ formContext, formData }) => {
   const {
     treatments,
     privateRecordReleases,
@@ -525,6 +521,9 @@ export const evidenceSummaryView = ({ formData }) => {
 
   return (
     <div>
+      {formContext.reviewMode && <div className="form-review-panel-page-header-row">
+        <h5 className="form-review-panel-page-header">{formContext.pageTitle(formData)}</h5>
+      </div>}
       <ul>
         {treatments &&
         <li>We’ll get your medical records from {listCenters(treatments)}.</li>}
@@ -664,82 +663,6 @@ export const VAFileNumberDescription = (
 );
 
 
-const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
-  const midBreakpoint = -7;
-  const lastPhoneString = phoneNumber.slice(-4);
-  const middlePhoneString = phoneNumber.slice(midBreakpoint, -4);
-  const firstPhoneString = phoneNumber.slice(0, midBreakpoint);
-
-  const phoneString = `${firstPhoneString}-${middlePhoneString}-${lastPhoneString}`;
-  return (<p><strong>{name}</strong>: {phoneString}</p>);
-};
-
-
-const EmailViewField = ({ formData, name }) => (
-  <p><strong>{name}</strong>: {formData || ''}</p>
-);
-
-
-const EffectiveDateViewField = ({ formData }) => {
-  return (
-    <p>
-      We will use this address starting on <DateWidget value={formData} options={{ monthYear: false }}/>:
-    </p>
-  );
-};
-
-
-const AddressViewField = ({ formData }) => {
-  const { addressLine1, addressLine2, addressLine3, city, state, country, zipCode } = formData;
-  let zipString;
-  if (zipCode) {
-    const firstFive = zipCode.slice(0, 5);
-    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
-    zipString = `${firstFive}${lastChunk}`;
-  }
-
-  let lastLine;
-  if (country === USA) {
-    lastLine = `${city}, ${state} ${zipString}`;
-  } else {
-    lastLine = `${city}, ${country}`;
-  }
-  return (
-    <div>
-      {addressLine1 && <p>{addressLine1}</p>}
-      {addressLine2 && <p>{addressLine2}</p>}
-      {addressLine3 && <p>{addressLine3}</p>}
-      <p>{lastLine}</p>
-    </div>
-  );
-};
-
-
-export const PrimaryAddressViewField = ({ formData }) => (<AddressViewField formData={formData}/>);
-
-
-export const ForwardingAddressViewField = ({ formData }) => {
-  const { effectiveDate } = formData;
-  return (
-    <div>
-      <EffectiveDateViewField formData={effectiveDate}/>
-      <AddressViewField formData={formData}/>
-    </div>
-  );
-};
-
-
-export const phoneEmailViewField = ({ formData }) => {
-  const { primaryPhone, emailAddress } = formData;
-  return (
-    <div>
-      <PhoneViewField formData={primaryPhone} name="Primary phone"/>
-      <EmailViewField formData={emailAddress} name="Email address"/>
-    </div>
-  );
-};
-
-
 export const FDCDescription = (
   <div>
     <h5>Fully developed claim program</h5>
@@ -863,10 +786,11 @@ export const contactInfoUpdateHelp = () => (
   </div>
 );
 
+export const validateBooleanIfEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
+  const { wrappedValidator } = options;
+  if (get('view:hasEvidence', formData, true)) {
+    wrappedValidator(errors, fieldData, formData, schema, messages, index);
+  }
+};
 
-export const PaymentDescription = () => (
-  <p>
-    This is the bank account information we have on file for you. We’ll pay your
-    disability benefit to this account.
-  </p>
-);
+export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);

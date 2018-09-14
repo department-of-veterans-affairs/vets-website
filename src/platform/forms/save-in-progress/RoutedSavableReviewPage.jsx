@@ -166,7 +166,7 @@ function mapStateToProps(state, ownProps) {
     user
   } = state;
 
-  const formContext = getFormContext({ form, user });
+  const formContext = getFormContext({ form, user, onReviewPage: true });
 
   return {
     form,
