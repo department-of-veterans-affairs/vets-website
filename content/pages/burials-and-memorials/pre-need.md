@@ -41,6 +41,14 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 - A Veteran who didn't receive a dishonorable discharge when you separated from the military, **or**
 - The spouse or dependent child of a Servicemember or Veteran, even if the Servicemember or Veteran died first, **or**
 - In some cases, the adult dependent child of a Servicemember or Veteran (if you aren’t married)
+**Note:** If the discharge document is not available, you can request a copy through the National Personnel Records Center. Send your request here:
+
+<p class="va-address-block">
+National Personnel Records Center<br>
+Military Personnel Records Office<br>
+1 Archives Drive<br>
+St. Louis, MO 63138<br>
+</p>
 
 </li>
 
@@ -128,7 +136,10 @@ Please don't send us the originals of your DD214 and other supporting documents 
 
 #### By fax
 
-You can also fax your application to us at 1-855-840-8299.
+You can fax your application to us at 1-855-840-8299.
+
+#### By email
+You can email your application to us at eligibility.preneed@va.gov.
 
 <br>
 
