@@ -18,20 +18,20 @@ import SchoolSelectField from '../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
 import {
-  transform,
-  submit,
+  accreditationLabel,
+  changeInDegreeLabel,
+  creditTransferLabel,
+  financialIssuesLabel,
+  gradePolicyLabel,
+  jobOpportunitiesLabel,
+  qualityLabel,
   recordApplicantRelationship,
   recruitingLabel,
-  accreditationLabel,
-  financialIssuesLabel,
-  studentLoansLabel,
-  jobOpportunitiesLabel,
-  changeInDegreeLabel,
-  qualityLabel,
-  gradePolicyLabel,
-  transcriptReleaseLabel,
-  creditTransferLabel,
   refundIssuesLabel,
+  studentLoansLabel,
+  submit,
+  transcriptReleaseLabel,
+  transform,
   validateMatch,
 } from '../helpers';
 
