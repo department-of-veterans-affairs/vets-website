@@ -10,7 +10,7 @@ import formConfig from '../../config/form.js';
 const {
   schema,
   uiSchema
-} = formConfig.chapters.veteranDetails.pages.paymentInformation;
+} = formConfig.chapters.additionalInformation.pages.paymentInformation;
 
 const originalFetch = global.fetch;
 
