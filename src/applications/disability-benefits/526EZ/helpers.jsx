@@ -655,7 +655,7 @@ export const evidenceSummaryView = ({ formData }) => {
             We’ll get your private medical records from{' '}
             {providerFacility.map((facility, idx) => {
               return (
-                <div key={idx}>{facility.providerFacilityName}</div>
+                <div key={idx}><strong>{facility.providerFacilityName}</strong></div>
               );
             })}
           </li>
