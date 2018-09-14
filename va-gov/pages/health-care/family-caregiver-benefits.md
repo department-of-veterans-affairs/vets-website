@@ -1,12 +1,15 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Family and Caregiver Health Benefits
+title: Family and Caregiver Benefits
 display_title:
 collection: healthCare
 children: healthCareCoverageFamily
 lastupdate: 2018-02-13
-order: 9
+spoke: Get Benefits
+order: 6
+aliases:
+  - /health-care/family-caregiver-health-benefits/
 ---
 
 <div class="va-introtext">
@@ -41,7 +44,7 @@ If you’re a family member caring for a Veteran with disabilities who was injur
 ### The Camp Lejeune Family Member Program
 Did you live at U.S. Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) in North Carolina with an active-duty Veteran who was your spouse or parent? If you lived in either of these places for at least 30 cumulative days from August 1953 through December 1987, you may have had contact with contaminants in the drinking water there. Scientific and medical evidence has shown an association between exposure to these contaminants and the development of certain diseases later on.
 If you now have one of the related conditions, you may qualify for health care benefits through VA. <br>
-[Find out if you qualify for this program and how to apply](/disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/#familymembers).
+[Find out if you qualify for this program and how to apply](/disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination/#familymembers).
 
 <br>
 

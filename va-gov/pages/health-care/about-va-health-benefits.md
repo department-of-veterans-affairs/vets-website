@@ -6,11 +6,14 @@ concurrence: complete
 lastupdate: 2017-06-28
 collection: healthCare
 children: healthCareCoverage
+spoke: Get Benefits
 order: 1
+aliases:
+  - /health-care/about-va-health-care/
 relatedlinks:
   - heading: Related benefits you may qualify for
     links:
-    - url: /disability-benefits/
+    - url: /disability/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---

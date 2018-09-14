@@ -2,6 +2,6 @@
   "appName": "21P-530 Burials benefits form",
   "entryFile": "./burials-entry.jsx",
   "entryName": "burials",
-  "rootUrl": "/burials-and-memorials/application/530",
+  "rootUrl": "/burials-memorials/veterans-burial-allowance/apply-for-burial-allowance-form-21p-530",
   "production": true
 }

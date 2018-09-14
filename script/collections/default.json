@@ -1,0 +1,300 @@
+{
+  "burials": {
+    "sortBy": "order",
+    "metadata": {
+      "name": "Burials and Memorials"
+    }
+  },
+  "burialsHonor": {
+    "pattern": "burials-and-memorials/honor/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Honor a Deceased Veteran"
+    }
+  },
+  "burialsPreNeed": {
+    "pattern": "burials-and-memorials/pre-need/after*.md",
+    "sortBy": "title",
+    "metadata": {
+      "name": "Pre-need Determination"
+    }
+  },
+  "burialsPlanning": {
+    "sortBy": "title",
+    "metadata": {
+      "name": "Burial Planning"
+    }
+  },
+  "burialsSurvivors": {
+    "pattern": "burials-and-memorials/survivor-and-dependent-benefits/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Survivor and Dependent Benefits"
+    }
+  },
+  "disability": {
+    "pattern": "disability-benefits/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Disability Benefits"
+    }
+  },
+  "disabilityAfterYouApply": {
+    "pattern": "disability-benefits/after-you-apply/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "After You Apply"
+    }
+  },
+  "disabilityApply": {
+    "pattern": "disability-benefits/apply/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "How to Apply"
+    }
+  },
+  "disabilityClaimsAppeal": {
+    "pattern": "disability-benefits/claims-appeal/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Appeals"
+    }
+  },
+  "disabilityClaimTypes": {
+    "pattern": "disability-benefits/apply/claim-types/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Claim Types"
+    }
+  },
+  "disabilityClaimTypesPredischarge": {
+    "pattern": "disability-benefits/apply/claim-types/predischarge-claim/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Pre-discharge Claim"
+    }
+  },
+  "disabilityConditions": {
+    "pattern": "disability-benefits/conditions/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Conditions"
+    }
+  },
+  "disabilityConditionsExposure": {
+    "pattern": "disability-benefits/conditions/exposure-to-hazardous-materials/*.md",
+    "sortBy": "title",
+    "metadata": {
+      "name": "Contact with Hazardous Materials"
+    }
+  },
+  "disabilityConditionsSpecial": {
+    "pattern": "disability-benefits/conditions/special-claims/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Special Claims"
+    }
+  },
+  "disabilityConditionsAgentOrange": {
+    "pattern": "disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Agent Orange"
+    }
+  },
+  "disabilityEligibility": {
+    "pattern": "disability-benefits/eligibility/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Eligibility"
+    }
+  },
+  "disabilityEvidence": {
+    "pattern": "disability-benefits/apply/evidence/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "How to Gather Evidence for Your Claim"
+    }
+  },
+  "education": {
+    "pattern": "",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Education and Training"
+    }
+  },
+  "educationAdvancedTraining": {
+    "pattern": "education/advanced-training-and-certifications/*.md",
+    "sortBy": "title",
+    "metadata": {
+      "name": "Advanced Training and Certifications"
+    }
+  },
+  "educationGIBill": {
+    "pattern": "education/gi-bill/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "GI Bill"
+    }
+  },
+  "educationGIBillSurvivors": {
+    "pattern": "education/gi-bill/survivors-dependent-assistance/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Survivors and Dependents"
+    }
+  },
+  "educationNonTraditional": {
+    "pattern": "education/work-learn/non-traditional/*.md",
+    "sortBy": "title",
+    "metadata": {
+      "name": "Non-Traditional Options"
+    }
+  },
+  "educationOtherPrograms": {
+    "pattern": "education/other-educational-assistance-programs/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Other Educational Assistance Programs"
+    }
+  },
+  "educationToolsPrograms": {
+    "pattern": "education/tools-programs/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Career Counseling"
+    }
+  },
+  "educationWorkLearn": {
+    "pattern": "education/work-learn/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Work and Learn"
+    }
+  },
+  "healthCare": {
+    "sortBy": "order",
+    "metadata": {
+      "name": "Health Care"
+    }
+  },
+  "healthCareCoverage": {
+    "pattern": "health-care/about-va-health-care/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "VA Health Care Coverage"
+    }
+  },
+  "healthCareCoverageFamily": {
+    "pattern": "health-care/family-caregiver-health-benefits/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Family and Caregiver Health Benefits"
+    }
+  },
+  "healthCareCoverageVision": {
+    "pattern": "health-care/about-va-health-care/vision-care/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Vision Care"
+    }
+  },
+  "healthCareConditions": {
+    "pattern": "health-care/health-conditions/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Health Needs and Conditions"
+    }
+  },
+  "healthCareMentalHealth": {
+    "pattern": "health-care/health-conditions/mental-health/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Mental Health"
+    }
+  },
+  "healthCareServiceRelated": {
+    "pattern": "health-care/health-conditions/conditions-related-to-service-era/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Concerns Related to Service Era"
+    }
+  },
+  "housing": {
+    "pattern": "housing-assistance/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Housing Assistance"
+    }
+  },
+  "housingHomeLoans": {
+    "pattern": "housing-assistance/home-loans/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Home Loans"
+    }
+  },
+  "housingVALoans": {
+    "pattern": "housing-assistance/home-loans/loan-options/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Loan Options"
+    }
+  },
+  "lifeInsurance": {
+    "pattern": "life-insurance/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Life Insurance"
+    }
+  },
+  "lifeInsuranceOptions": {
+    "pattern": "life-insurance/options-and-eligibility/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Options"
+    }
+  },
+  "pension": {
+    "pattern": "pension/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Pension Benefits"
+    }
+  },
+  "pensionEligibility": {
+    "pattern": "pension/eligibility/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Eligibility"
+    }
+  },
+  "pensionSurvivors": {
+    "pattern": "pension/survivors-pension/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Survivors Pension"
+    }
+  },
+  "pensionApplication": {
+    "pattern": "pension/apply/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "How to Apply"
+    }
+  },
+  "vre": {
+    "pattern": "employment/vocational-rehab-and-employment/*md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Vocational Rehab &amp; Employment"
+    }
+  },
+  "vreServiceDisabled": {
+    "pattern": "employment/vocational-rehab-and-employment/service-disabled/*md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Servicemember & Veteran Programs"
+    }
+  }
+}

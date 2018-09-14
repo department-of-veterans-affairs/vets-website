@@ -42,7 +42,7 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 - Your service-connected disability makes it hard for you to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests)
 
 **Note:** You may be eligible for both VR&E training and GI Bill benefits. You'll need to decide which benefit you want to use. <br>
-[Learn more about the GI Bill](/education/gi-bill/).
+[Learn more about the GI Bill](/education/about-gi-bill-benefits/).
 
 </div>
 
@@ -103,7 +103,7 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 [Find out how to apply if you haven’t yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
 **Note:** VR&amp;E is an employment program that's different from the GI Bill and may be used to pay for education needed to train you for suitable employment. <br>
-[Learn more about the GI Bill](/education/gi-bill/).
+[Learn more about the GI Bill](/education/about-gi-bill-benefits/).
 
 <br>
 

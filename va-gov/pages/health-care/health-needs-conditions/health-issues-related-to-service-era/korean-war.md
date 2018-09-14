@@ -6,6 +6,8 @@ display_title: Korean War
 concurrence: complete
 lastupdate: 2017-06-28
 order: 6
+aliases:
+  - /health-care/health-conditions/conditions-related-to-service-era/korean-war/
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -51,7 +53,7 @@ Talk to your primary health care provider or your local VA environmental health 
 
 <li class="process-step list-two">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [Learn more about disability benefits](/disability-benefits/).
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [Learn more about disability benefits](/disability/).
 
 </li>
 </ol>
