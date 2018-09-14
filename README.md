@@ -162,7 +162,7 @@ the site to have app-specific css.
 ### Watch mode
 File watching and incremental building is important for developer efficiency, but it's
 more complicated because, to be fast, each tool needs to keep its state between runs.
-This is actually the driving reason NOT to use grunt or gulp because, fundametnally,
+This is actually the driving reason NOT to use grunt or gulp because, fundamentally,
 both those task runners would expect to restart either metalsmith or webpack on
 file changes.
 
