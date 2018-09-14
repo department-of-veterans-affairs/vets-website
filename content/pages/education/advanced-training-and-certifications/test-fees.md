@@ -29,7 +29,7 @@ You can get paid back for testing related to these kinds of jobs:
 - Attorney
 - Therapist
 - Website developer
-- Computer network engineer
+- Computer network engineer<br>
 
 We’ll pay you back:
 
@@ -51,7 +51,7 @@ If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may p
 
 - The cost to register
 - The cost of specialized tests
-- Administrative fees 
+- Administrative fees <br>
 
 **We have approved and will pay you back for these tests:**
 - SAT (formerly “Scholastic Assessment Test”)
@@ -90,12 +90,6 @@ If you’re a Veteran and you qualify for the GI Bill, we may pay you back for t
 </button>
 <div id="bdd-program" class="usa-accordion-content">
 
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program"> For licensing and certification: <br>
-</button>
-<div id="bdd-program" class="usa-accordion-content">
 First, fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). 
 [Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
 
@@ -114,7 +108,7 @@ Upload your completed application to the GI Bill website.
 </button>
 <div id="bdd-program" class="usa-accordion-content">
 We’ll charge your GI Bill benefit package for the cost of the test.
-For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for actual amount of the testing fee.
+For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for actual amount of the testing fee. <br>
 
 **Please note:**
 - You may need to provide your proof of payment.
