@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { getPhaseDescription, isClaimComplete, getClaimType } from '../../../claims-status/utils/helpers';
+import ClaimsManifest from '../../../claims-status/manifest.json';
 
 function listPhase(phase) {
   return (phase === 8) ? 'Closed' : getPhaseDescription(phase);
@@ -35,7 +36,7 @@ export default function ClaimsListItem({ claim }) {
           ? <li className="claim-list-item-text"><i className="fa fa-exclamation-triangle claim-list-item-icon"></i>Items need attention</li>
           : null}
       </ul>
-      <Link className="usa-button usa-button-primary" href={`/track-claims/your-claims/${claim.id}/status`} onClick={handleViewClaim}>View claim <i className="fa fa-chevron-right"/></Link>
+      <Link className="usa-button usa-button-primary" href={`${ClaimsManifest.rootUrl}/your-claims/${claim.id}/status`} onClick={handleViewClaim}>View claim <i className="fa fa-chevron-right"/></Link>
     </div>
   );
 }

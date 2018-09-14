@@ -1,5 +1,10 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
+const One990EManifest = require('../1990e/manifest.json');
+const One990NManifest = require('../1990n/manifest.json');
+const One995Manifest = require('../1995/manifest.json');
+const Five490Manifest = require('../5490/manifest.json');
+const Five495Manifest = require('../5495/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -26,7 +31,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990N');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains(One990NManifest.rootUrl);
 
     client
       .expect.element('.usa-alert-warning').to.be.present;
@@ -48,7 +53,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5490');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains(Five490Manifest.rootUrl);
 
     // Select non-dependent
     client
@@ -64,7 +69,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990E');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains(One990EManifest.rootUrl);
 
     // Select non-transfer
     client
@@ -75,7 +80,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('.usa-alert-warning').to.be.present;
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990E');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains(One990EManifest.rootUrl);
 
     // Update an existing application
     client
@@ -94,7 +99,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('.usa-alert-warning').not.to.be.present;
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5495');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains(Five495Manifest.rootUrl);
 
     // Select non-dependent
     client
@@ -102,13 +107,13 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1995');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains(One995Manifest.rootUrl);
 
     // Navigate to application
     client
       .click('#apply-now-link')
       .pause(1000)
-      .assert.urlContains('/education/apply-for-education-benefits/application/1995/introduction');
+      .assert.urlContains(`${One995Manifest.rootUrl}/introduction`);
 
     client
       .end();

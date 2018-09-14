@@ -6,6 +6,7 @@ import moment from 'moment';
 import { focusElement } from '../../../platform/utilities/ui';
 
 import VeteranIDCard from '../components/VeteranIDCard';
+import DischargeWizardManifest from '../../discharge-wizard/manifest.json';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -67,7 +68,7 @@ class ConfirmationPage extends React.Component {
           <p>We’ll review your application to verify your eligibility. If you’re eligible for a Veteran ID Card, you should receive your card by mail in about 60 days.<br/>
             We’ll send you emails updating you on the status of your application. You can also print this page for your records.</p>
           <p>To be eligible for a Veteran ID Card, you must have separated under honorable conditions. If you have an other than honorable discharge, you can apply for an upgrade or correction.<br/>
-            <a href="/discharge-upgrade-instructions" target="_blank">Find out how to apply for a discharge upgrade</a>.</p>
+            <a href={DischargeWizardManifest.rootUrl} target="_blank">Find out how to apply for a discharge upgrade</a>.</p>
           <p>You can use any of these forms of ID to get the same business and restaurant discounts while you wait for your card:</p>
           <ul>
             <li>A Veteran Health Identification Card (VHIC)</li>

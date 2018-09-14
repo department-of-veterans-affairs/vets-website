@@ -3,6 +3,7 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./686-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const Six86Manifest = require('../manifest.json');
 
 const runTest = E2eHelpers.createE2eTest(
   (client) => {
@@ -11,7 +12,7 @@ const runTest = E2eHelpers.createE2eTest(
     if (process.env.BUILDTYPE !== 'production') {
       // Ensure introduction page renders.
       client
-        .url(`${E2eHelpers.baseUrl}/disability-benefits/apply/dependents/form-686c-dependents`)
+        .url(`${E2eHelpers.baseUrl}${Six86Manifest.rootUrl}`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Declaration of status of dependents: Vets.gov')
         .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.

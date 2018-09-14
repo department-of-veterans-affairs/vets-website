@@ -3,6 +3,7 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const EduHelpers = require('../1990/edu-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const One990NManifest = require('../../1990n/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -10,7 +11,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Introduction page renders
     client
-      .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990N`)
+      .url(`${E2eHelpers.baseUrl}${One990NManifest.rootUrl}`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
       .waitForElementVisible('.usa-button-primary', Timeouts.slow)

@@ -1,10 +1,11 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
+const DischargeWizardManifest = require('../manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     client
-      .url(`${E2eHelpers.baseUrl}/discharge-upgrade-instructions/`);
+      .url(`${E2eHelpers.baseUrl}${DischargeWizardManifest.rootUrl}/`);
 
     E2eHelpers.overrideSmoothScrolling(client);
 

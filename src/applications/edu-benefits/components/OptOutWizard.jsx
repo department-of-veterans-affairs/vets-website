@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
+import Zero993Manifest from '../0993/manifest.json';
 
 export default class OptOutWizard extends React.Component {
   constructor(props) {
@@ -41,7 +42,7 @@ export default class OptOutWizard extends React.Component {
           <p><strong>Please note:</strong> If you opt out and then change your mind, you’ll need to call the Education Call Center at <a className="help-phone-number-link" href="tel:+1-888-442-4551">1-888-442-4551</a> to opt back in.</p>
           <div>
             <a
-              href="/education/opt-out-information-sharing/opt-out-form-0993"
+              href={Zero993Manifest.rootUrl}
               className="usa-button-primary">
               Yes, I Want to Opt Out
             </a>

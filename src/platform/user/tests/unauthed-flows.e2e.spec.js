@@ -1,6 +1,7 @@
 const Auth = require('../../testing/e2e/auth');
 const E2eHelpers = require('../../testing/e2e/helpers');
 const Timeouts = require('../../testing/e2e/timeouts');
+const ClaimsManifest = require('../../../applications/claims-status/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -11,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(
       '/health-care/secure-messaging',
       '/health-care/refill-track-prescriptions',
       'download-va-letters/letters',
-      '/track-claims',
+      ClaimsManifest.rootUrl,
     ];
 
     // Test clicking login required links

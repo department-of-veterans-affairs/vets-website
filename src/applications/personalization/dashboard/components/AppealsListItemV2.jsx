@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getStatusContents } from '../../../claims-status/utils/appeals-v2-helpers';
+import ClaimsManifest from '../../../claims-status/manifest.json';
 
 
 // TODO: Get a proper mapping of programArea -> display output
@@ -38,7 +39,7 @@ export default function AppealListItem({ appeal, name }) {
         <p><strong>Status</strong>: {getStatusContents(status.type, status.details, name).title}</p>
       </div>
       <p>
-        <Link className="usa-button usa-button-primary" href={`/track-claims/appeals/${appeal.id}/status`}>View appeal<i className="fa fa-chevron-right"/></Link>
+        <Link className="usa-button usa-button-primary" href={`${ClaimsManifest.rootUrl}/appeals/${appeal.id}/status`}>View appeal<i className="fa fa-chevron-right"/></Link>
       </p>
     </div>
   );
