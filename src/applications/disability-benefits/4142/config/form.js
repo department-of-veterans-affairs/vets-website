@@ -16,6 +16,11 @@ import environment from '../../../../platform/utilities/environment';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+// import {
+//   uiSchema as facilityAddressUiSchema,
+//   schema as facilityAddressSchema
+// } from '../pages/facilityAddress';
+
 // const { } = fullSchema4142.properties;
 
 const {
@@ -224,7 +229,7 @@ const formConfig = {
                           type: 'string'
                         },
                         country: {
-                          type: 'string'
+                          type: 'string',
                         },
                         state: {
                           type: 'string'
