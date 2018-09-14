@@ -2,7 +2,15 @@
 
 /* OVERRIDE */
 .merger {
+  .vet-toolbar {
+    .sign-in-nav {
+      margin-left: 6px;
+    }
+  }
 
+  #va-header-logo-menu {
+    align-items: center;
+  }
   $color-primary-lightest: #e1f3f8;
 
   @import 'iconography';
@@ -70,19 +78,10 @@
         width: 200%;
       }
     }
-
     //TODO: add this to formation
-    .column-one {
       .mm-links {
         padding: 5px 0px;
       }
-    }
-
-    .column-two {
-      .mm-links {
-        padding: 5px 0px;
-      }
-    }
   }
 
   #menu-rule {
@@ -129,8 +128,10 @@
   }
 
   // we'll need to rewrite this at some point once we have business rules
+  // TODO: this leaves a background space since the box is too wide
   [href^="http"], [rel="external"] {
     background-image: none;
+    padding-right: 0px;
   }
 
   #homepage-hub {
@@ -480,9 +481,9 @@
         top: -50px;
       }
     }
-
     #menu-rule {
       border-bottom: 0;
+      padding-bottom: 0px;
     }
 
     #vetnav-controls {
@@ -503,13 +504,16 @@
 
     .usa-banner {
       padding-left: .5em;
+      .usa-banner-content {
+        padding-bottom: 2.3rem;
+        padding-top: 4rem;
+      }
     }
 
     .va-header-logo-wrapper {
       width: 55%;
       float: left;
       margin-right: 10px;
-      margin-bottom: 1em;
 
       a {
         width: 100%;
@@ -523,7 +527,6 @@
     }
 
     .vet-toolbar {
-      margin-bottom: .5em;
       margin-left: -10px;
 
       .sign-in-nav {
@@ -536,6 +539,7 @@
           padding-left: .75em;
 
           .va-button-link {
+            font-weight: 600;
             -webkit-font-smoothing: antialiased;
           }
         }
@@ -546,7 +550,7 @@
         width: auto;
 
         .va-dropdown-trigger {
-          font-weight: normal;
+          font-weight: 600;
           padding-left: 0;
           margin-right: 1.75em;
           background-position: right 1.5rem center;
@@ -644,7 +648,6 @@
     }
 
     #footerNav {
-
       #footer-first-child {
         padding-top: .25em;
       }
@@ -652,6 +655,9 @@
       .va-footer-linkgroup {
         margin-top: 0;
         margin-bottom: .25em;
+        li {
+          margin-bottom: 6px;
+        }
 
         .usa-accordion-content {
           background-color: transparent;
@@ -659,16 +665,26 @@
           .va-footer-links {
             li {
               margin-bottom: 0.5em;
+              a {
+                text-decoration: none;
+              }
             }
           }
         }
       }
 
+      // mobile footer stuff
       .va-footer-linkgroup-title {
+        font-weight: 400;
 
         button {
-          padding: 0.5em;
-          font-size: 1em;
+          border-top: 3px solid transparent;
+          color: #fff;
+          cursor: pointer;
+          display: block;
+          margin: 0;
+          padding: 1.6rem 0.8rem;
+          font-size: 1.6rem;
           font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
           color: $color-white;
         }
@@ -703,13 +719,12 @@
 
   // tablet
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
-
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
 
     .vet-toolbar {
-      flex: 0 1 35.5rem;
+      flex: 0 1 30.5rem;
       padding-left: 2em;
 
       .profile-nav {
@@ -786,7 +801,7 @@
         width: 85%;
         .usa-grid {
           .usa-width-one-half {
-            min-height: 276px;
+            min-height: 300px;
           }
         }
       }
@@ -794,14 +809,15 @@
   }
 
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: landscape){
-
+    #va-header-logo-menu {
+      align-items: center;
+    }
     .vet-toolbar {
       flex: 0 1 25.5rem;
     }
-
     #hub-internal {
       .usa-width-one-half {
-        min-height: 285px;
+        min-height: 300px;
         padding-right: 1em;
       }
     }
@@ -874,7 +890,7 @@
     }
   }
 
-  .va-l-detail-page {
+  .usa-sidenav-list {
     a {
       padding-right: 0;
 
@@ -888,6 +904,8 @@
   .va-sidebarnav {
     h4 {
       vertical-align: middle;
+      margin-top: 0;
+      margin-bottom: 0;
     }
 
     .usa-sidenav-list > li {
@@ -939,14 +957,6 @@
 
     .usa-sidenav-list {
       & > li {
-        &:last-child {
-          border-bottom: 1px solid $color-gray-lighter;
-        }
-
-        &:first-child {
-          border-top: 1px solid $color-gray-lighter;
-        }
-
         .active-menu {
           border-bottom: none;
         }
@@ -994,7 +1004,6 @@
         }
       }
     }
-
     .fa {
       position: relative;
       color: $color-white;
@@ -1013,6 +1022,15 @@
           margin-left: 8.47px;
         }
       }
+      &.fa-handshake {
+        &.icon-small {
+          &::before {
+          margin-top: 7.5px;
+          margin-left: 7px;
+
+          }
+        }
+      }
 
       &.fa-medkit {
         background-color: $color-primary;
@@ -1026,10 +1044,52 @@
       }
     }
   }
+  button.va-modal-close > i.fa.fa-close{
+        color: $color-black;
+  }
+
+  .usa-accordion-button {
+    background-color: white;
+    border-top: 1px solid $color-gray-lighter;
+    border-bottom: 1px solid $color-gray-lighter;
+    background-size: 1.1rem;
+  }
+  .usa-accordion-button-dark {
+    background-color: $color-gray-lightest;
+  }
+
+
+  .usa-accordion {
+    & > li {
+      margin-bottom: -1px;
+    }
+  }
+
+  .va-sign-in-alert {
+    .usa-button-primary {
+      margin-top: 10px;
+    }
+  }
+
+  .va-modal-close {
+    .fa {
+      color: inherit;
+    }
+  }
+
+  .hub-links-container {
+    min-height: 250px;
+  }
+}
+.usa-accordion-bordered {
+  h4 {
+    font-family: Source Sans Pro, sans serif;
+  }
+  .fa {
+    color: $color-link-default;
+  }
 }
 
-.va-sign-in-alert {
-  .usa-button-primary {
-    margin-top: 10px;
-  }
+[class^="vetnav-controller"] {
+  position: relative !important;
 }

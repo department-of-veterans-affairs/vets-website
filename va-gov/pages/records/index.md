@@ -13,7 +13,7 @@ promo:
     url: "#"
     description: Apply for your Veteran ID Card to get Veteran discounts on goods and services.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: All VA Organizations
     url: https://va.gov/landing_organizations.htm
     subsections:
@@ -89,7 +89,7 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your VA Payment History</b></a>
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
     <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
   </div>
 

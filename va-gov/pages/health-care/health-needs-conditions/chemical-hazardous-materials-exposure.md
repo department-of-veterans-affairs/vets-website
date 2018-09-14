@@ -5,7 +5,9 @@ title: Chemical or Hazardous Material Exposure
 display_title: Exposure to Hazardous Materials
 concurrence: complete
 lastupdate: 2017-06-28
-order: 5
+order: 6
+aliases:
+  - /health-care/health-conditions/exposure-to-hazardous-materials/
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -18,7 +20,7 @@ relatedlinks:
     - url: /health-care/how-to-apply/
       title: How to Apply for Health Care Benefits
       description: Ready to apply? Get started now.
-    - url: /disability-benefits/
+    - url: /disability/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
@@ -35,9 +37,9 @@ Veterans may come in contact with a range of toxic chemicals or other hazardous 
 
 Certain cancers (like prostate cancer and non-Hodgkin’s lymphoma) and other illnesses (like Type 2 Diabetes) have been linked to Agent Orange. The U.S. military used this toxic chemical to clear trees and plants during the Vietnam War era.
 <br>
-[See the list of Agent Orange-related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See the list of Agent Orange-related illnesses](/disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases/).
 <br>
-[Learn more about disability benefits for Agent Orange-related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
+[Learn more about disability benefits for Agent Orange-related illnesses](/disability/eligibility/hazardous-materials-exposure/agent-orange/).
 
 <br>
 
@@ -47,7 +49,7 @@ Illnesses with unexplained symptoms, like chronic fatigue syndrome and fibromyal
 <br>
 [Learn more about Gulf War Illness](https://www.publichealth.va.gov/exposures/gulfwar/index.asp).
 <br>
-[Learn more about disability benefits for Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
+[Learn more about disability benefits for Gulf War Illness](/disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia/).
 
 <br>
 
@@ -57,7 +59,7 @@ Some cancers and other illnesses (like certain thyroid conditions and tumors of 
 <br>
 [Learn more about illnesses linked to radiation exposure](https://www.publichealth.va.gov/exposures/radiation/diseases.asp).
 <br>
-[Learn more about disability benefits for illnesses caused by radiation exposure](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/).
+[Learn more about disability benefits for illnesses caused by radiation exposure](/disability/eligibility/hazardous-materials-exposure/ionizing-radiation/).
 
 <br>
 
@@ -67,7 +69,7 @@ Shrapnel and other metals (some containing chemicals) can stay in your body afte
 <br>
 [Learn more about toxic embedded fragments](https://www.publichealth.va.gov/exposures/toxic_fragments/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -77,7 +79,7 @@ Explosions can cause concussions and traumatic brain injury (TBI), an injury to 
 <br>
 [Learn more about TBI](https://www.publichealth.va.gov/exposures/traumatic-brain-injury.asp).
 <br>
-[Learn more about disability benefits for conditions like TBI](/disability-benefits/conditions/).
+[Learn more about disability benefits for conditions like TBI](/disability/eligibility/).
 
 <br>
 
@@ -87,7 +89,7 @@ Health problems, like skin cancer in frostbite scars or pain, tingling, or numbn
 <br>
 [Learn more about cold injuries](https://www.publichealth.va.gov/exposures/cold-injuries/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -97,7 +99,7 @@ Certain birth defects in the biological children of Veterans have been linked to
 <br>
 [Learn more about these birth defects](https://www.publichealth.va.gov/exposures/agentorange/birth-defects/index.asp).
 <br>
-[Learn more about disability benefits for spina bifida](/disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/).
+[Learn more about disability benefits for spina bifida](/disability/eligibility/special-claims/birth-defects/).
 
 <br>
 
@@ -107,13 +109,13 @@ There are 9 infections related to Southwest Asia and Afghanistan military servic
 <br>
 [Learn more about these infectious diseases](https://www.publichealth.va.gov/exposures/infectious-diseases/index.asp).
 <br>
-[Learn more about disability benefits for Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
+[Learn more about disability benefits for Gulf War Illness](/disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia/).
 
 Vietnam-era Veterans are at risk for Hepatitis C, an infectious disease that can harm your liver. Talk to your provider about getting tested.
 <br>
 [Learn more about Hepatitis C](https://www.hepatitis.va.gov/patient/hcv/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -123,7 +125,7 @@ Some vaccines and medicines used during service may have side effects.
 <br>
 [Learn more about these vaccines and medicines](https://www.publichealth.va.gov/exposures/vaccinations-medications.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -133,7 +135,7 @@ Rabies is a serious disease that’s transmitted through the bite or saliva of a
 <br>
 [Learn more about rabies](https://www.publichealth.va.gov/exposures/rabies/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -143,7 +145,7 @@ Health problems, like heat stroke, heat exhaustion, and sunburn, can be caused b
 <br>
 [Learn more about heat injuries](https://www.publichealth.va.gov/exposures/heat-injuries/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -153,7 +155,7 @@ Chemicals, paints, radiation, and other hazards you may have come in contact wit
 <br>
 [Learn more about these occupational hazards](https://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp).
 <br>
-[Learn about disability benefits for conditions linked to contact with asbestos and other hazards](/disability-benefits/conditions/exposure-to-hazardous-materials/).
+[Learn about disability benefits for conditions linked to contact with asbestos and other hazards](/disability/eligibility/hazardous-materials-exposure/).
 
 <br>
 

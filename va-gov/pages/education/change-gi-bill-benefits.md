@@ -3,26 +3,10 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Change Your GI Bill School or Program
 display title: Change GI Bill School or Program
-concurrence: 
-plainlanguage: 
+children: educationChangeGIBillBenefits
 collection: education
-children: 
-order: 
-majorlinks:
-  - heading:
-    links:
-    - url: 
-      title: 
-      description: 
-    - url: 
-      title: 
-      description: 
-    - url: 
-      title: 
-      description: 
-    - url: 
-      title: 
-      description: 
+order: 11
+spoke: Manage Benefits
 ---
 
 <div class="va-introtext">
@@ -94,3 +78,4 @@ Or work with your school’s certifying official. This person is usually in the 
 <h3>With the help of a trained professional</h3>
 You can work with a trained professional called an accredited representative to get help requesting a change to your benefits.<br> 
 [Get help submitting your request](/disability-benefits/apply/help/index.html).
+

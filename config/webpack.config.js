@@ -34,8 +34,8 @@ const configGenerator = (options, apps) => {
     output: {
       path: `${options.destination}/generated`,
       publicPath: '/generated/',
-      filename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
+      filename: (['development', 'vagovdev'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
+      chunkFilename: (['development', 'vagovdev'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
     },
     module: {
       rules: [
@@ -169,13 +169,13 @@ const configGenerator = (options, apps) => {
       }),
 
       new ExtractTextPlugin({
-        filename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
+        filename: (['development', 'vagovdev'].includes(options.buildtype)) ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
   };
 
-  if (['production', 'staging', 'preview'].includes(options.buildtype)) {
+  if (['production', 'staging', 'preview', 'vagovstaging'].includes(options.buildtype)) {
     let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
     if (options.buildtype === 'production') {
       sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';

@@ -2,11 +2,13 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Vietnam War Veterans Health Issues
-display_title: 
+display_title: Vietnam War
 description: Learn what health conditions you might be at risk of developing if you’re a Vietnam War Veteran.
 concurrence: complete
 lastupdate: 2017-06-28
 order: 5
+aliases:
+  - /health-care/health-conditions/conditions-related-to-service-era/vietnam-war/
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -33,7 +35,7 @@ If you served during the Vietnam War—anytime between November 1, 1965, and Apr
 
 You may be at risk of:
 
-- **[Diseases related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/):** A toxic chemical used to clear trees and plants during the war that can cause long-term health effects
+- **[Diseases related to Agent Orange](/disability/eligibility/hazardous-materials-exposure/agent-orange/):** A toxic chemical used to clear trees and plants during the war that can cause long-term health effects
 - **[Hepatitis C](http://www.hepatitis.va.gov/patient/hcv/index.asp):** An infectious disease that can harm your liver
 - **[Hearing problems caused by noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
 - **[Illnesses or injuries caused by occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
@@ -53,17 +55,17 @@ Talk to your primary health care provider or your local VA environmental health 
 
 <li class="process-step list-two">
 
-Ask your local VA environmental health coordinator about getting a free Agent Orange Registry health exam. [Learn more about the exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
+Ask your local VA environmental health coordinator about getting a free Agent Orange Registry health exam. [Learn more about the exam](/disability/eligibility/hazardous-materials-exposure/agent-orange/registry-health-exam/).
 
 </li>
 
 <li class="process-step list-three">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. 
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service.
 <br>
-[See if you qualify for disability benefits due to conditions related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
+[See if you qualify for disability benefits due to conditions related to Agent Orange](/disability/eligibility/hazardous-materials-exposure/agent-orange/).
 <br>
-[See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/).
+[See if you qualify for disability benefits due to contact with hazardous materials](/disability/eligibility/hazardous-materials-exposure/).
 
 </li>
 </ol>
