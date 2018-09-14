@@ -58,7 +58,7 @@ In the event of your death, the person planning your burial can also request oth
 - [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-and-memorials/honor/headstones-markers-medallions/)
 
 [Learn about the burial planning process](/burials-and-memorials/burial-planning/). <br />
-[Learn about memorials and burial honors](/burials-and-memorials/honor/).
+[Learn about memorials and burial honors](/burials-and-memorials/honor/). <br>
 [See our National Cemetery Administration brochure](https://www.cem.va.gov/cem/docs/factsheets/NCA_Brochure.pdf).
 
 <br>
