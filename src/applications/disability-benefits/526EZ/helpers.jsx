@@ -399,6 +399,44 @@ const claimsIntakeAddress = (
 
 export const patientAcknowledgmentText = (
   <AdditionalInfo triggerText="Read the full text.">
+    <h4>PATIENT AUTHORIZATION:</h4>
+    <p>
+      I voluntarily authorize and request disclosure (including paper,
+      oral, and electronic interchange) of: All my medical records;
+      including information related to my ability to perform tasks of
+      daily living. This includes specific permission to release:
+      <ol>
+        <li>All records and other information regarding my treatment,
+          hospitalization, and outpatient care for my impairment(s)
+          including, but not limited to:
+          <ul>
+            <li>Psychological, psychiatric, or other mental impairment(s)
+              excluding "psychotherapy notes" as defined in 45 C.F.R. §164.501,</li>
+            <li>Drug abuse, alcoholism, or other substance abuse,</li>
+            <li>Sickle cell anemia,</li>
+            <li>Records which may indicate the presence of a communicable
+              or non-communicable disease; and tests for or records of HIV/AIDS,</li>
+            <li>Gene-related impairments (including genetic test results)</li>
+          </ul>
+        </li>
+        <li>Information about how my impairment(s) affects my ability to
+          complete tasks and activities of daily living, and affects my ability to work.</li>
+        <li>Information created within 12 months after the date this authorization
+          is signed in Item 11, as well as past information.</li>
+      </ol>
+    </p>
+    <p>
+      YOU SHOULD NOT COMPLETE THIS FORM UNLESS YOU WANT THE VA TO
+      OBTAIN PRIVATE TREATMENT RECORDS ON YOUR BEHALF. IF YOU HAVE
+      ALREADY PROVIDED THESE RECORDS OR INTEND TO OBTAIN THEM YOURSELF,
+      THERE IS NO NEED TO FILL OUT THIS FORM. DOING SO WILL LENGTHEN
+      YOUR CLAIM PROCESSING TIME.
+    </p>
+    <h4>IMPORTANT:</h4>
+    <p>
+      In accordance with 38 C.F.R. §3.159(c), "VA will not pay any fees
+      charged by a custodian to provide records requested."
+    </p>
     <h4>PATIENT ACKNOWLEDGMENT:</h4>
     <p>
       I HEREBY AUTHORIZE the sources listed in Section IV, to release
@@ -435,7 +473,7 @@ export const patientAcknowledgmentText = (
     </p>
     <p>
       NOTE: For additional information regarding VA Form 21-4142, refer to
-      the following website: <a href="https://www.benefits.va.gov/privateproviders/">https://www.benefits.va.gov/privateproviders/</a>.
+      the following website: <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">https://www.benefits.va.gov/privateproviders/</a>.
     </p>
   </AdditionalInfo>
 );
