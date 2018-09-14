@@ -397,7 +397,7 @@ const claimsIntakeAddress = (
   </p>
 );
 
-export const patientAcknowledgementText = (
+export const patientAcknowledgmentText = (
   <AdditionalInfo triggerText="Read the full text.">
     <h4>PATIENT ACKNOWLEDGMENT:</h4>
     <p>

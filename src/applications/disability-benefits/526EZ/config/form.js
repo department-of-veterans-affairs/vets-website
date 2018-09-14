@@ -60,7 +60,7 @@ import {
   veteranInfoDescription,
   editNote,
   validateBooleanIfEvidence,
-  patientAcknowledgementText,
+  patientAcknowledgmentText,
 } from '../helpers';
 
 import {
@@ -560,15 +560,15 @@ const formConfig = {
                     }
                   }
                 },
-                'view:patientAcknowledgement': {
-                  'ui:title': 'Patient Acknowledgement',
-                  'ui:description': patientAcknowledgementText,
+                'view:patientAcknowledgment': {
+                  'ui:title': 'Patient Acknowledgment',
+                  'ui:description': patientAcknowledgmentText,
                   'ui:options': {
                     expandUnder: 'view:uploadPrivateRecords',
                     expandUnderCondition: 'no',
                   },
-                  'view:acknowledgement': {
-                    'ui:title': 'Patient Acknowledgement',
+                  'view:acknowledgment': {
+                    'ui:title': 'Patient Acknowledgment',
                     'ui:required': ({ disabilities }, index) => (_.get(disabilities, `disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, '')),
                   },
                 },
@@ -591,10 +591,10 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no']
                     },
-                    'view:patientAcknowledgement': {
+                    'view:patientAcknowledgment': {
                       type: 'object',
                       properties: {
-                        'view:acknowledgement': {
+                        'view:acknowledgment': {
                           type: 'boolean',
                           default: true
                         }
