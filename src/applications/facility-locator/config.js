@@ -1,8 +1,9 @@
 import environment from '../../platform/utilities/environment';
+import FacilityLocatorManifest from '../facility-locator/manifest.json';
 
 // Base URL to be used in API requests.
 export const api = {
-  url: `${environment.API_URL}/v0/facilities/va`,
+  url: `${environment.API_URL}/v0${FacilityLocatorManifest.rootUrl}/va`,
   settings: {
     headers: {
       'X-Key-Inflection': 'camel',

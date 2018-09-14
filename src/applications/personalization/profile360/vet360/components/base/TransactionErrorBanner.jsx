@@ -1,5 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import FacilityLocatorManifest from '../../../../../facility-locator/manifest.json';
 
 import {
   hasGenericUpdateError,
@@ -28,7 +29,7 @@ export function MVILookupFailError(props) {
         <div>
           <h4>We’re having trouble matching your information to our Veteran records</h4>
           <p>We’re sorry. We’re having trouble matching your information to our Veteran records, so we can’t give you access to tools for managing your health and benefits.</p>
-          <a href="/facilities/">Find your nearest VA medical center</a>
+          <a href={FacilityLocatorManifest.rootUrl}>Find your nearest VA medical center</a>
         </div>
       )}/>
   );

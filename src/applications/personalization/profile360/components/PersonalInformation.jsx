@@ -7,6 +7,7 @@ import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
+import FacilityLocatorManifest from '../../../facility-locator/manifest.json';
 
 function Gender({ gender }) {
   let content = 'This information is not available right now.';
@@ -57,11 +58,11 @@ class PersonalInformationContent extends React.Component {
           onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'update-personal-information' }); }}>
           <p><strong>If you're enrolled in the VA health care program</strong>
             <br/>Please contact your nearest VA medical center to update your personal information.<br/>
-            <a href="/facilities/?facilityType=health">Find your nearest VA medical center</a>
+            <a href={`${FacilityLocatorManifest.rootUrl}/?facilityType=health`}>Find your nearest VA medical center</a>
           </p>
           <p><strong>If you receive VA benefits, but aren't enrolled in VA health care</strong>
             <br/>Please contact your nearest VA regional benefit office to update your personal information.<br/>
-            <a href="/facilities/?facilityType=benefits">Find your nearest VA regional benefit office</a>
+            <a href={`${FacilityLocatorManifest.rootUrl}/?facilityType=benefits`}>Find your nearest VA regional benefit office</a>
           </p>
         </AdditionalInfo>
         <LoadingSection

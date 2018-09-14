@@ -17,6 +17,7 @@ import ResultsList from '../components/ResultsList';
 import SearchControls from '../components/SearchControls';
 import MobileSearchResult from '../components/MobileSearchResult';
 import { facilityTypes } from '../config';
+import FaciltyLocatorManifest from '../manifest.json';
 
 class VAMap extends Component {
   static contextTypes = {
@@ -161,7 +162,7 @@ class VAMap extends Component {
       return null;
     })).join('&');
 
-    browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
+    browserHistory.push(`${FaciltyLocatorManifest.rootUrl}${location.pathname}?${queryParams}`);
   }
 
   // takes obj of form {latitude: 0, longitude: 0}

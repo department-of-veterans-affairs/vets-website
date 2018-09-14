@@ -18,6 +18,7 @@ import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
+import FacilityLocatorManifest from '../../facility-locator/manifest.json';
 
 import {
   USA,
@@ -828,7 +829,7 @@ export function queryForFacilities(input = '') {
     return Promise.resolve([]);
   }
 
-  const url = appendQuery('/facilities/suggested', {
+  const url = appendQuery(`${FacilityLocatorManifest.rootUrl}/suggested`, {
     type: ['health', 'dod_health'],
     name_part: input // eslint-disable-line camelcase
   });

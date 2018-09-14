@@ -6,6 +6,7 @@ import { focusElement } from '../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import FacilityLocatorManifest from '../../facility-locator/manifest.json';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -55,7 +56,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete an Application for Burial Benefits (VA Form 21P-530).<br/><a href="https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf">Download VA Form 21P-530</a>.</p>
-              <p>Mail the application and other paperwork to your local regional benefit office.<br/><a href="/facilities">Find your local regional benefit office</a>.</p>
+              <p>Mail the application and other paperwork to your local regional benefit office.<br/><a href={FacilityLocatorManifest.rootUrl}>Find your local regional benefit office</a>.</p>
               <div>
                 <p>Complete this burial benefits form.</p>
                 <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>

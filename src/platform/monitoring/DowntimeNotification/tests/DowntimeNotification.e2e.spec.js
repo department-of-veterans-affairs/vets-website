@@ -4,6 +4,7 @@ const Timeouts = require('../../../testing/e2e/timeouts');
 
 const createMockEndpoint = require('../../../../platform/testing/e2e/mock-helpers');
 const FacilityHelpers = require('../../../../applications/facility-locator/tests/facility-helpers');
+const FacilityLocatorManifest =  require('../../../../applications/facility-locator/manifest.json');
 
 const token = null;
 const beforeNow = moment().subtract(1, 'minute').toISOString();
@@ -88,7 +89,7 @@ function cleanUp() {
 }
 
 function begin(browser) {
-  browser.url(`${E2eHelpers.baseUrl}/facilities/`);
+  browser.url(`${E2eHelpers.baseUrl}${FacilityLocatorManifest.rootUrl}/`);
   E2eHelpers.overrideSmoothScrolling(browser);
   FacilityHelpers.initApplicationMock();
 
@@ -104,4 +105,3 @@ function begin(browser) {
 }
 
 module.exports = E2eHelpers.createE2eTest(begin);
-
