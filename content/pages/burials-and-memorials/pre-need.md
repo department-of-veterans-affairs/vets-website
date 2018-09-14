@@ -41,6 +41,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 - A Veteran who didn't receive a dishonorable discharge when you separated from the military, **or**
 - The spouse or dependent child of a Servicemember or Veteran, even if the Servicemember or Veteran died first, **or**
 - In some cases, the adult dependent child of a Servicemember or Veteran (if you aren’t married)
+
 **Note:** If the discharge document is not available, you can request a copy through the National Personnel Records Center. Send your request here:
 
 <p class="va-address-block">
