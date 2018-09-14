@@ -25,14 +25,14 @@ import treatmentAddressUiSchema from '../pages/treatmentAddress';
 import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema
-} from '../pages/paymentInfo';
+} from '../../all-claims/pages/paymentInformation';
 
 import {
   uiSchema as reservesNationalGuardUISchema,
   schema as reservesNationalGuardSchema
 } from '../pages/reservesNationalGuardService';
 
-import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItemsWidget';
 
 import {
   transform,
@@ -52,7 +52,6 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
-  disabilityOption,
   GetFormHelp,
   FDCDescription,
   FDCWarning,
@@ -61,12 +60,17 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  disabilitiesClarification
+  validateBooleanIfEvidence
 } from '../helpers';
 
 import {
   hasGuardOrReservePeriod
 } from '../../all-claims/utils';
+
+import {
+  disabilityOption,
+  disabilitiesClarification
+} from '../../all-claims/content/ratedDisabilities';
 
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -142,7 +146,6 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
-          description: 'This is the personal information we have on file for you.',
           path: 'veteran-information',
           uiSchema: {
             'ui:description': veteranInfoDescription
@@ -155,7 +158,6 @@ const formConfig = {
         primaryAddress: {
           title: 'Address information',
           path: 'veteran-details/address-information',
-          description: 'This is the contact information we have on file for you. We’ll send any important information about your disability claim to the address listed here. Any updates you make here to your contact information will only apply to this application.',
           uiSchema: primaryAddressUiSchema,
           schema: primaryAddressSchema
         },
@@ -339,13 +341,26 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
+                'view:hasEvidence': {
+                  'ui:title': 'Do you have any evidence that you would like to submit with your claim?',
+                  'ui:description': '',
+                  'ui:widget': 'yesNo',
+                },
                 'view:selectableEvidenceTypes': {
                   'ui:options': {
                     // Only way to get access to the disability info like 'name' within this nested schema
                     updateSchema: (form, schema, uiSchema, index) => ({ title: getEvidenceTypesDescription(form, index) }),
-                    showFieldLabel: true
+                    showFieldLabel: true,
+                    hideIf: (formData, index) => {
+                      return !_.get(`disabilities[${index}].view:hasEvidence`, formData, true);
+                    }
                   },
-                  'ui:validations': [validateBooleanGroup],
+                  'ui:validations': [{
+                    validator: validateBooleanIfEvidence,
+                    options: {
+                      wrappedValidator: validateBooleanGroup
+                    }
+                  }],
                   'ui:errorMessages': {
                     atLeastOne: 'Please select at least one type of supporting evidence'
                   },
@@ -357,7 +372,7 @@ const formConfig = {
                   },
                   'view:otherEvidence': {
                     'ui:title': 'Lay statements or other evidence'
-                  }
+                  },
                 },
                 'view:evidenceTypeHelp': {
                   'ui:description': evidenceTypeHelp
@@ -373,6 +388,10 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
+                    'view:hasEvidence': {
+                      type: 'boolean',
+                      'default': true
+                    },
                     'view:selectableEvidenceTypes': {
                       type: 'object',
                       properties: {
@@ -476,6 +495,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['treatments'],
                   properties: {
                     treatments
                   }
@@ -843,7 +863,7 @@ const formConfig = {
           title: 'Summary of evidence',
           path: 'supporting-evidence/:index/evidence-summary',
           showPagePerItem: true,
-          itemFilter: (item) => _.get('view:selected', item),
+          itemFilter: (item) => (_.get('view:hasEvidence', item) && _.get('view:selected', item)),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {

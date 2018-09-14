@@ -97,7 +97,6 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     const wrapper = shallow(<ConfirmationPage {...defaultProps} submissionStatus={submissionStatuses.failed}/>);
     const text = wrapper.render().text();
     expect(text).to.not.contain('Please allow 24 hours');
-    expect(text).to.contain('Confirmation number');
-    expect(text).to.contain(defaultProps.jobId);
+    expect(text).to.contain('Something went wrong');
   });
 });

@@ -14,7 +14,7 @@ const { get, omit, set } = dataUtils;
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import SchoolSelectField from '../../components/SchoolSelectField.jsx';
+import SchoolSelectField from '../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
 import {
@@ -51,10 +51,10 @@ const {
   serviceDateRange,
 } = fullSchema.properties;
 
-const { assistance, programs, school } = educationDetails;
+const { assistance, programs, school } = educationDetails.properties;
 const { address: schoolAddress, name: schoolName } = school.properties;
-const domesticSchoolAddress = schoolAddress.oneOf[0];
-const internationalSchoolAddress = schoolAddress.oneOf[1];
+const domesticSchoolAddress = schoolAddress.anyOf[0];
+const internationalSchoolAddress = schoolAddress.anyOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
 
 function configureSchoolAddressSchema(schema) {
@@ -398,6 +398,9 @@ const formConfig = {
                     },
                     street2: {
                       'ui:title': 'Address line 2'
+                    },
+                    street3: {
+                      'ui:title': 'Address line 3'
                     },
                     city: {
                       'ui:title': 'City',
