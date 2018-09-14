@@ -3,7 +3,6 @@ import conditionalStorage from '../../platform/utilities/storage/conditionalStor
 const lowerEnvironments = [
   'development',
   'staging',
-  'dev-preview',
   'preview',
   'vagovdev',
   'vagovstaging'
