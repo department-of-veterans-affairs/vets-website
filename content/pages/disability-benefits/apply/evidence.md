@@ -35,9 +35,6 @@ When you file a disability claim, we review all available evidence (supporting d
 - A current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work), **and**
 - An event, injury, or illness that happened while you were serving in the military to cause this disability
 
-**Note:** In 1973, a fire at the National Personnel Records Center (NPRC) in St. Louis destroyed records held for Veterans who were discharged from the Army and Air Force during certain periods of time. Your records may have been destroyed in the fire if you were discharged from the Army between November 1, 1912 and January 1, 1960, or if you were discharged from the Air Force between September 25, 1947 and January 1, 1964. If you think your records may have been involved in this fire, you can learn more about the fire and how to get help filing a claim. 
-<br>
-[Learn more about the fire at the NPRC](https://www.benefits.va.gov/COMPENSATION/NPRC1973Fire.asp).
 
 </div>
 
@@ -50,4 +47,6 @@ We require certain documents to support all claims for disability benefits.
 -	Your service treatment records
 -	Any medical evidence related to your illness or injury (like doctor's reports, X-rays, and medical test results)
 <br>
+**Note:** In 1973, a fire at the National Personnel Records Center (NPRC) in St. Louis destroyed records held for Veterans who were discharged from the Army and Air Force during certain periods of time. Your records may have been destroyed in the fire if you were discharged from the Army between November 1, 1912 and January 1, 1960, or if you were discharged from the Air Force between September 25, 1947 and January 1, 1964. If you think your records may have been involved in this fire, you can learn more about the fire and how to get help filing a claim. <br>
+[Learn more about the fire at the NPRC](https://www.benefits.va.gov/COMPENSATION/NPRC1973Fire.asp).
 
