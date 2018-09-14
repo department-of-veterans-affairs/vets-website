@@ -22,35 +22,35 @@
   },
   {
     "column": "1",
-    "href": "https://https://www.ptsd.va.gov",
+    "href": "https://www.ptsd.va.gov",
     "order": "4",
     "target": "",
     "title": "PTSD"
   },
   {
     "column": "1",
-    "href": "https://https://www.mentalhealth.va.gov",
+    "href": "https://www.mentalhealth.va.gov",
     "order": "5",
     "target": "",
     "title": "Mental Health"
   },
   {
     "column": "1",
-    "href": "https://https://www.va.gov/adaptivesports/",
+    "href": "https://www.va.gov/adaptivesports/",
     "order": "6",
     "target": "",
     "title": "Adaptive Sports and Special Events"
   },
   {
     "column": "1",
-    "href": "https://https://www.nrd.gov",
+    "href": "https://www.nrd.gov",
     "order": "7",
     "target": "_blank",
     "title": "National Resource Directory"
   },
   {
     "column": "2",
-    "href": "https://https://www.va.gov/vaforms/",
+    "href": "https://www.va.gov/vaforms/",
     "order": "1",
     "target": null,
     "title": "Find a VA Form"
@@ -134,7 +134,7 @@
   },
   {
     "column": "3",
-    "href": "public.govdelivery.com/accounts/USVA/subscriber/new/",
+    "href": "https://public.govdelivery.com/accounts/USVA/subscriber/new/",
     "order": "2",
     "target": "_blank",
     "title": "Email Updates"
@@ -180,20 +180,6 @@
     "order": "8",
     "target": null,
     "title": "All VA Social Media"
-  },
-  {
-    "column": "",
-    "href": "",
-    "order": "",
-    "target": "",
-    "title": "In Crisis? Get Help Now\nVeterans Crisis Line"
-  },
-  {
-    "column": "crisis",
-    "href": "Should link to the same modal as the link in the header",
-    "order": "1",
-    "target": null,
-    "title": "Veterans Crisis Line"
   },
   {
     "column": "4",
