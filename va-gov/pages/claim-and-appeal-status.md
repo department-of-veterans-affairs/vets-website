@@ -28,7 +28,7 @@ Find out how to check the status of a VA claim or appeal online.
 <b>You can use this tool to check the status of a VA claim or appeal for compensation like:</b>
 - Disability compensation (including claims based on special needs like an automobile or clothing allowance)
 - Veteran or survivor pension benefits
-- Special Monthly Compensation (such as Aid and Attendance)
+- Special monthly compensation (such as Aid and Attendance)
 - Dependency and Indemnity Compensation (DIC)
 - A burial allowance to help pay for a Veteran's burial and funeral expenses
 
@@ -39,7 +39,7 @@ Find out how to check the status of a VA claim or appeal online.
 - A home loan Certificate of Eligibility (COE)
 - A Specially Adapted Housing (SAH) or Special Housing Adaptation (SHA) grant
 - Life insurance 
-- A Certificate of Eligibility to be buried in a VA national cemetery
+- A pre-need determination of eligibility to be buried in a VA national cemetery
 
 </div>
 </div>
@@ -47,11 +47,11 @@ Find out how to check the status of a VA claim or appeal online.
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Can I use this tool?</h3>
+<h3 itemprop="name">How do I sign in to use this tool?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-To use this tool, you'll need to have one of these free accounts:
+<b>To use this tool, you'll need to sign in with one of these free accounts:</b>
 - A premium **My HealtheVet** account, **or**
 - A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
@@ -75,8 +75,8 @@ Please see the blue sign-in module above to learn more about signing in, creatin
    You'll find the link for this dashboard in the top right corner of the page once you're signed in.</li>
   <li class="process-step list-two"><b>Scroll down to the "Track Claims" section.</b><br>
   There, you'll see a summary of the latest status information for any open claims or appeals you may have.</li>
-  <li class="process-step list-three"><b>Click on the "View status" button for a specific claim to learn more about where your claim or appeal is in our review process.</b><br>
-  You'll also be able to view details about the evidence (supporting documents) for your claim./li>
+  <li class="process-step list-three"><b>Click on the "View Status" button for a specific claim.</b><br>
+   You'll go to a page with more details about that claim's status and supporting evidence. Evidence may include documents like a doctor's report or medical test results.</li>
 </ol>
 
 </div>
