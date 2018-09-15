@@ -21,24 +21,25 @@ Find out how to check the status of a VA claim or appeal online.
   </div>
 </div>
 
-<h3 itemprop="name">What types of claims can I check with this tool?</h3>
+<h3 itemprop="name">What types of claims and appeals can I track with this tool?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use this tool to check the status of any VA claim or appeal. This may include a claim or appeal for:
-- VA health care benefits
-- Disability compensation
+You can use this tool to check the status of a VA claim or appeal for compensation like:
+- Disability compensation (including claims based on special needs like an automobile or clothing allowance)
 - Veteran or survivor pension benefits
+- Special Monthly Compensation (such as Aid and Attendance)
+- Dependency and Indemnity Compensation (DIC)
+- A burial allowance to help pay for a Veteran's burial and funeral expenses
+
+You can also use this tool to check the status of a claim or appeal for other benefits like:
+- VA health care
 - GI Bill or other education benefits
-- Vocational rehabilitation and employment benefits
+- Vocational rehabilitation and employment 
 - A home loan Certificate of Eligibility (COE)
 - A Specially Adapted Housing (SAH) or Special Housing Adaptation (SHA) grant
-
-This may also include a claim or appeal for:
-- Life insurance benefits
+- Life insurance 
 - A Certificate of Eligibility to be buried in a VA national cemetery
-- A burial allowance
-- Dependency and Indemnity Compensation (DIC)
 
 </div>
 </div>
@@ -46,7 +47,7 @@ This may also include a claim or appeal for:
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Am I eligible to use this tool?</h3>
+<h3 itemprop="name">Can I use this tool?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -68,12 +69,15 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 <h3 itemprop="name">Once I'm signed in, how do I check my claim or appeal status?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-
-Go to your "My VA" dashboard. You'll find the link for this dashboard in the top right corner of the page once you're signed in.
-
-On your dashboard, scroll down to the "Track Claims" section. 
-
-There, you'll see the latest status information for any open claims or appeals you may have. Click on the "View status" button to learn more about where your claim or appeal is in our review process.
+  
+<ol class="process">
+  <li class="process-step list-one"><b>Go to your "My VA" dashboard.</b><br>
+   You'll find the link for this dashboard in the top right corner of the page once you're signed in.</li>
+  <li class="process-step list-two"><b>Scroll down to the "Track Claims" section.</b><br>
+  There, you'll see a summary of the latest status information for any open claims or appeals you may have.</li>
+  <li class="process-step list-three"><b>Click on the "View status" button for a specific claim to learn more about where your claim or appeal is in our review process.</b><br>
+  You'll also be able to view details about the evidence (supporting documents) for your claim./li>
+</ol>
 
 </div>
 </div>
@@ -85,10 +89,10 @@ There, you'll see the latest status information for any open claims or appeals y
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You'll see which step of the review process your claim or appeal is currently at, and the date we think we'll complete our review.
+You'll see where your claim or appeal is at in our review process, and the date we think we'll complete our review.
 
 <b>You can also view details about:</b>
-- Any evidence (supporting documents) you've filed to support your claim
+- Any evidence you've filed to support your claim
 - Any additional evidence we've requested from you
 - Your claim type
 - What you've claimed
