@@ -39,7 +39,7 @@ Veterans
 
 **Note:** The current clothing allowance rate is $795.21. <br>
 
-[View current rates for special allowances](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
+[View current rates for special allowances](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2018.asp).
 
 ### How do I get these benefits?
 
@@ -52,7 +52,7 @@ To get your yearly payment, you’ll need to qualify by August 1 of that year. Y
 - You have more than one skin medicine, **and/or**
 - Your device or skin medicine affects more than one type of clothing.
 
-[View the current payment rates](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
+[View the current payment rates](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2018.asp).
 
 **Note**: If you qualify, you'll receive payments between September 1 and October 31.
 
