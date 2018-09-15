@@ -1,30 +1,17 @@
-import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
-const lowerEnvironments = [
-  'development',
-  'staging',
-  'preview',
-  'vagovdev',
-  'vagovstaging'
-];
+import CallToActionWidget from '../../platform/site-wide/cta-widget';
 
-const mhvDomain = lowerEnvironments.includes(__BUILDTYPE__) ? 'https://mhv-syst.myhealth.va.gov' : 'https://www.myhealth.va.gov';
+export default function createCallToActionWidget(store) {
+  const root = document.getElementById('cta-widget');
 
-const urlMap = {
-  '/health-care/secure-messaging/': `${mhvDomain}/mhv-portal-web/secure-messaging`,
-
-  '/health-care/refill-track-prescriptions/': `${mhvDomain}/mhv-portal-web/web/myhealthevet/refill-prescriptions`,
-
-  '/health-care/schedule-view-va-appointments/': `${mhvDomain}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
-
-  '/health-care/view-test-and-lab-results/': `${mhvDomain}/mhv-portal-web/labs-tests`
-};
-
-export default function createCallToActionWidget() {
-  if (conditionalStorage().getItem('userToken')) {
-    const redirectUrl = urlMap[location.pathname];
-    window.open(redirectUrl, 'redirect-popup');
+  if (root) {
+    ReactDOM.render((
+      <Provider store={store}>
+        <CallToActionWidget requiredServices={root.dataset.requiredServices}/>
+      </Provider>
+    ), root);
   }
-
-  // TODO: Implement CTA behavior in a new component.
 }

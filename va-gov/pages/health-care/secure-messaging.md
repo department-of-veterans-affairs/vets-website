@@ -18,12 +18,14 @@ With VA secure messaging, you can communicate privately online with your VA heal
 
 </div>
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can send secure messages online to your health care team.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
+<div id="cta-widget" data-required-services="messaging">
+  <div class="va-sign-in-alert usa-alert usa-alert-info">
+    <div class="usa-alert-body">
+      <h4 class="usa-alert-heading">You’ll need to sign in before you can send secure messages online to your health care team.</h4>
+      <p class="usa-alert-text">
+        <button class="usa-button-primary">Sign In or Create an Account</button>
+      </p>
+    </div>
   </div>
 </div>
 

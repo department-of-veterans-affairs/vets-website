@@ -62,7 +62,7 @@ if (healthcarePages.has(location.pathname)) {
 }
 
 if (healthcareTools.has(location.pathname)) {
-  createCallToActionWidget();
+  createCallToActionWidget(store);
 }
 
 if (eduPages.has(location.pathname)) {
