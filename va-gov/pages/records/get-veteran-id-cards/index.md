@@ -1,10 +1,6 @@
 ---
+title: Veteran ID Card
 layout: page-react.html
-title: Get Veteran ID Cards
-display_title: Get Veteran ID Cards
-template: detail-page
-order: 3
-spoke: Get Records
 entryname: veteran-id-card
 aliases:
   - /veteran-id-card
