@@ -190,7 +190,7 @@ export class CallToActionWidget extends React.Component {
   hasService = () => this.props.availableServices.includes(this.props.serviceRequired);
 
   render() {
-    if (this.props.mhvAccount.loading) {
+    if (this.props.profile.loading || this.props.mhvAccount.loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
@@ -217,10 +217,11 @@ export class CallToActionWidget extends React.Component {
 
 const mapStateToProps = (state) => {
   const profile = selectProfile(state);
-  const { mhvAccount, services } = profile;
+  const { loading, mhvAccount, services } = profile;
   return {
     availableServices: services,
     isLoggedIn: isLoggedIn(state),
+    profile: { loading },
     mhvAccount
   };
 };
