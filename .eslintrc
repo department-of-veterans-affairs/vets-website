@@ -6,7 +6,8 @@
     'browser': true,
     'commonjs': true,
     'es6': true,
-    'mocha': true
+    'mocha': true,
+    'jest': true
   },
   'globals': {
     '__BUILDTYPE__': true
