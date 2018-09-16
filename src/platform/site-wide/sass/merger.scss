@@ -1054,6 +1054,10 @@
     border-bottom: 1px solid $color-gray-lighter;
     background-size: 1.1rem;
   }
+  .usa-accordion-button-dark {
+    background-color: $color-gray-lightest;
+  }
+
 
   .usa-accordion {
     & > li {
@@ -1075,6 +1079,14 @@
 
   .hub-links-container {
     min-height: 250px;
+  }
+}
+.usa-accordion-bordered {
+  h4 {
+    font-family: Source Sans Pro, sans serif;
+  }
+  .fa {
+    color: $color-link-default;
   }
 }
 
