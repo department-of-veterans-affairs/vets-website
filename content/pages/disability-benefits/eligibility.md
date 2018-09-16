@@ -135,7 +135,7 @@ You can apply online right now.
 
 ### Get more information
 
-Watch our Compensation 101 videos to learn more about VA disability compensation works:
+Watch our Compensation 101 videos to learn more about how VA disability compensation works:
 
 [Compensation 101: What is Disability Compensation?](https://www.youtube.com/watch?v=T3RodE0nGFc)
 
