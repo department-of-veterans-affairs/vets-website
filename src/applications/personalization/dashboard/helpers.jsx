@@ -7,6 +7,7 @@ import One990NManifest from '../../edu-benefits/1990n/manifest.json';
 import One995Manifest from '../../edu-benefits/1995/manifest.json';
 import Five490Manifest from '../../edu-benefits/5490/manifest.json';
 import Five495Manifest from '../../edu-benefits/5495/manifest.json';
+import HCAManifest from '../../hca/manifest.json';
 
 export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
@@ -44,7 +45,7 @@ export const formLinks = {
   '21-526EZ': Five26EZManifest.rootUrl,
   '21P-527EZ': '/pension/application/527EZ/',
   '21P-530': '/burials-and-memorials/application/530/',
-  '1010ez': '/health-care/apply-for-health-care-form-10-10ez',
+  '1010ez': HCAManifest.rootUrl,
   '22-0993': Zero993Manifest.rootUrl,
   '22-1990': One990Manifest.rootUrl,
   '22-1990E': One990EManifest.rootUrl,
