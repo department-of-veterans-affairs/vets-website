@@ -10,7 +10,7 @@ import formConfig from '../../config/form';
 
 describe('Hca deductible expenses', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.deductibleExpenses;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -23,7 +23,7 @@ describe('Hca deductible expenses', () => {
       .to.equal(3);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

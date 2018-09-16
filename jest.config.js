@@ -131,7 +131,7 @@ module.exports = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -141,7 +141,7 @@ module.exports = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    // "**/__tests__/**/*.js?(x)",
+    '**/**/hca/**/?(*.)unit.spec.js?(x)',
     '**/?(*.)jest.+(spec|test).js?(x)'
   ],
 

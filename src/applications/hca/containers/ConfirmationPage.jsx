@@ -1,5 +1,7 @@
 import React from 'react';
 import moment from 'moment';
+import '../../../platform/site-wide/moment-setup'; // TODO: config import in jest setup
+
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 

@@ -10,7 +10,7 @@ import formConfig from '../../config/form';
 
 describe('Hca spouse information', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.spouseInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ describe('Hca spouse information', () => {
       .to.equal(15);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -41,7 +41,7 @@ describe('Hca spouse information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should expand hidden fields', () => {
+  test('should expand hidden fields', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

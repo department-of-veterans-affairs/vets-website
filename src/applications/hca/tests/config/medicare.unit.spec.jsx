@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 
 describe('Hca medicare', () => {
   const { schema, uiSchema } = formConfig.chapters.insuranceInformation.pages.medicare;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Hca medicare', () => {
       .to.equal(4);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -40,7 +40,7 @@ describe('Hca medicare', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should reveal required effective date', () => {
+  test('should reveal required effective date', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -73,7 +73,7 @@ describe('Hca medicare', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should require past effective date', () => {
+  test('should require past effective date', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -115,7 +115,7 @@ describe('Hca medicare', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

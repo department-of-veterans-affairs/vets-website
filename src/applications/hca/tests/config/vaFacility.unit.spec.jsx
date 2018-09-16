@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 
 describe('Hca VA facility', () => {
   const { schema, uiSchema } = formConfig.chapters.insuranceInformation.pages.vaFacility;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -25,7 +25,7 @@ describe('Hca VA facility', () => {
     expect(formDOM.querySelectorAll('select')[1].querySelectorAll('option').length).to.equal(1);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -43,7 +43,7 @@ describe('Hca VA facility', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should set center list by state', () => {
+  test('should set center list by state', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -63,7 +63,7 @@ describe('Hca VA facility', () => {
     expect(formDOM.querySelectorAll('select')[1].querySelectorAll('option').length).to.equal(23);
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

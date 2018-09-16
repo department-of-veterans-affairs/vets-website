@@ -8,7 +8,7 @@ import DemographicField from '../../components/DemographicField';
 import formConfig from '../../config/form';
 
 describe('hca <DemographicField>', () => {
-  it('should render ObjectField', () => {
+  test('should render ObjectField', () => {
     const registry = {
       fields: {
         ObjectField
@@ -23,7 +23,7 @@ describe('hca <DemographicField>', () => {
     expect(tree.subTree('ObjectField')).not.to.be.false;
     expect(tree.subTree('ObjectField').props.formContext).to.equal(formContext);
   });
-  it('should render review version', () => {
+  test('should render review version', () => {
     const registry = {
       fields: {
         ObjectField

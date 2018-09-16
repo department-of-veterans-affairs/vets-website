@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
 describe('hca <ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const form = {
       submission: {
         response: {
@@ -33,7 +33,7 @@ describe('hca <ConfirmationPage>', () => {
     expect(tree.everySubTree('p')[0].text()).to.contain('We usually process claims within a week.');
     expect(tree.everySubTree('.confirmation-guidance-message')[0].text()).to.contain('Find out what happens after you apply.');
   });
-  it('should render without response properties', () => {
+  test('should render without response properties', () => {
     const form = {
       submission: {
       },

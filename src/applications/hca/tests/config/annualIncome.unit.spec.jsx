@@ -30,7 +30,7 @@ describe('Hca annual income', () => {
     ],
   };
 
-  it('should render without spouse information', () => {
+  test('should render without spouse information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -44,7 +44,7 @@ describe('Hca annual income', () => {
       .to.equal(3);
   });
 
-  it('should render with spouse information', () => {
+  test('should render with spouse information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -58,7 +58,7 @@ describe('Hca annual income', () => {
       .to.equal(6);
   });
 
-  it('should render with children information', () => {
+  test('should render with children information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -71,7 +71,7 @@ describe('Hca annual income', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(12);
   });
 
-  it('should not submit an empty form', () => {
+  test('should not submit an empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

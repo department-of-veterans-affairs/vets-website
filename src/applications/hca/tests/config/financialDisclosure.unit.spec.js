@@ -10,7 +10,7 @@ import formConfig from '../../config/form';
 describe('Hca financial disclosure', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.financialDisclosure;
   const definitions = formConfig.defaultDefinitions;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Hca financial disclosure', () => {
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -40,7 +40,7 @@ describe('Hca financial disclosure', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -61,7 +61,7 @@ describe('Hca financial disclosure', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-  it('should show a warning if No is selected', () => {
+  test('should show a warning if No is selected', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

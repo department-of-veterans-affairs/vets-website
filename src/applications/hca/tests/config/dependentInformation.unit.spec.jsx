@@ -11,7 +11,7 @@ import formConfig from '../../config/form';
 
 describe('Hca dependent information', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.dependentInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ describe('Hca dependent information', () => {
       .to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -42,7 +42,7 @@ describe('Hca dependent information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should reveal dependent information', () => {
+  test('should reveal dependent information', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -74,7 +74,7 @@ describe('Hca dependent information', () => {
     // expect(onSubmit.called).to.be.false;
   });
 
-  it('should add another', () => {
+  test('should add another', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

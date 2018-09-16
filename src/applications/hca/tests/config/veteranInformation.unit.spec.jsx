@@ -8,7 +8,7 @@ import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/
 import formConfig from '../../config/form.js';
 
 describe('HCA veteranInformation', () => {
-  it('should render veteranInformation page', () => {
+  test('should render veteranInformation page', () => {
     const onSubmit = sinon.spy();
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
     const form = ReactTestUtils.renderIntoDocument(
@@ -32,7 +32,7 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should render birthInformation page', () => {
+  test('should render birthInformation page', () => {
     const onSubmit = sinon.spy();
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.birthInformation;
     const form = ReactTestUtils.renderIntoDocument(
@@ -53,7 +53,7 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should render demographicInformation page', () => {
+  test('should render demographicInformation page', () => {
     const onSubmit = sinon.spy();
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.demographicInformation;
     const form = ReactTestUtils.renderIntoDocument(
@@ -74,7 +74,7 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should render veteranAddress page', () => {
+  test('should render veteranAddress page', () => {
     const onSubmit = sinon.spy();
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranAddress;
     const form = ReactTestUtils.renderIntoDocument(
@@ -95,7 +95,7 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should render contactInformation page', () => {
+  test('should render contactInformation page', () => {
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.contactInformation;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

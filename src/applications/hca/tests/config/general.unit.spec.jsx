@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 
 describe('Hca general insurance', () => {
   const { schema, uiSchema } = formConfig.chapters.insuranceInformation.pages.general;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Hca general insurance', () => {
       .to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -40,7 +40,7 @@ describe('Hca general insurance', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should reveal required insurance providers', () => {
+  test('should reveal required insurance providers', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -68,7 +68,7 @@ describe('Hca general insurance', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should add another', () => {
+  test('should add another', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -111,7 +111,7 @@ describe('Hca general insurance', () => {
     expect(formDOM.querySelector('.va-growable-background').textContent)
       .to.contain('Insurer name');
   });
-  it('should require one of policy number or group code', () => {
+  test('should require one of policy number or group code', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

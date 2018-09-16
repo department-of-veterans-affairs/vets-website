@@ -13,7 +13,7 @@ describe('hca schema tests', () => {
   files
     .filter(file => file.endsWith('json'))
     .forEach((file) => {
-      it(`should validate ${file}`, () => {
+      test(`should validate ${file}`, () => {
         const contents = JSON.parse(fs.readFileSync(path.join(__dirname, file), 'utf8'));
         const submitData = JSON.parse(transform(formConfig, contents)).form;
         const data = JSON.parse(submitData);
