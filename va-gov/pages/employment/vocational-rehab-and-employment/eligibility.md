@@ -7,13 +7,13 @@ template: detail-page
 majorlinks:
   - heading: More information about VR&E benefits and services
     links:
-    - url: /employment/vocational-rehab-and-employment/service-disabled/
+    - url: /careers-employment/vocational-rehabilitation/programs/
       title: VR&E Programs for Servicemembers and Veterans
       description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
-    - url: /employment/vocational-rehab-and-employment/apply-vre/
+    - url: /careers-employment/how-to-apply/
       title: How to Apply for VR&E
       description: Find out how to apply for VR&E benefits and services as a Servicemember or Veteran.
-    - url: /employment/vocational-rehab-and-employment/family-members/
+    - url: /careers-employment/dependent-benefits/
       title: Dependent Family Members
       description: If you're the dependent family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits.
 ---
@@ -34,7 +34,7 @@ You may be eligible for VR&E benefits and services if you’re a Veteran, and yo
 
 - Didn't receive a dishonorable discharge, **and**
 - Have a service-connected disability rating of at least 10% from VA, **and**
-- [Apply for VR&E services](/employment/vocational-rehab-and-employment/apply-vre/)
+- [Apply for VR&E services](/careers-employment/how-to-apply/)
 
 <br>
 
@@ -56,7 +56,7 @@ You may be eligible for VR&amp;E benefits and services if you're a Servicemember
 
 - Have a 20% or higher pre-discharge disability rating (memorandum rating) and will soon leave the military, **or**
 - Are participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. <br>
-[Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
+[Learn more about accessing VR&E services through IDES](/careers-employment/vocational-rehabilitation/ides/).
 
 **Please note:** Severely injured active-duty Servicemembers can automatically receive VR&E benefits before VA issues a disability rating, because of Sec. 1631(b) of the National Defense Authorization Act (PL 110-181). The sunset date of that law has been extended to September 30, 2018, through Sec. 724 of Public Law 113-291.
 
@@ -68,8 +68,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 **There are 2 ways you can try to qualify:**
 
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
-[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
+[Find out how to apply for a discharge upgrade](/records/discharge-upgrade).<br/>
+[Learn about the VA Character of Discharge review process](/records/discharge-upgrade#other-options).
 
 </div>
 
@@ -79,7 +79,7 @@ You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
-[Learn more about how to apply for VR&E](/employment/vocational-rehab-and-employment/apply-vre/). <br>
+[Learn more about how to apply for VR&E](/careers-employment/how-to-apply/). <br>
 **Note:** You can apply even if you're a Servicemember without a disability rating yet.
 
 
@@ -110,8 +110,8 @@ You can apply online right now.
 - VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." <br>
 [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
 - Counselors to help you transition from military to college life. <br>
-[Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+[Learn about VetSuccess on Campus](/careers-employment/vetsuccess-on-campus/).
 - Other employment resources for Servicemembers and Veterans. <br>
 [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 - Links to more resources outside VA that can help you in your job search. <br>
-[See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
+[See our list of external resources](/careers-employment/veteran-resources/).

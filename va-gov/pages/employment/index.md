@@ -17,18 +17,18 @@ majorlinks:
       description: Post jobs and learn about hiring qualified Veterans.
   - heading: Ways to Start a Career
     links:
-    - url: /employment/vocational-rehab-and-employment/
+    - url: /careers-employment/vocational-rehabilitation/
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services, like help exploring employment options and any required training needs.
-    - url: /employment/job-seekers/register-your-business/
+    - url: /careers-employment/veteran-owned-business-support/
       title: Register Your Veteran-Owned Small Business
       description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
-    - url: /education/tools-programs/education-career-counseling/
+    - url: /careers-employment/education-and-career-counseling/
       title: Educational and Career Counseling
       description: If you’re leaving active service soon, find out how to get free educational and career counseling (also called Chapter 36).
   - heading: Other Resources
     links:
-    - url: /employment/job-seekers/family-members/
+    - url: /careers-employment/family-resources/
       title: Explore Resources for Military and Veteran Family Members
       description: Find out how the Veterans Employment Center can help spouses and other family members access valuable career resources.
     - url: https://veterans.linkedin.com/

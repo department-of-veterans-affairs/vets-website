@@ -7,6 +7,6 @@ layout: page-react.html
 id="va-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     <li><a href="/">Home</a></li>
-    <li><a aria-current="page" href="/employment/vocational-rehab-and-employment/">Vocational Rehabilitation and Employment (VR&E)</a></li>
+    <li><a aria-current="page" href="/careers-employment/vocational-rehabilitation/">Vocational Rehabilitation and Employment (VR&E)</a></li>
   </ul>
 </nav>

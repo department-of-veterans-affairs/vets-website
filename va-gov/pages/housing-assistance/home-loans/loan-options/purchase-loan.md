@@ -81,7 +81,7 @@ Buying a home is a complex process, and getting a VA-backed home loan is only on
 You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. 
 <br>
 [Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br>
-[Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
+[Apply for your COE now](/housing-assistance/home-loans/how-to-apply/).
 
 </li>
 

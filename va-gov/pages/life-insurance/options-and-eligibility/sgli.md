@@ -11,7 +11,7 @@ relatedlinks:
     - url: /life-insurance/manage-your-policy/
       title: Managing Your Policy
       description: Already have VA life insurance? Manage your policy online.
-    - url: /life-insurance/disabled-and-terminally-ill/
+    - url: /life-insurance/totally-disabled-or-terminally-ill/
       title: Claims for Disabled and Terminally Ill Policyholders
       description: If you become totally disabled or terminally ill, find out if you can get certain benefits.
 ---
@@ -127,7 +127,7 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 ### How much will I pay for these benefits?
 
 If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance coverage. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). <br>
-[Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
+[Learn more about TSGLI](/life-insurance/options-eligibility/tsgli/).
 
 **These are the SGLI premium rates effective July 1, 2014:**
 
@@ -146,7 +146,7 @@ If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatic
 
 ### How do I convert my SGLI when I leave the military? 
 When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. <br>
-[Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
+[Learn more about VGLI](/life-insurance/options-eligibility/vgli/).
 
 You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. <br>
 [Learn how to convert your SGLI coverage to an individual policy](https://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
@@ -184,7 +184,7 @@ To apply, fill out the SGLI Disability Extension Application and send it to the 
 If you get approved, you’ll receive a notice 20 months after your separation date letting you know that your SGLI-DE will end and that you now have the option to pay a premium for Veterans’ Group Life Insurance (VGLI).
 
 If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. <br>
-[Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
+[Learn more about VGLI](/life-insurance/options-eligibility/vgli/).
 
 <br>
 
@@ -200,4 +200,4 @@ If you have a severe service-connected disability that we’ve concluded was cau
 
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](https://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
-[Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
+[Find out if you qualify for VMLI—and how to apply](/life-insurance/options-eligibility/vmli/).

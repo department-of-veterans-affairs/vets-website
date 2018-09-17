@@ -29,10 +29,10 @@ As a Veteran with a service-connected disability, there are many ways for you to
 If you’re a Veteran with a service-connected disability, you qualify for hiring preference when competing for certain federal jobs. Learn more about [applying for federal jobs](/employment/job-seekers/federal-employment/). Some classifications, or exceptions, may qualify you for specific federal positions. Know which hiring exceptions you qualify for as a service-disabled Veteran. Check [federal hiring authority information](http://www.fedshirevets.gov/job/shav/) before applying.
 
 **Vocational Rehabilitation and Employment (VR&amp;E)**
-If you’re service disabled at more than 10% and can no longer continue your current employment due to injuries, you may be eligible for [Vocational Rehabilitation and Employment (VR&amp;E)](/employment/vocational-rehab-and-employment/).
+If you’re service disabled at more than 10% and can no longer continue your current employment due to injuries, you may be eligible for [Vocational Rehabilitation and Employment (VR&amp;E)](/careers-employment/vocational-rehabilitation/).
 
 **Start or Grow Your Own Business**
-If entrepreneurship interests you, your disability may qualify you for preference in winning government contracts. VA and other [Veteran entrepreneur programs](/employment/job-seekers/register-your-business/) can support you through this journey.
+If entrepreneurship interests you, your disability may qualify you for preference in winning government contracts. VA and other [Veteran entrepreneur programs](/careers-employment/veteran-owned-business-support/) can support you through this journey.
 
 ### Private Sector
 

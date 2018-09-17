@@ -8,19 +8,19 @@ children: vreServiceDisabled
 majorlinks:
   - heading:
     links:
-    - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
+    - url: /careers-employment/vocational-rehabilitation/programs/reemployment/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before you deployed. Find out how we can help with this process.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+    - url: /careers-employment/vocational-rehabilitation/programs/rapid-access-to-employment/
       title: Rapid Access to Employment Track
       description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/small-business-training/
+    - url: /careers-employment/vocational-rehabilitation/programs/self-employment/
       title: Self-Employment Track
       description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
+    - url: /careers-employment/vocational-rehabilitation/programs/long-term-services/
       title: Employment through Long-Term Services Track
       description: Find out if you may be eligible for vocational training to help you develop new job skills.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/independent-living/
+    - url: /careers-employment/vocational-rehabilitation/programs/independent-living/
       title: Independent Living Track
       description: Learn about services that can help you live as independently as possible if you can't return to work right away.
 ---

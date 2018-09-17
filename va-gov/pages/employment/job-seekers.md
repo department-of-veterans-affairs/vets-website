@@ -106,19 +106,19 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs/) available 
 ### Get personalized help if you need it
 
 - Government and private resources offer [one-on-one assistance](https://www.dol.gov/veterans/findajob/).
-- Qualified Veterans with service-connected disabilities can get [employment support services](/employment/job-seekers/service-disabled/), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&amp;E)](/employment/vocational-rehab-and-employment/).
+- Qualified Veterans with service-connected disabilities can get [employment support services](/employment/job-seekers/service-disabled/), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&amp;E)](/careers-employment/vocational-rehabilitation/).
 - [American Job Centers](http://www.careeronestop.org/ReEmployment/Veterans/JobSearchHelp/ChangeCareers/one-stop-career-centers.aspx) offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, resume-writing tools, and free Internet access.
 
 <br>
 
 ### Take a different approach to starting your career
 
-- If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business. [Register your business now](/employment/job-seekers/register-your-business/).
+- If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business. [Register your business now](/careers-employment/veteran-owned-business-support/).
 - If you need more training or job experience, consider non-traditional programs like apprenticeships, work study, and on-the-job training. [Explore non-traditional programs](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/).
 
 <br>
 
 ### Military spouses and family members
 
-- Use government-sponsored [career and education resources](/employment/job-seekers/family-members/).
+- Use government-sponsored [career and education resources](/careers-employment/family-resources/).
 - Take advantage of [networking opportunities](/employment/job-seekers/career-fairs/) at career fairs.

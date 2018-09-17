@@ -46,7 +46,7 @@ You may be able to get $30,000 of supplemental coverage if you qualify for a pre
 - Apply for the coverage within 1 year from the date you get notice of the grant of waiver, **and**
 - Are younger than age 65
 
-[Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/#waiver).
+[Learn more about premium waivers](/life-insurance/totally-disabled-or-terminally-ill/#waiver).
 
 <br>
 
@@ -62,8 +62,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 **There are 2 ways you can try to qualify:**
 
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
-[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
+[Find out how to apply for a discharge upgrade](/records/discharge-upgrade).<br/>
+[Learn about the VA Character of Discharge review process](/records/discharge-upgrade#other-options).
 
 
 </div>
@@ -118,7 +118,7 @@ See the premium rates and a description of the plan options. <br>
 ### Can I get a waiver so I don’t have to pay the premiums? 
 
 Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. <br>
-[Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/#waiver).
+[Learn more about premium waivers](/life-insurance/totally-disabled-or-terminally-ill/#waiver).
 
 You must pay your premiums for Supplemental S-DVI.
 
@@ -136,5 +136,5 @@ If you have a severe service-connected disability that we’ve concluded was cau
 
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](https://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
-[Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
+[Find out if you qualify for VMLI—and how to apply](/life-insurance/options-eligibility/vmli/).
 

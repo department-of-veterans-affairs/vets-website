@@ -7,16 +7,16 @@ order: 5
 relatedlinks:
   - heading: Other VR&E tracks you may be interested in
     links:
-    - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
+    - url: /careers-employment/vocational-rehabilitation/programs/reemployment/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+    - url: /careers-employment/vocational-rehabilitation/programs/rapid-access-to-employment/
       title: Rapid Access to Employment Track
       description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/small-business-training/
+    - url: /careers-employment/vocational-rehabilitation/programs/self-employment/
       title: Self-Employment Track
       description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
+    - url: /careers-employment/vocational-rehabilitation/programs/long-term-services/
       title: Employment through Long-Term Services Track
       description: Find out if you may be eligible for vocational training to help you develop new job skills.
 ---
@@ -54,7 +54,7 @@ You may be eligible for independent living services if you’re a Servicemember 
 - Home consultations with specialists
 - Referral to support resources
 - Guidance to help you understand if you’re eligible for our adaptive-housing programs. These programs can help you make changes to your home—like widening doorways or adding ramps—so you can live more independently. <br>
-[Learn more about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
+[Learn more about adaptive housing grants](/housing-assistance/disability-housing-grants/).
 
 These services generally last up to 24 months. In some cases, you may be able to use services for longer than this.
 

@@ -20,10 +20,10 @@ majorlinks:
 relatedlinks:
   - heading: Vocational Rehabilitation and Employment (VR&E)
     links:
-    - url: /employment/vocational-rehab-and-employment/eligibility/
+    - url: /careers-employment/vocational-rehabilitation/eligibility/
       title: VR&E Eligibility
       description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
-    - url: /employment/vocational-rehab-and-employment/ides/
+    - url: /careers-employment/vocational-rehabilitation/ides/
       title: Accessing VR&E through the Integrated Disability Evaluation System (IDES)
       description: If you've been referred to IDES to determine if you're medically unfit for duty due to a service-connected disability, find out how to access VR&E services as quickly as possible.
 
@@ -78,8 +78,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 **There are 2 ways you can try to qualify:**
 
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
-[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
+[Find out how to apply for a discharge upgrade](/records/discharge-upgrade).<br/>
+[Learn about the VA Character of Discharge review process](/records/discharge-upgrade#other-options).
 
 </div>
 </div>

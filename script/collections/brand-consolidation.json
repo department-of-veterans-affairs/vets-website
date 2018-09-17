@@ -390,7 +390,7 @@
     }
   },
   "housingVALoans": {
-    "pattern": "housing-assistance/home-loans/loan-options/*.md",
+    "pattern": "housing-assistance/home-loans/loan-types/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Loan Options"
@@ -404,7 +404,7 @@
     }
   },
   "lifeInsuranceOptions": {
-    "pattern": "life-insurance/options-and-eligibility/*.md",
+    "pattern": "life-insurance/options-eligibility/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Options"
@@ -432,7 +432,7 @@
     }
   },
   "pensionApplication": {
-    "pattern": "pension/apply/*.md",
+    "pattern": "pension/how-to-apply/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "How to Apply"

@@ -13,13 +13,13 @@ relatedlinks:
     - url: /health-care/how-to-apply/
       title: How to Apply for Health Care Benefits
       description: Find out how to apply for VA health care.
-    - url: /life-insurance/options-and-eligibility/s-dvi/
+    - url: /life-insurance/options-eligibility/s-dvi/
       title: Service-Disabled Veterans Life Insurance (S-DVI)
       description: Find out if you can get life insurance based on your service-connected disability—and learn how to manage your coverage.
     - url: /pension/
       title: Pension Benefits
       description: If you're a wartime Veteran, find out if you can get pension benefits based on your age, disability, and income.
-    - url: /housing-assistance/adaptive-housing-grants/
+    - url: /housing-assistance/disability-housing-grants/
       title: Adaptive Housing Grants
       description: Find out if you may be eligible for a grant to buy or change a home to meet your needs and help you live more independently with your service-connected disability.  
 ---

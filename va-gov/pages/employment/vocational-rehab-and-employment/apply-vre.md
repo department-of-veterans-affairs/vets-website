@@ -7,10 +7,10 @@ template: detail-page
 relatedlinks:
   - heading: More information about VR&E benefits and services
     links:
-    - url: /employment/vocational-rehab-and-employment/service-disabled/
+    - url: /careers-employment/vocational-rehabilitation/programs/
       title: VR&E Programs for Servicemembers and Veterans
       description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
-    - url: /employment/vocational-rehab-and-employment/family-members/
+    - url: /careers-employment/dependent-benefits/
       title: Dependent Family Members
       description: If you're the dependent family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits.
 ---
@@ -93,6 +93,6 @@ After you apply, we’ll schedule a meeting for you with a Vocational Rehabilita
 After we make an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 
 You can also meet with VRCs called VetSuccess on Campus (VSOC) Counselors at schools participating in the VetSuccess on Campus (VSOC) program. <br>
-[Learn more about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+[Learn more about VetSuccess on Campus](/careers-employment/vetsuccess-on-campus/).
 
 <div markdown="0"><br></div>

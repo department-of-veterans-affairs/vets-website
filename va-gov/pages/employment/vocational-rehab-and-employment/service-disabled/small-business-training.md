@@ -7,21 +7,21 @@ order: 3
 relatedlinks:
   - heading: Other VR&E tracks you may be interested in
     links:
-    - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
+    - url: /careers-employment/vocational-rehabilitation/programs/reemployment/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+    - url: /careers-employment/vocational-rehabilitation/programs/rapid-access-to-employment/
       title: Rapid Access to Employment Track
       description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
+    - url: /careers-employment/vocational-rehabilitation/programs/long-term-services/
       title: Employment through Long-Term Services Track
       description: Find out if you may be eligible for vocational training to help you develop new job skills.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/independent-living/
+    - url: /careers-employment/vocational-rehabilitation/programs/independent-living/
       title: Independent Living Track
       description: Learn about services that can help you live as independently as possible if you can't return to work right away.
   - heading: More support for your small business
     links: 
-    - url: /employment/job-seekers/register-your-business/
+    - url: /careers-employment/veteran-owned-business-support/
       title: Register Your Veteran-Owned Small Business
       description: Register to do business with VA and get support for your Veteran-owned small business.
 ---
@@ -116,8 +116,8 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 - VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." <br>
 [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
 - Counselors to help you transition from military to college life. <br>
-[Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+[Learn about VetSuccess on Campus](/careers-employment/vetsuccess-on-campus/).
 - Other employment resources for Servicemembers and Veterans. <br>
 [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 - Links to more resources outside VA that can help you in your job search. <br>
-[See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
+[See our list of external resources](/careers-employment/veteran-resources/).

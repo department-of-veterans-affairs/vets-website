@@ -12,7 +12,7 @@ relatedlinks:
     - url: /disability/eligibility/special-claims/birth-defects/
       title: Chapter 18—Birth Defects (Spina Bifida)
       description: If you're the child of a Vietnam or Korean War Veteran and you have spina bifida or certain other birth defects, find out if you're eligible for benefits like disability compensation (payments), health care, and job training (also called Chapter 18).
-    - url: /employment/vocational-rehab-and-employment/vetsuccess/
+    - url: /careers-employment/vetsuccess-on-campus/
       title: VetSuccess on Campus
       description: Find out if our counselors can help you transition from military to college life.       
 ---
