@@ -27,11 +27,11 @@ const searchToolSchoolAddressFields = get(
 // conditionalPrefillMessage()
 export const PREFILL_FLAGS = {
   // if formData.fullName is set:
-  APPLICANT_INFORMATION: 'view:prefilledApplicantInformation',
+  APPLICANT_INFORMATION: 'view:applicantInformationWasPrefilled',
   // if formData.serviceBranch or formData.serviceDateRange is set:
-  SERVICE_INFORMATION: 'view:prefilledServiceInformation',
+  SERVICE_INFORMATION: 'view:serviceInformationWasPrefilled',
   // if formData.address or formData.phone or formData.applicantEmail is set:
-  CONTACT_INFORMATION: 'view:prefilledContactInformation',
+  CONTACT_INFORMATION: 'view:contactInformationWasPrefilled',
 };
 
 // For a given PREFILL_FLAG, what data needs to exist in the prefilled data for
@@ -277,13 +277,9 @@ export function transformSearchToolAddress({ address1, address2, address3, city,
 function addPrefilledFlagsToFormData(formData) {
   const newFormData = { ...formData };
   Object.keys(prefillFlagsToFieldsMap).forEach(flag => {
-    prefillFlagsToFieldsMap[flag].forEach(field => {
-      // if the value of this field is set on formData, add the flag to
-      // newFormData
-      if (get(field, formData)) {
-        newFormData[flag] = true;
-      }
-    });
+    if (prefillFlagsToFieldsMap[flag].some(field => get(field, formData))) {
+      newFormData[flag] = true;
+    }
   });
   return newFormData;
 }
@@ -302,7 +298,11 @@ export function prefillTransformer(pages, formData, metadata) {
  * @param {React Component} messageComponent - The React component to render
  * @returns {React Component|null}
  */
-export function conditionalPrefillMessage(prefillFlag, data, messageComponent) {
+export function conditionallyShowPrefillMessage(
+  prefillFlag,
+  data,
+  messageComponent,
+) {
   if (data.formData[prefillFlag]) {
     return messageComponent(data);
   }

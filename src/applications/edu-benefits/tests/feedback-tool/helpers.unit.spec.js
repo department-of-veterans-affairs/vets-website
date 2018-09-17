@@ -5,7 +5,8 @@ import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
 import {
-  conditionalPrefillMessage,
+  conditionallyShowPrefillMessage,
+  PREFILL_FLAGS,
   prefillTransformer,
   submit,
   transformSearchToolAddress,
@@ -221,12 +222,12 @@ describe('feedback-tool helpers:', () => {
       formData = {};
       metadata = {};
     });
-    describe('"view:prefilledApplicantInformation" flag', () => {
+    describe(`"${PREFILL_FLAGS.APPLICANT_INFORMATION}" flag`, () => {
       it('is added when a `fullName` is set on the formData', () => {
         formData.fullName = { first: 'Pat' };
         const expectedFormData = {
           ...formData,
-          'view:prefilledApplicantInformation': true
+          [PREFILL_FLAGS.APPLICANT_INFORMATION]: true
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -243,12 +244,12 @@ describe('feedback-tool helpers:', () => {
         expect(result.formData).to.eql(expectedFormData);
       });
     });
-    describe('"view:prefilledServiceInformation" flag', () => {
+    describe(`"${PREFILL_FLAGS.SERVICE_INFORMATION}" flag`, () => {
       it('is added when a `serviceBranch` is set on the formData', () => {
         formData.serviceBranch = 'Air Force';
         const expectedFormData = {
           ...formData,
-          'view:prefilledServiceInformation': true
+          [PREFILL_FLAGS.SERVICE_INFORMATION]: true
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -262,7 +263,7 @@ describe('feedback-tool helpers:', () => {
         };
         const expectedFormData = {
           ...formData,
-          'view:prefilledServiceInformation': true
+          [PREFILL_FLAGS.SERVICE_INFORMATION]: true
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -279,12 +280,12 @@ describe('feedback-tool helpers:', () => {
         expect(result.formData).to.eql(expectedFormData);
       });
     });
-    describe('"view:prefilledContactInfo" flag', () => {
+    describe(`"${PREFILL_FLAGS.CONTACT_INFORMATION}" flag`, () => {
       it('is added when an `applicantEmail` is set on the formData', () => {
         formData.applicantEmail = 'foo@bar.com';
         const expectedFormData = {
           ...formData,
-          'view:prefilledContactInformation': true
+          [PREFILL_FLAGS.CONTACT_INFORMATION]: true
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -295,7 +296,7 @@ describe('feedback-tool helpers:', () => {
         formData.phone = '4151234567';
         const expectedFormData = {
           ...formData,
-          'view:prefilledContactInformation': true
+          [PREFILL_FLAGS.CONTACT_INFORMATION]: true
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -306,7 +307,7 @@ describe('feedback-tool helpers:', () => {
         formData.address = { country: 'US' };
         const expectedFormData = {
           ...formData,
-          'view:prefilledContactInformation': true
+          [PREFILL_FLAGS.CONTACT_INFORMATION]: true
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -336,12 +337,12 @@ describe('feedback-tool helpers:', () => {
       messageComponent = sinon.spy(() => 'dom');
     });
     it('calls the `messageComponent` param if the correct flag is set on data.formData', () => {
-      const result = conditionalPrefillMessage('goodFlag', data, messageComponent);
+      const result = conditionallyShowPrefillMessage('goodFlag', data, messageComponent);
       expect(messageComponent.called).to.be.true;
       expect(result).to.eql('dom');
     });
     it('does not call the `messageComponent` param if the correct flag is not set data.formData', () => {
-      const result = conditionalPrefillMessage('badFlag', data, messageComponent);
+      const result = conditionallyShowPrefillMessage('badFlag', data, messageComponent);
       expect(messageComponent.called).to.be.false;
       expect(result).to.eql(null);
     });

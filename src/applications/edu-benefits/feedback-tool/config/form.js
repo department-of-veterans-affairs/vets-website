@@ -20,7 +20,7 @@ import GetFormHelp from '../../components/GetFormHelp';
 import {
   accreditationLabel,
   changeInDegreeLabel,
-  conditionalPrefillMessage,
+  conditionallyShowPrefillMessage,
   creditTransferLabel,
   financialIssuesLabel,
   gradePolicyLabel,
@@ -183,7 +183,7 @@ const formConfig = {
           title: 'Applicant Information',
           depends: isNotAnonymous,
           uiSchema: {
-            'ui:description': data => conditionalPrefillMessage(PREFILL_FLAGS.APPLICANT_INFORMATION, data, PrefillMessage),
+            'ui:description': data => conditionallyShowPrefillMessage(PREFILL_FLAGS.APPLICANT_INFORMATION, data, PrefillMessage),
             fullName: _.merge(fullNameUI, {
               prefix: {
                 'ui:title': 'Prefix',
@@ -226,7 +226,7 @@ const formConfig = {
           title: 'Service Information',
           depends: isVeteranOrServiceMember,
           uiSchema: {
-            'ui:description': data => conditionalPrefillMessage(PREFILL_FLAGS.SERVICE_INFORMATION, data, PrefillMessage),
+            'ui:description': data => conditionallyShowPrefillMessage(PREFILL_FLAGS.SERVICE_INFORMATION, data, PrefillMessage),
             serviceBranch: {
               'ui:title': 'Branch of service',
             },
@@ -249,7 +249,7 @@ const formConfig = {
           title: 'Contact Information',
           depends: (formData) => formData.onBehalfOf !== anonymous,
           uiSchema: {
-            'ui:description': data => conditionalPrefillMessage(PREFILL_FLAGS.CONTACT_INFORMATION, data, PrefillMessage),
+            'ui:description': data => conditionallyShowPrefillMessage(PREFILL_FLAGS.CONTACT_INFORMATION, data, PrefillMessage),
             address: {
               street: {
                 'ui:title': 'Address line 1'
