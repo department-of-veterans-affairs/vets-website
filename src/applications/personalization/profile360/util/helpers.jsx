@@ -9,6 +9,7 @@ import Five490Manifest from '../../../edu-benefits/5490/manifest.json';
 import Five495Manifest from '../../../edu-benefits/5495/manifest.json';
 import HCAManifest from '../../../hca/manifest.json';
 import PensionsManifest from '../../../pensions/manifest.json';
+import PrescriptionsWidget from '../../../pre-need/manifest.json';
 
 export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
@@ -53,7 +54,7 @@ export const formLinks = {
   '22-1995': One995Manifest.rootUrl,
   '22-5490': Five490Manifest.rootUrl,
   '22-5495': Five495Manifest.rootUrl,
-  '40-10007': '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/',
+  '40-10007': PrescriptionsWidget.rootUrl,
   VIC: '/veteran-id-card/apply/',
   '21-686C': '/disability-benefits/686/dependent-status/'
 };
