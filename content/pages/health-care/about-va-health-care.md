@@ -48,12 +48,12 @@ You should also know that being signed up for VA health care meets your Affordab
 </div>
 
 <div itemscope itemtype="http://schema.org/Question">
-<h3 itemprop="name">What if I'm just separating from active duty and don't know where to start?</h3>
+<h3 itemprop="name">What if I’m just separating from active duty and don’t know where to start?</h3>
 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">	
 <div itemprop="text">We can help you learn about and apply for VA health care benefits. A member of our Concierge for Care (C4C) team will call you soon after your separation from military service. We can answer any questions you may have, process your application over the phone, and help you schedule your first VA medical appointment.
   
-[Learn about transitioning from TRICARE to VA health care](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp)
+[Learn about transitioning from TRICARE to VA health care](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
 </div>
 </div>
 </div>
@@ -148,12 +148,12 @@ You may be able to get help with some non-medical services, like:
 <br>
 
 <div id="health-help" itemscope itemtype="http://schema.org/Question">
-<h4 itemprop="name">How do I get help if I don't speak English or need American Sign Language services?</h4>
+<h4 itemprop="name">How do I get help if I don’t speak English or need American Sign Language services?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 Contact the patient advocate at the VA medical center where you go for care. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits.<br>
 
-To find out how to reach the patient advocate at your VA medical center, go to the website of the VA health care system that the medical center is part of. In the page's navigation, click on "Patients & Visitors." A submenu will appear. Select "Patient Information" and then "Customer Service." <br>
+To find out how to reach the patient advocate at your VA medical center, go to the website of the VA health care system that the medical center is part of. In the page's navigation, click on “Patients & Visitors.” A submenu will appear. Select “Patient Information” and then “Customer Service.” <br>
 [Find your medical center's website](https://www.va.gov/health/vamc/).
 
 </div>
@@ -226,13 +226,13 @@ These services are **not** included in your VA medical benefits package:
 <h4 itemprop="name">Will VA fill prescriptions by a non-VA provider?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-We'll fill prescriptions by a non-VA provider only if you meet all the requirements listed below.
+We’ll fill prescriptions by a non-VA provider only if you meet all the requirements listed below.
 
 <b>All of these must be true</b>:
 
-- You're enrolled in VA health care
+- You’re enrolled in VA health care
 - You have an assigned VA primary care provider
-- You've given your VA provider your medical records from your non-VA provider
+- You’ve given your VA provider your medical records from your non-VA provider
 - Your VA provider agrees with the prescription
 
 </div>
