@@ -27,7 +27,7 @@ aliases:
 
 If you have a service-connected disability that makes it hard for you to succeed in your employment path, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Employment Through Long-Term Services track. VR&E training can help you find work in a different field that better suits your current abilities and interests.
 
-Find out if you’re eligible for vocational counseling and  training with VR&E. 
+Find out if you’re eligible for vocational counseling and  training with VR&E.
 
 </div>
 
@@ -102,7 +102,7 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
-[Find out how to apply if you haven’t yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if you haven’t yet received a disability rating](/careers-employment/how-to-apply/#servicemember-not-received-rating).
 
 **Note:** VR&amp;E is an employment program that's different from the GI Bill and may be used to pay for education needed to train you for suitable employment. <br>
 [Learn more about the GI Bill](/education/about-gi-bill-benefits/).
@@ -122,7 +122,5 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
 - Counselors to help you transition from military to college life. <br>
 [Learn about VetSuccess on Campus](/careers-employment/vetsuccess-on-campus/).
-- Other employment resources for Servicemembers and Veterans. <br>
-[Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 - Links to more resources outside VA that can help you in your job search. <br>
 [See our list of external resources](/careers-employment/veteran-resources/).

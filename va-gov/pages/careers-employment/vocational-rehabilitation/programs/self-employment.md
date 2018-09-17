@@ -20,7 +20,7 @@ relatedlinks:
       title: Independent Living Track
       description: Learn about services that can help you live as independently as possible if you can't return to work right away.
   - heading: More support for your small business
-    links: 
+    links:
     - url: /careers-employment/veteran-owned-business-support/
       title: Register Your Veteran-Owned Small Business
       description: Register to do business with VA and get support for your Veteran-owned small business.
@@ -102,7 +102,7 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
-[Find out how to apply if you haven’t yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if you haven’t yet received a disability rating](/careers-employment/how-to-apply/#servicemember-not-received-rating).
 
 <br>
 
@@ -119,7 +119,5 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
 - Counselors to help you transition from military to college life. <br>
 [Learn about VetSuccess on Campus](/careers-employment/vetsuccess-on-campus/).
-- Other employment resources for Servicemembers and Veterans. <br>
-[Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 - Links to more resources outside VA that can help you in your job search. <br>
 [See our list of external resources](/careers-employment/veteran-resources/).

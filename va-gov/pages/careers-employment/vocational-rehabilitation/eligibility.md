@@ -9,7 +9,7 @@ majorlinks:
     links:
     - url: /careers-employment/vocational-rehabilitation/programs/
       title: VR&E Programs for Servicemembers and Veterans
-      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
+      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
     - url: /careers-employment/how-to-apply/
       title: How to Apply for VR&E
       description: Find out how to apply for VR&E benefits and services as a Servicemember or Veteran.
@@ -22,7 +22,7 @@ aliases:
 
 <div class="va-introtext">
 
-If you have a disability that was caused—or made worse—by your active-duty service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services. Find out if you can get employment support or help living as independently as possible.  
+If you have a disability that was caused—or made worse—by your active-duty service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services. Find out if you can get employment support or help living as independently as possible.
 
 </div>
 
@@ -91,7 +91,7 @@ You can apply online right now.
 
 - A complete evaluation to determine your abilities, skills, and interests for employment
 - Vocational counseling and rehabilitation planning for employment services
-- Employment services such as job training, resume development, and other work-readiness support  
+- Employment services such as job training, resume development, and other work-readiness support
 - Help finding and keeping a job, including the use of special employer incentives and job accommodations
 - On the Job Training (OJT), apprenticeships, and non-paid work experiences
 - Post-secondary training at a college, vocational, technical, or business school
@@ -113,7 +113,5 @@ You can apply online right now.
 [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
 - Counselors to help you transition from military to college life. <br>
 [Learn about VetSuccess on Campus](/careers-employment/vetsuccess-on-campus/).
-- Other employment resources for Servicemembers and Veterans. <br>
-[Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 - Links to more resources outside VA that can help you in your job search. <br>
 [See our list of external resources](/careers-employment/veteran-resources/).

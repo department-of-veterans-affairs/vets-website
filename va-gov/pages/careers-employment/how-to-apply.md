@@ -9,7 +9,7 @@ relatedlinks:
     links:
     - url: /careers-employment/vocational-rehabilitation/programs/
       title: VR&E Programs for Servicemembers and Veterans
-      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
+      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
     - url: /careers-employment/dependent-benefits/
       title: Dependent Family Members
       description: If you're the dependent family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits.
@@ -19,7 +19,7 @@ aliases:
 
 <div class="va-introtext">
 
-Find out how to apply for Vocational Rehabilitation and Employment (VR&E). 
+Find out how to apply for Vocational Rehabilitation and Employment (VR&E).
 
 </div>
 
@@ -81,7 +81,7 @@ You may be eligible for VR&amp;E benefits and services if you’re in at least o
 - Going through the Physical Evaluation Board process, **or**
 - Expecting an other than dishonorable discharge and have a VA memorandum rating of 20% or more, **or**
 - Entered in the Integrated Disability Evaluation System (IDES). <br>
-[Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides).
+[Learn more about accessing VR&E services through IDES](/careers-employment/vocational-rehabilitation/ides/).
 
 **Please note:** Severely injured active-duty Servicemembers can automatically receive VR&E benefits before VA issues a disability rating, because of Sec. 1631(b) of the National Defense Authorization Act (PL 110-181). The sunset date of that law has been extended to September 30, 2018, through Sec. 724 of Public Law 113-291.
 

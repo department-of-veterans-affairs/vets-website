@@ -25,7 +25,7 @@ aliases:
 
 <div class="va-introtext">
 
-If you want to follow an employment path that uses your existing skill set, the Vocational Rehabilitation and Employment (VR&amp;E) Rapid Access to Employment track can help you with your job search. We offer counseling and rehabilitation services that address your abilities, aptitudes, and interests. 
+If you want to follow an employment path that uses your existing skill set, the Vocational Rehabilitation and Employment (VR&amp;E) Rapid Access to Employment track can help you with your job search. We offer counseling and rehabilitation services that address your abilities, aptitudes, and interests.
 
 Find out if you can get VR&amp;E benefits and services to help you use your existing skill set to find a job.
 
@@ -98,7 +98,7 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
-[Find out how to apply if you haven’t yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if you haven’t yet received a disability rating](/careers-employment/how-to-apply/#servicemember-not-received-rating).
 
 Some dependents of Servicemembers or Veterans with service-connected disabilities may also be eligible for education and career counseling. <br>
 [Learn about services for family members](/careers-employment/dependent-benefits/).
@@ -118,7 +118,5 @@ Some dependents of Servicemembers or Veterans with service-connected disabilitie
 [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
 - Counselors to help you transition from military to college life. <br>
 [Learn about VetSuccess on Campus](/careers-employment/vetsuccess-on-campus/).
-- Other employment resources for Servicemembers and Veterans. <br>
-[Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 - Links to more resources outside VA that can help you in your job search. <br>
 [See our list of external resources](/careers-employment/veteran-resources/).
