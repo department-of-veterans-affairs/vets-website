@@ -104,7 +104,7 @@ const transformDateRange = (treatmentDateRange) => {
   return [treatmentDateRange];
 };
 
-/** Note: This function will be moved to the 526EZ helper file
+/**
 * Cycles through the list of provider facilities and performs transformations on each property as needed
 * @param {array} providerFacility array of objects being transformed
 * @returns {object} containing the new Provider Facility structure
