@@ -9,6 +9,7 @@ import createDisabilityIncreaseApplicationStatus from '../disability-benefits/52
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import MessagingManifest from '../../applications/messaging/manifest.json';
+import RXManifest from '../../applications/rx/manifest.json';
 
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 
@@ -16,7 +17,7 @@ const healthcarePages = new Set(['/health-care/', '/health-care/how-to-apply/', 
 
 const healthcareTools = new Set([
   `${MessagingManifest.rootUrl}/`,
-  '/health-care/refill-track-prescriptions/',
+  `${RXManifest.rootUrl}/`,
   '/health-care/schedule-view-va-appointments/',
   '/health-care/view-test-and-lab-results/'
 ]);

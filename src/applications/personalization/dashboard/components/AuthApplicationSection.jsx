@@ -4,6 +4,7 @@ import ClaimsManifest from '../../../claims-status/manifest.json';
 import DischargeWizardManifest from '../../../discharge-wizard/manifest.json';
 import HealthRecordsManifest from '../../../health-records/manifest.json';
 import MessagingManifest from '../../../messaging/manifest.json';
+import RXManifest from '../../../rx/manifest.json';
 
 class AuthApplicationSection extends React.Component {
   render() {
@@ -14,7 +15,7 @@ class AuthApplicationSection extends React.Component {
           <div className="medium-12 columns">
             <p key="hca"><a href="/health-care/how-to-apply/">Apply for health care</a></p>
             <p key="edu-benefits"><a href="/education/apply-for-education-benefits">Apply for Education Benefits</a></p>
-            <p key="rx"><a href="/health-care/refill-track-prescriptions">Refill your prescription</a></p>
+            <p key="rx"><a href={RXManifest.rootUrl}>Refill your prescription</a></p>
             <p key="messaging"><a href={MessagingManifest.rootUrl}>Message your health care team</a></p>
             <p key="health-records"><a href={HealthRecordsManifest.rootUrl}>Get your VA health records</a></p>
             <p key="claims"><a href={ClaimsManifest.rootUrl}>Check your claim and appeal status</a></p>

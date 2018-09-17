@@ -11,6 +11,7 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
+import RXManifest from '../../../rx/manifest.json';
 
 function recordDashboardClick(product) {
   return () => {
@@ -58,7 +59,7 @@ class PrescriptionsWidget extends React.Component {
           <div>
             {content}
           </div>
-          <p><Link href="/health-care/refill-track-prescriptions" onClick={recordDashboardClick('view-all-prescriptions')}>View all your prescriptions</Link>.</p>
+          <p><Link href={RXManifest.rootUrl} onClick={recordDashboardClick('view-all-prescriptions')}>View all your prescriptions</Link>.</p>
         </div>
       );
     }

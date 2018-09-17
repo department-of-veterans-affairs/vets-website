@@ -4,6 +4,7 @@ const Timeouts = require('../../testing/e2e/timeouts');
 const ClaimsManifest = require('../../../applications/claims-status/manifest.json');
 const HealthRecordsManifest = require('../../../applications/health-records/manifest.json');
 const MessagingManifest = require('../../../applications/messaging/manifest.json');
+const RXManifest = require('../../../applications/rx/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -12,7 +13,7 @@ module.exports = E2eHelpers.createE2eTest(
       '/education/gi-bill/post-9-11/ch-33-benefit/status',
       HealthRecordsManifest.rootUrl,
       MessagingManifest.rootUrl,
-      '/health-care/refill-track-prescriptions',
+      RXManifest.rootUrl,
       'download-va-letters/letters',
       ClaimsManifest.rootUrl,
     ];
