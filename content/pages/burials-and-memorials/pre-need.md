@@ -93,6 +93,7 @@ To apply, you’ll need your (or your sponsor's):
 [Find out how to request discharge papers](https://www.archives.gov/veterans/military-service-records/standard-form-180).
 
 
+
 #### More information needed for certain applicants
 
 - **If you’re applying as a spouse, surviving spouse, or unmarried adult child,** you’ll also need your personal information, including your Social Security number.
