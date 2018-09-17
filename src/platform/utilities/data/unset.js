@@ -35,7 +35,7 @@ function baseUnset(arrayPath, object, level = 0) {
 
 
 /**
- * Removes the value at the end of the path, creating the appropriate objects along the way if needed.
+ * Removes the value at the end of the path
  * Separate from `baseUnset` to not expose the level param.
  *
  * @param {Array|string} path

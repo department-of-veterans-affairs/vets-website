@@ -3,7 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
-import { debounce } from 'lodash';
+
+import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
 import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
@@ -34,7 +35,7 @@ const scrollToTop = () => {
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedAutoSave = debounce(this.autoSave, 1000);
+    this.debouncedAutoSave = debounce(1000, this.autoSave);
   }
 
   componentDidMount() {

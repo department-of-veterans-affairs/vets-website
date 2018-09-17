@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 import { FormPage } from 'us-forms-system/lib/js/containers/FormPage';
 import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
 
-import { debounce } from 'lodash';
+import debounce from '../../utilities/data/debounce';
 
 import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
@@ -21,7 +21,7 @@ import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 class RoutedSavablePage extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedAutoSave = debounce(this.autoSave, 1000);
+    this.debouncedAutoSave = debounce(1000, this.autoSave);
   }
 
   onChange = (formData) => {
