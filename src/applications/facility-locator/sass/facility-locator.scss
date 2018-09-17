@@ -253,6 +253,12 @@
     background-size: contain;
   }
 
+  .cc-provider-icon {
+    background-image: url("/img/icons/cc-provider-pin.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
   .vet-center-icon {
     background-image: url("/img/icons/vet-centers-pin.svg");
     background-repeat: no-repeat;
@@ -294,6 +300,7 @@
     }
 
     input[type=submit] {
+      padding: 0 1rem;
       margin-top: 2.5rem;
     }
   }
@@ -498,4 +505,24 @@
   height: 100%;
   text-align: left;
   width: 100%;
+}
+
+.cc-info-link {
+  text-decoration: none;
+}
+
+.no-marg-right {
+  margin-right: 0 !important;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.top-z {
+  z-index: 1000 !important;
 }

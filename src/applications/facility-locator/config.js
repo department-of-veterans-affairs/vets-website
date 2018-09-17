@@ -2,6 +2,7 @@ import environment from '../../platform/utilities/environment';
 
 // Base URL to be used in API requests.
 export const api = {
+  baseUrl: `${environment.API_URL}/v0/facilities/`,
   url: `${environment.API_URL}/v0/facilities/va`,
   settings: {
     headers: {
@@ -17,6 +18,7 @@ export const facilityTypes = {
   va_benefits_facility: 'Benefits',
   vet_center: 'Vet Center',
   health: 'Health',
+  cc_provider: 'Community Care (Non-VA Health)',
   cemetery: 'Cemetery',
   benefits: 'Benefits',
 };

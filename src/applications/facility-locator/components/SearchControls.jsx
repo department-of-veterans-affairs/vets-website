@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-
+import FacilityTypeDropdown from './FacilityTypeDropdown';
 import recordEvent from '../../../platform/monitoring/record-event';
-
 import {
   healthServices,
   benefitsServices,
   vetCenterServices
 } from '../config';
-
-import FacilityTypeDropdown from './FacilityTypeDropdown';
+// import ServiceTypeAhead from './ServiceTypeAhead';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
@@ -24,8 +22,8 @@ class SearchControls extends Component {
     this.props.onChange({ facilityType, serviceType: null });
   }
 
-  handleServiceTypeChange = (e) => {
-    const option = e.target.value;
+  handleServiceTypeChange = ({ target }) => {
+    const option = target.value;
     const serviceType = (option === 'All') ? null : option;
     this.props.onChange({ serviceType });
   }
@@ -43,19 +41,9 @@ class SearchControls extends Component {
     this.props.onSubmit();
   }
 
-  renderFacilityTypeDropdown = () => {
-    return (
-      <div className="columns medium-3">
-        <FacilityTypeDropdown
-          facilityType={this.props.currentQuery.facilityType}
-          onChange={this.handleFacilityTypeChange}/>
-      </div>
-    );
-  }
-
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
-    const disabled = !['health', 'benefits', 'vet_center'].includes(facilityType);
+    const disabled = !['health', 'benefits', 'vet_center'/* , 'cc_provider' */].includes(facilityType);
     let services;
 
     // Determine what service types to display for the facility type.
@@ -72,6 +60,8 @@ class SearchControls extends Component {
           return result;
         }, { All: 'Show all facilities' });
         break;
+      // case 'cc_provider':
+      //   return <ServiceTypeAhead onSelect={this.handleServiceTypeChange}/>;
       default:
         services = {};
     }
@@ -86,7 +76,7 @@ class SearchControls extends Component {
     return (
       <div className="columns medium-3">
         <label htmlFor="service-type-dropdown">
-          Filter by service
+          Service type (optional)
         </label>
         <select
           id="service-type-dropdown"
@@ -117,7 +107,7 @@ class SearchControls extends Component {
         <form className="row" onSubmit={this.handleSubmit}>
           <div className="columns medium-4">
             <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
-              Enter Street, City, State or Zip
+              Search near
             </label>
             <input
               id="street-city-state-zip"
@@ -125,11 +115,15 @@ class SearchControls extends Component {
               type="text"
               onChange={this.handleQueryChange}
               value={currentQuery.searchString}
-              title="Street, City, State or Zip"/>
+              title="Your location: Street, City, State or Zip"/>
           </div>
-          {this.renderFacilityTypeDropdown()}
+          <div className="columns medium-4">
+            <FacilityTypeDropdown
+              facilityType={this.props.currentQuery.facilityType}
+              onChange={this.handleFacilityTypeChange}/>
+          </div>
           {this.renderServiceTypeDropdown()}
-          <div className="columns medium-2">
+          <div className="columns medium-1">
             <input type="submit" value="Search"/>
           </div>
         </form>

@@ -1,3 +1,12 @@
+import {
+  SEARCH_STARTED,
+  SEARCH_FAILED,
+  SEARCH_QUERY_UPDATED,
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS,
+  SEARCH_COMPLETE,
+} from '../utils/actionTypes';
+
 const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
@@ -13,41 +22,47 @@ const INITIAL_STATE = {
     39.3976763,
   ],
   context: 20004,
-  inProgress: false,
   currentPage: 1,
   zoomLevel: 4,
+  inProgress: false,
   searchBoundsInProgress: false,
 };
 
-export default function (state = INITIAL_STATE, action) {
+export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'SEARCH_STARTED':
+    case SEARCH_STARTED:
       return {
         ...state,
         ...action.payload,
         error: false,
         inProgress: true,
       };
-    case 'FETCH_VA_FACILITIES':
+    case FETCH_LOCATIONS:
       return {
         ...state,
         error: false,
         inProgress: false,
         searchBoundsInProgress: false,
       };
-    case 'FETCH_VA_FACILITY':
+    case FETCH_LOCATION_DETAIL:
       return {
         ...state,
         error: false,
         inProgress: false,
       };
-    case 'SEARCH_FAILED':
+    case SEARCH_FAILED:
       return {
         ...state,
         error: true,
-        inProgress: false,
+        inProgress: false
       };
-    case 'SEARCH_QUERY_UPDATED':
+    case SEARCH_COMPLETE:
+      return {
+        ...state,
+        error: false,
+        inProgress: false
+      };
+    case SEARCH_QUERY_UPDATED:
       return {
         ...state,
         ...action.payload,
@@ -56,4 +71,4 @@ export default function (state = INITIAL_STATE, action) {
     default:
       return state;
   }
-}
+};

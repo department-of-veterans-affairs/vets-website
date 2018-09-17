@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { kebabCase } from 'lodash/fp';
 import classNames from 'classnames';
 import Downshift from 'downshift';
+// import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
-
-const FACILITY_OPTIONS = ['all', 'health', 'benefits', 'cemetery', 'vet_center'];
+import { LOCATION_OPTIONS, LocationType } from '../constants';
 
 const facilityOptionClasses = (item, selected) => classNames(
   'dropdown-option',
@@ -30,7 +30,7 @@ const FacilityTypeDropdown = ({
     if (e.keyCode === keyMap.TAB && isOpen) { closeMenu(); }
   };
 
-  const options = FACILITY_OPTIONS.map((item, index) => (
+  const options = LOCATION_OPTIONS.map((item, index) => (
     <li key={item} {...getItemProps({
       item,
       className: facilityOptionClasses(item, index === highlightedIndex),
@@ -44,7 +44,7 @@ const FacilityTypeDropdown = ({
   return (
     <div>
       <label htmlFor="facility-dropdown-toggle">
-        Select Facility Type
+        Search for
       </label>
       <div id="facility-dropdown">
         <button {...getButtonProps({
@@ -61,6 +61,14 @@ const FacilityTypeDropdown = ({
         </button>
         {isOpen && (<ul className="dropdown" role="listbox">{options}</ul>)}
       </div>
+      { selectedItem === LocationType.CC_PROVIDER &&
+        <div className="pull-left">
+          <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
+            rel="noopener noreferrer" target="_blank" className="cc-info-link">
+            What's Community Care and am I eligible?
+          </a>
+        </div>
+      }
     </div>
   );
 };
@@ -68,7 +76,7 @@ const FacilityTypeDropdown = ({
 class Wrapper extends Component {
   render() {
     const facilityType = this.props.facilityType || 'all';
-    const highlightedIndex = FACILITY_OPTIONS.indexOf(facilityType);
+    const highlightedIndex = LOCATION_OPTIONS.indexOf(facilityType);
 
     return (
       <Downshift

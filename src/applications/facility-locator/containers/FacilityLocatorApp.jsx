@@ -5,26 +5,28 @@ import DowntimeNotification, { externalServices } from '../../../platform/monito
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
 class FacilityLocatorApp extends React.Component {
-  renderBreadcrumbs(location, selectedFacility) {
+  renderBreadcrumbs(location, selectedResult) {
     const crumbs = [
       <a href="/" key="home">Home</a>,
-      <Link to="/" key="facility-locator">Facility Locator</Link>
+      <Link to="/" key="facility-locator">Find Facilities & Services</Link>
     ];
 
-    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedFacility) {
-      crumbs.push(<Link to={`/${selectedFacility.id}`}>Facility Details</Link>);
+    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
+      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Facility Details</Link>);
+    } else if (location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
+      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Provider Details</Link>);
     }
 
     return crumbs;
   }
 
   render() {
-    const { location, selectedFacility } = this.props;
+    const { location, selectedResult } = this.props;
 
     return (
       <div>
-        <Breadcrumbs selectedFacility={selectedFacility}>
-          {this.renderBreadcrumbs(location, selectedFacility)}
+        <Breadcrumbs selectedFacility={selectedResult}>
+          {this.renderBreadcrumbs(location, selectedResult)}
         </Breadcrumbs>
         <div className="row">
           <DowntimeNotification appTitle="facility locator tool" dependencies={[externalServices.arcgis]}>
@@ -40,7 +42,7 @@ class FacilityLocatorApp extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    selectedFacility: state.facilities.selectedFacility,
+    selectedResult: state.searchResult.selectedResult,
   };
 }
 

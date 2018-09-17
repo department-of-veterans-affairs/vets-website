@@ -29,17 +29,17 @@ export default class AppointmentInfo extends Component {
   }
 
   render() {
-    const { facility } = this.props;
+    const { location } = this.props;
 
-    if (!facility) {
+    if (!location) {
       return null;
     }
 
-    if (facility.attributes.facilityType !== 'va_health_facility') {
+    if (location.attributes.facilityType !== 'va_health_facility') {
       return null;
     }
 
-    const healthAccessAttrs = facility.attributes.access.health;
+    const healthAccessAttrs = location.attributes.access.health;
 
     if (!this.anyWaitTimes(healthAccessAttrs, 'new') && !this.anyWaitTimes(healthAccessAttrs, 'established')) {
       return null;

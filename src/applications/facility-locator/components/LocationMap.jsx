@@ -2,7 +2,7 @@ import { mapboxToken } from './MapboxClient';
 import environment from '../../../platform/utilities/environment';
 import React, { Component } from 'react';
 
-class HowToGetHere extends Component {
+class LocationMap extends Component {
   render() {
     if (!this.props.info) {
       return (
@@ -15,6 +15,7 @@ class HowToGetHere extends Component {
     /* eslint-disable camelcase */
     const pinNames = {
       va_health_facility: 'health',
+      cc_provider: 'cc-provider',
       va_cemetery: 'cemetery',
       va_benefits_facility: 'benefits',
       vet_center: 'vet-centers',
@@ -34,4 +35,4 @@ class HowToGetHere extends Component {
   }
 }
 
-export default HowToGetHere;
+export default LocationMap;
