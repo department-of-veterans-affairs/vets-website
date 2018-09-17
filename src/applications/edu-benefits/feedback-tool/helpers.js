@@ -148,7 +148,7 @@ export function submit(form, formConfig) {
  * The base object all the onBehalfOf tracking event objects extend
  */
 const baseOnBehalfOfEventObject = {
-  event: 'edu-complaint-tool-applicant-selection'
+  event: 'edu-feedback-tool-applicant-selection'
 };
 
 /**
