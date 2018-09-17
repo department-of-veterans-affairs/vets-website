@@ -23,7 +23,7 @@ export default function Vet360EditModalErrorMessage({ error: { errors = [] }, cl
       content = (
         <div>
           <p>We can’t make this update because our records show the Veteran is deceased. If this isn’t true, please contact your nearest VA medical center.</p>
-          <a href={FacilityLocatorManifest.rootUrl}>Find your nearest VA medical center</a>
+          <a href={`${FacilityLocatorManifest.rootUrl}/`}>Find your nearest VA medical center</a>
         </div>
       );
       break;

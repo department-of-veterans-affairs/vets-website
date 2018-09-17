@@ -253,7 +253,7 @@ class DashboardApp extends React.Component {
                 </a>
               </li>
               <li>
-                <a href={HealthRecordsManifest.rootUrl} onClick={recordDashboardClick('health-records')}>
+                <a href={`${HealthRecordsManifest.rootUrl}/`} onClick={recordDashboardClick('health-records')}>
                   <h4 className="va-nav-linkslist-title">Get Your VA Health Records</h4>
                   <p className="va-nav-linkslist-description">View, download, and print your VA health records.</p>
                 </a>

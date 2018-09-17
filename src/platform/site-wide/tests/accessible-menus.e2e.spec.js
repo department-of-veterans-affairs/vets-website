@@ -6,7 +6,7 @@ const RXManifest = require('../../../applications/rx/manifest.json');
 
 const exploreButton = '#vetnav-menu button[aria-controls="vetnav-explore"]';
 const benefitsButton = '#vetnav-menu button[aria-controls="vetnav-benefits"]';
-const facilitiesLink = `#vetnav-menu a[href="${FacilityLocatorManifest.url}"]`;
+const facilitiesLink = `#vetnav-menu a[href="${FacilityLocatorManifest.url}/"]`;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {

@@ -204,11 +204,11 @@ const resultsData = {
     },
   ],
   links: {
-    self: `http://www.example.com/v0${FacilityLocatorManifest.rootUrl}va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1`,
-    first: `http://www.example.com/v0${FacilityLocatorManifest.rootUrl}va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20`,
+    self: `http://www.example.com/v0${FacilityLocatorManifest.rootUrl}/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1`,
+    first: `http://www.example.com/v0${FacilityLocatorManifest.rootUrl}/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20`,
     prev: null,
     next: null,
-    last: `http://www.example.com/v0${FacilityLocatorManifest.rootUrl}va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20`
+    last: `http://www.example.com/v0${FacilityLocatorManifest.rootUrl}/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20`
   },
   meta: {
     pagination: {
@@ -223,13 +223,13 @@ const resultsData = {
 // Create API routes
 function initApplicationMock(token) {
   mock(token, {
-    path: `/v0${FacilityLocatorManifest.rootUrl}va`,
+    path: `/v0${FacilityLocatorManifest.rootUrl}/va`,
     verb: 'get',
     value: resultsData,
   });
 
   mock(token, {
-    path: `/v0${FacilityLocatorManifest.rootUrl}va/vha_691GE`,
+    path: `/v0${FacilityLocatorManifest.rootUrl}/va/vha_691GE`,
     verb: 'get',
     value: {
       data: resultsData.data[0]

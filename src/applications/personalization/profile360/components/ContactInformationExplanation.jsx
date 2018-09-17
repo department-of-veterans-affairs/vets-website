@@ -28,7 +28,7 @@ export default function ContactInformationExplanation() {
           <li><strong>For Veterans' Mortgage Life Insurance:</strong> Call the VA Insurance Center (VAIC) at 1-800-669-8477, Monday through Friday, 8:00 a.m. to 6:00 p.m. (ET)</li>
           <li><strong>For prescriptions:</strong> Call your health care team or your nearest VA medical center.</li>
         </ul>
-        <a href={FacilityLocatorManifest.rootUrl}>Find your nearest VA medical center</a>.
+        <a href={`${FacilityLocatorManifest.rootUrl}/`}>Find your nearest VA medical center</a>.
       </AdditionalInfo>
     </div>
   );

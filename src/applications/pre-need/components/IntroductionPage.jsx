@@ -41,7 +41,7 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>
                   The name of the VA national cemetery where you’d prefer to be buried.<br/>
-                  <a href={FacilityLocatorManifest.rootUrl}>Find a VA national cemetery</a>.
+                  <a href={`${FacilityLocatorManifest.rootUrl}/`}>Find a VA national cemetery</a>.
                 </li>
                 <li>
                   Service history or the service history of the Servicemember or Veteran who’s sponsoring your application. This includes your or your sponsor’s:
