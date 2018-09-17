@@ -15,6 +15,7 @@ const LocationPhoneLink = ({ location }) => {
       </div>
     );
   }
+  
 
   const { attributes: { phone } } = location;
   return (

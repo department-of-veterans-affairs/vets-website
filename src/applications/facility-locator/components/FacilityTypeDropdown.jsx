@@ -26,6 +26,7 @@ const FacilityTypeDropdown = ({
   selectedItem
 }) => {
   let showBubble = false;
+  
   const handleKeyDown = (e) => {
     // Allow blurring focus (with TAB) to close dropdown.
     if (e.keyCode === keyMap.TAB && isOpen) { closeMenu(); }
@@ -48,7 +49,7 @@ const FacilityTypeDropdown = ({
         Search for
         { selectedItem === LocationType.CC_PROVIDER &&
         <span className="cc-info-link-span">
-          <a onClick={ e => { e.preventDefault(); showBubble = !showBubble; alert(showBubble)} } href="{null}" title="Click for More Information" rel="noopener noreferrer" target="_blank" className="cc-info-link"><i className="fa fa-info-circle cc-info-link-icon"/></a>
+          <a onClick={ e => { e.preventDefault(); showBubble = !showBubble;} } href="{null}" title="Click for More Information" rel="noopener noreferrer" target="_blank" className="cc-info-link"><i className="fa fa-info-circle cc-info-link-icon"/></a>
         </span>
         }
         { showBubble &&
