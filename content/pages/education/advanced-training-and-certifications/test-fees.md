@@ -20,9 +20,7 @@ The GI Bill covers more than just tuition. We may pay you back for the cost of a
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="licensing-certification-kinds-of-benefits">For licensing and certification</button>
   
 <div id="licensing-certification-kinds-of-benefits" class="usa-accordion-content">
-If you’re a Veteran and you qualify for the GI Bill, we may pay you back for testing fees under $2,000. 
-
-You can get paid back for testing related to these kinds of jobs:
+If you’re a Veteran and you qualify for the GI Bill, we may pay you back for testing fees under $2,000 that are related to these kinds of jobs:
 
 - Mechanic
 - Medical technician
@@ -74,7 +72,7 @@ If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may p
 
 [See the complete list of tests and fees](https://inquiry.vba.va.gov/weamspub/buildSearchNE.do).
 
-We won’t pay you back for these costs:
+**We won’t pay you back for these costs:**
 - Pretest costs (such as Kaplan tests)
 - Fees to get scores quickly
 - Optional items not required to take an approved test
@@ -83,6 +81,10 @@ We won’t pay you back for these costs:
 
 ### How do I get this benefit?
 
+We’ll charge your GI Bill benefit package for the cost of the test.
+
+For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for actual amount of the testing fee.
+
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
@@ -90,14 +92,13 @@ We won’t pay you back for these costs:
   
 <div id="licensing-certification-get-benefits" class="usa-accordion-content">  
   
-If you’re a Veteran and you qualify for the GI Bill, we may pay you back for testing fees under $2,000. 
-
 First, fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). 
 [Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
 
 **Note:** You’ll need to turn in proof of payment (a receipt showing you paid the testing fee) with your application.
+
 Then, either upload your form to the GI Bill site or mail it to the nearest VA regional processing office.
-Upload your completed application to the GI Bill website.
+[Upload your completed application to the GI Bill website](https://gibill.custhelp.va.gov/app/utils/login_form/).
 [Find the nearest VA regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
 </div>
 </li>
@@ -109,9 +110,13 @@ Upload your completed application to the GI Bill website.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="national-testing-get-benefits">For national testing</button>
 
 <div id="national-testing-get-benefits" class="usa-accordion-content">
-  
-We’ll charge your GI Bill benefit package for the cost of the test.
-For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for actual amount of the testing fee. <br>
+
+First, fill out an Application for Reimbursement of National Exam Fee (VA Form 22-0810). <br>
+[Download VA Form 22-0810](https://www.vba.va.gov/pubs/forms/VBA-22-0810-ARE.pdf).
+
+Then, mail your form to the nearest VA regional processing office. <br>
+[Find the address of the nearest VA regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
+
 
 **Please note:**
 - You may need to provide your proof of payment.
