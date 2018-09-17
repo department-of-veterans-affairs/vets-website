@@ -2,6 +2,7 @@ import { MILITARY_STATES } from '../../../../letters/utils/constants';
 
 import states from './states.json';
 import countries from './countries.json';
+import Profile360Manifest from '../../manifest.json';
 
 export const ADDRESS_FORM_VALUES = {
   STATES: states.map(state => state.stateCode),
@@ -76,10 +77,10 @@ export const ANALYTICS_FIELD_MAP = {
 };
 
 export const API_ROUTES = {
-  INIT_VET360_ID: '/profile/initialize_vet360_id',
-  TELEPHONES: '/profile/telephones',
-  EMAILS: '/profile/email_addresses',
-  ADDRESSES: '/profile/addresses'
+  INIT_VET360_ID: `${Profile360Manifest.rootUrl}/initialize_vet360_id`,
+  TELEPHONES: `${Profile360Manifest.rootUrl}/telephones`,
+  EMAILS: `${Profile360Manifest.rootUrl}/email_addresses`,
+  ADDRESSES: `${Profile360Manifest.rootUrl}/addresses`
 };
 
 export const VET360_INITIALIZATION_STATUS = {

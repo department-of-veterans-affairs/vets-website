@@ -4,6 +4,7 @@ import recordEvent from '../../../../../platform/monitoring/record-event';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import { isSuccessfulTransaction, isFailedTransaction } from '../util/transactions';
+import Profile360Manifest from '../../manifest.json';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS = 'VET360_TRANSACTIONS_FETCH_SUCCESS';
 export const VET360_TRANSACTION_REQUESTED = 'VET360_TRANSACTION_REQUESTED';
@@ -20,7 +21,7 @@ export function fetchTransactions() {
     try {
       let response;
       if (isVet360Configured()) {
-        response = await apiRequest('/profile/status/');
+        response = await apiRequest(`${Profile360Manifest.rootUrl}/status/`);
       } else {
         response = { data: [] };
         // Uncomment the line below to simulate transactions being processed during initialization
@@ -66,7 +67,7 @@ export function refreshTransaction(transaction, analyticsSectionName, _route = n
         transaction
       });
 
-      const route = _route || `/profile/status/${transactionId}`;
+      const route = _route || `${Profile360Manifest.rootUrl}/status/${transactionId}`;
       const transactionRefreshed = isVet360Configured() ? await apiRequest(route) : await localVet360.updateTransaction(transactionId);
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
