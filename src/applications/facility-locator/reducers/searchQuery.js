@@ -1,10 +1,12 @@
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
+  SEARCH_COMPLETE,
   SEARCH_QUERY_UPDATED,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
-  SEARCH_COMPLETE,
+  FETCH_SERVICES,
+  FETCH_SERVICES_DONE,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
@@ -26,6 +28,7 @@ const INITIAL_STATE = {
   zoomLevel: 4,
   inProgress: false,
   searchBoundsInProgress: false,
+  fetchSvcsInProgress: false
 };
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
@@ -49,6 +52,18 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: false,
         inProgress: false,
+      };
+    case FETCH_SERVICES:
+      return {
+        ...state,
+        error: false,
+        fetchSvcsInProgress: true
+      };
+    case FETCH_SERVICES_DONE:
+      return {
+        ...state,
+        error: false,
+        fetchSvcsInProgress: false
       };
     case SEARCH_FAILED:
       return {

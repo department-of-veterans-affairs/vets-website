@@ -8,7 +8,8 @@ import {
   SEARCH_FAILED,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
-  SEARCH_COMPLETE,
+  FETCH_SERVICES,
+  FETCH_SERVICES_DONE,
 } from '../utils/actionTypes';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 import LocatorApi from '../api';
@@ -198,7 +199,7 @@ export const genBBoxFromAddress = (query) => {
 
 export const getProviderSvcs = () => {
   return async (dispatch) => {
-    dispatch({ type: SEARCH_STARTED });
+    dispatch({ type: FETCH_SERVICES });
 
     const results = await LocatorApi.getProviderSvcs()
       .then(
@@ -208,7 +209,7 @@ export const getProviderSvcs = () => {
             return [];
           }
           // Great Success!
-          dispatch({ type: SEARCH_COMPLETE });
+          dispatch({ type: FETCH_SERVICES_DONE });
           return data;
         }
       )

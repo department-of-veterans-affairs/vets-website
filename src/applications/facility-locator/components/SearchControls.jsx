@@ -6,7 +6,7 @@ import {
   benefitsServices,
   vetCenterServices
 } from '../config';
-// import ServiceTypeAhead from './ServiceTypeAhead';
+import ServiceTypeAhead from './ServiceTypeAhead';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
@@ -43,7 +43,7 @@ class SearchControls extends Component {
 
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
-    const disabled = !['health', 'benefits', 'vet_center'/* , 'cc_provider' */].includes(facilityType);
+    const disabled = !['health', 'benefits', 'vet_center', 'cc_provider'].includes(facilityType);
     let services;
 
     // Determine what service types to display for the facility type.
@@ -60,8 +60,8 @@ class SearchControls extends Component {
           return result;
         }, { All: 'Show all facilities' });
         break;
-      // case 'cc_provider':
-      //   return <ServiceTypeAhead onSelect={this.handleServiceTypeChange}/>;
+      case 'cc_provider':
+        return <ServiceTypeAhead onSelect={this.handleServiceTypeChange}/>;
       default:
         services = {};
     }
@@ -74,7 +74,7 @@ class SearchControls extends Component {
     ));
 
     return (
-      <div className="columns medium-3">
+      <span>
         <label htmlFor="service-type-dropdown">
           Service type (optional)
         </label>
@@ -85,7 +85,7 @@ class SearchControls extends Component {
           onChange={this.handleServiceTypeChange}>
           {options}
         </select>
-      </div>
+      </span>
     );
   }
 
@@ -122,7 +122,9 @@ class SearchControls extends Component {
               facilityType={this.props.currentQuery.facilityType}
               onChange={this.handleFacilityTypeChange}/>
           </div>
-          {this.renderServiceTypeDropdown()}
+          <div className="columns medium-3">
+            {this.renderServiceTypeDropdown()}
+          </div>
           <div className="columns medium-1">
             <input type="submit" value="Search"/>
           </div>
