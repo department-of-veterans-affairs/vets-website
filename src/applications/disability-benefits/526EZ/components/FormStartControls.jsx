@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { VerifiedAlert, UnauthenticatedAlert, UnverifiedAlert } from '../helpers';
+import VerifyManifest from '../../../verify/manifest.json';
 
 export default function FormStartControls(props) {
   const { user } = props;
@@ -16,7 +17,7 @@ export default function FormStartControls(props) {
       </div>}
       {!user.profile.verified && user.login.currentlyLoggedIn && <div>
         {UnverifiedAlert}
-        <a href={`/verify?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
+        <a href={`${VerifyManifest.rootUrl}?next=${window.location.pathname}`} className="usa-button-primary verify-link">Verify Your Identity</a>
       </div>}
       {user.profile.verified && <SaveInProgressIntro
         {...props}

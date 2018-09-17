@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import RequiredLoginView from '../../../authorization/components/RequiredLoginView.jsx';
 import backendServices from '../../../profile/constants/backendServices';
 import conditionalStorage from '../../../../utilities/storage/conditionalStorage';
+import VerifyManifest from '../../../../../applications/verify/manifest.json';
 
 describe('<RequiredLoginView>', () => {
   const redirectFunc = sinon.spy();
@@ -169,7 +170,7 @@ describe('<RequiredLoginView>', () => {
       it('should prompt for verification', () => {
         const { tree } = setup({ user: loa1User });
         tree.getMountedInstance().componentDidUpdate();
-        expect(redirectFunc.calledWith(sinon.match('/verify'))).to.be.true;
+        expect(redirectFunc.calledWith(sinon.match(VerifyManifest.rootUrl))).to.be.true;
       });
     });
 

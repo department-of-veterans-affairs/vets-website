@@ -8,6 +8,7 @@ import { focusElement } from '../../../platform/utilities/ui';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { hasSavedForm } from '../helpers';
+import VerifyManifest from '../../verify/manifest.json';
 
 const { animateScroll: scroll } = Scroll;
 
@@ -146,7 +147,7 @@ verification system available.</p>
         <h2 className="help-heading">Ready to get started?</h2>
         {signedIn && !idProofed && <div>
           <p><strong>Verify your identity before you apply for a Veteran ID Card.</strong><br/>
-            <a className="usa-button usa-button-primary" href="/verify?next=%2Fveteran-id-card%2Fapply">Verify Your Identity</a>
+            <a className="usa-button usa-button-primary" href={`${VerifyManifest.rootUrl}?next=%2Fveteran-id-card%2Fapply`}>Verify Your Identity</a>
           </p>
           <strong>Start the Veteran ID Card application without signing in.</strong>
         </div>}

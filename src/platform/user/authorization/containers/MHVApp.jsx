@@ -9,6 +9,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import { mhvAccessError } from '../../../static-data/error-messages';
 import backendServices from '../../profile/constants/backendServices';
 import { selectProfile } from '../../selectors';
+import VerifyManifest from '../../../../applications/verify/manifest.json';
 
 import {
   createMHVAccount,
@@ -85,7 +86,7 @@ export class MHVApp extends React.Component {
     // rendered, but if it hasn't for some reason, we will redirect now.
     if (accountState === 'needs_identity_verification') {
       const nextQuery = { next: window.location.pathname };
-      const verifyUrl = appendQuery('/verify', nextQuery);
+      const verifyUrl = appendQuery(VerifyManifest.rootUrl, nextQuery);
       window.location.replace(verifyUrl);
       return;
     }

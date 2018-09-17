@@ -9,6 +9,7 @@ import { focusElement } from '../../utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import { formTitles } from '../../../applications/personalization/profile360/util/helpers';
 import FormStartControls from './FormStartControls';
+import VerifyManifest from '../../../applications/verify/manifest.json';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -54,7 +55,7 @@ class FormSaved extends React.Component {
         </div>
         {!verified && <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
-            We want to keep your information safe with the highest level of security. Please <a href={`/verify?next=${window.location.pathname}`} className="verify-link">verify your identity</a>.
+            We want to keep your information safe with the highest level of security. Please <a href={`${VerifyManifest.rootUrl}?next=${window.location.pathname}`} className="verify-link">verify your identity</a>.
           </div>
         </div>}
         <br/>
