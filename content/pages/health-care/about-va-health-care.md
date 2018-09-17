@@ -4,7 +4,7 @@ template: detail-page
 title: About VA Health Care Coverage
 display_title: VA Health Care Coverage
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2018-09-20
 collection: healthCare
 children: healthCareCoverage
 order: 1
