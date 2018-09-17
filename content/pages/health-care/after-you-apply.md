@@ -7,7 +7,7 @@ description: Find out what to do after applying for VA health care benefits, inc
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: healthCare
 order: 4
-lastupdate: 2017-08-28
+lastupdate: 2017-09-20
 ---
 
 <div class="va-introtext">
