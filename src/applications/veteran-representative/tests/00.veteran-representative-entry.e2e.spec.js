@@ -10,7 +10,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
 
   client
-    .url(`${E2eHelpers.baseUrl}${VeteranRepManifest}`)
+    .url(`${E2eHelpers.baseUrl}${VeteranRepManifest.rootUrl}`)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Appoint VSO as representative: Vets.gov')
     .waitForElementVisible('.schemaform-title', Timeouts.slow)

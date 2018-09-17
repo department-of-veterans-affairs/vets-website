@@ -3,6 +3,7 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./vre-ch31-helpers');
 const testData = require('../chapter31/schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const Chapter31Manifest = require('../../../vre/chapter31/manifest.json');
 
 const runTest = E2eHelpers.createE2eTest(
   (client) => {
@@ -11,7 +12,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // renders introduction page
     client
-      .url(`${E2eHelpers.baseUrl}/employment/vocational-rehab-and-employment/application/chapter31`)
+      .url(`${E2eHelpers.baseUrl}${Chapter31Manifest.rootUrl}`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for vocational rehabilitation: Vets.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow)
