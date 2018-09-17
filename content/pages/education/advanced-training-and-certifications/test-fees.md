@@ -100,11 +100,6 @@ Then, either upload your form to the GI Bill site or mail it to the nearest VA r
 </li>
 
 
-
-We’ll charge your GI Bill benefit package for the cost of the test.
-
-For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for the actual amount of the testing fee.
-
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
@@ -127,6 +122,13 @@ Then, mail your form to the nearest VA regional processing office. <br>
 </li>
 </ul>
 </div>
+
+
+
+
+We’ll charge your GI Bill benefit package for the cost of the test.
+
+For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for the actual amount of the testing fee.
 
 
 <script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
