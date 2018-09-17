@@ -1,7 +1,4 @@
-/* eslint-disable no-console */
-
-const fs = require('fs');
-const path = require('path');
+/* eslint-disable no-continue, no-param-reassign */
 
 /**
  * The result of this function will become globally available under window.settings in a totally static file at /js/settings.js.
@@ -34,7 +31,7 @@ function createBuildSettings(options) {
         path = fileName
       } = file;
 
-      if (!entryName) continue;
+      if (entryName) continue;
 
       appRootUrls[entryName] = appRootUrls[entryName] || [];
       appRootUrls[entryName].push(path);
@@ -43,9 +40,7 @@ function createBuildSettings(options) {
     const settings = getBuildSettings(options);
     settings.appRootUrls = appRootUrls;
 
-    options.buildSettings = settings;
-
-    done();
+    options.settings = settings;
 
     const settingsPath = 'js/settings.js';
 
@@ -53,6 +48,8 @@ function createBuildSettings(options) {
       path: settingsPath,
       contents: `window.settings = ${JSON.stringify(settings, null, ' ')};`
     };
+
+    done();
   };
 }
 
