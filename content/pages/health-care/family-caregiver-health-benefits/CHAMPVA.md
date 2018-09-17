@@ -4,7 +4,7 @@ template: detail-page
 title: CHAMPVA
 display_title:
 concurrence: complete
-lastupdate: 2018-02-13
+lastupdate: 2018-09-20
 order: 1
 ---
 
