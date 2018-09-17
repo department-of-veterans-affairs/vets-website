@@ -121,7 +121,6 @@ For tests taken before August 1, 2018, if you got paid back for testing under th
 
 <br>
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
 
 
 
