@@ -203,7 +203,7 @@ Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a
 </div>
 </div>
 </div>
-<br>  
+<br>
 
 <span id="vision-care"></span>
 
