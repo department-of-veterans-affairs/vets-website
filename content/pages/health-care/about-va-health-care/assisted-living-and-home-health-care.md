@@ -5,7 +5,7 @@ title: Assisted Living and Home Health Care
 display_title:
 description: Find out how to access VA home health care benefits if you're a sick or disabled Veteran.
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2018-09-20
 order: 4
 relatedlinks:
   - heading: More information about your benefits
