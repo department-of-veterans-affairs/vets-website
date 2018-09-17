@@ -25,15 +25,15 @@ To receive some benefits, Veterans need a letter proving their status. This type
 
 ### What types of VA letters can I download using this tool?
 
-You can download a variety of letters from VA that include information about your benefits and service history.
+You can download a variety of letters from VA that have information about your benefits and service history.
 
 </section>
 
-### How do I download a VA award letter or other letter?
+### How do I get started downloading a VA award letter or other kind of letter?
 
-Before you download your letter, we’ll ask you to review the address we have on file for you.
+You'll use Adobe Reader to download your letter. But before you get started, we’ll ask you to review the address we have on file for you.
 
-This address will be listed on your letter. If this address isn’t correct, you can update it. But your letter will still be valid even with the incorrect address.
+This address will be listed on your letter. If the address isn’t correct, you can update it. Your letter will still be valid even with an incorrect address.
 
 **Note:** To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download.
 
@@ -42,13 +42,13 @@ This address will be listed on your letter. If this address isn’t correct, you
 </section>
 <section>
 
-### What if I want to download a letter or document that isn’t available from this tool?
+### Can I download any benefit letter or document using this tool?
 
-Right now, you can only download the VA letters you see listed when you click the blue **Access Your VA Letters** button above.
+Right now, you can only download the VA letters you see listed in the tool.
 
-Use these links to get access to other common VA letters and documents you may be eligible for:
+**Get access to other common VA letters and documents you may be eligible for:**
 
-[View and print your Post-9/11 GI Bill statement of benefits.](/education/check-post-9-11-gi-bill-benefit-status)
+[View and print your Post-9/11 GI Bill Statement of Benefits](/education/check-post-9-11-gi-bill-benefit-status).
 
 [Sign in to eBenefits to request a Certificate of Eligibility for home loan benefits](https://eauth.va.gov/ebenefits/coe).
 
