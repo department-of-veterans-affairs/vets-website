@@ -53,6 +53,8 @@ smith.use(collections(BUILD_OPTIONS.collections));
 smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 
+smith.use(createBuildSettings(BUILD_OPTIONS));
+
 if (BUILD_OPTIONS.watch) {
   const watchPaths = { [`${BUILD_OPTIONS.contentRoot}/**/*`]: '**/*.{md,html}' };
   const watchMetalSmith = watch({ paths: watchPaths, livereload: true });
@@ -146,9 +148,6 @@ smith.use(nonceTransformer);
 /* eslint-disable no-console */
 smith.build((err) => {
   if (err) throw err;
-
-  createBuildSettings(BUILD_OPTIONS);
-
   if (BUILD_OPTIONS.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
   } else {
