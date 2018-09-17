@@ -75,5 +75,13 @@ We give the surviving spouse, children, and parents of deceased Servicemembers a
 Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in the event of your death. To do this, you’ll need to apply for a pre-need eligibility determination. <br>
 [Find out how to apply](/burials-and-memorials/pre-need/).
 
+### How can I make sure my family members have all the information and documents they need to plan for the future?
+Our Survivors and Burial Benefits Kit can guide you and your family members through the planning process so they have what they need to prepare for the future and get the benefits they're entitled to. This kit, called "Planning Your Legacy," includes:
+- Information about survivors’ benefits
+- Sample forms you and your family members may need to fill out
+- A section where you can record the personal information your family members will need and the location of important documents, like your birth certificate or will
+
+[Plan ahead using the VA Survivors and Burial Benefits Kit](https://www.cem.va.gov/cem/docs/factsheets/Planning_Legacy_Booklet.pdf).
+
 **Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility.<br>
 [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp).
