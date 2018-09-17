@@ -5,7 +5,7 @@ title: Health Care Benefits Eligibility
 display_title: Eligibility
 description: If you served on active duty and didn’t receive a dishonorable discharge, you may qualify for VA health care benefits. Find out if you're eligible for VA health care.
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-lastupdate: 2018-01-02
+lastupdate: 2018-09-20
 collection: healthCare
 order: 2
 widgets:
@@ -67,7 +67,7 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 - Receive financial compensation (payments) from VA for a service-connected disability
 - Were discharged for a disability resulting from something that happened to you in the line of duty
 - Were discharged for a disability that got worse in the line of duty
-- [Are a recently discharged Combat Veteran](https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp)
+- [Are a recently discharged combat Veteran](https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp)
 - Get a VA pension
 - Are a former Prisoner of War (POW)
 - Have received a Purple Heart
