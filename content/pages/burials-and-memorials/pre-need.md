@@ -42,15 +42,6 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 - The spouse or dependent child of a Servicemember or Veteran, even if the Servicemember or Veteran died first, **or**
 - In some cases, the adult dependent child of a Servicemember or Veteran (if you aren’t married)
 
-**Note:** If the discharge papers are not available, you can request a copy through the National Personnel Records Center. Send your request here:
-
-<p class="va-address-block">
-National Personnel Records Center<br>
-Military Personnel Records Office<br>
-1 Archives Drive<br>
-St. Louis, MO 63138<br>
-</p>
-
 </li>
 
 <li class="process-step list-two">
@@ -99,7 +90,8 @@ To apply, you’ll need your (or your sponsor's):
 - Military status and service history (like service dates, discharge character, and rank—commonly found on the DD214 or other separation documents)
 - Discharge papers (DD214 or other separation documents)
 
-<br>
+**Note:** If you don't have the discharge papers, you can request a copy through the National Archives. <br>
+[Find out how to request discharge papers](https://www.archives.gov/veterans/military-service-records/standard-form-180).
 
 #### More information needed for certain applicants
 
