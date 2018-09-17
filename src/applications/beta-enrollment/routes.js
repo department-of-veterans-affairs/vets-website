@@ -1,4 +1,5 @@
 import createBetaEnrollmentButton from './createBetaEnrollmentButton';
+import dashboardManifest from '../../applications/personalization/dashboard/manifest.json';
 
 export const features = {
   healthAccount: 'health_account',
@@ -10,7 +11,7 @@ export const features = {
 const routes = {
   path: '/',
   childRoutes: [
-    { path: 'personalization', component: createBetaEnrollmentButton(features.dashboard, '/dashboard') }
+    { path: 'personalization', component: createBetaEnrollmentButton(features.dashboard, dashboardManifest.rootUrl) }
   ]
 };
 
