@@ -213,7 +213,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^1.4.12",
+    "@department-of-veterans-affairs/formation": "^1.4.14",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
@@ -225,7 +225,6 @@
     "fast-levenshtein": "^2.0.6",
     "file-loader": "^1.1.11",
     "local-storage-fallback": "^4.1.1",
-    "lodash-es": "^4.17.11",
     "modernizr": "^3.6.0",
     "modernizr-loader": "^1.0.1",
     "nyc": "^11.1.0",

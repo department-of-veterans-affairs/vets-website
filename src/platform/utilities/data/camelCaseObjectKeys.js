@@ -1,4 +1,4 @@
-import { camelCase, isPlainObject, isArray, reduce } from 'lodash-es';
+import { camelCase, isPlainObject, isArray, reduce } from 'lodash';
 
 export default function objectKeysToCamelCase(obj) {
   return reduce(obj, (result, value, key) => {

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { startCase, toLower } from 'lodash-es';
+import { startCase, toLower } from 'lodash';
 
 import conditionalStorage from '../../utilities/storage/conditionalStorage';
 import { selectProfile } from '../../user/selectors';

@@ -1,7 +1,7 @@
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intersection } from 'lodash-es';
+import { intersection } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
