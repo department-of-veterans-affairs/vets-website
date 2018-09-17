@@ -5,7 +5,7 @@ title: Health Needs and Conditions
 display_title:
 description: Find out if a specific health care condition or need is covered under VA health care benefits. Learn how to access services.
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2018-09-20
 collection: healthCare
 order: 5
 children: healthCareConditions
@@ -84,7 +84,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Spinal cord injuries and disorders](https://www.sci.va.gov/)
 
-- [Traumatic brain injury (TBI), Polytrauma, and Amputation](https://www.polytrauma.va.gov) 
+- [Traumatic brain injury (TBI), polytrauma, and amputation](https://www.polytrauma.va.gov) 
 
 - [Viral hepatitis](https://www.hepatitis.va.gov/patient/index.asp)
 
