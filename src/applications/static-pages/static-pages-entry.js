@@ -8,13 +8,14 @@ import createCallToActionWidget from './createCallToActionWidget';
 import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
+import MessagingManifest from '../../applications/messaging/manifest.json';
 
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 
 const healthcarePages = new Set(['/health-care/', '/health-care/how-to-apply/', '/health-care/eligibility/']);
 
 const healthcareTools = new Set([
-  '/health-care/secure-messaging/',
+  `${MessagingManifest.rootUrl}/`,
   '/health-care/refill-track-prescriptions/',
   '/health-care/schedule-view-va-appointments/',
   '/health-care/view-test-and-lab-results/'
