@@ -4,8 +4,8 @@ title: Get Paid Back for Testing Fees
 display_title: Test Fees
 plainlanguage: 9-07-18 certified in compliance with the Plain Writing Act
 concurrence: not complete
-template: detail-page
----
+template: detail-page 
+--- 
 
 The GI Bill covers more than just tuition. We may pay you back for the cost of any test you need to take to become a licensed or certified professional—or to apply for college or a training course. Find out what’s covered with this benefit.
 
@@ -17,10 +17,10 @@ The GI Bill covers more than just tuition. We may pay you back for the cost of a
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program"> For licensing and certification: <br>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="licensing-certification-kinds-of-benefits">For licensing and certification</button>
+  
+<div id="licensing-certification-kinds-of-benefits" class="usa-accordion-content">
 If you’re a Veteran and you qualify for the GI Bill, we may pay you back for testing fees under $2,000. 
-</button>
-<div id="bdd-program" class="usa-accordion-content">
 
 You can get paid back for testing related to these kinds of jobs:
 
@@ -44,10 +44,11 @@ We’ll pay you back:
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program"> For national testing: <br>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="national-testing-kinds-of-benefits">For national testing</button>
+  
+<div id="national-testing-kinds-of-benefits" class="usa-accordion-content">
+  
 If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may pay you back for testing fees, including:
-</button>
-<div id="bdd-program" class="usa-accordion-content">
 
 - The cost to register
 - The cost of specialized tests
@@ -85,10 +86,11 @@ We won’t pay you back for these costs:
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program"> For licensing and certification: <br>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="licensing-certification-get-benefits">For licensing and certification</button>
+  
+<div id="licensing-certification-get-benefits" class="usa-accordion-content">  
+  
 If you’re a Veteran and you qualify for the GI Bill, we may pay you back for testing fees under $2,000. 
-</button>
-<div id="bdd-program" class="usa-accordion-content">
 
 First, fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). 
 [Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
@@ -104,10 +106,11 @@ Upload your completed application to the GI Bill website.
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="nt-program">For national testing: <br>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="national-testing-get-benefits">For national testing</button>
 
-<div id="bdd-program" class="usa-accordion-content">
-We’ll charge your GI Bill benefit package for the cost of the test.</button>
+<div id="national-testing-get-benefits" class="usa-accordion-content">
+  
+We’ll charge your GI Bill benefit package for the cost of the test.
 For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for actual amount of the testing fee. <br>
 
 **Please note:**
@@ -119,8 +122,5 @@ For tests taken before August 1, 2018, if you got paid back for testing under th
 </ul>
 </div>
 
-<br>
 
-
-
-
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
