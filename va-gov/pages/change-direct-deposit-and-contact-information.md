@@ -68,7 +68,7 @@ Yes. You can also change your information by mail or phone.
 
 <h3>By mail</h3>
 
-Fill out a Direct Deposit Enrollment (VA Form 24-0296).
+Fill out a Direct Deposit Enrollment (VA Form 24-0296). <br>
 <a href="https://www.vba.va.gov/pubs/forms/VBA-24-0296-ARE.pdf">Download VA Form 24-0296</a>.
 
 **Mail the completed form to:**
@@ -81,9 +81,9 @@ Muskogee OK 74401-7004<br>
 
 <h3>By phone</h3>
 
-Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TDD 1-800-829-4833). 
+Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TDD <a href="tel:+18008294833">1-800-829-4833</a>). 
 
-We’re here Monday through Friday, 8:00 am - 9:00 p.m. (ET).
+We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 </div>
 </div>
