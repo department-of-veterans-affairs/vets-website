@@ -31,4 +31,8 @@ With this said, please still file Issues for public contributions and reporting 
 
 ## Contact
 
-If you have a question or comment about this project, file a GitHub Issue with your question in the Title, any context in the Comment, and add the `question` Label. For general questions, tag or assign to the product owner **Stacey Langer** (GitHub Handle: **@staceylanger**). For design questions, tag or assign to the design lead,  **Suzanne Chapman** (GitHub Handle: **@suzchap**). For technical questions, tag or assign to the engineering lead, **Alex Yale-Loehr** (GitHub Handle: **@ayaleloehr**).
+If you have a question or comment about this project, file a GitHub Issue with your question in the Title, any context in the Comment, add the `question` Label, and tag/assign one of the following points of contact:
+
+* General / product questions: **Rachael Rouche (@rrouche)**.
+* Design questions: **Alex Taylor (@goldenmeanie)**. 
+* Technical questions: **James Kassemi (@jkassemi)**.
