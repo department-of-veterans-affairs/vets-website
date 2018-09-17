@@ -12,6 +12,7 @@ const oldAddressTwo = oldAddress.addressTwo ? `, ${startCase(oldAddress.addressT
 const oldAddressThree = oldAddress.addressThree ? `, ${startCase(oldAddress.addressThree.toLowerCase())}` : '';
 const oldStreetAddress = oldAddressOne + oldAddressTwo + oldAddressThree;
 const oldCityStateZIP = `${oldAddress.militaryPostOfficeTypeCode}, ${oldAddress.militaryStateCode} ${oldAddress.zipCode}`;
+const LettersManifest = require('../manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -20,7 +21,7 @@ module.exports = E2eHelpers.createE2eTest(
     LettersHelpers.initApplicationMock(token);
 
     // Ensure main status page renders.
-    Auth.logIn(token, client, '/download-va-letters/letters', 3)
+    Auth.logIn(token, client, LettersManifest.rootUrl, 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
       .assert.title('Download VA Letters and Documents: Vets.gov')
