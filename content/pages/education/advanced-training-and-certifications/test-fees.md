@@ -83,7 +83,7 @@ If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may p
 
 We’ll charge your GI Bill benefit package for the cost of the test.
 
-For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for actual amount of the testing fee.
+For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for the actual amount of the testing fee.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -92,13 +92,13 @@ For tests taken before August 1, 2018, if you got paid back for testing under th
   
 <div id="licensing-certification-get-benefits" class="usa-accordion-content">  
   
-First, fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). 
+First, fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). <br>
 [Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
 
 **Note:** You’ll need to turn in proof of payment (a receipt showing you paid the testing fee) with your application.
 
-Then, either upload your form to the GI Bill site or mail it to the nearest VA regional processing office.
-[Upload your completed application to the GI Bill website](https://gibill.custhelp.va.gov/app/utils/login_form/).
+Then, either upload your form to the GI Bill site or mail it to the nearest VA regional processing office. <br>
+[Upload your completed application to the GI Bill website](https://gibill.custhelp.va.gov/app/utils/login_form/).<br>
 [Find the nearest VA regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
 </div>
 </li>
