@@ -52,10 +52,8 @@ import {
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
   privateRecordsChoice,
-  //  privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
-  // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
@@ -69,20 +67,17 @@ import {
   editNote,
   getlimitedConsentTitle,
   validateBooleanIfEvidence,
-  patientAcknowledgmentText,
+  privateRecordsChoiceHelp,
+  patientAcknowledgmentText
 } from '../helpers';
 
 import {
-  recordHelp,
   recordReleaseDescription,
   countries,
   states,
   stateNames,
-  // aboutPrivateMedicalRecords,
   limitedConsentDescription,
-  // limitedConsentTitle,
-  // recordReleaseSummary,
-  validateZIP,
+  validateZIP
 } from '../../4142/helpers';
 
 import { hasGuardOrReservePeriod } from '../../all-claims/utils';
@@ -101,7 +96,6 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 
 const {
   treatments,
-  // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation: { properties: { servicePeriods } },
   standardClaim,
   veteran: { properties: { homelessness } },
@@ -626,7 +620,7 @@ const formConfig = {
                   },
                 },
                 'view:privateRecordsChoiceHelp': {
-                  'ui:description': recordHelp,
+                  'ui:description': privateRecordsChoiceHelp,
                 },
               },
             },
@@ -664,7 +658,7 @@ const formConfig = {
           },
         },
         privateMedicalRecordRelease: {
-          title: '',
+          title: 'Private Medical Records Release',
           path: 'supporting-evidence/:index/private-medical-records-release',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
@@ -802,7 +796,7 @@ const formConfig = {
                                 },
                                 street2: {
                                   minLength: 1,
-                                  maxLength: 50,
+                                  maxLength: 5,
                                   type: 'string',
                                 },
                                 city: {

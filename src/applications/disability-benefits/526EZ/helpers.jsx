@@ -95,6 +95,33 @@ export const getReservesGuardData = formData => {
   };
 };
 
+/**
+* Converts the treatment date range into an array of objects from just an object
+* @param {object} treatmentDateRange object containing from/to date range
+* @returns {array} of treatmentDateRange's
+*/
+const transformDateRange = (treatmentDateRange) => {
+  return [treatmentDateRange];
+};
+
+/**
+* Cycles through the list of provider facilities and performs transformations on each property as needed
+* @param {array} providerFacility array of objects being transformed
+* @returns {object} containing the new Provider Facility structure
+*/
+const transformProviderFacility = (providerFacility) => {
+  const newProviderFacility = [];
+  providerFacility.forEach((facility) => {
+    newProviderFacility.push({
+      providerFacilityName: facility.providerFacilityName,
+      treatmentDateRange: transformDateRange(facility.treatmentDateRange),
+      providerFacilityAddress: facility.providerFacilityAddress
+    });
+  });
+
+  return newProviderFacility;
+};
+
 export function transform(formConfig, form) {
   const {
     disabilities,
@@ -120,7 +147,11 @@ export function transform(formConfig, form) {
     .reduce((accumulator, item) => {
       return accumulator.concat(item);
     }, []);
-  //  console.log(providerFacility);
+
+  const limitedConsent = disabilities
+    .filter((disability) => {
+      return disability.limitedConsent === true;
+    });
 
   const transformedData = {
     disabilities: disabilities
@@ -134,7 +165,10 @@ export function transform(formConfig, form) {
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
-    form4142: { providerFacility },
+    form4142: {
+      limitedConsent: limitedConsent.length > 0,
+      providerFacility: transformProviderFacility(providerFacility)
+    }
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -367,28 +401,23 @@ export const privateRecordsChoice = ({ formData }) => {
 };
 
 export const privateRecordsChoiceHelp = (
-  <div>
-    <p>&nbsp;</p>
+  <div className="private-records-choice-help">
     <AdditionalInfo triggerText="Which should I choose?">
-      <h4>You upload your medical records</h4>
+      <h5>Upload your medical records</h5>
       <p>
-        If you upload a digital copy of all your medical records, we can review
-        your claim more quickly. Uploading a digital file works best if you have
-        a computer with a fast Internet connection. The digital file could be
-        uploaded as a .pdf or other photo file format, like a .jpeg or .png.
+        If you have an electronic copy of your medical records, uploading your
+        records can speed up the review of your claim.
       </p>
-      <h4>We get your medical records for you</h4>
+      <p>
+        This works best if you have a fast internet connection and time for a
+        large file to upload. Records should be .pdf, .jpg, or .png files and can be
+        up to 50MB each.
+      </p>
+      <h5>We get records for you</h5>
       <p>
         If you tell us which VA medical center treated you for your condition, we
-        can get your medical records for you. Getting your records may take us some
-        time, and this could mean that it’ll take us longer to make a decision on
-        your claim. You’ll need to first fill out an Authorization to Disclose
-        Information to the VA (VA Form 21-4142) so we can request your records.
-      </p>
-      <p>
-        <a href={VA_FORM4142_URL} target="_blank">
-          Download VA Form 21-4142
-        </a>.
+        can get your medical records for you. Getting your records may take us
+        some time. This could take us longer to make a decision on your claim.
       </p>
     </AdditionalInfo>
   </div>
