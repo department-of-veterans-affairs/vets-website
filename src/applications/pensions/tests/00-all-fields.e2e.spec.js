@@ -3,6 +3,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./pensions-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../platform/testing/e2e/form-helpers');
+const PensionsManifest = require('../manifest.json');
 
 const runTest = E2eHelpers.createE2eTest(
   (client) => {
@@ -11,7 +12,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Ensure introduction page renders.
     client
-      .url(`${E2eHelpers.baseUrl}/pension/application/527EZ`)
+      .url(`${E2eHelpers.baseUrl}${PensionsManifest.rootUrl}`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for pension benefits: Vets.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.

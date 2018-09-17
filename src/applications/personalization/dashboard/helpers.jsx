@@ -8,6 +8,7 @@ import One995Manifest from '../../edu-benefits/1995/manifest.json';
 import Five490Manifest from '../../edu-benefits/5490/manifest.json';
 import Five495Manifest from '../../edu-benefits/5495/manifest.json';
 import HCAManifest from '../../hca/manifest.json';
+import PensionsManifest from '../../pensions/manifest.json';
 
 export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
@@ -43,7 +44,7 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
 
 export const formLinks = {
   '21-526EZ': Five26EZManifest.rootUrl,
-  '21P-527EZ': '/pension/application/527EZ/',
+  '21P-527EZ': PensionsManifest.rootUrl,
   '21P-530': '/burials-and-memorials/application/530/',
   '1010ez': HCAManifest.rootUrl,
   '22-0993': Zero993Manifest.rootUrl,
