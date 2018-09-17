@@ -26,7 +26,7 @@ You may be able to get burial allowances if you're paying for the burial and fun
 **One of these must describe your relationship or role. You’re:**
 
 - The Veteran’s surviving spouse (**Note:** we recognize same-sex marriages), **or**
-- The survivor of a legal union (a relationship made formal in a document issued by the State recognizing the union), **or**
+- The surviving partner from a legal union (a relationship made formal in a document issued by the State recognizing the union), **or**
 - A surviving child of the Veteran, **or**
 - A parent of the Veteran, **or**
 - The executor or administrator (someone who officially represents the deceased) of the Veteran’s estate
