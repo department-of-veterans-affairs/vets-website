@@ -74,7 +74,7 @@ You may need a copy of:
 </div>
 
 ### As a surviving spouse, do I need to file a claim for burial costs?
-No. When we receive notice of the Veteran’s death, we automatically pay a set amount to eligible surviving spouses of record to help cover burial and funeral costs. But you'll need to file a claim for additional benefits to help pay for the plot, the cost of interment, or transportation of the remains to the cemetery.
+No. When we receive notice of the Veteran’s passing, we automatically pay a set amount to eligible surviving spouses of record to help cover burial and funeral costs. But you'll need to file a claim for additional benefits to help pay for the plot, the cost of interment, or transportation of the remains to the cemetery.
 
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530">Apply for Burial Benefits</a>
