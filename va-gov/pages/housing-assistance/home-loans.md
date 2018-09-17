@@ -8,13 +8,13 @@ order: 1
 majorlinks:
   - heading:
     links:
-    - url: /housing-assistance/home-loans/loan-options/
+    - url: /housing-assistance/home-loans/loan-types/
       title: Loan Options
       description: Learn how VA direct and VA-backed home loans work—and find out which loan option may be right for you.
     - url: /housing-assistance/home-loans/eligibility/
       title: Eligibility
       description: Find out if you can get a Certificate of Eligibility (COE) for a VA direct or VA-backed home loan based on your service history and duty status.
-    - url: /housing-assistance/home-loans/apply-for-certificate-of-eligibility/
+    - url: /housing-assistance/home-loans/how-to-apply/
       title: How to Apply for Your COE
       description: Find out how to apply for a COE—and what to do next to get a VA direct or VA-backed home loan.
     - url: /housing-assistance/home-loans/trouble-making-payments/
