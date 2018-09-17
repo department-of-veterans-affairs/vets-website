@@ -3,7 +3,7 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { validateBooleanGroup, validateMatch } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
@@ -17,7 +17,23 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
-import { transform, submit, recordApplicantRelationship } from '../helpers';
+import {
+  accreditationLabel,
+  changeInDegreeLabel,
+  creditTransferLabel,
+  financialIssuesLabel,
+  gradePolicyLabel,
+  jobOpportunitiesLabel,
+  qualityLabel,
+  recordApplicantRelationship,
+  recruitingLabel,
+  refundIssuesLabel,
+  studentLoansLabel,
+  submit,
+  transcriptReleaseLabel,
+  transform,
+  validateMatch,
+} from '../helpers';
 
 const {
   address: applicantAddress,
@@ -28,6 +44,7 @@ const {
   issue,
   issueDescription,
   issueResolution,
+  issueUIDescription,
   onBehalfOf,
   phone,
   serviceAffiliation,
@@ -237,18 +254,28 @@ const formConfig = {
                 'ui:title': 'Address line 2'
               },
               city: {
-                'ui:title': 'City'
+                'ui:title': 'City',
+                'ui:errorMessages': {
+                  required: 'Please fill in a valid city'
+                }
               },
               state: {
-                'ui:title': 'State'
+                'ui:title': 'State',
+                'ui:errorMessages': {
+                  required: 'Please fill in a valid state'
+                }
               },
               country: {
-                'ui:title': 'Country'
+                'ui:title': 'Country',
+                'ui:errorMessages': {
+                  required: 'Please fill in a valid country'
+                },
               },
               postalCode: {
                 'ui:title': 'Postal code',
                 'ui:errorMessages': {
-                  pattern: 'Please enter a valid 5 digit postal code'
+                  pattern: 'Please fill in a valid 5-digit postal code',
+                  required: 'Please fill in a valid 5-digit postal code',
                 },
                 'ui:options': {
                   widgetClassNames: 'va-input-medium-large',
@@ -256,18 +283,20 @@ const formConfig = {
               }
             },
             'ui:validations': [
-              validateMatch('applicantEmail', 'view:applicantEmailConfirmation')
+              validateMatch('applicantEmail', 'view:applicantEmailConfirmation', 'email')
             ],
             applicantEmail: {
               'ui:title': 'Email address',
               'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx'
+                pattern: 'Please put your email in this format x@x.xxx',
+                required: 'Please put your email in this format x@x.xxx',
               }
             },
             'view:applicantEmailConfirmation': {
               'ui:title': 'Re-enter email address',
               'ui:errorMessages': {
-                pattern: 'Please enter a valid email address'
+                pattern: 'Please put your email in this format x@x.xxx',
+                required: 'Please put your email in this format x@x.xxx',
               }
             },
             phone: phoneUI('Phone number')
@@ -466,6 +495,7 @@ const formConfig = {
           uiSchema: {
             issue: {
               'ui:title': 'Which topic best describes your feedback? (Select all that apply)',
+              'ui:description': issueUIDescription,
               'ui:validations': [
                 validateBooleanGroup
               ],
@@ -490,37 +520,37 @@ const formConfig = {
                 'other'
               ],
               recruiting: {
-                'ui:title': 'Recruiting or marketing practices'
+                'ui:title': recruitingLabel
               },
               studentLoans: {
-                'ui:title': 'Student loan'
+                'ui:title': studentLoansLabel
               },
               quality: {
-                'ui:title': 'Quality of education'
+                'ui:title': qualityLabel
               },
               creditTransfer: {
-                'ui:title': 'Transfer of credits'
+                'ui:title': creditTransferLabel
               },
               accreditation: {
-                'ui:title': 'Accreditation'
+                'ui:title': accreditationLabel
               },
               jobOpportunities: {
-                'ui:title': 'Post-graduation job opportunity'
+                'ui:title': jobOpportunitiesLabel
               },
               gradePolicy: {
-                'ui:title': 'Grade policy'
+                'ui:title': gradePolicyLabel
               },
               refundIssues: {
-                'ui:title': 'Refund issues'
+                'ui:title': refundIssuesLabel
               },
               financialIssues: {
-                'ui:title': 'Financial concern (for example, tuition or fee changes)'
+                'ui:title': financialIssuesLabel
               },
               changeInDegree: {
-                'ui:title': 'Change in degree plan or requirements'
+                'ui:title': changeInDegreeLabel
               },
               transcriptRelease: {
-                'ui:title': 'Release of transcripts'
+                'ui:title': transcriptReleaseLabel
               },
               other: {
                 'ui:title': 'Other'
