@@ -1,9 +1,13 @@
 ---
-title: Apply for a Veteran ID Card
-entryname: vic-v2
 layout: page-react.html
+title: Get Veteran ID Cards
+display_title: Get Veteran ID Cards
+template: detail-page
+order: 3
+spoke: Get Records
+entryname: veteran-id-card
 aliases:
-  - /veteran-id-card/apply
+  - /veteran-id-card
 ---
 <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"
 id="va-breadcrumbs">

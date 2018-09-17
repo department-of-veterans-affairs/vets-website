@@ -9,7 +9,7 @@ majorlinks:
     links:
     - url: /careers-employment/vocational-rehabilitation/programs/
       title: VR&E Programs for Servicemembers and Veterans
-      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
+      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
     - url: /careers-employment/how-to-apply/
       title: How to Apply for VR&E
       description: Find out how to apply for VR&E benefits and services as a Servicemember or Veteran.
@@ -20,7 +20,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you have a disability that was caused—or made worse—by your active-duty service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services. Find out if you can get employment support or help living as independently as possible.  
+If you have a disability that was caused—or made worse—by your active-duty service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services. Find out if you can get employment support or help living as independently as possible.
 
 </div>
 
@@ -68,8 +68,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 **There are 2 ways you can try to qualify:**
 
-[Find out how to apply for a discharge upgrade](/records/discharge-upgrade).<br/>
-[Learn about the VA Character of Discharge review process](/records/discharge-upgrade#other-options).
+[Find out how to apply for a discharge upgrade](/records/discharge-upgrade/).<br/>
+[Learn about the VA Character of Discharge review process](/records/discharge-upgrade/#other-options).
 
 </div>
 
@@ -89,7 +89,7 @@ You can apply online right now.
 
 - A complete evaluation to determine your abilities, skills, and interests for employment
 - Vocational counseling and rehabilitation planning for employment services
-- Employment services such as job training, resume development, and other work-readiness support  
+- Employment services such as job training, resume development, and other work-readiness support
 - Help finding and keeping a job, including the use of special employer incentives and job accommodations
 - On the Job Training (OJT), apprenticeships, and non-paid work experiences
 - Post-secondary training at a college, vocational, technical, or business school

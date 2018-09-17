@@ -46,8 +46,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 **There are 2 ways you can try to qualify:**
 
-[Find out how to apply for a discharge upgrade](/records/discharge-upgrade).<br/>
-[Learn about the VA Character of Discharge review process](/records/discharge-upgrade#other-options).
+[Find out how to apply for a discharge upgrade](/records/discharge-upgrade/).<br/>
+[Learn about the VA Character of Discharge review process](/records/discharge-upgrade/#other-options).
 
 </div>
 </div>
@@ -203,7 +203,7 @@ Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a
 </div>
 </div>
 </div>
-<br>  
+<br>
 
 <span id="vision-care"></span>
 

@@ -451,5 +451,14 @@
     "metadata": {
       "name": "Servicemember & Veteran Programs"
     }
+  },
+  "records": {
+    "pattern": "records/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "icon": "fa-id-card",
+      "name": "Records",
+      "spokes": ["Get Records"]
+    }
   }
 }
