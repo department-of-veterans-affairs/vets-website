@@ -25,14 +25,14 @@ Find out how to check the status of a VA claim or appeal online.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-<b>You can use this tool to check the status of a VA claim or appeal for compensation like:</b>
+<b>You can use this tool to check the status of a VA claim or appeal for compensation. Track your:</b>
 - Disability compensation (including claims based on special needs like an automobile or clothing allowance)
 - Veteran or survivor pension benefits
 - Special monthly compensation (such as Aid and Attendance)
 - Dependency and Indemnity Compensation (DIC)
-- A burial allowance to help pay for a Veteran's burial and funeral expenses
+- Burial allowance to help pay for a Veteran's burial and funeral expenses
 
-<b>You can also use this tool to check the status of a claim or appeal for other benefits like:</b>
+<b>You can also use this tool to check the status of a claim or appeal for other benefits like these:</b>
 - VA health care
 - GI Bill or other education benefits
 - Vocational rehabilitation and employment 
@@ -57,8 +57,6 @@ Find out how to check the status of a VA claim or appeal online.
 - A verified **ID.me** account that you can create here on VA.gov
 
 **Note:** If you use DS Logon, you'll need to verify your identity online as part of our sign-in process.
-
-Please see the blue sign-in module above to learn more about signing in, creating or upgrading an account, and verifying your identity.
 
 </div>
 </div>
@@ -89,9 +87,9 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You'll see which step your claim or appeal is at in our review process, and when we think we'll complete our review.
+You'll see where your claim or appeal is in our review process, and when we think we'll complete our review.
 
-<b>You can also view details about:</b>
+<b>You can also view these details:</b>
 - Any evidence you've filed to support your claim
 - Any additional evidence we've requested from you
 - Your claim type
