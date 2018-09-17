@@ -143,6 +143,7 @@ module.exports = {
   // The glob patterns Jest uses to detect test files
   testMatch: [
     '**/edu-benefits/**/?(*.)unit.spec.js?(x)',
+    '**/hca/**/?(*.)unit.spec.js?(x)',
     '**/?(*.)jest.+(spec|test).js?(x)'
   ],
 

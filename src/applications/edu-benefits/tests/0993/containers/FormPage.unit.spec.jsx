@@ -195,7 +195,7 @@ describe('Schemaform <FormPage>', () => {
     );
 
     tree.getMountedInstance().goBack();
-
+    global.window.location.replace = sinon.spy(); // TODO: determine why this has to be set again
     expect(global.window.location.replace.calledWith('/benefit/static'));
     global.window = oldWindow;
   });
