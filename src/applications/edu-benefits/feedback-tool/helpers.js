@@ -253,3 +253,11 @@ export function transformSearchToolAddress({ address1, address2, address3, city,
   };
 
 }
+
+export function validateMatch(field1, field2, fieldType) {
+  return function matchValidator(errors, formData) {
+    if (formData[field1] !== formData[field2]) {
+      errors[field2].addError(`Please ensure your ${fieldType} entries match`);
+    }
+  };
+}
