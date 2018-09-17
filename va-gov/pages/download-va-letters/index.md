@@ -29,7 +29,7 @@ You can download a variety of letters from VA that include information about you
 
 </section>
 
-### How do I download a VA Award Letter?
+### How do I download a VA award or other benefit letter?
 
 Before you download your letter, we’ll ask you to review the address we have on file for you.
 
