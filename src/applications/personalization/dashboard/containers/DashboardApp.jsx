@@ -21,6 +21,7 @@ import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
 import DischargeWizardManifest from '../../../discharge-wizard/manifest.json';
 import FacilityLocatorManifest from '../../../facility-locator/manifest.json';
+import HealthRecordsManifest from '../../../health-records/manifest.json';
 
 const scroller = Scroll.animateScroll;
 const scrollToTop = () => {
@@ -251,7 +252,7 @@ class DashboardApp extends React.Component {
                 </a>
               </li>
               <li>
-                <a href="/health-care/health-records/" onClick={recordDashboardClick('health-records')}>
+                <a href={HealthRecordsManifest.rootUrl} onClick={recordDashboardClick('health-records')}>
                   <h4 className="va-nav-linkslist-title">Get Your VA Health Records</h4>
                   <p className="va-nav-linkslist-description">View, download, and print your VA health records.</p>
                 </a>

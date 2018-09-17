@@ -3,6 +3,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const HealthRecordsHelpers = require('./health-records-helpers');
 const Auth = require('../../../platform/testing/e2e/auth');
 const AccountCreationHelpers = require('../../../platform/testing/e2e/account-creation-helpers');
+const HealthRecordsManifest = require('../manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -12,7 +13,7 @@ module.exports = E2eHelpers.createE2eTest(
     AccountCreationHelpers.initMHVTermsMocks(token);
 
     // Ensure index page renders.
-    Auth.logIn(token, client, '/health-care/health-records', 3)
+    Auth.logIn(token, client, HealthRecordsManifest.rootUrl, 3)
       .assert.title('Get Your VA Health Records: Vets.gov')
       .waitForElementVisible('.blue-button-logo', Timeouts.normal)
       .axeCheck('.main');
@@ -51,4 +52,3 @@ module.exports = E2eHelpers.createE2eTest(
     client.end();
   }
 );
-
