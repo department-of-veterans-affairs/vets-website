@@ -13,19 +13,31 @@ const {
   homelessnessContact
 } = fullSchema.properties;
 
+import {
+  homelessLabel,
+  atRiskLabel
+} from '../content/homelessOrAtRisk';
+
 export const uiSchema = {
   homelessOrAtRisk: {
     'ui:title': 'Are you homeless or at risk of becoming homeless?',
-    'ui:widget': 'radio'
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        no: 'No',
+        homeless: homelessLabel,
+        atRisk: atRiskLabel
+      }
+    }
   },
   'view:isHomeless': {
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
-      expandUnderCondition: (housing) => housing === 'Yes, I am homeless'
+      expandUnderCondition: (housing) => housing === 'homeless'
     },
     homelessHousingSituation: {
       'ui:title': 'Please describe your current living situation.',
-      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'Yes, I am homeless',
+      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'homeless',
       'ui:widget': 'radio'
     },
     otherHomelessHousing: {
@@ -37,18 +49,18 @@ export const uiSchema = {
     },
     needToLeaveHousing: {
       'ui:title': 'Do you need to quickly leave your current living situation?',
-      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'Yes, I am homeless',
+      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'homeless',
       'ui:widget': 'radio'
     }
   },
   'view:isAtRisk': {
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
-      expandUnderCondition: (housing) => housing === 'Yes, I am at risk of becoming homeless'
+      expandUnderCondition: (housing) => housing === 'atRisk'
     },
     atRiskHousingSituation: {
       'ui:title': 'Please describe your housing situation',
-      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'Yes, I am at risk of becoming homeless',
+      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'atRisk',
       'ui:widget': 'radio'
     },
     otherAtRiskHousing: {
@@ -64,7 +76,7 @@ export const uiSchema = {
     'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
-      expandUnderCondition: (housing) => housing === 'Yes, I am homeless' || housing === 'Yes, I am at risk of becoming homeless'
+      expandUnderCondition: (housing) => housing === 'homeless' || housing === 'atRisk'
     },
     name: {
       'ui:title': 'Name of person we should contact',

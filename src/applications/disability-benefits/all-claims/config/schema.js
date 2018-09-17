@@ -1050,8 +1050,8 @@ const schema = {
       type: 'string',
       'enum': [
         'No',
-        'Yes, I am at risk of becoming homeless',
-        'Yes, I am homeless',
+        'homeless',
+        'atRisk'
       ]
     },
     homelessHousingSituation: {
