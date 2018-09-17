@@ -1,6 +1,7 @@
 {
   // All rules should be disabled or they should produce errors. No warnings.
   'extends': 'airbnb',
+  'plugins': ['mocha'],
   'parser': 'babel-eslint',
   'env': {
     'browser': true,
@@ -91,6 +92,7 @@
     'no-lonely-if': 0,
     'lines-around-directive': 0,
     'jsx-a11y/href-no-hash': 0,
+    'mocha/no-exclusive-tests': 2,
   },
   'overrides': [{
     'files': ["**/*.spec.jsx", "**/*.spec.js", "src/platform/testing/**/*.js", "src/platform/testing/**/*.jsx"],
