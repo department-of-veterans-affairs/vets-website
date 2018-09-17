@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Get Paid Back for Testing Fees
+title: Get Paid Back for Test Fees
 display_title: Test Fees
 plainlanguage: 9-07-18 certified in compliance with the Plain Writing Act
 concurrence: not complete
@@ -81,10 +81,6 @@ If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may p
 
 ### How do I get this benefit?
 
-We’ll charge your GI Bill benefit package for the cost of the test.
-
-For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for the actual amount of the testing fee.
-
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
@@ -103,6 +99,11 @@ Then, either upload your form to the GI Bill site or mail it to the nearest VA r
 </div>
 </li>
 
+
+
+We’ll charge your GI Bill benefit package for the cost of the test.
+
+For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for the actual amount of the testing fee.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
