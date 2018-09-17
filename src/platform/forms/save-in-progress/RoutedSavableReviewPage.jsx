@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
+import { debounce } from 'lodash';
 
 import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
 import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
@@ -34,7 +34,7 @@ const scrollToTop = () => {
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+    this.debouncedAutoSave = debounce(this.autoSave, 1000);
   }
 
   componentDidMount() {

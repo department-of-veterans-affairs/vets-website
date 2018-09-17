@@ -27,7 +27,11 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     defaultSettings.headers.Authorization = `Token token=${conditionalStorage().getItem('userToken')}`;
   }
 
-  const newHeaders = Object.assign({}, defaultSettings.headers, optionalSettings.headers);
+  const newHeaders = Object.assign(
+    {},
+    defaultSettings.headers,
+    optionalSettings ? optionalSettings.headers : undefined
+  );
   const settings = Object.assign({}, defaultSettings, optionalSettings);
   settings.headers = newHeaders;
 
