@@ -3,6 +3,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./vic-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../platform/testing/e2e/form-helpers');
+const VICV2manifest = require('../manifest.json');
 
 const runTest = E2eHelpers.createE2eTest(
   (client) => {
@@ -13,7 +14,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Ensure introduction page renders.
     client
-      .url(`${E2eHelpers.baseUrl}/veteran-id-card/apply`)
+      .url(`${E2eHelpers.baseUrl}${VICV2manifest.rootUrl}`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for a Veteran ID Card: Vets.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.

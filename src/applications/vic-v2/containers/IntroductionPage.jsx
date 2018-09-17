@@ -9,6 +9,7 @@ import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { hasSavedForm } from '../helpers';
 import VerifyManifest from '../../verify/manifest.json';
+import VeteranIdCardManifest from '../../veteran-id-card/manifest.json';
 
 const { animateScroll: scroll } = Scroll;
 
@@ -92,7 +93,7 @@ class IntroductionPage extends React.Component {
                 <img className="example-photo" alt="placeholder" src="/img/example-photo-1.png"/>
                 <img className="example-photo" alt="placeholder" src="/img/example-photo-2.png"/>
                 <p>
-                  <a href="/veteran-id-card/how-to-upload-photo" target="_blank">Learn more about uploading a photo for your Veteran ID Card</a>.
+                  <a href={`${VeteranIdCardManifest.rootUrl}/how-to-upload-photo`} target="_blank">Learn more about uploading a photo for your Veteran ID Card</a>.
                 </p>
               </div>
             </li>

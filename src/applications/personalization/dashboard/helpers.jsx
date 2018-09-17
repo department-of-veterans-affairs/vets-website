@@ -10,6 +10,7 @@ import Five495Manifest from '../../edu-benefits/5495/manifest.json';
 import HCAManifest from '../../hca/manifest.json';
 import PensionsManifest from '../../pensions/manifest.json';
 import PreNeedManifest from '../../pre-need/manifest.json';
+import VICV2manifest from '../../vic-v2/manifest.json';
 
 export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
@@ -56,7 +57,7 @@ export const formLinks = {
   '22-5490': Five490Manifest.rootUrl,
   '22-5495': Five495Manifest.rootUrl,
   '40-10007': PreNeedManifest.rootUrl,
-  VIC: '/veteran-id-card/apply/',
+  VIC: VICV2manifest.rootUrl,
   'complaint-tool': '/education/complaint-tool/form',
   '21-686C': '/disability-benefits/686/dependent-status/'
 };
