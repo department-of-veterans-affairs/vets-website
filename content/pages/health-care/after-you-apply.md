@@ -127,21 +127,21 @@ If you disagree with the decision, you can file an appeal. We’ll send you a le
   
 #### Do I need to apply again each year like with private health insurance?
 
-No. You'll only need to apply once. If you're enrolled, you'll stay in the VA health care system unless you decide to cancel your enrollment or you receive a letter saying that we've decided you're no longer eligible.
+No. You’ll only need to apply once. If you’re enrolled, you'll stay in the VA health care system unless you decide to cancel your enrollment or you receive a letter saying that we’ve decided you’re no longer eligible.
 
 
 <br>
 
 <span id="after-removed-enrollment">
 
-#### What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I'm not eligible and will be removed from enrollment?
+#### What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I’m not eligible and will be removed from enrollment?
 
-First, you'll want to gather any evidence to support your eligibility to stay enrolled in VA health care and send it to us. Evidence may include documents like doctor's reports, medical tests, or military service records. You'll have 60 days from the date you received your letter to send us this evidence before we make our final decision.
+First, you’ll want to gather any evidence to support your eligibility to stay enrolled in VA health care and send it to us. Evidence may include documents like doctor’s reports, medical tests, or military service records. You’ll have 60 days from the date you received your letter to send us this evidence before we make our final decision.
 
-During these 60 days, you'll keep and can continue to use your VA health care benefits.
+During these 60 days, you’ll keep and can continue to use your VA health care benefits.
 
 If we decide not to keep you enrolled in VA health care after this time, you have the right to appeal our decision.
-[Learn how to appeal a VA decision.](https://www.va.gov/vaforms/va/pdf/VA4107VHA.pdf)
+[Learn how to appeal a VA decision](https://www.va.gov/vaforms/va/pdf/VA4107VHA.pdf).
 
 <br>
 
@@ -152,12 +152,12 @@ If we decide not to keep you enrolled in VA health care after this time, you hav
 You can cancel, or decline, enrollment at any time. Just submit a signed and dated document (like a letter) telling us that you want to cancel your coverage. You can bring your document to a VA medical center or mail it to this address: 
 <p class='va-address-block'>
 VA Health Eligibility Center (HEC) <br>
-2957 Clairmont Rd. <br>
+2957 Clairmont Road <br>
 Atlanta, GA 30329<br>
 </p>
-<b>Note</b>: Canceling your enrollment in VA health care may impact your health care coverage requirements under the Affordable Care Act if you don't have other health care.
+<b>Note</b>: Canceling your enrollment in VA health care may impact your health care coverage requirements under the Affordable Care Act if you don’t have other health care.
 
-You may reapply at any time. But please note that we'll consider you a new applicant when you reapply. We'll base your eligibility on the eligibility requirements at that time.
+You may reapply at any time. But please note that we’ll consider you a new applicant when you reapply. We’ll base your eligibility on the eligibility requirements at that time.
 
 
 <BR>
