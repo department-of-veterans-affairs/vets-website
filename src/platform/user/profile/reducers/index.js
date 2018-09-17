@@ -1,4 +1,4 @@
-import { merge, set } from 'lodash/fp';
+import set from '../../../utilities/data/set';
 
 import { UPDATE_LOGGEDIN_STATUS } from '../../authentication/actions';
 import { mapRawUserDataToState } from '../utilities';
@@ -61,7 +61,7 @@ function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS: {
       const newState = mapRawUserDataToState(action.payload);
-      return merge(state, newState);
+      return Object.assign({}, state, newState);
     }
 
     case PROFILE_LOADING_FINISHED:
@@ -101,7 +101,7 @@ function profileInformation(state = initialState, action) {
 
     case UPGRADE_MHV_ACCOUNT_SUCCESS: {
       const newState = (!action.userProfile) ?
-        state : merge(state, mapRawUserDataToState(action.userProfile));
+        state : Object.assign({}, state, mapRawUserDataToState(action.userProfile));
       return updateMhvAccountState(newState, action.mhvAccount.data.attributes);
     }
 

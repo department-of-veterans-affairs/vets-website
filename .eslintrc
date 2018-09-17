@@ -95,10 +95,23 @@
     'mocha/no-exclusive-tests': 2,
   },
   'overrides': [{
+    'files': [
+      "src/platform/**/*.js",
+      "src/platform/**/*.jsx",
+      "src/applications/site-wide/**/*.js",
+      "src/applications/site-wide/**/*.jsx",
+      "src/applications/static-pages/**/*.js",
+      "src/applications/static-pages/**/*.jsx"
+    ],
+    'rules': {
+      'no-restricted-imports': ['error', 'lodash/fp']
+    }
+  }, {
     'files': ["**/*.spec.jsx", "**/*.spec.js", "src/platform/testing/**/*.js", "src/platform/testing/**/*.jsx"],
     'rules': {
       'react/no-find-dom-node': 0,
-      'no-unused-expressions': 0
+      'no-unused-expressions': 0,
+      'no-restricted-imports': 0
     }
   }],
   'parserOptions': {
