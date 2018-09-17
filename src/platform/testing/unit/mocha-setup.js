@@ -8,6 +8,9 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
+
+require('es6-promise').polyfill();
+
 import 'isomorphic-fetch';
 // import sinon from 'sinon'
 
@@ -30,7 +33,6 @@ export default function setupJSDom() {
 
   // get the window object out of the document
   const win = dom.window;
-
   global.document = win.document;
   global.window = win;
 

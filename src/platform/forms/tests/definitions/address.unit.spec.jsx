@@ -34,7 +34,7 @@ describe('Schemaform definition address', () => {
     // country is USA and there is no blank option
     expect(selects.first().props().value).to.equal('USA');
     expect(selects.first().find('option').everyWhere(n => !!n.props().value)).to.be.true;
-  }).timeout(4000);
+  });
 
   it('should have required inputs if required', () => {
     const s = schema(addressSchema, true);

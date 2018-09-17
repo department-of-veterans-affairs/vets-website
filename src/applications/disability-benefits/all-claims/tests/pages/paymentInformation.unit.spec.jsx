@@ -38,7 +38,7 @@ describe('526 -- fetchPaymentInformation', () => {
   afterEach(() => resetFetch());
 
   // Tear down the fetch mock when we're done with all the tests
-  after(() => {
+  afterAll(() => {
     global.fetch = originalFetch;
   });
 

@@ -15,7 +15,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     mockApiRequest({ data: [] });
   });
 
-  after(() => {
+  afterAll(() => {
     global.fetch = originalFetch;
   });
 
