@@ -2,7 +2,11 @@
 # yarn lockfile v1
 
 
+<<<<<<< HEAD
 "@department-of-veterans-affairs/formation@^1.4.12":
+=======
+"@department-of-veterans-affairs/formation@^1.4.11":
+>>>>>>> 7479ad6980efb291322c3ed212fdd21d7b0d30ca
   version "1.4.12"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.4.12.tgz#e4c1242bb1883328b7db2974a180006e7c13ec3b"
   dependencies:
