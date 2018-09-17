@@ -8,7 +8,7 @@ import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 secondaryContact', () => {
   const { schema, uiSchema } = formConfig.chapters.personalInformation.pages.secondaryContact;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Edu 5490 secondaryContact', () => {
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
   });
-  it('should hide address when checked', () => {
+  test('should hide address when checked', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

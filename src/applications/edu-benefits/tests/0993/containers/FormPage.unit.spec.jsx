@@ -10,7 +10,7 @@ describe('Schemaform <FormPage>', () => {
     pathname: '/testing/0'
   };
 
-  it('should render', () => {
+  test('should render', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
@@ -119,7 +119,7 @@ describe('Schemaform <FormPage>', () => {
           route={route}/>
       );
     });
-    it('change', () => {
+    test('change', () => {
       const newData = {};
       const autoSave = sinon.spy();
       const instance = tree.getMountedInstance();
@@ -128,13 +128,13 @@ describe('Schemaform <FormPage>', () => {
 
       expect(setData.calledWith('testPage', newData));
     });
-    it('submit', () => {
+    test('submit', () => {
       tree.getMountedInstance().onSubmit({});
 
       expect(router.push.calledWith('next-page'));
     });
   });
-  it('should go back', () => {
+  test('should go back', () => {
     const oldWindow = global.window;
     global.window = {
       location: {
@@ -199,7 +199,7 @@ describe('Schemaform <FormPage>', () => {
     expect(global.window.location.replace.calledWith('/benefit/static'));
     global.window = oldWindow;
   });
-  it('should render array page', () => {
+  test('should render array page', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
@@ -257,7 +257,7 @@ describe('Schemaform <FormPage>', () => {
     expect(tree.subTree('SchemaForm').props.uiSchema).to.equal(form.pages.testPage.uiSchema.arrayProp.items);
     expect(tree.subTree('SchemaForm').props.data).to.equal(form.data.arrayProp[0]);
   });
-  it('should handle change in array page', () => {
+  test('should handle change in array page', () => {
     const setData = sinon.spy();
     const route = {
       pageConfig: {
@@ -323,7 +323,7 @@ describe('Schemaform <FormPage>', () => {
       ]
     });
   });
-  it('should update data when submitting on array page', () => {
+  test('should update data when submitting on array page', () => {
     const setData = sinon.spy();
     const route = {
       pageConfig: {

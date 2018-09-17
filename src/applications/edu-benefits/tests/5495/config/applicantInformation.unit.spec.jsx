@@ -9,7 +9,7 @@ import formConfig from '../../../5495/config/form.js';
 
 describe('Edu 5495 applicantInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Edu 5495 applicantInformation', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(11);
   });
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -34,7 +34,7 @@ describe('Edu 5495 applicantInformation', () => {
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(4);
     expect(onSubmit.called).not.to.be.true;
   });
-  it('should conditionally show file number', () => {
+  test('should conditionally show file number', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

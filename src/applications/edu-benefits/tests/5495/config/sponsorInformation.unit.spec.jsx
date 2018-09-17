@@ -9,7 +9,7 @@ import formConfig from '../../../5495/config/form.js';
 
 describe('Edu 5495 sponsorInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('Edu 5495 sponsorInformation', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(8);
   });
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -36,7 +36,7 @@ describe('Edu 5495 sponsorInformation', () => {
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
     expect(onSubmit.called).not.to.be.true;
   });
-  it('should not allow ssn that matches relative ssn', () => {
+  test('should not allow ssn that matches relative ssn', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

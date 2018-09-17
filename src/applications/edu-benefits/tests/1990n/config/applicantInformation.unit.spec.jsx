@@ -8,7 +8,7 @@ import formConfig from '../../../1990n/config/form.js';
 
 describe('Edu 1990N applicantInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

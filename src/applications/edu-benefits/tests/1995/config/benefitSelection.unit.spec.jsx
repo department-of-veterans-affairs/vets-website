@@ -9,7 +9,7 @@ import formConfig from '../../../1995/config/form';
 
 describe('Edu 1995 benefitSelection', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitSelection;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Edu 1995 benefitSelection', () => {
       .to.not.be.empty;
   });
 
-  it('should have no required inputs', () => {
+  test('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

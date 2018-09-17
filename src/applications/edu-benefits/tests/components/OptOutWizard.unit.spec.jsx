@@ -5,14 +5,14 @@ import { expect } from 'chai';
 import OptOutWizard from '../../components/OptOutWizard';
 
 describe('<OptOutWizard>', () => {
-  it('should show opt out button', () => {
+  test('should show opt out button', () => {
     const component = mount(
       <OptOutWizard/>);
 
     expect(component.find('button').length).to.equal(1);
     expect(component.state('modalOpen')).to.be.false;
   });
-  it('should show modal when opt out button is clicked', () => {
+  test('should show modal when opt out button is clicked', () => {
     // Modal uses query selector to get focus
     const oldQuerySelector = global.document.querySelector;
     global.document.querySelector = () => global.document;
@@ -30,7 +30,7 @@ describe('<OptOutWizard>', () => {
     delete global.document.focus;
     global.document.querySelector = oldQuerySelector;
   });
-  it('should close modal', () => {
+  test('should close modal', () => {
     // Modal uses query selector to get focus
     const oldQuerySelector = global.document.querySelector;
     global.document.querySelector = () => global.document;

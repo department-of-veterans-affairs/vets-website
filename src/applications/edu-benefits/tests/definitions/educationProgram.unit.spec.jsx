@@ -19,7 +19,7 @@ const schemaWithEdu = {
 describe('Edu educationProgram', () => {
   const { schema, uiSchema } = formConfig;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema(schemaWithEdu)}
@@ -35,7 +35,7 @@ describe('Edu educationProgram', () => {
     expect(inputs.length).to.equal(2);
   });
 
-  it('should show address conditionally', () => {
+  test('should show address conditionally', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         formData={{}}

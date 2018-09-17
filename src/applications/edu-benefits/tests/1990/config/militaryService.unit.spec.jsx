@@ -10,7 +10,7 @@ import formConfig from '../../../1990/config/form';
 describe('Edu 1990 militaryService', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.militaryService;
   const definitions = formConfig.defaultDefinitions;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -23,7 +23,7 @@ describe('Edu 1990 militaryService', () => {
 
     expect(formDOM.querySelectorAll('input').length).to.equal(3);
   });
-  it('should have no required inputs', () => {
+  test('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

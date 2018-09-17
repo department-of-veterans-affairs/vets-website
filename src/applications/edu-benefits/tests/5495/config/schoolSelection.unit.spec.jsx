@@ -9,7 +9,7 @@ import formConfig from '../../../5495/config/form.js';
 
 describe('Edu 5495 schoolSelection', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolSelection.pages.newSchool;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Edu 5495 schoolSelection', () => {
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(3);
   });
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

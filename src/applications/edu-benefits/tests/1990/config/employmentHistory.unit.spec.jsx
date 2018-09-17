@@ -8,7 +8,7 @@ import formConfig from '../../../1990e/config/form';
 describe('Edu 1990 employmentHistory', () => {
   const { schema, uiSchema } = formConfig.chapters.employmentHistory.pages.employmentHistory;
   const definitions = formConfig.defaultDefinitions;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Edu 1990 employmentHistory', () => {
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
-  it('should show history fields', () => {
+  test('should show history fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

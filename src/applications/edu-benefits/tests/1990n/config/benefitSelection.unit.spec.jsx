@@ -9,7 +9,7 @@ import formConfig from '../../../1990n/config/form';
 
 describe('Edu 1990n benefitSelection', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitSelection;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Edu 1990n benefitSelection', () => {
     expect(Array.from(formDOM.querySelectorAll('input')).length).to.equal(1);
   });
 
-  it('should show no errors when are empty', () => {
+  test('should show no errors when are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

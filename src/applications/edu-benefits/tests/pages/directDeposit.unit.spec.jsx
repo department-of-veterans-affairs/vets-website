@@ -11,7 +11,7 @@ import formConfig5490 from '../../5490/config/form';
 
 const pageTests = (page, requiredErrors = 0) => {
   const { schema, uiSchema } = page;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ const pageTests = (page, requiredErrors = 0) => {
     expect(formDOM.querySelectorAll('input').length).to.equal(4);
   });
 
-  it('should show correct number of required errors', () => {
+  test('should show correct number of required errors', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -38,7 +38,7 @@ const pageTests = (page, requiredErrors = 0) => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(requiredErrors);
   });
 
-  it('should submit form', () => {
+  test('should submit form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

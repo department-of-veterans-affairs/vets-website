@@ -9,7 +9,7 @@ import formConfig from '../../../1990e/config/form';
 
 describe('Edu 1990e benefitEligibility', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitEligibility.pages.benefitEligibility;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Edu 1990e benefitEligibility', () => {
     expect(fields.length).to.equal(2);
   });
 
-  it('should have no required inputs', () => {
+  test('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

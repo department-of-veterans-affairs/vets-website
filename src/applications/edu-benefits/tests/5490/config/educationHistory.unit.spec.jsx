@@ -9,7 +9,7 @@ import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 educationHistory', () => {
   const { schema, uiSchema } = formConfig.chapters.educationHistory.pages.educationHistory;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -23,7 +23,7 @@ describe('Edu 5490 educationHistory', () => {
       .to.equal(3);
   });
 
-  it('should render diploma date', () => {
+  test('should render diploma date', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -42,7 +42,7 @@ describe('Edu 5490 educationHistory', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
   });
 
-  it('should render high school questions', () => {
+  test('should render high school questions', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -61,7 +61,7 @@ describe('Edu 5490 educationHistory', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
   });
 
-  it('should have no required inputs', () => {
+  test('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -79,7 +79,7 @@ describe('Edu 5490 educationHistory', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should render post high school trainings', () => {
+  test('should render post high school trainings', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -98,7 +98,7 @@ describe('Edu 5490 educationHistory', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
   });
 
-  it('should render diploma date and not post high school trainings', () => {
+  test('should render diploma date and not post high school trainings', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

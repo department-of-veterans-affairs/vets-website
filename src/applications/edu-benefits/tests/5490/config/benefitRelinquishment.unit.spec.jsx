@@ -9,7 +9,7 @@ import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 benefitRelinquishment', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitRelinquishment;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -34,7 +34,7 @@ describe('Edu 5490 benefitRelinquishment', () => {
     expect(fields.length).to.equal(3);
   });
 
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -60,7 +60,7 @@ describe('Edu 5490 benefitRelinquishment', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should show no errors when all required fields are filled', () => {
+  test('should show no errors when all required fields are filled', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

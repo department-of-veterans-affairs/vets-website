@@ -11,7 +11,7 @@ import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 sponsorService', () => {
   const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorService;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -23,7 +23,7 @@ describe('Edu 5490 sponsorService', () => {
 
     expect(formDOM.querySelectorAll('input').length).to.equal(5);
   });
-  it('should have no required inputs', () => {
+  test('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

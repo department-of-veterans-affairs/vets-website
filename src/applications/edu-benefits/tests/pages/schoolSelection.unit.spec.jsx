@@ -27,7 +27,7 @@ Object.keys(optionsFor).forEach((formName) => {
     const { schema, uiSchema } = configs[formName].chapters.schoolSelection.pages.schoolSelection;
 
     // They should all render
-    it('should render', () => {
+    test('should render', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
           schema={schema}
@@ -49,7 +49,7 @@ Object.keys(optionsFor).forEach((formName) => {
     // Either test for required inputs or not, depending on the required option
     const requiredInputs = !_.isEmpty(optionsFor[formName].required);
 
-    it(`should have${requiredInputs ? '' : ' no'} required inputs`, () => {
+    test(`should have${requiredInputs ? '' : ' no'} required inputs`, () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester

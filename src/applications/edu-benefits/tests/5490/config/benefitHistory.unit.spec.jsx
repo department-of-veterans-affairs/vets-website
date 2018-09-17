@@ -9,7 +9,7 @@ import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 benefitHistory', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitHistory;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         formData={{}}
@@ -22,7 +22,7 @@ describe('Edu 5490 benefitHistory', () => {
       .to.equal(7);
   });
 
-  it('should expand options conditionally', () => {
+  test('should expand options conditionally', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -94,7 +94,7 @@ describe('Edu 5490 benefitHistory', () => {
   //  after expanding, which currently takes some time (see the end of the test
   //  above). To get around that, we're checking for a successful submission and
   //  then a failed submission instead of failing before suceeding.
-  it('should only require fields conditionally', () => {
+  test('should only require fields conditionally', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -128,7 +128,7 @@ describe('Edu 5490 benefitHistory', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should require either ssn or file number for previous sponsor', () => {
+  test('should require either ssn or file number for previous sponsor', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

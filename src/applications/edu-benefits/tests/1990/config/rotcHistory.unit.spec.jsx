@@ -9,7 +9,7 @@ import formConfig from '../../../1990/config/form';
 describe('Edu 1990 rotcHistory', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.rotcHistory;
   const definitions = formConfig.defaultDefinitions;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Edu 1990 rotcHistory', () => {
 
     expect(formDOM.querySelectorAll('input').length).to.equal(4);
   });
-  it('should have no required inputs', () => {
+  test('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -38,7 +38,7 @@ describe('Edu 1990 rotcHistory', () => {
     expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });
-  it('should be able to add a new period', () => {
+  test('should be able to add a new period', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

@@ -9,7 +9,7 @@ import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 employmentHistory', () => {
   const { schema, uiSchema } = formConfig.chapters.employmentHistory.pages.employmentHistory;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Edu 5490 employmentHistory', () => {
       .to.equal(2);
   });
 
-  it('should render expanded', () => {
+  test('should render expanded', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -45,7 +45,7 @@ describe('Edu 5490 employmentHistory', () => {
     expect(fields[3].getAttribute('type')).to.equal('number');
   });
 
-  it('should have no required inputs', () => {
+  test('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -62,7 +62,7 @@ describe('Edu 5490 employmentHistory', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should add another', () => {
+  test('should add another', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

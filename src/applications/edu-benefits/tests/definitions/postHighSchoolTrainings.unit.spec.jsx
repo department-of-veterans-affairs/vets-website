@@ -10,7 +10,7 @@ import definitions from 'vets-json-schema/dist/definitions.json';
 const schema = definitions.postHighSchoolTrainings;
 
 describe('Edu postHighSchoolTrainings', () => {
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Edu postHighSchoolTrainings', () => {
     expect(fields.length).to.equal(13);
   });
 
-  it('should add another', () => {
+  test('should add another', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

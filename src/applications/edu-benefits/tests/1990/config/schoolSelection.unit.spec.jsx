@@ -11,7 +11,7 @@ describe('Edu 1990 schoolSelection', () => {
   const { schema, uiSchema } = formConfig1990.chapters.schoolSelection.pages.schoolSelection;
 
   // They should all render
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -27,7 +27,7 @@ describe('Edu 1990 schoolSelection', () => {
     expect(inputs.length).to.equal(8);
   });
 
-  it('should have 1 required input', () => {
+  test('should have 1 required input', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -43,7 +43,7 @@ describe('Edu 1990 schoolSelection', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.not.be.true;
   });
-  it('should reveal address', () => {
+  test('should reveal address', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -58,7 +58,7 @@ describe('Edu 1990 schoolSelection', () => {
 
     expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(14);
   });
-  it('should hide non va assistance question', () => {
+  test('should hide non va assistance question', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

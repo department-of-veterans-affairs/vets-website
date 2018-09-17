@@ -16,7 +16,7 @@ describe('Edu 1990 benefitsRelinquishment', () => {
     }
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -29,7 +29,7 @@ describe('Edu 1990 benefitsRelinquishment', () => {
     expect(formDOM.querySelectorAll('input').length).to.equal(4);
   });
 
-  it('should require benefitsRelinquished', () => {
+  test('should require benefitsRelinquished', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -55,7 +55,7 @@ describe('Edu 1990 benefitsRelinquishment', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should show nested content', () => {
+  test('should show nested content', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -70,7 +70,7 @@ describe('Edu 1990 benefitsRelinquishment', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
   });
 
-  it('should require benefitsRelinquishedDate', () => {
+  test('should require benefitsRelinquishedDate', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -88,7 +88,7 @@ describe('Edu 1990 benefitsRelinquishment', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
   });
 
-  it('should submit with benefitsRelinquishedDate', () => {
+  test('should submit with benefitsRelinquishedDate', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

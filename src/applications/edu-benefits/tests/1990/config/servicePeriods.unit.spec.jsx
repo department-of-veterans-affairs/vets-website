@@ -9,7 +9,7 @@ import formConfig from '../../../1990/config/form';
 describe('Edu 1990 servicePeriods', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.servicePeriods;
   const definitions = formConfig.defaultDefinitions;
-  it('should render service fields', () => {
+  test('should render service fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Edu 1990 servicePeriods', () => {
 
     expect(formDOM.querySelectorAll('input').length).to.equal(5);
   });
-  it('should render service period view', () => {
+  test('should render service period view', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -49,7 +49,7 @@ describe('Edu 1990 servicePeriods', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-  it('should not submit without required inputs', () => {
+  test('should not submit without required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

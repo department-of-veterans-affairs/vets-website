@@ -9,7 +9,7 @@ import formConfig5495 from '../../5495/config/form';
 
 const pageTests = (page) => {
   const { schema, uiSchema } = page;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ const pageTests = (page) => {
 
     expect(formDOM.querySelectorAll('input').length).to.equal(3);
   });
-  it('should render stop message', () => {
+  test('should render stop message', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -38,7 +38,7 @@ const pageTests = (page) => {
 
     expect(formDOM.querySelector('.edu-dd-warning')).to.not.be.null;
   });
-  it('should require bank account fields', () => {
+  test('should require bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -59,7 +59,7 @@ const pageTests = (page) => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
   });
-  it('should show error on bad routing number', () => {
+  test('should show error on bad routing number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

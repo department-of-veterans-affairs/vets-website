@@ -8,7 +8,7 @@ import formConfig from '../../../1995/config/form';
 
 describe('Edu 1995 dependents', () => {
   const { schema, uiSchema } = formConfig.chapters.personalInformation.pages.dependents;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Edu 1995 dependents', () => {
 
     expect(formDOM.querySelectorAll('input').length).to.equal(6);
   });
-  it('should have all fields set as required', () => {
+  test('should have all fields set as required', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

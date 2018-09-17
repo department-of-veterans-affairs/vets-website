@@ -7,7 +7,7 @@ import formConfig from '../../../1990/config/form.js';
 
 describe('Edu 1990 directDeposit', () => {
   const { schema, uiSchema } = formConfig.chapters.personalInformation.pages.directDeposit;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -18,7 +18,7 @@ describe('Edu 1990 directDeposit', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(4);
   });
-  it('should submit form without information', () => {
+  test('should submit form without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

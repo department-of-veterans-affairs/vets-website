@@ -8,7 +8,7 @@ import formConfig from '../../../1990n/config/form';
 
 describe('Edu 1990n applicantService', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantService;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Edu 1990n applicantService', () => {
     expect(fields.length).to.equal(10);
   });
 
-  it('should expand tours and other questions', () => {
+  test('should expand tours and other questions', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

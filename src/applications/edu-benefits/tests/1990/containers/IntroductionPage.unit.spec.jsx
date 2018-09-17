@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { IntroductionPage } from '../../../1990/containers/IntroductionPage';
 
 describe('Edu 1990 <IntroductionPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = shallow(
       <IntroductionPage
         route={{

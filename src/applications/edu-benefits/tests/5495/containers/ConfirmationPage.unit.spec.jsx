@@ -20,7 +20,7 @@ const form = {
 };
 
 describe('Edu 5495 <ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>
     );

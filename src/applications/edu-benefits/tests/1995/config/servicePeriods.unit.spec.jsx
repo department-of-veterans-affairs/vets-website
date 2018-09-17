@@ -10,7 +10,7 @@ import formConfig from '../../../1995/config/form';
 describe('Edu 1995 servicePeriods', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryService.pages.servicePeriods;
   const definitions = formConfig.defaultDefinitions;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -23,7 +23,7 @@ describe('Edu 1995 servicePeriods', () => {
       .to.not.be.empty;
   });
 
-  it('should render service fields', () => {
+  test('should render service fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -49,7 +49,7 @@ describe('Edu 1995 servicePeriods', () => {
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select').length).to.equal(4);
   });
 
-  it('should render service period view', () => {
+  test('should render service period view', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -78,7 +78,7 @@ describe('Edu 1995 servicePeriods', () => {
     expect(firstPeriod.textContent).to.contain('01/03/2008 — 01/01/2010');
     expect(firstPeriod.querySelector('button').textContent).to.equal('Edit');
   });
-  it('should have no required inputs', () => {
+  test('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

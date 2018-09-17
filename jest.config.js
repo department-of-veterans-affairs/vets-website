@@ -121,7 +121,8 @@ module.exports = {
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
   setupFiles: [
-    '<rootDir>/src/platform/testing/unit/enzyme-setup.js'
+    '<rootDir>/src/platform/testing/unit/enzyme-setup.js',
+    '<rootDir>/src/platform/testing/unit/mocha-setup.js'
   ],
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
@@ -141,7 +142,7 @@ module.exports = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    '**/**/hca/**/?(*.)unit.spec.js?(x)',
+    '**/edu-benefits/**/?(*.)unit.spec.js?(x)',
     '**/?(*.)jest.+(spec|test).js?(x)'
   ],
 

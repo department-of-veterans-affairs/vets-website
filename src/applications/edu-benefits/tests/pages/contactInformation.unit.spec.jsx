@@ -12,7 +12,7 @@ import formConfig1995 from '../../1995/config/form';
 
 const pageTests = (page, addressType = 'veteran') => {
   const { schema, uiSchema } = page;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -31,7 +31,7 @@ const pageTests = (page, addressType = 'veteran') => {
     expect(inputs.filter(input => input.id.startsWith('root_view:otherContactInfo')).length)
       .to.equal(4);
   });
-  it('should render validation errors for required fields', () => {
+  test('should render validation errors for required fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -44,7 +44,7 @@ const pageTests = (page, addressType = 'veteran') => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
   });
-  it('should conditionally require phone number', () => {
+  test('should conditionally require phone number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         formData={{}}
@@ -74,7 +74,7 @@ const pageTests = (page, addressType = 'veteran') => {
     phoneError = errors.find(errorLabel => errorLabel.getAttribute('for').endsWith('homePhone'));
     expect(phoneError).not.to.be.undefined;
   });
-  it('should show error if emails do not match', () => {
+  test('should show error if emails do not match', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         formData={{}}
@@ -112,7 +112,7 @@ const pageTests = (page, addressType = 'veteran') => {
     expect(formDOM.querySelectorAll('.usa-input-error')).not.to.be.empty;
   });
   describe('review page', () => {
-    it('should not render confirm email', () => {
+    test('should not render confirm email', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
           schema={schema}

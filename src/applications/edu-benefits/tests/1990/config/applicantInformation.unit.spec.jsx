@@ -8,7 +8,7 @@ import formConfig from '../../../1990/config/form.js';
 
 describe('Edu 1990 applicantInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Edu 1990 applicantInformation', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
   });
 
-  it('should not submit form without information', () => {
+  test('should not submit form without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -33,7 +33,7 @@ describe('Edu 1990 applicantInformation', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
   });
 
-  it('should only allow ages >= 17 years', () => {
+  test('should only allow ages >= 17 years', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

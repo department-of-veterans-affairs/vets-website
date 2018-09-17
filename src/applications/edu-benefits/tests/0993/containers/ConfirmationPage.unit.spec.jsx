@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { ConfirmationPage } from '../../../0993/containers/ConfirmationPage';
 
 describe('Opt Out <ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const form = {
       submission: {
         response: {
@@ -36,7 +36,7 @@ describe('Opt Out <ConfirmationPage>', () => {
     expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information. You can print this page for your records.');
   });
 
-  it('should render without the response properties', () => {
+  test('should render without the response properties', () => {
 
     const form = {
       submission: {

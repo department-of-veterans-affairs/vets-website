@@ -6,7 +6,7 @@ import moment from 'moment';
 import { ConfirmationPage } from '../../../feedback-tool/containers/ConfirmationPage';
 
 describe('GI Feedback Tool <ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const form = {
       submission: {
         response: {
@@ -33,7 +33,7 @@ describe('GI Feedback Tool <ConfirmationPage>', () => {
     expect(tree.find('span').at(1).text()).to.contain(moment().format('MMM D, YYYY'));
     expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information.');
   });
-  it('should render without the name properties', () => {
+  test('should render without the name properties', () => {
 
     const form = {
       submission: {
@@ -52,7 +52,7 @@ describe('GI Feedback Tool <ConfirmationPage>', () => {
     expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information.');
 
   });
-  it('should render without the response properties', () => {
+  test('should render without the response properties', () => {
 
     const form = {
       submission: {

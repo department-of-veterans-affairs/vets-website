@@ -9,7 +9,7 @@ import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 benefitSelection', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitSelection;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ describe('Edu 5490 benefitSelection', () => {
       .to.equal(2);
   });
 
-  it('should show nested content', () => {
+  test('should show nested content', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -58,7 +58,7 @@ describe('Edu 5490 benefitSelection', () => {
     */
   });
 
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -83,7 +83,7 @@ describe('Edu 5490 benefitSelection', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should show no errors when all required fields are filled', () => {
+  test('should show no errors when all required fields are filled', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

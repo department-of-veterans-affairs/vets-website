@@ -20,7 +20,7 @@ const form = {
 };
 
 describe('Edu 1990n <ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>
     );
@@ -31,7 +31,7 @@ describe('Edu 1990n <ConfirmationPage>', () => {
     expect(tree.everySubTree('p')[1].text()).to.contain('We may contact you for more information or documents.Please print this page for your records');
     expect(tree.everySubTree('.confirmation-guidance-message')[0].text()).to.contain('Find out what happens after you apply.');
   });
-  it('should expand documents', () => {
+  test('should expand documents', () => {
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>
     );

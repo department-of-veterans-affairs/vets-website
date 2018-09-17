@@ -10,7 +10,7 @@ import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 sponsorInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ describe('Edu 5490 sponsorInformation', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
   });
 
-  it('should conditionally show spouseInfo options', () => {
+  test('should conditionally show spouseInfo options', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

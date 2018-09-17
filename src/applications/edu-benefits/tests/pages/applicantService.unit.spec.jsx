@@ -11,7 +11,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 const pageTests = (page) => {
   const { schema, uiSchema } = page;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ const pageTests = (page) => {
     expect(fields.length).to.equal(2);
   });
 
-  it('should expand', () => {
+  test('should expand', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -48,7 +48,7 @@ const pageTests = (page) => {
     expect(fields.length).to.equal(10);
   });
 
-  it('should not have required fields errors after choosing no', () => {
+  test('should not have required fields errors after choosing no', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -70,7 +70,7 @@ const pageTests = (page) => {
     expect(formDOM.querySelector('.usa-input-error')).to.be.null;
   });
 
-  it('should have required field errors when expanded', () => {
+  test('should have required field errors when expanded', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -94,7 +94,7 @@ const pageTests = (page) => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
   });
 
-  it('should add another', () => {
+  test('should add another', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

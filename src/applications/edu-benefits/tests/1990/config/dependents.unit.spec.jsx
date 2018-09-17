@@ -7,7 +7,7 @@ import formConfig from '../../../1990/config/form.js';
 
 describe('Edu 1990 dependents', () => {
   const { schema, uiSchema, depends } = formConfig.chapters.personalInformation.pages.dependents;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -25,7 +25,7 @@ describe('Edu 1990 dependents', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
   });
-  it('should show errors if submitted without information', () => {
+  test('should show errors if submitted without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -44,7 +44,7 @@ describe('Edu 1990 dependents', () => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
   });
-  it('should show page only if served before 1977', () => {
+  test('should show page only if served before 1977', () => {
     expect(depends({
       toursOfDuty: [
         {

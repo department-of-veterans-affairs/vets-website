@@ -11,7 +11,7 @@ const definitions = formConfig.defaultDefinitions;
 
 describe('Edu 1995 applicantInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -23,7 +23,7 @@ describe('Edu 1995 applicantInformation', () => {
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
     expect(inputs.length).to.equal(5);
   });
-  it('should conditionally require SSN or file number', () => {
+  test('should conditionally require SSN or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         formData={{}}
@@ -60,7 +60,7 @@ describe('Edu 1995 applicantInformation', () => {
     expect(newErrors.find(input => input.id.includes('root_veteranSocialSecurityNumber'))).not.to.be.ok;
     expect(newErrors.find(input => input.id.includes('root_vaFileNumber'))).to.be.ok;
   });
-  it('should submit with no errors with all required fields filled in', () => {
+  test('should submit with no errors with all required fields filled in', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

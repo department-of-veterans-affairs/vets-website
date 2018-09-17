@@ -13,7 +13,7 @@ function answerQuestion(tree, name, value) {
 }
 
 describe('<EducationWizard>', () => {
-  it('should show button and no questions', () => {
+  test('should show button and no questions', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );
@@ -21,7 +21,7 @@ describe('<EducationWizard>', () => {
     expect(tree.subTree('button')).not.to.be.false;
     expect(tree.subTree('#wizardOptions').props.className).to.contain('wizard-content-closed');
   });
-  it('should show button and first question', () => {
+  test('should show button and first question', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );
@@ -31,7 +31,7 @@ describe('<EducationWizard>', () => {
     expect(tree.subTree('#wizardOptions').props.className).not.to.contain('wizard-content-closed');
     expect(tree.everySubTree('ErrorableRadioButtons')).not.to.be.empty;
   });
-  it('should show own service question for new benefit', () => {
+  test('should show own service question for new benefit', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );
@@ -41,7 +41,7 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, 'newBenefit', 'yes');
     expect(getQuestion(tree, 'serviceBenefitBasedOn')).not.to.be.undefined;
   });
-  it('should show 1990 button', () => {
+  test('should show 1990 button', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );
@@ -51,7 +51,7 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, 'nationalCallToService', 'no');
     expect(tree.subTree('#apply-now-link').props.href.endsWith('1990')).to.be.true;
   });
-  it('should show 1995 button', () => {
+  test('should show 1995 button', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );
@@ -60,7 +60,7 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, 'transferredEduBenefits', 'own');
     expect(tree.subTree('#apply-now-link').props.href.endsWith('1995')).to.be.true;
   });
-  it('should show 5495 button', () => {
+  test('should show 5495 button', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );
@@ -69,7 +69,7 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, 'transferredEduBenefits', 'fry');
     expect(tree.subTree('#apply-now-link').props.href.endsWith('5495')).to.be.true;
   });
-  it('should show 1990N button', () => {
+  test('should show 1990N button', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );
@@ -80,7 +80,7 @@ describe('<EducationWizard>', () => {
     expect(tree.subTree('#apply-now-link').props.href.endsWith('1990N')).to.be.true;
     expect(tree.subTree('.usa-alert-warning')).not.be.be.false;
   });
-  it('should show 5490 button', () => {
+  test('should show 5490 button', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );
@@ -90,7 +90,7 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, 'sponsorDeceasedDisabledMIA', 'yes');
     expect(tree.subTree('#apply-now-link').props.href.endsWith('5490')).to.be.true;
   });
-  it('should show 1990E button', () => {
+  test('should show 1990E button', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );
@@ -101,7 +101,7 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, 'sponsorTransferredBenefits', 'yes');
     expect(tree.subTree('#apply-now-link').props.href.endsWith('1990E')).to.be.true;
   });
-  it('should show transfer warning', () => {
+  test('should show transfer warning', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard/>
     );

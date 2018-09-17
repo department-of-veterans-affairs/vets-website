@@ -9,7 +9,7 @@ import formConfig from '../../../1990e/config/form';
 
 describe('Edu 1990e sponsorVeteran', () => {
   const { schema, uiSchema } = formConfig.chapters.sponsorVeteran.pages.sponsorVeteran;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Edu 1990e sponsorVeteran', () => {
     expect(inputs.length).to.equal(10);
     expect(selects.length).to.equal(3);
   });
-  it('should conditionally require SSN or file number', () => {
+  test('should conditionally require SSN or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -57,37 +57,40 @@ describe('Edu 1990e sponsorVeteran', () => {
     expect(newErrors.find(input => input.id.includes('root_view:veteranId_veteranSocialSecurityNumber'))).not.to.be.ok;
     expect(newErrors.find(input => input.id.includes('root_view:veteranId_vaFileNumber'))).to.be.ok;
   });
-  it('should submit with no errors when all required fields are filled', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        onSubmit={onSubmit}
-        data={{}}
-        uiSchema={uiSchema}/>
-    );
+  test(
+    'should submit with no errors when all required fields are filled',
+    () => {
+      const onSubmit = sinon.spy();
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+          schema={schema}
+          onSubmit={onSubmit}
+          data={{}}
+          uiSchema={uiSchema}/>
+      );
 
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
-      target: {
-        value: 'Veteran'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
-      target: {
-        value: 'Veteran'
-      }
-    });
-    const inputs = Array.from(formDOM.querySelectorAll('input'));
-    ReactTestUtils.Simulate.change(inputs.find((input) => input.id === 'root_view:veteranId_veteranSocialSecurityNumber'), {
-      target: {
-        value: '111-22-3333'
-      }
-    });
+      const formDOM = findDOMNode(form);
+      const find = formDOM.querySelector.bind(formDOM);
+      ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
+        target: {
+          value: 'Veteran'
+        }
+      });
+      ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
+        target: {
+          value: 'Veteran'
+        }
+      });
+      const inputs = Array.from(formDOM.querySelectorAll('input'));
+      ReactTestUtils.Simulate.change(inputs.find((input) => input.id === 'root_view:veteranId_veteranSocialSecurityNumber'), {
+        target: {
+          value: '111-22-3333'
+        }
+      });
 
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-    expect(onSubmit.called).to.be.true;
-  });
+      submitForm(form);
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+      expect(onSubmit.called).to.be.true;
+    }
+  );
 });

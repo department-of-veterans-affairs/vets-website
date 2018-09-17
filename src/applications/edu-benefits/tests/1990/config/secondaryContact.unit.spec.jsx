@@ -7,7 +7,7 @@ import formConfig from '../../../1990/config/form.js';
 
 describe('Edu 1990 secondaryContact', () => {
   const { schema, uiSchema } = formConfig.chapters.personalInformation.pages.secondaryContact;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -18,7 +18,7 @@ describe('Edu 1990 secondaryContact', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(9);
   });
-  it('should hide address fields when address is shared', () => {
+  test('should hide address fields when address is shared', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -30,7 +30,7 @@ describe('Edu 1990 secondaryContact', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
   });
-  it('should submit without information', () => {
+  test('should submit without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

@@ -10,7 +10,7 @@ import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 describe('Edu oldSchool page', () => {
   const { schema, uiSchema } = createOldSchoolPage(fullSchema1995);
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Edu oldSchool page', () => {
       .to.not.be.empty;
   });
 
-  it('should have no required inputs', () => {
+  test('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

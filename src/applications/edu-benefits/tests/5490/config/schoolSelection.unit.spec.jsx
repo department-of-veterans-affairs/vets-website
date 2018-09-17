@@ -10,7 +10,7 @@ import educationTypeUi from '../../../definitions/educationType';
 describe('Edu 5490 schoolSelection', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolSelection.pages.schoolSelection;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
