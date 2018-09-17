@@ -68,6 +68,7 @@ function checkStatus(guid) {
       if (res instanceof Error) {
         Raven.captureException(res);
         Raven.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
+        recordEvent({ event: 'edu-feedback-tool-submission-failed' });
 
         // keep polling because we know they submitted earlier
         // and this is likely a network error
@@ -90,6 +91,7 @@ function pollStatus(guid, onDone, onError) {
         } else if (res.data.attributes.state === 'success') {
           onDone(res.data.attributes.parsedResponse);
         } else {
+          recordEvent({ event: 'edu-feedback-tool-submission-failed' });
           // needs to start with this string to get the right message on the form
           throw new Error(`vets_server_error_gi_bill_feedbacks: status ${res.data.attributes.state}`);
         }
@@ -125,9 +127,7 @@ export function submit(form, formConfig) {
     return new Promise((resolve, reject) => {
       pollStatus(guid,
         response => {
-          recordEvent({
-            event: `${formConfig.trackingPrefix}-submission-successful`,
-          });
+          recordEvent({ event: `${formConfig.trackingPrefix}-submission-successful` });
           return resolve(response);
         }, error => reject(error));
     });
@@ -136,7 +136,7 @@ export function submit(form, formConfig) {
       if (respOrError.status === 429) {
         const error = new Error('vets_throttled_error_gi_bill_feedbacks');
         error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
-
+        recordEvent({ event: `${formConfig.trackingPrefix}-submission-failed` });
         return Promise.reject(error);
       }
     }
