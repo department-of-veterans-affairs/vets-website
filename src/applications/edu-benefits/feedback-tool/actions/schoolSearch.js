@@ -1,3 +1,5 @@
+import recordEvent from '../../../../platform/monitoring/record-event';
+
 import {
   fetchInstitutions
 } from '../helpers';
@@ -76,6 +78,7 @@ export function searchSchools({ institutionQuery, page }) {
         });
       },
       onError: error => {
+        recordEvent({ event: 'edu-feedback-tool-school-not-found' });
         dispatch({
           type: LOAD_SCHOOLS_FAILED,
           error,
