@@ -88,10 +88,10 @@ To apply, you’ll need your (or your sponsor's):
 - Social Security number
 - Date and place of birth
 - Military status and service history (like service dates, discharge character, and rank—commonly found on the DD214 or other separation documents)
-- Discharge papers (DD214 or other separation documents)
-
-**Note:** If you don't have the discharge papers, you can request a copy through the National Archives. <br>
+- Discharge papers (DD214 or other separation documents)<br>
+  **Note:** If you don't have the discharge papers, you can request a copy through the National Archives. <br>
 [Find out how to request discharge papers](https://www.archives.gov/veterans/military-service-records/standard-form-180).
+
 
 #### More information needed for certain applicants
 
