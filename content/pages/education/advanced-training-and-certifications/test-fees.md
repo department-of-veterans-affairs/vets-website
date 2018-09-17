@@ -105,9 +105,9 @@ Upload your completed application to the GI Bill website.
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="nt-program">For national testing: <br>
-</button>
+
 <div id="bdd-program" class="usa-accordion-content">
-We’ll charge your GI Bill benefit package for the cost of the test.
+We’ll charge your GI Bill benefit package for the cost of the test.</button>
 For tests taken before August 1, 2018, if you got paid back for testing under the Post-9/11 GI Bill, we charged a whole month of entitlement pay. For tests taken after this date, we charge your benefits just for actual amount of the testing fee. <br>
 
 **Please note:**
