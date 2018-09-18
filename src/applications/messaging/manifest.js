@@ -2,8 +2,7 @@ module.exports = {
   appName: 'Secure Messaging',
   entryFile: './messaging-entry.jsx',
   entryName: 'messaging',
-  receiveContentProps({ path: rootUrl, production }) {
+  receiveContentProps({ path: rootUrl }) {
     this.rootUrl = `/${rootUrl}`;
-    this.production = production;
   }
 };
