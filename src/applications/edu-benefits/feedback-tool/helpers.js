@@ -128,7 +128,7 @@ export function submit(form, formConfig) {
     return new Promise((resolve, reject) => {
       pollStatus(guid,
         response => {
-          recordEvent({ event: `${formConfig.trackingPrefix}-submission-successful` });
+          recordEvent({ event: `${formConfig.trackingPrefix}submission-successful` });
           return resolve(response);
         }, error => reject(error));
     });
@@ -137,7 +137,7 @@ export function submit(form, formConfig) {
       if (respOrError.status === 429) {
         const error = new Error('vets_throttled_error_gi_bill_feedbacks');
         error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
-        recordEvent({ event: `${formConfig.trackingPrefix}-submission-failed` });
+        recordEvent({ event: `${formConfig.trackingPrefix}submission-failed` });
         return Promise.reject(error);
       }
     }
