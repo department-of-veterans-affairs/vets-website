@@ -20,6 +20,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 - Any Veteran buried in an unmarked grave who served before September 7, 1980
 - Any Veteran buried in an unmarked grave who served for 24 months or longer, or who died while on active duty (including training) after September 7, 1980
 - An eligible spouse or other family member buried in a national cemetery, state/tribal Veterans cemetery, military post cemetery, or military base cemetery
+**Note**: Spouses and dependents buried in a private cemetery aren't eligible for these memorial items.
 
 <br>
 
@@ -28,7 +29,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 - Any Veteran who died before November 1, 1990
 - Any Veteran who served on or after April 6, 1917
 - Any Veteran whose grave is privately marked <br>
-**Note**: Spouses and dependents buried in a private cemetery aren't eligible for these memorial items.
+
 
 </div>
 
@@ -76,8 +77,6 @@ You must put a legal name, service branch, and birth and death year on a headsto
 
 [Learn more about these memorial items--and see what they look like](https://www.cem.va.gov/cem/docs/factsheets/HeadstoneMarkerMedallion_Brochure.pdf).
 
-
-
 <br>
 
 ### How do I make special arrangements?
@@ -87,7 +86,6 @@ We provide memorial headstones and markers for qualified Veterans when their rem
 For Veterans, dependents, and Servicemembers who qualify for a memorial headstone or marker, the words engraved on the memorial item must begin, “IN MEMORY OF,” and the headstone or marker must be placed in a national cemetery, state Veterans cemetery, or military base cemetery.
 
 Get help applying for a headstone, marker, niche cover, or medallion by calling <a href="tel:+8006976947">1-800-697-6947</a>.
-
 
 ### What do I need to know about burial in a private cemetery?
 You may have additional costs, restrictions on the type of headstone or marker you can use, and other requirements you should know about when preparing for burial in a private cemetery. <br>
