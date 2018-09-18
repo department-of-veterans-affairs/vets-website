@@ -380,7 +380,8 @@
     "sortBy": "order",
     "metadata": {
       "name": "Housing Assistance",
-      "spokes": ["VA Home Loans", "Disability Housing Grants"]
+      "spokes": ["VA Home Loans", "Disability Housing Grants"],
+      "icon": "fa-home"
     }
   },
   "housingHomeLoans": {
