@@ -107,3 +107,8 @@ export const NOBANK = 'NOBANK';
 export const PENDING = 'PENDING';
 export const RESOLVED = 'RESOLVED';
 export const REJECTED = 'REJECTED';
+
+// Homeless housing situation and homelessness status
+export const OTHER = 'other';
+export const AT_RISK = 'atRisk';
+export const HOMELESS = 'homeless';

@@ -18,6 +18,12 @@ import {
   atRiskLabel
 } from '../content/homelessOrAtRisk';
 
+import {
+  OTHER,
+  AT_RISK,
+  HOMELESS
+} from '../constants';
+
 export const uiSchema = {
   homelessOrAtRisk: {
     'ui:title': 'Are you homeless or at risk of becoming homeless?',
@@ -33,53 +39,68 @@ export const uiSchema = {
   'view:isHomeless': {
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
-      expandUnderCondition: (housing) => housing === 'homeless'
+      expandUnderCondition: HOMELESS
     },
     homelessHousingSituation: {
       'ui:title': 'Please describe your current living situation.',
-      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'homeless',
-      'ui:widget': 'radio'
+      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === HOMELESS,
+      'ui:widget': 'radio',
+      'ui:options': {
+        labels: {
+          shelter: 'I’m living in a homeless shelter.',
+          notShelter: 'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
+          anotherPerson: 'I’m living with another person.',
+          other: 'Other'
+        }
+      }
     },
     otherHomelessHousing: {
       'ui:title': 'Please describe',
-      'ui:required': (formData) => _.get('view:isHomeless.homelessHousingSituation', formData, '') === 'Other',
+      'ui:required': (formData) => _.get('view:isHomeless.homelessHousingSituation', formData, '') === OTHER,
       'ui:options': {
-        hideIf: (formData) => _.get('view:isHomeless.homelessHousingSituation', formData, '') !== 'Other',
+        hideIf: (formData) => _.get('view:isHomeless.homelessHousingSituation', formData, '') !== OTHER,
       }
     },
     needToLeaveHousing: {
       'ui:title': 'Do you need to quickly leave your current living situation?',
-      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'homeless',
-      'ui:widget': 'radio'
+      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === HOMELESS,
+      'ui:widget': 'yesNo'
     }
   },
   'view:isAtRisk': {
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
-      expandUnderCondition: (housing) => housing === 'atRisk'
+      expandUnderCondition: AT_RISK
     },
     atRiskHousingSituation: {
       'ui:title': 'Please describe your housing situation',
-      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === 'atRisk',
-      'ui:widget': 'radio'
+      'ui:required': (formData) => _.get('homelessOrAtRisk', formData, '') === AT_RISK,
+      'ui:widget': 'radio',
+      'ui:options': {
+        labels: {
+          losingHousing: 'I’m losing my housing in 30 days.',
+          leavingShelter: 'I’m leaving a publicly funded homeless shelter soon.',
+          other: 'Other'
+        }
+      }
     },
     otherAtRiskHousing: {
       'ui:title': 'Please describe',
-      'ui:required': (formData) => _.get('view:isAtRisk.atRiskHousingSituation', formData, '') === 'Other',
+      'ui:required': (formData) => _.get('view:isAtRisk.atRiskHousingSituation', formData, '') === 'other',
       'ui:options': {
-        hideIf: (formData) => _.get('view:isAtRisk.atRiskHousingSituation', formData, '') !== 'Other'
+        hideIf: (formData) => _.get('view:isAtRisk.atRiskHousingSituation', formData, '') !== 'other'
       }
     }
   },
   homelessnessContact: {
     'ui:title': ' ',
-    'ui:description': 'Please provide the name and number of a person we should call if we need to get in touch with you.',
+    'ui:description': 'Please provide the name and number of a person we can call if we need to get in touch with you.',
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
-      expandUnderCondition: (housing) => housing === 'homeless' || housing === 'atRisk'
+      expandUnderCondition: (housing) => housing === HOMELESS || housing === AT_RISK
     },
     name: {
-      'ui:title': 'Name of person we should contact',
+      'ui:title': 'Name of person we can contact',
       'ui:required': (formData) => !!_.get('homelessnessContact.phoneNumber', formData, null)
     },
     phoneNumber: merge(

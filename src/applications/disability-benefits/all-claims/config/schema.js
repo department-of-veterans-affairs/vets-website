@@ -1057,10 +1057,10 @@ const schema = {
     homelessHousingSituation: {
       type: 'string',
       'enum': [
-        'I’m living in a homeless shelter.',
-        'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
-        'I’m living with another person.',
-        'Other'
+        'shelter',
+        'notShelter',
+        'anotherPerson',
+        'other'
       ]
     },
     otherHomelessHousing: {
@@ -1072,9 +1072,9 @@ const schema = {
     atRiskHousingSituation: {
       type: 'string',
       'enum': [
-        'I’m losing my housing in 30 days.',
-        'I’m leaving a publicly funded homeless shelter soon.',
-        'Other'
+        'losingHousing',
+        'leavingShelter',
+        'other'
       ]
     },
     otherAtRiskHousing: {
