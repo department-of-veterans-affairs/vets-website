@@ -2,9 +2,6 @@ $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
 
 .consolidated {
-  all: initial;
-  p { all: initial; }
-
   @import "~@department-of-veterans-affairs/formation/sass/core";
 
   @import "modules/m-footer";
