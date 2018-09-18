@@ -19,7 +19,7 @@ const defaultProps = {
 
 describe('<RequiredTermsAcceptanceView>', () => {
 
-  before(() => {
+  beforeAll(() => {
     window.dataLayer = [];
   });
 

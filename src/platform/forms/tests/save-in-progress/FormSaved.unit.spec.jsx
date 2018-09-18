@@ -47,8 +47,8 @@ describe('Schemaform <FormSaved>', () => {
   };
   const lastSavedDate = 1497300513914;
   const expirationDate = moment().unix() + 2000;
-  before(setup);
-  after(takeDown);
+  beforeAll(setup);
+  afterAll(takeDown);
 
   it('should render', () => {
     const tree = SkinDeep.shallowRender(

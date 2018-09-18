@@ -16,7 +16,7 @@ const defaultProps = {
 };
 
 describe('<AcceptTermsPrompt>', () => {
-  before(() => {
+  beforeAll(() => {
     window.dataLayer = [];
     window.scrollTo = () => {};
   });
