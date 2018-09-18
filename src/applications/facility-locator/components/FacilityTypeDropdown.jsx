@@ -25,6 +25,8 @@ const FacilityTypeDropdown = ({
   isOpen,
   selectedItem
 }) => {
+  let showBubble = false;
+  
   const handleKeyDown = (e) => {
     // Allow blurring focus (with TAB) to close dropdown.
     if (e.keyCode === keyMap.TAB && isOpen) { closeMenu(); }
@@ -43,8 +45,21 @@ const FacilityTypeDropdown = ({
 
   return (
     <div>
-      <label htmlFor="facility-dropdown-toggle">
+      <label htmlFor="facility-dropdown-toggle" id="facility-dropdown-label">
         Search for
+        { selectedItem === LocationType.CC_PROVIDER &&
+        <span className="cc-info-link-span">
+          <a onClick={ e => { e.preventDefault(); showBubble = !showBubble;} } href="{null}" title="Click for More Information" rel="noopener noreferrer" target="_blank" className="cc-info-link"><i className="fa fa-info-circle cc-info-link-icon"/></a>
+        </span>
+        }
+        { showBubble &&
+          <div id="infoBubble">
+            <span>X</span>
+            <h6>What Is Community Care and Am I Eligible?</h6>
+            <p>The Veterans Choice Program is one of several programs through which a Veteran can receive care from a community provider, paid for by the Department of Veterans Affairs. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp" target="_blank">Read More</a></p>
+          </div>
+        }
+
       </label>
       <div id="facility-dropdown">
         <button {...getButtonProps({
@@ -61,6 +76,7 @@ const FacilityTypeDropdown = ({
         </button>
         {isOpen && (<ul className="dropdown" role="listbox">{options}</ul>)}
       </div>
+      {/*
       { selectedItem === LocationType.CC_PROVIDER &&
         <div className="pull-left">
           <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
@@ -69,6 +85,7 @@ const FacilityTypeDropdown = ({
           </a>
         </div>
       }
+    */}
     </div>
   );
 };

@@ -10,11 +10,12 @@ const LocationPhoneLink = ({ location }) => {
     const { phone, schedPhone } = location.attributes;
     return (
       <div>
-        {renderPhoneNumber('If you have a referral', 'Call this facility at ', phone, 'phone')}
-        {renderPhoneNumber("If you don't have a referral", 'Call the VA Medical Center at ', schedPhone)}
+        {renderPhoneNumber('If you have a referral', 'Call this facility at', phone, 'phone', true)}
+        {renderPhoneNumber("If you don't have a referral", 'Call the VA Medical Center at', schedPhone, null, true)}
       </div>
     );
   }
+  
 
   const { attributes: { phone } } = location;
   return (
@@ -25,7 +26,7 @@ const LocationPhoneLink = ({ location }) => {
   );
 };
 
-const renderPhoneNumber = (title, subTitle = null, phone, icon = 'fw') => {
+const renderPhoneNumber = (title, subTitle = null, phone, icon = 'fw', altPhone) => {
   if (!phone) {
     return null;
   }
@@ -38,12 +39,14 @@ const renderPhoneNumber = (title, subTitle = null, phone, icon = 'fw') => {
       <strong>{title}:</strong><br/>
       <i className="fa fa-fw"/>
       { subTitle }
-      <a href={`tel:${phone.replace(/[ ]?x/, '')}`}>
+      <a href={`tel:${phone.replace(/[ ]?x/, '')}`} className={altPhone && 'facility-phone-alt'}>
         {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
       </a>
     </div>
   );
 };
+
+
 
 LocationPhoneLink.propTypes = {
   location: PropTypes.object,
