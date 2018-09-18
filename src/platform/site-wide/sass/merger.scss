@@ -1064,6 +1064,30 @@
       margin-bottom: -1px;
     }
   }
+  .usa-accordion-bordered {
+    &.social {
+      a {
+        text-decoration: underline;
+      }
+      .usa-accordion-content {
+        > section, > h4 {
+          margin: 1.5em auto;
+        }
+        ul > h4 {
+          margin: 1em auto;
+        }
+        ul > li {
+          margin: 1em auto;
+            &:last-child {
+              margin: unset;
+            }
+        }
+      }
+      .usa-accordion-button {
+        border: none;
+      }
+    }
+  }
 
   .va-sign-in-alert {
     .usa-button-primary {
@@ -1082,9 +1106,6 @@
   }
 }
 .usa-accordion-bordered {
-  h4 {
-    font-family: Source Sans Pro, sans serif;
-  }
   .fa {
     color: $color-link-default;
   }
