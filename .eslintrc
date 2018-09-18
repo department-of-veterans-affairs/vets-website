@@ -1,7 +1,7 @@
 {
   // All rules should be disabled or they should produce errors. No warnings.
   'extends': 'airbnb',
-  'plugins': ['mocha'],
+  'plugins': ['mocha', 'jest'],
   'parser': 'babel-eslint',
   'env': {
     'browser': true,
